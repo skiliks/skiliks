@@ -43,7 +43,7 @@ class SimulationServiceTest extends CDbTestCase
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $invite->scenario->slug = Scenario::TYPE_LITE;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         $awaiting = 2; //sec
