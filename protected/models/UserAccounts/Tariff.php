@@ -13,12 +13,18 @@
  * @property integer $simulations_amount
  * @property string $description
  * @property string $benefits
+ * @property string $slug
  *
  * The followings are the available model relations:
  * @property UserAccountCorporate[] $userAccountCorporates
  */
 class Tariff extends CActiveRecord
 {
+    const SLUG_LITE = 'lite';
+    const SLUG_STARTER = 'starter';
+    const SLUG_PROFESSIONAL = 'professional';
+    const SLUG_BUSINESS = 'business';
+
     /* ----------------------------------------------------------------------------------------------------- */
 
     public function getFormattedPrice()
@@ -30,13 +36,13 @@ class Tariff extends CActiveRecord
         return  StaticSiteTools::getI18nCurrency($this->price, $this->currency);
     }
 
-    public function getFormattedSafeAmount()
+    public function getFormattedSafeAmount($prefix = '')
     {
         if ($this->is_free) {
             return 'Бесплатно';
         }
 
-        return  StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#');
+        return  $prefix.StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#'). ' р';
     }
 
     public function getFormattedLabel()
@@ -49,38 +55,78 @@ class Tariff extends CActiveRecord
      */
     public function getFormattedSimulationsAmount()
     {
+        $postfix = '';
+        if (self::SLUG_LITE != $this->slug) {
+            $postfix = '*';
+        }
+
         if (null == $this->simulations_amount) {
-            return '0 симуляций';
+            return '0 симуляций'.$postfix;
         }
 
         if ($this->simulations_amount < 10) {
             if (in_array($this->simulations_amount, [0,5,6,7,8,9])) {
-                return $this->simulations_amount.' симуляций';
+                return $this->simulations_amount.' симуляций'.$postfix;
             }
 
             if (1 == $this->simulations_amount) {
-                return $this->simulations_amount.' симуляция';
+                return $this->simulations_amount.' симуляция'.$postfix;
             }
 
             if (in_array($this->simulations_amount, [2,3,4])) {
-                return $this->simulations_amount.' симуляции';
+                return $this->simulations_amount.' симуляции'.$postfix;
             }
         } elseif($this->simulations_amount < 20) {
-             return $this->simulations_amount.' симуляций';
+             return $this->simulations_amount.' симуляций'.$postfix;
         }else {
             $value = $this->simulations_amount%10;
 
             if (in_array($value, [0,5,6,7,8,9])) {
-                return $this->simulations_amount.' симуляций';
+                return $this->simulations_amount.' симуляций'.$postfix;
             }
 
             if (1 == $value) {
-                return $this->simulations_amount.' симуляция';
+                return $this->simulations_amount.' симуляция'.$postfix;
             }
 
             if (in_array($value, [2,3,4])) {
-                return $this->simulations_amount.' симуляции';
+                return $this->simulations_amount.' симуляции'.$postfix;
             }
+        }
+    }
+
+    /**
+     * @param YumUser$user
+     *
+     * @return bool
+     */
+    public function isUserCanChooseTariff($user)
+    {
+        if (false == $user->isAuth()) {
+            return false;
+        }
+
+        if ($user->isPersonal()) {
+            return false;
+        }
+
+        if (self::SLUG_LITE !== $this->slug) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $user
+     * @return string
+     */
+    public function getFormattedLinkLabel($user)
+    {
+        if (null != $user->getAccount()->tariff_id && $this->id === $user->getAccount()->tariff_id) {
+            return 'Текущий план';
+        } else {
+            return 'Выбрать';
         }
     }
 
