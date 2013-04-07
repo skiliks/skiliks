@@ -10,8 +10,14 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
             ['code' => 'S1.1', 'time' => '11:05:00', 'standard_time' => '11:10:00'],
             ['code' => 'S1.2', 'time' => '11:10:00', 'standard_time' => '11:20:00']
         ];
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
 
         foreach ($events as $e) {
             EventService::addByCode($e['code'], $simulation, $e['time']);
@@ -29,9 +35,14 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
     {
         $transaction = Yii::app()->db->beginTransaction();
         try {
+
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-            $result = EventService::processLinkedEntities('T', $simulation);
+             $invite = new Invite();
+            $invite->scenario = new Scenario();
+            $invite->receiverUser = $user;
+            $invite->scenario->slug = Scenario::TYPE_FULL;
+            $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
             $this->assertEquals($result, [
                 'result' => 1,
                 'eventType' => 1
@@ -66,7 +77,12 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
     public function testEventNotStart()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
 
         $dialog = new DialogService();
         $dialog_cancel = Replica::model()->findByAttributes(['code' => 'S1.1', 'replica_number' => 1]);

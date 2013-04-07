@@ -77,6 +77,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $invite->receiver_id = $profile->user->id;
             }
 
+            $invite->scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_FULL])
+                ->getPrimaryKey();
+
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
@@ -94,7 +98,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
             }
         }
         // handle send invitation }
