@@ -65,7 +65,7 @@ class Invite extends CActiveRecord
         }
 
         if (null !== $this->firstname || null !== $this->lastname) {
-            return $this->firstname.' '.$this->lastname;
+            return $this->getFullname();
         }
 
         return 'Ваше имя';

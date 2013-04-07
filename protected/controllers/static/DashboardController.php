@@ -53,8 +53,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     Yii::app()->user->data()->getAccount()->getCompanyName()." предлагает Вам пройти тест «Базовый менеджмент» на вакансию $vacancy_label.".
                     "«Базовый менеджмент» - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.";
             } else {
-                $invite->message = "Уважаемый ".$invite->getReceiverUserName()."! \n".
-                    "Работодатель ".Yii::app()->user->data()->getAccount()->getCompanyName()." заинтересован в вашей кандидатуре на позицию $vacancy_label.\n"
+                $invite->message = "Работодатель ".Yii::app()->user->data()->getAccount()->getCompanyName()." заинтересован в вашей кандидатуре на позицию $vacancy_label.\n"
                     ."Для кандидата на данную позицию обязательным условием является прохождение ассессмента для определения уровня менеджерских навыков. \n"
                     ."Для этого вам необходимо пройти по ссылке, зарегистрироваться и запустить ассессмент.\n ";
             }
@@ -177,7 +176,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $body = [
-            'Уважаемый ' . $invite->getFullname(),
+            'Уважаемый ' . $invite->getReceiverUserName(),
             $invite->message,
             'Пройдите по ссылке чтобы одобрить приглашение пройти симуляцию',
             sprintf(
