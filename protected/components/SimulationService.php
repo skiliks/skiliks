@@ -562,7 +562,6 @@ class SimulationService
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
-        SimulationService::saveAggregatedPoints($simulation->id);
 
 
 
@@ -573,6 +572,7 @@ class SimulationService
         SimulationService::calculatePerformanceRate($simulation);
 
         SimulationService::setGainedStressRules($simulation);
+        SimulationService::saveAggregatedPoints($simulation->id);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
