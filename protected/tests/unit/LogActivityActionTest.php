@@ -14,7 +14,12 @@ class LogActivityActionTest extends CDbTestCase
     public function testActivityActionDetail()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -113,7 +118,12 @@ class LogActivityActionTest extends CDbTestCase
     public function testActivityAction2()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -253,7 +263,12 @@ class LogActivityActionTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+            $invite = new Invite();
+            $invite->scenario = new Scenario();
+            $invite->receiverUser = $user;
+            $invite->scenario->slug = Scenario::TYPE_FULL;
+            $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
             $activity = new Activity();
             $activity->code = "WINPA";
             $activity->parent = 'WIN';
@@ -306,7 +321,12 @@ class LogActivityActionTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+            $invite = new Invite();
+            $invite->scenario = new Scenario();
+            $invite->receiverUser = $user;
+            $invite->scenario->slug = Scenario::TYPE_FULL;
+            $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
             $options = new SendMailOptions($simulation);
             $options->phrases = '';

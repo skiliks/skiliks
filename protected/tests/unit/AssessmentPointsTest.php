@@ -10,7 +10,12 @@ class AssessmentPointsTest extends CDbTestCase
     public function testMailPointUnique()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
         $mgr = new EventsManager();
         $logs = [];
         $template = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
@@ -47,7 +52,11 @@ class AssessmentPointsTest extends CDbTestCase
     public function testUpdateAggregatedAssessmentsByNegativeScaleRule()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $rates = MaxRate::model()->findAll('scenario_id = :scenario_id AND learning_goal_id IS NOT NULL AND type = :type', ['type' => MaxRate::TYPE_FAIL, 'scenario_id' => $simulation->scenario_id]);
         $learningGoalsForUpdate = [];
