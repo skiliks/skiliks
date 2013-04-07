@@ -102,28 +102,28 @@ class Tariff extends CActiveRecord
      */
     public function isUserCanChooseTariff($user)
     {
-        if (false == $user->isAuth()) {
+        if (self::SLUG_LITE !== $this->slug) {
             return false;
+        }
+
+        if (false == $user->isAuth()) {
+            return true;
         }
 
         if ($user->isPersonal()) {
-            return false;
-        }
-
-        if (self::SLUG_LITE !== $this->slug) {
-            return false;
+            return true;
         }
 
         return true;
     }
 
     /**
-     * @param $user
+     * @param YumUser $user
      * @return string
      */
     public function getFormattedLinkLabel($user)
     {
-        if (null != $user->getAccount()->tariff_id && $this->id === $user->getAccount()->tariff_id) {
+        if ($user->isCorporate() && null != $user->getAccount()->tariff_id && $this->id === $user->getAccount()->tariff_id) {
             return 'Текущий план';
         } else {
             return 'Выбрать';
