@@ -15,7 +15,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => 'Yii::t("site", $data->vacancy->label)'],
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-        ['header' => Yii::t('site', 'Score')                                , 'value' => '"<span class="ratingwrap radiusthree "><span class="ratebg"><span class="rating" style="width: 20%"></span></span><sup>20%</sup></span>"', 'type' => 'html'],
+        ['header' => Yii::t('site', 'Score')                                , 'value' => '"<span class=\"ratingwrap radiusthree \"><span class=\"ratebg\"><span class=\"rating\" style=\"width: 20%\"></span></span><sup>20%</sup></span>"', 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->vacancy_id\" title=\"$data->firstname, $data->lastname\">Исправить</a>"', 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
