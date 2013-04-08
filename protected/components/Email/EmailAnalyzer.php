@@ -543,7 +543,9 @@ class EmailAnalyzer
         $behave_3311 = $this->simulation->game_type->getHeroBehaviour(['code' => '3311']);
 
         if (null === $behave_3311) {
-            return;
+            return [
+                'case' => -2,
+            ];
         }
 
         $countInboxRead = MailBox::model()->countByAttributes([
@@ -581,6 +583,12 @@ class EmailAnalyzer
         foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
             if ($logItem->isMail() || ActivityAction::LEG_TYPE_WINDOW == $logItem->leg_type) {
                 $workWithMailTotalDuration += $logItem->getDurationInSeconds();
+
+                // check sessions from 11:00
+                list($hours) = explode(':', $logItem->start_time);
+                if ($hours < 11) {
+                    continue;
+                }
 
                 if (false === in_array($logItem->activityAction->activity->category_id, [0,1,2])) {
                     $mailSessionsTotalAmount++;
