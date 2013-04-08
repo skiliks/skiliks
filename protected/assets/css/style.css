@@ -2054,7 +2054,7 @@ ul.profile-menu li {
     color: #3c3c32;
     font-family:"ProximaNova-Bold";
 }
-.light-btn, .light-btn:visited {
+.light-btn, .light-btn:visited, .invite-people-form input[type="submit"]  {
     color: #3c3c32;
 }
 .light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
@@ -2313,10 +2313,10 @@ ul.profile-menu li {
 .searchform input[type="submit"]:hover {
     background: #5698a2 url("../img/search-icon.png") no-repeat 50% 50%;
 }
-#private-invitations-list-box .grid-view {
+#private-invitations-list-box .grid-view, #corporate-invitations-list-box .grid-view {
     position: relative;
 }
-#private-invitations-list-box .grid-view .pager {
+#private-invitations-list-box .grid-view .pager, #corporate-invitations-list-box .grid-view .pager {
     bottom: -65px;
     margin: 0px;
     text-align: center;
