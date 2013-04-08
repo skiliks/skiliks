@@ -31,6 +31,7 @@
  * @property AssessmentOverall[] assessment_overall
  * @property Scenario game_type
  * @property string uuid
+ * @property SimulationLearningArea[] learning_area
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
@@ -156,6 +157,7 @@ class Simulation extends CActiveRecord
             'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
             'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id'],
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
+            'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
         ];
     }
 
