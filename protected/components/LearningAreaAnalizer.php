@@ -18,6 +18,7 @@ class LearningAreaAnalizer {
         $this->resultOrientation();
         $this->constructibility();
         $this->flexibility();
+        $this->attentiveness();
     }
 
     public function calcLearningArea($simulation,  $code) {
