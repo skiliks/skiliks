@@ -562,6 +562,12 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array())
     {
+        // If simulation was started by invite, mark it as completed
+        if ($simulation->invite) {
+            $simulation->invite->status = Invite::STATUS_COMPLETED;
+            $simulation->invite->save();
+        }
+
         // Remove pause if it was set
         self::resume($simulation);
 

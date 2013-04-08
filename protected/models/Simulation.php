@@ -32,6 +32,7 @@
  * @property Scenario game_type
  * @property string uuid
  * @property SimulationLearningArea[] learning_area
+ * @property Invite invite
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
@@ -158,6 +159,7 @@ class Simulation extends CActiveRecord
             'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id'],
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
+            'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
         ];
     }
 

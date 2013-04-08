@@ -100,6 +100,14 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->status == self::STATUS_COMPLETED;
+    }
+
+    /**
      * @return string
      */
     public function getFullname()
