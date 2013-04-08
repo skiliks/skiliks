@@ -147,6 +147,25 @@ class SimulationService
             }
         }
         //3326 - write not a lot of wrong emails }
+
+        // 3311 {
+        $b_3311 = $emailAnalyzer->check_3311();
+
+        if (isset($b_3311['obj']) &&
+            isset($b_3311['positive']) &&
+            true === $b_3311['obj'] instanceof HeroBehaviour
+        ) {
+            $emailResultsFor_3311 = new AssessmentCalculation();
+            $emailResultsFor_3311->sim_id = $simulation->id;
+            $emailResultsFor_3311->point_id = $b_3311['obj']->id;
+            $emailResultsFor_3311->value = $b_3311['positive'];
+            try {
+                $emailResultsFor_3311->save();
+            } catch (Exception $e) {
+                // @todo: handle exception
+            }
+        }
+        // 3311 }
     }
 
     /**
