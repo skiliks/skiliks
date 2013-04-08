@@ -322,6 +322,10 @@ class CheckConsolidatedBudget
             'code' => 'D1'
         ]);
 
+        if ($documentTemplate === null) {
+            return $documentTemplate;
+        }
+
         $document = MyDocument::model()->findByAttributes([
             'template_id' => $documentTemplate->id,
             'sim_id' => $this->simId

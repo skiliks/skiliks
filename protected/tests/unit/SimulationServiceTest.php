@@ -59,6 +59,31 @@ class SimulationServiceTest extends CDbTestCase
     }
 
     /**
+     * Проверяет что lite симуляция стартует и останавливается без ошибок
+     * время не изменяется
+     */
+    public function testLiteSimulationStop()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_LITE;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        SimulationService::simulationStop($simulation);
+        $awaiting = 2; //sec
+
+        $before = $simulation->getGameTime();
+        SimulationService::pause($simulation);
+        sleep($awaiting);
+        SimulationService::resume($simulation);
+        $after = $simulation->getGameTime();
+
+        $this->assertEquals($before, $after);
+        $this->assertEquals($awaiting, $simulation->skipped);
+    }
+
+    /**
      * Проверяет правильность оценивания игрока по за поведение 1122 
      * (оценивание обычным способом, лог писем пуст) 
      * оценка = максимальный_балл * (количество_правильных_проявления / количество_проявления_по_поведения_в_целом)

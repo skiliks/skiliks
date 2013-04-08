@@ -310,6 +310,11 @@ class PlanAnalyzer {
         } else {
             $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
         }
+
+        if ($behaviour === null) {
+            return;
+        }
+
         $value = $behaviour->scale * $rate;
 
         $assessmentCalculation           = new AssessmentCalculation();
@@ -329,6 +334,10 @@ class PlanAnalyzer {
     public function check_214b5_6_8($code = '214b5', $category = 0, $wrongCategoryIds = [4,5])
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $wrongActions = [];
 
@@ -380,6 +389,10 @@ class PlanAnalyzer {
     public function check_214b9()
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => '214b9']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $wrongActions = [];
         $rightActions = [];

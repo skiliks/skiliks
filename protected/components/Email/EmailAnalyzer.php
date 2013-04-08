@@ -419,12 +419,14 @@ class EmailAnalyzer
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $mark = 0;
-        if ($limit <= $rightActions/$possibleRightActions) {
+        if ($possibleRightActions === 0) {
+            $mark = 0;
+        } else if ($limit <= $rightActions/$possibleRightActions) {
             $mark = 1;
         }
         
         return array(
-            'positive' => $mark * $behave_3313->scale,
+            'positive' => $behave_3313 ? $mark * $behave_3313->scale : 0,
             'obj'      => $behave_3313,
         );
     }
@@ -452,7 +454,7 @@ class EmailAnalyzer
         $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
         
         return array(
-            'positive' => ($wrongActions == 0) ? $behave_3333->scale : 0,
+            'positive' => ($behave_3333 && $wrongActions == 0) ? $behave_3333->scale : 0,
             'obj'      => $behave_3333,
         );
     }
