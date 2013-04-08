@@ -164,6 +164,20 @@ class UserAuthController extends YumController
                     YumUser::activate($profile->email, $this->user->activationKey);
                     $this->user->authenticate($YumUser['password']);
 
+                    $permission = new YumPermission();
+                    $permission->principal_id = $this->user->id;
+                    $permission->subordinate_id = $this->user->id;
+                    $permission->action = UserService::CAN_START_FULL_SIMULATION;
+                    $permission->type = 'user';
+                    $permission->template = null;
+                    $permission->save();
+
+                    $invites = Invite::model()->findAllByAttributes(['email' => $this->user->profile->email]);
+                    foreach ($invites as $invite) {
+                        $invite->receiver_id = $this->user->id;
+                        $invite->update(false, ['receiver_id']);
+                    }
+
                     $this->redirect('/dashboard');
                 } else {
                     $this->user->password = '';
