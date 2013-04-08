@@ -42,24 +42,26 @@
             url: '/dashboard/decline-invite/validation',
             type: 'POST',
             success: function(data) {
-                $('#invite-decline-form').html(data.html);
+                $('#invite-decline-form').html(data.html).hide();
 
+                /*
                 $('#invite-decline-form').dialog({
                     width: 500,
                     modal: true
                 });
+                */
 
-                $('#invite-decline-form').parent().addClass('nice-border');
-                $('#invite-decline-form').parent().addClass('backgroud-rich-blue');
+                //$('#invite-decline-form').parent().addClass('nice-border');
+                //$('#invite-decline-form').parent().addClass('backgroud-rich-blue');
 
-                $('#invite-decline-form').dialog('close');
+                //$('#invite-decline-form').dialog('close');
 
                 $('.decline-link').click(function(event){
                     event.preventDefault();
                     $('#invite-decline-form input#DeclineExplanation_invite_id').val($(this).attr('title'));
 
-                    $('#invite-decline-form')
-                    $('#invite-decline-form').dialog('open');
+                    $('#invite-decline-form').show();
+                    //$('#invite-decline-form').dialog('open');
                 });
             }
         })

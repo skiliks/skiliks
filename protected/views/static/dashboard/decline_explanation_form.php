@@ -1,4 +1,6 @@
+<div class="blackout"></div>
 <div class="form form-decline-explanation">
+    <a href="javascript:void(0);" class="close"></a>
 
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id'     => 'form-decline-explanation',
@@ -27,26 +29,37 @@
         <?php echo $form->error($declineExplanation    , 'description'); ?>
     </div>
 
-    <br/>
-    <br/>
-
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Отказаться от прохождения симуляции', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
         <?php echo CHtml::submitButton('Отменить', ['name' => 'return', 'class' => 'chancel-decline']); ?>
+        <?php echo CHtml::submitButton('Отказаться от прохождения симуляции', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
     </div>
 
+    <!--
     <br/>
     <br/>
 
     * Поля обязательные для заполнения
-
+       -->
     <?php $this->endWidget(); ?>
 </div>
 
+<style>
+
+</style>
+
 <script type="text/javascript">
+
+    $("#invite-decline-form").prependTo("body");
+    $("#invite-decline-form .close").click(function(){
+        $("#invite-decline-form").hide();
+    });
+    $("#invite-decline-form .chancel-decline").click(function(){
+        $("#invite-decline-form").hide();
+    });
+
     $('.chancel-decline').click(function(event){
         event.preventDefault();
-        $('#invite-decline-form').dialog('close');
+        //$('#invite-decline-form').dialog('close');
     });
 
     $('.form-decline-explanation-reason-row input').click(function(){
