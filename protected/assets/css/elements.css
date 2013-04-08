@@ -51,7 +51,7 @@
     border: 1px solid #666;
     border-radius: 5px;
     padding:15px;
-    width:50%;
+    width:62%;
     box-shadow:3px 3px 10px #C0C0C0 inset;
 }
 .action-controller-login-auth #usercontent .form .row input[type="text"]:focus,
@@ -74,7 +74,7 @@
     clear:none;
     float:left;
     margin-top:0;
-    margin-left:66px;
+    margin-left:45px;
 }
 .action-controller-login-auth #usercontent .form .row.submit input[type="submit"] {
     background: url("../img/icon-btn-notify.png") no-repeat 15px 50% #146672;
@@ -83,7 +83,7 @@
     color: #FFFFFF;
     text-align: left;
     padding:15px 25px 15px 42px;
-    font:14px "ProximaNova-Bold";
+    font:23.8px ProximaNova-Regular;
 }
 .action-controller-login-auth #usercontent .form .row.submit input[type="submit"]:hover {
     background-color: #0C8FA0;
@@ -95,10 +95,83 @@
     background: #146672;
 }
 
-.action-controller-personal-static-dashboard .ui-widget-content {
-    background: #F3FFFF;
-    position:relative;
+#invite-decline-form .blackout {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.3;
+    z-index: 1;
+}
+#invite-decline-form .form-decline-explanation {
+    position: absolute;
+    top:235px;
+    left:50%;
+    z-index: 2;
+    margin-left:-301px;
+    width:602px;
+    height:427px;
+    background: url(../img/bg_register_by_link_from_employer.png) repeat-x;
+}
+#invite-decline-form .close {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    width: 27px;
+    height: 27px;
+    background: url("../img/closepopup.png") no-repeat 0% 100%;
+}
+#invite-decline-form .close:hover {
+    background-position: 0% 0%;
+}
+#invite-decline-form #form-decline-explanation{
+    padding:30px 40px;
+}
+#invite-decline-form #form-decline-explanation h2 {
+    font: 30px "ProximaNova-Regular";
+    color:#003366;
+    color:#245057;
+    margin-bottom:20px;
+}
+#invite-decline-form #form-decline-explanation .required {
+    display:none;
+}
+#invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id {
+    font: 16px "ProximaNova-Regular";
+    color:#245057;
+}
+#invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id input[type="radio"] {
+    vertical-align: middle;
+}
+#invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id label {
+    line-height:24px;
+}
+#invite-decline-form #form-decline-explanation textarea {
+    border:1px solid 336666;
+    height:100px;
+    width:505px;
+    margin-bottom:20px;
+}
+#invite-decline-form #form-decline-explanation input[type="submit"]{
+    background: url("../img/icon-btn-notify.png") no-repeat 18px 50% #146672;
+    border: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font: 14px "ProximaNova-Bold";
+    padding: 15px 25px 15px 50px;
+    text-align: left;
+}
+#invite-decline-form #form-decline-explanation input[type="submit"]:hover {
+    background-color:#0C8FA0;
+}
+#invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
+    margin-right:24px;
+}
+/*
+.action-controller-personal-static-dashboard .ui-widget-content.nice-border.backgroud-rich-blue {
+    background: url(../img/bg_register_by_link_from_employer.png);
     padding:0 15px 15px;
+    box-shadow: none;
 }
 .action-controller-personal-static-dashboard .ui-widget-content .ui-dialog-titlebar {
     position: absolute;
@@ -145,7 +218,7 @@
 .action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]:hover {
     background:#0C8FA0;
 }
-
+*/
 /* регистрация по ссылке от работодателя */
 section.registration-by-link {
     padding:0 20px 41px 30px;
