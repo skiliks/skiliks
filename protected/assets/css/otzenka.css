@@ -12,6 +12,6 @@
 #simulation-details .ui-tabs-selected {
     background: #4d8d96;
 }
-.bar-chart {
-    display: none;
+.bar-charts {
+    display: none !important;
 }
