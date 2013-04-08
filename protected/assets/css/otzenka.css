@@ -15,7 +15,7 @@
     border: none;
     padding: 0px;
 }
-#simulation-details-tabs #simulation-details li {
+#simulation-details-tabs li {
     background: #7eb2b9;
     background-image: none;
     border:none;
@@ -24,14 +24,19 @@
     border-radius: 3px;
     outline: none;
 }
-#simulation-details-tabs #simulation-details a {
+#simulation-details-tabs a {
     background-image: none;
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
-#simulation-details .ui-tabs-selected {
+#simulation-details-tab .ui-tabs-selected {
     background: #4d8d96;
 }
+.action-controller-personal-static-dashboard #simulation-details-pop-up {
+    padding: 0px;
+}
+
+
 .bar-charts, .bullet-charts /*, .chart-gauge */ {
     display: none !important;
 }
