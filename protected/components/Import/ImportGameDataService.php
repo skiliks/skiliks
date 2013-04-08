@@ -80,7 +80,7 @@ class ImportGameDataService
 
             // update data {
             $character->code = $this->getCellValue($sheet, 'id_персонажа', $i);
-            $character->title = $this->getCellValue($sheet, 'Должность', $i);
+            $character->title = $this->getCellValue($sheet, 'Должность short', $i);
             $character->fio = $this->getCellValue($sheet, 'ФИО - short', $i);
             $character->email = $this->getCellValue($sheet, 'e-mail', $i);
             $character->skype = $this->getCellValue($sheet, 'skype', $i);
