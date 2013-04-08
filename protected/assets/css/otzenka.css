@@ -53,7 +53,17 @@
     clear: both;
     visibility: hidden;
 }
-
+.ratepercnt {
+    background: #bedadc;
+    color:#146672;
+    font-size:18px;
+    -webkit-border-radius: 22px;
+    -moz-border-radius: 22px;
+    border-radius: 22px;
+    height: 30px;
+    line-height: 30px;
+    width: 50px;
+}
 .bar-charts, .bullet-charts {
     display: none !important;
 }
