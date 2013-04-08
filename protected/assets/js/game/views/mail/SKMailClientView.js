@@ -1090,7 +1090,7 @@ define([
              * @method
              */
             hideFoldersBlock: function () {
-                $("#" + this.mailClientScreenID + " header nav").hide();
+                $("#" + this.mailClientScreenID + " nav").hide();
                 $("#" + this.mailClientContentBlockId).css('margin-left', '-180px');
             },
 
@@ -1099,7 +1099,7 @@ define([
              */
             unhideFoldersBlock: function () {
                 $("#" + this.mailClientContentBlockId).css('margin-left', '0px');
-                $("#" + this.mailClientScreenID + " header nav").show();
+                $("#" + this.mailClientScreenID + " nav").show();
             },
 
             /**
@@ -1864,7 +1864,8 @@ define([
                 }
 
                 // add phrases {
-                if ('' !== response.phrases.message && undefined === response.phrases.message) {
+                console.log('phrases: ', ('' != response.phrases.message || undefined === response.phrases.message));
+                if ('' == response.phrases.message || undefined === response.phrases.message) {
                     SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);
 
