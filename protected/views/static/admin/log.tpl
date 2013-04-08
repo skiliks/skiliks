@@ -11,19 +11,24 @@
     .sidebar .active a {
         background-color: #f6f6f6;
     }
+
+    .nav li {
+        display: block;
+        height: auto;
+    }
 </style>
 <div class="container-fluid">
     <div class="row-fluid">
 
-        <div class="span3">
-            <ul class="nav nav-tabs nav-stacked sidebar">
+        <div class="span2">
+            <ul class="nav nav-list nav-stacked span12">
                 {foreach $log_tables as $log_table}
                     <li><a href="#{$log_table->getId()}"><i class="icon-chevron-right pull-right"></i>{$log_table->getTitle()}</a></li>
                 {/foreach}
             </ul>
         </div>
 
-        <div class="table-list span9">
+        <div class="table-list span10">
             <h1 id="simulation-info">Simulation: # {$simulation.primaryKey}</h1>
 
             <div class="well">
