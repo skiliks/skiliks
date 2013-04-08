@@ -195,8 +195,9 @@ return array(
                 'cheats'                               => 'static/cheats/mainPage',
                 'cheats/cleanUpAccount'                => 'static/cheats/cleanUpAccount',
                 'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
-                'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
+                'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
+
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
