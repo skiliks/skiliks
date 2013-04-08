@@ -1,0 +1,858 @@
+.canvas .windows-container .sim-window.planner-book-main-div {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-container {
+  overflow: hidden;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header {
+  background: url("../img/planner/bg-planner-header-right.png") no-repeat right top;
+  height: auto;
+  padding-right: 32px;
+  margin-left: 20px;
+  border: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div {
+  background: url("../img/planner/bg-planner-header-left.png") no-repeat left top;
+  overflow: hidden;
+  padding: 4px 0 0 25px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head {
+  background-color: #FFF;
+  background-repeat: repeat-x;
+  background-position: right 0;
+  border-right: solid 1px #000;
+  width: 33.333%;
+  box-sizing: border-box;
+  float: left;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-today-head {
+  background-image: url("../img/planner/planner_book_orange.png");
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-today-head div {
+  background: url("../img/planner/planner_book_orange.png") no-repeat 0 -81px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-tomorrow-head {
+  border-left: 1px solid #000;
+  background-image: url("../img/planner/planner_book_gray.png");
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-tomorrow-head div {
+  background: url("../img/planner/planner_book_gray.png") no-repeat 0 -81px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-after-vacation-head {
+  border-left: 1px solid #000;
+  background-image: url("../img/planner/planner_book_gray.png");
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head.planner-book-after-vacation-head div {
+  background: url("../img/planner/planner_book_gray.png") no-repeat 0 -81px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div {
+  text-align: center;
+  height: 68px;
+  padding: 13px 0 0 1px;
+  margin-right: 1px;
+  position: relative;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+  position: absolute;
+  top: 34px;
+  left: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div table td {
+  background: url("../img/planner/bg-header-sk.png") no-repeat 62% 0;
+  width: 33.3%;
+  height: 43px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div table td span {
+  display: block;
+  background-image: url("../img/planner/bg-planner-stroke.png");
+  background-repeat: no-repeat;
+  width: 40%;
+  height: 3px;
+  margin-top: 26px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div table td span.stroke-l {
+  background-position: 0 0;
+  float: left;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .planner-book-head div table td span.stroke-r {
+  background-position: right 0;
+  float: right;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head {
+  background: url("../img/planner/planner_book_gray.png") no-repeat right top;
+  height: 81px;
+  padding-right: 2px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div {
+  background: #fff url("../img/planner/planner_book_gray.png") no-repeat left bottom;
+  height: 57px;
+  padding-left: 2px;
+  position: relative;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table {
+  width: 100%;
+  position: absolute;
+  top: 34px;
+  left: 0;
+  z-index: 3;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table col {
+  width: 11.11%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table td {
+  background: url("../img/planner/bg-header-sk.png") no-repeat 64% 0;
+  height: 43px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table td span {
+  display: block;
+  background-image: url("../img/planner/bg-planner-stroke.png");
+  background-repeat: no-repeat;
+  width: 40%;
+  height: 3px;
+  margin-top: 26px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table td span.stroke-l {
+  background-position: 0 0;
+  float: left;
+}
+.canvas .windows-container .sim-window.planner-book-main-div header >div .plan-quater-head div table td span.stroke-r {
+  background-position: right 0;
+  float: right;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content {
+  background: url("../img/planner/bg-planner-book-right.png") no-repeat right bottom;
+  padding-right: 32px;
+  position: absolute;
+  left: 20px;
+  right: 0;
+  bottom: 0;
+  top: 85px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div {
+  background: url("../img/planner/bg-planner-book-left.png") no-repeat left bottom;
+  padding-left: 25px;
+  height: 100%;
+  position: relative;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div .btn-close {
+  position: absolute;
+  top: -75px;
+  right: 7px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div .btn-close button {
+  background: url("../img/planner/icon-close.png") no-repeat 0 0;
+  border: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div .btn-close button:hover {
+  background-position: 0 -20px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div .planner-book-quarter-plan {
+  position: absolute;
+  top: 0px;
+  left: -20px;
+  z-index: 1;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .sim-window-content >div .planner-book-day-plan {
+  position: absolute;
+  top: 225px;
+  left: -20px;
+  z-index: 2;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book {
+  background: #FFF url("../img/planner/bg-planner-book-left.png") no-repeat -25px bottom;
+  position: relative;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookDayPlan {
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation {
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today .mCSB_scrollTools,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow .mCSB_scrollTools,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .mCSB_scrollTools {
+  margin-right: 0;
+  width: 16px;
+  top: 0;
+  z-index: 1;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today .mCSB_scrollTools .mCSB_dragger,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow .mCSB_scrollTools .mCSB_dragger,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .mCSB_scrollTools .mCSB_dragger {
+  height: 71px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today .mCSB_scrollTools .mCSB_draggerContainer .mCSB_draggerRail,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow .mCSB_scrollTools .mCSB_draggerContainer .mCSB_draggerRail,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .mCSB_scrollTools .mCSB_draggerContainer .mCSB_draggerRail {
+  background: #000;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today .mCSB_container,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow .mCSB_container,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .mCSB_container {
+  margin-right: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-today {
+  background: #fff;
+  width: 33.333%;
+  height: auto;
+  bottom: 9px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-left: 10px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-tomorrow {
+  border-left: 1px solid #000;
+  background: #fff;
+  width: 33.233%;
+  height: auto;
+  bottom: 9px;
+  position: absolute;
+  top: 0;
+  left: 33.333%;
+  padding-left: 10px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation {
+  border-left: 1px solid #000;
+  width: 33.333%;
+  height: auto;
+  bottom: 9px;
+  position: absolute;
+  top: 0;
+  left: 66.666%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .mCSB_draggerRail {
+  width: 1px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .planner-book-afterv-table {
+  margin-right: -8px;
+  overflow-y: hidden;
+  transition-property: height;
+  transition-duration: 1s;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .planner-book-afterv-table.closed {
+  height: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .planner-book-afterv-table.half {
+  height: 50%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-after-vacation .planner-book-afterv-table.full {
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable {
+  margin-left: -10px;
+  border-right: 1px solid #000;
+  height: 100%;
+  overflow-y: hidden;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table {
+  border-collapse: separate;
+  table-layout: fixed;
+  width: 100%;
+  padding-right: 9px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table hr.past::before {
+  background-image: url('../img/planner/bg-time-line.png');
+  width: 19px;
+  height: 13px;
+  display: block;
+  margin-left: -19px;
+  margin-top: -7px;
+  content: ".";
+  position: absolute;
+  color: transparent;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table hr.past {
+  margin: 0;
+  height: 1px;
+  margin-top: -1px;
+  border-top: solid 1px #d72327;
+  background-color: #be1b1e;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr {
+  height: 11px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td {
+  height: 10px;
+  padding: 0;
+  vertical-align: top;
+  background-color: white;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-event-fl.past-slot {
+  background: #eee;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-time-fl {
+  border-top: 1px solid #d9d9db;
+  border-right: dotted 1px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top,#ffffff 0%,#fefefe 50%,#f7f6f6 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(50%,#fefefe),color-stop(100%,#f7f6f6));
+  background: -webkit-linear-gradient(top,#ffffff 0%,#fefefe 50%,#f7f6f6 100%);
+  background: -o-linear-gradient(top,#ffffff 0%,#fefefe 50%,#f7f6f6 100%);
+  background: -ms-linear-gradient(top,#ffffff 0%,#fefefe 50%,#f7f6f6 100%);
+  background: linear-gradient(to bottom,#ffffff 0%,#fefefe 50%,#f7f6f6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#f7f6f6',GradientType=0);
+  font-family: 'orbi_sansregular';
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+  width: 43px;
+  height: 44px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-event-fl,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-afterv-fl {
+  border-top: 1px solid #d9d9db;
+  line-height: 10px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-event-fl span,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr td.planner-book-timetable-afterv-fl span {
+  line-height: 18px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(4n+3) .planner-book-timetable-event-fl,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(4n+3) .planner-book-timetable-afterv-fl {
+  border-top: dotted 1px #D9D9CB;
+  background: #fefefe;
+  background: -moz-linear-gradient(top,#fefefe 0%,#fafafa 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fefefe),color-stop(100%,#fafafa));
+  background: -webkit-linear-gradient(top,#fefefe 0%,#fafafa 100%);
+  background: -o-linear-gradient(top,#fefefe 0%,#fafafa 100%);
+  background: -ms-linear-gradient(top,#fefefe 0%,#fafafa 100%);
+  background: linear-gradient(to bottom,#fefefe 0%,#fafafa 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fefefe',endColorstr='#fafafa',GradientType=0);
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(4n) .planner-book-timetable-event-fl,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(4n) .planner-book-timetable-afterv-fl {
+  border-top: solid 1px #fafafa;
+  background: #fafafa;
+  background: -moz-linear-gradient(top,#fafafa 0%,#f7f6f6 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#fafafa),color-stop(100%,#f7f6f6));
+  background: -webkit-linear-gradient(top,#fafafa 0%,#f7f6f6 100%);
+  background: -o-linear-gradient(top,#fafafa 0%,#f7f6f6 100%);
+  background: -ms-linear-gradient(top,#fafafa 0%,#f7f6f6 100%);
+  background: linear-gradient(to bottom,#fafafa 0%,#f7f6f6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa',endColorstr='#f7f6f6',GradientType=0);
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(2n) .planner-book-timetable-event-fl,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .planner-book-timetable-table tr:nth-child(2n) .planner-book-timetable-afterv-fl {
+  border: 1px solid transparent;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo {
+  background: transparent url("../img/planner/bg-plan-todo-left.png") no-repeat 0 0;
+  width: 33.333%;
+  height: 50%;
+  position: absolute;
+  overflow: hidden;
+  bottom: 9px;
+  right: 0;
+  z-index: 0;
+  background-color: white;
+  transition-property: height, transform, bottom;
+  transition-duration: 1s, 1s;
+  transition-delay: 0s, 0s;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.middle {
+  height: 50%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.open {
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.open .plan-todo-wrap {
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.open .max {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.open .todo-revert.min {
+  display: block;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.open .todo-min.min {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed {
+  transform: rotate(-30deg);
+  bottom: -42%;
+  background-color: transparent;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-btn .min {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-btn .todo-revert.max {
+  display: block;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-btn .todo-max.max {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-btn .min {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-tit {
+  text-align: right;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-tit span:first-child {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo.closed .plan-todo-wrap {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div {
+  background: url("../img/planner/bg-plan-todo-right.png") no-repeat right 0;
+  height: 100%;
+  overflow: hidden;
+  margin-left: 39px;
+  padding-top: 3px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-btn {
+  list-style: none;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-btn li {
+  height: 23px;
+  float: left;
+  margin-left: 5px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-btn li button {
+  background: url("../img/planner/btn-plan-todo.png") no-repeat 0 0;
+  border: none;
+  width: 35px;
+  height: 23px;
+  cursor: pointer;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-btn li button.min {
+  background-position: 0 -30px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-btn li button.max {
+  background-position: 0 -53px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-tit {
+  font-family: 'hortensiaregular';
+  font-size: 30px;
+  color: #c71414;
+  text-align: left;
+  position: absolute;
+  margin: 32px 50px 0 10px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-tit .dayPlanTodoNum {
+  font-weight: normal;
+  color: #000;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap {
+  padding-top: 67px;
+  box-sizing: border-box;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .mCSB_scrollTools .mCSB_draggerContainer .mCSB_dragger {
+  height: 71px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .day-plan-todo-task {
+  min-height: 30px;
+  box-shadow: none;
+  font-family: 'hortensiaregular';
+  font-size: 16px;
+  line-height: 18px;
+  padding: 0 35px 0 8px;
+  position: relative;
+  margin-bottom: 18px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .day-plan-todo-task div {
+  display: none;
+  font: 11px 'myriad_proregular';
+  color: #000;
+  text-align: center;
+  width: 35px;
+  height: 100%;
+  position: absolute;
+  top: -1px;
+  right: 0;
+  vertical-align: middle;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .day-plan-todo-task div p {
+  width: 35px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: -16px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .day-plan-todo-task div span {
+  font: 16px 'orbi_sans_boldregular';
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo >div .plan-todo-wrap .day-plan-todo-task:hover div {
+  display: table-cell;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .plan-todo .todo-revert {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task {
+  cursor: move;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.done {
+  border-top: 1px solid #fff;
+  border-right: 1px solid #c2e9b7;
+  border-bottom: 1px solid #bce5b0;
+  border-left: 1px solid #81b372;
+  background: #bfeab1;
+  background: -moz-linear-gradient(top,#d9f7cf,#a2db90);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#d9f7cf),color-stop(100%,#a2db90));
+  background: -webkit-linear-gradient(top,#d9f7cf,#a2db90);
+  background: -o-linear-gradient(top,#d9f7cf,#a2db90);
+  background: -ms-linear-gradient(top,#d9f7cf,#a2db90);
+  background: linear-gradient(top,#d9f7cf,#a2db90);
+  -moz-box-shadow: 1px 1px 1px #71b55d;
+  -webkit-box-shadow: 1px 1px 1px #71b55d;
+  box-shadow: 1px 1px 1px #71b55d;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.regular {
+  border-top: 1px solid #e2eff9;
+  border-right: 1px solid #c8e0f1;
+  border-bottom: 1px solid #c5def0;
+  border-left: 1px solid #81a0b8;
+  background: #c4dff2;
+  background: -moz-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#dbedfa),color-stop(100%,#aed1ea));
+  background: -webkit-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -o-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -ms-linear-gradient(top,#dbedfa,#aed1ea);
+  background: linear-gradient(top,#dbedfa,#aed1ea);
+  -moz-box-shadow: 1px 1px 1px #79a1c0;
+  -webkit-box-shadow: 1px 1px 1px #79a1c0;
+  box-shadow: 1px 1px 1px #79a1c0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.day-plan-task-active {
+  border-top: 1px solid #ffffb5;
+  border-right: 1px solid #eba64e;
+  border-bottom: 1px solid #da9439;
+  border-left: 1px solid #a97839;
+  background: #e39229;
+  background: -moz-linear-gradient(top,#f3a33c,#d38116);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3a33c),color-stop(100%,#d38116));
+  background: -webkit-linear-gradient(top,#f3a33c,#d38116);
+  background: -o-linear-gradient(top,#f3a33c,#d38116);
+  background: -ms-linear-gradient(top,#f3a33c,#d38116);
+  background: linear-gradient(top,#f3a33c,#d38116);
+  -moz-box-shadow: 1px 1px 1px #7d4b0c;
+  -webkit-box-shadow: 1px 1px 1px #7d4b0c;
+  box-shadow: 1px 1px 1px #7d4b0c;
+  color: #fff;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.day-plan-task-active .duration {
+  display: table-cell;
+  background: #e39229;
+  background: -moz-linear-gradient(top,#ed710b,#bd3d04);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ed710b),color-stop(100%,#bd3d04));
+  background: -webkit-linear-gradient(top,#ed710b,#bd3d04);
+  background: -o-linear-gradient(top,#ed710b,#bd3d04);
+  background: -ms-linear-gradient(top,#ed710b,#bd3d04);
+  background: linear-gradient(top,#ed710b,#bd3d04);
+  border-top: 1px solid #f9d0af;
+  border-bottom: 1px solid #a13403;
+  border-left: 1px dashed #f5dfb4;
+  color: #fff !important;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.ui-draggable-dragging {
+  border-top: 1px solid #e2eff9;
+  border-right: 1px solid #c8e0f1;
+  border-bottom: 1px solid #c5def0;
+  border-left: 1px solid #81a0b8;
+  background: #c4dff2;
+  z-index: 2;
+  background: -moz-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#dbedfa),color-stop(100%,#aed1ea));
+  background: -webkit-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -o-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -ms-linear-gradient(top,#dbedfa,#aed1ea);
+  background: linear-gradient(top,#dbedfa,#aed1ea);
+  -moz-box-shadow: 1px 1px 1px #79a1c0;
+  -webkit-box-shadow: 1px 1px 1px #79a1c0;
+  box-shadow: 1px 1px 1px #79a1c0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.ui-draggable-dragging {
+  margin: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .day-plan-td-slot {
+  user-select: none;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .drop-hover td.planner-book-timetable-afterv-fl,
+.canvas .windows-container .sim-window.planner-book-main-div .drop-hover td.planner-book-timetable-event-fl {
+  background: #e2fbdb !important;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .drop-hover.plan-todo {
+  background-position: 0 -612px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .drop-hover.plan-todo div {
+  background-position: right -612px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div td .planner-task.regular {
+  height: 100%;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.regular.locked {
+  padding-left: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.regular,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.ui-draggable-dragging {
+  vertical-align: middle;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.regular .duration,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.ui-draggable-dragging .duration {
+  display: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-task.ui-draggable-dragging {
+  width: 214px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan {
+  width: 100%;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title {
+  border-bottom: 2px solid #000;
+  width: 100%;
+  table-layout: fixed;
+  position: relative;
+  top: -24px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .col1 {
+  width: 267px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .col2 {
+  width: 3.83%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title th {
+  border-right: 2px solid #000;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .top-margin th,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .top-margin td {
+  background: #ffffff;
+  background: -moz-linear-gradient(top,#eaeaea 0%,#fff 50%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#eaeaea),color-stop(50%,#fff));
+  background: -webkit-linear-gradient(top,#eaeaea 0%,#fff 50%);
+  background: -o-linear-gradient(top,#eaeaea 0%,#fff 50%);
+  background: -ms-linear-gradient(top,#eaeaea 0%,#fff 50%);
+  background: linear-gradient(to bottom,#eaeaea 0%,#fff 50%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eaeaea',endColorstr='#ffffff',GradientType=0);
+  height: 12px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .quater th {
+  background: #ffffff;
+  background: -moz-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(50%,#fffefe),color-stop(100%,#f8f7f7));
+  background: -webkit-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -o-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -ms-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: linear-gradient(to bottom,#fffefe 50%,#f8f7f7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffefe',endColorstr='#f8f7f7',GradientType=0);
+  font-family: 'orbi_sansregular';
+  font-weight: normal;
+  font-size: 18px;
+  color: #505050;
+  text-align: center;
+  vertical-align: middle;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .quater td {
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  font-family: 'orbi_sansregular';
+  font-size: 14px;
+  color: #71a7cd;
+  text-align: center;
+  line-height: 19px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .quater td:last-child {
+  border-right: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .month td {
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  font-family: 'orbi_sansregular';
+  font-size: 16px;
+  color: #494848;
+  text-align: center;
+  line-height: 19px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .month td:last-child {
+  border-right: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .month td.col-or {
+  color: #d48217;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .month td div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .month td div span {
+  display: block;
+  background: #7a7a7a;
+  border: 1px solid #fff;
+  width: 3px;
+  height: 3px;
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .day td {
+  border-right: 1px dotted #999;
+  font-family: 'orbi_sansregular';
+  font-size: 15px;
+  color: #282828;
+  text-align: center;
+  line-height: 35px;
+  padding: 0px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .day td:last-child {
+  border-right: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .day td.bdrs {
+  border-right: 1px solid #999;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-table-title .cur {
+  background: #f0eeee;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap {
+  position: absolute;
+  top: 71px;
+  left: 0;
+  bottom: 9px;
+  right: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table {
+  width: 100%;
+  height: 100%;
+  table-layout: fixed;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table .col1 {
+  width: 267px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table .col2 {
+  width: 3.83%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr {
+  height: 16.766%;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr th {
+  background: #ffffff;
+  background: -moz-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(50%,#fffefe),color-stop(100%,#f8f7f7));
+  background: -webkit-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -o-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: -ms-linear-gradient(top,#fffefe 50%,#f8f7f7 100%);
+  background: linear-gradient(to bottom,#fffefe 50%,#f8f7f7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffefe',endColorstr='#f8f7f7',GradientType=0);
+  border-right: 2px solid #000;
+  border-bottom: 1px solid #e5e5e5;
+  font-family: 'orbi_sansregular';
+  font-weight: normal;
+  font-size: 14px;
+  color: #000;
+  line-height: 14px;
+  text-align: left;
+  vertical-align: middle;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr th div {
+  height: 100%;
+  padding-left: 32px;
+  position: relative;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr th div span {
+  display: block;
+  border-right: 1px dotted #b2b2b2;
+  width: 23px;
+  height: 100%;
+  font-size: 12px;
+  color: #696969;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr td {
+  border-right: 1px dotted #7f7f7f;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0;
+  width: 38px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr td:last-child {
+  border-right: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr td.bdrs {
+  border-right: 1px solid #7f7f7f;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr td div {
+  position: relative;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr:last-child th,
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr:last-child td {
+  border-bottom: none;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-quater-table tr .cur {
+  background: #f0eeee;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit {
+  height: 75%;
+  background: #c4dff2;
+  background: -moz-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#dbedfa),color-stop(100%,#aed1ea));
+  background: -webkit-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -o-linear-gradient(top,#dbedfa,#aed1ea);
+  background: -ms-linear-gradient(top,#dbedfa,#aed1ea);
+  background: linear-gradient(top,#dbedfa,#aed1ea);
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #9bb9d0;
+  border-left: 1px dotted #FFFFFF;
+  margin-left: -1px;
+  -webkit-box-shadow: 0 0 1px #79a1c0;
+  -moz-box-shadow: 0 0 1px #79a1c0;
+  box-shadow: 0 0 1px #79a1c0;
+  cursor: pointer;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit.active {
+  background: -moz-linear-gradient(top,#f3a33c,#d48116);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f3a33c),color-stop(100%,#d48116));
+  background: -webkit-linear-gradient(top,#f3a33c,#d48116);
+  background: -o-linear-gradient(top,#f3a33c,#d48116);
+  background: -ms-linear-gradient(top,#f3a33c,#d48116);
+  background: linear-gradient(top,#f3a33c,#d48116);
+  border-top: 1px solid #ffffb5;
+  border-bottom: 1px solid #9e7849;
+  -webkit-box-shadow: 0 0 1px #7d4b0c;
+  -moz-box-shadow: 0 0 1px #7d4b0c;
+  box-shadow: 0 0 1px #7d4b0c;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit.first {
+  border-left: 1px solid #81A0B8;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit.first.active {
+  border-left-color: #a97839;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit.last {
+  border-right: 1px solid #9BB9D0;
+  width: 75%;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.canvas .windows-container .sim-window.planner-book-main-div .planner-book .plannerBookQuarterPlan .plan-quater-wrap .plan-unit.last.active {
+  border-right-color: #9e7849;
+}

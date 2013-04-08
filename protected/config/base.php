@@ -270,7 +270,8 @@ return array(
         ),
         'clientScript' => array(
             'class' => 'ext.yii-less-extension.components.YiiLessCClientScript',
-            'cache' => true
+            'cache' => true,
+            'basePath' => realpath(dirname(__FILE__) . '/../..')
         ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
