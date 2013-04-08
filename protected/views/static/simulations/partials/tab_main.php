@@ -1,5 +1,5 @@
 <style>
-    .gauge-charts, .bar-charts, .bullet-charts {
+    /*.gauge-charts, */ .bar-charts, .bullet-charts {
         margin: 40px 0;
         padding: 10px;
     }
