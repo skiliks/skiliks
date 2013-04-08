@@ -30,7 +30,11 @@ class Evaluation {
                 'assessment_category_code' => $rate->assessment_category_code
             ]);
 
-            $value += $weight->value * $rate->value;
+            if ($weight === null) {
+                $value = 0;
+            } else {
+                $value += $weight->value * $rate->value;
+            }
         }
 
         $overall = new AssessmentOverall();
