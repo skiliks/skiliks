@@ -17,6 +17,9 @@ class LearningAreaAnalizer {
         $this->resultOrientation();
     }
 
+    /*
+     * Стрессоустойчивость
+     */
     public function stressResistance() {
 
         /*
@@ -69,6 +72,9 @@ class LearningAreaAnalizer {
 
     }
 
+    /*
+     * Устойчивость к манипуляциям и давлению
+     */
     public function stability() {
 
         /* @var $simulation Simulation */
@@ -97,6 +103,9 @@ class LearningAreaAnalizer {
 
     }
 
+    /*
+     * Ответственность
+     */
     public function responsibility(){
 
         /* @var $simulation Simulation */
@@ -134,7 +143,9 @@ class LearningAreaAnalizer {
         $sim_learning_area->save();
 
     }
-
+    /*
+     * Ориентация на результат
+     */
     public function resultOrientation() {
 
         /* @var $simulation Simulation */
@@ -155,6 +166,37 @@ class LearningAreaAnalizer {
         $value = round(($value / $max_rate->rate) * 100, 2);
 
         $learning_area = $game_type->getLearningArea(['code' => 14]);//Ориентация на результат
+        $sim_learning_area = new SimulationLearningArea();
+        $sim_learning_area->learning_area_id = $learning_area->id;
+        $sim_learning_area->value = ($value > 100)?100:$value;
+        $sim_learning_area->sim_id = $simulation->id;
+        $sim_learning_area->save();
+
+    }
+
+    /*
+     * Конструктивность
+     */
+    public function constructibility(){
+
+        /* @var $simulation Simulation */
+        /* @var $game_type Scenario */
+        $simulation = $this->simulation;
+        $game_type = $simulation->game_type;
+        $point = $game_type->getHeroBehaviour(['code' => 8381]);
+        if (null === $point) {
+            return;
+        }
+        $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
+        if(null === $value){
+            $value = 0;
+        }
+
+        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
+
+        $value = round(($value / $max_rate->rate) * 100, 2);
+
+        $learning_area = $game_type->getLearningArea(['code' => 15]);//Конструктивность
         $sim_learning_area = new SimulationLearningArea();
         $sim_learning_area->learning_area_id = $learning_area->id;
         $sim_learning_area->value = ($value > 100)?100:$value;
