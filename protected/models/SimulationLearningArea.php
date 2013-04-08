@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $learning_area_id
  * @property double $value
+ * @property integer $sim_id
  *
  * The followings are the available model relations:
  * @property LearningArea $learningArea
