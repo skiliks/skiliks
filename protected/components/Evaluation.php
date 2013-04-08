@@ -44,9 +44,13 @@ class Evaluation {
     public function checkManagerialSkills()
     {
         $aggregated = AssessmentAggregated::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        /* @var $aggregated AssessmentAggregated[] */
         $value = 0;
+        /* @var $row AssessmentAggregated */
         foreach ($aggregated as $row) {
-            $value += $row->fixed_value;
+            if($row->point->isPositive()){
+                $value += $row->fixed_value;
+            }
         }
 
         $result = new AssessmentOverall();
