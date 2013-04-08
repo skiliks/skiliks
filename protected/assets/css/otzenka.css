@@ -12,6 +12,6 @@
 #simulation-details .ui-tabs-selected {
     background: #4d8d96;
 }
-.bar-charts, .bullet-charts, .gauge-charts {
+.bar-charts, .bullet-charts {
     display: none !important;
 }
