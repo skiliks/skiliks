@@ -39,6 +39,6 @@
 }
 
 
-.bar-charts, .bullet-charts, .chart-gauge {
+.bar-charts, .bullet-charts {
     display: none !important;
 }
