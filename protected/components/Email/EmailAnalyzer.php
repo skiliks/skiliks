@@ -542,6 +542,10 @@ class EmailAnalyzer
     {
         $behave_3311 = $this->simulation->game_type->getHeroBehaviour(['code' => '3311']);
 
+        if (null === $behave_3311) {
+            return;
+        }
+
         $countInboxRead = MailBox::model()->countByAttributes([
             'sim_id'   => $this->simulation->id,
             'group_id' => MailBox::FOLDER_INBOX_ID,

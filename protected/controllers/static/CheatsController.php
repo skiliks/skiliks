@@ -142,6 +142,10 @@ class CheatsController extends AjaxController
      */
     public function actionChooseTariff($label = null)
     {
+        if (null == $label) {
+            $label = Yii::app()->request->getParam('label');
+        }
+
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');
@@ -158,7 +162,7 @@ class CheatsController extends AjaxController
             $this->redirect('/');
         }
 
-        $tariff = Tariff::model()->findByAttributes(['label' => $label]);
+        $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
             Yii::app()->user->setFlash('success', "Ваш тарифный план анулирован.");
@@ -175,7 +179,7 @@ class CheatsController extends AjaxController
         $user->getAccount()->tariff_id = $tariff->id;
         $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
         $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
-        $user->getAccount()->invites_limit += $tariff->simulations_amount;
+        $user->getAccount()->invites_limit = $tariff->simulations_amount;
         $user->getAccount()->save();
 
         Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
