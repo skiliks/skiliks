@@ -76,7 +76,9 @@ class LearningAreaAnalizer {
         $simulation = $this->simulation;
         $game_type = $simulation->game_type;
         $point = $game_type->getHeroBehaviour(['code' => 7211]);
-
+        if (null === $point) {
+            return;
+        }
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
@@ -140,7 +142,9 @@ class LearningAreaAnalizer {
         $simulation = $this->simulation;
         $game_type = $simulation->game_type;
         $point = $game_type->getHeroBehaviour(['code' => 8371]);
-
+        if (null === $point) {
+            return;
+        }
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
