@@ -2559,7 +2559,7 @@ ul.profile-menu li {
     width: 105px;
     height: 20px;
     bottom: 7px;
-    left: 57px;
+    left: 54px; /*left: 57px; */
     background: url(../img/charts/pointer.png) no-repeat;
 
     -webkit-transform-origin: 98px 11px;

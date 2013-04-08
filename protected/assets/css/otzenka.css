@@ -2,7 +2,7 @@
     color: #3d4041;
 }
 #simulation-details-pop-up h1 {
-    padding-top: 25px;
+    padding: 25px 0px 15px;
 }
 #simulation-details-pop-up .ui-widget-content {
    /*border:none;*/
@@ -30,14 +30,16 @@
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
-#simulation-details-tab li.ui-tabs-selected, #simulation-details-tab li.ui-state-active {
+#simulation-details-tabs #simulation-details-tab .ui-tabs-selected, #simulation-details-tab li.ui-state-active {
     background: #4d8d96 !important;
     outline: none;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 0px;
 }
+.gauge-charts:after {
 
+}
 
 .bar-charts, .bullet-charts {
     display: none !important;
