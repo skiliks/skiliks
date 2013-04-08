@@ -14,9 +14,83 @@ class LearningAreaAnalizer {
         $this->stressResistance();
         $this->stability();
         $this->responsibility();
+        $this->adoptionOfDecisions();
         $this->resultOrientation();
         $this->constructibility();
         $this->flexibility();
+    }
+
+    public function calcLearningArea($simulation,  $code) {
+
+        /* @var $game_type Scenario */
+        $game_type = $simulation->game_type;
+        $point = $game_type->getHeroBehaviour(['code' => $code]);
+        if(null === $point){
+            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
+        }
+        $aggregated = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
+        if(null === $aggregated){
+            return 0;
+        }else{
+            return $aggregated->value;
+        }
+
+    }
+
+    public function calcMaxRate($simulation, $code, $assessment){
+
+        /* @var $game_type Scenario */
+        $game_type = $simulation->game_type;
+        if( !empty($code["learning_goal_code"]) ) {
+            $point = $game_type->getLearningGoal(['code' => $code["learning_goal_code"]]);
+            if( null === $point ){
+                throw new LearningGoalIsNullException(" Not Found {$code["learning_goal_code"]} on LearningGoal ");
+            }
+            $rate = ['learning_goal_id' => $point->id];
+        }elseif( !empty($code["hero_behaviour_code"]) ) {
+            $point = $game_type->getHeroBehaviour(['code' => $code["hero_behaviour_code"]]);
+            if(null === $point){
+                throw new HeroBehaviourIsNullException(" Not Found {$code["hero_behaviour_code"]} on HeroBehaviour");
+            }
+            $rate = ['hero_behaviour_id' => $point->id];
+        } else {
+            throw new Exception("Parameter 'learning_goal_code' or 'hero_behaviour_code' is not found");
+        }
+
+        $game_type = $simulation->game_type;
+
+        $max_rate = $game_type->getMaxRate($rate);
+
+        return round(($assessment / $max_rate->rate) * 100, 2);
+    }
+
+    public function calcWeight($simulation, $code, $value) {
+
+        /* @var $game_type Scenario */
+        $game_type = $simulation->game_type;
+        $point = $game_type->getHeroBehaviour(['code' => $code]);
+        if(null === $point){
+            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
+        }
+        $weight = $game_type->getWeight(['hero_behaviour_id' => $point->id]);
+
+        if(null === $weight){
+            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
+        }
+
+        return round($weight->value*$value, 2);
+
+    }
+
+    public function saveLearningArea($simulation, $code, $value){
+        /* @var $game_type Scenario */
+        $game_type = $simulation->game_type;
+        $learning_area = $game_type->getLearningArea(['code' => $code]);//Стрессоустойчивость
+        $sim_learning_area = new SimulationLearningArea();
+        $sim_learning_area->learning_area_id = $learning_area->id;
+        $sim_learning_area->value = ($value > 100)?100:$value;
+        $sim_learning_area->sim_id = $simulation->id;
+        $sim_learning_area->save();
     }
 
     /*
@@ -35,8 +109,6 @@ class LearningAreaAnalizer {
         if (null === $point) {
             return;
         }
-
-        //$point = HeroBehaviour::model()->findByAttributes(['code'=>7141]);
 
         /* @var $stress StressPoint[] */
         $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$this->simulation->id]);
@@ -60,16 +132,16 @@ class LearningAreaAnalizer {
          * StressResistance 7141
          */
         /* @var $max_rate MaxRate */
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id'=>$point->id]);
 
-        $value = round(($value / $max_rate->rate) * 100, 2);
+        try{
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code'=>7141], $value);
 
-        $learning_area = $game_type->getLearningArea(['code' => 9]);//Стрессоустойчивость
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
+            return;
+        }
+        $this->saveLearningArea($simulation, 9, $learning_area);
 
 
     }
@@ -80,31 +152,17 @@ class LearningAreaAnalizer {
     public function stability() {
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point = $game_type->getHeroBehaviour(['code' => 7211]);
-        if (null === $point) {
+        try{
+            $assessment = $this->calcLearningArea($simulation, 7211);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 7211], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-        $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
-        if(null === $value){
-            $value = 0;
-        }else{
-            $value = $value->value;
-        }
-
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
-
-        $value = round(($value / $max_rate->rate) * 100, 2);
-
-        $learning_area = $game_type->getLearningArea(['code' => 10]);//Устойчивость к манипуляциям и давлению
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
-
+        $this->saveLearningArea($simulation, 10, $learning_area);
     }
 
     /*
@@ -113,43 +171,18 @@ class LearningAreaAnalizer {
     public function responsibility(){
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point_8212 = $game_type->getHeroBehaviour(['code' => 8212]);
-        $point_8213 = $game_type->getHeroBehaviour(['code' => 8213]);
-        $goal_821 = $game_type->getLearningGoal(['code' => 821]);
-        if(null === $point_8212 OR null === $point_8213 OR null === $goal_821){
+        try{
+            $assessment_8212 = $this->calcLearningArea($simulation, 8212);
+            $assessment_8213 = $this->calcLearningArea($simulation, 8213);
+            $learning_area = $this->calcMaxRate($simulation, ['learning_goal_code' => 821], ($assessment_8212+$assessment_8213));
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-
-        $value_8212 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8212->id]);
-        if(null === $value_8212){
-            $value_8212 = 0;
-        }else{
-            $value_8212 = $value_8212->value;
-        }
-
-        $value_8213 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8213->id]);
-        if(null === $value_8213){
-            $value_8213 = 0;
-        }else{
-            $value_8213 = $value_8213->value;
-        }
-
-        $value = $value_8212 + $value_8213;
-
-        $max_rate = $game_type->getMaxRate(['learning_goal_id' => $goal_821->id]);
-
-        $value = round(($value / $max_rate->rate) * 100, 2);
-
-        $learning_area = $game_type->getLearningArea(['code' => 12]);//Ответственность
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
-
+        $this->saveLearningArea($simulation, 12, $learning_area);
     }
     /*
      * Ориентация на результат
@@ -157,30 +190,17 @@ class LearningAreaAnalizer {
     public function resultOrientation() {
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point = $game_type->getHeroBehaviour(['code' => 8371]);
-        if (null === $point) {
+        try{
+            $assessment = $this->calcLearningArea($simulation, 8371);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8371], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-        $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
-        if(null === $value){
-            $value = 0;
-        }else{
-            $value = $value->value;
-        }
-
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
-
-        $value = round(($value / $max_rate->rate) * 100, 2);
-
-        $learning_area = $game_type->getLearningArea(['code' => 14]);//Ориентация на результат
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
+        $this->saveLearningArea($simulation, 14, $learning_area);
 
     }
 
@@ -190,30 +210,17 @@ class LearningAreaAnalizer {
     public function constructibility(){
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point = $game_type->getHeroBehaviour(['code' => 8381]);
-        if (null === $point) {
+        try{
+            $assessment = $this->calcLearningArea($simulation, 8381);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8381], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-        $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
-        if(null === $value){
-            $value = 0;
-        }else{
-            $value = $value->value;
-        }
-
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
-
-        $value = round(($value / $max_rate->rate) * 100, 2);
-
-        $learning_area = $game_type->getLearningArea(['code' => 15]);//Конструктивность
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
+        $this->saveLearningArea($simulation, 15, $learning_area);
 
     }
 
@@ -223,57 +230,56 @@ class LearningAreaAnalizer {
     public function flexibility(){
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point = $game_type->getHeroBehaviour(['code' => 8391]);
-        if (null === $point) {
+        try{
+            $assessment = $this->calcLearningArea($simulation, 8391);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8391], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-        $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
-        if(null === $value){
-            $value = 0;
-        }else{
-            $value = $value->value;
-        }
-
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
-
-        $value = round(($value / $max_rate->rate) * 100, 2);
-
-        $learning_area = $game_type->getLearningArea(['code' => 16]);//Гибкость
-        $sim_learning_area = new SimulationLearningArea();
-        $sim_learning_area->learning_area_id = $learning_area->id;
-        $sim_learning_area->value = ($value > 100)?100:$value;
-        $sim_learning_area->sim_id = $simulation->id;
-        $sim_learning_area->save();
+        $this->saveLearningArea($simulation, 16, $learning_area);
 
     }
 
     /*
      * Принятие решений
      */
-    public function decisionmaking(){
+    public function adoptionOfDecisions(){
 
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point_8311 = $game_type->getHeroBehaviour(['code' => 8311]);
-        $point_8331 = $game_type->getHeroBehaviour(['code' => 8331]);
-        $point_8341 = $game_type->getHeroBehaviour(['code' => 8341]);
-        $point_8351 = $game_type->getHeroBehaviour(['code' => 8351]);
-        $point_8361 = $game_type->getHeroBehaviour(['code' => 8361]);
+        try{
+            $assessment_8311 = $this->calcLearningArea($simulation, 8311);
+            $assessment_8321 = $this->calcLearningArea($simulation, 8321);
 
-        if(null === $point_8311 OR
-            null === $point_8331 OR
-            null === $point_8341 OR
-            null === $point_8351 OR
-            null === $point_8361){
+            $area_8311 = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8311], ($assessment_8311-$assessment_8321));
+            $weight_8311 = $this->calcWeight($simulation, 8311, $area_8311);
+
+            $assessment_8331 = $this->calcLearningArea($simulation, 8331);
+            $area_8331 = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8331], $assessment_8331);
+            $weight_8331 = $this->calcWeight($simulation, 8331, $area_8331);
+
+            $assessment_8341 = $this->calcLearningArea($simulation, 8341);
+            $area_8341 = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8341], $assessment_8341);
+            $weight_8341 = $this->calcWeight($simulation, 8341, $area_8341);
+
+            $assessment_8351 = $this->calcLearningArea($simulation, 8351);
+            $area_8351 = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8351], $assessment_8351);
+            $weight_8351 = $this->calcWeight($simulation, 8351, $area_8351);
+
+            $assessment_8361 = $this->calcLearningArea($simulation, 8361);
+            $area_8361 = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8361], $assessment_8361);
+            $weight_8361 = $this->calcWeight($simulation, 8361, $area_8361);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
             return;
         }
-
-
+        $this->saveLearningArea($simulation, 13, ($weight_8311+$weight_8331+$weight_8341+$weight_8351+$weight_8361));
     }
 
 }
