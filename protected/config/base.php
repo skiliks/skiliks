@@ -36,6 +36,7 @@ return array(
         'application.components.ApiMethods.*',
         'application.components.GameContentAnalyze.*',
         'application.components.ForStaticSite.*',
+        'application.components.Exception.*',
         /*'application.components.DayPlan.*',
         'application.components.Replica.*',
         'application.components.Excel.*',
