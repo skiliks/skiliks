@@ -1,36 +1,3 @@
-<?php /* ?>
-<style>
-    .registration-by-link .form label {
-        color: #555545;
-        display: inline-block;
-        font: 0.834em/1 "ProximaNova-Bold";
-        margin-right: -5px;
-        vertical-align: middle;
-        width: 60px;
-    }
-
-    .registration-by-link .sbHolder {
-        width: 334px;
-    }
-
-    .decline-form-box {
-        position: absolute;
-        width: 500px;
-        height: 400px;
-        left: 50%;
-        top: 200px;
-        margin-left: -250px;
-        z-index: 5;
-        background-color: #7db8c0;
-        border: 1px solid black;
-        padding: 20px;
-    }
-
-    .hidden {
-        display: none;
-    }
-</style>
-<?php */ ?>
 
 <section class="registration-by-link">
     <h1>Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h1>
@@ -40,7 +7,10 @@
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'registration-by-link-form'
         )); ?>
+
         <?= $form->error($this->user, 'username'); ?>
+        <?= $form->error($profile, 'email'); ?>
+
         <div class="row">
             <?php echo $form->labelEx($profile, 'Name'); ?>
             <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
