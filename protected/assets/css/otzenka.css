@@ -57,13 +57,13 @@
     background: #bedadc;
     color:#146672;
     font: 18px "ProximaNova-Regular";
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    border-radius: 40px;
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
     height: 30px;
     line-height: 30px;
+    padding: 0px 10px;
     text-align: center;
-    width: 50px;
 }
 .bar-charts, .bullet-charts {
     display: none !important;
