@@ -327,8 +327,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/profile');
         }
 
+        // for invites to unregistered (when invitation had been send) users, receiver_id is NULL
+        // fix (NULL) receiver_id to make sure that simulation can start
+        $invite->receiver_id = Yii::app()->user->data()->id;
         $invite->status = Invite::STATUS_ACCEPTED;
-        $invite->save(false, ['status']);
+        $invite->update(false, ['status', 'receiver_id']);
 
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s принято.',

@@ -51,7 +51,7 @@
     </a>
     */?>
 
-    <?php $count = Invite::model()->countByAttributes(['receiver_id' => Yii::app()->user->data()->id, 'status' => Invite::STATUS_ACCEPTED]); ?>
+    <?php $count = Invite::model()->countByAttributes(['email' => Yii::app()->user->data()->profile->email, 'status' => Invite::STATUS_ACCEPTED]); ?>
 
     <a href="/simulations"
        class="<?php if (Yii::app()->request->getPathInfo() == 'simulations') { echo "active"; } ?> <?php echo (0 < $count) ? 'has-notification' : ''; ?>">

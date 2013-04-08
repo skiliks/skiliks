@@ -237,6 +237,11 @@ class PagesController extends AjaxController
             $this->redirect('/simulations');
         }
 
+        // for invites to unregistered (when invitation had been send) users, receiver_id is NULL
+        // fix (NULL) receiver_id to make sure that simulation can start
+        $invite->receiver_id = Yii::app()->user->data()->id;
+        $invite->update(false, ['receiver_id']);
+
         $this->render('legacy_and_terms', [
             'mode'      => $mode,
             'type'      => $type,
