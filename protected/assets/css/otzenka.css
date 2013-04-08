@@ -1,6 +1,7 @@
 .simulation-result-popup {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    width: 970px !important;
+    padding: 0px;
+    width: 980px !important;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 10px;
@@ -12,16 +13,18 @@
     padding: 25px 10px 15px 3px;
 }
 #simulation-details-pop-up .ui-widget-content {
-   /*border:none;*/
    padding: 0px;
-}
-#simulation-details-tabs {
-    /*border:none;*/
 }
 #simulation-details {
     background: none;
     border: none;
+    float:right;
+    margin-bottom: 40px;
     padding: 0px;
+    text-align: right;
+}
+#tab-main {
+    clear:both;
 }
 #simulation-details-tabs li {
     background: #7eb2b9;
@@ -31,6 +34,9 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
     outline: none;
+}
+#simulation-details li:last-child {
+    margin-right: 0px;
 }
 #simulation-details-tabs a {
     background-image: none;
@@ -58,21 +64,53 @@
     background: #bedadc;
     color:#146672;
     display: inline-block;
-    font: 18px "ProximaNova-Regular";
-    -webkit-border-radius: 140px;
-    -moz-border-radius: 140px;
-    border-radius: 140px;
+    -moz-border-radius: 100px / 50px;
+    -webkit-border-radius: 100px / 50px;
+    border-radius: 100px / 50px;
     height: 30px;
     line-height: 30px;
-    padding: 0px 10px;
     text-align: center;
+}
+.ratepercnt span {
+    font: 18px "ProximaNova-Regular";
+    padding: 0px 10px;
 }
 .estmtileswrap h2 {
     color:#3d4041;
     display: inline-block;
-    font-size: 28px;
-    width:230px;
+    font:26px 'ProximaNova-Bold';
+    margin:0px;
+    width:238px;
+    border: 1px solid green;
 }
-.bar-charts, .bullet-charts {
+.gauge-charts {
+    float: left;
+    width: 735px;
+}
+.bullet-charts {
+    float: right;
+    padding: 0px;
+    width: 235px;
+}
+.chart-bullet.small {
+    width: 220px;
+    margin: 20px 0;
+}
+
+
+/*.gauge-charts, */
+/*.bar-charts {
+    margin: 40px 0;
+    padding: 10px;
+}
+.chart-gauge.inline {
+    margin: 30px 0;
+}
+.chart-bar {
+    margin: 20px 0;
+}*/
+
+
+.bar-charts {
     display: none !important;
 }

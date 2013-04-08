@@ -2260,7 +2260,8 @@ ul.profile-menu li {
     text-decoration: none;
 }
 
-#private-invitations-list-box .grid-view tr td:first-child {
+#private-invitations-list-box .grid-view tr td:first-child,
+#corporate-invitations-list-box .grid-view tr td:first-child {
     max-width:76px;
     width:76px;
     text-overflow:clip;
@@ -2537,9 +2538,9 @@ ul.profile-menu li {
 
 .chart-gauge {
     position: relative;
-    width: 280px; /* 305px */
+    width: 240px; /* 305px */
     height: 150px; /*  135px */
-    background: url(../img/charts/speedometr.png) no-repeat center bottom;
+    background: url(../img/charts/gaugenew.png) no-repeat center bottom;
 }
 .chart-gauge:after {
     content: '';
@@ -2561,10 +2562,10 @@ ul.profile-menu li {
     left: 43px;
     background: url(../img/charts/pointer.png) no-repeat;
 
-    -webkit-transform-origin: 96px 11px; /* 98px 11px; */
-    -moz-transform-origin: 96px 11px;
-    -ms-transform-origin: 96px 11px;
-    transform-origin: 96px 11px;
+    -webkit-transform-origin: 70px 11px; /* 98px 11px; */
+    -moz-transform-origin: 70px 11px;
+    -ms-transform-origin: 70px 11px;
+    transform-origin: 70px 11px;
 }
 .chart-gauge .chart-value {
     color:#3d4041;
