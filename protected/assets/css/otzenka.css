@@ -15,7 +15,7 @@
     border: none;
     padding: 0px;
 }
-#simulation-details-tabs .ui-tabs-nav li {
+#simulation-details-tabs #simulation-details li {
     background: #7eb2b9;
     background-image: none;
     border:none;
@@ -24,7 +24,7 @@
     border-radius: 3px;
     outline: none;
 }
-#simulation-details-tabs .ui-tabs-nav a {
+#simulation-details-tabs #simulation-details a {
     background-image: none;
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
