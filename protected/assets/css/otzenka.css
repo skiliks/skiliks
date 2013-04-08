@@ -29,14 +29,15 @@
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
-#simulation-details-tab .ui-tabs-selected {
+#simulation-details-tab .ui-tabs-selected, #simulation-details-tab .ui-state-active {
     background: #4d8d96;
+    outline: none;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 0px;
 }
 
 
-.bar-charts, .bullet-charts /*, .chart-gauge */ {
+.bar-charts, .bullet-charts, .chart-gauge {
     display: none !important;
 }
