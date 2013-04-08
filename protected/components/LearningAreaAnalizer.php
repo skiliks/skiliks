@@ -15,7 +15,7 @@ class LearningAreaAnalizer {
 
     }
 
-    public function check_7141() {
+    public function stressResistance() {
 
         /* @var $simulation Simulation */
         /* @var $game_type Scenario */
