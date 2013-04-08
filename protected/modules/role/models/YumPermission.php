@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Class YumPermission
+ *
+ * @param int $principal_id
+ * @param int $subordinate_id
+ * @param string $action
+ * @param string $type
+ * @param string $template
+ */
 class YumPermission extends YumActiveRecord {
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
