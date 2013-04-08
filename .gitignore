@@ -12,5 +12,6 @@
 /protected/tests/documents/*
 /protected/assets/js/game/node_modules/*
 /protected/assets/js/game/node_modules/
+/protected/assets/compiled_css
 /.idea/modules.xml
 atlassian-ide-plugin.xml
