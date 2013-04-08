@@ -14,6 +14,12 @@
         margin: 20px 0;
     }
 </style>
+<div class="estmtileswrap">
+<div><h2>Managerial Skills</h2><?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></div>
+<div><h2>Productivity</h2><?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></div>
+<div><h2>Time Management Effectiveness</h2><?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></div>
+<div><h2>Overall Manager's Rating</h2><?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></div>
+</div><!-- /estmtileswrap -->
 <div class="gauge-charts">
 
 </div>
@@ -26,18 +32,7 @@
 
 </div>
 
-<p>
-    <h2>Managerial Skills <?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></h2>
-</p>
-<p>
-    <h2>Productivity <?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></h2>
-</p>
-<p>
-    <h2>Time Management Effectiveness <?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></h2>
-</p>
-<p>
-    <h2>Overall Manager's Rating <?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></h2>
-</p>
+
 <script type="text/javascript">
     $(function() {
         new charts.Gauge('.gauge-charts', 75, {class: 'inline'});

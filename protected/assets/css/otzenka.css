@@ -8,7 +8,7 @@
     color: #3d4041;
 }
 #simulation-details-pop-up h1 {
-    padding: 25px 0px 15px;
+    padding: 25px 10px 15px 3px;
 }
 #simulation-details-pop-up .ui-widget-content {
    /*border:none;*/
