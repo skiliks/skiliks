@@ -536,7 +536,10 @@ class Scenario extends CActiveRecord
         }
     }
 
-
+    /**
+     * @param $array
+     * @return Weight|null
+     */
     public function getWeight($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
