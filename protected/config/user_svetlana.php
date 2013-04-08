@@ -14,7 +14,7 @@ return CMap::mergeArray(
             'enableProfiling' => true
         ),
         'request' => array(
-            'baseUrl' => 'http://svetlana.dev.skiliks.com',
+            'baseUrl' => '',
         ),
     ),
         'params' => array(
