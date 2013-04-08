@@ -1280,15 +1280,14 @@ define([
 
                 var valuesArray = $("#MailClient_CopiesList li").get();
 
-                for (var i in valuesArray) {
-                    for (var j in defaultRecipients) {
+                SKApp.simulation.characters.each(function (character) {
+                    _.each(valuesArray, function (value) {
                         // get IDs of character by label text comparsion
-                        if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName() && $(valuesArray[i]).text() !== "") {
-                            list.push(defaultRecipients[j].get('id'));
-                            break;
+                        if ($(value).text() === character.getFormatedForMailToName()) {
+                            list.push(character.get('id'));
                         }
-                    }
-                }
+                    });
+                });
 
                 return list;
             },

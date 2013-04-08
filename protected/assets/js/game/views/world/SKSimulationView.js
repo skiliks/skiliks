@@ -68,8 +68,8 @@ define([
                 this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
                 this.listenTo(simulation, 'start', this.startExitProtection);
-                this.listenTo(simulation, 'before-end', this.stopExitProtection);
-                this.listenTo(simulation, 'time:before-stop', this.stopSimulation);
+                this.listenTo(simulation, 'before-stop', this.stopExitProtection);
+                this.listenTo(simulation, 'time:before-end', this.stopSimulation);
 
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {

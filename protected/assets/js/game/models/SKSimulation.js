@@ -87,6 +87,7 @@ define([
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
                         me.trigger('before-stop');
+                        me.stop();
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
                         me.trigger('end');
@@ -362,9 +363,10 @@ define([
                      * @event stop
                      */
                     if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/results');
+                        SKApp.simulation.set('result-url', '/dashboard');
                     }
 
+                    me.trigger('before-stop');
                     me.trigger('stop');
                 });
             },
