@@ -31,6 +31,10 @@ class YiiLessCClientScript extends CClientScript
         $lessFilePath = realpath($this->basePath . DIRECTORY_SEPARATOR . $lessUrl);
         $cssFilePath = str_replace('/', DIRECTORY_SEPARATOR, $this->basePath . DIRECTORY_SEPARATOR . $cssUrl);
 
+        if (!file_exists(dirname($cssFilePath))) {
+            mkdir(dirname($cssFilePath), 0777, true);
+        }
+
         $lessCompiler = new lessc();
 
         if ($this->cache === false) {
