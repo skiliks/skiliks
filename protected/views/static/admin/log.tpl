@@ -16,16 +16,35 @@
         display: block;
         height: auto;
     }
+
+    #portamento_container {
+        float:left;
+        position:relative;
+        width: 350px;
+    }
+
+    #portamento_container #flow-menu {
+        float:none;
+        position:absolute;
+    }
+
+    #portamento_container #flow-menu.fixed {
+        position:fixed;
+    }
 </style>
 <div class="container-fluid">
     <div class="row-fluid">
 
         <div class="span2">
-            <ul class="nav nav-list nav-stacked span12">
-                {foreach $log_tables as $log_table}
-                    <li><a href="#{$log_table->getId()}"><i class="icon-chevron-right pull-right"></i>{$log_table->getTitle()}</a></li>
-                {/foreach}
-            </ul>
+            <div id="flow-menu-wrapper" class="row" style="overflow:">
+                <div id="flow-menu" >
+                    <ul class="nav nav-list nav-stacked span12">
+                        {foreach $log_tables as $log_table}
+                            <li><a href="#{$log_table->getId()}"><i class="icon-chevron-right pull-right"></i>{$log_table->getTitle()}</a></li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="table-list span10">
@@ -115,6 +134,11 @@
 
         $('.sidebar').affix();
         $('body').scrollspy();
+
+        // flow menu
+        $(document).ready(function(){
+            $('#flow-menu').portamento();
+        });
     </script>
 
 </div>
