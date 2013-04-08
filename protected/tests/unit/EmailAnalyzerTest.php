@@ -631,14 +631,6 @@ class EmailAnalyzerTest extends CDbTestCase
         LibSendMs::sendMsByCode($simulation, 'MS10');
         LibSendMs::sendMsByCode($simulation, 'MS10');
 
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-
-        LibSendMs::sendMsByCode($simulation, 'MS10');
-
         $m5  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M5');
         $m5->readed = 1;
         $m5->save();
@@ -655,13 +647,13 @@ class EmailAnalyzerTest extends CDbTestCase
         $m8->readed = 1;
         $m8->save();
 
-        $m9  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M9');
-        $m9->readed = 1;
-        $m9->save();
+        $m8  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M9');
+        $m8->readed = 1;
+        $m8->save();
 
-        $m10 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M10');
-        $m10->readed = 1;
-        $m10->save();
+        $m8  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M10');
+        $m8->readed = 1;
+        $m8->save();
     }
 
     /**

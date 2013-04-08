@@ -558,13 +558,13 @@ class EmailAnalyzer
             'readed'   => 1,
         ]);
 
-        $countOutboxRead = MailBox::model()->countByAttributes([
+        $countOutbox = MailBox::model()->countByAttributes([
             'sim_id'   => $this->simulation->id,
             'group_id' => MailBox::FOLDER_OUTBOX_ID,
         ]);
 
         // проверяем, вдруг пользователь не пользуется почтой?
-        if (($countInboxRead + $countTrashRead < 6) || ($countOutboxRead < 10)) {
+        if (($countInboxRead + $countTrashRead < 10) || ($countOutbox < 5)) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
