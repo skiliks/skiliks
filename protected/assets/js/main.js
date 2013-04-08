@@ -13,9 +13,9 @@ $(document).ready(function () {
     $(".view-simulation-details-pop-up").click(function (event) {
         event.preventDefault();
         $.ajax({
+            dialogClass: 'simulation-result-popup',
             url:     $(this).attr('data-simulation'),
             success: function (data) {
-
                 simulation_popup.html(data);
                 simulation_popup.dialog('open');
             }
