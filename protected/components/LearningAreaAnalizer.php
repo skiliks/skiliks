@@ -103,6 +103,10 @@ class LearningAreaAnalizer {
         $game_type = $simulation->game_type;
         $point_8212 = $game_type->getHeroBehaviour(['code' => 8212]);
         $point_8213 = $game_type->getHeroBehaviour(['code' => 8213]);
+        $point_821 = $game_type->getHeroBehaviour(['code' => 821]);
+        if(null === $point_8212 OR null === $point_8213 OR null === $point_821){
+            return;
+        }
 
         $value_8212 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8212->id]);
         if(null === $value_8212){
@@ -116,7 +120,7 @@ class LearningAreaAnalizer {
 
         $value = $value_8212 + $value_8213;
 
-        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => '821']);
+        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point_821->id]);
 
         $value = round(($value / $max_rate->rate) * 100, 2);
 
