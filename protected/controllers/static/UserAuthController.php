@@ -164,12 +164,14 @@ class UserAuthController extends YumController
                     YumUser::activate($profile->email, $this->user->activationKey);
                     $this->user->authenticate($YumUser['password']);
 
+                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+
                     $permission = new YumPermission();
                     $permission->principal_id = $this->user->id;
                     $permission->subordinate_id = $this->user->id;
-                    $permission->action = UserService::CAN_START_FULL_SIMULATION;
+                    $permission->action = $action->id;
                     $permission->type = 'user';
-                    $permission->template = null;
+                    $permission->template = 1; // magic const
                     $permission->save();
 
                     $invites = Invite::model()->findAllByAttributes(['email' => $this->user->profile->email]);
@@ -183,7 +185,7 @@ class UserAuthController extends YumController
                     $this->user->password = '';
                     $this->user->password_again = '';
 
-                    Yii::app()->user->setFlash('site', 'Ошибки регистрации. Обратитесь в <a href="/contacts">службу поддержки</a>.');
+                    Yii::app()->user->setFlash('error', 'Ошибки регистрации. Обратитесь в <a href="/contacts">службу поддержки</a>.');
                     $this->redirect('/');
                 }
             }
