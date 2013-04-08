@@ -143,6 +143,26 @@ class Scenario extends CActiveRecord
 
     /**
      * @param $attributes
+     * @return Replica
+     */
+    public function getReplicaPoint($attributes, $params = [])
+    {
+        $attributes['scenario_id'] = $this->primaryKey;
+        return ReplicaPoint::model()->findByAttributes($attributes, $params);
+    }
+
+    /**
+     * @param $attributes
+     * @return Replica
+     */
+    public function getReplicaPoints($attributes, $params = [])
+    {
+        $attributes['scenario_id'] = $this->primaryKey;
+        return ReplicaPoint::model()->findAllByAttributes($attributes, $params);
+    }
+
+    /**
+     * @param $attributes
      * @param $params
      * @return Replica[]
      */
