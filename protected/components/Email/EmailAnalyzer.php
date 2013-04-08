@@ -318,11 +318,11 @@ class EmailAnalyzer
 
         return array(
             '3322' => array(
-                'positive' => ($doneRightActions / $possibleRightActions) * $behave_3322->scale,
+                'positive' => $behave_3322 ? ($doneRightActions / $possibleRightActions) * $behave_3322->scale : 0,
                 'obj'      => $behave_3322,
             ),
             '3324' => array(
-                'negative' => $wrongActions * $behave_3324->scale,
+                'negative' => $behave_3324 ? $wrongActions * $behave_3324->scale : 0,
                 'obj'      => $behave_3324,
             ),
         );
@@ -350,7 +350,7 @@ class EmailAnalyzer
         $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
         
         return array(
-            'negative' => $wrongActions * $behave_3325->scale,
+            'negative' => $behave_3325 ? $wrongActions * $behave_3325->scale : 0,
             'obj'      => $behave_3325,
         );
     }
@@ -387,7 +387,7 @@ class EmailAnalyzer
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
         return array(
-            'positive' => ($doneRightActions / $possibleRightActions) * $behave_3323->scale,
+            'positive' => $behave_3323 ? ($doneRightActions / $possibleRightActions) * $behave_3323->scale : 0,
             'obj'      => $behave_3323,
         );
     }
