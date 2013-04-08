@@ -2562,10 +2562,10 @@ ul.profile-menu li {
     left: 57px;
     background: url(../img/charts/pointer.png) no-repeat;
 
-    -webkit-transform-origin: 98px 6px; /* 98px 11px; */
-    -moz-transform-origin: 98px 6px;
-    -ms-transform-origin: 98px 6px;
-    transform-origin: 98px 6px;
+    -webkit-transform-origin: 96px 6px; /* 98px 11px; */
+    -moz-transform-origin: 96px 6px;
+    -ms-transform-origin: 96px 6px;
+    transform-origin: 96px 6px;
 }
 .chart-gauge .chart-value {
     color:#3d4041;
