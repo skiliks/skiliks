@@ -14,15 +14,15 @@
         margin: 20px 0;
     }
 </style>
-<div class="gauge-charts nice-border backgroud-light-blue">
+<div class="gauge-charts">
 
 </div>
 
-<div class="bar-charts nice-border backgroud-light-blue">
+<div class="bar-charts">
 
 </div>
 
-<div class="bullet-charts nice-border backgroud-light-blue">
+<div class="bullet-charts">
 
 </div>
 
