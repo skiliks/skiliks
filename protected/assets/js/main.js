@@ -4,6 +4,7 @@ $(document).ready(function () {
     $('.dashboard').append($('<div id="simulation-details-pop-up"></div>'));
     var simulation_popup = $('#simulation-details-pop-up');
     simulation_popup.dialog({
+        dialogClass: 'simulation-result-popup',
         modal:     true,
         width:     940,
         minHeight: 600,
@@ -13,7 +14,6 @@ $(document).ready(function () {
     $(".view-simulation-details-pop-up").click(function (event) {
         event.preventDefault();
         $.ajax({
-            dialogClass: 'simulation-result-popup',
             url:     $(this).attr('data-simulation'),
             success: function (data) {
                 simulation_popup.html(data);
