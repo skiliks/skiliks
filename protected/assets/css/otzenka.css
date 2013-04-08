@@ -14,12 +14,14 @@
 }
 #simulation-details li {
     background: #7eb2b9;
+    background-image: none;
     border:none;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
 #simulation-details a {
+    background-image: none;
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
