@@ -1,6 +1,9 @@
 #simulation-details-pop-up h1, #simulation-details-pop-up h2 {
     color: #3d4041;
 }
+#simulation-details-pop-up h1 {
+    padding-top: 25px;
+}
 #simulation-details-pop-up .ui-widget-content {
    padding: 0px;
 }
@@ -12,15 +15,16 @@
     border: none;
     padding: 0px;
 }
-#simulation-details-tabs #simulation-details li {
+#simulation-details-tabs .ui-tabs-nav li {
     background: #7eb2b9;
     background-image: none;
     border:none;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+    outline: none;
 }
-#simulation-details a {
+#simulation-details-tabs .ui-tabs-nav a {
     background-image: none;
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
