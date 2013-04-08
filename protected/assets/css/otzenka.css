@@ -1,9 +1,5 @@
 #simulation-details-pop-up {
     /*box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);*/
-    width:980px !important;
-}
-#simulation-details {
-    float: right;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 10px;
