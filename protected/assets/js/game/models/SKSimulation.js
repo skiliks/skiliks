@@ -87,9 +87,7 @@ define([
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
                         me.trigger('before-stop');
-                    }
-
-                    if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
+                    } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('end');
                     }
 
