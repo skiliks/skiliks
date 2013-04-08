@@ -1276,14 +1276,12 @@ define([
              */
             getCurentEmailCopiesIds: function () {
                 var list = [];
-                var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
 
                 var valuesArray = $("#MailClient_CopiesList li").get();
-
                 SKApp.simulation.characters.each(function (character) {
                     _.each(valuesArray, function (value) {
                         // get IDs of character by label text comparsion
-                        if ($(value).text() === character.getFormatedForMailToName()) {
+                        if ($(value).text() && $(value).text() === character.getFormatedForMailToName()) {
                             list.push(character.get('id'));
                         }
                     });

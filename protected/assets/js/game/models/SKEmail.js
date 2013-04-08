@@ -365,7 +365,7 @@ define([] ,function() {
         getCopyToIdsString: function() {
             var string = '';
             for (var i in this.copyTo) {
-                string += this.copyTo[i].mySqlId + ',';
+                string += this.copyTo[i].get('id') + ',';
             }
             
             return string;

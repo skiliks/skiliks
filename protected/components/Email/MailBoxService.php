@@ -14,11 +14,14 @@ class MailBoxService
      *
      * @return array
      */
-    public static function getCharacters(Simulation $simulation)
+    public static function getCharacters(Simulation $simulation, $copiesIds = null)
     {
         $resultCharacters = array();
-
-        $charactersCollection = $simulation->game_type->getCharacters([]);
+        $criteria = new CDbCriteria();
+        if ($copiesIds !== null) {
+            $criteria->addInCondition('id', $copiesIds);
+        }
+        $charactersCollection = $simulation->game_type->getCharacters($criteria);
 
         foreach ($charactersCollection as $character) {
             $resultCharacters[$character->id] = $character->fio . ' <' . $character->email . '>';
@@ -960,7 +963,7 @@ class MailBoxService
         }
 
         if (count($copiesIds) > 0) {
-            $copies = self::getCharacters($copiesIds);
+            $copies = self::getCharacters($messageToReply->simulation, $copiesIds);
         }
 
         return array(
