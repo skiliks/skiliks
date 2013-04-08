@@ -13,6 +13,7 @@ class LearningAreaAnalizer {
     public function run() {
         $this->stressResistance();
         $this->stability();
+        $this->responsibility();
     }
 
     public function stressResistance() {
@@ -85,6 +86,40 @@ class LearningAreaAnalizer {
         $value = round(($value / $max_rate->rate) * 100, 2);
 
         $learning_area = $game_type->getLearningArea(['code' => 10]);//Устойчивость к манипуляциям и давлению
+        $sim_learning_area = new SimulationLearningArea();
+        $sim_learning_area->learning_area_id = $learning_area->id;
+        $sim_learning_area->value = ($value > 100)?100:$value;
+        $sim_learning_area->sim_id = $simulation->id;
+        $sim_learning_area->save();
+
+    }
+
+    public function responsibility(){
+
+        /* @var $simulation Simulation */
+        /* @var $game_type Scenario */
+        $simulation = $this->simulation;
+        $game_type = $simulation->game_type;
+        $point_8212 = $game_type->getHeroBehaviour(['code' => 8212]);
+        $point_8213 = $game_type->getHeroBehaviour(['code' => 8213]);
+
+        $value_8212 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8212->id]);
+        if(null === $value_8212){
+            $value_8212 = 0;
+        }
+
+        $value_8213 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8213->id]);
+        if(null === $value_8213){
+            $value_8213 = 0;
+        }
+
+        $value = $value_8212 + $value_8213;
+
+        $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => '821']);
+
+        $value = round(($value / $max_rate->rate) * 100, 2);
+
+        $learning_area = $game_type->getLearningArea(['code' => 12]);//Ответственность
         $sim_learning_area = new SimulationLearningArea();
         $sim_learning_area->learning_area_id = $learning_area->id;
         $sim_learning_area->value = ($value > 100)?100:$value;
