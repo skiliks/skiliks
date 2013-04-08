@@ -70,6 +70,7 @@ class SiteController extends AjaxController
                 'type' => $type,
                 'start' => $scenario->start_time,
                 'end' => $scenario->end_time,
+                'finish' => $scenario->finish_time,
                 'badBrowserUrl' => '/bad-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',

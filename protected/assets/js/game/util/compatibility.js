@@ -3,15 +3,14 @@
  *
  * TODO: Add depending on jQuery
  */
-define(['game/views/SKDialogView'], function(DialogView) {
+define([], function() {
     "use strict";
 
     var checkers = {
         browser: function(cfg) {
             var minSupport = {
                 mozilla: 9,
-                webkit: 535.11,
-
+                webkit: 535.11
             };
 
             for (var name in minSupport) {

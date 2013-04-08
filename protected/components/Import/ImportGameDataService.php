@@ -2694,9 +2694,11 @@ class ImportGameDataService
         if ($scenario->slug == Scenario::TYPE_LITE) {
             $scenario->start_time = '9:45:00';
             $scenario->end_time = '11:05:00';
+            $scenario->finish_time = '11:05:00';
         } elseif ($scenario->slug == Scenario::TYPE_FULL) {
             $scenario->start_time = '9:45:00';
             $scenario->end_time = '18:00:00';
+            $scenario->finish_time = '20:00:00';
         }
 
         $scenario->save();
