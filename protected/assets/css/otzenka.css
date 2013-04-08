@@ -4,9 +4,14 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+}
+#simulation-details a {
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
 #simulation-details .ui-tabs-selected {
     background: #4d8d96;
+}
+.bar-chart {
+    display: none;
 }
