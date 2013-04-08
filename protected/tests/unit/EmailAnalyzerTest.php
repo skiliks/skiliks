@@ -578,10 +578,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals('-0.20', $result->value);
     }
 
+    /**
+     * 3311, Пользователь не читал и не писал писем
+     */
     public function test_3311_case1()
     {
-        $this->markTestIncomplete();
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -597,36 +598,399 @@ class EmailAnalyzerTest extends CDbTestCase
             'activity_id' => $MY1_activity->id,
         ])->getPrimaryKey();
 
-        // бредовый лог {
-        // использовать только для начальной отладки
+        // лог {
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = 'Inbox_leg';
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
-        $log->duration = '00:01:00';
+        $log->duration = '01:11:00';
         $log->save();
-
-        $log = new LogActivityActionAgregated();
-        $log->sim_id = $simulation->id;
-        $log->leg_type = 'Inbox_leg';
-        $log->leg_action = 'MY1';
-        $log->activity_action_id = $MY1_activityAction_id;
-        $log->duration = '00:01:00';
-        $log->save();
-
-        $log = new LogActivityActionAgregated();
-        $log->sim_id = $simulation->id;
-        $log->leg_type = 'Inbox_leg';
-        $log->leg_action = 'MY1';
-        $log->activity_action_id = $MY1_activityAction_id;
-        $log->duration = '01:13:00';
-        $log->save();
-        // бредовый лог }
+        // лог }
 
         $emailAnalyzer = new EmailAnalyzer($simulation);
 
-        var_dump($emailAnalyzer->check_3311());
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals(0, $result['positive']);
+        $this->assertEquals(1, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * Service method
+     * Добавляет достаточное количество отправленных и прочитанных писем в MailBox,
+     * чтоб началось оценивание сессий работы с почтой в рамках поведения 3311
+     *
+     * @param Simulation $simulation
+     */
+    protected function setEmailFor3311Tests($simulation)
+    {
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+
+        $m5  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M5');
+        $m5->readed = 1;
+        $m5->save();
+
+        $m6  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M6');
+        $m6->readed = 1;
+        $m6->save();
+
+        $m7  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M7');
+        $m7->readed = 1;
+        $m7->save();
+
+        $m8  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
+        $m8->readed = 1;
+        $m8->save();
+
+        $m9  = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M9');
+        $m9->readed = 1;
+        $m9->save();
+
+        $m10 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M10');
+        $m10->readed = 1;
+        $m10->save();
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал спочтой дольше 90 мин
+     */
+    public function test_3311_case2()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     =>  $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '01:00:00';
+        $log->save();
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '00:33:00';
+        $log->save();
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals(0, $result['positive']);
+        $this->assertEquals(2, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал с почтой 1 раз, и правильное количество минут - 60 мин
+     */
+    public function test_3311_case3()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     =>  $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '01:00:00';
+        $log->save();
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals(0, $result['positive']);
+        $this->assertEquals(3, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал с почтой много (6) раз, и правильное количество минут - 60 мин
+     */
+    public function test_3311_case4()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
+        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
+        $D2_activityAction_id = $simulation->game_type->getActivityAction([
+            'document_id' => $D2_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
+            'activity_id' => $D2_activity->id,
+        ])->getPrimaryKey();
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     => $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        for ($i = 0; $i < 5; $i++) {
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Inbox_leg';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $MY1_activityAction_id;
+            $log->duration = '00:15:00';
+            $log->save();
+
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Window';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $D2_activityAction_id;
+            $log->duration = '00:10:00';
+            $log->save();
+        }
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals(0, $result['positive']);
+        $this->assertEquals(4, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
+     * и правильное количество минут - 60 мин
+     */
+    public function test_3311_case5()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
+        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
+        $D2_activityAction_id = $simulation->game_type->getActivityAction([
+            'document_id' => $D2_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
+            'activity_id' => $D2_activity->id,
+        ])->getPrimaryKey();
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     => $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        for ($i = 0; $i < 2; $i++) {
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Inbox_leg';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $MY1_activityAction_id;
+            $log->duration = '00:30:00';
+            $log->save();
+
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Window';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $D2_activityAction_id;
+            $log->duration = '00:10:00';
+            $log->save();
+        }
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals($result['obj']->scale, $result['positive']);
+        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
+     * и правильное количество минут - 75 мин
+     */
+    public function test_3311_case6()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
+        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
+        $D2_activityAction_id = $simulation->game_type->getActivityAction([
+            'document_id' => $D2_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
+            'activity_id' => $D2_activity->id,
+        ])->getPrimaryKey();
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     => $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        for ($i = 0; $i < 3; $i++) {
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Inbox_leg';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $MY1_activityAction_id;
+            $log->duration = '00:25:00';
+            $log->save();
+
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Window';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $D2_activityAction_id;
+            $log->duration = '00:10:00';
+            $log->save();
+        }
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals($result['obj']->scale*(2/3), $result['positive']);
+        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+    }
+
+    /**
+     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
+     * и правильное количество минут - 90 мин
+     */
+    public function test_3311_case7()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
+        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
+        $D2_activityAction_id = $simulation->game_type->getActivityAction([
+            'document_id' => $D2_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
+            'activity_id' => $D2_activity->id,
+        ])->getPrimaryKey();
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     => $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // лог {
+        // 2 лога - чтобы проверить что их длительность просуммируется
+        for ($i = 0; $i < 3; $i++) {
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Inbox_leg';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $MY1_activityAction_id;
+            $log->duration = '00:30:00';
+            $log->save();
+
+            $log = new LogActivityActionAgregated();
+            $log->sim_id = $simulation->id;
+            $log->leg_type = 'Window';
+            $log->leg_action = 'MY1';
+            $log->activity_action_id = $D2_activityAction_id;
+            $log->duration = '00:10:00';
+            $log->save();
+        }
+        // лог }
+
+        $this->setEmailFor3311Tests($simulation);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3311();
+
+        $this->assertEquals($result['obj']->scale*(1/3), $result['positive']);
+        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
     }
 }
 

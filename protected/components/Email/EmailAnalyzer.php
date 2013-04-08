@@ -542,30 +542,31 @@ class EmailAnalyzer
     {
         $behave_3311 = $this->simulation->game_type->getHeroBehaviour(['code' => '3311']);
 
-        $countInboxRead =MailBox::model()->countByAttributes([
+        $countInboxRead = MailBox::model()->countByAttributes([
             'sim_id'   => $this->simulation->id,
             'group_id' => MailBox::FOLDER_INBOX_ID,
             'readed'   => 1,
         ]);
 
-        $countTrashRead =MailBox::model()->countByAttributes([
+        $countTrashRead = MailBox::model()->countByAttributes([
             'sim_id'   => $this->simulation->id,
             'group_id' => MailBox::FOLDER_TRASH_ID,
             'readed'   => 1,
         ]);
 
-        $countOutboxRead =MailBox::model()->countByAttributes([
+        $countOutboxRead = MailBox::model()->countByAttributes([
             'sim_id'   => $this->simulation->id,
             'group_id' => MailBox::FOLDER_OUTBOX_ID,
         ]);
 
         // проверяем, вдруг пользователь не пользуется почтой?
-//        if (($countInboxRead + $countTrashRead < 6) || ($countOutboxRead < 10)) {
-//            return array(
-//                $behave_3311->getTypeScaleSlug() => 0,
-//                'obj'                            => $behave_3311,
-//            );
-//        }
+        if (($countInboxRead + $countTrashRead < 6) || ($countOutboxRead < 10)) {
+            return array(
+                $behave_3311->getTypeScaleSlug() => 0,
+                'obj'                            => $behave_3311,
+                'case'                           => 1, // 'case' - option for test reasons only
+            );
+        }
 
         $workWithMailTotalDuration = 0; // seconds
         $mailSessionsTotalAmount = 0;
@@ -594,6 +595,7 @@ class EmailAnalyzer
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
+                'case'                           => 2, // 'case' - option for test reasons only
             );
         }
 
@@ -602,6 +604,7 @@ class EmailAnalyzer
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
+                'case'                           => 3, // 'case' - option for test reasons only
             );
         }
 
@@ -610,6 +613,7 @@ class EmailAnalyzer
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
+                'case'                           => 4, // 'case' - option for test reasons only
             );
         }
 
@@ -632,12 +636,15 @@ class EmailAnalyzer
             return array(
                 $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
+                'case'                           => 5, // 'case' - option for test reasons only
             );
         }
 
+        // сюда программа дойти не должна - но пусть хоть 0 вернёт, на всякий случай
         return array(
             $behave_3311->getTypeScaleSlug() => 0,
             'obj'                            => $behave_3311,
+            'case'                           => 0, // 'case' - option for test reasons only
         );
     }
 
