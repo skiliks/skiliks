@@ -1,3 +1,15 @@
+#simulation-details-pop-up h1, #simulation-details-pop-up h2 {
+    color: #3d4041;
+}
+#simulation-details-pop-up .ui-widget-content {
+   padding: 0px;
+}
+#simulation-details-tabs {
+    border:none;
+}
+#simulation-details {
+    background-image: none;
+}
 #simulation-details li {
     background: #7eb2b9;
     border:none;
