@@ -1094,7 +1094,7 @@ html[lang=ru] .product section table th{
 	font:0.834em "ProximaNova-Bold";
 	color:#555545;
 	line-height:1;
-	width:95px;
+	width:120px;
 	vertical-align:middle;
     word-wrap: break-word;
 }
@@ -1110,14 +1110,14 @@ html[lang=ru] .product section table th{
 	font:0.834em 'ProximaNova-Regular';
 	line-height:1;
 	color:#146672;
-	width:125px;
+	width:111px;
 	height:12px;
 	padding:7px 9px;
 	outline:none;
 	vertical-align:top;
 }
 .registration .form .row .sbHolder{
-	width:292px;
+	width:265px;
 }
 .registration .form .row.wide{
 /*	margin-bottom:16px; */
@@ -1126,7 +1126,7 @@ html[lang=ru] .product section table th{
 	line-height:1;
 }
 .registration .form .row.wide input[type=text]{
-	width:274px;
+	width:247px;
 }
 .registration .form .row input[type=submit]{
 	display:block;
@@ -1141,7 +1141,7 @@ html[lang=ru] .product section table th{
 	color:#fff;
 	text-align:left;
 	text-indent:35px;
-	margin-left:100px;
+	margin-left:123px;
 }
 .registration .form .row .errorMessage{
 	background: #e36969;
