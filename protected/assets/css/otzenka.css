@@ -31,7 +31,7 @@
     color: #fff;
 }
 #simulation-details-tab li.ui-tabs-selected, #simulation-details-tab li.ui-state-active {
-    background: #4d8d96;
+    background: #4d8d96 !important;
     outline: none;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
