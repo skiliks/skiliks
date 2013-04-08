@@ -44,4 +44,22 @@ class LearningAreaAnalizerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('2.18', $assessment->value);
     }
 
+    public function testAdoptionOfDecisionsBad() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $learn = new LearningAreaAnalizer($simulation);
+        $learn->adoptionOfDecisions();
+
+        $code = $simulation->game_type->getLearningArea(['code'=>13]);
+        $assessment = SimulationLearningArea::model()->findByAttributes(['sim_id' => $simulation->id, 'learning_area_id' => $code->id]);
+        /* @var $assessment SimulationLearningArea */
+        $this->assertEquals('0.00', $assessment->value);
+    }
+
 }
