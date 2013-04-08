@@ -135,7 +135,7 @@ return array(
     'We send corporate-email-address verification email to you.<br/> Please, confirm your corporate email by link in this letter.' => 'Вам на почту пришло письмо со ссылкой для подтверждения корпоративного емейла.<br/> Пожалуйста подтвердите свой корпоративный емейл перейдя по ссылке из письма.',
     'Linear manager' => 'Менеджер',
     'Analytics department manager' => 'Начальник отдела аналитики',
-    'Full name' => 'Ф.И.О.',
+    'Full name' => 'Имя',
     'Dashboard' => 'Личный кабинет',
     'Corporate dashboard' => 'Рабочий кабинет',
     'My profile' => 'Мой профиль',
