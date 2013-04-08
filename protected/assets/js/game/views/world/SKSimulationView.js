@@ -36,7 +36,7 @@ define([
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
-                'click .pause-control, .paused-screen .resume': 'doTogglePause'
+                'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause'
             },
             'window_views':    {
                 'plan/plan':               SKDayPlanView,
@@ -63,11 +63,13 @@ define([
                 var me = this;
                 var simulation = this.simulation = SKApp.simulation;
                 this.listenTo(simulation, 'tick', this.updateTime);
+                this.listenTo(simulation, 'end', this.endWorkday);
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
                 this.listenTo(simulation, 'start', this.startExitProtection);
                 this.listenTo(simulation, 'before-stop', this.stopExitProtection);
+                this.listenTo(simulation, 'before-stop', this.stopSimulation);
 
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {
@@ -182,6 +184,55 @@ define([
             /**
              * @method
              */
+            endWorkday: function() {
+                var me = this;
+
+                me.simulation.startPause();
+                me._showPausedScreen();
+
+                new SKDialogView({
+                    message: 'Рабочий день закончен',
+                    buttons: [
+                        {
+                            value: 'Завершить работу',
+                            onclick: function() {
+                                me._hidePausedScreen();
+                                me.simulation.stop();
+                            }
+                        },
+                        {
+                            value: 'Продолжить работу',
+                            onclick: function() {
+                                me._hidePausedScreen();
+                                me.$('.canvas .finish').removeClass('hidden');
+
+                                SKApp.simulation.stopPause();
+                            }
+                        }
+                    ]
+                });
+            },
+
+            stopSimulation: function() {
+                var me = this;
+
+                me._showPausedScreen();
+                new SKDialogView({
+                    message: 'Спасибо, симуляция завершена',
+                    buttons: [
+                        {
+                            value: 'Перейти к результатам',
+                            onclick: function() {
+                                me.simulation.stop();
+                            }
+                        }
+                    ]
+                });
+            },
+
+            /**
+             * @method
+             */
             'doSimulationStop':  function () {
                 SKApp.simulation.stop();
             },
@@ -205,13 +256,12 @@ define([
                 var me = this,
                     paused = me.$('.time').hasClass('paused');
 
-                me.$('.time').toggleClass('paused');
-                me.$('.canvas .paused-screen').toggleClass('hidden');
                 if (paused) {
+                    me._hidePausedScreen();
                     me.pausedDialog.remove();
-                    delete me.pausedDialog;
                     SKApp.simulation.stopPause();
                 } else {
+                    me._showPausedScreen(true);
                     me.pausedDialog = new SKDialogView({
                         modal: false,
                         message: 'Симуляция остановлена',
@@ -219,13 +269,14 @@ define([
                             {
                                 value: 'Вернуться к симуляции',
                                 onclick: function() {
-                                    me.doTogglePause();
+                                    me._hidePausedScreen();
+                                    me.simulation.stopPause();
                                 }
                             },
                             {
                                 value: 'Перейти к результатам',
                                 onclick: function() {
-                                    me.$('.canvas .paused-screen').toggleClass('hidden');
+                                    me._hidePausedScreen();
                                     me.simulation.stop();
                                 }
                             }
@@ -234,13 +285,30 @@ define([
 
                     SKApp.simulation.startPause();
                 }
+
+                return false;
             },
+
             doStartInputLock: function () {
                 this.locking_element = this.make('div',{'class': 'display-lock'});
                 this.$el.append(this.locking_element);
             },
             doStopInputLock: function () {
                 $(this.locking_element).remove();
+            },
+
+            _showPausedScreen: function(showTopIcons) {
+                this.$('.time').addClass('paused');
+                this.$('.canvas .paused-screen')
+                    .removeClass('hidden')
+                    .find('.top-icons')
+                    .toggleClass('hidden', !showTopIcons);
+            },
+
+            _hidePausedScreen: function() {
+                this.$('.time').removeClass('paused');
+                this.$('.canvas .paused-screen')
+                    .addClass('hidden');
             }
         });
 

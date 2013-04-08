@@ -10,6 +10,7 @@
  * @property string $slug
  * @property string $start_time
  * @property string $end_time
+ * @property string $finish_time
  *
  * The followings are the available model relations:
  * @property Activity[] $activities
@@ -76,7 +77,7 @@ class Scenario extends CActiveRecord
 			array('name, filename, slug', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, filename, slug, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, name, filename, slug, start_time, end_time, finish_time', 'safe', 'on'=>'search'),
 		);
 	}
 

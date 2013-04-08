@@ -85,8 +85,12 @@ define([
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('end'))) {
-                        me.stop();
+                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
+                        me.trigger('before-stop');
+                    }
+
+                    if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
+                        me.trigger('end');
                     }
 
                     // 11-00
@@ -363,7 +367,6 @@ define([
                         SKApp.simulation.set('result-url', '/results');
                     }
 
-                    me.trigger('before-stop');
                     me.trigger('stop');
                 });
             },
