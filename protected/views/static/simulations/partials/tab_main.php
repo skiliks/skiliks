@@ -14,11 +14,17 @@
         margin: 20px 0;
     }
 </style>
+<div class="estmtresults">
+    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></div>
+    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></div>
+    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></div>
+    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></div>
+</div><!-- /estmtresults -->
 <div class="estmtileswrap">
-<div><h2>Managerial Skills</h2><div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></div></div>
-<div><h2>Productivity</h2><div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></div></div>
-<div><h2>Time Management Effectiveness</h2><div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></div></div>
-<div><h2>Overall Manager's Rating</h2><div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></div></div>
+<h2>Managerial Skills</h2>
+<h2>Productivity</h2>
+<h2>Time Management Effectiveness</h2>
+<h2>Overall Manager's Rating</h2>
 </div><!-- /estmtileswrap -->
 <div class="gauge-charts">
 

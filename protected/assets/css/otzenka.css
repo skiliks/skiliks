@@ -1,5 +1,6 @@
-#simulation-details-pop-up {
-    /*box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);*/
+.simulation-result-popup {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    width: 970px !important;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 10px;
@@ -56,14 +57,21 @@
 .ratepercnt {
     background: #bedadc;
     color:#146672;
+    display: inline-block;
     font: 18px "ProximaNova-Regular";
-    -webkit-border-radius: 60px;
-    -moz-border-radius: 60px;
-    border-radius: 60px;
+    -webkit-border-radius: 140px;
+    -moz-border-radius: 140px;
+    border-radius: 140px;
     height: 30px;
     line-height: 30px;
     padding: 0px 10px;
     text-align: center;
+}
+.estmtileswrap h2 {
+    color:#3d4041;
+    display: inline-block;
+    font-size: 28px;
+    width:230px;
 }
 .bar-charts, .bullet-charts {
     display: none !important;
