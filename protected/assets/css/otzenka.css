@@ -30,7 +30,7 @@
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
-#simulation-details-tabs #simulation-details-tab .ui-tabs-selected, #simulation-details-tab li.ui-state-active {
+#simulation-details-tabs .ui-tabs-selected {
     background: #4d8d96 !important;
     outline: none;
 }
