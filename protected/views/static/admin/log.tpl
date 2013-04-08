@@ -81,14 +81,16 @@
                         </tr>
                     {/foreach}
                 </table>
+                <hr/>
             {/foreach}
 
-            <a class="btn btn-primary selenium-tests-additional-tables-switcher"><i class="icon icon-list icon-white"></i> Дополнительные таблицы для Selenium тестов (показать/скрыть)</a>
+            <hr/>
 
-            <br>
-            <br>
+            <h3>Дополнительные таблицы для Selenium тестов:</h3>
 
-            <div class="selenium-tests-additional-tables" style="display: none;">
+            <hr/>
+
+            <div class="selenium-tests-additional-tables">
                 <h1 id="simulation-points">Simulation points</h1>
 
                 <table class="table table-striped mail-log">
@@ -105,6 +107,8 @@
                         </tr>
                     {/foreach}
                 </table>
+
+                <hr/>
 
                 <h1 id="simulation-matrix-points">Assesments from dialod & mail matrix</h1>
 
@@ -128,10 +132,6 @@
     </div>
 
     <script type="text/javascript">
-        $(".selenium-tests-additional-tables-switcher").click(function() {
-            $(".selenium-tests-additional-tables").toggle();
-        });
-
         $('.sidebar').affix();
         $('body').scrollspy();
 
