@@ -90,6 +90,8 @@ class LearningAreaAnalizer {
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
+        }else{
+            $value = $value->value;
         }
 
         $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
@@ -124,11 +126,15 @@ class LearningAreaAnalizer {
         $value_8212 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8212->id]);
         if(null === $value_8212){
             $value_8212 = 0;
+        }else{
+            $value_8212 = $value_8212->value;
         }
 
         $value_8213 = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point_8213->id]);
         if(null === $value_8213){
             $value_8213 = 0;
+        }else{
+            $value_8213 = $value_8213->value;
         }
 
         $value = $value_8212 + $value_8213;
@@ -161,6 +167,8 @@ class LearningAreaAnalizer {
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
+        }else{
+            $value = $value->value;
         }
 
         $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
@@ -192,6 +200,8 @@ class LearningAreaAnalizer {
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
+        }else{
+            $value = $value->value;
         }
 
         $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
@@ -223,6 +233,8 @@ class LearningAreaAnalizer {
         $value = AssessmentAggregated::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$point->id]);
         if(null === $value){
             $value = 0;
+        }else{
+            $value = $value->value;
         }
 
         $max_rate = $game_type->getMaxRate(['hero_behaviour_id' => $point->id]);
