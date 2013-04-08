@@ -70,17 +70,8 @@ class SimulationServiceTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_LITE;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        DayPlanService::copyPlanToLog($simulation, 660);
         SimulationService::simulationStop($simulation);
-        $awaiting = 2; //sec
-
-        $before = $simulation->getGameTime();
-        SimulationService::pause($simulation);
-        sleep($awaiting);
-        SimulationService::resume($simulation);
-        $after = $simulation->getGameTime();
-
-        $this->assertEquals($before, $after);
-        $this->assertEquals($awaiting, $simulation->skipped);
     }
 
     /**

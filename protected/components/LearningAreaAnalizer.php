@@ -24,6 +24,9 @@ class LearningAreaAnalizer {
         $simulation = $this->simulation;
         $game_type = $simulation->game_type;
         $point = $game_type->getHeroBehaviour(['code' => 7141]);
+        if (null === $point) {
+            return;
+        }
 
         //$point = HeroBehaviour::model()->findByAttributes(['code'=>7141]);
 
