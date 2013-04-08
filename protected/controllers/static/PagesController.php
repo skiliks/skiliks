@@ -99,7 +99,10 @@ class PagesController extends AjaxController
 
         // is Personal account
         if ($user->isPersonal()) {
-            Yii::app()->user->setFlash('error', "Тарифные планы доступны только для корпоративных пользователей.");
+            Yii::app()->user->setFlash('error',
+                "Тарифные планы доступны только для корпоративных пользователей.<br/><br/>  ".
+                "Вам нужно войти или <a href='/logout/registration'>зарегистрироваться</a> как корпоративный пользователь."
+            );
             $this->redirect('/static/tariffs');
         }
 
