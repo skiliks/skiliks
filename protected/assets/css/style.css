@@ -2539,7 +2539,7 @@ ul.profile-menu li {
     border:1px solid red;
     position: relative;
     width: 305px;
-    height: 140px; /*  135px */
+    height: 150px; /*  135px */
     background: url(../img/charts/speedometr.png) no-repeat center bottom;
 }
 .chart-gauge:after {
@@ -2562,16 +2562,15 @@ ul.profile-menu li {
     left: 57px;
     background: url(../img/charts/pointer.png) no-repeat;
 
-    -webkit-transform-origin: 98px 8px; /* 98px 11px; */
-    -moz-transform-origin: 98px 8px;
-    -ms-transform-origin: 98px 8px;
-    transform-origin: 98px 8px;
+    -webkit-transform-origin: 98px 6px; /* 98px 11px; */
+    -moz-transform-origin: 98px 6px;
+    -ms-transform-origin: 98px 6px;
+    transform-origin: 98px 6px;
 }
 .chart-gauge .chart-value {
     color:#3d4041;
     position: absolute;
     font:18px "ProximaNova-Regular";
-    font-size: 14px;
     left: 10px;
     bottom: 12px;
 }
