@@ -15,10 +15,7 @@
     }
 </style>
 <div class="estmtresults">
-    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></div>
-    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></div>
-    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></div>
-    <div class="ratepercnt"><?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></div>
+    <div class="ratepercnt overall">Overall: <span class="value"></span></div>
 </div><!-- /estmtresults -->
 <div class="estmtileswrap">
 <h2>Managerial Skills</h2>
@@ -30,31 +27,15 @@
 
 </div>
 
-<div class="bar-charts">
-
-</div>
-
-<div class="bullet-charts">
-
-</div>
-
 
 <script type="text/javascript">
     $(function() {
-        new charts.Gauge('.gauge-charts', 75, {class: 'inline'});
-        new charts.Gauge('.gauge-charts', 50, {class: 'inline'});
-        new charts.Gauge('.gauge-charts', 45, {class: 'inline'});
+        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['management']['total']), {class: 'inline'});
+        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['performance']['total']), {class: 'inline'});
+        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['time']['total']), {class: 'inline'});
 
-        new charts.Bar('.bar-charts', 60);
-        new charts.Bar('.bar-charts', 45);
-        new charts.Bar('.bar-charts', 50);
-        new charts.Bar('.bar-charts', 85);
-        new charts.Bar('.bar-charts', 100);
-        new charts.Bar('.bar-charts', 5);
-        new charts.Bar('.bar-charts', 15);
-
-        new charts.Bullet('.bullet-charts', 50, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 70, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 40, {class: 'small'});
+        $('.overall .value').html(assessmentResult['overall']);
     });
+
+
 </script>
