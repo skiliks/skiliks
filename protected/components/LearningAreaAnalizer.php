@@ -282,4 +282,22 @@ class LearningAreaAnalizer {
         $this->saveLearningArea($simulation, 13, (round($weight_8311+$weight_8331+$weight_8341+$weight_8351+$weight_8361, 2)));
     }
 
+    /*
+     * Внимательность
+     */
+    public function attentiveness() {
+        /* @var $simulation Simulation */
+        $simulation = $this->simulation;
+        try{
+            $assessment = $this->calcLearningArea($simulation, 8111);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8111], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
+            return;
+        }
+        $this->saveLearningArea($simulation, 11, $learning_area);
+    }
+
 }
