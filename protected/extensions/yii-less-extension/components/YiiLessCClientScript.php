@@ -28,8 +28,8 @@ class YiiLessCClientScript extends CClientScript
             $this->basePath = Yii::getPathOfAlias('webroot');
         }
 
-        $lessFilePath = $this->resolveFilePath($lessUrl);
-        $cssFilePath = $this->resolveFilePath($cssUrl);
+        $lessFilePath = realpath($this->basePath . DIRECTORY_SEPARATOR . $lessUrl);
+        $cssFilePath = str_replace('/', DIRECTORY_SEPARATOR, $this->basePath . DIRECTORY_SEPARATOR . $cssUrl);
 
         $lessCompiler = new lessc();
 
@@ -52,11 +52,6 @@ class YiiLessCClientScript extends CClientScript
         $lessCompiler = new lessc();
         $css = $lessCompiler->compile($less, $id);
         return parent::registerCss($id, $css, $media);
-    }
-
-    protected function resolveFilePath($url)
-    {
-        return realpath($this->basePath . DIRECTORY_SEPARATOR . $url);
     }
 }
 
