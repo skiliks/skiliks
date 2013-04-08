@@ -24,9 +24,7 @@ class Evaluation {
                 throw new DomainException('Shit happened!');
             }
 
-            /** @var Weight $weight */
-            $weight = Weight::model()->findByAttributes([
-                'scenario_id' => $this->simulation->game_type->id,
+            $weight = $this->simulation->game_type->getWeight([
                 'assessment_category_code' => $rate->assessment_category_code
             ]);
 
@@ -48,8 +46,8 @@ class Evaluation {
     public function checkManagerialSkills()
     {
         $aggregated = AssessmentAggregated::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
-        /* @var $aggregated AssessmentAggregated[] */
         $value = 0;
+
         /* @var $row AssessmentAggregated */
         foreach ($aggregated as $row) {
             if($row->point->isPositive()){
@@ -75,9 +73,7 @@ class Evaluation {
         ]);
 
         foreach ($aggregation as $aggregationCategory) {
-            /** @var Weight $weight */
-            $weight = Weight::model()->findByAttributes([
-                'scenario_id' => $this->simulation->game_type->id,
+            $weight = $this->simulation->game_type->getWeight([
                 'performance_rule_category_id' => $aggregationCategory->category_id
             ]);
 
