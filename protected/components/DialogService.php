@@ -64,7 +64,7 @@ class DialogService
         ############################################################
 
         // Calculate character behavior points
-        $replicaPoints = ReplicaPoint::model()->byDialog($dialogId)->findAll();
+        $replicaPoints = $simulation->game_type->getReplicaPoints(['dialog_id' => $dialogId]);
         /** @var ReplicaPoint[] $replicaPoints */
         foreach ($replicaPoints as $point) {
             LogHelper::setDialogPoint($dialogId, $simId, $point);
