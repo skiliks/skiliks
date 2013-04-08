@@ -363,7 +363,7 @@ a:focus, a:active {
 	right:0;
 }
 #simulation-details{
-   float: right;
+   /*float: right;*/
 }
 .container>header nav#account-links{
     position:absolute;
