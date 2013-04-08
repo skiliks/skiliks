@@ -28,7 +28,7 @@ class LogActivityActionTest extends CDbTestCase
         unset($json);
         $json = EventsManager::getState($simulation, [
             [1, 1, 'deactivated', 39735, 'window_uid' => 1],
-            [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => $simulation->game_type->getReplica(['excel_id' => 1])->getPrimaryKey(), 'lastDialogId' => 1]]
+            [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => $simulation->game_type->replicas(['excel_id' => 1])->find()->getPrimaryKey(), 'lastDialogId' => 1]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);

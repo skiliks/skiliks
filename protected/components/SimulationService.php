@@ -487,11 +487,9 @@ class SimulationService
     }
 
     /**
-     * @param $simulationMode
-     * @param string $type
      * @param Invite $invite
+     * @param $simulationMode
      * @throws Exception
-     * @internal param $simulationType
      * @return Simulation
      */
     public static function simulationStart($invite, $simulationMode)

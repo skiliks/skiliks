@@ -46,7 +46,7 @@ class ActivityAggregatedTable extends LogTable
         return [
             $row->leg_type,
             $row->leg_action,
-            $row->activityAction->activity_id,
+            $row->activityAction->activity->code,
             $row->activityAction->activity->parent,
             $row->activityAction->activity->grandparent,
             $row->activityAction->activity->category->code,
