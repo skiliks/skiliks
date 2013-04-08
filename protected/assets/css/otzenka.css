@@ -37,8 +37,15 @@
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     padding: 0px;
 }
+.chart-gauge {
+    float: left;
+}
 .gauge-charts:after {
-
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }
 
 .bar-charts, .bullet-charts {
