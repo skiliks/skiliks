@@ -280,8 +280,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
-        $invite->markAsSendToday();
-        $invite->update(['sent_time']);
+        $this->sendInviteEmail($invite);
 
         Yii::app()->user->setFlash('success', sprintf(
             "Приглашение для %s %s отсрочено до %s!",
