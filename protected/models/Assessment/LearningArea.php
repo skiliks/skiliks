@@ -4,6 +4,7 @@
  * This is the model class for table "learning_area".
  *
  * The followings are the available columns in table 'learning_area':
+ * @property integer $id
  * @property string $code
  * @property string $title
  * @property string $import_id
