@@ -1,0 +1,12 @@
+#simulation-details li {
+    background: #7eb2b9;
+    border:none;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font: 1.071em "ProximaNova-Regular";
+    color: #fff;
+}
+#simulation-details .ui-tabs-selected {
+    background: #4d8d96;
+}
