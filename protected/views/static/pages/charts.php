@@ -29,7 +29,12 @@
 
 <script type="text/javascript">
 $(function() {
-    new charts.Gauge('.page', 45, {class: 'inline'});
+    new charts.Gauge('.page', 0, {class: 'inline'});
+    new charts.Gauge('.page', 95, {class: 'inline'});
+    new charts.Gauge('.page', 100, {class: 'inline'});
+    new charts.Gauge('.page', 25, {class: 'inline'});
+    new charts.Gauge('.page', 75, {class: 'inline'});
+    new charts.Gauge('.page', 50, {class: 'inline'});
 
     new charts.Bar('.page', 60, {class: 'bar'});
     new charts.Bar('.page', 5, {class: 'bar'});

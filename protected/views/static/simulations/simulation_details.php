@@ -1,7 +1,12 @@
+<?php /** @var Simulation $simulation */ ?>
 
 <h1><?php echo $simulation->user->profile->firstname ?> <?php echo $simulation->user->profile->lastname ?></h1>
 
 <div id="simulation-details-tabs">
+    <script type="text/javascript">
+        var assessmentResult = <?= json_encode($simulation->getAssessmentDetails()); ?>;
+    </script>
+
     <ul id="simulation-details">
         <li><a href="#tab-main"><?php echo Yii::t('site', 'Main') ?></a></li>
         <li><a href="#tab-productivity"><?php echo Yii::t('site', 'Productivity') ?></a></li>
@@ -11,11 +16,11 @@
     </ul>
 
     <div id="tab-main">
-        <?php $this->renderPartial('partials/tab_main', ['simulation'=>$simulation]) ?>
+        <?php $this->renderPartial('partials/tab_main', ['simulation' => $simulation]) ?>
     </div>
 
     <div id="tab-productivity">
-        <?php $this->renderPartial('partials/tab_productivity', []) ?>
+        <?php $this->renderPartial('partials/tab_productivity', ['simulation' => $simulation]) ?>
     </div>
 
     <div id="tab-time-management">

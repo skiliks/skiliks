@@ -451,6 +451,39 @@ class Simulation extends CActiveRecord
 
         return null;
     }
+
+    public function getAssessmentDetails()
+    {
+        $result = [];
+
+        // Overall results
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
+                $result[AssessmentCategory::OVERALL] = $rate->value;
+            } else {
+                $result[$rate->assessment_category_code] = ['total' => $rate->value];
+            }
+        }
+
+        // Management
+        // TODO
+        $result[AssessmentCategory::MANAGEMENT_SKILLS];
+
+        // Productivity
+        foreach ($this->performance_aggregated as $row) {
+            $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
+        }
+
+        // Time management
+        // TODO
+        $result[AssessmentCategory::TIME_EFFECTIVENESS];
+
+        // Personal
+        // TODO
+        $result['personal'] = [];
+
+        return $result;
+    }
 }
 
 

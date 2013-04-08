@@ -90,8 +90,8 @@
             var me = this,
                 deg = value / 100 * 180,
                 rad = deg * Math.PI / 180,
-                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.27 + 5,
-                bottom = Math.sin(rad) * me.pointerLength + 10;
+                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.16 ,
+                bottom = Math.sin(rad) * me.pointerLength * 1.08;
 
             me.value = value;
             me.el.value.text('');
