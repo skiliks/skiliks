@@ -12,6 +12,7 @@ var spec = describe('simulation', function (run) {
                     "skiliksSpeedFactor":8,
                     "start":"9:00",
                     "end":"18:00",
+                    "finish":"20:00",
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
@@ -50,9 +51,9 @@ var spec = describe('simulation', function (run) {
             it("stops at 18:00", function () {
                 var stop_spy = sinon.spy();
                 SKApp.simulation.start();
-                SKApp.simulation.on('stop', stop_spy);
+                SKApp.simulation.on('end', stop_spy);
                 server.respond();
-                timers.tick(9 * 60 * 60 * 1000/8);
+                timers.tick(11 * 60 * 60 * 1000/8);
                 server.respond();
                 assert.calledOnce(stop_spy);
 

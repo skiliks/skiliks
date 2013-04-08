@@ -87,14 +87,15 @@ define([
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
                         me.trigger('before-stop');
+                        me.stop();
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
+                        me.trigger('before-end');
                         me.trigger('end');
                     }
 
-                    // 11-00
-                    if (660 === me.getGameMinutes()) {
-                        me.trigger('time:11-00');
-                    }
+                    var hours = parseInt(me.getGameMinutes() / 60, 10);
+                    var minutes = parseInt(me.getGameMinutes() % 60, 10);
+                    me.trigger('time:' + hours + '-' + minutes);
                 });
                 this.dayplan_tasks = new SKDayTaskCollection();
                 /* Please, move it to safe place */
@@ -362,9 +363,10 @@ define([
                      * @event stop
                      */
                     if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/results');
+                        SKApp.simulation.set('result-url', '/dashboard');
                     }
 
+                    me.trigger('before-stop');
                     me.trigger('stop');
                 });
             },

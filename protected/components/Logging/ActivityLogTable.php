@@ -36,7 +36,7 @@ class ActivityLogTable extends LogTable
             $logActivityAction->end_time,
             $logActivityAction->activityAction->leg_type,
             $action ? $action->getCode() : '',
-            $logActivityAction->activityAction->activity->primaryKey,
+            $logActivityAction->activityAction->activity->code,
             $logActivityAction->activityAction->activity->category->code
         ];
     }

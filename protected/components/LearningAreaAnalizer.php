@@ -18,6 +18,7 @@ class LearningAreaAnalizer {
         $this->resultOrientation();
         $this->constructibility();
         $this->flexibility();
+        $this->attentiveness();
     }
 
     public function calcLearningArea($simulation,  $code) {
@@ -61,7 +62,7 @@ class LearningAreaAnalizer {
 
         $max_rate = $game_type->getMaxRate($rate);
 
-        return round(($assessment / $max_rate->rate) * 100, 2);
+        return ($assessment / $max_rate->rate) * 100;
     }
 
     public function calcWeight($simulation, $code, $value) {
@@ -78,7 +79,7 @@ class LearningAreaAnalizer {
             throw new HeroBehaviourIsNullException(" Not Found {$code} ");
         }
 
-        return round($weight->value*$value, 2);
+        return $weight->value*$value;
 
     }
 
@@ -279,7 +280,25 @@ class LearningAreaAnalizer {
         }catch (LearningGoalIsNullException $e){
             return;
         }
-        $this->saveLearningArea($simulation, 13, ($weight_8311+$weight_8331+$weight_8341+$weight_8351+$weight_8361));
+        $this->saveLearningArea($simulation, 13, (round($weight_8311+$weight_8331+$weight_8341+$weight_8351+$weight_8361, 2)));
+    }
+
+    /*
+     * Внимательность
+     */
+    public function attentiveness() {
+        /* @var $simulation Simulation */
+        $simulation = $this->simulation;
+        try{
+            $assessment = $this->calcLearningArea($simulation, 8111);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code' => 8111], $assessment);
+
+        }catch (HeroBehaviourIsNullException $e){
+            return;
+        }catch (LearningGoalIsNullException $e){
+            return;
+        }
+        $this->saveLearningArea($simulation, 11, $learning_area);
     }
 
 }

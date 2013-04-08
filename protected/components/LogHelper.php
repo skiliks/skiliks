@@ -582,7 +582,7 @@ class LogHelper
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
                 if (0 == count($windows)) {
-                    throw(new CException('No active windows. Achtung!' . $simId));
+                    throw(new CException('Can not close window: ' . print_r($log, true)));
                 }
                 if (1 < count($windows)) {
                     throw(new CException('Two or more active windows at one time. Achtung!'));
