@@ -2275,8 +2275,8 @@ ul.profile-menu li {
     overflow: hidden;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 80px;
-    width:80px;
+    max-width: 100px;
+    width:100px;
     text-overflow:clip;
     overflow: hidden;
 }
