@@ -61,7 +61,7 @@
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 3px #23BFD5;
     outline:none;
 }
-.action-controller-login-auth #usercontent .form .row.reme  mberMe {
+.action-controller-login-auth #usercontent .form .row.rememberMe {
     float:left;
     width:257px;
     margin:0 0 0 10%;
@@ -119,17 +119,17 @@
     right: -8px;
     width: 27px;
     height: 27px;
-    background: url("../img/closepopup.png") no-repeat 0% 100%;
+    background: url("../img/closepopup.png") no-repeat 0 100%;
 }
 #invite-decline-form .close:hover {
-    background-position: 0% 0%;
+    background-position: 0 0;
 }
 #invite-decline-form #form-decline-explanation{
     padding:30px 40px;
 }
 #invite-decline-form #form-decline-explanation h2 {
     font: 30px "ProximaNova-Regular";
-    color:#003366;
+    /*color:#003366;*/
     color:#245057;
     margin-bottom:20px;
 }
@@ -147,7 +147,7 @@
     line-height:24px;
 }
 #invite-decline-form #form-decline-explanation textarea {
-    border:1px solid 336666;
+    border:1px solid #336666;
     height:100px;
     width:505px;
     margin-bottom:20px;
