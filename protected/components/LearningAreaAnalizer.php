@@ -238,4 +238,30 @@ class LearningAreaAnalizer {
 
     }
 
+    /*
+     * Принятие решений
+     */
+    public function decisionmaking(){
+
+        /* @var $simulation Simulation */
+        /* @var $game_type Scenario */
+        $simulation = $this->simulation;
+        $game_type = $simulation->game_type;
+        $point_8311 = $game_type->getHeroBehaviour(['code' => 8311]);
+        $point_8331 = $game_type->getHeroBehaviour(['code' => 8331]);
+        $point_8341 = $game_type->getHeroBehaviour(['code' => 8341]);
+        $point_8351 = $game_type->getHeroBehaviour(['code' => 8351]);
+        $point_8361 = $game_type->getHeroBehaviour(['code' => 8361]);
+
+        if(null === $point_8311 OR
+            null === $point_8331 OR
+            null === $point_8341 OR
+            null === $point_8351 OR
+            null === $point_8361){
+            return;
+        }
+
+
+    }
+
 }
