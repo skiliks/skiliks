@@ -5,6 +5,7 @@
     padding-top: 25px;
 }
 #simulation-details-pop-up .ui-widget-content {
+   border:none;
    padding: 0px;
 }
 #simulation-details-tabs {
@@ -29,7 +30,7 @@
     font: 1.071em "ProximaNova-Regular";
     color: #fff;
 }
-#simulation-details-tab .ui-tabs-selected, #simulation-details-tab .ui-state-active {
+#simulation-details-tab li.ui-tabs-selected, #simulation-details-tab li.ui-state-active {
     background: #4d8d96;
     outline: none;
 }
