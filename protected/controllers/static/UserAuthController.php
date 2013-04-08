@@ -129,7 +129,11 @@ class UserAuthController extends YumController
         }
 
         $this->user = new YumUser('registration');
+
         $profile = new YumProfile('registration');
+        $profile->firstname = $invite->firstname;
+        $profile->lastname = $invite->lastname;
+
         $account = new UserAccountPersonal();
         $error = null;
 
@@ -177,6 +181,8 @@ class UserAuthController extends YumController
                     $invites = Invite::model()->findAllByAttributes(['email' => $this->user->profile->email]);
                     foreach ($invites as $invite) {
                         $invite->receiver_id = $this->user->id;
+                        $invite->firstname = $profile->firstname;
+                        $invite->lastname = $profile->lastname;
                         $invite->update(false, ['receiver_id']);
                     }
 
