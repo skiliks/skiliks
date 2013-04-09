@@ -499,8 +499,6 @@ class EmailAnalyzer
                 $userWrongEmails++;
             }
 
-            // echo "\n {$emailData->email->code} {$emailData->email->subject_obj->wr}";
-
             $userTotalEmails++;
         }
 
@@ -579,27 +577,34 @@ class EmailAnalyzer
         $mailSessionsIsOpen = false;
         $currentSessionLegAction = false;
 
+        $notMailLegType = [
+            ActivityAction::LEG_TYPE_DOCUMENTS,
+            ActivityAction::LEG_TYPE_MANUAL_DIAL,
+            ActivityAction::LEG_TYPE_SYSTEM_DIAL,
+        ];
+
         // обработка LogActivityActionAggregated
         foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
-            if ($logItem->isMail() || ActivityAction::LEG_TYPE_WINDOW == $logItem->leg_type) {
-                $workWithMailTotalDuration += $logItem->getDurationInSeconds();
-
+                if ($logItem->isMail()) {
+                    $workWithMailTotalDuration += $logItem->getDurationInSeconds();
+                }
                 // check sessions from 11:00
                 list($hours) = explode(':', $logItem->start_time);
                 if ($hours < 11) {
                     continue;
                 }
 
-                if (false === in_array($logItem->activityAction->activity->category_id, [0,1,2])) {
-                    $mailSessionsTotalAmount++;
+                if (false == $mailSessionsIsOpen &&
+                    $logItem->isMail() &&
+                    false === in_array($logItem->activityAction->activity->category_id, [0,1,2])) {
                     $mailSessionsIsOpen = true;
-                    $currentSessionLegAction = $logItem->leg_type;
+                    $mailSessionsTotalAmount++;
                 }
 
-                if (true === $mailSessionsIsOpen && $currentSessionLegAction != $logItem->leg_type) {
+                if (true === $mailSessionsIsOpen &&
+                    in_array($logItem->leg_type, $notMailLegType)) {
                     $mailSessionsIsOpen = false;
                 }
-            }
         }
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
