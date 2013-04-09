@@ -665,6 +665,116 @@ class EmailAnalyzer
         );
     }
 
+    public function check_3332()
+    {
+        $behave_3332 = $this->simulation->game_type->getHeroBehaviour(['code' => '3332']);
+
+        if (null === $behave_3332) {
+            return null;
+        }
+
+        $totalRightMsWithCopies = 0;
+
+        $rightMss = MailTemplate::model()
+            ->with('subject_obj')
+            ->findAll(sprintf(
+                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
+                '%',
+                $this->simulation->scenario_id
+            ));
+
+        foreach ($rightMss as $rightMs) {
+            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMs->id))) {
+                $totalRightMsWithCopies++;
+            }
+        }
+
+        $usedMsCodes = [];
+        $values = [];
+
+        foreach ($this->userOutboxEmails as $outboxEmailData) {
+            $email = $outboxEmailData->email;
+
+            if ($email->isRight() && $email->isMS()) {
+
+                // 1. get sorted TemplateCopy ids {
+                $emailTemplateCopyCharacterIds = [];
+
+                $copies = MailTemplateCopy::model()
+                    ->findAllByAttributes(['mail_id' => $email->template->id]);
+                foreach ($copies as $emailCopyCharacter) {
+                    $emailTemplateCopyCharacterIds[] = $emailCopyCharacter->receiver_id;
+                }
+
+                sort($emailTemplateCopyCharacterIds);
+                // 1. get sorted TemplateCopy ids }
+
+                // 2. get sorted Copy ids {
+                $emailCopyCharacterIds = [];
+
+                $copies = MailCopy::model()
+                    ->findAllByAttributes(['mail_id' => $email->id]);
+                foreach ($copies as $emailCopyCharacter) {
+                    $emailCopyCharacterIds[] = $emailCopyCharacter->receiver_id;
+                }
+
+                sort($emailCopyCharacterIds);
+                // 2. get sorted Copy ids }
+
+                if (0 == count ($emailTemplateCopyCharacterIds)) {
+                    if (0 == count ($emailCopyCharacterIds)) {
+                        $values[] = [
+                            'code'  => $email->coincidence_mail_code,
+                            'value' => 0,
+                        ];
+                    } else {
+                        $values[] = [
+                            'code'  => $email->coincidence_mail_code,
+                            'value' => 0,
+                        ];
+                    }
+                } else {
+                    if ($emailTemplateCopyCharacterIds == $emailCopyCharacterIds) {
+                        if (true == in_array($email->coincidence_mail_code, $usedMsCodes)) {
+                            $values[] = [
+                                'code'  => $email->coincidence_mail_code,
+                                'value' => -1,
+                            ];
+                        } else {
+                            $values[] = [
+                                'code'  => $email->coincidence_mail_code,
+                                'value' => 1,
+                            ];
+                        }
+                    } else {
+                        $values[] = [
+                            'code'  => $email->coincidence_mail_code,
+                            'value' => -1,
+                        ];
+                    }
+                }
+
+                $usedMsCodes[] = $email->coincidence_mail_code;
+            }
+        }
+
+        $totalValue = 0;
+        foreach ($values as $value) {
+            $totalValue += $value['value'];
+        }
+
+        if ($totalValue < 0) {
+            $totalValue = 0;
+        }
+
+        $totalValue = $totalValue/$totalRightMsWithCopies;
+
+        return array(
+            $behave_3332->getTypeScaleSlug() => $totalValue*$behave_3332->scale,
+            'obj'                            => $behave_3332,
+        );
+    }
+
     /**
      * Codes of point codes that must be calculated in specific way
      * @return array

@@ -7,6 +7,7 @@
  * @property MailTemplate letter
  * @property string constructor_number
  * @property string import_id
+ * @property string wr
  * @property Scenario game_type
  * @property mixed|null mail_prefix
  * @property string theme_usage, used to filter MSY themes from new mail themes list
@@ -20,6 +21,9 @@ class CommunicationTheme extends CActiveRecord
     const USAGE_OUTBOX_OLD = 'mail_outbox_old';
 
     const USAGE_INBOX = 'mail_inbox';
+
+    const SLUG_RIGHT = 'R';
+    const SLUG_WRONG = 'W';
 
      /**
      * @var integer
