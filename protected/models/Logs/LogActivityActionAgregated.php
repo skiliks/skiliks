@@ -53,7 +53,7 @@ class LogActivityActionAgregated extends CActiveRecord
      */
     public function isMail()
     {
-        return (in_array($this->leg_type, ['Inbox_leg', 'Outbox_leg', '']));
+        return (in_array($this->leg_type, ['Inbox_leg', 'Outbox_leg']));
     }
 
     /**
