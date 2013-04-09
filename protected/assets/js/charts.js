@@ -36,8 +36,8 @@
             var me = this,
                 deg = value / 100 * 180,
                 rad = deg * Math.PI / 180,
-                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.16,
-                bottom = Math.sin(rad) * me.pointerLength * 1.08;
+                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.03 - 4,
+                bottom = Math.sin(rad) * me.pointerLength * 0.95 + 1;
 
             me.value = value;
             me.el.value.text('');
@@ -157,10 +157,11 @@
         setValue: function(value) {
             var me = this,
                 width = me.el.chart.width(),
-                left = value / 100 * width - 17;
+                left = value / 100 * width + 20 * -Math.sin(value / 100 * Math.PI / 2) - 5;
 
             me.value = value;
 
+            me.el.value.hide();
             me.el.bullet.animate({left: left + 'px'}, {
                 easing: 'easeOutQuint',
                 duration: me.options.duration || 2000
@@ -169,9 +170,7 @@
                 easing: 'easeOutQuint',
                 duration: me.options.duration || 2000,
                 complete: function() {
-                    if (me.options.displayValue) {
-                        me.el.value.css('left', left + 'px').text(value + '%');
-                    }
+                    me.el.value.show().css('left', left + 'px').text(value + '%');
                 }
             });
         },
