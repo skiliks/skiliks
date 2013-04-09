@@ -1277,7 +1277,7 @@ define([
             getCurentEmailCopiesIds: function () {
                 var list = [];
 
-                var valuesArray = $("#MailClient_CopiesList li").get();
+                var valuesArray = $("#MailClient_CopiesList").find("li").get();
                 SKApp.simulation.characters.each(function (character) {
                     _.each(valuesArray, function (value) {
                         // get IDs of character by label text comparsion
@@ -1373,7 +1373,8 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectId: function () {
-                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
+                var selectedData = this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData;
+                return selectedData ? selectedData.value : undefined;
             },
 
             /**
