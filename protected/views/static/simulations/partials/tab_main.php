@@ -26,7 +26,7 @@
 <div class="gauge-charts">
 
 </div>
-
+<div class="bullet-charts"></div>
 <script type="text/javascript">
     $(function() {
         new charts.Gauge('.gauge-charts', parseInt(assessmentResult['management']['total']), {class: 'inline'});
