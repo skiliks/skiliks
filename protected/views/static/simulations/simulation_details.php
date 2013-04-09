@@ -22,14 +22,15 @@
     <script type="text/javascript">
         var assessmentResult = <?= json_encode($simulation->getAssessmentDetails()); ?>;
     </script>
-
-    <ul class="navigation">
-        <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
-        <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>
-        <li><a href="#productivity"><?php echo Yii::t('site', 'Productivity') ?></a></li>
-        <li><a href="#time-management"><?php echo Yii::t('site', 'Time management') ?></a></li>
-        <li><a href="#personal-qualities"><?php echo Yii::t('site', 'Personal qualities') ?></a></li>
-    </ul>
+    <div class="navigatnwrap">
+        <ul class="navigation">
+            <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
+            <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>
+            <li><a href="#productivity"><?php echo Yii::t('site', 'Productivity') ?></a></li>
+            <li><a href="#time-management"><?php echo Yii::t('site', 'Time management') ?></a></li>
+            <li><a href="#personal-qualities"><?php echo Yii::t('site', 'Personal qualities') ?></a></li>
+        </ul>
+    </div>
 
     <div class="sections">
         <div id="main">
@@ -53,7 +54,7 @@
         </div>
     </div>
 
-    <div class="footer">
+    <div class="estmfooter">
         <a class="prev" href="#prev"><?php echo Yii::t('site', 'Previous') ?></a>
         <a class="next" href="#next"><?php echo Yii::t('site', 'Next') ?></a>
     </div>
