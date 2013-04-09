@@ -195,6 +195,11 @@ class PhoneService {
                 throw new Exception('Unknown phone call type');
             }
 
+            // skip OUT calls
+            if ($item->call_type != PhoneCall::MISSED_CALL) {
+                continue;
+            }
+
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
                 'date' => Simulation::formatDateForMissedCalls($item->call_time),
