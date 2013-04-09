@@ -18,10 +18,10 @@
     <div class="ratepercnt overall">Overall: <span class="value"></span></div>
 </div><!-- /estmtresults -->
 <div class="estmtileswrap">
-<h2>Managerial Skills</h2>
-<h2>Productivity</h2>
-<h2>Time Management Effectiveness</h2>
-<h2>Overall Manager's Rating</h2>
+    <div class="widthblock"><h2>Managerial Skills</h2></div>
+    <div class="widthblock"><h2>Productivity</h2></div>
+    <div class="widthblock"><h2>Time Management Effectiveness</h2></div>
+    <div class="widthblock"><h2>Overall Manager's Rating</h2></div>
 </div><!-- /estmtileswrap -->
 <div class="gauge-charts">
 
