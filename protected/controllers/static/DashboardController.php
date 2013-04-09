@@ -176,7 +176,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $body = [
-            'Уважаемый ' . $invite->getReceiverUserName(),
+            'Уважаемый ' . nl2br($invite->getReceiverUserName()),
             $invite->message,
             'Пройдите по ссылке чтобы одобрить приглашение пройти симуляцию',
             sprintf(
@@ -283,7 +283,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $this->sendInviteEmail($invite);
 
         Yii::app()->user->setFlash('success', sprintf(
-            "Приглашение для %s %s отсрочено до %s!",
+            "Приглашение для %s %s отправлено повторно. Оно будет активно до %s.",
             $invite->firstname,
             $invite->lastname,
             $invite->getExpiredDate()

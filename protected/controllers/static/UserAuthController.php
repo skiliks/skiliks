@@ -178,14 +178,6 @@ class UserAuthController extends YumController
                     $permission->template = 1; // magic const
                     $permission->save();
 
-                    $invites = Invite::model()->findAllByAttributes(['email' => $this->user->profile->email]);
-                    foreach ($invites as $invite) {
-                        $invite->receiver_id = $this->user->id;
-                        $invite->firstname = $profile->firstname;
-                        $invite->lastname = $profile->lastname;
-                        $invite->update(false, ['receiver_id']);
-                    }
-
                     $this->redirect('/dashboard');
                 } else {
                     $this->user->password = '';
