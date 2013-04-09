@@ -2556,9 +2556,9 @@ ul.profile-menu li {
 
 .chart-gauge {
     position: relative;
-    width: 240px; /* 305px */
-    height: 150px; /*  135px */
-    background: url(../img/charts/gaugenew.png) no-repeat center bottom;
+    width: 245px; /* 305px */
+    height: 140px; /*  135px */
+    background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .chart-gauge:after {
     content: '';
@@ -2577,19 +2577,19 @@ ul.profile-menu li {
     width: 105px;
     height: 20px;
     bottom: 2px;
-    left: 43px;
+    left: 29px;
     background: url(../img/charts/pointer.png) no-repeat;
 
-    -webkit-transform-origin: 70px 11px; /* 98px 11px; */
-    -moz-transform-origin: 70px 11px;
-    -ms-transform-origin: 70px 11px;
-    transform-origin: 70px 11px;
+    -webkit-transform-origin: 92px 11px; /* 98px 11px; */
+    -moz-transform-origin: 92px 11px;
+    -ms-transform-origin: 92px 11px;
+    transform-origin: 92px 11px;
 }
 .chart-gauge .chart-value {
     color:#3d4041;
     position: absolute;
     font:18px "ProximaNova-Regular";
-    left: 10px;
+    left: 0;
     bottom: 0;
 }
 
@@ -2604,12 +2604,13 @@ ul.profile-menu li {
     overflow: hidden;
     padding-right: 10px;
     width: 0;
+    height: 32px;
     background-color: #146672;
     text-align: center;
     color: white;
     font-weight: bold;
     font-size: 18px;
-    line-height: 32px;
+    line-height: 30px;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -2674,10 +2675,14 @@ ul.profile-menu li {
 }
 .chart-bullet .chart-value {
     position: absolute;
+    display: none;
     top: -27px;
     width: 34px;
     color: #3d4041;
     font-size: 24px;
     /*font-weight: bold;*/
     text-align: center;
+}
+.chart-bullet.valued .chart-value {
+    display: block;
 }
