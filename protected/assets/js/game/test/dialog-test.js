@@ -105,7 +105,6 @@ define([
                 server.respondWith("POST", "/index.php/events/getState",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({"result":1})]);
-
                 expect(simulation.events.length).toBe(1);
                 assert.calledOnce(simulation_event_add_spy);
             });

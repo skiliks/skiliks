@@ -14,7 +14,8 @@ var config = module.exports;
         env: "browser",
         rootPath: "../..",
         libs: [
-            "jquery/*.js",
+            "jquery/jq*.js",
+            "jquery/ajaxq.js",
             "jquery.ddslick.min.js",
             "tag-handler/jquery.taghandler.min.js",
             "underscore.js",

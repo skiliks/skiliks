@@ -28,7 +28,6 @@
 
             // Send off the ajax request now that the item has been removed from the queue
             var jqXHR = $.ajax.apply(window, [clonedOptions]).always(dequeue);
-
             // Notify the returned deferred object with the correct context when the jqXHR is done or fails
             // Note that 'always' will automatically be fired once one of these are called: http://api.jquery.com/category/deferred-object/.
             jqXHR.done(function() {
