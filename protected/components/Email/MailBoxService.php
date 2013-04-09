@@ -265,7 +265,7 @@ class MailBoxService
             // Если у нас прописан какой-то конструктор
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;
-                $constructor = $communicationTheme->game_type->getConstructor(['code' => $constructorNumber]);
+                $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
                 // получить фразы по коду
                 $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
@@ -279,7 +279,7 @@ class MailBoxService
 
         // конструтор не прописан - вернем дефолтовый
         if (count($phrases) == 0) {
-            $constructor = $simulation->game_type->getConstructor(['code' => 'B1']);
+            $constructor = $simulation->game_type->getMailConstructor(['code' => 'B1']);
             $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
         };
 
@@ -298,7 +298,7 @@ class MailBoxService
      */
     public static function getSigns($simulation)
     {
-        $constructor = $simulation->game_type->getConstructor(['code' => 'SYS']);
+        $constructor = $simulation->game_type->getMailConstructor(['code' => 'SYS']);
         $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
         $list = array();
