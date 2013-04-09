@@ -52,7 +52,8 @@ class UserAccountPersonal extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'                 , 'required'),
-			array('industry_id, professional_status_id', 'numerical', 'integerOnly'=>true),
+			array('industry_id'           , 'numerical', 'integerOnly' => true, 'message' => 'Выберите область деятельности'),
+			array('professional_status_id', 'numerical', 'integerOnly' => true, 'message' => 'Выберите статус'),
 			array('user_id'                 , 'length'   , 'max'=>10),
 			array('location'                 , 'length'   , 'max'=>255),
 			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
