@@ -100,11 +100,22 @@ class LibSendMs
         }
         // collect recipient ids string }
 
+        // collect copy ids string {
+        $copiesArray = [];
+        $copies = MailTemplateCopy::model()->findAllByAttributes([
+            'mail_id' => $mailTemplate->id
+        ]);
+
+        foreach ($copies as $copy) {
+            $copiesArray[] = $copy->receiver_id;
+        }
+        // collect copy ids string }
+
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($recipientsString);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
-        $sendMailOptions->copies     = '';
+        $sendMailOptions->copies     = implode(',', $copiesArray);
         $sendMailOptions->phrases    = '';
         $sendMailOptions->setLetterType($letterType);
 

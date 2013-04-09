@@ -1085,5 +1085,215 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
         $this->assertEquals($result['obj']->scale, $result['positive']);
     }
+
+    /**
+     * 3322 - Пользователь отправил одно правильное письмо MS со всеми нужными копиями
+     */
+    public function test_3332_case1()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // prepare data {
+        $sample = null;
+
+        $rightMsEmails = MailTemplate::model()
+            ->with('subject_obj')
+            ->findAll(sprintf(
+                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
+                '%',
+                $simulation->scenario_id
+            ));
+
+        $count = 0;
+        foreach ($rightMsEmails as $rightMsEmail) {
+            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
+                $sample = $rightMsEmail;
+                $count++;
+            }
+        }
+
+        $this->assertNotNull($sample);
+        // prepare data }
+
+        // send MS
+        LibSendMs::sendMsByCode($simulation, $sample->code);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals($result['obj']->scale/$count, $result['positive']);
+    }
+
+    /**
+     * 3322 - Пользователь отправил все правильные письма MS со всеми нужными копиями
+     */
+    public function test_3332_case2()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // prepare data {
+        $rightMsEmails = MailTemplate::model()
+            ->with('subject_obj')
+            ->findAll(sprintf(
+                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
+                '%',
+                $simulation->scenario_id
+            ));
+
+        foreach ($rightMsEmails as $rightMsEmail) {
+            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
+                // send MS
+                LibSendMs::sendMsByCode($simulation, $rightMsEmail->code);
+            }
+        }
+        // prepare data }
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals($result['obj']->scale, $result['positive']);
+    }
+
+    /**
+     * 3322 - Пользователь не отправил ни одного письма MS со всеми нужными копиями
+     */
+    public function test_3332_case3()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals(0, $result['positive']);
+    }
+
+    /**
+     * 3322 - Пользователь отправил одно правильное письмо MS где должны быть копии,
+     * но копии пусты
+     */
+    public function test_3332_case4()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // prepare data {
+        $sample = null;
+
+        $rightMsEmails = MailTemplate::model()
+            ->with('subject_obj')
+            ->findAll(sprintf(
+                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
+                '%',
+                $simulation->scenario_id
+            ));
+
+        $count = 0;
+        foreach ($rightMsEmails as $rightMsEmail) {
+            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
+                $sample = $rightMsEmail;
+                $count++;
+            }
+        }
+
+        $this->assertNotNull($sample);
+        // prepare data }
+
+        // send MS
+        $sendEmail = LibSendMs::sendMsByCode($simulation, $sample->code);
+
+        // remove copies
+        $this->assertNotNull($sendEmail);
+        $emailCopies = MailCopy::model()->findAll(' mail_id = '.$sendEmail->id);
+        foreach ($emailCopies as $emailCopy) {
+            $emailCopy->delete();
+        }
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals(0, $result['positive']);
+    }
+
+    /**
+     * 3322 - Пользователь отправил одно правильное письмо MS где должны быть копии,
+     * в копии есть лишние получатели
+     */
+    public function test_3332_case5()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // prepare data {
+        $sample = null;
+
+        $rightMsEmails = MailTemplate::model()
+            ->with('subject_obj')
+            ->findAll(sprintf(
+                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
+                '%',
+                $simulation->scenario_id
+            ));
+
+        $count = 0;
+        foreach ($rightMsEmails as $rightMsEmail) {
+            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
+                $sample = $rightMsEmail;
+                $count++;
+            }
+        }
+
+        $this->assertNotNull($sample);
+        // prepare data }
+
+        // send MS
+        $sendEmail = LibSendMs::sendMsByCode($simulation, $sample->code);
+
+        // add extra copies {
+        $this->assertNotNull($sendEmail);
+
+        $characters = Character::model()->findAll("scenario_id = $simulation->scenario_id ");
+        foreach ($characters as $character) {
+            $mailCopy = new MailCopy();
+            $mailCopy->mail_id     = $sendEmail->id;
+            $mailCopy->receiver_id = $character->id;
+            try {
+                $mailCopy->save();
+            } catch (CDbException $e) {}
+        }
+        // add extra copies }
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals(0, $result['positive']);
+    }
 }
 

@@ -13,10 +13,11 @@
  * @property mixed sending_date
  * @property int readed
  * @property mixed sim_id
- * @property MailTemplate template
  * @property mixed letter_type
+ * @property MailTemplate template
  * @property Simulation simulation
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property CommunicationTheme subject_obj
+ *
  */
 class MailBox extends CActiveRecord
 {
@@ -168,6 +169,37 @@ class MailBox extends CActiveRecord
         $this->reply = 1;
     }
 
+    /**
+     * is Email has "R" theme
+     * @return bool
+     */
+    public function isRight()
+    {
+        return CommunicationTheme::SLUG_RIGHT == $this->subject_obj->wr;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMS()
+    {
+        return null !== $this->coincidence_mail_code;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSended() {
+        return MailBox::FOLDER_OUTBOX_ID == $this->group_id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPlanned() {
+        return true === (bool)$this->plan;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -194,27 +226,6 @@ class MailBox extends CActiveRecord
     public function getConcidenceTypes()
     {
         return array(self::COINCIDENCE_FULL, self::COINCIDENCE_PART_1, self::COINCIDENCE_PART_2);
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isMS() {
-        return preg_match("/MS\d+/", $this->code);
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isSended() {
-        return MailBox::FOLDER_OUTBOX_ID == $this->group_id;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPlanned() {
-        return true === (bool)$this->plan;
     }
 
     /**
