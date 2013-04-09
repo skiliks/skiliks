@@ -604,6 +604,8 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->leg_type = 'Inbox_leg';
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
+        $log->start_time = '9:00:00';
+        $log->end_time = '10:11:00';
         $log->duration = '01:11:00';
         $log->save();
         // лог }
@@ -684,6 +686,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
+        $log->end_time = '11:00:20';
         $log->duration = '01:00:00';
         $log->save();
 
@@ -693,6 +696,8 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
+        $log->end_time = '11:00:20';
+
         $log->duration = '00:33:00';
         $log->save();
         // лог }
