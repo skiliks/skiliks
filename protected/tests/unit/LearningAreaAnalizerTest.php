@@ -1,6 +1,6 @@
 <?php
 
-class LearningAreaAnalizerTest extends PHPUnit_Framework_TestCase {
+class LearningAreaAnalyzerTest extends PHPUnit_Framework_TestCase {
 
     public function addValueByCode($simulation, $code, $value) {
 
@@ -35,7 +35,7 @@ class LearningAreaAnalizerTest extends PHPUnit_Framework_TestCase {
         $this->addValueByCode($simulation, 8351, 1);
         //$this->addValueByCode($simulation, 8361, 0);
 
-        $learn = new LearningAreaAnalizer($simulation);
+        $learn = new LearningAreaAnalyzer($simulation);
         $learn->adoptionOfDecisions();
 
         $code = $simulation->game_type->getLearningArea(['code'=>13]);
@@ -53,7 +53,7 @@ class LearningAreaAnalizerTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        $learn = new LearningAreaAnalizer($simulation);
+        $learn = new LearningAreaAnalyzer($simulation);
         $learn->adoptionOfDecisions();
 
         $code = $simulation->game_type->getLearningArea(['code'=>13]);

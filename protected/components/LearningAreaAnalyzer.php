@@ -1,6 +1,6 @@
 <?php
 
-class LearningAreaAnalizer {
+class LearningAreaAnalyzer {
 
     public $simulation;
 
