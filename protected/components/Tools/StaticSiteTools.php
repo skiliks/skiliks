@@ -33,6 +33,9 @@ class StaticSiteTools
             if (Yii::app()->getController()->getAction()->getId() == 'team') {
                 $results .= " inner-team";
             }
+            if (Yii::app()->getController()->getAction()->getId() == 'tariffs') {
+                $results .= " inner-registration";
+            }
         }
         if (Yii::app()->getController()->getId() == 'static/userAuth') {
             if (Yii::app()->getController()->getAction()->getId() == 'chooseAccountType') {
