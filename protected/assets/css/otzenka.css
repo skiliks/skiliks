@@ -35,6 +35,9 @@
     border-radius: 3px;
     outline: none;
 }
+#simulation-details-tabs li:focus {
+    outline: none;
+}
 #simulation-details li:last-child {
     margin-right: 0px;
 }
@@ -69,6 +72,7 @@
     border-radius: 100px / 50px;
     height: 30px;
     line-height: 30px;
+    min-width: 55px;
     text-align: center;
 }
 .ratepercnt span {
@@ -77,9 +81,12 @@
 }
 .estmtileswrap h2 {
     color:#3d4041;
-    display: inline-block;
     font:26px 'ProximaNova-Bold';
+}
+.widthblock {
+    display: inline-block;
     margin:0px;
+    padding: 0px;
     width:238px;
     border: 1px solid green;
 }
