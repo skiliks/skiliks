@@ -1,12 +1,14 @@
 .simulation-result-popup {
     background: #e8f7f7;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    padding: 0px 10px;
+    padding: 0px 10px 30px;
     width: 980px !important;
 }
+#simulation-details-pop-up {
+    overflow: hidden;
+}
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
-    background: #e8f7f7;
-    padding: 10px;
+    /*padding: 10px;*/
 }
 #simulation-details-pop-up h1, #simulation-details-pop-up h2 {
     color: #3d4041;
@@ -15,6 +17,9 @@
     padding: 25px 10px 15px 3px;
 }
 #simulation-details-pop-up .ui-widget-content {
+   background: #e8f7f7;
+   border:none;
+    margin-top: 50px;
    padding: 0px;
 }
 #simulation-details {
@@ -43,9 +48,9 @@
 #simulation-details li:last-child {
     margin-right: 0px;
 }
-#simulation-details-tabs a {
+#simulation-details-tabs li a {
     background-image: none;
-    font: 1.071em "ProximaNova-Regular";
+    font: 1.071em "ProximaNova-Regular" !important;
     color: #fff;
 }
 #simulation-details-tabs .ui-tabs-selected, #simulation-details-tabs .ui-state-active {
@@ -58,7 +63,7 @@
 .chart-gauge {
     float: left;
 }
-.gauge-charts:after, #simulation-details-tabs:after {
+.gauge-charts:after, #simulation-details-tabs:after, .page:after {
     content: ".";
     display: block;
     height: 0;
@@ -78,12 +83,12 @@
     text-align: center;
 }
 .ratepercnt span {
-    font: 18px "ProximaNova-Regular";
+    font: 18px "ProximaNova-Regular" !important;
     padding: 0px 10px;
 }
 .estmtileswrap h2 {
     color:#3d4041;
-    font:26px 'ProximaNova-Bold';
+    font:26px 'ProximaNova-Bold' !important;
 }
 .widthblock {
     display: inline-block;
@@ -106,7 +111,146 @@
     margin: 20px 0;
 }
 
+.resulttitele {
+    color:#3d4041;
+    font:28px 'ProximaNova-Bold' !important;
+}
+.labels {
+    float: left;
+    margin-top: 8px;
+    padding-left:10px;
+    width: 300px;
+}
+.labels .row {
+    margin-top: 36px;
+}
+.bars .chart-bar:first-child, .labels .row:first-child  {
+    margin-top: 0px;
+}
+.labels .resulttitele {
+    display: inline-block;
+}
 
+.barswrap {
+    background: #ddf0f0;
+    padding: 10px;
+    float: right;
+    padding: 16px;
+    width: 600px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+.bars .chart-bar {
+    margin: 40px 0px 0px 0px;
+}
+.barstitle {
+    color:#3d4041;
+    font:18px 'ProximaNova-Bold' !important;
+    margin-bottom: 16px;
+}
+.resultlabeltitle {
+    padding-left: 374px;
+}
+.total {
+    font-size: 41px;
+    margin-bottom: 40px;
+}
+.totalwithresult {
+    position: relative;
+}
+.blockvalue {
+    background: #146672;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font: 18px "ProximaNova-Regular" !important;
+    margin-left: 10px;
+    padding: 4px 9px;
+    position: absolute;
+    bottom:-5px;
+}
+.textcener {
+    text-align: center;
+}
+.smalltitle, .smalltitle a {
+    color:#3d4041;
+    font:18px "ProximaNova-Regular";
+    text-decoration: none;
+}
+.smalltitle a, .smalltitle a:visited {
+    color:#3d4041;
+}
+.questn {
+    background: #bedadc;
+    color: #fff;
+    display: inline-block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 18px;
+    margin-left:10px;
+    padding: 5px 0px;
+    text-align: center;
+    text-decoration: none;
+    width: 30px;
+}
+.questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
+    color: #fff;
+}
+.signmore {
+    background: url(../img/icon-circlearrw.png) no-repeat right top;
+    display: inline-block;
+    padding-right: 32px;
+}
+.personalbars * {
+    font-family: "ProximaNova-Regular" !important;
+}
+.personallabels {
+    float: left;
+    width: 405px;
+}
+.personalbars {
+    float:right;
+    padding-left: 44px;
+    width: 495px;
+}
+.personallabels .smalltitle {
+    margin-top: 45px;
+    text-align: right;
+}
+.personallabels .smalltitle:first-child {
+    margin-top: 40px;
+}
+.personalbars .chart-bullet.small {
+    width: 459px;
+    margin: 60px 0px;
+}
+.personalbars .chart-bullet.small:first-child {
+    margin-top: 30px;
+}
+/****************************************************/
+.page {
+    /*margin: 100px 0 0;
+    padding: 20px;*/
+    min-height: 600px;
+}
+/*
+.page > * {
+    margin: 20px 0;
+}
+
+.chart-gauge.inline {
+    float: left;
+    margin: 10px -7px;
+}
+
+.chart-bullet.small {
+    width: 300px;
+    margin: 40px 50px;
+}*/
 /*.gauge-charts, */
 /*.bar-charts {
     margin: 40px 0;
@@ -117,7 +261,14 @@
 }
 .chart-bar {
     margin: 20px 0;
-}*/
+}
+
+
+
+    .bar {
+        clear: both;
+    }
+*/
 
 
 .bar-charts {

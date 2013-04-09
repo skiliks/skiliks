@@ -1,39 +1,29 @@
-<style>
-    .page {
-        margin: 100px 0 0;
-        padding: 20px;
-        min-height: 400px;
-    }
-    .page > * {
-        margin: 20px 0;
-    }
+<div class="page">
+    <div class="textcener"><h2 class="total">Личностные характеристики</h2></div>
 
-    .chart-gauge.inline {
-        float: left;
-        margin: 10px -7px;
-    }
+    <div class="personallabels">
+        <div class="smalltitle">Ориентация на результат<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Внимательность<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Ответственность<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Устойчивость к манипуляциям и давлению<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Конструктивность<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Гибкость<a href="#" class="questn">?</a></div>
+        <div class="smalltitle"><a href="#" class="signmore">Принятие решений</a></div>
+        <div class="smalltitle">Стрессоустойчивость<a href="#" class="questn">?</a></div>
+    </div>
 
-    .chart-bullet.small {
-        width: 300px;
-        margin: 40px 50px;
-    }
-
-    .bar {
-        clear: both;
-    }
-</style>
-
-<div class="page nice-border backgroud-light-blue">
-    <h2>Личностные характеристики</h2>
-    <div>Ориентация на результат<div class="resultOrientation"></div></div>
-    <div>Внимательность<div class="attentiveness"></div></div>
-    <div>Ответственность<div class="responsibility"></div></div>
-    <div>Устойчивость к манипуляциям и давлению<div class="stability"></div></div>
-    <div>Конструктивность<div class="constructibility"></div></div>
-    <div>Гибкость<div class="flexibility"></div></div>
-    <div>Принятие решений<div class="adoptionOfDecisions"></div></div>
-    <div>Стрессоустойчивость<div class="stressResistance"></div></div>
-</div><script type="text/javascript">
+    <div class="barswrap personalbars">
+        <div class="resultOrientation"></div>
+        <div class="attentiveness"></div>
+        <div class="responsibility"></div>
+        <div class="stability"></div>
+        <div class="constructibility"></div>
+        <div class="flexibility"></div>
+        <div class="adoptionOfDecisions"></div>
+        <div class="stressResistance"></div>
+    </div>
+</div>
+<script type="text/javascript">
     $(function() {
         var val = assessmentResult.personal;
         new charts.Bullet('.resultOrientation', Math.round(val.resultOrientation), {class: 'small', displayValue: true});
