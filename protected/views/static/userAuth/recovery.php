@@ -1,5 +1,5 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Password recovery') ?></h2>
+<h2 class="thetitle"><?php echo Yii::t('site', 'Восстановление пароля') ?></h2>
 
 <div class="form">
 
@@ -14,7 +14,7 @@
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton(Yii::t('site', 'Restore')); ?>
+        <?php echo CHtml::submitButton(Yii::t('site', 'Восстановить')); ?>
     </div>
 
     <?php $this->endWidget(); ?>

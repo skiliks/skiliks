@@ -16,7 +16,7 @@ Yum::renderFlash();
 <p>
 <?php
 echo Yum::t(
-		'Please fill out the following form with your login credentials:'); ?>
+		'Пожалуйста, заполните следующую форму с ваших учетных данных:'); ?>
 </p>
 
 <?php echo CHtml::beginForm(array('//user/auth/login'));  ?>
@@ -34,7 +34,7 @@ if(isset($_GET['action']))
 				|| $module->loginType & UserModule::LOGIN_BY_LDAP)
 		echo CHtml::activeLabelEx($model,'username'); 
 		if($module->loginType & UserModule::LOGIN_BY_EMAIL)
-			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('E-Mail address')); 
+			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('Email'));
 		if($module->loginType & UserModule::LOGIN_BY_OPENID)
 			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('OpenID username'));  ?>
 

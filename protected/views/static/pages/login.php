@@ -4,10 +4,10 @@ if(!isset($model))
 
 $module = Yum::module();
 
-$this->pageTitle = Yum::t('Login');
+$this->pageTitle = Yum::t('Вход');
 if(isset($this->title))
-$this->title = Yum::t('Login');
-$this->breadcrumbs=array(Yum::t('Login'));
+$this->title = Yum::t('Вход');
+$this->breadcrumbs=array(Yum::t('Вход'));
 
 Yum::renderFlash();
 ?>
@@ -16,7 +16,7 @@ Yum::renderFlash();
 <p>
 <?php
 echo Yum::t(
-		'Please fill out the following form with your login credentials:'); ?>
+		'Пожалуйста, заполните следующую форму с ваших учетных данных:'); ?>
 </p>
 
 <?php echo CHtml::beginForm(array('//user/auth/login'));  ?>
@@ -34,7 +34,7 @@ if(isset($_GET['action']))
 				|| $module->loginType & UserModule::LOGIN_BY_LDAP)
 		echo CHtml::activeLabelEx($model,'username'); 
 		if($module->loginType & UserModule::LOGIN_BY_EMAIL)
-			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('E-Mail address')); 
+			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('Email'));
 		if($module->loginType & UserModule::LOGIN_BY_OPENID)
 			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('OpenID username'));  ?>
 
@@ -74,7 +74,7 @@ if(isset($_GET['action']))
 </div>
 
 <div class="row submit">
-<?php echo CHtml::submitButton(Yum::t('Login')); ?>
+<?php echo CHtml::submitButton(Yum::t('Войти')); ?>
 </div>
 
 <?php echo CHtml::endForm(); ?>
