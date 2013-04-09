@@ -607,7 +607,7 @@ class SimulationService
 
         self::applyReductionFactors($simulation);
 
-        $learning_area = new LearningAreaAnalizer($simulation);
+        $learning_area = new LearningAreaAnalyzer($simulation);
         $learning_area->run();
 
         $evaluation = new Evaluation($simulation);
