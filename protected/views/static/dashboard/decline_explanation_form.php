@@ -35,7 +35,7 @@
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Отменить', ['name' => 'return', 'class' => 'chancel-decline']); ?>
-        <?php echo CHtml::submitButton('Отказаться от прохождения симуляции', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
+        <?php echo CHtml::submitButton('Отказаться от симуляции', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
     </div>
 
     <!--

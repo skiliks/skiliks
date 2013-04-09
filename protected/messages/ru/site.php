@@ -210,4 +210,6 @@ return array(
     'New password' => 'Новый пароль',
     'Retype your new password' => 'Повторите пароль',
     'Failure cause' => 'Причина отказа',
+    'Confirmation' => 'Подтверждение',
+    'Sign up' => 'Зарегистрироваться',
 );
