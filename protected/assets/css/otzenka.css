@@ -22,7 +22,7 @@
     margin-top: 50px;
    padding: 0px;
 }
-#simulation-details {
+.simulation-details .navigation {
     background: none;
     border: none;
     float:right;
@@ -33,7 +33,7 @@
 #tab-main {
     clear:both;
 }
-#simulation-details-tabs li {
+.simulation-details .navigation li {
     background: #7eb2b9;
     background-image: none;
     border:none;
@@ -42,18 +42,18 @@
     border-radius: 3px;
     outline: none;
 }
-#simulation-details-tabs li:focus {
+.simulation-details .navigationli:focus {
     outline: none;
 }
-#simulation-details li:last-child {
+.simulation-details .navigation li:last-child {
     margin-right: 0px;
 }
-#simulation-details-tabs li a {
+.simulation-details a {
     background-image: none;
     font: 1.071em "ProximaNova-Regular" !important;
     color: #fff;
 }
-#simulation-details-tabs .ui-tabs-selected, #simulation-details-tabs .ui-state-active {
+.simulation-details .ui-tabs-selected, .simulation-details .ui-state-active {
     background: #4d8d96 !important;
     outline: none;
 }
