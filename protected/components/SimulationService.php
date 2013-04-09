@@ -166,6 +166,25 @@ class SimulationService
             }
         }
         // 3311 }
+
+        // 3332 {
+        $b_3332 = $emailAnalyzer->check_3332();
+
+        if (isset($b_3332['obj']) &&
+            isset($b_3332['positive']) &&
+            true === $b_3332['obj'] instanceof HeroBehaviour
+        ) {
+            $emailResultsFor_3332 = new AssessmentCalculation();
+            $emailResultsFor_3332->sim_id = $simulation->id;
+            $emailResultsFor_3332->point_id = $b_3332['obj']->id;
+            $emailResultsFor_3332->value = $b_3332['positive'];
+            try {
+                $emailResultsFor_3332->save();
+            } catch (Exception $e) {
+                // @todo: handle exception
+            }
+        }
+        // 3332 }
     }
 
     /**
