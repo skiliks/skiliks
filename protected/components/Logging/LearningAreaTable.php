@@ -40,7 +40,7 @@ class LearningAreaTable extends LogTable
         $result = [
             $row->learningArea->code,
             $row->learningArea->title,
-            $row->value
+            round($row->value, 2)
         ];
 
         return $result;
