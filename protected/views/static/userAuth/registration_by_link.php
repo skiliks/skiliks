@@ -1,3 +1,5 @@
+<div class="blackout show"></div>
+<h2 class="title">Sign-up using your preferred option and get the results</h2>
 
 <section class="registration-by-link">
     <h1>Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h1>
@@ -12,11 +14,11 @@
         <?= $form->error($profile, 'email'); ?>
 
         <div class="row">
-            <?php echo $form->labelEx($profile, 'Name'); ?>
+            <?php echo $form->labelEx($profile, 'Имя'); ?>
             <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
             <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия']); ?>
-            <?php echo $form->error($profile, 'firstname'); ?>
-            <?php echo $form->error($profile, 'lastname'); ?>
+            <div class="error_wrap first_name"><?php echo $form->error($profile, 'firstname'); ?></div>
+            <div class="error_wrap last_name"><?php echo $form->error($profile, 'lastname'); ?></div>
         </div>
 
         <div class="row wide">
@@ -34,19 +36,23 @@
         <div class="row">
             <?php echo $form->labelEx($user, 'password'); ?>
             <?php echo $form->passwordField($user, 'password'); ?>
-            <?php echo $form->error($user, 'password'); ?>
+            <div class="error_wrap password">
+                <?php echo $form->error($user, 'password'); ?>
+            </div>
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($user, 'password_again'); ?>
+            <?php echo $form->labelEx($user, Yii::t("site","Confirmation")); ?>
             <?php echo $form->passwordField($user, 'password_again'); ?>
-            <?php echo $form->error($user, 'password_again'); ?>
+            <div class="error_wrap password_again">
+                <?php echo $form->error($user, 'password_again'); ?>
+            </div>
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Register'); ?>
+            <?php echo CHtml::submitButton(Yii::t("site","Sign up")); ?>
 
-            <a class="decline-link">Decline</a>
+            <a class="decline-link">Отказаться от приглашения</a>
         </div>
 
         <?php $this->endWidget(); ?>
@@ -89,8 +95,15 @@
 <div id="invite-decline-form"></div>
 <!-- decline-form } -->
 
+<style>
+    #invite-decline-form{
+        z-index:10;
+        position: relative;
+    }
+</style>
 
 <script type="text/javascript">
+    $(".blackout").prependTo("body");
     /*$('.decline-invite').click(function() {
         var href = $(this).attr('href');
 
@@ -109,23 +122,23 @@ $(function(){
         type: 'POST',
         success: function(data) {
             $('#invite-decline-form').html(data.html);
+            $('#invite-decline-form').hide();
+            //$('#invite-decline-form').dialog({
+            //    width: 500,
+            //    modal: true
+            //});
 
-            $('#invite-decline-form').dialog({
-                width: 500,
-                modal: true
-            });
+            //$('#invite-decline-form').parent().addClass('nice-border');
+            //$('#invite-decline-form').parent().addClass('backgroud-rich-blue');
 
-            $('#invite-decline-form').parent().addClass('nice-border');
-            $('#invite-decline-form').parent().addClass('backgroud-rich-blue');
-
-            $('#invite-decline-form').dialog('close');
+            //$('#invite-decline-form').dialog('close');
 
             $('.decline-link').click(function(event){
                 event.preventDefault();
                 $('#invite-decline-form input#DeclineExplanation_invite_id').val('<?php echo $invite->id ?>');
 
-                $('#invite-decline-form')
-                $('#invite-decline-form').dialog('open');
+                $('#invite-decline-form').show();
+                //$('#invite-decline-form').dialog('open');
             });
         }
     })

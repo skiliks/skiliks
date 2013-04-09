@@ -94,20 +94,11 @@
 .action-controller-registerByLink-static-userAuth  .ui-widget-content {
     background: #146672;
 }
-
-#invite-decline-form .blackout {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: #000000;
-    opacity: 0.3;
-    z-index: 1;
-}
 #invite-decline-form .form-decline-explanation {
     position: absolute;
     top:235px;
     left:50%;
-    z-index: 2;
+    z-index: 5;
     margin-left:-301px;
     width:602px;
     height:427px;
@@ -149,18 +140,31 @@
 #invite-decline-form #form-decline-explanation .form-decline-explanation-description-row {
     position: relative;
 }
-#invite-decline-form #form-decline-explanation .error_wrap {
-    padding-bottom: 19px;
-    position: absolute;
-    background: url("../img/bg-form-error.png") no-repeat 80% bottom;
+#invite-decline-form #form-decline-explanation textarea {
+    margin-bottom:20px;
+    background:#FFFFFF;
+    border-radius:5px;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
+    padding: 5px;
+    border:1px solid #336666;
+    height:100px;
+    width:505px;
 }
-#invite-decline-form #form-decline-explanation .error_wrap .errorMessage {
-    background: url("../img/bg-form-error-inner.png") repeat-x 0 0 #E66B66;
-    border-radius: 4px 4px 4px 4px;
+
+#invite-decline-form #form-decline-explanation input[type="submit"]{
+    background: url("../img/icon-btn-notify.png") no-repeat 18px 50% #146672;
+    border: none;
+    border-radius: 4px;
     color: #FFFFFF;
-    display: block;
-    font: 1em/2.214em "ProximaNova-Regular";
-    padding: 0 30px;
+    font: 20px "ProximaNova-Bold";
+    padding: 15px 25px 15px 50px;
+    text-align: left;
+}
+#invite-decline-form #form-decline-explanation input[type="submit"]:hover {
+    background-color:#0C8FA0;
+}
+#invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
+    margin-right:18px;
 }
 #invite-decline-form #form-decline-explanation .error_wrap.main {
     top:-30px;
@@ -169,39 +173,29 @@
 #invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .error_wrap {
     top: -35px;
     right: 6px;
-    }
-#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .error_wrap .errorMessage {
-
-}
-#invite-decline-form #form-decline-explanation textarea {
-    border:1px solid #336666;
-    height:100px;
-    width:505px;
-    margin-bottom:20px;
-}
-#invite-decline-form #form-decline-explanation input[type="submit"]{
-    background: url("../img/icon-btn-notify.png") no-repeat 18px 50% #146672;
-    border: none;
-    border-radius: 4px;
-    color: #FFFFFF;
-    font: 14px "ProximaNova-Bold";
-    padding: 15px 25px 15px 50px;
-    text-align: left;
-}
-#invite-decline-form #form-decline-explanation input[type="submit"]:hover {
-    background-color:#0C8FA0;
-}
-#invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
-    margin-right:24px;
 }
 
 /* регистрация по ссылке от работодателя */
+.action-controller-registerByLink-static-userAuth #invite-decline-form .blackout {
+    display:none;
+}
+.action-controller-registerByLink-static-userAuth .blackout.show {
+    display:block;
+}
+.action-controller-registerByLink-static-userAuth h2.title {
+    color: #FFFFFF;
+    font: 40px/52px "ProximaNova-Bold";
+    padding: 0 110px 10px;
+    text-align: center;
+}
 section.registration-by-link {
     padding:0 20px 41px 30px;
     height:460px;
     width:746px;
     margin:0 auto;
     background:url("../img/bg-register-by-link.png")no-repeat 0 0;
+    z-index:5;
+    position: relative;
 }
 section.registration-by-link h1 {
     padding-top:140px;
@@ -215,6 +209,7 @@ section.registration-by-link .form {
 }
 section.registration-by-link .form .row {
     margin-bottom:8px;
+    position: relative;
 }
 section.registration-by-link .form .row label {
     width:190px;
@@ -223,6 +218,7 @@ section.registration-by-link .form .row label {
 }
 section.registration-by-link .form .row input[type="text"],
 section.registration-by-link .form .row input[type="password"] {
+    color:#146672;
     background: #FFFFFF;
     border: 1px solid #3E5259;
     border-radius:5px;
@@ -245,14 +241,14 @@ section.registration-by-link .form .row input[type="submit"] {
     color: #FFFFFF;
     text-align: left;
     vertical-align: top;
-    font: 14px "ProximaNova-Bold";
+    font: 20px "ProximaNova-Bold";
     height: 46px;
-    padding: 0 16px 0 42px;
+    padding: 0 14px 0 48px;
     margin-right:15px;
 }
 section.registration-by-link .form .row a.decline-link {
     font:14px/46px "ProximaNova-Regular";
-    color:#666633;
+    color:#555545;
     cursor:pointer;
     text-decoration:none;
     border-bottom:1px dotted #663;
@@ -260,3 +256,46 @@ section.registration-by-link .form .row a.decline-link {
 section.registration-by-link .form .row a.decline-link:hover {
     border-bottom:none;
 }
+.error_wrap.first_name {
+    right: 384px;
+    top: -36px;
+}
+.error_wrap.last_name {
+    background-position: 20% 100%;
+    left: 375px;
+    top: -36px;
+}
+.error_wrap.password {
+    background-position:100px 100%;
+    left: 100px;
+    top: -36px;
+}
+.error_wrap.password_again {
+    background-position:100px 100%;
+    left: 100px;
+    top: -36px;
+}
+
+/* universal */
+.blackout {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.3;
+    z-index: 3;
+}
+.error_wrap {
+    padding-bottom: 19px;
+    position: absolute;
+    background: url("../img/bg-form-error.png") no-repeat 80% bottom;
+}
+.error_wrap .errorMessage {
+    background: url("../img/bg-form-error-inner.png") repeat-x 0 0 #E66B66;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: block;
+    font: 1em/2.214em "ProximaNova-Regular";
+    padding: 0 30px;
+}
+/* /universal */
