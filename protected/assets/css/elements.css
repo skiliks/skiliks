@@ -146,6 +146,33 @@
 #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id label {
     line-height:24px;
 }
+#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row {
+    position: relative;
+}
+#invite-decline-form #form-decline-explanation .error_wrap {
+    padding-bottom: 19px;
+    position: absolute;
+    background: url("../img/bg-form-error.png") no-repeat 80% bottom;
+}
+#invite-decline-form #form-decline-explanation .error_wrap .errorMessage {
+    background: url("../img/bg-form-error-inner.png") repeat-x 0 0 #E66B66;
+    border-radius: 4px 4px 4px 4px;
+    color: #FFFFFF;
+    display: block;
+    font: 1em/2.214em "ProximaNova-Regular";
+    padding: 0 30px;
+}
+#invite-decline-form #form-decline-explanation .error_wrap.main {
+    top:-30px;
+    right:30px;
+}
+#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .error_wrap {
+    top: -35px;
+    right: 6px;
+    }
+#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .error_wrap .errorMessage {
+
+}
 #invite-decline-form #form-decline-explanation textarea {
     border:1px solid #336666;
     height:100px;
@@ -167,58 +194,7 @@
 #invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
     margin-right:24px;
 }
-/*
-.action-controller-personal-static-dashboard .ui-widget-content.nice-border.backgroud-rich-blue {
-    background: url(../img/bg_register_by_link_from_employer.png);
-    padding:0 15px 15px;
-    box-shadow: none;
-}
-.action-controller-personal-static-dashboard .ui-widget-content .ui-dialog-titlebar {
-    position: absolute;
-    top:8px;
-    right:8px;
-    z-index:2;
-}
-.action-controller-personal-static-dashboard #invite-decline-form {
-    color:red;
-    font-size:10px;
-}
-.action-controller-personal-static-dashboard #invite-decline-form h2{
-    color:#2D7B91;
-    padding:20px 0;
-}
-.action-controller-personal-static-dashboard .form-decline-explanation-reason-row {
-    color:#29313D;
-    font-size:14px;
-    line-height: 20px;
-    margin-bottom: -25px;
-}
-.action-controller-personal-static-dashboard .form-decline-explanation-reason-row label.required{
-    display:block;
-    margin-bottom:10px;
-}
-.action-controller-personal-static-dashboard .form-decline-explanation-reason-row label.required span.required{
-    display:inline !important;
-    color:red;
-}
-.action-controller-personal-static-dashboard .form-decline-explanation-reason-row input[type="radio"] {
-    margin: 0 3px 3px 0;
-    vertical-align: middle;
-}
-.action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]{
-    background: #146672;
-    border: none;
-    border-radius: 4px;
-    color: #FFFFFF;
-    font: 14px "ProximaNova-Bold";
-    padding: 15px 25px 15px 25px;
-    text-align: left;
-    margin-right:13px;
-}
-.action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]:hover {
-    background:#0C8FA0;
-}
-*/
+
 /* регистрация по ссылке от работодателя */
 section.registration-by-link {
     padding:0 20px 41px 30px;

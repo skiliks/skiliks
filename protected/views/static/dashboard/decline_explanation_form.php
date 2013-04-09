@@ -17,7 +17,9 @@
     <div class="row form-decline-explanation-reason-row">
         <?php echo $form->labelEx($declineExplanation        , 'reason_id'); ?>
         <?php echo $form->RadioButtonList($declineExplanation, 'reason_id', $reasons); ?>
-        <?php echo $form->error($declineExplanation          , 'reason_id'); ?>
+        <div class="error_wrap main">
+            <?php echo $form->error($declineExplanation          , 'reason_id'); ?>
+        </div>
     </div>
 
     <br/>
@@ -25,8 +27,10 @@
 
     <div class="row form-decline-explanation-description-row" style="display: none;">
         <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
-        <?php echo $form->textArea($declineExplanation, 'description'); ?>
-        <?php echo $form->error($declineExplanation    , 'description'); ?>
+        <?php echo $form->textArea($declineExplanation, 'description', ['placeholder'=>Yii::t("site","Failure cause")]); ?>
+        <div class="error_wrap">
+            <?php echo $form->error($declineExplanation    , 'description'); ?>
+        </div>
     </div>
 
     <div class="row buttons">
