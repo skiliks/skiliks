@@ -432,6 +432,7 @@ span.required {
 }
 .sideform input[type="text"], .controller-static-dashboard input[type="text"] {
     height: 26px;
+    line-height: 26px;
     padding: 2px 4px;
 }
 .sideform input[type="text"] {
