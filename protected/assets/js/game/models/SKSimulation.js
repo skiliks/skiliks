@@ -357,7 +357,7 @@ define([
 
                 var logs = this.windowLog.getAndClear();
 
-                SKApp.server.apiQueue('simulation/stop', {'logs':logs}, function () {
+                SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
                     /**
                      * Симуляция уже остановлена
                      * @event stop

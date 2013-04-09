@@ -46,11 +46,13 @@ var spec = describe('simulation', function (run) {
                 expect(simulation.getGameMinutes()).toBe(553);
                 expect(simulation.getGameTime()).toBe('09:13');
                 expect(simulation.getGameTime(true)).toBe('09:13:20');
-
+                server.respond();
             });
             it("stops at 18:00", function () {
                 var stop_spy = sinon.spy();
                 SKApp.simulation.start();
+                server.respond();
+
                 SKApp.simulation.on('end', stop_spy);
                 server.respond();
                 timers.tick(11 * 60 * 60 * 1000/8);
