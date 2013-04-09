@@ -66,6 +66,7 @@ class InitBaseUsersCommand
                     echo " => registered";
                 } else {
                     print_r($yumUser->getErrors());
+                    print_r($user);
                     throw new Exception('User ' . $user['username'] . ' not registered');
                 }
             } else {
