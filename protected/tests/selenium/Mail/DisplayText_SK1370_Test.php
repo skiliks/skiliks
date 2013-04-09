@@ -37,7 +37,7 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['trash']);
-        sleep(5);
+        sleep(2);
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xls");
 
         //жесть
@@ -56,9 +56,9 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
         //КОПИЯ - не достучался
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
-        sleep(3);
+        sleep(2);
         $this->optimal_click("css=label.icon_DRAFTS");
-        sleep(3);
+        sleep(2);
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
@@ -66,14 +66,13 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click("link=отправить черновик");
         $this->optimal_click("css=label.icon_SENDED");
-        sleep(3);
+        sleep(2);
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-
+        $this->waitForTextPresent('Simulation points');
         $this->Mail_log($log);
     }
 
