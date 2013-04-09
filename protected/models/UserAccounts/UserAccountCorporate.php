@@ -120,8 +120,8 @@ class UserAccountCorporate extends CActiveRecord
 			'user_id'             => Yii::t('site', 'User'),
 			'corporate_email'     => Yii::t('site', 'Corporate email'),
 			'industry_id'         => Yii::t('site', 'Industry'),
-			'company_size_id'     => Yii::t('site', 'Company Size'),
-			'company_description' => Yii::t('site', 'Company description'),
+			'company_size_id'     => Yii::t('site', 'Размер компании'),
+			'company_description' => Yii::t('site', 'Описание компании'),
 		);
 	}
 

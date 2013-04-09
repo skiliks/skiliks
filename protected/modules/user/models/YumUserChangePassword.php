@@ -32,9 +32,9 @@ class YumUserChangePassword extends YumFormModel
 
 	public function attributeLabels() {
 		return array(
-			'password'=>Yum::t('New password'),
-			'verifyPassword'=>Yum::t('Retype your new password'),
-			'currentPassword'=>Yum::t('Your current password'),
+			'password'=>Yum::t('Введите новый пароль'),
+			'verifyPassword'=>Yum::t('Повторите новый пароль'),
+			'currentPassword'=>Yum::t('Ваш текущий пароль'),
 		);
 	}
 

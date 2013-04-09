@@ -55,7 +55,7 @@ class YumAuthController extends YumController {
 								'{username}' => $this->loginForm->username)), 'error');
 
 				if (!$this->loginForm->hasErrors())
-					$this->loginForm->addError("password", Yum::t('Username or Password is incorrect'));
+					$this->loginForm->addError("password", Yum::t('Имя пользователя или неверный пароль'));
 				break;
 		}
 
@@ -164,7 +164,7 @@ class YumAuthController extends YumController {
 							'{username}' => $this->loginForm->username)), 'error');
 
 			$this->loginForm->addError('password',
-					Yum::t('Username or Password is incorrect'));
+					Yum::t('Имя пользователя или неверный пароль'));
 		}
 
 		return false;
@@ -195,7 +195,7 @@ class YumAuthController extends YumController {
 				return $user;
 				break;
 			case YumUserIdentity::ERROR_EMAIL_INVALID:
-				$this->loginForm->addError("password",Yum::t('Username or Password is incorrect'));
+				$this->loginForm->addError("password",Yum::t('Имя пользователя или неверный пароль'));
 				$this->logFailedLoginAttempts($user);
 				break;
 			case YumUserIdentity::ERROR_STATUS_INACTIVE:
@@ -211,7 +211,7 @@ class YumAuthController extends YumController {
 				$this->logFailedLoginAttempt($user);
 
 				if(!$this->loginForm->hasErrors())
-					$this->loginForm->addError("password",Yum::t('Username or Password is incorrect'));
+					$this->loginForm->addError("password",Yum::t('Имя пользователя или неверный пароль'));
 				break;
 				return false;
 		}
@@ -322,7 +322,7 @@ class YumAuthController extends YumController {
 				$this->redirectUser($success);
 			} else
 				$this->loginForm->addError('username',
-						Yum::t('Login is not possible with the given credentials'));
+						Yum::t('Пожалуйста, заполните следующую форму с ваших учетных данных'));
 		}
 
 

@@ -494,9 +494,10 @@ class Simulation extends CActiveRecord
         return $result;
     }
 
-    public function getPersonalAssessment($code){
+    public function getPersonalAssessment($code) {
         $learningArea = $this->game_type->getLearningArea(['code'=>$code]);
         $simulationLearningArea = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->id, 'learning_area_id'=>$learningArea->id]);
+        /* @var $simulationLearningArea SimulationLearningArea */
         return $simulationLearningArea->value;
     }
 }
