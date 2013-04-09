@@ -10,8 +10,8 @@
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price">
-                <p><?php if (round($tariff->price / 1000)): ?>
-                    <span><?php echo round($tariff->price / 1000) ?></span>
+                <p><?php if (floor($tariff->price / 1000)): ?>
+                    <span><?php echo floor($tariff->price / 1000) ?></span>
                 <?php endif ?>
                 <?php echo $tariff->price % 1000 ?></p>
             </div>
