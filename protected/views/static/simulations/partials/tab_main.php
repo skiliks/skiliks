@@ -27,7 +27,6 @@
 
 </div>
 
-
 <script type="text/javascript">
     $(function() {
         new charts.Gauge('.gauge-charts', parseInt(assessmentResult['management']['total']), {class: 'inline'});
