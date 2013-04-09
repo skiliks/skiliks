@@ -1,10 +1,28 @@
-111
-<p><span class="skillstitle">Базовый менеджмент</span>
-    <span <?php if(null!==$simulation) { echo 'data-simulation="/simulations/details/'.$simulation->id.'"';} ?> class="ratingwrap radiusthree <?php if(null!==$simulation) { echo "view-simulation-details-pop-up";} ?>">
+<?php
+    if (false == isset($isDisplayTitle)) { $isDisplayTitle = true; }
+    if (false == isset($isDisplayArrow)) { $isDisplayArrow = true; }
+    if (false == isset($isDisplayScaleIfSimulationNull)) { $isDisplayScaleIfSimulationNull = true; }
+
+    if (false == $isDisplayScaleIfSimulationNull && null == $simulation) { return; };
+?>
+
+<p>
+    <?php if($isDisplayTitle): ?>
+    <span class="skillstitle">Базовый менеджмент</span>
+    <?php endif ?>
+
+    <span <?php if (null!==$simulation) { echo 'data-simulation="/simulations/details/'.$simulation->id.'"';} ?>
+        class="ratingwrap radiusthree <?php if(null!==$simulation) { echo "view-simulation-details-pop-up";} ?>">
         <span class="ratebg"><span class="rating" style="width: <?php if(null!==$simulation){ echo $simulation->getCategoryAssessment(); }else{ echo "0"; } ?>%"></span></span>
-        <sup><?php if(null!==$simulation){ echo $simulation->getCategoryAssessment(); }else{ echo "0"; } ?>%</sup>
+        <sup>
+            <?php if (null !== $simulation ): ?>
+                <?php echo (float)$simulation->getCategoryAssessment() ?>%
+            <?php else: ?>
+                0%
+            <?php endif ?>
+        </sup>
     </span>
-    <?php if(null!==$simulation) { ?>
+    <?php if ($isDisplayArrow && null !== $simulation) : ?>
         <a href="#" data-simulation="/simulations/details/<?php echo $simulation->id; ?>" class="link-go view-simulation-details-pop-up"></a>
-    <?php } ?>
+    <?php endif ?>
 </p>
