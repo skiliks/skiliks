@@ -1,9 +1,11 @@
 .simulation-result-popup {
+    background: #e8f7f7;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     padding: 0px 10px;
     width: 980px !important;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
+    background: #e8f7f7;
     padding: 10px;
 }
 #simulation-details-pop-up h1, #simulation-details-pop-up h2 {
@@ -119,5 +121,5 @@
 
 
 .bar-charts {
-    display: none !important;
+    /*display: none !important;*/
 }
