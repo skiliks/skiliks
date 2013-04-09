@@ -35,13 +35,14 @@
     <div>Стрессоустойчивость<div class="stressResistance"></div></div>
 </div><script type="text/javascript">
     $(function() {
-        new charts.Bullet('.resultOrientation', 10, {class: 'small', displayValue: true});
-        new charts.Bullet('.attentiveness', 20, {class: 'small', displayValue: true});
-        new charts.Bullet('.responsibility', 30, {class: 'small', displayValue: true});
-        new charts.Bullet('.stability', 40, {class: 'small', displayValue: true});
-        new charts.Bullet('.constructibility', 50, {class: 'small', displayValue: true});
-        new charts.Bullet('.flexibility', 60, {class: 'small', displayValue: true});
-        new charts.Bullet('.adoptionOfDecisions', 70, {class: 'small', displayValue: true});
-        new charts.Bullet('.stressResistance', 80, {class: 'small', displayValue: true});
+        var val = assessmentResult.personal;
+        new charts.Bullet('.resultOrientation', val.resultOrientation, {class: 'small', displayValue: true});
+        new charts.Bullet('.attentiveness', val.attentiveness, {class: 'small', displayValue: true});
+        new charts.Bullet('.responsibility', val.attentiveness, {class: 'small', displayValue: true});
+        new charts.Bullet('.stability', val.stability, {class: 'small', displayValue: true});
+        new charts.Bullet('.constructibility', val.constructibility, {class: 'small', displayValue: true});
+        new charts.Bullet('.flexibility', val.flexibility, {class: 'small', displayValue: true});
+        new charts.Bullet('.adoptionOfDecisions', val.adoptionOfDecisions, {class: 'small', displayValue: true});
+        new charts.Bullet('.stressResistance', val.stressResistance, {class: 'small', displayValue: true});
     });
 </script>

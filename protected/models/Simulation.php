@@ -480,11 +480,24 @@ class Simulation extends CActiveRecord
         // TODO
         $result[AssessmentCategory::TIME_EFFECTIVENESS];
 
-        // Personal
-        // TODO
-        $result['personal'] = [];
+        $result['personal'] = [
+            'stressResistance'=>$this->getPersonalAssessment(9),
+            'stability'=>$this->getPersonalAssessment(10),
+            'responsibility'=>$this->getPersonalAssessment(12),
+            'resultOrientation'=>$this->getPersonalAssessment(14),
+            'constructibility'=>$this->getPersonalAssessment(15),
+            'flexibility'=>$this->getPersonalAssessment(16),
+            'adoptionOfDecisions'=>$this->getPersonalAssessment(13),
+            'attentiveness'=>$this->getPersonalAssessment(11),
+        ];
 
         return $result;
+    }
+
+    public function getPersonalAssessment($code){
+        $learningArea = $this->game_type->getLearningArea(['code'=>$code]);
+        $simulationLearningArea = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->id, 'learning_area_id'=>$learningArea->id]);
+        return $simulationLearningArea->value;
     }
 }
 

@@ -32,7 +32,7 @@
     </div>
 
     <div id="tab-personal-qualities">
-        <?php $this->renderPartial('partials/tab_personal_skills', []) ?>
+        <?php $this->renderPartial('partials/tab_personal_skills', ['simulation' => $simulation, 'learning_areas'=>$learning_areas]) ?>
     </div>
 </div>
 

@@ -50,8 +50,13 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         $this->layout = false;
 
+        $learning_areas = [];
+
+        $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
+
         $this->render('simulation_details', [
             'simulation' => $simulation,
+            'learning_areas'=>$learning_areas
         ]);
     }
 }
