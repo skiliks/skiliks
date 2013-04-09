@@ -10,7 +10,7 @@
         )); ?>
 
         <div class="row blueplaceholder">
-            <?php echo $form->labelEx($account, 'Name'); ?>
+            <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?>
             <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
         </div>
