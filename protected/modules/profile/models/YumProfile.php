@@ -247,6 +247,7 @@ class YumProfile extends YumActiveRecord
                 'lastname'       => Yii::t('site', 'Lastname'),
 				'id'             => Yii::t('site', 'Profile ID'),
 				'email'          => Yii::t('site', 'Email'),
+				'Name'           => Yii::t('site', 'Name'),
 				'user_id'        => Yii::t('site', 'User ID'),
 				'privacy'        => Yii::t('site', 'Privacy'),
 				'show_friends'   => Yii::t('site', 'Show friends'),
