@@ -740,6 +740,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
+        $log->end_time = '11:11:00';
         $log->duration = '01:00:00';
         $log->save();
         // лог }
@@ -791,6 +792,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
+            $log->end_time = '11:11:00';
             $log->duration = '00:15:00';
             $log->save();
 
@@ -800,6 +802,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
+            $log->end_time = '11:11:00';
             $log->duration = '00:10:00';
             $log->save();
         }
@@ -854,6 +857,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
+            $log->end_time = '11:11:00';
             $log->duration = '00:30:00';
             $log->save();
 
@@ -863,6 +867,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
+            $log->end_time = '11:11:00';
             $log->duration = '00:10:00';
             $log->save();
         }
@@ -915,7 +920,8 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = '11:00:00';
+            $log->start_time = "1$i:00:00";
+            $log->end_time = "1$i:25:00";
             $log->duration = '00:25:00';
             $log->save();
 
@@ -924,7 +930,8 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = '11:00:00';
+            $log->start_time = "1$i:30:00";
+            $log->end_time = "1$i:40:00";
             $log->duration = '00:10:00';
             $log->save();
         }
@@ -977,7 +984,8 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = '11:00:00';
+            $log->start_time = "1$i:00:00";
+            $log->end_time = "1$i:30:00";
             $log->duration = '00:30:00';
             $log->save();
 
@@ -986,7 +994,8 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = '11:00:00';
+            $log->start_time = "1$i:00:00";
+            $log->end_time = "1$i:10:00";
             $log->duration = '00:10:00';
             $log->save();
         }
@@ -1042,6 +1051,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '9:00:00';
+            $log->end_time = '11:05:00';
             $log->duration = '00:05:00';
             $log->save();
 
@@ -1051,6 +1061,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '9:00:00';
+            $log->end_time = '11:05:00';
             $log->duration = '00:05:00';
             $log->save();
         }
@@ -1062,6 +1073,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '12:00:00';
+            $log->end_time = '12:05:00';
             $log->duration = '00:05:00';
             $log->save();
 
@@ -1071,6 +1083,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '12:00:00';
+            $log->end_time = '12:05:00';
             $log->duration = '00:05:00';
             $log->save();
         }
