@@ -26,14 +26,18 @@ class StaticSiteTools
             str_replace('/','-',Yii::app()->getController()->getId())
         );
 
-        if ($request->getPathInfo() == '') {
-            $results .= '';
-        } else if ($request->getPathInfo() == '/team') {
-            $results .= " inner-team";
-        } else if ($request->getPathInfo() == '/registration/choose-account-type') {
-            $results .= " inner-registration";
-        } else {
-            $results .= " inner";
+        if (Yii::app()->getController()->getId() == 'static/pages') {
+            if (Yii::app()->getController()->getAction()->getId() == 'product') {
+                $results .= " inner";
+            }
+            if (Yii::app()->getController()->getAction()->getId() == 'team') {
+                $results .= " inner-team";
+            }
+        }
+        if (Yii::app()->getController()->getId() == 'static/userAuth') {
+            if (Yii::app()->getController()->getAction()->getId() == 'chooseAccountType') {
+                $results .= " inner-registration";
+            }
         }
 
         return $results;
