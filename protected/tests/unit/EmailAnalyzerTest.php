@@ -680,7 +680,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // 2 лога - чтобы проверить что их длительность просуммируется
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
-        $log->leg_type = 'Inbox_leg';
+        $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
@@ -689,7 +689,7 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
-        $log->leg_type = 'Inbox_leg';
+        $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
@@ -731,7 +731,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // 2 лога - чтобы проверить что их длительность просуммируется
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
-        $log->leg_type = 'Inbox_leg';
+        $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
@@ -782,7 +782,7 @@ class EmailAnalyzerTest extends CDbTestCase
         for ($i = 0; $i < 5; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
@@ -791,8 +791,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
             $log->duration = '00:10:00';
@@ -806,8 +806,9 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals(0, $result['positive']);
         $this->assertEquals(4, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals(0, $result['positive']);
+
     }
 
     /**
@@ -844,7 +845,7 @@ class EmailAnalyzerTest extends CDbTestCase
         for ($i = 0; $i < 2; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
@@ -853,8 +854,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
             $log->duration = '00:10:00';
@@ -906,7 +907,7 @@ class EmailAnalyzerTest extends CDbTestCase
         for ($i = 0; $i < 3; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
@@ -915,8 +916,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
             $log->duration = '00:10:00';
@@ -930,8 +931,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals($result['obj']->scale*(2/3), $result['positive']);
         $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals($result['obj']->scale*(2/3), $result['positive']);
     }
 
     /**
@@ -968,7 +969,7 @@ class EmailAnalyzerTest extends CDbTestCase
         for ($i = 0; $i < 3; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
@@ -977,8 +978,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '11:00:00';
             $log->duration = '00:10:00';
@@ -992,8 +993,9 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals($result['obj']->scale*(1/3), $result['positive']);
+
         $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals($result['obj']->scale*(1/3), $result['positive']);
     }
 
     /**
@@ -1031,7 +1033,7 @@ class EmailAnalyzerTest extends CDbTestCase
         for ($i = 0; $i < 5; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '9:00:00';
@@ -1040,18 +1042,18 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '9:00:00';
-            $log->duration = '00:10:00';
+            $log->duration = '00:05:00';
             $log->save();
         }
 
         for ($i = 0; $i < 2; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Inbox_leg';
+            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '12:00:00';
@@ -1060,11 +1062,11 @@ class EmailAnalyzerTest extends CDbTestCase
 
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
-            $log->leg_type = 'Window';
-            $log->leg_action = 'MY1';
+            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
+            $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '12:00:00';
-            $log->duration = '00:10:00';
+            $log->duration = '00:05:00';
             $log->save();
         }
         // лог }
@@ -1075,8 +1077,8 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals($result['obj']->scale, $result['positive']);
         $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals($result['obj']->scale, $result['positive']);
     }
 }
 
