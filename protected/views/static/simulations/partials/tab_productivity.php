@@ -1,37 +1,22 @@
 <?php /** @var Simulation $simulation */ ?>
-<style>
-    .labels {
-        float: left;
-        width: 300px;
-        font-size: 20px;
-        line-height: 55px;
-        font-weight: bold;
-    }
-    .labels .row {
-
-    }
-    .bars {
-        float: right;
-        width: 650px;
-
-    }
-</style>
 
 <div class="section">
-    <h2 class="total">Результативность <span class="value"></span></h2>
+    <div class="textcener"><h2 class="total totalwithresult">Результативность <span class="value blockvalue"></span></h2></div>
 
+
+    <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
     <div class="labels">
-        <div class="row">Срочно</div>
-        <div class="row">Высокий приоритет</div>
-        <div class="row">Средний приоритет</div>
-        <div class="row">Прочее</div>
+        <div class="row"><h3 class="resulttitele">Срочно</h3><a href="#" class="questn">?</a></div>
+        <div class="row"><h3 class="resulttitele">Высокий приоритет</h3><a href="#" class="questn">?</a></div>
+        <div class="row"><h3 class="resulttitele">Средний приоритет</h3><a href="#" class="questn">?</a></div>
+        <div class="row"><h3 class="resulttitele">Прочее</h3><a href="#" class="questn">?</a></div>
     </div>
 
-    <div class="bars">
+    <div class="bars barswrap">
 
     </div>
 
-    <div class="legend"></div>
+   <div class="legend"></div>
 </div>
 
 <script type="text/javascript">
