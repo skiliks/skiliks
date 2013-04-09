@@ -603,7 +603,6 @@ class SimulationService
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
-        $simulation->checkLogs();
 
         self::applyReductionFactors($simulation);
 
@@ -612,7 +611,7 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-
+        $simulation->checkLogs();
     }
 
     /**
