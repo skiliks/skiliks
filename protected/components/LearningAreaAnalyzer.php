@@ -127,6 +127,7 @@ class LearningAreaAnalyzer {
         $assessment->point_id = $point->id;
         $assessment->sim_id = $this->simulation->id;
         $assessment->value = round($value, 2);
+        $assessment->fixed_value = round($value, 2);
         $assessment->save();
 
         /*
