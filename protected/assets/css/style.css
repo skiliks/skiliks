@@ -2556,8 +2556,8 @@ ul.profile-menu li {
 
 .chart-gauge {
     position: relative;
-    width: 245px; /* 305px */
-    height: 140px; /*  135px */
+    width: 240px; /* 305px */
+    height: 130px; /*  135px */ /*  140px */
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .chart-gauge:after {
@@ -2588,9 +2588,10 @@ ul.profile-menu li {
 .chart-gauge .chart-value {
     color:#3d4041;
     position: absolute;
-    font:18px "ProximaNova-Regular";
+    font:17px "ProximaNova-Regular";
     left: 0;
     bottom: 0;
+    z-index: 1000;
 }
 
 .chart-bar {
