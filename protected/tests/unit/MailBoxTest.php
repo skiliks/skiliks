@@ -345,7 +345,7 @@ class MailBoxTest extends CDbTestCase
 
         $ch = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
         $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
-        $constructor = $simulation->game_type->getConstructor(['code' => 'R6']);
+        $constructor = $simulation->game_type->getMailConstructor(['code' => 'R6']);
         $mail_phrases = MailPhrase::model()->findAllByAttributes(['constructor_id'=>$constructor->getPrimaryKey()]);
         $data= [];
 

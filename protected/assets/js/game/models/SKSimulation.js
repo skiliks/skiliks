@@ -90,7 +90,7 @@ define([
                         me.stop();
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
-                        me.trigger('end');
+                        me.stop();
                     }
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
@@ -273,7 +273,7 @@ define([
             'getNewEvents':function (cb) {
                 var me = this;
                 var logs = this.windowLog.getAndClear();
-                SKApp.server.api('events/getState', {
+                SKApp.server.apiQueue('events', 'events/getState', {
                     logs:logs,
                     timeString:this.getGameMinutes()
                 }, function (data) {
@@ -357,7 +357,7 @@ define([
 
                 var logs = this.windowLog.getAndClear();
 
-                SKApp.server.api('simulation/stop', {'logs':logs}, function () {
+                SKApp.server.apiQueue('simulation/stop', {'logs':logs}, function () {
                     /**
                      * Симуляция уже остановлена
                      * @event stop
