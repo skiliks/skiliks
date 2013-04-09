@@ -301,4 +301,12 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea($simulation, 11, $learning_area);
     }
 
+    public static function getAssessment($simulation, $code) {
+
+        /* @var $simulation Simulation */
+
+        SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
+
+    }
+
 }
