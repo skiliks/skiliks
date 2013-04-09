@@ -1,4 +1,6 @@
 (function(window, $) {
+    'use strict';
+
     $.easing.easeOutElasticSoft = function(p) {
         return p === 0 || p === 1 ? p :	1 + Math.pow(2, -8 * p - 1) * Math.sin((-p * 80 - 7.5) * Math.PI / 15);
     };
@@ -15,65 +17,9 @@
             value: $value
         };
 
+        $chart[0].chartObject = this;
+
         $chart.append($arrow)
-            .append($value)
-            .appendTo(container);
-
-        if (options.class) {
-            $chart.addClass(options.class);
-        }
-
-        this.setValue(value);
-    }
-
-    function Bar(container, value, options) {
-        var me = this,
-            $chart = $('<div class="chart-bar"/>'),
-            $value = $('<span class="chart-value"/>');
-
-        this.options = options = options || {};
-        this.el = {
-            chart: $chart,
-            value: $value
-        };
-
-        if (options.class) {
-            $chart.addClass(options.class);
-        }
-
-        $chart.append($value)
-            .css('width', 0)
-            .appendTo(container)
-            .animate({width: /*$(container).width()*/'100%'}, 1000, function() {
-                me.setValue(value);
-            });
-    }
-
-    function Bullet(container, value, options) {
-        var me = this,
-            $chart = $('<div class="chart-bullet"/>'),
-            $bullet = $('<div class="bullet"/>'),
-            $bar = $('<div class="bar"/>'),
-            $value = $('<span class="chart-value"/>');
-
-        this.options = options = options || {};
-        this.el = {
-            chart: $chart,
-            bullet: $bullet,
-            bar: $bar,
-            value: $value
-        };
-
-        if (options.class) {
-            $chart.addClass(options.class);
-        }
-
-        if (options.displayValue) {
-            $chart.addClass('valued');
-        }
-
-        $chart.append($bullet)
-            .append($bar)
             .append($value)
             .appendTo(container);
 
@@ -90,7 +36,7 @@
             var me = this,
                 deg = value / 100 * 180,
                 rad = deg * Math.PI / 180,
-                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.16 ,
+                left = (Math.cos(rad - Math.PI) + 1) * me.pointerLength * 1.16,
                 bottom = Math.sin(rad) * me.pointerLength * 1.08;
 
             me.value = value;
@@ -111,9 +57,39 @@
             });
         },
         refresh: function() {
-            this.setValue(this.value);
+            var v = this.value;
+
+            this.setValue(0);
+            this.el.arrow.finish();
+
+            this.setValue(v);
         }
     });
+
+    function Bar(container, value, options) {
+        var me = this,
+            $chart = $('<div class="chart-bar"/>'),
+            $value = $('<span class="chart-value"/>');
+
+        this.options = options = options || {};
+        this.el = {
+            chart: $chart,
+            value: $value
+        };
+
+        $chart[0].chartObject = this;
+
+        if (options.class) {
+            $chart.addClass(options.class);
+        }
+
+        $chart.append($value)
+            .css('width', 0)
+            .appendTo(container)
+            .animate({width: /*$(container).width()*/'100%'}, 1000, function() {
+                me.setValue(value);
+            });
+    }
 
     $.extend(Bar.prototype, {
         setValue: function(value) {
@@ -131,9 +107,51 @@
                 });
         },
         refresh: function() {
-            this.setValue(this.value);
+            var v = this.value;
+
+            this.setValue(0);
+            this.el.value.finish();
+
+            this.setValue(v);
         }
     });
+
+    function Bullet(container, value, options) {
+        var me = this,
+            $chart = $('<div class="chart-bullet"/>'),
+            $bullet = $('<div class="bullet"/>'),
+            $bar = $('<div class="bar"/>'),
+            $value = $('<span class="chart-value"/>');
+
+        this.options = options = options || {};
+        this.el = {
+            chart: $chart,
+            bullet: $bullet,
+            bar: $bar,
+            value: $value
+        };
+
+        $chart[0].chartObject = this;
+
+        if (options.class) {
+            $chart.addClass(options.class);
+        }
+
+        if (options.displayValue) {
+            $chart.addClass('valued');
+        }
+
+        $chart.append($bullet)
+            .append($bar)
+            .append($value)
+            .appendTo(container);
+
+        if (options.class) {
+            $chart.addClass(options.class);
+        }
+
+        this.setValue(value);
+    }
 
     $.extend(Bullet.prototype, {
         setValue: function(value) {
@@ -158,7 +176,13 @@
             });
         },
         refresh: function() {
-            this.setValue(this.value);
+            var v = this.value;
+
+            this.setValue(0);
+            this.el.bullet.finish();
+            this.el.bar.finish();
+
+            this.setValue(v);
         }
     });
 

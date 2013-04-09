@@ -32,14 +32,6 @@
         new charts.Gauge('.gauge-charts', parseInt(assessmentResult['management']['total']), {class: 'inline'});
         new charts.Gauge('.gauge-charts', parseInt(assessmentResult['performance']['total']), {class: 'inline'});
         new charts.Gauge('.gauge-charts', parseInt(assessmentResult['time']['total']), {class: 'inline'});
-
-        new charts.Bullet('.bullet-charts', 50, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 70, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 40, {class: 'small'});
-
-        new charts.Bullet('.bullet-charts', 50, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 70, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 40, {class: 'small'});
         $('.overall .value').html(assessmentResult['overall']);
     });
 

@@ -61,10 +61,11 @@
 
 <script>
     function DetailsNavigator(container, options) {
-        $.extend(this.options, options || {});
+        var o = this.options = $.extend(this.options, options || {});
 
         this.$container = $(container);
-        this.$sections = this.$container.find(options.sectionSelector);
+        this.$sections = this.$container.find(o.sectionSelector);
+        this.$links = this.$container.find(o.linkSelector);
         this.idList = $.map($.makeArray(this.$sections), function(section) {
             return section.id
         });
@@ -73,25 +74,29 @@
     }
 
     $.extend(DetailsNavigator.prototype, {
-        sectionSelector: '.section',
-        prevSelector: '.prev',
-        nextSelector: '.next',
+        options: {
+            sectionSelector: '.section',
+            linkSelector: 'a[href^=#]',
+            prevSelector: '.prev',
+            nextSelector: '.next',
 
-        activeClass: 'active',
-        changeHash: true,
+            activeClass: 'active',
+            changeHash: true
+        },
 
         init: function() {
-            var me = this;
+            var me = this,
+                o = me.options;
 
-            $(this.$container).find('a').on('click.Navigator', function(e) {
+            this.$links.on('click.Navigator', function(e) {
                 var id = $(this).attr('href').slice(1);
 
-                if ($(this).is(me.prevSelector)) {
+                if ($(this).is(o.prevSelector)) {
                     me.prev();
-                } else if ($(this).is(me.nextSelector)) {
+                } else if ($(this).is(o.nextSelector)) {
                     me.next();
                 } else {
-                    history.pushState({id: id}, '', me.changeHash ? this.href : null);
+                    history.pushState({id: id}, '', o.changeHash ? this.href : null);
                     me.open(id);
                 }
 
@@ -118,11 +123,19 @@
         },
 
         open: function(id) {
+            var o = this.options;
+
             if (this.idList.indexOf(id) > -1) {
                 this.$sections
-                    .removeClass(this.activeClass)
+                    .removeClass(o.activeClass)
                     .filter('#' + id)
-                    .addClass(this.activeClass);
+                    .addClass(o.activeClass)
+                    .trigger('open');
+
+                this.$links
+                    .removeClass(o.activeClass)
+                    .filter('[href=#' + id + ']')
+                    .addClass(o.activeClass);
 
                 this.current = id;
             }
@@ -143,8 +156,14 @@
     });
 
     $(function() {
-        new DetailsNavigator('.simulation-details', {
+        var nav = new DetailsNavigator('.simulation-details', {
             sectionSelector: '.sections > div'
+        });
+
+        nav.$sections.on('open', function() {
+            $(this).find('.chart-gauge, .chart-bar, .chart-bullet').each(function() {
+                this.chartObject.refresh();
+            });
         });
     });
 </script>
