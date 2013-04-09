@@ -209,4 +209,5 @@ return array(
     'Your current password' => 'Текущий пароль',
     'New password' => 'Новый пароль',
     'Retype your new password' => 'Повторите пароль',
+    'Failure cause' => 'Причина отказа',
 );
