@@ -25,7 +25,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo $form->labelEx($profile, 'Name'); ?>
+            <?php echo $form->labelEx($profile, 'Имя'); ?>
             <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
             <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
             <?php echo $form->error($profile, 'firstname'); ?>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="row cposwrap">
-            <?php echo $form->labelEx($account     , 'position_id'); ?>
+            <?php echo $form->labelEx($account     , 'Должность'); ?>
             <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
             <?php echo $form->error($account       , 'position_id'); ?>
         </div>
