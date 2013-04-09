@@ -595,6 +595,7 @@ class SimulationService
         SimulationService::calculatePerformanceRate($simulation);
 
         SimulationService::setGainedStressRules($simulation);
+        SimulationService::stressResistance($simulation);
         SimulationService::saveAggregatedPoints($simulation->id);
 
         // @todo: this is trick
@@ -754,5 +755,38 @@ class SimulationService
             $assessment->save();
         }
         // update assessment on positive scale }
+    }
+
+    public static function stressResistance($simulation) {
+
+        /*
+ * AssessmentAggregated 7141
+ */
+        /* @var $simulation Simulation */
+        /* @var $game_type Scenario */
+        $game_type = $simulation->game_type;
+        $point = $game_type->getHeroBehaviour(['code' => 7141]);
+        if (null === $point) {
+            return;
+        }
+
+        /* @var $stress StressPoint[] */
+        $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+
+        if(null !== $stress) {
+            $value = 0;
+            foreach( $stress as $stress_rule ) {
+                $value += $stress_rule->stressRule->value;
+            }
+        } else {
+            $value = 0;
+        }
+
+        $assessment = new AssessmentCalculation();
+        $assessment->point_id = $point->id;
+        $assessment->sim_id = $simulation->id;
+        $assessment->value = round($value, 2);
+        $assessment->save();
+
     }
 }
