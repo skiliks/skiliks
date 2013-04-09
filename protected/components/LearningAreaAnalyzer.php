@@ -99,44 +99,12 @@ class LearningAreaAnalyzer {
      */
     public function stressResistance() {
 
-        /*
-         * AssessmentAggregated 7141
-         */
         /* @var $simulation Simulation */
-        /* @var $game_type Scenario */
         $simulation = $this->simulation;
-        $game_type = $simulation->game_type;
-        $point = $game_type->getHeroBehaviour(['code' => 7141]);
-        if (null === $point) {
-            return;
-        }
-
-        /* @var $stress StressPoint[] */
-        $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$this->simulation->id]);
-
-        if(null !== $stress) {
-            $value = 0;
-            foreach( $stress as $stress_rule ) {
-                $value += $stress_rule->stressRule->value;
-            }
-        } else {
-            $value = 0;
-        }
-
-        $assessment = new AssessmentAggregated();
-        $assessment->point_id = $point->id;
-        $assessment->sim_id = $this->simulation->id;
-        $assessment->value = round($value, 2);
-        $assessment->fixed_value = round($value, 2);
-        $assessment->save();
-
-        /*
-         * StressResistance 7141
-         */
-        /* @var $max_rate MaxRate */
 
         try{
-            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code'=>7141], $value);
+            $assessment = $this->calcLearningArea($simulation, 7141);
+            $learning_area = $this->calcMaxRate($simulation, ['hero_behaviour_code'=>7141], $assessment);
 
         }catch (HeroBehaviourIsNullException $e){
             return;
