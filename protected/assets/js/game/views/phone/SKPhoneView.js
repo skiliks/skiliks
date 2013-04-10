@@ -60,7 +60,7 @@ define([
             this.renderTPL('.phone-screen', phone_contacts, {
                 'contacts': SKApp.simulation.characters.filter(function (character) {
                     /** @type {SKCharacter} character */
-                    return character.get('code') !== 1 && character.get('phone') && (character.get('fio') || character.get('title'));
+                    return character.get('code') !== "1" && character.get('phone') && (character.get('fio') || character.get('title'));
                 })
             });
             this.$('.phone-list-contacts').mCustomScrollbar();
