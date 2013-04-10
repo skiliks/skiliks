@@ -8,7 +8,7 @@
      */
     window.SKPhoneHistory = Backbone.Model.extend({
         defaults: {
-            is_read:false
+            is_displayed:false
         }
     });
 })();

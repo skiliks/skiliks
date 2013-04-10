@@ -201,14 +201,28 @@ class PhoneService {
             }
 
             $list[] = array(
-                'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date' => Simulation::formatDateForMissedCalls($item->call_time),
-                'type' => $item->call_type,
-                'dialog_code' => $item->dialog_code
+                'name'         => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
+                'date'         => Simulation::formatDateForMissedCalls($item->call_time),
+                'type'         => $item->call_type,
+                'is_displayed' => (bool)$item->is_displayed,
+                'dialog_code'  => $item->dialog_code
             );
         }
         
         return $list;
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return mixed array
+     */
+    public static function markMissedCallsDisplayed($simulation)
+    {
+        $phoneCalls = PhoneCall::model()->bySimulation($simulation->id)->findAll();
+        foreach($phoneCalls as $phoneCall) {
+            $phoneCall->is_displayed = 1;
+            $phoneCall->save();
+        }
     }
     
     public static function call(Simulation $simulation, $themeId, $characterCode, $time)

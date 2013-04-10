@@ -73,6 +73,8 @@ define([
         getHistory: function () {
             var me = this,
                 history = SKApp.simulation.phone_history;
+
+            SKApp.server.api('phone/markMissedCallsDisplayed', {}, function(){});
             
             history.readHistory();
             history.trigger('reset'); // to refresh counter

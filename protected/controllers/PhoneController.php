@@ -60,7 +60,9 @@ class PhoneController extends AjaxController{
 
     }
 
-    
+    /**
+     *
+     */
     public function actionGetList() 
     {
         $simulation = $this->getSimulationEntity();
@@ -68,6 +70,18 @@ class PhoneController extends AjaxController{
         return $this->sendJSON(array(
             'result' => 1,
             'data'   => PhoneService::getMissedCalls($simulation)
+        ));
+    }
+    /**
+     *
+     */
+    public function actionMarkMissedCallsDisplayed()
+    {
+        $simulation = $this->getSimulationEntity();
+
+        return $this->sendJSON(array(
+            'result' => 1,
+            'data'   => PhoneService::markMissedCallsDisplayed($simulation)
         ));
     }
 
