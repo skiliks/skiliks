@@ -20,7 +20,13 @@
         <div class="constructibility"></div>
         <div class="flexibility"></div>
         <div class="adoptionOfDecisions"></div>
-        <div class="stressResistance"></div>
+        <div class="shortIndicator">
+            <div class="shortindvalue">
+                <div class="bullet highlevel"></div><!-- highlevel - dlya vysokogo urovnya, lowlevel - dlya nizkogo -->
+                <div class="bar"></div>
+            </div>
+            <div class="shortchartvalue">продемонстрирован высокий уровень</div>
+        </div><!-- stressResistance -->
     </div>
 </div>
 <script type="text/javascript">

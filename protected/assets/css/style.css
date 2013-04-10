@@ -2656,7 +2656,7 @@ ul.profile-menu li {
     right: -50px;
     top: 0;
 }
-.chart-bullet .bar {
+.chart-bullet .bar, .bar {
     display: block;
     height: 100%;
     width: 0;
@@ -2667,7 +2667,7 @@ ul.profile-menu li {
     background: -ms-linear-gradient(top, #127988, #164651);
     background: linear-gradient(top, #127988, #164651);
 }
-.chart-bullet .bullet {
+.chart-bullet .bullet, .bullet {
     content: '';
     position: absolute;
     left: -17px;
