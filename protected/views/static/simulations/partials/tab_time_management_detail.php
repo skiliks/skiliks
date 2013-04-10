@@ -1,9 +1,8 @@
 <div class="textcener"><h2 class="total totalwithresult">Эффективность использования времени (детализация)<span class="value blockvalue">0%</span></h2></div>
 <div class="extrasidepads timedetail">
     <div class="timeblock">
-        <h2 class="resulttitele">Время, потраченное на задачи первого приоритета</h2>
+        <h2 class="resulttitele">Время, потраченное на задачи первого приоритета <small>(минуты)</small></h2>
         <div class="testtime"><strong>20</strong>%</div>
-        <div class="titlemins">(минуты)</div>
 
         <div class="clearfix">
             <div class="labels">
@@ -25,9 +24,8 @@
     </div>
     <div class="blockseprt"></div>
     <div class="timeblock">
-        <h2 class="resulttitele">Время, потраченное на задачи не первого приоритета </h2>
+        <h2 class="resulttitele">Время, потраченное на задачи не первого приоритета <small>(минуты)</small></h2>
         <div class="testtime"><strong>20</strong>%</div>
-        <div class="titlemins">(минуты)</div>
 
         <div class="clearfix">
             <div class="labels">
