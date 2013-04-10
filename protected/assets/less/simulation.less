@@ -138,11 +138,23 @@ body.loading {
     }
 
     .pause-control {
+      /*
       cursor: pointer;
 
       &:after {
         content: '||';
         padding-left: 8px;
+      }
+      */
+      a.pause {
+        background: url(../img/icon-pause.png) no-repeat 0 0;
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        vertical-align: top;
+        &:hover {
+          background-position:0 100%;
+        }
       }
     }
 
