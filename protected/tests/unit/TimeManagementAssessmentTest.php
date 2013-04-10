@@ -20,7 +20,6 @@ class TimeManagementAssessmentTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-        //$simulation = Simulation::model()->findByPk(507);
 
         // log1, 1st priority doc {
         $doc_d1 = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
@@ -406,6 +405,119 @@ class TimeManagementAssessmentTest extends CDbTestCase
 
         $this->assertEquals(
             24.60, // 41.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+    public function testimeManagementAssessment_cas2()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            0, // %
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['time_spend_for_non_priority_activities'],
+            'time_spend_for_non_priority_activities'
+        );
+
+        $this->assertEquals(
+            100, // %
+            $values['time_spend_for_inactivity'],
+            'time_spend_for_inactivity'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['1st_priority_documents'],
+            '1st_priority_documents'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['1st_priority_meetings'],
+            '1st_priority_meetings'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['1st_priority_phone_calls'],
+            '1st_priority_phone_calls '
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['1st_priority_mail'],
+            '1st_priority_mail'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['1st_priority_planning'],
+            '1st_priority_planning'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['non_priority_documents'],
+            'non_priority_documents'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['non_priority_meetings'],
+            'non_priority_meetings'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['non_priority_phone_calls'],
+            'non_priority_phone_calls'
+        );
+
+        $this->assertEquals(
+            0, // %
+            $values['non_priority_mail'],
+            'non_priority_mail'
+        );
+
+        $this->assertEquals(
+            0.00, // %
+            $values['non_priority_planning'],
+            'non_priority_planning'
+        );
+
+        $this->assertEquals(
+            0, // minutes
+            $values['workday_overhead_duration'],
+            'workday_overhead_duration'
+        );
+
+        $this->assertEquals(
+            0, // 0.00 * 1.0
             $values['efficiency'],
             'efficiency'
         );
