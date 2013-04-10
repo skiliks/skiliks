@@ -46,6 +46,62 @@ class TimeManagementAggregated extends CActiveRecord
         return '%';
     }
 
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        switch ($this->slug) {
+            case self::SLUG_EFFICIENCY :
+                return 'Общая оценку эффективности использования времени';
+                break;
+            case self::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES :
+                return 'Время потраченное на задачи 1-го приоритета';
+                break;
+            case self::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY :
+                return 'Время ожидания или бездействия';
+                break;
+            case self::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES :
+                return 'Время потраченное на не важные задачи';
+                break;
+            case self::SLUG_WORKDAY_OVERHEAD_DURATION :
+                return 'Время на которое задержался на на работе';
+                break;
+            case self::SLUG_1ST_PRIORITY_DOCUMENTS :
+                return 'Время потраченное на документы 1-го приоритета';
+                break;
+            case self::SLUG_1ST_PRIORITY_PLANING :
+                return 'Время потраченное на планирование задачь 1-го приоритета';
+                break;
+            case self::SLUG_1ST_PRIORITY_MAIL :
+                return 'Время потраченное на письма 1-го приоритета';
+                break;
+            case self::SLUG_1ST_PRIORITY_PHONE_CALLS :
+                return 'Время потраченное на звонка 1-го приоритета';
+                break;
+            case self::SLUG_1ST_PRIORITY_MEETINGS :
+                return 'Время потраченное на встречи 1-го приоритета';
+                break;
+            case self::SLUG_NON_PRIORITY_MAIL :
+                return 'Время потраченное на не важные письма';
+                break;
+            case self::SLUG_NON_PRIORITY_PHONE_CALLS :
+                return 'Время потраченное на не важные звонки';
+                break;
+            case self::SLUG_NON_PRIORITY_MEETINGS :
+                return 'Время потраченное на не важные встречи';
+                break;
+            case self::SLUG_NON_PRIORITY_DOCUMENTS :
+                return 'Время потраченное на не важные документы';
+                break;
+            case self::SLUG_NON_PRIORITY_PLANING :
+                return 'Время потраченное на планирование не важных задачь';
+                break;
+            default:
+                return '--';
+        }
+    }
+
     /* ------------------------------------------------------------------------------------------------------ */
 
 	/**

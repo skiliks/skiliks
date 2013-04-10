@@ -59,7 +59,7 @@ namespace application\components\Logging {
                 new StressTable($simulation->stress_points),
                 new OverallRateTable($simulation->assessment_overall),
                 new LearningAreaTable($simulation->learning_area),
-
+                new TimeManagementTable($simulation->time_management_aggregated),
             ];
         }
 
