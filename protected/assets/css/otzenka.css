@@ -478,8 +478,9 @@
     padding: 0px 10px;
     text-decoration: none;
 }
-.estmfooter a, .estmfooter a:hover, .estmfooter a:visited {
+.estmfooter a, .estmfooter a:hover, .estmfooter a:visited, .estmfooter a:link {
     color:#fff;
+    outline: none;
 }
 .estmfooter .prev, .estmfooter .fullreport {
     background: #66a3ab;
@@ -808,6 +809,17 @@
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
 }
+/*
+.controller-static-dashboard {
+    overflow: hidden !important;
+}
+.simulation-result-popup {
+    position: fixed;
+    overflow-x: auto !important;
+    overflow-y: scroll !important;
+    top: 0px;
+    z-index: 100000;
+}*/
 /****************************************************/
 .page {
     /*margin: 100px 0 0;
