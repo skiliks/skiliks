@@ -236,6 +236,12 @@ class Scenario extends CActiveRecord
         return MailTemplate::model()->findAllByAttributes($array);
     }
 
+    public function getMailTemplate($array)
+    {
+        $array['scenario_id'] = $this->id;
+        return MailTemplate::model()->findByAttributes($array);
+    }
+
     public function getCommunicationThemes($data)
     {
         if (is_array($data)) {
