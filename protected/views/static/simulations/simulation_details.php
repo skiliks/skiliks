@@ -1,20 +1,4 @@
 <?php /** @var Simulation $simulation */ ?>
-<style>
-    .sections > div {
-        display: none;
-    }
-    .sections > div.active {
-        display: block;
-    }
-
-    .prev {
-        float: left;
-    }
-
-    .next {
-        float: right;
-    }
-</style>
 
 <h1><?php echo $simulation->user->profile->firstname ?> <?php echo $simulation->user->profile->lastname ?></h1>
 
