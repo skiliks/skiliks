@@ -72,7 +72,7 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForTextPresent('Simulation points');
+        $this->waitForVisible("id=mail-log");
         $this->Mail_log($log);
     }
 
