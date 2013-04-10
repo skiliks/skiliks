@@ -1862,7 +1862,6 @@ define([
                 }
 
                 // add phrases {
-                console.log('phrases: ', ('' != response.phrases.message || undefined === response.phrases.message));
                 if ('' == response.phrases.message || undefined === response.phrases.message) {
                     SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);

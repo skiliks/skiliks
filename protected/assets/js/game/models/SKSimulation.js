@@ -100,23 +100,14 @@ define([
                 this.dayplan_tasks = new SKDayTaskCollection();
                 /* Please, move it to safe place */
                 this.postMessageCallback = function(event) {
-                    console.log('event.data: ', event.data);
                     if ('DocumentLoaded' === event.data.type) {
-                    console.log("On dataload");
 
                         $.each(SKDocument._excel_cache, function(id, url){
                             if(url === event.data.url){
                                 var docs = SKApp.simulation.documents.where({id:id.toString()});
                                 docs[0].set('isInitialized', true);
-                                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                                console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
-
                                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                                    console.log("delete block");
                                     if(SKApp.simulation.afterZohoCrash){
-                                        //SKApp.simulation.trigger('iframeReload', 'hello');
-                                        console.log('excel-url: ', url);
-                                        console.log('excel-id: ', id);
                                         $('#excel-preload-'+id).attr("src", url);
                                         SKApp.simulation.afterZohoCrash = false;
                                         $('.zoho-load-start').remove();
@@ -138,7 +129,6 @@ define([
 
                 this.documents = new SKDocumentCollection();
                 this.documents.bind('afterReset', this.onAddDocument, this);
-                this.documents.bind('iframeReload', this.onIframeReload, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
@@ -161,19 +151,12 @@ define([
 
             'onAddDocument' : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
-                    Object.keys(SKDocument._excel_cache).length) {*/
                     if ($(".zoho-load-start") !== undefined) {
                         var pause_screen = $(_.template(pause_screen_template, {}));
                         $('.canvas').append(pause_screen_template);
                     }
 
                 }
-            },
-
-            'onIframeReload' : function(data) {
-                console.log('onIframeReload');
-                console.log('iframe data: ', data);
             },
 
             /**
@@ -245,7 +228,6 @@ define([
             parseNewEvents:function (events) {
                 var me = this;
                 events.forEach(function (event) {
-                    // console.log('[SKSimulation] new event ', event.eventType);
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                         // Crutch, sometimes server returns empty events
                         me.events.trigger('dialog:end');
@@ -354,6 +336,13 @@ define([
                 me._stopTimer();
 
                 this.window_set.deactivateActiveWindow();
+
+                console.log(SKDocument._excel_cache);
+                $.each(SKDocument._excel_cache, function(id, url){
+                    console.log('#excel-preload-' + id);
+                    console.log($('#excel-preload-' + id));
+                    document.getElementById('excel-preload-' + id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
+                });
 
                 var logs = this.windowLog.getAndClear();
 
