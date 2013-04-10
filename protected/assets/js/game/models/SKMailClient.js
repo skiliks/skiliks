@@ -791,13 +791,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             findRecipientByName : function (name) {
 
-                var defaultRecipients = this.defaultRecipients;
-                for (var j in defaultRecipients) {
-                    // get IDs of character by label text comparsion
-                    if (name === defaultRecipients[j].getFormatedForMailToName()) {
-                        return defaultRecipients[j].get('id');
-                    }
-                }
+                return SKApp.simulation.characters.where({'fio':name})[0].get('id');
+
             },
 
             /**
@@ -839,12 +834,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag, updateSubject) {
                 var mailClient = this;
 
-                var checkValue = 1;
-                if ('add' === action || 'add_fwd' === action) {
-                    checkValue = 0;
-                }
                 // display warning only if user add extra recipients
-                if (recipientIds[0] === mailClient.findRecipientByName($(el_tag).text()) &&  this.isNotEmptySubject()) {
+                if (0 !== mailClient.availablePhrases.length && recipientIds[0] === mailClient.findRecipientByName($(el_tag).text()) &&  this.isNotEmptySubject()) {
                     if(action !== 'add_fwd' && action !== 'delete_fwd') {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
