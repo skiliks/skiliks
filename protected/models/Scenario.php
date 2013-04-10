@@ -401,6 +401,12 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getDocumentTemplate($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return DocumentTemplate::model()->findByAttributes($array);
+    }
+
     public function getDocumentTemplates($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
