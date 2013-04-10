@@ -332,17 +332,17 @@ define([
              * @async
              */
             'stop':function () {
-
-                console.log(SKDocument._excel_cache);
-                $.each(SKDocument._excel_cache, function(id, url){
-                    console.log(id);
-                    $(id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
-                });
-
                 var me = this;
                 me._stopTimer();
 
                 this.window_set.deactivateActiveWindow();
+
+                console.log(SKDocument._excel_cache);
+                $.each(SKDocument._excel_cache, function(id, url){
+                    console.log('excel-preload-' + id);
+                    console.log($('excel-preload-' + id));
+                    $('excel-preload-' + id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
+                });
 
                 var logs = this.windowLog.getAndClear();
 
