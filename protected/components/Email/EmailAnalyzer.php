@@ -616,7 +616,6 @@ class EmailAnalyzer
             );
         }
 
-        echo 'mailSessionsTotalAmount = '.$mailSessionsTotalAmount."\n";
 
         // редко читает почту
         if ($mailSessionsTotalAmount < 2) {
