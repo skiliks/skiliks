@@ -2596,13 +2596,13 @@ ul.profile-menu li {
     z-index: 1000;
 }
 
-.chart-bar {
+.chart-bar, .chartbar {
     overflow: hidden;
     height: 32px;
     border-radius: 5px;
     background-color: #b5d4d7;
 }
-.chart-bar .chart-value {
+.chart-bar .chart-value, .chartbar .chart-value {
     display: block;
     overflow: hidden;
     padding-right: 10px;
@@ -2611,7 +2611,7 @@ ul.profile-menu li {
     background-color: #146672;
     text-align: center;
     color: white;
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 18px;
     line-height: 30px;
 
