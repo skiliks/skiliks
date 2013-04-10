@@ -2656,7 +2656,7 @@ ul.profile-menu li {
     right: -50px;
     top: 0;
 }
-.chart-bullet .bar, .bar {
+.chart-bullet .bar, .bar, .shortIndicator .bar {
     display: block;
     height: 100%;
     width: 0;
