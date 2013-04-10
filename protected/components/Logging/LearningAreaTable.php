@@ -37,10 +37,12 @@ class LearningAreaTable extends LogTable
      */
     protected function getRow($row)
     {
+        $value = round($row->value, 2);
+        $value = (string)$value === '0' ? '0.00':$value;
         $result = [
             $row->learningArea->code,
             $row->learningArea->title,
-            round($row->value, 2)
+            $value
         ];
 
         return $result;
