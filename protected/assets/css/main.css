@@ -1548,6 +1548,17 @@ ul.main-screen-stat li{
 	padding:0 10px;
         padding-bottom: 5px;
 }
+ul.main-screen-stat li a.pause {
+    background: url(../img/main-screen/icon_pause.png) no-repeat 0 0;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    vertical-align: top;
+    margin-left: 5px;
+}
+ul.main-screen-stat li a.pause:hover {
+    background-position:100% 0;
+}
 ul.main-screen-stat li:first-child{
 	background:none;
 }
