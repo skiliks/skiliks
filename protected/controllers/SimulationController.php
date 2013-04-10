@@ -40,6 +40,7 @@ class SimulationController extends AjaxController
                 'У вас нет прав для старта этой симуляции'
             ));
             $this->redirect("/dashboard");//throw new Exception('У вас нет прав для старта этой симуляции');
+            return;
         } else {
             $simulation = SimulationService::simulationStart($invite, $mode);
         }
