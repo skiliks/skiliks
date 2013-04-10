@@ -374,9 +374,42 @@
 .personalbars * {
     font-family: "ProximaNova-Regular" !important;
 }
+.shortIndicator, .shortindvalue {
+    position: relative;
+}
+.shortindvalue {
+    width: 60px;
+}
+.shortIndicator .bullet {
+    top:1px;
+}
+.shortIndicator .bullet.lowlevel {
+    left: 1px;
+}
+.shortIndicator .bullet.highlevel {
+    left: 28px;
+}
+.shortIndicator .bar {
+    border-radius: 15px;
+    height: 30px;
+    width: 60px;
+}
+.shortchartvalue {
+    font-size: 15px;
+    left: 70px;
+    position: absolute;
+    top:6px;
+}
+.personalbars .shortIndicator {
+    margin-left: -4px;
+    margin-top: -12px;
+}
 .personallabels {
     float: left;
     width: 405px;
+}
+.barswrap.personalbars {
+    padding-bottom: 20px;
 }
 .personalbars {
     float:right;
