@@ -790,8 +790,8 @@
 .timedetail .testtime strong {
     font-size: 30px;
 }
-.timedetail .titlemins {
-    clear: both;
+.resulttitele  small {
+    display:block;
     color: #3d4041;
     font: 18px 'ProximaNova-Bold';
     margin-bottom: 10px;
