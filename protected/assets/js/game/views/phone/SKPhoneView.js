@@ -56,7 +56,13 @@ define([
          */
         getContacts: function () {
             //$('#'+id+' .phone-screen')
-            this.renderTPL('.phone-screen', phone_contacts, {'contacts': SKApp.simulation.characters.withoutHero()});
+
+            this.renderTPL('.phone-screen', phone_contacts, {
+                'contacts': SKApp.simulation.characters.filter(function (character) {
+                    /** @type {SKCharacter} character */
+                    return character.get('code') !== 1 && character.get('phone');
+                })
+            });
             this.$('.phone-list-contacts').mCustomScrollbar();
 
         },
