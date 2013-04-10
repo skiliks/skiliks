@@ -341,7 +341,10 @@ define([
                 $.each(SKDocument._excel_cache, function(id, url){
                     console.log('#excel-preload-' + id);
                     console.log($('#excel-preload-' + id));
-                    document.getElementById('excel-preload-' + id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
+
+                    // @todo: ruge - but efficient. We didn`t care about 
+                    $('#excel-preload-' + id).remove();
+                    //document.getElementById('excel-preload-' + id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
                 });
 
                 var logs = this.windowLog.getAndClear();
