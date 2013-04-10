@@ -119,4 +119,18 @@ class StaticSiteTools
             case 'RUB': return $cn->format($pattern, $amount, $currencyCode);
         }
     }
+
+    /**
+     * @return int
+     */
+    public static function getLiteSimulationDurationInMinutes()
+    {
+        $scenarioLite = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        list($startHours, $startMinutes) = explode(':', $scenarioLite->start_time);
+        list($endHours, $endMinutes) = explode(':', $scenarioLite->end_time);
+
+        // x4 -- production site simulation time acceleration
+        return ($endHours*60 + $endMinutes - $startHours*60 - $startMinutes) / 4;
+    }
 }

@@ -6,7 +6,7 @@
             <div class="registermessage registerpads">
                 <a class="regicon icon-check" id="registration_check" href="/simulation/promo/2"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
                 <h3>Пробный тест</h3>
-                <div class="testtime"><strong>45</strong> Минут</div>
+                <div class="testtime"><strong><?php echo StaticSiteTools::getLiteSimulationDurationInMinutes() ?></strong> Минут</div>
                 <ul>
                     <li>Частичная оценка навыков бесплатно</li>
                     <li>Погружение в игровую среду для понимания, как работает симуляция</li>
