@@ -116,7 +116,7 @@ return array(
     'Email' => 'Email',
     'Show passwords' => 'Показать пароли',
     'Username' => 'Имя пользователя',
-    '{attribute} is too short (min. {num} characters).' => '{attribute} слишком короткий (должен быть {num} символов и более).',
+    '{attribute} is too short (min. {num} characters).' => 'введите не менее {num} символов',
     'Please check your inbox folder, for activation email.' => 'На указанный Вами email отправлено письмо',
     'You not authorized. Please %s sing-in %s or %s register %s.' => 'Вы не авторизированны. Пожалуйста %s войдите в систему %s или %s зарегисрируйтесь %s.',
     'Your account successfully updated to "%s".' => 'Ваш аккаунт успешно обновлён до "%s".',
