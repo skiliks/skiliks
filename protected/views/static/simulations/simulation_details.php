@@ -25,6 +25,22 @@
             <?php $this->renderPartial('partials/tab_managerial_skills', []) ?>
         </div>
 
+        <div id="managerial-skills-1-2">
+            <?php $this->renderPartial('partials/tab_managerial_skills_1_2', []) ?>
+        </div>
+
+        <div id="managerial-skills-3-4">
+            <?php $this->renderPartial('partials/tab_managerial_skills_3_4', []) ?>
+        </div>
+
+        <div id="managerial-skills-5-6">
+            <?php $this->renderPartial('partials/tab_managerial_skills_5_6', []) ?>
+        </div>
+
+        <div id="managerial-skills-7">
+            <?php $this->renderPartial('partials/tab_managerial_skills_7', []) ?>
+        </div>
+
         <div id="productivity">
             <?php $this->renderPartial('partials/tab_productivity', ['simulation' => $simulation]) ?>
         </div>
@@ -33,13 +49,17 @@
             <?php $this->renderPartial('partials/tab_time_management', []) ?>
         </div>
 
+        <div id="time-management-detail">
+            <?php $this->renderPartial('partials/tab_time_management_detail', []) ?>
+        </div>
+
         <div id="personal-qualities">
             <?php $this->renderPartial('partials/tab_personal_skills', ['simulation' => $simulation, 'learning_areas'=>$learning_areas]) ?>
         </div>
     </div>
 
     <div class="estmfooter">
-        <a class="prev" href="#prev"><?php echo Yii::t('site', 'Previous') ?></a>
+        <a class="prev" href="#prev"><?php echo Yii::t('site', 'Back') ?></a>
         <a class="next" href="#next"><?php echo Yii::t('site', 'Next') ?></a>
     </div>
 </div>
@@ -77,14 +97,14 @@
                 var id = $(this).attr('href').slice(1);
 
                 if ($(this).is(o.prevSelector)) {
-                    me.prev();
+                    id = me.prev();
                 } else if ($(this).is(o.nextSelector)) {
-                    me.next();
+                    id = me.next();
                 } else {
-                    history.pushState({id: id}, '', o.changeHash ? this.href : null);
                     me.open(id);
                 }
 
+                history.pushState({id: id}, '', o.changeHash ? '#' + id : null);
                 e.preventDefault();
             });
 
@@ -108,7 +128,8 @@
         },
 
         open: function(id) {
-            var o = this.options;
+            var o = this.options,
+                link;
 
             if (this.idList.indexOf(id) > -1) {
                 this.$sections
@@ -117,10 +138,16 @@
                     .addClass(o.activeClass)
                     .trigger('open');
 
-                this.$links
+                link = this.$links
                     .removeClass(o.activeClass)
                     .filter('[href=#' + id + ']')
                     .addClass(o.activeClass);
+
+                if (link.attr('data-parent')) {
+                    this.$links
+                        .filter('[href=#' + link.attr('data-parent') + ']')
+                        .addClass(o.activeClass);
+                }
 
                 this.current = id;
             }
@@ -128,7 +155,9 @@
 
         prev: function() {
             var index = (this.idList.indexOf(this.current) || this.idList.length) - 1;
+
             this.open(this.idList[index]);
+            return this.idList[index];
         },
 
         next: function() {
@@ -136,7 +165,9 @@
             if (index == this.idList.length) {
                 index = 0;
             }
+
             this.open(this.idList[index]);
+            return this.idList[index];
         }
     });
 
