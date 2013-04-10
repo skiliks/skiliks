@@ -33,8 +33,17 @@ class SimulationController extends AjaxController
         }
         // check invite if it setted }
 
-        $user = Yii::app()->user->data();
-        $simulation = SimulationService::simulationStart($invite, $mode);
+        if ($invite->scenario->slug == Scenario::TYPE_FULL
+            && false == $invite->receiverUser->can(UserService::CAN_START_FULL_SIMULATION)
+        ) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'У вас нет прав для старта этой симуляции'
+            ));
+            $this->redirect("/dashboard");//throw new Exception('У вас нет прав для старта этой симуляции');
+        } else {
+            $simulation = SimulationService::simulationStart($invite, $mode);
+        }
+
 
         if (null === $simulation) {
             $this->sendJSON(
