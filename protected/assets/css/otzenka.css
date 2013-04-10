@@ -367,7 +367,7 @@
 .signmore {
     background: url(../img/icon-circlearrw.png) no-repeat left bottom;
     display: inline-block;
-    height: 21px;
+    height: 31px;
     margin-bottom: -4px;
     width: 21px;
 }
@@ -384,7 +384,7 @@
     width: 495px;
 }
 .personallabels .smalltitle {
-    margin-top: 45px;
+    margin-top: 46px;
     text-align: right;
 }
 .personallabels .smalltitle:first-child {
