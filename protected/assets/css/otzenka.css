@@ -267,7 +267,7 @@
     padding-left: 374px;
 }
 .total {
-    font-size: 41px;
+    font-size: 39px; /* font-size: 41px; */
     margin-bottom: 40px;
 }
 .totalwithresult {
@@ -329,11 +329,21 @@
 .colordone {
     background: #146672;
 }
+.colorwarn {
+    background: #e11a1a;
+}
 .resultslegend {
     margin-left: 348px;
 }
+.legendvalue {
+    margin-top: 10px;
+}
+.legendvalue:first-child {
+    margin-top: 0px;
+}
 .resultslegend .legendvalue {
     display: inline-block;
+    margin-top: 0px;
     width: 280px;
 }
 .textcener {
@@ -375,6 +385,7 @@
     font-family: "ProximaNova-Regular" !important;
 }
 .shortIndicator, .shortindvalue {
+    height: 30px;
     position: relative;
 }
 .shortindvalue {
@@ -390,9 +401,9 @@
     left: 28px;
 }
 .shortIndicator .bar {
-    border-radius: 15px;
-    height: 30px;
-    width: 60px;
+    border-radius: 15px !important;
+    height: 30px !important;
+    width: 60px !important;
 }
 .shortchartvalue {
     font-size: 15px;
@@ -494,7 +505,9 @@
     width: 27px !important;
 }
 
+.timeblock {
 
+}
 /****************************************************/
 .page {
     /*margin: 100px 0 0;
