@@ -39,8 +39,8 @@ define([
      * Объект симуляции, при создании инициализирует все коллекции. В нем также находятся (или должны находиться обработчики входящих
      * события)
      *
-     * @class SKSimulation
      * @augments Backbone.Model
+     * @class SKSimulation
      */
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
@@ -86,11 +86,10 @@ define([
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
-                        me.trigger('before-stop');
                         me.stop();
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
-                        me.stop();
+                        me.trigger('end');
                     }
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
@@ -233,10 +232,9 @@ define([
                         me.events.trigger('dialog:end');
                         return;
                     }
-                    var event_params = event;
-                    event_params.type = event_params.eventType;
-                    delete event_params.result;
-                    var event_model = new SKEvent(event_params);
+                    event.type = event.eventType;
+                    delete event.result;
+                    var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
