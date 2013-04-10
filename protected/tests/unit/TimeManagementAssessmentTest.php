@@ -302,8 +302,8 @@ class TimeManagementAssessmentTest extends CDbTestCase
         $log->activity_action_id = $activity_action_A_incorrect_sent->id;
         $log->activityAction = $activity_action_A_incorrect_sent;
         $log->category = $activity_A_incorrect_sent->category->code;
-        $log->start_time = '18:00:00';
-        $log->end_time = '18:10:00';
+        $log->start_time = '18:30:00';
+        $log->end_time = '18:40:00';
         $log->duration = '00:10:00';
         $log->save();
         // log13, A_wait }
@@ -321,87 +321,93 @@ class TimeManagementAssessmentTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            41.00,
+            41.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            30.00,
+            30.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            29.00,
+            29.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
 
         $this->assertEquals(
-            27.00,
+            27.00, // %
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
 
         $this->assertEquals(
-            18.00,
+            18.00, // %
             $values['1st_priority_meetings'],
             '1st_priority_meetings'
         );
 
         $this->assertEquals(
-            18.00,
+            18.00, // %
             $values['1st_priority_phone_calls'],
             '1st_priority_phone_calls '
         );
 
         $this->assertEquals(
-            18.00,
+            18.00, // %
             $values['1st_priority_mail'],
             '1st_priority_mail'
         );
 
         $this->assertEquals(
-            19.00,
+            19.00, // %
             $values['1st_priority_planning'],
             '1st_priority_planning'
         );
 
         $this->assertEquals(
-            25.00,
+            25.00, // %
             $values['non_priority_documents'],
             'non_priority_documents'
         );
 
         $this->assertEquals(
-            25.00,
+            25.00, // %
             $values['non_priority_meetings'],
             'non_priority_meetings'
         );
 
         $this->assertEquals(
-            25.00,
+            25.00, // %
             $values['non_priority_phone_calls'],
             'non_priority_phone_calls'
         );
 
         $this->assertEquals(
-            25.00,
+            25.00, // %
             $values['non_priority_mail'],
             'non_priority_mail'
         );
 
         $this->assertEquals(
-            0.00,
+            0.00, // %
             $values['non_priority_planning'],
             'non_priority_planning'
         );
 
         $this->assertEquals(
-            10.00,
+            40.00, // minutes
             $values['workday_overhead_duration'],
             'workday_overhead_duration'
+        );
+
+        $this->assertEquals(
+            24.60, // 41.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
         );
     }
 }
