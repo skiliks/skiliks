@@ -22,7 +22,7 @@
             <div class="allseprtwrap">
                 <div class="ratepercnt uprnavprcnt">50%</div>
                 <div class="ratepercnt resultprcnt">30%</div>
-                <div class="ratepercnt timeprcnt">100%</div>
+                <div class="ratepercnt timeprcnt">20%</div>
             </div>
         </div>
     </div><!-- /estmtresults -->
@@ -51,32 +51,32 @@
 <div class="rateslist">
     <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>
         <ol class="bluelist numlist">
-            <li><a href="#">Следование приоритетам</a></li>
-            <li><a href="#">Управление задачами</a></li>
-            <li><a href="#">Управление людьми</a></li>
-            <li><a href="#">Оптимальный выбор каналов коммуникации</a></li>
-            <li><a href="#">Эффективная работа с почтой</a></li>
-            <li><a href="#">Эффективное управление звонками</a></li>
-            <li><a href="#">Эффективное управление встречами</a></li>
+            <li><a href="#managerial-skills-1-2" data-parent="managerial-skills">Следование приоритетам</a></li>
+            <li><a href="#managerial-skills-1-2" data-parent="managerial-skills">Управление задачами</a></li>
+            <li><a href="#managerial-skills-3-4" data-parent="managerial-skills">Управление людьми</a></li>
+            <li><a href="#managerial-skills-3-4" data-parent="managerial-skills">Оптимальный выбор каналов коммуникации</a></li>
+            <li><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективная работа с почтой</a></li>
+            <li><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективное управление звонками</a></li>
+            <li><a href="#managerial-skills-7" data-parent="managerial-skills">Эффективное управление встречами</a></li>
         </ol>
     </div>
     <div class="widthblock"></div>
     <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
         <ul class="bluelist nobultslist">
-            <li><a href="#">Распределение времени</a></li>
+            <li><a href="#time-management-detail" data-parent="time-management">Распределение времени</a></li>
             <li><a href="#">Сверхурочное время </a></li>
         </ul>
     </div>
     <div class="widthblock"><h3>ИЗМЕРЯЕМЫЕ ХАРАКТЕРИСТИКИ</h3>
         <ul class="bluelist nobultslist">
-            <li><a href="#">Ориентация на результат</a></li>
-            <li><a href="#">Внимательность</a></li>
-            <li><a href="#">Ответственность</a></li>
-            <li><a href="#">Устойчивость к манипуляциям и давлению</a></li>
-            <li><a href="#">Конструктивность</a></li>
-            <li><a href="#">Гибкость</a></li>
-            <li><a href="#">Принятие решений</a></li>
-            <li><a href="#">Стрессоустойчивость</a></li>
+            <li><a href="#personal-qualities">Ориентация на результат</a></li>
+            <li><a href="#personal-qualities">Внимательность</a></li>
+            <li><a href="#personal-qualities">Ответственность</a></li>
+            <li><a href="#personal-qualities">Устойчивость к манипуляциям и давлению</a></li>
+            <li><a href="#personal-qualities">Конструктивность</a></li>
+            <li><a href="#personal-qualities">Гибкость</a></li>
+            <li><a href="#personal-qualities">Принятие решений</a></li>
+            <li><a href="#personal-qualities">Стрессоустойчивость</a></li>
         </ul>
     </div>
 </div>
