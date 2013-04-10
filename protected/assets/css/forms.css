@@ -209,7 +209,7 @@
     color: #146672;
     float: right;
     font-family: "ProximaNova-Bold";
-    height: 82px;
+    height: 50px; /* height: 82px; */
     margin:-54px 20px 0px 0px;
     padding: 17px 16px 10px;
     text-align: center;

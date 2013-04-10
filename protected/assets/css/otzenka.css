@@ -80,7 +80,8 @@
     float: left;
 }
 .gauge-charts:after, #simulation-details-tabs:after, .page:after,
-.simulation-details .navigation:after, .clearfix:after, .navigatnwrap:after, .legendvalue:after  {
+.simulation-details .navigation:after, .clearfix:after, .navigatnwrap:after, .legendvalue:after,
+.twocharts:after, .twobarstitles:after, .estmfooter:after {
     content: ".";
     display: block;
     height: 0;
@@ -229,12 +230,15 @@
 .resulttitele, .resulttitele a, .resulttitele a:visited {
     color:#3d4041;
     font:28px 'ProximaNova-Bold';
+    font-weight: normal;
     text-decoration: none;
+}
+.mangrlresults+.resulttitele {
+    margin-top: 20px;
 }
 .labels {
     float: left;
     margin-top: 8px;
-    padding-left:10px;
     width: 300px;
 }
 .labels .row {
@@ -265,13 +269,15 @@
 .barstitle {
     color:#3d4041;
     font:18px 'ProximaNova-Bold';
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 .resultlabeltitle {
     padding-left: 374px;
 }
 .total {
-    font-size: 36px; /* font-size: 41px; */
+    font:36px 'ProximaNova-Bold';/* font-size: 41px; */
+    font-weight: normal;
+    line-height: 120%;
     margin-bottom: 40px;
 }
 .totalwithresult {
@@ -336,8 +342,8 @@
 .colorwarn {
     background: #e11a1a;
 }
-.resultslegend {
-    margin-left: 348px;
+.resultslegend, .legendmargin {
+    margin-left: 328px;
 }
 .legendvalue {
     margin-top: 10px;
@@ -348,7 +354,7 @@
 .resultslegend .legendvalue {
     display: inline-block;
     margin-top: 0px;
-    width: 280px;
+    width: 270px;
 }
 .textcener {
     text-align: center;
@@ -370,10 +376,10 @@
     border-radius: 3px;
     font-size: 18px;
     margin-left:10px;
-    padding: 5px 0px;
+    padding: 4px 0px;
     text-align: center;
     text-decoration: none;
-    width: 30px;
+    width: 26px;
 }
 .questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
     color: #fff;
@@ -456,6 +462,7 @@
 }
 .estmfooter {
     margin-top: 60px;
+    padding: 0px 10px;
 }
 .estmfooter .prev {
     float: left;
@@ -511,7 +518,7 @@
     height: 27px !important;
     width: 27px !important;
 }
-.extrasidepads {
+.extrasidepads, .section {
     padding: 0px 10px;
 }
 .timeblock {
@@ -522,8 +529,11 @@
     padding: 20px;
     width:415px;
 }
-.timeblock h2 {
+.timeblock .resulttitele {
     margin-bottom:44px;
+}
+.timedetail .timeblock  .resulttitele {
+    margin-bottom:0px;
 }
 .blockseprt {
     display: table-cell;
@@ -638,18 +648,27 @@
 .helpbuble.criticalbuble:after {
     border-width: 8px 0 8px 10px;
     border-color: transparent transparent transparent #fdfbc6;
-    top:40px;
+    margin-top: -8px;
+    top:50%;
     right:-10px;
 }
 .actvbuble {
     right:-100px;
     top:60px;
 }
-.actvbuble:after {
-    top:34px;
+.actvbuble:after, .chartproblem .helpbuble:after {
+    margin-top: -8px;
+    top:50%;
     left:-10px;
     border-width: 8px 10px 8px 0;
     border-color: transparent #fdfbc6 transparent transparent;
+}
+.thelabel .helpbuble:after {
+    border-width: 0 8px 10px 8px;
+    border-color: transparent transparent #fdfbc6 transparent;
+    top:-10px;
+    left:50%;
+    margin-left:-8px;
 }
 .inactvbuble {
     left:30px;
@@ -659,11 +678,14 @@
     bottom:-10px;
     left:90px;
 }
-.mangrlresults .chartbar {
+.mangrlresults .chartbar, .mangrlresults .emptychart {
     margin-bottom: 20px;
 }
-.mangrlresults .chartbar:last-child {
+.mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child .chartbar {
     margin-bottom: 0px;
+}
+.mangrlresults .labels {
+    padding-left: 0px;
 }
 .mangrlresults .labels a {
     color: #3d4041;
@@ -688,11 +710,95 @@
     margin-left:70px;
     padding-top: 25px;
 }
-.mangrlresults .labels p {
-    margin-top:30px;
+.mangrlresults .labelwrap {
+    margin-top:20px;
+}
+.thelabel {
+    display: table-cell;
+    height: 32px;
+    line-height: 110%;
+    position: relative;
+    vertical-align: middle;
 }
 .mangrlresults .labels p:first-child {
-    margin-top:10px;
+    margin-top:8px;
+}
+.valuetitle {
+    background: #ffffff;
+    -webkit-border-radius: 40px;
+    -moz-border-radius:40px;
+    border-radius:40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    color: #146672;
+    display: inline-block;
+    font: 25px "ProximaNova-Bold";
+    font-weight: normal;
+    height: 80px;
+    line-height: 80px;
+    margin-right: 20px;
+    text-align: center;
+    width: 80px;
+}
+.twocharts .chartbar {
+    float: left;
+    width: 350px !important;
+}
+.twocharts .chartbar.chartproblem {
+    margin-left: 20px;
+    width:230px !important;
+}
+.chartproblem .chart-value {
+    background: #e11a1a !important;
+}
+.chartproblem .helpbuble {
+    margin-left: 220px;
+    margin-top: -24px;
+}
+.thelabel .helpbuble {
+    margin-top: 10px;
+}
+.thelabel .helpbuble, .chartproblem .helpbuble {
+    display: none !important;
+}
+.thelabel:hover .helpbuble, .chartproblem:hover .helpbuble {
+    display: block !important;
+}
+.twobarstitle {
+    margin-top: -10px;
+}
+.twobarstitles .barstitle {
+    display: inline-block;
+}
+.twobarstitles .barstitle:first-child {
+    width: 350px;
+}
+.timedetail .resulttitele {
+    float: left;
+    line-height: 100%;
+    width: 330px;
+}
+.timedetail .testtime {
+    float: right;
+    margin: 0px;
+    margin-right: -10px;
+    padding-top: 24px;
+}
+.timedetail .testtime strong {
+    font-size: 30px;
+}
+.timedetail .titlemins {
+    clear: both;
+    color: #3d4041;
+    font: 18px 'ProximaNova-Bold';
+}
+.timedetail .labels {
+    width: 100px;
+}
+.timedetail .timebars {
+    width:270px;
+}
+.timedetail .thelabel {
+    font-size: 14px;
 }
 /****************************************************/
 .page {
