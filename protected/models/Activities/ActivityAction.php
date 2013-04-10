@@ -5,7 +5,8 @@
  *
  * The followings are the available columns in table 'activity_action':
  * @property integer $id
- * @property string $activity_id
+ * @property integer $activity_id
+ * @property string $leg_type
  * @property integer $dialog_id
  * @property integer $mail_id
  * @property integer $document_id
@@ -15,18 +16,24 @@
  * @property Replica $dialog
  * @property MailTemplate $mail
  * @property DocumentTemplate $document
- * @property string import_id
- * @property string leg_type
- * @property Window window
+ * @property string $import_id
+ * @property Window $window
  */
 class ActivityAction extends CActiveRecord
 {
-    const LEG_TYPE_WINDOW = 'window';
+    const LEG_TYPE_WINDOW = 'Window';
     const LEG_TYPE_INBOX = 'Inbox_leg';
     const LEG_TYPE_OUTBOX = 'Outbox_leg';
     const LEG_TYPE_DOCUMENTS = 'Documents_leg';
     const LEG_TYPE_MANUAL_DIAL = 'Manual_dial_leg';
     const LEG_TYPE_SYSTEM_DIAL = 'System_dial_leg';
+
+    public function isPlan()
+    {
+        return (null === $this->document_id && null === $this->mail_id && null === $this->dialog_id);
+    }
+
+    /* ------------------------------------------------------------------------------------------------- */
 
     /**
      * @var bool

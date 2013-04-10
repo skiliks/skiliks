@@ -293,6 +293,7 @@ class Replica extends CActiveRecord implements IGameAction
         return [
             'from_character'             => [self::BELONGS_TO, 'Character', 'ch_from'],
             'to_character'               => [self::BELONGS_TO, 'Character', 'ch_to'],
+            'dialogSubtype'               => [self::BELONGS_TO, 'DialogSubtype', 'dialog_subtype'],
             'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'dialog_id']
         ];
     }

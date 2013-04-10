@@ -1,13 +1,13 @@
 <?php
 /**
- * @property integer id
- * @property integer sim_id
- * @property integer mail_id
- * @property integer window
- * @property datetime start_time
- * @property datetime end_time
- * @property Simulation simulation
- * @property ActivityAction activityAction
+ * @property integer $id
+ * @property integer $sim_id
+ * @property integer $mail_id
+ * @property integer $window
+ * @property datetime $start_time
+ * @property datetime $end_time
+ * @property Simulation $simulation
+ * @property ActivityAction $activityAction
  */
 class LogActivityActionAgregated extends CActiveRecord
 {
