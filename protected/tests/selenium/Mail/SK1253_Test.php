@@ -44,7 +44,6 @@ class SK1253_Test extends SeleniumTestHelper
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
@@ -63,7 +62,7 @@ class SK1253_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+        $this->click("xpath=(//*[contains(text(),'Беседа с консультантами')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
         $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
