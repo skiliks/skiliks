@@ -16,7 +16,7 @@ class TimeManagementAggregated extends CActiveRecord
     const SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES = 'time_spend_for_1st_priority_activities';
     const SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES = 'time_spend_for_non_priority_activities';
 
-    const SLUG_WORKDAY_DURATION = 'workday_duration';
+    const SLUG_WORKDAY_OVERHEAD_DURATION = 'workday_overhead_duration';
 
     const SLUG_1ST_PRIORITY_DOCUMENTS   = '1st_priority_documents';
     const SLUG_1ST_PRIORITY_MEETINGS    = '1st_priority_meetings';
@@ -38,7 +38,7 @@ class TimeManagementAggregated extends CActiveRecord
      */
     public static function getUnitLabel($slug)
     {
-        if (self::SLUG_WORKDAY_DURATION == $slug) {
+        if (self::SLUG_WORKDAY_OVERHEAD_DURATION == $slug) {
             return 'min';
         }
 
