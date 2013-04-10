@@ -341,8 +341,10 @@ define([
 
                 SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
 
-                    $('ifarme').each(function(){
-                        $(this).postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
+                    console.log($('ifarme'));
+                    $('ifarme').each(function() {
+                        console.log($(this));
+                        $(this).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
                     });
 
                     /**
