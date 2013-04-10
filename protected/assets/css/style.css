@@ -2602,17 +2602,17 @@ ul.profile-menu li {
     border-radius: 5px;
     background-color: #b5d4d7;
 }
-.chart-bar .chart-value, .chartbar .chart-value {
+.chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
     display: block;
     overflow: hidden;
-    padding-right: 10px;
+    /*padding-right: 10px;*/
     width: 0;
     height: 32px;
     background-color: #146672;
     text-align: center;
     color: white;
     /*font-weight: bold;*/
-    font-size: 18px;
+    font:18px "ProximaNova-Regular";
     line-height: 30px;
 
     -webkit-box-sizing: border-box;
