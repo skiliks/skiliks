@@ -1174,10 +1174,13 @@ define([
                     afterDelete: function (tag) {
                         var subject = mailClientView.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
                         var curRec = mailClientView.currentRecipients;
+                        var availablePhrases = SKApp.simulation.mailClient.availablePhrases;
                         if(curRec !== undefined && curRec.indexOf(tag) === 0 && curRec.length === 1 && subject === "") {
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                             mailClientView.updateSubjectsList();
                         }else if(curRec !== undefined && curRec.indexOf(tag) === 0 && subject === ""){
+                            SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        }else if(curRec !== undefined && curRec.indexOf(tag) === 0 && availablePhrases.length === 0){
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }
                     },
@@ -1315,7 +1318,7 @@ define([
                         value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId)
                     });
                 }
-                if(subjects_list.length == 0){
+                if(subjects_list.length === 0){
                     subjects_list.push({
                         text: "без темы.",
                         value: 0,
