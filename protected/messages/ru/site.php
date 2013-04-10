@@ -216,6 +216,10 @@ return array(
     'Confirmation' => 'Подтверждение',
     'Sign up' => 'Зарегистрироваться',
 
+    'Next' => 'Вперед',
+    'Previous' => 'Назад',
+    'Full report' => 'Полный отчет',
+
     'Free full assessment of skills' => 'Полная оценка навыков бесплатно',
     'Skills comparison with others' => 'Сравнение навыков с другими',
     'Updates for free' => 'Бесплатные обновления',
