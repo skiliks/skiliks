@@ -104,8 +104,10 @@ body.inner-registration{
 }
 
 .inner-registration .container{
-	min-height: auto;
+	/*
+    min-height: auto;
 	height:966px;
+	*/
 }
 @media screen and (max-width: 1280px){
     .action-controller-comingSoonSuccess-static-pages .container,
@@ -1025,7 +1027,7 @@ html[lang=ru] .product section table th{
 	overflow:visible;
 }
 .registration{
-	padding-top:43px;
+	/*padding-top:43px;*/
 }
 .registration h2{
 	font:2.798em "ProximaNova-Bold";
@@ -1064,7 +1066,7 @@ html[lang=ru] .product section table th{
 }
 .registration .form>ul{
 	list-style:none;
-	min-height:96px;
+	min-height:135px;
 	margin:0 34px 28px;
 }
 .registration .form>ul li{
