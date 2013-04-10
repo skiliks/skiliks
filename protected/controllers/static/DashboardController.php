@@ -26,7 +26,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
         if (false === $this->user->isCorporate() ||
             empty($this->user->account_corporate->is_corporate_email_verified)
         ) {
-            Yii::app()->user->setFlash('error', 'У Вас нет прав, т.к. Вы не активировали корпоративный почтовый ящик. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации.');
+            Yii::app()->user->setFlash('error',
+                'У Вас нет прав, т.к. Вы еще не активировали корпоративный профиль.<br/>
+                Проверьте Вашу почту - Вам пришло письмо со ссылкой для активации.'
+            );
             $this->redirect($_SERVER['HTTP_REFERER']);
         }
 
