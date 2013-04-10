@@ -87,8 +87,8 @@ return array(
                     'Password'   => 'skiliks531',        // GMAIL password
                 ),
                 'msgOptions'=>array(
-                    'fromName' =>'Skiliks - сервис оценки управленческих навыков.',
-                    'toName'   =>'New Skiliks user',
+                    'fromName' =>'Skiliks',
+                    'toName'   =>'',
                 ),
             )
         ),
