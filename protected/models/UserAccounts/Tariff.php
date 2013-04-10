@@ -39,7 +39,7 @@ class Tariff extends CActiveRecord
     public function getFormattedSafeAmount($prefix = '')
     {
         if ($this->is_free) {
-            return 'Месяц бесплатно';
+            return '1 мес бесплатно';
         }
 
         return  $prefix.StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#'). ' р';
