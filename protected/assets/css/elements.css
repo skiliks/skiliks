@@ -256,26 +256,36 @@ section.registration-by-link .form .row a.decline-link {
 section.registration-by-link .form .row a.decline-link:hover {
     border-bottom:none;
 }
-.error_wrap.first_name {
+section.registration-by-link .error_wrap.first_name {
     right: 384px;
     top: -36px;
 }
-.error_wrap.last_name {
+section.registration-by-link .error_wrap.last_name {
     background-position: 20% 100%;
     left: 375px;
     top: -36px;
 }
-.error_wrap.password {
-    background-position:100px 100%;
-    left: 100px;
-    top: -36px;
+section.registration-by-link .error_wrap.password {
+    background:url("../img/bg-form-error-left.png") 0 100% no-repeat;
+    left: 355px;
+    bottom: 2px;
+    padding:0 0 0 16px;
 }
-.error_wrap.password_again {
-    background-position:100px 100%;
-    left: 100px;
-    top: -36px;
+section.registration-by-link .error_wrap.password .errorMessage {
+    background:#DB4D46;
+    margin-left:-5px;
 }
-
+section.registration-by-link .error_wrap.password_again {
+    background:url("../img/bg-form-error-left.png") 0 0 no-repeat;
+    left: 355px;
+    top: 2px;
+    padding:0 0 0 16px;
+    z-index:2;
+}
+section.registration-by-link .error_wrap.password_again .errorMessage {
+    background:#DB4D46;
+    margin-left:-5px;
+}
 /* universal */
 .blackout {
     position: fixed;
