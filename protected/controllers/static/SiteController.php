@@ -27,6 +27,7 @@ class SiteController extends AjaxController
         ]);
 
         if (null === $user || null === $scenario) {
+
             $this->redirect('/');
         }
 
@@ -40,6 +41,8 @@ class SiteController extends AjaxController
             // wrong mode name mode
             $this->redirect('/');
         }
+
+
 
         // check invite if it setted {
         if (null !== $invite_id) {
@@ -57,6 +60,16 @@ class SiteController extends AjaxController
                     $invite->ownerUser->getAccount()->company_name
                 ));
                 $this->redirect('/simulations');
+            }
+
+            if ($invite->scenario->slug == Scenario::TYPE_FULL
+                && false == $invite->receiverUser->can(UserService::CAN_START_FULL_SIMULATION)
+            ) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас нет прав для старта этой симуляции'
+                ));
+                $this->redirect("/dashboard");//throw new Exception('У вас нет прав для старта этой симуляции');
+                return;
             }
         }
         // check invite if it setted }
