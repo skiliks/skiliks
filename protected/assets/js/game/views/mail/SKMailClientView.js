@@ -1751,7 +1751,13 @@ define([
                 if(index === null){
                     throw new Error("index !== null");
                 }
-                this.$("#MailClient_NewLetterSubject").ddslick('select', {'index': index });
+                var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
+                this.$("#MailClient_NewLetterSubject").ddslick('destroy');
+                this.$("#MailClient_NewLetterSubject").ddslick({
+                    data: ddData,
+                    width: '100%',
+                    defaultSelectedIndex:index
+                });
             },
 
             /**
