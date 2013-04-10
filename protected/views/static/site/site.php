@@ -15,18 +15,19 @@
 
     <title>Skiliks</title>
 
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/jquery/jquery-ui.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/bootstrap/css/bootstrap.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.23.slider.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/jquery/jquery.mCustomScrollbar.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/elfinder-2.0-rc1/css/elfinder.min.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/js/elfinder-2.0-rc1/css/theme.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/css/tag-handler.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/css/ddSlick.css" />
-    <link  type="text/css" rel="stylesheet" href="<?= $assetsUrl; ?>/css/main.css" />
-
     <?php
         $cs = Yii::app()->clientScript;
+
+        $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
+        $cs->registerCssFile($assetsUrl . '/js/bootstrap/css/bootstrap.css');
+        $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui-1.8.23.slider.css');
+        $cs->registerCssFile($assetsUrl . '/js/jquery/jquery.mCustomScrollbar.css');
+        $cs->registerCssFile($assetsUrl . '/js/elfinder-2.0-rc1/css/elfinder.min.css');
+        $cs->registerCssFile($assetsUrl . '/js/elfinder-2.0-rc1/css/theme.css');
+        $cs->registerCssFile($assetsUrl . '/css/tag-handler.css');
+        $cs->registerCssFile($assetsUrl . '/css/ddSlick.css');
+        $cs->registerCssFile($assetsUrl . '/css/main.css');
+
         $cs->registerLessFile($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
         $cs->registerLessFile($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
         $cs->registerLessFile($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
