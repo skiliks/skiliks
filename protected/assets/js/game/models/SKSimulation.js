@@ -332,6 +332,13 @@ define([
              * @async
              */
             'stop':function () {
+
+                console.log(SKDocument._excel_cache);
+                $.each(SKDocument._excel_cache, function(id, url){
+                    console.log(id);
+                    $(id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
+                });
+
                 var me = this;
                 me._stopTimer();
 
@@ -340,13 +347,6 @@ define([
                 var logs = this.windowLog.getAndClear();
 
                 SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
-
-                    console.log($('ifarme'));
-                    $('ifarme').each(function() {
-                        console.log($(this));
-                        $(this).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
-                    });
-
                     /**
                      * Симуляция уже остановлена
                      * @event stop
