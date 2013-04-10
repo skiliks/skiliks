@@ -115,10 +115,17 @@ define([
 
                 // render character subjects list
                 this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
-                    me.updateSubjectsList();
-                    me.mailClient.availablePhrases = [];
-                    me.mailClient.availableAdditionalPhrases = [];
-                    me.renderPhrases();
+                    if(me.$("#MailClient_RecipientsList li.tagItem").get().length === 0){
+                        me.mailClient.availablePhrases = [];
+                        me.mailClient.availableAdditionalPhrases = [];
+                        me.mailClient.availableSubjects = [];
+                    }else{
+                        me.updateSubjectsList();
+                        me.mailClient.availablePhrases = [];
+                        me.mailClient.availableAdditionalPhrases = [];
+                        me.renderPhrases();
+                    }
+
                 });
 
                 // render phrases
@@ -1182,6 +1189,9 @@ define([
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }else if(curRec !== undefined && curRec.indexOf(tag) === 0 && availablePhrases.length === 0){
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                            mailClientView.updateSubjectsList();
+                        }else if(mailClientView.$("#MailClient_RecipientsList li.tagItem").get().length === 0){
+                            mailClientView.clearSubject();
                         }
                     },
                     afterAdd: function (tag) {
@@ -1262,14 +1272,11 @@ define([
             getCurrentEmailRecipientIds: function () {
                 var list = [];
                 var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
-                SKApp.simulation.characters.each(function (character) {
-                    _.each(valuesArray, function (value) {
-                        // get IDs of character by label text comparsion
-                        if ($(value).text() === character.getFormatedForMailToName()) {
-                            list.push(character.get('id'));
-                        }
+                    $.each(valuesArray, function(index, value){
+                        var character = SKApp.simulation.characters.where({'fio':$(value).text()})[0];
+                        list.push(character.get('id'));
                     });
-                });
+
                 return list;
             },
 
@@ -2148,6 +2155,29 @@ define([
                     // did not tested it
                     this.$('.mail-emulator-received-list-string-selected').click();
                 }
+            },
+            clearSubject:function(){
+
+                var subjects_list = [{
+                        text: "без темы.",
+                        value: 0,
+                        selected: true
+                    }];
+                this.$("#MailClient_NewLetterSubject").ddslick('destroy');
+                //this.$("#MailClient_NewLetterSubject").html('');
+                var me = this;
+                this.$("#MailClient_NewLetterSubject").ddslick({
+                    data: subjects_list,
+                    width: '100%',
+                    selectText: "Нет темы.",
+                    imagePosition: "left",
+                    onSelected: function () {
+                        /*if(me.mailClient.availableSubjects.length !== 0) {
+                            me.mailClient.availableSubjects = [];
+                            me.doUpdateMailPhrasesList();
+                        }*/
+                    }
+                });
             }
         });
 
