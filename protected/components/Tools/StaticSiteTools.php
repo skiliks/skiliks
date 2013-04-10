@@ -131,6 +131,6 @@ class StaticSiteTools
         list($endHours, $endMinutes) = explode(':', $scenarioLite->end_time);
 
         // x4 -- production site simulation time acceleration
-        return ($endHours*60 + $endMinutes - $startHours*60 - $startMinutes) / 4;
+        return round($endHours*60 + $endMinutes - $startHours*60 - $startMinutes) / 4;
     }
 }
