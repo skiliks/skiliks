@@ -59,11 +59,13 @@ define([
                 if (video_src) {
                     media = document.createElement('video');
                     media.src = video_src;
-                    media.onloadeddata = renderFn;
+                    $(media).on('loadeddata', renderFn);
                 } else if (image_src) {
                     media = new Image();
                     media.src = image_src;
                     media.onload = renderFn;
+                } else {
+                    renderFn();
                 }
 
                 function renderFn() {
@@ -84,7 +86,7 @@ define([
                         }
                     });
 
-                    if (0 == me.$('video').length) {
+                    if (0 === me.$('video').length) {
                         el.find('.char-reply').removeClass('hidden');
                     }
 
