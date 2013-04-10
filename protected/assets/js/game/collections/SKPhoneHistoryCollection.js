@@ -42,7 +42,7 @@ define(["game/models/SKPhoneHistory"], function () {
          */
         readHistory: function () {
             this.each(function (model) {
-                model.set('is_read', true);
+                model.set('is_displayed', true);
             });
         }
     });

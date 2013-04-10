@@ -61,7 +61,7 @@ define([
                 phone_history.on('add change remove reset', function () {
                     me.setCounter(
                         '.phone',
-                        phone_history.where({'is_read': false}).length);
+                        phone_history.where({'is_displayed': false}).length);
                 });
                 this.render();
             },
