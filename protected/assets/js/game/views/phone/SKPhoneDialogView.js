@@ -83,7 +83,9 @@ define([
                 'audio_src':                 event.getAudioSrc(),
                 isUserCanFinalizeCall: this.isUserCanFinalizeCall
             });
+
             window_el.html(callInHtml);
+
             this.$('audio').on('ended', function(){
                 if (my_replicas.length === 0) {
                     event.selectReplica(remote_replica.id, function () {
@@ -96,6 +98,10 @@ define([
                     window_el.find('.phone-reply-h').removeClass('hidden');
                 }
             });
+
+            if (0 == this.$('audio').length) {
+                window_el.find('.phone-reply-h').removeClass('hidden');
+            }
         },
 
         /**

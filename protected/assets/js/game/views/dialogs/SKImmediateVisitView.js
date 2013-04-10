@@ -56,6 +56,7 @@ define([
                 if (true === SKApp.simulation.config.isMuteVideo) {
                     this.$('video').attr('muted', 'muted');
                 }
+
                 this.$('video').on('ended', function () {
                     me.$('video').css('zIndex', 0);
                     if (my_replicas.length === 0) {
@@ -66,6 +67,11 @@ define([
                         el.find('.char-reply').removeClass('hidden');
                     }
                 });
+
+                if (0 == this.$('video').length) {
+                    el.find('.char-reply').removeClass('hidden');
+                }
+
                 var video = el.find('.visit-background');
                 video.css('margin-top', '-50px');
                 video.css('margin-left', '-20px');
