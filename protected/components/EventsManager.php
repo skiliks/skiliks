@@ -99,7 +99,7 @@ class EventsManager {
         $gameTime = 0;
         try {
             $gameTime = $simulation->getGameTime();
-            $endTime = $simulation->game_type->end_time;
+            $endTime = $simulation->game_type->finish_time;
 
             if (GameTime::timeToSeconds($gameTime) > GameTime::timeToSeconds($endTime)) {
                 throw new CHttpException(200, 'Время истекло', 4);
