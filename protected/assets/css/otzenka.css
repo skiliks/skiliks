@@ -1,5 +1,6 @@
 .simulation-result-popup {
     background: #e8f7f7;
+    border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     padding: 0px 10px 26px;
     overflow: visible;
@@ -267,7 +268,7 @@
     padding-left: 374px;
 }
 .total {
-    font-size: 39px; /* font-size: 41px; */
+    font-size: 36px; /* font-size: 41px; */
     margin-bottom: 40px;
 }
 .totalwithresult {
