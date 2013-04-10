@@ -337,16 +337,6 @@ define([
 
                 this.window_set.deactivateActiveWindow();
 
-                console.log(SKDocument._excel_cache);
-                $.each(SKDocument._excel_cache, function(id, url){
-                    console.log('#excel-preload-' + id);
-                    console.log($('#excel-preload-' + id));
-
-                    // @todo: ruge - but efficient. We didn`t care about 
-                    $('#excel-preload-' + id).remove();
-                    //document.getElementById('excel-preload-' + id).contentWindow.postMessage({type: 'PreSimStop'} , 'http://zoho.skiliks.com');
-                });
-
                 var logs = this.windowLog.getAndClear();
 
                 SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
@@ -359,6 +349,13 @@ define([
                     }
 
                     me.trigger('before-stop');
+
+                    $.each(SKDocument._excel_cache, function(id, url){
+                        // @todo: ruge - but efficient. We didn`t care about
+                        $('#excel-preload-' + id).remove();
+
+                    });
+
                     me.trigger('stop');
                 });
             },

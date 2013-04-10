@@ -30,21 +30,6 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     document.close();
 }
 
-var postMessageCallback = function(event) {
-    console.log('postMessageCallback');
-    if ('PreSimStop' === event.data.type) {
-        console.log('pre autoSave');
-        autoSave();
-        console.log('post autoSave');
-    }
-}
-
-if (window.addEventListener){
-    window.addEventListener("message", postMessageCallback, false);
-} else {
-    window.attachEvent("onmessage", postMessageCallback);
-}
-
 // new code to handle 500 Zoho {
 
 $(window.parent.window).load(function()
