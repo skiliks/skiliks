@@ -397,8 +397,21 @@
 .personalbars .chart-bullet.small:first-child {
     margin-top: 30px;
 }
+.sections > div {
+    display: none;
+}
+.sections > div.active {
+    display: block;
+}
 .estmfooter {
     margin-top: 60px;
+}
+.estmfooter .prev {
+    float: left;
+}
+
+.estmfooter .next {
+    float: right;
 }
 .estmfooter a {
     display: inline-block;
