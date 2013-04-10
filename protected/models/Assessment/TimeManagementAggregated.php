@@ -53,7 +53,7 @@ class TimeManagementAggregated extends CActiveRecord
     {
         switch ($this->slug) {
             case self::SLUG_EFFICIENCY :
-                return 'Общая оценку эффективности использования времени';
+                return 'Общая оценка эффективности использования времени';
                 break;
             case self::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES :
                 return 'Время потраченное на задачи 1-го приоритета';
