@@ -14,6 +14,10 @@ class TimeManagementAnalyzer
      */
     public $simulation = null;
 
+    public $GameOverhead = null;
+
+    public $firstPriorityTotal = null;
+
     /**
      * @var array
      */
@@ -54,6 +58,7 @@ class TimeManagementAnalyzer
         $this->prepareDurationsForCalculation();
         $this->calculateGlobalTimeSpend();
         $this->calculateDetailedTimeSpend();
+        $this->calculateEfficiency();
     }
 
     public function calculateGameOverhead()
@@ -83,6 +88,29 @@ class TimeManagementAnalyzer
         $assessment->sim_id = $this->simulation->id;
         $assessment->value = $GameOverhead;
         $assessment->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_WORKDAY_OVERHEAD_DURATION);
+        $assessment->save();
+
+        $this->GameOverhead = $GameOverhead;
+    }
+
+    public function calculateEfficiency()
+    {
+        $k = 1;
+        if ($this->GameOverhead < 30) {
+            $k = 1;
+        } elseif ($this->GameOverhead < 60) {
+            $k = 0.6;
+        } else {
+            $k = 0.2;
+        }
+
+        $this->firstPriorityTotal;
+
+        $assessment = new TimeManagementAggregated();
+        $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;
+        $assessment->sim_id = $this->simulation->id;
+        $assessment->value = $this->firstPriorityTotal * $k;
+        $assessment->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_EFFICIENCY);
         $assessment->save();
     }
 
@@ -229,6 +257,8 @@ class TimeManagementAnalyzer
         $assessment_1st->value = round($this->durationsGrouped['1st_priority']['total']*100 / $totalTime, 0);
         $assessment_1st->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES);
         $assessment_1st->save();
+
+        $this->firstPriorityTotal = $assessment_1st->value;
 
         $assessment_non = new TimeManagementAggregated();
         $assessment_non->sim_id = $this->simulation->id;
