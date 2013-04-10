@@ -69,7 +69,7 @@ define([
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
                 this.listenTo(simulation, 'start', this.startExitProtection);
                 this.listenTo(simulation, 'before-stop', this.stopExitProtection);
-                this.listenTo(simulation, 'time:before-end', this.stopSimulation);
+                this.listenTo(simulation, 'before-stop', this.stopSimulation);
 
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {
@@ -197,6 +197,7 @@ define([
                             value: 'Завершить работу',
                             onclick: function() {
                                 me._hidePausedScreen();
+                                me.stopExitProtection();
                                 me.simulation.stop();
                             }
                         },
@@ -277,6 +278,7 @@ define([
                                 value: 'Перейти к результатам',
                                 onclick: function() {
                                     me._hidePausedScreen();
+                                    me.stopExitProtection();
                                     me.simulation.stop();
                                 }
                             }

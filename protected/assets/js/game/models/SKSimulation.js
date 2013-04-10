@@ -86,7 +86,7 @@ define([
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
-                        me.stop();
+                        me.trigger('before-stop');
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
                         me.trigger('end');
@@ -345,8 +345,6 @@ define([
                     if(SKApp.simulation.get('result-url') === undefined){
                         SKApp.simulation.set('result-url', '/dashboard');
                     }
-
-                    me.trigger('before-stop');
 
                     $.each(SKDocument._excel_cache, function(id, url){
                         // @todo: ruge - but efficient. We didn`t care about

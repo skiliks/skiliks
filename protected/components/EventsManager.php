@@ -101,7 +101,8 @@ class EventsManager {
             $gameTime = $simulation->getGameTime();
             $endTime = $simulation->game_type->finish_time;
 
-            if (GameTime::timeToSeconds($gameTime) > GameTime::timeToSeconds($endTime)) {
+            // 60 sec - delay between frontend request and server processing
+            if (GameTime::timeToSeconds($gameTime) > GameTime::timeToSeconds($endTime) + 60) {
                 throw new CHttpException(200, 'Время истекло', 4);
             }
 
