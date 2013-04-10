@@ -114,6 +114,19 @@ define(
                             JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
                         ]
                     );
+                    server.respondWith("POST", "/index.php/events/getState",
+                        [200, { "Content-Type":"application/json" },
+                            JSON.stringify({result:0})]);
+
+                    server.respondWith(
+                        "POST",
+                        "/index.php/auth/checkSession",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
 
                     server.respondWith(
                         "POST",
