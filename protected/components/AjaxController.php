@@ -38,7 +38,7 @@ class AjaxController extends CController
         } elseif (isset($request->cookies['_lang'])) {
             $lang = $request->cookies['_lang']->value;
         } elseif ($request->getPreferredLanguage()) {
-            $lang = substr($request->getPreferredLanguage(), 0, 2);
+            $lang = 'ru';
         }
 
         if (empty($lang) || empty($allowed[$lang]) || !in_array($pageId, $allowed[$lang])) {
