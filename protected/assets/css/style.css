@@ -2221,6 +2221,7 @@ ul.profile-menu li {
     vertical-align: middle;
 }
 #private-invitations-list-box .grid-view .items th, .items th {
+    line-height: 39px;
     padding: 8px 6px;
 }
 #corporate-invitations-list-box .grid-view .items th {
