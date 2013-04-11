@@ -25,7 +25,7 @@ class YumUserChangePassword extends YumFormModel
 		$rules[] = array('currentPassword', 'safe');
 		$rules[] = array('currentPassword', 'required', 'on' => 'user_request');
 		$rules[] = array('password, verifyPassword', 'required');
-		$rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yum::t('Retyped password is incorrect'));
+		$rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yum::t('Набран неверный пароль'));
 
 		return $rules;
 	}

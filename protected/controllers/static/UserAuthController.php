@@ -291,18 +291,23 @@ class UserAuthController extends YumController
     {
         $this->checkUser();
 
-        $message = sprintf(
+        /*$message = sprintf(
             Yii::t('site', 'Your account successfully updated to "%s".'),
             $this->user->getAccountType()
-        );
+        );*/
 
 
-       if ($this->user->isCorporate() && false == (bool)$this->user->getAccount()->is_corporate_email_verified) {
-           $message .= '<br/>';
-           $message .= Yii::t('site', 'We send corporate-email-address verification email to you.<br/> Please, confirm your corporate email by link in this letter.');
-       }
+        if ($this->user->isCorporate()) {
+           $this->redirect("/dashboard");
+           return;
+        }else if($this->user->isPersonal()){
+           $this->redirect("/dashboard");
+           return;
+        }
 
-        Yii::app()->user->setFlash( 'success', $message );
+
+
+        /*Yii::app()->user->setFlash( 'success', $message );*/
 
         $this->render('emptyPage', [
             'user' => $this->user
