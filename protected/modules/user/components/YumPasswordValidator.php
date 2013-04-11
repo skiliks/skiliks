@@ -161,7 +161,7 @@ class YumPasswordValidator extends CValidator
       if (preg_match('/(.){1}\\1{' . $this->maxRepetition . ',}/', $value))
       {
         $message = $this->message !== null ? $this->message : Yii::t('UserModule.YumPasswordValidator',
-            '{attribute} must not contain more than {num} sequentially repeated characters.',
+            '{attribute} не должен содержать более {num} последовательно повторяющиеся символа.',
             array('{num}' => $this->maxRepetition + 1));
 
         $this->addError($object, $attribute, $message);
