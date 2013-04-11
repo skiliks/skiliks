@@ -204,7 +204,6 @@ define(
              */
 
                 it('Visitor phone call test', function() {
-                    console.log('test1');
 
                     /* init simulation */
                     var applicationView = new SKApplicationView();
@@ -275,7 +274,6 @@ define(
 
                     var requestChecked = false;
                     for(var i in server.requests) {
-                        //console.log(server.requests[i].url);
                         if (server.requests[i].url == '/index.php/dialog/get') {
                             expect(!!server.requests[i].requestBody.match(/dialogId=787&time=09%3A00/)).toBeTrue();
                             requestChecked = true;
