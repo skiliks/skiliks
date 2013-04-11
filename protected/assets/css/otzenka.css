@@ -61,7 +61,7 @@
 .simulation-details .navigation a, .simulation-details .navigation a:visited {
     background-image: none;
     display: block;
-    font: 15px "ProximaNova-Regular";
+    font: 14px "ProximaNova-Regular";
     padding:10px;
 }
 .simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
