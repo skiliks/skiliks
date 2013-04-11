@@ -535,7 +535,7 @@ class TimeManagementAssessmentTest extends CDbTestCase
 //    public function testimeManagementAssessment_case3()
 //    {
 //        // init simulation
-//        $simulation = Simulation::model()->findByPk(19247);
+//        $simulation = Simulation::model()->findByPk(554);
 //
 //        $tma = new TimeManagementAnalyzer($simulation);
 //        $tma->calculateAndSaveAssessments();
@@ -544,7 +544,7 @@ class TimeManagementAssessmentTest extends CDbTestCase
 //            'sim_id' => $simulation->id
 //        ]);
 //
-//        // var_dump($tma->durationsGrouped);
+//        //var_dump($tma->durationsGrouped);
 //
 //        $values = [];
 //        foreach ($assessments as $assessment) {
