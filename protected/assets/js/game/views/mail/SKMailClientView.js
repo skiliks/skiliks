@@ -1742,6 +1742,7 @@ define([
              * @param value
              */
             selectSubjectByValue: function (value) {
+                var me = this;
                 var index = null;
                 this.$("#MailClient_NewLetterSubject li a input").each(function(i, el) {
                     if($(el).val() == value){
@@ -1756,7 +1757,10 @@ define([
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: ddData,
                     width: '100%',
-                    defaultSelectedIndex:index
+                    defaultSelectedIndex:index,
+                    onSelected: function () {
+                        me.doUpdateMailPhrasesList();
+                    }
                 });
             },
 

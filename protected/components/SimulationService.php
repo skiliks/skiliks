@@ -289,7 +289,7 @@ class SimulationService
     {
         // add P17 - презентация ген. директору
         /** @var $tasks Task[] */
-        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start', "time_limit_type" => 'can\'t be moved']);
+        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start', "is_cant_be_moved" => 1]);
         foreach ($tasks as $task) {
             $dayplanFixed = new DayPlan();
             $dayplanFixed->date = $task->start_time;
