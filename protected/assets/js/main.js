@@ -3,8 +3,6 @@ $(document).ready(function () {
 
     // fixSimResultsDialog {
     var fixSimResultsDialog = function() {
-        $('#productivity').remove();
-
         var heightOverhead = 300;
         $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
         $('.simulation-result-popup').css('top', '50px');
