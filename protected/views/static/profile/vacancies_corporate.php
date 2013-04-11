@@ -11,6 +11,7 @@
         $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id), //$dataProvider,
             'summaryText' => '',
+            'emptyText' => 'Нет вакансий',
             'hideHeader'    => true,
             'pager' => [
                 'header'        => false,
