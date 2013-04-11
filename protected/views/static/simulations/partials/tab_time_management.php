@@ -3,6 +3,9 @@
     <div class="timeblock">
         <h2 class="resulttitele"><a href="#">Распределение времени <span class="signmore"></span></a></h2>
         <div class="timediagr">
+            <div class="timevalue criticalvalue">60%</div>
+            <div class="timevalue inactvalue">10%</div>
+            <div class="timevalue actvalue">30%</div>
             <span class="helpbuble">Продуктивное время. Время, потраченное на задачи первого приоритета</span>
         </div>
 
