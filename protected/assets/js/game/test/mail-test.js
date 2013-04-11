@@ -225,6 +225,8 @@ define([
             it("can display mail client", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
+
                 var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
                 mail_window.open();
                 buster.assert.defined(simulation.mailClient);
@@ -256,6 +258,8 @@ define([
             it("can save draft and send draft", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
+
                 var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
                 mail_window.open();
 
@@ -287,7 +291,6 @@ define([
 
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
-                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
                 server.respond()
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
@@ -300,7 +303,6 @@ define([
                 mailView.$el.find('.SAVE_TO_DRAFTS').click();
 
                 server.respond();
-                //console.log('Email has been saved!');
 
                 mailView.$el.find('#FOLDER_DRAFTS').click();
                 server.respond();
@@ -320,6 +322,8 @@ define([
             it("can create and send new letter (phrases)", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
+
                 var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
                 mail_window.open();
 
@@ -346,12 +350,11 @@ define([
 
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
-                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
+
                 server.respond();
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
-                //mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').focus();
                 mailView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
 
                 mailView.doUpdateMailPhrasesList();
@@ -382,9 +385,12 @@ define([
                 // check that mail main screen opened after mail send
                 expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
             });
+
             it("can create and send new letter with attachment", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
+
                 var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
                 mail_window.open();
 
@@ -411,7 +417,6 @@ define([
 
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
-                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
                 server.respond();
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);

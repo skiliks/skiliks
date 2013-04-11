@@ -270,7 +270,6 @@ define([
 
                 server.requests.forEach(function(request){
                     if(request.url == '/index.php/myDocuments/add'){
-                        //console.log(request);
                         expect(request.requestBody).toBe('attachmentId=986');
                     }
                 });

@@ -64,6 +64,7 @@ define([
                 server.respondWith("POST", "/index.php/myDocuments/getList",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
+
                 server.respondWith("POST", "/index.php/character/list",
                     [200, { "Content-Type": "application/json" },
                         JSON.stringify([
@@ -133,6 +134,8 @@ define([
             it("can create and send new letter (text constructor)", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
+
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
 
@@ -182,7 +185,6 @@ define([
                 // check is email send
                 expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/sendMessage');
 
-                //console.log('Email has been send!');
             });
         });
     });
