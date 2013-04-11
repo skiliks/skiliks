@@ -127,10 +127,6 @@ class StaticSiteTools
     {
         $scenarioLite = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
-        list($startHours, $startMinutes) = explode(':', $scenarioLite->start_time);
-        list($endHours, $endMinutes) = explode(':', $scenarioLite->end_time);
-
-        // x4 -- production site simulation time acceleration
-        return round($endHours*60 + $endMinutes - $startHours*60 - $startMinutes) / 4;
+        return $scenarioLite->duration_in_game_min / Yii::app()->params['public']['skiliksSpeedFactor'];
     }
 }

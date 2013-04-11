@@ -11,6 +11,7 @@
  * @property string $start_time
  * @property string $end_time
  * @property string $finish_time
+ * @property int $duration_in_game_min
  *
  * The followings are the available model relations:
  * @property Activity[] $activities
