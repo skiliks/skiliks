@@ -5,7 +5,11 @@ $this->widget('zii.widgets.CMenu', array(
     'items'=>[
         ['label' => Yii::t('site', 'Русский'), 'url' => '/' . Yii::t('site','ru')],
         ['label' => Yii::t('site','Help'), 'url' => ''],
-        ['label' => Yii::t('site', 'My office'), 'url' => ['static/dashboard/index']],
+        [
+            'label' => Yii::t('site', 'My office'),
+            'url' => ['static/dashboard/index'],
+            'visible' => 'ru' == Yii::app()->getLanguage()
+        ],
         [
             'label' => Yii::t('site', 'Sign in'),
             'url' => ['/user/auth'],
