@@ -13,6 +13,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
     'summaryText' => '',
     'emptyText' => 'Нет приглашений',
+    'nullDisplay' => '',
     'pager' => [
         'header'        => false,
         'firstPageLabel' => '<< начало',
