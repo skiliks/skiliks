@@ -2207,7 +2207,7 @@ ul.profile-menu li {
     padding: 8px 6px;
 }
 #corporate-invitations-list-box .grid-view .items th {
-    padding: 5px 6px;
+    padding: 7px 6px;
 }
 #private-invitations-list-box td, #private-invitations-list-box td a,
 #corporate-invitations-list-box td, #corporate-invitations-list-box td a {
@@ -2312,27 +2312,32 @@ ul.profile-menu li {
     width:184px;
 }
 
-
+#corporate-invitations-list-box .grid-view tr td:first-child {
+    width: 25px;
+}
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4) {
     text-overflow:clip;
     overflow: hidden;
 }
-#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(2){
+    max-width: 130px;
+    width:130px;
+}
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 90px;
-    width:90px;
+    max-width: 80px;
+    width:80px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(4) {
-    max-width: 90px;
-    width:90px;
+    max-width: 78px;
+    width:78px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
     width:105px;
 }
 #corporate-invitations-list-box .grid-view tr td:last-child {
-    width: 145px;
+    width: 125px;
 }
 
 .invites-smallmenu-switcher {
@@ -2374,6 +2379,7 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view .pager, #corporate-invitations-list-box .grid-view .pager {
     bottom: -65px;
+    height: 40px;
     margin: 0px;
     text-align: center;
     padding-top: 25px;
@@ -2384,14 +2390,15 @@ ul.profile-menu li {
     border: none;
     color:#fff;
     font-family:"ProximaNova-Bold";
+    font-weight: normal;
     margin: 0px 3px;
     padding: 0px;
     text-decoration: none;
 }
 .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link,
-.pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link {
+.pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link, .pager ul.yiiPager a:link {
     color:#fff;
-    font-size: 14px;
+    font: 14px "ProximaNova-Bold";
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited {
     background: none;
@@ -2401,20 +2408,17 @@ ul.profile-menu li {
     border: none;
     display: inline-block;
     font-size: 14px;
-    line-height: 30px;
     margin: 0px 20px;
-    padding: 0px 10px;
+    padding: 7px 9px;
 }
 .pager .yiiPager li {
-    border:1px solid red;
-    height: 30px;
-    line-height: 30px;
+    display: inline-block;
 }
-/*#corporate-invitations-list-box .grid-view .pager li {
-    display:inline-block;
-}*/
 .pager ul.yiiPager .selected a, .pager ul.yiiPager .selected a:link, .pager ul.yiiPager .selected a:visited {
     color: #146672;
+}
+.pager ul.yiiPager .first, .pager ul.yiiPager .last  {
+    display: none;
 }
 .pager ul.yiiPager .hidden a {
     background: #6caab3 !important;
