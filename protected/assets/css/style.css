@@ -2780,6 +2780,7 @@ ul.profile-menu li {
     background: url(../img/charts/pie-simple.png) no-repeat 50% 50%;
     width: 351px;
     height: 351px;
+    margin: 0 auto;
 }
 .chart-pie:after {
     content: '';
