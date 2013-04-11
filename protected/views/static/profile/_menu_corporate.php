@@ -19,7 +19,14 @@
         Тариф
     </a></li>
 
-    <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>"><a href="/profile/corporate/payment-method">
+    <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
+        <!--
+        <a href="/profile/corporate/payment-method">
            Способ оплаты
-    </a></li>
+        </a>
+        -->
+        <a href="javascript:void(0);">
+            Способ оплаты
+        </a>
+    </li>
 </ul>

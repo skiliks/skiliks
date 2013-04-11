@@ -292,6 +292,10 @@ span.required {
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
 }
+.profile-menu .mnotactive a:hover {
+    background-position: 230px -66px;
+    cursor:default;
+}
 .profile-menu .mnotactive a, .profile-menu .mnotactive a:link, .profile-menu .mnotactive a:visited {
     color:#979d98;
 }
