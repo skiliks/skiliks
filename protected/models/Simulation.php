@@ -434,7 +434,7 @@ class Simulation extends CActiveRecord
 
     public function getLastSimulation($user) {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "user_id = :user_id ORDER BY id DESC",
+            'condition' => "user_id = :user_id AND end is not null ORDER BY id DESC",
             'params' => ['user_id'=>$user->id],
         ));
         return $this->find();
