@@ -44,10 +44,9 @@ define([
          */
         renderPreventClickElement: function() {
             this.preventOtherClicksElement = 
-                $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; height: 100%;;width:100%;"></div>');
+                $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; z-index: 10000; height: 100%;;width:100%;"></div>');
             
-            this.preventOtherClicksElement.topZIndex();
-            
+
             $('.windows-container').prepend(this.preventOtherClicksElement);
             
             var me = this;
@@ -63,7 +62,7 @@ define([
          * @method
          */
         'render': function () {
-
+            var me = this;
             if (this.options.modal !== false) {
                 // must be first to get Z-index under dialog HTML block
                 this.renderPreventClickElement();
@@ -81,9 +80,8 @@ define([
                 'width': '100%',
                 'margin': 'auto'
             });
-            
-            this.$el.topZIndex();
-            
+            me.$el.topZIndex();
+
             $('.windows-container').prepend(this.$el);
         },
 
