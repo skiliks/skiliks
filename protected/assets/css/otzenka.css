@@ -12,12 +12,12 @@
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     /*padding: 10px;*/
 }
-#simulation-details-pop-up h1, #simulation-details-pop-up h2 {
+#simulation-details-pop-up h1, #simulation-details-pop-up h2  {
     color: #3d4041;
-    font-size: 28px;
 }
 #simulation-details-pop-up h1 {
     padding: 0px 10px 15px 3px;
+    font-size: 32px;
 }
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
@@ -63,7 +63,7 @@
     background-image: none;
     display: block;
     font: 14px "ProximaNova-Regular";
-    padding:10px;
+    padding:8px 10px;
 }
 .simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
     color: #fff;
@@ -279,7 +279,7 @@
     padding-left: 374px;
 }
 .total {
-    font:35px 'ProximaNova-Bold';/* font-size: 41px; */
+    font:40px 'ProximaNova-Bold';/* font-size: 41px; */
     font-weight: normal;
     line-height: 120%;
     margin-bottom: 30px;
