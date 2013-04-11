@@ -359,10 +359,20 @@ a:focus, a:active {
 .container>header .language a:hover{
 	text-decoration:underline;
 }
-.container>header nav{
+.container>header nav#static-page-links{
 	position:absolute;
-	top:60px;
+	top:8px;
 	right:0;
+}
+.container>header nav#static-page-links a {
+    background: none;
+    font:14px/28px "ProximaNova-Regular";
+    margin-left:0;
+}
+.container>header nav#static-page-links a:hover,
+.container>header nav#static-page-links a.active {
+    background: #146672;
+    border-radius: 3px;
 }
 #simulation-details{
    /*float: right;*/
@@ -372,7 +382,7 @@ a:focus, a:active {
 }
 .container>header nav#account-links{
     position:absolute;
-    top:100px;
+    top:60px;
     right:0;
 }
 #simulation-details label,
@@ -382,24 +392,28 @@ a:focus, a:active {
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
-	font:1.071em "ProximaNova-Regular";
-	color:#fff;
+	/*font:1.071em "ProximaNova-Regular";*/
+    font:16px/28px "ProximaNova-Regular";
+    color:#fff;
 	text-decoration:none;
 	line-height:1.800em;
 	float:left;
-	margin-left:9px;
+	margin-left:5px;
 	padding:0 8px;
 }
+/*
 .container>header nav a:first-child,
 #simulation-details label:first-child {
 	margin-left:0;
 }
+*/
 .container>header nav .active a,
 .container>header nav a:hover,
 #simulation-details label.active,
 #simulation-details label:hover{
 	background:rgba(20,102,114,1);
 }
+
 @media screen and (max-width: 1280px){
 	.container>header{
 		width:765px;
