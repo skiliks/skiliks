@@ -47,10 +47,14 @@ return array(
     'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
     'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
+
     'Русский' => 'English',
     'Home' => 'Главная',
     'About Us' => 'О нас',
     'Product' => 'О продукте',
+    'My office' => 'Мой офис',
+    'Help' => 'Помощь',
+
     'en' => 'ru',
     'ru' => 'en',
     'Notify me' => 'Сообщить о запуске',
@@ -205,6 +209,7 @@ return array(
     'Status' => 'Статус',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
     'Tariffs' => 'Тарифы',
+    'Pricing & Plans' => 'Тарифы',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',

@@ -59,7 +59,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<p class="coming-soon"><?php echo Yii::t('site', 'Coming soon') ?></p>
 
                 <?php $this->renderPartial('//layouts/_language_switcher') ?>
-
+                <nav id="account-links">
+                    <?php $this->renderPartial('//layouts/_account_links') ?>
+                </nav>
 				<nav id="static-page-links">
                     <?php $this->renderPartial('//layouts/_static_pages_links') ?>
 				</nav>
@@ -67,9 +69,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 <br/>
                 <br/>
 
-				<nav id="account-links">
-                    <?php $this->renderPartial('//layouts/_account_links') ?>
-				</nav>
 			</header>
 			<!--header end-->
 
