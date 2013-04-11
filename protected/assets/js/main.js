@@ -8,7 +8,8 @@ $(document).ready(function () {
         modal:     true,
         width:     940,
         minHeight: 600,
-        autoOpen: false
+        autoOpen: false,
+        resizable: false
     });
 
     $(".view-simulation-details-pop-up").click(function (event) {
