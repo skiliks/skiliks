@@ -36,9 +36,8 @@ class Case2_SK1395_Test extends SeleniumTestHelper
         sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"6.5");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"0");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"9");
+        $this->waitForTextPresent('Simulation points');
+        $this->checkSimPoints('6.5','0');
+        $this->checkLearningArea('4.27','0.00','0.00','0.00','0.00','9.02','5','0.00','20');
     }
 }

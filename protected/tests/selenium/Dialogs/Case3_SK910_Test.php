@@ -27,9 +27,9 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $TH = array($s, $m);*/
 
 
-        $m1 = array('MS27','MS48','MS68','MS70');
+/*        $m1 = array('MS27','MS48','MS68','MS70');
         $s1= array('mail new','mail new','mail new','mail new');
-        $TH1 = array($s1, $m1);
+        $TH1 = array($s1, $m1);*/
 
         $this->markTestIncomplete();
         $this->start_simulation();
@@ -60,15 +60,14 @@ class Case3_SK910_Test extends SeleniumTestHelper
         sleep(2);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-
         //$this->Universal($TH);
 /*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
         $this->Leg_actions_aggregated();*/
+        $this->waitForTextPresent('Simulation points');
+        $this->checkSimPoints('8.083','-7');
+        $this->checkLearningArea('4.27','0.00','12.5','0.00','8.11','5','0.00','20');
 
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"7");
+
     }
 }

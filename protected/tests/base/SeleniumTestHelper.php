@@ -604,23 +604,31 @@ class SeleniumTestHelper extends CWebTestCase
         return $i==$match;
     }
 
-    public function checkSimPoints ($positive,$negative,$personal)
+    public function checkSimPoints ($positive,$negative)
     {
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_positive'],"$positive");
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_negative'],"$negative");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['admm_personal'],"$personal");
+
 
     }
 
     public function checkLearningArea($personal9,$personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
     {
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal9");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal9'],"$personal9");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal10");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal11");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal11'],"$personal11");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal12");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal12'],"$personal12");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal13");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal13'],"$personal13");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal14");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal14'],"$personal14");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal15");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal15'],"$personal15");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal16");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
     }
 

@@ -21,7 +21,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
     {
         $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, бросай все свои дела')])");
@@ -47,6 +47,10 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         $this->run_event('E8.5',"xpath=(//*[contains(text(),'Сергей, удобно тебе говорить?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну ладно, набери меня, когда освободишься')])");
 
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения. Впредь такого не будет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, я готовлю презентацию для Босса')])");
         sleep(10);
@@ -59,9 +63,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
 
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Но мы ведь уже договорились, и я успел поменять мой график')])", 'click');
 
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
 
         $this->run_event('RS1',"xpath=(//*[contains(text(),'Кто вам нужен?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
@@ -80,13 +82,10 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         sleep(10);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
         //оценка не совпадает
-        sleep(10);
-
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.292");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-32");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"4.227");
+        $this->waitForTextPresent('Simulation points');
+        $this->checkSimPoints('4.292','-32');
+        $this->checkLearningArea('0.00','0.00','0.00','4.55','16.57','0.00','4.17','0.00');
     }
 }

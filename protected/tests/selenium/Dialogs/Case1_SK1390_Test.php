@@ -19,14 +19,12 @@ class Case1_SK1390_Test extends SeleniumTestHelper
 
     public function testSK1390()
     {
-
-        $m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone','main screen');
+        /*$m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone','main screen');
         $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk','main screen');
-        $TH = array($s, $m);
+        $TH = array($s, $m);*/
 
         $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Не вижу сводного бюджета')])");
@@ -41,19 +39,17 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
-        sleep(40); // не убирать sleep это для проверки работы юриверсал лога!!!
+        //sleep(40); // не убирать sleep это для проверки работы юриверсал лога!!!
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-
-        $this->Universal($TH, sizeof($m));
+        /*$this->Universal($TH, sizeof($m));
         sleep(5);
         $this->Leg_actions_detail();
         sleep(5);
         $this->Leg_actions_aggregated();
-        sleep(5);
+        sleep(5);*/
 
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.667");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"0");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"3.5");
+        $this->waitForTextPresent('Simulation points');
+        $this->checkSimPoints('4.667','0');
+        $this->checkLearningArea('0.00','16.67','0.00','0.00','0.00','0.00','0.00','0.00','0.00');
     }
 }
