@@ -38,17 +38,17 @@ class StaticSiteTools
             }
         }
         if (Yii::app()->getController()->getId() == 'static/userAuth') {
-            if (Yii::app()->getController()->getAction()->getId() == 'chooseAccountType') {
-                $results .= " inner-registration";
-            }
+            $results .= " inner-registration";
         }
         if (Yii::app()->getController()->getId() == 'static/dashboard') {
-            if (Yii::app()->getController()->getAction()->getId() == 'personal') {
                 $results .= " inner";
-            }
-            if (Yii::app()->getController()->getAction()->getId() == 'corporate') {
-                $results .= " inner";
-            }
+        }
+        if (Yii::app()->getController()->getId() == 'static/simulations') {
+            $results .= " inner";
+        }
+
+        if (Yii::app()->getController()->getId() == 'static/profile') {
+            $results .= " inner";
         }
 
         return $results;
