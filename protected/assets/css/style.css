@@ -2393,6 +2393,9 @@ ul.profile-menu li {
 }
 .pager .yiiPager li {
     border:1px solid red;
+    display:inline-block;
+    height: 30px;
+    line-height: 30px;
 }
 /*#corporate-invitations-list-box .grid-view .pager li {
     display:inline-block;
