@@ -97,7 +97,7 @@
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div style="clear:both;"></div>
 	<p class="note" style="float: none; clear: both;">
-	    * <?php echo Yii::t('site', 'Currently not available and will be added in the next release') ?>
+	    * <?php echo Yii::t('site', 'Не доступно в текущей версии, будет добавлено в следующем релизе') ?>
 	</p>
 </section>
 
