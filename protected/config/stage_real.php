@@ -3,7 +3,7 @@
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks',
+            'connectionString' => 'mysql:host=db1.skiliks.com;dbname=skiliks',
             'emulatePrepare' => true,
             'username' => 'skiliks',
             'password' => 'dep-vep-eb-up-a',
