@@ -42,7 +42,7 @@ if(isset($_GET['action']))
 	</div>
 	
 	<div class="row">
-		<?php echo CHtml::activeLabelEx($model,'password'); ?>
+		<?php echo CHtml::activeLabelEx($model,'Пароль'); ?>
 		<?php echo CHtml::activePasswordField($model,'password');
 		if($module->loginType & UserModule::LOGIN_BY_OPENID)
 			echo '<br />'. Yum::t('When logging in with OpenID, password can be omitted');
