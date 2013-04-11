@@ -364,7 +364,7 @@
 }
 .smalltitle, .smalltitle a {
     color:#3d4041;
-    font:18px "ProximaNova-Regular";
+    font:16px "ProximaNova-Regular";
     text-decoration: none;
 }
 .smalltitle a, .smalltitle a:visited {
@@ -395,7 +395,7 @@
     width: 21px;
 }
 .personallabels .signmore {
-    height: 31px;
+    height: 27px;
 }
 .personalbars * {
     font-family: "ProximaNova-Regular" !important;
@@ -433,7 +433,7 @@
 }
 .personallabels {
     float: left;
-    width: 405px;
+    width: 360px;
 }
 .barswrap.personalbars {
     padding-bottom: 20px;
@@ -441,10 +441,10 @@
 .personalbars {
     float:right;
     padding-left: 44px;
-    width: 495px;
+    width: 540px;
 }
 .personallabels .smalltitle {
-    margin-top: 46px;
+    margin-top: 51px;
     text-align: right;
 }
 .personallabels .smalltitle:first-child {
