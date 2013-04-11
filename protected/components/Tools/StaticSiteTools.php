@@ -44,10 +44,10 @@ class StaticSiteTools
         }
         if (Yii::app()->getController()->getId() == 'static/dashboard') {
             if (Yii::app()->getController()->getAction()->getId() == 'personal') {
-                $results .= " inner-registration";
+                $results .= " inner";
             }
             if (Yii::app()->getController()->getAction()->getId() == 'corporate') {
-                $results .= " inner-registration";
+                $results .= " inner";
             }
         }
 
