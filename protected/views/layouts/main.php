@@ -141,7 +141,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
 
 				<nav>
-					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
+					<a href="/"><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
 					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
