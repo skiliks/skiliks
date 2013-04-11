@@ -2409,7 +2409,8 @@ ul.profile-menu li {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-weight: normal;
-    margin: 0px 3px;
+    margin-left: 3px;
+    margin-right: 3px;
     padding: 0px;
     text-decoration: none;
 }
@@ -2424,13 +2425,10 @@ ul.profile-menu li {
 .pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
     background: #146672;
     border: none;
-    display: inline-block;
     font-size: 14px;
-    margin: 0px 20px;
+    margin-left:20px;
+    margin-right:20px;
     padding: 7px 9px;
-}
-.pager .yiiPager li {
-    display: inline-block;
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager .selected a:link, .pager ul.yiiPager .selected a:visited {
     color: #146672;
