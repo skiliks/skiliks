@@ -323,19 +323,19 @@ class TimeManagementAssessmentTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            41.00, // %
+            40.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            30.00, // %
+            29.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            29.00, // %
+            31.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -407,7 +407,7 @@ class TimeManagementAssessmentTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            24.60, // 41.00 * 0.6
+            24.00, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
