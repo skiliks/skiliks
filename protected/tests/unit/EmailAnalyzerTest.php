@@ -1309,5 +1309,33 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals(0, $result['positive']);
     }
 
+    /**
+     * 3322 - Пользователь отправил правильные письма MS10, MS25, MS40, MS40
+     * все MS c полным совпадением
+     */
+    public function test_3332_case6()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // prepare data {
+        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS25');
+        LibSendMs::sendMsByCode($simulation, 'MS40');
+        LibSendMs::sendMsByCode($simulation, 'MS40');
+
+        // prepare data }
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        $result = $emailAnalyzer->check_3332();
+
+        $this->assertEquals(0.375, $result['positive']);
+    }
+
 }
 
