@@ -96,7 +96,8 @@
 }
 #invite-decline-form .form-decline-explanation {
     position: absolute;
-    top:235px;
+    top:25%;
+    /*top:235px;*/
     left:50%;
     z-index: 5;
     margin-left:-301px;
