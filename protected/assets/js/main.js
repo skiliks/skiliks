@@ -1,8 +1,20 @@
 $(document).ready(function () {
     "use strict";
 
+    // fixSimResultsDialog {
+    var fixSimResultsDialog = function() {
+        console.log('fix', $('.simulation-result-popup').height());
+        var heightOverhead = 300;
+        $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
+        $('.simulation-result-popup').css('top', '50px');
+        $('.ui-widget-overlay').height( $('.simulation-result-popup').height() + 150  + 'px');
+    }
+    // fixSimResultsDialog  }
+
+    // render simulation details pop-up {
     $('.dashboard').append($('<div id="simulation-details-pop-up"></div>'));
     var simulation_popup = $('#simulation-details-pop-up');
+
     simulation_popup.dialog({
         dialogClass: 'simulation-result-popup',
         modal:     true,
@@ -10,25 +22,31 @@ $(document).ready(function () {
         minHeight: 600,
         autoOpen: false,
         resizable: false,
-        open: function( event, ui ) {
-            var heightOverhead = 300;
-
-            $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
-            $('.simulation-result-popup').css('top', '50px');
-            $('.ui-widget-overlay').height($('.ui-widget-overlay').height() + heightOverhead + 'px');
-        }
+        open: fixSimResultsDialog
     });
+    // render simulation details pop-up }
 
+    // load simulation details pop-up data {
     $(".view-simulation-details-pop-up").click(function (event) {
         event.preventDefault();
         $.ajax({
-            url:     $(this).attr('data-simulation'),
+            url: $(this).attr('data-simulation'),
             success: function (data) {
                 simulation_popup.html(data);
                 simulation_popup.dialog('open');
+
+                // fixSimResultsDialog {
+                $('.simulation-details .estmfooter a').click(function(){
+                    fixSimResultsDialog();
+                });
+                $('.simulation-details .navigation a').click(function(){
+                    fixSimResultsDialog();
+                });
+                // fixSimResultsDialog }
             }
         });
     });
+    // load simulation details pop-up data }
 
     $("#registration_check").click(function () {
         if($(this).hasClass('icon-check')) {
