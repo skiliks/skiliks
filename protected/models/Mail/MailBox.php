@@ -200,6 +200,19 @@ class MailBox extends CActiveRecord
         return true === (bool)$this->plan;
     }
 
+    public function getCopyCharacterCodes()
+    {
+        $copies = MailCopy::model()->findAllByAttributes(['mail_id' => $this->id]);
+
+        $res = [];
+
+        foreach ($copies as $copy) {
+            $res[] = $copy->recipient->code;
+        }
+
+        return $res;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -216,14 +229,14 @@ class MailBox extends CActiveRecord
      */
     public function isHasCoincidenceByType($type)
     {
-        if (false === in_array($type, $this->getConcidenceTypes())) {
+        if (false === in_array($type, $this->getCoincidenceTypes())) {
             throw new Exception(sprintf('Wrong mail coincidence type %s.', $type));
         }        
         
         return $type === $this->coincidence_type;
     }    
     
-    public function getConcidenceTypes()
+    public function getCoincidenceTypes()
     {
         return array(self::COINCIDENCE_FULL, self::COINCIDENCE_PART_1, self::COINCIDENCE_PART_2);
     }
