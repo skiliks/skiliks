@@ -181,8 +181,8 @@ define([
                     hcc.type = "text/javascript";
                     hcc.async = true;
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
-                    var s = document.getElementsByTagName("script")[0];
-                    s.parentNode.insertBefore(hcc, s.nextSibling); }
+                    var s = document.head;
+                    s.parentNode.insertBefore(hcc, null); }
                 )();
             },
 
