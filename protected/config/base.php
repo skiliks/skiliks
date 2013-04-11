@@ -64,7 +64,7 @@ return array(
         'gii'=>array(
             'class'    =>'system.gii.GiiModule',
             'password' =>'skiliks531',
-            // 'ipFilters'=>array(…список IP…),
+            'ipFilters'=>array('62.205.135.161'),
             // 'newFileMode'=>0666,
             // 'newDirMode'=>0777,
         ),
