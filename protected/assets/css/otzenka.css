@@ -233,6 +233,9 @@
     font-weight: normal;
     text-decoration: none;
 }
+.resulttitele.smallerfont {
+    font-size: 26px;
+}
 .mangrlresults+.resulttitele {
     margin-top: 20px;
 }
@@ -482,10 +485,10 @@
     color:#fff;
     outline: none;
 }
-.estmfooter .prev, .estmfooter .fullreport {
+.estmfooter .prev, .estmfooter .fullreport, .estmfooter .next {
     background: #66a3ab;
 }
-.estmfooter .next {
+.estmfooter .prev:hover, .estmfooter .fullreport, .estmfooter .next:hover {
     background: #146672;
 }
 .simulation-result-popup .ui-dialog-titlebar-close {
