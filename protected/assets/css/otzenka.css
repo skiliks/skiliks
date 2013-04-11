@@ -498,6 +498,7 @@
 }
 .simulation-result-popup .ui-widget-header .ui-icon, .simulation-result-popup .ui-state-hover,
 .simulation-result-popup .ui-state-focus {
+    background-color:transparent;
     background-image:url("../img/closepopup.png");
     background-repeat: no-repeat;
     border: none;
@@ -590,15 +591,47 @@
     transform: rotate(52deg);
 }
 .timepart.timecritical {
-    background:#e11a1a;
-    -moz-border-radius: 140px;
-    -webkit-border-radius: 140px;
-    border-radius: 140px;
-    border:none;
-    height:280px;
-    left:40px;
-    top:40px;
-    width:280px;
+    border-width: 190px 0 190px 190px;
+    border-color: transparent transparent transparent #e11a1a ;
+    left:0px;
+    bottom:-83px;
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.timecritical:after {
+    content: "";
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    position:absolute;
+    top:-2px;
+    left:-178px;
+    border-width: 0 170px 200px 170px;
+    border-color: transparent transparent #e11a1a transparent;
+    -ms-transform: rotate(5deg);
+    -o-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+    transform: rotate(5deg);
+}
+.timecritical:before {
+    content: "";
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    position:absolute;
+    top:-198px;
+    left:-124px;
+    border-width: 108px 0 108px 200px;
+    border-color: transparent transparent transparent #e11a1a;
+    -ms-transform: rotate(74deg);
+    -o-transform: rotate(74deg);
+    -moz-transform: rotate(74deg);
+    -webkit-transform: rotate(74deg);
+    transform: rotate(74deg);
 }
 .timeimage {
     background:url("../img/timewrap.png") no-repeat left top;
@@ -630,6 +663,7 @@
     border-radius: 3px;
     box-shadow: -1px 1px 3px rgba(0,0,0,0.5);
     color:#3d4041;
+    display:none;
     font: 12px "ProximaNova-Regular";
     padding:20px 15px;
     position:absolute;
