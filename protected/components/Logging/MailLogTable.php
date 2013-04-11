@@ -19,7 +19,7 @@ class MailLogTable extends LogTable
 
     public function getHeaders()
     {
-        return ['Start Time', 'End Time', 'Mail code', 'Window', 'Совпадение'];
+        return ['Start Time', 'End Time', 'Mail code', 'Window', 'Совпадение', 'В копии'];
     }
 
     /**
@@ -33,6 +33,7 @@ class MailLogTable extends LogTable
             $logMail->mail ? $logMail->mail->code : '--',
             $logMail->window_obj->subtype,
             $logMail->mail ? $logMail->mail->coincidence_type : '--',
+            $logMail->mail ? implode(',', $logMail->mail->getCopyCharacterCodes()) : '--'
         ];
     }
 

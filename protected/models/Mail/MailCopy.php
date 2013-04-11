@@ -55,6 +55,13 @@ class MailCopy extends CActiveRecord
         ));
         return $this;
     }
+
+    public function relations() {
+        return array(
+            'mail'      => array(self::BELONGS_TO, 'MailBox'  , 'mail_id'),
+            'recipient' => array(self::BELONGS_TO, 'Character', 'receiver_id'),
+        );
+    }
 }
 
 
