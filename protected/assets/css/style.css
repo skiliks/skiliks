@@ -2220,8 +2220,8 @@ ul.profile-menu li {
     text-align: left;
     vertical-align: middle;
 }
-#private-invitations-list-box .grid-view .items th, .items th {
-    line-height: 39px;
+#private-invitations-list-box .grid-view .items th {
+    line-height: 23px;
     padding: 8px 6px;
 }
 #corporate-invitations-list-box .grid-view .items th {
