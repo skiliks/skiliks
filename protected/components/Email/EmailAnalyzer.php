@@ -767,8 +767,6 @@ class EmailAnalyzer
             }
         }
 
-        var_dump($values);
-
         $totalValue = 0;
         foreach ($values as $value) {
             $totalValue += $value['value'];
