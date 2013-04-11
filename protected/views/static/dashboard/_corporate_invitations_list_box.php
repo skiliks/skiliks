@@ -25,7 +25,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->firstname." ".$data->lastname'],
         ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => 'Yii::t("site", $data->vacancy->label)'],
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
-        ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y") . "<time>" .$data->getSentTime()->format("G\h i\m"). "</time>"', 'type' => 'html'],
+        ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y") . " <time>" .$data->getSentTime()->format("G\h i\m"). "</time>"', 'type' => 'html'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => $scoreRender, 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->vacancy_id\" title=\"$data->firstname, $data->lastname\">Исправить</a>"', 'type' => 'html'],
