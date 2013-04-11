@@ -85,8 +85,8 @@ define([
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('finish'))) {
-                        me.trigger('before-stop');
+                    if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('finish'))) {
+                        me.trigger('stop-time');
                     } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
                         me.trigger('end');
@@ -351,7 +351,7 @@ define([
                         $('#excel-preload-' + id).remove();
 
                     });
-
+                    me.trigger('before-stop');
                     me.trigger('stop');
                 });
             },

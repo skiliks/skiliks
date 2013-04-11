@@ -29,7 +29,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         [
             'header' => Yii::t('site', 'Date / time'),
             'name' => 'sent_time'   ,
-            'value' => function ($data) { return $data->getSentTime()->format("j/m/y") . " <time>" .$data->getSentTime()->format('G\h i\m'). "</time>";},
+            'value' => function (Invite $data) { return $data->getSentTime()->format("j/m/y") . " <time>" .$data->getSentTime()->format('G\h i\m'). "</time>";},
             'type' => 'raw'
         ],
         ['header' => Yii::t('site', 'Score')                                , 'value' => $scoreRender, 'type' => 'raw'],
