@@ -2322,8 +2322,8 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 80px;
-    width:80px;
+    max-width: 81px;
+    width:81px;
 }
 #private-invitations-list-box .grid-view tr th:nth-child(4),
 #private-invitations-list-box .grid-view tr td:nth-child(4){
