@@ -2391,6 +2391,9 @@ ul.profile-menu li {
     margin: 0px 20px;
     padding: 0px 10px;
 }
+.pager .yiiPager li {
+    border:1px solid red;
+}
 /*#corporate-invitations-list-box .grid-view .pager li {
     display:inline-block;
 }*/
