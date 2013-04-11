@@ -451,7 +451,7 @@
     margin-top: 40px;
 }
 .personalbars .chart-bullet.small {
-    width: 478px;
+    width: 498px;
     margin: 60px 0px;
 }
 .personalbars .chart-bullet.small:first-child {
@@ -581,7 +581,7 @@
     top:190px;
 }
 .timediagr:hover .helpbuble {
-    display:block;
+    /*display:block;*/
 }
 .helpbuble {
     background:#fdfbc6;
@@ -714,7 +714,7 @@
     display: none !important;
 }
 .thelabel:hover .helpbuble, .chartproblem:hover .helpbuble {
-    display: block !important;
+    /*display: block !important;*/
 }
 .twobarstitle {
     margin-top: -10px;
