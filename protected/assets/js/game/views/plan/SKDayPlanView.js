@@ -211,7 +211,7 @@ define([
             drop_td.attr('rowspan', duration / 15);
             drop_td.find('.day-plan-td-slot').hide();
             drop_td.append(_.template(todo_task_template, {task:model, type:'regular'}));
-            if (model.get("type") === "2") {
+            if (model.get("type") === "1") {
                 drop_td.find('.planner-task').addClass('locked');
             }
             
