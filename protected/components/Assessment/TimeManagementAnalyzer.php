@@ -245,7 +245,7 @@ class TimeManagementAnalyzer
         if (0 == $this->durationsGrouped['1st_priority']['total']) {
             $assessment_1st->value = 0;
         } else {
-            $assessment_1st->value = round($this->durationsGrouped['1st_priority']['total']*100 / $totalTime, 0);
+            $assessment_1st->value = floor($this->durationsGrouped['1st_priority']['total']*100 / $totalTime);
         }
         $assessment_1st->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES);
         $assessment_1st->save();
@@ -258,7 +258,7 @@ class TimeManagementAnalyzer
         if (0 == $this->durationsGrouped['non_priority']['total']) {
             $assessment_non->value = 0;
         } else {
-            $assessment_non->value = round($this->durationsGrouped['non_priority']['total']*100 / $totalTime, 0);
+            $assessment_non->value = floor($this->durationsGrouped['non_priority']['total']*100 / $totalTime);
         }
         $assessment_non->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES);
         $assessment_non->save();
@@ -284,7 +284,7 @@ class TimeManagementAnalyzer
         $assessment_doc = new TimeManagementAggregated();
         $assessment_doc->sim_id = $this->simulation->id;
         $assessment_doc->slug = $slug;
-        $assessment_doc->value = round($first[$slug]*100 / $firstTotal, 0);
+        $assessment_doc->value = floor($first[$slug]*100 / $firstTotal);
         $assessment_doc->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_doc->save();
 
@@ -292,7 +292,7 @@ class TimeManagementAnalyzer
         $assessment_meet = new TimeManagementAggregated();
         $assessment_meet->sim_id = $this->simulation->id;
         $assessment_meet->slug = $slug;
-        $assessment_meet->value = round($first[$slug]*100 / $firstTotal, 0);
+        $assessment_meet->value = floor($first[$slug]*100 / $firstTotal);
         $assessment_meet->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_meet->save();
 
@@ -300,7 +300,7 @@ class TimeManagementAnalyzer
         $assessment_call = new TimeManagementAggregated();
         $assessment_call->sim_id = $this->simulation->id;
         $assessment_call->slug = $slug;
-        $assessment_call->value = round($first[$slug]*100 / $firstTotal, 0);
+        $assessment_call->value = floor($first[$slug]*100 / $firstTotal);
         $assessment_call->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_call->save();
 
@@ -308,7 +308,7 @@ class TimeManagementAnalyzer
         $assessment_mail = new TimeManagementAggregated();
         $assessment_mail->sim_id = $this->simulation->id;
         $assessment_mail->slug = $slug;
-        $assessment_mail->value = round($first[$slug]*100 / $firstTotal, 0);
+        $assessment_mail->value = floor($first[$slug]*100 / $firstTotal);
         $assessment_mail->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_mail->save();
 
@@ -336,7 +336,7 @@ class TimeManagementAnalyzer
         $assessment_doc = new TimeManagementAggregated();
         $assessment_doc->sim_id = $this->simulation->id;
         $assessment_doc->slug = $slug;
-        $assessment_doc->value = round($non[$slug]*100 / $nonTotal, 0);
+        $assessment_doc->value = floor($non[$slug]*100 / $nonTotal);
         $assessment_doc->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_doc->save();
 
@@ -344,7 +344,7 @@ class TimeManagementAnalyzer
         $assessment_meet = new TimeManagementAggregated();
         $assessment_meet->sim_id = $this->simulation->id;
         $assessment_meet->slug = $slug;
-        $assessment_meet->value = round($non[$slug]*100 / $nonTotal, 0);
+        $assessment_meet->value = floor($non[$slug]*100 / $nonTotal);
         $assessment_meet->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_meet->save();
 
@@ -352,7 +352,7 @@ class TimeManagementAnalyzer
         $assessment_call = new TimeManagementAggregated();
         $assessment_call->sim_id = $this->simulation->id;
         $assessment_call->slug = $slug;
-        $assessment_call->value = round($non[$slug]*100 / $nonTotal, 0);
+        $assessment_call->value = floor($non[$slug]*100 / $nonTotal);
         $assessment_call->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_call->save();
 
@@ -360,7 +360,7 @@ class TimeManagementAnalyzer
         $assessment_mail = new TimeManagementAggregated();
         $assessment_mail->sim_id = $this->simulation->id;
         $assessment_mail->slug = $slug;
-        $assessment_mail->value = round($non[$slug]*100 / $nonTotal, 0);
+        $assessment_mail->value = floor($non[$slug]*100 / $nonTotal);
         $assessment_mail->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_mail->save();
 
