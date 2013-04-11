@@ -570,7 +570,7 @@
 }
 .timeinactv {
     border-width: 170px 50px 0 50px;
-    border-color: #91bac0 transparent transparent transparent;
+    border-color: #91bac0 rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(255, 0, 0, 0);
     left:90px;
     top:10px;
     -moz-transform: rotate(-15deg);
@@ -581,7 +581,7 @@
 }
 .timeactv {
     border-width: 170px 210px 0 210px;
-    border-color: #146672 transparent transparent transparent;
+    border-color: #146672 rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(255, 0, 0, 0);
     right:-88px;
     top:40px;
     -moz-transform: rotate(52deg);
@@ -592,7 +592,7 @@
 }
 .timepart.timecritical {
     border-width: 190px 0 190px 190px;
-    border-color: transparent transparent transparent #e11a1a ;
+    border-color: rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(225, 26, 26, 1);
     left:0px;
     bottom:-83px;
     -ms-transform: rotate(-45deg);
@@ -603,6 +603,7 @@
 }
 .timecritical:after {
     content: "";
+    display: block;
     border-style: solid;
     width: 0px;
     height: 0px;
@@ -610,7 +611,7 @@
     top:-2px;
     left:-178px;
     border-width: 0 170px 200px 170px;
-    border-color: transparent transparent #e11a1a transparent;
+    border-color: rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(225, 26, 26, 1) rgba(255, 0, 0, 0);
     -ms-transform: rotate(5deg);
     -o-transform: rotate(5deg);
     -moz-transform: rotate(5deg);
@@ -619,6 +620,7 @@
 }
 .timecritical:before {
     content: "";
+    display: block;
     border-style: solid;
     width: 0px;
     height: 0px;
@@ -626,7 +628,7 @@
     top:-198px;
     left:-124px;
     border-width: 108px 0 108px 200px;
-    border-color: transparent transparent transparent #e11a1a;
+    border-color: rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(255, 0, 0, 0) rgba(225, 26, 26, 1);
     -ms-transform: rotate(74deg);
     -o-transform: rotate(74deg);
     -moz-transform: rotate(74deg);
@@ -641,11 +643,11 @@
 }
 .timevalue {
     color:#fff;
-    font-size:24px;
+    font:24px "ProximaNova-Regular";
     position:absolute;
 }
 .inactvalue {
-    left:110px;
+    left:118px;
     top:70px;
 }
 .actvalue {
