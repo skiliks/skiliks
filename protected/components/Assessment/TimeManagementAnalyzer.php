@@ -316,7 +316,7 @@ class TimeManagementAnalyzer
         $assessment_plan = new TimeManagementAggregated();
         $assessment_plan->sim_id = $this->simulation->id;
         $assessment_plan->slug = $slug;
-        if (0 == ($assessment_doc->value + $assessment_meet->value + $assessment_call->value + $assessment_mail->value)) {
+        if (0 == $first[$slug]) {
             $assessment_plan->value = 0;
         } else {
             $assessment_plan->value = 100 - $assessment_doc->value - $assessment_meet->value - $assessment_call->value - $assessment_mail->value;
@@ -368,7 +368,7 @@ class TimeManagementAnalyzer
         $assessment_plan = new TimeManagementAggregated();
         $assessment_plan->sim_id = $this->simulation->id;
         $assessment_plan->slug = $slug;
-        if (0 == ($assessment_doc->value + $assessment_meet->value + $assessment_call->value + $assessment_mail->value)) {
+        if (0 == $non[$slug]) {
             $assessment_plan->value = 0;
         } else {
             $assessment_plan->value = 100 - $assessment_doc->value - $assessment_meet->value - $assessment_call->value - $assessment_mail->value;
