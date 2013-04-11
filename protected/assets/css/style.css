@@ -2314,7 +2314,8 @@ ul.profile-menu li {
     text-overflow:clip;
     overflow: hidden;
 }
-#private-invitations-list-box .grid-view tr td:first-child {
+#private-invitations-list-box .grid-view tr th:first-child,
+#private-invitations-list-box .grid-view tr td:first-child{
     max-width:76px;
     width:76px;
 }
@@ -2334,7 +2335,8 @@ ul.profile-menu li {
     width:184px;
 }
 
-#corporate-invitations-list-box .grid-view tr td:first-child {
+#corporate-invitations-list-box .grid-view tr th:first-child,
+#corporate-invitations-list-box .grid-view tr td:first-child{
     width: 25px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
@@ -2343,22 +2345,29 @@ ul.profile-menu li {
     text-overflow:clip;
     overflow: hidden;
 }
-#corporate-invitations-list-box .grid-view tr td:nth-child(2){
+#corporate-invitations-list-box .grid-view tr th:nth-child(2),
+#corporate-invitations-list-box .grid-view tr th:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr th:nth-child(2){
     max-width: 130px;
     width:130px;
 }
+#corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
     max-width: 80px;
     width:80px;
 }
-#corporate-invitations-list-box .grid-view tr td:nth-child(4) {
+#corporate-invitations-list-box .grid-view tr th:nth-child(4),
+#corporate-invitations-list-box .grid-view tr td:nth-child(4){
     max-width: 78px;
     width:78px;
 }
-#corporate-invitations-list-box .grid-view tr td:nth-child(5) {
+#corporate-invitations-list-box .grid-view tr th:nth-child(5),
+#corporate-invitations-list-box .grid-view tr td:nth-child(5){
     width:115px;
 }
-#corporate-invitations-list-box .grid-view tr td:last-child {
+#corporate-invitations-list-box .grid-view tr th:last-child,
+#corporate-invitations-list-box .grid-view tr td:last-child{
     width: 125px;
 }
 
