@@ -173,9 +173,12 @@ define([
                 this.renderSupportBlock();
             },
 
+            /**
+             * Renders siteheart block
+             */
             renderSupportBlock: function renderSupportBlock() {
                 window._shcp = [];
-                window._shcp.push({widget_id : 582287, widget : "Chat", side : "bottom", position : "left", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
+                window._shcp.push({link_wrap_off: true, widget_id : 582287, widget : "Chat", side : "bottom", position : "left", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
                 (function() {
                     var hcc = document.createElement("script");
                     hcc.type = "text/javascript";
