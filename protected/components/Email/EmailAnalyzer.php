@@ -722,42 +722,52 @@ class EmailAnalyzer
                 sort($emailCopyCharacterIds);
                 // 2. get sorted Copy ids }
 
+                // 3.Analyze {
                 if (0 == count ($emailTemplateCopyCharacterIds)) {
                     if (0 == count ($emailCopyCharacterIds)) {
                         $values[] = [
                             'code'  => $email->coincidence_mail_code,
                             'value' => 0,
+                            'case'  => 3, // for test cases
                         ];
                     } else {
                         $values[] = [
                             'code'  => $email->coincidence_mail_code,
                             'value' => 0,
+                            'case'  => 2, // for test cases
                         ];
                     }
                 } else {
                     if ($emailTemplateCopyCharacterIds == $emailCopyCharacterIds) {
+                        // copy === copy
                         if (true == in_array($email->coincidence_mail_code, $usedMsCodes)) {
                             $values[] = [
                                 'code'  => $email->coincidence_mail_code,
-                                'value' => -1,
+                                'case'  => 1, // for test cases
+                                'value' => 0,
                             ];
                         } else {
+                            // copy !== copy
                             $values[] = [
                                 'code'  => $email->coincidence_mail_code,
                                 'value' => 1,
                             ];
                         }
                     } else {
+                        // email has been send
                         $values[] = [
                             'code'  => $email->coincidence_mail_code,
                             'value' => -1,
                         ];
                     }
                 }
+                // 3.Analyze }
 
                 $usedMsCodes[] = $email->coincidence_mail_code;
             }
         }
+
+        var_dump($values);
 
         $totalValue = 0;
         foreach ($values as $value) {
@@ -771,7 +781,7 @@ class EmailAnalyzer
         $totalValue = $totalValue/$totalRightMsWithCopies;
 
         return array(
-            $behave_3332->getTypeScaleSlug() => $totalValue*$behave_3332->scale,
+            $behave_3332->getTypeScaleSlug() => $totalValue * $behave_3332->scale,
             'obj'                            => $behave_3332,
         );
     }
