@@ -2,19 +2,8 @@
 <div class="extrasidepads">
     <div class="timeblock">
         <h2 class="resulttitele"><a href="#">Распределение времени <span class="signmore"></span></a></h2>
-        <div class="timewrap">
-            <div class="tziferblat">
-                <div class="timepart timecritical"></div>
-                <div class="timepart timeinactv"></div>
-                <div class="timepart timeactv"></div>
-                <div class="timevalue criticalvalue">60%</div>
-                <div class="timevalue inactvalue">10%</div>
-                <div class="timevalue actvalue">30%</div>
-                <div class="timeimage"></div>
-            </div><!-- /tziferblat -->
-            <div class="helpbuble criticalbuble">Время, потраченное на не приоритетные задачи, ошибочные действия, отвлечения</div>
-            <div class="helpbuble actvbuble">Продуктивное время. Время, потраченное на задачи первого приоритета</div>
-            <div class="helpbuble inactvbuble">Бездействие</div>
+        <div class="timediagr">
+            <span class="helpbuble">Продуктивное время. Время, потраченное на задачи первого приоритета</span>
         </div>
 
         <div class="legendwrap">
