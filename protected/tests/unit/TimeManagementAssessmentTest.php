@@ -11,6 +11,9 @@ class TimeManagementAssessmentTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 
+    /**
+     * Каждого типа лога по 1 штуке
+     */
     public function testimeManagementAssessment_case1()
     {
         // init simulation
@@ -410,7 +413,10 @@ class TimeManagementAssessmentTest extends CDbTestCase
         );
     }
 
-    public function testimeManagementAssessment_cas2()
+    /**
+     * Пользователь ничего не сделал
+     */
+    public function testimeManagementAssessment_case2()
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);

@@ -1308,5 +1308,6 @@ class EmailAnalyzerTest extends CDbTestCase
 
         $this->assertEquals(0, $result['positive']);
     }
+
 }
 
