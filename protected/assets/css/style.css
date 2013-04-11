@@ -2414,6 +2414,9 @@ ul.profile-menu li {
     padding: 0px;
     text-decoration: none;
 }
+.pager ul.yiiPager li, .pager ul.yiiPager li a {
+    display: inline-block;
+}
 .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link,
 .pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link, .pager ul.yiiPager a:link {
     color:#fff;
@@ -2423,12 +2426,19 @@ ul.profile-menu li {
     background: none;
 }
 .pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
-    background: #146672;
+    background: #6caab3;
     border: none;
     font-size: 14px;
     margin-left:20px;
     margin-right:20px;
     padding: 7px 9px;
+}
+.pager ul.yiiPager .page {
+    border: 1px solid red;
+    padding-top: 7px;
+}
+.pager ul.yiiPager .previous a:hover, .pager ul.yiiPager .next a:hover {
+    background: #146672;
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager .selected a:link, .pager ul.yiiPager .selected a:visited {
     color: #146672;
@@ -2436,10 +2446,7 @@ ul.profile-menu li {
 .pager ul.yiiPager .first, .pager ul.yiiPager .last  {
     display: none;
 }
-.pager ul.yiiPager .hidden a {
-    background: #6caab3 !important;
 
-}
 .pager .pmore-active:hover {
     color:#6caab3;
 }
