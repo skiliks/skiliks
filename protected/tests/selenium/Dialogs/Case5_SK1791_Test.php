@@ -26,7 +26,6 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $Mail_log = array ( $window, $mail_code);*/
 
         $this->start_simulation();
-        sleep(2);
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать? ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да уж, ситуация')])");
@@ -47,12 +46,18 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ясно, сроки мы с тобой провалили')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, еще раз здравствуйте')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вы только не волнуйтесь,  бюджет немного задерживается')])");
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         //для запуска E2.2 нужен флаг F3
         $this->optimal_click('link=F3');
         $this->run_event('E2.2',"xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, что с тобой? Возьми себя в руки!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Прекрасно, сообщи в отдел персонала о своем решении')])");
+
 
         $this->run_event('E8.5',"xpath=(//*[contains(text(),'Сергей, нужна помощь! Возьми ручку и записывай')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Так, отложи в сторону своих логистов')])");
@@ -63,19 +68,14 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я, а Трутнев')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'попрошу Трутнева поправить ошибку  в ближайшее время и переслать вам файл')])");
 
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
 
         $this->run_event('MS70');
         sleep(2);
         $this->run_event('RS1.1',"xpath=(//*[contains(text(),'Привет, Сергей! Ты очень занят?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, мое задание')])");
-        sleep(2);
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах')])");
-        sleep(2);
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
-        sleep(2);
 
         $this->run_event('MS23');
         sleep(2);
@@ -83,11 +83,10 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-        sleep(10);
         //$this->Mail_log($Mail_log);
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.5");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-32");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.571");
+        $this->waitForTextPresent('Simulation points');
+        $this->checkSimPoints('4.5','-32');
+        $this->checkLearningArea('0.00','0.00','0.00','4.55','7.95','5','12.5','0.00');
+
     }
 }
