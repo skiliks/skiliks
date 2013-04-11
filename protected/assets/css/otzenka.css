@@ -560,10 +560,26 @@
     position:relative;
     width:351px;
 }
+.timevalue {
+    color:#fff;
+    font: 24px "ProximaNova-Regular";
+    position:absolute;
+}
+.inactvalue {
+    left:130px;
+    top:60px;
+}
+.actvalue {
+    right:90px;
+    top:120px;
+}
+.criticalvalue {
+    left:100px;
+    top:190px;
+}
 .timediagr:hover .helpbuble {
     display:block;
 }
-
 .helpbuble {
     background:#fdfbc6;
     -moz-border-radius:3px;

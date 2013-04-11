@@ -2186,9 +2186,14 @@ ul.profile-menu li {
     border:none;
     border-bottom: 1px solid #0e4750;
     font:1em "ProximaNova-Bold";
-    padding: 8px 6px;
     text-align: left;
     vertical-align: middle;
+}
+#private-invitations-list-box .grid-view .items th, .items th {
+    padding: 8px 6px;
+}
+#corporate-invitations-list-box .grid-view .items th {
+    padding: 5px 6px;
 }
 #private-invitations-list-box td, #private-invitations-list-box td a,
 #corporate-invitations-list-box td, #corporate-invitations-list-box td a {
@@ -2245,8 +2250,13 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view .items td {
     background: #fefeec;
     border:none;
-    padding: 8px 6px;
     vertical-align: middle;
+}
+#private-invitations-list-box .grid-view .items td, .items td {
+    padding: 8px 6px;
+}
+#corporate-invitations-list-box .grid-view .items td {
+    padding: 5px 6px;
 }
 #private-invitations-list-box .grid-view .items tr:nth-child(odd) td, .items tr:nth-child(odd) td,
 #corporate-invitations-list-box .grid-view .items tr:nth-child(odd) td{
@@ -2265,34 +2275,44 @@ ul.profile-menu li {
     text-decoration: none;
 }
 
-#private-invitations-list-box .grid-view tr td:first-child
- {
+
+#private-invitations-list-box .grid-view tr td:first-child,
+#private-invitations-list-box .grid-view tr td:nth-child(2),
+#private-invitations-list-box .grid-view tr td:nth-child(3) {
+    text-overflow:clip;
+    overflow: hidden;
+}
+#private-invitations-list-box .grid-view tr td:first-child {
     max-width:76px;
     width:76px;
-    text-overflow:clip;
-    overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(2),
-#private-invitations-list-box .grid-view tr td:nth-child(3),
-#corporate-invitations-list-box .grid-view tr td:nth-child(4){
+#private-invitations-list-box .grid-view tr td:nth-child(3){
     max-width: 80px;
     width:80px;
+}
+#private-invitations-list-box .grid-view tr td:nth-child(4){
+    width:100px;
+}
+#private-invitations-list-box .grid-view tr td:last-child {
+    width:184px;
+}
+
+
+#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(3),
+#corporate-invitations-list-box .grid-view tr td:nth-child(4) {
     text-overflow:clip;
     overflow: hidden;
-}
-#corporate-invitations-list-box .grid-view tr td:nth-child(4) {
-    max-width: 90px;
-    width:90px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
     max-width: 90px;
     width:90px;
-    text-overflow:clip;
-    overflow: hidden;
 }
-#private-invitations-list-box .grid-view tr td:nth-child(4){
-    width:100px;
+#corporate-invitations-list-box .grid-view tr td:nth-child(4) {
+    max-width: 90px;
+    width:90px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
     width:105px;
@@ -2300,9 +2320,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child {
     width: 145px;
 }
-#private-invitations-list-box .grid-view tr td:last-child {
-    width:184px;
-}
+
 .invites-smallmenu-switcher {
     background: url("../img/menugear.png") no-repeat left top;
     color:#232323;
@@ -2373,6 +2391,14 @@ ul.profile-menu li {
     margin: 0px 20px;
     padding: 0px 10px;
 }
+.pager .yiiPager li {
+    border:1px solid red;
+    height: 30px;
+    line-height: 30px;
+}
+/*#corporate-invitations-list-box .grid-view .pager li {
+    display:inline-block;
+}*/
 .pager ul.yiiPager .selected a, .pager ul.yiiPager .selected a:link, .pager ul.yiiPager .selected a:visited {
     color: #146672;
 }
