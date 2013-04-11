@@ -2370,6 +2370,21 @@ ul.profile-menu li {
 .selected-sk .invites-smallmenu-switcher {
    background-position: right top;
 }
+#yw0_c1 {
+    position: relative;
+}
+#yw0_c1 a {
+    left:-19px;
+    position: absolute;
+    top:11px;
+}
+#corporate-invitations-list-box .ratingwrap,
+#corporate-invitations-list-box p {
+    background: rgba(240, 253, 255, 0);
+    line-height: 17px;
+    margin: 0px;
+    padding: 0px;
+}
 /* ************************ /TABLE ************************ */
 .searchform {
     float: right;
@@ -2396,7 +2411,7 @@ ul.profile-menu li {
     position: relative;
 }
 #private-invitations-list-box .grid-view .pager, #corporate-invitations-list-box .grid-view .pager {
-    bottom: -65px;
+    bottom: -75px;
     height: 40px;
     margin: 0px;
     text-align: center;
@@ -2434,8 +2449,8 @@ ul.profile-menu li {
     padding: 7px 9px;
 }
 .pager ul.yiiPager .page {
-    border: 1px solid red;
-    padding-top: 7px;
+    padding-bottom: 5px;
+    vertical-align: middle;
 }
 .pager ul.yiiPager .previous a:hover, .pager ul.yiiPager .next a:hover {
     background: #146672;
