@@ -1736,6 +1736,8 @@ html[lang=ru] .product section table th{
     background: none repeat scroll 0 0 #146672;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    overflow: visible;
+    margin-top:15px;
 }
 .action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
@@ -1760,9 +1762,24 @@ html[lang=ru] .product section table th{
 }
 
 .sing-in-pop-up .ui-dialog-titlebar-close {
-    margin-top: -20px;
+    margin:0;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    background: none;
 }
-
+.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    display: block;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background: url(../img/closepopup.png) no-repeat 0 0;
+}
+.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    background-position: 0 100%;
+}
 @media screen and (max-width: 1280px){
 	.login-form{
 	    width:184px;

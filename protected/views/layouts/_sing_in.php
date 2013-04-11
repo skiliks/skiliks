@@ -52,7 +52,7 @@
             position: {
                 my: "right top",
                 at: "right bottom",
-                of: $('#top header')
+                of: $('#top header #static-page-links')
             },
             resizable: false,
             title: '<?php echo Yii::t('site', 'Sign in') ?>',
