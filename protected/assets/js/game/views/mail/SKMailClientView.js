@@ -106,6 +106,11 @@ define([
                 this.mailClient = SKApp.simulation.mailClient;
                 this.mailClient.view = this;
 
+                // init RecipientsList
+                if (0 === this.mailClient.defaultRecipients.length) {
+                    this.mailClient.updateRecipientsList();
+                }
+
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
@@ -1117,9 +1122,6 @@ define([
                 this.mailClient.availableSubjects = [];
                 var mailClientView = this;
 
-                if (0 === this.mailClient.defaultRecipients.length) {
-                    this.mailClient.updateRecipientsList();
-                }
                 // get template
                 var htmlSceleton = _.template(mail_client_new_email_template, {});
 
@@ -1129,7 +1131,6 @@ define([
                 this.$("#" + this.mailClientContentBlockId).html(htmlSceleton);
 
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
-
 
                 this.updateSubjectsList();
                 // add attachments list {
@@ -1243,7 +1244,6 @@ define([
 
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
-
 
                 this.delegateEvents();
 
@@ -1798,6 +1798,7 @@ define([
              */
             fillMessageWindow: function (response) {
                 var me = this;
+
                 if (null === response.subjectId) {
                     this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
@@ -1920,6 +1921,7 @@ define([
              */
             doUpdateScreenFromForwardEmailData: function (response) {
                 if (1 == response.result) {
+
                     if (null == response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
@@ -2005,7 +2007,7 @@ define([
                     this.renderPhrases();
                     // add phrases }
                 } else {
-                    throw "Can`t initialize responce email. View. #2";
+                    throw "Can`t initialize response email. View. #2";
                 }
             },
 

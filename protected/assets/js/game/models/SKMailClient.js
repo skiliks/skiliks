@@ -870,10 +870,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                     return false;
                 } else {
-                    /*mailClient.reloadSubjects(recipientIds, parent_subject);
-                    if(action !== 'add_fwd' && action !== 'delete_fwd') {
-                        $("#mailEmulatorNewLetterText").html('');
-                    }*/
                     return true;
                 }
             },
@@ -885,7 +881,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             reloadSubjects:function (recipientIds, subject) {
                 if(recipientIds.length <= 0) {
-                    //$("#MailClient_NewLetterSubject option[value!='0']").remove();//Todo:Заменить
                     SKApp.simulation.mailClient.availableSubjects = [];
                     return;
                 }
