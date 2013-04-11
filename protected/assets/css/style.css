@@ -2391,9 +2391,9 @@ ul.profile-menu li {
     margin: 0px 20px;
     padding: 0px 10px;
 }
-#corporate-invitations-list-box .grid-view .pager li {
+/*#corporate-invitations-list-box .grid-view .pager li {
     display:inline-block;
-}
+}*/
 .pager ul.yiiPager .selected a, .pager ul.yiiPager .selected a:link, .pager ul.yiiPager .selected a:visited {
     color: #146672;
 }
