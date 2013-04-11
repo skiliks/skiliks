@@ -13,6 +13,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
+$cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);

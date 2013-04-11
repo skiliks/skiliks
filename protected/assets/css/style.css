@@ -2774,3 +2774,19 @@ ul.profile-menu li {
 .chart-bullet.valued .chart-value {
     display: block;
 }
+
+.chart-pie {
+    position: relative;
+    background: url(../img/charts/pie-simple.png) no-repeat 50% 50%;
+    width: 351px;
+    height: 351px;
+}
+.chart-pie:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
+}

@@ -1,4 +1,4 @@
-(function(window, $) {
+(function(window, $, d3) {
     'use strict';
 
     $.easing.easeOutElasticSoft = function(p) {
@@ -185,11 +185,132 @@
         }
     });
 
+    function Pie(container, values, options) {
+        var me = this,
+            $chart = $('<div class="chart-pie"/>'),
+            chart, arcs, radius, colorScale;
+
+        this.options = options = options || {};
+
+        $chart.width(me.dimension)
+            .height(me.dimension)
+            .appendTo(container);
+
+        radius = me.dimension / 2 - 40;
+        colorScale = options.colors ? d3.scale.ordinal().range(options.colors) : d3.scale.category20();
+
+        this.arcDrawer = d3.svg.arc()
+            .innerRadius(options.donut ? radius * 0.8 : 0)
+            .outerRadius(radius);
+
+        this.pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d; });
+
+        chart = d3.select($chart[0])
+            .append('svg')
+            .data([new Array(values.length)])
+            .attr('width', me.dimension)
+            .attr('height', me.dimension);
+
+        arcs = chart.selectAll('g')
+            .data(this.pie)
+            .enter()
+            .append('g')
+            .attr('transform', 'translate(' + me.dimension / 2 + ', ' + me.dimension / 2 + ')');
+
+        this.paths = arcs
+            .append('path')
+            .attr('d', this.arcDrawer)
+            .style('fill', function(d, i) {
+                return colorScale(i);
+            });
+
+        this.texts = arcs.append('text')
+            .attr('dy', '.35em')
+            .attr('fill', 'white')
+            .style('text-anchor', 'middle')
+            .style('font-size', '18px');
+
+        $chart[0].chartObject = this;
+
+        if (options.class) {
+            $chart.addClass(options.class);
+        }
+
+        this.setValue(values);
+    }
+
+    $.extend(Pie.prototype, {
+        dimension: 350,
+        setValue: function(values, animate) {
+            var me = this,
+                start = new Date(),
+                duration = this.options.duration || 2000,
+                sum = d3.sum(values),
+                from = this.values || Array.apply(null, new Array(values.length)).map(Number.prototype.valueOf, 0).concat(sum),
+                interpolator = d3.interpolateArray(from, values.concat(0));
+
+            this.values = values;
+
+            me.texts.text('');
+
+            if (animate !== false) {
+                me.animateTimer = setInterval(function() {
+                    var t = (new Date() - start) / duration,
+                        stepValues;
+
+                    t = t >= 1 ? 1 : t;
+                    stepValues = interpolator(t);
+
+                    me._drawPaths(stepValues);
+                    if (t >= 1) {
+                        me._updateLabels(stepValues);
+                    }
+
+                    return t >= 1;
+                }, 20);
+            } else {
+                me._drawPaths(values);
+                me._updateLabels(values);
+            }
+        },
+        refresh: function() {
+            var v = this.values;
+
+            if (this.animateTimer) {
+                clearInterval(this.animateTimer);
+                delete this.animateTimer;
+            }
+
+            this.values = null;
+            this.setValue(v);
+        },
+        _drawPaths: function(values) {
+            this.paths
+                .data(this.pie(values))
+                .attr('d', this.arcDrawer);
+        },
+        _updateLabels: function(values) {
+            var me = this;
+
+            me.texts
+                .data(this.pie(values))
+                .attr('transform', function(d) {
+                    return 'translate(' + me.arcDrawer.centroid(d) + ')';
+                })
+                .text(function(d) {
+                    return d.data / d3.sum(me.values) < 0.06 ? '' : d.data + '%';
+                });
+        }
+    });
+
     window.charts = {
         Gauge: Gauge,
         Bar: Bar,
-        Bullet: Bullet
+        Bullet: Bullet,
+        Pie: Pie
     };
 
     return window.charts;
-})(window, jQuery);
+})(window, jQuery, d3);
