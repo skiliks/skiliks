@@ -622,9 +622,6 @@ class SimulationService
         // write all mail outbox/inbox scores to AssessmentAggregate directly
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-        $simulation->end = GameTime::setNowDateTime();
-        $simulation->save();
-
         self::applyReductionFactors($simulation);
 
         $learning_area = new LearningAreaAnalyzer($simulation);
@@ -633,6 +630,9 @@ class SimulationService
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
         $simulation->checkLogs();
+
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->save();
     }
 
     /**
