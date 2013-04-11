@@ -9,7 +9,14 @@ $(document).ready(function () {
         width:     940,
         minHeight: 600,
         autoOpen: false,
-        resizable: false
+        resizable: false,
+        open: function( event, ui ) {
+            var heightOverhead = 300;
+
+            $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
+            $('.simulation-result-popup').css('top', '50px');
+            $('.ui-widget-overlay').height($('.ui-widget-overlay').height() + heightOverhead + 'px');
+        }
     });
 
     $(".view-simulation-details-pop-up").click(function (event) {
