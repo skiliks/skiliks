@@ -558,10 +558,95 @@
     vertical-align: middle;
     width: 351px;
 }
+/*.timewrap, .tziferblat {
+    height:351px;
+    position:relative;
+    width:351px;
+}*/
 .timediagr {
     background:url("../img/timediagrm.png") no-repeat;
     height:351px;
     position:relative;
+    width:351px;
+}
+.tziferblat {
+    overflow:hidden;
+}
+.timepart {
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    position:absolute;
+}
+.timeinactv {
+    border-width: 170px 50px 0 50px;
+    border-color: #91bac0 transparent transparent transparent;
+    left:90px;
+    top:10px;
+    -moz-transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    -webkit-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
+    transform: rotate(-15deg);
+}
+.timeactv {
+    border-width: 170px 210px 0 210px;
+    border-color: #146672 transparent transparent transparent;
+    right:-88px;
+    top:40px;
+    -moz-transform: rotate(52deg);
+    -ms-transform: rotate(52deg);
+    -webkit-transform: rotate(52deg);
+    -o-transform: rotate(52deg);
+    transform: rotate(52deg);
+}
+.timepart.timecritical {
+    border-width: 190px 0 190px 190px;
+    border-color: transparent transparent transparent #e11a1a ;
+    left:0px;
+    bottom:-83px;
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.timecritical:after {
+    content: "";
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    position:absolute;
+    top:-2px;
+    left:-178px;
+    border-width: 0 170px 200px 170px;
+    border-color: transparent transparent #e11a1a transparent;
+    -ms-transform: rotate(5deg);
+    -o-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+    transform: rotate(5deg);
+}
+.timecritical:before {
+    content: "";
+    border-style: solid;
+    width: 0px;
+    height: 0px;
+    position:absolute;
+    top:-198px;
+    left:-124px;
+    border-width: 108px 0 108px 200px;
+    border-color: transparent transparent transparent #e11a1a;
+    -ms-transform: rotate(74deg);
+    -o-transform: rotate(74deg);
+    -moz-transform: rotate(74deg);
+    -webkit-transform: rotate(74deg);
+    transform: rotate(74deg);
+}
+.timeimage {
+    background:url("../img/timewrap.png") no-repeat left top;
+    height:351px;
+    position:absolute;
     width:351px;
 }
 .timevalue {

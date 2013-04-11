@@ -177,7 +177,7 @@
         });
 
         nav.$sections.on('open', function() {
-            $(this).find('.chart-gauge, .chart-bar, .chart-bullet').each(function() {
+            $(this).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
                 this.chartObject.refresh();
             });
         });
