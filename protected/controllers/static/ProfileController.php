@@ -163,12 +163,12 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $passwordForm->validate();
 
             if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
-                $passwordForm->addError('currentPassword', Yii::t('site', 'Your current password is not correct'));
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Ваш текущий пароль не правильный'));
             }
 
             if (!$passwordForm->hasErrors()) {
                 if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
-                    Yii::app()->user->setFlash('info', 'The new password has been saved');
+                    Yii::app()->user->setFlash('info', 'Новый пароль был сохранен');
                 } else {
                     Yii::app()->user->setFlash('error', 'There was an error saving the password');
                 }
@@ -198,12 +198,12 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $passwordForm->validate();
 
             if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
-                $passwordForm->addError('currentPassword', Yii::t('site', 'Your current password is not correct'));
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Ваш текущий пароль не правильный'));
             }
 
             if (!$passwordForm->hasErrors()) {
                 if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
-                    Yii::app()->user->setFlash('notice', 'The new password has been saved');
+                    Yii::app()->user->setFlash('notice', 'Новый пароль был сохранен');
                 } else {
                     Yii::app()->user->setFlash('error', 'There was an error saving the password');
                 }
