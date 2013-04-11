@@ -267,6 +267,21 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
+        if (null === $invite) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Такого приглашения не существует"
+            ));
+            $this->redirect('/dashboard');
+        }
+
+        if (Invite::STATUS_PENDING !== $invite->status) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Только приглашение со статусом \"%s\" можно отправить ещё раз.",
+                Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
+            ));
+            $this->redirect('/dashboard');
+        }
+
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite

@@ -79,7 +79,10 @@ class Invite extends CActiveRecord
     public function markAsSendToday()
     {
         $this->sent_time = time();
-        $this->status = self::STATUS_PENDING;
+        
+        if (null === $this->status) {
+            $this->status = self::STATUS_PENDING;
+        }
     }
 
     /**
