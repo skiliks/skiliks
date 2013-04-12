@@ -311,9 +311,7 @@
    padding-left: 52px;
    position: relative;
 }
-#managerial-skills .totalwithresult {
-   padding-left: 55px;
-}
+#managerial-skills .totalwithresult,
 #time-management .totalwithresult {
     padding-left: 57px;
 }
