@@ -2267,6 +2267,7 @@ ul.profile-menu li {
     padding-right: 0px;
 }
 #corporate-invitations-list-box .grid-view .items tr td:first-child {
+    padding-left: 4px;
     padding-right: 0px;
 }
 #corporate-invitations-list-box .grid-view .items th:nth-child(2),
@@ -2343,6 +2344,7 @@ ul.profile-menu li {
 
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
+
     width: 25px;
 }
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
@@ -2355,8 +2357,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr th:nth-child(2){
-    max-width: 120px;
-    width:120px;
+    max-width: 115px;
+    width:115px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
@@ -2365,8 +2367,8 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(4),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4){
-    max-width: 77px;
-    width:77px;
+    max-width: 76px;
+    width:76px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
@@ -2376,7 +2378,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    width: 136px;
+    width: 142px;
 }
 
 .invites-smallmenu-switcher {
