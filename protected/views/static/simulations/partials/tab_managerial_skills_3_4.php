@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="legendwrap legendmargin">
+    <div class="legendwrap legendmargin lessmargintop">
         <div class="legend">
             <p class="barstitle">Обозначения</p>
             <div class="legendvalue"><span class="legendcolor colormax"></span><span class="legendtitle">Максимальный уровень владения навыком</span></div>

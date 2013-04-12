@@ -334,6 +334,9 @@
     margin-top: 20px; /* 30 */
     padding: 10px;
 }
+.lessmargintop {
+    margin-top: 8px;
+}
 .legend {
     background: #fff;
     -webkit-border-radius: 3px;
