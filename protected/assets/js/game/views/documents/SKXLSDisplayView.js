@@ -31,7 +31,7 @@ define([
             var doc = me.options.model_instance.get('document');
 
             if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
-                consolw.log('it is Zoho500 doc');
+                console.log('it is Zoho500 doc');
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
