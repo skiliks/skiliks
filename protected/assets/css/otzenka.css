@@ -246,7 +246,7 @@
     width: 300px;
 }
 .labels .row {
-    margin-top: 38px;
+    margin-top: 44px;
 }
 .bars .chart-bar:first-child, .labels .row:first-child  {
     margin-top: 0px;
@@ -386,7 +386,7 @@
     border-radius: 3px;
     font-size: 18px;
     margin-left:10px;
-    padding: 4px 0px;
+    padding: 6px 0px;
     text-align: center;
     text-decoration: none;
     width: 26px;
