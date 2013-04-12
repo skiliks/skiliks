@@ -17,6 +17,7 @@ define([
             $('body').html('<video id="skiliks_intro" src="http://storage.skiliks.com/v1/videos/skiliks_intro_1280.webm" autoplay="autoplay"></video>');
             $('body').append('<div class="intro-top-icons">Пропустить видео <button class="pass-video"/></div>');
             $('#skiliks_intro').bind('ended', function () {
+                $(this).remove();
                 $(window).unbind("mousemove");
                 window.IntroView.trigger('simulationStart');
             });
