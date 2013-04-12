@@ -20,8 +20,8 @@ require(['game/util/compatibility'], function(compatibility) {
                 $(function () {
                     //var View1 = Backbone.View.extend();
                    if($.cookie('intro_is_watched') === undefined || $.cookie('intro_is_watched') === null){
-                       window.SKIntroView = new SKIntroView();
-                       window.SKIntroView.bind('simulationStart', window.SKIntroView.eventHandler);
+                       var Intro = new SKIntroView();
+                       Intro.bind('simulationStart', Intro.eventHandler);
                    }else{
                        window.SKApp = new SKApplication(window.gameConfig);
                        window.AppView = new SKApplicationView();
