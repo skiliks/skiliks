@@ -341,61 +341,61 @@ class TimeManagementAssessmentTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            27.00, // %
+            15, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
 
         $this->assertEquals(
-            18.00, // %
+            10, // min
             $values['1st_priority_meetings'],
             '1st_priority_meetings'
         );
 
         $this->assertEquals(
-            18.00, // %
+            10, // min
             $values['1st_priority_phone_calls'],
             '1st_priority_phone_calls '
         );
 
         $this->assertEquals(
-            18.00, // %
+            10, // min
             $values['1st_priority_mail'],
             '1st_priority_mail'
         );
 
         $this->assertEquals(
-            19.00, // %
+            10, // min
             $values['1st_priority_planning'],
             '1st_priority_planning'
         );
 
         $this->assertEquals(
-            25.00, // %
+            10, // min
             $values['non_priority_documents'],
             'non_priority_documents'
         );
 
         $this->assertEquals(
-            25.00, // %
+            10, // min
             $values['non_priority_meetings'],
             'non_priority_meetings'
         );
 
         $this->assertEquals(
-            25.00, // %
+            10, // min
             $values['non_priority_phone_calls'],
             'non_priority_phone_calls'
         );
 
         $this->assertEquals(
-            25.00, // %
+            10, // min
             $values['non_priority_mail'],
             'non_priority_mail'
         );
 
         $this->assertEquals(
-            0.00, // %
+            0, // min
             $values['non_priority_planning'],
             'non_priority_planning'
         );
@@ -457,61 +457,61 @@ class TimeManagementAssessmentTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['1st_priority_meetings'],
             '1st_priority_meetings'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['1st_priority_phone_calls'],
             '1st_priority_phone_calls '
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['1st_priority_mail'],
             '1st_priority_mail'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['1st_priority_planning'],
             '1st_priority_planning'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['non_priority_documents'],
             'non_priority_documents'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['non_priority_meetings'],
             'non_priority_meetings'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['non_priority_phone_calls'],
             'non_priority_phone_calls'
         );
 
         $this->assertEquals(
-            0, // %
+            0, // min
             $values['non_priority_mail'],
             'non_priority_mail'
         );
 
         $this->assertEquals(
-            0.00, // %
+            0.00, // min
             $values['non_priority_planning'],
             'non_priority_planning'
         );
