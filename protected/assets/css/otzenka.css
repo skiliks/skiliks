@@ -350,15 +350,15 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
     float:left;
-    height: 32px;
+    height: 28px;
     margin-right: 10px;
-    width: 32px;
+    width: 28px;
 }
 .legendtitle {
     display: table-cell;
     font:15px "ProximaNova-Regular";
-    height: 32px;
-    line-height:110%;
+    height: 28px;
+    line-height:108%;
     vertical-align: middle;
 }
 .colormax {
@@ -374,7 +374,7 @@
     margin-left: 328px;
 }
 .legendvalue {
-    margin-top: 10px;
+    margin-top: 8px;
 }
 .legendvalue:first-child {
     margin-top: 0px;
@@ -575,14 +575,14 @@
     width: 10px;
 }
 .extrahourswrap {
-    padding-left: 32px;
+    padding-left: 57px;
 }
 .extrahours {
     background:url("../img/timediagram.png") no-repeat;
     color: #fff;
     height: 300px;
     display: table-cell;
-    font: 72px "ProximaNova-Regular";
+    font: 65px "ProximaNova-Regular";
     text-align: center;
     vertical-align: middle;
     width: 300px;
@@ -745,7 +745,7 @@
     left:90px;
 }
 .mangrlresults .chartbar, .emptychart {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 .mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child .chartbar,
 .barswrap .emptychart:last-child {
@@ -772,28 +772,35 @@
     color:#3d4041;
     font: 21px "ProximaNova-Bold";
 }
+.toplabelmargin {
+    margin-top: 18px;
+}
 .mangrlresultstitle {
     float: left;
     margin-left:70px;
     padding-top: 25px;
 }
 .labelwrap {
-    margin-top:15px;
+    margin-top:11px;
 }
 .thelabel {
     display: table-cell;
     height: 37px;
     font-size: 14px;
-    line-height: 105%;
+    line-height: 107%;
     position: relative;
     vertical-align: top;
 }
 .labelhack {
     padding-top:5px;
 }
-.mangrlresults .labels p:first-child, .timedetail .labels p:first-child {
+.mangrlresults .labels p:first-child {
+    margin-top:12px;
+}
+.timedetail .labels p:first-child, .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
+
 .valuetitle {
     background: #ffffff;
     -webkit-border-radius: 40px;
@@ -804,11 +811,11 @@
     display: inline-block;
     font: 25px "ProximaNova-Bold";
     font-weight: normal;
-    height: 80px;
-    line-height: 80px;
-    margin-right: 20px;
+    height: 72px;
+    line-height: 72px;
+    margin-right: 16px;
     text-align: center;
-    width: 80px;
+    width: 72px;
 }
 .twocharts .chartbar {
     float: left;
