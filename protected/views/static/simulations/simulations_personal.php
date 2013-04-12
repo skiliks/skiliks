@@ -1,9 +1,4 @@
-
-<h1><?php echo Yii::t('site', 'Simulations') ?></h1>
-
-Вам доступны к прохождению (только подтверждённые инвайты):
-<br/>
-<br/>
+<h1 class="title"><?php echo Yii::t('site', 'Available simulation') ?></h1>
 
 <?php
 $this->widget('zii.widgets.grid.CGridView', [
