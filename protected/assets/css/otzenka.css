@@ -262,9 +262,12 @@
     width: 300px;
 }
 .labels .row {
-    margin-top: 44px;
+    margin-top: 46px;
 }
-.bars .chart-bar:first-child, .labels .row:first-child  {
+.labels .row:first-child {
+    margin-top: 8px;
+}
+.bars .chart-bar:first-child  {
     margin-top: 0px;
 }
 .labels .resulttitele {
@@ -841,7 +844,7 @@
 }
 .twocharts .chartbar.chartproblem {
     margin-left: 20px;
-    width:230px !important;
+    width:240px !important;
 }
 .chartproblem .chart-value {
     background: #e11a1a !important;

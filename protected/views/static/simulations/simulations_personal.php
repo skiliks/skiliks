@@ -15,11 +15,12 @@ $this->widget('zii.widgets.grid.CGridView', [
         'lastPageLabel' => 'конец >>',
     ],
     'columns' => [
-        ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type.$data->ownerUser->getAccount()->company_name)'],
-        ['header' => Yii::t('site', 'Professional occupation')   , 'value' => 'Yii::t("site", $data->vacancy->professionalOccupation->label)'],
-        ['header' => Yii::t('site', 'Specialization')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
-        ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-        ['header' => Yii::t('site', 'Score')                                , 'value' => ''],
+        ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type. " " .$data->ownerUser->getAccount()->company_name)'],
+        ['header' => Yii::t('site', 'Position')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
+        [
+            'header' => Yii::t('site', 'Simulation'),
+            'name' => 'sent_time'   ,
+            'value' => '($data->scenario->slug === Scenario::TYPE_LITE ? Yii::t("site","Lite verion") : "") . "Базовый менеджмент"'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/{$data->scenario->slug}/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);

@@ -309,7 +309,6 @@ class EventsManager {
         $simId = $simulation->primaryKey;
 
         // данные для логирования {
-        LogHelper::setLog($simId, $logs);
 
         $originalNotFilteregLogs = $logs; // used after standart logging
 

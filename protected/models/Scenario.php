@@ -43,6 +43,9 @@
  * @property Replica[] $replicas
  * @property Simulations[] $simulations
  * @property Tasks[] $tasks
+ *
+ * @method Replica getReplica
+ * @method Activity getActivity
  */
 class Scenario extends CActiveRecord
 {
@@ -130,16 +133,6 @@ class Scenario extends CActiveRecord
     {
         $attributes['scenario_id'] = $this->primaryKey;
         return Dialog::model()->findByAttributes($attributes);
-    }
-
-    /**
-     * @param $attributes
-     * @return Replica
-     */
-    public function getReplica($attributes, $params = [])
-    {
-        $attributes['scenario_id'] = $this->primaryKey;
-        return Replica::model()->findByAttributes($attributes, $params);
     }
 
     /**
@@ -309,12 +302,6 @@ class Scenario extends CActiveRecord
     {
         $array['scenario_id'] = $this->id;
         return MailTask::model()->findAllByAttributes($array);
-    }
-
-    public function getActivity($array)
-    {
-        $array['scenario_id'] = $this->id;
-        return Activity::model()->findByAttributes($array);
     }
 
     public function getActivityParentAvailability($array)

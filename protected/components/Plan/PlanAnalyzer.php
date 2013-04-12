@@ -25,6 +25,8 @@ class PlanAnalyzer {
 
     public $tomorrow_work_time;
 
+    public $logActivityActionsAggregatedGroupByParent = [];
+
     /**
      * @param Simulation $simulation
      */
@@ -56,6 +58,52 @@ class PlanAnalyzer {
 
         $this->tasksOn11 = (null === $this->tasksOn11) ? []  : $this->tasksOn11;
         $this->tasksOn18 = (null === $this->tasksOn18) ? []  : $this->tasksOn18;
+
+
+
+        /*
+         * @var $groupedLog:
+         * array [
+         * 'parent'
+         * 'grandparent'
+         * 'category'
+         * 'start'
+         * 'end'
+         * ]
+         *
+         * */
+        $groupedLog = [];
+
+        $currentParentCode = null;
+        $i = 0;
+
+        foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
+            if ($logItem->leg_action == 'plan'
+                || $logItem->activityAction->activity->code == 'A_wait'
+                || $logItem->activityAction->activity->code == 'A_wrong_call'
+                || $logItem->category == '2min') {
+                continue;
+            }
+
+            if ($logItem->activityAction->activity->parent != $currentParentCode) {
+                $currentParentCode = $logItem->activityAction->activity->parent;
+
+                $groupedLog[] = [
+                    'parent'      => $currentParentCode = $logItem->activityAction->activity->parent,
+                    'grandparent' => $currentParentCode = $logItem->activityAction->activity->grandparent,
+                    'category'    => $currentParentCode = $logItem->category,
+                    'start'       => $currentParentCode = $logItem->start_time,
+                    'end'         => $currentParentCode = $logItem->end_time,
+                ];
+                $i++;
+            } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
+                $groupedLog[$i] = [
+                    'end' => $currentParentCode = $logItem->end_time,
+                ];
+            }
+        }
+
+        $this->logActivityActionsAggregatedGroupByParent = $groupedLog;
     }
 
     /**
@@ -97,7 +145,11 @@ class PlanAnalyzer {
      */
     public function check_214a1()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a1']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a1']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $duration = 0;
         foreach ($this->tasksOn11 as $plan){
@@ -135,7 +187,11 @@ class PlanAnalyzer {
      */
     public function check_214a3()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $todo_count = 0;
         foreach ($this->tasksOn11 as $plan) {
@@ -164,7 +220,11 @@ class PlanAnalyzer {
      */
     public function check_214a4()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a4']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a4']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $duration = 0;
         foreach ($this->tasksOn18 as $plan) {
@@ -197,7 +257,11 @@ class PlanAnalyzer {
      */
     public function check_214a5()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a5']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a5']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $todo_count = 0;
         foreach ($this->tasksOn18 as $plan) {
@@ -225,7 +289,11 @@ class PlanAnalyzer {
      */
     public function check_214a8()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a8']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a8']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $count = 0;
         foreach($this->tasksOn11 as $plan){
@@ -262,6 +330,10 @@ class PlanAnalyzer {
     public function check_214b0_214b4($code, $category)
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $wrongActions = [];
         $rightActions = [];

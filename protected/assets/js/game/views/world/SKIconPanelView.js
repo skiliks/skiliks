@@ -114,12 +114,19 @@ define([
              * @method onPhoneEvent
              */
             onPhoneEvent: function (event) {
+                var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
+                if(phones.length !== 0){
+                    phones[0].close();
+                    this.runPhoneTalkStart(event.cid);
+                    return;
+                }
+
                 var me = this;
                 this.$('.phone').attr('data-event-id', event.cid);
 
                 var data = event.get('data');
                 var callbackFunction;
-                if (undefined == data[2]) {
+                if (undefined === data[2]) {
                     // user can`t ignore call
                     callbackFunction = function () {
                         if (event.getStatus() !== 'in progress') {
