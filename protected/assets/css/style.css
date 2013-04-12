@@ -2360,12 +2360,12 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(4),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4){
-    max-width: 78px;
-    width:78px;
+    max-width: 76px;
+    width:76px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
-    width:115px;
+    width:118px;
 }
 #corporate-invitations-list-box .grid-view tr th:last-child,
 #corporate-invitations-list-box .grid-view tr td:last-child{
@@ -2388,9 +2388,10 @@ ul.profile-menu li {
     position: relative;
 }
 #corporate-invitations-list-box  #yw0_c1 a {
-    left:-19px;
+    margin-left:-18px;
     position: absolute;
     top:11px;
+    width:130px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p {
@@ -2400,7 +2401,7 @@ ul.profile-menu li {
     padding: 0px;
 }
 #corporate-invitations-list-box time {
-    margin-left: 7px;
+    margin-left: 10px;
 }
 /* ************************ /TABLE ************************ */
 .searchform {
