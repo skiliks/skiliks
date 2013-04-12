@@ -56,20 +56,26 @@ define([
                     'img_src': image_src
                 });
 
+                $('<div class="hidden placeholder" />').html(text).appendTo(el);
                 if (video_src) {
-                    media = document.createElement('video');
-                    media.src = video_src;
-                    $(media).on('loadeddata', renderFn);
+                    el.find('video.visit-background').on('loadeddata', renderFn);
                 } else if (image_src) {
-                    media = new Image();
-                    media.src = image_src;
-                    media.onload = renderFn;
+                    el.find('img.visit-background').on('load', renderFn);
                 } else {
                     renderFn();
                 }
 
                 function renderFn() {
-                    el.html(text);
+                    var oldContent = el.children('.visit-background-container'),
+                        newContent = el.find('.placeholder .visit-background-container');
+
+                    if (oldContent.length) {
+                        oldContent.replaceWith(newContent);
+                        el.find('.placeholder').remove();
+                    } else {
+                        el.find('.placeholder').replaceWith(newContent);
+                    }
+
                     el.find('.visit-background-container').css('width', screen.availWidth);
                     if (true === SKApp.simulation.config.isMuteVideo) {
                         me.$('video').attr('muted', 'muted');

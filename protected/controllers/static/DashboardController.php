@@ -420,18 +420,29 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
         $declineExplanation->invite->update(false, ['status']);
 
-        Yii::app()->user->setFlash('success', sprintf(
-            'Приглашение от %s %s отклонено.',
-            $declineExplanation->invite->ownerUser->getAccount()->ownership_type,
-            $declineExplanation->invite->ownerUser->getAccount()->company_name
-        ));
-
         // for unregistered user - redirect to homepage
         if (null === Yii::app()->user->data()->id) {
             $this->redirect('/');
         }
 
-        $this->redirect('/dashboard');
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+
+        if($user->isAuth()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                'Спасибо за Ваш ответ! Вы всегда можете зарегистрироваться снова на главной странице
+                и начать использовать наш продукт. Мы верим, что он обязательно Вам понравится и окажется полезным.'
+            ));
+            $this->redirect('/');
+
+        } elseif($user->isPersonal()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашение от %s %s отклонено.',
+                $declineExplanation->invite->ownerUser->getAccount()->ownership_type,
+                $declineExplanation->invite->ownerUser->getAccount()->company_name
+            ));
+            $this->redirect('/dashboard');
+        }
     }
 
     /**

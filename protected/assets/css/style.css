@@ -2706,18 +2706,22 @@ ul.profile-menu li {
     border-radius: 5px;
     background-color: #b5d4d7;
 }
+.chart-bar.max-hidden {
+    background: transparent;
+}
 .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
     display: block;
     overflow: hidden;
     /*padding-right: 10px;*/
     width: 0;
     height: 32px;
+    padding-right: 5px;
     background-color: #146672;
     text-align: center;
     color: white;
     /*font-weight: bold;*/
     font:18px "ProximaNova-Regular";
-    line-height: 30px;
+    line-height: 32px;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -2797,10 +2801,13 @@ ul.profile-menu li {
 .chart-pie {
     position: relative;
     background: url(../img/charts/pie-simple.png) no-repeat 50% 50%;
-    width: 351px;
-    height: 351px;
-    margin: 0 auto;
+    width: 300px;
+    height: 300px;
 }
+.chart-pie.scaled {
+    background: url(../img/charts/pie-scale.png) no-repeat 50% 60%,
+                url(../img/charts/pie-simple.png) no-repeat 50% 50%;
+ }
 .chart-pie:after {
     content: '';
     position: absolute;
