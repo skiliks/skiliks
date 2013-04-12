@@ -13,6 +13,7 @@
 }
 #simulation-details-pop-up {
     height: 910px !important;
+    overflow: hidden;
     /*overflow: visible;
     position: relative;*/
     padding-bottom: 30px;
