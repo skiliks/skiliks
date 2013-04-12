@@ -1,19 +1,3 @@
-<style>
-    /*.gauge-charts, */ .bar-charts, .bullet-charts {
-        margin: 40px 0;
-        padding: 10px;
-    }
-    .chart-gauge.inline {
-        margin: 30px 0;
-    }
-    .chart-bar {
-        margin: 20px 0;
-    }
-    .chart-bullet.small {
-        width: 300px;
-        margin: 20px 0;
-    }
-</style>
 <div class="textcener"><h2 class="total">Итоговый рейтинг менеджера</h2></div>
 <div class="allsummry">
     <div class="estmtresults">
@@ -27,10 +11,10 @@
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
-        <div class="widthblock"><h2><a href="#">Управленческие навыки <span class="signmore"></span></a></h2></div>
-        <div class="widthblock"><h2><a href="#">Результативность <span class="signmore"></span></h2></a></div>
-        <div class="widthblock"><h2><a href="#">Эффективность использования времени <span class="signmore"></span></a></h2></div>
-        <div class="widthblock"><h2><a href="#">Личностные характеристики <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#productivity">Результативность <span class="signmore"></span></h2></a></div>
+        <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#personal-qualities">Личностные характеристики <span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
 </div>
 <div class="clearfix maincharts">
@@ -64,7 +48,7 @@
     <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
         <ul class="bluelist nobultslist">
             <li><a href="#time-management-detail" data-parent="time-management">Распределение времени</a></li>
-            <li><a href="#">Сверхурочное время </a></li>
+            <li><a href="#time-management">Сверхурочное время </a></li>
         </ul>
     </div>
     <div class="widthblock"><h3>ИЗМЕРЯЕМЫЕ ХАРАКТЕРИСТИКИ</h3>
@@ -82,9 +66,11 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['management']['total']), {class: 'inline'});
-        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['performance']['total']), {class: 'inline'});
-        new charts.Gauge('.gauge-charts', parseInt(assessmentResult['time']['total']), {class: 'inline'});
+        var r = Math.round;
+
+        new charts.Gauge('.gauge-charts', r(AR.management.total), {class: 'inline'});
+        new charts.Gauge('.gauge-charts', r(AR.performance.total), {class: 'inline'});
+        new charts.Gauge('.gauge-charts', r(AR.time.total), {class: 'inline'});
 
         new charts.Bullet('.bullet-charts', 50, {class: 'small'});
         new charts.Bullet('.bullet-charts', 70, {class: 'small'});
@@ -93,7 +79,8 @@
         //new charts.Bullet('.bullet-charts', 50, {class: 'small'});
         //new charts.Bullet('.bullet-charts', 70, {class: 'small'});
        // new charts.Bullet('.bullet-charts', 40, {class: 'small'});
-        $('.overall .value').html(assessmentResult['overall']);
+        $('.overall .value').html(r(AR.overall));
+        $('.allrating').css('width', AR.overall + '%');
     });
 
 

@@ -28,7 +28,6 @@
 #simulation-details-pop-up h1 {
     padding: 0px 10px 6px 3px;
     font: 30px 'ProximaNova-Bold';
-    font-weight: bold;
 }
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
@@ -40,7 +39,7 @@
     background: none;
     border: none;
     float:right;
-    margin-bottom: 30px;
+    margin-bottom: 26px;
     padding: 0px;
     text-align: right;
 }
@@ -246,7 +245,7 @@
     text-decoration: none;
 }
 .resulttitele.smallerfont {
-    font-size: 24px;
+    font-size: 20px;
 }
 .resulttitelevalue {
     margin-top: -30px;
@@ -276,10 +275,10 @@
 }
 .barswrap {
     background: #ddf0f0;
-    padding: 10px;
+
     float: right;
     padding: 16px;
-    width: 600px;
+    width: 610px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -300,13 +299,20 @@
 }
 .total {
     font:38px 'ProximaNova-Bold';/* font-size: 41px; */
-    /*font-weight: normal;*/
-    font-weight: bold;
+    /*font-weight: normal;
+    font-weight: bold;*/
     line-height: 120%;
     margin-bottom: 20px;
 }
 .totalwithresult {
+
     position: relative;
+}
+#productivity .totalwithresult {
+    padding-right: 5px;
+}
+#time-management .totalwithresult {
+   padding-right: 2px;
 }
 .blockvalue {
     background: #146672;
@@ -315,7 +321,7 @@
     border-radius: 3px;
     color: #fff;
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 4px;
     padding: 4px 9px;
     position: relative;
     top:-5px;
@@ -344,21 +350,25 @@
     border-radius: 3px;
     padding: 10px 20px 20px;
 }
+.managerialmain .legend, #productivity .legend {
+    min-height: 70px;
+    padding-bottom: 10px;
+}
 .legendcolor {
     display: inline-block;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     float:left;
-    height: 32px;
+    height: 28px;
     margin-right: 10px;
-    width: 32px;
+    width: 28px;
 }
 .legendtitle {
     display: table-cell;
     font:15px "ProximaNova-Regular";
-    height: 32px;
-    line-height:110%;
+    height: 28px;
+    line-height:108%;
     vertical-align: middle;
 }
 .colormax {
@@ -371,10 +381,10 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 318px;
 }
 .legendvalue {
-    margin-top: 10px;
+    margin-top: 8px;
 }
 .legendvalue:first-child {
     margin-top: 0px;
@@ -575,22 +585,27 @@
     width: 10px;
 }
 .extrahourswrap {
-    padding-left: 32px;
+    padding-left: 57px;
 }
 .extrahours {
     background:url("../img/timediagram.png") no-repeat;
     color: #fff;
     height: 300px;
     display: table-cell;
-    font: 72px "ProximaNova-Regular";
+    font: 65px "ProximaNova-Regular";
     text-align: center;
     vertical-align: middle;
     width: 300px;
 }
-.chart-pie {
-    height: 300px !important;
-    width: 300px !important;
+.time-distribution, .over-time {
+    width: 300px;
+    margin: 0 auto;
 }
+/*.timewrap, .tziferblat {
+    height:351px;
+    position:relative;
+    width:351px;
+}*/
 .timediagr {
     background:url("../img/timediagrm.png") no-repeat;
     height:351px;
@@ -697,6 +712,9 @@
 .timediagr:hover .helpbuble {
     /*display:block;*/
 }
+.timeblock .chart-bar {
+    margin-bottom: 20px;
+}
 .helpbuble {
     background:#fdfbc6;
     -moz-border-radius:3px;
@@ -745,7 +763,7 @@
     left:90px;
 }
 .mangrlresults .chartbar, .emptychart {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 .mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child .chartbar,
 .barswrap .emptychart:last-child {
@@ -772,28 +790,35 @@
     color:#3d4041;
     font: 21px "ProximaNova-Bold";
 }
+.toplabelmargin {
+    margin-top: 18px;
+}
 .mangrlresultstitle {
     float: left;
     margin-left:70px;
     padding-top: 25px;
 }
 .labelwrap {
-    margin-top:15px;
+    margin-top:11px;
 }
 .thelabel {
     display: table-cell;
     height: 37px;
     font-size: 14px;
-    line-height: 105%;
+    line-height: 107%;
     position: relative;
     vertical-align: top;
 }
 .labelhack {
     padding-top:5px;
 }
-.mangrlresults .labels p:first-child, .timedetail .labels p:first-child {
+.mangrlresults .labels p:first-child {
+    margin-top:12px;
+}
+.timedetail .labels p:first-child, .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
+
 .valuetitle {
     background: #ffffff;
     -webkit-border-radius: 40px;
@@ -804,11 +829,11 @@
     display: inline-block;
     font: 25px "ProximaNova-Bold";
     font-weight: normal;
-    height: 80px;
-    line-height: 80px;
-    margin-right: 20px;
+    height: 72px;
+    line-height: 72px;
+    margin-right: 16px;
     text-align: center;
-    width: 80px;
+    width: 72px;
 }
 .twocharts .chartbar {
     float: left;
