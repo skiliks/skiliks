@@ -132,8 +132,10 @@ define([
 
                 // zoho 500 {
                 this.zoho500callback = function(event) {
-                    console.log('zoho500callback');
-                    me.handlePostMessage(event);
+                    if ('Zoho_500' === event.data.type) {
+                        console.log('zoho500callback');
+                        me.handlePostMessage(event);
+                    }
                 }
 
                 if (window.addEventListener){
@@ -172,7 +174,6 @@ define([
              * @return void
              */
             handlePostMessage: function(event) {
-                console.log('handlePostMessage', event.data.url);
                 var me = this;
                 var doc = null;
 
