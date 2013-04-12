@@ -6,6 +6,10 @@
     overflow: visible;
     width: 980px !important;
 }
+.simulation-result-popup .ui-dialog-titlebar {
+    margin: 0px !important;
+    padding:0px !important;
+}
 #simulation-details-pop-up {
     overflow: visible;
 }
@@ -17,7 +21,7 @@
 }
 #simulation-details-pop-up h1 {
     padding: 0px 10px 15px 3px;
-    font-size: 32px;
+    font-size: 31px;
 }
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
@@ -29,7 +33,7 @@
     background: none;
     border: none;
     float:right;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     padding: 0px;
     text-align: right;
 }
