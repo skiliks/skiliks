@@ -236,15 +236,21 @@
 }
 .resulttitele, .resulttitele a, .resulttitele a:visited {
     color:#3d4041;
-    font:28px 'ProximaNova-Bold';
+    font:26px 'ProximaNova-Bold';
     font-weight: normal;
     text-decoration: none;
 }
 .resulttitele.smallerfont {
-    font-size: 26px;
+    font-size: 24px;
+}
+.resulttitelevalue {
+    margin-top: -20px;
+}
+.resulttitelevalue+.resultlabeltitle {
+    margin-top: -17px;
 }
 .mangrlresults+.resulttitele {
-    margin-top: 20px;
+    margin-top: 0px;
 }
 .labels {
     float: left;
@@ -481,7 +487,7 @@
     display: block;
 }
 .estmfooter {
-    margin-top: 60px;
+    margin-top: 10px;
     padding: 0px 10px;
 }
 .estmfooter .prev {
@@ -752,12 +758,12 @@
 }
 .labeltitles h3 {
     color:#3d4041;
-    font: 28px "ProximaNova-Bold";
+    font: 26px "ProximaNova-Bold";
     margin-bottom: 7px;
 }
 .labeltitles h4 {
     color:#3d4041;
-    font: 24px "ProximaNova-Bold";
+    font: 21px "ProximaNova-Bold";
 }
 .mangrlresultstitle {
     float: left;
@@ -765,15 +771,15 @@
     padding-top: 25px;
 }
 .labelwrap {
-    margin-top:20px;
+    margin-top:15px;
 }
 .thelabel {
     display: table-cell;
-    height: 32px;
+    height: 37px;
     font-size: 14px;
-    line-height: 110%;
+    line-height: 105%;
     position: relative;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .mangrlresults .labels p:first-child, .timedetail .labels p:first-child {
     margin-top:8px;

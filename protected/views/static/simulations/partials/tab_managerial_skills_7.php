@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele"><span class="valuetitle">55%</span>7. Эффективная работа со встречами</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">55%</span>7. Эффективная работа со встречами</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
