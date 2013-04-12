@@ -34,7 +34,7 @@ define([
                 //console.log("window.height: " +window.outerHeight);
                 //console.log("x: " + e.pageX);
             });
-
+            $.cookie('intro_is_watched', 'yes');
         },
         eventHandler: function() {
             window.SKApp = new SKApplication(window.gameConfig);
