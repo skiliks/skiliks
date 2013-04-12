@@ -1,6 +1,6 @@
 <?php /** @var Simulation $simulation */ ?>
 
-<div class="section">
+<div class="section productivitytab">
     <div class="textcener"><h2 class="total totalwithresult">Результативность <span class="value blockvalue"></span></h2></div>
 
 
