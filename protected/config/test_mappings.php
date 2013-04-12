@@ -108,9 +108,9 @@ return [
 
     'log' => [
         'universal' => "xpath=//div[1]/div[1]/div/ul/li[1]/a",
-        'mail_log' => "xpath=//div[1]/div[1]/div/ul/li[6]/a",
-        'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[9]/a",
-        'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[10]/a',
+        'mail_log' => "xpath=//div[1]/div[1]/div/ul/li[7]/a",
+        'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[10]/a",
+        'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[11]/a',
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
