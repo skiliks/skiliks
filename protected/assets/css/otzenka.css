@@ -308,15 +308,21 @@
     margin-bottom: 20px;
 }
 .totalwithresult {
-
-    position: relative;
+   padding-left: 52px;
+   position: relative;
 }
-#productivity .totalwithresult {
+#managerial-skills .totalwithresult {
+   padding-left: 55px;
+}
+#time-management .totalwithresult {
+    padding-left: 57px;
+}
+/*#productivity .totalwithresult {
     padding-right: 5px;
 }
 #time-management .totalwithresult {
    padding-right: 2px;
-}
+}*/
 .blockvalue {
     background: #146672;
     -webkit-border-radius: 3px;
