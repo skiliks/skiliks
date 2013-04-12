@@ -28,7 +28,6 @@
 #simulation-details-pop-up h1 {
     padding: 0px 10px 6px 3px;
     font: 30px 'ProximaNova-Bold';
-    font-weight: bold;
 }
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
@@ -246,7 +245,7 @@
     text-decoration: none;
 }
 .resulttitele.smallerfont {
-    font-size: 24px;
+    font-size: 20px;
 }
 .resulttitelevalue {
     margin-top: -30px;
@@ -276,10 +275,10 @@
 }
 .barswrap {
     background: #ddf0f0;
-    padding: 10px;
+
     float: right;
     padding: 16px;
-    width: 600px;
+    width: 610px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -300,8 +299,8 @@
 }
 .total {
     font:38px 'ProximaNova-Bold';/* font-size: 41px; */
-    /*font-weight: normal;*/
-    font-weight: bold;
+    /*font-weight: normal;
+    font-weight: bold;*/
     line-height: 120%;
     margin-bottom: 20px;
 }
@@ -344,6 +343,9 @@
     border-radius: 3px;
     padding: 10px 20px 20px;
 }
+.managerialmain .legend, .productivitytab .legend {
+    padding-bottom: 10px;
+}
 .legendcolor {
     display: inline-block;
     -webkit-border-radius: 3px;
@@ -371,7 +373,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 318px;
 }
 .legendvalue {
     margin-top: 8px;
