@@ -503,8 +503,10 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id    = $actionAMY1->id;
         $log->window_uid = 104;
 
-        $actionAMSY10 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'AMSY10'])->id,
+        $ARS10Activity = $simulation->game_type->getActivity(['code' => 'ARS10']);
+        $this->assertNotNull($ARS10Activity);
+        $actionARS10 = ActivityAction::model()->findByAttributes([
+            'activity_id' => $ARS10Activity->id,
         ]);
 
         $log = $data[] = new LogActivityAction();
@@ -513,7 +515,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window             = 11;
         $log->start_time            = '09:15:00';
         $log->end_time              = '09:15:14';
-        $log->activity_action_id    = $actionAMSY10->id;
+        $log->activity_action_id    = $actionARS10->id;
         $log->window_uid = 104;
 
         $actionAU = ActivityAction::model()->findByAttributes([

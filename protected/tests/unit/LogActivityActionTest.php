@@ -73,15 +73,26 @@ class LogActivityActionTest extends CDbTestCase
             2 =>
             array(
                 'sim_id' => $simulation->id,
+                'leg_type' => 'Window',
+                'leg_action' => 'main screen',
+                'window' => 1,
+                'start_time' => '11:14:53',
+                'end_time' => '11:14:53',
+                'activity_id' => 'A_wait',
+                'window_uid' => 3
+            ),
+            3 =>
+            array(
+                'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E1',
-                'window' => 1,
+                'window' => 23,
                 'start_time' => '11:14:53',
                 'end_time' => '12:13:12',
                 'activity_id' => 'AE1',
                 'window_uid' => 4
             ),
-            3 =>
+            4 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -110,6 +121,36 @@ class LogActivityActionTest extends CDbTestCase
             ];
         }
         $this->assertEquals($st, $data);
+    }
+
+    /**
+     * Проверка странного бага, в котором звонок Трутневу при открытом сводном бюджете не логируется
+     */
+    public function testTrutnevDelegation()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $logs = [];
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $document = MyDocument::model()->findByAttributes(['sim_id' => $simulation->getPrimaryKey(), 'template_id' => $template->getPrimaryKey()]);
+        $this->appendWindow($logs, 1);
+        $this->appendWindow($logs, 41);
+        $this->appendDocument($logs, $document, 60, 122);
+        $this->appendPhoneCall($logs, 'RST1', 607);
+        $this->appendDocument($logs, $document, 0, 122);
+        $this->appendPhoneTalk($logs, 'RS1', 621);
+        $this->appendDocument($logs, $document, 0, 122);
+        $this->appendPhoneTalk($logs, 'RS1.1', 631);
+        $this->appendDocument($logs, $document, 60, 122);
+        $events = new EventsManager();
+        $events->processLogs($simulation, $logs);
+        array_map(function ($action) {$action->dump();}, $simulation->log_activity_actions);
+        SimulationService::simulationStop($simulation);
+
     }
 
     /*
@@ -214,13 +255,31 @@ class LogActivityActionTest extends CDbTestCase
             2 =>
             array(
                 'sim_id' => $simulation->id,
+                'leg_type' => 'Window',
+                'leg_action' => 'main screen',
+                'start_time' => '12:02:50',
+                'end_time' => '12:02:50',
+                'activity_id' => 'A_wait',
+            ),
+            3 =>
+            array(
+                'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E2',
                 'start_time' => '12:02:50',
                 'end_time' => '12:03:24',
                 'activity_id' => 'AE2a',
             ),
-            3 =>
+            4 =>
+            array(
+                'sim_id' => $simulation->id,
+                'leg_type' => 'Window',
+                'leg_action' => 'main screen',
+                'start_time' => '12:03:24',
+                'end_time' => '12:03:24',
+                'activity_id' => 'A_wait',
+            ),
+            5 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -229,7 +288,16 @@ class LogActivityActionTest extends CDbTestCase
                 'end_time' => '12:06:12',
                 'activity_id' => 'AE2a',
             ),
-            4 =>
+            6 =>
+            array(
+                'sim_id' => $simulation->id,
+                'leg_type' => 'Window',
+                'leg_action' => 'main screen',
+                'start_time' => '12:06:12',
+                'end_time' => '12:06:12',
+                'activity_id' => 'A_wait',
+            ),
+            7 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -238,7 +306,7 @@ class LogActivityActionTest extends CDbTestCase
                 'end_time' => '12:09:25',
                 'activity_id' => 'AE2b',
             ),
-            5 =>
+            8 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',

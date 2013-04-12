@@ -71,52 +71,6 @@ class LogHelper
     }
 
 
-    public static function setLog($simId, $logs)
-    {
-
-        if (self::LOGIN) {
-            if (is_array($logs)) {
-                $sparator = ';';
-                $end = "\r\n";
-                if (is_dir(__DIR__ . '/../runtime/')) {
-                    $file = fopen(__DIR__ . '/../runtime/windows.log', "a+");
-                    foreach ($logs as $log) {
-                        $hours = floor($log[3] / 3600);
-                        $minutes = floor($log[3] / 60) - $hours * 60;
-                        $seconds = $log[3] - 3600 * $hours - 60 * $minutes;
-
-                        $csv = array();
-                        $csv[] = gmdate("d.m.Y H:i:s", time()); //Дата и время на сервере
-                        $csv[] = $simId; //id симуляции
-                        $csv[] = $log[0]; //Активное окно
-                        $csv[] = $log[1]; //Активное под окно
-                        $csv[] = $log[2]; //Действие
-                        $csv[] = $log[3]; //Игровое время
-                        $csv[] = (empty($log[4]['mailId']) ? '' : $log[4]['mailId']); // Дополнительный параметр mailId
-                        $csv[] = (empty($log[4]['fileId']) ? '' : $log[4]['fileId']); // Дополнительный параметр fileId
-                        $csv[] = 'numbers => values';
-                        $csv[] = sprintf(
-                            '%02s:%02s:%02s %s',
-                            $hours,
-                            $minutes,
-                            $seconds,
-                            $sparator
-                        );
-                        $csv[] = self::$screens[$log[0]];
-                        $csv[] = self::$subScreens[$log[1]];
-                        $csv[] = self::$actions[$log[2]];
-                        // todo: use explode()
-                        fwrite($file, implode($sparator, $csv) . $end);
-                    }
-                    fclose($file);
-                } else {
-                    throw new Exception("Не правильный путь " . __DIR__ . '/../runtime/');
-                }
-            }
-        }
-
-    }
-
     public static function logFilter($logs)
     {
 
@@ -128,6 +82,7 @@ class LogHelper
                     $logs[$key][1] == $logs[$key - 1][1] AND
                     $logs[$key][2] != $logs[$key - 1][2] AND
                     $logs[$key][3] == $logs[$key - 1][3] AND
+                    $logs[$key]['window_uid'] == $logs[$key]['window_uid'] AND
                     (
                         count($logs[$key]) < 5 OR
                         (isset($logs[$key][4]) && isset($logs[$key - 1][4]) && $logs[$key][4] == $logs[$key - 1][4])
@@ -207,6 +162,7 @@ class LogHelper
                     $log_obj->sim_id = $simId;
                     $log_obj->file_id = $log[4]['fileId'];
                     $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                    $log_obj->window_uid = $log['window_uid'];
                     $log_obj->save();
                 } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
 
@@ -623,6 +579,7 @@ class LogHelper
                 $last_dialog->dialog_id = $log[4]['dialogId'];
                 $last_dialog->last_id = $lastDialogIdAccordingExcel;
                 $last_dialog->start_time = gmdate("H:i:s", $log[3]);
+                $last_dialog->window_uid = $log['window_uid'];
                 $last_dialog->save();
                 continue;
 
