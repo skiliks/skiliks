@@ -13,13 +13,13 @@ define([
      */
     SKIntroView = Backbone.View.extend({
         initialize:function () {
-
+            var me = this;
             $('body').html('<video id="skiliks_intro" src="http://storage.skiliks.com/v1/videos/skiliks_intro_1280.webm" autoplay="autoplay"></video>');
             $('body').append('<div class="intro-top-icons">Пропустить видео <button class="pass-video"/></div>');
             $('#skiliks_intro').bind('ended', function () {
                 $(this).remove();
                 $(window).unbind("mousemove");
-                window.SKIntroView.trigger('simulationStart');
+                me.trigger('simulationStart');
             });
             $('.pass-video').bind('click', function () {
                 $('#skiliks_intro').trigger('ended');
