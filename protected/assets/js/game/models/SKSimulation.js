@@ -140,10 +140,8 @@ define([
 
                 if (window.addEventListener){
                     window.addEventListener("message", this.zoho500callback, false);
-                    console.log('listen message 1');
                 } else {
                     window.attachEvent("onmessage", this.zoho500callback);
-                    console.log('listen message 2');
                 }
                 // zoho 500 }
 
