@@ -12,13 +12,24 @@ require(['game/util/compatibility'], function(compatibility) {
     if (compatibility.check(window.gameConfig)) {
         require(
             [
-                'game/views/world/SKApplicationView',
-                'game/models/SKApplication'
+                'game/views/IntroView'
             ],
-            function (SKApplicationView, SKApplication) {
+            function (IntroView) {
                 $(function () {
-                    window.SKApp = new SKApplication(window.gameConfig);
-                    window.AppView = new SKApplicationView();
+                    //var View1 = Backbone.View.extend();
+                    window.IntroView = new IntroView();
+                    //var View2 = Backbone.View.extend({
+                    //    eventHandler: function(data) {alert(data)}
+                   // });
+
+                    //var v1 = new View1;
+                   // var v2 = new View2;
+
+                    //v2.bind('hello-world-event', v2.eventHandler)
+                   // v2.trigger('hello-world-event', 'Hello World!')
+                    window.IntroView.bind('simulationStart',window.IntroView.eventHandler);
+                    //window.IntroView.trigger('simulationStart');
+                    //window.IntroView = new IntroView();
                 });
             }
         );
