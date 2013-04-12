@@ -39,11 +39,13 @@ class TimeManagementAggregated extends CActiveRecord
      */
     public static function getUnitLabel($slug)
     {
-        if (self::SLUG_WORKDAY_OVERHEAD_DURATION == $slug) {
-            return 'min';
+        if (self::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES == $slug ||
+            self::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES == $slug ||
+            self::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY == $slug) {
+            return '%';
         }
 
-        return '%';
+        return 'min';
     }
 
     /**
