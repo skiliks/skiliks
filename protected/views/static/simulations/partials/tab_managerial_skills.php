@@ -1,4 +1,4 @@
-<div class="extrasidepads">
+<div class="extrasidepads managerialmain">
     <div class="textcener"><h2 class="total totalwithresult">Управленческие навыки <span class="value blockvalue">0%</span></h2></div>
     <div class="clearfix">
         <div class="labeltitles">
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="clearfix">
-        <div class="labeltitles">
+        <div class="labeltitles toplabelmargin">
             <h4>Другие важные навыки</h4>
         </div>
     </div>
