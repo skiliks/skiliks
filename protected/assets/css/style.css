@@ -1163,6 +1163,7 @@ html[lang=ru] .product section table th{
 	text-indent:35px;
 	margin-left:123px;
 }
+/*
 .registration .form .row .errorMessage{
 	background: #e36969;
     background: -moz-linear-gradient(top, #d64141, #e36969);
@@ -1209,6 +1210,7 @@ html[lang=ru] .product section table th{
 	width:0;
 	height:0;
 }
+*/
 .note{
 	font:1.071em "ProximaNova-Bold";
 	color:#fff;
