@@ -18,9 +18,11 @@
             <div class="submit">
                 <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">
             </div>
+            <!--
             <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                 <a href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
             <?php endif; ?>
+            -->
         </form>
     </div>
 
