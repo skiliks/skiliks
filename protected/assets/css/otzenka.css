@@ -12,7 +12,10 @@
     padding:0px !important;
 }
 #simulation-details-pop-up {
+    height: 910px !important;
     overflow: visible;
+    padding-bottom: 30px;
+    position: relative;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
     /*padding: 10px;*/
@@ -28,7 +31,7 @@
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
    border:none;
-    margin-top: 50px;
+   margin-top: 50px;
    padding: 0px;
 }
 .simulation-details .navigation {
@@ -487,8 +490,10 @@
     display: block;
 }
 .estmfooter {
-    margin-top: 10px;
-    padding: 0px 10px;
+    bottom: 0px;
+    padding: 0px 10px 0px 10px;
+    position: absolute;
+    width: 960px;
 }
 .estmfooter .prev {
     float: left;
@@ -780,6 +785,9 @@
     line-height: 105%;
     position: relative;
     vertical-align: top;
+}
+.labelhack {
+    padding-top:5px;
 }
 .mangrlresults .labels p:first-child, .timedetail .labels p:first-child {
     margin-top:8px;

@@ -13,7 +13,7 @@
             <p class="labelwrap"><span class="thelabel"><a href="#">1. Следование приоритетам <span class="signmore"></span></a></span></p>
             <p class="labelwrap"><span class="thelabel"><a href="#">2. Управление задачами <span class="signmore"></span></a></span></p>
             <p class="labelwrap"><span class="thelabel"><a href="#">3. Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel labelhack"><a href="#">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
         </div>
         <div class="barswrap">
             <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
