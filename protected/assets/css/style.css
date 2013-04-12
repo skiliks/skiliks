@@ -1936,8 +1936,8 @@ h2 {
     background: #a5a385;
     display: none;
     position: absolute;
-    height: 2px;
-    margin: 23px 0px 0px -21px;
+    height: 3px;
+    margin: 22px 0px 0px -21px;
     width:20px;
 }
 .selected-sk .topline {
