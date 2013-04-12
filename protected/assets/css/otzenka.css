@@ -7,6 +7,7 @@
     width: 980px !important;
 }
 .simulation-result-popup .ui-dialog-titlebar {
+    font-size:10px;
     margin: 0px !important;
     padding:0px !important;
 }
@@ -20,8 +21,9 @@
     color: #3d4041;
 }
 #simulation-details-pop-up h1 {
-    padding: 0px 10px 15px 3px;
-    font-size: 30px;
+    padding: 0px 10px 6px 3px;
+    font: 30px 'ProximaNova-Bold';
+    font-weight: bold;
 }
 #simulation-details-pop-up .ui-widget-content {
    background: #e8f7f7;
@@ -286,10 +288,11 @@
     padding-left: 374px;
 }
 .total {
-    font:40px 'ProximaNova-Bold';/* font-size: 41px; */
-    font-weight: normal;
+    font:38px 'ProximaNova-Bold';/* font-size: 41px; */
+    /*font-weight: normal;*/
+    font-weight: bold;
     line-height: 120%;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .totalwithresult {
     position: relative;
