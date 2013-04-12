@@ -1647,12 +1647,16 @@ html[lang=ru] .product section table th{
 .login-form div.login a{
 	margin-bottom:3px;
 	float:right;
+    font-size:12px;
 }
 .login-form div.password{
 	margin-bottom: 7px;
 }
 .login-form div.remember{
 	margin-bottom: 7px;
+}
+.login-form div.remember label {
+    font-size: 12px;
 }
 .login-form div.submit{
 	margin-bottom:5px;
@@ -1739,6 +1743,7 @@ html[lang=ru] .product section table th{
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
     margin-top:25px;
+    padding-bottom: 25px;
 }
 .action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
