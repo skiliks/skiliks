@@ -8,10 +8,10 @@ define([
     "text!game/jst/world/simulation_template.jst",
 
     "game/views/mail/SKMailClientView",
+    "game/views/documents/SKXLSDisplayView",
     "game/views/documents/SKDocumentListView",
     "game/views/plan/SKDayPlanView",
     "game/views/documents/SKPDFDisplayView",
-    "game/views/documents/SKXLSDisplayView",
     "game/views/phone/SKPhoneView",
     "game/views/phone/SKPhoneCallView",
     "game/views/phone/SKPhoneDialogView",
@@ -20,7 +20,7 @@ define([
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/SKDialogView"
-], function (simulation_template) {
+], function (simulation_template, SKMailClientView, SKXLSDisplayView) {
     "use strict";
     /**
      * @class SKSimulationView
