@@ -49,7 +49,7 @@ define([], function () {
                     SKApp.server.api('myDocuments/getExcel', {
                         'id': decodeURIComponent(this.get('id'))
                     }, function (data) {
-                        me.set('excel_url', data.excelDocumentUrl);
+                        me.set('excel_url', data.excelDocumentUrl.replace('\r', ''));
 
                         //me.set('isInitialized', true);
 
