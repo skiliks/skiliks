@@ -34,7 +34,7 @@ define([
             console.log('index = ', SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url')));
             console.log('Id = ', doc.get('excel_url'));
 
-            $.each('SKApp.simulation.documents.zoho_500', SKApp.simulation.documents.zoho_500, function(value) {
+            $.each(SKApp.simulation.documents.zoho_500, function(value) {
                 console.log('zoho_500 URL length = ', value.length, value);
             });
             console.log('doc excel_url = ', doc.get('excel_url'));
