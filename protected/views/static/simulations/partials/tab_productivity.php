@@ -20,7 +20,7 @@
     <div class="legendwrap resultslegend">
         <div class="legend">
             <p class="barstitle">Обозначения</p>
-            <div class="legendvalue"><span class="legendcolor colormax"></span><span class="legendtitle">Максимальный уровень выполнения задач</span></div>
+            <div class="legendvalue shortlegend"><span class="legendcolor colormax"></span><span class="legendtitle">Максимальный уровень выполнения задач</span></div>
             <div class="legendvalue"><span class="legendcolor colordone"></span><span class="legendtitle">Проявленный уровень выполнения задач</span></div>
         </div>
     </div>

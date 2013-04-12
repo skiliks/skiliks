@@ -33,7 +33,7 @@
             <p class="labelwrap"><span class="thelabel"><a href="#">6. Эффективное управление звонками <span class="signmore"></span></a></span></p>
             <p class="labelwrap"><span class="thelabel"><a href="#">7. Эффективное управление встречами <span class="signmore"></span></a></span></p>
         </div>
-        <div class="barswrap">
+        <div class="barswrap otherskills">
             <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
             <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
             <div class="chartbar"><span class="chart-value" style="width: 60%">&nbsp; 60%</span></div>
@@ -43,7 +43,7 @@
     <div class="legendwrap resultslegend">
         <div class="legend">
             <p class="barstitle">Обозначения</p>
-            <div class="legendvalue"><span class="legendcolor colormax"></span><span class="legendtitle">Максимальный уровень владения навыком</span></div>
+            <div class="legendvalue shortlegend"><span class="legendcolor colormax"></span><span class="legendtitle">Максимальный уровень владения навыком</span></div>
             <div class="legendvalue"><span class="legendcolor colordone"></span><span class="legendtitle">Проявленный уровень владения навыком</span></div>
         </div>
     </div>
