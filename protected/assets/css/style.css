@@ -2702,7 +2702,7 @@ ul.profile-menu li {
 
 .chart-bar, .chartbar {
     overflow: hidden;
-    height: 32px;
+    height: 30px;
     border-radius: 5px;
     background-color: #b5d4d7;
 }
@@ -2714,14 +2714,14 @@ ul.profile-menu li {
     overflow: hidden;
     /*padding-right: 10px;*/
     width: 0;
-    height: 32px;
+    height: 30px;
     /*padding-right: 5px;*/
     background-color: #146672;
     text-align: center;
     color: white;
     /*font-weight: bold;*/
     font:18px "ProximaNova-Regular";
-    line-height: 32px;
+    line-height: 30px;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
