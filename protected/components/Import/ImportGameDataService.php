@@ -585,7 +585,7 @@ class ImportGameDataService
         $END_COL = PHPExcel_Cell::columnIndexFromString($sheet->getHighestColumn());
         for ($columnIndex = $START_COL; $columnIndex <= $END_COL; $columnIndex++) {
             $code = $sheet->getCellByColumnAndRow($columnIndex, 2)->getValue();
-            if ($code === null) {
+            if ($code === null || preg_match('/^[^0-9]/', $code)) {
                 $END_COL = $columnIndex;
                 break;
             }
