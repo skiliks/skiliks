@@ -102,6 +102,7 @@
 </section>
 
 <script type="text/javascript">
+
 function setModalSize() {
 	var h;
 	if ($('body').height() > $('.container').height()) {
@@ -127,4 +128,15 @@ setModalSize();
 $(window).resize(function(){
 	setModalSize();
 })
+
+$(document).ready(function(){
+    var errors = $(".errorMessage");
+    for (var i=0; i < errors.length;i++) {
+        var inp = $(errors[i]).prev("input.error");
+        $(inp).css({"border":"2px solid #bd2929"});
+        //$(errors[i]).css("bottom",($(inp).height()+5));
+        $(errors[i]).width($(inp).outerWidth());
+        $(errors[i]).addClass($(inp).attr("id"));
+    }
+});
 </script>

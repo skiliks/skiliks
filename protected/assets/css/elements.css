@@ -359,6 +359,19 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
     background-position: left bottom;
     color: #FFFFFF;
 }
+/* Ошибки при выборе профиля */
+.action-controller-chooseAccountType-static-userAuth .YumProfile_firstname {
+    left:126px;
+    bottom: 32px;
+}
+.action-controller-chooseAccountType-static-userAuth .YumProfile_lastname {
+    left:262px;
+    bottom: 32px;
+}
+.action-controller-chooseAccountType-static-userAuth .UserAccountCorporate_corporate_email {
+    left:126px;
+    bottom: 32px;
+}
 /* universal */
 .blackout {
     position: fixed;
@@ -380,5 +393,10 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
     display: block;
     font: 1em/2.214em "ProximaNova-Regular";
     padding: 0 30px;
+}
+.errorMessage {
+    font: 12px "ProximaNova-Regular";
+    color:#bd2929;
+    position: absolute;
 }
 /* /universal */
