@@ -379,20 +379,23 @@
 }
 .questn {
     background: #bedadc;
-    color: #fff;
+    color: #fff !important;
     display: inline-block;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    font-size: 18px;
+    font-size: 18px !important;
     margin-left:10px;
     padding: 6px 0px;
     text-align: center;
     text-decoration: none;
     width: 26px;
 }
+#personal-qualities .questn {
+    padding: 3px 0px 2px 0px;
+}
 .questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
-    color: #fff;
+    color: #fff !important;
 }
 .signmore {
     background: url(../img/icon-circlearrw.png) no-repeat left bottom;
