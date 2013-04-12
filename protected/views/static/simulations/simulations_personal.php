@@ -15,9 +15,12 @@ $this->widget('zii.widgets.grid.CGridView', [
         'lastPageLabel' => 'конец >>',
     ],
     'columns' => [
-        ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type.$data->ownerUser->getAccount()->company_name)'],
+        ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type. " " .$data->ownerUser->getAccount()->company_name)'],
         ['header' => Yii::t('site', 'Position')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
-        ['header' => Yii::t('site', 'Simulation'), 'name' => 'sent_time'   , 'value' => '$data->scenario->slug === Scenario::TYPE_LITE ? Yii::t("site","Lite verion") : ""'],
+        [
+            'header' => Yii::t('site', 'Simulation'),
+            'name' => 'sent_time'   ,
+            'value' => '($data->scenario->slug === Scenario::TYPE_LITE ? Yii::t("site","Lite verion") : "") . "Базовый менеджмент"'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/{$data->scenario->slug}/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);
