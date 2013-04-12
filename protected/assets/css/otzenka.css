@@ -270,6 +270,9 @@
 .bars .chart-bar {
     margin: 40px 0px 0px 0px;
 }
+#managerial-skills .otherskills .chartbar {
+    width: 300px;
+}
 .barstitle {
     color:#3d4041;
     font:18px 'ProximaNova-Bold';
@@ -332,9 +335,9 @@
 }
 .legendtitle {
     display: table-cell;
-    font:18px "ProximaNova-Regular";
+    font:15px "ProximaNova-Regular";
     height: 32px;
-    line-height: 90%;
+    line-height:110%;
     vertical-align: middle;
 }
 .colormax {
@@ -358,7 +361,10 @@
 .resultslegend .legendvalue {
     display: inline-block;
     margin-top: 0px;
-    width: 270px;
+    width: 340px;
+}
+.resultslegend .shortlegend {
+    width: 220px;
 }
 .textcener {
     text-align: center;
@@ -728,7 +734,7 @@
 }
 .mangrlresults .labels a {
     color: #3d4041;
-    font-size: 15px;
+    font-size: 14px;
     text-decoration: none;
 }
 .labeltitles {
@@ -755,6 +761,7 @@
 .thelabel {
     display: table-cell;
     height: 32px;
+    font-size: 14px;
     line-height: 110%;
     position: relative;
     vertical-align: middle;
