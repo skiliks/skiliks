@@ -247,7 +247,7 @@
     font-size: 24px;
 }
 .resulttitelevalue {
-    margin-top: -20px;
+    margin-top: -30px;
 }
 .resulttitelevalue+.resultlabeltitle {
     margin-top: -17px;
@@ -329,7 +329,7 @@
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-    margin-top: 30px;
+    margin-top: 20px; /* 30 */
     padding: 10px;
 }
 .legend {
@@ -337,7 +337,7 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    padding: 10px 20px 30px;
+    padding: 10px 20px 20px;
 }
 .legendcolor {
     display: inline-block;
