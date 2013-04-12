@@ -41,6 +41,7 @@ class TimeManagementAggregated extends CActiveRecord
     {
         if (self::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES == $slug ||
             self::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES == $slug ||
+            self::SLUG_EFFICIENCY == $slug ||
             self::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY == $slug) {
             return '%';
         }
