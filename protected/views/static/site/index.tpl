@@ -59,10 +59,10 @@
 					<h3>{Yii::t('site', 'Our Clients')}</h3>
 					
 					<ul>
-                        <li><a href="#">{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
-						<li><a href="#" style="margin-top:12px;">{CHtml::image("$assetsUrl/img/icon-mif.png")}</a></li>
-						<li><a href="#" style="margin-top:8px;">{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</a></li>
-						<li><a href="#">{CHtml::image("$assetsUrl/img/icon-mcg.png")}</a></li>
+                        <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-mcg.png")}</li>
 					</ul>
 				</section>
 				<!--clients end-->
