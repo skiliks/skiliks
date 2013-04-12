@@ -12,12 +12,12 @@ require(['game/util/compatibility'], function(compatibility) {
     if (compatibility.check(window.gameConfig)) {
         require(
             [
-                'game/views/IntroView'
+                'game/views/SKIntroView'
             ],
-            function (IntroView) {
+            function (SKIntroView) {
                 $(function () {
                     //var View1 = Backbone.View.extend();
-                    window.IntroView = new IntroView();
+                    window.SKIntroView = new SKIntroView();
                     //var View2 = Backbone.View.extend({
                     //    eventHandler: function(data) {alert(data)}
                    // });
@@ -27,7 +27,7 @@ require(['game/util/compatibility'], function(compatibility) {
 
                     //v2.bind('hello-world-event', v2.eventHandler)
                    // v2.trigger('hello-world-event', 'Hello World!')
-                    window.IntroView.bind('simulationStart',window.IntroView.eventHandler);
+                    window.SKIntroView.bind('simulationStart',window.SKIntroView.eventHandler);
                     //window.IntroView.trigger('simulationStart');
                     //window.IntroView = new IntroView();
                 });
