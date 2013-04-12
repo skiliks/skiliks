@@ -50,6 +50,9 @@ class StaticSiteTools
         if (Yii::app()->getController()->getId() == 'static/profile') {
             $results .= " inner";
         }
+        if (Yii::app()->getController()->getId() == 'registration') {
+            $results .= " inner";
+        }
 
         return $results;
     }

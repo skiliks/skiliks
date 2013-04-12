@@ -147,7 +147,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="lightbox-30835043655352">Feedback</a></p>
+				<p class="copyright">Copyright - Skiliks  - 2012</p>
             </footer>
 		</div>
 		<!--footer end-->

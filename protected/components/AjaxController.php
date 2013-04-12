@@ -264,8 +264,7 @@ class AjaxController extends CController
             $simulation = Simulation::model()->findByAttributes(['user_id' => $user->id]);
 
             if (null === $simulation) {
-                Yii::app()->user->setFlash('error', 'Укажите тип аккаунта.');
-                $this->redirect('profile/without-account');
+                $this->redirect('/registration/choose-account-type');
             } else {
                 Yii::app()->user->setFlash('error', 'Результаты последней пройденной симуляции.');
                 $this->redirect('simulation/results');
