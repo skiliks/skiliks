@@ -9,10 +9,12 @@ var SKPDFDisplayView;
 
 define([
     "text!game/jst/document/document_pdf_template.jst",
-    "game/views/SKWindowView"
+    "game/views/SKWindowView",
+    "game/lib/pdf"
 ],
     function (
-        document_pdf_template
+        document_pdf_template,
+        SKWindowView
     ) {
     "use strict";
 

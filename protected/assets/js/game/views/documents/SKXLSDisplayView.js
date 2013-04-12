@@ -1,7 +1,6 @@
 /*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
 
-var SKXLSDisplayView;
 define([
     "text!game/jst/document/document_xls_template.jst",
     "game/views/SKWindowView"
@@ -14,7 +13,7 @@ define([
      * @class SKXLSDisplayView
      * @augments Backbone.View
      */
-    SKXLSDisplayView = SKWindowView.extend({
+    var SKXLSDisplayView = SKWindowView.extend({
 
         title:'Мои документы',
 
