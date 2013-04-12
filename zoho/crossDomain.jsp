@@ -34,14 +34,14 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 $(window.parent.window).load(function()
 {
-   window.parent.parent.postMessage({type: 'DocumentLoaded', url:window.parent.location.href} , 'http://live.skiliks.com');
+   window.parent.parent.postMessage({type: 'DocumentLoaded', url:window.parent.location.href} , '*');
 
     console.log('new code 1');
    //send postMessage
    window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a) {
        console.log('showBannerMessage');
 
-       window.parent.parent.postMessage({type:'Zoho_500', url:window.parent.location.href}, 'http://live.skiliks.com');
+       window.parent.parent.postMessage({type:'Zoho_500', url:window.parent.location.href}, '*');
        console.log('message Zoho_500');
 
        if (typeof _1418!="undefined") {

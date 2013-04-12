@@ -8,7 +8,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'username' => 'skiliks',
             'password' => 'dep-vep-eb-up-a',
             'charset' => 'utf8',
-
+            'persistent'=>true,
             'enableParamLogging' => true,
             'enableProfiling' => true
         ),
