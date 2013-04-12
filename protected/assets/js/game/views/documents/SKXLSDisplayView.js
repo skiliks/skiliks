@@ -31,9 +31,10 @@ define([
             var doc = me.options.model_instance.get('document');
 
             console.log('SKApp.simulation.documents.zoho_500 = ', SKApp.simulation.documents.zoho_500);
-            console.log('Id = ', SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')));
+            console.log('index = ', SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')));
+            console.log('Id = ', doc.get('id'));
 
-            if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
+            if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'))) {
                 SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'))] = null;
 
                 console.log('it is Zoho500 doc');
