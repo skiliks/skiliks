@@ -567,18 +567,17 @@
 .extrahours {
     background:url("../img/timediagram.png") no-repeat;
     color: #fff;
-    height: 351px;
+    height: 300px;
     display: table-cell;
     font: 72px "ProximaNova-Regular";
     text-align: center;
     vertical-align: middle;
-    width: 351px;
+    width: 300px;
 }
-/*.timewrap, .tziferblat {
-    height:351px;
-    position:relative;
-    width:351px;
-}*/
+.chart-pie {
+    height: 300px !important;
+    width: 300px !important;
+}
 .timediagr {
     background:url("../img/timediagrm.png") no-repeat;
     height:351px;
