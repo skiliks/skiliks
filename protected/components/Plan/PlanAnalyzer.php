@@ -78,10 +78,13 @@ class PlanAnalyzer {
         $i = 0;
 
         foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
-            if ($logItem->leg_action == 'plan'
-                || $logItem->activityAction->activity->code == 'A_wait'
-                || $logItem->activityAction->activity->code == 'A_wrong_call'
-                || $logItem->category == '2min') {
+            $logItem->activityAction;
+            $code = (null === $logItem->activityAction) ? null : $logItem->activityAction->activity->code;
+
+            if ('plan' == $logItem->leg_action
+                || 'A_wait' == $code
+                || 'A_wrong_call' == $code
+                || '2_min' == $logItem->category) {
                 continue;
             }
 
@@ -89,16 +92,16 @@ class PlanAnalyzer {
                 $currentParentCode = $logItem->activityAction->activity->parent;
 
                 $groupedLog[] = [
-                    'parent'      => $currentParentCode = $logItem->activityAction->activity->parent,
-                    'grandparent' => $currentParentCode = $logItem->activityAction->activity->grandparent,
-                    'category'    => $currentParentCode = $logItem->category,
-                    'start'       => $currentParentCode = $logItem->start_time,
-                    'end'         => $currentParentCode = $logItem->end_time,
+                    'parent'      => $logItem->activityAction->activity->parent,
+                    'grandparent' => $logItem->activityAction->activity->grandparent,
+                    'category'    => $logItem->category,
+                    'start'       => $logItem->start_time,
+                    'end'         => $logItem->end_time,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
                 $groupedLog[$i] = [
-                    'end' => $currentParentCode = $logItem->end_time,
+                    'end' => $currentParentCode = $logItem->activityAction->activity->parent,
                 ];
             }
         }

@@ -1063,12 +1063,8 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         // log 1 {
-        $window = Window::model()->findByAttributes([
-            'subtype' => 'main screen'
-        ]);
-        $activity = $simulation->game_type->getActivity([
-            'code' => 'A_wait',
-        ]);
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
@@ -1077,20 +1073,19 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 5;
         $log->start_time            = '09:45:02';
         $log->end_time              = '09:45:33';
+        $log->duration              = 0;
         $log->is_keep_last_category = null;
+        $log->save();
         // log 1 }
 
         // log 2 {
-//        $window = Window::model()->findByAttributes([
-//            'subtype' => 'main screen'
-//        ]);
-        $activity = $simulation->game_type->getActivity([
-            'code' => 'T1.1',
-        ]);
+//        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T1.1']);
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
         ]);
@@ -1098,20 +1093,18 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'plan';
+        $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 1;
         $log->start_time            = '09:45:34';
         $log->end_time              = '09:47:54';
-        $log->is_keep_last_category = null;
+        $log->duration              = 0;
+        $log->save();
         // log 2 }
 
         // log 3 {
-        $window = Window::model()->findByAttributes([
-            'subtype' => 'main screen'
-        ]);
-        $activity = $simulation->game_type->getActivity([
-            'code' => 'A_wait',
-        ]);
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
@@ -1120,36 +1113,602 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 5;
         $log->start_time            = '09:47:54';
         $log->end_time              = '09:51:57';
+        $log->duration              = 0;
         $log->is_keep_last_category = null;
+        $log->save();
         // log 3 }
 
-        // log 3 {
-        $window = Window::model()->findByAttributes([
-            'subtype' => 'main screen'
-        ]);
-        $template = $simulation->game_type->getDocumentTemplates(['code' => 'D1']);
+        // log 4 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
 
         $activity = $simulation->game_type->getActivity([
             'code' => 'T3.2.1',
         ]);
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
-            'document_id'   => $template->id,
+            'document_id' => $template->id,
         ]);
         $log = new LogActivityActionAgregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 0;
         $log->start_time            = '09:51:57';
         $log->end_time              = '10:01:27';
+        $log->duration              = 0;
         $log->is_keep_last_category = null;
-        // log 3 }
+        $log->save();
+        // log 4 }
+
+        // log 5 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'ARS1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'dialog_id'   => $replica->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'RS1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:01:28';
+        $log->end_time              = '10:03:46';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 5 }
+
+        // log 6 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:09:50';
+        $log->end_time              = '10:10:57';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 6 }
+
+        // log 7 {
+        $window = Window::model()->findByAttributes(['subtype' => 'phone main']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'phone main';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:10:57';
+        $log->end_time              = '10:12:28';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 7 }
+
+        // log 8 {
+        $window = Window::model()->findByAttributes(['subtype' => 'phone main']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $replica = $simulation->game_type->getReplica(['code' => 'T3.1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'dialog_id'   => $replica->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_MANUAL_DIAL;
+        $log->leg_action            = 'phone main';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:12:28';
+        $log->end_time              = '10:14:43';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 8 }
+
+        // log 9 {
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 5;
+        $log->start_time            = '10:14:43';
+        $log->end_time              = '10:19:22';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 9 }
+
+        // log 10 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D17']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D17';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:19:22';
+        $log->end_time              = '10:24:44';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 10 }
+
+        // log 11 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:24:44';
+        $log->end_time              = '10:27:17';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 11 }
+
+        // log 12 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D17']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D17';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:27:17';
+        $log->end_time              = '10:28:41';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 12 }
+
+        // log 13 {
+        $window = Window::model()->findByAttributes(['subtype' => 'phone main']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'phone main';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '10:28:41';
+        $log->end_time              = '10:33:54';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 13 }
+
+        // log 14 {
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 5;
+        $log->start_time            = '10:33:54';
+        $log->end_time              = '11:33:58';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 14 }
+
+        // log 15 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '11:33:58';
+        $log->end_time              = '11:36:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 15 }
+
+        // log 16 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $replica = $simulation->game_type->getReplica(['code' => 'RST2']);
+        $activity = $simulation->game_type->getActivity(['code' => 'ARS2']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'dialog_id'   => $replica->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'RS1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 3;
+        $log->start_time            = '11:36:22';
+        $log->end_time              = '11:38:24';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 16 }
+
+        // log 17 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '11:38:24';
+        $log->end_time              = '11:39:47';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 17 }
+
+        // log 18 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T2']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D2';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 1;
+        $log->start_time            = '11:39:48';
+        $log->end_time              = '11:45:14';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 18 }
+
+        // log 19 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        // $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id' => $template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'D1';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '11:45:14';
+        $log->end_time              = '11:49:07';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 19 }
+
+        // log 20 {
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 5;
+        $log->start_time            = '11:49:07';
+        $log->end_time              = '12:06:57';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 20 }
+
+        // log 21 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $replica = $simulation->game_type->getReplica(['code' => 'E2']);
+        $activity = $simulation->game_type->getActivity(['code' => 'AE2a']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'dialog_id'   => $replica->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'E2';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 1;
+        $log->start_time            = '12:06:57';
+        $log->end_time              = '12:10:55';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 21 }
+
+        // log 22 {
+        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'window_id'   => $window->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
+        $log->leg_action            = 'main screen';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 5;
+        $log->start_time            = '12:10:55';
+        $log->end_time              = '12:35:25';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 22 }
+
+        // log 23 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'M76']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM76']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = '2_min';
+        $log->start_time            = '12:35:25';
+        $log->end_time              = '12:36:15';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 23 }
+
+        // log 24 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM8']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 0;
+        $log->start_time            = '12:36:15';
+        $log->end_time              = '12:39:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 24 }
+
+        // log 25 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'M76']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM76']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = '2_min';
+        $log->start_time            = '12:39:21';
+        $log->end_time              = '12:36:36';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 25 }
+
+        // log 26 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
+        $activity = $simulation->game_type->getActivity(['code' => 'A_already_used']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action            = 'M20';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = 5;
+        $log->start_time            = '12:36:36';
+        $log->end_time              = '12:42:40';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 26 }
+
+        // log 27 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'M76']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM76']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = '2_min';
+        $log->start_time            = '12:42:40';
+        $log->end_time              = '12:43:11';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 27 }
+
+        // log 28 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'MS62']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM73']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action            = 'M62';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = '2_min';
+        $log->start_time            = '12:43:11';
+        $log->end_time              = '12:46:02';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 28 }
+
+        // log 29 {
+        // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'M76']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM76']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = '2_min';
+        $log->start_time            = '12:46:02';
+        $log->end_time              = '13:01:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 29 }
+
+        $simulation->refresh();
 
         $analyzer = new PlanAnalyzer($simulation);
 
