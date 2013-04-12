@@ -1,6 +1,6 @@
 /*global Backbone, _ */
 
-var IntroView;
+var SKIntroView;
 define([
     'game/views/world/SKApplicationView',
     'game/models/SKApplication'
@@ -11,7 +11,7 @@ define([
      * @class IntroView
      * @augments Backbone.View
      */
-    IntroView = Backbone.View.extend({
+    SKIntroView = Backbone.View.extend({
         initialize:function () {
 
             $('body').html('<video id="skiliks_intro" src="http://storage.skiliks.com/v1/videos/skiliks_intro_1280.webm" autoplay="autoplay"></video>');
@@ -19,7 +19,7 @@ define([
             $('#skiliks_intro').bind('ended', function () {
                 $(this).remove();
                 $(window).unbind("mousemove");
-                window.IntroView.trigger('simulationStart');
+                window.SKIntroView.trigger('simulationStart');
             });
             $('.pass-video').bind('click', function () {
                 $('#skiliks_intro').trigger('ended');
@@ -36,11 +36,10 @@ define([
             });
 
         },
-        eventHandler: function(data) {
-            console.log("bind");
+        eventHandler: function() {
             window.SKApp = new SKApplication(window.gameConfig);
             window.AppView = new SKApplicationView();
         }
     });
-    return IntroView;
+    return SKIntroView;
 });
