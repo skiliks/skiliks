@@ -18,6 +18,9 @@ class SeleniumTestHelper extends CWebTestCase
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
+        // установим куку "уже просмотренное видео в начале симуляции"
+        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
+
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
         $this->type("css=.login>input", "asd@skiliks.com");
