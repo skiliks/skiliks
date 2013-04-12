@@ -28,33 +28,16 @@ define([
         */
         initialize: function () {
             var me = this;
-            /*var doc = this.options.model_instance.get('document');
-
-            if(undefined == typeof doc.get('excel_url') || 0 == $(doc.combineIframeId()).length) {
-                me.message_window = new SKDialogView({
-                    'message': 'Excel-документ ещё не загружен. <br/> Попробуйте открыть этот документ через 10 секунд. <br/> Всё должно быть ОК!',
-                    'buttons': [
-                        {
-                            'value': 'Продолжить работу',
-                            'onclick': function () {
-                                delete me.message_window;
-                            }
-                        }
-                    ]
-                });
-                me.isRender = false;
-            } else {
-                me.isRender = true;
-            }*/
-
-            this.zoho500callback = function(event){
+            this.zoho500callback = function(event) {
                 me.handlePostMessage(event);
             }
 
             if (window.addEventListener){
                 window.addEventListener("message", this.zoho500callback, false);
+                console.log('listen message 1');
             } else {
                 window.attachEvent("onmessage", this.zoho500callback);
+                console.log('listen message 2');
             }
 
             window.SKWindowView.prototype.initialize.call(this);
