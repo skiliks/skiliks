@@ -295,7 +295,7 @@ return array(
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor' => 8,
-            'storageURL' => 'http://storage.skiliks.com/v1/'
+            'storageURL' => 'http://storage.skiliks.com/v1'
         ],
         'zoho' => array(
             'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
