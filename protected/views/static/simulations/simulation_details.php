@@ -4,7 +4,7 @@
 
 <div class="simulation-details">
     <script type="text/javascript">
-        var assessmentResult = <?= json_encode($simulation->getAssessmentDetails()); ?>;
+        var AR = <?= json_encode($simulation->getAssessmentDetails()); ?>;
     </script>
     <div class="navigatnwrap">
         <ul class="navigation">
@@ -18,7 +18,7 @@
 
     <div class="sections">
         <div id="main">
-            <?php $this->renderPartial('partials/tab_main', ['simulation' => $simulation]) ?>
+            <?php $this->renderPartial('partials/tab_main') ?>
         </div>
 
         <div id="managerial-skills">
@@ -42,7 +42,7 @@
         </div>
 
         <div id="productivity">
-            <?php $this->renderPartial('partials/tab_productivity', ['simulation' => $simulation]) ?>
+            <?php $this->renderPartial('partials/tab_productivity') ?>
         </div>
 
         <div id="time-management">
@@ -131,7 +131,7 @@
             var o = this.options,
                 link;
 
-            if (this.idList.indexOf(id) > -1) {
+            if (this.idList.indexOf(id) > -1 && this.current !== id) {
                 this.$sections
                     .removeClass(o.activeClass)
                     .filter('#' + id)

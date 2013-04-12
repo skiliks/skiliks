@@ -72,6 +72,7 @@
             $value = $('<span class="chart-value"/>');
 
         this.options = options = options || {};
+        this.maxValue = options.max || 100;
         this.el = {
             chart: $chart,
             value: $value
@@ -82,13 +83,15 @@
         if (options.class) {
             $chart.addClass(options.class);
         }
+        if (options.hideMax === true) {
+            $chart.addClass('max-hidden');
+        }
 
         $chart.append($value)
             .css('width', 0)
-            .appendTo(container)
-            .animate({width: /*$(container).width()*/'100%'}, 1000, function() {
-                me.setValue(value);
-            });
+            .appendTo(container);
+
+        this.setValue(value);
     }
 
     $.extend(Bar.prototype, {
@@ -98,21 +101,31 @@
             me.value = value;
 
             me.el.value.html('&nbsp;')
-                .animate({width: value + '%'}, {
+                .animate({width: value / me.maxValue * 100 + '%'}, {
                     easing: 'easeOutSine',
                     duration: me.options.duration || 2000,
                     complete: function() {
-                        $(this).html('&nbsp; ' + value + '%');
+                        $(this).html('&nbsp; ' + (me.options.valueRenderer ? me.options.valueRenderer(value) : value));
                     }
                 });
         },
         refresh: function() {
-            var v = this.value;
+            var me = this,
+                v = this.value;
 
             this.setValue(0);
             this.el.value.finish();
 
-            this.setValue(v);
+            if (me.options.hideMax !== true) {
+                me.el.chart
+                    .css('width', 0)
+                    .animate({width: '100%'}, 500, function() {
+                        me.setValue(v);
+                    });
+            } else {
+                me.el.chart.css('width', '100%');
+                me.setValue(v);
+            }
         }
     });
 
@@ -188,36 +201,58 @@
     function Pie(container, values, options) {
         var me = this,
             $chart = $('<div class="chart-pie"/>'),
-            chart, arcs, radius, colorScale;
+            chart, arcs, radius, colorScale, drawer, translate, centerCircle, sum;
 
         this.options = options = options || {};
 
-        $chart.width(me.dimension)
-            .height(me.dimension)
-            .appendTo(container);
+        $chart.appendTo(container);
 
         radius = me.dimension / 2 - 40;
+        sum = d3.sum(values);
         colorScale = options.colors ? d3.scale.ordinal().range(options.colors) : d3.scale.category20();
+        translate = 'translate(' + me.dimension / 2 + ', ' + me.dimension / 2 + ')';
+        this.total = options.total || sum;
 
         this.arcDrawer = d3.svg.arc()
-            .innerRadius(options.donut ? radius * 0.8 : 0)
+            .innerRadius(options.donut ? radius * 0.75 : 0)
             .outerRadius(radius);
 
         this.pie = d3.layout.pie()
             .sort(null)
             .value(function(d) { return d; });
 
-        chart = d3.select($chart[0])
+        this.chart = chart = d3.select($chart[0])
             .append('svg')
             .data([new Array(values.length)])
             .attr('width', me.dimension)
             .attr('height', me.dimension);
 
-        arcs = chart.selectAll('g')
+        if (options.donut) {
+            drawer = d3.svg.arc()
+                .innerRadius(0)
+                .outerRadius(radius);
+
+            centerCircle = chart.append('g').attr('transform', translate);
+
+            centerCircle.append('path')
+                .data(this.pie([sum]))
+                .attr('d', drawer)
+                .style('fill', options.bgColor || '#f4f4f5');
+
+            this.centerText = centerCircle.append('text')
+                .data([sum])
+                .attr('fill', '#f2f2f2')
+                .attr('dy', '.4em')
+                .style('text-anchor', 'middle')
+                .style('font-size', '65px');
+        }
+
+        arcs = chart.selectAll('g.arc')
             .data(this.pie)
             .enter()
             .append('g')
-            .attr('transform', 'translate(' + me.dimension / 2 + ', ' + me.dimension / 2 + ')');
+            .attr('class', 'arc')
+            .attr('transform', translate);
 
         this.paths = arcs
             .append('path')
@@ -234,6 +269,9 @@
 
         $chart[0].chartObject = this;
 
+        if (options.scaled) {
+            $chart.addClass('scaled');
+        }
         if (options.class) {
             $chart.addClass(options.class);
         }
@@ -242,18 +280,17 @@
     }
 
     $.extend(Pie.prototype, {
-        dimension: 350,
+        dimension: 300,
         setValue: function(values, animate) {
             var me = this,
                 start = new Date(),
                 duration = this.options.duration || 2000,
-                sum = d3.sum(values),
-                from = this.values || Array.apply(null, new Array(values.length)).map(Number.prototype.valueOf, 0).concat(sum),
-                interpolator = d3.interpolateArray(from, values.concat(0));
+                from = this.values || Array.apply(null, new Array(values.length)).map(Number.prototype.valueOf, 0).concat(this.total),
+                interpolator = d3.interpolateArray(from, values.concat(this.total - d3.sum(values)));
 
             this.values = values;
 
-            me.texts.text('');
+            this.chart.selectAll('text').text('');
 
             if (animate !== false) {
                 me.animateTimer = setInterval(function() {
@@ -265,13 +302,16 @@
 
                     me._drawPaths(stepValues);
                     if (t >= 1) {
+                        stepValues = stepValues.slice(0, stepValues.length - 1);
+                        me._updateCenterText(d3.sum(stepValues));
                         me._updateLabels(stepValues);
+                        clearInterval(me.animateTimer);
+                        delete this.animateTimer;
                     }
-
-                    return t >= 1;
                 }, 20);
             } else {
                 me._drawPaths(values);
+                me._updateCenterText(d3.sum(values));
                 me._updateLabels(values);
             }
         },
@@ -294,14 +334,29 @@
         _updateLabels: function(values) {
             var me = this;
 
-            me.texts
-                .data(this.pie(values))
-                .attr('transform', function(d) {
-                    return 'translate(' + me.arcDrawer.centroid(d) + ')';
-                })
-                .text(function(d) {
-                    return d.data / d3.sum(me.values) < 0.06 ? '' : d.data + '%';
-                });
+            if (me.options.hideLabels !== true) {
+                me.texts
+                    .data(this.pie(values))
+                    .attr('transform', function(d) {
+                        return 'translate(' + me.arcDrawer.centroid(d) + ')';
+                    })
+                    .text(function(d) {
+                        return d.data / d3.sum(me.values) < 0.12 ? '' : d.data + '%';
+                    });
+            }
+        },
+        _updateCenterText: function(value) {
+            var me = this;
+
+            if (me.centerText) {
+                setTimeout(function() {
+                    me.centerText
+                        .data([value])
+                        .text(function(d) {
+                            return d;
+                        });
+                }, 1000);
+            }
         }
     });
 
