@@ -317,6 +317,12 @@ class Scenario extends CActiveRecord
         return Activity::model()->findByAttributes($array);
     }
 
+    public function getActivityParentAvailability($array)
+    {
+        $array['scenario_id'] = $this->id;
+        return ActivityParentAvailability::model()->findByAttributes($array);
+    }
+
     public function getActivityAction($array)
     {
         $array['scenario_id'] = $this->id;

@@ -522,6 +522,62 @@ class ImportGameDataService
         );
     }
 
+    /**
+     * @return array
+     */
+    public function importActivityParentAvailability()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Parent_availability');
+
+        // load sheet }
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        $this->setColumnNumbersByNames($sheet);
+
+        $time_index = "Время доступности к запуску Level 2 (Parent_min)";
+
+        $counter = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $code = $this->getCellValue($sheet, 'Parent', $i);
+
+            $entity = $this->scenario->getActivityParentAvailability(['code' => $code]);
+
+            if (null === $entity) {
+                $entity = new ActivityParentAvailability();
+                $entity->code = $code;
+                $entity->scenario_id = $this->scenario->getPrimaryKey();
+            }
+
+            $entity->category = $this->getCellValue($sheet, 'Категория', $i);
+
+            $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
+            $entity->import_id = $this->import_id;
+
+            $entity->save();
+            $counter++;
+        }
+
+        // delete old unused data {
+        ActivityParentAvailability::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id', [
+                'import_id' => $this->import_id,
+                'scenario_id' => $this->scenario->getPrimaryKey()
+        ]);
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'parent_availability_lines' => $counter,
+            'errors'                    => false,
+        );
+    }
+
     public function importEmails()
     {
         $this->logStart();
