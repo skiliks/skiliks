@@ -145,7 +145,7 @@ class PlanAnalyzer {
      */
     public function check_214a1()
     {
-        $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
         if ($behaviour === null) {
             return;
@@ -187,7 +187,7 @@ class PlanAnalyzer {
      */
     public function check_214a3()
     {
-        $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
         if ($behaviour === null) {
             return;
@@ -220,7 +220,7 @@ class PlanAnalyzer {
      */
     public function check_214a4()
     {
-        $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
         if ($behaviour === null) {
             return;
@@ -257,7 +257,7 @@ class PlanAnalyzer {
      */
     public function check_214a5()
     {
-        $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
         if ($behaviour === null) {
             return;
@@ -289,7 +289,7 @@ class PlanAnalyzer {
      */
     public function check_214a8()
     {
-        $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
         if ($behaviour === null) {
             return;

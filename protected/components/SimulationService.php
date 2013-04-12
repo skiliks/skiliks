@@ -728,7 +728,7 @@ class SimulationService
         $negativeHeroBehavioursCriteria = new CDbCriteria();
         $negativeHeroBehavioursCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->id;}, $learningGoalsForUpdateIds));
         $negativeHeroBehavioursCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
-        $negativeHeroBehaviours = HeroBehaviour::model()->findAll($negativeHeroBehavioursCriteria);
+        $negativeHeroBehaviours = $simulation->game_type->getHeroBehavours($negativeHeroBehavioursCriteria);
 
         $heroBehavioursForUpdateCodes = [];
         foreach ($negativeHeroBehaviours as $heroBehaviour) {
