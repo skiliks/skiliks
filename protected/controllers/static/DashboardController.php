@@ -428,7 +428,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         /* @var $user YumUser */
         $user = Yii::app()->user->data();
 
-        if($user->isAnonymous()) {
+        if($user->isAuth()) {
             Yii::app()->user->setFlash('success', sprintf(
                 'Спасибо за Ваш ответ! Вы всегда можете зарегистрироваться снова на главной странице
                 и начать использовать наш продукт. Мы верим, что он обязательно Вам понравится и окажется полезным.'
