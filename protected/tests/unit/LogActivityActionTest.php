@@ -274,7 +274,7 @@ class LogActivityActionTest extends CDbTestCase
             $activity->parent = 'WIN';
             $activity->grandparent = "WINALL";
             $activity->name = "Name1";
-            $activity->category_id = "2_min";
+            $activity->category_id = "0";
             $activity->numeric_id = 10000;
             $activity->import_id = '1234';
             $activity->type = "Activity";
