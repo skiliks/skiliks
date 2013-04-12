@@ -3,7 +3,7 @@
 var IntroView;
 define([
     'game/views/world/SKApplicationView',
-    'game/models/SKApplication',
+    'game/models/SKApplication'
 ], function (SKApplicationView, SKApplication) {
     "use strict";
     /**
