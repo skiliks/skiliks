@@ -96,7 +96,22 @@ define([
                     var minutes = parseInt(me.getGameMinutes() % 60, 10);
                     me.trigger('time:' + hours + '-' + minutes);
                 });
+
                 this.dayplan_tasks = new SKDayTaskCollection();
+
+                this.zoho500callback = function(event) {
+                    console.log('zoho500callback');
+                    me.handlePostMessage(event);
+                }
+
+                if (window.addEventListener){
+                    window.addEventListener("message", this.zoho500callback, false);
+                    console.log('listen message 1');
+                } else {
+                    window.attachEvent("onmessage", this.zoho500callback);
+                    console.log('listen message 2');
+                }
+
                 /* Please, move it to safe place */
                 this.postMessageCallback = function(event) {
                     if ('DocumentLoaded' === event.data.type) {
@@ -146,6 +161,24 @@ define([
                 });
 
 
+            },
+
+            /**
+             * @method handlePostMessage
+             * @param postMessage event
+             * @return void
+             */
+            handlePostMessage: function(event) {
+                console.log('handlePostMessage');
+                var me = this;
+                var doc = me.options.model_instance.get('document');
+
+                if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
+                    SKApp.simulation.documents.zoho_500.push(doc.get('id'));
+                } else {
+                    console.log('return >>');
+                    return;
+                }
             },
 
             'onAddDocument' : function(){
