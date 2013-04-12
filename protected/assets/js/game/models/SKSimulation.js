@@ -99,19 +99,6 @@ define([
 
                 this.dayplan_tasks = new SKDayTaskCollection();
 
-                this.zoho500callback = function(event) {
-                    console.log('zoho500callback');
-                    me.handlePostMessage(event);
-                }
-
-                if (window.addEventListener){
-                    window.addEventListener("message", this.zoho500callback, false);
-                    console.log('listen message 1');
-                } else {
-                    window.attachEvent("onmessage", this.zoho500callback);
-                    console.log('listen message 2');
-                }
-
                 /* Please, move it to safe place */
                 this.postMessageCallback = function(event) {
                     if ('DocumentLoaded' === event.data.type) {
@@ -142,6 +129,22 @@ define([
                 }
 
                 this.documents = new SKDocumentCollection();
+
+                // zoho 500 {
+                this.zoho500callback = function(event) {
+                    console.log('zoho500callback');
+                    me.handlePostMessage(event);
+                }
+
+                if (window.addEventListener){
+                    window.addEventListener("message", this.zoho500callback, false);
+                    console.log('listen message 1');
+                } else {
+                    window.attachEvent("onmessage", this.zoho500callback);
+                    console.log('listen message 2');
+                }
+                // zoho 500 }
+
                 this.documents.bind('afterReset', this.onAddDocument, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
