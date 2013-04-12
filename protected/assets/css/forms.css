@@ -447,19 +447,20 @@ span.required {
     margin:8px 0px 0px 72px;
 }
 #Invite_firstname {
-    width:76px;
+    width:70px;
 }
 #Invite_lastname {
-    width:100px;
+    margin-left: 4px;
+    width:90px;
 }
 #Invite_email {
-    width:190px;
+    width:178px;
 }
 .sideform .row {
     padding-bottom: 8px;
 }
 .invite-people-form .sbHolder {
-    width:180px;
+    width:168px;
 }
 .brightblock {
     background: #51c1d2;
