@@ -171,14 +171,14 @@ define([
             handlePostMessage: function(event) {
                 console.log('handlePostMessage', event.data.url);
                 var me = this;
-                var doc = me.options.model_instance.get('document');
+                var doc = null;
 
-                if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
-                    SKApp.simulation.documents.zoho_500.push(doc.get('id'));
-                } else {
-                    console.log('return >>');
-                    return;
-                }
+                $.each(SKDocument._excel_cache, function(id, url){
+                    if(url === event.data.url){
+                        var doc = SKApp.simulation.documents.where({id:id.toString()});
+                        SKApp.simulation.documents.zoho_500.push(doc.get('id'));
+                    }
+                });
             },
 
             'onAddDocument' : function(){
