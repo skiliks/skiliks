@@ -712,13 +712,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 SKApp.simulation.windowLog.deactivate(window);
 
-                if ((window.get('subname') == 'mailMain' && 'mailNew' == newSubscreen) ||
-                    (window.get('subname') == 'mailMain' && 'mailPlan' == newSubscreen)) {
-                    this.window_uid = parseInt(window.window_uid);
+                if ((window.get('subname') === 'mailMain' && 'mailNew' === newSubscreen) ||
+                    (window.get('subname') === 'mailMain' && 'mailPlan' === newSubscreen)) {
+                    this.window_uid = parseInt(window.window_uid, 10);
                     window.updateUid();
-                } else if ((window.get('subname') == 'mailNew' && 'mailMain' == newSubscreen) ||
-                    (window.get('subname') == 'mailPlan' && 'mailMain' == newSubscreen)) {
-                    window.window_uid = parseInt(this.window_uid);
+                } else if ((window.get('subname') === 'mailNew' && 'mailMain' === newSubscreen) ||
+                    (window.get('subname') === 'mailPlan' && 'mailMain' === newSubscreen)) {
+                    if (this.window_uid === undefined) {
+                        throw 'Window UID is undefined';
+                    }
+                    window.window_uid = parseInt(this.window_uid, 10);
                 }
 
                 window.set('id', newSubscreen);
