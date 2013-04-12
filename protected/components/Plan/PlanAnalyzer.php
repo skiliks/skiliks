@@ -147,6 +147,10 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
 
+        if ($behaviour === null) {
+            return;
+        }
+
         $duration = 0;
         foreach ($this->tasksOn11 as $plan){
             if ((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK &&
@@ -185,6 +189,10 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
 
+        if ($behaviour === null) {
+            return;
+        }
+
         $todo_count = 0;
         foreach ($this->tasksOn11 as $plan) {
             if (DayPlanLog::TODO == $plan->day) {
@@ -213,6 +221,10 @@ class PlanAnalyzer {
     public function check_214a4()
     {
         $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $duration = 0;
         foreach ($this->tasksOn18 as $plan) {
@@ -247,6 +259,10 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
 
+        if ($behaviour === null) {
+            return;
+        }
+
         $todo_count = 0;
         foreach ($this->tasksOn18 as $plan) {
             if (DayPlanLog::TODO == $plan->day) {
@@ -274,6 +290,10 @@ class PlanAnalyzer {
     public function check_214a8()
     {
         $behaviour = $this->simulation->game_type->getHeroBehavours(['code'=>'214a3']);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $count = 0;
         foreach($this->tasksOn11 as $plan){
@@ -310,6 +330,10 @@ class PlanAnalyzer {
     public function check_214b0_214b4($code, $category)
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+
+        if ($behaviour === null) {
+            return;
+        }
 
         $wrongActions = [];
         $rightActions = [];
