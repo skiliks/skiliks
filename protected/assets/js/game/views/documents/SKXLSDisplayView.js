@@ -29,6 +29,7 @@ define([
         initialize: function () {
             var me = this;
             this.zoho500callback = function(event) {
+                console.log('zoho500callback');
                 me.handlePostMessage(event);
             }
 
@@ -51,30 +52,31 @@ define([
          * @return void
          */
         handlePostMessage: function(event) {
+            console.log('handlePostMessage');
             var me = this;
             var doc = me.options.model_instance.get('document');
 
             if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
                 SKApp.simulation.documents.zoho_500.push(doc.get('id'));
             } else {
+                console.log('return >>');
                 return;
             }
 
+            console.log('event.data = ', event.data);
             if (event.data.type == "Zoho_500") {
+                console.log('catch Zoho_500');
                  me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                     {
                     'value': 'Перезагрузить',
                     'onclick': function () {
+                        console.log('Перезагрузить nclick');
                         SKApp.simulation.afterZohoCrash = true;
                         delete SKDocument._excel_cache[doc.get('id')];
                         SKApp.simulation.documents.remove(doc);
                         SKApp.simulation.documents.fetch();
-
-                        //me.doWindowClose();
-                        //$(doc.combineIframeId()).remove();
-                        //me.remove();
 
                         // clean array of not handled zoho 500 {
                         var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
@@ -82,14 +84,9 @@ define([
 
 
                         delete me.message_window;
-                 }
-                }
-               ]
-            });
-
-
-
-
+                     }
+                    }]
+                });
             }
         },
 
