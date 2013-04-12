@@ -2072,7 +2072,6 @@ class ImportGameDataService
             if ($activityCode == '') {
                 break;
             }
-            echo $activityCode;
             //try to find exest activity in DB
             $activity = Activity::model()->findByAttributes(['code' => $activityCode, 'scenario_id' => $this->scenario->primaryKey]);
 

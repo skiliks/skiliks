@@ -1352,7 +1352,7 @@ class SimulationServiceTest extends CDbTestCase
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        $this->assertEquals(1.5, array_sum($delta)); #personal
+        $this->assertEquals(9, array_sum($delta)); #personal
     }
 
     public function testStressRules()
