@@ -177,6 +177,7 @@ define([
                 var doc = null;
 
                 $.each(SKDocument._excel_cache, function(id, url){
+                    url = url.replace('\r', '')
                     if(url === event.data.url){
                         var doc = SKApp.simulation.documents.where({id:id.toString()});
                         SKApp.simulation.documents.zoho_500.push(url);
