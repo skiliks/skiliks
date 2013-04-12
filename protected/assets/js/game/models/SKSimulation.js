@@ -169,7 +169,7 @@ define([
              * @return void
              */
             handlePostMessage: function(event) {
-                console.log('handlePostMessage', event);
+                console.log('handlePostMessage', event.data.url);
                 var me = this;
                 var doc = me.options.model_instance.get('document');
 

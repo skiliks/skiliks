@@ -41,7 +41,7 @@ $(window.parent.window).load(function()
    window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a) {
        console.log('showBannerMessage');
 
-       window.parent.parent.postMessage({type:'Zoho_500'}, 'http://live.skiliks.com');
+       window.parent.parent.postMessage({type:'Zoho_500', url:window.parent.location.href}, 'http://live.skiliks.com');
        console.log('message Zoho_500');
 
        if (typeof _1418!="undefined") {
