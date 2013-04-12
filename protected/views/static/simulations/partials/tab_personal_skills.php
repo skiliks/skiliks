@@ -31,14 +31,16 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var val = assessmentResult.personal;
-        new charts.Bullet('.resultOrientation', Math.round(val.resultOrientation), {class: 'small', displayValue: true});
-        new charts.Bullet('.attentiveness', Math.round(val.attentiveness), {class: 'small', displayValue: true});
-        new charts.Bullet('.responsibility', Math.round(val.attentiveness), {class: 'small', displayValue: true});
-        new charts.Bullet('.stability', Math.round(val.stability), {class: 'small', displayValue: true});
-        new charts.Bullet('.constructibility', Math.round(val.constructibility), {class: 'small', displayValue: true});
-        new charts.Bullet('.flexibility', Math.round(val.flexibility), {class: 'small', displayValue: true});
-        new charts.Bullet('.adoptionOfDecisions', Math.round(val.adoptionOfDecisions), {class: 'small', displayValue: true});
-        new charts.Bullet('.stressResistance', Math.round(val.stressResistance), {class: 'small', displayValue: true});
+        var result = AR.personal,
+            r = Math.round;
+
+        new charts.Bullet('.resultOrientation', r(result.resultOrientation), {class: 'small', displayValue: true});
+        new charts.Bullet('.attentiveness', r(result.attentiveness), {class: 'small', displayValue: true});
+        new charts.Bullet('.responsibility', r(result.attentiveness), {class: 'small', displayValue: true});
+        new charts.Bullet('.stability', r(result.stability), {class: 'small', displayValue: true});
+        new charts.Bullet('.constructibility', r(result.constructibility), {class: 'small', displayValue: true});
+        new charts.Bullet('.flexibility', r(result.flexibility), {class: 'small', displayValue: true});
+        new charts.Bullet('.adoptionOfDecisions', r(result.adoptionOfDecisions), {class: 'small', displayValue: true});
+        new charts.Bullet('.stressResistance', r(result.stressResistance), {class: 'small', displayValue: true});
     });
 </script>

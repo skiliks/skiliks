@@ -589,10 +589,15 @@
     vertical-align: middle;
     width: 300px;
 }
-.chart-pie {
-    height: 300px !important;
-    width: 300px !important;
+.time-distribution, .over-time {
+    width: 300px;
+    margin: 0 auto;
 }
+/*.timewrap, .tziferblat {
+    height:351px;
+    position:relative;
+    width:351px;
+}*/
 .timediagr {
     background:url("../img/timediagrm.png") no-repeat;
     height:351px;
@@ -698,6 +703,9 @@
 }
 .timediagr:hover .helpbuble {
     /*display:block;*/
+}
+.timeblock .chart-bar {
+    margin-bottom: 20px;
 }
 .helpbuble {
     background:#fdfbc6;

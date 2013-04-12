@@ -1,7 +1,7 @@
 <?php /** @var Simulation $simulation */ ?>
 
-<div class="section productivitytab">
-    <div class="textcener"><h2 class="total totalwithresult">Результативность <span class="value blockvalue"></span></h2></div>
+<div class="section">
+    <div class="textcener"><h2 class="total totalwithresult">Результативность <span class="value blockvalue productivity-total"></span></h2></div>
 
 
     <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
@@ -24,21 +24,19 @@
             <div class="legendvalue"><span class="legendcolor colordone"></span><span class="legendtitle">Проявленный уровень выполнения задач</span></div>
         </div>
     </div>
-
 </div>
-
-
-
 
 <script type="text/javascript">
     $(function() {
-        var result = assessmentResult['performance'];
+        var result = AR.performance,
+            r = Math.round,
+            renderer = function(v) { return v + '%'; };
 
-        new charts.Bar('.bars', parseInt(result['0']));
-        new charts.Bar('.bars', parseInt(result['1']));
-        new charts.Bar('.bars', parseInt(result['2']));
-        new charts.Bar('.bars', parseInt(result['2_min']));
+        new charts.Bar('.bars', r(result['0']), { valueRenderer: renderer });
+        new charts.Bar('.bars', r(result['1']), { valueRenderer: renderer });
+        new charts.Bar('.bars', r(result['2']), { valueRenderer: renderer });
+        new charts.Bar('.bars', r(result['2_min']), { valueRenderer: renderer });
 
-        $('.total .value').html(parseInt(result['total']) + '%');
+        $('.productivity-total').html(Math.round(result.total) + '%');
     });
 </script>

@@ -32,6 +32,7 @@
  * @property Scenario game_type
  * @property string uuid
  * @property SimulationLearningArea[] learning_area
+ * @property TimeManagementAggregated[] time_management_aggregated
  * @property Invite invite
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
@@ -478,8 +479,9 @@ class Simulation extends CActiveRecord
         }
 
         // Time management
-        // TODO
-        $result[AssessmentCategory::TIME_EFFECTIVENESS];
+        foreach ($this->time_management_aggregated as $row) {
+            $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
+        }
 
         $result['personal'] = [
             'stressResistance'=>$this->getPersonalAssessment(9),
