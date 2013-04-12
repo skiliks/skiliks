@@ -90,10 +90,15 @@ class Evaluation {
 
     public function checkTimeManagementEffectiveness()
     {
+        $timeManagementEfficiency = TimeManagementAggregated::model()->findByAttributes([
+            'sim_id' => $this->simulation->id,
+            'slug'   => TimeManagementAggregated::SLUG_EFFICIENCY
+        ]);
+
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::TIME_EFFECTIVENESS;
         $result->sim_id = $this->simulation->id;
-        $result->value = 0;
+        $result->value = (null === $timeManagementEfficiency) ? 0 : $timeManagementEfficiency->value;
 
         $result->save();
     }
