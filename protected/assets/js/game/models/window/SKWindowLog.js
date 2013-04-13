@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session */
 
-define(["game/models/window/SKWindow"],function () {
+define([],function () {
     "use strict";
     /**
      * @class SKWindowLog
@@ -33,7 +33,6 @@ define(["game/models/window/SKWindow"],function () {
                 4:            window.get('params'),
                 'window_uid': window.window_uid
             };
-
             this.log.push(log_raw_data);
         },
 
@@ -70,4 +69,5 @@ define(["game/models/window/SKWindow"],function () {
             return log;
         }
     });
+    return window.SKWindowLog;
 });

@@ -25,12 +25,12 @@ define([], function () {
             'visitorEntrance':31,
             'visitorTalk':32,
             'documents':41,
-            'documentsFiles':42,
+            'documentsFiles':42
     };
     /**
      * Окно, открывается, закрывается, ведет за собой логи
-     * @class SKWindow
      * @augments Backbone.Model
+     * @class SKWindow
      */
     SKWindow = Backbone.Model.extend({
 
@@ -47,6 +47,7 @@ define([], function () {
         /**
          * Constructor
          * @method initialize
+         * @constructs
          */
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
@@ -140,7 +141,7 @@ define([], function () {
             var zIndex = 0;
             window_set.each(function (window) {
                 window.set('zindex', zIndex);
-                zIndex ++;
+                zIndex += 1;
             });
             me.set('zindex', zIndex);
             window_set.add(me, {silent:true});

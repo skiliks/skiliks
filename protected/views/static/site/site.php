@@ -49,7 +49,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/underscore.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/prefixfree.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery.ddslick.min.js"></script>
-
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/pdf.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/elfinder-2.0-rc1/js/elfinder.min.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tag-handler/jquery.taghandler.min.js"></script>

@@ -3,7 +3,7 @@
 buster.spec.expose();
 
 var spec = describe('window manager', function (run) {
-    require(["game/models/SKApplication", "game/models/SKSimulation", "game/models/window/SKDocumentsWindow"], function (SKApplication, SKSimulation) {
+    require(["game/models/SKApplication", "game/models/SKSimulation", "game/models/window/SKDocumentsWindow"], function (SKApplication, SKSimulation, SKDocumentsWindow) {
         run(function () {
             var server;
             var timers;
@@ -90,6 +90,30 @@ var spec = describe('window manager', function (run) {
                 window1.open();
                 window2.open();
                 expect(SKApp.simulation.window_set.length).toBe(3);
+
+            });
+            it("can open miltiple documents", function () {
+                SKApp.user = {};
+                var simulation = SKApp.simulation;
+                simulation.start();
+                server.respond();
+                //var document = SKApp.simulation.documents.where({name:file})[0];
+
+                var window1 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 1});
+                var window2 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 2});
+                var window3 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 2});
+                var windowDocs = new SKWindow({'name': 'documents', 'subname': 'documents'});
+                var openOneSpy = sinon.spy();
+                var openTwoSpy = sinon.spy();
+                window1.on('open', openOneSpy);
+                window2.on('open', openTwoSpy);
+                windowDocs.open();
+                window1.open();
+                window2.open();
+
+                buster.assert.exception(function () {
+                    window3.open();
+                });
 
             });
         });
