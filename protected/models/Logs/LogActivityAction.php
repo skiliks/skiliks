@@ -121,9 +121,9 @@ class LogActivityAction extends CActiveRecord
      */
     public function bySimulationId($simulationId)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simulationId}"
-        ));
+        $criteria = new CDbCriteria();
+        $criteria->compare('sim_id', $simulationId);
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
 

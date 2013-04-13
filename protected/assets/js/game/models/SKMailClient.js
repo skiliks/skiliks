@@ -794,7 +794,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             findRecipientByName : function (name) {
 
-                return SKApp.simulation.characters.where({'fio':name})[0].get('id');
+                return name && SKApp.simulation.characters.where({'fio':name})[0].get('id');
 
             },
 
