@@ -75,7 +75,8 @@ body {
 	line-height:14px;
 }
 body.inner{
-	background-image:url("../img/bg-top-inner.jpg");
+	background-image:url("../img/bg-top-inner.jpg"),url("../img/background.jpg");
+    background-repeat: no-repeat, repeat-y;
 }
 body.inner-team{
 	background-image:url("../img/bg-top-inner-team.jpg");
@@ -137,6 +138,7 @@ a:focus, a:active {
 	margin:0 auto;
 	overflow:hidden;
 	position:relative;
+    z-index: 2;
 	/*padding-bottom:317px;*/
     padding-bottom: 260px;
 }
