@@ -8,7 +8,7 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
     window.SKDocumentsWindow = SKWindow.extend({
         /**
          * @property single
-         * @type booloean
+         * @type boolean
          * @default false
          */
         single: false,
@@ -50,4 +50,5 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
             this.set('params', {'fileId':fileId});
         }
     });
+    return window.SKDocumentsWindow;
 });

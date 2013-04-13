@@ -109,12 +109,17 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                         file = decodeURIComponent(file);
                         file = file.replace(/.*\//, '');
                         var document = SKApp.simulation.documents.where({name: file})[0];
-                        var window = new SKDocumentsWindow({
-                            subname: 'documentsFiles',
-                            document: document,
-                            fileId: document.get('id')
-                        });
-                        window.open();
+                        var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: document.get('id')})[0];
+                        if (window !== undefined) {
+                            window.setOnTop();
+                        } else {
+                            window = new SKDocumentsWindow({
+                                subname: 'documentsFiles',
+                                document: document,
+                                fileId: document.get('id')
+                            });
+                            window.open();
+                        }
                     },
                     ui: ['toolbar', 'places', 'path', 'stat'],
                     uiOptions: {

@@ -138,6 +138,9 @@ define([
             if (this.length) {
                 this.at(this.length - 1).deactivate();
             }
+            if (this.get(win.id)) {
+                throw 'Trying to add window with same ID';
+            }
             this.add(win);
             win.activate();
         },
@@ -265,4 +268,5 @@ define([
         }
 
     });
+    return window.SKWindowSet;
 });

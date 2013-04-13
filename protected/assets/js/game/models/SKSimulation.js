@@ -41,6 +41,7 @@ define([
      *
      * @augments Backbone.Model
      * @class SKSimulation
+     * @constructs
      */
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
@@ -168,7 +169,7 @@ define([
 
             /**
              * @method handlePostMessage
-             * @param postMessage event
+             * @param {postMessage} event
              * @return void
              */
             handlePostMessage: function(event) {
