@@ -617,4 +617,79 @@ class PlanAnalyzer {
             )
         );
     }
+
+    /**
+     * Assessment according 11:00 planned tasks log only
+     *
+     * @param $code
+     * @param $category
+     */
+    public function check_214d0_214d4($code, $category)
+    {
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+
+        if ($behaviour === null) {
+            return;
+        }
+
+        $wrongActions = [];
+        $rightActions = [];
+
+        $usedTaskCodes = [];
+
+        foreach ($this->tasksOn11 as $taskLogItem) {
+            $data = [];
+
+            if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
+                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
+                if (0 < count($data)) {
+                    $wrongActions[] = $taskLogItem;
+
+                    $usedTaskCodes[] = $data[0]->task->code;
+                } elseif (0 == count($data)) {
+                    if ($this->canAddPlusOneBy214b($taskLogItem)) {
+                        $rightActions[] = $taskLogItem;
+                    }
+                }
+            }
+        }
+
+        foreach ($rightActions as $rightAction) {
+            $assessment                    = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id = $behaviour->id;
+            $assessment->sim_id            = $this->simulation->id;
+            $assessment->task_id           = $rightAction->task->id;
+            $assessment->value             = 1;
+            $assessment->type_scale        = 1;
+            $assessment->save();
+        }
+
+        foreach ($wrongActions as $wrongAction) {
+            $assessment                    = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id = $behaviour->id;
+            $assessment->sim_id            = $this->simulation->id;
+            $assessment->task_id           = $wrongAction->task->id;
+            $assessment->type_scale        = 2;
+            $assessment->value             = 0;
+            $assessment->save();
+        }
+
+        if (0 == (count($rightActions) +  count($wrongActions))) {
+            $rate = 0;
+        } else {
+            $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
+        }
+
+        if ($behaviour === null) {
+            return;
+        }
+
+        $value = $behaviour->scale * $rate;
+
+        $assessmentCalculation           = new AssessmentCalculation();
+        $assessmentCalculation->sim_id   = $this->simulation->id;
+        $assessmentCalculation->point_id = $behaviour->id;
+        $assessmentCalculation->value    = round($value, 2);
+        $assessmentCalculation->save();
+    }
 }

@@ -315,7 +315,7 @@ class ImportGameDataService
     /**
      *
      */
-    public function importHeroBehaviours()
+    public function     importHeroBehaviours()
     {
         $this->logStart();
 
@@ -539,7 +539,7 @@ class ImportGameDataService
         }
         $this->setColumnNumbersByNames($sheet);
 
-        $time_index = "Время доступности к запуску Level 2 (Parent_min)";
+        $time_index = "Время доступности к запуску";
 
         $counter = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -2566,6 +2566,7 @@ class ImportGameDataService
         $result['stress_rules'] = $this->importStressRules();
         $result['max_rate'] = $this->importMaxRate();
         $result['weights'] = $this->importWeights();
+        $result['activity_parent_availability'] = $this->importActivityParentAvailability();
         return $result;
     }
 
