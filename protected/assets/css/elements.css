@@ -362,15 +362,15 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
 /* Ошибки при выборе профиля */
 .action-controller-chooseAccountType-static-userAuth .YumProfile_firstname {
     left:126px;
-    bottom: 32px;
+    bottom: 27px;
 }
 .action-controller-chooseAccountType-static-userAuth .YumProfile_lastname {
     left:262px;
-    bottom: 32px;
+    bottom: 27px;
 }
 .action-controller-chooseAccountType-static-userAuth .UserAccountCorporate_corporate_email {
     left:126px;
-    bottom: 32px;
+    bottom: 27px;
 }
 /* universal */
 .blackout {
