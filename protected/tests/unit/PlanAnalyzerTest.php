@@ -1148,8 +1148,8 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         // log 5 {
         // $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
         // $template = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
-        $replica = $simulation->game_type->getReplica(['code' => 'RST2']);
-        $activity = $simulation->game_type->getActivity(['code' => 'ARS2']);
+        $replica = $simulation->game_type->getReplica(['code' => 'RST1']);
+        $activity = $simulation->game_type->getActivity(['code' => 'ARS1']);
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
@@ -1157,7 +1157,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log = new LogActivityActionAgregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
-        $log->leg_action            = 'RS2';
+        $log->leg_action            = 'RS1';
         $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 5;
@@ -1611,7 +1611,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->activityAction        = $activityAction;
         $log->category              = '2_min';
         $log->start_time            = '12:39:21';
-        $log->end_time              = '12:36:36';
+        $log->end_time              = '12:39:36';
         $log->duration              = 0;
         $log->is_keep_last_category = null;
         $log->save();
@@ -1632,7 +1632,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = 5;
-        $log->start_time            = '12:36:36';
+        $log->start_time            = '12:39:36';
         $log->end_time              = '12:42:40';
         $log->duration              = 0;
         $log->is_keep_last_category = null;
@@ -1713,6 +1713,10 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $analyzer->check_214d0_214d4('214d2', 2);
         $analyzer->check_214d0_214d4('214d3', 3);
         $analyzer->check_214d0_214d4('214d4', 4);
+
+        $analyzer->check_214d5_6_8('214d5', 0, [4,5]);
+        $analyzer->check_214d5_6_8('214d6', 1, [4,5]);
+        $analyzer->check_214d5_6_8('214d8', 2, [4,5]);
 
         // -- 214b0 //
         $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214d0']);
@@ -1842,6 +1846,60 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
             'value'             => 0,
         ]);
         $this->assertEquals(0, $points, '214d4 : 0');
+        unset($points);
+
+        // --- 214d5 //
+
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214d5']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals(0, $point->value, '214d5');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214d5 : 1');
+        unset($points);
+
+        // --- 214d6 //
+
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214d6']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals($behaviour->scale, $point->value, '214d6');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(1, $points, '214d6 : 1');
+        unset($points);
+
+        // --- 214d8 //
+
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214d8']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals(0, $point->value, '214d8');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214d8 : 1');
         unset($points);
     }
 }

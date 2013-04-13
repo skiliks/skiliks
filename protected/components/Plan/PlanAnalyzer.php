@@ -142,6 +142,16 @@ class PlanAnalyzer {
         $this->check_214b5_6_8('214b8', 2);
 
         $this->check_214b9();
+
+        $this->check_214d0_214d4('214d0', 0);
+        $this->check_214d0_214d4('214d1', 1);
+        $this->check_214d0_214d4('214d2', 2);
+        $this->check_214d0_214d4('214d3', 3);
+        $this->check_214d0_214d4('214d4', 4);
+
+        $this->check_214d5_6_8('214d5', 0, [4,5]);
+        $this->check_214d5_6_8('214d6', 1, [4,5]);
+        $this->check_214d5_6_8('214d8', 2, [4,5]);
     }
 
     /*
@@ -622,8 +632,6 @@ class PlanAnalyzer {
     }
 
     /**
-     * Assessment according 11:00 planned tasks log only
-     *
      * @param $code
      * @param $category
      */
@@ -638,8 +646,6 @@ class PlanAnalyzer {
         $wrongActions = [];
         $rightActions = [];
 
-        $usedTaskCodes = [];
-
         /*
          * @var $groupedLog:
          * array [
@@ -652,7 +658,6 @@ class PlanAnalyzer {
          * */
         $logs = $this->logActivityActionsAggregatedGroupByParent;
         $alreadyAssessedParentCode = [];
-
 
         foreach ($logs as $taskLogItemToCheck) {
             if ($taskLogItemToCheck['category'] != $category) {
@@ -673,6 +678,7 @@ class PlanAnalyzer {
                             && false == in_array($taskLogItem['parent'], $data)
                             ) {
                             $data[] = $taskLogItem['parent'];
+                            break;
                         }
                     } else {
                         break;
@@ -699,7 +705,7 @@ class PlanAnalyzer {
             $assessment                       = new AssessmentPlaningPoint();
             $assessment->hero_behaviour_id    = $behaviour->id;
             $assessment->sim_id               = $this->simulation->id;
-            $assessment->activity_parent_code = $taskLogItemToCheck['parent'];
+            $assessment->activity_parent_code = $rightAction['parent'];
             $assessment->type_scale           = HeroBehaviour::TYPE_POSITIVE;
             $assessment->value                = 1;
             $assessment->save();
@@ -709,7 +715,7 @@ class PlanAnalyzer {
             $assessment                       = new AssessmentPlaningPoint();
             $assessment->hero_behaviour_id    = $behaviour->id;
             $assessment->sim_id               = $this->simulation->id;
-             $assessment->activity_parent_code = $taskLogItemToCheck['parent'];
+            $assessment->activity_parent_code = $wrongAction['parent'];
             $assessment->type_scale           = HeroBehaviour::TYPE_NEGATIVE;
             $assessment->value                = 0;
             $assessment->save();
@@ -731,6 +737,82 @@ class PlanAnalyzer {
         $assessmentCalculation->sim_id   = $this->simulation->id;
         $assessmentCalculation->point_id = $behaviour->id;
         $assessmentCalculation->value    = round($value, 2);
+        $assessmentCalculation->save();
+    }
+
+    /**
+     * @param string $code
+     * @param int $category
+     * @param array $categories
+     */
+    public function check_214d5_6_8($code, $category = 0, $wrongCategoryIds = [4,5])
+    {
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+
+        if ($behaviour === null) {
+            return;
+        }
+
+        $wrongActions = [];
+
+        /*
+         * @var $groupedLog:
+         * array [
+         * 'parent'
+         * 'grandparent'
+         * 'category'
+         * 'start'
+         * 'end'
+         * ]
+         * */
+        $logs = $this->logActivityActionsAggregatedGroupByParent;
+
+        foreach ($logs as $taskLogItemToCheck) {
+            if (false == in_array($taskLogItemToCheck['category'], $wrongCategoryIds )) {
+                continue;
+            }
+
+            $data = [];
+            $wellPlannedParents= [];
+            foreach ($logs  as $taskLogItem) {
+                if ($taskLogItemToCheck['start'] < $taskLogItem['available']) {
+                    continue;
+                }
+                if ($taskLogItem['category'] != $category) {
+                    continue;
+                }
+
+                if ($taskLogItemToCheck['start'] < $taskLogItem['start']
+                    && false == in_array($taskLogItem['parent'], $wellPlannedParents)
+                ) {
+                    $data[] = $taskLogItem['parent'];
+
+                    break;
+                } else {
+                    $wellPlannedParents[] = $taskLogItem['parent'];
+                }
+            }
+
+            // findLessImportantTaskLogsBefore }
+            if (0 < count($data)) {
+                $wrongActions[] = $taskLogItemToCheck;
+            }
+        }
+
+        foreach ($wrongActions as $wrongAction) {
+            $assessment                       = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id    = $behaviour->id;
+            $assessment->sim_id               = $this->simulation->id;
+            $assessment->activity_parent_code = $wrongAction['parent'];
+            $assessment->value                = 1;
+            $assessment->type_scale           = 2;
+            $assessment->save();
+        }
+
+        $assessmentCalculation           = new AssessmentCalculation();
+        $assessmentCalculation->sim_id   = $this->simulation->id;
+        $assessmentCalculation->point_id = $behaviour->id;
+        $assessmentCalculation->value    = $behaviour->scale * count($wrongActions);
         $assessmentCalculation->save();
     }
 }
