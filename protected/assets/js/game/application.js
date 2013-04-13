@@ -21,7 +21,7 @@ require([
             //var View1 = Backbone.View.extend();
            if($.cookie('intro_is_watched') === undefined || $.cookie('intro_is_watched') === null){
                var intro = new SKIntroView();
-               intro.bind('simulationStart', Intro.eventHandler);
+               intro.bind('simulationStart', intro.eventHandler);
            }else{
                window.SKApp = new SKApplication(window.gameConfig);
                window.AppView = new SKApplicationView();
