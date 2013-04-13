@@ -2,7 +2,7 @@
 define([
     "game/models/window/SKWindow",
     "game/models/window/SKDialogWindow"
-], function () {
+], function (SKWindow, SKDialogWindow) {
     "use strict";
     /**
      * Оконный менеджер, содержит в себе все окна

@@ -60,4 +60,5 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
             this.get('params').lastDialogId = dialogId;
         }
     });
+    return window.SKDialogWindow;
 });
