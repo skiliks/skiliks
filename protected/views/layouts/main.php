@@ -25,23 +25,21 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
-<script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
-    new JotformFeedback({
-        formId:'30835043655352',
-        base:'http://jotformeu.com/',
-        windowTitle:'Обратная связь',
-        background:'#FFA500',
-        fontColor:'#FFFFFF',
-        type:false,
-        height:350,
-        width:700
-    });
-</script>
-
-
 	<head>
 		<meta charset="utf-8" />
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
+            new JotformFeedback({
+                formId:'30835043655352',
+                base:'http://jotformeu.com/',
+                windowTitle:'Обратная связь',
+                background:'#FFA500',
+                fontColor:'#FFFFFF',
+                type:false,
+                height:350,
+                width:700
+            });
+        </script>
 		<title>Skiliks - game the skills</title>
 
 		<!--[if IE]>
@@ -132,24 +130,24 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--content end-->
 		</div>
 
-		<!--footer-->
-		<div class="footer">
-			<footer>
-				<div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
+        <!--footer-->
+        <div class="footer">
+            <footer>
+                <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
 
-				<div class="logo"><a href="/">Skiliks</a></div>
+                <div class="logo"><a href="/">Skiliks</a></div>
 
                 <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
 
-				<nav>
-					<a href="/"><?php echo Yii::t('site', 'Home') ?></a>
-					<a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
-					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
-				</nav>
+                <nav>
+                    <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
+                    <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
+                    <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
+                </nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012</p>
+                <p class="copyright">Copyright - Skiliks  - 2012</p>
             </footer>
-		</div>
-		<!--footer end-->
+        </div>
+        <!--footer end-->
 	</body>
 </html>
