@@ -85,7 +85,7 @@ class UserAccountCorporate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'         , 'required'),
-			array('corporate_email' , 'required'),
+			array('corporate_email' , 'required', 'message' => Yii::t('site','Email is required')),
 			array('corporate_email' , 'unique'),
             array('corporate_email' , 'CEmailValidator'),
             array('corporate_email' , 'isCorporateEmail'),
