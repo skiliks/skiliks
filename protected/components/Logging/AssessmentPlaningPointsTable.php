@@ -31,6 +31,7 @@ class AssessmentPlaningPointsTable extends LogTable
             'Вес поведения',
             'Проявление',
             'Вызвавшая задача(код)',
+            'Вызвавший LegActionParent',
          ];
         //return ['Point Code', 'Point Description', 'Type Scale', 'Scale', 'Value', 'Task ID'];
     }
@@ -50,7 +51,8 @@ class AssessmentPlaningPointsTable extends LogTable
             \HeroBehaviour::getTypeScaleName($row->heroBehaviour->type_scale),
             $row->heroBehaviour->scale,
             $row->value,
-            $row->task->code,
+            (null !== $row->task) ? $row->task->code : '--',
+            (null !== $row->activity_parent_code) ? $row->activity_parent_code : '--',
         ];
 
         return $result;
