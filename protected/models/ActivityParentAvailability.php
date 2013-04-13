@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'activity_parent_availability':
  * @property integer $id
+ * @property integer $scenario_id
  * @property string $code
  * @property string $category
  * @property string $available_at
