@@ -105,7 +105,7 @@ class YumUser extends YumActiveRecord
      */
     public function setUserNameFromEmail($email)
     {
-        $this->username = preg_replace("/[^a-zA-Z0-9]+/", "", $email);
+        $this->username = substr(md5($email), 0,20);
     }
 
     /**

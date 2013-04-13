@@ -5,4 +5,5 @@ def deploy():
     with cd('/srv/www/skiliks'):
         sudo('git pull', user='skiliks')
         sudo('phing -Dstage=real', user='skiliks')
+        sudo('service php5-fpm reload')
 
