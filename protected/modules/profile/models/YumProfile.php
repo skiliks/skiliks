@@ -189,8 +189,8 @@ class YumProfile extends YumActiveRecord
 		$rules[] = array('privacy', 'safe');
 
         $rules[] = array('email', 'required', 'on' => array('insert', 'registration'));
-        $rules[] = array('firstname', 'required');
-        $rules[] = array('lastname', 'required');
+        $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
+        $rules[] = array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required'));
 
 		return $rules;
 	}
