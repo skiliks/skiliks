@@ -69,6 +69,7 @@ class PlanAnalyzer {
          * 'category'
          * 'start'
          * 'end'
+         * 'available'
          * ]
          *
          * */
@@ -97,12 +98,14 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
+                    'available'   => $simulation->game_type->getActivityParentAvailability([
+                        'code' => $logItem->activityAction->activity->parent
+                    ])->available_at,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
-                $groupedLog[$i] = [
-                    'end' => $currentParentCode = $logItem->activityAction->activity->parent,
-                ];
+                $groupedLog[($i - 1)]['end'] = $logItem->end_time;
+                $currentParentCode = $logItem->activityAction->activity->parent;
             }
         }
 
@@ -637,40 +640,78 @@ class PlanAnalyzer {
 
         $usedTaskCodes = [];
 
-        foreach ($this->tasksOn11 as $taskLogItem) {
+        /*
+         * @var $groupedLog:
+         * array [
+         * 'parent'
+         * 'grandparent'
+         * 'category'
+         * 'start'
+         * 'end'
+         * ]
+         * */
+        $logs = $this->logActivityActionsAggregatedGroupByParent;
+        $alreadyAssessedParentCode = [];
+
+
+        foreach ($logs as $taskLogItemToCheck) {
+            if ($taskLogItemToCheck['category'] != $category) {
+                continue;
+            }
+            if (in_array($taskLogItemToCheck['parent'], $alreadyAssessedParentCode)) {
+                continue;
+            }
+
             $data = [];
-
-            if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
-                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
-                if (0 < count($data)) {
-                    $wrongActions[] = $taskLogItem;
-
-                    $usedTaskCodes[] = $data[0]->task->code;
-                } elseif (0 == count($data)) {
-                    if ($this->canAddPlusOneBy214b($taskLogItem)) {
-                        $rightActions[] = $taskLogItem;
+                foreach ($logs  as $taskLogItem) {
+                    if ($taskLogItemToCheck['available'] <= $taskLogItemToCheck['start']) {
+                        if (false == in_array($taskLogItem['parent'], $alreadyAssessedParentCode)
+                            && $taskLogItem['category'] != '2_min'
+                            && $taskLogItemToCheck['category'] < $taskLogItem['category']
+                            && $taskLogItem['start'] < $taskLogItemToCheck['start']
+                            && $taskLogItemToCheck['available'] < $taskLogItem['start']
+                            && false == in_array($taskLogItem['parent'], $data)
+                            ) {
+                            $data[] = $taskLogItem['parent'];
+                        }
+                    } else {
+                        break;
                     }
                 }
-            }
+
+                // findLessImportantTaskLogsBefore }
+                if (0 < count($data)) {
+                    if (false == in_array($taskLogItemToCheck['parent'], $alreadyAssessedParentCode)) {
+                        $wrongActions[] = $taskLogItemToCheck;
+
+                        $alreadyAssessedParentCode[] = $taskLogItemToCheck['parent'];
+                    }
+                } else {
+                    if (false == in_array($taskLogItemToCheck['parent'], $alreadyAssessedParentCode)) {
+                        $rightActions[] = $taskLogItemToCheck;
+
+                        $alreadyAssessedParentCode[] = $taskLogItemToCheck['parent'];
+                    }
+                }
         }
 
         foreach ($rightActions as $rightAction) {
-            $assessment                    = new AssessmentPlaningPoint();
-            $assessment->hero_behaviour_id = $behaviour->id;
-            $assessment->sim_id            = $this->simulation->id;
-            $assessment->task_id           = $rightAction->task->id;
-            $assessment->value             = 1;
-            $assessment->type_scale        = 1;
+            $assessment                       = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id    = $behaviour->id;
+            $assessment->sim_id               = $this->simulation->id;
+            $assessment->activity_parent_code = $taskLogItemToCheck['parent'];
+            $assessment->type_scale           = HeroBehaviour::TYPE_POSITIVE;
+            $assessment->value                = 1;
             $assessment->save();
         }
 
         foreach ($wrongActions as $wrongAction) {
-            $assessment                    = new AssessmentPlaningPoint();
-            $assessment->hero_behaviour_id = $behaviour->id;
-            $assessment->sim_id            = $this->simulation->id;
-            $assessment->task_id           = $wrongAction->task->id;
-            $assessment->type_scale        = 2;
-            $assessment->value             = 0;
+            $assessment                       = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id    = $behaviour->id;
+            $assessment->sim_id               = $this->simulation->id;
+             $assessment->activity_parent_code = $taskLogItemToCheck['parent'];
+            $assessment->type_scale           = HeroBehaviour::TYPE_NEGATIVE;
+            $assessment->value                = 0;
             $assessment->save();
         }
 
