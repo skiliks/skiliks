@@ -244,7 +244,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $account->company_description  = $UserAccountCorporate['company_description'];
 
             if ($account->validate()) {
-                Yii::app()->user->setFlash('success', 'Данные сохранены.');
                 $account->save();
             }
         }
@@ -296,7 +295,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
             if (null === $vacancy) {
                 $vacancy = new Vacancy();
-                Yii::app()->user->setFlash('success', 'Выбранной вами вакансии не существует.');
+
             }
         }
 
@@ -310,7 +309,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             if ($vacancy->validate()) {
                 $vacancy->save();
 
-                Yii::app()->user->setFlash('success', 'Вакансия успешно добавлена');
 
                 $this->redirect('/profile/corporate/vacancies/');
             }

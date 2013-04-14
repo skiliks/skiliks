@@ -12,7 +12,7 @@ $scoreRender = function(Invite $invite) {
 $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
     'summaryText' => '',
-    'emptyText' => 'Нет приглашений',
+    'emptyText' => '',
     'nullDisplay' => '',
     'pager' => [
         'header'        => false,
