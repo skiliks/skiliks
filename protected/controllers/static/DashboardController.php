@@ -430,7 +430,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         if($user->isAuth()) {
             Yii::app()->user->setFlash('success', sprintf(
-                'Вы всегда можете зарегистрироваться снова на главной странице и начать использовать наш продукт. Мы верим, что он обязательно Вам понравится и окажется полезным.'
+                'Вы всегда можете <a href="/registration">зарегистрироваться</a> снова на главной странице и начать использовать наш продукт.
+                Мы верим, что он обязательно Вам понравится и окажется полезным.'
             ));
             $this->redirect('/');
 
