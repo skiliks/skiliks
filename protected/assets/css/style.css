@@ -1593,7 +1593,7 @@ html[lang=ru] .product section table th{
 }
 .smallicons a.addthis_button_twitter {
     background-position: -71px 0px;
-    width:30px;
+    width:29px !important;
 }
 .smallicons a.addthis_button_twitter:hover {
     background-position: -71px -33px;
@@ -1613,6 +1613,12 @@ html[lang=ru] .product section table th{
 .videosocwrap .social_networks {
     float:right;
     margin-top:10px;
+}
+.smallicons {
+    width:300px;
+}
+.smallicons .addthis_toolbox {
+    float: right;
 }
 
 .footer footer nav{
