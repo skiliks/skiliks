@@ -91,6 +91,10 @@ define([
                             el.find('.char-reply').removeClass('hidden');
                         }
                     });
+                    // this stupid code is a workaround of Google Chrome bug where video does not start
+                    me.$('video').on('canplay', function() {
+                        this.play();
+                    } );
 
                     if (0 === me.$('video').length) {
                         el.find('.char-reply').removeClass('hidden');
