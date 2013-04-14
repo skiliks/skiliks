@@ -2,11 +2,20 @@
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
 
-                    <div class="videosocwrap">
+                    <div class="videosocwrap clearfix">
                         <div class="video">
                             <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                         </div>
-
+                        <div class="social_networks smallicons">
+                            <span>Рекомендовать:</span>
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                                <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y">Share on vk</span></span></a>
+                                <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y">Share on facebook</span></span></a>
+                                <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y">Share on twitter</span></span></a>
+                                <a class="addthis_button_google_plusone_share at300b" g:plusone:count="false" href="http://www.addthis.com/bookmark.php?v=300&amp;winname=addthis&amp;pub=ra-5158c9c22198d938&amp;source=tbx32-300&amp;lng=en-US&amp;s=google_plusone_share&amp;url=http%3A%2F%2Flive.skiliks.com%2F&amp;title=Skiliks%20-%20game%20the%20skills&amp;ate=AT-ra-5158c9c22198d938/-/-/516aff725e2802ec/2&amp;frommenu=1&amp;uid=516aff72dd444ad3&amp;ct=1&amp;pre=http%3A%2F%2Flive.skiliks.com%2Fdashboard&amp;tt=0&amp;captcha_provider=nucaptcha" target="_blank" title="Google+"><span class=" at300bs at15nc at15t_google_plusone_share"><span class="at_a11y">Share on google_plusone_share</span></span></a>
+                                <a class="addthis_button_linkedin at300b" href="http://www.addthis.com/bookmark.php?v=300&amp;winname=addthis&amp;pub=ra-5158c9c22198d938&amp;source=tbx32-300&amp;lng=en-US&amp;s=linkedin&amp;url=http%3A%2F%2Flive.skiliks.com%2F&amp;title=Skiliks%20-%20game%20the%20skills&amp;ate=AT-ra-5158c9c22198d938/-/-/516aff725e2802ec/3&amp;frommenu=1&amp;uid=516aff725adc8e8d&amp;ct=1&amp;pre=http%3A%2F%2Flive.skiliks.com%2Fdashboard&amp;tt=0&amp;captcha_provider=nucaptcha" target="_blank" title="Linkedin"><span class=" at300bs at15nc at15t_linkedin"><span class="at_a11y">Share on linkedin</span></span></a>
+                                <div class="atclear"></div></div>
+                        </div>
                     </div>
 					<ul>
 						<li>{Yii::t('site', 'Simulation aimed at testing manager’s skills')}</li>

@@ -279,10 +279,9 @@
 }
 .barswrap {
     background: #ddf0f0;
-
     float: right;
     padding: 16px;
-    width: 610px;
+    width: 600px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -389,7 +388,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 318px;
+    margin-left: 308px;
 }
 .legendvalue {
     margin-top: 8px;
