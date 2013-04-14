@@ -1,11 +1,13 @@
 				<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
-					
-					<div class="video">
-                        <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-					</div>
-					
+
+                    <div class="videosocwrap">
+                        <div class="video">
+                            <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                        </div>
+
+                    </div>
 					<ul>
 						<li>{Yii::t('site', 'Simulation aimed at testing manager’s skills')}</li>
 						<li>{Yii::t('site', '2-3-hours game')}</li>
@@ -13,8 +15,11 @@
 						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
 					</ul>
 
+                    <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Get free access')}</a>
+                    <!-- FORM { -->
+                    <!--
                     {if (false === $userSubscribed) }
-                        <!-- FORM { -->
+
                         <form action="static/pages/addUserSubscription" id="subscribe-form">
                             <div>
                                 <input type="text"
@@ -27,10 +32,13 @@
                             </div>
                             <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
                         </form>
-                        <!-- FORM } -->
+
                     {else}
                         <p class="success">{Yii::t('site', 'Thank you! See you soon!')}</p>
                     {/if}
+
+                    -->
+                    <!-- FORM } -->
 
 				</section>
 				<!--features end-->

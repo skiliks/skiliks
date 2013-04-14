@@ -27,6 +27,7 @@ return array(
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
+    'Get free access' => 'Получить бесплатный доступ',
     'Easiest' => 'Самый простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',

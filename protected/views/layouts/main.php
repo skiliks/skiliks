@@ -54,8 +54,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--header-->
 			<header>
 				<h1><a href="/">Skiliks</a></h1>
-				
-				<p class="coming-soon"><?php echo Yii::t('site', 'Coming soon') ?></p>
+
 
                 <nav id="account-links">
                     <?php $this->renderPartial('//layouts/_account_links') ?>
