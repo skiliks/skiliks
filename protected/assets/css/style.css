@@ -2039,6 +2039,8 @@ h2 {
 }
 #dashboard-skills-box sup {
     font-size: 0.8em;
+    line-height: 90%;
+    vertical-align: text-top;
 }
 #job-recomendations-box {
     margin: 30px 0 0 10px;
