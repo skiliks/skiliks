@@ -1,5 +1,5 @@
 <div class="blackout show"></div>
-<h2 class="title">Sign-up using your preferred option and get the results</h2>
+<h2 class="title"><?php echo Yii::t('site', 'Sign-up using your preferred option and get the results') ?></h2>
 
 <section class="registration-by-link">
     <h1>Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h1>

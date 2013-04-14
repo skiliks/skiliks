@@ -157,7 +157,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
-
+        $is_done = false;
         if (null !== $YumUserChangePassword) {
             $passwordForm->attributes = $YumUserChangePassword;
             $passwordForm->validate();
@@ -167,18 +167,14 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             }
 
             if (!$passwordForm->hasErrors()) {
-                if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
-                    Yii::app()->user->setFlash('info', 'Новый пароль был сохранен');
-                } else {
-                    Yii::app()->user->setFlash('error', 'There was an error saving the password');
-                }
-
-                $this->redirect(Yum::module()->returnUrl);
+                $is_done = true;
+                //$this->redirect();
             }
         }
 
         $this->render('password_corporate', [
-            'passwordForm' => $passwordForm
+            'passwordForm' => $passwordForm,
+            'is_done' => $is_done
         ]);
     }
 
@@ -192,7 +188,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
-
+        $is_done = false;
         if (null !== $YumUserChangePassword) {
             $passwordForm->attributes = $YumUserChangePassword;
             $passwordForm->validate();
@@ -202,18 +198,13 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             }
 
             if (!$passwordForm->hasErrors()) {
-                if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
-                    Yii::app()->user->setFlash('notice', 'Новый пароль был сохранен');
-                } else {
-                    Yii::app()->user->setFlash('error', 'There was an error saving the password');
-                }
-
-                $this->redirect(Yum::module()->returnUrl);
+                $is_done = true;
             }
         }
 
         $this->render('password_personal', [
-            'passwordForm' => $passwordForm
+            'passwordForm' => $passwordForm,
+            'is_done' => $is_done
         ]);
     }
 
