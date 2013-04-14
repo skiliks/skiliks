@@ -68,7 +68,7 @@ html, body {
 }
 body {
 	line-height: 1;
-	background: #e8f7f7 url("../img/bg-top.jpg") no-repeat center top;
+	background: #e8f7f7 url("../img/sitebg.jpg") no-repeat center top;
 	color: #29313d;
 	text-align: left;
 	font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
@@ -101,7 +101,7 @@ body.inner-registration{
 
 .action-controller-comingSoonSuccess-static-pages .container,
 .action-controller-index-static-pages .container{
-	background:url("../img/bg-heroes.png") no-repeat center 2px;
+	background:url("../img/bg-heroes.png") no-repeat center 12px;
 }
 
 .inner-registration .container{
@@ -145,7 +145,7 @@ a:focus, a:active {
 
 .action-controller-comingSoonSuccess-static-pages .container .content,
 .action-controller-index-static-pages .container .content{
-	height:1157px;
+	height:1167px;
 }
 @media screen and (max-width: 1280px){
 	.content{
@@ -452,7 +452,16 @@ a:focus, a:active {
     }
 }
 /* --------------- /header ---------*/
-
+.features .freeacess {
+    background-image:url("../img/icon-btn-notify.png");
+    background-position: 17px 17px;
+    font: 18px "ProximaNova-Bold";
+    font-weight: normal;
+    height: 54px;
+    margin-top: 20px; /* na makete - 30 */
+    line-height: 54px;
+    padding:0px 18px 0px 42px;
+}
 /* --------------- heroes comments ---------*/
 .heroes-comment{
 	font:12px/22px 'SegoePrint';
@@ -513,13 +522,15 @@ a:focus, a:active {
 .thetitle span {
     text-transform: uppercase;
 }
+.videosocwrap {
+    float:right;
+    margin-top:20px;
+    width:396px;
+}
 .features .video{
-	background:url("../img/img-video.png") no-repeat 0 0;
-	width:396px;
+	background:url("../img/watchvideo.png") no-repeat 0 0;
 	height:211px;
 	text-align:center;
-	float:right;
-	margin-top:30px;
 }
 .features .video p{
 	display:inline-block;
@@ -648,7 +659,7 @@ html[lang=ru] .features form div input[type=submit]{
 /* --------------- main article ---------*/
 .main-article{
 	width:415px;
-	margin:30px 0 0 315px;
+	margin:65px 0 0 315px;
 	overflow:hidden;
 }
 .main-article article{
