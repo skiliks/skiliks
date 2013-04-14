@@ -1524,18 +1524,20 @@ html[lang=ru] .product section table th{
     float:left;
     font:bold 14px/31px "Arial"
 }
-.social_networks a {
-    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
-    width:32px;
-    height:31px;
-    margin-left:10px;
+.social_networks a, .smallicons a {
     dispay:block;
     float:left;
     overflow:hidden;
     text-indent:-1000px;
     padding:0px !important;
 }
-.social_networks a.addthis_button_vk {
+.social_networks a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+    margin-left:10px;
+}
+.social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
     background-position: 0px 0px;
 }
 .social_networks a.addthis_button_facebook {
@@ -1575,6 +1577,31 @@ html[lang=ru] .product section table th{
 .social_networks a span,
 .social_networks a .Bg .ah {
     background:none !important;
+}
+
+
+.smallicons a {
+    background:url("../img/social-small.png") -100% -100% no-repeat;
+    width:28px !important;
+    height:26px !important;
+    margin-left:8px;
+}
+.smallicons a.addthis_button_facebook {
+    background-position: -36px 0px;
+}
+.smallicons a.addthis_button_twitter {
+    background-position: -71px 0px;
+    width:33px;
+}
+.smallicons a.addthis_button_google_plusone_share {
+    background-position: -107px 0px;
+}
+.smallicons a.addthis_button_linkedin {
+    background-position: -142px 0px;
+}
+.videosocwrap .social_networks {
+    float:right;
+    margin-top:10px;
 }
 
 .footer footer nav{
