@@ -11,7 +11,7 @@
         $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id), //$dataProvider,
             'summaryText' => '',
-            'emptyText' => 'Нет вакансий',
+            'emptyText' => '',
             'hideHeader'    => true,
             'pager' => [
                 'header'        => false,
@@ -100,12 +100,6 @@
             <?php echo $form->textField($vacancy, 'link'); ?>
             <?php echo $form->error($vacancy    , 'link'); ?>
         </div>
-
-        <?php if (null !== $vacancy->id): ?>
-        <div class="addlinkpads"><a href="/profile/corporate/vacancies/">Вернуться к добавлению вакансий</a></div>
-
-            <!--<h2>Редактирование вакансии "<?php /* echo $vacancy->label */ ?>"</h2>-->
-        <?php endif ?>
 
         <div class="row buttons">
             <?php echo CHtml::submitButton('Сохранить изменения', ['name' => 'add']); ?>

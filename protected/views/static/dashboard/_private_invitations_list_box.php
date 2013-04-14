@@ -8,7 +8,7 @@
             [Invite::STATUS_PENDING, Invite::STATUS_COMPLETED]
         ), //$dataProvider,
         'summaryText' => '',
-        'emptyText' => 'Нет приглашений',
+        'emptyText' => '',
         'pager' => [
             'header'        => false,
             'firstPageLabel' => '<< начало',
