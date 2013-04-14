@@ -31,10 +31,13 @@
             <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?>
             <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
         </div>
-
+        <?php if($is_done) { ?>
+            <div class="done-password-change">Новый пароль был сохранен</div>
+        <?php }else{ ?>
         <div class="row buttons">
             <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
         </div>
+        <?php } ?>
 
         <?php $this->endWidget(); ?>
     </div>
