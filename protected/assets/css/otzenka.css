@@ -279,9 +279,10 @@
 }
 .barswrap {
     background: #ddf0f0;
+
     float: right;
-    padding: 15px;
-    width: 596px;
+    padding: 16px;
+    width: 610px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -786,7 +787,7 @@
 }
 .labeltitles {
     float: left;
-    width: 300px;
+    width: 286px;
 }
 .labeltitles h3 {
     color:#3d4041;
