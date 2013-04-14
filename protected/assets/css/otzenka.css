@@ -388,7 +388,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 318px;
 }
 .legendvalue {
     margin-top: 8px;
@@ -844,11 +844,11 @@
 }
 .twocharts .chartbar {
     float: left;
-    width: 350px !important;
+    width: 345px !important;
 }
 .twocharts .chartbar.chartproblem {
     margin-left: 20px;
-    width:240px !important;
+    width:235px !important;
 }
 .chartproblem .chart-value {
     background: #e11a1a !important;
