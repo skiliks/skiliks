@@ -1579,25 +1579,36 @@ html[lang=ru] .product section table th{
     background:none !important;
 }
 
-
 .smallicons a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
     width:28px !important;
-    height:26px !important;
+    height:27px !important;
     margin-left:8px;
 }
 .smallicons a.addthis_button_facebook {
     background-position: -36px 0px;
 }
+.smallicons a.addthis_button_facebook:hover {
+    background-position: -36px -33px;
+}
 .smallicons a.addthis_button_twitter {
     background-position: -71px 0px;
-    width:33px;
+    width:30px;
+}
+.smallicons a.addthis_button_twitter:hover {
+    background-position: -71px -33px;
 }
 .smallicons a.addthis_button_google_plusone_share {
     background-position: -107px 0px;
 }
+.smallicons a.addthis_button_google_plusone_share:hover {
+    background-position: -107px -33px;
+}
 .smallicons a.addthis_button_linkedin {
     background-position: -142px 0px;
+}
+.smallicons a.addthis_button_linkedin:hover {
+    background-position: -142px -33px;
 }
 .videosocwrap .social_networks {
     float:right;
