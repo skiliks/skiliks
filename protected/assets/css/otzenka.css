@@ -19,8 +19,10 @@
     padding-bottom: 30px;
 
 }
-.action-controller-personal-static-dashboard #simulation-details-pop-up {
+.action-controller-personal-static-dashboard #simulation-details-pop-up,
+.action-controller-corporate-static-dashboard #simulation-details-pop-up {
     /*padding: 10px;*/
+    padding: 0px;
 }
 #simulation-details-pop-up h1, #simulation-details-pop-up h2  {
     color: #3d4041;
@@ -388,7 +390,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 308px;
 }
 .legendvalue {
     margin-top: 8px;
@@ -844,11 +846,11 @@
 }
 .twocharts .chartbar {
     float: left;
-    width: 345px !important;
+    width: 350px !important;
 }
 .twocharts .chartbar.chartproblem {
     margin-left: 20px;
-    width:235px !important;
+    width:240px !important;
 }
 .chartproblem .chart-value {
     background: #e11a1a !important;
