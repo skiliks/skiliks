@@ -846,11 +846,11 @@
 }
 .twocharts .chartbar {
     float: left;
-    width: 350px !important;
+    width: 347px !important;
 }
 .twocharts .chartbar.chartproblem {
     margin-left: 20px;
-    width:240px !important;
+    width:237px !important;
 }
 .chartproblem .chart-value {
     background: #e11a1a !important;
