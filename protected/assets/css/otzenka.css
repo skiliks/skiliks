@@ -279,10 +279,9 @@
 }
 .barswrap {
     background: #ddf0f0;
-
     float: right;
-    padding: 16px;
-    width: 606px;
+    padding: 15px;
+    width: 596px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
