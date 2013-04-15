@@ -294,7 +294,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor' => 8,
+            'skiliksSpeedFactor' => 4,
             'storageURL' => 'http://storage.skiliks.com/v1'
         ],
         'zoho' => array(
@@ -308,7 +308,7 @@ return array(
 
         ),
         'cron' => [
-            'CleanUsers'=> 604800,
+//            'CleanUsers'=> 604800,8
             'InviteExpired'=> 604800
         ],
         'initial_data' => [
