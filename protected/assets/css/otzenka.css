@@ -728,10 +728,10 @@
     /*display:block;*/
 }
 .timeblock .chart-bar {
-    margin-bottom: 18px;
+    margin-top: 18px;
 }
-.timeblock .chart-bar:last-child {
-    margin-bottom: 0px;
+.timeblock .chart-bar:first-child {
+    margin-top: 0px;
 }
 .helpbuble {
     background:#fdfbc6;
