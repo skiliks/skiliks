@@ -96,7 +96,7 @@
 }
 #invite-decline-form .form-decline-explanation {
     position: absolute;
-    top:25%;
+    top:200px;
     /*top:235px;*/
     left:50%;
     z-index: 5;
@@ -226,8 +226,9 @@ section.registration-by-link .form .row input[type="password"] {
     border-radius:5px;
     box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
     outline: none;
-    padding:8px 10px;
+    padding:4px 10px;
     width:150px;
+    height:16px;
     margin-right:10px;
 }
 section.registration-by-link .form .row .sbHolder {
@@ -272,7 +273,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 .YumUser_password {
     left:195px;
-    top:-15px;
+    top:-13px;
 }
 .YumUser_password_again {
     left:195px;
