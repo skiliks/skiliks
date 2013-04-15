@@ -147,6 +147,13 @@ class ZohoDocuments
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $this->response = curl_exec($ch);
+
+        if (null != curl_error($ch)) {
+            curl_close($ch);
+            throw new LogicException(curl_error($ch));
+        }
+
+        curl_close($ch);
     }
 
     /**
