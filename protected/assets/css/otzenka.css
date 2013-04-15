@@ -12,12 +12,13 @@
     padding:0px !important;
 }
 #simulation-details-pop-up {
-    height: 910px !important;
+    /*height: 910px !important;*/
     overflow: hidden;
-    /*overflow: visible;
-    position: relative;*/
+    /*padding-bottom: 30px;*/
+}
+.simulation-details {
+    height: 831px !important;
     padding-bottom: 30px;
-
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
 .action-controller-corporate-static-dashboard #simulation-details-pop-up {
