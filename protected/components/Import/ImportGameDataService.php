@@ -974,7 +974,7 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    public function importEmailSubjects()
+    public function importCommunicationThemes()
     {
         $this->logStart();
 
@@ -984,7 +984,6 @@ class ImportGameDataService
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
-
 
         $characters = array();
         $charactersList = $this->scenario->getCharacters([]);
@@ -1037,6 +1036,15 @@ class ImportGameDataService
             $wr = $this->getCellValue($sheet, 'Mail W/R', $i);
             // Mail constructor number
             $constructorNumber = $this->getCellValue($sheet, 'Mail constructor number', $i);
+
+            $constructorCounter = MailConstructor::model()->countByAttributes([
+                'code'        => $constructorNumber,
+                'scenario_id' => $this->scenario->id,
+            ]);
+
+            if (1 != $constructorCounter && null != $constructorNumber && 'TXT' != $constructorNumber) {
+                throw new Exception('"'.$constructorNumber.'": '.$constructorCounter.' constructors!');
+            }
             // Source of outbox email
             $source = $this->getCellValue($sheet, 'Source', $i);
 
@@ -2552,7 +2560,7 @@ class ImportGameDataService
         $result['my_documents'] = $this->importMyDocuments();
         $result['character_points'] = $this->importDialogPoints();
         $result['constructor'] = $this->importMailConstructor();
-        $result['email_subjects'] = $this->importEmailSubjects();
+        $result['email_subjects'] = $this->importCommunicationThemes();
         $result['emails'] = $this->importEmails();
         $result['mail_attaches'] = $this->importMailAttaches();
         $result['mail_events'] = $this->importMailEvents();
