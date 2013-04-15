@@ -11,7 +11,7 @@
 	        'id'                   => 'user-account-personal-form',
 	        'enableAjaxValidation' => false,
 	    )); ?>
-	    <div class="row">
+	    <div class="row hidden">
 	        <?php echo $form->hiddenField($accountPersonal, 'user_id'); ?>
 	        <?php echo $form->error($accountPersonal      , 'user_id'); ?>
 	        <?php echo $form->hiddenField($profile, 'email'); ?>
@@ -56,7 +56,7 @@
 	        'id'                   => 'user-account-corporate-form',
 	        'enableAjaxValidation' => false,
 	    )); ?>
-	    <div class="row">
+	    <div class="row hidden">
 	        <?php echo $form->hiddenField($accountCorporate,'user_id'); ?>
 	        <?php echo $form->error($accountCorporate,'user_id'); ?>
 	        <?php echo $form->hiddenField($profile,'email'); ?>

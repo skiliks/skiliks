@@ -25,13 +25,6 @@ define([
     SKCharacterCollection
 ) {
     "use strict";
-    function timeStringToMinutes(str) {
-        if (str === undefined) {
-            throw 'Time string is not defined';
-        }
-        var parts = str.split(':');
-        return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-    }
 
     /**
      * Simulation class
@@ -86,9 +79,9 @@ define([
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('finish'))) {
+                    if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.trigger('stop-time');
-                    } else if (me.getGameMinutes() === timeStringToMinutes(SKApp.get('end'))) {
+                    } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
                         me.trigger('before-end');
                         me.trigger('end');
                     }
@@ -167,6 +160,14 @@ define([
 
             },
 
+            timeStringToMinutes: function(str) {
+                if (str === undefined) {
+                    throw 'Time string is not defined';
+                }
+                var parts = str.split(':');
+                return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+            },
+
             /**
              * @method handlePostMessage
              * @param {postMessage} event
@@ -229,8 +230,9 @@ define([
              * @return {Number}
              */
             'getGameSeconds':function () {
+                var me = this;
                 var current_time_string = new Date();
-                var game_start_time = timeStringToMinutes(this.get('app').get('start')) * 60;
+                var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                 return game_start_time +
                     Math.floor(
                         ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
@@ -390,6 +392,10 @@ define([
                     });
                     me.trigger('before-stop');
                     me.trigger('stop');
+
+                    // trick for sim-stop at 20:00
+                    // see SKSimulationView.stopSimulation();
+                    $('.mail-popup-button').show();
                 });
             },
 

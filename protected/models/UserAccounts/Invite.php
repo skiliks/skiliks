@@ -61,11 +61,11 @@ class Invite extends CActiveRecord
     public function getReceiverUserName()
     {
         if (null !== $this->receiverUser) {
-            return $this->receiverUser->getFormattedName()."\n(".$this->email.')';
+            return $this->receiverUser->getFormattedName();
         }
 
         if (null !== $this->firstname || null !== $this->lastname) {
-            return $this->getFullname()."\n(".$this->email.')';
+            return $this->getFullname();
         }
 
         return 'Ваше имя';
@@ -218,6 +218,11 @@ class Invite extends CActiveRecord
         }
 
         return null;
+    }
+
+    public function getInviteLink()
+    {
+        return Yii::app()->createAbsoluteUrl($this->receiver_id ? '/dashboard' : '/registration/by-link/' . $this->code);
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -416,7 +421,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 2,
+                'pageSize' => 10,
                 'pageVar' => 'page'
             ]
         ]);

@@ -213,9 +213,14 @@ define([
                         {
                             value: 'Завершить работу',
                             onclick: function() {
-                                me._hidePausedScreen();
+                                // me._hidePausedScreen();
                                 me.stopExitProtection();
                                 me.simulation.stop();
+
+                                new SKDialogView({
+                                    message: 'Данные симуляции сохраняются. <br/> Это займёт 10-15 секунд.',
+                                    buttons: []
+                                });
                             }
                         },
                         {
@@ -233,19 +238,21 @@ define([
 
             stopSimulation: function() {
                 var me = this;
+                me.simulation.stop();
 
                 me._showPausedScreen();
                 new SKDialogView({
-                    message: 'Спасибо, симуляция завершена',
+                    message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты. <br/> Это займёт 5-10 сек.',
                     buttons: [
                         {
                             value: 'Перейти к результатам',
                             onclick: function() {
-                                me.simulation.stop();
+                                me.simulation.trigger('user-agree-with-sim-stop');
                             }
                         }
                     ]
                 });
+                $('.mail-popup-button').hide();
             },
 
             /**

@@ -135,12 +135,12 @@ a:focus, a:active {
 }
 .content{
 	width:948px;
-	margin:0 auto;
-	overflow:hidden;
+    overflow:hidden;
 	position:relative;
     z-index: 2;
 	/*padding-bottom:317px;*/
-    padding-bottom: 260px;
+    padding-bottom: 60px;
+    margin: 0 auto 200px;
 }
 
 .action-controller-comingSoonSuccess-static-pages .container .content,
@@ -1114,8 +1114,12 @@ html[lang=ru] .product section table th{
 .registration .form form {
     min-height:160px;
 }
+.registration .form .row.hidden {
+    display: none;
+}
 .registration .form .row{
 	line-height:27px;
+    height: 27px;
 	margin:0 20px 9px 38px;
 	position:relative;
 }
@@ -1141,10 +1145,10 @@ html[lang=ru] .product section table th{
 	-moz-border-radius:3px;
 	border-radius:3px;
 	font:0.834em 'ProximaNova-Regular';
-	line-height:1;
+	line-height:10px;
 	color:#146672;
 	width:111px;
-	height:12px;
+	height:10px;
 	padding:7px 9px;
 	outline:none;
 	vertical-align:top;
@@ -1175,6 +1179,10 @@ html[lang=ru] .product section table th{
 	text-align:left;
 	text-indent:35px;
 	margin-left:123px;
+}
+.registration .form .row input[type=submit]:hover {
+    color:#fff;
+    background:#bd2929 url("../img/icon-registration-hover.png") no-repeat 16px center;
 }
 /*
 .registration .form .row .errorMessage{
@@ -1478,6 +1486,7 @@ html[lang=ru] .product section table th{
 	margin:0 auto;
 	position:relative;
 	overflow:hidden;
+    clear: both;
 }
 .footer footer .backtotop{
 	font:0.714em "ProximaNova-Regular";
