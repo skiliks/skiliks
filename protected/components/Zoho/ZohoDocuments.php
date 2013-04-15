@@ -149,8 +149,7 @@ class ZohoDocuments
         $this->response = curl_exec($ch);
 
         if (null != curl_error($ch)) {
-            curl_close($ch);
-            throw new LogicException(curl_error($ch));
+            throw new LogicException(str_replace("\n", '.', $this->response));
         }
 
         curl_close($ch);
