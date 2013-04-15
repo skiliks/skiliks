@@ -728,7 +728,7 @@
     /*display:block;*/
 }
 .timeblock .chart-bar {
-    margin-top: 18px;
+    margin-top: 20px;
 }
 .timeblock .chart-bar:first-child {
     margin-top: 0px;
@@ -820,7 +820,7 @@
     margin-top:11px;
 }
 .timedetail .labelwrap {
-    margin-top:18px;
+    margin-top:16px;
 }
 .thelabel {
     display: table-cell;
