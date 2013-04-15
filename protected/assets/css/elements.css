@@ -194,7 +194,7 @@ section.registration-by-link {
     padding:0 20px 41px 30px;
     height:460px;
     width:746px;
-    margin:0 auto;
+    margin:50px auto 0;
     background:url("../img/bg-register-by-link.png")no-repeat 0 0;
     z-index:5;
     position: relative;
@@ -267,12 +267,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     top: -20px;
 }
 .wide .sbHolder_err {
-    top:-8px;
+    top:-15px;
     left:195px;
 }
 .YumUser_password {
     left:195px;
-    top:-8px;
+    top:-15px;
 }
 .YumUser_password_again {
     left:195px;
@@ -347,6 +347,13 @@ section.registration-by-link .form .row a.decline-link:hover {
     color:#232323;
     font: 14px/14px "ProximaNova-Bold";
     padding: 4px 10px;
+    white-space:nowrap;
+    max-width:283px;
+    overflow:hidden;
+}
+.action-controller-corporate-static-simulations .grid-view table.items tr td:first-child,
+.action-controller-personal-static-simulations .grid-view table.items tr td:first-child {
+    max-width:201px;
 }
 .action-controller-corporate-static-simulations .grid-view table.items tr td a,
 .action-controller-personal-static-simulations .grid-view table.items tr td a {
