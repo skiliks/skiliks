@@ -67,6 +67,7 @@ define([
                 });
             }
 
+            console.log('Add listener in view.');
             if (window.addEventListener){
                 window.addEventListener("message", this.zoho500callback, false);
             } else {
@@ -83,6 +84,7 @@ define([
          * @return void
          */
         handlePostMessage: function(event) {
+            console.log('handlePostMessage in view.');
             var me = this;
             var doc = me.options.model_instance.get('document');
 
