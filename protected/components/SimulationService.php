@@ -624,6 +624,9 @@ class SimulationService
 
         self::applyReductionFactors($simulation);
 
+        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+        $learningGoalAnalyzer->run();
+
         $learning_area = new LearningAreaAnalyzer($simulation);
         $learning_area->run();
 

@@ -51,16 +51,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $this->redirect('/dashboard');
             }
 
-            $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
-            if ($profile) {
-                $invite->message =
-                    Yii::app()->user->data()->getAccount()->getCompanyName()." предлагает Вам пройти тест «Базовый менеджмент» на вакансию $vacancy_label.".
-                    "«Базовый менеджмент» - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.";
-            } else {
-                $invite->message = "Работодатель ".Yii::app()->user->data()->getAccount()->getCompanyName()." заинтересован в вашей кандидатуре на позицию $vacancy_label.\n"
-                    ."Для кандидата на данную позицию обязательным условием является прохождение ассессмента для определения уровня менеджерских навыков. \n"
-                    ."Для этого вам необходимо пройти по ссылке, зарегистрироваться и запустить ассессмент.\n ";
-            }
+            $invite->message = $this->renderPartial('//global_partials/mails/invite', [
+                'invite' => $invite
+            ], true);
 
             $invite->signature = sprintf(Yii::t('site', 'Best regards, %s'), $invite->ownerUser->getFormattedName());
         }
@@ -172,23 +165,15 @@ class DashboardController extends AjaxController implements AccountPageControlle
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $body = [
-            'Уважаемый ' . nl2br($invite->getReceiverUserName()),
-            $invite->message,
-            'Пройдите по ссылке чтобы одобрить приглашение пройти симуляцию',
-            sprintf(
-                '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->receiver_id ? '/dashboard' : '/registration/by-link/' . $invite->code)
-            ),
-            'Приглашние утратит силу через неделю.',
-            $invite->signature
-        ];
+        $body = $this->renderPartial('//global_partials/mails/invite', [
+            'invite' => $invite
+        ], true);
 
         $mail = [
             'from'    => Yum::module('registration')->registrationEmail,
             'to'      => $invite->email,
             'subject' => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'    => implode("<br />", $body)
+            'body'    => $body
         ];
 
         $invite->markAsSendToday();

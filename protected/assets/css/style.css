@@ -75,7 +75,7 @@ body {
 	line-height:14px;
 }
 body.inner{
-	background-image:url("../img/bg-top-inner.jpg"),url("../img/background.jpg");
+    background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
 }
 body.inner-team{
@@ -89,7 +89,8 @@ body.inner-registration{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
 	body.inner{
-		background-image:url("../img/bg-top-inner-min.jpg");
+		background: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
+        background-repeat:  no-repeat, repeat-y;
 	}
 	body.inner-team{
 		background-image:url("../img/bg-top-inner-team-min.jpg");
