@@ -23,7 +23,7 @@
             [
                 'header' => Yii::t('site', Yii::t('site', 'Дата / Время')),
                 'name' => 'sent_time',
-                'value' => '$data->getSentTime()->format("j/m/y") . "<time>" . $data->getSentTime->format("G:i") . "</time>"',
+                'value' => '$data->getSentTime()->format("j/m/y") . "<time>" . $data->getSentTime()->format("G:i") . "</time>"',
                 'type' => 'raw'
             ],
             ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],
