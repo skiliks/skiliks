@@ -816,6 +816,9 @@
 .labelwrap {
     margin-top:11px;
 }
+.timedetail .labelwrap {
+    margin-top:18px;
+}
 .thelabel {
     display: table-cell;
     height: 37px;
