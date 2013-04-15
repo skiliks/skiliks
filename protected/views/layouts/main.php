@@ -131,12 +131,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <!--footer-->
             <div class="footer">
                 <footer>
-
-                        <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
-
+                    <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
+                    <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
 
-                    <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
+
                     <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index'): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Get free access') ?></a>
                     <?php endif ?>
