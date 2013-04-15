@@ -1596,6 +1596,9 @@ html[lang=ru] .product section table th{
     height:27px !important;
     margin-left:8px;
 }
+.smallicons span {
+    display: inline-block;
+}
 .smallicons a.addthis_button_facebook {
     background-position: -36px 0px;
 }
