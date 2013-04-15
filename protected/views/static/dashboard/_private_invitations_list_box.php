@@ -20,7 +20,12 @@
             ['header' => Yii::t('site', Yii::t('site', 'Компания')), 'name' => "company", 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type." ".$data->ownerUser->getAccount()->company_name)'],
             ['header' => Yii::t('site', Yii::t('site', 'Вакансия')), 'name' =>'vacancy_id', 'value' => 'Yii::t("site", $data->vacancy->label)'],
             ['header' => Yii::t('site', Yii::t('site', 'Оценка')) , 'value' => '"Базовый менеджмент"'],
-            ['header' => Yii::t('site', Yii::t('site', 'Дата / Время')), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G:i")'],
+            [
+                'header' => Yii::t('site', Yii::t('site', 'Дата / Время')),
+                'name' => 'sent_time',
+                'value' => '$data->getSentTime()->format("j/m/y") . " <time>" . $data->getSentTime()->format("G:i") . "</time>"',
+                'type' => 'raw'
+            ],
             ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],
         ]
     ]);
@@ -59,7 +64,7 @@
 
                 $('.decline-link').click(function(event){
                     event.preventDefault();
-                    $('#invite-decline-form input#DeclineExplanation_invite_id').val($(this).attr('title'));
+                    $('#invite-decline-form').find('input#DeclineExplanation_invite_id').val($(this).attr('title'));
 
                     $('#invite-decline-form').show();
                     //$('#invite-decline-form').dialog('open');
