@@ -1337,11 +1337,11 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	top:9px;
 	right:7px;
 }
-.phone-contact-list.history .phone-contact-list li {
+.phone-contact-list.history li {
     margin:0 0 3px;
     padding:3px 0 0;
 }
-.phone-contact-list.history .phone-contact-list li table{
+.phone-contact-list.history li table{
     background:rgba(255,255,255,0.4);
 }
 .phone-contact-list.history li table .phone-contact-list-img img {
