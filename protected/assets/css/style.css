@@ -2505,7 +2505,7 @@ ul.profile-menu li {
     margin: 0px;
     padding: 0px;
 }
-#corporate-invitations-list-box time {
+#corporate-invitations-list-box time, #private-invitations-list-box time {
     margin-left: 10px;
 }
 /* ************************ /TABLE ************************ */
