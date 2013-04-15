@@ -8,6 +8,7 @@
  * @property string $learning_area_code
  *
  * @property LearningArea $learningArea
+ * @property HeroBehaviour[] $heroBehaviours
  * @property Scenario $scenario_id
  *
  * @author slavka
@@ -55,6 +56,7 @@ class LearningGoal extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'learningArea' => array(self::BELONGS_TO, 'LearningArea', 'learning_area_code'),
+            'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'learning_goal_id'),
         );
     }
 }

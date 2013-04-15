@@ -470,13 +470,12 @@ class UserAuthController extends YumController
         }
         $activation_url = $user->getActivationUrl();
 
-        $body = strtr("Здравствуйте! Вы успешно зарегистрированы. Для активации аккаунта пройдите по ссылке:  <a href='{activation_url}'>\"Подтвердить регистрацию\"</a>", array(
-            '{activation_url}' => $activation_url));
+        $body = $this->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
 
         $mail = array(
             'from' => Yum::module('registration')->registrationEmail,
             'to' => $user->profile->email,
-            'subject' => "Активация на Skiliks",
+            'subject' => 'Активация на сайте skiliks.com',
             'body' => $body,
         );
         $sent = YumMailer::send($mail);
@@ -515,6 +514,8 @@ class UserAuthController extends YumController
 
         $activation_url = $user->getCorporationEmailVerificationUrl();
 
+        $body = $this->renderPartial('//global_partials/mails/verification', ['link' => $activation_url], true);
+
         $body = sprintf(
             'Для подтверждения существования вашего корпоративного e-mail пройдите по ссылке:
             <a href="%s">"Подтвердить корпоративный e-mail"</a>.',
@@ -552,15 +553,15 @@ class UserAuthController extends YumController
             ])
         );
 
-        $body = strtr(
-            Yii::t('site', 'You have requested a new password. Please use this URL to continue: <a href="{recovery_url}" target="_blank">{recovery_url}</a>'),
-            ['{recovery_url}' => $recoveryUrl]
-        );
+        $body = $this->renderPartial('//global_partials/mails/recovery', [
+            'name' => $user->profile->firstname . ' ' . $user->profile->lastname,
+            'link' => $recoveryUrl
+        ], true);
 
         $mail = [
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => $user->profile->email,
-            'subject' => Yii::t('site', 'You requested a new password'),
+            'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
             'body' => $body
         ];
 

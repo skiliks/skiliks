@@ -262,14 +262,14 @@ class Scenario extends CActiveRecord
         return LearningArea::model()->findByAttributes($array);
     }
 
-    public function getHeroBehavours($array)
+    public function getHeroBehavours($data)
     {
-        if (is_array($array)) {
+        if (is_array($data)) {
             $data['scenario_id'] = $this->id;
             return HeroBehaviour::model()->findAllByAttributes($data);
-        } else if ($array instanceof CDbCriteria) {
-            $array->compare('scenario_id', $this->id);
-            return HeroBehaviour::model()->findAll($array);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return HeroBehaviour::model()->findAll($data);
         } else {
             assert(false);
         }

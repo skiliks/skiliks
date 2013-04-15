@@ -32,6 +32,7 @@
  * @property Scenario game_type
  * @property string uuid
  * @property SimulationLearningArea[] learning_area
+ * @property SimulationLearningGoal[] learning_goal
  * @property TimeManagementAggregated[] time_management_aggregated
  * @property Invite invite
  *
@@ -161,6 +162,7 @@ class Simulation extends CActiveRecord
             'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id'],
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
+            'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
         ];
     }
@@ -499,9 +501,13 @@ class Simulation extends CActiveRecord
 
     public function getPersonalAssessment($code) {
         $learningArea = $this->game_type->getLearningArea(['code'=>$code]);
-        $simulationLearningArea = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->id, 'learning_area_id'=>$learningArea->id]);
-        /* @var $simulationLearningArea SimulationLearningArea */
-        return $simulationLearningArea->value;
+        if ($learningArea !== null) {
+            $simulationLearningArea = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->id, 'learning_area_id'=>$learningArea->id]);
+            /* @var $simulationLearningArea SimulationLearningArea */
+            return $simulationLearningArea ? $simulationLearningArea->value : 0;
+        } else {
+            return 0;
+        }
     }
 }
 
