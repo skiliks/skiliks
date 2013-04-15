@@ -1,3 +1,9 @@
+<script type="text/javascript">$(function () {
+    $('input').focus(function () {
+        $('.form').removeClass('active');
+        $(this).parents('.form').addClass('active');
+    })
+})</script>
 <section class="registration">
 	<h2><?php echo Yii::t('site', 'Sign-up using your preferred option and get the results') ?></h2>
 	<div class="form form-account-personal">
@@ -18,28 +24,34 @@
 	        <?php echo $form->error($profile      , 'email'); ?>
 	    </div>
 	    <div class="row">
+            <?php if ($isPersonalSubmitted): ?>
+                <?php echo $form->error($profile    , 'firstname'); ?>
+                <?php echo $form->error($profile    , 'lastname', ['class' => 'errorMessage right']); ?>
+            <?php endif; ?>
+            <div class="field">
 	        <?php echo $form->labelEx($profile  , 'Name'); ?>
-	        <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name')]); ?>
-	        <?php if ($isPersonalSubmitted): ?>
-	            <?php echo $form->error($profile    , 'firstname'); ?>
-	        <?php endif; ?>
-	        <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name')]); ?>
-	        <?php if ($isPersonalSubmitted): ?>
-	            <?php echo $form->error($profile    , 'lastname'); ?>
-	        <?php endif; ?>
+	        <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
+	        <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
+	        </div>
 	    </div>
 	    <div class="row">
+            <?php echo $form->error($accountPersonal       ,'industry_id'); ?>
+            <div class="field">
 	        <?php echo $form->labelEx($accountPersonal     ,'industry_id'); ?>
 	        <?php echo $form->dropDownList($accountPersonal,'industry_id', $industries); ?>
-	        <?php echo $form->error($accountPersonal       ,'industry_id'); ?>
+	        </div>
 	    </div>
 	    <div class="row wide">
+            <?php echo $form->error($accountPersonal       ,'professional_status_id'); ?>
+            <div class="field">
 	        <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
 	        <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
-	        <?php echo $form->error($accountPersonal       ,'professional_status_id'); ?>
+	        </div>
 	    </div>
 	    <div class="row buttons">
+            <div class="field">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Start and get the report'), ['name' => 'personal']); ?>
+            </div>
 	    </div>
 	    <?php $this->endWidget(); ?>
 	</div>
@@ -63,34 +75,41 @@
 	        <?php echo $form->error($profile      , 'email'); ?>
 	    </div>
 	    <div class="row">
-	        <?php echo $form->labelEx($profile  , 'Name'); ?>
-	        <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name')]); ?>
-	        <?php if ($isCorporateSubmitted): ?>
-	            <?php echo $form->error($profile    , 'firstname'); ?>
-	        <?php endif; ?>
-	        <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name')]); ?>
-	        <?php if ($isCorporateSubmitted): ?>
-	            <?php echo $form->error($profile    , 'lastname'); ?>
-	        <?php endif; ?>
+            <?php if ($isCorporateSubmitted): ?>
+                <?php echo $form->error($profile    , 'firstname'); ?>
+                <?php echo $form->error($profile    , 'lastname', ['class' => 'errorMessage right']); ?>
+            <?php endif; ?>
+            <div class="field">
+            <?php echo $form->labelEx($profile  , 'Name'); ?>
+            <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            </div>
+
 	    </div>
 
 
 	    <div class="row">
-	        <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
-	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
-	        <?php echo $form->error($accountCorporate       , 'industry_id'); ?>
+            <?php echo $form->error($accountCorporate       , 'industry_id'); ?>
+            <div class="field">
+                <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
+    	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
+            </div>
 	    </div>
 	    <div class="row wide">
             <?php if (UserService::isCorporateEmail($profile->email)): ?>
                 <?php echo $form->hiddenField($accountCorporate, 'corporate_email'); ?>
             <?php else: ?>
-                <?php echo $form->labelEx($accountCorporate  , 'corporate_email'); ?>
-                <?php echo $form->textField($accountCorporate, 'corporate_email',['placeholder' => 'Email@']); ?>
                 <?php echo $form->error($accountCorporate    , 'corporate_email'); ?>
+                <div class="field">
+                <?php echo $form->labelEx($accountCorporate  , 'corporate_email'); ?>
+                <?php echo $form->textField($accountCorporate, 'corporate_email',['placeholder' => 'Email@', 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+                </div>
             <?php endif ?>
 	    </div>
 	    <div class="row buttons">
+            <div class="field">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Start and get the report'), ['name' => 'corporate']); ?>
+            </div>
 	    </div>
 	    <?php $this->endWidget(); ?>
 	</div>
@@ -100,43 +119,3 @@
 	    * <?php echo Yii::t('site', 'Не доступно в текущей версии, будет добавлено в следующем релизе') ?>
 	</p>
 </section>
-
-<script type="text/javascript">
-
-function setModalSize() {
-	var h;
-	if ($('body').height() > $('.container').height()) {
-		h=$('body').height();
-	}
-	else {
-		h=$('.container').height();
-	}
-	var w=$('body').width();
-	var cw=$('.content').width()/2;
-	var l=w/2-cw;
-
-	$('.register-by-link-wrap').each(function(){
-		$(this).css({
-			'width':w,
-			'height':h,
-			'left':-l,
-		})
-	})
-}
-setModalSize();
-
-$(window).resize(function(){
-	setModalSize();
-})
-
-$(document).ready(function(){
-    var errors = $(".errorMessage");
-    for (var i=0; i < errors.length;i++) {
-        var inp = $(errors[i]).prev("input.error");
-        $(inp).css({"border":"2px solid #bd2929"});
-        //$(errors[i]).css("bottom",($(inp).height()+5));
-        $(errors[i]).width($(inp).outerWidth());
-        $(errors[i]).addClass($(inp).attr("id"));
-    }
-});
-</script>

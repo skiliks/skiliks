@@ -1114,7 +1114,7 @@ html[lang=ru] .product section table th{
 .registration .form>ul{
 	list-style:none;
 	min-height:135px;
-	margin:0 34px 28px;
+	margin:0 34px 0;
 }
 .registration .form>ul li{
 	background:url("../img/icon-registration-list.png") no-repeat 0 0;
@@ -1134,9 +1134,9 @@ html[lang=ru] .product section table th{
     display: none;
 }
 .registration .form .row{
-	line-height:27px;
-    height: 27px;
-	margin:0 20px 9px 38px;
+	line-height:26px;
+    min-height: 40px;
+	margin:0 20px 0px 38px;
 	position:relative;
 }
 .registration .form .row.buttons {
@@ -1153,15 +1153,15 @@ html[lang=ru] .product section table th{
 }
 .registration .form .row input[type=text]{
 	background:#fff;
-	-moz-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
-    -webkit-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
-    box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+	-moz-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
+    -webkit-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
+    box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
 	border:1px solid rgba(0,0,0,0.58);
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
 	font:0.834em 'ProximaNova-Regular';
-	line-height:10px;
+	line-height:14px;
 	color:#146672;
 	width:111px;
 	height:10px;
@@ -1178,8 +1178,25 @@ html[lang=ru] .product section table th{
 .registration .form .row.wide label{
 	line-height:1;
 }
+.registration .form .errorMessage.right {
+    padding-left: 260px;
+}
+.registration .form .errorMessage {
+    position: absolute;
+    padding-left: 124px;
+}
+.registration .form .row input[type="text"].account-submitted.error {
+    border: 2px solid rgb(189,41,41);
+}
+.registration .form .row .field {
+    padding-top: 13px;
+    clear: both;
+}
 .registration .form .row.wide input[type=text]{
 	width:247px;
+}
+.registration .form.active {
+    background-color: #fee373;
 }
 .registration .form .row input[type=submit]{
 	display:block;
