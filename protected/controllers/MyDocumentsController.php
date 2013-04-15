@@ -48,17 +48,32 @@ class MyDocumentsController extends AjaxController
      */
     public function actionGetExcel()
     {
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+        $limit = 10;
+        $n = 0 ;
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
         $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         assert($file);
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
-        $zoho->sendDocumentToZoho();
+        $errors = [];
+
+        while (null === $zoho->getUrl() && $n < $limit) {
+            try {
+                $zoho->sendDocumentToZoho();
+            } catch(LogicException $e) {
+                $errors[] = $e->getMessage();
+            }
+        }
+
         $result = array(
             'result'           => 1,
             'filedId'          => $file->id,
             'excelDocumentUrl' => $zoho->getUrl(),
+            'errors'           => $errors
         );
         $this->sendJSON(
             $result

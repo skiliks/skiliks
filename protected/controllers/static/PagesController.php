@@ -78,12 +78,6 @@ class PagesController extends AjaxController
 
         // is user authenticated
         if (false == $user->isAuth()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Если у Вас уже есть корпоративный аккаунт в нашей системе<br/> - войдите в него. <br/><br/>
-                Если нет - <a href="/registration">зарегистрируйтесь</a>.<br/><br/>
-                Тарифные планы применимы<br/> только для корпоративных аккаунтов. <br/><br/>
-                Пользователи-соискатели могут проходить симуляцию только по приглашениям и демонстрационную версию симуляции.'
-            ));
             $this->redirect('/registration');
         }
 
