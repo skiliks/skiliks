@@ -1037,10 +1037,11 @@ section.phone>header .btn-window li button.btn-cl:hover{
 }
 .phone-bl.main{
 	float:left;
-	margin:27px 0 0 25px;
+	margin:10px 0 0 25px;
 }
 .phone-bl.popup{
-	margin:14px 66px 0 66px;
+	/*margin:14px 66px 0 66px;*/
+	margin:14px auto 0;
 }
 .phone-screen{
 	width:202px;
@@ -1089,7 +1090,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	width:565px;
 	height:464px;
 	float:left;
-	margin-top:26px;
+	margin-top:10px;
 	position:relative;
 	left:-4px;
 }
@@ -1168,7 +1169,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	vertical-align:bottom;
 }
 .phone-call-text{
-	font:16px 'orbi_sansregular';
+	font:14px 'orbi_sansregular';
 	color:#25303f;
 	line-height:18px;
 	text-align:center;
@@ -1180,6 +1181,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-call-text span.name{
 	font-family:'orbi_sans_boldregular';
 	text-transform:uppercase;
+    font-size:18px;
 }
 .phone-call-text span.post{
 	font-size:14px;
@@ -1334,6 +1336,25 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	position:absolute;
 	top:9px;
 	right:7px;
+}
+.phone-contact-list.history .phone-contact-list li {
+    margin:3px 0 0;
+    padding:3px 0 0;
+}
+.phone-contact-list.history .phone-contact-list li table{
+    background:rgba(255,255,255,0.4);
+}
+.phone-contact-list.history li table .phone-contact-list-img img {
+    margin-left:7px;
+}
+.phone-contact-list.history .phone-contact-list-f0 {
+    margin:3px 0 0;
+}
+.phone-contact-list.history .phone-contact-list-f1 {
+    margin:3px 0 0;
+}
+.phone-contact-list.history .phone-call-btn {
+    margin:3px 0px;
 }
 /* --------------- /phone ---------*/
 
