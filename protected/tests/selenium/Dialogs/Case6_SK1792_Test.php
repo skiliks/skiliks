@@ -49,6 +49,7 @@ class Case6_SK1792_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         //$this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
+        $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('11.667','-10');
         $this->checkLearningArea('2.56','0.00','0.00','4.55','2.18','15','8.33','10');
