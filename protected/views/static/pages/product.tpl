@@ -15,7 +15,22 @@
 							<td>{Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')}</td>
 						</tr>
 					</table>
-					
+                    <div class="product-gauge-charts"></div>
+                    <div class="product-bullet-charts" style="clear: both;"></div>
+                    {literal}
+                    <script type="text/javascript">
+                        var r = Math.round;
+
+                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+
+                        new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
+                        new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
+                        new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
+
+                    </script>
+                    {/literal}
 					<section>
 						<hgroup>
 							<h3>{Yii::t('site', 'More Information')}</h3>
