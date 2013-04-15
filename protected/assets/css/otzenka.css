@@ -481,7 +481,7 @@
 }
 .personalbars .shortIndicator {
     margin-left: -4px;
-    margin-top: -12px;
+    margin-top: -8px;
 }
 .personallabels {
     float: left;
@@ -496,11 +496,12 @@
     width: 540px;
 }
 .personallabels .smalltitle {
-    margin-top: 43px;
+    height: 27px;
+    margin-top: 41px;
     text-align: right;
 }
 .personallabels .smalltitle:first-child {
-    margin-top: 41px;
+   /*margin-top: 41px;*/
 }
 .personalbars .chart-bullet.small {
     width: 498px;
