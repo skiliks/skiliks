@@ -257,41 +257,30 @@ section.registration-by-link .form .row a.decline-link {
 section.registration-by-link .form .row a.decline-link:hover {
     border-bottom:none;
 }
-section.registration-by-link .error_wrap.first_name {
-    right: 384px;
-    top: -36px;
+.YumProfile_firstname {
+    left: 195px;
+    top: -20px;
 }
-section.registration-by-link .error_wrap.last_name {
-    background-position: 20% 100%;
-    left: 375px;
-    top: -36px;
+.YumProfile_lastname {
+    left: 385px;
+    top: -20px;
 }
-section.registration-by-link .error_wrap.password {
-    background:url("../img/bg-form-error-left.png") 0 100% no-repeat;
-    left: 355px;
-    bottom: 2px;
-    padding:0 0 0 16px;
+.wide .sbHolder_err {
+    top:-8px;
+    left:195px;
 }
-section.registration-by-link .error_wrap.password .errorMessage {
-    background:#DB4D46;
-    margin-left:-5px;
+.YumUser_password {
+    left:370px;
+    top:3px;
 }
-section.registration-by-link .error_wrap.password_again {
-    background:url("../img/bg-form-error-left.png") 0 0 no-repeat;
-    left: 355px;
-    top: 2px;
-    padding:0 0 0 16px;
-    z-index:2;
+.YumUser_password_again {
+    left:370px;
+    top:3px;
 }
-section.registration-by-link .error_wrap.password_again .errorMessage {
-    background:#DB4D46;
-    margin-left:-5px;
-}
-
 /* Список доступных симуляций */
 .action-controller-personal-static-simulations h1.title,
 .action-controller-corporate-static-simulations h1.title{
-    font:36px/60px ProximaNova-Bold;
+    font:40px/60px ProximaNova-Bold;
     color:#fff;
     margin-bottom: 10px;
 }
@@ -305,6 +294,23 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
 .action-controller-personal-static-simulations .grid-view table.items {
     background: none;
     border: none;
+    text-align: left;
+}
+.action-controller-corporate-static-simulations .grid-view table.items th#yw0_c0,
+.action-controller-personal-static-simulations .grid-view table.items th#yw0_c0{
+    width:24%;
+}
+.action-controller-corporate-static-simulations .grid-view table.items th#yw0_c1,
+.action-controller-personal-static-simulations .grid-view table.items th#yw0_c1{
+    width:33%;
+}
+.action-controller-corporate-static-simulations .grid-view table.items th#yw0_c2,
+.action-controller-personal-static-simulations .grid-view table.items th#yw0_c2{
+    width:33%;
+}
+.action-controller-corporate-static-simulations .grid-view table.items th#yw0_c3,
+.action-controller-personal-static-simulations .grid-view table.items th#yw0_c3{
+    width:10%;
 }
 .action-controller-corporate-static-simulations .grid-view table.items tr,
 .action-controller-corporate-static-simulations .grid-view table.items tr:hover,
@@ -317,8 +323,9 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
     border: none;
     background: url("../img/th-seprtr.png") no-repeat right bottom #146672;
     padding: 10px;
-    font: 12px/16px "ProximaNova-Bold";
+    font: 14px/16px "ProximaNova-Bold";
     border-bottom: 1px solid #0e4750;
+    text-align:left;
 }
 .action-controller-corporate-static-simulations .grid-view table.items th a,
 .action-controller-personal-static-simulations .grid-view table.items th a {
@@ -337,8 +344,8 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
 .action-controller-personal-static-simulations .grid-view table.items tr td {
     border: none;
     color:#232323;
-    font: 12px/14px "ProximaNova-Bold";
-    padding: 4px;
+    font: 14px/14px "ProximaNova-Bold";
+    padding: 4px 10px;
 }
 .action-controller-corporate-static-simulations .grid-view table.items tr td a,
 .action-controller-personal-static-simulations .grid-view table.items tr td a {
@@ -379,8 +386,9 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
     height: 100%;
     background: #000000;
     opacity: 0.3;
-    z-index: 3;
+    z-index: 1;
 }
+/*
 .error_wrap {
     padding-bottom: 19px;
     position: absolute;
@@ -394,6 +402,7 @@ section.registration-by-link .error_wrap.password_again .errorMessage {
     font: 1em/2.214em "ProximaNova-Regular";
     padding: 0 30px;
 }
+*/
 .errorMessage {
     font: 12px "ProximaNova-Regular";
     color:#bd2929;

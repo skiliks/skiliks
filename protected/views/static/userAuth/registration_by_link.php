@@ -16,37 +16,33 @@
         <div class="row">
             <?php echo $form->labelEx($profile, 'Имя'); ?>
             <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
+            <?php echo $form->error($profile, 'firstname'); ?>
             <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия']); ?>
-            <div class="error_wrap first_name"><?php echo $form->error($profile, 'firstname'); ?></div>
-            <div class="error_wrap last_name"><?php echo $form->error($profile, 'lastname'); ?></div>
+            <?php echo $form->error($profile, 'lastname'); ?>
         </div>
 
         <div class="row wide">
             <?php echo $form->labelEx($account, 'industry_id'); ?>
             <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
-            <div class="error_wrap last_name"><?php echo $form->error($account, 'industry_id'); ?></div>
+            <?php echo $form->error($account, 'industry_id'); ?>
         </div>
 
         <div class="row wide">
             <?php echo $form->labelEx($account, 'professional_status_id'); ?>
             <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
-            <div class="error_wrap last_name"><?php echo $form->error($account, 'professional_status_id'); ?></div>
+            <?php echo $form->error($account, 'professional_status_id'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($user, 'password'); ?>
             <?php echo $form->passwordField($user, 'password'); ?>
-            <div class="error_wrap password">
-                <?php echo $form->error($user, 'password'); ?>
-            </div>
+            <?php echo $form->error($user, 'password'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($user, Yii::t("site","Confirmation")); ?>
             <?php echo $form->passwordField($user, 'password_again'); ?>
-            <div class="error_wrap password_again">
-                <?php echo $form->error($user, 'password_again'); ?>
-            </div>
+            <?php echo $form->error($user, 'password_again'); ?>
         </div>
 
         <div class="row buttons">
@@ -144,4 +140,19 @@ $(function(){
     })
     // decline dialog }
 })
+$(document).ready(function(){
+    var errors = $(".errorMessage");
+    for (var i=0; i < errors.length;i++) {
+        var inp = $(errors[i]).prev("input.error");
+        var select = $(errors[i]).prev(".sbHolder");
+
+        $(inp).css({"border":"2px solid #bd2929"});
+        $(select).css({"border":"2px solid #bd2929"});
+        //$(errors[i]).css("bottom",($(inp).height()+5));
+        //$(errors[i]).width($(inp).outerWidth());
+
+        $(errors[i]).addClass($(inp).attr("id"));
+        $(errors[i]).addClass("sbHolder_err");
+    }
+});
 </script>
