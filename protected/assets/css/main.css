@@ -1338,7 +1338,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	right:7px;
 }
 .phone-contact-list.history .phone-contact-list li {
-    margin:3px 0 0;
+    margin:0 0 3px;
     padding:3px 0 0;
 }
 .phone-contact-list.history .phone-contact-list li table{
