@@ -820,7 +820,10 @@
     margin-top:11px;
 }
 .timedetail .labelwrap {
-    margin-top:14px;
+    margin-top:13px;
+}
+.timedetail .labels p:first-child {
+    margin-top:10px;
 }
 .thelabel {
     display: table-cell;
@@ -836,7 +839,7 @@
 .mangrlresults .labels p:first-child {
     margin-top:12px;
 }
-.timedetail .labels p:first-child, .managerialmain .mangrlresults .labels p:first-child {
+.managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
 
