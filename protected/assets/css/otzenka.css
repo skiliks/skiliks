@@ -265,7 +265,7 @@
     width: 290px;
 }
 .labels .row {
-    margin-top: 46px;
+    margin-top: 45px;
 }
 .labels .row:first-child {
     margin-top: 8px;
@@ -418,21 +418,26 @@
     color:#3d4041;
 }
 .questn {
-    background: #bedadc;
-    color: #fff !important;
+    background: url(../img/questn.png) no-repeat left bottom;
     display: inline-block;
+    height:26px;
+    margin-left:10px;
+    margin-bottom: -6px;
+    width: 27px;
+
+    /*background: #bedadc;
+    color: #fff !important;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     font-size: 18px !important;
-    margin-left:10px;
     padding: 6px 0px;
     text-align: center;
-    text-decoration: none;
-    width: 26px;
+    text-decoration: none;*/
+
 }
 #personal-qualities .questn {
-    padding: 3px 0px 2px 0px;
+    /*padding: 3px 0px 2px 0px;*/
 }
 .questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
     color: #fff !important;
@@ -476,7 +481,7 @@
 }
 .personalbars .shortIndicator {
     margin-left: -4px;
-    margin-top: -12px;
+    margin-top: -8px;
 }
 .personallabels {
     float: left;
@@ -491,11 +496,12 @@
     width: 540px;
 }
 .personallabels .smalltitle {
-    margin-top: 42px;
+    height: 27px;
+    margin-top: 41px;
     text-align: right;
 }
 .personallabels .smalltitle:first-child {
-    margin-top: 41px;
+   /*margin-top: 41px;*/
 }
 .personalbars .chart-bullet.small {
     width: 498px;
@@ -722,7 +728,10 @@
     /*display:block;*/
 }
 .timeblock .chart-bar {
-    margin-bottom: 20px;
+    margin-top: 18px;
+}
+.timeblock .chart-bar:first-child {
+    margin-top: 0px;
 }
 .helpbuble {
     background:#fdfbc6;
@@ -810,6 +819,12 @@
 .labelwrap {
     margin-top:11px;
 }
+.timedetail .labelwrap {
+    margin-top:12px;
+}
+.timedetail .labels p:first-child {
+    margin-top:10px;
+}
 .thelabel {
     display: table-cell;
     height: 37px;
@@ -824,7 +839,7 @@
 .mangrlresults .labels p:first-child {
     margin-top:12px;
 }
-.timedetail .labels p:first-child, .managerialmain .mangrlresults .labels p:first-child {
+.managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
 
@@ -852,7 +867,7 @@
     margin-left: 20px;
     width:235px !important;
 }
-.chartproblem .chart-value {
+.chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
 }
 .chartproblem .helpbuble {

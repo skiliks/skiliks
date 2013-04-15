@@ -7,7 +7,7 @@
                             <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
                         </div>
                         <div class="social_networks smallicons">
-                            <span>Рекомендовать:</span>
+                            <span>{Yii::t('site', 'Share')}:</span>
                             <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
                                 <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y">Share on vk</span></span></a>
                                 <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y">Share on facebook</span></span></a>

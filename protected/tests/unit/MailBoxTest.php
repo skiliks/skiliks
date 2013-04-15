@@ -289,8 +289,6 @@ class MailBoxTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-//$this->markTestSkipped();
-        
         $ch = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
         $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id, 'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
         $this->assertNotNull($theme);
