@@ -7,7 +7,7 @@
         <div class="smalltitle">Ответственность<a href="#" class="questn"></a></div>
         <div class="smalltitle">Устойчивость к манипуляциям и давлению<a href="#" class="questn"></a></div>
         <div class="smalltitle">Конструктивность<a href="#" class="questn"></a></div>
-        <div class="smalltitle">Гибкость<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Гибкость<a href="#" class="questn"></a></div>
         <div class="smalltitle"><a href="#">Принятие решений <span class="signmore"></span></a></div>
         <div class="smalltitle">Стрессоустойчивость<a href="#" class="questn"></a></div>
     </div>
