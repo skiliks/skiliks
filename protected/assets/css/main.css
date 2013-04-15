@@ -1344,6 +1344,9 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list.history li table{
     background:rgba(255,255,255,0.4);
 }
+.phone-contact-list.history li table:hover{
+    background:rgba(242,115,1,0.88);
+}
 .phone-contact-list.history li table .phone-contact-list-img img {
     margin-left:7px;
 }
