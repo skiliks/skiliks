@@ -188,6 +188,7 @@
     font: 40px/52px "ProximaNova-Bold";
     padding: 0 110px 10px;
     text-align: center;
+    display:none;
 }
 section.registration-by-link {
     padding:0 20px 41px 30px;
@@ -270,12 +271,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     left:195px;
 }
 .YumUser_password {
-    left:370px;
-    top:3px;
+    left:195px;
+    top:-8px;
 }
 .YumUser_password_again {
-    left:370px;
-    top:3px;
+    left:195px;
+    top:-8px;
 }
 /* Список доступных симуляций */
 .action-controller-personal-static-simulations h1.title,
