@@ -167,6 +167,7 @@ class ZohoDocuments
         foreach ($headers as $value) {
             if (stripos($value, 'Location: ') !== false) {
                 $url = str_replace('Location: ', '', $value);
+                $url = str_replace("\r", '', $url);
                 break;
             }
         }
