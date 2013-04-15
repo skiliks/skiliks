@@ -31,9 +31,17 @@ define([
         'initialize':function () {
             var me = this;
             SKApp.simulation.start();
-            SKApp.simulation.on('stop', function () {
+            SKApp.simulation.on('user-agree-with-sim-stop', function () {
                 delete me.simulation_view;
                 location.href = this.get('result-url');
+            });
+            SKApp.simulation.on('stop', function () {
+                console.log(SKApp.simulation.getGameMinutes(), SKApp.simulation.timeStringToMinutes(SKApp.get('finish')));
+                // after 20:00 - wait for user confirmation by 'user-agree-with-sim-stop'
+                if (SKApp.simulation.getGameMinutes() < SKApp.simulation.timeStringToMinutes(SKApp.get('finish'))) {
+                    delete me.simulation_view;
+                    location.href = this.get('result-url');
+                }
             });
             me.frame = new SKSimulationView();
             me.frame.render();
