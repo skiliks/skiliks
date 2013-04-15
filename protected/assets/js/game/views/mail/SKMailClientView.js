@@ -1694,6 +1694,8 @@ define([
                 var mailClientView = this;
                 var mailClient = this.mailClient;
 
+
+
                 if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) && mailClient.isNotEmptySubject()) {
                     // warning
                     if (mailClient.activeScreen !== "SCREEN_WRITE_FORWARD") {
@@ -1960,8 +1962,10 @@ define([
                             //
                         },
                         afterAdd: function (tag) {
-                            SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject);
-                            SKApp.simulation.mailClient.getAvailablePhrases(SKApp.simulation.mailClient.availableSubjects[0].characterSubjectId);
+                            SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
+                                SKApp.simulation.mailClient.getAvailablePhrases(SKApp.simulation.mailClient.availableSubjects[0].characterSubjectId);
+                            });
+
                         },
                         onDelete: function (tag) {
                             var el = this;
