@@ -7,10 +7,10 @@
     <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
     <div class="clearfix">
         <div class="labels">
-            <div class="row"><h3 class="resulttitele smallerfont">Срочно</h3><a href="#" class="questn">?</a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Высокий приоритет</h3><a href="#" class="questn">?</a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Средний приоритет</h3><a href="#" class="questn">?</a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Прочее</h3><a href="#" class="questn">?</a></div>
+            <div class="row"><h3 class="resulttitele smallerfont">Срочно</h3><a href="#" class="questn"></a></div>
+            <div class="row"><h3 class="resulttitele smallerfont">Высокий приоритет</h3><a href="#" class="questn"></a></div>
+            <div class="row"><h3 class="resulttitele smallerfont">Средний приоритет</h3><a href="#" class="questn"></a></div>
+            <div class="row"><h3 class="resulttitele smallerfont">Прочее</h3><a href="#" class="questn"></a></div>
         </div>
 
         <div class="bars barswrap">

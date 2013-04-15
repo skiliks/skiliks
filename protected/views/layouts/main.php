@@ -127,26 +127,24 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			    <?php echo $content; ?>
             </div>
 			<!--content end-->
-		</div>
+            <div class="empty-footer"></div>
+            <!--footer-->
+            <div class="footer">
+                <footer>
+                    <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
 
-        <!--footer-->
-        <div class="footer">
-            <footer>
-                <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
+                    <div class="logo"><a href="/">Skiliks</a></div>
 
-                <div class="logo"><a href="/">Skiliks</a></div>
-
-                <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
-
+                    <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
+                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index'): ?>
+                        <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Get free access') ?></a>
+                    <?php endif ?>
                 <nav>
                     <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
                     <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
                     <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
                 </nav>
 
-                <p class="copyright">Copyright - Skiliks  - 2012</p>
-            </footer>
-        </div>
-        <!--footer end-->
+
 	</body>
 </html>

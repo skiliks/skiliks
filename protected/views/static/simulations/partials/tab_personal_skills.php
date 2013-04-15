@@ -2,14 +2,14 @@
     <div class="textcener"><h2 class="total">Личностные характеристики</h2></div>
 
     <div class="personallabels">
-        <div class="smalltitle">Ориентация на результат<a href="#" class="questn">?</a></div>
-        <div class="smalltitle">Внимательность<a href="#" class="questn">?</a></div>
-        <div class="smalltitle">Ответственность<a href="#" class="questn">?</a></div>
-        <div class="smalltitle">Устойчивость к манипуляциям и давлению<a href="#" class="questn">?</a></div>
-        <div class="smalltitle">Конструктивность<a href="#" class="questn">?</a></div>
-        <div class="smalltitle">Гибкость<a href="#" class="questn">?</a></div>
-        <div class="smalltitle"><a href="#">Принятие решений <span class="signmore"></span></a></div>
-        <div class="smalltitle">Стрессоустойчивость<a href="#" class="questn">?</a></div>
+        <div class="smalltitle">Ориентация на результат<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Внимательность<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Ответственность<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Устойчивость к манипуляциям и давлению<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Конструктивность<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Гибкость<a href="#" class="questn"></a></div>
+        <div class="smalltitle">Принятие решений<a href="#" class="questn"></a> <!-- <a href="#">Принятие решений <span class="signmore"></span></a> --></div>
+        <div class="smalltitle">Стрессоустойчивость<a href="#" class="questn"></a></div>
     </div>
 
     <div class="barswrap personalbars">

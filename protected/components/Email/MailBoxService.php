@@ -266,6 +266,10 @@ class MailBoxService
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;
                 $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
+                if (null === $constructor) {
+                    $constructorNumber = 'B1';
+                    $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
+                }
                 // получить фразы по коду
                 $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
