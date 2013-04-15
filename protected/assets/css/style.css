@@ -1850,7 +1850,7 @@ html[lang=ru] .product section table th{
 	    width:184px;
 	    padding:7px 30px;
 	    top:75px;
-	    margin-left:33px;
+	    /*margin-left:33px;*/
 	}
 	.login-form h6{
 		font-size:1.333em;
