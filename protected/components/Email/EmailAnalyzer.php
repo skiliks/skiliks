@@ -677,15 +677,23 @@ class EmailAnalyzer
         $totalRightMsWithCopies = 0;
 
         $rightMss = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $this->simulation->scenario_id
-            ));
+            ->findAllByAttributes(
+                [],
+                " scenario_id = :id AND code LIKE :code ",
+                [
+                    'id'   => $this->simulation->scenario_id,
+                    'code' => 'MS%',
+                ]
+            );
+
+        foreach ($rightMss as $key => $value) {
+            if ($value->subject_obj->wr != CommunicationTheme::SLUG_RIGHT) {
+                unset($value[$key]);
+            }
+        }
 
         foreach ($rightMss as $rightMs) {
-            if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMs->id))) {
+            if (0 < MailTemplateCopy::model()->countByAttributes(['mail_id' => $rightMs->id])) {
                 $totalRightMsWithCopies++;
             }
         }
