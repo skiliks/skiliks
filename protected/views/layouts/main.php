@@ -127,16 +127,15 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			    <?php echo $content; ?>
             </div>
 			<!--content end-->
-		</div>
+            <div class="empty-footer"></div>
+            <!--footer-->
+            <div class="footer">
+                <footer>
+                    <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
 
-        <!--footer-->
-        <div class="footer">
-            <footer>
-                <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
+                    <div class="logo"><a href="/">Skiliks</a></div>
 
-                <div class="logo"><a href="/">Skiliks</a></div>
-
-                <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
+                    <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
                 <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Get free access') ?></a>
                 <nav>
                     <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
@@ -144,9 +143,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
                 </nav>
 
-                <p class="copyright">Copyright - Skiliks  - 2012</p>
-            </footer>
-        </div>
-        <!--footer end-->
+
 	</body>
 </html>
