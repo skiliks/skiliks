@@ -215,7 +215,9 @@ define([
                             onclick: function() {
                                 // me._hidePausedScreen();
                                 me.stopExitProtection();
-                                me.simulation.stop();
+                                SKApp.simulation.stopPause(
+                                    me.simulation.stop()
+                                );
 
                                 new SKDialogView({
                                     message: 'Данные симуляции сохраняются. <br/> Это займёт 10-15 секунд.',
