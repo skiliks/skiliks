@@ -235,7 +235,7 @@
             centerCircle = chart.append('g').attr('transform', translate);
 
             centerCircle.append('path')
-                .data(this.pie([sum]))
+                .data(this.pie([1]))
                 .attr('d', drawer)
                 .style('fill', options.bgColor || '#f4f4f5');
 

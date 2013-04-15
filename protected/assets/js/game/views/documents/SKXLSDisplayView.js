@@ -67,8 +67,49 @@ define([
                 });
             }
 
+            console.log('Add listener in view.');
+            if (window.addEventListener){
+                window.addEventListener("message", me.zoho500callback, false);
+            } else {
+                window.attachEvent("onmessage", me.zoho500callback);
+            }
+
             window.SKWindowView.prototype.initialize.call(this);
             return true;
+        },
+
+        /**
+         * @method handlePostMessage
+         * @param postMessage event
+         * @return void
+         */
+        handlePostMessage: function(event) {
+            console.log('handlePostMessage in view.');
+            var me = this;
+            var doc = me.options.model_instance.get('document');
+
+            if (event.data.type == "Zoho_500") {
+                me.message_window = new SKDialogView({
+                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
+                    'buttons': [
+                        {
+                            'value': 'Перезагрузить',
+                            'onclick': function () {
+                                SKApp.simulation.afterZohoCrash = true;
+                                delete SKDocument._excel_cache[doc.get('id')];
+                                SKApp.simulation.documents.remove(doc);
+                                SKApp.simulation.documents.fetch();
+
+                                // clean array of not handled zoho 500 {
+                                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
+                                delete SKApp.simulation.documents.zoho_500[i];
+
+                                delete me.message_window;
+                            }
+                        }
+                    ]
+                });
+            }
         },
 
         /**

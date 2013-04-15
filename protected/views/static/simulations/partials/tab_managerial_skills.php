@@ -10,10 +10,10 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#">1. Следование приоритетам <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">2. Управление задачами <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">3. Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel labelhack"><a href="#">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">1. Следование приоритетам <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">2. Управление задачами <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление людьми <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel labelhack"><a href="#managerial-skills-3-4">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
         </div>
         <div class="barswrap">
             <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
@@ -29,9 +29,9 @@
     </div>
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#">5. Эффективная работа с почтой <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">6. Эффективное управление звонками <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">7. Эффективное управление встречами <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-5-6">5. Эффективная работа с почтой <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-5-6">6. Эффективное управление звонками <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-7">7. Эффективное управление встречами <span class="signmore"></span></a></span></p>
         </div>
         <div class="barswrap otherskills">
             <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
