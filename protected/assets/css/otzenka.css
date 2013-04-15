@@ -418,18 +418,22 @@
     color:#3d4041;
 }
 .questn {
-    background: #bedadc;
-    color: #fff !important;
+    background: url(../img/questn.png) no-repeat left bottom;
     display: inline-block;
+    height:26px;
+    margin-left:10px;
+    width: 26px;
+
+    /*background: #bedadc;
+    color: #fff !important;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     font-size: 18px !important;
-    margin-left:10px;
     padding: 6px 0px;
     text-align: center;
-    text-decoration: none;
-    width: 26px;
+    text-decoration: none;*/
+
 }
 #personal-qualities .questn {
     padding: 3px 0px 2px 0px;
@@ -852,7 +856,7 @@
     margin-left: 20px;
     width:235px !important;
 }
-.chartproblem .chart-value {
+.chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
 }
 .chartproblem .helpbuble {
