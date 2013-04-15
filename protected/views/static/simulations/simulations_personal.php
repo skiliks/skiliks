@@ -29,6 +29,9 @@ $this->widget('zii.widgets.grid.CGridView', [
 <div id="simulation-details-pop-up"></div>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        $(".pager").insertAfter("#yw0").css({"margin-top":"5px","text-align":"center"});
+    });
     /*$(function(){
        $('#simulation-details-pop-up').dialog({
            modal: true,
