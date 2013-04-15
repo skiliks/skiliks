@@ -267,7 +267,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     top: -20px;
 }
 .wide .sbHolder_err {
-    top:-15px;
+    top:-8px;
     left:195px;
 }
 .YumUser_password {
@@ -276,7 +276,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 .YumUser_password_again {
     left:195px;
-    top:-8px;
+    top:-15px;
 }
 /* Список доступных симуляций */
 .action-controller-personal-static-simulations h1.title,
