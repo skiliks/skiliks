@@ -436,7 +436,7 @@
 
 }
 #personal-qualities .questn {
-    padding: 3px 0px 2px 0px;
+    /*padding: 3px 0px 2px 0px;*/
 }
 .questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
     color: #fff !important;
