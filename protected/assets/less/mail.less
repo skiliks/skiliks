@@ -271,13 +271,27 @@ a.dd-selected {
   position: relative;
   width: 120px;
 }
-
-.readed-email-text {
-  height: 154px !important;
-  overflow-y: auto;
-  padding: 7px 15px 15px 15px
+#MailClient_ReadEmail_Content {
+  .readed-email-text {
+    overflow-y: auto;
+    padding: 7px 15px 15px 15px;
+    height:516px;
+  }
 }
-
+.previouse-message-text {
+  .readed-email-text {
+    height: 154px !important;
+    overflow-y: auto;
+    padding: 7px 15px 15px 15px
+  }
+}
+#MailClient_IncomeFolder_EmailPreview {
+  .readed-email-text {
+    height: 154px !important;
+    overflow-y: auto;
+    padding: 7px 15px 15px 15px
+  }
+}
 .ml-list {
   position: absolute;
   background-color: white;
@@ -1130,7 +1144,7 @@ section.mail.new {
       color:#6f6e6e;
       line-height:16px;
       text-align:right;
-      width:50px;
+      width:65px;
       vertical-align:middle;
       img {
         margin-top:2px;
