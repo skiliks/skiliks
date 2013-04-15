@@ -65,7 +65,7 @@ class MyDocumentsController extends AjaxController
             try {
                 $zoho->sendDocumentToZoho();
             } catch(LogicException $e) {
-                $errors[] = $e->getMessage();
+                $errors[] = str_replace("\n", '.', $zoho->response);
             }
         }
 
