@@ -219,7 +219,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 // init folder names
                 this.getInboxFolder().name  = 'Входящие';
                 this.getDraftsFolder().name = 'Черновики';
-                this.getSendedFolder().name = 'Отправленные';
+                this.getSendedFolder().name = 'Исходящие';
                 this.getTrashFolder().name  = 'Корзина';
             },
 
