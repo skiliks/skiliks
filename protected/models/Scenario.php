@@ -46,6 +46,7 @@
  *
  * @method Replica getReplica
  * @method Activity getActivity
+ * @method ActivityParentAvailability getActivityParentAvailability
  */
 class Scenario extends CActiveRecord
 {
@@ -302,18 +303,6 @@ class Scenario extends CActiveRecord
     {
         $array['scenario_id'] = $this->id;
         return MailTask::model()->findAllByAttributes($array);
-    }
-
-    public function getActivityParentAvailability($array)
-    {
-        $array['scenario_id'] = $this->id;
-        return ActivityParentAvailability::model()->findByAttributes($array);
-    }
-
-    public function getActivityAction($array)
-    {
-        $array['scenario_id'] = $this->id;
-        return ActivityAction::model()->findByAttributes($array);
     }
 
     public function getPerformanceRules($array)
