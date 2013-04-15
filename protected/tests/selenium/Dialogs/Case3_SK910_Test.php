@@ -64,6 +64,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
 /*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
         $this->Leg_actions_aggregated();*/
+        $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('8.083','-7');
         $this->checkLearningArea('4.27','0.00','12.5','0.00','8.11','5','0.00','20');

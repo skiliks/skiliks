@@ -73,6 +73,7 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
+        sleep(2);
         $this->Mail_log($log);
     }
 

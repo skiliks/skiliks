@@ -147,10 +147,10 @@ return [
         'trudyakin' => "//ul[contains(@class,'ui-autocomplete')]/li[13]/a",
         'jeleznyi' => "//ul[contains(@class,'ui-autocomplete')]/li[14]/a",
         'kamenskiy' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
-        'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[16]/a",
-        'loshadkin' => "//ul[contains(@class,'ui-autocomplete')]/li[17]/a",
-        'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/a",
-        'ludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[19]/a"
+        'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/a",
+        'loshadkin' => "//ul[contains(@class,'ui-autocomplete')]/li[19]/a",
+        'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[20]/a",
+        'ludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[21]/a"
     ],
 
 
