@@ -1,5 +1,5 @@
 /*global _, Backbone, SKApp, SKVisitView, SKImmediateVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
- glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
+ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView, $*/
 var SKIconPanelView;
 
 define([
@@ -156,6 +156,11 @@ define([
              * @method onVisitEvent
              */
             onVisitEvent: function (event) {
+                var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
+                if(phones.length !== 0){
+                    phones[0].close();
+                    //this.runPhoneTalkStart(event.cid);
+                }
                 var me = this;
 
                 me.$('.door').attr('data-event-id', event.cid);
