@@ -470,9 +470,12 @@ a:focus, a:active {
     color: #146672;
     font: 15px "ProximaNova-Bold";
     height: 38px;
+    left: 320px;
     line-height: 38px;
-    margin-left: 322px;
+    /*margin-left: 322px;*/
     padding:0px 16px 0px 27px;
+    position: absolute;
+    top:200px;
 }
 /* --------------- heroes comments ---------*/
 .heroes-comment{
@@ -1544,7 +1547,7 @@ html[lang=ru] .product section table th{
 }
 .footer .social_networks {
     position:absolute;
-    top:200px;
+    top:136px;
     left:320px;
 }
 .social_networks span {
