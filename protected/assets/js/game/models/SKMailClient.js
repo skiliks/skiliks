@@ -882,7 +882,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param recipientIds
              * @param subject
              */
-            reloadSubjects:function (recipientIds, subject) {
+            reloadSubjects:function (recipientIds, subject, callback) {
                 if(recipientIds.length <= 0) {
                     SKApp.simulation.mailClient.availableSubjects = [];
                     return;
@@ -908,6 +908,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 subject.text = response.data[i];
 
                                 SKApp.simulation.mailClient.availableSubjects.push(subject);
+                            }
+                            if(typeof callback == 'function'){
+                                callback();
                             }
                             me.trigger('mail:subject_list_in_model_updated');
                         }
