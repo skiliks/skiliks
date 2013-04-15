@@ -640,7 +640,7 @@ class UserAuthController extends YumController
             if((int)$YumUser['is_check'] === YumUser::CHECK){
                 $this->redirect(['/simulation/promo/lite'], false);
             }else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
-                $this->redirect(['/profile/without-account'], false);
+                $this->redirect(['/registration/choose-account-type'], false);
             }else{
                 throw new Exception("Bug");
             }
