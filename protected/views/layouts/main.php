@@ -131,7 +131,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <!--footer-->
             <div class="footer">
                 <footer>
-                    <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
+
+                        <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
 
                     <div class="logo"><a href="/">Skiliks</a></div>
 
