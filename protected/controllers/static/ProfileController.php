@@ -167,6 +167,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             }
 
             if (!$passwordForm->hasErrors()) {
+                $this->user->setPassword($passwordForm->password, $this->user->salt);
                 $is_done = true;
                 //$this->redirect();
             }
@@ -198,6 +199,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             }
 
             if (!$passwordForm->hasErrors()) {
+                $this->user->setPassword($passwordForm->password, $this->user->salt);
                 $is_done = true;
             }
         }
