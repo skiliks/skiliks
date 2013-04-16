@@ -40,14 +40,14 @@ class Case_SK1471_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "01");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        sleep(5);
+        sleep(30);
         $this->assertTrue($this->incoming_counter(19));
 
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "50");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        sleep(5);
+        sleep(10);
         $this->assertTrue($this->incoming_counter(28));
 
     }
