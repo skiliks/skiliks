@@ -207,28 +207,6 @@ class Invite extends CActiveRecord
         return null;
     }
 
-    public function getSimulationResultsTag()
-    {
-        if ($this->status == self::STATUS_PENDING) {
-            return (string)$this->getAcceptActionTag().' или '.$this->getDeclineActionTag();
-        }
-
-        if ($this->status == self::STATUS_COMPLETED && null != $this->simulation) {
-            $assessmentOverall = AssessmentOverall::model()->findByAttributes([
-                'sim_id'                   => $this->simulation->id,
-                'assessment_category_code' => AssessmentOverall::CODE_OVERALL,
-            ]);
-
-            if (null === $assessmentOverall) {
-                return '0%';
-            } else {
-                return $assessmentOverall->value.'%';
-            }
-        }
-
-        return null;
-    }
-
     public function getInviteLink()
     {
         return Yii::app()->createAbsoluteUrl($this->receiver_id ? '/dashboard' : '/registration/by-link/' . $this->code);

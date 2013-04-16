@@ -2,6 +2,20 @@
 
 <div id="private-invitations-list-box" class="transparent-boder wideblock">
     <?php
+
+    $scoreRender = function(Invite $invite) {
+        if ($invite->status == Invite::STATUS_PENDING) {
+            return (string)$invite->getAcceptActionTag().' или '.$invite->getDeclineActionTag();
+        }
+
+        return $this->renderPartial('//global_partials/_simulation_stars', [
+            'simulation'     => $invite->simulation,
+            'isDisplayTitle' => false,
+            'isDisplayArrow' => false,
+            'isDisplayScaleIfSimulationNull' => false,
+        ],false);
+    };
+
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Invite::model()->searchByInvitedUserEmail(
             Yii::app()->user->data()->profile->email,
@@ -26,7 +40,7 @@
                 'value' => '$data->getSentTime()->format("j/m/y") . " <time>" . $data->getSentTime()->format("G:i") . "</time>"',
                 'type' => 'raw'
             ],
-            ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],
+            ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => $scoreRender, 'type' => 'html'],
         ]
     ]);
     ?>
