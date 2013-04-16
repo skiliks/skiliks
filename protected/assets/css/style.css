@@ -782,9 +782,9 @@ html[lang=ru] .main-article article{
 	padding-right:0;
 }
 .product section{
-	background:url("../img/bg-product-section.png") no-repeat center 0;
+	/*background:url("../img/bg-product-section.png") no-repeat center 0;*/
 	margin-top:5px;
-	padding-top:122px;
+	/*padding-top:122px;*/
 }
 .product section h3{
 	font:2.142em 'ProximaNova-Bold';

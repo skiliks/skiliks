@@ -57,12 +57,50 @@
                     </div>
 
                     <div class="levellabels">
-                        <div class="widthblock"><h3>Управленческие навыки </h3></div>
-                        <div class="widthblock"><h3>Результативность</h3></div>
-                        <div class="widthblock"><h3>Эффективность использования времени</h3></div>
-                        <div class="widthblock"><h3>Личностные характеристики </h3></div>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
+                        <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
                     </div>
-
+                    <div class="rateslist">
+                        <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>
+                            <ol class="bluelist">
+                                <li class="hassubmenu"><a href="#managerial-skills-1-2" data-parent="managerial-skills">Следование приоритетам</a></li>
+                                <li class="hassubmenu subisopen"><a href="#managerial-skills-1-2" data-parent="managerial-skills">Управление задачами</a>
+                                    <ul>
+                                        <li><a href="#">Использование планирования в течение дня</a></li>
+                                        <li><a href="#">Правильное определение приоритетов задач при планировании</a></li>
+                                        <li><a href="#">Выполнение задач в соответствии с приоритетами</a></li>
+                                        <li><a href="#">Завершение начатых задач</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">Управление людьми</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">Оптимальный выбор каналов коммуникации</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективная работа с почтой</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективное управление звонками</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-7" data-parent="managerial-skills">Эффективное управление встречами</a></li>
+                            </ol>
+                        </div>
+                        <div class="widthblock"></div>
+                        <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
+                            <ul class="bluelist nobultslist">
+                                <li><a href="#time-management-detail" data-parent="time-management">Распределение времени</a></li>
+                                <li><a href="#time-management">Сверхурочное время </a></li>
+                            </ul>
+                        </div>
+                        <div class="widthblock"><h3>ИЗМЕРЯЕМЫЕ ХАРАКТЕРИСТИКИ</h3>
+                            <ul class="bluelist nobultslist">
+                                <li><a href="#personal-qualities">Ориентация на результат</a></li>
+                                <li><a href="#personal-qualities">Внимательность</a></li>
+                                <li><a href="#personal-qualities">Ответственность</a></li>
+                                <li><a href="#personal-qualities">Устойчивость к манипуляциям и давлению</a></li>
+                                <li><a href="#personal-qualities">Конструктивность</a></li>
+                                <li><a href="#personal-qualities">Гибкость</a></li>
+                                <li><a href="#personal-qualities">Принятие решений</a></li>
+                                <li><a href="#personal-qualities">Стрессоустойчивость</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <!-- /NEW CONTENT -->
 					<section>
 						<hgroup>
