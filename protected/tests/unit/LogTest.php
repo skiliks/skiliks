@@ -677,7 +677,7 @@ class LogTest extends CDbTestCase
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
         $logItem->start_time         = '09:00:00';
-        $logItem->end_time           = '09:01:00';
+        $logItem->end_time           = '09:00:39';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
         $logItem->window_uid         = 1;
         $logItem->save();
@@ -686,7 +686,7 @@ class LogTest extends CDbTestCase
         // Small (< speed*10 real seconds) action must be added to previouse action
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
-        $logItem->start_time         = '09:01:00';
+        $logItem->start_time         = '09:00:39';
         $logItem->end_time           = '09:04:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
         $logItem->window_uid         = 2;
@@ -707,7 +707,7 @@ class LogTest extends CDbTestCase
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
         $logItem->start_time         = '09:06:00';
-        $logItem->end_time           = '09:07:00';
+        $logItem->end_time           = '09:06:30';
         $logItem->activity_action_id = $planPlanWindowActivityAction->id;
         $logItem->window_uid         = 4;
         $logItem->save();
@@ -716,7 +716,7 @@ class LogTest extends CDbTestCase
         // Small (< speed*10 real seconds) action must be added to previouse action
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
-        $logItem->start_time         = '09:07:00';
+        $logItem->start_time         = '09:06:30';
         $logItem->end_time           = '09:08:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
         $logItem->window_uid         = 5;
@@ -737,7 +737,7 @@ class LogTest extends CDbTestCase
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
         $logItem->start_time         = '09:18:00';
-        $logItem->end_time           = '09:19:00';
+        $logItem->end_time           = '09:18:10';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
         $logItem->window_uid         = 7;
         $logItem->save();        
@@ -746,7 +746,7 @@ class LogTest extends CDbTestCase
         // Small (< speed*10 real seconds) action must be added to previouse action
         $logItem                     = new LogActivityAction();
         $logItem->sim_id             = $simulation->id;
-        $logItem->start_time         = '09:19:00';
+        $logItem->start_time         = '09:18:10';
         $logItem->end_time           = '09:19:24';
         $logItem->activity_action_id = $planPlanWindowActivityAction->id;
         $logItem->window_uid         = 8;
