@@ -22,15 +22,15 @@
         </div>
 
         <div class="row wide">
-            <?php echo $form->labelEx($account, 'industry_id'); ?>
-            <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
-            <?php echo $form->error($account, 'industry_id'); ?>
-        </div>
-
-        <div class="row wide">
             <?php echo $form->labelEx($account, 'professional_status_id'); ?>
             <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
             <?php echo $form->error($account, 'professional_status_id'); ?>
+        </div>
+
+        <div class="row wide">
+            <?php echo $form->labelEx($account, 'industry_id'); ?>
+            <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
+            <?php echo $form->error($account, 'industry_id'); ?>
         </div>
 
         <div class="row">
