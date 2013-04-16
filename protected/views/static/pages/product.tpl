@@ -23,7 +23,7 @@
                             <div class="overall">
                                 <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
                                 <div class="allseprtwrap">
-                                    <div class="ratepercnt uprnavprcnt">50%</div>
+                                    <div class="ratepercnt uprnavprcnt">50!!</div>
                                     <div class="ratepercnt resultprcnt">30%</div>
                                     <div class="ratepercnt timeprcnt">20%</div>
                                 </div>
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="levellabels">
-                        <div class="widthblock"><h3>!!{Yii::t('site', 'Level of skills maturity')}</h3></div>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
                         <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
                         <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
                         <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
