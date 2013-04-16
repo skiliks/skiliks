@@ -268,12 +268,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     top: -20px;
 }
 .wide .sbHolder_err {
-    top:-8px;
+    top:-10px;
     left:195px;
 }
 .YumUser_password {
     left:195px;
-    top:-13px;
+    top:-12px;
 }
 .YumUser_password_again {
     left:195px;
