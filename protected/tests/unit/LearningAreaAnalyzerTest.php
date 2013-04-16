@@ -41,7 +41,7 @@ class LearningAreaAnalyzerTest extends PHPUnit_Framework_TestCase {
         $code = $simulation->game_type->getLearningArea(['code'=>13]);
         $assessment = SimulationLearningArea::model()->findByAttributes(['sim_id' => $simulation->id, 'learning_area_id' => $code->id]);
         /* @var $assessment SimulationLearningArea */
-        $this->assertEquals('2.18', $assessment->value);
+        $this->assertEquals('2.18', round($assessment->value, 2));
     }
 
     public function testAdoptionOfDecisionsBad() {
@@ -59,7 +59,32 @@ class LearningAreaAnalyzerTest extends PHPUnit_Framework_TestCase {
         $code = $simulation->game_type->getLearningArea(['code'=>13]);
         $assessment = SimulationLearningArea::model()->findByAttributes(['sim_id' => $simulation->id, 'learning_area_id' => $code->id]);
         /* @var $assessment SimulationLearningArea */
-        $this->assertEquals('0.00', $assessment->value);
+        $this->assertEquals('0.00', round($assessment->value, 2));
+    }
+
+    public function testAdoptionOfDecisionsSK1390() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $this->addValueByCode($simulation, 8311, 0);
+        $this->addValueByCode($simulation, 8321, 1);
+        //$this->addValueByCode($simulation, 8331, 0);
+        //$this->addValueByCode($simulation, 8341, 0);
+        //$this->addValueByCode($simulation, 8351, 1);
+        //$this->addValueByCode($simulation, 8361, 0);
+
+        $learn = new LearningAreaAnalyzer($simulation);
+        $learn->adoptionOfDecisions();
+
+        $code = $simulation->game_type->getLearningArea(['code'=>13]);
+        $assessment = SimulationLearningArea::model()->findByAttributes(['sim_id' => $simulation->id, 'learning_area_id' => $code->id]);
+        /* @var $assessment SimulationLearningArea */
+        $this->assertEquals('0.00', round($assessment->value, 2));
     }
 
 }
