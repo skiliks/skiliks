@@ -696,6 +696,14 @@ class LogHelper
         $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
         foreach ($data as $activityAction) {
+
+            // @todo: fix null activity.end_time when sim stop
+            if (null == $activityAction->end_time) {
+                $activityAction->end_time = $activityAction->start_time;
+                $activityAction->save();
+                $activityAction->refresh();
+            }
+
             /** @var $activityAction LogActivityAction */
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $legAction = $activityAction->activityAction->getAction();
@@ -713,6 +721,7 @@ class LogHelper
                 $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
                 $aggregatedActivity->start_time =            $activityAction->start_time;
                 $aggregatedActivity->end_time =              $activityAction->end_time;
+
                 $aggregatedActivity->duration =              $diff_time;
             } else {
 
