@@ -684,10 +684,12 @@ html[lang=ru] .features form div input[type=submit]{
 		padding:0 12px 0 32px;
 	}
     .features .freeacess {
-        font-size: 1em;
         height: 44px;
         line-height: 44px;
         background-position: 12px 12px;
+    }
+    .features .freeacess, .footer .freeacess {
+        font-size: 1em;
     }
     .videosocwrap .social_networks {
         font-size: 0.929em;
