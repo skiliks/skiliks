@@ -144,7 +144,7 @@ return [
         'denejnaya' => "//ul[contains(@class,'ui-autocomplete')]/li[10]/a",
         'dobrohotov' => "//ul[contains(@class,'ui-autocomplete')]/li[11]/a",
         'dolgova' => "//ul[contains(@class,'ui-autocomplete')]/li[12]/a",
-        'trudyakin' => "//ul[contains(@class,'ui-autocomplete')]/li[13]/a",
+        'trudyakin' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
         'jeleznyi' => "//ul[contains(@class,'ui-autocomplete')]/li[14]/a",
         'kamenskiy' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
         'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/a",

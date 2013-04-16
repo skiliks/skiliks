@@ -34,8 +34,8 @@ class SK1253_Test extends SeleniumTestHelper
         $this->checkThemes();
 
 	    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
-        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
-        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
+        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[17]/a");
+        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[17]/a");
 
         //проверяем темы еще раз
         $this->checkThemes();
@@ -65,8 +65,8 @@ class SK1253_Test extends SeleniumTestHelper
         $this->click("xpath=(//*[contains(text(),'Беседа с консультантами')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
-        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
-        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
+        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[17]/a");
+        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[17]/a");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
