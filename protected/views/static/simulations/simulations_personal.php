@@ -21,7 +21,7 @@ $this->widget('zii.widgets.grid.CGridView', [
             'header' => Yii::t('site', 'Simulation'),
             'name' => 'sent_time'   ,
             'value' => '($data->scenario->slug === Scenario::TYPE_LITE ? Yii::t("site","Lite verion") : "") . "Базовый менеджмент"'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/{$data->scenario->slug}/$data->id\">Начать</a>"'  , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/promo/{$data->scenario->slug}/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);
 ?>
