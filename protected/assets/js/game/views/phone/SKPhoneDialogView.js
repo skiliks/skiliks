@@ -77,6 +77,7 @@ define([
                     //console.log("phone setTimeout");
                     if(me.options.model_instance.is_opened === true){
                         //console.log("phone close");
+                        me.options.model_instance.setOnTop();
                         me.options.model_instance.close();
                     }
 
@@ -100,6 +101,7 @@ define([
                     event.selectReplica(remote_replica.id, function () {
                         me.options.model_instance.setLastDialog(remote_replica.id);
                         if (remote_replica.is_final_replica === "1") {
+                            me.options.model_instance.setOnTop();
                             me.options.model_instance.close();
                         }
                     });
