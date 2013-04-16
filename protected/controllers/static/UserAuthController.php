@@ -706,7 +706,6 @@ class UserAuthController extends YumController
 
         // user must specify account to see simulation results
         if (false == $this->user->isHasAccount()) {
-            Yii::app()->user->setFlash('success', 'Чтобы посмотреть результаты симуляции вы должны выбрать тип своего аккаунта.');
             $this->redirect(['registration/choose-account-type']);
         }
 
