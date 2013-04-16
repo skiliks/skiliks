@@ -679,6 +679,7 @@ define([
                     });
 
                     setTimeout(function () {
+                        mailClientView.$('#' + folderId + ' .ml-list').mCustomScrollbar("destroy");
                         mailClientView.$('#' + folderId + ' .ml-list').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
                     }, 0);
 
