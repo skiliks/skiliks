@@ -46,6 +46,7 @@
  *
  * @method Replica getReplica
  * @method Activity getActivity
+ * @method ActivityAction getActivityAction
  * @method ActivityParentAvailability getActivityParentAvailability
  */
 class Scenario extends CActiveRecord

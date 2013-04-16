@@ -627,7 +627,7 @@ class LogTest extends CDbTestCase
      * Проверяет правильность агрегирования (схлопывания) 
      * данных из log activity actions (detailed) в log activity actions (agregated)
      */
-    public function testActivityLogAgregated() 
+    public function testActivityLogAggregated()
     {
         //$this->markTestSkipped();
 
@@ -658,20 +658,14 @@ class LogTest extends CDbTestCase
             ]
         ]);
         
-        $mainMainWindowActivityAction = ActivityAction::model()->find([
-            'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
-            'params'    => [
-                'window_id'    => $mainMainWindow->id,
-                'activity_id'  => $simulation->game_type->getActivity(['code' => 'A_wait'])->getPrimaryKey()
-            ]
+        $mainMainWindowActivityAction = $simulation->game_type->getActivityAction([
+            'window_id'    => $mainMainWindow->id,
+            'activity_id'  => $simulation->game_type->getActivity(['code' => 'A_wait'])->getPrimaryKey()
         ]);
         
-        $planPlanWindowActivityAction = ActivityAction::model()->find([
-            'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
-            'params'    => [
-                'window_id'    => $planPlanWindow->id,
-                'activity_id'  => $simulation->game_type->getActivity(['code' => 'T1.1'])->getPrimaryKey()
-            ]
+        $planPlanWindowActivityAction = $simulation->game_type->getActivityAction([
+            'window_id'    => $planPlanWindow->id,
+            'activity_id'  => $simulation->game_type->getActivity(['code' => 'T1.1'])->getPrimaryKey()
         ]);
         
         $mails = [];
