@@ -52,7 +52,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ну ладно, набери меня, когда освободишься')])");
 
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения. Впредь такого не будет')])", 'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, я готовлю презентацию для Босса')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'попрошу Трутнева поправить ошибку')])");
         sleep(10);
         $this->run_event('MS68');
         sleep(2);
