@@ -32,7 +32,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             new JotformFeedback({
                 formId:'30835043655352',
                 base:'http://jotformeu.com/',
-                windowTitle:'Обратная связь',
+                windowTitle:'Пожалуйста свяжитесь с нами',
                 background:'#FFA500',
                 fontColor:'#FFFFFF',
                 type:false,
