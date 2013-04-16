@@ -2987,21 +2987,84 @@ ul.profile-menu li {
 
 
 @media screen and (max-width: 1280px){
+    .narrow-contnt {
+        margin-left: 10px;
+    }
+    .wideblock {
+        width:520px;
+    }
+    .blue-btn {
+        padding: 0px 6px 0px 18px;
+    }
+    .skillstitle {
+        font-size: 12px;
+        width: 80px;
+    }
+    .transparent-boder {
+        padding: 6px;
+    }
     .dashboard {
+        margin: 0 auto;
         margin-top: 29px;
+        width: 765px;
+    }
+    #dashboard-skills-box {
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
     .dashboard .thetitle {
-        font-size: 1.7em;
+        font-size: 1.6em;
     }
     .dashboard .bigtitle {
-        font-size: 2.219em;
+        font-size: 1.9em;
     }
     .dashboard aside {
-        width: 260px;
+        width: 220px;
+    }
+    .dashboard aside h2 {
+        font-size: 1.4em;
+    }
+    .sideblock {
+        padding: 13px 4px 20px 6px;
+    }
+    .ratingwrap {
+        padding: 5px 2px 0px 2px;
+    }
+    .ratebg {
+        background-size: 98%;
+        height: 15px;
+        width:90px;
+    }
+    #private-invitations-list-box .grid-view .items th {
+        padding: 6px 4px;
+    }
+    #private-invitations-list-box .grid-view .items td, .items td
+     {
+        padding: 6px 3px;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
-        max-width: 76px;
-        width: 76px;
+        max-width: 52px;
+        width: 52px;
     }
-
+    #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
+    #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
+        max-width: 52px;
+        width: 52px;
+    }
+    #private-invitations-list-box .grid-view tr th:nth-child(4), #private-invitations-list-box .grid-view tr td:nth-child(4) {
+        max-width: 60px;
+        width: 60px;
+    }
+    #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
+        max-width: 110px;
+        width: 110px;
+    }
+    .grid-view table.items th, .grid-view table.items td {
+        font-size: 11px !important;
+    }
+    #corporate-invitations-list-box time, #private-invitations-list-box time {
+        margin-left: 6px;
+    }
+    .light-btn {
+        font-size: 12px;
+    }
 }
