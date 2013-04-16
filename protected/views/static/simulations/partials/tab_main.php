@@ -1,4 +1,4 @@
-<div class="textcener"><h2 class="total">{Yii::t('site', 'Overall manager’s rating')}</h2></div>
+<div class="textcener"><h2 class="total">Итоговый рейтинг менеджера</h2></div>
 <div class="allsummry">
     <div class="estmtresults">
         <div class="overall">
@@ -11,10 +11,10 @@
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
-        <div class="widthblock"><h2><a href="#managerial-skills">{Yii::t('site', 'Managerial skills')} <span class="signmore"></span></a></h2></div>
-        <div class="widthblock"><h2><a href="#productivity">{Yii::t('site', 'Productivity')} <span class="signmore"></span></h2></a></div>
-        <div class="widthblock"><h2><a href="#time-management">{Yii::t('site', 'Time management effectiveness')} <span class="signmore"></span></a></h2></div>
-        <div class="widthblock"><h2><a href="#personal-qualities">{Yii::t('site', 'Personal skills')} <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#productivity">Результативность<span class="signmore"></span></h2></a></div>
+        <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#personal-qualities">Личностные характеристики<span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
 </div>
 <div class="clearfix maincharts">
@@ -27,10 +27,10 @@
 </div>
 
 <div class="levellabels">
-    <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
-    <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
-    <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
-    <div class="widthblock"><h3>{Yii::t('site', 'Личностные качества, проявленные в симуляции')}</h3></div>
+    <div class="widthblock"><h3>Управленческие навыки </h3></div>
+    <div class="widthblock"><h3>Результативность</h3></div>
+    <div class="widthblock"><h3>Эффективность использования времени</h3></div>
+    <div class="widthblock"><h3>Личностные характеристики </h3></div>
 </div>
 <div class="rateslist">
     <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>
