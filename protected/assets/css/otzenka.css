@@ -158,10 +158,13 @@
 .timeprcnt {
     left:552px;
 }
-.estmtileswrap h2, .estmtileswrap h2 a {
+.estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
     font:24px 'ProximaNova-Bold';
     line-height: 90%;
     text-decoration: none;
+}
+.product .estmtileswrap h2, .product .estmtileswrap h2 a {
+    color: #fff;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
     color: #3d4041;
@@ -196,14 +199,14 @@
     top: -20px;
     vertical-align: top;
 }
-.gauge-charts {
+.gauge-charts, .product-gauge-charts {
     float: left;
     width: 730px;
 }
 .maincharts .chart-gauge.inline {
     margin: 0px 0px 15px;
 }
-.maincharts .bullet-charts {
+.maincharts .bullet-charts, .maincharts .product-bullet-charts {
     float: right;
     margin: 0px;
     padding: 0px;

@@ -24,7 +24,7 @@
 						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
 					</ul>
 
-                    <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Get free access')}</a>
+                    <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
                     <!-- FORM { -->
                     <!--
                     {if (false === $userSubscribed) }
