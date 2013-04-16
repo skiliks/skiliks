@@ -11,7 +11,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo Yii::t('site', 'Установите новый пароль или <a href="/recovery" class="lbluelink">восстановите</a> текущий'); ?>
+            <?php echo Yii::t('site', 'Установите новый пароль или <a href="/recovery?YumPasswordRecoveryForm[email]='.$profile->email.'" class="lbluelink">восстановите</a> текущий'); ?>
         </div>
 
         <div class="row">
