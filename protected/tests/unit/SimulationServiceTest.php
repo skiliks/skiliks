@@ -388,7 +388,7 @@ class SimulationServiceTest extends CDbTestCase
 
         $j = 0;
         foreach ($agregatedLogs as $agregatedLog) {
-            //echo "\n", $agregatedLog->leg_action, ' :: ', $agregatedLog->duration;
+            echo "\n", $agregatedLog->leg_action, ' :: ', $agregatedLog->duration;
             $this->assertEquals($res[$j]['action'],   $agregatedLog->leg_action, 'type, iteration '.$j);
             $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,  'duration, iteration '.$j);
             $j++;
@@ -477,7 +477,7 @@ class SimulationServiceTest extends CDbTestCase
 
         $log = $data[] = new LogActivityAction();
         $log->sim_id = $simulation->id;
-        $log->activity_action_id           = $actionAMY1->primaryKey;
+        $log->activity_action_id    = $actionAMY1->primaryKey;
         $log->window_uid            = 104;
         $log->start_time            = '09:12:50';
         $log->end_time              = '09:13:03';
@@ -487,9 +487,9 @@ class SimulationServiceTest extends CDbTestCase
         ]);
 
         $log = $data[] = new LogActivityAction();
-        $log->sim_id = $simulation->id;
-        $log->mail_id = 2;
-        $log->start_time = '09:13:03';
+        $log->sim_id                = $simulation->id;
+        $log->mail_id               = 2;
+        $log->start_time            = '09:13:03';
         $log->end_time              = '09:14:49';
         $log->activity_action_id    = $actionTRS6m->id;
         $log->window_uid            = 106;
@@ -556,7 +556,7 @@ class SimulationServiceTest extends CDbTestCase
 
         LogHelper::combineLogActivityAgregated($simulation, $data);
 
-        $agregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+        $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 
@@ -569,12 +569,13 @@ class SimulationServiceTest extends CDbTestCase
         ];
 
         $j = 0;
-        foreach ($agregatedLogs as $agregatedLog) {
-            $this->assertEquals($res[$j]['action'],   $agregatedLog->leg_action, 'type, iteration '.$j);
-            $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,   'duration, iteration '.$j);
+        foreach ($aggregatedLogs as $aggregatedLog) {
+            echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
+            $this->assertEquals($res[$j]['action'],   $aggregatedLog->leg_action, 'type, iteration '.$j);
+            $this->assertEquals($res[$j]['duration'], $aggregatedLog->duration,   'duration, iteration '.$j);
             $j++;
         }
-        $this->assertEquals(4, count($agregatedLogs), 'Total');
+        $this->assertEquals(4, count($aggregatedLogs), 'Total');
 
     }
 
