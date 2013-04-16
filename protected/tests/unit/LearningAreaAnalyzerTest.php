@@ -41,7 +41,7 @@ class LearningAreaAnalyzerTest extends PHPUnit_Framework_TestCase {
         $code = $simulation->game_type->getLearningArea(['code'=>13]);
         $assessment = SimulationLearningArea::model()->findByAttributes(['sim_id' => $simulation->id, 'learning_area_id' => $code->id]);
         /* @var $assessment SimulationLearningArea */
-        $this->assertEquals('2.18', round($assessment->value, 2));
+        $this->assertEquals('2.41', round($assessment->value, 2));
     }
 
     public function testAdoptionOfDecisionsBad() {
