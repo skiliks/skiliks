@@ -22,9 +22,9 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
 
     public function testSK1370()
     {
-        $mail_code = array('MY2','MY1','MY2','MY1','MS21','MY1','MS21','MSY10','MS21');
-        $window = array('mail main','mail main','mail main','mail main','mail new',
-            'mail main','mail main','mail main','mail main');
+        $mail_code = array('MY1','MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21');
+        $window = array('mail main','mail main','mail main','mail new',
+            'mail main','mail main','mail main','mail main','mail main');
         $log = array($window, $mail_code);
 
         //$this->markTestIncomplete();
