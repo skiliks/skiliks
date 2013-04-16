@@ -873,7 +873,7 @@ html[lang=ru] .product section table th{
 		margin-top:6px;
 	}
 	.product h2{
-		font-size:2.084em;
+        font-size: 2.219em;
 		margin-bottom:26px;
 	}
 	.product h6{
@@ -1042,7 +1042,7 @@ html[lang=ru] .product section table th{
 		width:575px;
 	}
 	.team article h2{
-		font:2.095em;
+        font-size: 2.219em;
 		margin-bottom:15px;
 	}
 	.team article p{
