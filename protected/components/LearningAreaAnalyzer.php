@@ -104,7 +104,7 @@ class LearningAreaAnalyzer {
 
         $sla = new SimulationLearningArea();
         $sla->learning_area_id = $learningArea->id;
-        $sla->value = round(min($value, 100), 2);
+        $sla->value = ($value < 0)?0:$value;
         $sla->sim_id = $this->simulation->id;
         $sla->save();
     }
@@ -368,7 +368,7 @@ class LearningAreaAnalyzer {
             return;
         }
 
-        $this->saveLearningArea(13, round($weight_8311 + $weight_8331 + $weight_8341 + $weight_8351 + $weight_8361, 2));
+        $this->saveLearningArea(13, $weight_8311 + $weight_8331 + $weight_8341 + $weight_8351 + $weight_8361);
     }
 
     /*
