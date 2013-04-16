@@ -23,7 +23,7 @@
                             <div class="overall">
                                 <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
                                 <div class="allseprtwrap">
-                                    <div class="ratepercnt uprnavprcnt">50+!</div>
+                                    <div class="ratepercnt uprnavprcnt">50%</div>
                                     <div class="ratepercnt resultprcnt">30%</div>
                                     <div class="ratepercnt timeprcnt">20%</div>
                                 </div>
