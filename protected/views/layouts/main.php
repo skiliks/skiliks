@@ -53,7 +53,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			
 			<!--header-->
 			<header>
-				<h1><a href="/">Skiliks</a></h1>
+				<h1>
+                    <a href="/">
+                        <img src="<?php echo $assetsUrl?>/img/logo-header.png" alt="Skiliks"/>
+                    </a>
+                </h1>
 
 
                 <nav id="account-links">
