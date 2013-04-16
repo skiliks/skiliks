@@ -26,6 +26,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/logo-header.png"/>
 		<meta charset="utf-8" />
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
