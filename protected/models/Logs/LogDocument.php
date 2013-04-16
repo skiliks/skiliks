@@ -86,7 +86,7 @@ class LogDocument extends CActiveRecord
         if ($activityAction !== null) {
             $activityAction->appendLog($this);
         } else {
-            throw new CException("The document must have id");//TODO:Проверить
+            //throw new CException("The document must have id"); TODO:Костыль, для лайт это 500-ая, нужно исправить в релизе 2
         }
 
         parent::afterSave();
