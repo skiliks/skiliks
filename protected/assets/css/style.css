@@ -366,7 +366,7 @@ a:focus, a:active {
 .container>header nav#static-page-links{
 	position:absolute;
 	top:8px;
-	right:130px;
+	right:0px;
 }
 .container>header nav#static-page-links a {
     background: none;
@@ -387,7 +387,7 @@ a:focus, a:active {
 .container>header nav#account-links{
     position:absolute;
     top:60px;
-    right:130px;
+    right:0;
 }
 #simulation-details label,
 .container>header nav a {
