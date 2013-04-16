@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="levellabels">
-                        <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
+                        <div class="widthblock"><h3>!!{Yii::t('site', 'Level of skills maturity')}</h3></div>
                         <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
                         <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
                         <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
