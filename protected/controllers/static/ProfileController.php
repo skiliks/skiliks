@@ -172,10 +172,12 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 //$this->redirect();
             }
         }
+        $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
 
         $this->render('password_corporate', [
             'passwordForm' => $passwordForm,
-            'is_done' => $is_done
+            'is_done' => $is_done,
+            'profile'=>$profile
         ]);
     }
 
@@ -203,10 +205,11 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 $is_done = true;
             }
         }
-
+        $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
         $this->render('password_personal', [
             'passwordForm' => $passwordForm,
-            'is_done' => $is_done
+            'is_done' => $is_done,
+            'profile'=>$profile
         ]);
     }
 
