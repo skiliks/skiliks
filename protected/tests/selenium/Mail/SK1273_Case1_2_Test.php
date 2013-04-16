@@ -22,7 +22,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
     public function testSK1273_Case1() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(30);
         $this->run_event('MS30');
@@ -50,17 +50,19 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Срочно жду бюджет логистики"));
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['close']);
+        print ("ol1");
         $this->assertTrue($this->incoming_counter(1));
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
+        print ("ol2");
 
         $this->mail_open("Re: Re: Re: Срочно жду бюджет логистики");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
-
+        print ("ol3");
         $this->waitForTextPresent("Re: Re: Re: Re: Срочно жду бюджет логистики");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         sleep(5);
