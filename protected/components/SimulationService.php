@@ -588,6 +588,14 @@ class SimulationService
         // Remove pause if it was set
         self::resume($simulation);
 
+        // @todo: find reason after release
+        // we close last Activation log
+        if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
+            $extra_log    = $logs_src[count($logs_src)-1];
+            $extra_log[2] = 'deactivated';
+            $logs_src[] = $extra_log;
+        }
+
         // данные для логирования
         EventsManager::processLogs($simulation, $logs_src);
 
