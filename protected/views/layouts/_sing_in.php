@@ -11,7 +11,7 @@
                 <input type="password" name="YumUserLogin[password]" placeholder="<?php echo Yii::t('site', 'Enter password') ?>" />
             </div>
             <div class="remember">
-                <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
+                <input type="checkbox" name="rememberMe" value="remember" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
             </div>
             <div class="errors">
             </div>

@@ -323,6 +323,10 @@ class UserAuthController extends YumController
     {
         $this->checkUser();
 
+        if (Yii::app()->user->isGuest) {
+            $this->redirect('/');
+        }
+
         // only activated user can choose account type
         if (false == $this->user->isActive()) {
             $this->redirect(['registration/error/active']);
