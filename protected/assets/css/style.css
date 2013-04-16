@@ -430,9 +430,9 @@ a:focus, a:active {
 		padding-top:38px;
 	}
 	.container>header h1{
-		background:url("../img/logo-header-min.png") no-repeat 0 0;
-		width:178px;
-		height:47px;
+		/*background:url("../img/logo-header-min.png") no-repeat 0 0;*/
+        width:222px;
+        height:58px;
 	}
 	.container>header .coming-soon{
 		background:url("../img/icon-coming-soon-min.png") no-repeat 0 0;
