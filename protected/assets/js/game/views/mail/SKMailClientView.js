@@ -677,9 +677,11 @@ define([
                     mailClientView.$('#' + folderId + ' .ml-header > *').click(function() {
                         $table.find('th:eq(' + $(this).index() + ')').click();
                     });
-
                     setTimeout(function () {
-                        mailClientView.$('#' + folderId + ' .ml-list').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
+                        var list = mailClientView.$('#' + folderId + ' .ml-list');
+                        if (!list.hasClass('mCustomScrollbar')) {
+                            list.mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
+                        }
                     }, 0);
 
                     this.isSortingNotApplied = false; // we upply sorting, so let other see it
