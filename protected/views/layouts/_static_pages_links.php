@@ -1,4 +1,6 @@
 <?php
+/* @var $user YumUser */
+//$user = YumUser::model()->findByAttributes(['id'=>Yii::app()->user->id]);
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -8,7 +10,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label' => Yii::t('site', 'My office'),
             'url' => ['static/dashboard/index'],
-            'visible' => 'ru' == Yii::app()->getLanguage()
+            'visible' => ('ru' == Yii::app()->getLanguage() AND !Yii::app()->user->isGuest AND !YumUser::model()->findByPk(Yii::app()->user->id)->isAnonymous())
         ],
         [
             'label' => Yii::t('site', 'Sign in'),
