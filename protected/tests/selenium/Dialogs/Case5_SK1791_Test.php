@@ -40,6 +40,10 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         //а тут идет отправка MS23
         sleep(10);
 
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->run_event('E1.3.3',"xpath=(//*[contains(text(),'Как твои дела?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вообще-то я про сводный бюджет')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, отличная методика, я сам ее и составлял')])");
@@ -47,17 +51,12 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, еще раз здравствуйте')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вы только не волнуйтесь,  бюджет немного задерживается')])");
 
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
         //для запуска E2.2 нужен флаг F3
         $this->optimal_click('link=F3');
         $this->run_event('E2.2',"xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, что с тобой? Возьми себя в руки!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Прекрасно, сообщи в отдел персонала о своем решении')])");
-
 
         $this->run_event('E8.5',"xpath=(//*[contains(text(),'Сергей, нужна помощь! Возьми ручку и записывай')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Так, отложи в сторону своих логистов')])");
@@ -68,8 +67,6 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я, а Трутнев')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'попрошу Трутнева поправить ошибку  в ближайшее время и переслать вам файл')])");
 
-
-
         $this->run_event('MS70');
         sleep(2);
         $this->run_event('RS1.1',"xpath=(//*[contains(text(),'Привет, Сергей! Ты очень занят?')])", 'click');
@@ -77,6 +74,8 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
 
+        $this->run_event('MS21');
+        sleep(2);
         $this->run_event('MS23');
         sleep(2);
         $this->run_event('MS54');
@@ -86,6 +85,7 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         //$this->Mail_log($Mail_log);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
+        sleep(1);
         $this->checkSimPoints('2','-31');
         $this->checkLearningArea('0.00','0.00','0.00','4.55','7.95','5','12.5','0.00');
 
