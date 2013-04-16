@@ -63,41 +63,41 @@
                         <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
                     </div>
                     <div class="rateslist">
-                        <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Scope of assessed skills')}</h3>
                             <ol class="bluelist">
-                                <li class="hassubmenu"><a href="#managerial-skills-1-2" data-parent="managerial-skills">Следование приоритетам</a></li>
-                                <li class="hassubmenu subisopen"><a href="#managerial-skills-1-2" data-parent="managerial-skills">Управление задачами</a>
+                                <li class="hassubmenu"><a href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Sticks to goals and priorities')}</a></li>
+                                <li class="hassubmenu subisopen"><a href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages tasks effectively')}</a>
                                     <ul>
-                                        <li><a href="#">Использование планирования в течение дня</a></li>
-                                        <li><a href="#">Правильное определение приоритетов задач при планировании</a></li>
-                                        <li><a href="#">Выполнение задач в соответствии с приоритетами</a></li>
-                                        <li><a href="#">Завершение начатых задач</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Uses planning during the day')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Correctly defines tasks’ priorities while planning')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Follows tasks priorities in execution')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Completes tasks in full')}</a></li>
                                     </ul>
                                 </li>
-                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">Управление людьми</a></li>
-                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">Оптимальный выбор каналов коммуникации</a></li>
-                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективная работа с почтой</a></li>
-                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">Эффективное управление звонками</a></li>
-                                <li class="hassubmenu"><a href="#managerial-skills-7" data-parent="managerial-skills">Эффективное управление встречами</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Wisely uses means of communication')}</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Manages people effectively')}</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with mail effectively')}</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with calls effectively')}</a></li>
+                                <li class="hassubmenu"><a href="#managerial-skills-7" data-parent="managerial-skills">{Yii::t('site', 'Deals with meetings effectively')}</a></li>
                             </ol>
                         </div>
                         <div class="widthblock"></div>
-                        <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Indicators')}</h3>
                             <ul class="bluelist nobultslist">
-                                <li><a href="#time-management-detail" data-parent="time-management">Распределение времени</a></li>
-                                <li><a href="#time-management">Сверхурочное время </a></li>
+                                <li><a href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Time distribution')}</a></li>
+                                <li><a href="#time-management">{Yii::t('site', 'Extra working hours')} </a></li>
                             </ul>
                         </div>
-                        <div class="widthblock"><h3>ИЗМЕРЯЕМЫЕ ХАРАКТЕРИСТИКИ</h3>
+                        <div class="widthblock"><h3>{Yii::t('site', 'Scope of measured qualities')}</h3>
                             <ul class="bluelist nobultslist">
-                                <li><a href="#personal-qualities">Ориентация на результат</a></li>
-                                <li><a href="#personal-qualities">Внимательность</a></li>
-                                <li><a href="#personal-qualities">Ответственность</a></li>
-                                <li><a href="#personal-qualities">Устойчивость к манипуляциям и давлению</a></li>
-                                <li><a href="#personal-qualities">Конструктивность</a></li>
-                                <li><a href="#personal-qualities">Гибкость</a></li>
-                                <li><a href="#personal-qualities">Принятие решений</a></li>
-                                <li><a href="#personal-qualities">Стрессоустойчивость</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Results-orientation')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Attentiveness')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Responsibility')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Resistance to manipulation')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Flexibility')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Decision-making')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Speed of work')}</a></li>
+                                <li><a href="#personal-qualities">{Yii::t('site', 'Stress-resistance')}</a></li>
                             </ul>
                         </div>
                     </div>

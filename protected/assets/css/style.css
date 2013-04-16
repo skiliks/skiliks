@@ -77,6 +77,7 @@ body {
 body.inner{
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
+    background-position: center top;
 }
 body.inner-team{
 	background-image:url("../img/bg-top-inner-team.jpg");
@@ -866,7 +867,7 @@ html[lang=ru] .product section table th{
 		padding:53px 13px 0;
 	}
 	.product section{
-		background-image:url("../img/bg-product-section-min.png");
+		/*background-image:url("../img/bg-product-section-min.png");*/
 		margin-top:10px;
 		padding-top:99px;
 	}
