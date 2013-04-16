@@ -325,7 +325,7 @@ class Scenario extends CActiveRecord
     }
 
 
-    public function getLearningGoals($data)
+    public function getLearningGoals($data = [])
     {
         if (is_array($data)) {
             $data['scenario_id'] = $this->id;
