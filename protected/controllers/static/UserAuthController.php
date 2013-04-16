@@ -324,7 +324,7 @@ class UserAuthController extends YumController
         $this->checkUser();
 
         if (Yii::app()->user->isGuest) {
-            $this->redirect('/');
+            $this->redirect('/user/auth');
         }
 
         // only activated user can choose account type
@@ -334,7 +334,7 @@ class UserAuthController extends YumController
 
         // user can choose account type once only
         if (true == $this->user->isHasAccount()) {
-            $this->redirect(['registration/error/has-account']);
+            $this->redirect('/dashboard');
         }
 
         // get exists profile
