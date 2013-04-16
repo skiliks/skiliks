@@ -166,6 +166,9 @@
 .product .lastwidthblock h2, .product .lastwidthblock h3 {
     margin-left:20px;
 }
+.product .bluelist, .product .rateslist h3  {
+    /*margin-left: 20px;*/
+}
 .estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
     color: #3d4041;
 }
