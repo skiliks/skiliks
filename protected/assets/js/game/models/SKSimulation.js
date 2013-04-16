@@ -382,7 +382,7 @@ define([
                      * @event stop
                      */
                     if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/dashboard');
+                        SKApp.simulation.set('result-url', '/dashboard#details');
                     }
 
                     $.each(SKDocument._excel_cache, function(id, url){
