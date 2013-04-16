@@ -27,10 +27,10 @@
 </div>
 
 <div class="levellabels">
-    <div class="widthblock"><h3>Управленческие навыки </h3></div>
-    <div class="widthblock"><h3>Результативность</h3></div>
-    <div class="widthblock"><h3>Эффективность использования времени</h3></div>
-    <div class="widthblock"><h3>Личностные характеристики </h3></div>
+    <div class="widthblock"><h3>Уровень владения навыками </h3></div>
+    <div class="widthblock"><h3>Уровень достижения результатов: количество и значимость выполненных задач</h3></div>
+    <div class="widthblock"><h3>Скорость достижения результатов</h3></div>
+    <div class="widthblock"><h3>Личностные качества, проявленные в симуляции </h3></div>
 </div>
 <div class="rateslist">
     <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>

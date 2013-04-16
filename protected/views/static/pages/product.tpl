@@ -33,13 +33,13 @@
                             <div class="widthblock"><h2><a href="#managerial-skills">{Yii::t('site', 'Managerial skills')} <span class="signmore"></span></a></h2></div>
                             <div class="widthblock"><h2><a href="#productivity">{Yii::t('site', 'Productivity')} <span class="signmore"></span></h2></a></div>
                             <div class="widthblock"><h2><a href="#time-management">{Yii::t('site', 'Time management effectiveness')} <span class="signmore"></span></a></h2></div>
-                            <div class="widthblock"><h2><a href="#personal-qualities">{Yii::t('site', 'Personal skills')} <span class="signmore"></span></a></h2></div>
+                            <div class="widthblock lastwidthblock"><h2><a href="#personal-qualities">{Yii::t('site', 'Personal skills')} <span class="signmore"></span></a></h2></div>
                         </div><!-- /estmtileswrap -->
                     </div>
                     <div class="clearfix maincharts">
 
                         <div class="product-gauge-charts"></div>
-                        <div class="product-bullet-charts" style="clear: both;"></div>
+                        <div class="product-bullet-charts"></div>
                         {literal}
                         <script type="text/javascript">
                             var r = Math.round;
@@ -54,6 +54,13 @@
 
                         </script>
                         {/literal}
+                    </div>
+
+                    <div class="levellabels">
+                        <div class="widthblock"><h3>Управленческие навыки </h3></div>
+                        <div class="widthblock"><h3>Результативность</h3></div>
+                        <div class="widthblock"><h3>Эффективность использования времени</h3></div>
+                        <div class="widthblock"><h3>Личностные характеристики </h3></div>
                     </div>
 
                     <!-- /NEW CONTENT -->
