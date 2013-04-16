@@ -5,6 +5,18 @@
 <div class="simulation-details">
     <script type="text/javascript">
         var AR = <?= json_encode($simulation->getAssessmentDetails()); ?>;
+
+        function drawChartBlock(classPrefix, data, codes) {
+            var i, k;
+            for (k = 1; k <= 2 * codes.length; k++) {
+                i = Math.ceil(k / 2);
+                new charts.Bar(
+                    '.' + classPrefix + '-' + i + ' .' + (k % 2 ? 'chartbar' : 'chartproblem'),
+                    Math.round(data && data[codes[i - 1]] ? data[codes[i - 1]][k % 2 ? '+' : '-'] : 0),
+                    { valueRenderer: function(v) { return v + '%';}, 'class': (k % 2 ? '' : 'redbar') }
+                );
+            }
+        }
     </script>
     <div class="navigatnwrap">
         <ul class="navigation">

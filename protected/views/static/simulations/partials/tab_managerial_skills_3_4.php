@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">50%</span>3. Управление людьми</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle peopleManagement"></span>3. Управление людьми</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -15,26 +15,26 @@
             <p class="labelwrap"><span class="thelabel">3.4 Делегирование задачи оптимальному сотруднику</span></p>
         </div>
         <div class="barswrap">
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts peopleManagement-1">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts peopleManagement-2">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 30%">&nbsp; 30%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts peopleManagement-3">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 70%">&nbsp; 70%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts peopleManagement-4">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
         </div>
     </div>
 
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">85%</span>4. Оптимальный выбор каналов коммуникации</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle communication"></span>4. Оптимальный выбор каналов коммуникации</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -48,20 +48,17 @@
             <p class="labelwrap"><span class="thelabel">4.3 Оптимальное использование встреч</span></p>
         </div>
         <div class="barswrap">
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts communication-1">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem">
-                    <span class="helpbuble">Перечень продемонстрированных ошибочных поведений</span>
-                    <span class="chart-value" style="width: 40%">40%</span>
-                </div>
+            <div class="twocharts communication-2">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 60%">&nbsp; 60%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 70%">&nbsp; 70%</span></div>
+            <div class="twocharts communication-3">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
         </div>
     </div>
@@ -76,3 +73,15 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(function() {
+        var v3 = AR.management[3],
+            v4 = AR.management[4];
+
+        drawChartBlock('peopleManagement', v3, ['412', '414', '415', '413']);
+        drawChartBlock('communication', v4, ['3214', '3216', '3218']);
+
+        $('.valuetitle.peopleManagement').html(Math.round(v3 && v3.total || 0) + '%');
+        $('.valuetitle.communication').html(   Math.round(v4 && v4.total || 0) + '%');
+    });
+</script>

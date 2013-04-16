@@ -13,16 +13,9 @@
     </div>
 
     <div class="barswrap personalbars">
-        <div class="resultOrientation"></div>
-        <div class="attentiveness"></div>
-        <div class="responsibility"></div>
-        <div class="stability"></div>
-        <div class="constructibility"></div>
-        <div class="flexibility"></div>
-        <div class="adoptionOfDecisions"></div>
-        <div class="shortIndicator">
+        <!--<div class="shortIndicator">
             <div class="shortindvalue">
-                <div class="bullet highlevel"></div><!-- highlevel - dlya vysokogo urovnya, lowlevel - dlya nizkogo -->
+                <div class="bullet highlevel"></div><
                 <div class="bar"></div>
             </div>
             <div class="shortchartvalue">продемонстрирован высокий уровень</div>
@@ -32,15 +25,25 @@
 <script type="text/javascript">
     $(function() {
         var result = AR.personal,
-            r = Math.round;
+            r = Math.round,
+            val,
+            codes = [14, 11, 12, 10, 15, 16, 13, 9];
 
-        new charts.Bullet('.resultOrientation', r(result.resultOrientation), {class: 'small', displayValue: true});
-        new charts.Bullet('.attentiveness', r(result.attentiveness), {class: 'small', displayValue: true});
-        new charts.Bullet('.responsibility', r(result.attentiveness), {class: 'small', displayValue: true});
-        new charts.Bullet('.stability', r(result.stability), {class: 'small', displayValue: true});
-        new charts.Bullet('.constructibility', r(result.constructibility), {class: 'small', displayValue: true});
-        new charts.Bullet('.flexibility', r(result.flexibility), {class: 'small', displayValue: true});
-        new charts.Bullet('.adoptionOfDecisions', r(result.adoptionOfDecisions), {class: 'small', displayValue: true});
-        new charts.Bullet('.stressResistance', r(result.stressResistance), {class: 'small', displayValue: true});
+        for (var i = 0; i < codes.length; i++) {
+            val = result[codes[i]] || 0;
+            if (codes[i] == 9) {
+                val = val > 50 ? 100 : 0;
+            }
+
+            new charts.Bullet(
+                '.personalbars',
+                r(val),
+                codes[i] == 9 ? {class: 'short'} : {class: 'small', displayValue: true}
+            );
+
+            if (codes[i] == 9) {
+                $('.personalbars').append('<div class="shortchartdesc">продемонстрирован ' + (val ? 'высокий' : 'низкий') + ' уровень</div>');
+            }
+        }
     });
 </script>

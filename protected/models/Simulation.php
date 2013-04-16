@@ -472,8 +472,37 @@ class Simulation extends CActiveRecord
         }
 
         // Management
-        // TODO
-        $result[AssessmentCategory::MANAGEMENT_SKILLS];
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code <= 8) {
+                $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+            }
+        }
+        foreach ($this->learning_goal as $row) {
+            if ($row->learningGoal->learningArea->code <= 8) {
+                if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
+                    $behaviourIds = [];
+                    foreach ($row->learningGoal->heroBehaviours as $behaviour) {
+                        $behaviourIds[] = $behaviour->id;
+                    }
+
+                    /** @var AssessmentAggregated[] $values */
+                    $values = AssessmentAggregated::model()->findAllByAttributes([
+                        'sim_id' => $this->id,
+                        'point_id' => $behaviourIds
+                    ]);
+
+                    foreach ($values as $point) {
+                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                        [$row->learningGoal->learningArea->code]
+                        [$point->point->code] = ['+' => substr($point->fixed_value / $point->point->scale * 100, 0, 5), '-' => 0];
+                    }
+                } else {
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                           [$row->learningGoal->learningArea->code]
+                           [$row->learningGoal->code] = ['+' => $row->percent, '-' => $row->problem];
+                }
+            }
+        }
 
         // Productivity
         foreach ($this->performance_aggregated as $row) {
@@ -485,29 +514,15 @@ class Simulation extends CActiveRecord
             $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
         }
 
-        $result['personal'] = [
-            'stressResistance'=>$this->getPersonalAssessment(9),
-            'stability'=>$this->getPersonalAssessment(10),
-            'responsibility'=>$this->getPersonalAssessment(12),
-            'resultOrientation'=>$this->getPersonalAssessment(14),
-            'constructibility'=>$this->getPersonalAssessment(15),
-            'flexibility'=>$this->getPersonalAssessment(16),
-            'adoptionOfDecisions'=>$this->getPersonalAssessment(13),
-            'attentiveness'=>$this->getPersonalAssessment(11),
-        ];
+        // Personal
+        $result[AssessmentCategory::PERSONAL] = [];
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code > 8) {
+                $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+            }
+        }
 
         return $result;
-    }
-
-    public function getPersonalAssessment($code) {
-        $learningArea = $this->game_type->getLearningArea(['code'=>$code]);
-        if ($learningArea !== null) {
-            $simulationLearningArea = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->id, 'learning_area_id'=>$learningArea->id]);
-            /* @var $simulationLearningArea SimulationLearningArea */
-            return $simulationLearningArea ? $simulationLearningArea->value : 0;
-        } else {
-            return 0;
-        }
     }
 }
 

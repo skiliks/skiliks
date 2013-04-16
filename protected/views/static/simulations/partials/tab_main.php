@@ -76,9 +76,6 @@
         new charts.Bullet('.bullet-charts', 70, {class: 'small'});
         new charts.Bullet('.bullet-charts', 40, {class: 'small'});
 
-        //new charts.Bullet('.bullet-charts', 50, {class: 'small'});
-        //new charts.Bullet('.bullet-charts', 70, {class: 'small'});
-       // new charts.Bullet('.bullet-charts', 40, {class: 'small'});
         $('.overall .value').html(r(AR.overall));
         $('.allrating').css('width', AR.overall + '%');
     });

@@ -515,36 +515,16 @@
 .personalbars * {
     font-family: "ProximaNova-Regular" !important;
 }
-.shortIndicator, .shortindvalue {
-    height: 30px;
-    position: relative;
-}
-.shortindvalue {
+.chart-bullet.short, .shortindvalue {
     width: 60px;
+    float: left;
 }
-.shortIndicator .bullet {
-    top:1px;
-}
-.shortIndicator .bullet.lowlevel {
-    left: 1px;
-}
-.shortIndicator .bullet.highlevel {
-    left: 28px;
-}
-.shortIndicator .bar {
-    border-radius: 15px !important;
-    height: 30px !important;
-    width: 60px !important;
-}
-.shortchartvalue {
+.shortchartdesc {
+    float: left;
+    position: relative;
+    top: 1px;
+    margin-left: 10px;
     font-size: 15px;
-    left: 70px;
-    position: absolute;
-    top:6px;
-}
-.personalbars .shortIndicator {
-    margin-left: -4px;
-    margin-top: -8px;
 }
 .personallabels {
     float: left;
@@ -846,7 +826,10 @@
 .mangrlresults .chartbar, .emptychart {
     margin-bottom: 18px;
 }
-.mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child .chartbar,
+.mangrlresults .chartbar, .mangrlresults .chartproblem {
+    margin-bottom: 18px;
+}
+.mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child > *,
 .barswrap .emptychart:last-child {
     margin-bottom: 0px;
 }
@@ -922,11 +905,11 @@
     text-align: center;
     width: 72px;
 }
-.twocharts .chartbar {
+.twocharts .chartbar, .twocharts .chartproblem {
     float: left;
     width: 345px !important;
 }
-.twocharts .chartbar.chartproblem {
+.twocharts .chartproblem {
     margin-left: 20px;
     width:235px !important;
 }

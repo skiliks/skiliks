@@ -183,7 +183,9 @@
                 easing: 'easeOutQuint',
                 duration: me.options.duration || 2000,
                 complete: function() {
-                    me.el.value.show().css('left', left + 'px').text(value + '%');
+                    if (me.options.displayValue) {
+                        me.el.value.show().css('left', left + 'px').text(value + '%');
+                    }
                 }
             });
         },

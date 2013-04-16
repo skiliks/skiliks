@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">55%</span>7. Эффективная работа со встречами</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle meetManagement"></span>7. Эффективная работа со встречами</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -14,17 +14,17 @@
             <p class="labelwrap"><span class="thelabel">7.3 Эффективная обработка результатов встречи</span></p>
         </div>
         <div class="barswrap">
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts meetManagement-1">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts meetManagement-2">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 30%">&nbsp; 30%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts meetManagement-3">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
         </div>
     </div>
@@ -40,3 +40,11 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(function() {
+        var v7 = AR.management[7];
+
+        drawChartBlock('meetManagement', v7, ['351a', '351b', '351c']);
+        $('.valuetitle.meetManagement').html(Math.round(v7 && v7.total || 0) + '%');
+    });
+</script>

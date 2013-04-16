@@ -15,11 +15,11 @@
             <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление людьми <span class="signmore"></span></a></span></p>
             <p class="labelwrap"><span class="thelabel labelhack"><a href="#managerial-skills-3-4">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
         </div>
-        <div class="barswrap">
-            <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-            <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-            <div class="chartbar"><span class="chart-value" style="width: 60%">&nbsp; 60%</span></div>
-            <div class="chartbar"><span class="chart-value" style="width: 40%">&nbsp; 40%</span></div>
+        <div class="barswrap main-skills">
+            <div class="chartbar management-1"></div>
+            <div class="chartbar management-2"></div>
+            <div class="chartbar management-3"></div>
+            <div class="chartbar management-4"></div>
         </div>
     </div>
     <div class="clearfix">
@@ -34,9 +34,9 @@
             <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-7">7. Эффективное управление встречами <span class="signmore"></span></a></span></p>
         </div>
         <div class="barswrap otherskills">
-            <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-            <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-            <div class="chartbar"><span class="chart-value" style="width: 60%">&nbsp; 60%</span></div>
+            <div class="chartbar management-5"></div>
+            <div class="chartbar management-6"></div>
+            <div class="chartbar management-7"></div>
         </div>
     </div>
 
@@ -48,3 +48,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        var result = AR.management,
+            r = Math.round,
+            renderer = function(v) { return v + '%'; };
+
+        for (var i = 1; i < 8; i++) {
+            new charts.Bar(
+                '.management-' + i,
+                r(result[i] && result[i].total ? result[i].total : 0),
+                { valueRenderer: renderer }
+            );
+        }
+    });
+</script>
