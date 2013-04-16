@@ -39,6 +39,6 @@ class Case2_SK1395_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2','0');
-        $this->checkLearningArea('4.27','0.00','0.00','0.00','0.00','8.82','5','0.00','20');
+        $this->checkLearningArea('4.27','0.00','0.00','0.00','8.82','5','0.00','20');
     }
 }
