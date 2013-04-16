@@ -209,12 +209,21 @@ class Invite extends CActiveRecord
 
     public function getSimulationResultsTag()
     {
-        if (in_array($this->status, [self::STATUS_PENDING])) {
+        if ($this->status == self::STATUS_PENDING) {
             return (string)$this->getAcceptActionTag().' или '.$this->getDeclineActionTag();
         }
 
-        if (in_array($this->status, [self::STATUS_COMPLETED])) {
-            return '80%';
+        if ($this->status == self::STATUS_COMPLETED && null != $this->simulation) {
+            $assessmentOverall = AssessmentOverall::model()->findByAttributes([
+                'sim_id'                   => $this->simulation->id,
+                'assessment_category_code' => AssessmentOverall::CODE_OVERALL,
+            ]);
+
+            if (null === $assessmentOverall) {
+                return '0%';
+            } else {
+                return $assessmentOverall->value.'%';
+            }
         }
 
         return null;
