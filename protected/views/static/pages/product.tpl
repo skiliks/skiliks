@@ -65,8 +65,13 @@
                     <div class="rateslist">
                         <div class="widthblock"><h3>{Yii::t('site', 'Scope of assessed skills')}</h3>
                             <ol class="bluelist">
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Sticks to goals and priorities')}</a></li>
-                                <li class="hassubmenu subisopen">
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Sticks to goals and priorities')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Sticks to company goals')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Follows personal priorities')}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu">
                                     <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages tasks effectively')}</a>
                                     <ul>
                                         <li><a href="#">{Yii::t('site', 'Uses planning during the day')}</a></li>
@@ -75,11 +80,42 @@
                                         <li><a href="#">{Yii::t('site', 'Completes tasks in full')}</a></li>
                                     </ul>
                                 </li>
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Wisely uses means of communication')}</a></li>
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Manages people effectively')}</a></li>
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with mail effectively')}</a></li>
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with calls effectively')}</a></li>
-                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-7" data-parent="managerial-skills">{Yii::t('site', 'Deals with meetings effectively')}</a></li>
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Manages people effectively')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Uses delegation to manage scope of work')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Effectively manages resources with different qualification')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Uses feedback')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Delegates tasks to optimal employees')}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Wisely uses means of communication')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Wisely uses emails')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Wisely uses phone calls')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Wisely uses meetings')}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with mail effectively')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Manages time spent on emails')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Effectively processes incoming emails')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Creates informative and short messages')}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with calls effectively')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Manages time spent on phone calls')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Reasonably answers incoming calls')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Effectively processes incoming calls')}</a></li>
+                                    </ul>
+                                </li>
+                                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-7" data-parent="managerial-skills">{Yii::t('site', 'Deals with meetings effectively')}</a>
+                                    <ul>
+                                        <li><a href="#">{Yii::t('site', 'Manages time spent on meetings')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Reasonably accepts visits')}</a></li>
+                                        <li><a href="#">{Yii::t('site', 'Effectively processes meeting outcomes')}</a></li>
+                                    </ul>
+                                </li>
                             </ol>
                         </div>
                         <div class="widthblock"></div>

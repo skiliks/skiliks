@@ -177,7 +177,7 @@
     line-height: 90%;
     text-align:center;
 }
-.product .estmtileswrap h2, .product h2, .product h2 a, .product h3, .product .levellabels h3 {
+.product .estmtileswrap h2, .product h2, .product h2 a, .product h2 a:visited, .product h3, .product .levellabels h3 {
     color: #fff;
 }
 .estmtileswrap .widthblock:nth-child(2) h2 {
@@ -289,6 +289,9 @@
 }
 .product .bluelist li:last-child {
     padding-bottom: 0px;
+}
+.product .bluelist li:last-child li:last-child {
+    padding-bottom: 8px;
 }
 .product .bluelist .subisopen {
     background:#5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
