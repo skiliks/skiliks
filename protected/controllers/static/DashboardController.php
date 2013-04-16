@@ -51,9 +51,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $this->redirect('/dashboard');
             }
 
-            $invite->message = $this->renderPartial('//global_partials/mails/invite', [
-                'invite' => $invite
-            ], true);
+            $invite->message = sprintf(
+                'Компания %s является лидером российского рынка, ' .
+                'известна своим подходом к формированию профессиональной команды ' .
+                'и развитию сотрудников на рабочем месте.' .
+                "\n" .
+                'Вопросы относительно вакансии и прохождения симуляции вы можете ' .
+                'задать по адресу %s куратору вакансии %s.',
+                $this->user->account_corporate->company_name,
+                $this->user->account_corporate->corporate_email,
+                $this->user->getFormattedName()
+            );
 
             $invite->signature = sprintf(Yii::t('site', 'Best regards, %s'), $invite->ownerUser->getFormattedName());
         }
