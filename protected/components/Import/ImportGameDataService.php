@@ -1142,7 +1142,7 @@ class ImportGameDataService
                     if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
                         continue;
                     }
-                    $goodTheme = CommunicationTheme::model()->findByAttributes([
+                    $goodTheme = $this->scenario->getCommunicationTheme([
                         'code'         => $communicationTheme->code,
                         'character_id' => $character->primaryKey,
                         'mail_prefix'  => sprintf('re%s', $communicationTheme->mail_prefix),
