@@ -500,9 +500,6 @@ span.required {
 #simulations-counter-box .greenbtn {
     margin-top: 14px;
 }
-.invite-people-form .errorMessage {
-    color: #fff;
-}
 .greenbtn, .greenbtn:link, .greenbtn:visited, .cabmessage input[type="submit"] {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
