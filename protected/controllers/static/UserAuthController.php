@@ -516,16 +516,10 @@ class UserAuthController extends YumController
 
         $body = $this->renderPartial('//global_partials/mails/verification', ['link' => $activation_url], true);
 
-        $body = sprintf(
-            'Для подтверждения существования вашего корпоративного e-mail пройдите по ссылке:
-            <a href="%s">"Подтвердить корпоративный e-mail"</a>.',
-            $activation_url
-        );
-
         $mail = array(
             'from'    => Yum::module('registration')->registrationEmail,
             'to'      => $user->getAccount()->corporate_email,
-            'subject' => "Подтверждение существования корпоративного e-mail, для Skiliks.com",
+            'subject' => 'Регистрация корпоративного пользователя на skiliks.com',
             'body'    => $body,
         );
         $sent = YumMailer::send($mail);
