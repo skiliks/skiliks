@@ -17,7 +17,6 @@ define([
      */
     SKPhoneCallView = SKWindowView.extend({
         title: "Телефон",
-        el:null,
 
         countMaxView: 1,
         addClass: "phone-call",
@@ -25,7 +24,6 @@ define([
 
         windowID: '',
 
-        SKWindow:null,
 
         dimensions: {
             width: 371,
@@ -36,7 +34,7 @@ define([
             'click .phone_get_menu':'getMenu',
             'click #phone_reply':'reply',
             'click #phone_no_reply':'noReply'
-        },SKWindowView.events),
+        },SKWindowView.prototype.events),
 
         /**
          * Constructor
