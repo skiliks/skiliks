@@ -4,7 +4,7 @@
             <input type="hidden" name="returnUrl" value="/dashboard"/>
 
             <div class="login">
-                <a href="/recovery"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
+                <a class="link-recovery" href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
                 <input type="text" name="YumUserLogin[username]" placeholder="<?php echo Yii::t('site', 'Enter login') ?>" />
             </div>
             <div class="password">
@@ -26,6 +26,30 @@
         </form>
     </div>
 
+    <div class="popup-recovery" style="display: none;">
+
+        <div class="form">
+
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'password-recovery-form',
+                'action'=>'recovery'
+            )); ?>
+            <?php $recoveryForm = new YumPasswordRecoveryForm; ?>
+            <div class="row">
+                <?php echo $form->labelEx($recoveryForm, 'email'); ?>
+                <?php echo $form->textField($recoveryForm, 'email'); ?>
+                <?php echo $form->error($recoveryForm, 'email'); ?>
+            </div>
+
+            <div class="row buttons">
+                <?php echo CHtml::submitButton(Yii::t('site', 'Восстановить')); ?>
+            </div>
+
+            <?php $this->endWidget(); ?>
+        </div>
+
+    </div>
+
     <script type="text/javascript">
         $(function () {
             var h=$('.container').height();
@@ -36,6 +60,26 @@
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
+        $(".link-recovery").click(function(){
+            $(".sign-in-box").dialog("close");
+            $(".popup-recovery").dialog('open');
+            $(".popup-recovery").dialog({
+                closeOnEscape: true,
+                dialogClass: 'sing-in-pop-up', //'popup-recovery-view',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                position: {
+                    my: "right top",
+                    at: "right bottom",
+                    of: $('#top header #static-page-links')
+                },
+                width: 275
+            });
+            return false;
+        });
+
+
     </script>
 
 <?php endif; ?>
@@ -61,5 +105,6 @@
             width: 275
         });
         $(".sign-in-box").dialog("close");
+
     });
 </script>
