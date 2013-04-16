@@ -73,5 +73,13 @@ $(document).ready(function () {
         return false;
     });
 
+    // product page, test results - sub list hide/show switcher
+    $('.hassubmenu a.sub-menu-switcher').click(function(){
+        if ($(this).parent().hasClass('subisopen')) {
+            $(this).parent().removeClass('subisopen');
+        } else {
+            $(this).parent().addClass('subisopen');
+        }
+    });
 
 });
