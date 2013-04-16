@@ -762,7 +762,7 @@ html[lang=ru] .main-article article{
 		margin:15px 5px 0 0;
         height: 65px;
 	}
-	.clients ul li a img{
+	.clients ul li img{
 		width:60%;
 	}
 }
@@ -919,6 +919,9 @@ html[lang=ru] .product section table th{
 		font-size:2.737em;
 		line-height:108px;
 	}
+    html[lang=ru] .product section table th:last-child {
+        background-position: 4px 0px;
+    }
 	.product section table td{
 		background-image:url("../img/bg-product-section-table-cell-min.png");
 		padding-bottom:34px;
@@ -2992,6 +2995,13 @@ ul.profile-menu li {
     }
     .dashboard .bigtitle {
         font-size: 2.219em;
+    }
+    .dashboard aside {
+        width: 260px;
+    }
+    #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
+        max-width: 76px;
+        width: 76px;
     }
 
 }
