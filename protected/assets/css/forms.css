@@ -88,6 +88,7 @@
     clear:both;
     padding-top:10px;
 }
+/*
 .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
     border-width:3px;
     height:20px;
@@ -98,7 +99,7 @@
 .registrationform input[type=password]:focus {
     width:162px;
 }
-
+*/
 .registrationform input[type=submit], .bigbtnsubmt {
     background:#146672 url("../img/icon-circlarow.png") no-repeat 38px 16px;
     border:none;
@@ -499,6 +500,9 @@ span.required {
 }
 #simulations-counter-box .greenbtn {
     margin-top: 14px;
+}
+.invite-people-form .errorMessage {
+    color: #fff;
 }
 .greenbtn, .greenbtn:link, .greenbtn:visited, .cabmessage input[type="submit"] {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;

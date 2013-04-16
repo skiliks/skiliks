@@ -25,25 +25,19 @@
     <div class="transparent-boder">
         <div class="row">
             <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('Введите Ваш email')]); ?>
-            <span class="errorMessageWrap">
-                <?php echo $form->error($profile    , 'email'); ?>
-            </span>
+            <?php echo $form->error($profile    , 'email'); ?>
         </div>
 
 
         <div class="row">
             <?php echo $form->passwordField($user, 'password', ['placeholder' => $profile->getAttributeLabel('Введите пароль')]); ?>
-            <span class="errorMessageWrap">
-                <?php echo $form->error($user        , 'password'); ?>
-            </span>
+            <?php echo $form->error($user        , 'password'); ?>
         </div>
 
 
         <div class="row">
             <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $profile->getAttributeLabel('Подтвердите пароль')]); ?>
-            <span class="errorMessageWrap">
-                <?php echo $form->error($user        , 'password_again'); ?>
-            </span>
+            <?php echo $form->error($user        , 'password_again'); ?>
         </div>
 
         <div class="row" style="display: none">
@@ -95,14 +89,13 @@
     });
 
     $(document).ready(function(){
-        var error = $(".errorMessageWrap");
-        for (var i=0; i < error.length; i++) {
-            if ($(error[i]).html().match(/\S+/)) {
-                var inp = $(error[i]).prev("input").width();
-                var top = $(error[i]).height();
-                $(error[i]).css("max-width",inp+35);
-                $(error[i]).css("top",-top);
-            }
+        var submit = $("#yum-user-registration-form input[type='submit']");
+        var errors = $(".errorMessage");
+        for (var i=0; i < errors.length;i++) {
+            var inp = $(errors[i]).prev("input.error");
+            $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
+            $(submit).width($(submit).width()-2);
         }
     });
 </script>
