@@ -15,6 +15,7 @@ class AssessmentCategory extends CActiveRecord
     const MANAGEMENT_SKILLS  = 'management';
     const PRODUCTIVITY       = 'performance';
     const TIME_EFFECTIVENESS = 'time';
+    const PERSONAL           = 'personal'; // Does not calculate, just for slug!
     const OVERALL            = 'overall';
 
 	/**

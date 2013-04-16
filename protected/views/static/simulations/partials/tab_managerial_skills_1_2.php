@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">60%</span>1. Следование приоритетам</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle followPriorities"></span>1. Следование приоритетам</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -13,18 +13,18 @@
             <p class="labelwrap"><span class="thelabel"><a href="#">1.2 Следование личным приоритетам</a></span></p>
         </div>
         <div class="barswrap">
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts followPriorities-1">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts followPriorities-2">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
         </div>
     </div>
 
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle">45%</span>2. Управление задачами</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle taskManagement"></span>2. Управление задачами</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -39,24 +39,21 @@
             <p class="labelwrap"><span class="thelabel">2.4 Завершение начатых задач <span class="helpbuble">Описание навыка</span></span></p>
         </div>
         <div class="barswrap">
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 20%">&nbsp; 20%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 0%"></span></div>
+            <div class="twocharts taskManagement-1">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem">
-                    <span class="helpbuble">Перечень продемонстрированных ошибочных поведений</span>
-                    <span class="chart-value" style="width: 40%">40%</span>
-                </div>
+            <div class="twocharts taskManagement-2">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 60%">&nbsp; 60%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 70%">&nbsp; 70%</span></div>
+            <div class="twocharts taskManagement-3">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar"><span class="chart-value" style="width: 50%">&nbsp; 50%</span></div>
-                <div class="chartbar chartproblem"><span class="chart-value" style="width: 40%">&nbsp; 40%</span></div>
+            <div class="twocharts taskManagement-4">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
             </div>
         </div>
     </div>
@@ -71,3 +68,15 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(function() {
+        var v1 = AR.management[1],
+            v2 = AR.management[2];
+
+        drawChartBlock('followPriorities', v1, ['123', '112']);
+        drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
+
+        $('.valuetitle.followPriorities').html(Math.round(v1 && v1.total || 0) + '%');
+        $('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
+    });
+</script>

@@ -25,6 +25,10 @@ class LearningGoalAnalyzer
         }
 
         foreach ($learningGoals as $goal) {
+            if ($goal->learningArea->code > 8) { // Calc only management skills
+                continue;
+            }
+
             $totalPos = 0; $maxPos = 0;
             $totalCons = 0; $maxCons = 0;
             foreach ($goal->heroBehaviours as $behaviour) {
@@ -52,8 +56,8 @@ class LearningGoalAnalyzer
             $slg->sim_id = $this->simulation->id;
             $slg->learning_goal_id = $goal->id;
             $slg->value = $totalPos;
-            $slg->percent = $maxPos ? round(min($totalPos / $maxPos * 100, 100), 2) : 0;
-            $slg->problem = $maxCons ? round(max($totalCons / $maxCons * 100, -100), 2) : 0;
+            $slg->percent = $maxPos ? substr(min($totalPos / $maxPos * 100, 100), 0, 5) : 0;
+            $slg->problem = $maxCons ? substr(max($totalCons / $maxCons * 100, -100), 0, 5) : 0;
 
             $slg->save();
         }

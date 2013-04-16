@@ -102,11 +102,13 @@ class LearningAreaAnalyzer {
     {
         $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);
 
-        $sla = new SimulationLearningArea();
-        $sla->learning_area_id = $learningArea->id;
-        $sla->value = ($value < 0) ? 0 : $value;
-        $sla->sim_id = $this->simulation->id;
-        $sla->save();
+        if ($learningArea) {
+            $sla = new SimulationLearningArea();
+            $sla->learning_area_id = $learningArea->id;
+            $sla->value = max(min($value, 100), 0);
+            $sla->sim_id = $this->simulation->id;
+            $sla->save();
+        }
     }
 
     protected function calcCombinedSkills($learningAreaCode)
@@ -118,15 +120,17 @@ class LearningAreaAnalyzer {
         $ids = [];
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
-        foreach ($area->learningGoals as $learningGoal) {
-            /** @var SimulationLearningGoal $slg */
-            $slg = SimulationLearningGoal::model()->findByAttributes([
-                'sim_id' => $this->simulation->id,
-                'learning_goal_id' => $learningGoal->id
-            ]);
+        if ($area) {
+            foreach ($area->learningGoals as $learningGoal) {
+                /** @var SimulationLearningGoal $slg */
+                $slg = SimulationLearningGoal::model()->findByAttributes([
+                    'sim_id' => $this->simulation->id,
+                    'learning_goal_id' => $learningGoal->id
+                ]);
 
-            $total += $slg->value * $slg->getReducingCoefficient();
-            $ids[] = $learningGoal->id;
+                $total += $slg->value * $slg->getReducingCoefficient();
+                $ids[] = $learningGoal->id;
+            }
         }
 
         /** @var HeroBehaviour[] $behaviours */

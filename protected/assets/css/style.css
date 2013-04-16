@@ -2834,7 +2834,7 @@ ul.profile-menu li {
     z-index: 1000;
 }
 
-.chart-bar, .chartbar {
+.chart-bar {
     overflow: hidden;
     height: 30px;
     border-radius: 5px;
@@ -2866,6 +2866,9 @@ ul.profile-menu li {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.chart-bar.redbar .chart-value{
+    background-color: #e11a1a;
 }
 
 .chart-bullet {

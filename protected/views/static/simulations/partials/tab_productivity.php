@@ -30,12 +30,12 @@
     $(function() {
         var result = AR.performance,
             r = Math.round,
-            renderer = function(v) { return v + '%'; };
+            renderer = function(v) { return v + '%';},
+            categories = ['0', '1', '2', '2_min'];
 
-        new charts.Bar('.bars', r(result['0']), { valueRenderer: renderer });
-        new charts.Bar('.bars', r(result['1']), { valueRenderer: renderer });
-        new charts.Bar('.bars', r(result['2']), { valueRenderer: renderer });
-        new charts.Bar('.bars', r(result['2_min']), { valueRenderer: renderer });
+        for (var i = 0; i < categories.length; i++) {
+            new charts.Bar('.bars', r(result[categories[i]] || 0), { valueRenderer: renderer });
+        }
 
         $('.productivity-total').html(Math.round(result.total) + '%');
     });

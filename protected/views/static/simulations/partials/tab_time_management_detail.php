@@ -60,7 +60,7 @@
     }
 
     for (i = 0; i < bad.length; i++) {
-        new charts.Bar('.timeblock.bad .timebars', bad[i], {max: badMax, hideMax: true});
+        new charts.Bar('.timeblock.bad .timebars', bad[i], {max: badMax, hideMax: true, 'class': 'redbar'});
     }
 
     $('.good .testtime strong').html(goodPercents);
