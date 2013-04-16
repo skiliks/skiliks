@@ -68,7 +68,7 @@ class AssessmentPointsTest extends CDbTestCase
 
         $learningGoalsForUpdateCodes = [];
         $sum = []; // $learningGoalsForUpdateNegativeScaleSum
-        $arr = [0,0.5,1,1,1]; // ещё пару едениц - "с запасом", реально используются первые 3 цифры
+        $arr = [0,0.5,1,1,1,1,1,1,1]; // ещё пару едениц - "с запасом", реально используются первые 3 цифры
         $learningGoalCoefficient = [];
         $countBehavioursInGoals = [];
         $learningGoals = [];
