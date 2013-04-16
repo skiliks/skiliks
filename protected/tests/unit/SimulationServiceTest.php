@@ -429,8 +429,8 @@ class SimulationServiceTest extends CDbTestCase
 
         $log = $data[]   = new LogActivityAction();
         $log->sim_id     = $simulation->id;
-        $log->start_time = '09:07:20';
-        $log->end_time   = '09:07:43';
+        $log->start_time = '09:07:40';
+        $log->end_time   = '09:08:03';
         $log->window     = 41;
         $log->window_uid = 101;
 
@@ -444,15 +444,15 @@ class SimulationServiceTest extends CDbTestCase
         $log = $data[] = new LogActivityAction();
         $log->sim_id             = $simulation->id;
         $log->activity_action_id = $actionTRS6->primaryKey;
-        $log->start_time         = '09:07:43';
-        $log->end_time           = '09:11:58';
+        $log->start_time         = '09:08:03';
+        $log->end_time           = '09:12:18';
         $log->window_uid         = 102;
 
 
         $log = $data[] = new LogActivityAction();
         $log->sim_id             = $simulation->id;
         $log->window             = 41;
-        $log->start_time         = '09:11:58';
+        $log->start_time         = '09:12:18';
         $log->end_time           = '09:12:41';
         $log->activity_action_id = $action41->primaryKey;
 
@@ -477,7 +477,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id    = $actionAMY1->primaryKey;
         $log->window_uid            = 104;
         $log->start_time            = '09:12:50';
-        $log->end_time              = '09:13:03';
+        $log->end_time              = '09:13:03';  // ++
         $actionTRS6m = ActivityAction::model()->findByAttributes([
             'activity_id' => $simulation->game_type->getActivity(['code' => 'TRS6'])->id,
             'document_id' => NULL
@@ -487,7 +487,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->sim_id                = $simulation->id;
         $log->mail_id               = 2;
         $log->start_time            = '09:13:03';
-        $log->end_time              = '09:14:49';
+        $log->end_time              = '09:14:59';
         $log->activity_action_id    = $actionTRS6m->id;
         $log->window_uid            = 106;
 
@@ -495,7 +495,7 @@ class SimulationServiceTest extends CDbTestCase
         $log = $data[] = new LogActivityAction();
         $log->sim_id = $simulation->id;
         $log->mail_id               = 1;
-        $log->start_time            = '09:14:49';
+        $log->start_time            = '09:14:59';
         $log->end_time              = '09:15:00';
         $log->activity_action_id    = $actionAMY1->id;
         $log->window_uid = 104;
@@ -511,7 +511,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->sim_id                = $simulation->id;
         $log->window                = 11;
         $log->start_time            = '09:15:00';
-        $log->end_time              = '09:15:14';
+        $log->end_time              = '09:15:24';
         $log->activity_action_id    = $actionARS10->id;
         $log->window_uid = 104;
 
@@ -521,19 +521,18 @@ class SimulationServiceTest extends CDbTestCase
         ]);
 
         $log = $data[] = new LogActivityAction();
-
         $log->sim_id                = $simulation->id;
         $log->window                = 13;
-        $log->start_time            = '09:15:14';
-        $log->end_time              = '09:15:43';
+        $log->start_time            = '09:15:24';
+        $log->end_time              = '09:15:39';
         $log->activity_action_id    = $actionAU->id;
-        $log->window_uid = 104;
-        $log = $data[] = new LogActivityAction();
+        $log->window_uid            = 103;
 
+        $log = $data[]              = new LogActivityAction();
         $log->sim_id                = $simulation->id;
         $log->window                = 41;
-        $log->start_time            = '09:15:43';
-        $log->end_time              = '09:16:28';
+        $log->start_time            = '09:15:39';
+        $log->end_time              = '09:15:58';
         $log->activity_action_id    = $action41->id;
         $log->window_uid = 110;
         $actionT321 = ActivityAction::model()->findByAttributes([
@@ -544,10 +543,10 @@ class SimulationServiceTest extends CDbTestCase
         $log = $data[] = new LogActivityAction();
         $log->sim_id                = $simulation->id;
         $log->window                 = 42;
-        $log->start_time            = '09:16:29';
+        $log->start_time            = '09:15:59';
         $log->end_time              = '09:20:55';
         $log->activity_action_id    = $actionT321->id;
-        $log->window_uid = 110;
+        $log->window_uid = 111;
 
         LogHelper::combineLogActivityAgregated($simulation, $data);
 
@@ -558,8 +557,8 @@ class SimulationServiceTest extends CDbTestCase
         $res = [
             ['action' => 'main screen', 'duration' => '00:08:03'],
             ['action' => 'D1'         , 'duration' => '00:05:00'],
-            ['action' => 'MS48'       , 'duration' => '00:03:25'],
-            ['action' => 'D1'         , 'duration' => '00:04:26'],
+            ['action' => 'MS48'       , 'duration' => '00:02:55'],
+            ['action' => 'D1'         , 'duration' => '00:04:56'],
         ];
 
         $j = 0;
