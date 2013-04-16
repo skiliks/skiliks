@@ -12,30 +12,33 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
+        // init data {
+        $lgs = $simulation->game_type->getLearningGoals();
 
-        $asses = new AssessmentAggregated();
-        $asses->point_id = 1;
-        $asses->sim_id = $simulation->id;
-        $asses->fixed_value = 34.50;
-        $asses->save();
+        $goals = [];
+        $i = 1;
+        foreach($lgs as $lg) {
+            $goals[$i] = $lg;
+            $i++;
+            if (3 < $i) {
+                break;
+            }
+        }
 
-        $asses = new AssessmentAggregated();
-        $asses->point_id = 2;
-        $asses->sim_id = $simulation->id;
-        $asses->fixed_value = 26.50;
-        $asses->save();
-
-        $asses = new AssessmentAggregated();
-        $asses->point_id = 3;
-        $asses->sim_id = $simulation->id;
-        $asses->fixed_value = -11;
-        $asses->save();
+        $simLearnGoal = new SimulationLearningGoal();
+        $simLearnGoal->sim_id = $simulation->id;
+        $simLearnGoal->learning_goal_id = $goals[1]->id;
+        $simLearnGoal->percent = 20;
+        $simLearnGoal->value = 20;
+        $simLearnGoal->problem = 30;
+        $simLearnGoal->save();
+        // init data }
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialSkills();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('50.00', $sim->getCategoryAssessment('management'));
+        $this->assertEquals('10.47', $sim->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS));
 
         $asses = new PerformancePoint();
         $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 1])->getPrimaryKey();
@@ -51,16 +54,26 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 3])->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
+
+        // ---------------------------
+
         SimulationService::calculatePerformanceRate($simulation);
+
+        $assessmentOverall = new AssessmentOverall();
+        $assessmentOverall->sim_id = $simulation->id;
+        $assessmentOverall->assessment_category_code = AssessmentCategory::TIME_EFFECTIVENESS;
+        $assessmentOverall->value = 30;
+        $assessmentOverall->save();
+
         $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialProductivity();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('4.45', $sim->getCategoryAssessment('performance')); // 3.00
+        $this->assertEquals('4.45', $sim->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY));
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkOverallManagerRating();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('26.34', $sim->getCategoryAssessment('overall')); // 25.90
+        $this->assertEquals('12.57', $sim->getCategoryAssessment(AssessmentCategory::OVERALL));
 
     }
 
