@@ -15,22 +15,48 @@
 							<td>{Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')}</td>
 						</tr>
 					</table>
-                    <div class="product-gauge-charts"></div>
-                    <div class="product-bullet-charts" style="clear: both;"></div>
-                    {literal}
-                    <script type="text/javascript">
-                        var r = Math.round;
 
-                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
-                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
-                        new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                    <!-- NEW CONTENT -->
+                    <div class="textcener"><h2 class="total">{Yii::t('site', 'Overall manager’s rating')}</h2></div>
+                    <div class="allsummry">
+                        <div class="estmtresults">
+                            <div class="overall">
+                                <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
+                                <div class="allseprtwrap">
+                                    <div class="ratepercnt uprnavprcnt">50%</div>
+                                    <div class="ratepercnt resultprcnt">30%</div>
+                                    <div class="ratepercnt timeprcnt">20%</div>
+                                </div>
+                            </div>
+                        </div><!-- /estmtresults -->
+                        <div class="estmtileswrap">
+                            <div class="widthblock"><h2><a href="#managerial-skills">{Yii::t('site', 'Managerial skills')} <span class="signmore"></span></a></h2></div>
+                            <div class="widthblock"><h2><a href="#productivity">{Yii::t('site', 'Productivity')} <span class="signmore"></span></h2></a></div>
+                            <div class="widthblock"><h2><a href="#time-management">{Yii::t('site', 'Time management effectiveness')} <span class="signmore"></span></a></h2></div>
+                            <div class="widthblock"><h2><a href="#personal-qualities">{Yii::t('site', 'Personal skills')} <span class="signmore"></span></a></h2></div>
+                        </div><!-- /estmtileswrap -->
+                    </div>
+                    <div class="clearfix maincharts">
 
-                        new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
-                        new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
-                        new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
+                        <div class="product-gauge-charts"></div>
+                        <div class="product-bullet-charts" style="clear: both;"></div>
+                        {literal}
+                        <script type="text/javascript">
+                            var r = Math.round;
 
-                    </script>
-                    {/literal}
+                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+
+                            new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
+                            new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
+                            new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
+
+                        </script>
+                        {/literal}
+                    </div>
+
+                    <!-- /NEW CONTENT -->
 					<section>
 						<hgroup>
 							<h3>{Yii::t('site', 'More Information')}</h3>
