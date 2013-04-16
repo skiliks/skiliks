@@ -308,12 +308,12 @@
     display: block;
 }
 .product .hassubmenu>a {
-    background:url("../img/openclose.png") no-repeat right top;
+    background:url("../img/openclose.png") no-repeat right 2px;
     display:block;
     padding-right: 26px;
 }
 .product .subisopen>a {
-    background-position: right bottom;
+    background-position: right -76px;
 }
 .product .subisopen ul {
     margin-top: 8px;
