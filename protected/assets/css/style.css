@@ -1888,6 +1888,7 @@ html[lang=ru] .product section table th{
 .sing-in-pop-up {
     background: none repeat scroll 0 0 #146672;
     border-radius: 8px 8px 8px 8px;
+    border:none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
     margin-top:25px;
@@ -2978,4 +2979,19 @@ ul.profile-menu li {
     right: 0;
     bottom: 0;
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
+}
+
+
+
+@media screen and (max-width: 1280px){
+    .dashboard {
+        margin-top: 29px;
+    }
+    .dashboard .thetitle {
+        font-size: 1.7em;
+    }
+    .dashboard .bigtitle {
+        font-size: 2.219em;
+    }
+
 }
