@@ -8,13 +8,13 @@
                         </div>
                         <div class="social_networks smallicons">
                             <span>{Yii::t('site', 'Share')}:</span>
-                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-                                <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y">Share on vk</span></span></a>
-                                <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y">Share on facebook</span></span></a>
-                                <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y">Share on twitter</span></span></a>
-                                <a class="addthis_button_google_plusone_share at300b" g:plusone:count="false" href="http://www.addthis.com/bookmark.php?v=300&amp;winname=addthis&amp;pub=ra-5158c9c22198d938&amp;source=tbx32-300&amp;lng=en-US&amp;s=google_plusone_share&amp;url=http%3A%2F%2Flive.skiliks.com%2F&amp;title=Skiliks%20-%20game%20the%20skills&amp;ate=AT-ra-5158c9c22198d938/-/-/516aff725e2802ec/2&amp;frommenu=1&amp;uid=516aff72dd444ad3&amp;ct=1&amp;pre=http%3A%2F%2Flive.skiliks.com%2Fdashboard&amp;tt=0&amp;captcha_provider=nucaptcha" target="_blank" title="Google+"><span class=" at300bs at15nc at15t_google_plusone_share"><span class="at_a11y">Share on google_plusone_share</span></span></a>
-                                <a class="addthis_button_linkedin at300b" href="http://www.addthis.com/bookmark.php?v=300&amp;winname=addthis&amp;pub=ra-5158c9c22198d938&amp;source=tbx32-300&amp;lng=en-US&amp;s=linkedin&amp;url=http%3A%2F%2Flive.skiliks.com%2F&amp;title=Skiliks%20-%20game%20the%20skills&amp;ate=AT-ra-5158c9c22198d938/-/-/516aff725e2802ec/3&amp;frommenu=1&amp;uid=516aff725adc8e8d&amp;ct=1&amp;pre=http%3A%2F%2Flive.skiliks.com%2Fdashboard&amp;tt=0&amp;captcha_provider=nucaptcha" target="_blank" title="Linkedin"><span class=" at300bs at15nc at15t_linkedin"><span class="at_a11y">Share on linkedin</span></span></a>
-                                <div class="atclear"></div></div>
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}">
+                                <a class="addthis_button_vk"></a>
+                                <a class="addthis_button_facebook"></a>
+                                <a class="addthis_button_twitter"></a>
+                                <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
+                                <a class="addthis_button_linkedin"></a>
+                            </div>
                         </div>
                     </div>
 					<ul>
@@ -81,10 +81,10 @@
 					<h3>{Yii::t('site', 'Our Clients')}</h3>
 					
 					<ul>
-                        <li><a href="#">{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
-						<li><a href="#" style="margin-top:12px;">{CHtml::image("$assetsUrl/img/icon-mif.png")}</a></li>
-						<li><a href="#" style="margin-top:8px;">{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</a></li>
-						<li><a href="#">{CHtml::image("$assetsUrl/img/icon-mcg.png")}</a></li>
+                        <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
+						<li style="margin-top:12px;">{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
+						<li style="margin-top:8px;">{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-mcg.png")}</li>
 					</ul>
 				</section>
 				<!--clients end-->
