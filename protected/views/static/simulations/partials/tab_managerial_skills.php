@@ -1,5 +1,5 @@
 <div class="extrasidepads managerialmain">
-    <div class="textcener"><h2 class="total totalwithresult">Управленческие навыки <span class="value blockvalue">0%</span></h2></div>
+    <div class="textcener"><h2 class="total totalwithresult">Управленческие навыки <span class="value blockvalue managerial-skills"></span></h2></div>
     <div class="clearfix">
         <div class="labeltitles">
             <h3>По группам навыков</h3>
@@ -61,5 +61,7 @@
                 { valueRenderer: renderer }
             );
         }
+
+        $('.managerial-skills').html(r(result.total || 0) + '%');
     });
 </script>

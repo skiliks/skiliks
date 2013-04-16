@@ -45,20 +45,27 @@ class Evaluation {
 
     public function checkManagerialSkills()
     {
-        $aggregated = AssessmentAggregated::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
-        $value = 0;
+        $scenario = $this->simulation->game_type;
 
-        /* @var $row AssessmentAggregated */
-        foreach ($aggregated as $row) {
-            if($row->point->isPositive()){
-                $value += $row->fixed_value;
+        $total = 0;
+        $maxRate = 0;
+
+        foreach ($this->simulation->learning_goal as $goalPoint) {
+            if ($goalPoint->learningGoal->learningArea->code <= 8) {
+                $total += $goalPoint->value * $goalPoint->getReducingCoefficient();
             }
+        }
+
+        /** @var HeroBehaviour[] $behaviours */
+        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1]);
+        foreach ($behaviours as $behaviour) {
+            $maxRate += $behaviour->scale;
         }
 
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::MANAGEMENT_SKILLS;
         $result->sim_id = $this->simulation->id;
-        $result->value = $value;
+        $result->value = substr($maxRate ? $total / $maxRate * 100 : 0, 0, 10);
 
         $result->save();
     }
