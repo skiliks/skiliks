@@ -104,7 +104,7 @@ class LearningAreaAnalyzer {
 
         $sla = new SimulationLearningArea();
         $sla->learning_area_id = $learningArea->id;
-        $sla->value = ($value < 0)?0:$value;
+        $sla->value = ($value < 0) ? 0 : $value;
         $sla->sim_id = $this->simulation->id;
         $sla->save();
     }

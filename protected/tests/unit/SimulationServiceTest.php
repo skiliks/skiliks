@@ -1399,5 +1399,31 @@ class SimulationServiceTest extends CDbTestCase
 
         $this->assertEquals([1, 2, 15], $list);
     }
+
+    /**
+     * Проверяет как система справляется с багом "в конце симуляции последний лог открывающий"
+     */
+    public function testSimulation_SimStopWithOpenLog()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $logs = [];
+        $logs[0][0]	= 1;
+        $logs[0][1]	= 1;
+        $logs[0][2]	= 'activated';
+        $logs[0][3]	= 65115;
+        $logs[0]['window_uid'] = 24;
+
+        //EventsManager::processLogs($simulation, $logs);
+
+        SimulationService::simulationStop($simulation, $logs);
+
+        $this->assertEquals(true, true, 'SimStopWithOpenLog handled well!');
+    }
 }
 
