@@ -785,7 +785,7 @@ class UserAuthController extends YumController
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {
-                    Yii::app()->user->setFlash('notice', 'Instructions have been sent to you. Please check your email.');
+                    Yii::app()->user->setFlash('notice', 'Инструкции были отправлены к вам. Пожалуйста, проверьте свою электронную почту.');
                     $this->redirect('/');
                 } else {
                     Yii::app()->user->setFlash('error', 'There was an error sending recovery email');
