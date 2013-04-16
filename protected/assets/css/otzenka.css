@@ -308,7 +308,7 @@
     display: block;
 }
 .product .hassubmenu>a {
-    background:url("../img/openclose.png") no-repeat right 2px;
+    background:url("../img/openclose.png") no-repeat right top;
     display:block;
     padding-right: 26px;
 }
