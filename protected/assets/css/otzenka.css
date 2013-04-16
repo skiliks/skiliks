@@ -163,6 +163,9 @@
     line-height: 90%;
     text-decoration: none;
 }
+.product .lastwidthblock h2 {
+    margin-left:22px;
+}
 .product .estmtileswrap h2, .product .estmtileswrap h2 a {
     color: #fff;
 }
@@ -192,6 +195,9 @@
     padding: 0px;
     width:240px;
 }
+.product .widthblock, .product-gauge-charts .chart-gauge {
+    width: 237px;
+}
 .estmtileswrap .widthblock {
     vertical-align: bottom;
 }
@@ -199,9 +205,20 @@
     top: -20px;
     vertical-align: top;
 }
-.gauge-charts, .product-gauge-charts {
+.gauge-charts {
     float: left;
     width: 730px;
+}
+.product-gauge-charts {
+    float: left;
+    width: 711px;
+}
+.product-gauge-charts .chart-gauge .chart-value {
+    color: #fff;
+    font-size: 14px;
+}
+.chart-gauge {
+
 }
 .maincharts .chart-gauge.inline {
     margin: 0px 0px 15px;
@@ -212,12 +229,19 @@
     padding: 0px;
     width: 250px;
 }
-.maincharts .bullet-charts .chart-value {
+.maincharts .product-bullet-charts {
+    width: 237px;
+}
+.maincharts .bullet-charts .chart-value, .product-bullet-charts .chart-value {
     display: none !important;
 }
 .maincharts .chart-bullet.small {
     width: 220px !important;
     margin: 20px 0;
+}
+.product-bullet-charts .chart-bullet.small {
+    margin-left: 30px;
+    width:200px !important;
 }
 .rateslist {
     margin-top: 16px;
