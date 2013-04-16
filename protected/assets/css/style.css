@@ -328,7 +328,7 @@ a:focus, a:active {
 	position:relative;
 }
 .container>header h1{
-	background:url("../img/logo-header.png") no-repeat 0 0;
+/*	background:url("../img/logo-header.png") no-repeat 0 0; */
 	width:222px;
 	height:58px;
 }
@@ -337,6 +337,10 @@ a:focus, a:active {
 	width:inherit;
 	height:inherit;
 	text-indent:-9999px;
+    overflow:hidden;
+}
+.container>header h1 a img {
+    display:block;
 }
 .container>header .coming-soon{
 	background:url("../img/icon-coming-soon.png") no-repeat 0 0;
