@@ -1,9 +1,9 @@
-/*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
+/*global SKWindow, _, SKDocument,  SKConfig, SKWindowView, SKApp, SKPhoneContactsCollection, SKDialogView, define, console, $
  */
 
 define([
     "text!game/jst/document/document_xls_template.jst",
-    "game/views/SKWindowView"
+    "game/views/SKWindowView",
 ],function (
     document_xls_template
 ) {
@@ -69,9 +69,9 @@ define([
 
             console.log('Add listener in view.');
             if (window.addEventListener){
-                window.addEventListener("message", me.zoho500callback, false);
+                window.addEventListener("message", _.bind(me.handlePostMessage, me), false);
             } else {
-                window.attachEvent("onmessage", me.zoho500callback);
+                window.attachEvent("onmessage", _.bind(me.handlePostMessage, me));
             }
 
             window.SKWindowView.prototype.initialize.call(this);
@@ -86,16 +86,34 @@ define([
         handlePostMessage: function(event) {
             console.log('handlePostMessage in view.');
             var me = this;
-            var doc = me.options.model_instance.get('document');
+            // var doc = me.options.model_instance.get('document');
+            var doc = null;
 
-            if (event.data.type == "Zoho_500") {
+            $.each(SKDocument._excel_cache, function(id, url){
+                url = url.replace('\r', '');
+                console.log(url.replace('\r', ''), event.data.url.replace('\r', ''));
+                console.log(url.replace('\r', '').lendth, event.data.url.replace('\r', '').lendth);
+                console.log(url.replace('\r', '') === event.data.url.replace('\r', ''));
+                console.log('--------------------------------------------------------------');
+                if(url.replace('\r', '') === event.data.url.replace('\r', '')){
+                    doc = SKApp.simulation.documents.where({id:id.toString()});
+                }
+            });
+
+            if (null === doc) {
+                return;
+            }
+
+            if (event.data.type === "Zoho_500") {
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
+                    'modal': true,
                     'buttons': [
                         {
                             'value': 'Перезагрузить',
                             'onclick': function () {
                                 SKApp.simulation.afterZohoCrash = true;
+                                var doc = me.options.model_instance.get('document');
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.remove(doc);
                                 SKApp.simulation.documents.fetch();
@@ -118,7 +136,7 @@ define([
          * @param el
          */
         displayZohoIframe:function (doc, el) {
-            if (false == this.isRender) {
+            if (false === this.isRender) {
                 return;
             }
 
@@ -139,7 +157,7 @@ define([
          * @param el
          */
         renderContent:function (el) {
-            if (false == this.isRender) {
+            if (false === this.isRender) {
                 return;
             }
 
@@ -190,7 +208,6 @@ define([
             var me = this;
             this.hideZohoIframe();
 
-            var me = this;
             if (window.removeEventListener){
                 window.removeEventListener("message", me.zoho500callback,false);
             } else {

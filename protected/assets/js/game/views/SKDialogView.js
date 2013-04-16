@@ -47,7 +47,7 @@ define([
                 $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; z-index: 10000; height: 100%;;width:100%;"></div>');
             
 
-            $('.windows-container').prepend(this.preventOtherClicksElement);
+            $('.canvas').prepend(this.preventOtherClicksElement);
             
             var me = this;
             $('.preventOtherClicks').click(function(){
@@ -63,6 +63,7 @@ define([
          */
         'render': function () {
             var me = this;
+            console.log('this.options.modal = ', this.options.modal);
             if (this.options.modal !== false) {
                 // must be first to get Z-index under dialog HTML block
                 this.renderPreventClickElement();
