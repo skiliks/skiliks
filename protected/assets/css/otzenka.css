@@ -164,19 +164,18 @@
     text-decoration: none;
 }
 .product .lastwidthblock h2 {
-    margin-left:22px;
-}
-.product .estmtileswrap h2, .product .estmtileswrap h2 a {
-    color: #fff;
+    margin-left:20px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
     color: #3d4041;
 }
-.estmtileswrap h2, .simulation-result-popup .levellabels h3 {
-
+.estmtileswrap h2, .simulation-result-popup .levellabels h3, .product .levellabels h3  {
     color:#3d4041;
     line-height: 90%;
     text-align:center;
+}
+.product .estmtileswrap h2, .product h2, .product h2 a, .product h3, .product .levellabels h3 {
+    color: #fff;
 }
 .estmtileswrap .widthblock:nth-child(2) h2 {
     padding-bottom: 21px;
@@ -269,6 +268,42 @@
     font: 15px "ProximaNova-Regular";
     text-decoration: none;
 }
+.product .bluelist li {
+    background:url("../img/bullit.png") no-repeat 0px 5px;
+    list-style-type: none;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+.product .bluelist li, .product .bluelist a {
+    color: #fff;
+    font-size: 1.083em;
+}
+.product .bluelist li:last-child {
+    padding-bottom: 0px;
+}
+.product .bluelist .subisopen {
+    background:#5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    padding-top: 3px;
+    margin-bottom: 4px;
+}
+.product .hassubmenu>a {
+    background:url("../img/openclose.png") no-repeat right 2px;
+    display:block;
+    padding-right: 26px;
+}
+.product .subisopen>a {
+    background-position: right bottom;
+}
+.product .subisopen ul {
+    margin-top: 8px;
+}
+.product .subisopen li a {
+    font-size: 0.85em;
+}
+
 .resulttitele, .resulttitele a, .resulttitele a:visited {
     color:#3d4041;
     font:26px 'ProximaNova-Bold';
