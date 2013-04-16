@@ -163,7 +163,7 @@
     line-height: 90%;
     text-decoration: none;
 }
-.product .lastwidthblock h2 {
+.product .lastwidthblock h2, .product .lastwidthblock h3 {
     margin-left:20px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
@@ -261,11 +261,13 @@
 .bluelist li {
     margin: 0px;
     padding: 0px;
-    padding-bottom: 5px;
+    padding-bottom: 7px;
 }
 .bluelist li, .bluelist a, .bluelist a:visited {
     color: #2d7b91;
-    font: 15px "ProximaNova-Regular";
+    font-family:"ProximaNova-Regular";
+    font-size: 15px;
+    /*font-size: 1em;*/
     text-decoration: none;
 }
 .product .bluelist li {
@@ -277,6 +279,10 @@
 .product .bluelist li, .product .bluelist a {
     color: #fff;
     font-size: 1.083em;
+    line-height: 110%;
+}
+.product .bluelist a {
+    min-height: 18px;
 }
 .product .bluelist li:last-child {
     padding-bottom: 0px;
@@ -288,6 +294,12 @@
     border-radius: 4px;
     padding-top: 3px;
     margin-bottom: 4px;
+}
+.product .bluelist ul {
+    display: none;
+}
+.product .bluelist .subisopen ul {
+    display: block;
 }
 .product .hassubmenu>a {
     background:url("../img/openclose.png") no-repeat right 2px;
@@ -371,6 +383,9 @@
     font-weight: bold;*/
     line-height: 120%;
     margin-bottom: 20px;
+}
+.product .total {
+    margin-top:60px;
 }
 .totalwithresult {
     padding-left: 52px;
