@@ -3010,7 +3010,7 @@ ul.profile-menu li {
         margin-top: 29px;
         width: 765px;
     }
-    #dashboard-skills-box {
+    #dashboard-skills-box, .nice-border {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
     .dashboard .thetitle {
@@ -3023,7 +3023,7 @@ ul.profile-menu li {
         width: 220px;
     }
     .dashboard aside h2 {
-        font-size: 1.4em;
+        font-size: 1.3em;
     }
     .sideblock {
         padding: 13px 4px 20px 6px;
@@ -3035,14 +3035,13 @@ ul.profile-menu li {
     .ratebg {
         background-size:cover;
         height: 12px;
-        margin-top:2px;
         width:67px;
     }
     .rating {
         background-size:cover;
         height: 12px;
     }
-    #dashboard-skills-box sup {
+    #dashboard-skills-box sup, .items sup {
         font-size: 0.67em;
         line-height: 130%;
         vertical-align: top;
@@ -3076,13 +3075,132 @@ ul.profile-menu li {
         max-width: 110px;
         width: 110px;
     }
+    #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
+        width: 122px;
+    }
+
+    #corporate-invitations-list-box #yw0_c1 a {
+        width:104px;
+    }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
     }
     #corporate-invitations-list-box time, #private-invitations-list-box time {
+        margin-left: 4px;
+    }
+    .light-btn, .invite-people-form input[type="submit"], .blue-btn  {
+        font-size: 12px;
+    }
+    .sideform label {
+        font-size: 11px;
+        width: 45px;
+    }
+    .sideform input[type="text"] {
+        height: 20px;
+        font-size: 11px;
+        line-height: 20px;
+    }
+    #Invite_firstname {
+        width:52px;
+    }
+    #Invite_lastname {
+        margin-left: 2px;
+        width: 60px;
+    }
+    #Invite_email {
+        width: 130px;
+    }
+    .invite-people-form .sbHolder {
+        width: 120px;
+    }
+    #simulations-counter-box, #invite-people-box {
+        width:200px;
+    }
+    #invite-people-box {
+        padding-bottom: 10px;
+    }
+    #simulations-counter-box {
+        padding-left: 8px;
+    }
+    .sideblock {
+        padding: 6px 4px 6px 6px;
+    }
+    #simulations-counter-box strong {
+        font-size: 14px;
+    }
+    .brightblock {
+        font-size: 15px;
+    }
+    #simulations-counter-box .brightblock {
         margin-left: 6px;
     }
-    .light-btn {
+    .greenbtn, .greenbtn:link, .greenbtn:visited, .cabmessage input[type="submit"] {
+        font-size: 11px;
+    }
+    .errorMessage {
+        font-size:11px;
+    }
+    .invite-people-form input[type="submit"] {
+        margin-left: 55px;
+    }
+    .profilewrap ul.profile-menu {
+        width: 200px;
+    }
+    .profile-menu a {
+        font-size: 14px;
+    }
+    .profileform {
+        padding: 16px;
+        width: 510px;
+    }
+    .profileform label {
+        font-size: 13px;
+        width: 140px;
+    }
+    .form-vacancy input[type="text"] {
+        width:272px;
+    }
+    .profileform .form-vacancy .sbHolder {
+        width:280px;
+    }
+    #profile_firstname, #profile_lastname, #UserAccountCorporate_company_name {
+        width:156px;
+    }
+    .profileform input[type="text"], .profileform input[type="password"] {
+        color: #1D7885;
+        height: 20px;
         font-size: 12px;
+        line-height: 20px;
+        padding: 2px 4px;
+    }
+    .profileform .sbHolder {
+        height:17px;
+        width: 240px;
+    }
+    .profileform input[type="submit"] {
+        background-position: 20px 14px;
+        height: 44px;
+        line-height: 40px;
+        font-size: 16px;
+        padding: 0 20px 0 48px;
+    }
+    #account-corporate-password-form label {
+        font-size: 14px;
+    }
+
+    #UserAccountCorporate_company_description {
+        width:300px;
+    }
+    .tarifform .value, .simulations-counter {
+        font-size: 16px;
+    }
+    .inner .content
+    {
+        margin: 29px auto 0;
+        width: 765px;
+    }
+    .inner .thetitle
+    {
+        font-size: 2.219em;
     }
 }
