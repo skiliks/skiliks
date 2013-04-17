@@ -518,7 +518,10 @@ class UserAuthController extends YumController
 
         $activation_url = $user->getCorporationEmailVerificationUrl();
 
-        $body = $this->renderPartial('//global_partials/mails/verification', ['link' => $activation_url], true);
+        $body = $this->renderPartial('//global_partials/mails/verification', [
+            'link' => $activation_url,
+            'name' => $user->getFormattedName()
+        ], true);
 
         $mail = array(
             'from'    => Yum::module('registration')->registrationEmail,

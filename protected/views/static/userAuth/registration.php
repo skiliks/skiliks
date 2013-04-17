@@ -24,19 +24,19 @@
 
     <div class="transparent-boder">
         <div class="row">
-            <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('Введите Ваш email')]); ?>
+            <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
             <?php echo $form->error($profile    , 'email'); ?>
         </div>
 
 
         <div class="row">
-            <?php echo $form->passwordField($user, 'password', ['placeholder' => $profile->getAttributeLabel('Введите пароль')]); ?>
+            <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
             <?php echo $form->error($user        , 'password'); ?>
         </div>
 
 
         <div class="row">
-            <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $profile->getAttributeLabel('Подтвердите пароль')]); ?>
+            <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
             <?php echo $form->error($user        , 'password_again'); ?>
         </div>
 

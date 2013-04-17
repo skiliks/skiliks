@@ -377,6 +377,18 @@ class YumUser extends YumActiveRecord
         $usernameRequirements = Yum::module()->usernameRequirements;
         $passwordRequirements = Yum::module()->passwordRequirements;
 
+        $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
+        $rules[] = array('superuser', 'in', 'range' => array(0, 1));
+        $rules[] = array('username, createtime, lastvisit, lastpasswordchange, superuser, status', 'required');
+        $rules[] = array('notifyType, avatar', 'safe');
+        $rules[] = array('password', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Password is required'));
+        $rules[] = array('password', 'safe');
+        $rules[] = array('salt', 'required', 'on' => array('insert', 'registration'));
+        $rules[] = array('createtime, lastvisit, lastaction, superuser, status', 'numerical', 'integerOnly' => true);
+
+        $rules[] = array('password_again', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Repeat password'));
+        $rules[] = array('password', 'compare', 'compareAttribute' => 'password_again', 'message' => Yii::t('site', 'Passwords do not match'));
+
         $passwordrule = array_merge(array('password', 'YumPasswordValidator'), $passwordRequirements);
 
         $rules[] = $passwordrule;
@@ -406,15 +418,6 @@ class YumUser extends YumActiveRecord
             'message' => Yii::t('site', $usernameRequirements['dontMatchMessage'])
         );
 
-        $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
-        $rules[] = array('superuser', 'in', 'range' => array(0, 1));
-        $rules[] = array('username, createtime, lastvisit, lastpasswordchange, superuser, status', 'required');
-        $rules[] = array('notifyType, avatar', 'safe');
-        $rules[] = array('password', 'required', 'on' => array('insert', 'registration'));
-        $rules[] = array('password', 'safe');
-        $rules[] = array('salt', 'required', 'on' => array('insert', 'registration'));
-        $rules[] = array('createtime, lastvisit, lastaction, superuser, status', 'numerical', 'integerOnly' => true);
-
         if (Yum::hasModule('avatar')) {
             // require an avatar image in the avatar upload screen
             $rules[] = array('avatar', 'required', 'on' => 'avatarUpload');
@@ -430,9 +433,7 @@ class YumUser extends YumActiveRecord
                 'on' => 'avatarSizeCheck');
         }
 
-        $rules[] = array('password_again', 'required', 'on' => array('insert', 'registration'));
-        $rules[] = array('password_again', 'length', 'min' => 6);
-        $rules[] = array('password', 'compare', 'compareAttribute' => 'password_again');
+
 
         return $rules;
     }
