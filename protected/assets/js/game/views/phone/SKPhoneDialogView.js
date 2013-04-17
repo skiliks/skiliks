@@ -72,11 +72,8 @@ define([
             // this.isUserCanFinalizeCall = false by default
             //event.get('data').length < 2
             if (event.get('data')[0].code === 'None' || event.get('data')[0].code === 'Auto') {
-                //console.log("phone is auto");
                 var timeout = setTimeout(function(){
-                    //console.log("phone setTimeout");
                     if(me.options.model_instance.is_opened === true){
-                        //console.log("phone close");
                         me.options.model_instance.setOnTop();
                         me.options.model_instance.close();
                     }

@@ -2127,6 +2127,7 @@ define([
                 );
             },
             onMailFantasticSend: function (email) {
+
                 var me = this;
                 me.isFantasticSend = true;
                 setTimeout(function () {

@@ -127,7 +127,6 @@ define([
                 // zoho 500 {
                 this.zoho500callback = function(event) {
                     if ('Zoho_500' === event.data.type) {
-                        console.log('zoho500callback');
                         me.handlePostMessage(event);
                     }
                 }

@@ -71,6 +71,8 @@ define([
                             SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
                         });
                     } else {
+                        var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                        windows[0].setOnTop();
                         SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
                     }
                     simulation.mailClient.on('mail:fantastic-send:complete', function () {
@@ -94,6 +96,8 @@ define([
                             SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                         });
                     } else {
+                        var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                        windows[0].setOnTop();
                         SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                     }
                     simulation.mailClient.on('mail:fantastic-open:complete', function () {
