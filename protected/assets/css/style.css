@@ -895,7 +895,7 @@ html[lang=ru] .product section table th{
 	.product section{
 		/*background-image:url("../img/bg-product-section-min.png");*/
 		margin-top:10px;
-		padding-top:99px;
+		padding-top:30px;
 	}
 	.product section h3{
 		font-size:1.714em;
@@ -3204,12 +3204,85 @@ ul.profile-menu li {
         margin: 29px auto 0;
         width: 765px;
     }
-    .action-product .content {
+    /*.action-product .content {
         width:948px;
+    }*/
+    .allsummry {
+        background-size: 55%;
+    }
+    .allratebg, .allrating {
+        background-image: url("../img/starsbigsml.png");
+        height: 20px;
+        width: 113px;
+    }
+    .estmtresults {
+        height: 110px;
+    }
+    .allseprtwrap .ratepercnt {
+        top:18px;
+    }
+    .uprnavprcnt {
+        left: 112px;
+    }
+    .resultprcnt {
+        left: 276px;
+    }
+    .timeprcnt {
+        left: 442px;
+    }
+    .ratepercnt {
+        font-size: 14px;
     }
     .inner .thetitle
     {
         font-size: 2.219em;
+    }
+    .product-gauge-charts {
+        width: 570px;
+    }
+    .chart-gauge .pointer {
+        left:18px;
+    }
+    .product-gauge-charts .chart-value {
+        left:196px !important;
+    }
+    .product-gauge-charts .chart-gauge,
+    .maincharts .product-bullet-charts {
+        height: 106px;
+        width:190px;
+    }
+    .product .widthblock {
+        width:190px;
+    }
+    .product-bullet-charts .chart-bullet.small {
+        width:170px !important;
+    }
+    .maincharts .chart-bullet.small {
+        margin:16px 0px 16px 10px;
+    }
+    .chart-gauge, .signmore  {
+        -moz-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+    }
+    .product-bullet-charts {
+        -moz-transform: scale(0.9);
+        -o-transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+    .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
+        font-size:18px;
+    }
+    .levellabels h3 {
+        font-size:15px;
+    }
+    .rateslist h3 {
+        font-size: 14px;
+    }
+    .product .bluelist li, .product .bluelist a {
+        font-size: 12px;
     }
 
 }
