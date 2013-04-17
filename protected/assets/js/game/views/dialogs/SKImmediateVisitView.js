@@ -55,12 +55,16 @@ define([
                     'video_src': video_src,
                     'img_src': image_src
                 });
-
+                var is_first_replica = !el.html();
                 $('<div class="hidden placeholder" />').html(text).appendTo(el);
-                if (video_src) {
-                    el.find('video.visit-background').on('loadeddata', renderFn);
-                } else if (image_src) {
-                    el.find('img.visit-background').on('load', renderFn);
+                if (!is_first_replica) {
+                    if (video_src) {
+                        el.find('video.visit-background').on('loadeddata', renderFn);
+                    } else if (image_src) {
+                        el.find('img.visit-background').on('load', renderFn);
+                    } else {
+                        renderFn();
+                    }
                 } else {
                     renderFn();
                 }
