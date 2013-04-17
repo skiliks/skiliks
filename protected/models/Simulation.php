@@ -435,8 +435,8 @@ class Simulation extends CActiveRecord
         ]);
     }
 
-    public function getLastLiteSimulation($user) {
-        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+    public function getLastSimulation($user, $type) {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $type]);
         if ($scenario) {
             $this->getDbCriteria()->mergeWith(array(
                 'condition' => "user_id = :user_id AND end is not null AND scenario_id = :scenario_id ORDER BY id DESC",
