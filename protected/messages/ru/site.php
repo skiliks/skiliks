@@ -239,6 +239,7 @@ return array(
     'Failure cause' => 'Причина отказа',
     'Confirmation' => 'Подтверждение',
     'Sign up' => 'Зарегистрироваться',
+    'Enter email' => 'Введите Ваш email',
 
     'Next' => 'Вперед',
     'Previous' => 'Назад',
