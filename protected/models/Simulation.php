@@ -275,7 +275,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty window end time");
             }
-            if ($unixtime && ($unixtime + Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
                 throw new Exception("Time gap");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -297,7 +297,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time");
             }
-            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
                 throw new Exception("Time gap");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -322,7 +322,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time");
             }
-            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
                 throw new Exception("Time gap");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -383,7 +383,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time");
             }
-            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
                 throw new Exception("Time gap");
             }
             if ($unixtime > strtotime($log->start_time)) {
