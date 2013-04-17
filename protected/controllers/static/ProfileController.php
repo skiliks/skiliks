@@ -58,7 +58,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
                     $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
                 } else {
-                    $account->addError('birthday', Yii::t('site', 'Incorrect birthday value'));
+                    $account->addError('birthday', Yii::t('site', 'Incorrect birthday'));
                 }
             } else {
                 $account->birthday = null;
@@ -163,7 +163,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $passwordForm->validate();
 
             if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
-                $passwordForm->addError('currentPassword', Yii::t('site', 'Ваш текущий пароль не правильный'));
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Wrong current password'));
             }
 
             if (!$passwordForm->hasErrors()) {
@@ -197,7 +197,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $passwordForm->validate();
 
             if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
-                $passwordForm->addError('currentPassword', Yii::t('site', 'Ваш текущий пароль не правильный'));
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Wrong current password'));
             }
 
             if (!$passwordForm->hasErrors()) {

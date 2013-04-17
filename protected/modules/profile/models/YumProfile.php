@@ -185,10 +185,10 @@ class YumProfile extends YumActiveRecord
 
 		$rules[] = array('allow_comments, show_friends', 'numerical');
 		$rules[] = array('email', 'unique', 'on' => array('insert', 'registration'));
-		$rules[] = array('email', 'CEmailValidator');
+		$rules[] = array('email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email'));
 		$rules[] = array('privacy', 'safe');
 
-        $rules[] = array('email', 'required', 'on' => array('insert', 'registration'));
+        $rules[] = array('email', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Email is required'));
         $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
         $rules[] = array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required'));
 

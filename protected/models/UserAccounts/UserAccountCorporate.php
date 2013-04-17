@@ -87,7 +87,7 @@ class UserAccountCorporate extends CActiveRecord
 			array('user_id'         , 'required'),
 			array('corporate_email' , 'required', 'message' => Yii::t('site','Email is required')),
 			array('corporate_email' , 'unique'),
-            array('corporate_email' , 'CEmailValidator'),
+            array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
             array('corporate_email' , 'isCorporateEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
 			array('user_id'         , 'length'   , 'max'=>10),
@@ -150,7 +150,7 @@ class UserAccountCorporate extends CActiveRecord
     public function isCorporateEmail($attribute)
     {
         if(false == UserService::isCorporateEmail($this->$attribute)) {
-            $this->addError($attribute, Yii::t('site', 'This is free e-mail! Type your corporate e-mail.'));
+            $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
         }
     }
 

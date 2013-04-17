@@ -37,9 +37,9 @@
 
         <div class="row small blueinputtext">
             <?php echo $form->labelEx($account, 'birthday'); ?>
-            <?php echo CHtml::textField('birthday[day]',   $account->birthday ? $account->getBirthdayDate()->format('j') : ''); ?>
-            <?php echo CHtml::textField('birthday[month]', $account->birthday ? $account->getBirthdayDate()->format('m') : ''); ?>
-            <?php echo CHtml::textField('birthday[year]',  $account->birthday ? $account->getBirthdayDate()->format('Y') : ''); ?>
+            <?php echo CHtml::textField('birthday[day]',   $account->birthday ? $account->getBirthdayDate()->format('j') : '', ['maxLength' => 2]); ?>
+            <?php echo CHtml::textField('birthday[month]', $account->birthday ? $account->getBirthdayDate()->format('m') : '', ['maxLength' => 2]); ?>
+            <?php echo CHtml::textField('birthday[year]',  $account->birthday ? $account->getBirthdayDate()->format('Y') : '', ['maxLength' => 4]); ?>
             <?php echo $form->error($account, 'birthday'); ?>
         </div>
 

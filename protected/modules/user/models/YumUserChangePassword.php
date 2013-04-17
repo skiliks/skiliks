@@ -23,9 +23,9 @@ class YumUserChangePassword extends YumFormModel
 					'password', 'YumPasswordValidator'), $passwordRequirements);
 		$rules[] = $passwordrule;
 		$rules[] = array('currentPassword', 'safe');
-		$rules[] = array('currentPassword', 'required', 'on' => 'user_request');
-		$rules[] = array('password, verifyPassword', 'required');
-		$rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yum::t('Набран неверный пароль'));
+		$rules[] = array('currentPassword', 'required', 'on' => 'user_request', 'message' => Yii::t('site', 'Password is required'));
+		$rules[] = array('password, verifyPassword', 'required', 'message' => Yii::t('site', 'Repeat password'));
+		$rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yii::t('site', 'Passwords do not match'));
 
 		return $rules;
 	}
