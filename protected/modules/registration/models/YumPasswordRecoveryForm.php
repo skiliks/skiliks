@@ -17,9 +17,9 @@ class YumPasswordRecoveryForm extends YumFormModel {
 	{
 		$rules = array(
 				// username and password are required
-				array('email', 'required'),
-				array('email', 'checkexists'),
-				array('email', 'email'),
+				array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
+				array('email', 'checkexists', ),
+				array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
 				);
 
 		return $rules;

@@ -46,7 +46,9 @@ class Vacancy extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label, professional_occupation_id, professional_specialization_id', 'required'),
+			array('label', 'required', 'message' => Yii::t('site', 'Vacancy title is required')),
+			array('professional_occupation_id', 'required', 'message' => Yii::t('site', 'Professional occupation is required')),
+			array('professional_specialization_id', 'required', 'message' => Yii::t('site', 'Specialization is required')),
 			array('professional_occupation_id, professional_specialization_id', 'numerical', 'integerOnly'=>true),
             array('professional_occupation_id',  'numerical', 'min' => 1, 'message' => '{attribute} cannot be blank.'),
 			array('label', 'length', 'max' => 120),

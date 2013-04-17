@@ -158,7 +158,7 @@ class UserAuthController extends YumController
 
             $userValid = $this->user->validate();
             $profileValid = $profile->validate();
-            $accountValid = $account->validate(['industry_id', 'status_id']);
+            $accountValid = $account->validate(['industry_id', 'professional_status_id']);
 
             if ($userValid && $profileValid && $accountValid) {
                 $result = $this->user->register($this->user->username, $this->user->password, $profile);
@@ -191,16 +191,12 @@ class UserAuthController extends YumController
             }
         }
 
-        // @todo: fix
-        // 0.5 is dirty trick to throw error message - id must be integer
-        $industries = ['0.5' => 'Выберите область деятельности'];
+        $industries = ['' => 'Выберите область деятельности'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        // @todo: fix
-        // 0.5 is dirty trick to throw error message - id must be integer
-        $statuses = ['0.5' => 'Выберите статус'];
+        $statuses = ['' => 'Выберите статус'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }

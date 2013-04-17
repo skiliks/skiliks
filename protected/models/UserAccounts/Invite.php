@@ -240,7 +240,11 @@ class Invite extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_id, firstname, lastname, email, status, scenario_id', 'required'),
+			array('owner_id, status, scenario_id', 'required'),
+            array('firstname', 'required', 'message' => Yii::t('site', 'First name is required')),
+            array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required')),
+            array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
+            array('vacancy_id', 'required', 'message' => Yii::t('site', 'Vacancy is required')),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
 			array('firstname, lastname', 'length', 'max'=>100),
 			array('email, signature', 'length', 'max'=>255),
