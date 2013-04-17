@@ -38,7 +38,7 @@ class Evaluation {
         $overall = new AssessmentOverall();
         $overall->sim_id = $this->simulation->id;
         $overall->assessment_category_code = AssessmentCategory::OVERALL;
-        $overall->value = $value;
+        $overall->value = substr($value, 0, 10);
 
         $overall->save();
     }
@@ -90,7 +90,7 @@ class Evaluation {
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::PRODUCTIVITY;
         $result->sim_id = $this->simulation->id;
-        $result->value = $value;
+        $result->value = substr($value, 0, 10);
 
         $result->save();
     }
@@ -105,7 +105,7 @@ class Evaluation {
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::TIME_EFFECTIVENESS;
         $result->sim_id = $this->simulation->id;
-        $result->value = (null === $timeManagementEfficiency) ? 0 : $timeManagementEfficiency->value;
+        $result->value = (null === $timeManagementEfficiency) ? 0 : substr($timeManagementEfficiency->value, 0, 10);
 
         $result->save();
     }
