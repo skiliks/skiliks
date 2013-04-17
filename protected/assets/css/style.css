@@ -2206,6 +2206,9 @@ ul.profile-menu li {
     margin:0px 1px 0px 0px;
     padding:5px 3px 0px 4px;
 }
+.items .ratingwrap {
+    background: none;
+}
 .ratebg {
     background: url("../img/ratestars.png") no-repeat 0px 0px;
     width: 98px;
