@@ -116,6 +116,7 @@ define([
             onPhoneEvent: function (event) {
                 var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
                 if(phones.length !== 0){
+                    phones[0].setOnTop();
                     phones[0].close();
                     this.runPhoneTalkStart(event.cid);
                     return;
@@ -157,7 +158,8 @@ define([
              */
             onVisitEvent: function (event) {
                 var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
-                if(phones.length !== 0){
+                if(phones.length !== 0) {
+                    phones[0].setOnTop();
                     phones[0].close();
                     //this.runPhoneTalkStart(event.cid);
                 }
