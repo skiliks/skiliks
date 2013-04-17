@@ -160,6 +160,7 @@
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
     font:24px 'ProximaNova-Bold';
+    font-weight: normal !important;
     line-height: 90%;
     text-decoration: none;
 }
@@ -175,6 +176,7 @@
 .estmtileswrap h2, .simulation-result-popup .levellabels h3, .product .levellabels h3  {
     color:#3d4041;
     line-height: 90%;
+    font-weight: normal !important;
     text-align:center;
 }
 .product .estmtileswrap h2, .product h2, .product h2 a, .product h2 a:visited, .product h3, .product .levellabels h3 {
