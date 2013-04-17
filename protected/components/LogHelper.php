@@ -217,6 +217,7 @@ class LogHelper
                             // в случае закрыния окна mailMain из пустой папки "Корзина" например mailId нет.
                             'mail_id'    => empty($log[4]['mailId']) ? NULL : $log[4]['mailId'],
                             'end_time'   => '00:00:00',
+                            'window_uid' => $log['window_uid'],
                             'sim_id'     => $simId
                         ));
                         if (!$log_obj) continue;
