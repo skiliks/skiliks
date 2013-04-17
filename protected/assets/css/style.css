@@ -774,6 +774,7 @@ html[lang=ru] .main-article article{
 }
 .product h2{
 	font:2.606em 'ProximaNova-Bold';
+    font-weight:normal;
 	color:#fff;
 	text-align:center;
 	text-shadow:0 0 7px rgba(0,0,0,0.14);
@@ -876,6 +877,7 @@ html[lang=ru] .product section table th{
 	}
 	.product h2{
         font-size: 2.219em;
+        font-weight:normal;
 		margin-bottom:26px;
 	}
 	.product h6{
@@ -2998,7 +3000,7 @@ ul.profile-menu li {
     }
     .skillstitle {
         font-size: 12px;
-        width: 80px;
+        width: 72px;
     }
     .transparent-boder {
         padding: 6px;
@@ -3027,12 +3029,21 @@ ul.profile-menu li {
         padding: 13px 4px 20px 6px;
     }
     .ratingwrap {
-        padding: 5px 2px 0px 2px;
+        padding: 2px 2px 0px;
+        line-height: 15px;
     }
     .ratebg {
-        background-size: 98%;
-        height: 15px;
-        width:90px;
+        background-size:cover;
+        height: 14px;
+        width:67px;
+    }
+    #dashboard-skills-box sup {
+        font-size: 0.67em;
+    }
+    .link-go {
+        background-size:cover;
+        height: 13px;
+        width: 13px;
     }
     #private-invitations-list-box .grid-view .items th {
         padding: 6px 4px;
