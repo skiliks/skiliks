@@ -13,6 +13,8 @@
             <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?>
             <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
+            <?php echo $form->error($account, 'ownership_type'); ?>
+            <?php echo $form->error($account, 'company_name'); ?>
         </div>
 
         <div class="row rowindustry">

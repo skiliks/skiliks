@@ -19,13 +19,15 @@ class YumUserChangePassword extends YumFormModel
 
 	public function rules() {
 		$passwordRequirements = Yum::module()->passwordRequirements;
-		$passwordrule = array_merge(array(
-					'password', 'YumPasswordValidator'), $passwordRequirements);
+
+        $rules[] = array('currentPassword', 'safe');
+        $rules[] = array('currentPassword', 'required', 'on' => 'user_request', 'message' => Yii::t('site', 'Password is required'));
+        $rules[] = array('password', 'required', 'message' => Yii::t('site', 'Password is required'));
+        $rules[] = array('verifyPassword', 'required', 'message' => Yii::t('site', 'Repeat password'));
+        $rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yii::t('site', 'Passwords do not match'));
+
+		$passwordrule = array_merge(array('password', 'YumPasswordValidator'), $passwordRequirements);
 		$rules[] = $passwordrule;
-		$rules[] = array('currentPassword', 'safe');
-		$rules[] = array('currentPassword', 'required', 'on' => 'user_request', 'message' => Yii::t('site', 'Password is required'));
-		$rules[] = array('password, verifyPassword', 'required', 'message' => Yii::t('site', 'Repeat password'));
-		$rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yii::t('site', 'Passwords do not match'));
 
 		return $rules;
 	}

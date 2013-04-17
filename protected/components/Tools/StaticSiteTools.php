@@ -97,7 +97,7 @@ class StaticSiteTools
         $result = [];
 
         if (false !== $emptyValue) {
-            $result[-1] = $emptyValue;
+            $result[''] = $emptyValue;
         }
 
         foreach ($model::model()->findAll($conditions, $params) as $item) {

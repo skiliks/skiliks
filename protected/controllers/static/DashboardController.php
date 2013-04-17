@@ -33,6 +33,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
+        $vacancies = [];
+        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        foreach ($vacancyList as $vacancy) {
+            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
+        }
+
         $invite = new Invite();
         $validPrevalidate = false;
 
@@ -42,13 +48,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
-            if (null == $invite->vacancy) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
-                    Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.'
-                ));
-
-                $this->redirect('/dashboard');
+            if (null == $invite->vacancy && empty($vacancies)) {
+                $invite->clearErrors('vacancy_id');
+                $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
             }
 
             $invite->message = sprintf(
@@ -136,12 +138,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
             }
         }
         // handle edit invite invitation }
-
-        $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
-        foreach ($vacancyList as $vacancy) {
-            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
-        }
 
         $simulation = Simulation::model()->getLastLiteSimulation($this->user);
 

@@ -21,7 +21,9 @@ class YumUserLogin extends YumFormModel {
 			$this->scenario = 'login';
 
 		$rules = array(
-			array('username, password', 'required', 'on' => 'login'),
+			array('username', 'required', 'on' => 'login', 'message' => Yii::t('site', 'Login (email) is required')),
+            array('username', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
+			array('password', 'required', 'on' => 'login', 'message' => Yii::t('site', 'Password is required')),
 			array('username', 'required', 'on' => 'openid'),
 			array('rememberMe', 'boolean'),
 		);
