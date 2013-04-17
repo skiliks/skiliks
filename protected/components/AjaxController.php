@@ -261,14 +261,7 @@ class AjaxController extends CController
         $user = $user->data();  //YumWebUser -> YumUser
 
         if (null === Yii::app()->user->data()->getAccount()) {
-            $simulation = Simulation::model()->findByAttributes(['user_id' => $user->id]);
-
-            if (null === $simulation) {
-                $this->redirect('/registration/choose-account-type');
-            } else {
-                Yii::app()->user->setFlash('error', 'Результаты последней пройденной симуляции.');
-                $this->redirect('simulation/results');
-            }
+            $this->redirect('/registration/choose-account-type');
         }
 
         if ($user->isCorporate()) {

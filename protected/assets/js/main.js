@@ -30,11 +30,9 @@ $(document).ready(function () {
     });
     // render simulation details pop-up }
 
-    // load simulation details pop-up data {
-    $(".view-simulation-details-pop-up").click(function (event) {
-        event.preventDefault();
+    window.showSimulationDetails = function(url) {
         $.ajax({
-            url: $(this).attr('data-simulation'),
+            url: url,
             success: function (data) {
                 simulation_popup.html(data);
                 simulation_popup.dialog('open');
@@ -49,6 +47,12 @@ $(document).ready(function () {
                 // fixSimResultsDialog }
             }
         });
+    };
+
+    // load simulation details pop-up data {
+    $(".view-simulation-details-pop-up").click(function (event) {
+        event.preventDefault();
+        window.showSimulationDetails($(this).attr('data-simulation'));
     });
     // load simulation details pop-up data }
 
