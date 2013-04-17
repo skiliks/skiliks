@@ -12,8 +12,8 @@
         <div class="row blueplaceholder">
             <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?>
-            <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
             <?php echo $form->error($account, 'ownership_type'); ?>
+            <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
             <?php echo $form->error($account, 'company_name'); ?>
         </div>
 
@@ -42,3 +42,14 @@
         <?php $this->endWidget(); ?>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        var errors = $(".errorMessage");
+        for (var i=0;i<errors.length;i++) {
+            var inp = $(errors[i]).prev("input.error");
+            $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
+        }
+    });
+</script>
