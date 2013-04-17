@@ -427,6 +427,31 @@ section.registration-by-link .form .row a.decline-link:hover {
 .registrationform #yum-user-registration-form input[type="password"]:focus {
     height:24px;
 }
+/* Ошибки личный кабинет корпоративный профиль */
+#account-corporate-personal-form .profile_firstname{
+    top:-15px;
+    left:185px;
+}
+#account-corporate-personal-form .profile_lastname {
+    top:-15px;
+    left:358px;
+}
+#account-corporate-password-form .errorMessage {
+    top:-15px;
+    left:165px;
+}
+#add-vacancy-form .errorMessage {
+    top:-15px;
+    left:185px;
+}
+#account-personal-personal-form .YumProfile_firstname {
+    top:-15px;
+    left:185px;
+}
+#account-personal-personal-form .YumProfile_lastname {
+    top:-15px;
+    left:335px;
+}
 /* universal */
 .blackout {
     position: fixed;
@@ -451,6 +476,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     padding: 0 30px;
 }
 */
+.row {
+    position: relative;
+}
 .errorMessage {
     font: 12px "ProximaNova-Regular";
     color:#bd2929;
