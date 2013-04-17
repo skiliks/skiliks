@@ -26,7 +26,7 @@
         </form>
     </div>
 
-    <div class="popup-recovery" style="display: none;">
+    <div class="popup-recovery" style="display: none;" title="Восстановление пароля">
 
         <div class="form">
 
@@ -36,8 +36,7 @@
             )); ?>
             <?php $recoveryForm = new YumPasswordRecoveryForm; ?>
             <div class="row">
-                <?php echo $form->labelEx($recoveryForm, 'email'); ?>
-                <?php echo $form->textField($recoveryForm, 'email'); ?>
+                <?php echo $form->textField($recoveryForm, 'email', ['placeholder'=>Yii::t("site","Enter email")]); ?>
                 <?php echo $form->error($recoveryForm, 'email'); ?>
             </div>
 
