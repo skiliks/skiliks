@@ -32,7 +32,7 @@
 
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'password-recovery-form',
-                'action'=>'recovery'
+                'action'=>Yii::app()->request->hostInfo.'/recovery'
             )); ?>
             <?php $recoveryForm = new YumPasswordRecoveryForm; ?>
             <div class="row">
