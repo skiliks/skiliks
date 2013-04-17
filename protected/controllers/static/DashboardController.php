@@ -139,7 +139,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
         // handle edit invite invitation }
 
-        $simulation = Simulation::model()->getLastLiteSimulation($this->user);
+        $simulation = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE);
 
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
@@ -147,7 +147,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             'inviteToEdit'       => $inviteToEdit,
             'vacancies'          => $vacancies,
             'validPrevalidate'   => $validPrevalidate,
-            'simulation' => $simulation
+            'simulation'         => $simulation
         ]);
     }
 
