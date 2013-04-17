@@ -22,6 +22,7 @@
 
             <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
 
+            <?php if ($simulation): ?>
             <script type="text/javascript">
                 $(function() {
                     if (location.hash == '#details') {
@@ -29,7 +30,7 @@
                     }
                 });
             </script>
-
+            <?php endif; ?>
         </div>
 
         <div class="sidefeedback"><a href="#" class="light-btn lightbox-30835043655352">Обратная связь</a></div>

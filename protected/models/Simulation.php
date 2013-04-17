@@ -435,10 +435,10 @@ class Simulation extends CActiveRecord
         ]);
     }
 
-    public function getLastSimulation($user) {
+    public function getLastLiteSimulation($user) {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "user_id = :user_id AND end is not null ORDER BY id DESC",
-            'params' => ['user_id'=>$user->id],
+            'condition' => "user_id = :user_id AND end is not null ORDER BY id DESC AND scenario_id = :scenario_id",
+            'params' => ['user_id' => $user->id, 'scenario_id' => Scenario::TYPE_LITE],
         ));
         return $this->find();
     }
