@@ -256,6 +256,10 @@
     margin-bottom: 14px;
     text-transform: uppercase;
 }
+.rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul,
+.rateslist .widthblock:nth-child(4) h3, .rateslist .widthblock:nth-child(4) ul {
+    margin-left: 20px;
+}
 .numlist {
     margin-left: 20px;
     padding-left:0px;
