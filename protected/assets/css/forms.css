@@ -174,7 +174,10 @@
     margin-bottom: 8px;
 }
 .icon-check {
-    background:url("../img/icon-checklarge.png") no-repeat;
+    background:url("../img/icon-checklarge.png") no-repeat top left;
+}
+.icon-check:hover {
+    background-position: bottom left;
 }
 .icon-chooce {
     background:url("../img/icon-chooce.png") no-repeat left bottom;
