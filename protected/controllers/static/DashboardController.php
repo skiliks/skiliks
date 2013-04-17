@@ -156,7 +156,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionPersonal()
     {
-        $simulation = Simulation::model()->getLastLiteSimulation(Yii::app()->user);
+        $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_FULL);
+
+        if (null === $simulation) {
+            $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_LITE);
+        }
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation
