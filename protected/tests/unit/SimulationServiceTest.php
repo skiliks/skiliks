@@ -1419,5 +1419,38 @@ class SimulationServiceTest extends CDbTestCase
 
         $this->assertEquals(true, true, 'SimStopWithOpenLog handled well!');
     }
+
+    /**
+     *
+     */
+    public function testPerformanceAggregation()
+    {
+        $simulation = Simulation::model()->findByPk(1009);
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        foreach ($simulation->game_type->getPreformanceRules([]) as $rule) {
+            $point = new PerformancePoint();
+            $point->sim_id = $simulation->id;
+            $point->performance_rule_id = $rule->id;
+            $point->save();
+        }
+
+        SimulationService::calculatePerformanceRate($simulation);
+
+        $ad = $simulation->getAssessmentDetails();
+
+        $this->assertEquals(4, count($ad[AssessmentCategory::PRODUCTIVITY]));
+
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][0]));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][1]));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
+    }
 }
 
