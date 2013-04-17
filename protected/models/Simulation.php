@@ -436,11 +436,16 @@ class Simulation extends CActiveRecord
     }
 
     public function getLastLiteSimulation($user) {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "user_id = :user_id AND end is not null ORDER BY id DESC AND scenario_id = :scenario_id",
-            'params' => ['user_id' => $user->id, 'scenario_id' => Scenario::TYPE_LITE],
-        ));
-        return $this->find();
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+        if ($scenario) {
+            $this->getDbCriteria()->mergeWith(array(
+                'condition' => "user_id = :user_id AND end is not null ORDER BY id DESC AND scenario_id = :scenario_id",
+                'params' => ['user_id' => $user->id, 'scenario_id' => $scenario->id],
+            ));
+            return $this->find();
+        }
+
+        return null;
     }
 
     public function isFull() {
