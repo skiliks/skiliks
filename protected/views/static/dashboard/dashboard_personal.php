@@ -25,7 +25,7 @@
             <script type="text/javascript">
                 $(function() {
                     if (location.hash == '#details') {
-                        $('#dashboard-skills-box').find('.view-simulation-details-pop-up:first').click();
+                        showSimulationDetails('/simulations/details/<?= $simulation->id ?>');
                     }
                 });
             </script>

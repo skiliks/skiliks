@@ -299,15 +299,11 @@ class UserAuthController extends YumController
         );*/
 
 
-        if ($this->user->isCorporate()) {
-           $this->redirect("/dashboard");
-           return;
-        }else if($this->user->isPersonal()){
-           $this->redirect("/dashboard");
-           return;
+        if ($this->user->isHasAccount() ) {
+            $simulation = Simulation::model()->findByAttributes(['user_id' => $this->user->id]);
+            $this->redirect('/dashboard' . ($simulation ? '#details' : ''));
+            return;
         }
-
-
 
         /*Yii::app()->user->setFlash( 'success', $message );*/
 
