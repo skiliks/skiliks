@@ -60,6 +60,17 @@
     });
 </script>
 <?php endif; ?>
+
+<?php if ($simulation): ?>
+    <script type="text/javascript">
+        $(function() {
+            if (location.hash == '#details') {
+                showSimulationDetails('/simulations/details/<?= $simulation->id ?>');
+            }
+        });
+    </script>
+<?php endif; ?>
+
         <!-- simulations-counter-box -->
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
             <?php $this->renderPartial('_simulations_counter_box', []) ?>

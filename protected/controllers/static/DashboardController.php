@@ -143,12 +143,15 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }
 
+        $simulation = Simulation::model()->getLastLiteSimulation($this->user);
+
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
             'invite'             => $invite,
             'inviteToEdit'       => $inviteToEdit,
             'vacancies'          => $vacancies,
             'validPrevalidate'   => $validPrevalidate,
+            'simulation' => $simulation
         ]);
     }
 
@@ -157,7 +160,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionPersonal()
     {
-        $simulation = Simulation::model()->getLastSimulation(Yii::app()->user);
+        $simulation = Simulation::model()->getLastLiteSimulation(Yii::app()->user);
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation
