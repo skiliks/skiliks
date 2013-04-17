@@ -1123,6 +1123,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
                     function (response) {
+                        var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
+                        windows[0].setOnTop();
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
