@@ -29,20 +29,8 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
 
-            console.log('SKApp.simulation.documents.zoho_500 = ', SKApp.simulation.documents.zoho_500);
-            console.log('index = ', SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url')));
-            console.log('Id = ', doc.get('excel_url'));
-
-            $.each(SKApp.simulation.documents.zoho_500, function(value) {
-                console.log('zoho_500 URL length = ', value.length, value);
-            });
-            console.log('doc excel_url = ', doc.get('excel_url'));
-
             if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))) {
                 SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))] = null;
-
-                console.log('it is Zoho500 doc');
-                console.log('SKApp.simulation.documents.zoho_500 (2) = ', SKApp.simulation.documents.zoho_500);
 
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
@@ -50,7 +38,6 @@ define([
                         {
                             'value': 'Перезагрузить',
                             'onclick': function () {
-                                console.log('Перезагрузить nclick');
                                 SKApp.simulation.afterZohoCrash = true;
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.remove(doc);
@@ -67,7 +54,6 @@ define([
                 });
             }
 
-            console.log('Add listener in view.');
             if (window.addEventListener){
                 window.addEventListener("message", _.bind(me.handlePostMessage, me), false);
             } else {
@@ -84,17 +70,12 @@ define([
          * @return void
          */
         handlePostMessage: function(event) {
-            console.log('handlePostMessage in view.');
             var me = this;
             // var doc = me.options.model_instance.get('document');
             var doc = null;
 
             $.each(SKDocument._excel_cache, function(id, url){
                 url = url.replace('\r', '');
-                console.log(url.replace('\r', ''), event.data.url.replace('\r', ''));
-                console.log(url.replace('\r', '').lendth, event.data.url.replace('\r', '').lendth);
-                console.log(url.replace('\r', '') === event.data.url.replace('\r', ''));
-                console.log('--------------------------------------------------------------');
                 if(url.replace('\r', '') === event.data.url.replace('\r', '')){
                     doc = SKApp.simulation.documents.where({id:id.toString()});
                 }

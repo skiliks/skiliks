@@ -27,20 +27,13 @@ define([
                 me.$el.unbind("mousemove");
                 me.trigger('simulationStart');
             });
-            /*$('.pass-video').bind('click', function () {
-                $('#skiliks_intro').trigger('ended');
-            });*/
+
             this.$el.mousemove( function(e) {
-                //console.log("window.height / 3 >= e.pageX : "+parseInt(window.outerHeight) / 3);
-                //console.log(me.el);
-                //console.log(me.$el.outerHeight());
                 if(me.$el.outerHeight() / 3 >= e.pageY){
                     me.$el.find('.intro-top-icons').css('display', 'block');
                 }else{
                     me.$el.find('.intro-top-icons').css('display', 'none');
                 }
-                //console.log("window.height: " +window.outerHeight);
-                //console.log("x: " + e.pageX);
             });
             $.cookie('intro_is_watched', 'yes', { expires: 365, path: "/" });
 

@@ -63,7 +63,7 @@ define([
          */
         'render': function () {
             var me = this;
-            console.log('this.options.modal = ', this.options.modal);
+
             if (this.options.modal !== false) {
                 // must be first to get Z-index under dialog HTML block
                 this.renderPreventClickElement();

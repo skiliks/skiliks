@@ -162,6 +162,7 @@ class LogHelper
                     $log_obj->sim_id = $simId;
                     $log_obj->file_id = $log[4]['fileId'];
                     $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                    $log_obj->end_time   = '00:00:00';
                     $log_obj->window_uid = $log['window_uid'];
                     $log_obj->save();
                 } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
@@ -201,6 +202,7 @@ class LogHelper
                     $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                     $log_obj->window = $log[1];
                     $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                    $log_obj->end_time   = '00:00:00';
                     $log_obj->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
                     $log_obj->save();
                     continue;
@@ -522,7 +524,7 @@ class LogHelper
     public static function setWindowsLog($simId, $logs)
     {
         if (!is_array($logs)) return false;
-        foreach ($logs as $log) {
+        foreach ($logs as $key =>  $log) {
             assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
                 if (LogWindow::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
@@ -532,6 +534,7 @@ class LogHelper
                 $log_window->sim_id = $simId;
                 $log_window->window = $log[1]; // this is ID of Window table
                 $log_window->start_time = gmdate("H:i:s", $log[3]);
+                $log_window->end_time      = '00:00:00';
                 $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
                 $log_window->save();
                 continue;
@@ -539,7 +542,7 @@ class LogHelper
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
                 if (0 == count($windows)) {
-                    throw(new CException('Can not close window: ' . print_r($log, true)));
+                    throw(new CException('Can not close window: ' . $key. ' :: ' . print_r($log, true)));
                 }
                 if (1 < count($windows)) {
                     throw(new CException('Two or more active windows at one time. Achtung!'));
