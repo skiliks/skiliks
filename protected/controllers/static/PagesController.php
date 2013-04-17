@@ -122,7 +122,7 @@ class PagesController extends AjaxController
 
             if($user->getAccount()->tariff_id == $tariff->id) {
                 Yii::app()->user->setFlash('success', sprintf(
-                    'Тарифный план "%s" активирован для ашего профиля.',
+                    'Тарифный план "%s" активирован для вашего профиля.',
                     $tariff->label
                 ));
                 $this->redirect('/profile/corporate/tariff');
