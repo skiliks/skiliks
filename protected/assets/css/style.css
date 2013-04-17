@@ -3029,16 +3029,23 @@ ul.profile-menu li {
         padding: 13px 4px 20px 6px;
     }
     .ratingwrap {
-        padding: 2px 2px 0px;
-        line-height: 15px;
+        padding: 4px 2px 0px;
+        line-height: 12px;
     }
     .ratebg {
         background-size:cover;
-        height: 14px;
+        height: 12px;
+        margin-top:2px;
         width:67px;
+    }
+    .rating {
+        background-size:cover;
+        height: 12px;
     }
     #dashboard-skills-box sup {
         font-size: 0.67em;
+        line-height: 130%;
+        vertical-align: top;
     }
     .link-go {
         background-size:cover;
