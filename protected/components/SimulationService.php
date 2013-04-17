@@ -406,8 +406,10 @@ class SimulationService
         }
 
         $categories = [];
+
         foreach ($simulation->performance_points as $point) {
             $rule = $point->performanceRule;
+
             if (empty($categories[$rule->category_id])) {
                 $categories[$rule->category_id] = 0;
             }

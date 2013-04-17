@@ -139,6 +139,16 @@ class Scenario extends CActiveRecord
 
     /**
      * @param $attributes
+     * @return Dialog
+     */
+    public function getPreformanceRules($attributes)
+    {
+        $attributes['scenario_id'] = $this->primaryKey;
+        return PerformanceRule::model()->findAllByAttributes($attributes);
+    }
+
+    /**
+     * @param $attributes
      * @return Replica
      */
     public function getReplicaPoint($attributes, $params = [])
