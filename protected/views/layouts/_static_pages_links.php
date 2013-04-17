@@ -18,7 +18,7 @@ $this->widget('zii.widgets.CMenu', array(
             'linkOptions' => ['class' => 'sign-in-link'],
             'visible' => Yii::app()->user->isGuest && 'ru' == Yii::app()->getLanguage()
         ],
-        ['label' => Yii::t('site', 'Log out'), 'url' => ['static/userAuth/logout'], 'visible' => !Yii::app()->user->isGuest ],
+        ['label' => Yii::t('site', 'Log out'), 'url' => ['/static/userAuth/logout'], 'visible' => !Yii::app()->user->isGuest ],
     ]
 ));
 ?>
