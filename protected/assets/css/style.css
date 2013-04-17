@@ -3059,8 +3059,8 @@ ul.profile-menu li {
         padding: 6px 3px;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
-        max-width: 52px;
-        width: 52px;
+        max-width: 82px;
+        width: 82px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
@@ -3072,8 +3072,8 @@ ul.profile-menu li {
         width: 60px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 110px;
-        width: 110px;
+        max-width: 80px;
+        width: 80px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
@@ -3197,7 +3197,7 @@ ul.profile-menu li {
     .tarifform .value, .simulations-counter {
         font-size: 16px;
     }
-    .inner .content {
+    .inner .content, .inner-registration .content {
         margin: 29px auto 0;
         width: 765px;
     }
@@ -3208,4 +3208,5 @@ ul.profile-menu li {
     {
         font-size: 2.219em;
     }
+
 }
