@@ -57,7 +57,7 @@ class LearningGoalAnalyzer
             $slg->learning_goal_id = $goal->id;
             $slg->value = $totalPos;
             $slg->percent = $maxPos ? substr(min($totalPos / $maxPos * 100, 100), 0, 5) : 0;
-            $slg->problem = $maxCons ? substr(max($totalCons / $maxCons * 100, -100), 0, 5) : 0;
+            $slg->problem = $maxCons ? substr(min($totalCons / $maxCons * 100, 100), 0, 5) : 0; // Both $totalCons and $maxCons are negative values!
 
             $slg->save();
         }

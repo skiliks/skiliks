@@ -105,7 +105,7 @@ class LearningAreaAnalyzer {
         if ($learningArea) {
             $sla = new SimulationLearningArea();
             $sla->learning_area_id = $learningArea->id;
-            $sla->value = max(min($value, 100), 0);
+            $sla->value = substr(max(min($value, 100), 0), 0, 10);
             $sla->sim_id = $this->simulation->id;
             $sla->save();
         }
@@ -170,7 +170,7 @@ class LearningAreaAnalyzer {
             $total += $item->fixed_value;
         }
 
-        $this->saveLearningArea(1, $maxRate ? $total / $maxRate : 0);
+        $this->saveLearningArea(1, $maxRate ? $total / $maxRate * 100 : 0);
     }
 
     /*
