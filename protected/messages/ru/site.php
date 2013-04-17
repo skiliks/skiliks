@@ -319,5 +319,6 @@ return array(
     'min' => 'мин.',
     'Share' => 'Рекомендовать',
 
-    'Available simulation' => 'Доступные симуляции'
+    'Available simulation' => 'Доступные симуляции',
+    'You are already logged in (%s), please log out to activate your account %s' => 'В данный момент вы уже вошли в систему как %s. <br/><br/> Выйдите, чтобы активировать новый аккаунт %s.'
 );
