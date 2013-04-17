@@ -487,6 +487,20 @@ section.registration-by-link .form .row a.decline-link:hover {
     left: 50px;
     top: -15px;
 }
+#account-corporate-company-info-form .UserAccountCorporate_ownership_type {
+    top:-15px;
+    left:185px;
+}
+/* :hover кнопок */
+.bigbtnsubmt:hover,
+input[type="submit"]:hover{
+    background: url("../img/icon-registration-hover.png") no-repeat 16px center #BD2929;
+    color: #FFFFFF;
+}
+.footer .freeacess:hover {
+    background-color: #BD2929;
+    color: #FFFFFF;
+}
 /* universal */
 .blackout {
     position: fixed;
