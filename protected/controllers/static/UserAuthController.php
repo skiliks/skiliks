@@ -626,6 +626,18 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
+        if (!Yii::app()->user->isGuest) {
+            Yii::app()->user->setFlash(
+                'error',
+                sprintf(Yii::t('site',
+                    'You are already logged in (%s), please log out to activate your account %s') ,
+                    Yii::app()->user->data()->profile->email,
+                    $email
+                )
+            );
+            $this->redirect(Yii::app()->user->returnUrl);
+        }
+
         $YumUser    = Yii::app()->request->getParam('YumUser');
         $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
 
