@@ -27,8 +27,8 @@
         <div class="row">
             <?php echo $form->labelEx($profile, 'Имя'); ?>
             <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
-            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
             <?php echo $form->error($profile, 'firstname'); ?>
+            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
             <?php echo $form->error($profile, 'lastname'); ?>
         </div>
 
@@ -62,4 +62,14 @@
     width: 200,
     onblur: 'submit'
 });*/
+</script>
+<script>
+    $(document).ready(function(){
+        var errors = $(".errorMessage");
+        for (var i=0; i < errors.length;i++) {
+            var inp = $(errors[i]).prev("input.error");
+            $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
+        }
+    });
 </script>

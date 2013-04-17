@@ -13,8 +13,8 @@
         <div class="row">
             <?php echo $form->labelEx($profile, 'firstname'); ?>
             <?php echo $form->textField($profile, 'firstname'); ?>
-            <?php echo $form->textField($profile, 'lastname'); ?>
             <?php echo $form->error($profile, 'firstname'); ?>
+            <?php echo $form->textField($profile, 'lastname'); ?>
             <?php echo $form->error($profile, 'lastname'); ?>
         </div>
 
@@ -56,3 +56,13 @@
         <?php $this->endWidget(); ?>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        var errors = $(".errorMessage");
+        for (var i=0; i < errors.length;i++) {
+            var inp = $(errors[i]).prev("input.error");
+            $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
+        }
+    });
+</script>
