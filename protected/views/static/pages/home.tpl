@@ -24,30 +24,32 @@
 						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
 					</ul>
 
-                    <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
-                    <!-- FORM { -->
-                    <!--
-                    {if (false === $userSubscribed) }
+                    {if ('ru' == Yii::app()->getlanguage()) }
 
-                        <form action="static/pages/addUserSubscription" id="subscribe-form">
-                            <div>
-                                <input type="text"
-                                       id = "user-email-value"
-                                       placeholder="{Yii::t('site', 'Enter your email address')}"
-                                       />
-                                <p id="user-email-error-box" class="error" style="display: none;">
-                                    <span>{Yii::t('site', 'Please enter a valid email address')}</span>
-                                </p>
-                            </div>
-                            <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
-                        </form>
+                        <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
 
-                    {else}
-                        <p class="success">{Yii::t('site', 'Thank you! See you soon!')}</p>
+                    {elseif ('en' == Yii::app()->getlanguage()) }
+
+                        {if (false === $userSubscribed) }
+                            <!-- FORM { -->
+                            <form action="static/pages/addUserSubscription" id="subscribe-form">
+                                <div>
+                                    <input type="text"
+                                           id = "user-email-value"
+                                           placeholder="{Yii::t('site', 'Enter your email address')}"
+                                           />
+                                    <p id="user-email-error-box" class="error" style="display: none;">
+                                        <span>{Yii::t('site', 'Please enter a valid email address')}</span>
+                                    </p>
+                                </div>
+                                <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
+                            </form>
+
+                        {else}
+                            <p class="success">{Yii::t('site', 'Thank you! See you soon!')}</p>
+                        {/if}
+                        <!-- FORM } -->
                     {/if}
-
-                    -->
-                    <!-- FORM } -->
 
 				</section>
 				<!--features end-->
@@ -104,19 +106,19 @@
                             if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
                                 if (1 === response.result) {
                                     // redirect to success page
-                                    window.location.href = '/static/comingSoonSuccess';
+                                    window.location.href = '/static/comingSoonSuccess/en';
                                 } else {
                                     // invalid email
                                     displayError(response.message);
                                 }
                             } else {
                                 // wrong server response format
-                                displayError("{Yii::t('site', 'No proper response from server. Please try again later.')}");
+                                displayError("No proper response from server. Please try again later.");
                             }
                         },
                         error: function() {
                             // no response from server
-                            displayError("{Yii::t('site', 'No response from server. Please try again later.')}");
+                            displayError("No response from server. Please try again later.");
                         }                
                     });
             
