@@ -3013,10 +3013,10 @@ ul.profile-menu li {
     #dashboard-skills-box, .nice-border {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
-    .dashboard .thetitle {
+    .inner .dashboard .thetitle {
         font-size: 1.6em;
     }
-    .dashboard .bigtitle {
+    .inner .dashboard .bigtitle {
         font-size: 1.9em;
     }
     .dashboard aside {
@@ -3191,13 +3191,18 @@ ul.profile-menu li {
     #UserAccountCorporate_company_description {
         width:300px;
     }
+    .inner #UserAccountPersonal_location {
+        width:230px;
+    }
     .tarifform .value, .simulations-counter {
         font-size: 16px;
     }
-    .inner .content
-    {
+    .inner .content {
         margin: 29px auto 0;
         width: 765px;
+    }
+    .action-product .content {
+        width:948px;
     }
     .inner .thetitle
     {
