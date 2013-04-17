@@ -238,6 +238,8 @@ return array(
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
 
+                'activation/resend/<profileId:\w+>' => 'static/userAuth/resendActivation',
+
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
