@@ -287,6 +287,7 @@ return array(
         'frontendUrl' => 'http://skiliks.loc/',
         'allowedLanguages' => [
             'en' => [
+                'static/pages/comingSoonSuccess',
                 'static/pages/index',
                 'static/pages/team',
                 'static/pages/product'
