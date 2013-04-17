@@ -30,7 +30,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 'У Вас нет прав, т.к. Вы еще не активировали корпоративный профиль.<br/>
                 Проверьте Вашу почту - Вам пришло письмо со ссылкой для активации.'
             );
-            $this->redirect($_SERVER['HTTP_REFERER']);
+            $this->redirect('/');
         }
 
         $invite = new Invite();
