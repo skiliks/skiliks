@@ -117,7 +117,7 @@ return array(
     'You has already choose account.' => 'Вы уже выбрали тип аккаунта ранее.',
     'Something went wrong please try to %s register again %s.' => 'Что-то пошло не так, пробуйте %s зарегистироваться %s ещё раз.',
     'Password' => 'Введите пароль',
-    'Password again' => 'Подтвердить пароль',
+    'Password again' => 'Подтвердите пароль',
     'Email' => 'Email',
     'Show passwords' => 'Показать пароли',
     'Username' => 'Имя пользователя',
