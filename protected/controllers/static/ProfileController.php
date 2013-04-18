@@ -313,23 +313,21 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
             if ($vacancy->validate()) {
                 $vacancy->save();
-                if (null != $vacancy->professional_specialization_id) {
-                    $specializations = StaticSiteTools::formatValuesArrayLite(
-                        'ProfessionalSpecialization',
-                        'id',
-                        'label',
-                        " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                        false
-                    );
-                }
+
 
                 $this->redirect('/profile/corporate/vacancies/');
             }
         }
         // handle send invitation }
-
-
-
+        if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
+            $specializations = StaticSiteTools::formatValuesArrayLite(
+                'ProfessionalSpecialization',
+                'id',
+                'label',
+                " professional_occupation_id = {$vacancy->professional_occupation_id} ",
+                false
+            );
+        }
 
         $this->render('vacancies_corporate', [
             'vacancy'         => $vacancy,
