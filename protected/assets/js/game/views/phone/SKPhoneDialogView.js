@@ -119,6 +119,7 @@ define([
         getMenu: function(event) {
             // block standartfuncxtionality if 
             if (this.isUserCanFinalizeCall) {
+                this.options.model_instance.setOnTop();
                 this.options.model_instance.close();
                 SKApp.simulation.window_set.toggle('phone','phoneMain');
             }
