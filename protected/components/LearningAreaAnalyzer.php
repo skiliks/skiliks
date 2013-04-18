@@ -154,7 +154,10 @@ class LearningAreaAnalyzer {
                     'learning_goal_id' => $learningGoal->id
                 ]);
 
-                $total += $slg->value * $slg->getReducingCoefficient();
+                if ($slg) {
+                    $total += $slg->value * $slg->getReducingCoefficient();
+                }
+
                 $ids[] = $learningGoal->id;
             }
         }
