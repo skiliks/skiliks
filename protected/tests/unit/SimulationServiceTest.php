@@ -1433,12 +1433,12 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         foreach ($simulation->game_type->getPreformanceRules([]) as $rule) {
-            if (0.5 < rand(0,1)) {
+            //if (0.5 < rand(0,1)) {
                 $point = new PerformancePoint();
                 $point->sim_id = $simulation->id;
                 $point->performance_rule_id = $rule->id;
                 $point->save();
-            }
+            //}
         }
 
         SimulationService::calculatePerformanceRate($simulation);
