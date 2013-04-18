@@ -458,7 +458,7 @@ a:focus, a:active {
     }
 }
 /* --------------- /header ---------*/
-.features .freeacess {
+.features .freeacess, .form-section .form-submit-button {
     background-position: 17px 17px;
     font: 18px "ProximaNova-Bold";
     height: 54px;

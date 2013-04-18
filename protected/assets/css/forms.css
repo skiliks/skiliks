@@ -371,7 +371,7 @@ span.required {
     margin-top: 10px;
     padding: 0px 20px 0px 48px;
 }
-.profileform textarea, .controller-static-dashboard textarea {
+.profileform textarea, .controller-static-dashboard textarea, .jotform-form .form-all textarea {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -538,9 +538,13 @@ span.required {
     /*background:url("../img/bg-kniga.jpg") no-repeat right bottom;*/
     padding-bottom: 18px;
 }
-.cabmessage .ui-dialog-title {
-    color:#0e4750;
-    font: 28px "ProximaNova-Bold";
+.cabmessage .ui-dialog-title, .jt-feedback .jt-title {
+    color:#0e4750 !important;
+    font: 28px "ProximaNova-Bold" !important;
+}
+.jt-feedback .jt-title {
+    border:none !important;
+    text-shadow: none !important;
 }
 .cabmessage .ui-dialog-titlebar {
     padding-top: 0px;
@@ -614,6 +618,29 @@ span.required {
 }
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
+/* **************************** FEEDBACK **************************** */
+.jt-feedback {
+    background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    overflow: hidden;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+.form-section .form-line-error {
+    background: none !important;
+}
+.jt-feedback *, .jt-content {
+    background: none !important;
+}
+.jt-content {
+    overflow: hidden !important;
+}
+.form-label{
+    display: none;
+}
+.jt-title {
+
+}
+/* **************************** /FEEDBACK **************************** */
 
 @media screen and (max-width: 1280px){
     .registerpads {
