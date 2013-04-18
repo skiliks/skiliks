@@ -143,6 +143,7 @@ define([
                     me.options.model_instance.setLastDialog(dialog_id);
                     /* TODO refactor */
                     if (is_final) {
+                        me.options.model_instance.setOnTop();
                         me.options.model_instance.close();
                     }
                 });
