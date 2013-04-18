@@ -950,7 +950,7 @@ html[lang=ru] .product section table th{
 /* --------------- /product ---------*/
 
 /* --------------- team ---------*/
-.team-page{
+ .inner-team .container { /*.team-page  */
     background:url("../img/bg-team-container.png") no-repeat center 760px;
 }
 .team-page .content{
