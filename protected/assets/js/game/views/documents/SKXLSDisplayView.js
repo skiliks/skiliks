@@ -16,6 +16,7 @@ define([
     var SKXLSDisplayView = SKWindowView.extend({
 
         title:'Мои документы',
+        addClass: 'document-window',
 
         dimensions: {},
 
