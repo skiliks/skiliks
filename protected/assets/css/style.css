@@ -2473,9 +2473,7 @@ ul.profile-menu li {
     border:none;
     vertical-align: middle;
 }
-#private-invitations-list-box .grid-view .items td, .items td {
-    padding: 8px 6px;
-}
+#private-invitations-list-box .grid-view .items td, .items td,
 #corporate-invitations-list-box .grid-view .items td {
     padding: 5px 6px;
 }
