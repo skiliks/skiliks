@@ -138,7 +138,7 @@ a:focus, a:active {
 }
 .content{
 	width:948px;
-    overflow:hidden;
+    /*overflow:hidden;*/
 	position:relative;
     z-index: 2;
     margin: 0 auto;
@@ -913,8 +913,8 @@ html[lang=ru] .product section table th{
 		width:50%;
 	}
 	.product section table tr th:first-child,.product section table tr td:first-child{
-        background-size: cover;
-		padding-right:33px;
+        /*background-size: cover;*/
+		padding-right:30px;
 		padding-left:30px;
 	}
 	.product section table tr th:last-child,.product section table tr td:last-child{
@@ -923,17 +923,16 @@ html[lang=ru] .product section table th{
 	}
 	.product section table th,html[lang=ru] .product section table th{
 		background:url("../img/bg-product-section-table-title-min.png") no-repeat 0 0;
-        background-size: cover;
-		height:108px;
+		height:103px;
 		font-size:2.737em;
-		line-height:108px;
+		line-height:103px;
 	}
     html[lang=ru] .product section table th:last-child {
-        background-position: 4px 0px;
+
     }
 	.product section table td{
 		background-image:url("../img/bg-product-section-table-cell-min.png");
-        background-size: cover;
+        background-position: 0px bottom !important;
 		padding-bottom:34px;
 	}
 	.product section table td h6{
@@ -2501,14 +2500,16 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr td:first-child,
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3) {
-    text-overflow:clip;
+    text-overflow:ellipsis;
     overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr th:first-child,
 #private-invitations-list-box .grid-view tr td:first-child{
     max-width:76px;
+    text-overflow: ellipsis;
     width:76px;
 }
+
 #private-invitations-list-box .grid-view tr th:nth-child(2),
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
@@ -2563,7 +2564,16 @@ ul.profile-menu li {
     padding-right: 3px;
     width: 142px;
 }
-
+#private-invitations-list-box .grid-view tr td {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#private-invitations-list-box .grid-view tr td:first-child p {
+    height: 47px;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+}
 .invites-smallmenu-switcher {
     background: url("../img/menugear.png") no-repeat left top;
     color:#232323;
