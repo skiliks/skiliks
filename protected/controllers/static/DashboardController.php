@@ -266,7 +266,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/dashboard');
         }
 
-        if (Invite::STATUS_PENDING !== $invite->status) {
+        if (Invite::STATUS_PENDING !== (int)$invite->status) {
             Yii::app()->user->setFlash('success', sprintf(
                 nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
