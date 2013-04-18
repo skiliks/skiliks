@@ -3388,7 +3388,7 @@ ul.profile-menu li {
         width: 450px;
     }
     .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value,
-    #password-recovery-form input[type="submit"] {
+    #password-recovery-form input[type="submit"], .timedetail .thelabel {
         font-size: 12px;
     }
     .resulttitele.smallerfont {
@@ -3399,9 +3399,6 @@ ul.profile-menu li {
     }
     .timedetail .labels {
         width: 100px;
-    }
-    .timedetail .thelabel {
-        font-size: 12px;
     }
     .timedetail .timebars {
         width:190px !important;
