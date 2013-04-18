@@ -37,6 +37,6 @@
             new charts.Bar('.bars', r(result[categories[i]] || 0), { valueRenderer: renderer });
         }
 
-        $('.productivity-total').html(Math.round(result.total) + '%');
+        $('.productivity-total').html(Math.round(result.total || 0) + '%');
     });
 </script>
