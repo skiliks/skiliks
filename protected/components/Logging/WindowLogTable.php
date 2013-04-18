@@ -11,7 +11,7 @@ class WindowLogTable extends LogTable
 {
     public function getHeaders()
     {
-        return ['Активное окно', 'Активное подокно','Игровое время - start', 'Игровое время - end', 'Window UID', 'Diff'];
+        return ['Активное окно', 'Активное подокно','Игровое время - start', 'Игровое время - end', 'Window UID', 'Time diff'];
     }
 
     public function getTitle()
