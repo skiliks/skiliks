@@ -51,6 +51,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             if (null == $invite->vacancy && empty($vacancies)) {
                 $invite->clearErrors('vacancy_id');
                 $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
+                $validPrevalidate = false;
             }
 
             $invite->message = sprintf(

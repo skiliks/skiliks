@@ -244,6 +244,7 @@ class Invite extends CActiveRecord
             array('firstname', 'required', 'message' => Yii::t('site', 'First name is required')),
             array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required')),
             array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
+            array('email', 'checkSendYourself'),
             array('vacancy_id', 'required', 'message' => Yii::t('site', 'Vacancy is required')),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
 			array('firstname, lastname', 'length', 'max'=>100),
@@ -257,6 +258,17 @@ class Invite extends CActiveRecord
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),
 		);
 	}
+
+    public function checkSendYourself()
+    {
+        if ($this->ownerUser &&
+            $this->ownerUser->account_corporate &&
+            $this->email &&
+            $this->ownerUser->account_corporate->corporate_email == $this->email
+        ) {
+            $this->addError('email', Yii::t('site', 'You cannot send invite to yourself'));
+        }
+    }
 
 	/**
 	 * @return array relational rules.
