@@ -1482,10 +1482,8 @@ class SimulationServiceTest extends CDbTestCase
 
         $ad = $simulation->getAssessmentDetails();
 
-        $this->assertEquals(4, count($ad[AssessmentCategory::PRODUCTIVITY]));
+        $this->assertEquals(2, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
-        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][0]));
-        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][1]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
     }
