@@ -631,7 +631,7 @@ class UserAuthController extends YumController
                     $email
                 )
             );
-            $this->redirect('dashboard');
+            $this->redirect('/');
         }
 
         $YumUser    = Yii::app()->request->getParam('YumUser');
