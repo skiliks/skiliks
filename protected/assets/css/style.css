@@ -2564,14 +2564,10 @@ ul.profile-menu li {
     padding-right: 3px;
     width: 142px;
 }
-#private-invitations-list-box .grid-view tr td {
-    height: 50px;
+#private-invitations-list-box .grid-view tr td,
+#private-invitations-list-box .grid-view tr td:first-child p{
+    max-height: 47px;
     overflow: hidden;
-    text-overflow: ellipsis;
-}
-#private-invitations-list-box .grid-view tr td:first-child p {
-    height: 47px;
-    /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
 .invites-smallmenu-switcher {
