@@ -141,7 +141,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <div class="logo"><a href="/">Skiliks</a></div>
 
 
-                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index'): ?>
+                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav>
