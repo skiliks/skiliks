@@ -390,7 +390,7 @@ class UserAuthController extends YumController
             {
                 $accountCorporate->attributes = $UserAccountCorporate; //$_POST['UserAccountCorporate'];
 
-                $isUserAccountCorporateValid  = $accountCorporate->validate();
+                $isUserAccountCorporateValid  = $accountCorporate->validate(['corporate_email', 'industry_id', 'user_id']);
 
                 if (UserService::isCorporateEmail($profile->email)) {
                     $accountCorporate->is_corporate_email_verified = 1;
@@ -404,7 +404,7 @@ class UserAuthController extends YumController
                     $profile->save();
 
                     $accountCorporate->generateActivationKey();
-                    $accountCorporate->save();
+                    $accountCorporate->save(false);
 
                     $this->user->refresh();
 
