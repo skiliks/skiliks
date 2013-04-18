@@ -3015,7 +3015,7 @@ ul.profile-menu li {
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
 }
 
-
+/* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
     .narrow-contnt {
@@ -3387,7 +3387,8 @@ ul.profile-menu li {
     .barswrap {
         width: 450px;
     }
-    .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
+    .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value,
+    #password-recovery-form input[type="submit"] {
         font-size: 12px;
     }
     .resulttitele.smallerfont {
@@ -3443,4 +3444,9 @@ ul.profile-menu li {
     .twobarstitles .barstitle:first-child {
         width: 270px;
     }
+    #password-recovery-form #YumPasswordRecoveryForm_email {
+        font-size: 11px;
+    }
 }
+
+/* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
