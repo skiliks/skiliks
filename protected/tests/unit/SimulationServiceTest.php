@@ -1425,8 +1425,6 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_1()
     {
-        $simulation = Simulation::model()->findByPk(1009);
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -1444,15 +1442,20 @@ class SimulationServiceTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
+        $e = new Evaluation($simulation);
+        $e->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 
-        $this->assertEquals(4, count($ad[AssessmentCategory::PRODUCTIVITY]));
+        $this->assertEquals(5, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][0]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][1]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
+
+        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
 
     /**
@@ -1460,8 +1463,6 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_2()
     {
-        $simulation = Simulation::model()->findByPk(1009);
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -1479,13 +1480,18 @@ class SimulationServiceTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
+        $e = new Evaluation($simulation);
+        $e->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 
-        $this->assertEquals(2, count($ad[AssessmentCategory::PRODUCTIVITY]));
+        $this->assertEquals(3, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
+
+        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
 }
 
