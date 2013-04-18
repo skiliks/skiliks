@@ -47,7 +47,7 @@ class Case_SK1471_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "50");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        sleep(10);
+        sleep(5);
         $this->assertTrue($this->incoming_counter(28));
 
     }
