@@ -165,6 +165,7 @@ return array(
     'Specialization is required' => 'Выберите специализацию',
     'Vacancy is required' => 'Выберите вакансию',
     'Add vacancy in your profile' => 'Введите вакансию в Профиле',
+    'You cannot send invite to yourself' => 'Вы не можете отправить инвайт себе',
     'User with this email does not exist' => 'Отсутствующий email',
     'Enter Email address' => 'Введите e-mail',
     'Incorrect birthday' => 'Неверная дата рождения',
