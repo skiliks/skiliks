@@ -306,6 +306,7 @@ a:focus, a:active {
 		font-size:0.667em;
 	}
 	.sbSelector{
+        height: 17px;
 		line-height: 17px;
 		text-indent: 4px;
 	}
@@ -1334,24 +1335,26 @@ html[lang=ru] .product section table th{
 		margin-right:7px;
 	}
 	.registration .form h1{
-		font-size:1.715em;
-		margin:16px 0 13px 40px;
+		font-size:2em;
+        line-height: 100%;
+		margin:16px 40px 10px 40px;
+        min-height: 58px;
 	}
     .registration .form-account-corporate h1 {
         margin-left: 20px;
     }
     .registration .form {
-        height: 420px;
+        height: 350px;
     }
     .form-account-corporate .wide {
         display: none;
     }
     .form-account-corporate input[type="submit"] {
-        margin-top: 28px;
+        margin-top: 56px;
     }
 	.registration .form>ul{
-		min-height:77px;
-		margin:0 27px 22px;
+		min-height:105px;
+		margin:0 27px 6px;
 	}
 	.registration .form>ul li{
 		background-image:url("../img/icon-registration-list-min.png");
@@ -1361,9 +1364,12 @@ html[lang=ru] .product section table th{
 		padding-left:19px;
 	}
 	.registration .form .row{
-		line-height:23px;
 		margin:0 14px 4px 31px;
+        min-height: 30px;
 	}
+    .registration .form .row .field {
+        padding-top: 4px;
+    }
 	.registration .form .row label{
 		font-size:0.667em;
 		width:70px;
@@ -1390,7 +1396,7 @@ html[lang=ru] .product section table th{
 	}
 	.registration .form .row input[type=submit]{
 		background:#146672 url("../img/icon-registration-submit-min.png") no-repeat 13px center;
-		width:176px;
+		width:182px;
 		height:37px;
 		font-size:0.858em;
 		text-indent:29px;
@@ -1733,9 +1739,6 @@ html[lang="en"] .footer .social_networks {
 @media screen and (max-width: 1280px){
     .videosocwrap {
         margin-top:-20px;
-    }
-    .videosocwrap .social_networks {
-        margin-top: 16px;
     }
 }
 .footer footer nav{
@@ -3067,6 +3070,9 @@ ul.profile-menu li {
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
+    .container>header {
+        height:
+    }
     .narrow-contnt {
         margin-left: 10px;
     }
@@ -3085,7 +3091,7 @@ ul.profile-menu li {
     }
     .dashboard {
         margin: 0 auto;
-        margin-top: 29px;
+        /*margin-top: 29px; */
         width: 765px;
     }
     #dashboard-skills-box, .nice-border {
@@ -3175,7 +3181,7 @@ ul.profile-menu li {
     }
 
     #corporate-invitations-list-box #yw0_c1 a {
-        width:104px;
+        width:98px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3242,7 +3248,16 @@ ul.profile-menu li {
         width: 200px;
     }
     .profile-menu a {
+        background-image: url("../img/menuarrowsmall.png");
         font-size: 14px;
+        padding-bottom: 9px;
+        padding-top:9px;
+    }
+    .profile-menu a, .profile-menu .mnotactive a:hover {
+        background-position: 185px -42px;
+    }
+    .profile-menu a:hover, .profile-menu li.active a  {
+        background-position: 185px 16px;
     }
     .profileform {
         padding: 16px;
@@ -3276,7 +3291,7 @@ ul.profile-menu li {
         background-position: 20px 12px;
         height: 44px;
         line-height: 40px;
-        font-size: 16px;
+        font-size: 15px;
         padding: 0 20px 0 48px;
     }
     #account-corporate-password-form label {
@@ -3293,7 +3308,7 @@ ul.profile-menu li {
         font-size: 16px;
     }
     .inner .content, .inner-registration .content {
-        margin: 29px auto 0;
+        margin: 0 auto;
         width: 765px;
     }
     /*.action-product .content {
@@ -3326,7 +3341,7 @@ ul.profile-menu li {
         font-size: 14px;
     }
     .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
-    .action-controller-personal-static-simulations h1.title
+    .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle
     {
         font-size: 2.219em;
     }
@@ -3390,7 +3405,7 @@ ul.profile-menu li {
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
     }
-    .product-bullet-charts {
+    .product-bullet-charts, .regicon {
         -moz-transform: scale(0.9);
         -o-transform: scale(0.9);
         -webkit-transform: scale(0.9);
@@ -3532,6 +3547,21 @@ ul.profile-menu li {
     }
     .invite-people-form.sideform.darkblueplacehld .row {
         padding-top: 10px;
+    }
+    .invite-people-form h2 {
+        margin-bottom: 4px;
+    }
+    .blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
+        background-position: left -3px;
+        height: 26px;
+        line-height: 26px;
+    }
+    .blue-btn, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
+        background-position: left -33px;
+    }
+    #private-invitations-list-box span.empty {
+        display: block;
+        height: 25px;
     }
 }
 
