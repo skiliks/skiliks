@@ -2486,6 +2486,10 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
     padding-left: 0px;
 }
+#corporate-invitations-list-box sup {
+    font-size: smaller;
+    line-height: 130%;
+}
 .items th, .items th a {
     color: white;
     text-decoration: none;
@@ -3113,9 +3117,14 @@ ul.profile-menu li {
         background: url("../img/ratestarssmall.png") no-repeat 0px -12px;
         height: 12px;
     }
-    #dashboard-skills-box sup, .items sup {
-        font-size: 0.7em;
+    .items sup {
+        font-size: 0.88em;
         line-height: 130%;
+        vertical-align: top;
+    }
+    #dashboard-skills-box sup {
+        line-height: 120%;
+        font-size: 0.7em;
         vertical-align: top;
     }
     .link-go {
@@ -3511,6 +3520,9 @@ ul.profile-menu li {
     .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email {
         font-size: 9px;
         left: 55px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname {
+        top:-11px;
     }
     .invite-people-form.sideform.darkblueplacehld .row {
         padding-top: 10px;
