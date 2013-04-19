@@ -3143,6 +3143,9 @@ ul.profile-menu li {
         height: 13px;
         width: 13px;
     }
+    .grid-view .empty {
+        min-height: 10px;
+    }
     #private-invitations-list-box .grid-view .items th {
         padding: 6px 4px;
     }
