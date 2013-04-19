@@ -396,7 +396,8 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     {
         $user = Yii::app()->user;
         if (null === $user->id) {
-            Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
+            //@popup
+            //Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
             $this->redirect('/');
         }
 
@@ -417,7 +418,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         // just to be sure - handle strange case
-        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
+        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 

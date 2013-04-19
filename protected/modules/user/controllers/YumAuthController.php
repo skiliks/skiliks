@@ -271,7 +271,7 @@ class YumAuthController extends YumController {
 			$t = Yum::module()->loginType;
 
 			// validate user input for the rest of login methods
-			if ($this->loginForm->validate()) {
+            if ($this->loginForm->validate()) {
 				if ($t & UserModule::LOGIN_BY_USERNAME) {
 					$success = $this->loginByUsername();
 					if ($success)
