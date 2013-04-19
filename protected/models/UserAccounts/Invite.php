@@ -250,7 +250,7 @@ class Invite extends CActiveRecord
 			array('firstname, lastname', 'length', 'max'=>100),
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
-            array('email', 'email'),
+            array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
             array('owner_id, email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
 			array('message', 'safe'),
 			// The following rule is used by search().
