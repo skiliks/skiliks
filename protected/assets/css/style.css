@@ -2573,7 +2573,7 @@ ul.profile-menu li {
 #private-invitations-list-box .ratingwrap {
     padding: 0;
     position: absolute;
-    top:6px;
+    top:5px;
 }
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
@@ -3110,6 +3110,9 @@ ul.profile-menu li {
         padding: 4px 2px 0px;
         line-height: 12px !important;
         margin-top:8px;
+    }
+    #dashboard-skills-box .ratingwrap {
+        padding: 4px 2px 3px;
     }
     .ratebg {
         background: url("../img/ratestarssmall.png") no-repeat 0px 0px;
