@@ -188,7 +188,7 @@ define([
             }
         },
 
-        /**
+        /**doActivate
          * Just opens window or nothing if opened
          *
          * @method open

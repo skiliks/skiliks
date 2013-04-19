@@ -1,3 +1,4 @@
+<?php /*
 <div class="language">
     <?php $path = Yii::app()->request->getPathInfo() ?>
     <?php if ($path == '' || $path == 'ru' || $path == 'en' || -1 < strpos($path, 'team') || -1 < strpos($path, 'product')): ?>
@@ -8,3 +9,4 @@
         </a>
     <?php endif ?>
 </div>
+ */ ?>
