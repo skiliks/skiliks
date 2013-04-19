@@ -399,15 +399,15 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname{
     top:-13px;
-    left:0;
+    left:75px;
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname{
     top:-2px;
-    left:0;
+    left:75px;
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email{
     top:-1px;
-    left:0;
+    left:75px;
 }
 /* Ошибки при регистрации */
 #yum-user-registration-form .YumProfile_email{
@@ -492,13 +492,17 @@ section.registration-by-link .form .row a.decline-link:hover {
     left:185px;
 }
 /* :hover кнопок */
-.bigbtnsubmt:hover,
-input[type="submit"]:hover{
-    background: url("../img/icon-registration-hover.png") no-repeat 16px center #BD2929;
+.profileform input[type="submit"]:hover{
+    background-image: url("../img/icon-btn-notify-hover.png");
+    background-color:#BD2929;
+    background-repeat: no-repeat;
     color: #FFFFFF;
 }
-.footer .freeacess:hover {
-    background-color: #BD2929;
+.features .freeacess.bigbtnsubmt:hover,
+.registrationform input[type="submit"]:hover {
+    background-image: url("../img/icon-circlarow-hover.png");
+    background-color:#BD2929;
+    background-repeat: no-repeat;
     color: #FFFFFF;
 }
 /* universal */
