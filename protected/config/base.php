@@ -172,8 +172,9 @@ return array(
                 'simulation/stopPause'    => 'simulation/stopPause',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
-                'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>'=> 'static/site/simulation',
-                'simulation/<mode:\w+>/<type:\w+>'=> 'static/site/simulation',
+                'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
+                'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
+                'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
 
                 'tariffs/<type:\w+>'                   => 'static/pages/ChangeTariff',
                 'registration'                         => 'static/userAuth/registration',
