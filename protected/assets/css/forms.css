@@ -619,7 +619,7 @@ span.required {
     margin-left: 80px;
 }
 .cabmessage input[type="submit"]:hover {
-    background: #45a8b6 url("../img/arrowleft.png") no-repeat 12px 11px;
+    background: url("../img/arrowleft.png") no-repeat 12px 11px #BD2929;
 }
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
