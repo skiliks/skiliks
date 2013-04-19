@@ -3120,11 +3120,12 @@ ul.profile-menu li {
 
     #private-invitations-list-box .grid-view tr td:last-child p {
         margin: 0px;
-        margin-left: 30px;
-        padding: 0px;
+        padding: 7px 0px;
+        position: relative;
     }
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
+        position: absolute;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
