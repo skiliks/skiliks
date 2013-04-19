@@ -2529,6 +2529,9 @@ ul.profile-menu li {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+#private-invitations-list-box .grid-view tr td:last-child p {
+    text-align: center;
+}
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
 
@@ -3090,8 +3093,8 @@ ul.profile-menu li {
        /* padding: 6px 3px !important;*/
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
-        max-width: 62px;
-        width: 62px;
+        max-width: 60px;
+        width: 60px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
@@ -3103,11 +3106,8 @@ ul.profile-menu li {
         width: 60px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 112px;
-        width: 112px;
-    }
-    #private-invitations-list-box .grid-view tr td:last-child p {
-        text-align: center;
+        max-width: 115px;
+        width: 115px;
     }
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
