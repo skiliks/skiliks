@@ -42,11 +42,11 @@ input[type="radio"] {
 }
 sub {
 	vertical-align: sub;
-	font-size: smaller;
+	font-size: small;
 }
 sup {
 	vertical-align: super;
-	font-size: smaller;
+	font-size: small;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display:block;
@@ -426,13 +426,6 @@ a:focus, a:active {
 @media screen and (max-width: 1280px){
 	.container>header{
 		width:765px;
-		height:58px;
-		padding-top:38px;
-	}
-	.container>header h1{
-		/*background:url("../img/logo-header-min.png") no-repeat 0 0;*/
-        width:222px;
-        height:58px;
 	}
 	.container>header .coming-soon{
 		background:url("../img/icon-coming-soon-min.png") no-repeat 0 0;
@@ -453,9 +446,6 @@ a:focus, a:active {
 		font-size:0.858em;
 		line-height:1.571em;
 	}
-    .container>header nav#account-links{
-        top:78px;
-    }
 }
 /* --------------- /header ---------*/
 .features .freeacess, .form-section .form-submit-button {
@@ -680,7 +670,7 @@ html[lang=ru] .features form div input[type=submit]{
 		margin-right:8px;
 	}
 	.features form div input[type=text]{
-		width:195px;
+		width:167px;
 	    padding:14px 5px 13px;
 	}
 	.features form div input[type=submit] {
@@ -1974,12 +1964,31 @@ html[lang="en"] .footer .social_networks {
     background-position: 0 100%;
 }
 @media screen and (max-width: 1280px){
+    .sing-in-pop-up  {
+        height:190px !important;
+        width:247px !important;
+    }
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        background-size:cover;
+        -moz-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+    }
+    .ui-dialog .ui-dialog-title {
+        font-size:22px;
+    }
 	.login-form{
-	    width:184px;
-	    padding:7px 30px;
+	    width:190px;
+	    padding:7px 24px 7px 10px;
 	    top:75px;
 	    /*margin-left:33px;*/
 	}
+    .ui-dialog .ui-dialog-content {
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
 	.login-form h6{
 		font-size:1.333em;
 		color:#fff;
@@ -1998,21 +2007,21 @@ html[lang="en"] .footer .social_networks {
 		margin-bottom:5px;
 	}
 	.login-form div label{
-		font-size:0.666em;
+		font-size:11px;
 		line-height:11px;
 		margin-bottom:4px;
 	}
 	.login-form div input[type=text],.login-form div input[type=password]{
-		font-size:0.666em;
+        font-size:11px;
 		width:171px;
-		height:9px;
+		height:11px;
 		padding:6px 7px;
 	}
 	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min.png") no-repeat 0 0;
-		width:49px;
+		width:56px;
 		height:21px;
-		font-size:0.666em;
+        font-size:11px;
 		text-indent:9px;
 	}
 	.login-form div input[type=submit]:hover{
@@ -2033,6 +2042,9 @@ html[lang="en"] .footer .social_networks {
 	.login-form a{
 		font-size:0.666em;
 	}
+    .login-form div.login a, .login-form div.remember label  {
+        font-size: 11px;
+    }
 }
 /* --------------- /sign in box ---------*/
 
@@ -3102,7 +3114,7 @@ ul.profile-menu li {
         height: 12px;
     }
     #dashboard-skills-box sup, .items sup {
-        font-size: 0.67em;
+        font-size: 0.8em;
         line-height: 130%;
         vertical-align: top;
     }
@@ -3245,7 +3257,7 @@ ul.profile-menu li {
         width: 240px;
     }
     .profileform input[type="submit"] {
-        background-position: 20px 14px;
+        background-position: 20px 12px;
         height: 44px;
         line-height: 40px;
         font-size: 16px;
@@ -3297,9 +3309,14 @@ ul.profile-menu li {
     .ratepercnt {
         font-size: 14px;
     }
-    .inner .thetitle
+    .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
+    .action-controller-personal-static-simulations h1.title
     {
         font-size: 2.219em;
+    }
+    .action-controller-corporate-static-simulations .grid-view,
+    .action-controller-personal-static-simulations .grid-view {
+        padding:6px;
     }
     .product-gauge-charts, .gauge-charts {
         width: 570px;
@@ -3482,6 +3499,10 @@ ul.profile-menu li {
     #password-recovery-form #YumPasswordRecoveryForm_email {
         font-size: 11px;
     }
+    .text16, .text16 a {
+        font-size: 14px;
+    }
+
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
