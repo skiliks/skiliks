@@ -20,7 +20,7 @@ $this->widget('zii.widgets.CMenu', array(
             'visible' => ('ru' == Yii::app()->getLanguage() && Yii::app()->user->isGuest)
         ],
         [
-            'label'   => Yii::t('site', 'Dashboard'),
+            'label'   => ($isCorporate)?Yii::t('site', 'Corporate dashboard'):Yii::t('site', 'Dashboard'),
             'url'     => ['/static/dashboard/index'],
             'visible' => !Yii::app()->user->isGuest,
             'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
