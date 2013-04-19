@@ -45,7 +45,7 @@ define([
             me.frame = new SKSimulationView();
             me.frame.render();
             SKApp.server.on('server:error', function () {
-                    me.message_window = me.message_window || new window.SKDialogView({
+                    /*me.message_window = me.message_window || new window.SKDialogView({
                         'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
                         'buttons':[
                             {
@@ -55,7 +55,7 @@ define([
                                 }
                             }
                         ]
-                    });
+                    });*/
                 }
             );
             this.render();
