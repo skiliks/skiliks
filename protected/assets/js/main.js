@@ -85,5 +85,7 @@ $(document).ready(function () {
             $(this).parent().addClass('subisopen');
         }
     });
-
+    $('.feedback').on('click', function () {
+        $('#feedback-dialog').dialog({'width': 700});
+    });
 });

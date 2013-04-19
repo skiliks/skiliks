@@ -29,19 +29,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/logo-header.png"/>
 		<meta charset="utf-8" />
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
-            new JotformFeedback({
-                formId:'30835043655352',
-                base:'http://jotformeu.com/',
-                windowTitle:'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим Ваше мнение',
-                background:'#FFA500',
-                fontColor:'#FFFFFF',
-                type:false,
-                height:350,
-                width:700
-            });
-        </script>
-		<title>Skiliks - game the skills</title>
+        <title>Skiliks - game the skills</title>
 
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -149,7 +137,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
                     <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
                 </nav>
-
-
+            </div>
+            <?php $this->renderPartial('//global_partials/_feedback', []) ?>
 	</body>
 </html>
