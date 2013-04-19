@@ -1631,6 +1631,9 @@ html[lang=ru] .product section table th{
     top:136px;
     left:320px;
 }
+html[lang="en"] .footer .social_networks {
+    top:198px;
+}
 .social_networks span {
     display:block;
     float:left;
@@ -2140,7 +2143,9 @@ h2 {
     text-decoration: none;
     /*width: 150px;*/
 }
-
+.action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {
+    display: none !important;
+}
 .action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover, .invites-smallmenu-item a:hover {
     color: #000;
 }
