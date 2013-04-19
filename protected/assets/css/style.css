@@ -3067,12 +3067,12 @@ ul.profile-menu li {
         line-height: 12px;
     }
     .ratebg {
-        background-size:cover;
+        background: url("../img/ratestarssmall.png") no-repeat 0px 0px;
         height: 12px;
-        width:67px;
+        width:68px;
     }
     .rating {
-        background-size:cover;
+        background: url("../img/ratestarssmall.png") no-repeat 0px -12px;
         height: 12px;
     }
     #dashboard-skills-box sup, .items sup {
