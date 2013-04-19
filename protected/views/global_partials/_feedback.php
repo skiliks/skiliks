@@ -3,8 +3,8 @@ $assetsUrl = $this->getAssetsUrl();
 
 $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compiled_css/feedback.css');
 ?>
-<div id="feedback-dialog">
-    <form class="feedback jotform-form" action="http://submit.jotformeu.com/submit.php" method="post"
+<div id="feedback-dialog" style="display: none;">
+    <form class="feedback jt-feedback jotform-form" action="http://submit.jotformeu.com/submit.php" method="post"
           name="form_30835043655352" id="30835043655352" accept-charset="utf-8">
         <input type="hidden" name="formID" value="30835043655352"/>
 

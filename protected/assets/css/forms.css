@@ -634,7 +634,7 @@ span.required {
     background: none !important;
 }
 .jt-feedback *, .jt-content {
-    background: none !important;
+    background: none;
 }
 .jt-content {
     overflow: hidden !important;
