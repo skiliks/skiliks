@@ -2232,6 +2232,9 @@ h2 {
     line-height: 90%;
     vertical-align: text-top;
 }
+#private-invitations-list-box sup {
+    vertical-align: top;
+}
 #job-recomendations-box {
     margin: 30px 0 0 10px;
 }
