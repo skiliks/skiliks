@@ -3106,6 +3106,9 @@ ul.profile-menu li {
         max-width: 112px;
         width: 112px;
     }
+    #private-invitations-list-box .grid-view tr td:last-child p {
+        text-align: center;
+    }
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
     }
