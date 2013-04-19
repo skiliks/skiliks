@@ -3064,7 +3064,8 @@ ul.profile-menu li {
     }
     .ratingwrap {
         padding: 4px 2px 0px;
-        line-height: 12px;
+        line-height: 12px !important;
+        margin-top:8px;
     }
     .ratebg {
         background: url("../img/ratestarssmall.png") no-repeat 0px 0px;
