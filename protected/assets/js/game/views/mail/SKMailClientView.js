@@ -614,6 +614,12 @@ define([
                     // if user click on same email line twice - open read email screen
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+
+                        mailClientView.$('.NEW_EMAIL').css('display', 'none');
+                        mailClientView.$('.REPLY_EMAIL').css('display', 'none');
+                        mailClientView.$('.REPLY_ALL_EMAIL').css('display', 'none');
+                        mailClientView.$('.FORWARD_EMAIL').css('display', 'none');
+                        mailClientView.$('.ADD_TO_PLAN').css('display', 'none');
                         // log {
                         mailClientView.mailClient.setWindowsLog(
                             'mailPreview',
@@ -823,6 +829,7 @@ define([
              * @param height
              */
             renderEmailPreviewScreen: function (email, id, height) {
+                console.log("preview");
                 this.mailClient.setActiveEmail(email);
 
                 var attachmentLabel = '';
