@@ -33,7 +33,7 @@ define([
             if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))) {
                 SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))] = null;
 
-                me.message_window = me.message_window || new SKDialogView({
+                me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                         {
@@ -73,21 +73,14 @@ define([
         handlePostMessage: function(event) {
             var me = this;
             // var doc = me.options.model_instance.get('document');
-            var doc = null;
+            var doc = me.options.model_instance.get('document');
 
-            $.each(SKDocument._excel_cache, function(id, url){
-                url = url.replace('\r', '');
-                if(url.replace('\r', '') === event.data.url.replace('\r', '')){
-                    doc = SKApp.simulation.documents.where({id:id.toString()});
-                }
-            });
-
-            if (null === doc) {
+            if (doc.get('excel_url').replace('\r', '') !== event.data.url.replace('\r', '')) {
                 return;
             }
 
             if (event.data.type === "Zoho_500") {
-                me.message_window = me.message_window || new SKDialogView({
+                me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'modal': true,
                     'buttons': [
@@ -95,14 +88,15 @@ define([
                             'value': 'Перезагрузить',
                             'onclick': function () {
                                 SKApp.simulation.afterZohoCrash = true;
-                                var doc = me.options.model_instance.get('document');
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.remove(doc);
                                 SKApp.simulation.documents.fetch();
 
                                 // clean array of not handled zoho 500 {
                                 var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
-                                delete SKApp.simulation.documents.zoho_500[i];
+                                if (i > -1) {
+                                    delete SKApp.simulation.documents.zoho_500[i];
+                                }
 
                                 delete me.message_window;
                             }
