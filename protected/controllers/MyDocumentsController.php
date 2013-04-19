@@ -61,7 +61,7 @@ class MyDocumentsController extends AjaxController
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
         $errors = [];
 
-        while (null === $zoho->getUrl() && $n < $limit) {
+        while (null === $zoho->getUrl() && $limit < $n) {
             try {
                 $n++;
                 $zoho->sendDocumentToZoho();
