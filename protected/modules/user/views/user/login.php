@@ -26,8 +26,6 @@ if(isset($_GET['action']))
 	echo CHtml::hiddenField('returnUrl', urldecode($_GET['action']));
 ?>
 
-<?php echo CHtml::errorSummary($model); ?>
-	
 	<div class="row">
 		<?php
 		if($module->loginType & UserModule::LOGIN_BY_USERNAME 
@@ -39,14 +37,18 @@ if(isset($_GET['action']))
 			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('OpenID username'));  ?>
 
 		<?php echo CHtml::activeTextField($model,'username') ?>
+		<?php echo CHtml::error($model,'username') ?>
 	</div>
 	
 	<div class="row">
 		<?php echo CHtml::activeLabelEx($model,'Пароль'); ?>
-		<?php echo CHtml::activePasswordField($model,'password');
-		if($module->loginType & UserModule::LOGIN_BY_OPENID)
+		<?php echo CHtml::activePasswordField($model,'password'); ?>
+        <?php echo CHtml::error($model,'password') ?>
+		<?php
+        if($module->loginType & UserModule::LOGIN_BY_OPENID):
 			echo '<br />'. Yum::t('When logging in with OpenID, password can be omitted');
- ?>
+        endif;
+        ?>
 		
 	</div>
 	
