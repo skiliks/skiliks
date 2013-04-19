@@ -374,6 +374,7 @@ class UserAuthController extends YumController
                         // duplicated records:
                         // this possible for developers only,
                         // when you remove your personal account and choose account type as personal again
+                        //
                     }
                     // grands permission to start full simulation }
 
@@ -750,6 +751,7 @@ class UserAuthController extends YumController
         $YumPasswordRecoveryForm = Yii::app()->request->getParam('YumPasswordRecoveryForm');
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
 
+
         if (null !== $email && null !== $key && null !== $YumUserChangePassword) {
             $profile = YumProfile::model()->findByAttributes(['email' => $email]);
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
@@ -785,7 +787,11 @@ class UserAuthController extends YumController
 
         if (null !== $YumPasswordRecoveryForm) {
             $recoveryForm->attributes = $YumPasswordRecoveryForm;
-
+            if(isset($_POST['ajax']) && $_POST['ajax']==='password-recovery-form')
+            {
+                echo CActiveForm::validate($recoveryForm);
+                Yii::app()->end();
+            }
             if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
                 $user = $recoveryForm->user;
                 $user->generateActivationKey();
@@ -793,7 +799,11 @@ class UserAuthController extends YumController
 
                 if ($result) {
                     Yii::app()->user->setFlash('notice', 'Инструкции были отправлены к вам. Пожалуйста, проверьте свою электронную почту.');
-                    $this->redirect('/');
+                    if (!Yii::app()->request->getIsAjaxRequest()) {
+                        $this->redirect('/');
+                    } else {
+                        Yii::app()->end();
+                    }
                 } else {
                     Yii::app()->user->setFlash('error', 'There was an error sending recovery email');
                 }

@@ -8,18 +8,21 @@
  */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->scriptMap=array(
+    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
+);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.9.1.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
+$cs->registerCoreScript('jquery.yiiactiveform.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');;
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 

@@ -34,7 +34,6 @@ $this->widget('zii.widgets.grid.CGridView', [
         ],
         ['header' => Yii::t('site', 'Score')                                , 'value' => $scoreRender, 'type' => 'raw'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->vacancy_id\" title=\"$data->firstname, $data->lastname\">Исправить</a>"', 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
     ]
 ]);
@@ -55,7 +54,6 @@ $this->widget('zii.widgets.grid.CGridView', [
         }
 
         // remove last 3 TH
-        $('.items').find('th:eq(8)').remove();
         $('.items').find('th:eq(7)').remove();
         $('.items').find('th:eq(6)').remove();
 
@@ -64,11 +62,9 @@ $this->widget('zii.widgets.grid.CGridView', [
             $(this).next().append(
                 $(this).parent().parent().find('td:eq(6)').html()
                 + $(this).parent().parent().find('td:eq(7)').html()
-                + $(this).parent().parent().find('td:eq(8)').html()
             );
 
             // remove last 3 TD
-            $(this).parent().parent().find('td:eq(8)').remove();
             $(this).parent().parent().find('td:eq(7)').remove();
             $(this).parent().parent().find('td:eq(6)').remove();
 

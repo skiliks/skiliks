@@ -117,14 +117,14 @@ class PagesController extends AjaxController
             $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
             $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
             $user->getAccount()->invites_limit = $tariff->simulations_amount;
-            $user->getAccount()->save(true, ['tariff_id', 'tariff_activated_at', 'tariff_expired_at', 'invites_limit']);
+            $user->getAccount()->save();
             // update account tariff }
-
             if($user->getAccount()->tariff_id == $tariff->id) {
-                Yii::app()->user->setFlash('success', sprintf(
-                    'Тарифный план "%s" активирован для вашего профиля.',
-                    $tariff->label
-                ));
+                //@popup
+                //Yii::app()->user->setFlash('success', sprintf(
+                //    'Тарифный план "%s" активирован для вашего профиля.',
+                //    $tariff->label
+                //));
                 $this->redirect('/profile/corporate/tariff');
             }
 
