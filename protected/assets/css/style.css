@@ -2504,7 +2504,6 @@ ul.profile-menu li {
 
 #private-invitations-list-box .grid-view tr td:first-child,
 #private-invitations-list-box .grid-view tr td:nth-child(2),
-#private-invitations-list-box .grid-view tr td:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
     text-overflow:ellipsis !important;
     white-space: nowrap;
