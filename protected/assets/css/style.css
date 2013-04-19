@@ -2144,7 +2144,9 @@ h2 {
 .action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover, .invites-smallmenu-item a:hover {
     color: #000;
 }
-
+.action-controller-corporate-static-dashboard .invites-smallmenu-item a.edit-invite {
+    display:none !important;
+}
 .action-controller-corporate-static-dashboard .items th,
 .action-controller-corporate-static-dashboard .items td {
     height: 25px;
