@@ -33,7 +33,7 @@ define([
             if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))) {
                 SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))] = null;
 
-                me.message_window = new SKDialogView({
+                me.message_window = me.message_window || new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                         {
@@ -87,7 +87,7 @@ define([
             }
 
             if (event.data.type === "Zoho_500") {
-                me.message_window = new SKDialogView({
+                me.message_window = me.message_window || new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'modal': true,
                     'buttons': [
