@@ -195,7 +195,7 @@ class YumAuthController extends YumController {
 				return $user;
 				break;
 			case YumUserIdentity::ERROR_EMAIL_INVALID:
-				$this->loginForm->addError("password",Yum::t('Неверный логин или пароль'));
+				$this->loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
 				$this->logFailedLoginAttempts($user);
 				break;
 			case YumUserIdentity::ERROR_STATUS_INACTIVE:
@@ -211,7 +211,7 @@ class YumAuthController extends YumController {
 				$this->logFailedLoginAttempt($user);
 
 				if(!$this->loginForm->hasErrors())
-					$this->loginForm->addError("password",Yum::t('Неверный логин или пароль'));
+					$this->loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
 				break;
 				return false;
 		}

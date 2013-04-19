@@ -386,7 +386,7 @@ class YumUser extends YumActiveRecord
         $rules[] = array('salt', 'required', 'on' => array('insert', 'registration'));
         $rules[] = array('createtime, lastvisit, lastaction, superuser, status', 'numerical', 'integerOnly' => true);
 
-        $rules[] = array('password_again', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Repeat password'));
+        $rules[] = array('password_again', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Accept password'));
         $rules[] = array('password', 'compare', 'compareAttribute' => 'password_again', 'message' => Yii::t('site', 'Passwords do not match'));
 
         $passwordrule = array_merge(array('password', 'YumPasswordValidator'), $passwordRequirements);
