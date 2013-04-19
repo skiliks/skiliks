@@ -24,6 +24,7 @@ define([
              * @property {string} title
              */
             title:'Мои документы',
+            addClass: 'document-window',
 
             dimensions: {
                 width: 851,

@@ -88,23 +88,33 @@ define([
                     simulation.startInputLock();
 
                     if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-                        simulation.window_set.open(
+                        /*simulation.window_set.open(
                             'mailEmulator',
                             simulation.mailClient.getActiveSubscreenName()
                         );
                         simulation.mailClient.view.on('render_finished', function () {
                             SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
-                        });
+                        });*/
                     } else {
                         var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
                         windows[0].setOnTop();
-                        SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
+                        windows[0].close(
+                            'mailEmulator',
+                            simulation.mailClient.getActiveSubscreenName()
+                        );
                     }
+
+                    simulation.window_set.open(
+                        'mailEmulator',
+                        simulation.mailClient.getActiveSubscreenName()
+                    );
+                    simulation.mailClient.view.on('render_finished', function () {
+                        SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
+                    });
+
                     simulation.mailClient.on('mail:fantastic-open:complete', function () {
                         SKApp.simulation.stopInputLock();
                     });
-
-
                 }
             });
             this.on('add', function (win) {

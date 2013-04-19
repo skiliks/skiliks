@@ -34,6 +34,7 @@ class ActivityAggregatedTable extends LogTable
             'Keep last category',
             'Игровое время - start',
             'Игровое время - end',
+            'Time diff'
         ];
     }
 
@@ -43,6 +44,9 @@ class ActivityAggregatedTable extends LogTable
      */
     protected function getRow($row)
     {
+        static $end_time = 0;
+        $diff = ($end_time === 0)?'-':strtotime($row->start_time) - strtotime($end_time);
+        $end_time = $row->end_time;
         return [
             $row->leg_type,
             $row->leg_action,
@@ -52,7 +56,8 @@ class ActivityAggregatedTable extends LogTable
             $row->activityAction->activity->category->code,
             $row->is_keep_last_category === '0' ? 'yes' : '',
             $row->start_time,
-            $row->end_time
+            $row->end_time,
+            $diff
         ];
     }
 

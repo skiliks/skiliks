@@ -111,7 +111,33 @@ class LearningAreaAnalyzer {
         }
     }
 
-    protected function calcCombinedSkills($learningAreaCode)
+    protected function calcCombinedSkillsByBehaviours(array $behaviourCodes)
+    {
+        $scenario = $this->simulation->game_type;
+
+        $ids = [];
+        $maxRate = 0;
+        $total = 0;
+
+        $behaviours = $scenario->getHeroBehavours(['code' => $behaviourCodes]);
+        foreach ($behaviours as $behaviour) {
+            $ids[] = $behaviour->id;
+            $maxRate += $behaviour->scale;
+        }
+
+        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
+            'sim_id' => $this->simulation->id,
+            'point_id' => $ids
+        ]);
+
+        foreach ($aggregated as $item) {
+            $total += $item->fixed_value;
+        }
+
+        return $maxRate ? $total / $maxRate : 0;
+    }
+
+    protected function calcCombinedSkillsByGoal($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
 
@@ -128,7 +154,10 @@ class LearningAreaAnalyzer {
                     'learning_goal_id' => $learningGoal->id
                 ]);
 
-                $total += $slg->value * $slg->getReducingCoefficient();
+                if ($slg) {
+                    $total += $slg->value * $slg->getReducingCoefficient();
+                }
+
                 $ids[] = $learningGoal->id;
             }
         }
@@ -149,28 +178,8 @@ class LearningAreaAnalyzer {
      */
     public function followPriorities()
     {
-        $scenario = $this->simulation->game_type;
-
-        $ids = [];
-        $maxRate = 0;
-        $total = 0;
-
-        $behaviours = $scenario->getHeroBehavours(['code' => [1122, 1232]]);
-        foreach ($behaviours as $behaviour) {
-            $ids[] = $behaviour->id;
-            $maxRate += $behaviour->scale;
-        }
-
-        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
-            'sim_id' => $this->simulation->id,
-            'point_id' => $ids
-        ]);
-
-        foreach ($aggregated as $item) {
-            $total += $item->fixed_value;
-        }
-
-        $this->saveLearningArea(1, $maxRate ? $total / $maxRate * 100 : 0);
+        $value = $this->calcCombinedSkillsByBehaviours([1122, 1232]);
+        $this->saveLearningArea(1, $value * 100);
     }
 
     /*
@@ -178,7 +187,7 @@ class LearningAreaAnalyzer {
      */
     public function taskManagement()
     {
-        $value = $this->calcCombinedSkills(2);
+        $value = $this->calcCombinedSkillsByGoal(2);
         $this->saveLearningArea(2, $value * 100);
     }
 
@@ -187,7 +196,7 @@ class LearningAreaAnalyzer {
      */
     public function peopleManagement()
     {
-        $value = $this->calcCombinedSkills(3);
+        $value = $this->calcCombinedSkillsByGoal(3);
         $this->saveLearningArea(3, $value * 100);
     }
 
@@ -196,7 +205,7 @@ class LearningAreaAnalyzer {
      */
     public function communication()
     {
-        $value = $this->calcCombinedSkills(4);
+        $value = $this->calcCombinedSkillsByBehaviours([3214, 3216, 3218]);
         $this->saveLearningArea(4, $value * 100);
     }
 
@@ -205,7 +214,7 @@ class LearningAreaAnalyzer {
      */
     public function mailManagement()
     {
-        $value = $this->calcCombinedSkills(5);
+        $value = $this->calcCombinedSkillsByGoal(5);
         $this->saveLearningArea(5, $value * 100);
     }
 
@@ -214,7 +223,7 @@ class LearningAreaAnalyzer {
      */
     public function phoneManagement()
     {
-        $value = $this->calcCombinedSkills(6);
+        $value = $this->calcCombinedSkillsByGoal(6);
         $this->saveLearningArea(6, $value * 100);
     }
 
@@ -223,7 +232,7 @@ class LearningAreaAnalyzer {
      */
     public function meetManagement()
     {
-        $value = $this->calcCombinedSkills(7);
+        $value = $this->calcCombinedSkillsByGoal(7);
         $this->saveLearningArea(7, $value * 100);
     }
 
@@ -232,7 +241,7 @@ class LearningAreaAnalyzer {
      */
     public function imManagement()
     {
-        $value = $this->calcCombinedSkills(8);
+        $value = $this->calcCombinedSkillsByGoal(8);
         $this->saveLearningArea(8, $value);
     }
 

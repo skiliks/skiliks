@@ -329,7 +329,7 @@ class YumUser extends YumActiveRecord
                 // registration form validated separately, so here we just "ignore" password_again validatio
                 $this->password_again = $this->password;
 
-                $this->save();
+                $this->save(false);
             }
 
             return $this;
@@ -667,7 +667,10 @@ class YumUser extends YumActiveRecord
             if (null === $salt) {
                 $salt = YumEncrypt::generateSalt();
             }
-            $this->setPassword($password, $salt);
+
+            $this->password = $password;
+            $this->password_again = $password;
+            $this->salt = $salt;
         }
 
         $this->activationKey = $this->generateActivationKey(false /*, $password*/);
@@ -688,6 +691,8 @@ class YumUser extends YumActiveRecord
             $profile->user_id = $this->id;
             $profile->save(false);
             $this->profile = $profile;
+
+            $this->setPassword($password, $salt);
 
             if (Yum::hasModule('role'))
                 foreach (Yum::module('registration')->defaultRoles as $role)

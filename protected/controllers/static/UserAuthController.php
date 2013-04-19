@@ -320,7 +320,9 @@ class UserAuthController extends YumController
 
         // only activated user can choose account type
         if (false == $this->user->isActive()) {
-            $this->redirect(['registration/error/active']);
+            Yii::app()->user->setFlash('error', 'Ваш аккаунт неактивен');
+
+            $this->redirect('/');
         }
 
         // user can choose account type once only
@@ -390,7 +392,7 @@ class UserAuthController extends YumController
             {
                 $accountCorporate->attributes = $UserAccountCorporate; //$_POST['UserAccountCorporate'];
 
-                $isUserAccountCorporateValid  = $accountCorporate->validate();
+                $isUserAccountCorporateValid  = $accountCorporate->validate(['corporate_email', 'industry_id', 'user_id']);
 
                 if (UserService::isCorporateEmail($profile->email)) {
                     $accountCorporate->is_corporate_email_verified = 1;
@@ -404,7 +406,7 @@ class UserAuthController extends YumController
                     $profile->save();
 
                     $accountCorporate->generateActivationKey();
-                    $accountCorporate->save();
+                    $accountCorporate->save(false);
 
                     $this->user->refresh();
 
@@ -583,9 +585,9 @@ class UserAuthController extends YumController
             $this->redirect('/');
         }
 
-        $userAccountCorporate->user->getAccount()->is_corporate_email_verified = 1;
-        $userAccountCorporate->user->getAccount()->corporate_email_verified_at = date('Y-m-d H:i:s');
-        $userAccountCorporate->user->getAccount()->save();
+        $userAccountCorporate->is_corporate_email_verified = 1;
+        $userAccountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
+        $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
         // redirect to success message page
         $this->redirect('/registration/confirm-corporate-email-success');
@@ -622,7 +624,7 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
-        if (!Yii::app()->user->isGuest) {
+        if (false === Yii::app()->user->isGuest && Yii::app()->user->data()->profile->email !== $email) {
             Yii::app()->user->setFlash(
                 'error',
                 sprintf(Yii::t('site',
@@ -631,7 +633,7 @@ class UserAuthController extends YumController
                     $email
                 )
             );
-            $this->redirect(Yii::app()->user->returnUrl);
+            $this->redirect('/');
         }
 
         $YumUser    = Yii::app()->request->getParam('YumUser');

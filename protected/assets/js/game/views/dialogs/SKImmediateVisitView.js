@@ -127,6 +127,7 @@ define([
                     me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
                         me.options.model_instance.setLastDialog(dialog_id);
                         if (is_final) {
+                            me.options.model_instance.setOnTop();
                             me.options.model_instance.close();
                         }
                     });

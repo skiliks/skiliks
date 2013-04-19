@@ -138,7 +138,7 @@ a:focus, a:active {
 }
 .content{
 	width:948px;
-    overflow:hidden;
+    /*overflow:hidden;*/
 	position:relative;
     z-index: 2;
     margin: 0 auto;
@@ -458,7 +458,7 @@ a:focus, a:active {
     }
 }
 /* --------------- /header ---------*/
-.features .freeacess {
+.features .freeacess, .form-section .form-submit-button {
     background-position: 17px 17px;
     font: 18px "ProximaNova-Bold";
     height: 54px;
@@ -876,10 +876,15 @@ html[lang=ru] .product section table th{
 		margin-top:6px;
 	}
 	.product h2{
-        font-size: 2.219em;
         font-weight:normal;
 		margin-bottom:26px;
 	}
+    .product h2 {
+        font-size: 2.219em;
+    }
+    .simulation-result-popup .total {
+        font-size: 2em;
+    }
 	.product h6{
 		font-size:1.333em;
 	}
@@ -901,14 +906,15 @@ html[lang=ru] .product section table th{
 		font-size:1.714em;
 	}
 	.product section table{
-		width:775px;
+		width:765px;
 		margin:28px auto 0;
 	}
 	.product section table col{
 		width:50%;
 	}
 	.product section table tr th:first-child,.product section table tr td:first-child{
-		padding-right:33px;
+        /*background-size: cover;*/
+		padding-right:30px;
 		padding-left:30px;
 	}
 	.product section table tr th:last-child,.product section table tr td:last-child{
@@ -917,15 +923,16 @@ html[lang=ru] .product section table th{
 	}
 	.product section table th,html[lang=ru] .product section table th{
 		background:url("../img/bg-product-section-table-title-min.png") no-repeat 0 0;
-		height:108px;
+		height:103px;
 		font-size:2.737em;
-		line-height:108px;
+		line-height:103px;
 	}
     html[lang=ru] .product section table th:last-child {
-        background-position: 4px 0px;
+
     }
 	.product section table td{
 		background-image:url("../img/bg-product-section-table-cell-min.png");
+        background-position: 0px bottom !important;
 		padding-bottom:34px;
 	}
 	.product section table td h6{
@@ -943,7 +950,7 @@ html[lang=ru] .product section table th{
 /* --------------- /product ---------*/
 
 /* --------------- team ---------*/
-.team-page{
+ .inner-team .container { /*.team-page  */
     background:url("../img/bg-team-container.png") no-repeat center 760px;
 }
 .team-page .content{
@@ -1331,8 +1338,20 @@ html[lang=ru] .product section table th{
 	}
 	.registration .form h1{
 		font-size:1.715em;
-		margin:16px 0 13px 46px;
+		margin:16px 0 13px 40px;
 	}
+    .registration .form-account-corporate h1 {
+        margin-left: 20px;
+    }
+    .registration .form {
+        height: 420px;
+    }
+    .form-account-corporate .wide {
+        display: none;
+    }
+    .form-account-corporate input[type="submit"] {
+        margin-top: 28px;
+    }
 	.registration .form>ul{
 		min-height:77px;
 		margin:0 27px 22px;
@@ -1380,6 +1399,10 @@ html[lang=ru] .product section table th{
 		text-indent:29px;
 		margin-left:71px;
 	}
+    .registration .form .row input[type=submit]:hover {
+        background-image: url("../img/icon-registration-submit-min.png");
+        background-position: 13px center;
+    }
 	.registration .form .row .errorMessage{
 	    -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
 	    -webkit-box-shadow:0 0 5px rgba(0,0,0,0.57);
@@ -2450,9 +2473,7 @@ ul.profile-menu li {
     border:none;
     vertical-align: middle;
 }
-#private-invitations-list-box .grid-view .items td, .items td {
-    padding: 8px 6px;
-}
+#private-invitations-list-box .grid-view .items td, .items td,
 #corporate-invitations-list-box .grid-view .items td {
     padding: 5px 6px;
 }
@@ -2477,14 +2498,16 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr td:first-child,
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3) {
-    text-overflow:clip;
+    text-overflow:ellipsis !important;
     overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr th:first-child,
 #private-invitations-list-box .grid-view tr td:first-child{
     max-width:76px;
+    text-overflow: ellipsis;
     width:76px;
 }
+
 #private-invitations-list-box .grid-view tr th:nth-child(2),
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
@@ -2500,7 +2523,10 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr td:last-child {
     width:184px;
 }
-
+#private-invitations-list-box .grid-view tr td:first-child {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
 
@@ -2989,7 +3015,7 @@ ul.profile-menu li {
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
 }
 
-
+/* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
     .narrow-contnt {
@@ -3062,8 +3088,8 @@ ul.profile-menu li {
         padding: 6px 3px;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
-        max-width: 82px;
-        width: 82px;
+        max-width: 62px;
+        width: 62px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
@@ -3075,8 +3101,8 @@ ul.profile-menu li {
         width: 60px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 80px;
-        width: 80px;
+        max-width: 112px;
+        width: 112px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
@@ -3237,28 +3263,55 @@ ul.profile-menu li {
     {
         font-size: 2.219em;
     }
-    .product-gauge-charts {
+    .product-gauge-charts, .gauge-charts {
         width: 570px;
     }
     .chart-gauge .pointer {
+        left:5px;
+    }
+    .product .chart-gauge .pointer {
         left:18px;
+    }
+    .gauge-charts .chart-value {
+        font-size: 12px;
+        margin-left: -10px;
+    }
+    .simulation-result-popup {
+        width: 775px !important;
+    }
+    .simulation-details {
+        height:810px !important;
+    }
+    .estmfooter {
+        width: 760px !important;
     }
     .product-gauge-charts .chart-value {
         left:196px !important;
     }
-    .product-gauge-charts .chart-gauge,
-    .maincharts .product-bullet-charts {
+    .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
-        width:190px;
+        width:190px !important;
     }
-    .product .widthblock {
-        width:190px;
+    .product-bullet-charts {
+        margin-top: -10px;
     }
-    .product-bullet-charts .chart-bullet.small {
+    .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
+        margin-left: 20px;
+    }
+    .widthblock {
+        width:190px !important;
+    }
+    .chart-bullet.small, .maincharts .chart-bullet.small {
         width:170px !important;
+    }
+    .personalbars .chart-bullet.small {
+        width:350px !important;
     }
     .maincharts .chart-bullet.small {
         margin:16px 0px 16px 10px;
+    }
+    .chart-gauge {
+        background-size: contain;
     }
     .chart-gauge, .signmore  {
         -moz-transform: scale(0.8);
@@ -3272,6 +3325,30 @@ ul.profile-menu li {
         -webkit-transform: scale(0.9);
         transform: scale(0.9);
     }
+    .chart-pie  {
+        -moz-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+    }
+    .timedetail .testtime, .valuetitle {
+        -moz-transform: scale(0.7);
+        -o-transform: scale(0.7);
+        -webkit-transform: scale(0.7);
+        transform: scale(0.7);
+    }
+    .valuetitle {
+        margin-right: 5px;
+    }
+    .timeblock {
+        padding: 10px;
+    }
+    .over-time {
+        font-size: 30px;
+    }
+    .simulation-details  .blockvalue, .simulation-details  .blockvalue span {
+        font-size: 15px;
+    }
     .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
         font-size:18px;
     }
@@ -3281,8 +3358,92 @@ ul.profile-menu li {
     .rateslist h3 {
         font-size: 14px;
     }
-    .product .bluelist li, .product .bluelist a {
+    .bluelist li, .bluelist li a, .product .bluelist li, .product .bluelist li a {
         font-size: 12px;
     }
-
+    .simulation-details .navigation li a {
+        font-size: 12px;
+        padding: 5px 6px;
+    }
+    .labeltitles h3, .resulttitele, .resulttitele a {
+        font-size: 20px;
+    }
+    .labeltitles h4  {
+        font-size: 16px;
+    }
+    .mangrlresults .labels a, .thelabel {
+        font-size: 12px;
+    }
+    .labels {
+        width: 250px;
+    }
+    .legendtitle {
+        font-size:12px;
+    }
+    .legendcolor {
+        height: 24px;
+        width: 24px;
+    }
+    .barswrap {
+        width: 450px;
+    }
+    .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value,
+    #password-recovery-form input[type="submit"], .timedetail .thelabel {
+        font-size: 12px;
+    }
+    .resulttitele.smallerfont {
+        font-size:16px;
+    }
+    .resultslegend, .legendmargin {
+        margin-left: 272px;
+    }
+    .timedetail .labels {
+        width: 100px;
+    }
+    .timedetail .timebars {
+        width:190px !important;
+    }
+    .timedetail .resulttitele {
+        font-size:18px;
+        width: 265px;
+    }
+    .timeblock .chart-bar {
+        margin-top: 13px;
+    }
+    .personallabels {
+        width: 290px;
+    }
+    .personallabels .smalltitle, .shortchartdesc {
+        font-size: 13px;
+    }
+    #personal-qualities .barswrap {
+        width: 400px;
+    }
+    .chart-bullet .chart-value {
+        font-size:18px;
+    }
+    .estmfooter a {
+        font-size: 12px;
+        line-height: 26px;
+    }
+    .twocharts .chartbar, .twocharts .chartproblem {
+        width: 260px !important;
+    }
+    .twocharts .chartproblem {
+        width: 170px !important;
+    }
+    .resultlabeltitle {
+        padding-left: 300px;
+    }
+    .barstitle {
+        font-size: 15px;
+    }
+    .twobarstitles .barstitle:first-child {
+        width: 270px;
+    }
+    #password-recovery-form #YumPasswordRecoveryForm_email {
+        font-size: 11px;
+    }
 }
+
+/* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */

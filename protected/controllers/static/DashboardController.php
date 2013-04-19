@@ -51,6 +51,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             if (null == $invite->vacancy && empty($vacancies)) {
                 $invite->clearErrors('vacancy_id');
                 $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
+                $validPrevalidate = false;
             }
 
             $invite->message = sprintf(
@@ -265,7 +266,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/dashboard');
         }
 
-        if (Invite::STATUS_PENDING !== $invite->status) {
+        if (Invite::STATUS_PENDING !== (int)$invite->status) {
             Yii::app()->user->setFlash('success', sprintf(
                 nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
