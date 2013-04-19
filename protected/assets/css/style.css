@@ -1973,7 +1973,6 @@ html[lang="en"] .footer .social_networks {
     }
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
-        background-size:cover;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
         -webkit-transform: scale(0.8);
@@ -3566,7 +3565,7 @@ ul.profile-menu li {
         height: 26px;
         line-height: 26px;
     }
-    .blue-btn, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
+    .blue-btn:hover, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
         background-position: left -33px;
     }
     #private-invitations-list-box span.empty {
