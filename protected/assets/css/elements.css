@@ -76,8 +76,11 @@
     margin-top:0;
     margin-left:45px;
 }
-.action-controller-login-auth #usercontent .form .row.submit input[type="submit"] {
-    background: url("../img/icon-btn-notify.png") no-repeat 15px 50% #146672;
+.action-controller-login-auth #usercontent input[type="submit"] {
+    background-image: url("../img/icon-circlarow.png");
+    background-repeat: no-repeat;
+    background-position: 15px 50%;
+    background-color: #146672;
     border: none;
     border-radius: 4px;
     color: #FFFFFF;
@@ -85,11 +88,6 @@
     padding:15px 25px 15px 42px;
     font:23.8px ProximaNova-Regular;
 }
-.action-controller-login-auth #usercontent .form .row.submit input[type="submit"]:hover {
-    background-color: #0C8FA0;
-}
-
-
 /* отказ от ваканчии в личном кабинете */
 .action-controller-registerByLink-static-userAuth  .ui-widget-content {
     background: #146672;
@@ -452,6 +450,11 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-15px;
     left:335px;
 }
+/* Ошибки при входе */
+.action-controller-login-auth .errorMessage {
+    top:-15px;
+    left:155px;
+}
 /* Pop-up востановления пароля */
 #password-recovery-form #YumPasswordRecoveryForm_email {
     background:#FFFFFF;
@@ -498,6 +501,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-repeat: no-repeat;
     color: #FFFFFF;
 }
+.action-controller-login-auth #usercontent input[type="submit"]:hover,
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover {
     background-image: url("../img/icon-circlarow-hover.png");
