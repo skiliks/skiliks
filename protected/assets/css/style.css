@@ -3572,6 +3572,15 @@ ul.profile-menu li {
         display: block;
         height: 25px;
     }
+    .container > header nav a.has-notification {
+        margin-right: 10px;
+        padding-right: 15px;
+    }
+    .not-started-simulations {
+        line-height: 16px;
+        height: 16px;
+        width:16px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
