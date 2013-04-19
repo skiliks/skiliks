@@ -615,11 +615,11 @@ define([
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
 
-                        mailClientView.$('.NEW_EMAIL').css('display', 'none');
-                        mailClientView.$('.REPLY_EMAIL').css('display', 'none');
-                        mailClientView.$('.REPLY_ALL_EMAIL').css('display', 'none');
-                        mailClientView.$('.FORWARD_EMAIL').css('display', 'none');
-                        mailClientView.$('.ADD_TO_PLAN').css('display', 'none');
+                        mailClientView.$('.NEW_EMAIL').parent('li').css('display', 'none');
+                        mailClientView.$('.REPLY_EMAIL').parent('li').css('display', 'none');
+                        mailClientView.$('.REPLY_ALL_EMAIL').parent('li').css('display', 'none');
+                        mailClientView.$('.FORWARD_EMAIL').parent('li').css('display', 'none');
+                        mailClientView.$('.ADD_TO_PLAN').parent('li').css('display', 'none');
                         // log {
                         mailClientView.mailClient.setWindowsLog(
                             'mailPreview',
