@@ -142,6 +142,7 @@ return array(
     'Analytics department manager' => 'Начальник отдела аналитики',
     'Full name' => 'Имя',
     'Dashboard' => 'Личный кабинет',
+    'Personal' => 'Личный кабинет',
     'Corporate dashboard' => 'Рабочий кабинет',
     'My profile' => 'Мой профиль',
     'Invitations' => 'Приглашения',

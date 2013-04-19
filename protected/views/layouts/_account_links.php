@@ -16,13 +16,20 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site', 'Product'), 'url' => ['/static/pages/product'], 'visible' => Yii::app()->user->isGuest],
         [
             'label' => Yii::t('site', 'Tariffs'),
-            'url' => ['static/pages/tariffs'],
+            'url' => ['/static/pages/tariffs'],
             'visible' => ('ru' == Yii::app()->getLanguage() && Yii::app()->user->isGuest)
         ],
         [
-            'label'   => ($isCorporate)?Yii::t('site', 'Corporate dashboard'):Yii::t('site', 'Dashboard'),
+            'label'   => Yii::t('site', 'Corporate dashboard'),
             'url'     => ['/static/dashboard/index'],
-            'visible' => !Yii::app()->user->isGuest,
+            'visible' => $isCorporate && !Yii::app()->user->isGuest,
+            'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
+        ],
+
+        [
+            'label'   => Yii::t('site', 'Personal dashboard'),
+            'url'     => ['/static/dashboard/index'],
+            'visible' => $isPersonal && !Yii::app()->user->isGuest,
             'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
         ],
         [
