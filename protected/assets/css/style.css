@@ -2122,6 +2122,7 @@ h2 {
     margin: -4px 0 0 0px;
     padding: 15px 20px 10px 22px;
     position: absolute;
+    z-index: 100000;
     /*width: 150px;*/
 }
 .topline {
@@ -2414,7 +2415,6 @@ ul.profile-menu li {
     background: none;
     border:none;
     width: 100%;
-    z-index:10000;
 }
 #private-invitations-list-box .grid-view .items th, .items th,
 #corporate-invitations-list-box .grid-view .items th {
@@ -2658,6 +2658,7 @@ ul.profile-menu li {
     padding-top: 25px;
     position: absolute;
     width:598px;
+    z-index: 5;
 }
 
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
