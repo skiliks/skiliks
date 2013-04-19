@@ -642,8 +642,22 @@ span.required {
 .form-label{
     display: none;
 }
-.jt-title {
-
+.jt-title div {
+    height:27px !important;
+    width:27px !important;
+    border:1px solid red !important;
+}
+.jt-title div:first-child {
+    margin-top:-14px !important;
+    /*margin-top:-40px !important;
+    margin-right:-30px !important;*/
+}
+.jt-feedback .jt-title div div {
+    background-color: transparent !important;
+    background-image: url("../img/closepopup.png") !important;
+    background-repeat: no-repeat !important;
+    border: none !important;
+    margin: 0px !important;
 }
 /* **************************** /FEEDBACK **************************** */
 
