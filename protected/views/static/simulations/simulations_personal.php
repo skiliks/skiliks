@@ -16,7 +16,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     ],
     'columns' => [
         ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type. " " .$data->ownerUser->getAccount()->company_name)'],
-        ['header' => Yii::t('site', 'Position')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
+        ['header' => Yii::t('site', 'Position')   , 'value' => 'Yii::t("site", $data->vacancy->label)'],
         [
             'header' => Yii::t('site', 'Simulation'),
             'name' => 'sent_time'   ,
