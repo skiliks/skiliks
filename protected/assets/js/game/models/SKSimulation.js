@@ -75,6 +75,8 @@ define([
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.handleEvents();
 
+                this.loadDocsDialog = null,
+
                 this.set('isBlueScreenHappened', false);
 
                 this.on('tick', function () {
@@ -105,11 +107,8 @@ define([
                                     if(SKApp.simulation.afterZohoCrash){
                                         $('#excel-preload-'+id).attr("src", url);
                                         SKApp.simulation.afterZohoCrash = false;
-                                        $('.zoho-load-start').remove();
-                                    }else{
-                                        $('.zoho-load-start').remove();
                                     }
-
+                                    SKApp.simulation.loadDocsDialog.remove();
                                 }
                             }
                         });
@@ -187,11 +186,11 @@ define([
 
             'onAddDocument' : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    if ($(".zoho-load-start") !== undefined) {
-                        var pause_screen = $(_.template(pause_screen_template, {}));
-                        $('.canvas').append(pause_screen_template);
-                    }
-
+                    this.loadDocsDialog = new SKDialogView({
+                        'message': 'Подождите, идёт загрузка. <br/> Это займёт 10-15 секунд.',
+                        'modal': true,
+                        'buttons': [],
+                    });
                 }
             },
 
