@@ -2228,7 +2228,9 @@ h2 {
 #private-invitations-list-box, #corporate-invitations-list-box {
     margin-top:-8px;
 }
-
+#corporate-invitations-list-box {
+    overflow: visible;
+}
 ul.profile-menu {
     float: left;
     width: 200px;
@@ -2412,6 +2414,7 @@ ul.profile-menu li {
     background: none;
     border:none;
     width: 100%;
+    z-index:10000;
 }
 #private-invitations-list-box .grid-view .items th, .items th,
 #corporate-invitations-list-box .grid-view .items th {
