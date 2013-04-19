@@ -15,7 +15,7 @@
                 </p>
                 <ul class="phone-call-in-btn">
                     <@ if (undefined != call[1]) { @>
-                        <li><a id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
+                        <li><a id="phone_reply" <@ if (undefined === call[2]) { @> data-disabled="true" <@ } @> data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
                     <@ } @>
 
                     <@ if (undefined != call[2]) { @>

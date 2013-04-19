@@ -303,7 +303,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
             }
         }
-
+        $specializations = [];
         // handle add vacancy {
         if (null !== Yii::app()->request->getParam('add')) {
 
@@ -319,9 +319,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             }
         }
         // handle send invitation }
-
-        $specializations = [];
-        if (null != $vacancy->professional_specialization_id) {
+        if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
             $specializations = StaticSiteTools::formatValuesArrayLite(
                 'ProfessionalSpecialization',
                 'id',

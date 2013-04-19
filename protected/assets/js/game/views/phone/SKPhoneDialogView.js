@@ -119,6 +119,7 @@ define([
         getMenu: function(event) {
             // block standartfuncxtionality if 
             if (this.isUserCanFinalizeCall) {
+                this.options.model_instance.setOnTop();
                 this.options.model_instance.close();
                 SKApp.simulation.window_set.toggle('phone','phoneMain');
             }
@@ -143,6 +144,7 @@ define([
                     me.options.model_instance.setLastDialog(dialog_id);
                     /* TODO refactor */
                     if (is_final) {
+                        me.options.model_instance.setOnTop();
                         me.options.model_instance.close();
                     }
                 });

@@ -1423,10 +1423,8 @@ class SimulationServiceTest extends CDbTestCase
     /**
      *
      */
-    public function testPerformanceAggregation()
+    public function testPerformanceAggregation_case_1()
     {
-        $simulation = Simulation::model()->findByPk(1009);
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -1435,22 +1433,65 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         foreach ($simulation->game_type->getPreformanceRules([]) as $rule) {
-            $point = new PerformancePoint();
-            $point->sim_id = $simulation->id;
-            $point->performance_rule_id = $rule->id;
-            $point->save();
+            //if (0.5 < rand(0,1)) {
+                $point = new PerformancePoint();
+                $point->sim_id = $simulation->id;
+                $point->performance_rule_id = $rule->id;
+                $point->save();
+            //}
         }
 
         SimulationService::calculatePerformanceRate($simulation);
+        $e = new Evaluation($simulation);
+        $e->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 
-        $this->assertEquals(4, count($ad[AssessmentCategory::PRODUCTIVITY]));
+        $this->assertEquals(5, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][0]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][1]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
+
+        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
+    }
+
+    /**
+     *
+     */
+    public function testPerformanceAggregation_case_2()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        foreach ($simulation->game_type->getPreformanceRules([]) as $rule) {
+            if (in_array($rule->code, [8, 18, 22])) {
+                $point = new PerformancePoint();
+                $point->sim_id = $simulation->id;
+                $point->performance_rule_id = $rule->id;
+                $point->save();
+            }
+        }
+
+        SimulationService::calculatePerformanceRate($simulation);
+        $e = new Evaluation($simulation);
+        $e->checkManagerialProductivity();
+
+        $ad = $simulation->getAssessmentDetails();
+
+        $this->assertEquals(3, count($ad[AssessmentCategory::PRODUCTIVITY]));
+
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
+        $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
+
+        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
 }
 
