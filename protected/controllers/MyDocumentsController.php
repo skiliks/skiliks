@@ -66,9 +66,9 @@ class MyDocumentsController extends AjaxController
             try {
                 $n++;
                 $zoho->sendDocumentToZoho();
-                $responses[] = str_replace("\n", '.', $zoho->response);
+                $responses[] = str_replace("\r", '', str_replace("\n", '.', $zoho->response));
             } catch(LogicException $e) {
-                $errors[] = str_replace("\n", '.', $zoho->response);
+                $errors[] = str_replace("\r", '', str_replace("\n", '.', $zoho->response));
             }
         }
 
@@ -80,6 +80,8 @@ class MyDocumentsController extends AjaxController
             'excelDocumentUrl' => $zoho->getUrl(),
             'errors'           => $errors,
             'responses'        => $responses,
+            'fn1'              => $file->template->srcFile,
+            'fn2'              => $file->fileName,
         );
         $this->sendJSON(
             $result
