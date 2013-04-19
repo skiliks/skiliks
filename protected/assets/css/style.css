@@ -2544,6 +2544,7 @@ ul.profile-menu li {
 #private-invitations-list-box .ratingwrap {
     padding: 0;
     position: absolute;
+    top:6px;
 }
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
