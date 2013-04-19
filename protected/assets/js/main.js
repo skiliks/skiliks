@@ -96,7 +96,7 @@
         if (!hasError) {
             $.post(form.attr('action'), form.serialize(), function (res) {
                 // Do stuff with your response data!
-                location.href = '/';
+                location.reload();
             });
         }
         return false;
