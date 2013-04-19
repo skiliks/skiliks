@@ -3085,7 +3085,7 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .grid-view .items td, .items td
      {
-        padding: 6px 3px;
+        padding: 6px 3px !important;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
         max-width: 62px;
@@ -3103,6 +3103,9 @@ ul.profile-menu li {
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
         max-width: 112px;
         width: 112px;
+    }
+    #private-invitations-list-box .ratingwrap {
+        padding: 0px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
