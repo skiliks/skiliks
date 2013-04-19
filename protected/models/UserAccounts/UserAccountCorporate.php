@@ -87,7 +87,7 @@ class UserAccountCorporate extends CActiveRecord
 			array('user_id'         , 'required'),
 			//array('ownership_type'  , 'required', 'message' => Yii::t('site', 'Ownership is required')),
 			array('corporate_email' , 'required', 'message' => Yii::t('site', 'Email is required')),
-			array('corporate_email' , 'unique'),
+			array('corporate_email' , 'unique', 'message' => Yii::t('site', 'Email is already taken')),
             array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
             array('corporate_email' , 'isCorporateEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
