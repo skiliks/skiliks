@@ -63,6 +63,7 @@ class MyDocumentsController extends AjaxController
 
         while (null === $zoho->getUrl() && $n < $limit) {
             try {
+                $n++;
                 $zoho->sendDocumentToZoho();
             } catch(LogicException $e) {
                 $errors[] = str_replace("\n", '.', $zoho->response);
