@@ -3114,7 +3114,7 @@ ul.profile-menu li {
         height: 12px;
     }
     #dashboard-skills-box sup, .items sup {
-        font-size: 0.8em;
+        font-size: 0.7em;
         line-height: 130%;
         vertical-align: top;
     }
@@ -3153,6 +3153,7 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
+        top:8px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
@@ -3502,7 +3503,18 @@ ul.profile-menu li {
     .text16, .text16 a {
         font-size: 14px;
     }
-
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname {
+        top:0px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname,
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname,
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email {
+        font-size: 9px;
+        left: 55px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .row {
+        padding-top: 10px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
