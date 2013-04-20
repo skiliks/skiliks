@@ -293,6 +293,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateVacancies()
     {
+        $this->checkUser();
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -395,7 +396,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function accountPagesBase()
     {
         $user = Yii::app()->user;
-        if (null === $user->id) {
+        if ($user->isGuest) {
             //@popup
             //Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
             $this->redirect('/');

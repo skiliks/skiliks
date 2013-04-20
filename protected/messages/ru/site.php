@@ -161,7 +161,7 @@ return array(
     'Accept password' => 'Подтвердите пароль',
     'Repeat password' => 'Повторите пароль',
     'Passwords do not match' => 'Пароли не совпадают',
-    'Email is already taken' => 'Этот email уже занят',
+    'Email is already taken' => 'Данный email занят',
     'Last name is required' => 'Введите фамилию',
     'Ownership is required' => 'Введите организационную форму',
     'Vacancy title is required' => 'Введите название вакансии',
