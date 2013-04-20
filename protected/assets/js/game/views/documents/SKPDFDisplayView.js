@@ -23,12 +23,17 @@ define([
             /**
              * @property {string} title
              */
-            title:'Мои документы',
+            title:'Просмотр документа',
             addClass: 'document-window',
 
             dimensions: {
                 width: 851,
                 height: 648
+            },
+
+            initialize: function () {
+                SKWindowView.prototype.initialize.call(this);
+                this.title = this.options.model_instance.get('document').get('name') || 'Без названия';
             },
 
             /**
@@ -64,7 +69,7 @@ define([
                         viewport: viewport
                     };
                     page.render(renderContext).then(function () {
-                        if (page_num > pdf.numPages) {
+                        if (page_num >= pdf.numPages) {
                             return;
                         }
                         me.renderPage(pdf, page_num + 1);

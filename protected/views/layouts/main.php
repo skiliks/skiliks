@@ -30,8 +30,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
-        <meta property="og:image" content="<?php echo $assetsUrl?>/img/logo-header.png"/>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
 		<meta charset="utf-8" />
+        <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
+        и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <title>Skiliks - game the skills</title>
 
@@ -101,7 +104,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             position: {
                                 my: "right top",
                                 at: "middle bottom",
-                                of: $('#top header')
+                                of: $('#top').find('header')
                             },
                             resizable: false,
                             title: '',
