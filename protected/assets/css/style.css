@@ -452,6 +452,7 @@ a:focus, a:active {
 .features .freeacess, .form-section .form-submit-button {
     background-position: 17px 17px;
     font: 18px "ProximaNova-Bold";
+    -webkit-font-smoothing: antialiased;
     height: 54px;
     margin-top: 20px; /* na makete - 30 */
     line-height: 54px;
