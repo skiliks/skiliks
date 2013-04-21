@@ -624,15 +624,22 @@ span.required {
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
 /* **************************** FEEDBACK **************************** */
-.action-controller-personal-static-dashboard div[aria-labelledby="ui-dialog-title-feedback-dialog"] { /* naznachit emu klass */
+.feedbackwrap {
     background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     overflow: hidden;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
+    padding-left: 15px;
+    width:688px !important;
 }
-.action-controller-personal-static-dashboard div[aria-labelledby="ui-dialog-title-feedback-dialog"] .ui-widget-header {
+.feedbackwrap .ui-widget-header {
     position: relative;
+}
+.feedbackwrap .ui-dialog-title {
+    color: #0e4750;
+    font: 30px "ProximaNova-Regular";
+    text-align: center;
 }
 .form-section .form-line-error {
     background: none !important;
