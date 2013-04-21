@@ -3585,6 +3585,40 @@ ul.profile-menu li {
         height: 16px;
         width:16px;
     }
+    .social_networks a {
+        background-image: url("../img/social-small.png");
+        width: 28px !important;
+        height: 27px !important;
+        margin-left: 8px;
+    }
+    .social_networks a.addthis_button_facebook {
+        background-position: -36px 0px;
+    }
+    .social_networks a.addthis_button_facebook:hover {
+        background-position: -36px -33px;
+    }
+    .social_networks a.addthis_button_twitter {
+        background-position: -71px 0px;
+        width:29px !important;
+    }
+    .social_networks a.addthis_button_twitter:hover {
+        background-position: -71px -33px;
+    }
+    .social_networks a.addthis_button_google_plusone_share {
+        background-position: -107px 0px;
+    }
+    .social_networks a.addthis_button_google_plusone_share:hover {
+        background-position: -107px -33px;
+    }
+    .social_networks a.addthis_button_linkedin {
+        background-position: -142px 0px;
+    }
+    .social_networks a.addthis_button_linkedin:hover {
+        background-position: -142px -33px;
+    }
+    .social_networks>span {
+        font-size: 12px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
