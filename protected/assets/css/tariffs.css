@@ -4,7 +4,7 @@
 .onetariff {
     /*display: inline-block;*/
     float:left;
-    margin: 0px 12px 52px 13px;
+    margin: 0px 12px 44px 13px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -74,6 +74,9 @@ body  .onetariff  {
 .tariff-box .light-btn {
     font-size: 17px;
 }
+.tarifswrap .text16 sup {
+    vertical-align: top;
+}
 .tarifswrap .text16 {
     clear:both;
     font-family:"ProximaNova-Bold";
@@ -116,6 +119,9 @@ body  .onetariff  {
 }
 
 @media screen and (max-width: 1280px){
+    .onetariff {
+        margin-bottom: 30px;
+    }
     .action-tariffs h2 {
         font-size: 2.219em;
         margin-top: 29px;
