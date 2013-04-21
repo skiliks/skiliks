@@ -6,4 +6,4 @@
         <?php echo Yii::app()->user->data()->getAccount()->getTariffLabel() ?>
     </a>
 </div>
-<a href="/profile/corporate/tariff" class="greenbtn">Управление подпиской</a>
+<!--a href="/profile/corporate/tariff" class="greenbtn">Управление подпиской</a-->
