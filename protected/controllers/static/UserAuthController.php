@@ -39,6 +39,11 @@ class UserAuthController extends YumController
      */
     public function actionRegistration()
     {
+        $user = Yii::app()->user->data();
+        /* @var $user YumUser */
+        if($user->isAuth()){
+            $this->redirect('/dashboard');
+        }
         $this->user = new YumUser('registration');
         $profile    = new YumProfile('registration');
         $error = null;

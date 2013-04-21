@@ -7,6 +7,12 @@ class PagesController extends AjaxController
 
     public function actionIndex()
     {
+
+        $user = Yii::app()->user->data();
+        /* @var $user YumUser */
+        if($user->isAuth()){
+            $this->redirect('/dashboard');
+        }
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => false,
