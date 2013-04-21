@@ -87,7 +87,13 @@
             }
         });
         $('.feedback').on('click', function (e) {
-            $('#feedback-dialog').dialog({'width': 700});
+            $('#feedback-dialog').dialog({
+                'width': 700,
+                dialogClass: 'feedbackwrap',
+                title: 'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим ваше мнение',
+                modal: true,
+                resizable: false
+            });
             e.stopPropagation();
         });
     });
