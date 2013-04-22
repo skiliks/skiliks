@@ -320,7 +320,9 @@ class YumAuthController extends YumController {
 					call_user_func(Yum::module()->afterLogin);
 
 				$this->redirectUser($success);
-			}
+			} else {
+                $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
+            }
 		}
 
 

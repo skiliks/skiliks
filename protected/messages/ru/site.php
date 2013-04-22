@@ -216,7 +216,7 @@ return array(
 
     'Main' => 'Главная',
     'Productivity' => 'Результативность',
-    'Time management' => 'Управление временем',
+    'Time management' => 'Использование времени',
     'Managerial skills' => 'Управленческие навыки',
     'Personal qualities' => 'Личностные характеристики',
     'Activation did not work' => 'Активация не сработала',
