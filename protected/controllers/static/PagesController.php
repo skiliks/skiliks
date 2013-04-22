@@ -118,13 +118,10 @@ class PagesController extends AjaxController
                 $this->redirect('/profile/corporate/tariff');
             }
 
-            // update account tariff {
-            $user->getAccount()->tariff_id = $tariff->id;
-            $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
-            $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
-            $user->getAccount()->invites_limit = $tariff->simulations_amount;
+            // update account tariff
+            $user->getAccount()->setTariff($tariff);
             $user->getAccount()->save();
-            // update account tariff }
+
             if($user->getAccount()->tariff_id == $tariff->id) {
                 //@popup
                 //Yii::app()->user->setFlash('success', sprintf(

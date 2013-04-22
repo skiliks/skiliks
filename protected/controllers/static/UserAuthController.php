@@ -417,6 +417,13 @@ class UserAuthController extends YumController
                     $accountCorporate->generateActivationKey();
                     $accountCorporate->save(false);
 
+                    // set Lite tariff by default
+                    $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+
+                    // update account tariff
+                    $accountCorporate->setTariff($tariff);
+                    $accountCorporate->save();
+
                     $this->user->refresh();
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
