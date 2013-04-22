@@ -225,19 +225,23 @@
     line-height: 90%;
 }
 .registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
-.darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder {
+.darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder,
+.feedback .form-line input[type="email"]::-webkit-input-placeholder {
      color:#146672;
  }
 .registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder,
-.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder {
+.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
+.feedback .form-line input[type="email"]::-moz-placeholder{
     color:#146672;
 }
 .registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder,
-.darkblueplacehld input[type="text"]::-ms-input-placeholder, #password-recovery-form input[type="text"]::-ms-input-placeholder {
+.darkblueplacehld input[type="text"]::-ms-input-placeholder, #password-recovery-form input[type="text"]::-ms-input-placeholder,
+.feedback .form-line input[type="email"]::-ms-input-placeholder{
     color:#146672;
 }
 .registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder,
-.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder {
+.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
+.feedback .form-line input[type="email"]::-moz-placeholder {
     color:#146672;
 }
 
@@ -679,6 +683,10 @@ span.required {
 }
 .feedback .sbHolder a{
     font-size: 14px;
+}
+.feedback input[type="email"]{
+    font: 16px "ProximaNova-Regular";
+    text-indent: 10px;
 }
 /* **************************** /FEEDBACK **************************** */
 
