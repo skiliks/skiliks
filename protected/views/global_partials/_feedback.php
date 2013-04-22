@@ -41,7 +41,7 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
                     </label>
 
                     <div id="cid_6" class="form-input">
-                        <input type="email" class=" form-textbox validate[required, Email]" id="input_6" name="q6_email"
+                        <input placeholder="Введите ваш Email" type="email" class=" form-textbox validate[required, Email]" id="input_6" name="q6_email"
                                size="30"/>
                     </div>
                 </li>
