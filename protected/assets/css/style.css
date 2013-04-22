@@ -2568,17 +2568,17 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr th:first-child,
 #private-invitations-list-box .grid-view tr td:first-child{
-    max-width:94px;
+    max-width:104px;
     text-overflow: ellipsis;
-    width:94px;
+    width:104px;
 }
 
 #private-invitations-list-box .grid-view tr th:nth-child(2),
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 81px;
-    width:81px;
+    max-width: 71px;
+    width:71px;
 }
 #private-invitations-list-box .grid-view tr th:nth-child(4),
 #private-invitations-list-box .grid-view tr td:nth-child(4){
