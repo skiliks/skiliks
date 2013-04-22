@@ -1,5 +1,5 @@
 /*global _*/
-define(['backbone',    "jquery/jquery.cookies", "jquery/ajaxq"], function () {
+define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
     "use strict";
     /**
      * Взаимодействие с сервером через API. Запросы посылаются POST-ом, в каждый добавляется параметр sid
