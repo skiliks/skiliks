@@ -1041,6 +1041,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     {},
                     function (response) {
                         if (undefined !== response.data) {
+                            SKApp.simulation.mailClient.availableAttachments = [];
                             for (var i in response.data) {
 
                                 var attach = new SKAttachment();
