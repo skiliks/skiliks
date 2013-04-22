@@ -10,8 +10,7 @@
   }
 
   .form-line {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 12px 0px;
   }
 
   .form-label-right {
@@ -48,7 +47,7 @@
     font: 16px "ProximaNova-Regular";
     min-height: 130px;
     padding: 10px;
-    width: 625px !important;
+    width: 625px;
   }
 
   .form-line input[type="email"] {
@@ -113,5 +112,40 @@
   }
   .sbHolder {
     width: 435px !important;
+  }
+  @media screen and (max-width: 1280px){
+    .form-all {
+      width:540px !important;
+    }
+    .form-line {
+      padding: 8px 0px;
+    }
+    .form-line input[type="email"] {
+      font-size: 14px;
+      height: 32px;
+      line-height: 32px;
+      width:375px;
+    }
+    #input_2 {
+      background-position: 12px 12px;
+      font-size: 15px;
+      height: 44px;
+      line-height: 44px;
+      margin-top: -60px;
+      width: 145px;
+    }
+    .sbHolder {
+      width: 360px !important;
+    }
+    .sbHolder a {
+      font-size: 11px;
+    }
+    .form-all textarea  {
+      height: 120px !important;
+      width:516px !important;
+    }
+    #simple_spc {
+      height: 1px;
+    }
   }
 }
