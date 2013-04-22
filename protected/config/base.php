@@ -298,7 +298,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor' => 4,
+            'skiliksSpeedFactor' => 6,
             'storageURL' => 'http://storage.skiliks.com/v1'
         ],
         'zoho' => array(
