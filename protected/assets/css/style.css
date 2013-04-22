@@ -3189,8 +3189,8 @@ ul.profile-menu li {
         width: 51px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(4), #private-invitations-list-box .grid-view tr td:nth-child(4) {
-        max-width: 61px;
-        width: 61px;
+        max-width: 62px;
+        width: 62px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
         max-width: 120px !important;
@@ -3216,7 +3216,7 @@ ul.profile-menu li {
         width: 74px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
-        width: 115px !important;
+        width: 119px !important;
     }
     #corporate-invitations-list-box #yw0_c1 a {
         width:98px;
