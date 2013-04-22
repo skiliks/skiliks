@@ -30,6 +30,7 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
             doc.get();
+            this.title = doc.get('name') || 'Без названия';
             if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))) {
                 SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))] = null;
 
