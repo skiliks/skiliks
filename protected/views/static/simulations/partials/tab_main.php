@@ -21,7 +21,7 @@
     <div class="gauge-charts">
 
     </div>
-    <div class="bullet-charts">
+    <div class="static-bullet-charts"><!-- bullet-charts -->
 
     </div>
 </div>
