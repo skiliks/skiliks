@@ -39,7 +39,7 @@
                     <div class="clearfix maincharts">
 
                         <div class="product-gauge-charts"></div>
-                        <div class="product-bullet-charts"></div>
+                        <div class="static-bullet-charts"></div><!-- product-bullet-charts -->
                         {literal}
                         <script type="text/javascript">
                             var r = Math.round;

@@ -2934,6 +2934,7 @@ ul.profile-menu li {
     position: relative;
     width: 240px; /* 305px */
     height: 130px; /*  135px */ /*  140px */
+    overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .chart-gauge:after {
@@ -3414,6 +3415,17 @@ ul.profile-menu li {
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
         width:190px !important;
+    }
+    .maincharts .static-bullet-charts {
+        height: 77px;
+        margin-top:23px;
+        width: 180px;
+    }
+    .simulation-details .maincharts .static-bullet-charts {
+        height: 72px;
+        margin-top:23px;
+        margin-right: 20px;
+        width: 170px;
     }
     .product-bullet-charts {
         margin-top: -10px;
