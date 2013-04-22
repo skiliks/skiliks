@@ -1,4 +1,4 @@
-/*global buster, after, sinon, SKApp, expect*/
+/*global buster, after, sinon, SKApp, expect, describe, SKApp*/
 // Expose describe and it functions globally
 buster.spec.expose();
 
