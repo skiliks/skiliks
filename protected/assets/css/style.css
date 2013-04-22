@@ -887,6 +887,9 @@ html[lang=ru] .product section table th{
     text-indent:0px;
     width:14px;
 }
+.feedbackwrap .ui-dialog-titlebar-close {
+    right:-20px;
+}
 @media screen and (max-width: 1280px){
 	.product{
 		margin-top:6px;
@@ -2334,9 +2337,13 @@ ul.profile-menu li {
 .light-btn, .light-btn:visited, .invite-people-form input[type="submit"]  {
     color: #3c3c32;
 }
-.light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-    color: #fff;
+.light-btn:hover, .content .light-btn:hover, .blue-btn:hover, a.feedback:hover,
+.vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
+    color: #ffffff !important;
     background-position: left bottom;
+}
+.tarifswrap .contwrap .light-btn:hover {
+    color: #ffffff !important;
 }
 .light-btn+.light-btn {
     margin-left: 10px;
