@@ -90,8 +90,8 @@ define([
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
                     var minutes = parseInt(me.getGameMinutes() % 60, 10);
-                    if (0 === minutes) {
-                        minutes = '00';
+                    if (minutes < 10) {
+                        minutes = '0' + minutes;
                     }
                     me.trigger('time:' + hours + '-' + minutes);
                 });
