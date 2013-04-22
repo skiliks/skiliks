@@ -20,6 +20,8 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
+$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
@@ -146,5 +148,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 </nav>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-	</body>
+            <script type="text/javascript"> Cufon.now(); </script>
+    </body>
 </html>

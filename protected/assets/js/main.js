@@ -119,3 +119,8 @@
         return false;
     }
 })(jQuery);
+
+Cufon.replace('.freeacess');
+Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
+    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16');
+Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li', {fontFamily:"ProximaNova-Regular"});
