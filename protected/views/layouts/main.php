@@ -8,40 +8,37 @@
  */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->scriptMap=array(
+    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
+    'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
+);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.9.1.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
+$cs->registerCoreScript('jquery.yiiactiveform.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
+$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');;
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
-        <meta property="og:image" content="<?php echo $assetsUrl?>/img/logo-header.png"/>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
 		<meta charset="utf-8" />
+        <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
+        и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
-            new JotformFeedback({
-                formId:'30835043655352',
-                base:'http://jotformeu.com/',
-                windowTitle:'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим Ваше мнение',
-                background:'#FFA500',
-                fontColor:'#FFFFFF',
-                type:false,
-                height:350,
-                width:700
-            });
-        </script>
-		<title>Skiliks - game the skills</title>
+        <title>Skiliks - game the skills</title>
 
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -109,7 +106,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             position: {
                                 my: "right top",
                                 at: "middle bottom",
-                                of: $('#top header')
+                                of: $('#top').find('header')
                             },
                             resizable: false,
                             title: '',
@@ -149,7 +146,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
                     <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
                 </nav>
-
-
-	</body>
+            </div>
+            <?php $this->renderPartial('//global_partials/_feedback', []) ?>
+            <script type="text/javascript"> Cufon.now(); </script>
+    </body>
 </html>

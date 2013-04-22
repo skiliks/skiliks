@@ -1,14 +1,22 @@
 <?php if (!Yii::app()->user->id) : ?>
     <div class="sign-in-box message_window" style="display: none;">
-        <form class="login-form" action="/user/auth" method="post">
-            <input type="hidden" name="returnUrl" value="/dashboard"/>
+        <?php $loginWidget = $this->beginWidget('CActiveForm', [
+            'id' => 'login-form',
+            'htmlOptions' => ['class' => 'login-form'],
+            'action' => '/user/auth',
+            'enableAjaxValidation' => false,
+        ]); ?>
+            <?php $loginForm = new YumUserLogin; ?>
+            <?= $loginWidget->hiddenField($loginForm, "returnUrl", ['value' => '/dashboard']) ?>
 
-            <div class="login">
+            <div class="row login">
                 <a class="link-recovery" href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
-                <input type="text" name="YumUserLogin[username]" placeholder="<?php echo Yii::t('site', 'Enter login') ?>" />
+                <?php echo $loginWidget->error($loginForm, 'email'); ?>
+                <?php echo $loginWidget->textField($loginForm, "username", ['placeholder' => Yii::t('site', 'Enter login')]) ?>
             </div>
-            <div class="password">
-                <input type="password" name="YumUserLogin[password]" placeholder="<?php echo Yii::t('site', 'Enter password') ?>" />
+            <div class="row password">
+                <?php echo $loginWidget->error($loginForm, 'password'); ?>
+                <?php echo $loginWidget->passwordField($loginForm, "password", ['placeholder' => Yii::t('site', 'Enter password')]) ?>
             </div>
             <div class="remember">
                 <input type="checkbox" name="rememberMe" value="remember" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
@@ -16,14 +24,10 @@
             <div class="errors">
             </div>
             <div class="submit">
-                <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">
+                <?php echo CHtml::submitButton(Yii::t('site', 'Sign in')); ?>
             </div>
-            <!--
-            <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
-                <a href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
-            <?php endif; ?>
-            -->
-        </form>
+        <?php $this->endWidget(); ?>
+
     </div>
 
     <div class="popup-recovery" style="display: none;" title="Восстановление пароля">
@@ -32,7 +36,12 @@
 
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'password-recovery-form',
-                'action'=>Yii::app()->request->hostInfo.'/recovery'
+                'action'=>Yii::app()->request->hostInfo.'/recovery',
+                'enableAjaxValidation' => true,
+                'clientOptions'=>array(
+                    'validateOnSubmit'=>true, // Required to perform AJAX validation on form submit
+                    'afterValidate'=>'js:passwordRecoverySubmit', // Your JS function to submit form
+                )
             )); ?>
             <?php $recoveryForm = new YumPasswordRecoveryForm; ?>
             <div class="row">

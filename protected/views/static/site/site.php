@@ -55,6 +55,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tag-handler/jquery.taghandler.min.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/raven-0.7.1.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
 
 
     <?php if (!YII_DEBUG): ?>

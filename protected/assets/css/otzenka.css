@@ -616,29 +616,43 @@
 .estmfooter .prev:hover, .estmfooter .fullreport, .estmfooter .next:hover {
     background: #146672;
 }
-.simulation-result-popup .ui-dialog-titlebar-close {
+.simulation-result-popup .ui-dialog-titlebar-close,
+.feedbackwrap .ui-dialog-titlebar-close {
     height: 27px;
     margin: 0px !important;
     padding: 0px !important;
+    position: absolute;
     top:-15px;
     right:-25px;
     width:27px;
+    z-index: 1000;
+}
+.feedbackwrap .ui-dialog-titlebar-close {
+    top:-24px;
 }
 .simulation-result-popup .ui-widget-header .ui-icon, .simulation-result-popup .ui-state-hover,
-.simulation-result-popup .ui-state-focus {
-    background-color:transparent;
-    background-image:url("../img/closepopup.png");
+.simulation-result-popup .ui-state-focus,
+.feedbackwrap .ui-widget-header .ui-icon,
+.feedbackwrap .ui-widget-header .ui-state-hover,
+.feedbackwrap .ui-widget-header .ui-state-focus {
+    background-color:transparent !important;
+    background-image:url("../img/closepopup.png") !important;
     background-repeat: no-repeat;
     border: none;
+    height: 27px;
+    width:27px;
     margin: 0px !important;
+    z-index: 1000;
 }
-.simulation-result-popup .ui-widget-header .ui-icon {
-    background-position: left bottom;
+.simulation-result-popup .ui-widget-header .ui-icon,
+.feedbackwrap .ui-widget-header .ui-state-hover .ui-icon {
+    background-position: left bottom !important;
 }
-.simulation-result-popup .ui-state-hover {
+.simulation-result-popup .ui-state-hover,
+.feedbackwrap .ui-widget-header .ui-icon {
     background-position: left top;
 }
-.simulation-result-popup .ui-state-hover .ui-icon, .simulation-result-popup .ui-state-focus .ui-icon {
+.simulation-result-popup .ui-state-hover .ui-icon, .simulation-result-popup .ui-state-focus .ui-icon, .feedbackwrap .ui-widget-header .ui-state-hover {
     background: none;
 }
 .simulation-result-popup .ui-icon-closethick {

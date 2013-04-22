@@ -42,11 +42,11 @@ input[type="radio"] {
 }
 sub {
 	vertical-align: sub;
-	font-size: smaller;
+	font-size: small;
 }
 sup {
 	vertical-align: super;
-	font-size: smaller;
+	font-size: small;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display:block;
@@ -306,6 +306,7 @@ a:focus, a:active {
 		font-size:0.667em;
 	}
 	.sbSelector{
+        height: 17px;
 		line-height: 17px;
 		text-indent: 4px;
 	}
@@ -426,13 +427,6 @@ a:focus, a:active {
 @media screen and (max-width: 1280px){
 	.container>header{
 		width:765px;
-		height:58px;
-		padding-top:38px;
-	}
-	.container>header h1{
-		/*background:url("../img/logo-header-min.png") no-repeat 0 0;*/
-        width:222px;
-        height:58px;
 	}
 	.container>header .coming-soon{
 		background:url("../img/icon-coming-soon-min.png") no-repeat 0 0;
@@ -453,14 +447,12 @@ a:focus, a:active {
 		font-size:0.858em;
 		line-height:1.571em;
 	}
-    .container>header nav#account-links{
-        top:78px;
-    }
 }
 /* --------------- /header ---------*/
 .features .freeacess, .form-section .form-submit-button {
     background-position: 17px 17px;
     font: 18px "ProximaNova-Bold";
+    -webkit-font-smoothing: antialiased;
     height: 54px;
     margin-top: 20px; /* na makete - 30 */
     line-height: 54px;
@@ -680,7 +672,7 @@ html[lang=ru] .features form div input[type=submit]{
 		margin-right:8px;
 	}
 	.features form div input[type=text]{
-		width:195px;
+		width:167px;
 	    padding:14px 5px 13px;
 	}
 	.features form div input[type=submit] {
@@ -877,6 +869,23 @@ html[lang=ru] .product section table th{
 	color:#3d4041;
 	line-height:1.333em;
 	margin-top:20px;
+}
+.product .chart-value {
+    display: block;
+    position: relative;
+    text-indent: -90000px;
+}
+.product .chart-value:after {
+    color: #fff8cb;
+    content: '%';
+    display: block;
+    font-size: 14px;
+    height: 14px;
+    left: 0px;
+    position: absolute;
+    top:0px;
+    text-indent:0px;
+    width:14px;
 }
 @media screen and (max-width: 1280px){
 	.product{
@@ -1344,24 +1353,26 @@ html[lang=ru] .product section table th{
 		margin-right:7px;
 	}
 	.registration .form h1{
-		font-size:1.715em;
-		margin:16px 0 13px 40px;
+		font-size:2em;
+        line-height: 100%;
+		margin:16px 40px 10px 40px;
+        min-height: 58px;
 	}
     .registration .form-account-corporate h1 {
         margin-left: 20px;
     }
     .registration .form {
-        height: 420px;
+        height: 350px;
     }
     .form-account-corporate .wide {
         display: none;
     }
     .form-account-corporate input[type="submit"] {
-        margin-top: 28px;
+        margin-top: 56px;
     }
 	.registration .form>ul{
-		min-height:77px;
-		margin:0 27px 22px;
+		min-height:105px;
+		margin:0 27px 6px;
 	}
 	.registration .form>ul li{
 		background-image:url("../img/icon-registration-list-min.png");
@@ -1371,9 +1382,12 @@ html[lang=ru] .product section table th{
 		padding-left:19px;
 	}
 	.registration .form .row{
-		line-height:23px;
 		margin:0 14px 4px 31px;
+        min-height: 30px;
 	}
+    .registration .form .row .field {
+        padding-top: 4px;
+    }
 	.registration .form .row label{
 		font-size:0.667em;
 		width:70px;
@@ -1400,7 +1414,7 @@ html[lang=ru] .product section table th{
 	}
 	.registration .form .row input[type=submit]{
 		background:#146672 url("../img/icon-registration-submit-min.png") no-repeat 13px center;
-		width:176px;
+		width:182px;
 		height:37px;
 		font-size:0.858em;
 		text-indent:29px;
@@ -1631,6 +1645,9 @@ html[lang=ru] .product section table th{
     top:136px;
     left:320px;
 }
+html[lang="en"] .footer .social_networks {
+    top:198px;
+}
 .social_networks span {
     display:block;
     float:left;
@@ -1740,9 +1757,6 @@ html[lang=ru] .product section table th{
 @media screen and (max-width: 1280px){
     .videosocwrap {
         margin-top:-20px;
-    }
-    .videosocwrap .social_networks {
-        margin-top: 16px;
     }
 }
 .footer footer nav{
@@ -1971,12 +1985,30 @@ html[lang=ru] .product section table th{
     background-position: 0 100%;
 }
 @media screen and (max-width: 1280px){
+    .sing-in-pop-up  {
+        height:190px !important;
+        width:247px !important;
+    }
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        -moz-transform: scale(0.8);
+        -o-transform: scale(0.8);
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+    }
+    .ui-dialog .ui-dialog-title {
+        font-size:22px;
+    }
 	.login-form{
-	    width:184px;
-	    padding:7px 30px;
+	    width:190px;
+	    padding:7px 24px 7px 10px;
 	    top:75px;
 	    /*margin-left:33px;*/
 	}
+    .ui-dialog .ui-dialog-content {
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
 	.login-form h6{
 		font-size:1.333em;
 		color:#fff;
@@ -1995,21 +2027,21 @@ html[lang=ru] .product section table th{
 		margin-bottom:5px;
 	}
 	.login-form div label{
-		font-size:0.666em;
+		font-size:11px;
 		line-height:11px;
 		margin-bottom:4px;
 	}
 	.login-form div input[type=text],.login-form div input[type=password]{
-		font-size:0.666em;
+        font-size:11px;
 		width:171px;
-		height:9px;
+		height:11px;
 		padding:6px 7px;
 	}
 	.login-form div input[type=submit]{
-		background:url("../img/btn-bg-sign-in-min.png") no-repeat 0 0;
-		width:49px;
+		background:url("../img/btn-bg-sign-in-min2.png") no-repeat 0 0;
+		width:56px;
 		height:21px;
-		font-size:0.666em;
+        font-size:11px;
 		text-indent:9px;
 	}
 	.login-form div input[type=submit]:hover{
@@ -2030,6 +2062,9 @@ html[lang=ru] .product section table th{
 	.login-form a{
 		font-size:0.666em;
 	}
+    .login-form div.login a, .login-form div.remember label  {
+        font-size: 11px;
+    }
 }
 /* --------------- /sign in box ---------*/
 
@@ -2119,6 +2154,7 @@ h2 {
     margin: -4px 0 0 0px;
     padding: 15px 20px 10px 22px;
     position: absolute;
+    z-index: 100;
     /*width: 150px;*/
 }
 .topline {
@@ -2128,6 +2164,7 @@ h2 {
     height: 3px;
     margin: 22px 0px 0px -21px;
     width:20px;
+    z-index: 200;
 }
 .selected-sk .topline {
     display: inline-block;
@@ -2140,7 +2177,9 @@ h2 {
     text-decoration: none;
     /*width: 150px;*/
 }
-
+.action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {
+    display: none !important;
+}
 .action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover, .invites-smallmenu-item a:hover {
     color: #000;
 }
@@ -2213,6 +2252,9 @@ h2 {
     line-height: 90%;
     vertical-align: text-top;
 }
+#private-invitations-list-box sup {
+    vertical-align: top;
+}
 #job-recomendations-box {
     margin: 30px 0 0 10px;
 }
@@ -2223,7 +2265,9 @@ h2 {
 #private-invitations-list-box, #corporate-invitations-list-box {
     margin-top:-8px;
 }
-
+#corporate-invitations-list-box {
+    overflow: visible;
+}
 ul.profile-menu {
     float: left;
     width: 200px;
@@ -2465,6 +2509,10 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
     padding-left: 0px;
 }
+#corporate-invitations-list-box sup {
+    font-size: smaller;
+    line-height: 130%;
+}
 .items th, .items th a {
     color: white;
     text-decoration: none;
@@ -2545,7 +2593,7 @@ ul.profile-menu li {
 #private-invitations-list-box .ratingwrap {
     padding: 0;
     position: absolute;
-    top:6px;
+    top:5px;
 }
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
@@ -2650,6 +2698,7 @@ ul.profile-menu li {
     padding-top: 25px;
     position: absolute;
     width:598px;
+    z-index: 5;
 }
 
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
@@ -3038,6 +3087,9 @@ ul.profile-menu li {
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
+    .container>header {
+        height:
+    }
     .narrow-contnt {
         margin-left: 10px;
     }
@@ -3056,7 +3108,7 @@ ul.profile-menu li {
     }
     .dashboard {
         margin: 0 auto;
-        margin-top: 29px;
+        /*margin-top: 29px; */
         width: 765px;
     }
     #dashboard-skills-box, .nice-border {
@@ -3082,6 +3134,9 @@ ul.profile-menu li {
         line-height: 12px !important;
         margin-top:8px;
     }
+    #dashboard-skills-box .ratingwrap {
+        padding: 4px 2px 3px;
+    }
     .ratebg {
         background: url("../img/ratestarssmall.png") no-repeat 0px 0px;
         height: 12px;
@@ -3091,15 +3146,23 @@ ul.profile-menu li {
         background: url("../img/ratestarssmall.png") no-repeat 0px -12px;
         height: 12px;
     }
-    #dashboard-skills-box sup, .items sup {
-        font-size: 0.67em;
+    .items sup {
+        font-size: 0.88em;
         line-height: 130%;
+        vertical-align: top;
+    }
+    #dashboard-skills-box sup {
+        line-height: 120%;
+        font-size: 0.7em;
         vertical-align: top;
     }
     .link-go {
         background-size:cover;
         height: 13px;
         width: 13px;
+    }
+    .grid-view .empty {
+        min-height: 10px;
     }
     #private-invitations-list-box .grid-view .items th {
         padding: 6px 4px;
@@ -3131,13 +3194,24 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
+        top:8px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         width: 122px;
     }
-
+    #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr td:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2) {
+        max-width: 105px;
+        width: 105px;
+    }
+    #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+        max-width: 74px;
+        width: 74px;
+    }
+    #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
+        width: 115px !important;
+    }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:104px;
+        width:98px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3204,7 +3278,16 @@ ul.profile-menu li {
         width: 200px;
     }
     .profile-menu a {
+        background-image: url("../img/menuarrowsmall.png");
         font-size: 14px;
+        padding-bottom: 9px;
+        padding-top:9px;
+    }
+    .profile-menu a, .profile-menu .mnotactive a:hover {
+        background-position: 185px -42px;
+    }
+    .profile-menu a:hover, .profile-menu li.active a  {
+        background-position: 185px 16px;
     }
     .profileform {
         padding: 16px;
@@ -3235,10 +3318,10 @@ ul.profile-menu li {
         width: 240px;
     }
     .profileform input[type="submit"] {
-        background-position: 20px 14px;
+        background-position: 20px 12px;
         height: 44px;
         line-height: 40px;
-        font-size: 16px;
+        font-size: 15px;
         padding: 0 20px 0 48px;
     }
     #account-corporate-password-form label {
@@ -3255,7 +3338,7 @@ ul.profile-menu li {
         font-size: 16px;
     }
     .inner .content, .inner-registration .content {
-        margin: 29px auto 0;
+        margin: 0 auto;
         width: 765px;
     }
     /*.action-product .content {
@@ -3287,9 +3370,14 @@ ul.profile-menu li {
     .ratepercnt {
         font-size: 14px;
     }
-    .inner .thetitle
+    .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
+    .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle
     {
         font-size: 2.219em;
+    }
+    .action-controller-corporate-static-simulations .grid-view,
+    .action-controller-personal-static-simulations .grid-view {
+        padding:6px;
     }
     .product-gauge-charts, .gauge-charts {
         width: 570px;
@@ -3298,7 +3386,7 @@ ul.profile-menu li {
         left:5px;
     }
     .product .chart-gauge .pointer {
-        left:18px;
+        left:8px;
     }
     .gauge-charts .chart-value {
         font-size: 12px;
@@ -3314,7 +3402,7 @@ ul.profile-menu li {
         width: 760px !important;
     }
     .product-gauge-charts .chart-value {
-        left:196px !important;
+        left:176px !important;
     }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
@@ -3347,7 +3435,7 @@ ul.profile-menu li {
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
     }
-    .product-bullet-charts {
+    .product-bullet-charts, .regicon {
         -moz-transform: scale(0.9);
         -o-transform: scale(0.9);
         -webkit-transform: scale(0.9);
@@ -3471,6 +3559,82 @@ ul.profile-menu li {
     }
     #password-recovery-form #YumPasswordRecoveryForm_email {
         font-size: 11px;
+    }
+    .text16, .text16 a {
+        font-size: 14px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname {
+        top:0px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname,
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname,
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email {
+        font-size: 9px;
+        left: 55px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname {
+        top:-11px;
+    }
+    .invite-people-form.sideform.darkblueplacehld .row {
+        padding-top: 10px;
+    }
+    .invite-people-form h2 {
+        margin-bottom: 4px;
+    }
+    .blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
+        background-position: left -3px;
+        height: 26px;
+        line-height: 26px;
+    }
+    .blue-btn:hover, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
+        background-position: left -33px;
+    }
+    #private-invitations-list-box span.empty {
+        display: block;
+        height: 25px;
+    }
+    .container > header nav a.has-notification {
+        margin-right: 10px;
+        padding-right: 15px;
+    }
+    .not-started-simulations {
+        line-height: 16px;
+        height: 16px;
+        width:16px;
+    }
+    .social_networks a {
+        background-image: url("../img/social-small.png");
+        width: 28px !important;
+        height: 27px !important;
+        margin-left: 8px;
+    }
+    .social_networks a.addthis_button_facebook {
+        background-position: -36px 0px;
+    }
+    .social_networks a.addthis_button_facebook:hover {
+        background-position: -36px -33px;
+    }
+    .social_networks a.addthis_button_twitter {
+        background-position: -71px 0px;
+        width:29px !important;
+    }
+    .social_networks a.addthis_button_twitter:hover {
+        background-position: -71px -33px;
+    }
+    .social_networks a.addthis_button_google_plusone_share {
+        background-position: -107px 0px;
+    }
+    .social_networks a.addthis_button_google_plusone_share:hover {
+        background-position: -107px -33px;
+    }
+    .social_networks a.addthis_button_linkedin {
+        background-position: -142px 0px;
+    }
+    .social_networks a.addthis_button_linkedin:hover {
+        background-position: -142px -33px;
+    }
+    .social_networks>span {
+        font-size: 12px;
     }
 }
 

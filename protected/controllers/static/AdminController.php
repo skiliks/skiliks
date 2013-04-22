@@ -7,7 +7,8 @@ class AdminController extends AjaxController
     {
         $user = Yii::app()->user;
         if (null === $user->id) {
-            Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
+            // @popup
+            //Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
             $this->redirect('/');
         }
 

@@ -464,7 +464,7 @@ class Simulation extends CActiveRecord
     {
         foreach ($this->assessment_overall as $rate) {
             if ($rate->assessment_category_code == $category) {
-                return $rate->value;
+                return round($rate->value);
             }
         }
 

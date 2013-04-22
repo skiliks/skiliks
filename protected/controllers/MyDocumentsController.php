@@ -60,20 +60,28 @@ class MyDocumentsController extends AjaxController
         assert($file);
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
         $errors = [];
+        $responses = [];
 
-        while (null === $zoho->getUrl() && $n < $limit) {
+        while (null === $zoho->getUrl() && $n < $limit ) {
             try {
+                $n++;
                 $zoho->sendDocumentToZoho();
+                $responses[] = str_replace("\r", '', str_replace("\n", '.', $zoho->response));
             } catch(LogicException $e) {
-                $errors[] = str_replace("\n", '.', $zoho->response);
+                $errors[] = str_replace("\r", '', str_replace("\n", '.', $zoho->response));
             }
         }
+
+        //exit;
 
         $result = array(
             'result'           => 1,
             'filedId'          => $file->id,
             'excelDocumentUrl' => $zoho->getUrl(),
-            'errors'           => $errors
+            'errors'           => $errors,
+            'responses'        => $responses,
+            'fn1'              => $file->template->srcFile,
+            'fn2'              => $file->fileName,
         );
         $this->sendJSON(
             $result

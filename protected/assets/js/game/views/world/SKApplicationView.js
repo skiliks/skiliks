@@ -45,17 +45,19 @@ define([
             me.frame = new SKSimulationView();
             me.frame.render();
             SKApp.server.on('server:error', function () {
-                    me.message_window = me.message_window || new window.SKDialogView({
-                        'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
-                        'buttons':[
-                            {
-                                'value':'Окей',
-                                'onclick':function () {
-                                    delete me.message_window;
+                    if (true === SKApp.simulation.isDebug()) {
+                        me.message_window = me.message_window || new window.SKDialogView({
+                            'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
+                            'buttons':[
+                                {
+                                    'value':'Окей',
+                                    'onclick':function () {
+                                        delete me.message_window;
+                                    }
                                 }
-                            }
-                        ]
-                    });
+                            ]
+                        });
+                    }
                 }
             );
             this.render();

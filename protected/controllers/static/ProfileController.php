@@ -293,6 +293,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateVacancies()
     {
+        $this->checkUser();
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -395,8 +396,9 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function accountPagesBase()
     {
         $user = Yii::app()->user;
-        if (null === $user->id) {
-            Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
+        if ($user->isGuest) {
+            //@popup
+            //Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
             $this->redirect('/');
         }
 
@@ -417,7 +419,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         // just to be sure - handle strange case
-        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
+        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 

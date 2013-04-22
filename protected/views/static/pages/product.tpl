@@ -44,9 +44,9 @@
                         <script type="text/javascript">
                             var r = Math.round;
 
-                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
-                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
-                            new charts.Gauge('.product-gauge-charts', r(100), {class: 'inline'});
+                            new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+                            new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+                            new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
 
                             new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
                             new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
