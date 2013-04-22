@@ -3193,8 +3193,8 @@ ul.profile-menu li {
         width: 62px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 98px !important;
-        width: 98px !important;
+        max-width: 100px !important;
+        width: 100px !important;
     }
 
     #private-invitations-list-box .grid-view tr td:last-child p {
