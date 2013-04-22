@@ -725,4 +725,12 @@ span.required {
         padding-left: 50px;
         width: 155px;
     }
+    .feedbackwrap {
+        background-size:contain;
+        height: 350px !important;
+        width:570px !important;
+    }
+    .feedbackwrap .ui-dialog-title {
+        font-size: 24px !important;
+    }
 }
