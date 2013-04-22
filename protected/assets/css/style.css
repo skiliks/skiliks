@@ -2568,9 +2568,9 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr th:first-child,
 #private-invitations-list-box .grid-view tr td:first-child{
-    max-width:76px;
+    max-width:94px;
     text-overflow: ellipsis;
-    width:76px;
+    width:94px;
 }
 
 #private-invitations-list-box .grid-view tr th:nth-child(2),
@@ -2586,7 +2586,7 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr th:last-child,
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:184px;
+    width:152px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
     text-overflow: ellipsis;
