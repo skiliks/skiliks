@@ -13,7 +13,7 @@
         class="ratingwrap radiusthree <?php if(null!==$simulation AND $simulation->end !== null AND $simulation->isFull()) { echo "view-simulation-details-pop-up";} ?>">
         <span class="ratebg"><span class="rating" style="width: <?php if(null!==$simulation AND $simulation->end !== null AND $simulation->isFull()) { echo $simulation->getCategoryAssessment(); }else{ echo "0"; } ?>%"></span></span><sup><?php
             if (null !== $simulation AND $simulation->end !== null AND $simulation->isFull()):
-                ?><?= (float)$simulation->getCategoryAssessment() ?>%<?php
+                ?><?= $simulation->getCategoryAssessment() ?>%<?php
             else:
                 ?>0%<?php
             endif
