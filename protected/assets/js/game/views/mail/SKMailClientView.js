@@ -829,7 +829,6 @@ define([
              * @param height
              */
             renderEmailPreviewScreen: function (email, id, height) {
-                console.log("preview");
                 this.mailClient.setActiveEmail(email);
 
                 var attachmentLabel = '';

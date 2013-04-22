@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection */
+/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
 
 var SKSimulation;
 
@@ -90,6 +90,9 @@ define([
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
                     var minutes = parseInt(me.getGameMinutes() % 60, 10);
+                    if (0 === minutes) {
+                        minutes = '00';
+                    }
                     me.trigger('time:' + hours + '-' + minutes);
                 });
 
@@ -124,11 +127,11 @@ define([
                 this.documents = new SKDocumentCollection();
 
                 // zoho 500 {
-                this.zoho500callback = function(event) {
+                this.zoho500callback = function (event) {
                     if ('Zoho_500' === event.data.type) {
                         me.handlePostMessage(event);
                     }
-                }
+                };
 
                 if (window.addEventListener){
                     window.addEventListener("message", this.zoho500callback, false);
@@ -189,7 +192,7 @@ define([
                     this.loadDocsDialog = new SKDialogView({
                         'message': 'Подождите, идёт загрузка. <br/> Это займёт 10-15 секунд.',
                         'modal': true,
-                        'buttons': [],
+                        'buttons': []
                     });
                 }
             },
