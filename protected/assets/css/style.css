@@ -870,6 +870,23 @@ html[lang=ru] .product section table th{
 	line-height:1.333em;
 	margin-top:20px;
 }
+.product .chart-value {
+    display: block;
+    position: relative;
+    text-indent: -90000px;
+}
+.product .chart-value:after {
+    color: #fff8cb;
+    content: '%';
+    display: block;
+    font-size: 14px;
+    height: 14px;
+    left: 0px;
+    position: absolute;
+    top:0px;
+    text-indent:0px;
+    width:14px;
+}
 @media screen and (max-width: 1280px){
 	.product{
 		margin-top:6px;
@@ -3369,7 +3386,7 @@ ul.profile-menu li {
         left:5px;
     }
     .product .chart-gauge .pointer {
-        left:18px;
+        left:8px;
     }
     .gauge-charts .chart-value {
         font-size: 12px;
@@ -3385,7 +3402,7 @@ ul.profile-menu li {
         width: 760px !important;
     }
     .product-gauge-charts .chart-value {
-        left:196px !important;
+        left:176px !important;
     }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
