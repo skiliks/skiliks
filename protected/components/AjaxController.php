@@ -66,6 +66,7 @@ class AjaxController extends CController
     {
         if (!$this->is_test) {
             header("HTTP/1.0 200 OK");
+            if ($status == 500) { header("HTTP/1.0 500 ERROR"); }
             header('Content-type: ' . $content_type . '; charset=UTF-8');
             header("Cache-Control: no-store, no-cache, must-revalidate");
             header("Cache-Control: post-check=0, pre-check=0", false);
@@ -241,7 +242,7 @@ class AjaxController extends CController
     public function checkUser()
     {
         $this->user = Yii::app()->user;
-        if (null === $this->user) {
+        if ($this->user->isGuest) {
             $this->redirect('/');
         }
         $this->user = $this->user->data();

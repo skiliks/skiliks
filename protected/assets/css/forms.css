@@ -624,17 +624,28 @@ span.required {
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
 /* **************************** FEEDBACK **************************** */
-.jt-feedback {
+.feedbackwrap {
     background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     overflow: hidden;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    overflow: visible;
+    padding-left: 15px;
+    width:688px !important;
+}
+.feedbackwrap .ui-widget-header {
+    position: relative;
+}
+.feedbackwrap .ui-dialog-title {
+    color: #0e4750;
+    font: 30px "ProximaNova-Regular";
+    text-align: center;
 }
 .form-section .form-line-error {
     background: none !important;
 }
 .jt-feedback *, .jt-content {
-    background: none !important;
+    background: none;
 }
 .jt-content {
     overflow: hidden !important;
@@ -666,29 +677,33 @@ span.required {
         padding: 10px 0px 20px 20px;
     }
     .registrationform {
-        width: 740px;
+        width: 730px;
+    }
+    .registrationform ul {
+        width:450px;
     }
     .registrationform li {
         font-size: 1.2em;
     }
     .registrationform input[type=text] {
-        width: 170px;
+        width: 168px;
     }
     .registrationform input[type=text], .registrationform input[type=password] {
         height: 20px;
-        padding: 11px 7px;
+        padding: 10px 7px;
         font-size: 1em;
     }
     .registrationform input[type=password] {
-        width: 160px;
+        width: 156px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
-        padding: 9px 7px;
+        padding: 8px 7px;
     }
     .registrationform input[type=submit] {
-        background-position: 20px 12px;
-        height: 44px;
-        font-size: 1.4em;
+        background-position: 20px 10px;
+        height: 41px;
+        line-height: 41px;
+        font-size: 1.3em;
         padding-left: 50px;
         width: 155px;
     }

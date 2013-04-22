@@ -46,7 +46,7 @@ define([
                 'phone/phoneTalk':         SKPhoneDialogView,
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
-                'visitor/visitorTalk':     SKImmediateVisitView,
+                'visitor/visitorTalk':     SKImmediateVisitView
             },
             /**
              * Массив окон, которые открыты в симуляции

@@ -48,7 +48,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site', 'My office'),
             'url'     => ['static/dashboard/index'],
-            'visible' => ('ru' == Yii::app()->getLanguage() && null == Yii::app()->user->data() && null != Yii::app()->user->data()->id)
+            'visible' => ('ru' == Yii::app()->getLanguage() && null != Yii::app()->user->data() && null != Yii::app()->user->data()->id)
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),

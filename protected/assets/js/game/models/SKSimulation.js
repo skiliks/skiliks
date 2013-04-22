@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection */
+/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
 
 var SKSimulation;
 
@@ -75,6 +75,8 @@ define([
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.handleEvents();
 
+                this.loadDocsDialog = null,
+
                 this.set('isBlueScreenHappened', false);
 
                 this.on('tick', function () {
@@ -88,6 +90,9 @@ define([
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
                     var minutes = parseInt(me.getGameMinutes() % 60, 10);
+                    if (0 === minutes) {
+                        minutes = '00';
+                    }
                     me.trigger('time:' + hours + '-' + minutes);
                 });
 
@@ -105,11 +110,8 @@ define([
                                     if(SKApp.simulation.afterZohoCrash){
                                         $('#excel-preload-'+id).attr("src", url);
                                         SKApp.simulation.afterZohoCrash = false;
-                                        $('.zoho-load-start').remove();
-                                    }else{
-                                        $('.zoho-load-start').remove();
                                     }
-
+                                    SKApp.simulation.loadDocsDialog.remove();
                                 }
                             }
                         });
@@ -125,11 +127,11 @@ define([
                 this.documents = new SKDocumentCollection();
 
                 // zoho 500 {
-                this.zoho500callback = function(event) {
+                this.zoho500callback = function (event) {
                     if ('Zoho_500' === event.data.type) {
                         me.handlePostMessage(event);
                     }
-                }
+                };
 
                 if (window.addEventListener){
                     window.addEventListener("message", this.zoho500callback, false);
@@ -177,7 +179,7 @@ define([
                 var doc = null;
 
                 $.each(SKDocument._excel_cache, function(id, url){
-                    url = url.replace('\r', '')
+                    url = url.replace('\r', '');
                     if(url === event.data.url){
                         var doc = SKApp.simulation.documents.where({id:id.toString()});
                         SKApp.simulation.documents.zoho_500.push(url);
@@ -187,11 +189,11 @@ define([
 
             'onAddDocument' : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    if ($(".zoho-load-start") !== undefined) {
-                        var pause_screen = $(_.template(pause_screen_template, {}));
-                        $('.canvas').append(pause_screen_template);
-                    }
-
+                    this.loadDocsDialog = new SKDialogView({
+                        'message': 'Подождите, идёт загрузка. <br/> Это займёт 10-15 секунд.',
+                        'modal': true,
+                        'buttons': []
+                    });
                 }
             },
 
