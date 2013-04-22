@@ -82,6 +82,8 @@ define([
                 return;
             }
 
+            console.log('Handled for url ' + event.data.url);
+
             if (event.data.type === "Zoho_500") {
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
