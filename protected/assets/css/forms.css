@@ -627,6 +627,7 @@ span.required {
 .feedbackwrap {
     background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     overflow: hidden;
+    border: none;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
@@ -634,12 +635,18 @@ span.required {
     width:688px !important;
 }
 .feedbackwrap .ui-widget-header {
+    background: none;
+    border: none;
     position: relative;
 }
 .feedbackwrap .ui-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     text-align: center;
+}
+.feedback #input_2:hover {
+    background-image: url("../img/icon-btn-notify-hover.png");
+    background-color:#BD2929;
 }
 .form-section .form-line-error {
     background: none !important;
@@ -669,6 +676,9 @@ span.required {
     background-repeat: no-repeat !important;
     border: none !important;
     margin: 0px !important;
+}
+.feedback .sbHolder a{
+    font-size: 14px;
 }
 /* **************************** /FEEDBACK **************************** */
 
