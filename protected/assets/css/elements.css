@@ -453,6 +453,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     left:155px;
 }
 /* Pop-up востановления пароля */
+#password-recovery-form {
+    padding:10px 0 0;
+}
 #password-recovery-form #YumPasswordRecoveryForm_email {
     background:#FFFFFF;
     border: 1px solid #010101;
@@ -484,8 +487,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     color: #FFFFFF;
 }
 #password-recovery-form .errorMessage {
-    left: 50px;
-    top: -15px;
+    left: 10px;
+    top: -16px;
+    color:#fff;
 }
 #account-corporate-company-info-form .UserAccountCorporate_ownership_type {
     top:-15px;
