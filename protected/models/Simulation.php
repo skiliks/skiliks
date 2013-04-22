@@ -266,21 +266,21 @@ class Simulation extends CActiveRecord
         $this->checkWindowLogs();
         $this->checkActivityAggregatedLogs();
         $this->checkUniversalLogs();
-        $this->checkDayPlan();
+        //$this->checkDayPlan();
     }
 
-    public function checkDayPlan() {
-        $logAt11oclockPresent = false;
-        foreach ($this->log_day_plan as $logItem) {
-            if (DayPlanLog::ON_11_00 == $logItem->snapshot_date) {
-                $logAt11oclockPresent = true;
-            }
-        }
-
-        if (false === $logAt11oclockPresent) {
-            throw new LogicException("Day plan hasn`t been logged at 11:00.");
-        }
-    }
+//    public function checkDayPlan() {
+//        $logAt11oclockPresent = false;
+//        foreach ($this->log_day_plan as $logItem) {
+//            if (DayPlanLog::ON_11_00 == $logItem->snapshot_date) {
+//                $logAt11oclockPresent = true;
+//            }
+//        }
+//
+//        if (false === $logAt11oclockPresent) {
+//            throw new LogicException("Day plan hasn`t been logged at 11:00.");
+//        }
+//    }
 
     public function checkWindowLogs()
     {
