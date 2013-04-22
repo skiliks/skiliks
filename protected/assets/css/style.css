@@ -3412,6 +3412,15 @@ ul.profile-menu li {
     .product-gauge-charts .chart-value {
         left:176px !important;
     }
+    .product .maincharts {
+        height: 100px;
+    }
+    .product .maincharts  .widthblock h3 {
+        margin-top: -10px;
+    }
+    .product .levellabels {
+        margin-bottom: 10px;
+    }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
         width:190px !important;
@@ -3426,9 +3435,6 @@ ul.profile-menu li {
         margin-top:23px;
         margin-right: 20px;
         width: 170px;
-    }
-    .product-bullet-charts {
-        margin-top: -10px;
     }
     .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
         margin-left: 20px;
