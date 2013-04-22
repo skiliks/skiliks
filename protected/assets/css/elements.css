@@ -159,9 +159,6 @@
     padding: 15px 25px 15px 50px;
     text-align: left;
 }
-#invite-decline-form #form-decline-explanation input[type="submit"]:hover {
-    background-color:#0C8FA0;
-}
 #invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
     margin-right:18px;
 }
@@ -396,12 +393,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     left:0;
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname{
-    top:-13px;
+    top:-2px;
     left:75px;
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname{
     top:-2px;
-    left:75px;
+    left:165px;
 }
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email{
     top:-1px;
@@ -495,12 +492,16 @@ section.registration-by-link .form .row a.decline-link:hover {
     left:185px;
 }
 /* :hover кнопок */
+#invite-decline-form #form-decline-explanation input[type="submit"]:hover,
+#registration-by-link-form input[type="submit"]:hover,
+#subscribe-form input[type="submit"]:hover,
 .profileform input[type="submit"]:hover{
     background-image: url("../img/icon-btn-notify-hover.png");
     background-color:#BD2929;
     background-repeat: no-repeat;
     color: #FFFFFF;
 }
+#registration_switch:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover {
