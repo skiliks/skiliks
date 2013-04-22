@@ -211,10 +211,6 @@
 .estmtileswrap .widthblock {
     vertical-align: bottom;
 }
-.levellabels .widthblock {
-    top: -20px;
-    vertical-align: top;
-}
 .gauge-charts {
     float: left;
     overflow: visible;
