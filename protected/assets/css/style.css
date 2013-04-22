@@ -2334,16 +2334,16 @@ ul.profile-menu li {
     color: #3c3c32;
     font-family:"ProximaNova-Bold";
 }
-.light-btn, .light-btn:visited, .invite-people-form input[type="submit"]  {
+.light-btn, .invite-people-form input[type="submit"]  {
     color: #3c3c32;
 }
 .light-btn:hover, .content .light-btn:hover, .blue-btn:hover, a.feedback:hover,
 .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-    color: #ffffff !important;
+    color:#ffffff !important;
     background-position: left bottom;
 }
-.tarifswrap .contwrap .light-btn:hover {
-    color: #ffffff !important;
+.subscribe-ti-tariff a.light-btn:hover {
+    color:#ffffff !important;
 }
 .light-btn+.light-btn {
     margin-left: 10px;
