@@ -650,53 +650,20 @@ class SeleniumTestHelper extends CWebTestCase
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
     }
 
-    public function check_all_urls ($all_buttons, $all_buttons_en)   // для перехода по всем юрл по циклу
+    public function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
         //  $all_buttons = array($urls, $buttons_xpath, $buttons_text, $text_inside);
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
             $this->optimal_click($all_buttons[0][$i]); // кликаем на кнопку по xpath
             sleep(5);
             $this->isTextPresent($all_buttons[2][$i]); // проверяем, что есть особый текст
-            $this->isTextPresent("English");
-            for ($j = 0; $j<sizeof($all_buttons[0]) ; $j++)  // цикл проверки есть ли все нужные кнопки
+            $this->isTextPresent($text);
+            for ($j = 0; $j<sizeof($all_buttons[0])-1 ; $j++)  // цикл проверки есть ли все нужные кнопки
             {
                 $this->isTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
             }
             sleep(1);
         }
-
-        // проверка наличия попапа Входа
-        $this->optimal_click($all_buttons[0][sizeof($all_buttons[0])-1]); // кликаем на кнопку по xpath
-        sleep(5);
-        $this->isTextPresent($all_buttons[2][sizeof($all_buttons[0])-1]); // проверяем, что есть особый текст
-
-        $this->optimal_click("css=.ui-icon.ui-icon-closethick");
-
-        // проверка Тарифов
-        $this->optimal_click("xpath=//*[@id='yw0']/li[4]/a"); // кликаем на кнопку по xpath
-        sleep(5);
-        $this->isTextPresent("Тарифные"); // проверяем, что есть особый текст
-        for ($j = 0; $j<sizeof($all_buttons[0]) ; $j++)  // цикл проверки есть ли все нужные кнопки
-        {
-            $this->isTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
-        }
-
-        // проверка английской версии
-        $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
-        $this->optimal_click("xpath=//*[@id='yw1']/li[1]/a");
-
-        for ($i = 0; $i<sizeof($all_buttons_en[0])-1 ; $i++) {
-            $this->optimal_click($all_buttons_en[0][$i]); // кликаем на кнопку по xpath
-            sleep(5);
-            $this->isTextPresent($all_buttons_en[2][$i]); // проверяем, что есть особый текст
-            $this->isTextPresent("Русский");
-            for ($j = 0; $j<sizeof($all_buttons_en[0])-1 ; $j++)  // цикл проверки есть ли все нужные кнопки
-            {
-                $this->isTextPresent($all_buttons_en[1][$j]); // проверяем, что у этих кнопок правильный текст
-            }
-            sleep(1);
-        }
-
 
     }
 }
