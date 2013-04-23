@@ -27,18 +27,23 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
             'mail main','mail main','mail main','mail main','mail main');
         $log = array($window, $mail_code);
 
+        /*$mail_code1 = array('MY1','MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21');
+        $window1 = array('mail main','mail main','mail main','mail new',
+            'mail main','mail main','mail main','mail main','mail main');
+        $log1 = array($window1, $mail_code1);*/
+
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
         $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xls");
+        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.docx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['trash']);
         sleep(2);
-        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xls");
+        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.docx");
 
         //жесть
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
@@ -73,8 +78,17 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
-        sleep(2);
-        $this->Mail_log($log);
+        sleep(5);
+
+        // выполняем проверку первого списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
+        $a = $this->Mail_log($log, sizeof($window));
+        // выполняем проверку второго списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
+        //$b = $this->Mail_log($log1, sizeof($window1));
+        // проверяем есть хотя бы одна проверка вернула true значит все ок и продолжнаем проверку далее
+        if (($a!=true)/*||($b!=true)*/)
+        {
+            $this->fail("Mail log fail!!!");
+        }
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

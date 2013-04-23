@@ -81,7 +81,6 @@ class Case4_SK1790_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
 
-        //оценка не совпадает
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2.667','-34');

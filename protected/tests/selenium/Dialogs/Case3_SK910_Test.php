@@ -19,8 +19,6 @@ class Case3_SK910_Test extends SeleniumTestHelper
 
     public function testSK910()
     {
-        //TODO: сейчас здесь выдает 500, т.к. есть баг (который возникает при быстрых кликах по диалогу)
-
         // здесь будут совсем другие значения для юниверсал лог
         /*$m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone');
         $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk');
