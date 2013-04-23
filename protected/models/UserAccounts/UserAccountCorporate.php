@@ -27,6 +27,17 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     /**
+     * @param Tariff $tariff
+     */
+    public function setTariff($tariff)
+    {
+        $this->tariff_id = $tariff->id;
+        $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
+        $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
+        $this->invites_limit = $tariff->simulations_amount;
+    }
+
+    /**
      * @return string
      */
     public function generateActivationKey()

@@ -36,6 +36,8 @@ $(window.parent.window).load(function()
 {
    window.parent.parent.postMessage({type: 'DocumentLoaded', url:window.parent.location.href} , '*');
 
+   window.parent.isExportEvent = true;
+
     console.log('new code 1');
    //send postMessage
    window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a) {
@@ -43,59 +45,6 @@ $(window.parent.window).load(function()
 
        window.parent.parent.postMessage({type:'Zoho_500', url:window.parent.location.href}, '*');
        console.log('message Zoho_500');
-
-       if (typeof _1418!="undefined") {
-           if(_1418) {
-               window.parent.getObj("bannerCloseBtn").style.display="";
-           } else {
-               window.parent.getObj("bannerCloseBtn").style.display="none";
-           }
-       } else {
-           if(_1416=="WARNING"||_1416=="INFO") {
-               window.parent.getObj("bannerCloseBtn").style.display="";
-           } else {
-               window.parent.getObj("bannerCloseBtn").style.display="none";
-           }
-       }
-
-       var _141b=window.parent.getObj("msgBannerPanel");
-       _141b.style.height="100%";
-
-       window.parent.getObj("bannerMessage").innerHTML=msg;
-
-       var _141c=window.parent.getObj("msgBanner");
-       var _141d=window.parent.getObj("bannerErrorIcon");
-       var _141e=window.parent.getObj("bannerWarningIcon");
-       var _141f=window.parent.getObj("bannerInfoIcon");
-
-       _141d.style.display="none";
-       _141e.style.display="none";
-       _141f.style.display="none";
-
-       if(_1416=="ERROR") {
-           _141d.style.display="";
-           _141c.className="error";
-       } else {
-           if(_1416=="WARNING") {
-               _141e.style.display="";
-               _141c.className="warning";
-           } else {
-               if(_1416=="INFO") {
-                  _141f.style.display="";
-                  _141c.className="info";
-               }
-           }
-       }
-
-       if (_141b.style.display=="none") {
-           if(typeof _1419=="undefined"||_1419>0) {
-               window.parent.blindDown("msgBannerPanel", window.parent.openErrorPanelCallBack,_1419);
-           } else {
-               _141b.style.display="";
-           }
-       } else {
-            window.parent.fadeIn(_141c.id,50);
-       }
 
        if(typeof _141a!="undefined") {
            _141a();

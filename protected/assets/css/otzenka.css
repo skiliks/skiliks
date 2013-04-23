@@ -18,6 +18,7 @@
 }
 .simulation-details {
     height: 831px !important;
+    overflow: visible;
     padding-bottom: 30px;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
@@ -96,11 +97,10 @@
 .gauge-charts:after, #simulation-details-tabs:after, .page:after,
 .simulation-details .navigation:after, .clearfix:after, .navigatnwrap:after, .legendvalue:after,
 .twocharts:after, .twobarstitles:after, .estmfooter:after {
-    content: ".";
+    content: "";
     display: block;
     height: 0;
     clear: both;
-    visibility: hidden;
 }
 .ratepercnt {
     background: #bedadc;
@@ -114,6 +114,12 @@
     line-height: 30px;
     padding: 0px 6px;
     min-width: 42px;
+}
+.product .ratepercnt {
+    font-weight: bold;
+}
+.product .maincharts {
+    margin-top: -34px;
 }
 .ratepercnt, .overall .ratepercnt {
     text-align: center;
@@ -205,12 +211,9 @@
 .estmtileswrap .widthblock {
     vertical-align: bottom;
 }
-.levellabels .widthblock {
-    top: -20px;
-    vertical-align: top;
-}
 .gauge-charts {
     float: left;
+    overflow: visible;
     width: 730px;
 }
 .product-gauge-charts {
@@ -232,6 +235,21 @@
     margin: 0px;
     padding: 0px;
     width: 250px;
+}
+.maincharts .static-bullet-charts {
+    float: right;
+    margin: 0px;
+    margin-top: 40px;
+    padding: 0px;
+}
+.static-bullet-charts {
+    background:url("../img/skillsdefault.png") no-repeat 0px 0px;
+    background-size: contain;
+    height: 94px;
+    width:220px;
+}
+.simulation-details .static-bullet-charts {
+    margin-right: 30px;
 }
 .maincharts .product-bullet-charts {
     width: 237px;

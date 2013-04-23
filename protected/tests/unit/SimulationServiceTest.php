@@ -54,7 +54,7 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::resume($simulation);
         $after = $simulation->getGameTime();
 
-        $this->assertEquals($before, $after);
+        $this->assertEquals(substr($before, 0, 5), substr($after, 0, 5));
         $this->assertEquals($awaiting, $simulation->skipped);
     }
 

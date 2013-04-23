@@ -21,7 +21,7 @@
                     <div class="allsummry">
                         <div class="estmtresults">
                             <div class="overall">
-                                <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
+                                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
                                 <div class="allseprtwrap">
                                     <div class="ratepercnt uprnavprcnt">50%</div>
                                     <div class="ratepercnt resultprcnt">30%</div>
@@ -39,7 +39,7 @@
                     <div class="clearfix maincharts">
 
                         <div class="product-gauge-charts"></div>
-                        <div class="product-bullet-charts"></div>
+                        <div class="static-bullet-charts"></div><!-- product-bullet-charts -->
                         {literal}
                         <script type="text/javascript">
                             var r = Math.round;

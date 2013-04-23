@@ -142,9 +142,12 @@ define([
                     src: doc.get('excel_url'),
                     id:  'excel-preload-' + doc.id
                 }).css({
-                        'left':     '-1000px',
-                        'position': 'absolute'
-                    }));
+                    'position': 'absolute',
+                    'left':     '-10000px',
+                    'top':      0,
+                    'width':    screen.availWidth,
+                    'height':   screen.availHeight
+                }));
             },
 
             /**

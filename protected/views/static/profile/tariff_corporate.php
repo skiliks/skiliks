@@ -18,7 +18,9 @@
                 </div>
             <?php endif ?>
             <div class="action">
+                <?php /*
                 <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
+                */ ?>
             </div>
         </div>
 

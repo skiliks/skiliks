@@ -5,7 +5,7 @@
 
     $scoreRender = function(Invite $invite) {
         if ($invite->status == Invite::STATUS_PENDING) {
-            return (string)$invite->getAcceptActionTag().' или '.$invite->getDeclineActionTag();
+            return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
         }
 
         return $this->renderPartial('//global_partials/_simulation_stars', [
