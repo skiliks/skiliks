@@ -31,84 +31,9 @@ define([
             var doc = me.options.model_instance.get('document');
             doc.get();
             this.title = doc.get('name') || 'Без названия';
-            if (-1 < SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))) {
-                SKApp.simulation.documents.zoho_500[SKApp.simulation.documents.zoho_500.indexOf(doc.get('excel_url'))] = null;
-
-                me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
-                    'buttons': [
-                        {
-                            'value': 'Перезагрузить',
-                            'onclick': function () {
-                                SKApp.simulation.afterZohoCrash = true;
-                                delete SKDocument._excel_cache[doc.get('id')];
-                                SKApp.simulation.documents.remove(doc);
-                                SKApp.simulation.documents.fetch();
-
-                                // clean array of not handled zoho 500 {
-                                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
-                                delete SKApp.simulation.documents.zoho_500[i];
-
-
-                                delete me.message_window;
-                            }
-                        }]
-                });
-            }
-
-            if (window.addEventListener){
-                window.addEventListener("message", _.bind(me.handlePostMessage, me), false);
-            } else {
-                window.attachEvent("onmessage", _.bind(me.handlePostMessage, me));
-            }
 
             window.SKWindowView.prototype.initialize.call(this);
             return true;
-        },
-
-        /**
-         * @method handlePostMessage
-         * @param postMessage event
-         * @return void
-         */
-        handlePostMessage: function(event) {
-            var me = this;
-            // var doc = me.options.model_instance.get('document');
-            var doc = me.options.model_instance.get('document');
-
-            console.log('Post message received for url ' + event.data.url);
-
-            if (doc.get('excel_url').replace('\r', '') !== event.data.url.replace('\r', '')) {
-                return;
-            }
-
-            console.log('Handled for url ' + event.data.url);
-
-            if (event.data.type === "Zoho_500") {
-                me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
-                    'modal': true,
-                    'buttons': [
-                        {
-                            'value': 'Перезагрузить',
-                            'onclick': function () {
-                                SKApp.simulation.afterZohoCrash = true;
-                                delete SKDocument._excel_cache[doc.get('id')];
-                                SKApp.simulation.documents.remove(doc);
-                                SKApp.simulation.documents.fetch();
-
-                                // clean array of not handled zoho 500 {
-                                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
-                                if (i > -1) {
-                                    delete SKApp.simulation.documents.zoho_500[i];
-                                }
-
-                                delete me.message_window;
-                            }
-                        }
-                    ]
-                });
-            }
         },
 
         /**
