@@ -22,7 +22,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
     public function testSK1273_Case1() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);

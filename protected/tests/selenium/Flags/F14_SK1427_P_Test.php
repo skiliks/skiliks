@@ -49,7 +49,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         // downloading all messages
-        sleep(30);
+        sleep(20);
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Презентация для ГД_итог"));
