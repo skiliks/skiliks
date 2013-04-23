@@ -1,4 +1,4 @@
-/*global _, SKWindowView, SKDialogWindow, SKApp */
+/*global _, SKWindowView, SKDialogWindow, SKApp, console, define, $  */
 
 var SKPhoneDialogView;
 
@@ -29,8 +29,8 @@ define([
         },
         
         'events':_.defaults({
-            'click .phone-draw-menu':'getMenu',
-            'click .replica-select':   'doSelectReplica'
+            'click .phone-draw-menu': 'getMenu',
+            'click .replica-select' : 'doSelectReplica'
         }, SKWindowView.prototype.events),
 
         /**
@@ -74,8 +74,12 @@ define([
             if (event.get('data')[0].code === 'None' || event.get('data')[0].code === 'Auto') {
                 var timeout = setTimeout(function(){
                     if(me.options.model_instance.is_opened === true){
-                        me.options.model_instance.setOnTop();
-                        me.options.model_instance.close();
+
+                        SKApp.simulation.trigger('audio-phone-end-start');
+                        setTimeout(function(){
+                            me.options.model_instance.setOnTop();
+                            me.options.model_instance.close();
+                        }, SKApp.get('afterCallZoomerDuration'));
                     }
 
                 }, 5000);
@@ -146,8 +150,11 @@ define([
                     me.options.model_instance.setLastDialog(dialog_id);
                     /* TODO refactor */
                     if (is_final) {
-                        me.options.model_instance.setOnTop();
-                        me.options.model_instance.close();
+                        SKApp.simulation.trigger('audio-phone-end-start');
+                        setTimeout(function(){
+                            me.options.model_instance.setOnTop();
+                            me.options.model_instance.close();
+                        }, SKApp.get('afterCallZoomerDuration'));
                     }
                 });
             }

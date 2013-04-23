@@ -54,10 +54,13 @@ class PhoneController extends AjaxController{
      */
     public function actionCall() 
     {
-            $this->sendJSON(
-                PhoneService::call($this->getSimulationEntity(), (int)Yii::app()->request->getParam('themeId', false), (int)Yii::app()->request->getParam('contactId', false), Yii::app()->request->getParam('time', '00:00'))
-            );
-
+        $this->sendJSON(
+            PhoneService::call(
+                $this->getSimulationEntity(),
+                (int)Yii::app()->request->getParam('themeId', false),
+                (int)Yii::app()->request->getParam('contactId', false),
+                Yii::app()->request->getParam('time', '00:00')
+        ));
     }
 
     /**

@@ -3,7 +3,7 @@
 
 define([
     "text!game/jst/document/document_xls_template.jst",
-    "game/views/SKWindowView",
+    "game/views/SKWindowView"
 ],function (
     document_xls_template
 ) {
