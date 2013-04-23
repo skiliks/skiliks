@@ -446,10 +446,26 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // для проверки целосности логов в таблице Mail_log
-    public function Mail_log ($array_of_values)
+    public function Mail_log ($array_of_values, $size_of_array)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
-        $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[2]/table[7]/tbody/tr[", "]/td[3]", "xpath=//div[2]/table[7]/tbody/tr[", "]/td[5]" ));
+        $new_size = $this->size_of_logs("xpath=//div[2]/table[7]/tbody/tr[", "]/td[4]");
+        if ($new_size==$size_of_array)
+        {
+            $a = $this->active_windows($array_of_values,"xpath=//div[2]/table[7]/tbody/tr[", "]/td[3]", "xpath=//div[2]/table[7]/tbody/tr[", "]/td[5]" );
+            if ($a==True)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     // для проверки целосности логов в таблице Leg_actions_detail

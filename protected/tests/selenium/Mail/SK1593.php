@@ -54,7 +54,7 @@ class SK1593_Test extends SeleniumTestHelper
         sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         sleep(30);
-        $this->Mail_log($ms25);
+        $this->Mail_log($ms25, sizeof($window));
     }
 
     public function testSK1593_MS83()
@@ -71,7 +71,7 @@ class SK1593_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
         $this->save_send();
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->Mail_log($ms83);
+        $this->Mail_log($ms83, sizeof($window));
     }
 
     public function testSK1593_MS84()
@@ -87,7 +87,7 @@ class SK1593_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
         $this->save_send();
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->Mail_log($ms84);
+        $this->Mail_log($ms84, sizeof($window));
     }
 
     private function save_send()
