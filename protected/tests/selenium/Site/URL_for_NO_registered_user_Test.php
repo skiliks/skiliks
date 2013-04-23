@@ -39,7 +39,6 @@ class Case_for_no_registered_user_Test extends SeleniumTestHelper
 
         $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
         sleep(5);
-        //$this->type("xpath=//*[@id='user-email-value']", "asd@skiliks.com");
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
         $this->isTextPresent("Невалидный email - ''!");
@@ -49,6 +48,8 @@ class Case_for_no_registered_user_Test extends SeleniumTestHelper
         sleep(10);
         $this->isTextPresent("Thank");
 
+        $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
+        sleep(5);
         $this->type("xpath=//*[@id='user-email-value']", "asd@skiliks.com");
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
