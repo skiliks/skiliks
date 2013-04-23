@@ -3250,18 +3250,18 @@ ul.profile-menu li {
         width: 122px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr td:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2) {
-        max-width: 105px;
-        width: 105px;
+        max-width: 108px;
+        width: 108px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 70px;
-        width: 70px;
+        max-width: 65px;
+        width: 65px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
         width: 110px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:98px;
+        width:108px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
