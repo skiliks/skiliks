@@ -1,4 +1,4 @@
-/*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow, $ */
 
 var SKImmediateVisitView;
 
@@ -93,6 +93,7 @@ define([
                             me.remove();
                         } else if (!SKApp.simulation.isDebug()) {
                             el.find('.char-reply').removeClass('hidden');
+                            el.find('.visitor-reply').removeClass('hidden');
                         }
                     });
                     // this stupid code is a workaround of Google Chrome bug where video does not start

@@ -6,7 +6,7 @@
     <img class="visit-background" src="<@= img_src @>" />
     <@ } @>
     <@ if (remote_replica) { @>
-    <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
+    <div class="visitor-reply <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>"><p class="visitor-replica"><@=remote_replica.text@></p>
         <@ } @>
 
         <ul class="char-reply <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>" id="dialogControllerAnswers">
