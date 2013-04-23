@@ -139,6 +139,7 @@ body  .onetariff  {
     }
     .price p {
         font-size: 36px;
+        padding: 0px 16px;
     }
     .price span {
         font-size: 42px;
