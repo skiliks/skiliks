@@ -154,7 +154,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
     '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
     '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
-   '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .pager ul.yiiPager .page a, ' +
+   '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
     '.registration .form .row input[type=submit], .vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
     '.icon-choose, .testtime, .testtime strong, .profileform input[type=submit], .benefits, .tarifswrap .text16, .value, #simulations-counter-box strong, ' +
     '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
