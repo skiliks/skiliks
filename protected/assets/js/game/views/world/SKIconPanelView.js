@@ -1,11 +1,16 @@
-/*global _, Backbone, SKApp, SKVisitView, SKImmediateVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
- glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView, $*/
+/*global _, Backbone, SKApp, SKVisitView, SKImmediateVisitView, phone, mailEmulator,
+documents, dayPlan, SKPhoneView, SKPhoneDialogView,
+ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView, $, console, define, SKDocumentsWindow */
 var SKIconPanelView;
 
 define([
-    "text!game/jst/world/icon_panel.jst"
-],
-    function (icon_panel) {
+        "text!game/jst/world/icon_panel.jst",
+        "text!game/jst/audio/phone_call.jst"
+    ],
+    function (
+        icon_panel,
+        audio_phone_call
+    ) {
         "use strict";
         /**
          * Панель с иконками. Слушает коллекцию events, обновляет счетчики и прыгает иконки
@@ -51,6 +56,8 @@ define([
                 this.listenTo(events, 'event:phone', this.onPhoneEvent);
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+
+                this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
@@ -124,6 +131,8 @@ define([
 
                 var me = this;
                 this.$('.phone').attr('data-event-id', event.cid);
+
+                me.doSoundPhoneCallInStart();
 
                 var data = event.get('data');
                 var callbackFunction;
@@ -251,6 +260,7 @@ define([
                 }
 
                 var me = this;
+
                 if (!(me.icon_lock[selector])) {
                     me.icon_lock[selector] = true;
                     var el = me.$(selector);
@@ -273,6 +283,9 @@ define([
                         } else {
                             me.icon_lock[selector] = false;
                             el.removeClass('icon-active');
+
+                            me.doSoundPhoneCallInStop();
+
                             if (end_cb !== undefined) {
                                 end_cb();
                             }
@@ -338,11 +351,63 @@ define([
                 SKApp.simulation.window_set.toggle('plan', 'plan');
             },
 
+            doSoundPhoneCallInStop: function() {
+                var me = this;
+                $.each(me.$el.find('#audio-phone-call'), function() {
+                    this.pause();
+                });
+                me.$el.find('#audio-phone-call').remove();
+            },
+
+            doSoundPhoneCallInStart: function() {
+                var me = this;
+                me.$el.append(_.template(audio_phone_call, {
+                    id        : 'audio-phone-call',
+                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
+                }));
+                me.$el.find("#audio-phone-call")[0].play();
+            },
+
+            doSoundPhoneCallLongZoomerStop: function() {
+                var me = this;
+                $.each(me.$el.find('#audio-phone-call'), function() {
+                    this.pause();
+                });
+                me.$el.find('#audio-phone-call').remove();
+            },
+
+            doSoundPhoneCallLongZoomerStart: function() {
+                var me = this;
+                me.$el.append(_.template(audio_phone_call, {
+                    id        : 'audio-phone-call',
+                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
+                }));
+                me.$el.find("#audio-phone-call")[0].play();
+            },
+
+            doSoundPhoneCallShortZoomerStop: function() {
+                var me = this;
+                $.each(me.$el.find('#audio-phone-call'), function() {
+                    this.pause();
+                });
+                me.$el.find('#audio-phone-call').remove();
+            },
+
+            doSoundPhoneCallShortZoomerStart: function() {
+                var me = this;
+                me.$el.append(_.template(audio_phone_call, {
+                    id        : 'audio-phone-call',
+                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
+                }));
+                me.$el.find("#audio-phone-call")[0].play();
+            },
+
             /**
              * @method
              * @param e
              */
             doPhoneToggle: function (e) {
+                console.log(1);
                 e.preventDefault();
                 SKApp.simulation.window_set.toggle('phone', 'phoneMain');
             },
