@@ -2661,7 +2661,14 @@ ul.profile-menu li {
     padding-right: 3px;
     width: 132px;
 }
-
+#corporate-invitations-list-box .ratebg, #corporate-invitations-list-box .rating,
+#private-invitations-list-box .ratebg, #private-invitations-list-box .rating{
+    background-image: url("../img/ratestars2.png");
+    height: 14px;
+}
+#corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
+    width:81px;
+}
 .invites-smallmenu-switcher {
     background: url("../img/menugear.png") no-repeat left top;
     color:#232323;
