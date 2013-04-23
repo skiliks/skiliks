@@ -150,5 +150,14 @@ $(window).load(function(){
 
 Cufon.replace('.freeacess');
 Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
-    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16');
-Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li', {fontFamily:"ProximaNova-Regular"});
+    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, ' +
+    '.form-submit-button, .midtitle, .flash-success, .social_networks span, .main-article h3, .registration input[type=submit], ' +
+    '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
+    '.team .team-list li h4, .team .team-values h3, .registration h2, .registration .form h1, .widthblock h3, .ratepercnt'
+
+);
+Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
+    '.features p.success, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
+    '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
+    '.footer nav a, .backtotop a, .price p '
+    , {fontFamily:"ProximaNova-Regular"});

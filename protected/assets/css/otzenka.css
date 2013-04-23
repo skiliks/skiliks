@@ -305,7 +305,7 @@
 }
 .product .bluelist li, .product .bluelist a {
     color: #fff;
-    font-size: 1.083em;
+    font-size: 1.043em;
     line-height: 110%;
 }
 .product .bluelist a {
@@ -342,8 +342,9 @@
 .product .subisopen ul {
     margin-top: 8px;
 }
-.product .subisopen li a {
-    font-size: 0.85em;
+.product .subisopen li a, .product .productsubmenu a {
+    font-size: 0.85em !important;
+    /*font-size:12px;*/
 }
 
 .resulttitele, .resulttitele a, .resulttitele a:visited {
