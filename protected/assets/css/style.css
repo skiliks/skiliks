@@ -707,7 +707,8 @@ html[lang=ru] .features form div input[type=submit]{
 	margin-top:44px;
 }
 html[lang=ru] .main-article article{
-	margin-top:15px;
+	/*margin-top:15px;*/
+    margin-top:0px;
 }
 .main-article article h3{
 	font:2.144em "ProximaNova-Bold";
@@ -792,10 +793,10 @@ html[lang=ru] .main-article article{
 .product>table col{
 	width:33.33%;
 }
-.product>table td{
+.productfeatrs td{
 	background:url("../img/icon-product-table-dot.png") no-repeat center 0;
-	font:1.190em "ProximaNova-Regular";
 	color:#fff;
+    font:1.170em "ProximaNova-Regular";
 	text-align:center;
 	line-height:1.400em;
 	padding:65px 16px 0;
@@ -827,13 +828,13 @@ html[lang=ru] .main-article article{
 }
 .product section table tr th:first-child,.product section table tr td:first-child{
 	background-position:left bottom;
-	padding-right:49px;
-	padding-left:45px;
+	padding-right:40px;
+	padding-left:40px;
 }
 .product section table tr th:last-child,.product section table tr td:last-child{
 	background-position:right bottom;
-	padding-left:49px;
-	padding-right:45px;
+	padding-left:40px;
+	padding-right:40px;
 }
 .product section table th{
 	background:url("../img/bg-product-section-table-title.png") no-repeat 0 0;
@@ -1008,7 +1009,7 @@ html[lang=ru] .product section table th{
 	height:153px;
 	text-align:left;
 	margin:0 5px 4px;
-	padding:36px 0 0 30px;
+	padding:36px 0 0 25px;
 	vertical-align:top;
 }
 .team .team-list li.maria{
@@ -1031,7 +1032,7 @@ html[lang=ru] .product section table th{
 	color:#146672;
 }
 .team .team-list li p{
-	font-size:0.952em;
+	font-size:0.932em;
 	color:#29313d;
 	line-height:1.500em;
 }
@@ -1659,7 +1660,8 @@ html[lang="en"] .footer .social_networks {
 .social_networks span {
     display:block;
     float:left;
-    font:bold 14px/31px "Arial"
+    font:14px "ProximaNova-Bold";
+    line-height: 31px;
 }
 .social_networks a, .smallicons a {
     dispay:block;
@@ -2344,8 +2346,11 @@ ul.profile-menu li {
 }
 .light-btn:hover, .content .light-btn:hover, .blue-btn:hover, a.feedback:hover,
 .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-    color:#ffffff !important;
+    color:#ffffff;
     background-position: left bottom;
+}
+.light-btn:hover * {
+    color:#ffffff !important;
 }
 .subscribe-ti-tariff a.light-btn:hover {
     color:#ffffff !important;
