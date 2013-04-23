@@ -77,8 +77,6 @@ define([
 
                 this.loadDocsDialog = null,
 
-                this.set('isBlueScreenHappened', false);
-
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {

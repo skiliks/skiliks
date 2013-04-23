@@ -1,4 +1,4 @@
-/*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
+/*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection, $, SKDialogView, define
  */
 var SKPhoneView;
 
@@ -127,7 +127,8 @@ define([
          * @method
          * @param event
          */
-        callToContact:function(event){
+        callToContact:function(event)
+        {
             var themeId = $(event.currentTarget).attr('data-theme-id');
             var contactId = $(event.currentTarget).attr('data-contact-id');
             this.options.model_instance.close();
@@ -157,7 +158,8 @@ define([
          * @method
          * @param e
          */
-        callbackContact:function(e){
+        callbackContact:function(e)
+        {
             var dialog_code = $(e.currentTarget).attr('data-dialog-code');
             this.options.model_instance.close();
             SKApp.server.api('phone/callback', {'dialog_code':dialog_code, 'time':SKApp.simulation.getGameTime()}, function (data) {

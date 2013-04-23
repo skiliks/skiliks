@@ -1,4 +1,4 @@
-/*global SKWindow, SKApp, _, SKWindowView
+/*global SKWindow, SKApp, _, SKWindowView, $, define
  */
 
 var SKPhoneCallView;
@@ -31,9 +31,9 @@ define([
         },
 
         events:_.defaults({
-            'click .phone_get_menu':'getMenu',
-            'click #phone_reply':'reply',
-            'click #phone_no_reply':'noReply'
+            'click .phone_get_menu' : 'getMenu',
+            'click #phone_reply'    : 'reply',
+            'click #phone_no_reply' : 'noReply'
         },SKWindowView.prototype.events),
 
         /**
@@ -59,7 +59,6 @@ define([
             var dialogId = event.get('data')[0].id;
 
             if (undefined == event.get('data')[2]) {
-                var me = this;
                 var dialog_1_Id = event.get('data')[1].id; // button "Ответить"
 
                 var callback = function() {
@@ -84,7 +83,7 @@ define([
          * @returns {Number|jQuery}
          */
         getCountViews: function(){
-            return $('.'+this.windowClass).length;
+            return $('.' + this.windowClass).length;
         },
 
         /**
@@ -94,6 +93,10 @@ define([
         reply: function(event) {
             event.preventDefault();
             event.stopPropagation();
+
+            var me = this;
+            me.trigger('audio-phone-call-stop');
+
             if ($(event.currentTarget).attr('data-disabled')) {
                 return;
             }
@@ -120,6 +123,8 @@ define([
          * @param event
          */
         noReply: function(event) {
+            SKApp.simulation.trigger('audio-phone-call-stop');
+
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
             if ($(event.currentTarget).attr('data-disabled')) {
                 return;
