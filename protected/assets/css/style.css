@@ -3200,6 +3200,10 @@ ul.profile-menu li {
      {
        /* padding: 6px 3px !important;*/
     }
+    #private-invitations-list-box .grid-view table.items th, #corporate-invitations-list-box .grid-view table.items th,
+    #private-invitations-list-box .grid-view table.items td, #corporate-invitations-list-box .grid-view table.items td {
+        font-size: 10px;
+    }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
         max-width: 88px;
         width: 88px;
