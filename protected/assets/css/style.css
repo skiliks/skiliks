@@ -443,7 +443,8 @@ a:focus, a:active {
 	.container>header nav{
 		top:50px;
 	}
-	.container>header nav a{
+	.container>header nav a,
+    .container>header nav#static-page-links a {
 		font-size:0.858em;
 		line-height:1.571em;
 	}
@@ -679,12 +680,15 @@ html[lang=ru] .features form div input[type=submit]{
 	    padding:14px 5px 13px;
 	}
 	.features form div input[type=submit] {
-		background-image:url("../img/icon-btn-notify-min.png");
-		background-position:13px 15px;
+		background-image:url("../img/icon-btn-notify.png");
+		background-position:13px 50%;
 		font-size:0.929em;
 		height:44px;
 		padding:0 12px 0 32px;
 	}
+    .features form div input[type=submit]:hover {
+        background-image: url("../img/icon-btn-notify-hover.png") !important;
+    }
     .features .freeacess {
         height: 44px;
         line-height: 44px;
@@ -1377,7 +1381,7 @@ html[lang=ru] .product section table th{
         display: none;
     }
     .form-account-corporate input[type="submit"] {
-        margin-top: 56px;
+        margin-top: 46px;
     }
 	.registration .form>ul{
 		min-height:105px;
