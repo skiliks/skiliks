@@ -91,6 +91,8 @@ define([
          * @param event
          */
         reply: function(event) {
+            SKApp.simulation.trigger('audio-phone-call-stop');
+
             event.preventDefault();
             event.stopPropagation();
 
