@@ -1425,17 +1425,22 @@ html[lang=ru] .product section table th{
         background-position: 13px center;
     }
 	.registration .form .row .errorMessage{
-	    -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
+	    /*
+        -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
 	    -webkit-box-shadow:0 0 5px rgba(0,0,0,0.57);
 	    box-shadow:0 0 5px rgba(0,0,0,0.57);
-	    font-size:0.583em;
-	    line-height:20px;
-	    text-align:center;
-	    width:133px;
+        width:133px;
+        line-height:20px;*/
+        font-size:0.583em;
+        text-align:left;
 	    position:absolute;
-	    bottom:25px;
-	    left:46px;
+	    top:-7px;
+	    left:75px;
+        padding-left: 0;
 	}
+    .registration .form .row .errorMessage.right {
+        left:199px;
+    }
 	.registration .form .row .errorMessage:last-child{
 		left:183px;
 	}

@@ -166,9 +166,9 @@
     top:-30px;
     right:30px;
 }
-#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .error_wrap {
-    top: -35px;
-    right: 6px;
+#invite-decline-form #form-decline-explanation .form-decline-explanation-description-row .errorMessage {
+    left: 6px;
+    top: -22px;
 }
 
 /* регистрация по ссылке от работодателя */
@@ -261,6 +261,10 @@ section.registration-by-link .form .row a.decline-link:hover {
 .YumProfile_lastname {
     left: 385px;
     top: -20px;
+}
+#registration-by-link-form .YumProfile_firstname,
+#registration-by-link-form .YumProfile_lastname {
+    top:-12px;
 }
 .wide .sbHolder_err {
     top:-10px;
@@ -523,21 +527,6 @@ section.registration-by-link .form .row a.decline-link:hover {
     opacity: 0.3;
     z-index: 1;
 }
-/*
-.error_wrap {
-    padding-bottom: 19px;
-    position: absolute;
-    background: url("../img/bg-form-error.png") no-repeat 80% bottom;
-}
-.error_wrap .errorMessage {
-    background: url("../img/bg-form-error-inner.png") repeat-x 0 0 #E66B66;
-    border-radius: 4px;
-    color: #FFFFFF;
-    display: block;
-    font: 1em/2.214em "ProximaNova-Regular";
-    padding: 0 30px;
-}
-*/
 .row {
     position: relative;
 }

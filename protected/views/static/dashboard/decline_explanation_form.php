@@ -28,9 +28,7 @@
     <div class="row form-decline-explanation-description-row" style="display: none;">
         <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
         <?php echo $form->textArea($declineExplanation, 'description', ['placeholder'=>Yii::t("site","Failure cause")]); ?>
-        <div class="error_wrap">
-            <?php echo $form->error($declineExplanation    , 'description'); ?>
-        </div>
+        <?php echo $form->error($declineExplanation    , 'description'); ?>
     </div>
 
     <div class="row buttons">
@@ -46,11 +44,6 @@
        -->
     <?php $this->endWidget(); ?>
 </div>
-
-<style>
-
-</style>
-
 <script type="text/javascript">
 
     $("#invite-decline-form").prependTo("body");
@@ -70,6 +63,12 @@
         console.log($(this).val(), '<?php echo $reasonOtherId ?>');
         if ($(this).val() == '<?php echo $reasonOtherId ?>') {
             $('.form-decline-explanation-description-row').show();
+            var errors = $(".errorMessage");
+            for (var i=0;i<errors.length;i++) {
+                var inp = $(errors[i]).prev(".error");
+                $(inp).css({"border":"2px solid #bd2929"});
+                $(errors[i]).addClass($(inp).attr("id"));
+            }
         } else {
             $('.form-decline-explanation-description-row textarea').text('');
             $('.form-decline-explanation-description-row').hide();
