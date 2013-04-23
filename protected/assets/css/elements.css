@@ -458,7 +458,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 /* Pop-up востановления пароля */
 #password-recovery-form {
-    padding:10px 0 0;
+    padding:15px 0 0;
 }
 #password-recovery-form #YumPasswordRecoveryForm_email {
     background:#FFFFFF;
