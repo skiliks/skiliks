@@ -76,9 +76,13 @@ define([
             // var doc = me.options.model_instance.get('document');
             var doc = me.options.model_instance.get('document');
 
+            console.log('Post message received for url ' + event.data.url);
+
             if (doc.get('excel_url').replace('\r', '') !== event.data.url.replace('\r', '')) {
                 return;
             }
+
+            console.log('Handled for url ' + event.data.url);
 
             if (event.data.type === "Zoho_500") {
                 me.message_window = new SKDialogView({

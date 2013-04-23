@@ -225,19 +225,23 @@
     line-height: 90%;
 }
 .registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
-.darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder {
+.darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder,
+.feedback .form-line input[type="email"]::-webkit-input-placeholder {
      color:#146672;
  }
 .registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder,
-.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder {
+.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
+.feedback .form-line input[type="email"]::-moz-placeholder{
     color:#146672;
 }
 .registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder,
-.darkblueplacehld input[type="text"]::-ms-input-placeholder, #password-recovery-form input[type="text"]::-ms-input-placeholder {
+.darkblueplacehld input[type="text"]::-ms-input-placeholder, #password-recovery-form input[type="text"]::-ms-input-placeholder,
+.feedback .form-line input[type="email"]::-ms-input-placeholder{
     color:#146672;
 }
 .registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder,
-.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder {
+.darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
+.feedback .form-line input[type="email"]::-moz-placeholder {
     color:#146672;
 }
 
@@ -627,6 +631,7 @@ span.required {
 .feedbackwrap {
     background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     overflow: hidden;
+    border: none;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
@@ -634,12 +639,18 @@ span.required {
     width:688px !important;
 }
 .feedbackwrap .ui-widget-header {
+    background: none;
+    border: none;
     position: relative;
 }
 .feedbackwrap .ui-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     text-align: center;
+}
+.feedback #input_2:hover {
+    background-image: url("../img/icon-btn-notify-hover.png");
+    background-color:#BD2929;
 }
 .form-section .form-line-error {
     background: none !important;
@@ -669,6 +680,13 @@ span.required {
     background-repeat: no-repeat !important;
     border: none !important;
     margin: 0px !important;
+}
+.feedback .sbHolder a{
+    font-size: 14px;
+}
+.feedback input[type="email"]{
+    font: 16px "ProximaNova-Regular";
+    text-indent: 10px;
 }
 /* **************************** /FEEDBACK **************************** */
 
@@ -706,5 +724,13 @@ span.required {
         font-size: 1.3em;
         padding-left: 50px;
         width: 155px;
+    }
+    .feedbackwrap {
+        background-size:contain;
+        height: 350px !important;
+        width:570px !important;
+    }
+    .feedbackwrap .ui-dialog-title {
+        font-size: 24px !important;
     }
 }

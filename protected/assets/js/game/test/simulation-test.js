@@ -1,4 +1,4 @@
-/*global buster, after, sinon, SKApp, expect*/
+/*global buster, after, sinon, SKApp, expect, describe, SKApp, assert, require, it, before, $ */
 // Expose describe and it functions globally
 buster.spec.expose();
 
@@ -27,6 +27,9 @@ var spec = describe('simulation', function (run) {
                 server.respondWith("POST", "/index.php/simulation/stop",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:0})]);
+                server.respondWith("POST", "/index.php/dayPlan/copyPlan",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
                 timers = sinon.useFakeTimers();
             });
             after(function () {
@@ -48,6 +51,7 @@ var spec = describe('simulation', function (run) {
                 expect(simulation.getGameTime(true)).toBe('09:13:20');
                 server.respond();
             });
+
             it("stops at 18:00", function () {
                 var stop_spy = sinon.spy();
                 SKApp.simulation.start();
@@ -59,6 +63,28 @@ var spec = describe('simulation', function (run) {
                 server.respond();
                 assert.calledOnce(stop_spy);
 
+            });
+
+            it("Write day plan log at 11:00", function () {
+                var log_spy = sinon.spy();
+                SKApp.simulation.start();
+                server.respond();
+
+                SKApp.simulation.on('time:11-00', log_spy);
+                server.respond();
+                timers.tick(2 * 60 * 60 * 1000/8 + 1 * 60 * 1000/8);
+
+                var dayLogRequestHappened = false;
+                $.each(server.requests, function(key, item) {
+                    if ('/index.php/dayPlan/CopyPlan' === item['url']) {
+                        dayLogRequestHappened = true;
+                    };
+                });
+
+                server.respond();
+                assert.calledOnce(log_spy);
+
+                expect(dayLogRequestHappened).toBe(true);
             });
         });
     });

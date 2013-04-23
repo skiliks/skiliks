@@ -887,6 +887,9 @@ html[lang=ru] .product section table th{
     text-indent:0px;
     width:14px;
 }
+.feedbackwrap .ui-dialog-titlebar-close {
+    right:-20px;
+}
 @media screen and (max-width: 1280px){
 	.product{
 		margin-top:6px;
@@ -2336,12 +2339,16 @@ ul.profile-menu li {
     color: #3c3c32;
     font-family:"ProximaNova-Bold";
 }
-.light-btn, .light-btn:visited, .invite-people-form input[type="submit"]  {
+.light-btn, .invite-people-form input[type="submit"]  {
     color: #3c3c32;
 }
-.light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-    color: #fff;
+.light-btn:hover, .content .light-btn:hover, .blue-btn:hover, a.feedback:hover,
+.vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
+    color:#ffffff !important;
     background-position: left bottom;
+}
+.subscribe-ti-tariff a.light-btn:hover {
+    color:#ffffff !important;
 }
 .light-btn+.light-btn {
     margin-left: 10px;
@@ -2566,17 +2573,17 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr th:first-child,
 #private-invitations-list-box .grid-view tr td:first-child{
-    max-width:76px;
+    max-width:104px;
     text-overflow: ellipsis;
-    width:76px;
+    width:104px;
 }
 
 #private-invitations-list-box .grid-view tr th:nth-child(2),
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 81px;
-    width:81px;
+    max-width: 71px;
+    width:71px;
 }
 #private-invitations-list-box .grid-view tr th:nth-child(4),
 #private-invitations-list-box .grid-view tr td:nth-child(4){
@@ -2584,7 +2591,7 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr th:last-child,
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:184px;
+    width:152px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
     text-overflow: ellipsis;
@@ -2630,7 +2637,7 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
-    width:120px;
+    width:122px;
 }
 #corporate-invitations-list-box .grid-view tr th:last-child,
 #corporate-invitations-list-box .grid-view tr td:last-child{
@@ -2932,6 +2939,7 @@ ul.profile-menu li {
     position: relative;
     width: 240px; /* 305px */
     height: 130px; /*  135px */ /*  140px */
+    overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .chart-gauge:after {
@@ -3126,7 +3134,7 @@ ul.profile-menu li {
         font-size: 1.9em;
     }
     .dashboard aside {
-        width: 220px;
+        width: 222px;
     }
     .dashboard aside h2 {
         font-size: 1.3em;
@@ -3177,21 +3185,21 @@ ul.profile-menu li {
        /* padding: 6px 3px !important;*/
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
-        max-width: 60px;
-        width: 60px;
+        max-width: 88px;
+        width: 88px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 51px;
-        width: 51px;
+        max-width: 41px;
+        width: 41px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(4), #private-invitations-list-box .grid-view tr td:nth-child(4) {
-        max-width: 61px;
-        width: 61px;
+        max-width: 62px;
+        width: 62px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 120px !important;
-        width: 120px !important;
+        max-width: 100px !important;
+        width: 100px !important;
     }
 
     #private-invitations-list-box .grid-view tr td:last-child p {
@@ -3213,7 +3221,7 @@ ul.profile-menu li {
         width: 74px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
-        width: 115px !important;
+        width: 119px !important;
     }
     #corporate-invitations-list-box #yw0_c1 a {
         width:98px;
@@ -3409,12 +3417,29 @@ ul.profile-menu li {
     .product-gauge-charts .chart-value {
         left:176px !important;
     }
+    .product .maincharts {
+        height: 100px;
+    }
+    .product .maincharts  .widthblock h3 {
+        margin-top: -10px;
+    }
+    .product .levellabels {
+        margin-bottom: 10px;
+    }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
         width:190px !important;
     }
-    .product-bullet-charts {
-        margin-top: -10px;
+    .maincharts .static-bullet-charts {
+        height: 77px;
+        margin-top:23px;
+        width: 180px;
+    }
+    .simulation-details .maincharts .static-bullet-charts {
+        height: 72px;
+        margin-top:23px;
+        margin-right: 20px;
+        width: 170px;
     }
     .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
         margin-left: 20px;

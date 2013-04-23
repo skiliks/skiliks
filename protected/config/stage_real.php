@@ -16,7 +16,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.com/',
         'public' => [
-            'skiliksSpeedFactor' => 4,
+            'skiliksSpeedFactor' => 6,
             'simulationStartTime' => '9:45',
         ],
         'zoho' => array(
