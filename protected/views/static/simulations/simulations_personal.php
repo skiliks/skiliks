@@ -9,12 +9,14 @@ $scoreRender = function(Invite $invite) {
             'isDisplayArrow' => false,
             'isDisplayScaleIfSimulationNull' => false,
         ],false);
-    } else {
+    } elseif ($invite->isNotStarted()) {
         return sprintf(
             '<a href="/simulation/promo/%s/%s">Начать</a>',
             $invite->scenario->slug,
             $invite->id
         );
+    } else {
+        return Yii::t('site', Invite::$statusText[$invite->status]);
     }
 };
 
