@@ -255,7 +255,7 @@ class AjaxController extends CController
     {
         $user = Yii::app()->user;
         if (null === $user->id) {
-            Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
+            //Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
             $this->redirect('/');
         }
 
@@ -274,7 +274,7 @@ class AjaxController extends CController
         }
 
         // just to be sure - handle strange case
-        Yii::app()->user->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
+        Yii::app()->user->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 }
