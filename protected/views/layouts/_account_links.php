@@ -2,7 +2,13 @@
 $isCorporate = Yii::app()->user->data()->isCorporate();
 $isPersonal = Yii::app()->user->data()->isPersonal();
 if ($isPersonal) {
-    $count = Invite::model()->countByAttributes(['email' => Yii::app()->user->data()->profile->email, 'status' => Invite::STATUS_ACCEPTED]);
+    $count = Invite::model()->countByAttributes([],
+        ' email = :email AND status = :status AND owner_id != :id ',
+    [
+        'id' => Yii::app()->user->data()->id,
+        'email' => Yii::app()->user->data()->profile->email,
+        'status' => Invite::STATUS_ACCEPTED,
+    ]);
 } else {
     $count = 0;
 }
