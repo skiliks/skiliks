@@ -29,7 +29,7 @@ define([
 
         'events':_.defaults(
             {
-                'click .day-plan-todo-task':                                         'doActivateTodo',
+                'click .day-plan-todo-task':                                         'onActivateTodo',
                 'dblclick .plan-todo .day-plan-todo-task':                           'doSetTask',
                 'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
                 'click .todo-min':                                                   'doMinimizeTodo',
@@ -509,14 +509,17 @@ define([
          * @method
          * @param e
          */
-        doActivateTodo:function (e) {
-            var has_class = $(e.currentTarget).hasClass('day-plan-task-active');
+        onActivateTodo: function(e) {
+            var taskId = this.$(e.currentTarget).attr('data-task-id');
+            this.doActivateTodo(taskId);
+        },
+
+        doActivateTodo:function (taskId) {
+            var $task = this.$('.day-plan-todo-task[data-task-id=' + taskId + ']'),
+                active = $task.hasClass('day-plan-task-active');
+
             this.$('.day-plan-task-active').removeClass('day-plan-task-active');
-            if (has_class) {
-                $(e.currentTarget).removeClass('day-plan-task-active');
-            } else {
-                $(e.currentTarget).addClass('day-plan-task-active');
-            }
+            $task.toggleClass('day-plan-task-active', !active);
         },
 
         /**

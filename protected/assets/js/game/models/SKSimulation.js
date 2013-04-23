@@ -211,8 +211,14 @@ define([
              */
             handleEvents: function () {
                 var me = this;
-                this.events.on('event:plan', function () {
-                    SKApp.simulation.todo_tasks.fetch();
+                this.events.on('event:plan', function (event) {
+                    me.todo_tasks.fetch({
+                        success: function() {
+                            var planView = AppView.frame.getOpenedWindowView('plan/plan');
+                            planView.doActivateTodo(event.get('id'));
+                        }
+                    });
+                    me.window_set.toggle('plan', 'plan');
                 });
                 this.events.on('event:mail', function () {
                     me.getNewEvents();

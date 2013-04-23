@@ -52,7 +52,7 @@ define([
              * Массив окон, которые открыты в симуляции
              * @property windows
              */
-            'windows':  [],
+            'windows':  {},
 
             /**
              * Constructor
@@ -110,7 +110,7 @@ define([
                     var WindowClass = this.window_views[window_full_name];
                     var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
                     view.render();
-                    this.windows.push(view);
+                    this.windows[window_full_name] = view;
                 }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
                     var file = window.get('document').get('name');
@@ -129,6 +129,10 @@ define([
                         document_view.render();
                     }
                 }
+            },
+
+            getOpenedWindowView: function(name) {
+                return this.windows[name];
             },
 
             /**

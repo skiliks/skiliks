@@ -14,15 +14,19 @@ class TodoService
      */
     public static function add($simulation, $task)
     {
-        // проверим есть ли такая задача у нас в туду
-        $todo = Todo::model()->bySimulation($simulation->id)->byTask($task->id)->find();
-        if (!$todo) {
-            $todo = new Todo();
-            $todo->sim_id      = $simulation->id;
-            $todo->task_id     = $task->id;
-            $todo->adding_date = GameTime::setNowDateTime();
-            $todo->save();
+        // проверим есть ли такая задача у нас в туду или плане
+        $sources = ['Todo', 'DayPlan', 'DayPlanAfterVacation'];
+        foreach ($sources as $class) {
+            if ($class::model()->bySimulation($simulation->id)->byTask($task->id)->find()) {
+                return;
+            }
         }
+
+        $todo = new Todo();
+        $todo->sim_id      = $simulation->id;
+        $todo->task_id     = $task->id;
+        $todo->adding_date = GameTime::setNowDateTime();
+        $todo->save();
     }
 
     /**
