@@ -148,7 +148,6 @@ $(window).load(function(){
     // pop-up to inform corporate user, that trial full simulation cost 1 invite }
 });
 
-Cufon.replace('.freeacess, {hover:true}');
 Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
     '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
     '.form-submit-button, .midtitle, .flash-success, .social_networks span, .main-article h3, .registration input[type=submit], ' +
@@ -178,4 +177,4 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.errorMessage'
     , {fontFamily:"ProximaNova-Regular"});
 
-Cufon.replace('.footer .freeacess', { hover: true, fontFamily: 'ProximaNova-Bold' });
+Cufon.replace('.freeacess, {hover:true}');
