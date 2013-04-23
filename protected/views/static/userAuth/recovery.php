@@ -19,3 +19,14 @@
 
     <?php $this->endWidget(); ?>
 </div>
+
+<script>
+    $(document).ready(function(){
+        var errors = $(".errorMessage");
+        for (var i=0; i < errors.length;i++) {
+            var inp = $(errors[i]).prev("input.error");
+            $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
+        }
+    });
+</script>
