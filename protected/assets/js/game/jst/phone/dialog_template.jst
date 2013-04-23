@@ -24,7 +24,7 @@
 
         <div class="phone-reply-field">
             <@ if (remote_replica !== null) { @>
-            <p class="phone-reply-ch max"><@=remote_replica.text@></p>
+            <p class="phone-reply-ch max <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>"><@=remote_replica.text@></p>
             <@ } @>
 
             <ul class="phone-reply-h <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>" id="phoneAnswers">
