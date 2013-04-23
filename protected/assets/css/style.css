@@ -1035,7 +1035,8 @@ html[lang=ru] .product section table th{
 	color:#146672;
 }
 .team .team-list li p{
-	font-size:0.932em;
+	/*font-size:0.932em;*/
+    font-size:12px;
 	color:#29313d;
 	line-height:1.500em;
 }
@@ -1113,7 +1114,8 @@ html[lang=ru] .product section table th{
 		font-size:1.334em;
 	}
 	.team .team-list li p{
-		font-size:0.762em;
+		/*font-size:0.762em;*/
+        font-size:10px;
 	}
 	.team .team-values{
 		width:395px;
