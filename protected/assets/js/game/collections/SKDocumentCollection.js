@@ -15,13 +15,6 @@ define(["game/models/SKDocument"], function () {
         model: SKDocument,
 
         /**
-         * @property model
-         * @type SKDocument
-         * @default SKDocument
-         */
-        zoho_500: [],
-
-        /**
          * @method sync
          * @param method
          * @param collection

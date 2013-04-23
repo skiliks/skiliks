@@ -97,56 +97,13 @@ define([
                 });
 
                 this.dayplan_tasks = new SKDayTaskCollection();
-
-                /* Please, move it to safe place */
-                this.postMessageCallback = function(event) {
-                    if ('DocumentLoaded' === event.data.type) {
-
-                        $.each(SKDocument._excel_cache, function(id, url){
-                            if(url === event.data.url){
-                                var docs = SKApp.simulation.documents.where({id:id.toString()});
-                                docs[0].set('isInitialized', true);
-                                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                                    if(SKApp.simulation.afterZohoCrash){
-                                        $('#excel-preload-'+id).attr("src", url);
-                                        SKApp.simulation.afterZohoCrash = false;
-                                    }
-                                    SKApp.simulation.loadDocsDialog.remove();
-                                }
-                            }
-                        });
-                    }
-                };
-
-                if (window.addEventListener){
-                    window.addEventListener("message", this.postMessageCallback, false);
-                } else {
-                    window.attachEvent("onmessage", this.postMessageCallback);
-                }
-
                 this.documents = new SKDocumentCollection();
-
-                // zoho 500 {
-                this.zoho500callback = function (event) {
-                    if ('Zoho_500' === event.data.type) {
-                        me.handlePostMessage(event);
-                    }
-                };
-
-                if (window.addEventListener){
-                    window.addEventListener("message", this.zoho500callback, false);
-                } else {
-                    window.attachEvent("onmessage", this.zoho500callback);
-                }
-                // zoho 500 }
-
                 this.documents.bind('afterReset', this.onAddDocument, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
                 this.window_set = new SKWindowSet([], {events:this.events});
                 this.characters = new SKCharacterCollection();
-                this.afterZohoCrash = false;
 
                 this.config = [];
                 this.config.isMuteVideo = false;
@@ -158,7 +115,16 @@ define([
                     });
                 });
 
-
+                $(window).on('message', function(event) {
+                    event = event.originalEvent;
+                    if (event.data) {
+                        if ('DocumentLoaded' === event.data.type) {
+                            me.onDocumentLoaded(event);
+                        } else if ('Zoho_500' === event.data.type) {
+                            me.onZoho500(event);
+                        }
+                    }
+                });
             },
 
             timeStringToMinutes: function(str) {
@@ -169,21 +135,50 @@ define([
                 return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             },
 
-            /**
-             * @method handlePostMessage
-             * @param {postMessage} event
-             * @return void
-             */
-            handlePostMessage: function(event) {
-                var me = this;
-                var doc = null;
-
-                $.each(SKDocument._excel_cache, function(id, url){
-                    url = url.replace('\r', '');
-                    if(url === event.data.url){
-                        var doc = SKApp.simulation.documents.where({id:id.toString()});
-                        SKApp.simulation.documents.zoho_500.push(url);
+            onDocumentLoaded: function(event) {
+                $.each(SKDocument._excel_cache, function(id, url) {
+                    if (url === event.data.url) {
+                        var docs = SKApp.simulation.documents.where({id:id.toString()});
+                        docs[0].set('isInitialized', true);
+                        if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
+                            SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
+                        ) {
+                            SKApp.simulation.loadDocsDialog.remove();
+                        }
                     }
+                });
+            },
+
+            onZoho500: function(event) {
+                var me = this,
+                    doc = null;
+
+                $.each(SKDocument._excel_cache, function(id, url) {
+                    url = url.replace('\r', '');
+                    if (url.replace('\r', '') === event.data.url.replace('\r', '')) {
+                        doc = SKApp.simulation.documents.where({id:id.toString()})[0];
+                    }
+                });
+
+                if (null === doc) {
+                    return;
+                }
+
+                me.zohoErrorDialog = me.zohoErrorDialog || new SKDialogView({
+                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
+                    'modal': true,
+                    'buttons': [
+                        {
+                            'value': 'Перезагрузить',
+                            'onclick': function () {
+                                delete SKDocument._excel_cache[doc.get('id')];
+                                SKApp.simulation.documents.remove(doc);
+                                SKApp.simulation.documents.fetch();
+
+                                delete me.zohoErrorDialog;
+                            }
+                        }
+                    ]
                 });
             },
 
