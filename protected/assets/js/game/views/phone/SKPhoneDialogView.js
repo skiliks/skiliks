@@ -123,7 +123,8 @@ define([
          * @param event
          */
         getMenu: function(event) {
-            // block standartfuncxtionality if 
+            SKApp.simulation.trigger('audio-phone-small-zoom-stop');
+            // block standard functionality if user has no rights to terminate call
             if (this.isUserCanFinalizeCall) {
                 this.options.model_instance.setOnTop();
                 this.options.model_instance.close();

@@ -63,6 +63,8 @@ define([
                     setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration')); // 4 sec
                 });
 
+                this.listenTo(SKApp.simulation, 'audio-phone-small-zoom-stop', me.doSoundPhoneCallShortZoomerStop);
+
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
 
