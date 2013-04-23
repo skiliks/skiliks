@@ -2346,7 +2346,7 @@ ul.profile-menu li {
     color: #3c3c32;
     font-family:"ProximaNova-Bold";
 }
-.light-btn, .invite-people-form input[type="submit"]  {
+.light-btn, .light-btn:visited, .invite-people-form input[type="submit"]  {
     color: #3c3c32;
 }
 .light-btn:hover, .content .light-btn:hover, .blue-btn:hover, a.feedback:hover,
