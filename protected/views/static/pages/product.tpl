@@ -127,14 +127,14 @@
                         </div>
                         <div class="widthblock"><h3>{Yii::t('site', 'Scope of measured qualities')}</h3>
                             <ul class="bluelist nobultslist">
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Results-orientation')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Attentiveness')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Responsibility')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Resistance to manipulation')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Flexibility')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Decision-making')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Speed of work')}</a></li>
-                                <li><a href="#personal-qualities">{Yii::t('site', 'Stress-resistance')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Results-orientation')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Attentiveness')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Responsibility')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Resistance to manipulation')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Flexibility')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Decision-making')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Speed of work')}</a></li>
+                                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Stress-resistance')}</a></li>
                             </ul>
                         </div>
                     </div>
