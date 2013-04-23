@@ -182,10 +182,12 @@
 .icon-chooce {
     background:url("../img/icon-chooce.png") no-repeat left bottom;
     text-decoration:none;
-    color:#555545 !important;
     font-weight:bold;
     text-indent:35px;
     line-height:140px;
+}
+.icon-chooce, .icon-chooce:visited {
+    color:#555545 !important;
 }
 .icon-mail {
     background:url("../img/iconmaillarge.png") no-repeat;

@@ -150,14 +150,22 @@ $(window).load(function(){
 
 Cufon.replace('.freeacess');
 Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
-    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, ' +
+    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
     '.form-submit-button, .midtitle, .flash-success, .social_networks span, .main-article h3, .registration input[type=submit], ' +
     '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
-    '.team .team-list li h4, .team .team-values h3, .registration h2, .registration .form h1, .widthblock h3, .ratepercnt'
+    '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
+    '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
+   '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .pager ul.yiiPager .page a, ' +
+    '.registration .form .row input[type=submit], .vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
+    '.icon-choose, .testtime, .testtime strong, .profileform input[type=submit]'
 
 );
 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
     '.features p.success, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
     '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
-    '.footer nav a, .backtotop a, .price p '
+    '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
+    '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
+    '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
+    '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
+    '.registrationform input[type=password], .registrationform .errorMessageWrap .errorMessage'
     , {fontFamily:"ProximaNova-Regular"});
