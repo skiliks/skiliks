@@ -3432,6 +3432,7 @@ ul.profile-menu li {
         margin-top: -10px;
     }
     .product .levellabels {
+        display:table;
         margin-bottom: 10px;
     }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
