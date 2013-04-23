@@ -48,6 +48,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
+            if ($profile) {
+                $invite->receiver_id = $profile->user->id;
+            }
+
             if (null == $invite->vacancy && empty($vacancies)) {
                 $invite->clearErrors('vacancy_id');
                 $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
