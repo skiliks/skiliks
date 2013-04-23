@@ -154,7 +154,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
     '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
     '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
-   '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .pager ul.yiiPager .page a, ' +
+   '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
     '.registration .form .row input[type=submit], .vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
     '.icon-choose, .testtime, .testtime strong, .profileform input[type=submit], .benefits, .tarifswrap .text16, .value, #simulations-counter-box strong, ' +
     '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
@@ -162,7 +162,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
     '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
     '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
-    '.feedback #input_2'
+    '.feedback #input_2, .profileform input[type="submit"]'
 
 );
 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
@@ -177,7 +177,8 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
     'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
     '.errorMessage, .simulation-details .navigation a, .ratepercnt, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
-    '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink'
+    '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink, .profile-menu a,' +
+    '.profileform label, .profileform  div, .form p, .form label '
     , {fontFamily:"ProximaNova-Regular"});
 
 Cufon.replace('.freeacess', {hover:true});
