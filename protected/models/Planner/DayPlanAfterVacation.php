@@ -110,4 +110,17 @@ class DayPlanAfterVacation extends CActiveRecord
         ));
         return $this;
     }
+
+    /**
+     * Выбрать по заданной задачи
+     * @param int $taskId
+     * @return DayPlan
+     */
+    public function byTask($taskId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "task_id={$taskId}"
+        ));
+        return $this;
+    }
 }
