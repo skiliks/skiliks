@@ -345,8 +345,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s принято.',
-            $invite->ownerUser->getAccount()->ownership_type,
-            $invite->ownerUser->getAccount()->company_name
+            $invite->getCompanyOwnershipType(),
+            $invite->getCompanyName()
         ));
 
         $this->redirect('/dashboard'); // promo/full
@@ -377,8 +377,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s отклонено.',
-            $invite->ownerUser->getAccount()->ownership_type,
-            $invite->ownerUser->getAccount()->company_name
+            $invite->getCompanyOwnershipType(),
+            $invite->getCompanyName()
         ));
 
         $this->redirect('/dashboard');
@@ -412,7 +412,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
-        $declineExplanation->vacancy_label = $declineExplanation->invite->vacancy->label;
+        $declineExplanation->vacancy_label = $declineExplanation->invite->getVacancyLabel();
         $declineExplanation->created_at = date('Y-m-d H:i:s');
         $declineExplanation->save();
 
@@ -437,8 +437,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
         } elseif($user->isPersonal()) {
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s отклонено.',
-                $declineExplanation->invite->ownerUser->getAccount()->ownership_type,
-                $declineExplanation->invite->ownerUser->getAccount()->company_name
+                $declineExplanation->invite->getCompanyOwnershipType(),
+                $declineExplanation->invite->getCompanyName()
             ));
             $this->redirect('/dashboard');
         }

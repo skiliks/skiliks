@@ -570,6 +570,12 @@ class SimulationService
             $invite->simulation_id = $simulation->id;
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false, ['simulation_id', 'status']);
+
+            if ($invite->isTrialFull(Yii::app()->user->data())
+                && Yii::app()->user->data()->isCorporate()) {
+                Yii::app()->user->data()->getAccount()->invites_limit--;
+                Yii::app()->user->data()->getAccount()->save(false);
+            }
         }
 
         return $simulation;
@@ -582,9 +588,9 @@ class SimulationService
     public static function simulationStop($simulation, $logs_src = array())
     {
         // If simulation was started by invite, mark it as completed
-        if ($simulation->invite) {
+        if (null !== $simulation->invite) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
-            $simulation->invite->save();
+            $simulation->invite->save(false);
         }
 
         // Remove pause if it was set

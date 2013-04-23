@@ -197,8 +197,8 @@ class PagesController extends AjaxController
 
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s ещё не одобрено Вами.',
-                $invite->ownerUser->getAccount()->ownership_type,
-                $invite->ownerUser->getAccount()->company_name
+                $invite->getCompanyOwnershipType(),
+                $invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -208,8 +208,8 @@ class PagesController extends AjaxController
 
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s уже использовано для запуска симуляции.',
-                $invite->ownerUser->getAccount()->ownership_type,
-                $invite->ownerUser->getAccount()->company_name
+                $invite->getCompanyOwnershipType(),
+                $invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -219,8 +219,8 @@ class PagesController extends AjaxController
 
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s было отклонено.',
-                $invite->ownerUser->getAccount()->ownership_type,
-                $invite->ownerUser->getAccount()->company_name
+                $invite->getCompanyOwnershipType(),
+                $invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -230,8 +230,8 @@ class PagesController extends AjaxController
 
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s просрочено.',
-                $invite->ownerUser->getAccount()->ownership_type,
-                $invite->ownerUser->getAccount()->company_name
+                $invite->getCompanyOwnershipType(),
+                $invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');

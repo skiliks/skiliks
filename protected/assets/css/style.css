@@ -3669,3 +3669,8 @@ ul.profile-menu li {
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
+
+.start-trial-full-scenario-agree,
+.start-trial-full-scenario-disagree {
+    margin: 20px 20px 20px 60px
+}

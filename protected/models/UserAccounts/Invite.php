@@ -58,6 +58,9 @@ class Invite extends CActiveRecord
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
+    /**
+     * @return string
+     */
     public function getReceiverUserName()
     {
         if (null !== $this->receiverUser) {
@@ -69,6 +72,80 @@ class Invite extends CActiveRecord
         }
 
         return 'Ваше имя';
+    }
+
+    /**
+     * @return string
+     */
+    public function getVacancyLabel()
+    {
+        if (null !== $this->vacancy) {
+            return $this->vacancy->label;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCompanyOwnershipType()
+    {
+        if (null !== $this->ownerUser && $this->ownerUser->isCorporate()) {
+            return $this->ownerUser->getAccount()->ownership_type;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCompanyName()
+    {
+        if (null !== $this->ownerUser && $this->ownerUser->isCorporate()) {
+            return $this->ownerUser->getAccount()->company_name;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isComplete()
+    {
+        return $this->status == self::STATUS_COMPLETED;
+    }
+
+    public function isNotStarted() {
+        return $this->status == self::STATUS_PENDING || $this->status == self::STATUS_ACCEPTED;
+    }
+
+    /**
+     * @param YumUser $user
+     * @return string
+     */
+    public function getFormattedScenarioSlug() {
+        if (null !== $this->vacancy_id) {
+            return $this->scenario->slug === Scenario::TYPE_LITE ?
+                Yii::t("site","Lite version") :  '"Базовый менеджмент"';
+        } else {
+            return $this->scenario->slug === Scenario::TYPE_LITE ?
+                Yii::t("site",'Trial "Lite version"') :  'Пробная версия "Базовый менеджмент"';
+        }
+
+        return $this->scenario->slug === self::TYPE_LITE ? Yii::t("site","Lite verion") :  '"Базовый менеджмент"';
+    }
+
+    /**
+     * @param YumUser $user
+     * @return bool
+     */
+    public function isTrialFull(YumUser $user) {
+        return $user->id == $this->receiver_id
+            && $user->id == $this->owner_id
+            && $this->scenario->slug == Scenario::TYPE_FULL;
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -415,6 +492,61 @@ class Invite extends CActiveRecord
                         'asc'  => 'vacancy.label',
                         'desc' => 'vacancy.label DESC'
                     ],
+                    'company' => [
+                        'asc'  => 'user_account_corporate.company_name',
+                        'desc' => 'user_account_corporate.company_name DESC'
+                    ],
+                    'status',
+                    'sent_time'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function searchByInvitedUserEmailForOwner($invitedUserEmail = null, $status = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        if (null === $status) {
+            $status = self::$statusId;
+        }
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id', $this->id);
+        $criteria->compare('owner_id', $this->owner_id);
+        $criteria->compare('receiver_id', $this->receiver_id);
+        $criteria->compare('firstname', $this->firstname);
+        $criteria->compare('lastname', $this->lastname);
+        $criteria->compare('email', $invitedUserEmail ?: $this->email);
+        //$criteria->compare('message', $this->message);
+        //$criteria->compare('signature', $this->signature);
+        //$criteria->compare('code', $this->code);
+        // $criteria->compare('vacancy_id', null);
+        $criteria->compare('scenario_id', $this->scenario_id);
+        $criteria->compare('status', $status);
+        //$criteria->compare('sent_time', $this->sent_time);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'sent_time',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'name' => [
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
+                        'desc' => 'CONCAT(firstname, lastname) DESC'
+                    ],
+                    'vacancy_id' => '',
                     'company' => [
                         'asc'  => 'user_account_corporate.company_name',
                         'desc' => 'user_account_corporate.company_name DESC'
