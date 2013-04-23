@@ -29,11 +29,29 @@
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
         <div class="row">
+            <p>
+                <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.
+            </p>
+            <?php if (empty($invite->receiverUser)): ?>
+            <p>
+                <a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.
+            </p>
+            <?php endif; ?>
+        </div>
+        <div class="row">
             <?php echo $form->labelEx($invite, 'message text'); ?>
             <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
-
+        <div class="row">
+            <p>
+            <?php if ($invite->receiverUser): ?>
+                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+            <?php else: ?>
+                Пожалуйста, <a href="<?= $invite->getInviteLink() ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
+            <?php endif; ?>
+            </p>
+        </div>
         <div class="row">
             <?php echo $form->labelEx($invite, 'signature'); ?>
             <?php echo $form->textField($invite, 'signature'); ?>
