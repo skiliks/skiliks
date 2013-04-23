@@ -3596,6 +3596,7 @@ ul.profile-menu li {
     .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname {
         top:0px;
     }
+    .invite-people-form.sideform.darkblueplacehld .errorMessage,
     .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname,
     .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname,
     .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_email {

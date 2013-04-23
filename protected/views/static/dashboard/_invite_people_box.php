@@ -40,8 +40,10 @@
         var errors = $(".errorMessage");
         for (var i=0; i < errors.length;i++) {
             var inp = $(errors[i]).prev("input.error");
+            var select = $(errors[i]).prev(".sbHolder");
             $(inp).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
+            $(select).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(select).attr("id"));
         }
     });
 </script>
