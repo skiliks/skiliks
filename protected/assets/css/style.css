@@ -2648,8 +2648,8 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(4),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4){
-    max-width: 78px;
-    width:78px;
+    max-width: 79px;
+    width:79px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
@@ -2659,7 +2659,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    width: 125px;
+    width: 128px;
 }
 
 .invites-smallmenu-switcher {
