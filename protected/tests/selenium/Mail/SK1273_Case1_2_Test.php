@@ -22,7 +22,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
     public function testSK1273_Case1() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -128,14 +128,8 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
     public function testSK1273_Case2() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "23");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        sleep(50);
-        $this->assertTrue($this->incoming_counter(27));
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        sleep(30);
+        $this->run_event('M65', "css=li.icon-active.mail a", 'click');
 
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("вакцинация!"));
