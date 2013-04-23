@@ -3227,16 +3227,16 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 41px;
-        width: 41px;
+        max-width: 46px;
+        width: 46px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(4), #private-invitations-list-box .grid-view tr td:nth-child(4) {
-        max-width: 60px;
-        width: 60px;
+        max-width: 53px;
+        width: 53px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 100px !important;
-        width: 100px !important;
+        max-width: 97px !important;
+        width: 97px !important;
     }
 
     #private-invitations-list-box .grid-view tr td:last-child p {
