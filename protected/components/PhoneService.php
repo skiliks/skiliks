@@ -315,11 +315,15 @@ class PhoneService {
         }
 
         if (isset($data[0]['ch_from'])) {
-            $characterId = $data[0]['ch_from'];
+            $heroId = $data[0]['ch_from'];
+            $characterId = $data[0]['ch_to'];
+            $hero = $simulation->game_type->getCharacter(['code' => $heroId]);
             $character = $simulation->game_type->getCharacter(['code' => $characterId]);
-            if ($character) {
-                $data[0]['title'] = $character->title;
-                $data[0]['name'] = $character->fio;
+            if (null !== $hero && null !== $character) {
+                $data[0]['title'] = $hero->title;
+                $data[0]['name'] = $hero->fio;
+                $data[0]['remote_name'] = $character->fio;
+                $data[0]['remote_title'] = $character->title;
             }
         }
 
