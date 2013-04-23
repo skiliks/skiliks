@@ -239,6 +239,7 @@ class PhoneService {
                     // выдаем автоответчик
                     $data = array();
                     $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
+                    $data[0]['sound'] = 'S1.4.4.1.ogg'; // автоответчик-мужчина
 
                     $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 

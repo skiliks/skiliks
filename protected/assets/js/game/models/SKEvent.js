@@ -79,11 +79,13 @@ define([], function () {
         getMyReplicas: function () {
             var replicas = this.get('data');
             var my_replicas = [];
+
             replicas.forEach(function (replica) {
                 if (replica.ch_to !== '1') {
                     my_replicas.push(replica);
                 }
             });
+
             return my_replicas;
         },
 
@@ -133,7 +135,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 audio_src = audio_src || replica.sound;
             });
-            if (audio_src !== null && !audio_src.match(/\.wav/)) {
+            if (audio_src !== null && !audio_src.match(/\.wav/) && !audio_src.match(/\.ogg/)) {
                 audio_src = null;
             }
             return audio_src ? SKApp.get('storageURL') + '/sounds/' + audio_src : undefined;

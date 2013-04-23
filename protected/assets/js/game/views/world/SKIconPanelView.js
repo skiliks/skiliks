@@ -58,6 +58,10 @@ define([
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
 
                 this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
+                this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
+                    me.doSoundPhoneCallShortZoomerStart();
+                    setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration')); // 4 sec
+                });
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
@@ -370,36 +374,37 @@ define([
 
             doSoundPhoneCallLongZoomerStop: function() {
                 var me = this;
-                $.each(me.$el.find('#audio-phone-call'), function() {
+                $.each(me.$el.find('#audio-phone-long-zoom'), function() {
                     this.pause();
                 });
-                me.$el.find('#audio-phone-call').remove();
+                me.$el.find('#audio-phone-long-zoom').remove();
             },
 
             doSoundPhoneCallLongZoomerStart: function() {
                 var me = this;
                 me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-phone-call',
+                    id        : 'audio-phone-long-zoom',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
                 }));
-                me.$el.find("#audio-phone-call")[0].play();
+                me.$el.find("#audio-phone-long-zoom")[0].play();
             },
 
             doSoundPhoneCallShortZoomerStop: function() {
                 var me = this;
-                $.each(me.$el.find('#audio-phone-call'), function() {
+                // @todo: later replace $() with me.$el.find()
+                $.each($('#audio-phone-short-zoom'), function() {
                     this.pause();
                 });
-                me.$el.find('#audio-phone-call').remove();
+                $('#audio-phone-short-zoom').remove();
             },
 
             doSoundPhoneCallShortZoomerStart: function() {
                 var me = this;
                 me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-phone-call',
+                    id        : 'audio-phone-short-zoom',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
                 }));
-                me.$el.find("#audio-phone-call")[0].play();
+                me.$el.find("#audio-phone-short-zoom")[0].play();
             },
 
             /**
@@ -407,7 +412,6 @@ define([
              * @param e
              */
             doPhoneToggle: function (e) {
-                console.log(1);
                 e.preventDefault();
                 SKApp.simulation.window_set.toggle('phone', 'phoneMain');
             },
