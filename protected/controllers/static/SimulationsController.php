@@ -30,6 +30,33 @@ class SimulationsController extends AjaxController implements AccountPageControl
      */
     public function actionPersonal()
     {
+        // check and add trial lite version {
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $notUsedFullSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => Yii::app()->user->data()->id,
+            'scenario_id' => $fullScenario->id,
+            'email'       => Yii::app()->user->data()->profile->email,
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        if (0 === count($notUsedFullSimulations)) {
+            $newInviteForFullSimulation = new Invite();
+            $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->receiver_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->firstname = Yii::app()->user->data()->profile->firstname;
+            $newInviteForFullSimulation->lastname = Yii::app()->user->data()->profile->lastname;
+            $newInviteForFullSimulation->scenario_id = $fullScenario->id;
+            $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
+            $newInviteForFullSimulation->save(true, [
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+            ]);
+
+            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->save(false);
+        }
+        // check and add trial lite version }
+
         $this->render('simulations_personal', []);
     }
 
@@ -38,7 +65,61 @@ class SimulationsController extends AjaxController implements AccountPageControl
      */
     public function actionCorporate()
     {
-        $this->render('simulations_personal', []);
+        // check and add trial full version {
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $notUsedFullSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => Yii::app()->user->data()->id,
+            'scenario_id' => $fullScenario->id,
+            'email'       => Yii::app()->user->data()->profile->email,
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        if (0 === count($notUsedFullSimulations)) {
+            $newInviteForFullSimulation = new Invite();
+            $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->receiver_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->firstname = Yii::app()->user->data()->profile->firstname;
+            $newInviteForFullSimulation->lastname = Yii::app()->user->data()->profile->lastname;
+            $newInviteForFullSimulation->scenario_id = $fullScenario->id;
+            $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
+            $newInviteForFullSimulation->save(true, [
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+            ]);
+
+            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->save(false);
+        }
+        // check and add trial full version }
+
+        // check and add trial lite version {
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $notUsedFullSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => Yii::app()->user->data()->id,
+            'scenario_id' => $fullScenario->id,
+            'email'       => Yii::app()->user->data()->profile->email,
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        if (0 === count($notUsedFullSimulations)) {
+            $newInviteForFullSimulation = new Invite();
+            $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->receiver_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->firstname = Yii::app()->user->data()->profile->firstname;
+            $newInviteForFullSimulation->lastname = Yii::app()->user->data()->profile->lastname;
+            $newInviteForFullSimulation->scenario_id = $fullScenario->id;
+            $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
+            $newInviteForFullSimulation->save(true, [
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+            ]);
+
+            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->save(false);
+        }
+        // check and add trial lite version }
+
+        $this->render('simulations_corporate', []);
     }
 
     /**
@@ -55,8 +136,8 @@ class SimulationsController extends AjaxController implements AccountPageControl
         $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
 
         $this->render('simulation_details', [
-            'simulation' => $simulation,
-            'learning_areas'=>$learning_areas
+            'simulation'     => $simulation,
+            'learning_areas' => $learning_areas
         ]);
     }
 }

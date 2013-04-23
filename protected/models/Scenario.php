@@ -54,89 +54,6 @@ class Scenario extends CActiveRecord
     const TYPE_LITE = 'lite';
     const TYPE_FULL = 'full';
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Scenario the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'scenario';
-	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('name, filename, slug', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, name, filename, slug, start_time, end_time, finish_time', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'activities' => array(self::HAS_MANY, 'Activity', 'scenario_id'),
-			'activityActions' => array(self::HAS_MANY, 'ActivityAction', 'scenario_id'),
-			'activityParents' => array(self::HAS_MANY, 'ActivityParent', 'scenario_id'),
-			'characters' => array(self::HAS_MANY, 'Characters', 'scenario_id'),
-			'charactersPoints' => array(self::HAS_MANY, 'CharactersPoints', 'scenario_id'),
-			'communicationThemes' => array(self::HAS_MANY, 'CommunicationThemes', 'scenario_id'),
-			'dialogs' => array(self::HAS_MANY, 'Dialogs', 'scenario_id'),
-			'eventSamples' => array(self::HAS_MANY, 'EventSample', 'scenario_id'),
-			'flags' => array(self::HAS_MANY, 'Flag', 'scenario_id'),
-			'flagBlockDialogs' => array(self::HAS_MANY, 'FlagBlockDialog', 'scenario_id'),
-			'flagBlockMails' => array(self::HAS_MANY, 'FlagBlockMail', 'scenario_id'),
-			'flagBlockReplicas' => array(self::HAS_MANY, 'FlagBlockReplica', 'scenario_id'),
-			'flagRunEmails' => array(self::HAS_MANY, 'FlagRunEmail', 'scenario_id'),
-			'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'scenario_id'),
-			'learningAreas' => array(self::HAS_MANY, 'LearningArea', 'scenario_id'),
-			'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'scenario_id'),
-			'mailAttachmentsTemplates' => array(self::HAS_MANY, 'MailAttachmentsTemplate', 'scenario_id'),
-			'mailConstructors' => array(self::HAS_MANY, 'MailConstructor', 'scenario_id'),
-			'mailCopiesTemplates' => array(self::HAS_MANY, 'MailCopiesTemplate', 'scenario_id'),
-			'mailPhrases' => array(self::HAS_MANY, 'MailPhrases', 'scenario_id'),
-			'mailPoints' => array(self::HAS_MANY, 'MailPoints', 'scenario_id'),
-			'mailTasks' => array(self::HAS_MANY, 'MailTasks', 'scenario_id'),
-			'mailTemplates' => array(self::HAS_MANY, 'MailTemplate', 'scenario_id'),
-			'myDocumentsTemplates' => array(self::HAS_MANY, 'MyDocumentsTemplate', 'scenario_id'),
-			'performanceRules' => array(self::HAS_MANY, 'PerformanceRule', 'scenario_id'),
-			'performanceRuleConditions' => array(self::HAS_MANY, 'PerformanceRuleCondition', 'scenario_id'),
-			'replicas' => array(self::HAS_MANY, 'Replica', 'scenario_id'),
-			'simulations' => array(self::HAS_MANY, 'Simulations', 'scenario_id'),
-			'tasks' => array(self::HAS_MANY, 'Tasks', 'scenario_id'),
-		);
-	}
-
-    /**
-     * @param $attributes
-     * @return Dialog
-     */
-    public function getDialog($attributes)
-    {
-        $attributes['scenario_id'] = $this->primaryKey;
-        return Dialog::model()->findByAttributes($attributes);
-    }
-
     /**
      * @param $attributes
      * @return Dialog
@@ -145,16 +62,6 @@ class Scenario extends CActiveRecord
     {
         $attributes['scenario_id'] = $this->primaryKey;
         return PerformanceRule::model()->findAllByAttributes($attributes);
-    }
-
-    /**
-     * @param $attributes
-     * @return Replica
-     */
-    public function getReplicaPoint($attributes, $params = [])
-    {
-        $attributes['scenario_id'] = $this->primaryKey;
-        return ReplicaPoint::model()->findByAttributes($attributes, $params);
     }
 
     /**
@@ -185,39 +92,6 @@ class Scenario extends CActiveRecord
         }
     }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'filename' => 'Filename',
-			'slug' => 'Slug',
-		);
-	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('filename',$this->filename,true);
-		$criteria->compare('slug',$this->slug,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
 
     /**
      * @param $data
@@ -242,12 +116,6 @@ class Scenario extends CActiveRecord
         return MailTemplate::model()->findAllByAttributes($array);
     }
 
-    public function getMailTemplate($array)
-    {
-        $array['scenario_id'] = $this->id;
-        return MailTemplate::model()->findByAttributes($array);
-    }
-
     public function getCommunicationThemes($data)
     {
         if (is_array($data)) {
@@ -259,18 +127,6 @@ class Scenario extends CActiveRecord
         } else {
             assert(false);
         }
-    }
-
-
-
-    /**
-     * @param $array
-     * @return LearningArea
-     */
-    public function getLearningArea($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return LearningArea::model()->findByAttributes($array);
     }
 
     public function getHeroBehavours($data)
@@ -401,52 +257,16 @@ class Scenario extends CActiveRecord
         }
     }
 
-    public function getDocumentTemplate($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return DocumentTemplate::model()->findByAttributes($array);
-    }
-
-    public function getDocumentTemplates($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return DocumentTemplate::model()->findAllByAttributes($array);
-    }
-
-    public function getFlagBlockMail($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockMail::model()->findByAttributes($array);
-    }
-
-    public function getFlagRunMail($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagRunMail::model()->findByAttributes($array);
-    }
-
-    public function getFlagBlockDialog($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockDialog::model()->findByAttributes($array);
-    }
-
-    public function getFlagBlockReplica($array)
-    {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockReplica::model()->findByAttributes($array);
-    }
-
     public function getFlagBlockReplicas($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
         return FlagBlockReplica::model()->findAllByAttributes($array);
     }
 
-    public function getFlagsRunMail($array)
+    public function getDocumentTemplates($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagRunMail::model()->findAllByAttributes($array);
+        return DocumentTemplate::model()->findAllByAttributes($array);
     }
 
     public function getStressRules()
@@ -505,5 +325,187 @@ class Scenario extends CActiveRecord
     {
         $array['scenario_id'] = $this->getPrimaryKey();
         return Weight::model()->findByAttributes($array);
+    }
+
+//    public function getDocumentTemplate($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return DocumentTemplate::model()->findByAttributes($array);
+//    }
+
+//    public function getFlagBlockMail($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return FlagBlockMail::model()->findByAttributes($array);
+//    }
+//
+//    public function getFlagRunMail($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return FlagRunMail::model()->findByAttributes($array);
+//    }
+
+//    public function getFlagBlockDialog($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return FlagBlockDialog::model()->findByAttributes($array);
+//    }
+
+//    public function getFlagBlockReplica($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return FlagBlockReplica::model()->findByAttributes($array);
+//    }
+
+//    /**
+//     * @param $attributes
+//     * @return Dialog
+//     */
+//    public function getDialog($attributes)
+//    {
+//        $attributes['scenario_id'] = $this->primaryKey;
+//        return Dialog::model()->findByAttributes($attributes);
+//    }
+
+//    /**
+//     * @param $attributes
+//     * @return Replica
+//     */
+//    public function getReplicaPoint($attributes, $params = [])
+//    {
+//        $attributes['scenario_id'] = $this->primaryKey;
+//        return ReplicaPoint::model()->findByAttributes($attributes, $params);
+//    }
+
+//    public function getMailTemplate($array)
+//    {
+//        $array['scenario_id'] = $this->id;
+//        return MailTemplate::model()->findByAttributes($array);
+//    }
+
+//    /**
+//     * @param $array
+//     * @return LearningArea
+//     */
+//    public function getLearningArea($array)
+//    {
+//        $array['scenario_id'] = $this->getPrimaryKey();
+//        return LearningArea::model()->findByAttributes($array);
+//    }
+
+    public function getFlagsRunMail($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagRunMail::model()->findAllByAttributes($array);
+    }
+
+    // --------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return Scenario the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'scenario';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('name, filename, slug', 'length', 'max'=>255),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, name, filename, slug, start_time, end_time, finish_time', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'activities' => array(self::HAS_MANY, 'Activity', 'scenario_id'),
+			'activityActions' => array(self::HAS_MANY, 'ActivityAction', 'scenario_id'),
+			'activityParents' => array(self::HAS_MANY, 'ActivityParent', 'scenario_id'),
+			'characters' => array(self::HAS_MANY, 'Characters', 'scenario_id'),
+			'charactersPoints' => array(self::HAS_MANY, 'CharactersPoints', 'scenario_id'),
+			'communicationThemes' => array(self::HAS_MANY, 'CommunicationThemes', 'scenario_id'),
+			'dialogs' => array(self::HAS_MANY, 'Dialogs', 'scenario_id'),
+			'eventSamples' => array(self::HAS_MANY, 'EventSample', 'scenario_id'),
+			'flags' => array(self::HAS_MANY, 'Flag', 'scenario_id'),
+			'flagBlockDialogs' => array(self::HAS_MANY, 'FlagBlockDialog', 'scenario_id'),
+			'flagBlockMails' => array(self::HAS_MANY, 'FlagBlockMail', 'scenario_id'),
+			'flagBlockReplicas' => array(self::HAS_MANY, 'FlagBlockReplica', 'scenario_id'),
+			'flagRunEmails' => array(self::HAS_MANY, 'FlagRunEmail', 'scenario_id'),
+			'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'scenario_id'),
+			'learningAreas' => array(self::HAS_MANY, 'LearningArea', 'scenario_id'),
+			'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'scenario_id'),
+			'mailAttachmentsTemplates' => array(self::HAS_MANY, 'MailAttachmentsTemplate', 'scenario_id'),
+			'mailConstructors' => array(self::HAS_MANY, 'MailConstructor', 'scenario_id'),
+			'mailCopiesTemplates' => array(self::HAS_MANY, 'MailCopiesTemplate', 'scenario_id'),
+			'mailPhrases' => array(self::HAS_MANY, 'MailPhrases', 'scenario_id'),
+			'mailPoints' => array(self::HAS_MANY, 'MailPoints', 'scenario_id'),
+			'mailTasks' => array(self::HAS_MANY, 'MailTasks', 'scenario_id'),
+			'mailTemplates' => array(self::HAS_MANY, 'MailTemplate', 'scenario_id'),
+			'myDocumentsTemplates' => array(self::HAS_MANY, 'MyDocumentsTemplate', 'scenario_id'),
+			'performanceRules' => array(self::HAS_MANY, 'PerformanceRule', 'scenario_id'),
+			'performanceRuleConditions' => array(self::HAS_MANY, 'PerformanceRuleCondition', 'scenario_id'),
+			'replicas' => array(self::HAS_MANY, 'Replica', 'scenario_id'),
+			'simulations' => array(self::HAS_MANY, 'Simulations', 'scenario_id'),
+			'tasks' => array(self::HAS_MANY, 'Tasks', 'scenario_id'),
+		);
+	}
+
+
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'name' => 'Name',
+            'filename' => 'Filename',
+            'slug' => 'Slug',
+        );
+    }
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('filename',$this->filename,true);
+        $criteria->compare('slug',$this->slug,true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
     }
 }

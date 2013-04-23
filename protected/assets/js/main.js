@@ -1,4 +1,4 @@
-/*global $ */
+/*global $, console, jQuery, Cufon */
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -13,7 +13,7 @@
             if ($('.ui-widget-overlay').height() < $(document).height()) {
                 $('.ui-widget-overlay').height($(document).height() + 'px');
             }
-        }
+        };
         // fixSimResultsDialog  }
 
         // render simulation details pop-up {
@@ -119,6 +119,34 @@
         return false;
     }
 })(jQuery);
+
+$(window).load(function(){
+    // pop-up to inform corporate user, that trial full simulation cost 1 invite {
+    $('a.invite-for-trial-full-scenario').click(function(event){
+        event.preventDefault();
+        event.stopPropagation();
+        console.log('TRIAL!');
+        $('#start-trial-full-scenario-pop-up').dialog({
+            dialogClass: 'nice-border flash-pop-up',
+            modal: true,
+            width: 400
+        });
+    });
+
+    $('a.start-trial-full-scenario-disagree').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $('#start-trial-full-scenario-pop-up').dialog("close");
+    });
+
+    $('a.start-trial-full-scenario-agree').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log($('a.invite-for-trial-full-scenario').attr('href'));
+        window.location.replace($('a.invite-for-trial-full-scenario').attr('href'));
+    });
+    // pop-up to inform corporate user, that trial full simulation cost 1 invite }
+});
 
 Cufon.replace('.freeacess');
 Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +

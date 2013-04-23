@@ -42,8 +42,6 @@ class SiteController extends AjaxController
             $this->redirect('/');
         }
 
-
-
         // check invite if it setted {
         if (null !== $invite_id) {
             $invite = Invite::model()->findByPk($invite_id);
@@ -56,8 +54,8 @@ class SiteController extends AjaxController
             if (null !== $invite->simulation_id) {
                 Yii::app()->user->setFlash('error', sprintf(
                     'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
-                    $invite->ownerUser->getAccount()->ownership_type,
-                    $invite->ownerUser->getAccount()->company_name
+                    $invite->getCompanyOwnershipType(),
+                    $invite->getCompanyName()
                 ));
                 $this->redirect('/simulations');
             }
@@ -70,6 +68,15 @@ class SiteController extends AjaxController
                 ));
                 $this->redirect("/dashboard");//throw new Exception('У вас нет прав для старта этой симуляции');
                 return;
+            }
+
+            if ($invite->isTrialFull(Yii::app()->user->data())
+                && Yii::app()->user->data()->isCorporate()
+                && Yii::app()->user->data()->getAccount()->invites_limit == 0) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас закончились приглашения'
+                ));
+                $this->redirect("/profile/corporate/tariff");
             }
         }
         // check invite if it setted }

@@ -24,7 +24,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     'columns' => [
         ['header' => ''                           , 'value' => '', 'type' => 'html'],
         ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->firstname." ".$data->lastname'],
-        ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => 'Yii::t("site", $data->vacancy->label)'],
+        ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => 'Yii::t("site", $data->getVacancyLabel())'],
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         [
             'header' => Yii::t('site', 'Date / time'),
