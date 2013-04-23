@@ -355,35 +355,35 @@ class SimulationServiceTest extends CDbTestCase
         $res = [
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'], // short activity aggregated
-            ['action' => 'MY2'        , 'duration' => '00:03:04'],
-            ['action' => 'main screen', 'duration' => '00:02:58'], // long activity stand alone
+            ['action' => 'MY2'        , 'duration' => '00:02:18'],
+            ['action' => 'main screen', 'duration' => '00:02:16'], // long activity stand alone
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56'],
+            ['action' => 'MY2'        , 'duration' => '00:02:12'],
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
-            ['action' => 'MY2'        , 'duration' => '00:02:56']
+            ['action' => 'MY2'        , 'duration' => '00:02:12']
         ];
 
         $j = 0;
