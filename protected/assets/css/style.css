@@ -2468,6 +2468,12 @@ ul.profile-menu li {
 .grid-view .summary {
     margin: 0px;
 }
+#private-invitations-list-box .grid-view table.items th,
+#corporate-invitations-list-box .grid-view table.items th,
+#private-invitations-list-box .grid-view table.items td,
+#corporate-invitations-list-box .grid-view table.items td {
+    font-size: 12px;
+}
 #private-invitations-list-box .grid-view table.items, .items,
 #corporate-invitations-list-box .grid-view table.items {
     background: none;
@@ -2632,18 +2638,18 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr th:nth-child(2){
-    max-width: 115px;
-    width:115px;
+    max-width: 125px;
+    width:125px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 76px;
+    max-width: 74px;
     width:76px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(4),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4){
-    max-width: 76px;
-    width:76px;
+    max-width: 77px;
+    width:77px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
@@ -2653,7 +2659,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    width: 142px;
+    width: 128px;
 }
 
 .invites-smallmenu-switcher {
@@ -3227,11 +3233,11 @@ ul.profile-menu li {
         width: 105px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 74px;
-        width: 74px;
+        max-width: 73px;
+        width: 73px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
-        width: 119px !important;
+        width: 107px !important;
     }
     #corporate-invitations-list-box #yw0_c1 a {
         width:98px;
