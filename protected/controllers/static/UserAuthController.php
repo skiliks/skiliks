@@ -115,22 +115,27 @@ class UserAuthController extends YumController
     {
         $invite = Invite::model()->findByCode($code);
         if (empty($invite)) {
-            Yii::app()->user->setFlash('site', 'Код приглашения неверный.');
+            Yii::app()->user->setFlash('error', 'Код приглашения неверный.');
             $this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
-            Yii::app()->user->setFlash('site', 'У приглашения истек срок давности.');
+            Yii::app()->user->setFlash('error', 'У приглашения истек срок давности.');
             $this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_DECLINED){
-            Yii::app()->user->setFlash('site', 'Приглашение уже отклонено.');
+            Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.');
             $this->redirect('/');
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            Yii::app()->user->setFlash('site', 'Приглашение имеет некорректный статус.');
+            Yii::app()->user->setFlash('error', 'Приглашение имеет некорректный статус.');
+            $this->redirect('/');
+        }
+
+        if ($invite->receiverUser) {
+            Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
             $this->redirect('/');
         }
 
@@ -174,6 +179,9 @@ class UserAuthController extends YumController
                 if (false !== $result) {
                     $account->user_id = $this->user->id;
                     $account->save();
+
+                    $invite->receiver_id = $this->user->id;
+                    $invite->save();
 
                     YumUser::activate($profile->email, $this->user->activationKey);
                     $this->user->authenticate($YumUser['password']);
