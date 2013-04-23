@@ -148,7 +148,7 @@ $(window).load(function(){
     // pop-up to inform corporate user, that trial full simulation cost 1 invite }
 });
 
-Cufon.replace('.freeacess');
+Cufon.replace('.freeacess, {hover:true}');
 Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
     '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
     '.form-submit-button, .midtitle, .flash-success, .social_networks span, .main-article h3, .registration input[type=submit], ' +
@@ -157,7 +157,11 @@ Cufon.replace('.light-btn, .invite-people-form input[type="submit"], .brightbloc
     '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
    '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .pager ul.yiiPager .page a, ' +
     '.registration .form .row input[type=submit], .vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
-    '.icon-choose, .testtime, .testtime strong, .profileform input[type=submit]'
+    '.icon-choose, .testtime, .testtime strong, .profileform input[type=submit], .benefits, .tarifswrap .text16, .value, #simulations-counter-box strong, ' +
+    '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
+    '.action-controller-registerByLink-static-userAuth h2.title, #invite-decline-form #form-decline-explanation input[type="submit"], section.registration-by-link .form .row input[type="submit"],' +
+    '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
+    '#password-recovery-form input[type="submit"]'
 
 );
 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
@@ -167,5 +171,11 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
     '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
     '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
-    '.registrationform input[type=password], .registrationform .errorMessageWrap .errorMessage'
+    '.registrationform input[type=password], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
+    '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
+    '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
+    'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
+    '.errorMessage'
     , {fontFamily:"ProximaNova-Regular"});
+
+Cufon.replace('.footer .freeacess', { hover: true, fontFamily: 'ProximaNova-Bold' });
