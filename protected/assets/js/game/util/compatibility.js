@@ -16,7 +16,7 @@ define([], function() {
             for (var name in minSupport) {
                 if (minSupport.hasOwnProperty(name)) {
                     if ($.browser[name]) {
-                        if (parseFloat($.browser.version) > minSupport[name]) {
+                        if (parseFloat($.browser.version) >= minSupport[name]) {
                             return true;
                         } else {
                             location.href = cfg.oldBrowserUrl;

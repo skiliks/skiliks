@@ -26,7 +26,6 @@ function skIsLangSwitcherUrlVisible() {
     //var_dump();
     return (0 === strpos(Yii::app()->request->getPathInfo(), 'static/team')) ||
         (0 === strpos(Yii::app()->request->getPathInfo(), 'static/product')) ||
-        (0 === strpos(Yii::app()->request->getPathInfo(), 'static/tariffs')) ||
         (Yii::app()->controller->getId() == 'static/pages' && Yii::app()->controller->getAction()->getId() == 'index');
 }
 
