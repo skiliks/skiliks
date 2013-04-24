@@ -116,13 +116,7 @@
 
     });
 </script>
-<script>
-    $(document).ready(function(){
-        var errors = $(".errorMessage");
-        for (var i=0;i<errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-        }
-    });
-</script>
+
+<style>
+    #password-recovery-form .error input#YumPasswordRecoveryForm_email {border:2px solid #BD2929 !important;}
+</style>

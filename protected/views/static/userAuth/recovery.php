@@ -1,5 +1,5 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Восстановление пароля') ?></h2>
+<h2 class="thetitle">!!<?php echo Yii::t('site', 'Восстановление пароля') ?></h2>
 
 <div class="form">
 
@@ -21,11 +21,12 @@
 </div>
 
 <script>
-    $("form#password-recovery-form").change(function(){
+    $(document).ready(function(){
         var errors = $(".errorMessage");
         for (var i=0; i < errors.length;i++) {
             var inp = $(errors[i]).prev("input");
             $(inp).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
         }
     });
 </script>

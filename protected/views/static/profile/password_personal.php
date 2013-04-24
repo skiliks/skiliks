@@ -16,20 +16,17 @@
 
         <div class="row">
             <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
-            <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?>
-            <?php echo $form->error($passwordForm, 'currentPassword'); ?>
+            <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?><?php echo $form->error($passwordForm, 'currentPassword'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($passwordForm, 'password'); ?>
-            <?php echo $form->passwordField($passwordForm, 'password'); ?>
-            <?php echo $form->error($passwordForm, 'password'); ?>
+            <?php echo $form->passwordField($passwordForm, 'password'); ?><?php echo $form->error($passwordForm, 'password'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
-            <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?>
-            <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
+            <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?><?php echo $form->error($passwordForm, 'verifyPassword'); ?>
         </div>
         <?php if($is_done) { ?>
             <div class="done-password-change">Новый пароль был сохранен</div>

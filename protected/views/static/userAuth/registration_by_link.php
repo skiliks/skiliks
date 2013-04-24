@@ -15,26 +15,20 @@
 
         <div class="row">
             <?php echo $form->labelEx($profile, 'Имя'); ?>
-            <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
-            <?php echo $form->error($profile, 'firstname'); ?>
-            <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия']); ?>
-            <?php echo $form->error($profile, 'lastname'); ?>
+            <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?><?php echo $form->error($profile, 'firstname'); ?>
+            <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия']); ?><?php echo $form->error($profile, 'lastname'); ?>
         </div><div class="row wide">
             <?php echo $form->labelEx($account, 'professional_status_id'); ?>
-            <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
-            <?php echo $form->error($account, 'professional_status_id'); ?>
+            <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?><?php echo $form->error($account, 'professional_status_id'); ?>
         </div><div class="row wide">
             <?php echo $form->labelEx($account, 'industry_id'); ?>
-            <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
-            <?php echo $form->error($account, 'industry_id'); ?>
+            <?php echo $form->dropDownList($account, 'industry_id', $industries); ?><?php echo $form->error($account, 'industry_id'); ?>
         </div><div class="row">
             <?php echo $form->labelEx($user, 'password'); ?>
-            <?php echo $form->passwordField($user, 'password'); ?>
-            <?php echo $form->error($user, 'password'); ?>
+            <?php echo $form->passwordField($user, 'password'); ?><?php echo $form->error($user, 'password'); ?>
         </div><div class="row">
             <?php echo $form->labelEx($user, Yii::t("site","Confirmation")); ?>
-            <?php echo $form->passwordField($user, 'password_again'); ?>
-            <?php echo $form->error($user, 'password_again'); ?>
+            <?php echo $form->passwordField($user, 'password_again'); ?><?php echo $form->error($user, 'password_again'); ?>
         </div><div class="row buttons">
             <?php echo CHtml::submitButton(Yii::t("site","Sign up")); ?>
 
