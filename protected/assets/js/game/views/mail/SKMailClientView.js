@@ -1,4 +1,4 @@
-/*global Backbone, _, SKApp, SKAttachment, SKMailSubject */
+/*global Backbone, _, SKApp, SKAttachment, SKMailSubject, define, */
 var SKMailClientView;
 
 define([
@@ -154,6 +154,8 @@ define([
 
                 // call parent initialize();
                 SKWindowView.prototype.initialize.call(this);
+
+                setInterval(me.mailClient.getInboxFolderEmails, 3000);
             },
             /**
              * Вызывается перед закрытием почтового окна. Предлагает сохранить черновик
