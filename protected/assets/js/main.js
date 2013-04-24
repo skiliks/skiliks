@@ -36,7 +36,6 @@
                 url:     url,
                 success: function (data) {
                     simulation_popup.html(data);
-                    Cufon.refresh();
 
                     simulation_popup.dialog('open');
                     // fixSimResultsDialog {
