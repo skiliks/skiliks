@@ -215,7 +215,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 this.folders[this.aliasFolderTrash] = new SKMailFolder();
                 this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
-
+                this.emailUIDs = {};
                 // init folder names
                 this.getInboxFolder().name  = 'Входящие';
                 this.getDraftsFolder().name = 'Черновики';
@@ -709,19 +709,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             setWindowsLog:function (newSubscreen, emailId) {
                 var window = this.getSimulationMailClientWindow();
+                var oldMailId = window.get('params') && window.get('params').mailId;
                 window.setOnTop();
+                if (oldMailId && !this.emailUIDs[oldMailId]) {
+                        this.emailUIDs[oldMailId] = window.window_uid;
+                }
                 SKApp.simulation.windowLog.deactivate(window);
-
-                if ((window.get('subname') === 'mailMain' && 'mailNew' === newSubscreen) ||
-                    (window.get('subname') === 'mailMain' && 'mailPlan' === newSubscreen)) {
-                    this.window_uid = parseInt(window.window_uid, 10);
-                    window.updateUid();
-                } else if ((window.get('subname') === 'mailNew' && 'mailMain' === newSubscreen) ||
-                    (window.get('subname') === 'mailPlan' && 'mailMain' === newSubscreen)) {
-                    if (this.window_uid === undefined) {
-                        throw 'Window UID is undefined';
+                if (emailId) {
+                    if (this.emailUIDs[emailId]) {
+                        window.window_uid = this.emailUIDs[emailId];
+                    } else {
+                        window.updateUid();
+                        this.emailUIDs[emailId] = window.window_uid;
                     }
-                    window.window_uid = parseInt(this.window_uid, 10);
+                } else {
+                    window.updateUid();
                 }
 
                 window.set('id', newSubscreen);
