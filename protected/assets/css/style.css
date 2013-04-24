@@ -3600,6 +3600,7 @@ ul.profile-menu li {
         margin-bottom:-8px;
     }
     .valuetitle {
+        margin-left: -10px;
         margin-right: 5px;
     }
     .timeblock {
