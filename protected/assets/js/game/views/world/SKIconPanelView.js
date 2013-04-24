@@ -60,7 +60,7 @@ define([
                 this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
                 this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
                     me.doSoundPhoneCallShortZoomerStart();
-                    setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration')); // 4 sec
+                    setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
                 });
 
                 this.listenTo(SKApp.simulation, 'audio-phone-small-zoom-stop', me.doSoundPhoneCallShortZoomerStop);

@@ -76,10 +76,8 @@ define([
                     if(me.options.model_instance.is_opened === true){
 
                         SKApp.simulation.trigger('audio-phone-end-start');
-                        setTimeout(function(){
-                            me.options.model_instance.setOnTop();
-                            me.options.model_instance.close();
-                        }, SKApp.get('afterCallZoomerDuration'));
+                        me.options.model_instance.setOnTop();
+                        me.options.model_instance.close();
                     }
 
                 }, 5000);
@@ -150,10 +148,8 @@ define([
                     /* TODO refactor */
                     if (is_final) {
                         SKApp.simulation.trigger('audio-phone-end-start');
-                        setTimeout(function(){
-                            me.options.model_instance.setOnTop();
-                            me.options.model_instance.close();
-                        }, SKApp.get('afterCallZoomerDuration'));
+                        me.options.model_instance.setOnTop();
+                        me.options.model_instance.close();
                     }
                 });
             }
