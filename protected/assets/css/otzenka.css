@@ -116,7 +116,7 @@
     min-width: 42px;
 }
 .product .ratepercnt {
-    font-weight: bold;
+    font-family:"ProximaNova-Bold";
 }
 .product .maincharts {
     margin-top: -34px;
@@ -164,6 +164,9 @@
 .timeprcnt {
     left:552px;
 }
+.product .estmtileswrap {
+    margin-top: 8px;
+}
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
     font:24px 'ProximaNova-Bold';
     font-weight: normal !important;
@@ -188,7 +191,12 @@
 .product .estmtileswrap h2, .product h2, .product h2 a, .product h2 a:visited, .product h3, .product .levellabels h3 {
     color: #fff;
 }
-.estmtileswrap .widthblock:nth-child(2) h2 {
+.product .estmtileswrap h2, .product .estmtileswrap h2 a {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+}
+.simulation-details .estmtileswrap .widthblock:nth-child(2) h2 {
     padding-bottom: 21px;
 }
 .simulation-result-popup h3 {
@@ -208,7 +216,10 @@
 .product .widthblock, .product-gauge-charts .chart-gauge {
     width: 237px;
 }
-.estmtileswrap .widthblock {
+.product .estmtileswrap .widthblock {
+    vertical-align: top;
+}
+.simulation-details .estmtileswrap .widthblock {
     vertical-align: bottom;
 }
 .gauge-charts {
@@ -274,9 +285,11 @@
     margin-bottom: 14px;
     text-transform: uppercase;
 }
-.rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul,
+.rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
+    margin-left: 10px;
+}
 .rateslist .widthblock:nth-child(4) h3, .rateslist .widthblock:nth-child(4) ul {
-    margin-left: 20px;
+    margin-left: 2px;
 }
 .numlist {
     margin-left: 20px;
