@@ -2647,7 +2647,7 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr td:last-child p {
     margin: 0;
-    padding: 0px 0 7px 0;
+    padding: 7px 0;
     position: relative;
 }
 #private-invitations-list-box .ratingwrap {
