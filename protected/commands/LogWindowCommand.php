@@ -13,7 +13,7 @@ class LogWindowCommand extends CConsoleCommand {
         $simulation = Simulation::model()->findByPk($sim_id);
         foreach ($simulation->log_windows as $log) {
             echo '$lw = new LogWindow();' . "\n";
-            echo '$lw->sim_id = ' . $log->primaryKey . ';'. "\n";
+            echo '$lw->sim_id = $sim_id;'. "\n";
             echo '$lw->window = ' . $log->window . ';'. "\n";
             echo '$lw->start_time = ' . $log->start_time . ';'. "\n";
             echo '$lw->end_time = ' . $log->end_time . ';'. "\n";
