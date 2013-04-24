@@ -36,7 +36,7 @@
                 url:     url,
                 success: function (data) {
                     simulation_popup.html(data);
-                    Cufon.refresh('#simulation-details-pop-up');
+                    Cufon.refresh();
 
                     simulation_popup.dialog('open');
 
