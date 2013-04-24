@@ -3624,7 +3624,7 @@ ul.profile-menu li {
         font-size: 12px;
     }
     .labels {
-        width: 250px;
+        width: 257px;
     }
     .legendtitle {
         font-size:12px;
@@ -3853,7 +3853,12 @@ ul.profile-menu li {
     #corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
         width:81px;
     }
-}
+    .dashboard .narrow-contnt {
+        margin-top: 4px;
+    }
+    .dashboard .narrow-contnt .thetitle {
+        margin-bottom: 23px;
+    }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
