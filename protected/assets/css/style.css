@@ -3907,6 +3907,21 @@ ul.profile-menu li {
         left: 165px;
         top: -6px;
     }
+    #invite-decline-form #form-decline-explanation h2 {
+        font-size: 26px;
+    }
+    #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id label {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    #invite-decline-form #form-decline-explanation textarea {
+        height: 90px;
+        width: 430px;
+    }
+    #invite-decline-form #form-decline-explanation input[type="submit"] {
+        font-size: 16px;
+        padding: 14px 20px 14px 44px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
