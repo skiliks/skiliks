@@ -5,6 +5,7 @@
 
         // fixSimResultsDialog {
         var fixSimResultsDialog = function () {
+            Cufon.refresh();
             var heightOverhead = 300;
             $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
             $('.simulation-result-popup').css('top', '50px');
@@ -92,7 +93,8 @@
                 dialogClass: 'feedbackwrap',
                 title: 'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим ваше мнение',
                 modal: true,
-                resizable: false
+                resizable: false,
+                open: function( event, ui ) { Cufon.refresh(); }
             });
             e.stopPropagation();
         });
@@ -129,7 +131,8 @@ $(window).load(function(){
         $('#start-trial-full-scenario-pop-up').dialog({
             dialogClass: 'nice-border flash-pop-up',
             modal: true,
-            width: 400
+            width: 400,
+            open: function( event, ui ) { Cufon.refresh(); }
         });
     });
 
@@ -178,8 +181,8 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
     '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink, .profile-menu a,' +
-    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a'
-    , {fontFamily:"ProximaNova-Regular"});
+    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .light-btn'
+    , {fontFamily:"ProximaNova-Regular", hover:true});
 
 Cufon.replace('.freeacess', {hover:true});
 /*Cufon.replace('.light-btn', {fontFamily:"ProximaNova-Bold", hover: true});*/
