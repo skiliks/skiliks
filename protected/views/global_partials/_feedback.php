@@ -19,9 +19,10 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
                         <select class="form-dropdown validate[required]" style="width:150px" id="input_7"
                                 name="q7_input7">
                             <option value="">Тема сообщения</option>
-                            <option value="А-А-А-А-А-А У МЕНЯ ВСЕ НЕ РАБОТАЕТ"> А-А-А-А-А-А У МЕНЯ ВСЕ НЕ РАБОТАЕТ
-                            </option>
-                            <option value="Другое"> Другое</option>
+                            <option value="Работа сайта">Работа сайта</option>
+                            <option value="Симуляция">Симуляция</option>
+                            <option value="Оплата">Оплата</option>
+                            <option value="Прочее">Прочее</option>
                         </select>
                     </div>
                 </li>
