@@ -18,7 +18,7 @@ class LogWindowCommand extends CConsoleCommand {
             echo '$lw->start_time = ' . $log->start_time . ';'. "\n";
             echo '$lw->end_time = ' . $log->end_time . ';'. "\n";
             echo '$lw->window_uid = ' . $log->window_uid . ';'. "\n";
-            echo '$lw->save()' . "\n";
+            echo '$lw->save();' . "\n";
         }
     }
 }
