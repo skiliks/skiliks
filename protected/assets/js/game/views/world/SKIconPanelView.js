@@ -404,7 +404,7 @@ define([
                 var me = this;
                 me.$el.append(_.template(audio_phone_call, {
                     id        : 'audio-phone-short-zoom',
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
+                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.3.ogg'
                 }));
                 me.$el.find("#audio-phone-short-zoom")[0].play();
             },
