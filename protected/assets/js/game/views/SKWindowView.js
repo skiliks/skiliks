@@ -132,8 +132,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         center: function() {
             this.$el.css({
-                top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop()) + 'px',
-                left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft()) + 'px'
+                top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop() + parseInt(this.$container.css('padding-top'))) + 'px',
+                left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft() + parseInt(this.$container.css('padding-left'))) + 'px'
             });
         },
 
