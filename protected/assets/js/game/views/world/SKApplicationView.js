@@ -1,4 +1,5 @@
-/*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView*/
+/*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView,
+ SKSimulationView, define, Bot */
 
 var SKApplicationView;
 
@@ -57,6 +58,11 @@ define([
                                 }
                             ]
                         });
+                    }
+
+                    // notify Bot
+                    if ('undefined' !== typeof Bot) {
+                        Bot.handle500();
                     }
                 }
             );
