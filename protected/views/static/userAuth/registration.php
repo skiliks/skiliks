@@ -95,7 +95,7 @@
             var inp = $(errors[i]).prev("input.error");
             $(inp).css({"border":"2px solid #bd2929"});
             $(errors[i]).addClass($(inp).attr("id"));
-            $(submit).width($(submit).width()-2);
+            //$(submit).width($(submit).width()-2);
         }
     });
 </script>
