@@ -3861,12 +3861,12 @@ ul.profile-menu li {
     }
     section.registration-by-link h1 {
         font-size: 20px;
-        margin-bottom: 15px;
-        padding-top: 112px;
+        margin-bottom: 10px;
+        padding-top: 106px;
     }
     section.registration-by-link {
         background-size: contain;
-        padding: 0 14px 20px 20px;
+        padding: 0 14px 30px 20px;
         height: 370px;
         width: 595px;
     }
@@ -3892,6 +3892,9 @@ ul.profile-menu li {
     }
     section.registration-by-link .form .row.buttons {
         padding-left: 158px;
+    }
+    section.registration-by-link .form .row {
+        margin-bottom: 3px;
     }
 }
 
