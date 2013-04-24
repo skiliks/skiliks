@@ -4,6 +4,7 @@
  * Class YumProfile
  *
  * @param string $email
+ * @param string $user_id
  * @param string $lastname
  * @param string $firstname
  */
