@@ -87,6 +87,7 @@ class ImportGameDataService
             $character->phone = $this->getCellValue($sheet, 'телефон', $i);
             $character->import_id = $this->import_id;
             $character->scenario_id = $this->scenario->primaryKey;
+            $character->sex = $this->getCellValue($sheet, 'Sex', $i);
 
             // save
             $character->save();

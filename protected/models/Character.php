@@ -4,10 +4,18 @@
 /**
  * Модель персонажей. Хранит информацию о персонажах.
  *
+ * @param string sex, 'M' - male, 'F' - female, '-' - undefined
+ *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Character extends CActiveRecord
 {
+    const SEX_MALE = 'M';
+
+    const SEX_FEMALE = 'F';
+
+    const HERO_ID = 1;
+
     /**
      * @var integer
      */
@@ -47,12 +55,9 @@ class Character extends CActiveRecord
      * @var string
      */
     public $import_id;
-    
-    const HERO_ID = 1;
-    
-    /* ----------------------------- */
 
-
+    
+    /* -------------------------------------------------------------------------------------- */
 
     /**
      * List of Contacts fot main hero phone
@@ -85,15 +90,28 @@ class Character extends CActiveRecord
         ];
     }
 
-    /* ----------------------------- */
-
     public function isMainHero()
     {
         return 1 === (int)$this->id;
     }
 
+    /**
+     * @return bool
+     */
+    public function isFemale() {
+        return self::SEX_FEMALE === $this->sex;
+    }
 
-        /**
+    /**
+     * @return bool
+     */
+    public function isMale() {
+        return self::SEX_MALE === $this->sex;
+    }
+
+    /* ---------------------------------------------------------------------- */
+
+   /**
      *
      * @param type $className
      * @return Character
