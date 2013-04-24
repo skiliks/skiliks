@@ -3899,6 +3899,14 @@ ul.profile-menu li {
     section.registration-by-link .form .row.buttons {
         margin-top: 5px;
     }
+    .wide .sbHolder_err {
+        top: -5px;
+        left: 165px;
+    }
+    .YumUser_password, .YumUser_password_again {
+        left: 165px;
+        top: -6px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
