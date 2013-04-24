@@ -40,7 +40,9 @@
 
                     simulation_popup.dialog('open');
                     simulationDetailsStart();
-
+                    $(this).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
+                        this.chartObject.refresh();
+                    });
                     // fixSimResultsDialog {
                     $('.simulation-details .estmfooter a').click(function () {
                         fixSimResultsDialog();
