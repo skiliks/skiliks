@@ -184,11 +184,11 @@
     });
 
     $(function() {
-        window.nav = new DetailsNavigator('.simulation-details', {
+        var nav = new DetailsNavigator('.simulation-details', {
             sectionSelector: '.sections > div'
         });
 
-        window.nav.$sections.on('open', function() {
+        nav.$sections.on('open', function() {
             $(this).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
                 this.chartObject.refresh();
             });

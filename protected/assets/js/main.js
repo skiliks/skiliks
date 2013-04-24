@@ -5,6 +5,7 @@
 
         // fixSimResultsDialog {
         var fixSimResultsDialog = function () {
+            //Cufon.refresh();
             var heightOverhead = 300;
             $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
             $('.simulation-result-popup').css('top', '50px');
@@ -36,8 +37,8 @@
                 url:     url,
                 success: function (data) {
                     simulation_popup.html(data);
-
                     simulation_popup.dialog('open');
+
                     // fixSimResultsDialog {
                     $('.simulation-details .estmfooter a').click(function () {
                         fixSimResultsDialog();
@@ -176,7 +177,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
     '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
     '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
-    '.features form div input[type=text], .registrationform input[type=text], ' +
+    '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
     '.registrationform input[type=password], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
     '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
     '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
