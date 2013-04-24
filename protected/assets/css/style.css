@@ -3582,7 +3582,7 @@ ul.profile-menu li {
         -webkit-transform: scale(0.9);
         transform: scale(0.9);
     }
-    .chart-pie  {
+    .chart-pie, .questn  {
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
         -webkit-transform: scale(0.8);
@@ -3593,6 +3593,11 @@ ul.profile-menu li {
         -o-transform: scale(0.7);
         -webkit-transform: scale(0.7);
         transform: scale(0.7);
+    }
+    .questn {
+        background-size: contain;
+        margin-left: 6px;
+        margin-bottom:-8px;
     }
     .valuetitle {
         margin-right: 5px;
@@ -3669,7 +3674,7 @@ ul.profile-menu li {
         margin-top: 13px;
     }
     .personallabels {
-        width: 290px;
+        width: 304px;
     }
     .personallabels .smalltitle, .shortchartdesc {
         font-size: 13px;
@@ -3678,7 +3683,7 @@ ul.profile-menu li {
         width: 400px;
     }
     .chart-bullet .chart-value {
-        font-size:18px;
+        font-size:16px;
     }
     .estmfooter a {
         font-size: 12px;
