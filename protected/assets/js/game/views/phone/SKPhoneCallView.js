@@ -41,6 +41,7 @@ define([
          * @method initialize
          */
         initialize:function () {
+            SKApp.simulation.trigger('audio-phone-small-zoom-stop');
             var me = this;
             this.listenTo(this.options.model_instance, 'refresh', function () {
                 me.render();
@@ -58,7 +59,7 @@ define([
             var event = this.options.model_instance.get('sim_event');
             var dialogId = event.get('data')[0].id;
 
-            if (undefined == event.get('data')[2]) {
+            if ('undefined' === typeof event.get('data')[2]) {
                 var dialog_1_Id = event.get('data')[1].id; // button "Ответить"
 
                 var callback = function() {
