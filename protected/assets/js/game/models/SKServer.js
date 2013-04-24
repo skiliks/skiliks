@@ -1,4 +1,4 @@
-/*global _*/
+/*global _, Backbone, define, $, */
 define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
     "use strict";
     /**
