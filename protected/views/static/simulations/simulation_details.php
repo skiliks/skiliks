@@ -184,15 +184,15 @@
     });
 
     function simulationDetailsStart() {
-        var nav = new DetailsNavigator('.simulation-details', {
+        window.nav = new DetailsNavigator('.simulation-details', {
             sectionSelector: '.sections > div'
         });
 
-        nav.$sections.on('open', function() {
+        window.nav.$sections.on('open', function() {
             $(this).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
                 this.chartObject.refresh();
             });
         });
-    };
+    }
 </script>
 
