@@ -709,7 +709,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             setWindowsLog:function (newSubscreen, emailId) {
                 var window = this.getSimulationMailClientWindow();
-
+                window.setOnTop();
                 SKApp.simulation.windowLog.deactivate(window);
 
                 if ((window.get('subname') === 'mailMain' && 'mailNew' === newSubscreen) ||
