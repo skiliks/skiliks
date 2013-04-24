@@ -209,6 +209,8 @@ define(
                     var applicationView = new SKApplicationView();
                     server.respond();
 
+                    var phone_spy = sinon.spy();
+                    SKApp.simulation.events.on('event:phone', phone_spy);
 
                     server.respond();
 
@@ -240,8 +242,6 @@ define(
                         ]
                     );
                     expect(SKApp.simulation.events.length).toBe(0);
-                    var phone_spy = sinon.spy();
-                    SKApp.simulation.events.on('event:phone', phone_spy);
 
                     SKApp.simulation.getNewEvents();
                     server.respond();
