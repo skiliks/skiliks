@@ -3859,6 +3859,33 @@ ul.profile-menu li {
     .dashboard .narrow-contnt .thetitle {
         margin-bottom: 23px;
     }
+    .registration-by-link h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    section.registration-by-link {
+        background-size: cover;
+        padding: 0 14px 30px 20px;
+        height: 360px;
+        width: 595px;
+    }
+    section.registration-by-link .form .row label {
+        font-size: 11px;
+        width:155px;
+    }
+    section.registration-by-link .form .row .sbHolder {
+        width:285px;
+    }
+    section.registration-by-link .form .row input[type="text"], section.registration-by-link .form .row input[type="password"] {
+        font-size: 11px;
+        padding: 3px 7px;
+        width: 140px;
+    }
+    section.registration-by-link .form .row input[type="submit"] {
+        height: 40px;
+        font-size: 16px;
+    }
+}
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
