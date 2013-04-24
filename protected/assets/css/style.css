@@ -3913,8 +3913,10 @@ ul.profile-menu li {
         height: 370px;
     }
     #invite-decline-form #form-decline-explanation {
-        margin-left: -254px;
         padding: 18px 28px;
+    }
+    #invite-decline-form .form-decline-explanation {
+        margin-left: -254px;
         top: 184px;
     }
     #invite-decline-form #form-decline-explanation h2 {
