@@ -91,6 +91,9 @@ class PlanAnalyzer {
 
             if ($logItem->activityAction->activity->parent != $currentParentCode) {
                 $currentParentCode = $logItem->activityAction->activity->parent;
+                $parentAvailability = $simulation->game_type->getActivityParentAvailability([
+                    'code' => $logItem->activityAction->activity->parent
+                ]);
 
                 $groupedLog[] = [
                     'parent'      => $logItem->activityAction->activity->parent,
@@ -98,9 +101,7 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
-                    'available'   => $simulation->game_type->getActivityParentAvailability([
-                        'code' => $logItem->activityAction->activity->parent
-                    ])->available_at,
+                    'available'   => $parentAvailability ? $parentAvailability->available_at : null,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
