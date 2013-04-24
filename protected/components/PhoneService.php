@@ -239,13 +239,16 @@ class PhoneService {
                     // выдаем автоответчик
                     $data = array();
                     $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
-                    $data[0]['sound'] = 'S1.4.4.1.ogg'; // автоответчик-мужчина
+                    $data[0]['sound'] = 'S1.4.4.1.ogg'; // автоответчик-мужчина по умолчанию
 
                     $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 
                     if ($character) {
                         $data[0]['title'] = $character->title;
-                        $data[0]['name'] = $character->fio;
+                        $data[0]['name']  = $character->fio;
+                        if ($character->isFemale()) {
+                            $data[0]['sound'] = 'S1.4.4.2.ogg'; // автоответчик-женщина
+                        }
                     }
                     PhoneService::registerOutgoing($simulation->id, $characterCode, $time);
                     return array(
