@@ -40,6 +40,12 @@ class SimulationsController extends AjaxController implements AccountPageControl
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
+        // I remove this invites to roll back issue
+        foreach ($notUsedFullSimulations as $notUsedFullSimulation) {
+            $notUsedFullSimulation->delete();
+        }
+
+        /*
         if (0 === count($notUsedFullSimulations)) {
             $newInviteForFullSimulation = new Invite();
             $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
@@ -54,7 +60,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
-        }
+        }*/
         // check and add trial lite version }
 
         $this->render('simulations_personal', []);
@@ -75,6 +81,12 @@ class SimulationsController extends AjaxController implements AccountPageControl
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
+        // I remove this invites to roll back issue
+        foreach ($notUsedFullSimulations as $notUsedFullSimulation) {
+            $notUsedFullSimulation->delete();
+        }
+
+        /*
         if (0 === count($notUsedFullSimulations)) {
             $newInviteForFullSimulation = new Invite();
             $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
@@ -89,7 +101,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
-        }
+        }*/
         // check and add trial full version }
 
         // check and add trial lite version {
@@ -102,6 +114,12 @@ class SimulationsController extends AjaxController implements AccountPageControl
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
+        // I remove this invites to roll back issue
+        foreach ($notUsedFullSimulations as $notUsedFullSimulation) {
+            $notUsedFullSimulation->delete();
+        }
+
+        /*
         if (0 === count($notUsedFullSimulations)) {
             $newInviteForFullSimulation = new Invite();
             $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
@@ -116,7 +134,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
-        }
+        }*/
         // check and add trial lite version }
 
         $this->render('simulations_corporate', []);
