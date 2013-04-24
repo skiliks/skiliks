@@ -1,3 +1,6 @@
+/* global SKSimulationView, buster, define, describe, _, sinon, after, it, expect, SKApp, SKApplication, SKWindow,
+ SKVisitView, before, SKApplicationView, SKImmediateVisitView, assert, */
+
 buster.spec.expose();
 
 // "text!game/jst/world/simulation_template.jst", simulation_template
@@ -274,7 +277,7 @@ define(
 
                     var requestChecked = false;
                     for(var i in server.requests) {
-                        if (server.requests[i].url == '/index.php/dialog/get') {
+                        if (server.requests[i].url === '/index.php/dialog/get') {
                             expect(!!server.requests[i].requestBody.match(/dialogId=787&time=09%3A00/)).toBeTrue();
                             requestChecked = true;
                         }
@@ -332,7 +335,7 @@ define(
 
                     server.respond();
                     // check icon animation
-                    expect(applicationView.simulation_view.$el.find('.icons-panel .mail.icon-active').length).toBe(1);
+                    expect(applicationView.simulation_view.$el.find('.mail.icon-active').length).toBe(1);
 
                     // check counter
                     expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('5');
