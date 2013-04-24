@@ -142,13 +142,31 @@ define([
              * @param doc
              */
             preloadZoho:       function (doc) {
+                var me = this;
+
+                if (!me.preloadObject) {
+                    me.preloadObject = new Image();
+                    me.preloadObject.src = doc.get('excel_url');
+                    me.preloadObject.onload = me.preloadObject.onerror = function(e) {
+                        me._appendZohoIframe(doc);
+                        me.trigger('preload:finished');
+                    };
+                } else if (me.preloadObject.complete) {
+                    me._appendZohoIframe(doc);
+                } else {
+                    me.on('preload:finished', _.bind(me._appendZohoIframe, me, doc));
+                }
+            },
+
+            _appendZohoIframe: function(doc) {
                 var iframe = this.$('.windows-container').find('#' + 'excel-preload-' + doc.id);
                 if (iframe.length) {
                     iframe.attr('src', doc.get('excel_url'));
                 } else {
                     this.$('.windows-container').append($('<iframe />', {
                         src: doc.get('excel_url'),
-                        id:  'excel-preload-' + doc.id
+                        id:  'excel-preload-' + doc.id,
+                        class: 'excel-preload-window'
                     }).css({
                         'position': 'absolute',
                         'left':     '-10000px',
