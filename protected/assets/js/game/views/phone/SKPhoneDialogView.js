@@ -38,6 +38,7 @@ define([
          * @method initialize
          */
         initialize:function() {
+            SKApp.simulation.trigger('audio-phone-small-zoom-stop');
             var me = this;
             this.listenTo(this.options.model_instance, 'refresh', function () {
                 me.render();
@@ -74,7 +75,6 @@ define([
             if (event.get('data')[0].code === 'None' || event.get('data')[0].code === 'Auto') {
                 var timeout = setTimeout(function(){
                     if(me.options.model_instance.is_opened === true){
-
                         SKApp.simulation.trigger('audio-phone-end-start');
                         me.options.model_instance.setOnTop();
                         me.options.model_instance.close();
