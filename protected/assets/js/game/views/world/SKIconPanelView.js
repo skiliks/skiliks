@@ -57,6 +57,7 @@ define([
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
 
+                this.listenTo(SKApp.simulation, 'audio-phone-call-start', this.doSoundPhoneCallInStart);
                 this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
                 this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
                     me.doSoundPhoneCallShortZoomerStart();
@@ -367,6 +368,7 @@ define([
 
             doSoundPhoneCallInStart: function() {
                 var me = this;
+                me.doSoundPhoneCallInStop();
                 me.$el.append(_.template(audio_phone_call, {
                     id        : 'audio-phone-call',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'

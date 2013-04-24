@@ -54,6 +54,8 @@ define([
          * @param window_el
          */
         renderContent: function (window_el) {
+            SKApp.simulation.trigger('audio-phone-call-start');
+
             var me = this;
             window_el.html(_.template(call_template, {call: this.options.event.get('data')}));
             var event = this.options.model_instance.get('sim_event');
