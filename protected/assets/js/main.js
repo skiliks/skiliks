@@ -5,7 +5,6 @@
 
         // fixSimResultsDialog {
         var fixSimResultsDialog = function () {
-            Cufon.refresh();
             var heightOverhead = 300;
             $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
             $('.simulation-result-popup').css('top', '50px');
@@ -37,6 +36,8 @@
                 url:     url,
                 success: function (data) {
                     simulation_popup.html(data);
+                    Cufon.refresh();
+
                     simulation_popup.dialog('open');
 
                     // fixSimResultsDialog {
