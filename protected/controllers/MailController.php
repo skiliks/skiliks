@@ -52,6 +52,7 @@ class MailController extends AjaxController
         $this->sendJSON(array(
             'result'   => 1,
             'messages' => $messages,
+            'count'    => count($messages),
             'type'     => MailBox::$folderIdToAlias[$folderId]
         ));
     }
