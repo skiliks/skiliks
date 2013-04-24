@@ -3908,8 +3908,12 @@ ul.profile-menu li {
         top: -6px;
     }
     #invite-decline-form .form-decline-explanation {
-        width: 480px;
-        height: 340px;
+        background-size: contain;
+        width: 510px;
+        height: 360px;
+    }
+    #invite-decline-form #form-decline-explanation {
+        padding: 20px 30px;
     }
     #invite-decline-form #form-decline-explanation h2 {
         font-size: 26px;
