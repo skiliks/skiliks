@@ -12,6 +12,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, 
 	vertical-align: baseline;
 	background: transparent;
 	font-size: 100%;
+    outline: none;
 }
 a {                                      	
 	margin:0;
@@ -125,17 +126,18 @@ input, select, button, textarea {
 label, input[type="button"], input[type="submit"], button {
 	cursor: pointer;
 }
-a, a:visited {
+a { /* , a:visited */
 	color: #287fc3;
 	/* text-decoration: underline;*/
 }
+/*
 a:hover {
 	color: #287fc3;
 	text-decoration: none;
 }
 a:focus, a:active {
 	color: #287fc3;
-}
+}*/
 .content{
 	width:948px;
     /*overflow:hidden;*/
@@ -1344,6 +1346,9 @@ html[lang=ru] .product section table th{
 	.inner-registration .content{
 		width:765px;
 	}
+    .longercontent {
+        width: 770px;
+    }
 	.registration{
 		padding-top:34px;
 	}
@@ -1378,10 +1383,13 @@ html[lang=ru] .product section table th{
         height: 350px;
     }
     .form-account-corporate .wide {
-        display: none;
+        /*display: none;*/
     }
     .form-account-corporate input[type="submit"] {
-        margin-top: 46px;
+        margin-top: -6px;
+    }
+    .registration .form .row.wide {
+        margin-bottom: 16px;
     }
 	.registration .form>ul{
 		min-height:105px;
@@ -1395,7 +1403,7 @@ html[lang=ru] .product section table th{
 		padding-left:19px;
 	}
 	.registration .form .row{
-		margin:0 14px 4px 31px;
+		margin:0 10px 4px 31px;
         min-height: 30px;
 	}
     .registration .form .row .field {
@@ -1403,18 +1411,18 @@ html[lang=ru] .product section table th{
     }
 	.registration .form .row label{
 		font-size:0.667em;
-		width:70px;
-		margin-right:-3px;
+		width:90px;
+		margin-right:5px;
 		vertical-align:middle;
 	}
 	.registration .form .row input[type=text]{
 		font-size:0.667em;
-		width:100px;
+		width:88px;
 		height:9px;
 		padding:6px 8px;
 	}
 	.registration .form .row .sbHolder{
-		width:238px;
+		width:216px;
 	}
 	.registration .form .row.wide{
 		margin-bottom:16px;
@@ -1431,7 +1439,7 @@ html[lang=ru] .product section table th{
 		height:37px;
 		font-size:0.858em;
 		text-indent:29px;
-		margin-left:71px;
+		margin-left:99px;
 	}
     .registration .form .row input[type=submit]:hover {
         background-image: url("../img/icon-registration-submit-min.png");
@@ -3741,6 +3749,15 @@ ul.profile-menu li {
     }
     .social_networks>span {
         font-size: 12px;
+    }
+    .midtitle, .flash-success {
+        font-size:20px;
+    }
+    .flash-pop-up {
+        width:500px !important;
+    }
+    .action-index .flash, .inner .flash {
+        height:140px;
     }
 }
 
