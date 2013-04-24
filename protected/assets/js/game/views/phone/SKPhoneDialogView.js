@@ -108,13 +108,11 @@ define([
                     });
                 } else if (!SKApp.simulation.isDebug()) {
                     window_el.find('.phone-reply-h').removeClass('hidden');
-                    window_el.find('.phone-reply-ch').removeClass('hidden');
                 }
             });
 
             if (0 === this.$('audio').length) {
                 window_el.find('.phone-reply-h').removeClass('hidden');
-                window_el.find('.phone-reply-ch').removeClass('hidden');
             }
         },
 
