@@ -25,7 +25,7 @@
     <br/>
     <br/>
 
-    <div class="row form-decline-explanation-description-row" style="display: none;">
+    <div class="row form-decline-explanation-description-row">
         <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
         <?php echo $form->textArea($declineExplanation, 'description', ['placeholder'=>Yii::t("site","Failure cause")]); ?>
         <?php echo $form->error($declineExplanation    , 'description'); ?>
@@ -71,7 +71,6 @@
             }
         } else {
             $('.form-decline-explanation-description-row textarea').text('');
-            $('.form-decline-explanation-description-row').hide();
         }
     });
 
