@@ -141,6 +141,7 @@ define([
                 // update inbox emails counter
                 this.listenTo(this.mailClient, 'mail:update_inbox_counter', function () {
                     var unreaded = me.mailClient.getInboxFolder().countUnreaded();
+                    console.log('unreaded: ', unreaded);
                     me.updateMailIconCounter(unreaded);
                     me.updateInboxFolderCounter(unreaded);
                 });
@@ -156,18 +157,21 @@ define([
                 SKWindowView.prototype.initialize.call(this);
 
                 this.listenTo(SKApp.simulation.events, 'event:mail', _.bind(function() {
-                    me.mailClient.getInboxFolderEmails(me.updateFolderLabels());
-                    if (me.mailClient.getActiveFolder().alias === me.mailClient.aliasFolderInbox &&
-                        (
-                            me.mailClient.activeScreen === me.mailClient.screenInboxList ||
-                            me.mailClient.activeScreen === me.mailClient.screenDraftsList ||
-                            me.mailClient.activeScreen === me.mailClient.screenSendedList ||
-                            me.mailClient.activeScreen === me.mailClient.screenTrashList
-                        )) {
-                        me.doRenderFolder(me.mailClient.aliasFolderInbox, false, false);
+                    var callback = function() {
+                        me.updateFolderLabels()
+                        if (me.mailClient.getActiveFolder().alias === me.mailClient.aliasFolderInbox &&
+                            (
+                                me.mailClient.activeScreen === me.mailClient.screenInboxList ||
+                                    me.mailClient.activeScreen === me.mailClient.screenDraftsList ||
+                                    me.mailClient.activeScreen === me.mailClient.screenSendedList ||
+                                    me.mailClient.activeScreen === me.mailClient.screenTrashList
+                                )) {
+                            me.doRenderFolder(me.mailClient.aliasFolderInbox, false, false);
+                        }
+                        me.mailClient.trigger('mail:update_inbox_counter');
+                    };
 
-                        this.mailClient.trigger('mail:update_inbox_counter');
-                    }
+                    me.mailClient.getInboxFolderEmails(callback);
                 }, me));
             },
             /**
