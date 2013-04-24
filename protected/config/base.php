@@ -300,7 +300,7 @@ return array(
         'public' => [
             'skiliksSpeedFactor'      => 6,
             'storageURL'              => 'http://storage.skiliks.com/v1',
-            'afterCallZoomerDuration' => 3000, // milliseconds
+            'afterCallZoomerDuration' => 2000, // milliseconds
         ],
         'zoho' => array(
             'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
