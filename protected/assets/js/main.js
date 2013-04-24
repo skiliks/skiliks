@@ -120,6 +120,9 @@
         }
         return false;
     }
+    $(window).on('resize', function () {
+        Cufon.refresh();
+    });
 })(jQuery);
 
 $(window).load(function(){
