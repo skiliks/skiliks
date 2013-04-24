@@ -293,7 +293,8 @@ return array(
                 'static/pages/comingSoonSuccess',
                 'static/pages/index',
                 'static/pages/team',
-                'static/pages/product'
+                'static/pages/product',
+                'static/pages/tariffs',
             ]
         ],
         // This part will be sent to JS
