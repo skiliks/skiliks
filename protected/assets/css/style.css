@@ -2326,6 +2326,15 @@ ul.profile-menu li {
     display: inline-block;
     height: 17px;
 }
+#corporate-invitations-list-box .ratebg, #corporate-invitations-list-box .rating,
+#private-invitations-list-box .ratebg, #private-invitations-list-box .rating{
+    background-image: url("../img/ratestars2.png");
+    height: 14px;
+    line-height: 14px;
+}
+#corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
+    width:81px;
+}
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
 }
@@ -3843,15 +3852,6 @@ ul.profile-menu li {
     }
     .cabmessage input[type="submit"] {
         font-size:12px;
-    }
-    #corporate-invitations-list-box .ratebg, #corporate-invitations-list-box .rating,
-    #private-invitations-list-box .ratebg, #private-invitations-list-box .rating{
-        background-image: url("../img/ratestars2.png");
-        height: 14px;
-        line-height: 14px;
-    }
-    #corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
-        width:81px;
     }
     .dashboard .narrow-contnt {
         margin-top: 4px;
