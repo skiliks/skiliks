@@ -70,7 +70,8 @@
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 820
+            width: 820,
+            open: function( event, ui ) { Cufon.refresh(); }
         });
 
         $( ".message_window").parent().addClass('nice-border cabmessage');

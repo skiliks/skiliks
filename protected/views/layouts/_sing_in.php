@@ -72,6 +72,7 @@
             $(".sign-in-box").dialog("close");
             $(".popup-recovery").dialog('open');
             $(".popup-recovery").dialog({
+                open: function( event, ui ) { Cufon.refresh(); }
                 closeOnEscape: true,
                 dialogClass: 'sing-in-pop-up', //'popup-recovery-view',
                 minHeight: 220,
@@ -110,7 +111,8 @@
             },
             resizable: false,
             title: '<?php echo Yii::t('site', 'Sign in') ?>',
-            width: 275
+            width: 275,
+            open: function( event, ui ) { Cufon.refresh(); }
         });
         $(".sign-in-box").dialog("close");
 

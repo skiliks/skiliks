@@ -108,6 +108,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 at: "middle bottom",
                                 of: $('#top').find('header')
                             },
+                            open: function( event, ui ) { Cufon.refresh(); }
                             resizable: false,
                             title: '',
                             width: 560
