@@ -38,9 +38,9 @@
     $(function() {
         // @link: http://jqueryui.com/dialog/
          $( ".form-invite-message-editor").dialog({
-             open: function( event, ui ) { Cufon.refresh(); }
             modal: true,
-            width: 780
+            width: 780,
+            open: function( event, ui ) { Cufon.refresh(); }
 
         });
         $( ".form-invite-message-editor").dialog('close');

@@ -108,10 +108,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 at: "middle bottom",
                                 of: $('#top').find('header')
                             },
-                            open: function( event, ui ) { Cufon.refresh(); }
                             resizable: false,
                             title: '',
-                            width: 560
+                            width: 560,
+                            open: function( event, ui ) { Cufon.refresh(); }
                         });
                         $('.flash-pop-up .ui-dialog-titlebar').remove();
                         $('.flash-pop-up').addClass('transparent-boder errorblock');

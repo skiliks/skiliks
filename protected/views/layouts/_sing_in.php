@@ -72,7 +72,6 @@
             $(".sign-in-box").dialog("close");
             $(".popup-recovery").dialog('open');
             $(".popup-recovery").dialog({
-                open: function( event, ui ) { Cufon.refresh(); }
                 closeOnEscape: true,
                 dialogClass: 'sing-in-pop-up', //'popup-recovery-view',
                 minHeight: 220,
@@ -83,7 +82,8 @@
                     at: "right bottom",
                     of: $('#top header #static-page-links')
                 },
-                width: 275
+                width: 275,
+                open: function( event, ui ) { Cufon.refresh(); }
             });
             return false;
         });
