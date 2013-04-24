@@ -3910,10 +3910,12 @@ ul.profile-menu li {
     #invite-decline-form .form-decline-explanation {
         background-size: contain;
         width: 510px;
-        height: 360px;
+        height: 370px;
     }
     #invite-decline-form #form-decline-explanation {
-        padding: 20px 30px;
+        margin-left: -254px;
+        padding: 18px 28px;
+        top: 184px;
     }
     #invite-decline-form #form-decline-explanation h2 {
         font-size: 26px;
@@ -3926,7 +3928,7 @@ ul.profile-menu li {
     #invite-decline-form #form-decline-explanation textarea {
         height: 90px;
         font-size: 12px;
-        margin-bottom: 16px;
+        margin-bottom: 10px;
         width: 430px;
     }
     #invite-decline-form #form-decline-explanation input[type="submit"] {
