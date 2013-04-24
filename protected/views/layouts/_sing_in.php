@@ -7,7 +7,7 @@
             'enableAjaxValidation' => false,
         ]); ?>
             <?php $loginForm = new YumUserLogin; ?>
-            <?= $loginWidget->hiddenField($loginForm, "returnUrl", ['value' => '/dashboard']) ?>
+            <?= CHtml::hiddenField("returnUrl", '/dashboard') ?>
 
             <div class="row login">
                 <a class="link-recovery" href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
