@@ -11,5 +11,5 @@ def deploy():
 def reimport():
     with cd('/srv/www/skiliks'):
         sudo('./yiic import --method=All --scenario=lite', user='skiliks')
-        #sudo('./yiic import --method=All --scenario=full', user='skiliks')
+        sudo('./yiic import --method=All --scenario=full', user='skiliks')
 
