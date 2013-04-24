@@ -3896,6 +3896,9 @@ ul.profile-menu li {
     section.registration-by-link .form .row {
         margin-bottom: 3px;
     }
+    section.registration-by-link .form .row.buttons {
+        margin-top: 5px;
+    }
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
