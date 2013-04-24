@@ -3576,13 +3576,13 @@ ul.profile-menu li {
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
     }
-    .product-bullet-charts, .regicon {
+    .product-bullet-charts, .regicon, .questn {
         -moz-transform: scale(0.9);
         -o-transform: scale(0.9);
         -webkit-transform: scale(0.9);
         transform: scale(0.9);
     }
-    .chart-pie, .questn  {
+    .chart-pie  {
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
         -webkit-transform: scale(0.8);
