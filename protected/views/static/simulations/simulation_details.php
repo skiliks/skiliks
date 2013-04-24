@@ -183,7 +183,7 @@
         }
     });
 
-    $(function() {
+    function simulationDetailsStart() {
         var nav = new DetailsNavigator('.simulation-details', {
             sectionSelector: '.sections > div'
         });
@@ -193,6 +193,6 @@
                 this.chartObject.refresh();
             });
         });
-    });
+    };
 </script>
 

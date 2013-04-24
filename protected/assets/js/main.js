@@ -37,6 +37,7 @@
                 success: function (data) {
                     simulation_popup.html(data);
                     Cufon.refresh();
+                    simulationDetailsStart();
 
                     simulation_popup.dialog('open');
 
