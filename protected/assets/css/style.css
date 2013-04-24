@@ -3859,14 +3859,15 @@ ul.profile-menu li {
     .dashboard .narrow-contnt .thetitle {
         margin-bottom: 23px;
     }
-    .registration-by-link h1 {
+    section.registration-by-link h1 {
         font-size: 20px;
         margin-bottom: 15px;
+        padding-top: 112px;
     }
     section.registration-by-link {
-        background-size: cover;
-        padding: 0 14px 30px 20px;
-        height: 360px;
+        background-size: contain;
+        padding: 0 14px 20px 20px;
+        height: 370px;
         width: 595px;
     }
     section.registration-by-link .form .row label {
@@ -3882,8 +3883,15 @@ ul.profile-menu li {
         width: 140px;
     }
     section.registration-by-link .form .row input[type="submit"] {
+        background-position: 17px 11px;
         height: 40px;
         font-size: 16px;
+    }
+    section.registration-by-link .form .row a.decline-link {
+        font-size:11px;
+    }
+    section.registration-by-link .form .row.buttons {
+        padding-left: 158px;
     }
 }
 
