@@ -291,7 +291,7 @@ span.required {
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 230px -66px;
+    background: url("../img/menuarrows.png") no-repeat 232px -66px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -301,13 +301,13 @@ span.required {
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 230px 16px;
+    background-position: 232px 16px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
 }
 .profile-menu .mnotactive a:hover {
-    background-position: 230px -66px;
+    background-position: 232px -66px;
     cursor:default;
 }
 .profile-menu .mnotactive a, .profile-menu .mnotactive a:link, .profile-menu .mnotactive a:visited {
@@ -324,6 +324,9 @@ span.required {
 .profileform  .row {
     clear: both;
     padding-bottom: 20px;
+}
+#account-corporate-password-form .row {
+    font-size: 16px;
 }
 .profileform  label {
     float: left;
@@ -616,6 +619,9 @@ span.required {
     max-width: 420px;
     width:420px;
 }
+.cabmessage .row a, .cabmessage .row a:visited, .cabmessage .row a:link {
+    color: #fff !important;
+}
 #Invite_signature {
     width:210px;
 }
@@ -738,5 +744,8 @@ span.required {
     }
     .feedbackwrap .ui-dialog-title {
         font-size: 24px !important;
+    }
+    .profile-menu a {
+       padding-left: 10px;
     }
 }

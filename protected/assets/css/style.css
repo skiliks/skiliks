@@ -305,7 +305,7 @@ a:focus, a:active {
 @media screen and (max-width: 1280px){
 	.sbHolder {
 		height:17px;
-		font-size:0.667em;
+		font-size:11px;
 	}
 	.sbSelector{
         height: 17px;
@@ -1445,6 +1445,9 @@ html[lang=ru] .product section table th{
         background-image: url("../img/icon-registration-submit-min.png");
         background-position: 13px center;
     }
+    #UserAccountCorporate_corporate_email {
+        width: 200px;
+    }
 	.registration .form .row .errorMessage{
 	    /*
         -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
@@ -2540,6 +2543,19 @@ ul.profile-menu li {
     -moz-border-radius: 0px 0px 5px;
     border-radius: 0px 0px 5px;
 }
+#private-invitations-list-box .grid-view .items tr:last-child td[colspan="5"],
+#corporate-invitations-list-box .grid-view .items tr:last-child td[colspan="8"] {
+    -webkit-border-radius: 0px 0px 5px 5px;
+    -moz-border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
+}
+#private-invitations-list-box .grid-view .items tr:last-child,
+#corporate-invitations-list-box .grid-view .items tr:last-child {
+    background: none;
+    -webkit-border-radius: 0px 0px 5px 5px;
+    -moz-border-radius: 0px 0px 5px 5px;
+    border-radius: 0px 0px 5px 5px;
+}
 #corporate-invitations-list-box .grid-view .items th:first-child {
     background-image: none;
     padding-right: 0px;
@@ -3139,7 +3155,10 @@ ul.profile-menu li {
     bottom: 0;
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
 }
-
+#private-invitations-list-box span.empty, #corporate-invitations-list-box span.empty {
+    display: block;
+    height: 15px;
+}
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
@@ -3292,7 +3311,7 @@ ul.profile-menu li {
     }
     .sideform input[type="text"] {
         height: 20px;
-        font-size: 11px;
+        font-size: 10px;
         line-height: 20px;
     }
     #Invite_firstname {
@@ -3329,7 +3348,7 @@ ul.profile-menu li {
     #simulations-counter-box .brightblock {
         margin-left: 6px;
     }
-    .greenbtn, .greenbtn:link, .greenbtn:visited, .cabmessage input[type="submit"] {
+    .greenbtn, .greenbtn:link, .greenbtn:visited {
         font-size: 11px;
     }
     .errorMessage {
@@ -3339,7 +3358,7 @@ ul.profile-menu li {
         margin-left: 55px;
     }
     .profilewrap ul.profile-menu {
-        width: 200px;
+        width: 205px;
     }
     .profile-menu a {
         background-image: url("../img/menuarrowsmall.png");
@@ -3348,14 +3367,14 @@ ul.profile-menu li {
         padding-top:9px;
     }
     .profile-menu a, .profile-menu .mnotactive a:hover {
-        background-position: 185px -42px;
+        background-position: 187px -41px;
     }
     .profile-menu a:hover, .profile-menu li.active a  {
-        background-position: 185px 16px;
+        background-position: 187px 17px;
     }
     .profileform {
         padding: 16px;
-        width: 510px;
+        width: 505px;
     }
     .profileform label {
         font-size: 13px;
@@ -3374,7 +3393,7 @@ ul.profile-menu li {
         color: #1D7885;
         height: 20px;
         font-size: 12px;
-        line-height: 20px;
+        line-height: 22px;
         padding: 2px 4px;
     }
     .profileform .sbHolder {
@@ -3388,8 +3407,8 @@ ul.profile-menu li {
         font-size: 15px;
         padding: 0 20px 0 48px;
     }
-    #account-corporate-password-form label {
-        font-size: 14px;
+    #account-corporate-password-form label, #account-corporate-password-form .row {
+        font-size: 13px;
     }
 
     #UserAccountCorporate_company_description {
@@ -3441,13 +3460,20 @@ ul.profile-menu li {
         margin-top: -20px;
     }
     .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
-    .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle
+    .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle,
+    .action-controller-login-auth #usercontent h2
     {
         font-size: 2.219em;
     }
     .action-controller-corporate-static-simulations .grid-view,
     .action-controller-personal-static-simulations .grid-view {
         padding:6px;
+    }
+    .action-controller-login-auth #usercontent .form .row input[type="text"],
+    .action-controller-login-auth #usercontent .form .row input[type="password"]{
+        height: 20px;
+        padding: 10px 7px;
+        font-size: 1em;
     }
     .product-gauge-charts, .gauge-charts {
         width: 570px;
@@ -3703,10 +3729,7 @@ ul.profile-menu li {
     .blue-btn:hover, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
         background-position: left -33px;
     }
-    #private-invitations-list-box span.empty {
-        display: block;
-        height: 25px;
-    }
+
     .container > header nav a.has-notification {
         margin-right: 10px;
         padding-right: 15px;
@@ -3751,13 +3774,81 @@ ul.profile-menu li {
         font-size: 12px;
     }
     .midtitle, .flash-success {
-        font-size:20px;
+        font-size:26px;
+    }
+    .errorblock p, .action-index .errorblock .flash-error p {
+        font-size: 13px;
+    }
+    .action-index .flash, .inner .flash {
+        height:140px !important;
     }
     .flash-pop-up {
         width:500px !important;
     }
-    .action-index .flash, .inner .flash {
-        height:140px;
+    #private-invitations-list-box span.empty, #corporate-invitations-list-box span.empty {
+        height: 10px;
+    }
+    #corporate-invitations-list-box span.empty {
+        height: 5px;
+    }
+    #account-personal-personal-form .row .value, #account-corporate-personal-form .row .value {
+        font-size: 12px;
+    }
+    .action-controller-login-auth #usercontent input[type="submit"] {
+        font-size:18px;
+        padding: 10px 22px 10px 42px;
+    }
+    .bigbtnsubmt {
+        font-size: 18px;
+        height: 44px;
+        line-height: 44px;
+        background-position: 12px 12px;
+        padding: 0 30px 0 56px;
+    }
+    #add-vacancy-form  .row   {
+        padding-bottom: 10px;
+    }
+    .empty-select .sbToggle {
+        background-image: url("../img/emp-select-toggle-min.png");
+    }
+    .testtime strong {
+        font-size:2.2em
+    }
+    .action-controller-login-auth #usercontent .form .row label {
+        width: 100px;
+    }
+    .action-controller-login-auth #usercontent .form p, .action-controller-login-auth #usercontent .form label {
+        font-size:11px;
+    }
+    #send-invite-message-form label, #send-invite-message-form p,
+    #send-invite-message-form input[type="text"], #send-invite-message-form textarea {
+        font-size: 11px;
+    }
+    .cabmessage textarea, #Invite_fullname {
+        /*margin-top:0px;*/
+    }
+    .cabmessage textarea, #Invite_fullname {
+        width: 340px;
+    }
+    .cabmessage input[type="text"], .cabmessage input[type="text"] {
+        height: 26px;
+        line-height: 26px;
+        padding: 2px 4px;
+    }
+    #Invite_signature {
+        width:170px;
+    }
+    .action-controller-corporate-static-dashboard .cabmessage {
+        width:480px !important;
+    }
+    .action-controller-corporate-static-dashboard .cabmessage .ui-widget-content {
+        min-height: 310px !important;
+        max-width: 440px !important;
+        min-width: 440px !important;
+        width: 440px !important;
+    }
+    .cabmessage input[type="submit"] {
+        font-size:12px;
     }
 }
 
