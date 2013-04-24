@@ -3159,6 +3159,9 @@ ul.profile-menu li {
         /*margin-top: 29px; */
         width: 765px;
     }
+    .inner-team .container {
+        background-position: center 590px;
+    }
     #dashboard-skills-box, .nice-border {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
