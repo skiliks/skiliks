@@ -173,9 +173,7 @@
     line-height: 90%;
     text-decoration: none;
 }
-.product .lastwidthblock h2, .product .lastwidthblock h3 {
-    margin-left:20px;
-}
+
 .product .bluelist, .product .rateslist h3  {
     /*margin-left: 20px;*/
 }
@@ -195,6 +193,9 @@
     font-size: 24px;
     margin-bottom: 10px;
     margin-left: 3px;
+}
+.product .lastwidthblock h2, .product .lastwidthblock h3 {
+    margin-left:20px;
 }
 .simulation-details .estmtileswrap .widthblock:nth-child(2) h2 {
     padding-bottom: 21px;
