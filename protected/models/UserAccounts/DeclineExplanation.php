@@ -47,7 +47,7 @@ class DeclineExplanation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('reason_id, description', 'required', 'message' => ['Необходимо заполнить поле Причина отказа']),
+			array('reason_id, description', 'required', 'message' => 'Необходимо заполнить поле Причина отказа'),
 			array('invite_id, vacancy_label, reason_id', 'numerical', 'integerOnly'=>true),
 			array('invite_recipient_id, invite_owner_id', 'length', 'max'=>10),
 			array('created_at', 'safe'),
