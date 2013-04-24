@@ -85,20 +85,17 @@
         </div>
         <div class="row <?php echo (0 == count($specializations) ? 'empty-select' : '') ?>">
             <?php echo $form->labelEx($vacancy     , 'professional_specialization_id'); ?>
-            <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?>
-            <?php echo $form->error($vacancy       , 'professional_specialization_id'); ?>
+            <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?><?php echo $form->error($vacancy       , 'professional_specialization_id'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($vacancy  , 'label'); ?>
-            <?php echo $form->textField($vacancy, 'label'); ?>
-            <?php echo $form->error($vacancy    , 'label'); ?>
+            <?php echo $form->textField($vacancy, 'label'); ?><?php echo $form->error($vacancy    , 'label'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($vacancy  , 'link'); ?>
-            <?php echo $form->textField($vacancy, 'link'); ?>
-            <?php echo $form->error($vacancy    , 'link'); ?>
+            <?php echo $form->textField($vacancy, 'link'); ?><?php echo $form->error($vacancy    , 'link'); ?>
         </div>
 
         <div class="row buttons">

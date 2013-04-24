@@ -43,6 +43,7 @@
             var select = $(errors[i]).prev(".sbHolder");
             $(inp).css({"border":"2px solid #bd2929"});
             $(select).css({"border":"2px solid #bd2929"});
+            $(errors[i]).addClass($(inp).attr("id"));
             $(errors[i]).addClass($(select).attr("id"));
         }
     });

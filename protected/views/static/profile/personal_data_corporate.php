@@ -26,10 +26,8 @@
 
         <div class="row">
             <?php echo $form->labelEx($profile, 'Имя'); ?>
-            <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
-            <?php echo $form->error($profile, 'firstname'); ?>
-            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
-            <?php echo $form->error($profile, 'lastname'); ?>
+            <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?>
+            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
         </div>
 
         <div class="row">
@@ -39,8 +37,7 @@
 
         <div class="row cposwrap">
             <?php echo $form->labelEx($account     , 'Должность'); ?>
-            <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
-            <?php echo $form->error($account       , 'position_id'); ?>
+            <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
         </div>
 
         <div class="row buttons">
