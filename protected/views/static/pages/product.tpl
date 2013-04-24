@@ -30,10 +30,10 @@
                             </div>
                         </div><!-- /estmtresults -->
                         <div class="estmtileswrap">
-                            <div class="widthblock"><h2><a href="#managerial-skills">{Yii::t('site', 'Managerial skills')} <span class="signmore"></span></a></h2></div>
-                            <div class="widthblock"><h2><a href="#productivity">{Yii::t('site', 'Productivity')} <span class="signmore"></span></h2></a></div>
-                            <div class="widthblock"><h2><a href="#time-management">{Yii::t('site', 'Time management effectiveness')} <span class="signmore"></span></a></h2></div>
-                            <div class="widthblock lastwidthblock"><h2><a href="#personal-qualities">{Yii::t('site', 'Personal skills')} <span class="signmore"></span></a></h2></div>
+                            <div class="widthblock"><h2>{Yii::t('site', 'Managerial skills')}</h2></div><!--<span class="signmore"></span></a></h2></div> -->
+                            <div class="widthblock"><h2>{Yii::t('site', 'Productivity')}</h2></div>
+                            <div class="widthblock"><h2>{Yii::t('site', 'Time management effectiveness')}</h2></div>
+                            <div class="widthblock lastwidthblock"><h2>{Yii::t('site', 'Personal skills')}</h2></div>
                         </div><!-- /estmtileswrap -->
                     </div>
                     <div class="clearfix maincharts">

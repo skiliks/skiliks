@@ -2546,7 +2546,7 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box sup {
     font-size: smaller;
-    line-height: 130%;
+    line-height: 110%;
     vertical-align: top;
 }
 .items th, .items th a {
@@ -3420,8 +3420,14 @@ ul.profile-menu li {
     .timeprcnt {
         left: 442px;
     }
-    .ratepercnt {
+    .ratepercnt, .product .ratepercnt {
         font-size: 14px;
+    }
+    .product .estmtileswrap {
+        margin-top: 0px;
+    }
+    .product .maincharts {
+        margin-top: -20px;
     }
     .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
     .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle
@@ -3466,10 +3472,24 @@ ul.profile-menu li {
     .product .levellabels {
         display:table;
         margin-bottom: 10px;
+        margin-top: -20px;
+    }
+    .product .product-gauge-charts {
+        height: 100px;
+    }
+    .product .rateslist .widthblock:nth-child(3) h3, .product .rateslist .widthblock:nth-child(3) ul,
+    .product .rateslist .widthblock:nth-child(4) h3, .product .rateslist .widthblock:nth-child(4) ul {
+        margin-left: 0px;
+    }
+    .product .bluelist li {
+        padding-left: 10px;
     }
     .chart-gauge, .maincharts .product-bullet-charts, .maincharts .bullet-charts {
         height: 106px;
         width:190px !important;
+    }
+    .blockvalue, .blockvalue .value {
+        font-size: 13px;
     }
     .maincharts .static-bullet-charts {
         height: 77px;
@@ -3487,6 +3507,15 @@ ul.profile-menu li {
     }
     .widthblock {
         width:190px !important;
+    }
+    .product .rateslist .widthblock:last-child {
+        width:192px !important;
+    }
+    .product .rateslist .widthblock:first-child {
+        width:196px !important;
+    }
+    .product .rateslist .widthblock:nth-child(2) {
+        width:186px !important;
     }
     .chart-bullet.small, .maincharts .chart-bullet.small {
         width:170px !important;
@@ -3536,8 +3565,9 @@ ul.profile-menu li {
     .simulation-details  .blockvalue, .simulation-details  .blockvalue span {
         font-size: 15px;
     }
-    .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
-        font-size:18px;
+    .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2,
+    .product .estmtileswrap h2 a{
+        font-size:18px !important;
     }
     .levellabels h3 {
         font-size:15px;
