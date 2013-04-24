@@ -2649,7 +2649,7 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr td:last-child p {
     margin: 0;
-    padding: 7px 0;
+    padding: 6px 0px 0px;
     /*position: relative;*/
 }
 #private-invitations-list-box .ratingwrap {
@@ -3220,7 +3220,7 @@ ul.profile-menu li {
     }
     .items sup {
         font-size: 0.88em;
-        line-height: 130%;
+        line-height: 160%;
         vertical-align: top;
     }
     #dashboard-skills-box sup {
