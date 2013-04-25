@@ -544,7 +544,7 @@
     background: url(../img/questn.png) no-repeat left bottom;
     display: inline-block;
     height:26px;
-    margin-left:10px;
+    margin-left:6px;
     margin-bottom: -6px;
     width: 27px;
 
@@ -1046,6 +1046,29 @@
 }
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
+}
+@media screen and (max-width: 1280px){
+    .simulation-details .navigation {
+        margin-bottom: 16px;
+    }
+    #simulation-details-pop-up h1 {
+        margin-top: -6px;
+    }
+    #simulation-details-pop-up h1 {
+        font-size: 26px;
+    }
+    .simulation-details .navigation {
+        margin-bottom: 18px;
+    }
+    .legend {
+        padding: 8px 20px 16px;
+    }
+    .mangrlresults .chartbar, .mangrlresults .chartproblem {
+        margin-bottom: 14px;
+    }
+    .thelabel {
+        height: 33px;
+    };
 }
 /*
 .controller-static-dashboard {
