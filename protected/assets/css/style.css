@@ -2291,6 +2291,8 @@ h2 {
     vertical-align: top;
 }
 #private-invitations-list-box .prcentval {
+    font-size: 10px;
+    line-height: 140%;
     vertical-align: top;
 }
 #job-recomendations-box {
@@ -2592,7 +2594,7 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .prcentval {
     font-size: 10px;
-    line-height: 110%;
+    line-height: 140%;
     vertical-align: top;
 }
 .items th, .items th a {
@@ -3249,6 +3251,10 @@ ul.profile-menu li {
         line-height: 120%;
         font-size: 0.7em;
         vertical-align: top;
+    }
+    #private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
+        font-size: 9px;
+        line-height: 120%;
     }
     #dashboard-skills-box .prcentval {
         line-height: 120%;
