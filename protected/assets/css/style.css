@@ -3543,6 +3543,9 @@ ul.profile-menu li {
         font-size: 12px;
         margin-left: -10px;
     }
+    .chart-bar {
+        height:26px;
+    }
     .simulation-result-popup {
         width: 775px !important;
     }
