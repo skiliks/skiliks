@@ -1,5 +1,5 @@
 <?php
-if(!isset($model)) 
+if(!isset($model))
 	$model = new YumUserLogin();
 
 $module = Yum::module();
@@ -12,75 +12,51 @@ $this->breadcrumbs=array(Yum::t('Login'));
 Yum::renderFlash();
 ?>
 
-<div class="form">
-<p>
-<?php
-echo Yum::t(
-		'Пожалуйста, заполните следующую форму с ваших учетных данных:'); ?>
-</p>
+<div class="enter_form">
+    <p>
+        <?php echo Yum::t('Пожалуйста, заполните следующую форму'); ?>
+    </p>
 
-<?php echo CHtml::beginForm(array('//user/auth/login'));  ?>
+    <?php echo CHtml::beginForm(array('//user/auth/login'));  ?>
+    <?php if(isset($_GET['action'])) echo CHtml::hiddenField('returnUrl', urldecode($_GET['action']));?>
 
-<?php
-if(isset($_GET['action']))
-	echo CHtml::hiddenField('returnUrl', urldecode($_GET['action']));
-?>
-
-	<div class="row">
-		<?php
-		if($module->loginType & UserModule::LOGIN_BY_USERNAME 
-				|| $module->loginType & UserModule::LOGIN_BY_LDAP)
-		echo CHtml::activeLabelEx($model,'username'); 
-		if($module->loginType & UserModule::LOGIN_BY_EMAIL)
-			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('Email'));
-		if($module->loginType & UserModule::LOGIN_BY_OPENID)
-			printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('OpenID username'));  ?>
-
-		<?php echo CHtml::activeTextField($model,'username') ?>
-		<?php echo CHtml::error($model,'username') ?>
-	</div>
-	
-	<div class="row">
-		<?php echo CHtml::activeLabelEx($model,'Пароль'); ?>
-		<?php echo CHtml::activePasswordField($model,'password'); ?>
-        <?php echo CHtml::error($model,'password') ?>
-		<?php
-        if($module->loginType & UserModule::LOGIN_BY_OPENID):
-			echo '<br />'. Yum::t('When logging in with OpenID, password can be omitted');
-        endif;
-        ?>
-		
-	</div>
-	
-	<div class="row">
-	<p class="hint">
-	<?php /*
-	if(Yum::hasModule('registration') && Yum::module('registration')->enableRegistration)
-	echo CHtml::link(Yum::t("Registration"),
-			Yum::module('registration')->registrationUrl);
-	if(Yum::hasModule('registration') 
-			&& Yum::module('registration')->enableRegistration
-			&& Yum::module('registration')->enableRecovery)
-	echo ' | ';
-	if(Yum::hasModule('registration') 
-			&& Yum::module('registration')->enableRecovery) 
-	echo CHtml::link(Yum::t("Lost password?"),
-			Yum::module('registration')->recoveryUrl);
-	*/ ?>
-</p>
-	</div>
-
-<div class="row rememberMe">
-<?php echo CHtml::activeCheckBox($model,'rememberMe', array('style' => 'display: inline;')); ?>
-<?php echo CHtml::activeLabelEx($model,'rememberMe', array('style' => 'display: inline;')); ?>
+    <div class="nice-border">
+        <div class="row">
+            <!--
+            <?php
+            if($module->loginType & UserModule::LOGIN_BY_USERNAME
+                    || $module->loginType & UserModule::LOGIN_BY_LDAP)
+            echo CHtml::activeLabelEx($model,'username');
+            if($module->loginType & UserModule::LOGIN_BY_EMAIL)
+                printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('Email'));
+            if($module->loginType & UserModule::LOGIN_BY_OPENID)
+                printf ('<label for="YumUserLogin_username">%s <span class="required">*</span></label>', Yum::t('OpenID username'));  ?>
+            -->
+            <?php echo CHtml::activeTextField($model,'username',['placeholder' => Yii::t('site', 'Enter your email address')]) ?>
+            <?php echo CHtml::error($model,'username') ?>
+        </div>
+        <div class="row">
+            <!--
+            <?php echo CHtml::activeLabelEx($model,'Пароль'); ?>
+            -->
+            <?php echo CHtml::activePasswordField($model,'password',['placeholder' => Yii::t('site', 'Password')]); ?>
+            <?php echo CHtml::error($model,'password') ?>
+            <?php
+            if($module->loginType & UserModule::LOGIN_BY_OPENID):
+                echo '<br />'. Yum::t('When logging in with OpenID, password can be omitted');
+            endif;
+            ?>
+        </div>
+        <div class="row submit">
+            <?php echo CHtml::submitButton(Yum::t('Войти')); ?>
+        </div>
+    </div>
+    <div class="row rememberMe">
+        <?php echo CHtml::activeCheckBox($model,'rememberMe', array('style' => 'display: inline;', 'class' => 'niceCheck')); ?>
+        <?php echo CHtml::activeLabelEx($model,'rememberMe', array('style' => 'display: inline;')); ?>
+    </div>
+    <?php echo CHtml::endForm(); ?>
 </div>
-
-<div class="row submit">
-<?php echo CHtml::submitButton(Yum::t('Login')); ?>
-</div>
-
-<?php echo CHtml::endForm(); ?>
-</div><!-- form -->
 
 <?php
 $form = new CForm(array(
@@ -109,11 +85,13 @@ $form = new CForm(array(
 
 <script>
     $(document).ready(function(){
-        var errors = $(".errorMessage");
+        var errors = $(".enter_form .errorMessage");
+        var submit = $('.action-controller-login-auth #usercontent input[type="submit"]');
         for (var i=0; i < errors.length;i++) {
             var inp = $(errors[i]).prev("input");
             $(inp).css({"border":"2px solid #bd2929"});
             $(errors[i]).addClass($(inp).attr("id"));
+            $(submit).height(48);
         }
     });
 </script>
