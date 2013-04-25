@@ -309,8 +309,10 @@ a:focus, a:active {
 	}
 	.sbSelector{
         height: 17px;
+        font-family:'ProximaNova-Regular';
 		line-height: 17px;
 		text-indent: 4px;
+        width: 110px;
 	}
 	.sbToggle{
 		background-image:url("../img/bg-select-toggle-min.png");
