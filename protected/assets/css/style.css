@@ -530,13 +530,13 @@ a:focus, a:active {
 	overflow:hidden;
 }
 .features h2, .thetitle {
-	font:2.619em "ProximaNova-Bold";
+	font:2.7em "ProximaNova-Bold";
 	color:#fff;
 	line-height:1.182em;
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
 }
 .thetitle {
-    font:2.87em "ProximaNova-Bold";
+    font:2.7em "ProximaNova-Bold";
     margin-bottom: 20px;
 }
 .midtitle, .flash-success {
@@ -3518,7 +3518,7 @@ ul.profile-menu li {
     .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle,
     .action-controller-login-auth #usercontent h2
     {
-        font-size: 2.219em;
+        font-size: 1.9em;
     }
     .action-controller-corporate-static-simulations .grid-view,
     .action-controller-personal-static-simulations .grid-view {
