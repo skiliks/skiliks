@@ -61,8 +61,8 @@ define([
                     }
 
                     // notify Bot
-                    if ('undefined' !== typeof Bot) {
-                        Bot.handle500();
+                    if ('undefined' !== typeof window.Bot) {
+                        window.Bot.handle500();
                     }
                 }
             );
