@@ -2258,13 +2258,13 @@ h2 {
     line-height: 120%;
 }
 .dashboard .thetitle {
-    font-size: 2.2em;
+    font-size: 1.8em;
 }
 .dashboard .bigtitle {
     font-size: 2.7em;
 }
 .dashboard .narrow-contnt {
-    margin-top: 7px;
+    margin-top: 15px;
 }
 .corpdashboard .narrow-contnt {
     margin-top: 0px;
@@ -3908,8 +3908,8 @@ ul.profile-menu li {
         margin-top: 4px;
     }
     .dashboard .narrow-contnt .thetitle {
-        margin-bottom: 23px;
-        margin-top: 3px;
+        margin-bottom: 19px;
+        margin-top: 8px;
     }
     section.registration-by-link h1 {
         font-size: 20px;
@@ -4003,6 +4003,44 @@ ul.profile-menu li {
     }
     #invite-form .sbOptions {
         overflow: hidden;
+    }
+    .action-controller-login-auth #usercontent {
+        width:546px;
+    }
+    .action-controller-login-auth .enter_form p {
+        font-size: 24px;
+    }
+    .action-controller-login-auth .nice-border  {
+        box-shadow: 0 0 0 8px rgba(20, 102, 114, 0.15);
+    }
+    .action-controller-login-auth .enter_form {
+        padding: 20px 15px 15px;
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+    .action-controller-login-auth .enter_form .row input#YumUserLogin_username {
+        width:156px;
+    }
+    .action-controller-login-auth .enter_form .row input#YumUserLogin_password {
+        width:116px;
+    }
+    .action-controller-login-auth .enter_form .row input[type="text"], .action-controller-login-auth .enter_form .row input[type="password"] {
+        height: 20px;
+        padding: 8px 7px;
+        font-size: 12px;
+    }
+    .action-controller-login-auth #usercontent input[type="submit"] {
+        background-position: 22px 50%;
+        height: 40px !important;
+        line-height: 40px !important;
+        font-size: 16px;
+        padding-left: 50px;
+        width:122px;
+    }
+    .action-controller-login-auth .enter_form .row.rememberMe {
+        font-size:14px;
+    }
+    .action-controller-login-auth .errorMessage.YumUserLogin_password {
+        left: 188px;
     }
 
 }
