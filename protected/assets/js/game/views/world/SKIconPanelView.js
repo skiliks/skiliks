@@ -373,8 +373,8 @@ define([
                     id        : 'audio-phone-call',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
                 }));
-                if (0 < me.$el.find("#audio-phone-call").length) {
-                    me.$el.find("#audio-phone-call")[0].play();
+                if (0 < $("#audio-phone-call").length) {
+                    $("#audio-phone-call")[0].play();
                 }
             },
 
