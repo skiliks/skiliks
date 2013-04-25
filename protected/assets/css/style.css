@@ -3718,6 +3718,7 @@ ul.profile-menu li {
         margin-left: 272px;
     }
     .timedetail .labels {
+        margin-top: 10px;
         width: 100px !important;
     }
     .timedetail .timebars {
