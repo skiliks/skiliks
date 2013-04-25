@@ -10,6 +10,9 @@
 body  .onetariff  {
     padding: 0px;
 }
+.action-tariffs h2 {
+    margin-top: 9px;
+}
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     height:410px;
@@ -124,7 +127,7 @@ body  .onetariff  {
     }
     .action-tariffs h2 {
         font-size: 2.219em;
-        margin-top: 29px;
+        margin-top: 0px; /*29 */
     }
     .tarifswrap {
         margin: 0 auto;
