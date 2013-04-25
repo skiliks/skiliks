@@ -373,7 +373,10 @@ define([
                     id        : 'audio-phone-call',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
                 }));
-                me.$el.find("#audio-phone-call")[0].play();
+                var tagsAudio = me.$el.find("#audio-phone-call");
+                if (0 < tagsAudio.length) {
+                    tagsAudio[0].play();
+                }
             },
 
             doSoundPhoneCallLongZoomerStop: function() {
