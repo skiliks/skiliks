@@ -66,18 +66,20 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var r = Math.round;
+        setTimeout(function() {
+            var r = Math.round;
 
-        new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
-        new charts.Gauge('.gauge-charts', r(AR.performance.total || 0), {class: 'inline'});
-        new charts.Gauge('.gauge-charts', r(AR.time.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', r(AR.performance.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', r(AR.time.total || 0), {class: 'inline'});
 
-        new charts.Bullet('.bullet-charts', 50, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 70, {class: 'small'});
-        new charts.Bullet('.bullet-charts', 40, {class: 'small'});
+            new charts.Bullet('.bullet-charts', 50, {class: 'small'});
+            new charts.Bullet('.bullet-charts', 70, {class: 'small'});
+            new charts.Bullet('.bullet-charts', 40, {class: 'small'});
 
-        $('.overall .value').html(r(AR.overall || 0));
-        $('.allrating').css('width', (AR.overall || 0) + '%');
+            $('.overall .value').html(r(AR.overall || 0));
+            $('.allrating').css('width', (AR.overall || 0) + '%');
+        }, 500);
     });
 
 
