@@ -1073,11 +1073,11 @@
         margin-bottom: 14px;
     }
     .labels {
-       margin-top: 5px;
+       margin-top: 6px;
     }
     .thelabel {
         height: 27px;
-    };
+    }
 }
 /*
 .controller-static-dashboard {
