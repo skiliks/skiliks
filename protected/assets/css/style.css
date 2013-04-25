@@ -3543,14 +3543,14 @@ ul.profile-menu li {
         font-size: 12px;
         margin-left: -10px;
     }
-    .chart-bar {
+    .chart-bar, .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
         height:24px;
     }
     .simulation-result-popup {
         width: 775px !important;
     }
     .simulation-details {
-        height:740px !important;
+        height:710px !important;
     }
     .estmfooter {
         width: 760px !important;
