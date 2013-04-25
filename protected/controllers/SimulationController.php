@@ -20,12 +20,19 @@ class SimulationController extends AjaxController
     {
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
+        $type = Yii::app()->request->getParam('type');
+        $user = Yii::app()->user->data();
 
         // check invite if it setted {
         $invite_id = Yii::app()->request->getParam('invite_id');
         $invite = Invite::model()->findByPk($invite_id);
 
         if (null == $invite) {
+            if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
+                $type != Scenario::TYPE_LITE) {
+                throw new LogicException('You must have invite.');
+            }
+
             $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = Yii::app()->user->data();
