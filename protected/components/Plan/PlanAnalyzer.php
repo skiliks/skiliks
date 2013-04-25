@@ -816,4 +816,56 @@ class PlanAnalyzer {
         $assessmentCalculation->value    = $behaviour->scale * count($wrongActions);
         $assessmentCalculation->save();
     }
+
+    public function calculate214d()
+    {
+        $behaviour214d = [];
+        $calculated214d = [];
+
+        // gather results {
+        foreach (['214d0', '214d1', '214d2', '214d3', '214d4', '214d5', '214d6', '214d8'] as $code) {
+            $behaviour214d[$code] = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
+            if (null === $behaviour214d[$code]) {
+                // return for Lite version
+                return;
+            }
+            $calculated214d[$code] = AssessmentCalculation::model()->findByAttributes([
+                'sim_id'   => $this->simulation->id,
+                'point_id' => $behaviour214d[$code]->id,
+            ]);
+        }
+        // gather results }
+
+        // update LearningGoal % {
+        $learningGoal214d = $this->simulation->game_type->getLearningGoal(['code' => '214d']);
+
+        $simulationLearningGoal = SimulationLearningGoal::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_goal_id' => $learningGoal214d->id,
+        ]);
+
+        if (null === $simulationLearningGoal) {
+            $simulationLearningGoal = new SimulationLearningGoal();
+            $simulationLearningGoal->sim_id = $this->simulation->id;
+            $simulationLearningGoal->learning_goal_id = $learningGoal214d->id;
+        }
+        $simulationLearningGoal->value = 0;
+
+        $positiveWeightsSum = $behaviour214d['214d0']->scale + $behaviour214d['214d1']->scale +
+            $behaviour214d['214d2']->scale + $behaviour214d['214d3']->scale
+            + $behaviour214d['214d4']->scale;
+        $positivePointsSum = $calculated214d['214d0']->value + $calculated214d['214d1']->value +
+            $calculated214d['214d2']->value + $calculated214d['214d3']->value + $calculated214d['214d4']->value;
+        $simulationLearningGoal->percent = substr(min($positiveWeightsSum/$positivePointsSum * 100, 100), 0, 5);
+
+        $negativeWeightsSum = $behaviour214d['214d5']->scale + $behaviour214d['214d6']->scale +
+            $behaviour214d['214d8']->scale;
+        $negativePointsSum = $this->simulation->game_type->getMaxRate([
+            'learning_goal_id' => $learningGoal214d->id
+        ])->rate;
+        $simulationLearningGoal->problem = substr(min($negativeWeightsSum/$negativePointsSum * 100, 100), 0, 5);
+
+        $simulationLearningGoal->save(false);
+        // update LearningGoal % }
+    }
 }
