@@ -2,7 +2,7 @@
     'use strict';
 
     $.easing.easeOutElasticSoft = function(p) {
-        return p === 0 || p === 1 ? p :	1 + Math.pow(2, -8 * p - 1) * Math.sin((-p * 80 - 7.5) * Math.PI / 15);
+        return p === 0 || p === 1 ? p :	1 + Math.pow(2, -8 * p - 0.5) * Math.sin((-p * 80 - 7.5) * Math.PI / 15);
     };
 
     function Gauge(container, value, options) {
@@ -44,9 +44,12 @@
 
             me.el.arrow.animate({textIndent: deg}, {
                 easing: 'easeOutElasticSoft',
-                duration: me.options.duration || 2000,
+                duration: me.options.duration || 5000,
                 step: function(now) {
                     $(this).css('transform', 'rotate(' + now + 'deg)');
+                    if (me.el.chart.hasClass('test')) {
+                        console.log(now);
+                    }
                 },
                 complete: function() {
                     me.el.value.text(value + '%').css({
