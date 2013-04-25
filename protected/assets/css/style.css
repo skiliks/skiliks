@@ -3336,11 +3336,11 @@ ul.profile-menu li {
     .light-btn, .invite-people-form input[type="submit"], .blue-btn, .vacancy-add-form-switcher  {
         font-size: 12px;
     }
-    .invites-smallmenu-switcher {
+    /*.invites-smallmenu-switcher {
         background: url("../img/menugearsmall.png") no-repeat left top;
         height: 19px;
         width:18px;
-    }
+    }*/
     .sideform label {
         font-size: 11px;
         width: 45px;
