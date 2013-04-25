@@ -3760,12 +3760,12 @@ ul.profile-menu li {
         margin-bottom: 4px;
     }
     .blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
-        background-position: left -3px;
+        background-position: left -2px;
         height: 26px;
         line-height: 26px;
     }
     .blue-btn:hover, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-        background-position: left -33px;
+        background-position: left -32px !important;
     }
 
     .container > header nav a.has-notification {
