@@ -3324,7 +3324,7 @@ ul.profile-menu li {
     #corporate-invitations-list-box time, #private-invitations-list-box time {
         margin-left: 4px;
     }
-    .light-btn, .invite-people-form input[type="submit"], .blue-btn  {
+    .light-btn, .invite-people-form input[type="submit"], .blue-btn, .vacancy-add-form-switcher  {
         font-size: 12px;
     }
     .sideform label {
@@ -3417,6 +3417,9 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 22px;
         padding: 2px 4px;
+    }
+    .profileform textarea {
+        font-size: 12px;
     }
     .profileform .sbHolder {
         height:17px;
