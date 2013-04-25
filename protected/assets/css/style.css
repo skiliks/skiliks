@@ -2907,7 +2907,7 @@ ul.profile-menu li {
     width:190px;
 }
 .tarifform .value, .tarifform .action {
-    float: left;
+    /*float: left;*/
     padding-right: 10px;
 }
 .tarifform .value {
@@ -2925,6 +2925,13 @@ ul.profile-menu li {
     font-family: "ProximaNova-Regular";
     font-size: 12px;
     line-height:110%;
+}
+.tarifform .row {
+    display: table;
+}
+.tarifform .label, .tarifform .value, .tarifform .action {
+    display: table-cell;
+    vertical-align: top;
 }
 /* ***********************************  /TARIFFS *********************************** */
 /* ********************** /DASHBOARD ********************** */
@@ -3965,6 +3972,10 @@ ul.profile-menu li {
         font-size: 16px;
         padding: 14px 20px 14px 44px;
     }
+    .action-controller-corporate-static-dashboard .invites-smallmenu-item {
+        padding: 10px 10px 4px 16px;
+    }
+
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
