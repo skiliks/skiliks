@@ -2019,14 +2019,19 @@ html[lang="en"] .footer .social_networks {
 @media screen and (max-width: 1280px){
     .sing-in-pop-up  {
         height:190px !important;
+        margin-left: -10px;
         width:247px !important;
     }
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        background-size: 26px;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
+    }
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        background-position: 0 -26px;
     }
     .ui-dialog .ui-dialog-title {
         font-size:22px;
@@ -3199,7 +3204,8 @@ ul.profile-menu li {
         padding: 0px 6px 0px 18px;
     }
     .skillstitle {
-        font-size: 12px;
+        font-size: 11px;
+        line-height:110%;
         width: 72px;
     }
     .transparent-boder {
@@ -3220,7 +3226,7 @@ ul.profile-menu li {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
     .inner .dashboard .thetitle {
-        font-size: 1.6em;
+        font-size: 1.4em;
     }
     .inner .dashboard .bigtitle {
         font-size: 1.9em;
@@ -3903,6 +3909,7 @@ ul.profile-menu li {
     }
     .dashboard .narrow-contnt .thetitle {
         margin-bottom: 23px;
+        margin-top: 3px;
     }
     section.registration-by-link h1 {
         font-size: 20px;

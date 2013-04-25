@@ -226,7 +226,7 @@
     font: 2.6em "ProximaNova-Bold";
     /*display: block;*/
     line-height: 90%;
-    margin-left: 5px;
+    margin-left: 0px; /* 5 */
     overflow: hidden;
     width: 38px;
 }
@@ -750,5 +750,11 @@ span.required {
     }
     .profile-menu a {
        padding-left: 10px;
+    }
+    .registrationform .row {
+        margin-left: 9px;
+    }
+    .YumProfile_email {
+
     }
 }
