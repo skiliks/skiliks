@@ -524,6 +524,7 @@ class LogHelper
     public static function setWindowsLog($simId, $logs)
     {
         if (!is_array($logs)) return false;
+        $errors = '';
         foreach ($logs as $key =>  $log) {
             assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
@@ -542,10 +543,13 @@ class LogHelper
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
                 if (0 == count($windows)) {
-                    throw(new CException('Can not close window: ' . $key. ' :: ' . print_r($log, true)));
+                    $errors .= 'Can not close window: ' . $key. ' :: ' . print_r($log, true) . "\n";
+                    continue;
                 }
                 if (1 < count($windows)) {
-                    throw(new CException('Two or more active windows at one time. Achtung!'));
+                    $errors .= "Two or more active windows at one time. Achtung!\n";
+                    continue;
+
                 }
                 foreach ($windows as $window) {
                     $window->end_time = gmdate("H:i:s", $log[3]);
@@ -559,6 +563,10 @@ class LogHelper
 
                 throw new CException("Ошибка"); //TODO:Описание доделать
             }
+        }
+
+        if ($errors) {
+            throw new CException($errors);
         }
 
         return true;
