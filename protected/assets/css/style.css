@@ -1464,6 +1464,12 @@ html[lang=ru] .product section table th{
 	    left:75px;
         padding-left: 0;
 	}
+    #user-account-personal-form .row .errorMessage, #user-account-corporate-form .row .errorMessage {
+        left: 102px;
+    }
+    #user-account-personal-form .row .errorMessage.right, #user-account-corporate-form .row .errorMessage.right {
+        left: 213px;
+    }
     .registration .form .row .errorMessage.right {
         left:199px;
     }
