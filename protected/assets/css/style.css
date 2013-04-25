@@ -2293,7 +2293,7 @@ h2 {
 #private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
     font-size: 10px;
     display: inline-block;
-    line-height: 140%;
+    line-height: 130%;
     vertical-align: top;
 }
 #job-recomendations-box {
