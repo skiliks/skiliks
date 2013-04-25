@@ -137,7 +137,7 @@
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
-    padding: 10px;
+    padding: 8px;
 }
 .transparent-boder:after, .dashboard:after, .registerpads:after, .tarifform .row:after {
     content: ".";
@@ -730,13 +730,15 @@ span.required {
         width: 156px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
-        padding: 8px 7px;
+        padding: 7px 7px;
+    }
+    .registrationform input[type=submit] {
+        height: 40px;
+        line-height: 40px;
+        font-size: 1.3em;
     }
     .registrationform input[type=submit] {
         background-position: 20px 10px;
-        height: 41px;
-        line-height: 41px;
-        font-size: 1.3em;
         padding-left: 50px;
         width: 155px;
     }
