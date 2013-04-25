@@ -45,6 +45,7 @@
     border-radius: 5px;
     padding:13px 15px;
     box-shadow:3px 3px 10px #C0C0C0 inset;
+    outline: none;
 }
 .action-controller-login-auth .enter_form .row input#YumUserLogin_username {
     width:189px;
