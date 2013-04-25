@@ -296,7 +296,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 /* Список доступных симуляций */
 .action-controller-personal-static-simulations h1.title,
 .action-controller-corporate-static-simulations h1.title{
-    font:40px/60px ProximaNova-Bold;
+    font:2.7em/60px ProximaNova-Bold;
     color:#fff;
     margin-bottom: 10px;
 }
