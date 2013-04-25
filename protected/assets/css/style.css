@@ -781,7 +781,7 @@ html[lang=ru] .main-article article{
 
 /* --------------- product ---------*/
 .product{
-	margin-top:35px;
+	margin-top:12px;
 }
 .product h2{
 	font:2.606em 'ProximaNova-Bold';
@@ -904,7 +904,7 @@ html[lang=ru] .product section table th{
 }
 @media screen and (max-width: 1280px){
 	.product{
-		margin-top:6px;
+		margin-top:0px;
 	}
 	.product h2{
         font-weight:normal;
@@ -990,7 +990,7 @@ html[lang=ru] .product section table th{
 }
 .team{
 	width:980px;
-	margin:36px auto 0;
+	margin:10px auto 0;
 }
 .team article{
 	width:715px;
@@ -1082,7 +1082,7 @@ html[lang=ru] .product section table th{
 	}
 	.team{
 		width:783px;
-		margin-top:29px;
+		margin-top:0px;
 	}
 	.team article{
 		width:575px;
@@ -2207,6 +2207,7 @@ h2 {
     font-family: "ProximaNova-Regular" !important;
     padding: 0 0 10px 6px;
     text-decoration: none;
+    z-index: 10000;
     /*width: 150px;*/
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {
@@ -3211,6 +3212,9 @@ ul.profile-menu li {
     }
     .inner-team .container {
         background-position: center 590px;
+    }
+    .inner-team .content {
+        padding-bottom: 180px;
     }
     #dashboard-skills-box, .nice-border {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
