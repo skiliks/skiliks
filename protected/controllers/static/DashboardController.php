@@ -347,11 +347,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite->status = Invite::STATUS_ACCEPTED;
         $invite->update(false, ['status', 'receiver_id']);
 
+        /* @flash
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s принято.',
             $invite->getCompanyOwnershipType(),
             ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
         ));
+         */
 
         $this->redirect('/dashboard'); // promo/full
     }
@@ -379,11 +381,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite->status = Invite::STATUS_DECLINED;
         $invite->update(false, ['status']);
 
+        /* @flash
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s отклонено.',
             $invite->getCompanyOwnershipType(),
             ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
         ));
+         */
 
         $this->redirect('/dashboard');
     }
@@ -439,11 +443,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
 
         } elseif($user->isPersonal()) {
+            /*
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s отклонено.',
                 $declineExplanation->invite->getCompanyOwnershipType(),
                 ($declineExplanation->invite->getCompanyName() === null)?"компании":$declineExplanation->invite->getCompanyName()
             ));
+            */
             $this->redirect('/dashboard');
         }
     }
