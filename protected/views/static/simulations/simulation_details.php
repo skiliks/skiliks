@@ -189,13 +189,9 @@
         });
 
         nav.$sections.on('open', function() {
-            var me = this;
-
-            setTimeout(function() {
-                $(me).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
-                    this.chartObject.refresh();
-                });
-            }, 500);
+            $(this).find('.chart-gauge, .chart-bar, .chart-bullet, .chart-pie').each(function() {
+                this.chartObject.refresh();
+            });
         });
     });
 </script>
