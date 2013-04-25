@@ -218,7 +218,7 @@ class Invite extends CActiveRecord
             'owner_id' => $this->owner_id,
             'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED, self::STATUS_EXPIRED]
         ])) {
-            $this->addError('email','Вы уже отправили инвайт на '.$this->email);
+            $this->addError('email','Приглашение уже отправлено');
         }
     }
 
@@ -328,7 +328,7 @@ class Invite extends CActiveRecord
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
             array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
-            array('owner_id, email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
+            array('owner_id, email', 'uniqueEmail', 'message' => "Приглашение уже отправлено"),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
