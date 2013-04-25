@@ -4048,6 +4048,9 @@ ul.profile-menu li {
     .action-controller-login-auth .errorMessage.YumUserLogin_password {
         left: 188px;
     }
+    #password-recovery-form input[type="submit"] {
+        text-indent: 11px;
+    }
 
 }
 
