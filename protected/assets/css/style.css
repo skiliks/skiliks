@@ -781,7 +781,7 @@ html[lang=ru] .main-article article{
 
 /* --------------- product ---------*/
 .product{
-	margin-top:35px;
+	margin-top:12px;
 }
 .product h2{
 	font:2.606em 'ProximaNova-Bold';
@@ -904,7 +904,7 @@ html[lang=ru] .product section table th{
 }
 @media screen and (max-width: 1280px){
 	.product{
-		margin-top:6px;
+		margin-top:0px;
 	}
 	.product h2{
         font-weight:normal;
