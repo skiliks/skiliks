@@ -3875,6 +3875,9 @@ ul.profile-menu li {
         width:170px;
     }
     .action-controller-corporate-static-dashboard .cabmessage {
+        left:50% !important;
+        margin-left:-240px !important;
+        top:170px !important;
         width:480px !important;
     }
     .action-controller-corporate-static-dashboard .cabmessage .ui-widget-content {
