@@ -38,7 +38,7 @@
                 success: function (data) {
                     simulation_popup.html(data);
                     simulation_popup.dialog('open');
-
+                    Cufon.refresh();
                     // fixSimResultsDialog {
                     $('.simulation-details .estmfooter a').click(function () {
                         fixSimResultsDialog();
