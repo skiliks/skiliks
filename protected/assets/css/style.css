@@ -3948,6 +3948,15 @@ ul.profile-menu li {
         top: -5px;
         left: 165px;
     }
+    #registration-by-link-form .YumProfile_firstname, #registration-by-link-form .YumProfile_lastname {
+        top: -6px;
+    }
+    .YumProfile_firstname {
+        left: 165px;
+    }
+    .YumProfile_lastname {
+        left: 335px;
+    }
     .YumUser_password, .YumUser_password_again {
         left: 165px;
         top: -6px;
