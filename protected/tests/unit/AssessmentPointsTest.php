@@ -152,7 +152,8 @@ class AssessmentPointsTest extends CDbTestCase
         $this->assertNotEmpty($realAssessments);
         foreach ($realAssessments as $realAssessment) {
             $learningGoalId = $realAssessment->point->learning_goal_id;
-            if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale) {
+            if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale &&
+                false == in_array($realAssessment->point->code, ['214d0', '214d1', '214d2', '214d3', '214d4', '214d5', '214d6', '214d7'])) {
                 $this->assertEquals(
                     abs(1 - $learningGoalCoefficient[$learningGoalId]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
                     $realAssessment->coefficient_for_fixed_value, 'Error in '.$realAssessment->point->code
