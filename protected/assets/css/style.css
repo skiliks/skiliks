@@ -2290,8 +2290,9 @@ h2 {
 #private-invitations-list-box sup {
     vertical-align: top;
 }
-#private-invitations-list-box .prcentval {
+#private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
     font-size: 10px;
+    display: inline-block;
     line-height: 140%;
     vertical-align: top;
 }
@@ -2590,11 +2591,6 @@ ul.profile-menu li {
 #corporate-invitations-list-box sup {
     font-size: smaller;
     line-height: 110%;
-    vertical-align: top;
-}
-#corporate-invitations-list-box .prcentval {
-    font-size: 10px;
-    line-height: 140%;
     vertical-align: top;
 }
 .items th, .items th a {
@@ -3257,7 +3253,6 @@ ul.profile-menu li {
         line-height: 120%;
     }
     #dashboard-skills-box .prcentval {
-        line-height: 120%;
         font-size: 0.7em;
         vertical-align: top;
     }
