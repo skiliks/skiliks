@@ -3789,10 +3789,6 @@ ul.profile-menu li {
     #account-personal-personal-form .row .value, #account-corporate-personal-form .row .value {
         font-size: 12px;
     }
-    .action-controller-login-auth #usercontent input[type="submit"] {
-        font-size:18px;
-        padding: 10px 22px 10px 42px;
-    }
     .bigbtnsubmt {
         font-size: 18px;
         height: 44px;

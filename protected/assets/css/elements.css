@@ -1,91 +1,106 @@
 /* /user/auth */
 .action-controller-login-auth #usercontent {
-    margin:0 auto;
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
-    border-radius: 8px 8px 8px 8px;
-    padding:10px;
+    margin: 0 auto;
+    padding: 10px 0 0;
+    width:673px;
 }
 .action-controller-login-auth #usercontent h2{
     font: 2.619em "ProximaNova-Bold";
-    margin-bottom: 15px;
+    margin-bottom: 32px;
     text-shadow: 0 0 7px rgba(0, 0, 0, 0.14);
     text-align:center;
 }
-.action-controller-login-auth #usercontent .form {
+.action-controller-login-auth .enter_form {
     background:#F3FFFF;
-    padding:26px;
-    border-radius:3px;
-    font-size:14px;
-    line-height:18px;
-    overflow:hidden;
+    padding:25px 20px 20px;
+    border-radius:4px;
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
 }
-.action-controller-login-auth #usercontent .form p {
+.action-controller-login-auth .enter_form p {
+    color:#555545;
+    font: 30px "ProximaNova-Bold";
     margin-bottom:10px;
+    text-align:center;
 }
-.action-controller-login-auth #usercontent .form .errorSummary ul {
-    color:red;
-    list-style-position: inside;
-    margin-left:20px;
+.action-controller-login-auth .enter_form form {
+    padding:8px;
 }
-.action-controller-login-auth #usercontent .form .errorSummary ul li {
-    margin-bottom:5px;
+.action-controller-login-auth .nice-border {
+    box-shadow: 0 0 0 10px rgba(20, 102, 114, 0.15);
+    padding:0;
+    margin:0 25px;
+    position: relative;
+    border-radius:4px;
 }
-.action-controller-login-auth #usercontent .form .row {
-    clear: both;
-    margin:20px 10% 0;
+.action-controller-login-auth .enter_form .row {
+    display:inline;
+    vertical-align:top;
+    position: static;
 }
-.action-controller-login-auth #usercontent .form .row label {
-    display: block;
-    float: left;
-    line-height: 50px;
-    width:130px;
-}
-.action-controller-login-auth #usercontent .form .row span.required {
-    display:inline !important;
-    color:red;
-}
-.action-controller-login-auth #usercontent .form .row input[type="text"],
-.action-controller-login-auth #usercontent .form .row input[type="password"] {
+.action-controller-login-auth .enter_form .row input[type="text"],
+.action-controller-login-auth .enter_form .row input[type="password"] {
     color:#036675;
     background:white;
     border: 1px solid #666;
     border-radius: 5px;
-    padding:15px;
-    width:222px;
+    padding:13px 15px;
     box-shadow:3px 3px 10px #C0C0C0 inset;
 }
-.action-controller-login-auth #usercontent .form .row input[type="text"]:focus,
-.action-controller-login-auth #usercontent .form .row input[type="password"]:focus {
-    border-color:#23BFD5;
+.action-controller-login-auth .enter_form .row input#YumUserLogin_username {
+    width:189px;
+}
+.action-controller-login-auth .enter_form .row input#YumUserLogin_password {
+    width:137px;
+    margin:0 5px;
+}
+.action-controller-login-auth .enter_form input[type="text"]:focus,
+.action-controller-login-auth .enter_form input[type="password"]:focus {
+    /*border-color:#23BFD5;
     border-radius: 5px;
+    outline:none;*/
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 3px #23BFD5;
-    outline:none;
+    border:1px solid #24bdd3;
 }
-.action-controller-login-auth #usercontent .form .row.rememberMe {
-    float:left;
-    margin:0 0 0 10%;
-    overflow: hidden;
+.action-controller-login-auth .enter_form .row.rememberMe {
+    display:block;
+    text-align:center;
+    color:#146672;
+    font:17px "ProximaNova-Regular";
+    margin-top:14px;
 }
-.action-controller-login-auth #usercontent .form .row.rememberMe input[type="checkbox"] {
-    margin-top:18px;
+.action-controller-login-auth .enter_form .row.submit {
+    float:right;
 }
-.action-controller-login-auth #usercontent .form .row.submit {
-    clear:none;
-    float:left;
-    margin-top:0;
-    margin-left:115px;
-}
-.action-controller-login-auth #usercontent input[type="submit"] {
-    background-image: url("../img/icon-circlarow.png");
+.action-controller-login-auth .enter_form input[type="submit"] {
+    background-image: url("../img/icon-btn-notify.png");
     background-repeat: no-repeat;
-    background-position: 15px 50%;
+    background-position: 37px 50%;
     background-color: #146672;
     border: none;
     border-radius: 4px;
     color: #FFFFFF;
     text-align: left;
-    padding:15px 25px 15px 42px;
-    font:23.8px ProximaNova-Regular;
+    padding:0 35px 0 60px;
+    font:20px ProximaNova-Bold;
+    height:46px;
+}
+.action-controller-login-auth .errorMessage.YumUserLogin_username {top:-15px;left:3px;}
+.action-controller-login-auth .errorMessage.YumUserLogin_password {top:-15px;left:236px;}
+.action-controller-login-auth .niceCheck{
+    background: url("../img/checkbox.png") no-repeat 0 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    overflow: hidden;
+    width: 14px;
+    position:relative;
+    top:1px;
+}
+.action-controller-login-auth .niceCheck.niceChecked {
+    background-position: 0 -14px;
+}
+.action-controller-login-auth .niceCheck input {
+    margin-left:-100px;
 }
 /* отказ от ваканчии в личном кабинете */
 .action-controller-registerByLink-static-userAuth  .ui-widget-content {
@@ -426,11 +441,6 @@ section.registration-by-link .form .row a.decline-link:hover {
     #account-personal-personal-form .YumProfile_firstname {left:158px;}
     #account-personal-personal-form .YumProfile_lastname {left:290px;}
 }
-/* Ошибки при входе */
-.action-controller-login-auth .errorMessage {
-    top:-15px;
-    left:135px;
-}
 /* Pop-up востановления пароля */
 #password-recovery-form {
     padding:15px 0 0;
@@ -476,6 +486,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 /* :hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
+.action-controller-login-auth #usercontent input[type="submit"]:hover,
 #registration-by-link-form input[type="submit"]:hover,
 #subscribe-form input[type="submit"]:hover,
 .profileform input[type="submit"]:hover{
@@ -485,7 +496,6 @@ section.registration-by-link .form .row a.decline-link:hover {
     color: #FFFFFF;
 }
 #registration_switch:hover,
-.action-controller-login-auth #usercontent input[type="submit"]:hover,
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover {
     background-image: url("../img/icon-circlarow-hover.png");
