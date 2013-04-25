@@ -3545,6 +3545,7 @@ ul.profile-menu li {
     }
     .chart-bar, .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
         height:24px;
+        line-height: 24px;
     }
     .simulation-result-popup {
         width: 775px !important;
