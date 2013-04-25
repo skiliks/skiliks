@@ -730,7 +730,7 @@ span.required {
         width: 156px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
-        padding: 7px 7px;
+        padding: 8px 7px;
     }
     .registrationform input[type=submit] {
         height: 40px;
