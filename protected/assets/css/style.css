@@ -2284,7 +2284,7 @@ h2 {
 }
 #dashboard-skills-box .prcentval {
     font-size: 0.8em;
-    line-height: 90%;
+    line-height: 120%;
     vertical-align: text-top;
 }
 #private-invitations-list-box sup {
@@ -3250,7 +3250,7 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
         font-size: 9px;
-        line-height: 120%;
+        line-height: 150%;
     }
     #dashboard-skills-box .prcentval {
         font-size: 0.7em;
