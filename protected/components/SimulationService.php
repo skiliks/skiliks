@@ -648,7 +648,9 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-        $simulation->checkLogs();
+        if ($simulation->isDevelopMode()) {
+            $simulation->checkLogs();
+        }
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
