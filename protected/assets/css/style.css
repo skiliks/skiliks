@@ -309,8 +309,10 @@ a:focus, a:active {
 	}
 	.sbSelector{
         height: 17px;
+        font-family:'ProximaNova-Regular';
 		line-height: 17px;
 		text-indent: 4px;
+        width: 110px;
 	}
 	.sbToggle{
 		background-image:url("../img/bg-select-toggle-min.png");
@@ -2282,7 +2284,18 @@ h2 {
     line-height: 90%;
     vertical-align: text-top;
 }
+#dashboard-skills-box .prcentval {
+    font-size: 0.8em;
+    line-height: 120%;
+    vertical-align: text-top;
+}
 #private-invitations-list-box sup {
+    vertical-align: top;
+}
+#private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
+    font-size: 10px;
+    display: inline-block;
+    line-height: 130%;
     vertical-align: top;
 }
 #job-recomendations-box {
@@ -2325,6 +2338,15 @@ ul.profile-menu li {
 .ratebg, .rating {
     display: inline-block;
     height: 17px;
+}
+#corporate-invitations-list-box .ratebg, #corporate-invitations-list-box .rating,
+#private-invitations-list-box .ratebg, #private-invitations-list-box .rating{
+    background-image: url("../img/ratestars2.png");
+    height: 14px;
+    line-height: 14px;
+}
+#corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
+    width:81px;
 }
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
@@ -2610,7 +2632,9 @@ ul.profile-menu li {
     margin-left: 3px;
     text-decoration: none;
 }
-
+#private-invitations-list-box .grid-view .items tr td:last-child {
+    vertical-align: top;
+}
 
 #private-invitations-list-box .grid-view tr td:first-child,
 #private-invitations-list-box .grid-view tr td:nth-child(2),
@@ -2647,13 +2671,13 @@ ul.profile-menu li {
 }
 #private-invitations-list-box .grid-view tr td:last-child p {
     margin: 0;
-    padding: 7px 0;
-    position: relative;
+    padding: 6px 0px 0px;
+    /*position: relative;*/
 }
 #private-invitations-list-box .ratingwrap {
     padding: 0;
-    position: absolute;
-    top:5px;
+    /*position: absolute;
+    top:5px;*/
 }
 #corporate-invitations-list-box .grid-view tr th:first-child,
 #corporate-invitations-list-box .grid-view tr td:first-child{
@@ -2696,9 +2720,6 @@ ul.profile-menu li {
 
 #corporate-invitations-list-box .rating, #private-invitations-list-box .rating {
     background-position: 0 -14px;
-}
-#corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
-    width:81px;
 }
 .invites-smallmenu-switcher {
     background: url("../img/menugear.png") no-repeat left top;
@@ -2888,7 +2909,7 @@ ul.profile-menu li {
     width:190px;
 }
 .tarifform .value, .tarifform .action {
-    float: left;
+    /*float: left;*/
     padding-right: 10px;
 }
 .tarifform .value {
@@ -2906,6 +2927,13 @@ ul.profile-menu li {
     font-family: "ProximaNova-Regular";
     font-size: 12px;
     line-height:110%;
+}
+.tarifform .row {
+    display: table;
+}
+.tarifform .label, .tarifform .value, .tarifform .action {
+    display: table-cell;
+    vertical-align: top;
 }
 /* ***********************************  /TARIFFS *********************************** */
 /* ********************** /DASHBOARD ********************** */
@@ -3221,11 +3249,19 @@ ul.profile-menu li {
     }
     .items sup {
         font-size: 0.88em;
-        line-height: 130%;
+        line-height: 160%;
         vertical-align: top;
     }
     #dashboard-skills-box sup {
         line-height: 120%;
+        font-size: 0.7em;
+        vertical-align: top;
+    }
+    #private-invitations-list-box .prcentval, #corporate-invitations-list-box .prcentval {
+        font-size: 9px;
+        line-height: 150%;
+    }
+    #dashboard-skills-box .prcentval {
         font-size: 0.7em;
         vertical-align: top;
     }
@@ -3247,7 +3283,7 @@ ul.profile-menu li {
     #private-invitations-list-box .grid-view table.items th, #corporate-invitations-list-box .grid-view table.items th,
     #private-invitations-list-box .grid-view table.items td, #corporate-invitations-list-box .grid-view table.items td {
         font-size: 10px !important;
-        padding: 5px 3px;
+        padding: 4px 3px;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
         max-width: 88px;
@@ -3297,7 +3333,7 @@ ul.profile-menu li {
     #corporate-invitations-list-box time, #private-invitations-list-box time {
         margin-left: 4px;
     }
-    .light-btn, .invite-people-form input[type="submit"], .blue-btn  {
+    .light-btn, .invite-people-form input[type="submit"], .blue-btn, .vacancy-add-form-switcher  {
         font-size: 12px;
     }
     .sideform label {
@@ -3390,6 +3426,9 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 22px;
         padding: 2px 4px;
+    }
+    .profileform textarea {
+        font-size: 12px;
     }
     .profileform .sbHolder {
         height:17px;
@@ -3568,7 +3607,7 @@ ul.profile-menu li {
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
     }
-    .product-bullet-charts, .regicon {
+    .product-bullet-charts, .regicon, .questn {
         -moz-transform: scale(0.9);
         -o-transform: scale(0.9);
         -webkit-transform: scale(0.9);
@@ -3586,7 +3625,13 @@ ul.profile-menu li {
         -webkit-transform: scale(0.7);
         transform: scale(0.7);
     }
+    .questn {
+        background-size: contain;
+        margin-left: 6px;
+        margin-bottom:-8px;
+    }
     .valuetitle {
+        margin-left: -10px;
         margin-right: 5px;
     }
     .timeblock {
@@ -3625,7 +3670,7 @@ ul.profile-menu li {
         font-size: 12px;
     }
     .labels {
-        width: 250px;
+        width: 258px !important;
     }
     .legendtitle {
         font-size:12px;
@@ -3648,20 +3693,20 @@ ul.profile-menu li {
         margin-left: 272px;
     }
     .timedetail .labels {
-        width: 100px;
+        width: 100px !important;
     }
     .timedetail .timebars {
         width:190px !important;
     }
     .timedetail .resulttitele {
-        font-size:18px;
-        width: 265px;
+        font-size:17px;
+        width: 266px;
     }
     .timeblock .chart-bar {
         margin-top: 13px;
     }
     .personallabels {
-        width: 290px;
+        width: 304px;
     }
     .personallabels .smalltitle, .shortchartdesc {
         font-size: 13px;
@@ -3670,7 +3715,7 @@ ul.profile-menu li {
         width: 400px;
     }
     .chart-bullet .chart-value {
-        font-size:18px;
+        font-size:16px;
     }
     .estmfooter a {
         font-size: 12px;
@@ -3717,12 +3762,12 @@ ul.profile-menu li {
         margin-bottom: 4px;
     }
     .blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
-        background-position: left -3px;
+        background-position: left -2px;
         height: 26px;
         line-height: 26px;
     }
     .blue-btn:hover, .light-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
-        background-position: left -33px;
+        background-position: left -32px !important;
     }
 
     .container > header nav a.has-notification {
@@ -3794,7 +3839,7 @@ ul.profile-menu li {
         height: 44px;
         line-height: 44px;
         background-position: 12px 12px;
-        padding: 0 30px 0 56px;
+        padding: 0 30px 0 50px;
     }
     #add-vacancy-form  .row   {
         padding-bottom: 10px;
@@ -3841,12 +3886,94 @@ ul.profile-menu li {
     .cabmessage input[type="submit"] {
         font-size:12px;
     }
-    #corporate-invitations-list-box .ratebg, #corporate-invitations-list-box .rating,
-    #private-invitations-list-box .ratebg, #private-invitations-list-box .rating{
-        background-image: url("../img/ratestars2.png");
-        height: 14px;
-        line-height: 14px;
+    .dashboard .narrow-contnt {
+        margin-top: 4px;
     }
+    .dashboard .narrow-contnt .thetitle {
+        margin-bottom: 23px;
+    }
+    section.registration-by-link h1 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        padding-top: 106px;
+    }
+    section.registration-by-link {
+        background-size: contain;
+        padding: 0 14px 30px 20px;
+        height: 370px;
+        width: 595px;
+    }
+    section.registration-by-link .form .row label {
+        font-size: 11px;
+        width:155px;
+    }
+    section.registration-by-link .form .row .sbHolder {
+        width:285px;
+    }
+    section.registration-by-link .form .row input[type="text"], section.registration-by-link .form .row input[type="password"] {
+        font-size: 11px;
+        padding: 3px 7px;
+        width: 140px;
+    }
+    section.registration-by-link .form .row input[type="submit"] {
+        background-position: 17px 11px;
+        height: 40px;
+        font-size: 16px;
+    }
+    section.registration-by-link .form .row a.decline-link {
+        font-size:11px;
+    }
+    section.registration-by-link .form .row.buttons {
+        padding-left: 158px;
+    }
+    section.registration-by-link .form .row {
+        margin-bottom: 3px;
+    }
+    section.registration-by-link .form .row.buttons {
+        margin-top: 5px;
+    }
+    .wide .sbHolder_err {
+        top: -5px;
+        left: 165px;
+    }
+    .YumUser_password, .YumUser_password_again {
+        left: 165px;
+        top: -6px;
+    }
+    #invite-decline-form .form-decline-explanation {
+        background-size: contain;
+        width: 510px;
+        height: 370px;
+    }
+    #invite-decline-form #form-decline-explanation {
+        padding: 18px 28px;
+    }
+    #invite-decline-form .form-decline-explanation {
+        margin-left: -254px;
+        top: 184px;
+    }
+    #invite-decline-form #form-decline-explanation h2 {
+        font-size: 26px;
+        margin-bottom: 16px;
+    }
+    #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id label {
+        font-size: 12px;
+        line-height: 20px;
+    }
+    #invite-decline-form #form-decline-explanation textarea {
+        height: 90px;
+        font-size: 12px;
+        margin-bottom: 10px;
+        width: 430px;
+    }
+    #invite-decline-form #form-decline-explanation input[type="submit"] {
+        font-size: 16px;
+        padding: 14px 20px 14px 44px;
+    }
+    .action-controller-corporate-static-dashboard .invites-smallmenu-item {
+        padding: 10px 10px 4px 16px;
+    }
+
 }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
