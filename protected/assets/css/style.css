@@ -3283,7 +3283,7 @@ ul.profile-menu li {
     #private-invitations-list-box .grid-view table.items th, #corporate-invitations-list-box .grid-view table.items th,
     #private-invitations-list-box .grid-view table.items td, #corporate-invitations-list-box .grid-view table.items td {
         font-size: 10px !important;
-        padding: 5px 3px;
+        padding: 4px 3px;
     }
     #private-invitations-list-box .grid-view tr th:first-child, #private-invitations-list-box .grid-view tr td:first-child {
         max-width: 88px;
