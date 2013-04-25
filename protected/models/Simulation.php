@@ -287,13 +287,13 @@ class Simulation extends CActiveRecord
         $unixtime = 0;
         foreach ($this->log_windows as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty window end time");
+                throw new Exception("Empty window end time WindowLogs");
             }
             if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
-                throw new Exception("Time gap");
+                throw new Exception("Time gap WindowLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap WindowLogs");
             }
             $unixtime = strtotime($log->end_time);
         }
@@ -309,13 +309,13 @@ class Simulation extends CActiveRecord
         $total = 0;
         foreach ($this->log_activity_actions as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time");
+                throw new Exception("Empty activity end time ActivityLogs");
             }
             if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
-                throw new Exception("Time gap");
+                throw new Exception("Time gap ActivityLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap ActivityLogs");
             }
             $unixtime = strtotime($log->end_time);
             $total += $unixtime - strtotime($log->start_time);
@@ -334,13 +334,13 @@ class Simulation extends CActiveRecord
         $total = 0;
         foreach ($this->log_activity_actions_aggregated as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time");
+                throw new Exception("Empty activity end time ActivityAggregatedLogs");
             }
             if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
-                throw new Exception("Time gap");
+                throw new Exception("Time gap ActivityAggregatedLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap ActivityAggregatedLogs");
             }
             $unixtime = strtotime($log->end_time);
             $total += $unixtime - strtotime($log->start_time);
@@ -362,10 +362,10 @@ class Simulation extends CActiveRecord
         $unixtime = 0;
         foreach ($this->log_dialogs as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty end time");
+                throw new Exception("Empty end time DialogLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap DialogLogs");
             }
             $unixtime = strtotime($log->end_time);
         }
@@ -380,10 +380,10 @@ class Simulation extends CActiveRecord
         $unixtime = 0;
         foreach ($this->log_mail as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty mail end time for " . $log->primaryKey);
+                throw new Exception("Empty mail end time for " . $log->primaryKey." MailLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap MailLogs");
             }
             $unixtime = strtotime($log->end_time);
         }
@@ -395,13 +395,13 @@ class Simulation extends CActiveRecord
         $total = 0;
         foreach ($this->universal_log as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time");
+                throw new Exception("Empty activity end time UniversalLogs");
             }
             if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
-                throw new Exception("Time gap");
+                throw new Exception("Time gap UniversalLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
+                throw new Exception("Time overlap UniversalLogs");
             }
             $unixtime = strtotime($log->end_time);
             $total += $unixtime - strtotime($log->start_time);

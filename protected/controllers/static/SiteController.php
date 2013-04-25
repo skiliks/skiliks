@@ -79,7 +79,8 @@ class SiteController extends AjaxController
                 $this->redirect("/profile/corporate/tariff");
             }
         }else{
-            if(false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
+            if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
+                $type != Scenario::TYPE_LITE) {
                 $this->redirect("/dashboard");
             }
         }

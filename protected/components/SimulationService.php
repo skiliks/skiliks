@@ -605,7 +605,14 @@ class SimulationService
         }
 
         // данные для логирования
-        EventsManager::processLogs($simulation, $logs_src);
+        try {
+            EventsManager::processLogs($simulation, $logs_src);
+        } catch (Exception $e) {
+            if ($simulation->isDevelopMode()) {
+                throw $e;
+            }
+
+        }
 
         // Make agregated activity log 
         LogHelper::combineLogActivityAgregated($simulation);
@@ -648,7 +655,9 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-        $simulation->checkLogs();
+        if ($simulation->isDevelopMode()) {
+            $simulation->checkLogs();
+        }
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();

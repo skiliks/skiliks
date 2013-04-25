@@ -1,5 +1,7 @@
-/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
- SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView, SKMailClientView, SKPhoneCallView */
+/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView,
+SKImmediateVisitView, SKPhoneView, SKMailClientView, SKDialogView,
+ SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView,
+ SKMailClientView, SKPhoneCallView, define */
 
 var SKSimulationView;
 
@@ -237,7 +239,7 @@ define([
                 me.simulation.startPause();
                 me._showPausedScreen();
 
-                new SKDialogView({
+                var d = new SKDialogView({
                     message: 'Рабочий день закончен',
                     buttons: [
                         {
@@ -249,7 +251,7 @@ define([
                                     me.simulation.stop()
                                 );
 
-                                new SKDialogView({
+                                var d = new SKDialogView({
                                     message: 'Данные симуляции сохраняются. <br/> Это займёт 10-15 секунд.',
                                     buttons: []
                                 });
@@ -273,7 +275,7 @@ define([
                 me.simulation.stop();
 
                 me._showPausedScreen();
-                new SKDialogView({
+                var d = new SKDialogView({
                     message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты. <br/> Это займёт 5-10 сек.',
                     buttons: [
                         {

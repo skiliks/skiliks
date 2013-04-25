@@ -224,7 +224,7 @@
 .testtime strong {
     color: #146672;
     font: 2.6em "ProximaNova-Bold";
-    display: block;
+    /*display: block;*/
     line-height: 90%;
     margin-left: 5px;
     overflow: hidden;
