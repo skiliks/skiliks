@@ -605,7 +605,14 @@ class SimulationService
         }
 
         // данные для логирования
-        EventsManager::processLogs($simulation, $logs_src);
+        try {
+            EventsManager::processLogs($simulation, $logs_src);
+        } catch (Exception $e) {
+            if ($simulation->isDevelopMode()) {
+                throw $e;
+            }
+
+        }
 
         // Make agregated activity log 
         LogHelper::combineLogActivityAgregated($simulation);
