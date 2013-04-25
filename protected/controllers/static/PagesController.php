@@ -195,7 +195,7 @@ class PagesController extends AjaxController
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s ещё не одобрено Вами.',
                 $invite->getCompanyOwnershipType(),
-                $invite->getCompanyName()
+                ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -206,7 +206,7 @@ class PagesController extends AjaxController
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s уже использовано для запуска симуляции.',
                 $invite->getCompanyOwnershipType(),
-                $invite->getCompanyName()
+                ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -217,7 +217,7 @@ class PagesController extends AjaxController
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s было отклонено.',
                 $invite->getCompanyOwnershipType(),
-                $invite->getCompanyName()
+                ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');
@@ -228,7 +228,7 @@ class PagesController extends AjaxController
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s просрочено.',
                 $invite->getCompanyOwnershipType(),
-                $invite->getCompanyName()
+                ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
             $this->redirect('/simulations');

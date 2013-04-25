@@ -350,7 +350,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s принято.',
             $invite->getCompanyOwnershipType(),
-            $invite->getCompanyName()
+            ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
         ));
 
         $this->redirect('/dashboard'); // promo/full
@@ -382,7 +382,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         Yii::app()->user->setFlash('success', sprintf(
             'Приглашение от %s %s отклонено.',
             $invite->getCompanyOwnershipType(),
-            $invite->getCompanyName()
+            ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
         ));
 
         $this->redirect('/dashboard');
@@ -442,7 +442,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s отклонено.',
                 $declineExplanation->invite->getCompanyOwnershipType(),
-                $declineExplanation->invite->getCompanyName()
+                ($declineExplanation->invite->getCompanyName() === null)?"компании":$declineExplanation->invite->getCompanyName()
             ));
             $this->redirect('/dashboard');
         }
