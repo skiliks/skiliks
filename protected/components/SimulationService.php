@@ -649,7 +649,6 @@ class SimulationService
 
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
-        // $planAnalyzer->calculate214d();
 
         $learning_area = new LearningAreaAnalyzer($simulation);
         $learning_area->run();
