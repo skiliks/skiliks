@@ -168,7 +168,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
     '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
     '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
-    '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn, .profile-menu .active a,' +
+    '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
     '.value, .tarifform .value',
     {hover: true}
 );
@@ -188,6 +188,10 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector'
     , {fontFamily:"ProximaNova-Regular", hover:true});
 
+Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
+    '#account-personal-personal-form .row .value',
+    {fontFamily:"ProximaNova-Bold", hover:true}
+);
 Cufon.replace('.freeacess', {hover:true});
 //Cufon.replace('.light-btn', {fontFamily:"ProximaNova-Bold", hover: true});
 
