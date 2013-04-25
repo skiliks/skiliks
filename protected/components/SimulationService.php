@@ -625,8 +625,8 @@ class SimulationService
 
         DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
-        $plan = new PlanAnalyzer($simulation);
-        $plan->run();
+        $planAnalyzer = new PlanAnalyzer($simulation);
+        $planAnalyzer->run();
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
@@ -649,6 +649,7 @@ class SimulationService
 
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
+        // $planAnalyzer->calculate214d();
 
         $learning_area = new LearningAreaAnalyzer($simulation);
         $learning_area->run();
@@ -746,8 +747,10 @@ class SimulationService
         foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
             $learningGoals[$learningGoalForUpdate->getPrimaryKey()] = $learningGoalForUpdate;
 
-            $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
-            $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
+            if (false == in_array($learningGoalForUpdate->code, ['214a', '214b', '214d'])) {
+                $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
+                $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
+            }
         }
 
         $negativeLearningGoalCriteria = new CDbCriteria();
@@ -803,6 +806,7 @@ class SimulationService
                 $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_id];
                 $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
             } else {
+                $assessment->coefficient_for_fixed_value = 1;
                 $assessment->fixed_value = $assessment->value;
             }
             $assessment->save();

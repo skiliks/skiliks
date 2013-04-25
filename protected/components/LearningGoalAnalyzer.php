@@ -36,10 +36,10 @@ class LearningGoalAnalyzer
                     continue;
                 }
 
-                if ($behaviour->type_scale == 1) { // Positive
+                if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) { // Positive
                     $totalPos += $values[$behaviour->id];
                     $maxPos += $behaviour->scale;
-                } elseif ($behaviour->type_scale == 2) { //Negative
+                } elseif ($behaviour->type_scale == HeroBehaviour::TYPE_NEGATIVE) { //Negative
                     $totalCons += $values[$behaviour->id];
                     $maxCons += $behaviour->scale;
                 }
