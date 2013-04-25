@@ -1063,8 +1063,14 @@
     .legend {
         padding: 8px 20px 16px;
     }
+    .legendvalue {
+        margin-top: 2px;
+    }
     .mangrlresults .chartbar, .mangrlresults .chartproblem {
         margin-bottom: 14px;
+    }
+    .labels {
+       margin-top: 5px;
     }
     .thelabel {
         height: 27px;
