@@ -2282,7 +2282,15 @@ h2 {
     line-height: 90%;
     vertical-align: text-top;
 }
+#dashboard-skills-box .prcentval {
+    font-size: 0.8em;
+    line-height: 90%;
+    vertical-align: text-top;
+}
 #private-invitations-list-box sup {
+    vertical-align: top;
+}
+#private-invitations-list-box .prcentval {
     vertical-align: top;
 }
 #job-recomendations-box {
@@ -2578,6 +2586,11 @@ ul.profile-menu li {
     padding-left: 0px;
 }
 #corporate-invitations-list-box sup {
+    font-size: smaller;
+    line-height: 110%;
+    vertical-align: top;
+}
+#corporate-invitations-list-box .prcentval {
     font-size: smaller;
     line-height: 110%;
     vertical-align: top;
@@ -3233,6 +3246,11 @@ ul.profile-menu li {
         vertical-align: top;
     }
     #dashboard-skills-box sup {
+        line-height: 120%;
+        font-size: 0.7em;
+        vertical-align: top;
+    }
+    #dashboard-skills-box .prcentval {
         line-height: 120%;
         font-size: 0.7em;
         vertical-align: top;
