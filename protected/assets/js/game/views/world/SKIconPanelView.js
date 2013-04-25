@@ -374,7 +374,7 @@ define([
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
                 }));
                 var tagsAudio = me.$el.find("#audio-phone-call");
-                if (0 < tagsAudio.length) {
+                if (0 < tagsAudio.length && 'undefined' !== typeof tagsAudio[0]) {
                     tagsAudio[0].play();
                 }
             },
