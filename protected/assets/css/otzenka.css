@@ -1048,6 +1048,9 @@
     border-radius: 5px 0px 0px 5px;
 }
 @media screen and (max-width: 1280px){
+    .simulation-result-popup {
+        padding-bottom: 18px;
+    }
     .simulation-details .navigation {
         margin-bottom: 16px;
     }
