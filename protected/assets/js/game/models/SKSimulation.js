@@ -216,7 +216,7 @@ define([
                             planView.doActivateTodo(event.get('id'));
                         }
                     });
-                    me.window_set.toggle('plan', 'plan');
+                    me.window_set.open('plan', 'plan');
                 });
                 this.events.on('event:mail', function () {
                     me.getNewEvents();
