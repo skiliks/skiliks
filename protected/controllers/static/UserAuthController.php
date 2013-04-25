@@ -614,17 +614,8 @@ class UserAuthController extends YumController
         $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
         // redirect to success message page
-        $this->redirect('/registration/confirm-corporate-email-success');
-    }
-
-    /**
-     * Just success message
-     */
-    public function actionConfirmCorporateEmailSuccess()
-    {
         Yii::app()->user->setFlash( 'success', 'Вы успешно подтвердили свой корпоративный e-mail.' );
-
-        $this->render('emptyPage');
+        $this->redirect('/dashboard');
     }
     
     /**
