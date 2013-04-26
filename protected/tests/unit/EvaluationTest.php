@@ -68,7 +68,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialProductivity();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals(4, $sim->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY));
+        $this->assertEquals(7, $sim->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY));
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkOverallManagerRating();
