@@ -2222,13 +2222,13 @@ h2 {
     /*width: 150px;*/
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {
-    display: none !important;
+    /*display: none !important;*/
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover, .invites-smallmenu-item a:hover {
     color: #000;
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item a.edit-invite {
-    display:none !important;
+    /*display:none !important;*/
 }
 .action-controller-corporate-static-dashboard .items th,
 .action-controller-corporate-static-dashboard .items td {

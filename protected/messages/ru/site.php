@@ -135,7 +135,7 @@ return array(
     'Simulation' => 'Симуляция',
     'Log out' => 'Выход',
     'Type your corporate e-mail' => 'Введите корпоративный email',
-    'Email already exists, but not activated.' => 'E-mail уже зарегистрирован, но не активирован.',
+    'Email already exists, but not activated.' => 'E-mail уже зарегистрирован, но не активирован.&nbsp',
     'Send activation again' => 'Выслать активационное письмо повторно',
     'We send corporate-email-address verification email to you.<br/> Please, confirm your corporate email by link in this letter.' => 'Вам на почту пришло письмо со ссылкой для подтверждения корпоративного емейла.<br/> Пожалуйста подтвердите свой корпоративный емейл перейдя по ссылке из письма.',
     'Linear manager' => 'Менеджер',
