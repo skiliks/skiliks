@@ -724,6 +724,7 @@ class SimulationService
      */
     public static function applyReductionFactors(Simulation $simulation)
     {
+        /*
         // we will calculate K based om MAX negative value for learning goals
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(['type' => MaxRate::TYPE_FAIL]);
@@ -811,6 +812,13 @@ class SimulationService
             $assessment->save();
         }
         // update assessment on positive scale }
+        */
+
+        foreach ($simulation->assessment_aggregated as $assessment) {
+            $assessment->coefficient_for_fixed_value = 1;
+            $assessment->fixed_value = $assessment->value;
+            $assessment->save();
+        }
     }
 
     public static function stressResistance($simulation) {
