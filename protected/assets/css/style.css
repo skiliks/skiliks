@@ -759,7 +759,16 @@ html[lang=ru] .main-article article{
 .clients ul li{
 	float:left;
 	height:85px;
-	margin:27px 30px 0 0;
+	padding:27px 30px 0 0;
+}
+.clients ul li:nth-child(2) img {
+    margin-top:14px;
+}
+.clients ul li:nth-child(3) img {
+    margin-top:10px;
+}
+.clients ul li:nth-child(4) img {
+    margin-top:20px;
 }
 .clients ul li a{
 	display:block;
@@ -770,7 +779,7 @@ html[lang=ru] .main-article article{
 		margin-top:104px;
 	}
 	.clients ul li{
-		margin:15px 10px 0 0;
+        padding:15px 10px 0 0;
         height: 65px;
 	}
 	.clients ul li img{

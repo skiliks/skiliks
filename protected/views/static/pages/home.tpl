@@ -84,8 +84,8 @@
 					
 					<ul>
                         <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
-						<li style="margin-top:12px;">{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
-						<li style="margin-top:8px;">{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
+						<li>{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
 						<li>{CHtml::image("$assetsUrl/img/icon-mcg.png")}</li>
 					</ul>
 				</section>
