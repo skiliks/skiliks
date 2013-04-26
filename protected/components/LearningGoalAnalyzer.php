@@ -32,15 +32,21 @@ class LearningGoalAnalyzer
             $totalPos = 0; $maxPos = 0;
             $totalCons = 0; $maxCons = 0;
             foreach ($goal->heroBehaviours as $behaviour) {
+                // TODO: Anton decision
+                // Case 1:
+                // $value = isset($values[$behaviour->id]) ? $values[$behaviour->id] : 0;
+
+                // Case 2:
                 if (!array_key_exists($behaviour->id, $values)) {
                     continue;
                 }
+                $value = $values[$behaviour->id];
 
                 if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) { // Positive
-                    $totalPos += $values[$behaviour->id];
+                    $totalPos += $value;
                     $maxPos += $behaviour->scale;
                 } elseif ($behaviour->type_scale == HeroBehaviour::TYPE_NEGATIVE) { //Negative
-                    $totalCons += $values[$behaviour->id];
+                    $totalCons += $value;
                     $maxCons += $behaviour->scale;
                 }
             }
