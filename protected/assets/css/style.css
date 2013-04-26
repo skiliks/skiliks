@@ -766,15 +766,15 @@ html[lang=ru] .main-article article{
 }
 @media screen and (max-width: 1280px){
 	.clients{
-        margin-left: 92px;
+        margin-left: 20px;/* */
 		margin-top:104px;
 	}
 	.clients ul li{
-		margin:15px 5px 0 0;
+		margin:15px 10px 0 0;
         height: 65px;
 	}
 	.clients ul li img{
-		width:60%;
+		width:90%;
 	}
 }
 /* --------------- /clients ---------*/
