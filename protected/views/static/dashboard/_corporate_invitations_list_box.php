@@ -33,8 +33,8 @@ $this->widget('zii.widgets.grid.CGridView', [
             'type' => 'raw'
         ],
         ['header' => Yii::t('site', 'Score')                                , 'value' => $scoreRender, 'type' => 'raw'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
     ]
 ]);
 ?>
