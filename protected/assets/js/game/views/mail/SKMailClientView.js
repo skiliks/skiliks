@@ -155,7 +155,20 @@ define([
                 // call parent initialize();
                 SKWindowView.prototype.initialize.call(this);
 
-                setInterval(me.mailClient.getInboxFolderEmails, 3000);
+                this.listenTo(SKApp.simulation.events, 'event:mail', _.bind(function() {
+                    me.mailClient.getInboxFolderEmails(me.updateFolderLabels());
+                    if (me.mailClient.getActiveFolder().alias === me.mailClient.aliasFolderInbox &&
+                        (
+                            me.mailClient.activeScreen === me.mailClient.screenInboxList ||
+                            me.mailClient.activeScreen === me.mailClient.screenDraftsList ||
+                            me.mailClient.activeScreen === me.mailClient.screenSendedList ||
+                            me.mailClient.activeScreen === me.mailClient.screenTrashList
+                        )) {
+                        me.doRenderFolder(me.mailClient.aliasFolderInbox, false, false);
+
+                        this.mailClient.trigger('mail:update_inbox_counter');
+                    }
+                }, me));
             },
             /**
              * Вызывается перед закрытием почтового окна. Предлагает сохранить черновик

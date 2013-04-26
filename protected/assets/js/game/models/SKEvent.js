@@ -35,6 +35,7 @@ define([], function () {
          * @return {'phone'|'immediate-phone'|'immediate-visit'|'visit'}
          */
         getTypeSlug: function () {
+
             if (this.get('type') === 1) {
                 var first_replica = this.get('data')[0];
                 if (first_replica.dialog_subtype === '1') {
