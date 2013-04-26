@@ -56,8 +56,15 @@ class Evaluation {
             }
         }
 
+        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
+            'sim_id' => $this->simulation->id
+        ]);
+        $existBehaviourIds = array_map(function(AssessmentAggregated $val) {
+            return $val->point_id;
+        }, $aggregated);
+
         /** @var HeroBehaviour[] $behaviours */
-        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1]);
+        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1, 'id' => $existBehaviourIds]);
         foreach ($behaviours as $behaviour) {
             $maxRate += $behaviour->scale;
         }

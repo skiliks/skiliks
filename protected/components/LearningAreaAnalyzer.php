@@ -166,7 +166,7 @@ class LearningAreaAnalyzer {
             'sim_id' => $this->simulation->id
         ]);
 
-        $existBehaviours = array_map(function(AssessmentAggregated $val) {
+        $existBehaviourIds = array_map(function(AssessmentAggregated $val) {
             return $val->point_id;
         }, $aggregated);
 
@@ -175,7 +175,7 @@ class LearningAreaAnalyzer {
         foreach ($behaviours as $behaviour) {
             // TODO: Anton decision
             // Remove out second condition
-            if ($behaviour->type_scale == 1 && in_array($behaviour->id, $existBehaviours)) {
+            if ($behaviour->type_scale == 1 && in_array($behaviour->id, $existBehaviourIds)) {
                 $maxRate += $behaviour->scale;
             }
         }
