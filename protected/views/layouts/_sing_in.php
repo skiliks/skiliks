@@ -73,7 +73,7 @@
             $(".popup-recovery").dialog('open');
             $(".popup-recovery").dialog({
                 closeOnEscape: true,
-                dialogClass: 'sing-in-pop-up', //'popup-recovery-view',
+                dialogClass: 'popup-recovery-view',
                 minHeight: 220,
                 modal: true,
                 resizable: false,
