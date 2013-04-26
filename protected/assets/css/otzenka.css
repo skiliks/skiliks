@@ -667,7 +667,7 @@
 .simulation-result-popup .ui-state-focus,
 .feedbackwrap .ui-widget-header .ui-icon,
 .feedbackwrap .ui-widget-header .ui-state-hover,
-.feedbackwrap .ui-widget-header .ui-state-focus {
+.feedbackwrap .ui-widget-header .ui-state-focus, .flash-pop-up .popupclose {
     background-color:transparent !important;
     background-image:url("../img/closepopup.png") !important;
     background-repeat: no-repeat;
@@ -678,12 +678,13 @@
     z-index: 1000;
 }
 .simulation-result-popup .ui-widget-header .ui-icon,
-.feedbackwrap .ui-widget-header .ui-state-hover .ui-icon {
+.feedbackwrap .ui-widget-header .ui-state-hover .ui-icon,
+.flash-pop-up .popupclose {
     background-position: left bottom !important;
 }
 .simulation-result-popup .ui-state-hover,
-.feedbackwrap .ui-widget-header .ui-icon {
-    background-position: left top;
+.feedbackwrap .ui-widget-header .ui-icon, .flash-pop-up .popupclose:hover {
+    background-position: left top !important;
 }
 .simulation-result-popup .ui-state-hover .ui-icon, .simulation-result-popup .ui-state-focus .ui-icon, .feedbackwrap .ui-widget-header .ui-state-hover {
     background: none;

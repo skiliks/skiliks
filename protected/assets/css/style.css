@@ -2,6 +2,7 @@
 @import "tariffs.css";
 @import "elements.css";
 @import "otzenka.css";
+@import "popups.css";
 
 /* --------------- reset.css --------------- */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
@@ -2015,13 +2016,13 @@ html[lang="en"] .footer .social_networks {
     background: transparent;
 }
 .change_pass-pop-up .ui-dialog-title,
-.sing-in-pop-up .ui-dialog-title {
+.sing-in-pop-up .ui-dialog-title, .popup-recovery-view .ui-dialog-title {
     color: #FFFFFF;
     font: 1.667em 'ProximaNova-Bold';
     margin: 7px 0 0 7px;
 }
 .change_pass-pop-up .ui-corner-all,
-.sing-in-pop-up .ui-corner-all {
+.sing-in-pop-up .ui-corner-all, .popup-recovery-view  .change_pass-pop-up {
     background: none repeat scroll 0 0 #146672;
     border: 0;
     border-radius: 0;
