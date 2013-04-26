@@ -442,7 +442,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     #account-personal-personal-form .YumProfile_firstname {left:158px;}
     #account-personal-personal-form .YumProfile_lastname {left:290px;}
 }
-/* Pop-up востановления пароля */
+/* Pop-up связанные с входом */
 #password-recovery-form {
     padding:15px 0 0;
 }
@@ -485,6 +485,66 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-15px;
     left:185px;
 }
+/*
+.errorblock {
+    margin-left: 300px;
+    text-align: center;
+    width:580px !important;
+}
+.errorblock a {
+    color:#2d7b91;
+    text-decoration: none;
+}
+.errorblock .radiusthree {
+    padding: 22px 30px 20px;
+    position: relative;
+}
+.errorblock p, .action-index .errorblock .flash-error p  {
+    color: #29313d;
+    font: 18px "ProximaNova-Regular";
+    line-height: 140%;
+}
+.errorblock p+p, .action-index .errorblock p+p {
+    margin-top: 20px;
+}
+.action-index .ui-dialog, .inner .ui-dialog  {
+    border:none;
+}*/
+.flash-pop-up {
+/*    position: relative; */
+}
+.action-index .flash, .inner .flash {
+    box-shadow: none;
+    font-weight: normal;
+    margin: 0;
+    overflow:visible;
+}
+.flash-notice {
+    color:#fff;
+    font:18px "ProximaNova-Regular";
+    padding: 55px 55px 0 10px
+}
+.flash-pop-up .popupclose {
+    background:url("../img/closepopup.png") no-repeat 0 0;
+    cursor: pointer;
+    width:27px;
+    height:27px;
+    position: absolute;
+    top:-25px;
+    right:-25px;
+}
+.popupclose:hover {
+    background-position: 0 100%;
+}
+.change_pass-pop-up .row input{
+    margin:16px 0 0 8px;
+}
+.change_pass-pop-up .errorMessage {
+    top:0px;
+    left:10px;
+    color:white;
+}
+.change_pass {height:auto !important;}
 /* :hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
