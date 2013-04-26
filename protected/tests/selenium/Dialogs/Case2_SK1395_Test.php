@@ -36,6 +36,7 @@ class Case2_SK1395_Test extends SeleniumTestHelper
         sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        sleep(10);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2','0');
