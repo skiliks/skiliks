@@ -69,9 +69,6 @@ class AssessmentPointsTest extends CDbTestCase
         $learningGoalsForUpdateCodes = [];
         $sum = []; // $learningGoalsForUpdateNegativeScaleSum
 
-        // вероятнее всего будут 412б 413б 415б 214b, 214d, 332, ..
-        $arr = [0,0.5,1,1,1, 0.5,1,1,1,1]; // ещё пару едениц - "с запасом", реально используются первые 3 цифры
-
         $learningGoalCoefficient = [];
         $countBehavioursInGoals = [];
         $learningGoals = [];
@@ -84,14 +81,7 @@ class AssessmentPointsTest extends CDbTestCase
             // init empty SUMs
             $sum[$learningGoalForUpdate->id] = 0;
 
-            var_dump($learningGoalForUpdate->code);
-
-            // init coefficients - I pretty sure we will have 3 first items :)
-            if (in_array($learningGoalForUpdate->code, ['214a', '214b', '214d'])) {
-                $learningGoalCoefficient[$learningGoalForUpdate->id] = 0;
-            } else {
-                $learningGoalCoefficient[$learningGoalForUpdate->id] = $arr[$i];
-            }
+            $learningGoalCoefficient[$learningGoalForUpdate->id] = 0;
 
             // init empty COUNTERs
             $countBehavioursInGoals[$learningGoalForUpdate->id] = 0;
