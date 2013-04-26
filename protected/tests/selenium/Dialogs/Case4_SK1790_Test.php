@@ -80,7 +80,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         sleep(10);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(10);
+        sleep(20);
 
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');

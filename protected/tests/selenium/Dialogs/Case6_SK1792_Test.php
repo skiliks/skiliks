@@ -48,7 +48,7 @@ class Case6_SK1792_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(10);
+        sleep(20);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('9.667','-10');
