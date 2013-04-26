@@ -202,6 +202,8 @@ return array(
     'Remember me' => 'Запомнить меня',
     'Enter login' => 'Введите логин',
     'Enter password' => 'Введите пароль',
+    'Enter new password' => 'Введите новый пароль',
+    'Confirm password' => 'Подтвердите пароль',
 
     'Pending' => 'в ожидании',
     'Accepted' => 'подтверждено',

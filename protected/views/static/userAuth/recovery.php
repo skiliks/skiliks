@@ -1,5 +1,4 @@
-
-<h2 class="thetitle">!!<?php echo Yii::t('site', 'Восстановление пароля') ?></h2>
+<h2 class="thetitle"><?php echo Yii::t('site', 'Восстановление пароля') ?></h2>
 
 <div class="form">
 
@@ -19,7 +18,6 @@
 
     <?php $this->endWidget(); ?>
 </div>
-
 <script>
     $(document).ready(function(){
         var errors = $(".errorMessage");

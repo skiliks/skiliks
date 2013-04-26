@@ -773,7 +773,7 @@ class UserAuthController extends YumController
                     $user->activationKey = 1;
                     $user->setPassword($passwordForm->password, $user->salt);
 
-                    Yii::app()->user->setFlash('notice', 'Your new password has been saved.');
+                    Yii::app()->user->setFlash('notice', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
                         $login = new YumUserIdentity($user->username, false);
                         $login->authenticate(true);
@@ -809,7 +809,7 @@ class UserAuthController extends YumController
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {
-                    Yii::app()->user->setFlash('notice', 'Инструкции были отправлены к вам. Пожалуйста, проверьте свою электронную почту.');
+                    Yii::app()->user->setFlash('notice', 'На Ваш email выслана инструкция по смене пароля.');
                     if (!Yii::app()->request->getIsAjaxRequest()) {
                         $this->redirect('/');
                     } else {

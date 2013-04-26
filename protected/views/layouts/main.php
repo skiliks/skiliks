@@ -102,22 +102,22 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         $('.flash').dialog({
                             closeOnEscape: true,
                             dialogClass: 'flash-pop-up',
+                            minHeight: 220,
                             modal: true,
-                            height: 280,
+                            resizable: false,
                             position: {
                                 my: "right top",
-                                at: "middle bottom",
-                                of: $('#top').find('header')
+                                at: "right bottom",
+                                of: $('#top header #static-page-links')
                             },
-                            resizable: false,
-                            title: '',
-                            width: 560,
+                            //title: '',
+                            width: 275,
                             open: function( event, ui ) { Cufon.refresh(); }
                         });
                         $('.flash-pop-up .ui-dialog-titlebar').remove();
-                        $('.flash-pop-up').addClass('transparent-boder errorblock');
-                        $('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
-                        // $('.flash-pop-up').dialog('open');
+                        //$('.flash-pop-up').addClass('transparent-boder errorblock');
+                        //$('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
+                        $('.flash-pop-up').dialog('open');
 
                         $('.flash .popupclose').click(function() {
                             console.log('click');
