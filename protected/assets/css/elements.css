@@ -524,7 +524,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     font:18px "ProximaNova-Regular";
     padding: 55px 55px 0 10px
 }
-.flash-pop-up .popupclose {
+.popup-recovery-view .popupclose {
     background:url("../img/closepopup.png") no-repeat 0 0;
     cursor: pointer;
     width:27px;

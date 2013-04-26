@@ -1996,8 +1996,8 @@ html[lang="en"] .footer .social_networks {
 }
 
 .sing-in-pop-up,
-.flash-pop-up,
-.change_pass-pop-up{
+.popup-recovery-view,
+.change_pass-pop-up{ /* .flash-pop-up */
     background: none repeat scroll 0 0 #146672;
     border-radius: 8px 8px 8px 8px;
     border:none;
@@ -2051,14 +2051,14 @@ html[lang="en"] .footer .social_networks {
 }
 @media screen and (max-width: 1280px){
     .sing-in-pop-up,
-    .flash-pop-up,
+    .popup-recovery-view,
     .change_pass-pop-up{
         height:190px !important;
         margin-left: -10px;
         width:247px !important;
     }
-    .flash-pop-up .popupclose,
-    .flash-pop-up .popupclose:hover,
+    .popup-recovery-view .popupclose,
+    .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-size: 26px;
