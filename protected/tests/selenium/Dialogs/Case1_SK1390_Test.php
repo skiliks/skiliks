@@ -41,7 +41,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
         //sleep(40); // не убирать sleep это для проверки работы юриверсал лога!!!
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(10);
+        sleep(20);
         /*$this->Universal($TH, sizeof($m));
         sleep(5);
         $this->Leg_actions_detail();
