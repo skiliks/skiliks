@@ -32,8 +32,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
@@ -72,7 +70,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-       // $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
@@ -111,7 +108,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
