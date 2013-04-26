@@ -99,6 +99,7 @@ body.loading {
   }
   .main-screen-icons {
     float: right;
+    clear: right;
     height: 100%;
     ul {
       height: 567px;
@@ -107,6 +108,25 @@ body.loading {
   .main-screen-stat {
     margin-top: 10px;
     height: 28px;
+  }
+
+  .top-right-icons {
+    margin: 15px 25px 0 0;
+    height: 28px;
+    list-style: none;
+    float: right;
+    overflow: hidden;
+
+    .fullscreen {
+      display: block;
+      width: 25px;
+      height: 25px;
+      background: url(../img/icon-fullscreen.png) 0 0 no-repeat;
+
+      &.enabled {
+        background-position: 0 -25px;
+      }
+    }
   }
 
   .main-screen-icons {

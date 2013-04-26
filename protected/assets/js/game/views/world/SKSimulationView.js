@@ -38,7 +38,8 @@ define([
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
-                'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause'
+                'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
+                'click .fullscreen': 'doToggleFullscreen'
             },
             'window_views':    {
                 'plan/plan':               SKDayPlanView,
@@ -70,6 +71,7 @@ define([
                 this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
                 this.listenTo(simulation, 'start', this.startExitProtection);
+                this.listenTo(simulation, 'start', this.startObservFullScreenMode);
                 this.listenTo(simulation, 'before-stop', this.stopExitProtection);
                 this.listenTo(simulation, 'stop-time', this.stopSimulation);
 
@@ -100,6 +102,12 @@ define([
 
             stopExitProtection: function () {
                 $(window).off('beforeunload');
+            },
+
+            startObservFullScreenMode: function() {
+                $(document).on('fullscreenchange mozfullscreenchange webkitfullscreenchange', function() {
+                    $('.fullscreen').toggleClass('enabled');
+                });
             },
 
             /**
@@ -369,6 +377,21 @@ define([
                 this.$('.time').removeClass('paused');
                 this.$('.canvas .paused-screen')
                     .addClass('hidden');
+            },
+
+            doToggleFullscreen: function(e) {
+                e.preventDefault();
+                var enabled = $(e.target).hasClass('enabled'),
+                    canvas = $('.canvas')[0],
+                    onMethods = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'],
+                    offMethods = ['cancelFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];
+
+                _.each(enabled ? offMethods : onMethods, function(methodName) {
+                    var context = enabled ? document : canvas;
+                    if (typeof context[methodName] === 'function') {
+                        context[methodName]();
+                    }
+                });
             }
         });
 
