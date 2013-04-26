@@ -36,8 +36,8 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(5);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
@@ -85,8 +85,8 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(5);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
@@ -134,8 +134,8 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(5);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
@@ -185,8 +185,8 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(5);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
