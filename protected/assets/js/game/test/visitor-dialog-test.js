@@ -216,8 +216,6 @@ define(
                     SKApp.simulation.events.on('event:phone', phone_spy);
 
                     server.respond();
-
-
                     server.respond();
 
                     /* test */
@@ -288,7 +286,7 @@ define(
                 });
 
                 /**
-                 * Visitor phone call test
+                 * Incoming mail test
                  */
 
                 it('Incoming mail test', function() {

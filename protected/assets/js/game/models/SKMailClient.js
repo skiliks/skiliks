@@ -1,4 +1,5 @@
-/*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
+/*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView,
+SKMailAddToPlanDialog, define, _, SKAttachment, console, $, */
 
 var SKMailClient;
 
@@ -468,6 +469,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             getInboxFolderEmails:function (cb) {
                 var me = this;
+                console.log(me.codeFolderInbox);
                 SKApp.server.api(
                     'mail/getMessages',
                     {
