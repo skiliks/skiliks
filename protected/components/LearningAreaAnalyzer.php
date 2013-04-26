@@ -162,10 +162,20 @@ class LearningAreaAnalyzer {
             }
         }
 
+        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
+            'sim_id' => $this->simulation->id
+        ]);
+
+        $existBehaviours = array_map(function(AssessmentAggregated $val) {
+            return $val->point_id;
+        }, $aggregated);
+
         /** @var HeroBehaviour[] $behaviours */
         $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
         foreach ($behaviours as $behaviour) {
-            if ($behaviour->type_scale == 1) {
+            // TODO: Anton decision
+            // Remove out second condition
+            if ($behaviour->type_scale == 1 && in_array($behaviour->id, $existBehaviours)) {
                 $maxRate += $behaviour->scale;
             }
         }
