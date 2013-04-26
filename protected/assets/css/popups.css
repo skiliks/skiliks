@@ -1,0 +1,50 @@
+.flash-pop-up {
+    background: #e8f7f7;
+    border: none;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    left: 50% !important;
+    margin-left: -284px !important;
+    padding: 20px 14px;
+    text-align: center;
+    top:140px !important;
+}
+.flash-pop-up {
+    overflow: visible;
+    width:540px !important;
+}
+.flash-pop-up .ui-dialog-content {
+    margin:0px;
+    padding: 0px !important;
+}
+.flash-pop-up .popupclose {
+    display: block;
+    position: absolute;
+    right:-28px;
+    top:-38px;
+    z-index:100000;
+}
+.flash-pop-up .ui-dialog-content p {
+    color:#3d4041;
+    font-family:"ProximaNova-Regular";
+    font-size:17px !important;
+    line-height: 140%;
+}
+.flash-pop-up a {
+    color: #2d7b91;
+    text-decoration: none;
+}
+.controller-static-dashboard .flash  {
+    height:147px !important;
+}
+@media screen and (max-width: 1280px){
+    .flash-pop-up {
+        overflow: visible;
+        width:500px !important;
+    }
+    .flash-pop-up .ui-dialog-content p {
+        font-size:15px !important;
+    }
+    .controller-static-dashboard .flash  {
+        height:121px !important;
+    }
+}
