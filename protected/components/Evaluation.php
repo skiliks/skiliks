@@ -84,7 +84,7 @@ class Evaluation {
                 'performance_rule_category_id' => $aggregationCategory->category_id
             ]);
 
-            $value += $weight->value * $aggregationCategory->value;
+            $value += $weight->value * $aggregationCategory->percent;
         }
 
         $result = new AssessmentOverall();
