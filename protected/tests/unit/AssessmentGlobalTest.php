@@ -6,27 +6,20 @@
  * Time: 11:40 AM
  * To change this template use File | Settings | File Templates.
  */
-class Assessment_Goals_Areas_Overals extends CDbTestCase
+class AssessmentGlobalTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 
     public function testAssessment_Goals_Areas_Overals_case1()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-//        $invite = new Invite();
-//        $invite->scenario = new Scenario();
-//        $invite->receiverUser = $user;
-//        $invite->scenario->slug = Scenario::TYPE_FULL;
-//        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-        $simulation = Simulation::model()->findByPk(1501);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        // ---
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -74,12 +67,6 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b4');
         $this->addAssessmentAggregated($simulation, '214b9');
 
-//        $this->addAssessmentAggregated($simulation, '3324');
-//        $this->addAssessmentAggregated($simulation, '3325');
-//        $this->addAssessmentAggregated($simulation, '214a8');
-//        $this->addAssessmentAggregated($simulation, '214b5');
-//        $this->addAssessmentAggregated($simulation, '214b6');
-//        $this->addAssessmentAggregated($simulation, '214b8');
         $this->addAssessmentAggregated($simulation, '8311', 100);
         $this->addAssessmentAggregated($simulation, '8351', 100);
         $this->addAssessmentAggregated($simulation, '8331', 100);
@@ -131,38 +118,48 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
-        $goals   = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
-        echo 'Sim id = '.$simulation->id."\n\n";
-        echo "\n Goals: \n";
+        $v = [
+            'Следование приоритетам'  => 100,
+            'Управление задачами'     => 100,
+            'Управление людьми'       => 100,
+            'Оптимальный выбор каналов коммуникации' => 100,
+            'Устойчивость к манипуляциям и давлению' => 100,
+            'Эффективная работа с почтой'      => 100,
+            'Эффективное управление звонками'  => 100,
+            'Эффективное управление встречами' => 100,
+            'Эффективная работа с IM'          => 0,
+            'Стрессоустойчивость'              => 100,
+            'Ответственность'         => 100,
+            'Принятие решения'        => 100,
+            'Ориентация на результат' => 100,
+            'Конструктивность'        => 100,
+            'Гибкость'                => 100,
+            'Внимательность'          => 100,
+        ];
 
-        foreach ($goals as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningGoal->code,
-                $listItem->learningGoal->title,
-                round($listItem->value, 2)
-            );
-        }
-
-        echo "\n Areas: \n";
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningArea->code,
-                $listItem->learningArea->title,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
             );
         }
 
-        echo "\n Overals: \n";
+        $v = [
+            'management'  => 100,
+            'overall'     => 100,
+            'performance' => 100,
+            'time'        => 100,
+        ];
+
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s : %s \n",
-                $listItem->assessment_category_code,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                round($listItem->value),
+                'Overals: '.$listItem->assessment_category_code
             );
         }
     }
@@ -170,20 +167,13 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
     public function testAssessment_Goals_Areas_Overals_case2()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-//        $invite = new Invite();
-//        $invite->scenario = new Scenario();
-//        $invite->receiverUser = $user;
-//        $invite->scenario->slug = Scenario::TYPE_FULL;
-//        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-        $simulation = Simulation::model()->findByPk(1501);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        // ---
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -231,12 +221,8 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b4');
         $this->addAssessmentAggregated($simulation, '214b9');
 
-//        $this->addAssessmentAggregated($simulation, '3324');
-//        $this->addAssessmentAggregated($simulation, '3325');
-
         $this->addAssessmentAggregated($simulation, '214b5');
         $this->addAssessmentAggregated($simulation, '214b6');
-        // $this->addAssessmentAggregated($simulation, '214a8'); // 1 ints. = 100%
 
         $this->addAssessmentAggregated($simulation, '214d5'); // 2. "-"
         $this->addAssessmentAggregated($simulation, '214d6'); // 2. "-"
@@ -303,59 +289,66 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
-        $goals   = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
-        echo 'Sim id = '.$simulation->id."\n\n";
-        echo "\n Goals: \n";
-
-        foreach ($goals as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningGoal->code,
-                $listItem->learningGoal->title,
-                round($listItem->value, 2)
-            );
-        }
+        $v = [
+            'Следование приоритетам'  => 100,
+            'Управление задачами'     => 60.909092,
+            'Управление людьми'       => 63.793102,
+            'Оптимальный выбор каналов коммуникации' => 100,
+            'Устойчивость к манипуляциям и давлению' => 100,
+            'Эффективная работа с почтой'      => 73.913040,
+            'Эффективное управление звонками'  => 100,
+            'Эффективное управление встречами' => 100,
+            'Эффективная работа с IM'          => 0,
+            'Стрессоустойчивость'              => 100,
+            'Ответственность'         => 100,
+            'Принятие решения'        => 100,
+            'Ориентация на результат' => 100,
+            'Конструктивность'        => 100,
+            'Гибкость'                => 100,
+            'Внимательность'          => 100,
+        ];
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningArea->code,
-                $listItem->learningArea->title,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
             );
         }
 
-        echo "\n Overals: \n";
+        $v = [
+            'management'  => 73.79,
+            'overall'     => 67.67,
+            'performance' => 69.24,
+            'time'        => 50,
+        ];
+
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s : %s \n",
-                $listItem->assessment_category_code,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                $listItem->value,
+                'Overals: '.$listItem->assessment_category_code
             );
         }
     }
 
+    /**
+     * Максимальное влияние негативных шкал
+     */
     public function testAssessment_Goals_Areas_Overals_case3()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-//        $invite = new Invite();
-//        $invite->scenario = new Scenario();
-//        $invite->receiverUser = $user;
-//        $invite->scenario->slug = Scenario::TYPE_FULL;
-//        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-        $simulation = Simulation::model()->findByPk(1501);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        // ---
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -402,9 +395,6 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b3');
         $this->addAssessmentAggregated($simulation, '214b4');
         $this->addAssessmentAggregated($simulation, '214b9');
-
-//        $this->addAssessmentAggregated($simulation, '3324');
-//        $this->addAssessmentAggregated($simulation, '3325');
 
         $this->addAssessmentAggregated($simulation, '214b5', null, 5); // 2
         $this->addAssessmentAggregated($simulation, '214b6', null, 5); // 2
@@ -475,53 +465,63 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
-        $goals   = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
-        echo 'Sim id = '.$simulation->id."\n\n";
-        echo "\n Goals: \n";
-
-        foreach ($goals as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningGoal->code,
-                $listItem->learningGoal->title,
-                round($listItem->value, 2)
-            );
-        }
+        $v = [
+            'Следование приоритетам'  => 100,
+            'Управление задачами'     => 0,
+            'Управление людьми'       => 27.586206,
+            'Оптимальный выбор каналов коммуникации' => 100,
+            'Устойчивость к манипуляциям и давлению' => 100,
+            'Эффективная работа с почтой'      => 73.913040,
+            'Эффективное управление звонками'  => 100,
+            'Эффективное управление встречами' => 100,
+            'Эффективная работа с IM'          => 0,
+            'Стрессоустойчивость'              => 100,
+            'Ответственность'         => 100,
+            'Принятие решения'        => 100,
+            'Ориентация на результат' => 100,
+            'Конструктивность'        => 100,
+            'Гибкость'                => 100,
+            'Внимательность'          => 100,
+        ];
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningArea->code,
-                $listItem->learningArea->title,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
             );
         }
 
-        echo "\n Overals: \n";
+        $v = [
+            'management'  => 43.45,
+            'overall'     => 52.5,
+            'performance' => 69.24,
+            'time'        => 50,
+        ];
+
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s : %s \n",
-                $listItem->assessment_category_code,
-                round($listItem->value, 2)
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                $listItem->value,
+                'Overals: '.$listItem->assessment_category_code
             );
         }
     }
 
+    /**
+     * Просто для перещёта старых (заниженныйх симуляций) симуляций
+     */
     public function testAssessment_Goals_Areas_Overals_case4()
     {
-        $simulation = Simulation::model()->findByPk(147);
+        $simulation = Simulation::model()->findByPk(123);
 
-//        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
         SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
         SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
 
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
@@ -531,44 +531,10 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-
-        $goals   = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-        $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-        $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-
-        echo 'Sim id = '.$simulation->id."\n\n";
-        echo "\n Goals: \n";
-
-        foreach ($goals as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningGoal->code,
-                $listItem->learningGoal->title,
-                round($listItem->value, 2)
-            );
-        }
-
-        echo "\n Areas: \n";
-        foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s : %s \n",
-                $listItem->learningArea->code,
-                $listItem->learningArea->title,
-                round($listItem->value, 2)
-            );
-        }
-
-        echo "\n Overals: \n";
-        foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s : %s \n",
-                $listItem->assessment_category_code,
-                round($listItem->value, 2)
-            );
-        }
     }
 
     // -----------------------------------------------------
+    // Service methods
     // -----------------------------------------------------
 
     private function addStressPoint(Simulation $simulation, $code )
