@@ -8,7 +8,7 @@
  * @property integer $sim_id
  * @property string $slug
  * @property string $value
- * @property string $unit_label
+ * @property string $unit_label, (min or %)
  */
 class TimeManagementAggregated extends CActiveRecord
 {
