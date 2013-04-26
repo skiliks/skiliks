@@ -43,7 +43,7 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4125'); // 8
         $this->addAssessmentAggregated($simulation, '4141'); // 8
         $this->addAssessmentAggregated($simulation, '4143'); // 8
-        $this->addAssessmentAggregated($simulation, '4153');
+        $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214');
         $this->addAssessmentAggregated($simulation, '351a2');
