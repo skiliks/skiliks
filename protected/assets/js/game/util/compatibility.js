@@ -10,7 +10,7 @@ define([], function() {
         browser: function(cfg) {
             var minSupport = {
                 mozilla: 17,
-                webkit: 535.11
+                webkit: 536.5
             };
 
             for (var name in minSupport) {
