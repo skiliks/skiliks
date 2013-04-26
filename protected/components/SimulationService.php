@@ -746,7 +746,7 @@ class SimulationService
         foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
             $learningGoals[$learningGoalForUpdate->getPrimaryKey()] = $learningGoalForUpdate;
 
-            if (false == in_array($learningGoalForUpdate->code, ['214a', '214d'])) {
+            if (false == in_array($learningGoalForUpdate->code, ['214a', '214b', '214d'])) {
                 $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
                 $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
             }

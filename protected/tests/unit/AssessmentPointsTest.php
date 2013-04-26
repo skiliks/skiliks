@@ -68,7 +68,10 @@ class AssessmentPointsTest extends CDbTestCase
 
         $learningGoalsForUpdateCodes = [];
         $sum = []; // $learningGoalsForUpdateNegativeScaleSum
-        $arr = [0,0.5,1,1,1,1,1,1,1]; // ещё пару едениц - "с запасом", реально используются первые 3 цифры
+
+        // вероятнее всего будут 412б 413б 415б 214b, 214d, 332, ..
+        $arr = [0,0.5,1,1,1, 0.5,1,1,1,1]; // ещё пару едениц - "с запасом", реально используются первые 3 цифры
+
         $learningGoalCoefficient = [];
         $countBehavioursInGoals = [];
         $learningGoals = [];
@@ -81,8 +84,14 @@ class AssessmentPointsTest extends CDbTestCase
             // init empty SUMs
             $sum[$learningGoalForUpdate->id] = 0;
 
+            var_dump($learningGoalForUpdate->code);
+
             // init coefficients - I pretty sure we will have 3 first items :)
-            $learningGoalCoefficient[$learningGoalForUpdate->id] = $arr[$i];
+            if (in_array($learningGoalForUpdate->code, ['214a', '214b', '214d'])) {
+                $learningGoalCoefficient[$learningGoalForUpdate->id] = 0;
+            } else {
+                $learningGoalCoefficient[$learningGoalForUpdate->id] = $arr[$i];
+            }
 
             // init empty COUNTERs
             $countBehavioursInGoals[$learningGoalForUpdate->id] = 0;
@@ -152,11 +161,11 @@ class AssessmentPointsTest extends CDbTestCase
         $this->assertNotEmpty($realAssessments);
         foreach ($realAssessments as $realAssessment) {
             $learningGoalId = $realAssessment->point->learning_goal_id;
-            if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale &&
-                false == in_array($realAssessment->point->code, ['214d0', '214d1', '214d2', '214d3', '214d4', '214d5', '214d6', '214d7'])) {
+            if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale) {
                 $this->assertEquals(
                     abs(1 - $learningGoalCoefficient[$learningGoalId]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
-                    $realAssessment->coefficient_for_fixed_value, 'Error in '.$realAssessment->point->code
+                    $realAssessment->coefficient_for_fixed_value,
+                    'Error in '.$realAssessment->point->code
                 );
             }
         }
