@@ -4,14 +4,14 @@
             'id' => 'login-form',
             'htmlOptions' => ['class' => 'login-form'],
             'action' => '/user/auth',
-            'enableAjaxValidation' => false,
+            'enableAjaxValidation' => true,
         ]); ?>
             <?php $loginForm = new YumUserLogin; ?>
             <?= CHtml::hiddenField("returnUrl", '/dashboard') ?>
-
+            <?= CHtml::hiddenField("ajax", 'login-form') ?>
             <div class="row login">
                 <a class="link-recovery" href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
-                <?php echo $loginWidget->error($loginForm, 'email'); ?>
+                <?php echo $loginWidget->error($loginForm, 'username'); ?>
                 <?php echo $loginWidget->textField($loginForm, "username", ['placeholder' => Yii::t('site', 'Enter login')]) ?>
             </div>
             <div class="row password">
