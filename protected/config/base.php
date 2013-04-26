@@ -37,10 +37,6 @@ return array(
         'application.components.GameContentAnalyze.*',
         'application.components.ForStaticSite.*',
         'application.components.Exception.*',
-        /*'application.components.DayPlan.*',
-        'application.components.Replica.*',
-        'application.components.Excel.*',
-        'application.components.Mail.*',*/
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
@@ -49,8 +45,6 @@ return array(
         'application.modules.user.models.*',
         'application.modules.user.components.*',
         'application.modules.avatar.models.*',
-        //application.modules.friendship.models.*',
-        //'application.modules.membership.models.*',
         'application.modules.message.models.*',
         'application.modules.profile.models.*',
         'application.modules.registration.models.*',
@@ -69,15 +63,15 @@ return array(
             // 'newDirMode'=>0777,
         ),
         'user' => array(
-            'debug' => false,
+            'debug'                 => false,
             'activationPasswordSet' => false,
-            'mailer'=>'PHPMailer',
-            'loginType' => 2,
-            'returnLogoutUrl' => '/',
-            'phpmailer'=>array(
-                'transport'=>'smtp',
-                'html'=>true,
-                'properties'=>array(
+            'mailer'                => 'PHPMailer',
+            'loginType'             => 2,
+            'returnLogoutUrl'       => '/',
+            'phpmailer'             => array(
+                'transport'  => 'smtp',
+                'html'       => true,
+                'properties' => array(
                     'CharSet'    => 'UTF-8', // SMTP server
                     'SMTPDebug'  => false,          // enables SMTP debug information (for testing)
                     'SMTPAuth'   => true,            // enable SMTP authentication
@@ -114,19 +108,20 @@ return array(
             'autoCreateCacheTable' => false
         ),
         'session' => array(
-            'class' => 'CDbHttpSession',
+            'class'                  => 'CDbHttpSession',
             'autoCreateSessionTable' => false,
-            'connectionID' => 'db',
-            'sessionName' => 'sid'
-
+            'connectionID'           => 'db',
+            'sessionName'            => 'sid',
+            'cookieMode'             => 'allow',
+            'timeout'                => 60*60*24*31, // 1 mouth
         ),
         'user' => array(
-            'class' => 'application.modules.user.components.YumWebUser',
+            'class'          => 'application.modules.user.components.YumWebUser',
             'allowAutoLogin' => true,
-            // 'loginUrl' => array('//user/user/login'),
+            // 'loginUrl'    => array('//user/user/login'),
         ),
         'urlManager' => array(
-            'urlFormat' => 'path',
+            'urlFormat'      => 'path',
             'showScriptName' => false,
 
             'rules' => array(
