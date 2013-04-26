@@ -23,6 +23,8 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
         StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -32,17 +34,17 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
 
         $this->addAssessmentAggregated($simulation, '341b5');
         $this->addAssessmentAggregated($simulation, '341b7');
-        $this->addAssessmentAggregated($simulation, '4121');
-        $this->addAssessmentAggregated($simulation, '4124');
+        $this->addAssessmentAggregated($simulation, '4121'); // 8
+        $this->addAssessmentAggregated($simulation, '4124'); // 8
         $this->addAssessmentAggregated($simulation, '3216');
-        $this->addAssessmentAggregated($simulation, '4122');
+        $this->addAssessmentAggregated($simulation, '4122'); // 8
         $this->addAssessmentAggregated($simulation, '341b1');
         $this->addAssessmentAggregated($simulation, '351b3');
-        $this->addAssessmentAggregated($simulation, '4125');
-        $this->addAssessmentAggregated($simulation, '4141');
-        $this->addAssessmentAggregated($simulation, '4143');
+        $this->addAssessmentAggregated($simulation, '4125'); // 8
+        $this->addAssessmentAggregated($simulation, '4141'); // 8
+        $this->addAssessmentAggregated($simulation, '4143'); // 8
         $this->addAssessmentAggregated($simulation, '4153');
-        $this->addAssessmentAggregated($simulation, '4127');
+        $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214');
         $this->addAssessmentAggregated($simulation, '351a2');
         $this->addAssessmentAggregated($simulation, '1122');
@@ -76,15 +78,17 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
 //        $this->addAssessmentAggregated($simulation, '214b5');
 //        $this->addAssessmentAggregated($simulation, '214b6');
 //        $this->addAssessmentAggregated($simulation, '214b8');
-        $this->addAssessmentAggregated($simulation, '8311');
-        $this->addAssessmentAggregated($simulation, '8351');
-        $this->addAssessmentAggregated($simulation, '8331');
-        $this->addAssessmentAggregated($simulation, '8381');
-        $this->addAssessmentAggregated($simulation, '8211');
-        $this->addAssessmentAggregated($simulation, '8341');
-        $this->addAssessmentAggregated($simulation, '8371');
-        $this->addAssessmentAggregated($simulation, '7211');
-        $this->addAssessmentAggregated($simulation, '7141'); // Stress resistance
+        $this->addAssessmentAggregated($simulation, '8311', 100);
+        $this->addAssessmentAggregated($simulation, '8351', 100);
+        $this->addAssessmentAggregated($simulation, '8331', 100);
+        $this->addAssessmentAggregated($simulation, '8381', 100);
+        $this->addAssessmentAggregated($simulation, '8211', 100); // Выполняет свои обещания (% выполненных обещаний)
+        $this->addAssessmentAggregated($simulation, '8212', 100); // Несёт ответственность за свои поступки
+        $this->addAssessmentAggregated($simulation, '8213', 100); // Несёт ответственность за своих подчинённых
+        $this->addAssessmentAggregated($simulation, '8341', 100);
+        $this->addAssessmentAggregated($simulation, '8371', 100);
+        $this->addAssessmentAggregated($simulation, '7211', 100);
+        $this->addAssessmentAggregated($simulation, '7141', 150); // Stress resistance
 
         // -------------------------------
 
@@ -97,7 +101,7 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
-        $goals   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $goals   = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
@@ -107,8 +111,8 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
         foreach ($goals as $listItem) {
             echo sprintf(
                 "%s %s : %s \n",
-                $listItem->learningArea->code,
-                $listItem->learningArea->title,
+                $listItem->learningGoal->code,
+                $listItem->learningGoal->title,
                 round($listItem->value, 2)
             );
         }
@@ -165,8 +169,6 @@ class Assessment_Goals_Areas_Overals extends CDbTestCase
             return false;
         }
         $value = (null === $value) ? $behaviour->scale : $value;
-        var_dump($value);
-        var_dump($code);
 
         $item = new AssessmentAggregated();
         $item->sim_id      = $simulation->id;
