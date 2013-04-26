@@ -635,6 +635,8 @@ class SimulationService
         $CheckConsolidatedBudget->calcPoints();
 
         SimulationService::setFinishedPerformanceRules($simulation);
+
+        // результативность
         SimulationService::calculatePerformanceRate($simulation);
 
         SimulationService::setGainedStressRules($simulation);
