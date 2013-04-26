@@ -246,6 +246,16 @@ class YumAuthController extends YumController {
 		return false;
 	}
 
+    protected function runAjaxValidation($model, $form) {
+        if(isset($_POST['ajax']) && $_POST['ajax'] == $form) {
+            $json = CActiveForm::validate($model);
+            if(0 < count(json_decode($json, true))){
+                echo $json;
+                Yii::app()->end();
+            }
+        }
+    }
+
 	public function actionLogin() {
 		// If the user is already logged in send them to the return Url 
 		if (!Yii::app()->user->isGuest)
@@ -254,6 +264,7 @@ class YumAuthController extends YumController {
 		$this->layout = Yum::module()->loginLayout;
 		$this->loginForm = new YumUserLogin('login');
 
+        $this->runAjaxValidation($this->loginForm, 'login-form');
 		/**
 		 * Login process starts here.
 		 * Facebook doesn't need form validation. Neither Twitter I think.

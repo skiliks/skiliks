@@ -24,6 +24,7 @@ class YumUserLogin extends YumFormModel {
 			array('username', 'required', 'on' => 'login', 'message' => Yii::t('site', 'Login (email) is required')),
             array('username', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
 			array('password', 'required', 'on' => 'login', 'message' => Yii::t('site', 'Password is required')),
+            array('username' , 'loginByUsername', 'on' => 'login', 'message' => Yii::t('site', 'Имя пользователя или неверный пароль')),
 			array('username', 'required', 'on' => 'openid'),
 			array('rememberMe', 'boolean'),
 		);
@@ -38,5 +39,23 @@ class YumUserLogin extends YumFormModel {
 			'rememberMe'=>Yum::t("Remember me next time"),
 		);
 	}
+
+    public function loginByUsername() {
+
+        /* @var $user YumUser */
+        /* @var $profile YumProfile */
+        $profile = YumProfile::model()->findByAttributes(['email'=>$this->username]);
+        if(null !== $profile){
+            $user = YumUser::model()->findByPK($profile->user_id);
+            if(null !== $user) {
+                if(YumEncrypt::encrypt($this->password, $user->salt) === $user->password){
+                    return true;
+                }
+            }
+        }
+
+        $this->addError('password', Yum::t('Имя пользователя или неверный пароль'));
+        $this->addError('username', Yum::t('Имя пользователя или неверный пароль'));
+    }
 
 }
