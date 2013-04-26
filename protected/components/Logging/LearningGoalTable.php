@@ -24,10 +24,11 @@ class LearningGoalTable extends LogTable
     {
         return [
             'Код',
-            'Наименование области обучения',
+            'Наименование цели обучения',
             'Набранные положительные очки',
             'Оценка (0-100%)',
             'Уровень проблем (0-100%)',
+            'Код области обучения',
         ];
     }
 
@@ -46,7 +47,8 @@ class LearningGoalTable extends LogTable
             $row->learningGoal->title,
             $row->value,
             $row->percent,
-            $row->problem
+            $row->problem,
+            $row->learningGoal->learningArea->code
         ];
     }
 
