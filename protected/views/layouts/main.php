@@ -101,7 +101,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <script type="text/javascript">
                         $('.flash').dialog({
                             closeOnEscape: true,
-                            dialogClass: 'flash-pop-up',
+                            dialogClass: 'sing-in-pop-up',
                             minHeight: 220,
                             modal: true,
                             resizable: false,
@@ -114,10 +114,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             width: 275,
                             open: function( event, ui ) { Cufon.refresh(); }
                         });
-                        $('.flash-pop-up .ui-dialog-titlebar').remove();
+                        $('.sing-in-pop-up .ui-dialog-titlebar').remove();
                         //$('.flash-pop-up').addClass('transparent-boder errorblock');
                         //$('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
-                        $('.flash-pop-up').dialog('open');
+                        $('.sing-in-pop-up').dialog('open');
 
                         $('.flash .popupclose').click(function() {
                             console.log('click');

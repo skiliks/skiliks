@@ -1950,7 +1950,7 @@ html[lang="en"] .footer .social_networks {
 	font:0.834em 'ProximaNova-Bold';
 	color:#3c3c32;
 	text-align:left;
-	text-indent:9px;
+	text-indent:11px;
 	line-height:20px;
 	vertical-align:top;
 }
@@ -1959,6 +1959,7 @@ html[lang="en"] .footer .social_networks {
     width: auto;
     height:30px;
     line-height: 30px;
+    text-indent:13px;
 }
 .change_pass-pop-up div input[type=submit]:hover {
     background-position:0 100%;
@@ -2069,6 +2070,12 @@ html[lang="en"] .footer .social_networks {
         margin-left: -10px;
         width:247px !important;
     }
+    .popup-recovery-view .ui-dialog-titlebar-close,
+    .popupclose,
+    .popup-recovery-view .ui-dialog-titlebar-close:hover,
+    .popupclose:hover,
+    .change_pass-pop-up .ui-dialog-titlebar-close,
+    .change_pass-pop-up .ui-dialog-titlebar-close:hover,
     .popup-recovery-view .popupclose,
     .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
@@ -2126,6 +2133,9 @@ html[lang="en"] .footer .social_networks {
 		height:11px;
 		padding:6px 7px;
 	}
+    .change_pass-pop-up div input[type=password]{
+        line-height: 25px;
+    }
 	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min2.png") no-repeat 0 0;
 		width:56px;
@@ -4068,7 +4078,7 @@ ul.profile-menu li {
     }
     #password-recovery-form input[type="submit"],
     .change_pass #change-password-form input[type="submit"]{
-        text-indent: 11px;
+        text-indent: 13px;
     }
 
 }
