@@ -10,26 +10,36 @@ setInterval(autoSave, 5*60*1000);
 
 //console.log('save file element: ', window.parent.document.getElementById('savefile'));
 
-var userAgent = navigator.userAgent;
-var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
-var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
-
-function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
-    document.open();
-    if (windowArgsInJson) {
-        for (var i in windowArgsInJson) {
-            window[i] = windowArgsInJson[i];
+    (function() {
+        var userAgent = navigator.userAgent;
+        var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
+        var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
+        if(!isOperaBrowser && !isIEBrowser) {
+            document.domain = "zoho.skiliks.com"; //NO OUTPUTENCODING
         }
-    }
-    if (documentArgsInJson) {
-        for (var i in documentArgsInJson) {
-            document[i] = documentArgsInJson[i];
+        function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
+            document.open();
+            if(!isOperaBrowser && !isIEBrowser) {
+                document.domain = "zoho.skiliks.com"; //NO OUTPUTENCODING
+            }
+            if(windowArgsInJson)
+            {
+                for (var i in windowArgsInJson)
+                {
+                    window[i] = windowArgsInJson[i];
+                }
+            }
+            if(documentArgsInJson)
+            {
+                for (var i in documentArgsInJson)
+                {
+                    document[i] = documentArgsInJson[i];
+                }
+            }
+            document.write(content);
+            document.close();
         }
-    }
-    document.write(content);
-    document.close();
-}
-
+    })();
 // new code to handle 500 Zoho {
 
 $(window.parent.window).load(function()
@@ -49,7 +59,7 @@ $(window.parent.window).load(function()
        if(typeof _141a!="undefined") {
            _141a();
        }
-    }
+    };
 
 //   Code to emulate Zoho 500 error in future
     /*setTimeout(function() {
