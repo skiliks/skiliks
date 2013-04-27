@@ -2029,17 +2029,27 @@ html[lang="en"] .footer .social_networks {
     color: #fff;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close,
-.sing-in-pop-up .ui-dialog-titlebar-close {
+.sing-in-pop-up .ui-dialog-titlebar-close, .cabmessage .ui-dialog-titlebar-close {
     margin:0;
     width: 27px;
     height: 27px;
+    padding: 0px !important;
     position: absolute;
     top: -25px;
     right: -25px;
     background: none;
 }
+.cabmessage .ui-dialog-titlebar-close {
+    top:-35px;
+    right: -20px;
+}
+.cabmessage .ui-dialog-titlebar-close:hover, .cabmessage .ui-state-hover {
+    background-position: left bottom;
+    border: none;
+}
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+.cabmessage .ui-widget-header .ui-icon {
     display: block;
     margin: 0;
     height: 100%;
@@ -2047,7 +2057,8 @@ html[lang="en"] .footer .social_networks {
     background: url(../img/closepopup.png) no-repeat 0 0;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+.sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
+.cabmessage .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
 }
 @media screen and (max-width: 1280px){

@@ -548,6 +548,7 @@ span.required {
     margin-left:-295px !important;
     top:270px !important;
     min-height: 380px !important;
+    overflow: visible;
     width:590px !important;
 }
 .cabmessage .ui-dialog-content {
@@ -570,6 +571,7 @@ span.required {
 .cabmessage .ui-dialog-titlebar {
     padding-top: 0px;
 }
+/*
 .cabmessage .ui-dialog-titlebar-close {
     height: 18px;
     margin: 0px !important;
@@ -583,16 +585,20 @@ span.required {
     background:url("../img/popupclose.png") no-repeat left top !important;
      border: none;
     margin: 0px !important;
+}*/
+.cabmessage .ui-state-focus .ui-icon {
+    background: none !important;
 }
-.cabmessage .ui-state-hover .ui-icon, .cabmessage .ui-state-focus .ui-icon {
-    background: none;
+.cabmessage .ui-state-hover .ui-icon {
+   background-position: left bottom !important;
+   padding: 0px;
 }
 .cabmessage .ui-icon-closethick {
     background: none;
 }
 .cabmessage .ui-dialog .ui-dialog-titlebar-close span, .cabmessage .ui-icon {
-    height: 18px !important;
-    width: 18px !important;
+    height: 27px !important;
+    width: 27px !important;
 }
 .cabmessage .ui-widget-content {
     /*max-height: 310px !important;*/
