@@ -264,9 +264,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         if (null === $invite) {
-            Yii::app()->user->setFlash('success', sprintf(
-                "Такого приглашения не существует"
-            ));
+            //Yii::app()->user->setFlash('success', sprintf(
+            //    "Такого приглашения не существует"
+            //));
             $this->redirect('/dashboard');
         }
 

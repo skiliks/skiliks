@@ -28,6 +28,35 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * Проверяет, что письма приходят мгновенно
+     */
+    public function testImmediateMail()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $eventManager = new EventsManager();
+        EventService::addByCode('E1', $simulation, '09:41');
+        EventService::addByCode('E9', $simulation, '09:42');
+        EventService::addByCode('E8', $simulation, '09:43');
+        EventService::addByCode('M2', $simulation, '09:44');
+        EventService::addByCode('E2', $simulation, '09:45');
+        $stateResult = $eventManager->getState($simulation, []);
+        $this->assertEquals($stateResult['events'][0]['eventType'], 'M');
+        $stateResult = $eventManager->getState($simulation, []);
+        $this->assertEquals($stateResult['events'][0]['data'][0]['code'], 'E1');
+        $stateResult = $eventManager->getState($simulation, []);
+        $this->assertEquals('E9', $stateResult['events'][0]['data'][0]['code']);
+        $stateResult = $eventManager->getState($simulation, []);
+        $this->assertEquals('E8', $stateResult['events'][0]['data'][0]['code']);
+        $stateResult = $eventManager->getState($simulation, []);
+        $this->assertEquals('E2', $stateResult['events'][0]['data'][0]['code']);
+    }
+
     /*
      * Проверка того, что T2 и события типа P нормально приходят
      */

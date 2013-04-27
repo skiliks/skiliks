@@ -816,7 +816,7 @@ class UserAuthController extends YumController
                         Yii::app()->end();
                     }
                 } else {
-                    Yii::app()->user->setFlash('error', 'There was an error sending recovery email');
+                    Yii::app()->user->setFlash('error', Yii::t('site','There was an error sending recovery email'));
                 }
             }
         }
