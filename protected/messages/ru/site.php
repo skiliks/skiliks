@@ -19,6 +19,7 @@
  * @version $Id: $
  */
 return array(
+    'There was an error sending recovery email' => 'Произошла ошибка при отправке email по восстановлению пароля. Пожалуйста повторите запрос',
     'Thank you! See you soon!' => 'Спасибо! До скорого!',
     '2-3-hours game' => '2-3 часовая игра',
     'A tool to assess candidates and newcomers' => 'Отличный инструмент для оценки кандидатов и новых сотрудников',
@@ -123,7 +124,6 @@ return array(
     'Username' => 'Имя пользователя',
     '{attribute} is too short (min. {num} characters).' => 'Введите не менее {num} символов',
     'Please check your inbox folder, for activation email.' => 'На указанный Вами email отправлено письмо',
-    'You not authorized. Please %s sing-in %s or %s register %s.' => 'Вы не авторизированны. Пожалуйста %s войдите в систему %s или %s зарегисрируйтесь %s.',
     'Your account successfully updated to "%s".' => 'Ваш аккаунт успешно обновлён до "%s".',
     'Personal' => 'Личный',
     'Corporate' => 'Корпоративный',
