@@ -468,7 +468,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     font: 14px/20px 'ProximaNova-Bold';
     height: 28px;
     text-align: left;
-    text-indent: 9px;
+    text-indent: 13px;
     vertical-align: top;
     margin-left:8px;
 }
@@ -524,7 +524,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     font:18px "ProximaNova-Regular";
     padding: 55px 55px 0 10px
 }
-.popup-recovery-view .popupclose {
+.popup-recovery-view .ui-widget-header {
+    border:none;
+    background:none;
+}
+.popup-recovery-view .ui-dialog-titlebar-close,
+.popupclose {
     background:url("../img/closepopup.png") no-repeat 0 0;
     cursor: pointer;
     width:27px;
@@ -532,9 +537,17 @@ section.registration-by-link .form .row a.decline-link:hover {
     position: absolute;
     top:-25px;
     right:-25px;
+    display:block;
+    margin:0;
+    padding:0;
 }
+.popup-recovery-view .ui-dialog-titlebar-close span {
+    display:none;
+}
+.popup-recovery-view .ui-dialog-titlebar-close:hover,
 .popupclose:hover {
     background-position: 0 100%;
+    border:none;
 }
 .change_pass-pop-up .row input{
     margin:16px 0 0 8px;
