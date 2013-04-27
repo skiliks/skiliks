@@ -15,12 +15,12 @@ setInterval(autoSave, 5*60*1000);
         var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
         var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
         if(!isOperaBrowser && !isIEBrowser) {
-            document.domain = "zoho.skiliks.com"; //NO OUTPUTENCODING
+            document.domain = "skiliks.com"; //NO OUTPUTENCODING
         }
         function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
             document.open();
             if(!isOperaBrowser && !isIEBrowser) {
-                document.domain = "zoho.skiliks.com"; //NO OUTPUTENCODING
+                document.domain = "skiliks.com"; //NO OUTPUTENCODING
             }
             if(windowArgsInJson)
             {
