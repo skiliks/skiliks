@@ -563,6 +563,7 @@ section.files .nav{
 }
 section.files .nav li{
 	background:url("../img/files/icon-arrow.png") no-repeat 0 center;
+    -webkit-font-smoothing: antialiased;
 	font:12px 'orbi_sansregular';
 	height:auto;
 	margin-top:15px;
@@ -1565,7 +1566,8 @@ ul.main-screen-stat{
 }
 ul.main-screen-stat li{
 	background:url("../img/main-screen/bd-status.png") no-repeat left center;
-	font:20px 'orbi_sansregular';
+    -webkit-font-smoothing: antialiased;
+    font:20px 'orbi_sansregular';
 	color:#fff;
 	float:left;
 	padding:0 10px;
