@@ -20,7 +20,7 @@ setInterval(autoSave, 5*60*1000);
         function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
             document.open();
             if(!isOperaBrowser && !isIEBrowser) {
-                document.domain = "zoho.skiliks.com"; //NO OUTPUTENCODING
+                document.domain = "skiliks.com"; //NO OUTPUTENCODING
             }
             if(windowArgsInJson)
             {
