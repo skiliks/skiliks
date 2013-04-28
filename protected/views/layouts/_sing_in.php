@@ -3,8 +3,12 @@
         <?php $loginWidget = $this->beginWidget('CActiveForm', [
             'id' => 'login-form',
             'htmlOptions' => ['class' => 'login-form'],
-            'action' => '/user/auth',
+            'action'=>Yii::app()->request->hostInfo.'/user/auth',
             'enableAjaxValidation' => true,
+            'clientOptions'=>array(
+                'validateOnSubmit'=>true, // Required to perform AJAX validation on form submit
+                'afterValidate'=>'js:authenticateValidation', // Your JS function to submit form
+            )
         ]); ?>
             <?php $loginForm = new YumUserLogin; ?>
             <?= CHtml::hiddenField("returnUrl", '/dashboard') ?>
