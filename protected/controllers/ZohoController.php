@@ -11,7 +11,7 @@ class ZohoController extends AjaxController
     {
         $status = ZohoDocuments::saveFile(
             Yii::app()->getRequest()->getParam('id'), 
-            $_POST['content.path'],
+            $_POST['content_path'],
             'xls'
         );
         
