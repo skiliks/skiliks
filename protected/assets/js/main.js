@@ -111,11 +111,12 @@
     };
 
 
-    function authenticateValidation(form, data, hasError) {
+    window.authenticateValidation = function authenticateValidation(form, data, hasError) {
         if (!hasError) {
             $.post(form.attr('action'), form.serialize(), function (res) {
                 // Do stuff with your response data!
                 //location.href = '/';
+                location.reload();
             });
         }
         return false;
