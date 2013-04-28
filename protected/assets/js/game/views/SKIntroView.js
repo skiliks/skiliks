@@ -36,8 +36,9 @@ define([
                 });
             });
 
-
-            $.cookie('intro_is_watched', 'yes', { expires: 365, path: "/" });
+            /*if(SKApp.simulation.isDebug()) {
+                $.cookie('intro_is_watched', 'yes', { expires: 365, path: "/" });
+            }*/
 
         },
         eventHandler: function() {
