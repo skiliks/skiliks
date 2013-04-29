@@ -35,11 +35,6 @@ define([
                     }
                 });
             });
-
-            /*if(SKApp.simulation.isDebug()) {
-                $.cookie('intro_is_watched', 'yes', { expires: 365, path: "/" });
-            }*/
-
         },
         eventHandler: function() {
             window.SKApp = new SKApplication(window.gameConfig);

@@ -305,8 +305,6 @@ class UserAuthController extends YumController
         $this->checkUser();
 
         if ($this->user->isHasAccount() ) {
-//            $simulation = Simulation::model()->findByAttributes(['user_id' => $this->user->id]);
-//            Yii::app()->request->cookies['cookie_name']->value = new CHttpCookie('display_result_for_simulation_id', $simulation->id);
             $this->redirect('/dashboard');
             return;
         }
