@@ -50,7 +50,7 @@
 	    </div>
 	    <div class="row buttons">
             <div class="field">
-	        <?php echo CHtml::submitButton(Yii::t('site', 'Start and get the report'), ['name' => 'personal']); ?>
+	        <?php echo CHtml::submitButton(Yii::t('site', empty($simPassed) ? 'Start' : 'Start and get the report'), ['name' => 'personal']); ?>
             </div>
 	    </div>
 	    <?php $this->endWidget(); ?>
@@ -108,7 +108,7 @@
 	    </div>
 	    <div class="row buttons">
             <div class="field">
-	        <?php echo CHtml::submitButton(Yii::t('site', 'Start and get the report'), ['name' => 'corporate']); ?>
+	        <?php echo CHtml::submitButton(Yii::t('site', empty($simPassed) ? 'Start' : 'Start and get the report'), ['name' => 'corporate']); ?>
             </div>
 	    </div>
 	    <?php $this->endWidget(); ?>

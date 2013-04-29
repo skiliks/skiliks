@@ -260,6 +260,7 @@ return array(
     'Comprehensive statistics on people and skills' => 'Всесторонняя и детальная статистика по людям и навыкам',
     'Sign-up using your preferred option and get the results' => 'Зарегистрируйтесь, выбрав подходящий профиль, и получите доступ к результатам',
     'Start and get the report' => 'Войти и получить отчёт',
+    'Start' => 'Войти',
     'Currently not available and will be added in the next release ' => 'Не доступно в текущей версии, будет добавлено в следующем релизе',
 
     'Overall manager’s rating' => 'Итоговый рейтинг менеджера',

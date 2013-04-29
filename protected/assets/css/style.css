@@ -1289,8 +1289,8 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
-	width:222px;
 	height:46px;
+    padding: 0 8px 0 6px;
 	font:1.071em "ProximaNova-Bold";
 	color:#fff;
 	text-align:left;
