@@ -59,6 +59,7 @@ class Evaluation {
         $aggregated = AssessmentAggregated::model()->findAllByAttributes([
             'sim_id' => $this->simulation->id
         ]);
+
         $existBehaviourIds = array_map(function(AssessmentAggregated $val) {
             return $val->point_id;
         }, $aggregated);
@@ -72,7 +73,7 @@ class Evaluation {
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::MANAGEMENT_SKILLS;
         $result->sim_id = $this->simulation->id;
-        $result->value = substr($maxRate ? $total / $maxRate * 100 : 0, 0, 10);
+        $result->value = substr(($maxRate ? $total / $maxRate * 100 : 0), 0, 10);
 
         $result->save();
     }
