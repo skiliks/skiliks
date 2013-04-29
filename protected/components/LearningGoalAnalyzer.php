@@ -43,9 +43,10 @@ class LearningGoalAnalyzer
                 // $value = isset($values[$behaviour->id]) ? $values[$behaviour->id] : 0;
 
                 // Case 2:
-                if (array_key_exists($behaviour->code, $except)) {
+                if (in_array($behaviour->code, $except)) {
                     continue;
                 }
+
                 $value = $values[$behaviour->id];
 
                 if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) { // Positive
