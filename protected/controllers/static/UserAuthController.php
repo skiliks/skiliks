@@ -458,6 +458,8 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
+        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) ? true : false;
+
         // clean up validation errors if not POST request
         if (false === Yii::app()->request->isPostRequest) {
             $profile->validate([]);
@@ -473,6 +475,7 @@ class UserAuthController extends YumController
                 'profile'              => $profile,
                 'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
                 'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
+                'simPassed'            => $simPassed
             ]
         );
     }
