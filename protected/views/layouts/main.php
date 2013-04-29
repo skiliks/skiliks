@@ -101,7 +101,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <script type="text/javascript">
                         $('.flash').dialog({
                             closeOnEscape: true,
-                            dialogClass: 'sing-in-pop-up',
+                            dialogClass: 'flash-message-popup',
                             minHeight: 220,
                             modal: true,
                             resizable: false,
