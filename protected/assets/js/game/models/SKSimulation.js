@@ -183,7 +183,7 @@ define([
             'onAddDocument' : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                     this.loadDocsDialog = new SKDialogView({
-                        'message': 'Подождите, идёт загрузка. <br/> Это займёт 10-15 секунд.',
+                        'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
                         'buttons': []
                     });
