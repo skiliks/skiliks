@@ -1893,6 +1893,7 @@ html[lang="en"] .footer .social_networks {
 	margin-bottom:3px;
 	float:right;
     font-size:12px;
+    outline: none;
 }
 .login-form div.password{
 	margin-bottom: 7px;
