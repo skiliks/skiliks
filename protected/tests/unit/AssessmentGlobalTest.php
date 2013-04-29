@@ -512,25 +512,36 @@ class AssessmentGlobalTest extends CDbTestCase
         }
     }
 
-    /**
-     * Просто для перещёта старых (заниженныйх симуляций) симуляций
-     */
     public function testAssessment_Goals_Areas_Overals_case4()
     {
-        $simulation = Simulation::model()->findByPk(123);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        // ---
+
+        $this->addAssessmentAggregated($simulation, '4122');
+        $this->addAssessmentAggregated($simulation, '4125');
 
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
 
-        $learning_area = new LearningAreaAnalyzer($simulation);
-        $learning_area->run();
-
-        $evaluation = new Evaluation($simulation);
-        $evaluation->run();
+        $goals = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        foreach ($goals as $goal) {
+            if ('Использовать делегирование как инструмент управления своим временем и объемом выполненных задач' == $goal->learningGoal->title) {
+                echo sprintf(
+                    "%s %s %s \n",
+                    // $goal->learningGoal->title,
+                    $goal->value,
+                    $goal->percent,
+                    '%'
+                );
+                $this->assertEquals('48', $goal->percent);
+            }
+        }
     }
 
     // -----------------------------------------------------
