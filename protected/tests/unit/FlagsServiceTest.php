@@ -309,7 +309,6 @@ class FlagServiceTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-
         FlagsService::setFlag($simulation, 'F30', 1);
         FlagsService::setFlag($simulation, 'F16', 1);
 
@@ -333,7 +332,7 @@ class FlagServiceTest extends CDbTestCase
         $this->assertEquals('inbox', $email->getGroupName());
         $this->assertNull($time_email);
 
-        SimulationService::setSimulationClockTime($simulation, 16, 0);
+        SimulationService::setSimulationClockTime($simulation, 13, 30); // M9 must come by time at 13:30
         $i = 0;
         while (true) {
             $state = EventsManager::getState($simulation, []);
@@ -345,16 +344,17 @@ class FlagServiceTest extends CDbTestCase
         /** @var $timed_good_email MailBox */
         $timed_good_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
-            'code'   => 'M31'
+            'code'   => 'M31',
         ]);
         /** @var $timed_bad_email MailBox */
         $timed_bad_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
-            'code'   => 'M9'
+            'code'   => 'M9',
         ]);
 
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
-        $this->assertNull($timed_bad_email);
+        $this->assertNotNull($timed_bad_email);
+        $this->assertEquals('inbox',$timed_bad_email->getGroupName());
     }
 
     /*
