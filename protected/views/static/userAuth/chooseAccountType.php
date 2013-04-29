@@ -5,7 +5,7 @@
     })
 })</script>
 <section class="registration">
-	<h2><?php echo Yii::t('site', 'Sign-up using your preferred option and get the results') ?></h2>
+	<h2><?php echo Yii::t('site', 'Sign-up using your preferred option' . (empty($simPassed) ? '' : ' and get the results')) ?></h2>
 	<div class="form form-account-personal">
 	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
 	    <ul>
