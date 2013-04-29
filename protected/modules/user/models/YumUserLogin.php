@@ -45,17 +45,21 @@ class YumUserLogin extends YumFormModel {
         /* @var $user YumUser */
         /* @var $profile YumProfile */
         $profile = YumProfile::model()->findByAttributes(['email'=>$this->username]);
-        if(null !== $profile){
+        if(null !== $profile) {
             $user = YumUser::model()->findByPK($profile->user_id);
             if(null !== $user) {
                 if(YumEncrypt::encrypt($this->password, $user->salt) === $user->password){
                     return true;
+                }else{
+                    $this->addError('password', Yum::t('Неверный пароль'));
                 }
+            }else{
+                $this->addError('username', Yum::t('Неверный логин'));
             }
+        }else{
+            $this->addError('username', Yum::t('Неверный логин'));
         }
 
-        $this->addError('password', Yum::t('Имя пользователя или неверный пароль'));
-        $this->addError('username', Yum::t('Имя пользователя или неверный пароль'));
     }
 
 }
