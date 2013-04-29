@@ -360,8 +360,11 @@ define([
 
             doSoundPhoneCallInStop: function() {
                 var me = this;
-                $.each(me.$el.find('#audio-phone-call'), function() {
-                    this.pause();
+                me.$el.find('#audio-phone-call').each(function() {
+                    if (this.pause !== undefined) {
+                        this.pause();
+                    }
+                    this.src = '';
                 });
                 me.$el.find('#audio-phone-call').remove();
             },
