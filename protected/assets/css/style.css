@@ -3557,10 +3557,10 @@ ul.profile-menu li {
         width: 570px;
     }
     .chart-gauge .pointer {
-        left:5px;
+        left:1px;
     }
     .product .chart-gauge .pointer {
-        left:8px;
+        left:2px;
     }
     .gauge-charts .chart-value {
         font-size: 12px;

@@ -217,6 +217,9 @@
 .product .widthblock, .product-gauge-charts .chart-gauge {
     width: 237px;
 }
+.product-gauge-charts .chart-gauge .pointer {
+    left: 25px;
+}
 .product .estmtileswrap .widthblock {
     vertical-align: top;
 }
