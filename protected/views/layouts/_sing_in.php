@@ -7,6 +7,7 @@
             'enableAjaxValidation' => true,
             'clientOptions'=>array(
                 'validateOnSubmit'=>true, // Required to perform AJAX validation on form submit
+                'validateOnChange'=>false,
                 'afterValidate'=>'js:authenticateValidation', // Your JS function to submit form
             )
         ]); ?>
