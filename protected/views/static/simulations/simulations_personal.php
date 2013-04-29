@@ -21,9 +21,9 @@ $scoreRender = function(Invite $invite) {
 };
 
 $this->widget('zii.widgets.grid.CGridView', [
-    'dataProvider' => Invite::model()->searchByInvitedUserEmail(
+    'dataProvider' => Invite::model()->searchByInvitedUserEmailForOwner(
         Yii::app()->user->data()->profile->email,
-        Invite::STATUS_ACCEPTED
+        false
     ),
     'summaryText' => '',
     'pager' => [

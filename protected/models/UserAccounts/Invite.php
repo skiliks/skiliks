@@ -209,6 +209,30 @@ class Invite extends CActiveRecord
         return new DateTime('@' . (int)$this->sent_time);
     }
 
+    /**
+     * @param YumUser $user
+     * @param Scenario $scenario
+     * @return Invite
+     */
+    public static function addFakeInvite(YumUser $user, Scenario $scenario) {
+        $newInvite              = new Invite();
+        $newInvite->owner_id    = $user->id;
+        $newInvite->receiver_id = $user->id;
+        $newInvite->firstname   = $user->profile->firstname;
+        $newInvite->lastname    = $user->profile->lastname;
+        $newInvite->scenario_id = $scenario->id;
+        $newInvite->status      = Invite::STATUS_ACCEPTED;
+        $newInvite->sent_time   = time(); // @fix DB!
+        $newInvite->save(true, [
+            'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+        ]);
+
+        $newInvite->email = Yii::app()->user->data()->profile->email;
+        $newInvite->save(false);
+
+        return $newInvite;
+    }
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
     public function uniqueEmail($attribute, $params)
@@ -470,10 +494,6 @@ class Invite extends CActiveRecord
         $criteria->compare('scenario_id', $this->scenario_id);
 		$criteria->compare('sent_time', $this->sent_time);
 
-        $criteria->mergeWith([
-            'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
-        ]);
-
 		return new CActiveDataProvider($this, [
 			'criteria' => $criteria,
             'sort' => [
@@ -516,6 +536,8 @@ class Invite extends CActiveRecord
             $status = self::$statusId;
         }
 
+        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
         $criteria=new CDbCriteria;
         
         $criteria->compare('id', $this->id);
@@ -528,9 +550,11 @@ class Invite extends CActiveRecord
         $criteria->compare('signature', $this->signature);
         $criteria->compare('code', $this->code);
         $criteria->compare('vacancy_id', $this->vacancy_id);
-        $criteria->compare('scenario_id', $this->scenario_id);
         $criteria->compare('status', $status);
         $criteria->compare('sent_time', $this->sent_time);
+
+        // restriction!
+        $criteria->addNotInCondition('scenario_id', [$liteScenario->id]);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id LEFT JOIN user_account_corporate ON user_account_corporate.user_id = vacancy.user_id'
@@ -569,14 +593,13 @@ class Invite extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function searchByInvitedUserEmailForOwner($invitedUserEmail = null, $status = null)
+    public function searchByInvitedUserEmailForOwner($invitedUserEmail = null, $isIncludeCompleted = true)
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        if (null === $status) {
-            $status = self::$statusId;
-        }
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
         $criteria=new CDbCriteria;
 
@@ -586,13 +609,17 @@ class Invite extends CActiveRecord
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
         $criteria->compare('email', $invitedUserEmail ?: $this->email);
-        //$criteria->compare('message', $this->message);
-        //$criteria->compare('signature', $this->signature);
-        //$criteria->compare('code', $this->code);
-        // $criteria->compare('vacancy_id', null);
-        $criteria->compare('scenario_id', $this->scenario_id);
-        $criteria->compare('status', $status);
-        //$criteria->compare('sent_time', $this->sent_time);
+        $criteria->compare('status', Invite::STATUS_ACCEPTED);
+        $criteria->addInCondition('scenario_id', [$fullScenario->id, $liteScenario->id]);
+
+        if ($isIncludeCompleted) {
+            $criteriaForFinishedSimulations = new CDbCriteria;
+            $criteriaForFinishedSimulations->compare('email', $invitedUserEmail ?: $this->email);
+            $criteriaForFinishedSimulations->compare('status', Invite::STATUS_COMPLETED);
+            $criteriaForFinishedSimulations->compare('scenario_id', $fullScenario->id);
+
+            $criteria->mergeWith($criteriaForFinishedSimulations, false);
+        }
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,

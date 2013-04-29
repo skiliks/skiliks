@@ -116,7 +116,7 @@ class CheatsController extends AjaxController
 
         echo "<br><br><a href='/cheats'>Вернуться на страницу аккаунта.</a><br><br>Done!<br>";
 
-        die;
+        Yii::app()->end(); // кошерное die
     }
 
     /**
@@ -134,7 +134,7 @@ class CheatsController extends AjaxController
             echo "{$email['id']} {$email['email']} <br>";
         }
 
-        die;
+        Yii::app()->end(); // кошерное die
     }
 
     /**

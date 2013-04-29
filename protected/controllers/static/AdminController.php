@@ -167,7 +167,7 @@ class AdminController extends AjaxController
 
             </body>
             </html>';
-        die;
+        Yii::app()->end(); // кошерное die
     }
 
     public function actionUploadedFileAnalyzer()
@@ -177,7 +177,8 @@ class AdminController extends AjaxController
         if ($_FILES["file"]["error"] > 0)
         {
             // pattern "Sparta": do it or die!
-            die("Error: " . $_FILES["file"]["error"] . "<br>");
+            echo "Error: " . $_FILES["file"]["error"] . "<br>";
+            Yii::app()->end(); // кошерное die
         }
 
         error_reporting(E_ALL);

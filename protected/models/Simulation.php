@@ -36,7 +36,6 @@
  * @property TimeManagementAggregated[] time_management_aggregated
  * @property Invite invite
  *
- * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
 class Simulation extends CActiveRecord
 {

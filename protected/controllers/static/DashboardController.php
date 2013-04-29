@@ -146,13 +146,21 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $simulation = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE);
 
+        $simulationToDisplayResults = null;
+        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
+            $simulationToDisplayResults = Simulation::model()->findByPk(
+                Yii::app()->request->cookies['display_result_for_simulation_id']->value
+            );
+            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
+        }
+
         $this->render('dashboard_corporate', [
-            //'user' => $this->user,
-            'invite'             => $invite,
-            'inviteToEdit'       => $inviteToEdit,
-            'vacancies'          => $vacancies,
-            'validPrevalidate'   => $validPrevalidate,
-            'simulation'         => $simulation
+            'invite'              => $invite,
+            'inviteToEdit'        => $inviteToEdit,
+            'vacancies'           => $vacancies,
+            'validPrevalidate'    => $validPrevalidate,
+            'simulation'          => $simulation,
+            'display_results_for' => $simulationToDisplayResults,
         ]);
     }
 
@@ -169,8 +177,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_LITE);
         }
 
+        $simulationToDisplayResults = null;
+        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
+            $simulationToDisplayResults = Simulation::model()->findByPk(
+                Yii::app()->request->cookies['display_result_for_simulation_id']->value
+            );
+            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
+        }
+
         $this->render('dashboard_personal', [
-            'simulation' => $simulation
+            'simulation' => $simulation,
+            'display_results_for' => $simulationToDisplayResults,
         ]);
     }
 

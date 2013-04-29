@@ -373,14 +373,9 @@ define([
                     id        : 'audio-phone-call',
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
                 }));
-                try {
-                    if (0 < me.$el.find("#audio-phone-call").length &&
-                        'undefined' !== typeof me.$el.find("#audio-phone-call")[0].play &&
-                        'function' === typeof me.$el.find("#audio-phone-call")[0].play) {
-                        me.$el.find("#audio-phone-call")[0].play();
-                    }
-                } catch(e) {
-                    // just to "fix" phantom.js test
+
+                if ('function' == typeof me.$el.find("#audio-phone-call")[0].play) {
+                    me.$el.find("#audio-phone-call")[0].play();
                 }
             },
 
