@@ -3,67 +3,65 @@ $assetsUrl = $this->getAssetsUrl();
 
 $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compiled_css/feedback.css');
 ?>
+
+<!--<script type="text/javascript" src="http://cdn.jotfor.ms/static/jotform.js"></script>-->
+
 <div id="feedback-dialog" style="display: none;">
-    <form class="feedback jt-feedback jotform-form" action="http://submit.jotformeu.com/submit.php" method="post"
-          name="form_30835043655352" id="30835043655352" accept-charset="utf-8">
-        <input type="hidden" name="formID" value="30835043655352"/>
+    <?php
+    $form = $this->beginWidget('CActiveForm', [
+        'id' => 'feedback-form',
+        'htmlOptions' => ['class' => 'feedback'],
+        'action' => Yii::app()->request->hostInfo . '/static/feedback',
+        'enableAjaxValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+            'afterValidate'=>'js:feedbackSubmit',
+        )
+    ]);
 
-        <div class="form-all">
-            <ul class="form-section">
-                <li class="form-line" id="id_7">
-                    <label class="form-label-left" id="label_7" for="input_7">
-                        Тема<span class="form-required">*</span>
-                    </label>
+    $model = new Feedback();
 
-                    <div id="cid_7" class="form-input">
-                        <select class="form-dropdown validate[required]" style="width:150px" id="input_7"
-                                name="q7_input7">
-                            <option value="">Тема сообщения</option>
-                            <option value="Работа сайта">Работа сайта</option>
-                            <option value="Симуляция">Симуляция</option>
-                            <option value="Оплата">Оплата</option>
-                            <option value="Прочее">Прочее</option>
-                        </select>
-                    </div>
-                </li>
-                <li class="form-line" id="id_5">
-                    <label class="form-label-left" id="label_5" for="input_5">
-                        Сообщение:<span class="form-required">*</span>
-                    </label>
+    $themes = [
+        '' => 'Тема сообщения',
+        'Работа сайта' => 'Работа сайта',
+        'Симуляция' => 'Симуляция',
+        'Оплата' => 'Оплата',
+        'Прочее' => 'Прочее'
+    ];
+    ?>
 
-                    <div id="cid_5" class="form-input">
-                        <textarea id="input_5" class="form-textarea validate[required]" name="q5_input5" cols="40"
-                                  rows="6"></textarea>
+    <div class="form-all">
+        <ul class="form-section">
+            <li class="form-line">
+                <?php echo $form->labelEx($model, 'theme', ['class' => 'form-label-left']); ?>
+                <div class="form-input">
+                    <?php echo $form->dropDownList($model, 'theme', $themes, ['class' => 'form-dropdown']); ?>
+                </div>
+                <?php echo $form->error($model, 'theme'); ?>
+            </li>
+            <li class="form-line">
+                <?php echo $form->labelEx($model, 'message', ['class' => 'form-label-left']); ?>
+                <div class="form-input">
+                    <?php echo $form->textArea($model, 'message', ['class' => 'form-textarea', 'cols' => '40', 'rows' => '6']); ?>
+                </div>
+                <?php echo $form->error($model, 'message'); ?>
+            </li>
+            <li class="form-line">
+                <?php echo $form->labelEx($model, 'email', ['class' => 'form-label-left']); ?>
+                <div class="form-input">
+                    <?php echo $form->textField($model, 'email', ['placeholder' => Yii::t('site', 'Enter your email'), 'class' => 'form-textbox', 'size' => 30]); ?>
+                </div>
+                <?php echo $form->error($model, 'email'); ?>
+            </li>
+            <li class="form-line">
+                <div class="form-input-wide">
+                    <div style="margin-left: 156px" class="form-buttons-wrapper">
+                        <?php echo CHtml::submitButton(Yii::t('site', 'Send'), ['class' => 'form-submit-button', 'name' => 'submit']); ?>
                     </div>
-                </li>
-                <li class="form-line" id="id_6">
-                    <label class="form-label-left" id="label_6" for="input_6">
-                        E-mail:<span class="form-required">*</span>
-                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
 
-                    <div id="cid_6" class="form-input">
-                        <input placeholder="Введите ваш Email" type="email" class=" form-textbox validate[required, Email]" id="input_6" name="q6_email"
-                               size="30"/>
-                    </div>
-                </li>
-                <li class="form-line" id="id_2">
-                    <div id="cid_2" class="form-input-wide">
-                        <div style="margin-left:156px" class="form-buttons-wrapper">
-                            <button id="input_2" type="submit" class="form-submit-button">
-                                Отправить
-                            </button>
-                        </div>
-                    </div>
-                </li>
-                <li style="display:none">
-                    Should be Empty:
-                    <input type="text" name="website" value=""/>
-                </li>
-            </ul>
-        </div>
-        <input type="hidden" id="simple_spc" name="simple_spc" value="30835043655352"/>
-        <script type="text/javascript">
-            document.getElementById("si" + "mple" + "_spc").value = "30835043655352-30835043655352";
-        </script>
-    </form>
+    <?php $this->endWidget(); ?>
 </div>
