@@ -146,7 +146,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
         // I remove more than 1 allowed to start lite sim }
 
         if (0 === count($notUsedLiteSimulations)) {
-            nvite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
+            Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
          }
         // check and add trial lite version }
 

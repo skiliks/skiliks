@@ -611,7 +611,6 @@ class SimulationService
             if ($simulation->isDevelopMode()) {
                 throw $e;
             }
-
         }
 
         // Make agregated activity log 
@@ -664,7 +663,8 @@ class SimulationService
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
 
-        Yii::app()->request->cookies['display_result_for_simulation_id'] =
+        // @ - for PHPUnit
+        @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
     }
 
