@@ -443,6 +443,24 @@ section.registration-by-link .form .row a.decline-link:hover {
     #account-personal-personal-form .YumProfile_lastname {left:290px;}
 }
 /* Pop-up связанные с входом */
+#login-form.login-form .error input[type='text'],
+#login-form.login-form .error input[type='password']{
+    border: 2px solid #BD2929 !important;
+}
+#login-form.login-form .errorMessage {
+    color:white;
+}
+#login-form.login-form .errorMessage#YumUserLogin_username_em_ {
+    top:0;
+    left:3px;
+}
+#login-form.login-form .errorMessage#YumUserLogin_password_em_ {
+    top:-15px;
+    left:3px;
+}
+@media screen and (max-width: 1280px){
+    #login-form.login-form .errorMessage#YumUserLogin_password_em_ {top:-13px;}
+}
 #password-recovery-form {
     padding:15px 0 0;
 }
