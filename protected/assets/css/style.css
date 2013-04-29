@@ -2866,7 +2866,8 @@ ul.profile-menu li {
     text-align: center;
     padding-top: 25px;
     position: absolute;
-    width:598px;
+/*    width:598px; */
+    width: 100%;
     z-index: 5;
 }
 
