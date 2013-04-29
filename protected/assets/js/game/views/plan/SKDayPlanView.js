@@ -558,7 +558,7 @@ define([
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var task_id = $(e.currentTarget).attr('data-task-id');
             var task = SKApp.simulation.dayplan_tasks.get(task_id);
-            if(parseInt(task.get("type"),10) !== 2) {
+            if(parseInt(task.get("type"),10) !== 1) {
                 SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                 SKApp.simulation.todo_tasks.create({
                     title:task.get("title"),
