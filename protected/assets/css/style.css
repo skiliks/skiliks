@@ -3873,9 +3873,11 @@ ul.profile-menu li {
     .errorblock p, .action-index .errorblock .flash-error p {
         font-size: 13px;
     }
+    /*
     .action-index .flash, .inner .flash {
         height:140px !important;
     }
+    */
     #private-invitations-list-box span.empty, #corporate-invitations-list-box span.empty {
         height: 10px;
     }

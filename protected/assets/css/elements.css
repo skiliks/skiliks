@@ -503,34 +503,6 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-15px;
     left:185px;
 }
-/*
-.errorblock {
-    margin-left: 300px;
-    text-align: center;
-    width:580px !important;
-}
-.errorblock a {
-    color:#2d7b91;
-    text-decoration: none;
-}
-.errorblock .radiusthree {
-    padding: 22px 30px 20px;
-    position: relative;
-}
-.errorblock p, .action-index .errorblock .flash-error p  {
-    color: #29313d;
-    font: 18px "ProximaNova-Regular";
-    line-height: 140%;
-}
-.errorblock p+p, .action-index .errorblock p+p {
-    margin-top: 20px;
-}
-.action-index .ui-dialog, .inner .ui-dialog  {
-    border:none;
-}*/
-.flash-pop-up {
-/*    position: relative; */
-}
 .action-index .flash, .inner .flash {
     box-shadow: none;
     font-weight: normal;
@@ -576,6 +548,73 @@ section.registration-by-link .form .row a.decline-link:hover {
     color:white;
 }
 .change_pass {height:auto !important;}
+
+/* flash-message-popup */
+.flash-message-popup {
+    background: #E8F7F7;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    left: 50% !important;
+    top: 130px !important;
+    margin:0 0 0 -275px;
+    width: 550px !important;
+    overflow: visible;
+    padding: 0;
+    color:#3d4041;
+}
+.flash-message-popup .popupclose {
+    display: block;
+    height: 27px;
+    width: 27px;
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -17px;
+    top: -17px;
+}
+.flash-message-popup .popupclose:hover {
+    background-position:0 100%;
+}
+.flash-message-popup .flash {
+    padding:0;
+    height:auto !important;
+}
+.flash-message-popup .flash .flash-notice,
+.flash-message-popup .flash .flash-error{
+    padding:25px 20px 15px;
+    color:#3d4041;
+    text-align:center;
+}
+.flash-message-popup .flash a {
+    color:#2d7b91;
+    outline:none;
+    text-decoration:none;
+}
+.flash-message-popup .flash h3.midtitle {
+    color: #3D4041;
+    font: 26px "ProximaNova-Bold";
+    margin-bottom: 20px;
+}
+.flash-message-popup .flash p {
+    font:normal 15px/20px "ProximaNova-Regular";
+    margin: 0 0 15px 0;
+}
+@media screen and (max-width: 1280px){
+    .flash-message-popup {
+        margin:0 0 0 -250px;
+        width: 500px !important;
+    }
+    .flash-message-popup .flash h3.midtitle {
+        font: 20px "ProximaNova-Bold";
+        margin-bottom: 15px;
+    }
+    .flash-message-popup .flash p {
+        font: 14px/18px "ProximaNova-Regular";
+        margin: 0 0 10px 0;
+    }
+}
 /* :hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
