@@ -304,15 +304,10 @@ class UserAuthController extends YumController
     {
         $this->checkUser();
 
-        /*$message = sprintf(
-            Yii::t('site', 'Your account successfully updated to "%s".'),
-            $this->user->getAccountType()
-        );*/
-
-
         if ($this->user->isHasAccount() ) {
-            $simulation = Simulation::model()->findByAttributes(['user_id' => $this->user->id]);
-            $this->redirect('/dashboard' . ($simulation ? '#details' : ''));
+//            $simulation = Simulation::model()->findByAttributes(['user_id' => $this->user->id]);
+//            Yii::app()->request->cookies['cookie_name']->value = new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+            $this->redirect('/dashboard');
             return;
         }
 
@@ -662,11 +657,13 @@ class UserAuthController extends YumController
             $user->is_check = $YumUser['is_check'];
             $user->update();
 
-            if((int)$YumUser['is_check'] === YumUser::CHECK){
-                $this->redirect(['/simulation/promo/lite'], false);
-            }else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
+            if ((int)$YumUser['is_check'] === YumUser::CHECK) {
+                $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+                $invite = Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
+                $this->redirect(['/simulation/promo/'.Scenario::TYPE_LITE.'/'.$invite->id], false);
+            } else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
                 $this->redirect(['/registration/choose-account-type'], false);
-            }else{
+            } else {
                 throw new Exception("Bug");
             }
             return;

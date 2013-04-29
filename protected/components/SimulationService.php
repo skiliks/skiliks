@@ -663,6 +663,8 @@ class SimulationService
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
+
+        setcookie('display_result_for_simulation_id', $simulation->id);
     }
 
     /**

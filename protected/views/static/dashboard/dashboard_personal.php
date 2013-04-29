@@ -22,12 +22,10 @@
 
             <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
 
-            <?php if ($simulation): ?>
+            <?php if ($display_results_for): ?>
             <script type="text/javascript">
                 $(function() {
-                    if (location.hash == '#details') {
-                        showSimulationDetails('/simulations/details/<?= $simulation->id ?>');
-                    }
+                    showSimulationDetails('/simulations/details/<?= $display_results_for->id ?>');
                 });
             </script>
             <?php endif; ?>

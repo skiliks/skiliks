@@ -75,8 +75,6 @@ class MyDocumentsController extends AjaxController
             }
         }
 
-        //exit;
-
         $result = array(
             'result'           => 1,
             'filedId'          => $file->id,

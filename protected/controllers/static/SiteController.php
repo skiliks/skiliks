@@ -51,9 +51,14 @@ class SiteController extends AjaxController
             $invite = Invite::model()->findByPk($invite_id);
 
             if (null == $invite) {
-                Yii:app()->user->setFlash('error', 'Выберите приглашение по которому Вы хотите начать симуляцию. <br/>Похоже, что вы пытаетесь начать симуляцию не указав приглашение -  это запрещено.');
+                Yii::app()->user->setFlash(
+                    'error',
+                    'Выберите приглашение по которому Вы хотите начать симуляцию. <br/>Похоже, что вы пытаетесь начать симуляцию не указав приглашение -  это запрещено.'
+                );
+
                 $this->redirect('/simulations');
             }
+
 
             if (null !== $invite->simulation_id) {
                 Yii::app()->user->setFlash('error', sprintf(
@@ -82,9 +87,8 @@ class SiteController extends AjaxController
                 ));
                 $this->redirect("/profile/corporate/tariff");
             }
-        }else{
-            if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
-                $type != Scenario::TYPE_LITE) {
+        } else {
+            if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
                 $this->redirect("/dashboard");
             }
         }

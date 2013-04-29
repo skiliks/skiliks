@@ -20,7 +20,7 @@
         'dataProvider' => Invite::model()->searchByInvitedUserEmail(
             Yii::app()->user->data()->profile->email,
             [Invite::STATUS_PENDING, Invite::STATUS_COMPLETED]
-        ), //$dataProvider,
+        ),
         'summaryText' => '',
         'emptyText' => '',
         'pager' => [
