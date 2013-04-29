@@ -33,9 +33,11 @@
     color: #2d7b91;
     text-decoration: none;
 }
+/*
 .controller-static-dashboard .flash  {
     height:147px !important;
 }
+*/
 @media screen and (max-width: 1280px){
     .flash-pop-up {
         overflow: visible;
@@ -44,7 +46,9 @@
     .flash-pop-up .ui-dialog-content p {
         font-size:15px !important;
     }
+    /*
     .controller-static-dashboard .flash  {
         height:121px !important;
     }
+    */
 }
