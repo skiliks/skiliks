@@ -664,7 +664,7 @@ class SimulationService
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
 
-        Yii::app()->request->cookies['cookie_name']->value =
+        Yii::app()->request->cookies =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
     }
 
