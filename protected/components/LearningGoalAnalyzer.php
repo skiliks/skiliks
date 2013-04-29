@@ -19,7 +19,13 @@ class LearningGoalAnalyzer
         /** @var LearningGoal[] $learningGoals */
         $learningGoals = $scenario->getLearningGoals([]);
 
+        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
+
         $values = [];
+        foreach ($this->simulation->game_type->getHeroBehavours([]) as $behaviour) {
+            $values[$behaviour->id] = 0;
+        }
+
         foreach ($this->simulation->assessment_aggregated as $row) {
             $values[$row->point_id] = $row->fixed_value;
         }
@@ -37,9 +43,10 @@ class LearningGoalAnalyzer
                 // $value = isset($values[$behaviour->id]) ? $values[$behaviour->id] : 0;
 
                 // Case 2:
-                if (!array_key_exists($behaviour->id, $values)) {
+                if (in_array($behaviour->code, $except)) {
                     continue;
                 }
+
                 $value = $values[$behaviour->id];
 
                 if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) { // Positive

@@ -34,21 +34,24 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '3216');
         $this->addAssessmentAggregated($simulation, '4122'); // 8
         $this->addAssessmentAggregated($simulation, '341b1');
-        $this->addAssessmentAggregated($simulation, '351b3');
         $this->addAssessmentAggregated($simulation, '4125'); // 8
         $this->addAssessmentAggregated($simulation, '4141'); // 8
         $this->addAssessmentAggregated($simulation, '4143'); // 8
         $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214');
-        $this->addAssessmentAggregated($simulation, '351a2');
         $this->addAssessmentAggregated($simulation, '1122');
         $this->addAssessmentAggregated($simulation, '1232'); // 1
         $this->addAssessmentAggregated($simulation, '3218'); // 1
+        $this->addAssessmentAggregated($simulation, '351b3');
         $this->addAssessmentAggregated($simulation, '351b2');
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
+        $this->addAssessmentAggregated($simulation, '351c2');
         $this->addAssessmentAggregated($simulation, '351c3');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a2');
+        $this->addAssessmentAggregated($simulation, '351a4');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
         $this->addAssessmentAggregated($simulation, '3313');
@@ -141,6 +144,11 @@ class AssessmentGlobalTest extends CDbTestCase
         ];
 
         foreach ($areas as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->learningArea->title],
                 $listItem->value,
@@ -156,6 +164,11 @@ class AssessmentGlobalTest extends CDbTestCase
         ];
 
         foreach ($overall as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->assessment_category_code],
                 round($listItem->value),
@@ -202,6 +215,10 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '351b2');
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
+        $this->addAssessmentAggregated($simulation, '351c2');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a4');
+        $this->addAssessmentAggregated($simulation, '351b4');
         $this->addAssessmentAggregated($simulation, '351c3');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
@@ -313,6 +330,11 @@ class AssessmentGlobalTest extends CDbTestCase
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->learningArea->title],
                 $listItem->value,
@@ -321,13 +343,18 @@ class AssessmentGlobalTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 73.79,
-            'overall'     => 67.67,
+            'management'  => 74.50,
+            'overall'     => 68.02,
             'performance' => 69.24,
             'time'        => 50,
         ];
 
         foreach ($overall as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->assessment_category_code],
                 $listItem->value,
@@ -378,6 +405,10 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
         $this->addAssessmentAggregated($simulation, '351c3');
+        $this->addAssessmentAggregated($simulation, '351c2');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a4');
+        $this->addAssessmentAggregated($simulation, '351b4');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
         $this->addAssessmentAggregated($simulation, '3313');
@@ -489,6 +520,11 @@ class AssessmentGlobalTest extends CDbTestCase
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->learningArea->title],
                 $listItem->value,
@@ -497,13 +533,18 @@ class AssessmentGlobalTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 43.45,
-            'overall'     => 52.5,
+            'management'  => 44.97,
+            'overall'     => 53.26,
             'performance' => 69.24,
             'time'        => 50,
         ];
 
         foreach ($overall as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
+//            );
             $this->assertEquals(
                 $v[$listItem->assessment_category_code],
                 $listItem->value,
@@ -512,25 +553,36 @@ class AssessmentGlobalTest extends CDbTestCase
         }
     }
 
-    /**
-     * Просто для перещёта старых (заниженныйх симуляций) симуляций
-     */
     public function testAssessment_Goals_Areas_Overals_case4()
     {
-        $simulation = Simulation::model()->findByPk(123);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        // ---
+
+        $this->addAssessmentAggregated($simulation, '4122');
+        $this->addAssessmentAggregated($simulation, '4125');
 
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
 
-        $learning_area = new LearningAreaAnalyzer($simulation);
-        $learning_area->run();
-
-        $evaluation = new Evaluation($simulation);
-        $evaluation->run();
+        $goals = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        foreach ($goals as $goal) {
+            if ('Использовать делегирование как инструмент управления своим временем и объемом выполненных задач' == $goal->learningGoal->title) {
+                echo sprintf(
+                    "%s %s %s \n",
+                    // $goal->learningGoal->title,
+                    $goal->value,
+                    $goal->percent,
+                    '%'
+                );
+                $this->assertEquals('47.05', $goal->percent);
+            }
+        }
     }
 
     // -----------------------------------------------------
