@@ -114,12 +114,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             width: 275,
                             open: function( event, ui ) { Cufon.refresh(); }
                         });
-                        $('.sing-in-pop-up .ui-dialog-titlebar').remove();
+                        $('.flash-message-popup .ui-dialog-titlebar').remove();
                         //$('.flash-pop-up').addClass('transparent-boder errorblock');
                         //$('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
                         $('.sing-in-pop-up').dialog('open');
 
-                        $('.flash .popupclose').click(function() {
+                        $('.flash-message-popup .popupclose').click(function() {
                             console.log('click');
                             $('.flash').dialog('close');
                         });
