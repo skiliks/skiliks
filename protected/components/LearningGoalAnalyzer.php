@@ -19,7 +19,7 @@ class LearningGoalAnalyzer
         /** @var LearningGoal[] $learningGoals */
         $learningGoals = $scenario->getLearningGoals([]);
 
-        $exept = ['214g1', '214g2', '214g3', '214g4', '32110', '32112', '32113',
+        $except = ['214g1', '214g2', '214g3', '214g4', '32110', '32112', '32113',
             '32114', '3312', '3335', '341a1', '341a8', '341c1', '341c2', '371a1',
             '371a2', '371a3', '371a4', '371a5', '371b1', '371b2', '371b3', '8211'];
 
@@ -45,7 +45,7 @@ class LearningGoalAnalyzer
                 // $value = isset($values[$behaviour->id]) ? $values[$behaviour->id] : 0;
 
                 // Case 2:
-                if (array_key_exists($behaviour->id, $exept)) {
+                if (array_key_exists($behaviour->code, $except)) {
                     continue;
                 }
                 $value = $values[$behaviour->id];
