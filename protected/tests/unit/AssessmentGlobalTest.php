@@ -34,21 +34,24 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '3216');
         $this->addAssessmentAggregated($simulation, '4122'); // 8
         $this->addAssessmentAggregated($simulation, '341b1');
-        $this->addAssessmentAggregated($simulation, '351b3');
         $this->addAssessmentAggregated($simulation, '4125'); // 8
         $this->addAssessmentAggregated($simulation, '4141'); // 8
         $this->addAssessmentAggregated($simulation, '4143'); // 8
         $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214');
-        $this->addAssessmentAggregated($simulation, '351a2');
         $this->addAssessmentAggregated($simulation, '1122');
         $this->addAssessmentAggregated($simulation, '1232'); // 1
         $this->addAssessmentAggregated($simulation, '3218'); // 1
+        $this->addAssessmentAggregated($simulation, '351b3');
         $this->addAssessmentAggregated($simulation, '351b2');
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
+        $this->addAssessmentAggregated($simulation, '351c2');
         $this->addAssessmentAggregated($simulation, '351c3');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a2');
+        $this->addAssessmentAggregated($simulation, '351a4');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
         $this->addAssessmentAggregated($simulation, '3313');
@@ -141,16 +144,16 @@ class AssessmentGlobalTest extends CDbTestCase
         ];
 
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->learningArea->title,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->learningArea->title],
-//                $listItem->value,
-//                'Areas: '.$listItem->learningArea->title
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
+            );
         }
 
         $v = [
@@ -161,16 +164,16 @@ class AssessmentGlobalTest extends CDbTestCase
         ];
 
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->assessment_category_code,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->assessment_category_code],
-//                round($listItem->value),
-//                'Overals: '.$listItem->assessment_category_code
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                round($listItem->value),
+                'Overals: '.$listItem->assessment_category_code
+            );
         }
     }
 
@@ -212,6 +215,10 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '351b2');
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
+        $this->addAssessmentAggregated($simulation, '351c2');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a4');
+        $this->addAssessmentAggregated($simulation, '351b4');
         $this->addAssessmentAggregated($simulation, '351c3');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
@@ -323,36 +330,36 @@ class AssessmentGlobalTest extends CDbTestCase
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->learningArea->title,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->learningArea->title],
-//                $listItem->value,
-//                'Areas: '.$listItem->learningArea->title
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
+            );
         }
 
         $v = [
-            'management'  => 73.79,
-            'overall'     => 67.67,
+            'management'  => 74.50,
+            'overall'     => 68.02,
             'performance' => 69.24,
             'time'        => 50,
         ];
 
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->assessment_category_code,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->assessment_category_code],
-//                $listItem->value,
-//                'Overals: '.$listItem->assessment_category_code
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                $listItem->value,
+                'Overals: '.$listItem->assessment_category_code
+            );
         }
     }
 
@@ -398,6 +405,10 @@ class AssessmentGlobalTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '351b1');
         $this->addAssessmentAggregated($simulation, '351c1');
         $this->addAssessmentAggregated($simulation, '351c3');
+        $this->addAssessmentAggregated($simulation, '351c2');
+        $this->addAssessmentAggregated($simulation, '351a1');
+        $this->addAssessmentAggregated($simulation, '351a4');
+        $this->addAssessmentAggregated($simulation, '351b4');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
         $this->addAssessmentAggregated($simulation, '3313');
@@ -509,36 +520,36 @@ class AssessmentGlobalTest extends CDbTestCase
 
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->learningArea->title,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->learningArea->title],
-//                $listItem->value,
-//                'Areas: '.$listItem->learningArea->title
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->learningArea->title],
+                $listItem->value,
+                'Areas: '.$listItem->learningArea->title
+            );
         }
 
         $v = [
-            'management'  => 43.45,
-            'overall'     => 52.5,
+            'management'  => 44.97,
+            'overall'     => 53.26,
             'performance' => 69.24,
             'time'        => 50,
         ];
 
         foreach ($overall as $listItem) {
-            echo sprintf(
-                "%s %s \n",
-                $listItem->assessment_category_code,
-                $listItem->value
-            );
-//            $this->assertEquals(
-//                $v[$listItem->assessment_category_code],
-//                $listItem->value,
-//                'Overals: '.$listItem->assessment_category_code
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
 //            );
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                $listItem->value,
+                'Overals: '.$listItem->assessment_category_code
+            );
         }
     }
 
