@@ -87,18 +87,29 @@
                 $(this).parent().addClass('subisopen');
             }
         });
-        $('.feedback').on('click', function (e) {
+        $('a.feedback').on('click', function (e) {
             $('#feedback-dialog').dialog({
-                'width': 700,
+                width: 700,
                 dialogClass: 'feedbackwrap',
                 title: 'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим ваше мнение',
                 modal: true,
                 resizable: false,
                 open: function( event, ui ) { Cufon.refresh(); }
             });
+
             e.stopPropagation();
         });
     });
+
+    window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
+        if (!hasError) {
+            $.post(form.attr('action'), form.serialize(), function (res) {
+                // Do stuff with your response data!
+                location.reload();
+            });
+        }
+        return false;
+    };
 
     window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasError) {
         if (!hasError) {

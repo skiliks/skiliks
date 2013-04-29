@@ -131,6 +131,7 @@ return array(
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
+                'static/feedback'            => 'static/pages/feedback',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',

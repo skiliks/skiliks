@@ -250,4 +250,23 @@ class PagesController extends AjaxController
     {
         $this->render('charts');
     }
+
+    public function actionFeedback()
+    {
+        if (!Yii::app()->request->getIsAjaxRequest()) {
+            $this->redirect('/');
+        }
+
+        if (Yii::app()->request->getParam('Feedback')) {
+            $model = new Feedback();
+            $errors = CActiveForm::validate($model);
+
+            if (Yii::app()->request->getParam('ajax') === 'feedback-form') {
+                echo $errors;
+            } elseif (!$model->hasErrors()) {
+                $model->save();
+                Yii::app()->user->setFlash('success', 'Спасибо за ваш отзыв!');
+            }
+        }
+    }
 }
