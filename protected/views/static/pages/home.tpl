@@ -29,9 +29,8 @@
                         <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
 
                     {elseif ('en' == Yii::app()->getlanguage()) }
-
-                        {if (false === $userSubscribed) }
                             <!-- FORM { -->
+                            <div id="notify-form">
                             <form action="static/pages/addUserSubscription" id="subscribe-form">
                                 <div>
                                     <input type="text"
@@ -44,10 +43,7 @@
                                 </div>
                                 <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
                             </form>
-
-                        {else}
-                            <p class="success">{Yii::t('site', 'Thank you! See you soon!')}</p>
-                        {/if}
+                            </div>
                         <!-- FORM } -->
                     {/if}
 
@@ -106,7 +102,8 @@
                             if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
                                 if (1 === response.result) {
                                     // redirect to success page
-                                    window.location.href = '/static/comingSoonSuccess/en';
+                                    $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
+                                    //window.location.href = '/static/comingSoonSuccess/en';
                                 } else {
                                     // invalid email
                                     displayError(response.message);
