@@ -149,6 +149,8 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionPassword()
     {
+
+
         $this->getBaseViewPath = 'Password';
 
         $this->accountPagesBase();

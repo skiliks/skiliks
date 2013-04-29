@@ -243,7 +243,7 @@ class AjaxController extends CController
     {
         $this->user = Yii::app()->user;
         if ($this->user->isGuest) {
-            $this->redirect('/');
+            $this->redirect('/user/auth');
         }
         $this->user = $this->user->data();
     }

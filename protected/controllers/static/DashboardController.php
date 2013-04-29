@@ -161,6 +161,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionPersonal()
     {
+        $this->checkUser();
+
         $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_FULL);
 
         if (null === $simulation) {
@@ -179,6 +181,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     private function sendInviteEmail($invite)
     {
+        $this->checkUser();
         if (empty($invite->email)) {
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
@@ -212,6 +215,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionRemoveInvite($inviteId)
     {
+        $this->checkUser();
         $invite = Invite::model()->findByPk($inviteId);
 
         $user = Yii::app()->user;
@@ -253,6 +257,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionReSendInvite($inviteId)
     {
+        $this->checkUser();
         $invite = Invite::model()->findByPk($inviteId);
 
         $user = Yii::app()->user;
@@ -312,6 +317,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionAcceptInvite($id)
     {
+        $this->checkUser();
         $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
             Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
@@ -364,6 +370,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionSoftRemoveInvite($id)
     {
+        $this->checkUser();
+
         $invite = Invite::model()->findByPk($id);
 
         if (null === $invite) {
@@ -398,6 +406,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionDeclineInvite($id)
     {
+        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
 
@@ -459,6 +468,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionValidateDeclineExplanation()
     {
+        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
 
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
