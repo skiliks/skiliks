@@ -25,6 +25,16 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
             }
         }
 
+        foreach ($simulation->game_type->getHeroBehavours([]) as $behaviour) {
+            $assessment                              = new AssessmentAggregated();
+            $assessment->sim_id                      = $simulation->id;
+            $assessment->point_id                    = $behaviour->id;
+            $assessment->value                       = $behaviour->scale;
+            $assessment->fixed_value                 = $behaviour->scale;
+            $assessment->coefficient_for_fixed_value = 1;
+            $assessment->save();
+        }
+
         $simLearnGoal = new SimulationLearningGoal();
         $simLearnGoal->sim_id = $simulation->id;
         $simLearnGoal->learning_goal_id = $goals[1]->id;
@@ -32,32 +42,39 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $simLearnGoal->value = 20;
         $simLearnGoal->problem = 30;
         $simLearnGoal->save();
+
         // init data }
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialSkills();
+        $simulation->refresh();
 
-        $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals(10, $sim->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS));
+        $this->assertEquals(10, $simulation->getCategoryAssessment(
+            AssessmentCategory::MANAGEMENT_SKILLS), AssessmentCategory::MANAGEMENT_SKILLS
+        );
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 1])->getPrimaryKey();
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 1])
+            ->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 2])->getPrimaryKey();
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 2])
+            ->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 3])->getPrimaryKey();
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 3])
+            ->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 
         // ---------------------------
 
         SimulationService::calculatePerformanceRate($simulation);
+        $simulation->refresh();
 
         $assessmentOverall = new AssessmentOverall();
         $assessmentOverall->sim_id = $simulation->id;
@@ -65,15 +82,23 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $assessmentOverall->value = 30;
         $assessmentOverall->save();
 
-        $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialProductivity();
-        $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals(7, $sim->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY));
+        $simulation->refresh();
 
-        $evaluation = new Evaluation($simulation);
+        $this->assertEquals(
+            7,
+            $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY),
+            'performance'
+        );
+
         $evaluation->checkOverallManagerRating();
-        $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals(13, $sim->getCategoryAssessment(AssessmentCategory::OVERALL));
+        $simulation->refresh();
+
+        $this->assertEquals(
+            13,
+            $simulation->getCategoryAssessment(AssessmentCategory::OVERALL),
+            'overall'
+        );
 
     }
 
