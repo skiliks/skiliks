@@ -10,7 +10,10 @@ $scoreRender = function(Invite $invite) {
 };
 
 $this->widget('zii.widgets.grid.CGridView', [
-    'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
+    'dataProvider' => Invite::model()->searchNotToMe(
+        Yii::app()->user->data()->id,
+        Yii::app()->user->data()->id
+    ),
     'summaryText' => '',
     'emptyText' => '',
     'nullDisplay' => '',

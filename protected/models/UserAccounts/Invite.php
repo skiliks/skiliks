@@ -148,8 +148,6 @@ class Invite extends CActiveRecord
             && $this->scenario->slug == Scenario::TYPE_FULL;
     }
 
-    /* ------------------------------------------------------------------------------------------------------------ */
-
     /**
      *
      */
@@ -210,6 +208,8 @@ class Invite extends CActiveRecord
     {
         return new DateTime('@' . (int)$this->sent_time);
     }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
 
     public function uniqueEmail($attribute, $params)
     {
@@ -391,7 +391,7 @@ class Invite extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($ownerId = null)
+	public function search($ownerId = null, $receiverId = null)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -400,7 +400,65 @@ class Invite extends CActiveRecord
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('owner_id', $ownerId ?: $this->owner_id);
-		$criteria->compare('receiver_id', $this->receiver_id);
+		$criteria->compare('receiver_id', $receiverId ?: $this->receiver_id);
+		$criteria->compare('firstname', $this->firstname);
+		$criteria->compare('lastname', $this->lastname);
+		$criteria->compare('email', $this->email);
+		$criteria->compare('message', $this->message);
+		$criteria->compare('signature', $this->signature);
+		$criteria->compare('code', $this->code);
+		$criteria->compare('vacancy_id', $this->vacancy_id);
+		$criteria->compare('status', $this->status);
+        $criteria->compare('scenario_id', $this->scenario_id);
+		$criteria->compare('sent_time', $this->sent_time);
+
+        $criteria->mergeWith([
+            'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
+        ]);
+
+		return new CActiveDataProvider($this, [
+			'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'sent_time',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'name' => [
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
+                        'desc' => 'CONCAT(firstname, lastname) DESC'
+                    ],
+                    'vacancy_id' => [
+                        'asc'  => 'vacancy.label',
+                        'desc' => 'vacancy.label DESC'
+                    ],
+                    'owner_id' => [
+                        'asc'  => 'vacancy.label',
+                        'desc' => 'vacancy.label DESC'
+                    ],
+                    'status',
+                    'sent_time'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+		]);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function searchNotToMe($ownerId = null, $receiverId = null)
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria = new CDbCriteria;
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('owner_id', $ownerId ?: $this->owner_id);
+		$criteria->addNotInCondition('receiver_id', [$receiverId]);
 		$criteria->compare('firstname', $this->firstname);
 		$criteria->compare('lastname', $this->lastname);
 		$criteria->compare('email', $this->email);
