@@ -539,7 +539,7 @@ class AssessmentGlobalTest extends CDbTestCase
                     $goal->percent,
                     '%'
                 );
-                $this->assertEquals('48', $goal->percent);
+                $this->assertEquals('47.05', $goal->percent);
             }
         }
     }
