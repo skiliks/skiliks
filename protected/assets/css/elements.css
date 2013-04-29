@@ -583,7 +583,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 .flash-message-popup .flash .flash-notice,
 .flash-message-popup .flash .flash-error{
-    padding:25px 20px 15px;
+    padding:25px 20px;
     color:#3d4041;
     text-align:center;
 }
@@ -603,8 +603,21 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 @media screen and (max-width: 1280px){
     .flash-message-popup {
-        margin:0 0 0 -250px;
-        width: 500px !important;
+        margin:0 0 0 -225px;
+        width: 450px !important;
+        border-radius: 6px;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+    }
+    .flash-message-popup .popupclose {
+        background: url("../img/closepopup-min.png") no-repeat 0 0;
+        height: 22px;
+        right: -14px;
+        top: -14px;
+        transform: scale(1);
+        width: 22px;
+    }
+    .flash-message-popup .popupclose:hover {
+        background: url("../img/closepopup-min.png") no-repeat 0 100%;
     }
     .flash-message-popup .flash h3.midtitle {
         font: 20px "ProximaNova-Bold";
