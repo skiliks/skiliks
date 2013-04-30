@@ -19,7 +19,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->windowMaximize();
         $this->open('/ru');
         // установим куку "уже просмотренное видео в начале симуляции"
-        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
+
 
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
@@ -33,7 +33,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-
+        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
         $this->open('/simulation/developer/full'); // для full simulation
 
         for ($second = 0; ; $second++) {
