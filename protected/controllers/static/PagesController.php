@@ -87,9 +87,7 @@ class PagesController extends AjaxController
         // is Anonymous
         if ($user->isAnonymous()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Укажите тип своего аккаунта.<br/><br/>
-                Тарифные планы применимы<br/> только для корпоративных аккаунтов. <br/><br/>
-                Пользователи-соискатели могут проходить симуляцию только по приглашениям и демонстрационную версию симуляции.'
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/registration/choose-account-type');
         }

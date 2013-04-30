@@ -130,7 +130,7 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            Yii::app()->user->setFlash('error', 'Приглашение имеет некорректный статус.');
+            Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
             $this->redirect('/');
         }
 
