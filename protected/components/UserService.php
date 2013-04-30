@@ -33,8 +33,10 @@ class UserService {
     {
         $response = ['result'  => 0];
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $response['message'] =  Yii::t('site', "Invalid email - '{email}'!", ['{email}' => $email]);
+    if(empty($email)) {
+            $response['message'] =  "Enter your email address";
+    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $response['message'] =  "Email entered incorrectly";
         } elseif (EmailsSub::model()->findByEmail($email)) {
             $response['message'] =  Yii::t('site', "Email - {email} has been already added before!", ['{email}' => $email]);
         } else {
