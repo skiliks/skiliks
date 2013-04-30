@@ -79,7 +79,7 @@
 					<h3>{Yii::t('site', 'Our Clients')}</h3>
 					
 					<ul>
-                        <li style="display:none;">{CHtml::image("$assetsUrl/img/skiliks-fb-min.png")}</li>
+                        <li style="display:none;">{CHtml::image("$assetsUrl/img/skiliks-fb.png")}</li>
                         <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
 						<li>{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
 						<li>{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
