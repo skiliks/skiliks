@@ -38,14 +38,14 @@ class UserService {
     }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $response['message'] =  "Email entered incorrectly";
         } elseif (EmailsSub::model()->findByEmail($email)) {
-            $response['message'] =  Yii::t('site', "Email - {email} has been already added before!", ['{email}' => $email]);
+            $response['message'] =  "Email - ${email} has been already added before!";
         } else {
             $subscription = new EmailsSub();
             $subscription->email = $email;
             $subscription->save();
 
             $response['result'] =  1;
-            $response['message'] =  Yii::t('site', 'Email {email} has been successfully added!', ['{email}' => $email]);
+            $response['message'] =  "Email ${email} has been successfully added!";
         }
 
         return $response;
