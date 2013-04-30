@@ -104,6 +104,7 @@
                                     // redirect to success page
                                     $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
                                     //window.location.href = '/static/comingSoonSuccess/en';
+                                    $.cookie('_lang', 'en'); //установить значение cookie
                                 } else {
                                     // invalid email
                                     displayError(response.message);
