@@ -52,6 +52,7 @@ define([
                 this.listenTo(events, 'event:mail-send', this.onMailSendEvent);
                 this.listenTo(events, 'event:document', this.onDocumentEvent);
                 this.listenTo(events, 'event:visit', this.onVisitEvent);
+                this.listenTo(events, 'event:plan', this.onPlanEvent);
 
                 this.listenTo(events, 'event:phone', this.onPhoneEvent);
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
@@ -188,6 +189,17 @@ define([
                         event.setStatus('completed');
                     }
                 });
+            },
+
+            /**
+             * Пришла новая задача. Прыгает иконка
+             *
+             * @method
+             * @param event
+             * @method onPlanEvent
+             */
+            onPlanEvent: function(event) {
+                this.startAnimation('.documents');
             },
 
             /**
