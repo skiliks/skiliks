@@ -49,13 +49,13 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
             <li class="form-line">
                 <?php echo $form->labelEx($model, 'email', ['class' => 'form-label-left']); ?>
                 <div class="form-input">
-                    <?php echo $form->textField($model, 'email', ['placeholder' => Yii::t('site', 'Enter your email'), 'class' => 'form-textbox', 'size' => 30]); ?>
+                    <?php echo $form->textField($model, 'email', ['placeholder' => Yii::t('site', 'Enter your email'), 'class' => 'form-textbox email-field', 'size' => 30]); ?>
                 </div>
                 <?php echo $form->error($model, 'email'); ?>
             </li>
             <li class="form-line">
                 <div class="form-input-wide">
-                    <div style="margin-left: 156px" class="form-buttons-wrapper">
+                    <div class="form-buttons-wrapper">
                         <?php echo CHtml::submitButton(Yii::t('site', 'Send'), ['class' => 'form-submit-button', 'name' => 'submit']); ?>
                     </div>
                 </div>
