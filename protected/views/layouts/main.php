@@ -19,6 +19,7 @@ $cs->registerCoreScript('jquery.yiiactiveform.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
