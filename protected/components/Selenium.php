@@ -1,11 +1,11 @@
 <?php
 
-class SeleniumController extends AjaxController {
+class Selenium {
 
-    public function actionAddUser()
+
+
+    public static function addUser($account=null)
     {
-        $account = Yii::app()->request->getParam('account', null);
-
         if($account === "personal") {
             $email = 'personal_user@skiliks.com';
         }elseif($account === "corporate"){
@@ -75,7 +75,6 @@ class SeleniumController extends AjaxController {
             // update account tariff
             $accountCorporate->setTariff($tariff);
             $accountCorporate->save();
-
 
         }
 
