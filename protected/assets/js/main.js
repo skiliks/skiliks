@@ -144,10 +144,17 @@ $(window).load(function(){
         event.stopPropagation();
         console.log('TRIAL!');
         $('#start-trial-full-scenario-pop-up').dialog({
-            dialogClass: 'nice-border flash-pop-up',
+            dialogClass: 'flash-message-popup',
             modal: true,
-            width: 400,
-            open: function( event, ui ) { Cufon.refresh(); }
+            resizable: false,
+            open: function( event, ui ) { }
+        });
+        $('#start-trial-full-scenario-pop-up').addClass('flash-success');
+        $('.flash-message-popup .ui-dialog-titlebar').remove();
+        $('.flash-message-popup').prepend('<a href="#" class="popupclose"></a>');
+        $('.flash-message-popup .popupclose').click(function() {
+            console.log('click');
+            $('#start-trial-full-scenario-pop-up').dialog("close");
         });
     });
 
