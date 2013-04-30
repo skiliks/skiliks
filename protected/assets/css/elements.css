@@ -578,19 +578,30 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-position:0 100%;
 }
 .flash-message-popup .flash {
-    padding:0;
-    height:auto !important;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto !important;
+    margin: 0;
+    padding: 0;
+    position: static;
 }
-.flash-message-popup .flash .flash-notice,
-.flash-message-popup .flash .flash-error{
+.flash-message-popup .flash-notice,
+.flash-message-popup .flash-error,
+.flash-message-popup .flash-success{
     padding:25px 20px;
     color:#3d4041;
     text-align:center;
+    margin:0;
+    font:normal 15px/20px "ProximaNova-Regular";
 }
 .flash-message-popup .flash a {
     color:#2d7b91;
     outline:none;
     text-decoration:none;
+}
+.flash-message-popup a.light-btn {
+    margin:20px 10px 0;
 }
 .flash-message-popup .flash h3.midtitle {
     color: #3D4041;
@@ -618,6 +629,11 @@ section.registration-by-link .form .row a.decline-link:hover {
     }
     .flash-message-popup .popupclose:hover {
         background: url("../img/closepopup-min.png") no-repeat 0 100%;
+    }
+    .flash-message-popup .flash .flash-notice,
+    .flash-message-popup .flash .flash-error,
+    .flash-message-popup .flash .flash-success {
+        font: 14px/18px "ProximaNova-Regular";
     }
     .flash-message-popup .flash h3.midtitle {
         font: 20px "ProximaNova-Bold";
