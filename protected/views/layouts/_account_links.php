@@ -20,11 +20,7 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site', 'Home'), 'url' => ['/static/pages/index'], 'visible' => Yii::app()->user->isGuest],
         ['label' => Yii::t('site','About Us'), 'url' => ['/static/pages/team'], 'visible' => Yii::app()->user->isGuest],
         ['label' => Yii::t('site', 'Product'), 'url' => ['/static/pages/product'], 'visible' => Yii::app()->user->isGuest],
-        [
-            'label' => Yii::t('site', 'Tariffs'),
-            'url' => ['/static/pages/tariffs'],
-            'visible' => ('ru' == Yii::app()->getLanguage() && Yii::app()->user->isGuest)
-        ],
+        ['label' => Yii::t('site', 'Tariffs'), 'url' => ['/static/pages/tariffs'], 'visible' => Yii::app()->user->isGuest],
         [
             'label'   => Yii::t('site', 'Corporate dashboard'),
             'url'     => ['/static/dashboard/index'],
