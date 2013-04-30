@@ -256,10 +256,16 @@ class PagesController extends AjaxController
             $this->redirect('/');
         }
 
+        $user = Yii::app()->user->data();
+
         if (Yii::app()->request->getParam('Feedback')) {
             $model = new Feedback();
-            $errors = CActiveForm::validate($model);
+            $model->attributes = Yii::app()->request->getParam('Feedback');
+            if ($user->profile && $user->profile->email) {
+                $model->email = $user->profile->email;
+            }
 
+            $errors = CActiveForm::validate($model, null, false);
             if (Yii::app()->request->getParam('ajax') === 'feedback-form') {
                 echo $errors;
             } elseif (!$model->hasErrors()) {

@@ -39,6 +39,7 @@ class Feedback extends CActiveRecord
 		return array(
 			array('theme', 'required', 'message' => Yii::t('site', 'Theme is required')),
 			array('message', 'required', 'message' => Yii::t('site', 'Message is required')),
+			array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
 			array('theme', 'length', 'max'=>200),
 			array('email', 'length', 'max'=>100),
 			array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
