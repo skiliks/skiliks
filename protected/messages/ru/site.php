@@ -357,5 +357,11 @@ return array(
     '1 month FREE' => '1 месяц БЕСПЛАТНО',
     'Current plan' => 'Текущий план',
     'Subscribe' => 'Выбрать',
-    'Send feedback' => 'Обратная связь'
+    'Send feedback' => 'Обратная связь',
+    'Please, tell us what we can do better, we appreciate your opinion' => 'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим ваше мнение',
+    'Message theme' => 'Тема сообщения',
+    'Website' => 'Работа сайта',
+    'Simulation' => 'Симуляция',
+    'Payment' => 'Оплата',
+    'Other' => 'Прочее'
 );

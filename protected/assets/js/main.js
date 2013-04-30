@@ -91,7 +91,6 @@
             $('#feedback-dialog').dialog({
                 width: 700,
                 dialogClass: 'feedbackwrap',
-                title: 'Пожалуйста, расскажите нам, что мы можем сделать лучше, мы ценим ваше мнение',
                 modal: true,
                 resizable: false,
                 open: function( event, ui ) { Cufon.refresh(); }
