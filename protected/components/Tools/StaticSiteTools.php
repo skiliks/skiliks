@@ -120,10 +120,7 @@ class StaticSiteTools
     public static function getI18nCurrency($amount, $currencyCode, $language = 'ru_RU', $pattern = '#,##0.00')
     {
         $cn = new CNumberFormatter($language);
-
-        switch ($currencyCode) {
-            case 'RUB': return $cn->format($pattern, $amount, $currencyCode);
-        }
+        return $cn->format($pattern, $amount, $currencyCode);
     }
 
     /**
