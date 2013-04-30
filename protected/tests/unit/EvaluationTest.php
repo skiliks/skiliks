@@ -36,11 +36,11 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         }
 
         $simLearnGoal = new SimulationLearningGoal();
-        $simLearnGoal->sim_id = $simulation->id;
+        $simLearnGoal->sim_id           = $simulation->id;
         $simLearnGoal->learning_goal_id = $goals[1]->id;
-        $simLearnGoal->percent = 20;
-        $simLearnGoal->value = 20;
-        $simLearnGoal->problem = 30;
+        $simLearnGoal->percent          = 20;
+        $simLearnGoal->value            = 20;
+        $simLearnGoal->problem          = 30;
         $simLearnGoal->save();
 
         // init data }
@@ -49,8 +49,10 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $evaluation->checkManagerialSkills();
         $simulation->refresh();
 
-        $this->assertEquals(10, $simulation->getCategoryAssessment(
-            AssessmentCategory::MANAGEMENT_SKILLS), AssessmentCategory::MANAGEMENT_SKILLS
+        $this->assertEquals(
+            13,
+            $simulation->getCategoryAssessment( AssessmentCategory::MANAGEMENT_SKILLS),
+            AssessmentCategory::MANAGEMENT_SKILLS
         );
 
         $asses = new PerformancePoint();
@@ -95,7 +97,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $simulation->refresh();
 
         $this->assertEquals(
-            13,
+            15,
             $simulation->getCategoryAssessment(AssessmentCategory::OVERALL),
             'overall'
         );

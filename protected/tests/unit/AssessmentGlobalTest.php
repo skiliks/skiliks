@@ -576,6 +576,8 @@ class AssessmentGlobalTest extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
+        // --- Goal
+
         $goals = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         foreach ($goals as $goal) {
             if ('Использовать делегирование как инструмент управления своим временем и объемом выполненных задач' == $goal->learningGoal->title) {
@@ -589,6 +591,28 @@ class AssessmentGlobalTest extends CDbTestCase
                 $this->assertEquals('47.05', $goal->percent);
             }
         }
+
+        // --- Areas
+
+        $v = [ 'Управление людьми' => 27.586206 ];
+        $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        echo "\n Areas: \n";
+        foreach ($areas as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->learningArea->title,
+//                $listItem->value
+//            );
+            if ('Управление людьми' === $listItem->learningArea->title) {
+                $this->assertEquals(
+                    $v[$listItem->learningArea->title],
+                    $listItem->value,
+                    'Areas: '.$listItem->learningArea->title
+                );
+            }
+        }
+
+        // --- Overalls
 
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
