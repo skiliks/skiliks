@@ -664,7 +664,11 @@ span.required {
     border: none;
     position: relative;
 }
-.feedbackwrap .ui-dialog-title {
+.feedbackwrap .ui-dialog-titlebar {
+    padding: 0;
+    height: 0;
+}
+.feedbackwrap .feedback-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     text-align: center;

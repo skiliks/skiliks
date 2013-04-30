@@ -290,6 +290,7 @@ return array(
                 'static/pages/team',
                 'static/pages/product',
                 'static/pages/tariffs',
+                'static/pages/feedback',
             ]
         ],
         // This part will be sent to JS
