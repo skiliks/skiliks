@@ -185,6 +185,8 @@ return array(
     'To' => 'Кому',
     'Signature' => 'Подпись',
     'Best regards, %s' => 'С уважением, %s!',
+    'Send' => 'Отправить',
+    'Enter your email' => 'Введите ваш email',
 
     'January' => 'Январь',
     'February' => 'Февраль',

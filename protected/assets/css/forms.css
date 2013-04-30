@@ -669,7 +669,7 @@ span.required {
     font: 30px "ProximaNova-Regular";
     text-align: center;
 }
-.feedback #input_2:hover {
+.feedback .form-submit-button:hover {
     background-image: url("../img/icon-btn-notify-hover.png");
     background-color:#BD2929;
 }
@@ -705,7 +705,7 @@ span.required {
 .feedback .sbHolder a{
     font-size: 14px;
 }
-.feedback input[type="email"]{
+.feedback input.email-field{
     font: 16px "ProximaNova-Regular";
     text-indent: 10px;
 }
