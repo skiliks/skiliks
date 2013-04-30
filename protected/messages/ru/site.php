@@ -344,7 +344,7 @@ return array(
     'Share' => 'Рекомендовать',
 
     'Available simulation' => 'Доступные симуляции',
-    'You are already logged in (%s), please log out to activate your account %s' => 'В данный момент вы уже вошли в систему как %s. <br/><br/> Выйдите, чтобы активировать новый аккаунт %s.',
+    'You are already logged in (%s), please log out to activate your account %s' => 'Вы авторизованы как %s, пожалуйста, выйдите из данного аккаунта, чтобы активировать аккаунт %s',
     'Trial "Lite version"' => 'Пробная "Lite" симуляция',
 
     'Pricing & Plans Monthly Rates' => 'Тарифные планы: цена подписки в месяц',
