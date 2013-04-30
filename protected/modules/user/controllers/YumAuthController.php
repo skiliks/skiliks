@@ -247,13 +247,13 @@ class YumAuthController extends YumController {
 	}
 
     protected function runAjaxValidation($model, $form) {
-        if(isset($_POST['ajax']) && $_POST['ajax'] == $form) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] == $form) {
             $json = CActiveForm::validate($model);
-            if(0 < count(json_decode($json, true))){
+            if (0 < count(json_decode($json, true))) {
                 echo $json;
                 Yii::app()->end();
                 return false;
-            }else{
+            } else {
                 echo $json;
                 return true;
             }
@@ -263,10 +263,10 @@ class YumAuthController extends YumController {
 	public function actionLogin() {
         $form = 'login-form';
 		// If the user is already logged in send them to the return Url 
-		if (!Yii::app()->user->isGuest && isset($_POST['ajax']) && $_POST['ajax'] == $form){
+		if (!Yii::app()->user->isGuest && isset($_POST['ajax']) && $_POST['ajax'] == $form) {
             echo "[]";
             Yii::app()->end();
-        }elseif(!Yii::app()->user->isGuest) {
+        } elseif(!Yii::app()->user->isGuest) {
             $this->redirect('/dashboard');
         }
 
@@ -274,6 +274,7 @@ class YumAuthController extends YumController {
 		$this->loginForm = new YumUserLogin('login');
         $isValid = false;
         $isValid = $this->runAjaxValidation($this->loginForm, $form);
+
 		/**
 		 * Login process starts here.
 		 * Facebook doesn't need form validation. Neither Twitter I think.
@@ -339,15 +340,18 @@ class YumAuthController extends YumController {
 				if(Yum::module()->afterLogin !== false) 
 					call_user_func(Yum::module()->afterLogin);
 
-                if($isValid){
-                    Yii::app()->end();
+                if($isValid) {
+                    if (false === isset($_POST['ajax'])) {
+                        $this->redirect('/dashboard');
+                    } else {
+                        Yii::app()->end();
+                    }
                 }
 				$this->redirectUser($success);
 			} else {
                 $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
             }
 		}
-
 
 		$this->render(Yum::module()->loginView, array(
 					'model' => $this->loginForm));

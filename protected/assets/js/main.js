@@ -1,4 +1,4 @@
-/*global $, console, jQuery, Cufon */
+/* global $, console, jQuery, Cufon */
 (function ($) {
     "use strict";
     $(document).ready(function () {
@@ -121,17 +121,21 @@
         return false;
     };
 
+    $('.sign-in-box form#login-form').submit(function(event) {
+        return false;
+    });
 
     window.authenticateValidation = function authenticateValidation(form, data, hasError) {
         if (!hasError) {
             $.post(form.attr('action'), form.serialize(), function (res) {
                 // Do stuff with your response data!
                 location.href = '/dashboard';
-                //location.reload();
+                // location.reload();
             });
         }
         return false;
-    }
+    };
+
     $(window).on('resize', function () {
         Cufon.refresh();
     });
@@ -142,7 +146,6 @@ $(window).load(function(){
     $('a.invite-for-trial-full-scenario').click(function(event){
         event.preventDefault();
         event.stopPropagation();
-        console.log('TRIAL!');
         $('#start-trial-full-scenario-pop-up').dialog({
             dialogClass: 'flash-message-popup',
             modal: true,
@@ -167,10 +170,38 @@ $(window).load(function(){
     $('a.start-trial-full-scenario-agree').click(function(event) {
         event.preventDefault();
         event.stopPropagation();
-        console.log($('a.invite-for-trial-full-scenario').attr('href'));
         window.location.replace($('a.invite-for-trial-full-scenario').attr('href'));
     });
     // pop-up to inform corporate user, that trial full simulation cost 1 invite }
+
+    // show/hide sign-in box {
+    $('.sign-in-link').click(function(event){
+        event.preventDefault();
+        $(".sign-in-box").dialog('open');
+    });
+    // show/hide sign-in box }
+
+    // password recovery {
+    $(".link-recovery").click(function(){
+        $(".sign-in-box").dialog("close");
+        $(".popup-recovery").dialog('open');
+        $(".popup-recovery").dialog({
+            closeOnEscape: true,
+            dialogClass: 'popup-recovery-view',
+            minHeight: 220,
+            modal: true,
+            resizable: false,
+            position: {
+                my: "right top",
+                at: "right bottom",
+                of: $('#top header #static-page-links')
+            },
+            width: 275,
+            open: function( event, ui ) { Cufon.refresh(); }
+        });
+        return false;
+    });
+    // password recovery }
 });
 
 Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
