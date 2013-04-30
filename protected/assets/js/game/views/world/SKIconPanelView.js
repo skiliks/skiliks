@@ -199,7 +199,7 @@ define([
              * @method onPlanEvent
              */
             onPlanEvent: function(event) {
-                this.startAnimation('.documents');
+                this.startAnimation('.plan');
             },
 
             /**
