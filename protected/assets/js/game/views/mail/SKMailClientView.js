@@ -1,4 +1,4 @@
-/*global Backbone, _, SKApp, SKAttachment, SKMailSubject, define, */
+/*global Backbone, _, SKApp, SKAttachment, SKMailSubject, define, console, $, SKMailPhrase, SKDocumentsWindow */
 var SKMailClientView;
 
 define([
@@ -158,7 +158,7 @@ define([
 
                 this.listenTo(SKApp.simulation.events, 'event:mail', _.bind(function() {
                     var callback = function() {
-                        me.updateFolderLabels()
+                        me.updateFolderLabels();
                         if (me.mailClient.getActiveFolder().alias === me.mailClient.aliasFolderInbox &&
                             (
                                 me.mailClient.activeScreen === me.mailClient.screenInboxList ||
@@ -166,7 +166,7 @@ define([
                                     me.mailClient.activeScreen === me.mailClient.screenSendedList ||
                                     me.mailClient.activeScreen === me.mailClient.screenTrashList
                                 )) {
-                            me.doRenderFolder(me.mailClient.aliasFolderInbox, false, false);
+                            me.doRenderFolder(me.mailClient.aliasFolderInbox, false, true);
                         }
                         me.mailClient.trigger('mail:update_inbox_counter');
                     };
@@ -436,15 +436,15 @@ define([
              * @param isSwitchToFirst
              * @param isInitialRender
              */
-            doRenderFolder: function (folderAlias, isSwitchToFirst, isInitialRender) {
+            doRenderFolder: function (folderAlias, isSwitchToFirst, doWriteLog) {
                 var mailClientView = this;
 
                 if (undefined === isSwitchToFirst) {
                     isSwitchToFirst = true;
                 }
 
-                if (undefined === isInitialRender) {
-                    isInitialRender = false;
+                if (undefined === doWriteLog) {
+                    doWriteLog = false;
                 }
 
                 // script will assign table sotder for new folder
@@ -486,7 +486,7 @@ define([
                 this.updateFolderLabels();
 
                 // initial render has it's own logging call
-                if (false == isInitialRender) {
+                if (false === doWriteLog) {
                     mailClientView.mailClient.setWindowsLog(
                         'mailMain',
                         mailClientView.mailClient.getActiveEmailId()
@@ -537,19 +537,20 @@ define([
                 var emailsList = '';
                 var trashEmails = this.mailClient.folders[this.mailClient.aliasFolderTrash].emails; // to make code shorter
 
-                for (var key in trashEmails) {
+                trashEmails.forEach(function (email) {
+                //for (var key in trashEmails) {
                     // generate HTML by template
                     emailsList += _.template(trash_email_line, {
 
-                        emailMySqlId: trashEmails[key].mySqlId,
-                        senderName: trashEmails[key].senderNameString,
-                        subject: trashEmails[key].subject.text,
-                        sendedAt: trashEmails[key].sendedAt,
-                        isHasAttachment: trashEmails[key].getIsHasAttachment(),
-                        isHasAttachmentCss: trashEmails[key].getIsHasAttachmentCss(),
+                        emailMySqlId:       email.mySqlId,
+                        senderName:         email.senderNameString,
+                        subject:            email.subject.text,
+                        sendedAt:           email.sendedAt,
+                        isHasAttachment:    email.getIsHasAttachment(),
+                        isHasAttachmentCss: email.getIsHasAttachmentCss(),
                         isReadCssClass: true
                     });
-                }
+                });
 
                 // add emails list
                 $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
@@ -748,8 +749,6 @@ define([
 
                 this.renderIcons(this.mailClient.iconsForInboxScreenArray);
                 this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
-
-
             },
 
             /**
@@ -1223,7 +1222,7 @@ define([
                         }
                     },
                     afterAdd: function (tag) {
-                        if(mailClientView.$("#MailClient_RecipientsList li.tagItem").get().length == 1) {
+                        if(mailClientView.$("#MailClient_RecipientsList li.tagItem").get().length === 1) {
                             mailClientView.$("#mailEmulatorNewLetterText").html('');
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }
@@ -1371,7 +1370,7 @@ define([
                         me.doUpdateMailPhrasesList();
                     }
                 });
-                if(subjects_list.length == 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
+                if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
                     this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
                 }
                 if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
@@ -1758,7 +1757,7 @@ define([
 
                     // all "fantastic" emails has TXT constructor - but this extra request return default B1,
                     // that is produce phrases render - it is wrong
-                    if (false == mailClientView.isFantasticSend) {
+                    if (false === mailClientView.isFantasticSend) {
                         mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
                             mailClientView.$('#mailEmulatorNewLetterText').html('');
                         });
