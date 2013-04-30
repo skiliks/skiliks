@@ -382,7 +382,7 @@ define([
             doToggleFullscreen: function(e) {
                 e.preventDefault();
                 var enabled = $(e.target).hasClass('enabled'),
-                    canvas = $('.canvas')[0],
+                    canvas = $('body')[0],
                     onMethods = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'],
                     offMethods = ['cancelFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];
 
