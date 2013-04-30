@@ -56,18 +56,14 @@ class Evaluation {
             }
         }
 
-        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
-            'sim_id' => $this->simulation->id
-        ]);
-
-        $existBehaviourIds = array_map(function(AssessmentAggregated $val) {
-            return $val->point_id;
-        }, $aggregated);
+        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         /** @var HeroBehaviour[] $behaviours */
-        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1, 'id' => $existBehaviourIds]);
+        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1]);
         foreach ($behaviours as $behaviour) {
-            $maxRate += $behaviour->scale;
+            if (false == in_array($behaviour->code, $except)) {
+                $maxRate += $behaviour->scale;
+            }
         }
 
         $result = new AssessmentOverall();

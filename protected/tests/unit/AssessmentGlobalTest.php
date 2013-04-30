@@ -570,20 +570,69 @@ class AssessmentGlobalTest extends CDbTestCase
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
 
+        $learning_area = new LearningAreaAnalyzer($simulation);
+        $learning_area->run();
+
+        $evaluation = new Evaluation($simulation);
+        $evaluation->run();
+
         $goals = SimulationLearningGoal::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         foreach ($goals as $goal) {
             if ('Использовать делегирование как инструмент управления своим временем и объемом выполненных задач' == $goal->learningGoal->title) {
-                echo sprintf(
-                    "%s %s %s \n",
-                    // $goal->learningGoal->title,
-                    $goal->value,
-                    $goal->percent,
-                    '%'
-                );
+//                echo sprintf(
+//                    "%s %s %s \n",
+//                    // $goal->learningGoal->title,
+//                    $goal->value,
+//                    $goal->percent,
+//                    '%'
+//                );
                 $this->assertEquals('47.05', $goal->percent);
             }
         }
+
+        $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+
+        $v = [
+            'management'  => 5.37,
+            'overall'     => 2.69,
+            'performance' => 0.00,
+            'time'        => 0.00,
+        ];
+
+        foreach ($overall as $listItem) {
+//            echo sprintf(
+//                "%s %s \n",
+//                $listItem->assessment_category_code,
+//                $listItem->value
+//            );
+            $this->assertEquals(
+                $v[$listItem->assessment_category_code],
+                $listItem->value,
+                'Overals: '.$listItem->assessment_category_code
+            );
+        }
     }
+
+    /**
+     * Просто для перещёта старых (заниженныйх симуляций) симуляций
+     */
+//    public function testAssessment_Goals_Areas_Overals_Recalculation()
+//    {
+//        $simulation = Simulation::model()->findByPk(194);
+//
+//        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+//        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+//        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+//
+//        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+//        $learningGoalAnalyzer->run();
+//
+//        $learning_area = new LearningAreaAnalyzer($simulation);
+//        $learning_area->run();
+//
+//        $evaluation = new Evaluation($simulation);
+//        $evaluation->run();
+//    }
 
     // -----------------------------------------------------
     // Service methods
