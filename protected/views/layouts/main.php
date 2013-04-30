@@ -35,7 +35,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
-		<meta charset="utf-8" />
+        <meta property="og:image:secure_url" content="<?php echo $assetsUrl?>/img/skiliks-fb.png" />
+        <meta charset="utf-8" />
         <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
