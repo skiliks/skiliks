@@ -47,7 +47,7 @@ body  .onetariff  {
     line-height: 50px;
     padding: 0px 18px;
 }
-.price p.ru {
+.price.ru p {
     background:url("../img/rublicon.png") no-repeat 0px 0px;
 }
 .price span {
