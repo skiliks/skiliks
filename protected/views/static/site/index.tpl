@@ -1,4 +1,3 @@
-<meta property="og:image" content='{CHtml::image("$assetsUrl/img/skiliks-fb.png")}'/>
 				<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
