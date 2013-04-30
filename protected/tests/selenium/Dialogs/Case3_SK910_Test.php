@@ -62,7 +62,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
 /*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
         $this->Leg_actions_aggregated();*/
-        sleep(20);
+        //sleep(20);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('5.833','-7');

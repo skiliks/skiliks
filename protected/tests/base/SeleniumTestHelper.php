@@ -26,15 +26,13 @@ class SeleniumTestHelper extends CWebTestCase
         $this->type("css=.login>input", "asd@skiliks.com");
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
-        sleep(30);
-        /*for ($second = 0; ; $second++) {
+        for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("timeout");
             try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'')])")) break;
             } catch (Exception $e) {}
-            // sleep 100ms
             usleep(100000);
-        }*/
+        }
 
         $this->open('/simulation/developer/full'); // для full simulation
 
@@ -45,11 +43,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-
-        // добавить закрытие видео(!) или попросить разработчиков, чтобы они не показывали его на тест. сервере...
-
-
-        sleep(20);
+        sleep(5);
     }
 
     /**
