@@ -3,12 +3,12 @@
         <?php $loginWidget = $this->beginWidget('CActiveForm', [
             'id' => 'login-form',
             'htmlOptions' => ['class' => 'login-form'],
-            'action'=>Yii::app()->request->hostInfo.'/user/auth',
+            'action' => Yii::app()->request->hostInfo.'/user/auth',
             'enableAjaxValidation' => true,
-            'clientOptions'=>array(
-                'validateOnSubmit'=>true, // Required to perform AJAX validation on form submit
-                'validateOnChange'=>false,
-                'afterValidate'=>'js:authenticateValidation', // Your JS function to submit form
+            'clientOptions' => array(
+                'validateOnSubmit' => true, // Required to perform AJAX validation on form submit
+                'validateOnChange' => false,
+                'afterValidate'    => 'js:authenticateValidation', // Your JS function to submit form
             )
         ]); ?>
             <?php $loginForm = new YumUserLogin; ?>
@@ -68,32 +68,6 @@
             var h=$('.container').height();
             $('.sign-in-box').css('height',h+'px')
         });
-        // show/hide sign-in box
-        $('.sign-in-link').click(function(event){
-            event.preventDefault();
-            $(".sign-in-box").dialog('open');
-        });
-        $(".link-recovery").click(function(){
-            $(".sign-in-box").dialog("close");
-            $(".popup-recovery").dialog('open');
-            $(".popup-recovery").dialog({
-                closeOnEscape: true,
-                dialogClass: 'popup-recovery-view',
-                minHeight: 220,
-                modal: true,
-                resizable: false,
-                position: {
-                    my: "right top",
-                    at: "right bottom",
-                    of: $('#top header #static-page-links')
-                },
-                width: 275,
-                open: function( event, ui ) { Cufon.refresh(); }
-            });
-            return false;
-        });
-
-
     </script>
 
 <?php endif; ?>
