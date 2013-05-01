@@ -21,19 +21,19 @@ define([
             var me = this;
             this.$el.html(_.template(template_intro));
             this.$el.find('#skiliks_intro').bind('ended', function () {
+                this.pause();
+                this.src = '';
                 me.$(this).remove();
                 me.$el.unbind("mousemove");
                 me.trigger('simulationStart');
             });
 
-            this.$el.find('#skiliks_intro').bind('play', function () {
-                me.$el.mousemove( function(e) {
-                    if(me.$el.outerHeight() / 3 >= e.pageY){
-                        me.$el.find('.intro-top-icons').css('display', 'block');
-                    }else{
-                        me.$el.find('.intro-top-icons').css('display', 'none');
-                    }
-                });
+            this.$el.mousemove( function(e) {
+                if(me.$el.outerHeight() / 3 >= e.pageY){
+                    me.$el.find('.intro-top-icons').css('display', 'block');
+                }else{
+                    me.$el.find('.intro-top-icons').css('display', 'none');
+                }
             });
         },
         eventHandler: function() {

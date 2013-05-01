@@ -8,6 +8,7 @@ var SKSimulationView;
 
 define([
     "text!game/jst/world/simulation_template.jst",
+    "text!game/jst/world/tutorial.jst",
 
     "game/views/mail/SKMailClientView",
     "game/views/documents/SKXLSDisplayView",
@@ -22,7 +23,7 @@ define([
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/SKDialogView"
-], function (simulation_template, SKMailClientView, SKXLSDisplayView) {
+], function (simulation_template, tutorial_template, SKMailClientView, SKXLSDisplayView) {
     "use strict";
     /**
      * @class SKSimulationView
@@ -211,6 +212,7 @@ define([
                     this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                 }
                 this.renderSupportBlock();
+                this.renderTutorial();
             },
 
             /**
@@ -227,6 +229,18 @@ define([
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null); }
                 )();
+            },
+
+            renderTutorial: function() {
+                var html = _.template(tutorial_template, {});
+                new SKDialogView({
+                    message: 'Это туториал',
+                    content: html,
+                    buttons: [{
+                        id: 'ok',
+                        value: 'Понял!'
+                    }]
+                });
             },
 
             /**
