@@ -111,7 +111,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             ],
 
             iconsForMailPreviewScreenArray:[
-                'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
