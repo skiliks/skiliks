@@ -57,6 +57,9 @@ define([
                 this.listenTo(events, 'event:phone', this.onPhoneEvent);
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+                this.listenTo(events, 'mail:counter:update', function (count) {
+                    me.setCounter('.mail', count);
+                });
 
                 this.listenTo(SKApp.simulation, 'audio-phone-call-start', this.doSoundPhoneCallInStart);
                 this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
@@ -89,7 +92,6 @@ define([
              * @method onMailEvent
              */
             onMailEvent: function (event) {
-                this.updateMailCounter();
                 this.startAnimation('.mail');
             },
 
@@ -216,19 +218,6 @@ define([
             },
 
             /**
-             * Обновляет счетчик почтовых сообщений
-             *
-             * @method
-             * @method updateMailCounter
-             */
-            updateMailCounter: function () {
-                var me = this;
-                this.sim_events.getUnreadMailCount(function (count) {
-                    me.setCounter('.mail', count);
-                });
-            },
-
-            /**
              * Обновляет список задач в плане
              *
              * @method
@@ -323,8 +312,6 @@ define([
             render: function () {
                 var me = this;
                 this.$el.html(_.template(icon_panel, {}));
-                me.updateMailCounter();
-                this.listenTo(SKApp.simulation, 'start', this.updateMailCounter);
             },
 
             /**
