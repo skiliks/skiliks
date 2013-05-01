@@ -238,7 +238,7 @@ return array(
     'Vacancy' => 'Вакансия',
     'Status' => 'Статус',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
-    'Tariffs' => 'Тарифы',
+    'Pricing & Plans' => 'Тарифы',
     'Pricing & Plans' => 'Тарифы',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
