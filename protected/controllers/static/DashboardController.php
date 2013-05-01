@@ -134,11 +134,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
 
-                    Yii::app()->user->setFlash('success', sprintf(
+                    /*Yii::app()->user->setFlash('success', sprintf(
                         'Приглашение для %s %s успешно сохранено.',
                         $inviteToEdit->firstname,
                         $inviteToEdit->lastname
-                    ));
+                    ));*/
                 }
             }
         }
@@ -260,11 +260,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user->getAccount()->increaseLimit($invite);
 
-        Yii::app()->user->setFlash('success', sprintf(
+        /*Yii::app()->user->setFlash('success', sprintf(
             "Приглашение для %s %s удалено!",
             $firstname,
             $lastname
-        ));
+        ));*/
 
         $this->redirect('/dashboard');
     }
