@@ -11,10 +11,12 @@
  * @property string $link
  * @property string $import_id
  * @property integer $user_account_corporate_id
+ * @property string position_level_slug
  *
  * The followings are the available model relations:
  * @property ProfessionalOccupation $professionalOccupation
  * @property ProfessionalSpecialization $professionalSpecialization
+ * @property PositionLevel $positionLevel
  */
 class Vacancy extends CActiveRecord
 {
@@ -47,6 +49,7 @@ class Vacancy extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('label', 'required', 'message' => Yii::t('site', 'Vacancy title is required')),
+			array('position_level_slug', 'required', 'message' => Yii::t('site', 'Position level is required')),
 			array('professional_occupation_id', 'required', 'message' => Yii::t('site', 'Professional occupation is required')),
 			array('professional_specialization_id', 'required', 'message' => Yii::t('site', 'Specialization is required')),
 			array('professional_occupation_id, professional_specialization_id', 'numerical', 'integerOnly'=>true),
@@ -71,6 +74,7 @@ class Vacancy extends CActiveRecord
 			'professionalOccupation'     => array(self::BELONGS_TO, 'ProfessionalOccupation', 'professional_occupation_id'),
 			'professionalSpecialization' => array(self::BELONGS_TO, 'ProfessionalSpecialization', 'professional_specialization_id'),
 			'userAccountCorporate'       => array(self::BELONGS_TO, 'UserAccountCorporate', 'user_account_corporate_id'),
+			'positionLevel'       => array(self::BELONGS_TO, 'PositionLevel', 'position_level_slug'),
 		);
 	}
 
@@ -81,8 +85,9 @@ class Vacancy extends CActiveRecord
 	{
 		return array(
 			'id'                             => Yii::t('site', 'ID'),
-			'professional_occupation_id'     => Yii::t('site', 'Professional occupation'),
+			'professional_occupation_id'     => Yii::t('site', 'Industry'),
 			'professional_specialization_id' => Yii::t('site', 'Specialization'),
+			'position_level_slug'            => Yii::t('site', 'Position level'),
 			'label'                          => Yii::t('site', 'Vacancy label'),
 			'link'                           => Yii::t('site', 'Link to vacancy description'),
 			'import_id'                      => Yii::t('site', 'Import'),
@@ -111,7 +116,7 @@ class Vacancy extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria'   => $criteria,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 20,
                 'pageVar'  => 'page'
             ]
 		]);

@@ -209,6 +209,8 @@ return array(
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
 
+                'vacancy/add'                     => 'static/profile/vacancyAdd',
+
                 'profile/getSpecialization'       => 'static/profile/getSpecialization',
                 'profile/corporate/vacancy/<id:\w+>/remove' => 'static/profile/removeVacancy',
                 'profile/corporate/vacancy/<id:\w+>/edit' => 'static/profile/corporateVacancies',

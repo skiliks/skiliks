@@ -1,18 +1,18 @@
-/* global $, console, jQuery, Cufon */
+/* global $, console, jQuery, Cufon, confirm */
 (function ($) {
     "use strict";
     $(document).ready(function () {
 
         // fixSimResultsDialog {
         var fixSimResultsDialog = function () {
-            //Cufon.refresh();
             var heightOverhead = 300;
             $('div.content').height($('.simulation-result-popup').height() - heightOverhead + 'px');
             $('.simulation-result-popup').css('top', '50px');
 
-            $('.ui-widget-overlay').height($('.simulation-result-popup').height() + 150 + 'px');
-            if ($('.ui-widget-overlay').height() < $(document).height()) {
-                $('.ui-widget-overlay').height($(document).height() + 'px');
+            var overlay = $('.ui-widget-overlay');
+            overlay.height($('.simulation-result-popup').height() + 150 + 'px');
+            if (overlay.height() < $(document).height()) {
+                overlay.height($(document).height() + 'px');
             }
         };
         // fixSimResultsDialog  }
@@ -24,7 +24,7 @@
         simulation_popup.dialog({
             dialogClass: 'simulation-result-popup',
             modal:       true,
-            width:       940,
+            width:       980,
             minHeight:   600,
             autoOpen:    false,
             resizable:   false,
@@ -63,7 +63,7 @@
                 $(this).removeClass('icon-check');
                 $(this).addClass('icon-chooce');
                 $('#YumUser_is_check').val('0');
-                $("#registration_check span").css('display', 'block');
+                $("#registration_check").find("span").css('display', 'block');
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-next'));
                 }
@@ -124,6 +124,8 @@
         return false;
     });
 
+    // Ajax Validation {
+
     window.authenticateValidation = function authenticateValidation(form, data, hasError) {
         if (!hasError) {
             $.post(form.attr('action'), form.serialize(), function (res) {
@@ -135,12 +137,40 @@
         return false;
     };
 
+    window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
+        if (!hasError) {
+            window.location.href = form.attr('data-url');
+        }
+        return false;
+    };
+
+    // Ajax Validation }
+
+    // delete vacancy {
+    $('a.delete-vacancy-link').click(function(event) {
+        if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
+            // link go ahead to delete URL
+            console.log('delete');
+        } else {
+            event.preventDefault();
+        }
+    });
+    // delete vacancy }
+
     $(window).on('resize', function () {
         Cufon.refresh();
     });
+
+    // corporate dashboard vacancy {
+    $('#_invite_people_box.php').click(function(event) {
+        event.prevenetDefault();
+        console.log('show add vacancy');
+    });
+    // corporate dashboard vacancy }
 })(jQuery);
 
-$(window).load(function(){
+$(window).load(function() {
+    "use strict";
     // pop-up to inform corporate user, that trial full simulation cost 1 invite {
     $('a.invite-for-trial-full-scenario').click(function(event){
         event.preventDefault();
@@ -179,6 +209,26 @@ $(window).load(function(){
         $(".sign-in-box").dialog('open');
     });
     // show/hide sign-in box }
+
+    $('#corporate-dashboard-add-vacancy').click(function(event) {
+        console.log('1', $(".form-vacancy"));
+        event.preventDefault();
+        $(".form-vacancy").dialog({
+            dialogClass: 'simulation-result-popup',
+            closeOnEscape: true,
+            minHeight: 350,
+            modal: true,
+            resizable: false,
+            title: '',
+            width: 600,
+            position: {
+                my: "left top",
+                at: "right top",
+                of: $('#invite-people-box')
+            }
+        });
+        $(".form-vacancy").dialog('open');
+    });
 
     // password recovery {
     $(".link-recovery").click(function(){
@@ -234,10 +284,9 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
     '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
-    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a'
-    , {fontFamily:"ProximaNova-Regular", hover:true});
-Cufon.replace('.profile-menu a, .inviteaction'
-    , {fontFamily:"ProximaNova-Regular"});
+    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a',
+    {fontFamily:"ProximaNova-Regular", hover:true});
+Cufon.replace('.profile-menu a, .inviteaction', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
     '#account-personal-personal-form .row .value',
     {fontFamily:"ProximaNova-Bold", hover:true}

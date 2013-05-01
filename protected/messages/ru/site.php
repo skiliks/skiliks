@@ -363,5 +363,8 @@ return array(
     'Website' => 'Работа сайта',
     'Simulation' => 'Симуляция',
     'Payment' => 'Оплата',
-    'Other' => 'Прочее'
+    'Other' => 'Прочее',
+    'Industry' => 'Отрасль',
+    'Position level is required' => 'Уровень позиции это обязательное поле',
+    'Position level' => 'Уровень позиции',
 );

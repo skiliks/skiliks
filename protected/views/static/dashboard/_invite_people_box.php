@@ -26,6 +26,7 @@
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
         <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <?php echo $form->error($invite, 'vacancy_id'); ?>
+        <button id="corporate-dashboard-add-vacancy">+</button>
     </div>
 
     <div class="row buttons">
@@ -35,16 +36,21 @@
     <?php $this->endWidget(); ?>
 </div>
 
-<script>
-    $(document).ready(function(){
-        var errors = $(".errorMessage");
-        for (var i=0; i < errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            var select = $(errors[i]).prev(".sbHolder");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(select).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-            $(errors[i]).addClass($(select).attr("id"));
-        }
-    });
-</script>
+<?php // add_vacancy_form { ?>
+    <div class="form form-vacancy" style="display: none;">
+        <?php $this->renderPartial('//static/profile/_add_vacancy_form', [
+            'h1'              => 'Добавить вакансию',
+            'dataUrl'         => '/dashboard',
+            'vacancy'         => new Vacancy(),
+            'positionLevels'  => StaticSiteTools::formatValuesArrayLite(
+                    'PositionLevel',
+                    'slug',
+                    'label',
+                    '',
+                    'Выбирите уровень позиции'
+                ),
+            'specializations' => [],
+        ]) ?>
+    </div>
+<?php // add_vacancy_form } ?>
+
