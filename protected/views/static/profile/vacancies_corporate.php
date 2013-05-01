@@ -9,7 +9,7 @@
         <div class="vacancy-list">
         <?php
         $this->widget('zii.widgets.grid.CGridView', [
-            'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id), //$dataProvider,
+            'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id),
             'summaryText' => '',
             'emptyText' => '',
             'hideHeader'    => true,
@@ -22,6 +22,7 @@
                 'pageSize'      => 5
             ],
             'columns' => [
+                ['header' => '', 'name' => '' , 'value' => '($row+1)."."'],
                 ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
                 ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->link'],
                 ['header' => ''                                        , 'value' => '"<a class=\"edit-vacancy-link\" href=\"/profile/corporate/vacancy/$data->id/edit\">редактировать</a>"'                   , 'type' => 'html'],
@@ -36,105 +37,24 @@
 
     <a class="vacancy-add-form-switcher" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
-
-    <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
-
-        <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'add-vacancy-form',
-        )); ?>
-
-        <div class="row shortSelector">
-            <?php echo $form->labelEx($vacancy     , 'professional_occupation_id'); ?>
-            <?php echo $form->dropDownList(
-                $vacancy,
-                'professional_occupation_id',
-                StaticSiteTools::formatValuesArrayLite(
-                    'ProfessionalOccupation',
-                    'id',
-                    'label',
-                    '',
-                    'Выберите род деятельности'
-                ),
-                [
-                    'ajax' => [
-                        'type'     => 'POST',
-                        'dataType' =>'json',
-                        'url'      => $this->createUrl('profile/getSpecialization'),
-                        'success'  =>' function(data) {
-                            $("select#Vacancy_professional_specialization_id option").remove();
-                            for (var id in data) {
-                                $("select#Vacancy_professional_specialization_id").append(
-                                    "<option value=\"" + id + "\">" + data[id] + "</option>"
-                                );
-                            }
-
-                            if (0 == data.length) {
-                                $("select#Vacancy_professional_specialization_id").parent().addClass(\'empty-select\');
-                            } else {
-                                $("select#Vacancy_professional_specialization_id").parent().removeClass(\'empty-select\');
-                            }
-
-                            // refresh custom drop-down
-                            $("select#Vacancy_professional_specialization_id").selectbox("detach");
-                            $("select#Vacancy_professional_specialization_id").selectbox("attach");
-                        }',
-                    ],
-                ]
-            ); ?>
-            <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?>
+    <?php // add_vacancy_form { ?>
+        <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
+            <?php $this->renderPartial('_add_vacancy_form', [
+                'vacancy'         => $vacancy,
+                'positionLevels'  => $positionLevels,
+                'specializations' => $specializations,
+            ]) ?>
         </div>
-        <div class="row <?php echo (0 == count($specializations) ? 'empty-select' : '') ?>">
-            <?php echo $form->labelEx($vacancy     , 'professional_specialization_id'); ?>
-            <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?><?php echo $form->error($vacancy       , 'professional_specialization_id'); ?>
-        </div>
+    <?php // add_vacancy_form } ?>
 
-        <div class="row">
-            <?php echo $form->labelEx($vacancy  , 'label'); ?>
-            <?php echo $form->textField($vacancy, 'label'); ?><?php echo $form->error($vacancy    , 'label'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($vacancy  , 'link'); ?>
-            <?php echo $form->textField($vacancy, 'link'); ?><?php echo $form->error($vacancy    , 'link'); ?>
-        </div>
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton('Сохранить изменения', ['name' => 'add']); ?>
-        </div>
-
-        <!-- * Поля обязательные для заполнения-->
-
-        <?php $this->endWidget(); ?>
-        </div>
-    </div>
+</div>
 </div>
 <script type="text/javascript">
-    $(function(){
+    $(document).ready(function(){
         $(".vacancy-add-form-switcher").click(function(event) {
             event.preventDefault();
             $(".form-vacancy").show();
             $(".vacancy-add-form-switcher").hide();
         });
-
-        $('a.delete-vacancy-link').click(function(event) {
-            if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(0)').text() + "\"?")) {
-                // link go ahead to delete URL
-            } else {
-                event.preventDefault();
-            }
-
-        });
-    })
-</script>
-<script>
-    $(document).ready(function(){
-        var errors = $(".errorMessage");
-        for (var i=0; i < errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            var select = $(errors[i]).prev(".sbHolder");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(select).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-        }
     });
 </script>
