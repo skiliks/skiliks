@@ -1129,7 +1129,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (response) {
                         var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
                         windows[0].setOnTop();
-                        me.trigger('process:finish');
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
@@ -1138,8 +1137,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     callback();
                                 }
                                 me.trigger('mail:sent');
+                                me.trigger('process:finish');
                             }); // callback is usually 'render active folder'
                         } else {
+                            me.trigger('process:finish');
                             me.message_window =
                                 me.message_window || new SKDialogView({
                                     'message':'Не удалось отправить письмо.',
@@ -1221,7 +1222,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/saveDraft',
                     mailClient.combineMailDataByEmailObject(emailToSave),
                     function (responce) {
-                        mailClient.trigger('process:finish');
                         // keep non strict comparsion
                         if (1 == responce.result) {
                             var window = mailClient.getSimulationMailClientWindow();
@@ -1241,6 +1241,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 ]
                             });
                         }
+
+                        mailClient.trigger('process:finish');
                     }
                 );
                 return true;
