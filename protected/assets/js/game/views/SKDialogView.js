@@ -71,6 +71,7 @@ define([
             
             this.$el = $(_.template(dialog_template, {
                 title: this.options.message,
+                content: this.options.content,
                 buttons: this.options.buttons
             }));
  
