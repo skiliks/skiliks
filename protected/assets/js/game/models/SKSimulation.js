@@ -141,7 +141,11 @@ define([
                         if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
-                            SKApp.simulation.loadDocsDialog.remove();
+                            //$('.time').removeClass('paused');
+                            SKApp.simulation.stopPause(function(){
+                                $('.time').removeClass('paused');
+                                SKApp.simulation.loadDocsDialog.remove();
+                            });
                         }
                     }
                 });
@@ -180,8 +184,15 @@ define([
                 });
             },
 
-            'onAddDocument' : function(){
+            onAddDocument : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                    var is_paused = $('.time').hasClass('paused');
+                    if(is_paused){
+                        throw new Error("Игра уже на паузе!");
+                    } else {
+                        $('.time').addClass('paused');
+                        SKApp.simulation.startPause();
+                    }
                     this.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
@@ -424,14 +435,18 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
-                    me._startTimer();
-                    me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
-                    delete me.paused_time;
-                    me.trigger('pause:stop');
+                    if(me.paused_time !== undefined)
+                    {
+                        me._startTimer();
+                        me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                        delete me.paused_time;
+                        me.trigger('pause:stop');
 
-                    if (typeof callback === 'function') {
-                        callback(responce);
+                        if (typeof callback === 'function') {
+                            callback(responce);
+                        }
                     }
+
                 });
             },
 
