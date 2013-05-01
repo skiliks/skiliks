@@ -16,7 +16,7 @@ var spec = describe('simulation', function (run) {
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
-                SKApp = new SKApplication(SKConfig);
+                window.SKApp = new SKApplication(SKConfig);
                 server = sinon.fakeServer.create();
                 server.respondWith("POST", "/index.php/simulation/start",
                     [200, { "Content-Type":"application/json" },
@@ -81,6 +81,7 @@ var spec = describe('simulation', function (run) {
                 server.respond();
                 timers.tick(10 * 60 * 1000);
                 expect(SKApp.simulation.getGameMinutes()).toBe(620);
+                server.respond();
 
             });
             it("Write day plan log at 11:00", function () {
