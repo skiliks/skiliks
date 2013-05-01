@@ -145,7 +145,6 @@ define([
                 // update inbox emails counter
                 this.listenTo(this.mailClient, 'mail:update_inbox_counter', function () {
                     var unreaded = me.mailClient.getInboxFolder().countUnreaded();
-                    console.log('unreaded: ', unreaded);
                     me.updateMailIconCounter(unreaded);
                     me.updateInboxFolderCounter(unreaded);
                 });

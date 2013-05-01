@@ -1,7 +1,7 @@
 /* 
  * 
  */
-define(function() {
+define([], function() {
     "use strict";
     /**
      * @class SKMailPhrase

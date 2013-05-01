@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session */
 
-(function () {
+define([], function () {
     "use strict";
     /**
      * @class SKDayTask
@@ -12,9 +12,9 @@
         /**
          * @method sync
          *
-         * @param string method, 'update'|delete'|...
-         * @param SKMailTask model
-         * @param mixed array options
+         * @param {string} method, 'update'|delete'|...
+         * @param {SKMailTask} model
+         * @param {Object} options
          */
         sync: function (method, model, options) {
             if ('update' === method){
@@ -29,4 +29,4 @@
             }
         }
     });
-})();
+});
