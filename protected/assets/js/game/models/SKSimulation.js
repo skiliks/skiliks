@@ -6,7 +6,6 @@ var SKSimulation;
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
-    "text!game/jst/world/pause_screen.jst",
 
     "game/collections/SKCharacterCollection",
     "game/collections/SKEventCollection",
@@ -21,7 +20,6 @@ define([
 ],function (
     SKMailClient,
     SKFlagStateView,
-    pause_screen_template,
     SKCharacterCollection
 ) {
     "use strict";

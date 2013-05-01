@@ -56,6 +56,7 @@ define([
                 'top':      el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position': 'absolute'
             });
+            $(doc.combineIframeId())[0].contentWindow.focus();
         },
 
         /**
