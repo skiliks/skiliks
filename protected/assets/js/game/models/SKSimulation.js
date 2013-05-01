@@ -360,6 +360,7 @@ define([
                     me.getNewEvents(function () {
                         me.trigger('start');
                     });
+                    me.events.getUnreadMailCount();
                     me._startTimer();
                 });
             },

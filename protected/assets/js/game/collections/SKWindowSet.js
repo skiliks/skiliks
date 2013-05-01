@@ -83,6 +83,7 @@ define([
                 }
             });
             options.events.on('event:mail', function (event) {
+                options.events.getUnreadMailCount();
                 if (event.get('fantastic')) {
                     var simulation = SKApp.simulation;
                     simulation.startInputLock();
