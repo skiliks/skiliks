@@ -153,6 +153,9 @@ define([
                 this.listenTo(this.options.model_instance, 'pre_close', this.onBeforeClose);
                 // close with conditions action }
 
+                this.listenTo(this.mailClient, 'process:start', this.onMailProcessStart);
+                this.listenTo(this.mailClient, 'process:finish', this.onMailProcessEnd);
+
                 // call parent initialize();
                 SKWindowView.prototype.initialize.call(this);
 
@@ -2221,6 +2224,14 @@ define([
                         }*/
                     }
                 });
+            },
+
+            onMailProcessStart: function(e) {
+                this.block();
+            },
+
+            onMailProcessEnd: function() {
+                this.unBlock();
             }
         });
 
