@@ -110,6 +110,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'NEW_EMAIL'
             ],
 
+            iconsForMailPreviewScreenArray:[
+                'NEW_EMAIL',
+                'REPLY_EMAIL',
+                'REPLY_ALL_EMAIL',
+                'FORWARD_EMAIL'
+            ],
+
             // --------------------------------------------------
 
             // @var string

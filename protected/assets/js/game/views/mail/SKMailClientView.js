@@ -12,16 +12,20 @@ define([
     "text!game/jst/mail/title.jst",
     "text!game/jst/mail/content.jst",
     "text!game/jst/mail/folder_label.jst",
+
     "text!game/jst/mail/income_line.jst",
     "text!game/jst/mail/income_folder_skeleton.jst",
     "text!game/jst/mail/action.jst",
+
     "text!game/jst/mail/preview.jst",
     "text!game/jst/mail/new_email.jst",
     "text!game/jst/mail/phrase.jst",
+
     "text!game/jst/mail/sended_folder_sceleton.jst",
     "text!game/jst/mail/send_mail_line.jst",
     "text!game/jst/mail/read_email_sceleton.jst",
     "text!game/jst/mail/trash_email_line.jst",
+
     "text!game/jst/mail/trash_folder_sceleton.jst",
     "text!game/jst/mail/phrase_item.jst"
 
@@ -638,11 +642,9 @@ define([
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
 
-                        mailClientView.$('.NEW_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.REPLY_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.REPLY_ALL_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.FORWARD_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.ADD_TO_PLAN').parent('li').css('display', 'none');
+                        // mailClientView.$('.NEW_EMAIL').parent('li').css('display', 'none');
+                        mailClientView.renderIcons(mailClientView.mailClient.iconsForMailPreviewScreenArray);
+
                         // log {
                         mailClientView.mailClient.setWindowsLog(
                             'mailPreview',
