@@ -367,6 +367,7 @@ define([
              */
             doPlanToggle: function (e) {
                 e.preventDefault();
+                this.$('.plan').removeClass('icon-active');
                 SKApp.simulation.window_set.toggle('plan', 'plan');
             },
 
