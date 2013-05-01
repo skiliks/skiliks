@@ -1121,12 +1121,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
                 }
+
+                this.trigger('process:start');
                 SKApp.server.api(
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
                     function (response) {
                         var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
                         windows[0].setOnTop();
+                        me.trigger('process:finish');
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
@@ -1213,10 +1216,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     return false;
                 }
 
+                this.trigger('process:start');
                 SKApp.server.api(
                     'mail/saveDraft',
                     mailClient.combineMailDataByEmailObject(emailToSave),
                     function (responce) {
+                        mailClient.trigger('process:finish');
                         // keep non strict comparsion
                         if (1 == responce.result) {
                             var window = mailClient.getSimulationMailClientWindow();
