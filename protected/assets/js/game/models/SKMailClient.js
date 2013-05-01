@@ -114,7 +114,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
-                'FORWARD_EMAIL'
+                'FORWARD_EMAIL',
+                'ADD_TO_PLAN'
             ],
 
             // --------------------------------------------------
