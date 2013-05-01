@@ -74,6 +74,7 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::simulationStop($simulation);
     }
 
+
     /**
      * Проверяет правильность оценивания игрока по за поведение 1122 
      * (оценивание обычным способом, лог писем пуст) 

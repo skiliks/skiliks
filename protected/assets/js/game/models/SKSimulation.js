@@ -236,7 +236,7 @@ define([
              */
             'getGameSeconds':function () {
                 var me = this;
-                var current_time_string = new Date();
+                var current_time_string = me.paused_time || new Date();
                 var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                 return game_start_time +
                     Math.floor(
