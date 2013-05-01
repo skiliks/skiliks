@@ -435,7 +435,7 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
-                    if(me.paused_time !== undefined)
+                    if( me.paused_time !== undefined )
                     {
                         me._startTimer();
                         me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
