@@ -761,7 +761,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         'value':'Окей',
                                         'onclick':function () {
                                             delete SKApp.simulation.mailClient.message_window;
-                                            window.elfinderInstace.exec('reload');
+                                            if(window.elfinderInstace !== undefined){
+                                                window.elfinderInstace.exec('reload');
+                                            }
                                         }
                                     }
                                 ]
