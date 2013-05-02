@@ -1,5 +1,5 @@
 <section class="dashboard corpdashboard">
-    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Corporate dashboard') ?></h2>
+    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
     <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
