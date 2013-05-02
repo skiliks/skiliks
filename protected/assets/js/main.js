@@ -230,21 +230,20 @@
         // password recovery }
         $(".log-out-link").click(function(){
 
-            var lastGetState = new Date();
-            lastGetState.setTime(lastGetState.getTime() + 30000);
-            if(localStorage.getItem('lastGetState') === undefined){
-               return true;
-            } else if(parseInt(localStorage.getItem('lastGetState')) < lastGetState.getTime()){
-                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
-                    //window.alert("Ок");
-                    return true;
-                } else {
-                    //window.alert("Тупак");
-                    return false;
-                }
-            }else{
+        var lastGetState = new Date();
+        if(localStorage.getItem('lastGetState') === null){
+           return true;
+        } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
+            if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                //window.alert("Ок");
                 return true;
+            } else {
+                //window.alert("Тупак");
+                return false;
             }
+        } else {
+            return true;
+        }
 
         });
     });
