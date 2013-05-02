@@ -227,6 +227,7 @@ return array(
                 'notifications/'          => 'static/notifications/index',
                 'notifications/corporate' => 'static/notifications/corporate',
                 'notifications/personal'  => 'static/notifications/personal',
+                'fail-recovery/'  => 'static/userAuth/FailRecovery',
 
                 'simulations/'                 => 'static/simulations/index',
                 'simulations/details/<id:\w+>' => 'static/simulations/details',

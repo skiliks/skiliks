@@ -792,6 +792,8 @@ class UserAuthController extends YumController
                 ]);
 
                 Yii::app()->end();
+            }else{
+                $this->redirect('/fail-recovery');
             }
         }
 
@@ -823,6 +825,11 @@ class UserAuthController extends YumController
         $this->render('recovery', [
             'recoveryForm' => $recoveryForm
         ]);
+    }
+
+    public function actionFailRecovery()
+    {
+        $this->render('fail_recovery');
     }
 
 }
