@@ -1292,10 +1292,10 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	box-shadow:none;
 }
 .phone-contact-list li table .phone-contact-list-img{
-	width:67px;
+	width:64px;
 }
-.phone-contact-list li table.active .phone-contact-list-img{
-	width:84px;
+.phone-contact-list li table:hover .phone-contact-list-img{
+	width:82px;
 }
 .phone-contact-list li table .phone-contact-list-f0{
 	font-size:14px;
@@ -1324,7 +1324,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	line-height:24px;
 	text-shadow:rgba(0,0,0,0.28) 1px 1px 0;
 	text-transform:uppercase;
-	margin-top:5px;
+	margin:5px 0 0;
 }
 .phone-call-btn:hover{
 	color:#fff;
