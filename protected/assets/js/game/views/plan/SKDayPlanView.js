@@ -498,6 +498,7 @@ define([
             });
             me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
             setTimeout(function () {
+                me.disableOldSlots();
                 me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
                 me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
             }, 0);
