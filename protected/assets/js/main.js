@@ -252,6 +252,25 @@ $(window).load(function() {
         return false;
     });
     // password recovery }
+    $(".log-out-link").click(function(){
+
+        var lastGetState = new Date();
+        lastGetState.setTime(lastGetState.getTime() + 30000);
+        if(localStorage.getItem('lastGetState') === undefined){
+           return true;
+        }else if(parseInt(localStorage.getItem('lastGetState')) < lastGetState.getTime()){
+            if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                //window.alert("Ок");
+                return true;
+            } else {
+                //window.alert("Тупак");
+                return false;
+            }
+        }else{
+            return true;
+        }
+
+    });
 });
 
 Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +

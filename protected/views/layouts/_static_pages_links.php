@@ -60,7 +60,8 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label' => Yii::t('site', 'Log out'),
             'url' => ['/static/userAuth/logout'],
-            'visible' => !Yii::app()->user->isGuest
+            'visible' => !Yii::app()->user->isGuest,
+            'linkOptions' => ['class' => 'log-out-link']
         ],
     ]
 ));

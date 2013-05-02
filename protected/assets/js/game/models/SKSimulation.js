@@ -293,6 +293,8 @@ define([
              * @method getNewEvents
              */
             'getNewEvents':function (cb) {
+                var nowDate = new Date();
+                localStorage.setItem('lastGetState', nowDate.getTime());
                 var me = this;
                 var logs = this.windowLog.getAndClear();
                 SKApp.server.apiQueue('events', 'events/getState', {
@@ -360,6 +362,8 @@ define([
                     });
                     me.events.getUnreadMailCount();
                     me._startTimer();
+                    var nowDate = new Date();
+                    localStorage.setItem('lastGetState', nowDate.getTime());
                 });
             },
 
@@ -401,6 +405,7 @@ define([
                     // trick for sim-stop at 20:00
                     // see SKSimulationView.stopSimulation();
                     $('.mail-popup-button').show();
+                    localStorage.removeItem('lastGetState');
                 });
             },
 
