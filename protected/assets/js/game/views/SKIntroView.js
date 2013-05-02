@@ -49,6 +49,7 @@ define([
                     id: 'ok',
                     value: 'Понял!',
                     onclick: function() {
+                        $('.time').removeClass('paused');
                         window.SKApp.run();
                     }
                 }]
