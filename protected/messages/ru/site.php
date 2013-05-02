@@ -375,5 +375,5 @@ return array(
     'Simulation workflow' => 'Прохождение симуляции',
     'Assessment results' => 'Результаты оценки',
     'Help' => 'Помощь',
-    'Tariffs and payment' => 'Тарифы и оплата',
+    'Pricing and plans' => 'Тарифы и оплата',
 );
