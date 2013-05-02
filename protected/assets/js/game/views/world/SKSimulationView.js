@@ -212,7 +212,6 @@ define([
                     this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                 }
                 this.renderSupportBlock();
-                this.renderTutorial();
             },
 
             /**
@@ -229,18 +228,6 @@ define([
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null); }
                 )();
-            },
-
-            renderTutorial: function() {
-                var html = _.template(tutorial_template, {});
-                new SKDialogView({
-                    message: 'Это туториал',
-                    content: html,
-                    buttons: [{
-                        id: 'ok',
-                        value: 'Понял!'
-                    }]
-                });
             },
 
             /**

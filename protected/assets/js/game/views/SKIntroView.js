@@ -4,8 +4,10 @@ var SKIntroView;
 define([
     'game/views/world/SKApplicationView',
     'game/models/SKApplication',
-    'text!game/jst/intro.jst'
-], function (SKApplicationView, SKApplication, template_intro) {
+    'game/views/SKDialogView',
+    'text!game/jst/intro.jst',
+    'text!game/jst/world/tutorial.jst'
+], function (SKApplicationView, SKApplication, SKDialogView, template_intro, tutorial_template) {
     "use strict";
     /**
      * Загрузка Интромуви
@@ -39,6 +41,18 @@ define([
         eventHandler: function() {
             window.SKApp = new SKApplication(window.gameConfig);
             window.AppView = new SKApplicationView();
+
+            this.tutorial = new SKDialogView({
+                message: 'Это туториал',
+                content: _.template(tutorial_template, {}),
+                buttons: [{
+                    id: 'ok',
+                    value: 'Понял!',
+                    onclick: function() {
+                        window.SKApp.run();
+                    }
+                }]
+            });
         },
         handleClick: function(){
             this.$el.find('#skiliks_intro').trigger('ended');
