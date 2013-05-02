@@ -118,8 +118,12 @@ define([
              * @method onDocumentEvent
              */
             onDocumentEvent: function (event) {
-                this.startAnimation('.documents');
-                this.documentId = event.get('data').id;
+                var me = this;
+
+                me.documentId = event.get('data').id;
+                me.startAnimation('.documents', function() {
+                    me.documentId = null;
+                });
             },
 
             /**
