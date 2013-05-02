@@ -9,10 +9,10 @@
  * @property string $corporate_email
  * @property string $ownership_type
  * @property string $company_name
- * @property integer invites_limit
- * @property boolean is_corporate_email_verified
- * @property datetime corporate_email_verified_at
- * @property boolean corporate_email_activation_code
+ * @property integer $invites_limit
+ * @property boolean $is_corporate_email_verified
+ * @property datetime $corporate_email_verified_at
+ * @property boolean $corporate_email_activation_code
  *
  * The followings are the available model relations:
  * @property User $user
