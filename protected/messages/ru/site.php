@@ -376,4 +376,6 @@ return array(
     'Assessment results' => 'Результаты оценки',
     'Help' => 'Помощь',
     'Pricing and plans' => 'Тарифы и оплата',
+
+    'Type %s symbols at least.' => 'Введите не менее %s символов.',
 );

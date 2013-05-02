@@ -383,6 +383,7 @@ class YumUser extends YumActiveRecord
         $rules[] = array('notifyType, avatar', 'safe');
         $rules[] = array('password', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Password is required'));
         $rules[] = array('password', 'safe');
+        $rules[] = array('password', 'passwordCyrillicStringMin', 'limit' => 6);
         $rules[] = array('salt', 'required', 'on' => array('insert', 'registration'));
         $rules[] = array('createtime, lastvisit, lastaction, superuser, status', 'numerical', 'integerOnly' => true);
 
@@ -436,6 +437,25 @@ class YumUser extends YumActiveRecord
 
 
         return $rules;
+    }
+
+    /**
+     * @param string $attribute, attribute name
+     * @param mixed array $params
+     */
+    public function passwordCyrillicStringMin($attribute, $params)
+    {
+        $strLength = iconv_strlen($this->$attribute, 'UTF-8');
+
+        if($strLength < $params['limit']) {
+            $this->addError(
+                $attribute,
+                sprintf(
+                    Yii::t('site', 'Type %s symbols at least.'),
+                    $params['limit']
+                )
+            );
+        }
     }
 
     public function hasRole($role_title)
