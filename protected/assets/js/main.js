@@ -172,24 +172,6 @@
 
 $(window).load(function() {
     "use strict";
-    // pop-up to inform corporate user, that trial full simulation cost 1 invite {
-    $('a.invite-for-trial-full-scenario').click(function(event){
-        event.preventDefault();
-        event.stopPropagation();
-        $('#start-trial-full-scenario-pop-up').dialog({
-            dialogClass: 'flash-message-popup',
-            modal: true,
-            resizable: false,
-            open: function( event, ui ) { }
-        });
-        $('#start-trial-full-scenario-pop-up').addClass('flash-success');
-        $('.flash-message-popup .ui-dialog-titlebar').remove();
-        $('.flash-message-popup').prepend('<a href="#" class="popupclose"></a>');
-        $('.flash-message-popup .popupclose').click(function() {
-            console.log('click');
-            $('#start-trial-full-scenario-pop-up').dialog("close");
-        });
-    });
 
     $('a.start-trial-full-scenario-disagree').click(function(event) {
         event.preventDefault();
