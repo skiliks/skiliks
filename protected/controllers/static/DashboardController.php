@@ -522,7 +522,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionValidateDeclineExplanation()
     {
-        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
 
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
@@ -553,7 +552,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     'DeclineReason',
                     'id',
                     'label',
-                    '',
+                    Yii::app()->user->isGuest ? '': 'registration_only!=1',
                     false,
                     ' ORDER BY sort_order DESC'
                 ),

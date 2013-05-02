@@ -37,38 +37,6 @@
 
         <?php $this->endWidget(); ?>
     </div>
-    <?php /* ?>
-    <div class="decline-form-box hidden">
-        <form class="decline-form" action="/dashboard/decline-invite/<?php echo $invite->code; ?>" method="POST">
-            <h3>Пожалуйста укажите причину отказа</h3>
-
-            <div class="row">
-                <input type="radio" name="reason" value="1" checked="checked" /> Не хочу регистрироваться
-            </div>
-
-            <div class="row">
-                <input type="radio" name="reason" value="2" /> Не интересует вакансия
-            </div>
-
-            <div class="row">
-                <input type="radio" name="reason" value="3" /> Не хочу проходить тест
-            </div>
-
-            <div class="row">
-                <input type="radio" name="reason" value="4" /> Другое
-            </div>
-
-            <div class="row">
-                <textarea name="reason-desc" placeholder="Причина отказа"></textarea>
-            </div>
-
-            <div class="submit">
-                <input type="submit" value="Отказаться">
-                <input class="back" type="button" value="Вернуться к регистрации">
-            </div>
-        </form>
-    </div>
-    <?php */ ?>
 </section>
 
 <!-- decline-form { -->
