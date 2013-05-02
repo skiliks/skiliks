@@ -86,7 +86,7 @@ class UserAuthController extends YumController
                     if (false !== $result) {
                         $this->sendRegistrationEmail($this->user);
 
-                        $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
+                        $this->redirect(['afterRegistration']);
                     } else {
                         $this->user->password = '';
                         $this->user->password_again = '';
@@ -236,9 +236,7 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->render('afterRegistration', [
-            'user' => $this->user
-        ]);
+        $this->render('afterRegistration');
     }
 
     /**
@@ -429,6 +427,9 @@ class UserAuthController extends YumController
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
                         $this->sendCorporationEmailVerification($this->user);
+                        $this->redirect('afterRegistration');
+                    } else {
+                        $this->redirect('/dashboard');
                     }
 
                     $this->redirect(['registration/account-type/added']);
@@ -703,7 +704,7 @@ class UserAuthController extends YumController
 
         if ($profile && !$profile->user->isActive()) {
             $this->sendRegistrationEmail($profile->user);
-            $this->redirect(['afterRegistration', 'userId' => $profile->user->id]);
+            $this->redirect(['afterRegistration']);
         } else {
             $this->redirect('/');
         }
