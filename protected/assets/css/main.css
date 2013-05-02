@@ -1802,3 +1802,7 @@ tr.email-list-separator {
     display: inline-block;
 }
 
+.canvas .elfinder-cwd-filename {
+    white-space: normal;
+}
+
