@@ -368,7 +368,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
             Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
-            $this->redirect('/');
+            $this->redirect('/dashboard');
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
@@ -384,7 +384,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     Yii::t('site', Invite::$statusText[$invite->status])
                 )
             );
-            $this->redirect('/');
+            $this->redirect('/dashboard');
         }
 
         $this->checkUser();

@@ -141,7 +141,7 @@ define([
                         'message':'Вы уже обсудили этот вопрос!',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete SKApp.simulation.mailClient.message_window;
                                     SKApp.simulation.getNewEvents();
@@ -170,7 +170,7 @@ define([
                         'message':'Вы уже обсудили этот вопрос!',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete SKApp.simulation.mailClient.message_window;
                                 }

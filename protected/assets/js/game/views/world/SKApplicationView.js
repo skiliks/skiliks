@@ -51,7 +51,7 @@ define([
                             'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
                             'buttons':[
                                 {
-                                    'value':'Окей',
+                                    'value':'Ок',
                                     'onclick':function () {
                                         delete me.message_window;
                                     }
