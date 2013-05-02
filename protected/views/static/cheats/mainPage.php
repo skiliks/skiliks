@@ -61,7 +61,13 @@
     <br><br>
 
     <nav>
+    <?php /*
+        <a href="/cheat/assessments/grid">Таблица оценок</a>
 
+        <br>
+        <br>
+        <br>
+    */ ?>
     <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
         <a href="/registration/choose-account-type">
             <?php echo Yii::t('site', 'Choose account type') ?>

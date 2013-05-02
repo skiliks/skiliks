@@ -152,6 +152,7 @@ return array(
                 'static/admin/saveLog/<simulation\w+>' => 'static/admin/saveLog',
                 'cheat/dialogsAnalyzer'   => 'static/admin/dialogsAnalyzer',
                 'cheat/uploadDialogsToAnalyzer'   => 'static/admin/uploadDialogsToAnalyzer',
+                'cheat/assessments/grid'   => 'static/cheats/assessmentsGrid',
                 'Admin/Log'              => 'static/Admin/Log',
 
                 'logout'                  => 'static/userAuth/logout',
