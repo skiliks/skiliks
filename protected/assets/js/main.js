@@ -212,7 +212,6 @@ $(window).load(function() {
     // show/hide sign-in box }
 
     $('#corporate-dashboard-add-vacancy').click(function(event) {
-        console.log('1', $(".form-vacancy"));
         event.preventDefault();
         $(".form-vacancy").dialog({
             dialogClass: 'simulation-result-popup',
