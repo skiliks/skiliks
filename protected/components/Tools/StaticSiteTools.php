@@ -100,8 +100,12 @@ class StaticSiteTools
             $result[''] = $emptyValue;
         }
 
-        foreach ($model::model()->findAll($conditions, $params) as $item) {
-            $result[$item->{$idColumn}] = $item->{$labelColumn};
+        try {
+            foreach ($model::model()->findAll($conditions, $params) as $item) {
+                $result[$item->{$idColumn}] = $item->{$labelColumn};
+            }
+        } catch (CDbException $e) {
+            // this is Not results Exception
         }
 
         return $result;

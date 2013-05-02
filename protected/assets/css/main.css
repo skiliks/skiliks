@@ -1286,7 +1286,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list.history li table .phone-contact-list-img img{
 	-webkit-border-radius:none;
 	-moz-border-radius:none;
-	border-radius:none;
+	border-radius: 0;
 	-webkit-box-shadow:none;
 	-moz-box-shadow:none;
 	box-shadow:none;
@@ -1746,7 +1746,6 @@ tr.email-list-separator {
     height: 100%;
     position: absolute;
     width: 100%;
-}
 }
 
 .matrix-has-you {

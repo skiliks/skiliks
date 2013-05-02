@@ -8,7 +8,7 @@
 
     <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
 
-    <div class="row">
+    <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>">
         <?php echo $form->labelEx($invite, 'full_name'); ?>
         <?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?>
         <?php echo $form->error($invite, 'firstname'); ?>
@@ -16,13 +16,13 @@
         <?php echo $form->error($invite, 'lastname'); ?>
     </div>
 
-    <div class="row">
+    <div class="row <?php echo ($form->error($invite, 'email')) ? 'error' : ''; ?>">
         <?php echo $form->labelEx($invite, 'email'); ?>
         <?php echo $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?>
         <?php echo $form->error($invite, 'email'); ?>
     </div>
 
-    <div class="row wide <?php echo (0 == count($vacancies) ? 'no-border' : '') ?>"">
+    <div class="row wide <?php echo (0 == count($vacancies) ? 'no-border' : '') ?> <?php echo ($form->error($invite, 'vacancy_id')) ? 'error' : ''; ?>v">
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
         <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <?php echo $form->error($invite, 'vacancy_id'); ?>
