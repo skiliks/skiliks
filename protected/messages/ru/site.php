@@ -143,7 +143,7 @@ return array(
     'Full name' => 'Имя',
     'Dashboard' => 'Личный кабинет',
     'Personal dashboard' => 'Личный кабинет',
-    'Corporate dashboard' => 'Рабочий кабинет',
+    'Work dashboard' => 'Рабочий кабинет',
     'My profile' => 'Мой профиль',
     'Invitations' => 'Приглашения',
     'Name' => 'Имя',
