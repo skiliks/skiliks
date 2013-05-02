@@ -753,7 +753,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (response) {
                         // and display message for user
                         if (response.result === 1) {
-                            window.elfinderInstace.exec('reload');
+
                             SKApp.simulation.mailClient.message_window = new SKDialogView({
                                 'message':'Файл был успешно сохранён в папку Мои документы.',
                                 'buttons':[
@@ -761,6 +761,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         'value':'Окей',
                                         'onclick':function () {
                                             delete SKApp.simulation.mailClient.message_window;
+                                            window.elfinderInstace.exec('reload');
                                         }
                                     }
                                 ]
