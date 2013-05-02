@@ -120,6 +120,9 @@ define([
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                     me.trigger('render_finished');
                     me.render_finished = true;
+
+                    var window = me.mailClient.getSimulationMailClientWindow();
+                    me.mailClient.window_uid = parseInt(window.window_uid, 10);
                 });
 
                 // render character subjects list
@@ -641,19 +644,16 @@ define([
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
 
-                        // mailClientView.$('.NEW_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.renderIcons(mailClientView.mailClient.iconsForMailPreviewScreenArray);
-
                         // log {
                         mailClientView.mailClient.setWindowsLog(
                             'mailPreview',
                             $(event.currentTarget).data().emailId
                         );
                         // log }
+
                         mailClientView.renderReadEmail(
                             mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
                         );
-
                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                     } else {
                         // if user clicks on different email lines - activate clicked line email
