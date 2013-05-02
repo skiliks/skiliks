@@ -249,15 +249,19 @@
       border-right:1px solid #000;
       height: 100%;
       overflow-y: hidden;
-    }
 
+      hr.past {
+        position: absolute;
+        left: 45px;
+        top: -10px;
+        margin: 0;
+        height: 1px;
+        width: 295px;
+        border-top: solid 1px #d72327;
+        background-color: #be1b1e;
+      }
 
-    .planner-book-timetable-table{
-      border-collapse: separate;
-      table-layout: fixed;
-      width: 100%;
-      padding-right: 9px;
-      hr.past::before {
+      hr.past:before {
         background-image: url('../img/planner/bg-time-line.png');
         width: 19px;
         height: 13px;
@@ -268,13 +272,15 @@
         position: absolute;
         color: transparent;
       }
-      hr.past {
-        margin: 0;
-        height: 1px;
-        margin-top: -1px;
-        border-top: solid 1px #d72327;
-        background-color: #be1b1e;
-      }
+    }
+
+
+    .planner-book-timetable-table{
+      border-collapse: separate;
+      table-layout: fixed;
+      width: 100%;
+      padding-right: 9px;
+
       tr{
         height:11px;
         td{
