@@ -99,160 +99,156 @@
 
             e.stopPropagation();
         });
-    });
 
-    window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
-        if (!hasError) {
-            $.post(form.attr('action'), form.serialize(), function (res) {
-                // Do stuff with your response data!
-                location.reload();
-            });
-        }
-        return false;
-    };
-
-    window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasError) {
-        if (!hasError) {
-            $.post(form.attr('action'), form.serialize(), function (res) {
-                // Do stuff with your response data!
-                location.reload();
-            });
-        }
-        return false;
-    };
-
-    $('.sign-in-box form#login-form').submit(function(event) {
-        return false;
-    });
-
-    // Ajax Validation {
-
-    window.authenticateValidation = function authenticateValidation(form, data, hasError) {
-        if (!hasError) {
-            $.post(form.attr('action'), form.serialize(), function (res) {
-                // Do stuff with your response data!
-                location.href = '/dashboard';
-                // location.reload();
-            });
-        }
-        return false;
-    };
-
-    window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
-        if (!hasError) {
-            window.location.href = form.attr('data-url');
-        }
-        return false;
-    };
-
-    // Ajax Validation }
-
-    // delete vacancy {
-    $('a.delete-vacancy-link').click(function(event) {
-        if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
-            // link go ahead to delete URL
-            console.log('delete');
-        } else {
-            event.preventDefault();
-        }
-    });
-    // delete vacancy }
-
-    $(window).on('resize', function () {
-        Cufon.refresh();
-    });
-
-    // corporate dashboard vacancy {
-    $('#_invite_people_box.php').click(function(event) {
-        event.prevenetDefault();
-        console.log('show add vacancy');
-    });
-    // corporate dashboard vacancy }
-})(jQuery);
-
-$(window).load(function() {
-    "use strict";
-
-    $('a.start-trial-full-scenario-disagree').click(function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        $('#start-trial-full-scenario-pop-up').dialog("close");
-    });
-
-    $('a.start-trial-full-scenario-agree').click(function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        window.location.replace($('a.invite-for-trial-full-scenario').attr('href'));
-    });
-    // pop-up to inform corporate user, that trial full simulation cost 1 invite }
-
-    // show/hide sign-in box {
-    $('.sign-in-link').click(function(event){
-        event.preventDefault();
-        $(".sign-in-box").dialog('open');
-    });
-    // show/hide sign-in box }
-
-    $('#corporate-dashboard-add-vacancy').click(function(event) {
-        event.preventDefault();
-        $(".form-vacancy").dialog({
-            dialogClass: 'simulation-result-popup',
-            closeOnEscape: true,
-            minHeight: 350,
-            modal: true,
-            resizable: false,
-            title: '',
-            width: 600,
-            position: {
-                my: "left top",
-                at: "right top",
-                of: $('#invite-people-box')
+        window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    // Do stuff with your response data!
+                    location.reload();
+                });
             }
-        });
-        $(".form-vacancy").dialog('open');
-    });
+            return false;
+        };
 
-    // password recovery {
-    $(".link-recovery").click(function(){
-        $(".sign-in-box").dialog("close");
-        $(".popup-recovery").dialog('open');
-        $(".popup-recovery").dialog({
-            closeOnEscape: true,
-            dialogClass: 'popup-recovery-view',
-            minHeight: 220,
-            modal: true,
-            resizable: false,
-            position: {
-                my: "right top",
-                at: "right bottom",
-                of: $('#top header #static-page-links')
-            },
-            width: 275,
-            open: function( event, ui ) { Cufon.refresh(); }
-        });
-        return false;
-    });
-    // password recovery }
-    $(".log-out-link").click(function(){
+        window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasError) {
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    // Do stuff with your response data!
+                    location.reload();
+                });
+            }
+            return false;
+        };
 
-        var lastGetState = new Date();
-        lastGetState.setTime(lastGetState.getTime() + 30000);
-        if(localStorage.getItem('lastGetState') === undefined){
-           return true;
-        }else if(parseInt(localStorage.getItem('lastGetState')) < lastGetState.getTime()){
-            if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
-                //window.alert("Ок");
-                return true;
+        $('.sign-in-box form#login-form').submit(function(event) {
+            return false;
+        });
+
+        // Ajax Validation {
+
+        window.authenticateValidation = function authenticateValidation(form, data, hasError) {
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    // Do stuff with your response data!
+                    location.href = '/dashboard';
+                    // location.reload();
+                });
+            }
+            return false;
+        };
+
+        window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
+            if (!hasError) {
+                window.location.href = form.attr('data-url');
+            }
+            return false;
+        };
+
+        // Ajax Validation }
+
+        // delete vacancy {
+        $('a.delete-vacancy-link').click(function(event) {
+            if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
+                // link go ahead to delete URL
+                console.log('delete');
             } else {
-                //window.alert("Тупак");
-                return false;
+                event.preventDefault();
             }
-        }else{
-            return true;
-        }
+        });
+        // delete vacancy }
 
+        $(window).on('resize', function () {
+            Cufon.refresh();
+        });
+
+        // corporate dashboard vacancy {
+        $('#_invite_people_box.php').click(function(event) {
+            event.prevenetDefault();
+            console.log('show add vacancy');
+        });
+        // corporate dashboard vacancy }
+
+        $('a.start-trial-full-scenario-disagree').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $('#start-trial-full-scenario-pop-up').dialog("close");
+        });
+
+        $('a.start-trial-full-scenario-agree').click(function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.location.replace($('a.invite-for-trial-full-scenario').attr('href'));
+        });
+        // pop-up to inform corporate user, that trial full simulation cost 1 invite }
+
+        // show/hide sign-in box {
+        $('.sign-in-link').click(function(event){
+            event.preventDefault();
+            $(".sign-in-box").dialog('open');
+        });
+        // show/hide sign-in box }
+
+        $('#corporate-dashboard-add-vacancy').click(function(event) {
+            event.preventDefault();
+            $(".form-vacancy").dialog({
+                dialogClass: 'simulation-result-popup',
+                closeOnEscape: true,
+                minHeight: 350,
+                modal: true,
+                resizable: false,
+                title: '',
+                width: 600,
+                position: {
+                    my: "left top",
+                    at: "right top",
+                    of: $('#invite-people-box')
+                }
+            });
+            $(".form-vacancy").dialog('open');
+        });
+
+        // password recovery {
+        $(".link-recovery").click(function(){
+            $(".sign-in-box").dialog("close");
+            $(".popup-recovery").dialog('open');
+            $(".popup-recovery").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-recovery-view',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                position: {
+                    my: "right top",
+                    at: "right bottom",
+                    of: $('#top header #static-page-links')
+                },
+                width: 275,
+                open: function( event, ui ) { Cufon.refresh(); }
+            });
+            return false;
+        });
+        // password recovery }
+        $(".log-out-link").click(function(){
+
+            var lastGetState = new Date();
+            lastGetState.setTime(lastGetState.getTime() + 30000);
+            if(localStorage.getItem('lastGetState') === undefined){
+               return true;
+            } else if(parseInt(localStorage.getItem('lastGetState')) < lastGetState.getTime()){
+                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                    //window.alert("Ок");
+                    return true;
+                } else {
+                    //window.alert("Тупак");
+                    return false;
+                }
+            }else{
+                return true;
+            }
+
+        });
     });
-});
+})(jQuery);
 
 Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
     '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
