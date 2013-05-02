@@ -11,6 +11,24 @@
  */
 class Feedback extends CActiveRecord
 {
+    public static function getFeedbackSubjects()
+    {
+        $arr = ['Product features', 'Registration and authorization', 'Corporate dashboard',
+            'Private dashboard', 'Simulation workflow', 'Assessment results', 'Help', 'Tariffs and payment',
+            'Other'];
+
+        $results = [];
+
+        foreach ($arr as $item) {
+            $label = Yii::t('site', $item);
+            $results[$label] = $label;
+        }
+
+        return $results;
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

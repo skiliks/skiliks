@@ -331,7 +331,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             'slug',
             'label',
             '',
-            'Выбирите уровень позиции'
+            'Выберите уровень позиции'
         );
 
         $this->render('vacancies_corporate', [

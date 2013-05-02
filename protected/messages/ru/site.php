@@ -367,4 +367,13 @@ return array(
     'Industry' => 'Отрасль',
     'Position level is required' => 'Уровень позиции это обязательное поле',
     'Position level' => 'Уровень позиции',
+
+    'Product features' => 'Возможности продукта',
+    'Registration and authorization' => 'Регистрация и авторизация',
+    'Corporate dashboard' => 'Корпоративный кабинет',
+    'Private dashboard' => 'Личный кабинет',
+    'Simulation workflow' => 'Прохождение симуляции',
+    'Assessment results' => 'Результаты оценки',
+    'Help' => 'Помощь',
+    'Tariffs and payment' => 'Тарифы и оплата',
 );

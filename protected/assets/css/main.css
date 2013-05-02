@@ -1294,7 +1294,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list li table .phone-contact-list-img{
 	width:64px;
 }
-.phone-contact-list li table:hover .phone-contact-list-img{
+.phone-contact-list li.contact-li:hover .phone-contact-list-img{
 	width:82px;
 }
 .phone-contact-list li table .phone-contact-list-f0{

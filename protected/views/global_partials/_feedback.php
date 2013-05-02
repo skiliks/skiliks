@@ -20,13 +20,7 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
 
     $model = new Feedback();
 
-    $themes = [
-        '' => Yii::t('site', 'Message theme'),
-        'Работа сайта' => Yii::t('site', 'Website'),
-        'Симуляция' => Yii::t('site', 'Simulation'),
-        'Оплата' => Yii::t('site', 'Payment'),
-        'Прочее' => Yii::t('site', 'Other')
-    ];
+    $themes = Feedback::getFeedbackSubjects();
     ?>
 
     <div class="form-all">
