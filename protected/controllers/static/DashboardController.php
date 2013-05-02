@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 /**
  * Created by JetBrains PhpStorm.
  * User: root
@@ -208,10 +211,37 @@ class DashboardController extends AjaxController implements AccountPageControlle
         ], true);
 
         $mail = [
-            'from'    => Yum::module('registration')->registrationEmail,
-            'to'      => $invite->email,
-            'subject' => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'    => $body
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $invite->email,
+            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-left.png',
+                    'cid'      => 'mail-left',
+                    'name'     => 'mailleft',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right.png',
+                    'cid'      => 'mail-right',
+                    'name'     => 'mailright',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         ];
 
         $invite->markAsSendToday();
