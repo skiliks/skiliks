@@ -31,7 +31,7 @@ define([
          */
         'initialize':function () {
             var me = this;
-            SKApp.simulation.start();
+
             SKApp.simulation.on('user-agree-with-sim-stop', function () {
                 delete me.simulation_view;
                 location.assign(this.get('result-url'));

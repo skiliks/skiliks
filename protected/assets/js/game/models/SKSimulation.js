@@ -236,10 +236,10 @@ define([
                 var me = this;
                 var current_time_string = me.paused_time || new Date();
                 var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
-                return game_start_time +
+                return game_start_time + (me.start_time ?
                     Math.floor(
                         ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
-                    );
+                    ) : 0);
             },
 
             /**
