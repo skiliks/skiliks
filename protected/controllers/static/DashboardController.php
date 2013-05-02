@@ -283,6 +283,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
+        if ($invite->isPending()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
+            ));
+            $this->redirect('/dashboard');
+        }
+
         $firstname = $invite->firstname;
         $lastname  = $invite->lastname;
 
