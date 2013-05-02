@@ -197,7 +197,6 @@ define([
                         'buttons': []
                     });
                 }
-                window.elfinderInstace.exec('reload');
             },
 
             /**
