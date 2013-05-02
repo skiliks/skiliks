@@ -4102,7 +4102,16 @@ ul.profile-menu li {
 .error .sbHolder {
     border : 2px solid #bd2929;
 }
-    }
+
+#corporate-dashboard-add-vacancy {
+    border-radius: 4px;
+    background-color: #ddd;
+    display: inline-block;
+    height: 10px;
+    padding: 6px;
+    font-weight: bold;
+    width: 10px;
+}
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
