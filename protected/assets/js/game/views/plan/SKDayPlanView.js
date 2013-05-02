@@ -437,8 +437,10 @@ define([
          * @method
          */
         disableOldSlots:function () {
+            var me = this;
+
             if ('undefined' !== typeof SKApp.simulation) {
-                this.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
+                me.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
                     var time = SKApp.simulation.getGameTime();
                     var cell_hour = parseInt($(this).attr('data-hour'), 10);
                     var current_hour = parseInt(time.split(':')[0], 10);
@@ -447,14 +449,12 @@ define([
                     if (cell_hour < current_hour || (cell_hour === current_hour && cell_minute < current_minute)) {
                         $(this).addClass('past-slot');
                     }
-                    $(this).find('.past').remove();
-                    if (cell_hour === current_hour && cell_minute === parseInt(Math.floor(current_minute/15),10)*15) {
-                        if (cell_minute === current_minute) {
-                            $(this).prepend('<hr class="past" />');
-                        } else {
-                            $(this).append('<hr class="past" />');
-                        }
+
+                    if (me.$('.past').length === 0) {
+                        me.$('.planner-book-today .planner-book-timetable-table').after('<hr class="past"/>');
                     }
+
+                    me.$('.past').css('top', ((current_hour - 9 + current_minute / 60) * 46) + 'px');
                 });
             }
         },
