@@ -1938,7 +1938,7 @@ define([
                     'message': message,
                     'buttons': [
                         {
-                            'value': 'Окей',
+                            'value': 'Ок',
                             'onclick': function () {
                                 delete mailClientView.message_window;
                             }
@@ -2115,7 +2115,7 @@ define([
                                     'message': 'Не удалось отправить черновик адресату.',
                                     'buttons': [
                                         {
-                                            'value': 'Окей',
+                                            'value': 'Ок',
                                             'onclick': function () {
                                                 delete SKApp.simulation.mailClient.message_window;
                                             }

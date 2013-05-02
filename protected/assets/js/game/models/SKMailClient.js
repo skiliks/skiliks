@@ -758,7 +758,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 'message':'Файл был успешно сохранён в папку Мои документы.',
                                 'buttons':[
                                     {
-                                        'value':'Окей',
+                                        'value':'Ок',
                                         'onclick':function () {
                                             delete SKApp.simulation.mailClient.message_window;
                                             if(window.elfinderInstace !== undefined){
@@ -1157,7 +1157,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     'message':'Не удалось отправить письмо.',
                                     'buttons':[
                                         {
-                                            'value':'Окей',
+                                            'value':'Ок',
                                             'onclick':function () {
                                                 delete SKApp.simulation.mailClient.message_window;
                                             }
@@ -1184,7 +1184,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'message':'Добавьте адресата письма.',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete mailClient.message_window;
                                 }
@@ -1200,7 +1200,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'message':'Укажите тему письма.',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete mailClient.message_window;
                                 }
@@ -1244,7 +1244,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 'message':'Не удалось сохранить письмо.',
                                 'buttons':[
                                     {
-                                        'value':'Окей',
+                                        'value':'Ок',
                                         'onclick':function () {
                                             delete mailClient.message_window;
                                         }

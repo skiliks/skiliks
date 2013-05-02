@@ -109,7 +109,7 @@ define([
                     'message':'Это письмо уже запланировано.',
                     'buttons':[
                         {
-                            'value':'Окей',
+                            'value':'Ок',
                             'onclick':function () {
                                 delete SKApp.simulation.mailClient.message_window;
                                 SKApp.simulation.mailClient.setWindowsLog(
@@ -191,7 +191,7 @@ define([
                     'message':'Задача не выбрана.',
                     'buttons':[
                         {
-                            'value':'Окей',
+                            'value':'Ок',
                             'onclick':function () {
                                 delete addToPlanDialog.message_window;
                             }
