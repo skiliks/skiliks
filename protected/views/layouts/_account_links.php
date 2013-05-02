@@ -22,7 +22,7 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site', 'Product'), 'url' => ['/static/pages/product'], 'visible' => Yii::app()->user->isGuest],
         ['label' => Yii::t('site', 'Pricing & Plans'), 'url' => ['/static/pages/tariffs'], 'visible' => Yii::app()->user->isGuest],
         [
-            'label'   => Yii::t('site', 'Corporate dashboard'),
+            'label'   => Yii::t('site', 'Work dashboard'),
             'url'     => ['/static/dashboard/index'],
             'visible' => $isCorporate && !Yii::app()->user->isGuest,
             'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
