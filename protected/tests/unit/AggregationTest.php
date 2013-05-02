@@ -47,4 +47,60 @@ class AggregationTest extends CDbTestCase
 
         $this->assertEquals(100, $learningAreaValue->value, 'value Area');
     }
+
+    /**
+     * Проверяет что за очки в AssessmentPoint пользователь получит оценку в AssessmentAggregated
+     *
+     * @throws InvalidArgumentException
+     */
+    public function testMatrixPointsAggregation()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        foreach ($simulation->game_type->getHeroBehavours([]) as $behaviour) {
+            if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) {
+                $point1           = new AssessmentPoint();
+                $point1->sim_id   = $simulation->id;
+                $point1->point_id = $behaviour->id;
+                $point1->value    = 1;
+                $point1->save();
+
+                $point0           = new AssessmentPoint();
+                $point0->sim_id   = $simulation->id;
+                $point0->point_id = $behaviour->id;
+                $point0->value    = 0;
+                $point0->save();
+            } elseif ($behaviour->type_scale == HeroBehaviour::TYPE_NEGATIVE) {
+                $point1           = new AssessmentPoint();
+                $point1->sim_id   = $simulation->id;
+                $point1->point_id = $behaviour->id;
+                $point1->value    = 1;
+                $point1->save();
+
+                $point2           = new AssessmentPoint();
+                $point2->sim_id   = $simulation->id;
+                $point2->point_id = $behaviour->id;
+                $point2->value    = 1;
+                $point2->save();
+            }
+        }
+
+        SimulationService::saveAggregatedPoints($simulation->id);
+        SimulationService::applyReductionFactors($simulation);
+
+        foreach ($simulation->assessment_aggregated as $mark) {
+            if ($mark->point->type_scale == HeroBehaviour::TYPE_POSITIVE) {
+                $this->assertEquals($mark->fixed_value, $mark->point->scale/2, $mark->point->code);
+            } elseif ($mark->point->type_scale == HeroBehaviour::TYPE_NEGATIVE) {
+                $this->assertEquals($mark->fixed_value, $mark->point->scale*2, $mark->point->code);
+            } else {
+                throw new InvalidArgumentException('Matrix behaviour produce assessment on personal scale!', 10);
+            }
+        }
+    }
 }
