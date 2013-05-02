@@ -3222,9 +3222,6 @@ ul.profile-menu li {
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
-    .container>header {
-        height:
-    }
     .narrow-contnt {
         margin-left: 10px;
     }
@@ -4087,12 +4084,25 @@ ul.profile-menu li {
 
 }
 
+.errorMessage .cufon {
+    color : #bd2929;
+}
+
+.errorMessage select,
+.errorMessage textarea,
+.errorMessage input,
+.errorMessage .sbHolder,
+.dashboard .error select,
+.dashboard .error textarea,
+.dashboard .error input,
+.dashboard .error .sbHolder,
 .error select,
 .error textarea,
 .error input,
 .error .sbHolder {
     border : 2px solid #bd2929;
 }
+    }
 
 /* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
