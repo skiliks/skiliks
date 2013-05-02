@@ -184,7 +184,6 @@ define([
 
             onAddDocument : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    window.elfinderInstace.exec('reload');
                     var is_paused = $('.time').hasClass('paused');
                     if(is_paused){
                         throw new Error("Игра уже на паузе!");
@@ -198,6 +197,7 @@ define([
                         'buttons': []
                     });
                 }
+                window.elfinderInstace.exec('reload');
             },
 
             /**
