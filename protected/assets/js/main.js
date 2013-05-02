@@ -1,3 +1,4 @@
+
 /* global $, console, jQuery, Cufon, confirm */
 (function ($) {
     "use strict";
