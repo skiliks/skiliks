@@ -19,7 +19,7 @@ define([
         'events': {
             'click .pass-video': 'handleClick'
         },
-        initialize:function () {
+        show: function() {
             var me = this;
             this.$el.html(_.template(template_intro));
             this.$el.find('#skiliks_intro').bind('ended', function () {
@@ -27,7 +27,7 @@ define([
                 this.src = '';
                 me.$(this).remove();
                 me.$el.unbind("mousemove");
-                me.trigger('simulationStart');
+                me.appLaunch();
             });
 
             this.$el.mousemove( function(e) {
@@ -38,7 +38,8 @@ define([
                 }
             });
         },
-        eventHandler: function() {
+
+        appLaunch: function() {
             window.SKApp = new SKApplication(window.gameConfig);
             window.AppView = new SKApplicationView();
 

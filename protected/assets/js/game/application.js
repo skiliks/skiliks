@@ -18,13 +18,11 @@ require([
 
     if (compatibility.check(window.gameConfig)) {
         $(function () {
-            //var View1 = Backbone.View.extend();
+           var intro = new SKIntroView();
            if($.cookie('intro_is_watched') === undefined || $.cookie('intro_is_watched') === null){
-               var intro = new SKIntroView();
-               intro.bind('simulationStart', intro.eventHandler);
+               intro.show();
            }else{
-               window.SKApp = new SKApplication(window.gameConfig);
-               window.AppView = new SKApplicationView();
+               intro.appLaunch();
            }
         });
     }
