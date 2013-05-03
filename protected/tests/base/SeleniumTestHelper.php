@@ -661,5 +661,12 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
     }
+
+    public function __construct()
+    {
+        register_shutdown_function($this->stopSession());
+
+        parent::__construct();
+    }
 }
 
