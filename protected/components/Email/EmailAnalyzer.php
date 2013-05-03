@@ -803,69 +803,6 @@ class EmailAnalyzer
         );
     }
 
-    public function standardCheck()
-    {
-        $mailBehaviours = array();
-        
-        foreach ($this->mailPoints as $mailPoint) {
-            $code = $this->points[$mailPoint->point_id]->code;
-            // check only existed mailPoints
-            if (false === in_array($code, $this->getExceptionPointCodes())) {
-                $mailBehaviours[$mailPoint->point_id] = array(
-                    'total' => 0,
-                    'score' => 0,
-                );
-            }
-        }
-        
-        // use all emails in simulation
-        foreach ($this->userEmails as $emailData) {
-            // points must be calculated for readed or sended emails only
-              
-            if ($this->isOutbox($emailData->email) || 
-                $this->isInbox($emailData->email) || 
-                $this->isInTrash($emailData->email)) {
-                
-                // go throw ailPoints
-                foreach ($this->mailPoints as $mailPoint) {
-                    // exept special scored points
-                    $code = $this->points[$mailPoint->point_id]->code;
-                    if (false === in_array($code, $this->getExceptionPointCodes())) {
-                         
-                        if ($mailPoint->mail_id == $emailData->email->template_id) {
-                            $mailBehaviours[$mailPoint->point_id]['total']++;
-                            $mailBehaviours[$mailPoint->point_id]['score'] = $mailPoint->add_value;
-                        }
-                    }
-                }
-            }
-        }
-        
-        $behaves = array();
-        foreach ($this->points as $behave) {
-            $behaves[$behave->id] = $behave;
-        }
-        unset($behave);
-        
-        foreach ($mailBehaviours as $pointId => $mBehave) {
-            if (0 == $mBehave['total']) { 
-                $mBehave['total'] = 1; // prevent devision by zero. If total = 0, than score = 0 too. So value wiil be right.         
-            }
-            
-            $k = $behaves[$pointId]->scale;
-            if (2 == $behaves[$pointId]->type_scale) {
-                $mailBehaviours[$pointId]['value'] = -$k;
-            } else {
-                $mailBehaviours[$pointId]['value'] = ($mBehave['score']/$mBehave['total'])*$k;
-            }
-            $mailBehaviours[$pointId]['obj'] = $behaves[$pointId];
-        }
-        
-        return $mailBehaviours;
-        
-        // return point array
-    }
-
     // --- tools: ------------------------------------------------------------------------------------------------------
     
     /**

@@ -90,6 +90,7 @@ define([
                 'remote_replica':            remote_replica,
                 'my_replicas':               my_replicas,
                 'audio_src':                 event.getAudioSrc(),
+                'type':                      'audio/wav',
                 isUserCanFinalizeCall: this.isUserCanFinalizeCall
             });
 
