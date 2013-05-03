@@ -164,6 +164,16 @@ define([
                     return;
                 }
 
+                // if crushed excel not opened this moment - reload it without dialog ("in silent mode") {
+                var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: doc.get('id')})[0];
+                if (null === window) {
+                    delete SKDocument._excel_cache[doc.get('id')];
+                    SKApp.simulation.documents.remove(doc);
+                    SKApp.simulation.documents.fetch();
+                    return;
+                }
+                // if crushed excel not opened this moment }
+
                 me.zohoErrorDialog = me.zohoErrorDialog || new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ<br/> Будет загружена последняя автосохранённая копия.',
                     'modal': true,

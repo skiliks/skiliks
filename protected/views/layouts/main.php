@@ -144,11 +144,16 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
-                <nav>
-                    <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
-                    <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
-                    <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
+                <nav id="footer-menu">
+                    <?php $this->renderPartial('//layouts/_account_links') ?>
                 </nav>
+                <?php /*
+                    <nav>
+                        <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
+                        <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
+                        <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
+                    </nav>
+                */ ?>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
             <script type="text/javascript"> Cufon.now(); </script>
