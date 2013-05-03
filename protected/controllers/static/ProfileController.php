@@ -368,6 +368,9 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
         if ($vacancy->validate()) {
             $vacancy->save();
+            $cookie = new CHttpCookie('recently_added_vacancy_id', $vacancy->id);
+            $cookie->expire = time() + 60*60*3;
+            Yii::app()->request->cookies['recently_added_vacancy_id'] = $cookie;
             $errors = true;
         } else {
             foreach ($vacancy->getErrors() as $key => $error) {
