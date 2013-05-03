@@ -25,34 +25,6 @@ class CalculationEstimateService
         $model->value = $point;
         $model->save();
     }
-
-    /**
-     * @param Simulation $simulation
-     * @return mixed array
-     */
-    public static function getExcelPointsValues($simulation)
-    {
-        $formulaCollection = ExcelPointFormulal::model()->findAll();
-
-        $formulaList = array();
-
-        foreach ($formulaCollection as $formulaModel) {
-            $formulaList[$formulaModel->id] = array(
-                'formula' => $formulaModel->formula,
-                'value' => 0
-            );
-        }
-
-        $excelPoints = SimulationExcelPoint::model()->bySimulation($simulation->id)->findAll();
-
-        foreach ($excelPoints as $excelPoint) {
-            if (isset($formulaList[$excelPoint->formula_id])) {
-                $formulaList[$excelPoint->formula_id]['value'] = $excelPoint->value;
-            }
-        }
-
-        return $formulaList;
-    }
 }
 
 
