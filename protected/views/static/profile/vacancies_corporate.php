@@ -39,7 +39,7 @@
 
     <?php // add_vacancy_form { ?>
         <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
-            <?php $this->renderPartial('_add_vacancy_form', [
+            <?php $this->renderPartial('//global_partials/_add_vacancy_form', [
                 'vacancy'         => $vacancy,
                 'positionLevels'  => $positionLevels,
                 'specializations' => $specializations,

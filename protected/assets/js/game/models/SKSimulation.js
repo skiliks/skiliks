@@ -166,12 +166,16 @@ define([
 
                 // if crushed excel not opened this moment - reload it without dialog ("in silent mode") {
                 var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: doc.get('id')})[0];
-                if (null === window) {
+                console.log('active doc window', window);
+                console.log('active doc id', doc.get('id'));
+                console.log(undefined === typeof window);
+                if (!window) {
                     delete SKDocument._excel_cache[doc.get('id')];
                     SKApp.simulation.documents.remove(doc);
                     SKApp.simulation.documents.fetch();
                     return;
                 }
+                console.log('+');
                 // if crushed excel not opened this moment }
 
                 me.zohoErrorDialog = me.zohoErrorDialog || new SKDialogView({

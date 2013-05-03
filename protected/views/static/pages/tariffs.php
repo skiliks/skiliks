@@ -52,7 +52,7 @@ $lang = Yii::app()->getLanguage();
     </p>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
-        <?php $this->renderPartial('//layouts/addthis', ['force' => true]) ?>
+        <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
     </span>
     </div>
 </div>
