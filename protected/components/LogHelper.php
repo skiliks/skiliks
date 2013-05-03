@@ -71,34 +71,6 @@ class LogHelper
     }
 
 
-    public static function logFilter($logs)
-    {
-
-        if (!is_array($logs)) return false;
-        for ($key = 0; $key < count($logs); $key++) {
-            if (isset($logs[$key - 1])) {
-                if (
-                    $logs[$key][0] == $logs[$key - 1][0] AND
-                    $logs[$key][1] == $logs[$key - 1][1] AND
-                    $logs[$key][2] != $logs[$key - 1][2] AND
-                    $logs[$key][3] == $logs[$key - 1][3] AND
-                    $logs[$key]['window_uid'] == $logs[$key]['window_uid'] AND
-                    (
-                        count($logs[$key]) < 5 OR
-                        (isset($logs[$key][4]) && isset($logs[$key - 1][4]) && $logs[$key][4] == $logs[$key - 1][4])
-                    )
-                ) {
-                    array_splice($logs, $key - 1, 2);
-                    $key -= 2;
-                } else {
-                    continue;
-                }
-            } else {
-                continue;
-            }
-        }
-        return $logs;
-    }
 
     private static function order($order_col, $columns, $order_type = "asc")
     {
