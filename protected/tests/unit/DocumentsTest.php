@@ -78,4 +78,35 @@ Server: ZGS";
         //$this->assertEquals($zoho->getUrl(), 'https://sheet.zoho.com/editor.do?doc=c2826da1f9894a54366f67ddf2326ff00c1ce3234acde876');
     }
 
+    public function testLoadZohoFile(){
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $documentTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D1',
+            'scenario_id' => $simulation->scenario_id,
+        ]);
+
+        $file = MyDocument::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $documentTemplate->primaryKey,
+        ]);
+        $budgetPath = __DIR__ . '/files/D1.xls';
+        ZohoDocuments::saveFile(
+            "0-".$file->primaryKey,
+            $budgetPath,
+            'xls'
+        );
+        $save_file = __DIR__.'/../../../'.sprintf(
+            'documents/zoho/%s.%s',
+            $file->uuid,
+            'xls'
+        );
+        $this->assertFileExists($save_file);
+    }
+
 }
