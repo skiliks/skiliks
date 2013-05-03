@@ -2041,7 +2041,8 @@ html[lang="en"] .footer .social_networks {
     color: #fff;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close,
-.sing-in-pop-up .ui-dialog-titlebar-close, .cabmessage .ui-dialog-titlebar-close {
+.sing-in-pop-up .ui-dialog-titlebar-close, .cabmessage .ui-dialog-titlebar-close,
+.add-vacancy-popup .ui-dialog-titlebar-close {
     margin:0;
     width: 27px;
     height: 27px;
@@ -2055,13 +2056,14 @@ html[lang="en"] .footer .social_networks {
     top:-35px;
     right: -20px;
 }
-.cabmessage .ui-dialog-titlebar-close:hover, .cabmessage .ui-state-hover {
+.cabmessage .ui-dialog-titlebar-close:hover, .cabmessage .ui-state-hover,
+.add-vacancy-popup .ui-dialog-titlebar-close:hover, .add-vacancy-popup .ui-state-hover {
     background-position: left bottom;
     border: none;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-.cabmessage .ui-widget-header .ui-icon {
+.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon {
     display: block;
     margin: 0;
     height: 100%;
@@ -2070,7 +2072,7 @@ html[lang="en"] .footer .social_networks {
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-.cabmessage .ui-dialog-titlebar-close:hover {
+.cabmessage .ui-dialog-titlebar-close:hover, .add-vacancy-popup .ui-widget-header .ui-icon:hover {
     background-position: 0 100%;
 }
 @media screen and (max-width: 1280px){
@@ -2100,7 +2102,7 @@ html[lang="en"] .footer .social_networks {
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
     }
-    .ui-dialog .ui-dialog-title {
+    .ui-dialog .ui-dialog-title, /*.add-vacancy-popup h1 */  {
         font-size:22px;
     }
 	.login-form{
@@ -3229,6 +3231,27 @@ ul.profile-menu li {
     display: block;
     height: 15px;
 }
+
+/* ******************** Add vacancy popup ************** */
+.add-vacancy-popup {
+    background: url("../img/vacancybg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border: none;
+    overflow: visible;
+    position: relative;
+}
+.add-vacancy-popup h1 {
+    padding-bottom: 20px;
+}
+.add-vacancy-popup #add-vacancy-form label {
+    color:#146672;
+    display: inline-block;
+    font-size: 14px;
+    width:145px;
+}
+.add-vacancy-popup .row {
+    vertical-align: top;
+}
+/* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 @media screen and (max-width: 1280px){
@@ -3260,7 +3283,7 @@ ul.profile-menu li {
     .inner-team .content {
         padding-bottom: 180px;
     }
-    #dashboard-skills-box, .nice-border {
+    #dashboard-skills-box, .nice-border, .add-vacancy-popup {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
     .inner .dashboard .thetitle {

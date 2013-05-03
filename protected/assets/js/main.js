@@ -292,7 +292,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a',
     {fontFamily:"ProximaNova-Regular", hover:true});
-Cufon.replace('.profile-menu a, .inviteaction', {fontFamily:"ProximaNova-Regular"});
+Cufon.replace('.profile-menu a, .inviteaction, .add-vacancy-popup .ui-widget-content label', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
     '#account-personal-personal-form .row .value, .profileform input[type=submit]',
     {fontFamily:"ProximaNova-Bold", hover:true}
