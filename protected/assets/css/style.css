@@ -3236,6 +3236,8 @@ ul.profile-menu li {
 .add-vacancy-popup {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
+    left:50% !important;
+    margin-left:-292px !important;
     overflow: visible;
     position: relative;
     width:584px !important;
@@ -3251,12 +3253,14 @@ ul.profile-menu li {
     color:#146672;
     display: inline-block;
     font-size: 14px;
+    height: 30px;
     width:145px;
 }
 .add-vacancy-popup .sbHolder {
     width:385px;
 }
 .add-vacancy-popup .form-vacancy input[type="text"] {
+    color:#146672;
     width:380px;
 }
 .add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
@@ -3272,6 +3276,19 @@ ul.profile-menu li {
     padding: 0px 6px;
     font-weight: bold;
     width: 10px;
+}
+#invite-form .v {
+    position: relative;
+}
+#invite-form #corporate-dashboard-add-vacancy {
+    bottom:0px;
+    position: absolute;
+    right:4px;
+}
+.add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
+    left:150px;
+    position: absolute;
+    top:0px;
 }
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
@@ -3454,7 +3471,7 @@ ul.profile-menu li {
         width: 130px;
     }
     .invite-people-form .sbHolder {
-        width: 120px;
+        width: 117px;
     }
     #simulations-counter-box, #invite-people-box {
         width:200px;
@@ -4141,7 +4158,32 @@ ul.profile-menu li {
         line-height:18px;
         width: 6px;
     }
-
+    .add-vacancy-popup {
+        background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+        height: 330px !important;
+        margin-left: -212px !important;
+        width: 424px !important;
+    }
+    .add-vacancy-popup h1 {
+        font-size: 22px;
+    }
+    .add-vacancy-popup .form-vacancy label {
+        font-size: 11px;
+        width: 115px;
+    }
+    .add-vacancy-popup .sbHolder {
+        width: 260px;
+    }
+    .add-vacancy-popup .form-vacancy input[type="text"] {
+        font-size: 11px;
+        height: 18px;
+        line-height: 18px;
+        padding: 1px 4px;
+        width: 252px;
+    }
+    .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
+        left: 115px;
+    }
 }
 
 
