@@ -228,24 +228,34 @@
             return false;
         });
         // password recovery }
+
+        // logout {
         $(".log-out-link").click(function(){
-
-        var lastGetState = new Date();
-        if(localStorage.getItem('lastGetState') === null){
-           return true;
-        } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-            if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
-                //window.alert("Ок");
-                return true;
+            var lastGetState = new Date();
+            if(localStorage.getItem('lastGetState') === null){
+               return true;
+            } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
+                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                    //window.alert("Ок");
+                    return true;
+                } else {
+                    //window.alert("Тупак");
+                    return false;
+                }
             } else {
-                //window.alert("Тупак");
-                return false;
+                return true;
             }
-        } else {
-            return true;
-        }
-
         });
+        // logout }
+
+        // set recently added vacancy selected in vacancy drop-down {
+        console.log('recently_added_vacancy_id : cookie : ', $.cookie('recently_added_vacancy_id'));
+        if (null !== $.cookie('recently_added_vacancy_id')) {
+            $('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']').attr('selected', 'selected');
+            console.log($('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']'));
+            $.cookie('recently_added_vacancy_id', null);
+        }
+        // set recently added vacancy selected in vacancy drop-down }
     });
 })(jQuery);
 
