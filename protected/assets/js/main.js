@@ -256,6 +256,11 @@
             $.cookie('recently_added_vacancy_id', null);
         }
         // set recently added vacancy selected in vacancy drop-down }
+
+        // add CSS classes to customize error message by form-field-name
+        $(".errorMessage").each(function(){
+            $(this).addClass($(this).prev("input.error").attr("id"));
+        });
     });
 })(jQuery);
 

@@ -485,7 +485,6 @@ class MailBoxTest extends CDbTestCase
             }, $simulation->game_type->getCharacters(['code' => $codes]));
         };
 
-        // Lets send to our analytics
         $recipients = $getRandomCharacters();
         $copies = $getRandomCharacters();
 
@@ -516,6 +515,74 @@ class MailBoxTest extends CDbTestCase
         $this->assertSame($sentMessage->id, $foundMessage['id']);
         $this->assertSame($subject->text, $foundMessage['subject']);
         $this->assertEquals(count($recipients), count(explode(',', $foundMessage['receiver'])));
+    }
+
+    public function testSendMessagePro()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $toList = function($modelList) {
+            return array_map(function(CActiveRecord $model) {
+                return $model->getPrimaryKey();
+            }, $modelList);
+        };
+
+        $getRandomCharacters = function($min = 1, $max = 3) use ($simulation, $toList) {
+            $codes = range(1, 20);
+            shuffle($codes);
+            $codes = array_slice($codes, 0, rand($min, $max));
+
+            return $toList($simulation->game_type->getCharacters(['code' => $codes]));
+        };
+
+        $criteria = new CDbCriteria([
+            'limit' => 1,
+            'order' => 'rand()'
+        ]);
+
+
+        $recipients = $getRandomCharacters();
+        $copies = $getRandomCharacters(0, 5);
+
+        $condition = clone $criteria;
+        $subject = $simulation->game_type->getCommunicationTheme($condition);
+
+        $condition = clone $criteria;
+        $condition->addColumnCondition(['sim_id' => $simulation->id]);
+        $doc = MyDocument::model()->find($condition);
+
+        $condition = clone $criteria;
+        $condition->limit = rand(0, 50);
+        $condition->addColumnCondition(['scenario_id' => $simulation->game_type->id]);
+        $phrases = $toList(MailPhrase::model()->findAll($condition));
+
+        $condition = clone $criteria;
+        $condition->addColumnCondition(['sim_id' => $simulation->id]);
+        $someEmail = MailBox::model()->find($condition);
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', $recipients));
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = $someEmail->id;
+        $sendMailOptions->setLetterType(MailBox::TYPE_REPLY);
+        $sendMailOptions->time       = date('H:i', rand(32400, 64800));
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->fileId = $doc->id;
+        $sendMailOptions->phrases = implode(',', $phrases);
+
+        $sentMessage = MailBoxService::sendMessagePro($sendMailOptions);
+
+        $this->assertInstanceOf('MailBox', $sentMessage);
+        $this->assertGreaterThan($someEmail->id, $sentMessage->id);
+        $this->assertSame($subject->id, $sentMessage->subject_id);
     }
 }
 

@@ -44,7 +44,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
+            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
             if ($profile) {
@@ -54,6 +54,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
             if (null == $invite->vacancy && empty($vacancies)) {
                 $invite->clearErrors('vacancy_id');
                 $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
+                $validPrevalidate = false;
+            }
+
+            if (0 == $this->user->account_corporate->invites_limit) {
+                $invite->addError('invitations', 'У вас закончились приглашения');
                 $validPrevalidate = false;
             }
 
@@ -70,6 +75,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             );
 
             $invite->signature = sprintf(Yii::t('site', 'Best regards, %s'), $invite->ownerUser->getFormattedName());
+
         }
 
         // handle send invitation {
