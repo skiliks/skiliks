@@ -6,7 +6,6 @@ def deploy():
         sudo('git pull', user='skiliks')
         sudo('phing -Dstage=real', user='skiliks')
         sudo('./yiic migrate', user='skiliks')
-        sudo('service php5-fpm reload')
 
 def reimport():
     with cd('/srv/www/skiliks'):
