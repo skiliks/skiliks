@@ -17,6 +17,7 @@
  * @property MailTemplate template
  * @property Simulation simulation
  * @property CommunicationTheme subject_obj
+ * @property MailAttachment $attachment
  *
  */
 class MailBox extends CActiveRecord
@@ -256,6 +257,7 @@ class MailBox extends CActiveRecord
             'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
             'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id'),
             'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+            'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),
         );
     }
 
