@@ -63,19 +63,13 @@ class PagesController extends AjaxController
 
         // is Tariff exist
         if (null == $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тарифа "%s" не существует.',
-                $type
-            ));
+
             $this->redirect('/static/tariff');
         }
 
         // in release 1 - user can use "Lite" plan only
         if (Tariff::SLUG_LITE != $type) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тариф "%s" не доступен к выбору. <br/><br/>Используйте форму обтатной связи чтоб всязаться с нами и сменить тарыфный план на интересующий Вас.',
-                $tariff->label
-            ));
+
             $this->redirect('/static/tariff');
         }
 
@@ -118,11 +112,7 @@ class PagesController extends AjaxController
             $user->getAccount()->save();
 
             if($user->getAccount()->tariff_id == $tariff->id) {
-                //@popup
-                //Yii::app()->user->setFlash('success', sprintf(
-                //    'Тарифный план "%s" активирован для вашего профиля.',
-                //    $tariff->label
-                //));
+
                 $this->redirect('/profile/corporate/tariff');
             }
 

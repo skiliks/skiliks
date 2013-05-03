@@ -125,7 +125,7 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status === Invite::STATUS_DECLINED){
-            Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.');
+            //Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.'); TODO:Проблемный попап
             $this->redirect('/');
         }
 
@@ -610,8 +610,6 @@ class UserAuthController extends YumController
         $userAccountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
         $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
-        // redirect to success message page
-        //Yii::app()->user->setFlash( 'success', 'Вы успешно подтвердили свой корпоративный e-mail.' );
         $this->redirect('/dashboard');
     }
     
@@ -621,8 +619,6 @@ class UserAuthController extends YumController
     public function actionPleaseConfirmCorporateEmail()
     {
         $this->checkUser();
-
-        Yii::app()->user->setFlash( 'success', Yii::t('site', 'We send corporate-email-address verification email to you.<br/> Please, confirm your corporate email by link in this letter.'));
 
         $this->render('emptyPage');
     }
