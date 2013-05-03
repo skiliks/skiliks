@@ -6,7 +6,6 @@ var SKSimulation;
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
-    "text!game/jst/world/pause_screen.jst",
 
     "game/collections/SKCharacterCollection",
     "game/collections/SKEventCollection",
@@ -21,7 +20,6 @@ define([
 ],function (
     SKMailClient,
     SKFlagStateView,
-    pause_screen_template,
     SKCharacterCollection
 ) {
     "use strict";
@@ -141,7 +139,11 @@ define([
                         if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
-                            SKApp.simulation.loadDocsDialog.remove();
+                            //$('.time').removeClass('paused');
+                            SKApp.simulation.stopPause(function(){
+                                $('.time').removeClass('paused');
+                                SKApp.simulation.loadDocsDialog.remove();
+                            });
                         }
                     }
                 });
@@ -180,8 +182,15 @@ define([
                 });
             },
 
-            'onAddDocument' : function(){
+            onAddDocument : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                    var is_paused = $('.time').hasClass('paused');
+                    if(is_paused){
+                        throw new Error("Игра уже на паузе!");
+                    } else {
+                        $('.time').addClass('paused');
+                        SKApp.simulation.startPause();
+                    }
                     this.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
@@ -225,12 +234,12 @@ define([
              */
             'getGameSeconds':function () {
                 var me = this;
-                var current_time_string = new Date();
+                var current_time_string = me.paused_time || new Date();
                 var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
-                return game_start_time +
+                return game_start_time + (me.start_time ?
                     Math.floor(
                         ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
-                    );
+                    ) : 0);
             },
 
             /**
@@ -284,6 +293,8 @@ define([
              * @method getNewEvents
              */
             'getNewEvents':function (cb) {
+                var nowDate = new Date();
+                localStorage.setItem('lastGetState', nowDate.getTime());
                 var me = this;
                 var logs = this.windowLog.getAndClear();
                 SKApp.server.apiQueue('events', 'events/getState', {
@@ -349,7 +360,10 @@ define([
                     me.getNewEvents(function () {
                         me.trigger('start');
                     });
+                    me.events.getUnreadMailCount();
                     me._startTimer();
+                    var nowDate = new Date();
+                    localStorage.setItem('lastGetState', nowDate.getTime());
                 });
             },
 
@@ -391,6 +405,7 @@ define([
                     // trick for sim-stop at 20:00
                     // see SKSimulationView.stopSimulation();
                     $('.mail-popup-button').show();
+                    localStorage.removeItem('lastGetState');
                 });
             },
 
@@ -424,14 +439,18 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
-                    me._startTimer();
-                    me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
-                    delete me.paused_time;
-                    me.trigger('pause:stop');
+                    if( me.paused_time !== undefined )
+                    {
+                        me._startTimer();
+                        me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                        delete me.paused_time;
+                        me.trigger('pause:stop');
 
-                    if (typeof callback === 'function') {
-                        callback(responce);
+                        if (typeof callback === 'function') {
+                            callback(responce);
+                        }
                     }
+
                 });
             },
 

@@ -1,20 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "feedback".
+ * This is the model class for table "position_level".
  *
- * The followings are the available columns in table 'feedback':
- * @property integer $id
- * @property string $theme
- * @property string $message
- * @property string $email
+ * The followings are the available columns in table 'position_level':
+ * @property string $slug
+ * @property string $label
+ *
+ * The followings are the available model relations:
+ * @property Vacancy[] $vacancies
  */
-class Feedback extends CActiveRecord
+class PositionLevel extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Feedback the static model class
+	 * @return PositionLevel the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -26,7 +27,7 @@ class Feedback extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'feedback';
+		return 'position_level';
 	}
 
 	/**
@@ -37,16 +38,12 @@ class Feedback extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('theme', 'required', 'message' => Yii::t('site', 'Theme is required')),
-			array('message', 'required', 'message' => Yii::t('site', 'Message is required')),
-			array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
-			array('theme', 'length', 'max'=>200),
-			array('email', 'length', 'max'=>100),
-			array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
-			array('message', 'safe'),
+			array('slug, label', 'required'),
+			array('slug', 'length', 'max'=>50),
+			array('label', 'length', 'max'=>120),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, theme, message, email', 'safe', 'on'=>'search'),
+			array('slug, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +55,7 @@ class Feedback extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'vacancies' => array(self::HAS_MANY, 'Vacancy', 'position_level_slug'),
 		);
 	}
 
@@ -67,10 +65,8 @@ class Feedback extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'theme' => Yii::t('site', 'Theme'),
-			'message' => Yii::t('site', 'Message'),
-			'email' => Yii::t('site', 'Email'),
+			'slug' => 'Slug',
+			'label' => 'Label',
 		);
 	}
 
@@ -85,10 +81,8 @@ class Feedback extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('theme',$this->theme,true);
-		$criteria->compare('message',$this->message,true);
-		$criteria->compare('email',$this->email,true);
+		$criteria->compare('slug',$this->slug,true);
+		$criteria->compare('label',$this->label,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

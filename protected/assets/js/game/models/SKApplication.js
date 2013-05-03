@@ -27,6 +27,10 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
                 this.simulation = new SKSimulation({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
             },
 
+            run: function() {
+                this.simulation.start();
+            },
+
             /**
              * Очищает текущего пользователя симуляции
              * @method clearUser

@@ -695,7 +695,7 @@ pre {
   margin: 0 0 9px;
   font-size: 12.025px;
   line-height: 18px;
-  word-break: break-all;
+  word-break: normal;
   word-wrap: break-word;
   white-space: pre;
   white-space: pre-wrap;

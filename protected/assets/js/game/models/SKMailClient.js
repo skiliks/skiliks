@@ -110,6 +110,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'NEW_EMAIL'
             ],
 
+            iconsForMailPreviewScreenArray:[
+                'REPLY_EMAIL',
+                'REPLY_ALL_EMAIL',
+                'FORWARD_EMAIL',
+                'ADD_TO_PLAN'
+            ],
+
             // --------------------------------------------------
 
             // @var string
@@ -746,13 +753,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (response) {
                         // and display message for user
                         if (response.result === 1) {
+
                             SKApp.simulation.mailClient.message_window = new SKDialogView({
                                 'message':'Файл был успешно сохранён в папку Мои документы.',
                                 'buttons':[
                                     {
-                                        'value':'Окей',
+                                        'value':'Ок',
                                         'onclick':function () {
                                             delete SKApp.simulation.mailClient.message_window;
+                                            if(window.elfinderInstace !== undefined){
+                                                window.elfinderInstace.exec('reload');
+                                            }
                                         }
                                     }
                                 ]
@@ -1121,6 +1132,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
                 }
+
+                this.trigger('process:start');
                 SKApp.server.api(
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
@@ -1135,14 +1148,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     callback();
                                 }
                                 me.trigger('mail:sent');
+                                me.trigger('process:finish');
                             }); // callback is usually 'render active folder'
                         } else {
+                            me.trigger('process:finish');
                             me.message_window =
                                 me.message_window || new SKDialogView({
                                     'message':'Не удалось отправить письмо.',
                                     'buttons':[
                                         {
-                                            'value':'Окей',
+                                            'value':'Ок',
                                             'onclick':function () {
                                                 delete SKApp.simulation.mailClient.message_window;
                                             }
@@ -1169,7 +1184,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'message':'Добавьте адресата письма.',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete mailClient.message_window;
                                 }
@@ -1185,7 +1200,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'message':'Укажите тему письма.',
                         'buttons':[
                             {
-                                'value':'Окей',
+                                'value':'Ок',
                                 'onclick':function () {
                                     delete mailClient.message_window;
                                 }
@@ -1213,6 +1228,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     return false;
                 }
 
+                this.trigger('process:start');
                 SKApp.server.api(
                     'mail/saveDraft',
                     mailClient.combineMailDataByEmailObject(emailToSave),
@@ -1228,7 +1244,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 'message':'Не удалось сохранить письмо.',
                                 'buttons':[
                                     {
-                                        'value':'Окей',
+                                        'value':'Ок',
                                         'onclick':function () {
                                             delete mailClient.message_window;
                                         }
@@ -1236,6 +1252,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 ]
                             });
                         }
+
+                        mailClient.trigger('process:finish');
                     }
                 );
                 return true;

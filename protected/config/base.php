@@ -152,6 +152,7 @@ return array(
                 'static/admin/saveLog/<simulation\w+>' => 'static/admin/saveLog',
                 'cheat/dialogsAnalyzer'   => 'static/admin/dialogsAnalyzer',
                 'cheat/uploadDialogsToAnalyzer'   => 'static/admin/uploadDialogsToAnalyzer',
+                'cheat/assessments/grid'   => 'static/cheats/assessmentsGrid',
                 'Admin/Log'              => 'static/Admin/Log',
 
                 'logout'                  => 'static/userAuth/logout',
@@ -209,6 +210,8 @@ return array(
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
 
+                'vacancy/add'                     => 'static/profile/vacancyAdd',
+
                 'profile/getSpecialization'       => 'static/profile/getSpecialization',
                 'profile/corporate/vacancy/<id:\w+>/remove' => 'static/profile/removeVacancy',
                 'profile/corporate/vacancy/<id:\w+>/edit' => 'static/profile/corporateVacancies',
@@ -224,6 +227,7 @@ return array(
                 'notifications/'          => 'static/notifications/index',
                 'notifications/corporate' => 'static/notifications/corporate',
                 'notifications/personal'  => 'static/notifications/personal',
+                'fail-recovery/'  => 'static/userAuth/FailRecovery',
 
                 'simulations/'                 => 'static/simulations/index',
                 'simulations/details/<id:\w+>' => 'static/simulations/details',
@@ -290,6 +294,7 @@ return array(
                 'static/pages/team',
                 'static/pages/product',
                 'static/pages/tariffs',
+                'static/pages/feedback',
             ]
         ],
         // This part will be sent to JS

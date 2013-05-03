@@ -168,6 +168,18 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.options.model_instance.setOnTop();
         },
 
+        block: function() {
+            if (!this.$('.overlay').length) {
+                this.$el.append(this.make('div', {'class': 'overlay hidden'}));
+            }
+
+            this.$('.overlay').removeClass('hidden');
+        },
+
+        unBlock: function() {
+            this.$('.overlay').addClass('hidden');
+        },
+
         _calculateDimensions: function(width, height) {
             var sd = this.dimensions,
                 rd = {},

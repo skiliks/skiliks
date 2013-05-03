@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 /**
  * Created by JetBrains PhpStorm.
  * User: root
@@ -26,11 +29,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         if (false === $this->user->isCorporate() ||
             empty($this->user->account_corporate->is_corporate_email_verified)
         ) {
-            Yii::app()->user->setFlash('error',
-                'У Вас нет прав, т.к. Вы еще не активировали корпоративный профиль.<br/>
-                Проверьте Вашу почту - Вам пришло письмо со ссылкой для активации.'
-            );
-            $this->redirect('/');
+            $this->redirect('userAuth/afterRegistration');
         }
 
         $vacancies = [];
@@ -134,11 +133,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
 
-                    Yii::app()->user->setFlash('success', sprintf(
+                    /*Yii::app()->user->setFlash('success', sprintf(
                         'Приглашение для %s %s успешно сохранено.',
                         $inviteToEdit->firstname,
                         $inviteToEdit->lastname
-                    ));
+                    ));*/
                 }
             }
         }
@@ -208,10 +207,37 @@ class DashboardController extends AjaxController implements AccountPageControlle
         ], true);
 
         $mail = [
-            'from'    => Yum::module('registration')->registrationEmail,
-            'to'      => $invite->email,
-            'subject' => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'    => $body
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $invite->email,
+            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-left.png',
+                    'cid'      => 'mail-left',
+                    'name'     => 'mailleft',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right.png',
+                    'cid'      => 'mail-right',
+                    'name'     => 'mailright',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         ];
 
         $invite->markAsSendToday();
@@ -253,6 +279,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
+        if ($invite->isPending()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
+            ));
+            $this->redirect('/dashboard');
+        }
+
         $firstname = $invite->firstname;
         $lastname  = $invite->lastname;
 
@@ -260,11 +293,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user->getAccount()->increaseLimit($invite);
 
-        Yii::app()->user->setFlash('success', sprintf(
+        /*Yii::app()->user->setFlash('success', sprintf(
             "Приглашение для %s %s удалено!",
             $firstname,
             $lastname
-        ));
+        ));*/
 
         $this->redirect('/dashboard');
     }
@@ -338,7 +371,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
             Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
-            $this->redirect('/');
+            $this->redirect('/dashboard');
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
@@ -354,7 +387,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     Yii::t('site', Invite::$statusText[$invite->status])
                 )
             );
-            $this->redirect('/');
+            $this->redirect('/dashboard');
         }
 
         $this->checkUser();
@@ -423,7 +456,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionDeclineInvite($id)
     {
-        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
 
@@ -485,7 +517,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionValidateDeclineExplanation()
     {
-        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
 
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
@@ -516,7 +547,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     'DeclineReason',
                     'id',
                     'label',
-                    '',
+                    Yii::app()->user->isGuest ? '': 'registration_only!=1',
                     false,
                     ' ORDER BY sort_order DESC'
                 ),

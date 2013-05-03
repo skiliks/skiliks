@@ -66,6 +66,30 @@ class YumMailer {
 			$mailer->AddAddress($to['to'], Yum::module()->phpmailer['msgOptions']['toName']); //FIXME
 			$mailer->Subject = $to['subject'];
 			$mailer->Body = $to['body'];
+
+            if (isset($to['attachments'])) {
+                foreach ($to['attachments'] as $attachment) {
+                    $mailer->AddAttachment(
+                        $attachment['path'],
+                        $attachment['name'],
+                        $attachment['encoding'],
+                        $attachment['type']
+                    );
+                }
+            }
+
+            if (isset($to['embeddedImages'])) {
+                foreach ($to['embeddedImages'] as $attachment) {
+                    $mailer->AddEmbeddedImage(
+                        $attachment['path'],
+                        $attachment['cid'],
+                        $attachment['name'],
+                        $attachment['encoding'],
+                        $attachment['type']
+                    );
+                }
+            }
+
 			return $mailer->Send();
 		} else {
 			if($header == null) {

@@ -1,24 +1,26 @@
-<h2 class="thetitle text-center">Тарифные планы: цена подписки в месяц</h2>
+<h2 class="thetitle text-center"><?= Yii::t('site', 'Pricing & Plans Monthly Rates') ?></h2>
 <?php
 /* @var $tariffs  Tariff[] */
 /* @var $tariff  Tariff */
 /* @var $user  YumUser */
+$lang = Yii::app()->getLanguage();
 ?>
 <div class="tarifswrap">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="nice-border onetariff">
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
-            <div class="price">
-                <p><?php if (floor($tariff->price / 1000)): ?>
-                    <span><?php echo floor($tariff->price / 1000) ?></span>
+            <div class="price <?= $lang ?>">
+                <p><?= $lang == 'en' ? '$' : '' ?>
+                <?php if (floor($tariff->getPrice() / 1000)): ?>
+                    <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
                 <?php endif ?>
-                <?php echo $tariff->price % 1000 ?></p>
+                <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
             <div class="tarifwrap">
 
                 <div class="brightblock">
-                    <?php echo $tariff->getFormattedSafeAmount('Экономия ') ?>
+                    <?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?>
                 </div>
 
                 <div class="simulations-amount lightblock">
@@ -26,8 +28,8 @@
                 </div>
 
                 <div class="benefits">
-                    <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
-                        <p><?php echo $benefit?></p>
+                    <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
+                        <p><?php echo Yii::t('site', $benefit)?></p>
                     <?php endforeach ?>
                 </div>
 
@@ -42,8 +44,13 @@
         </div>
     </div>
 <?php endforeach ?>
-    <p class="text-right text16"><sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести</p>
-    <div class="contwrap"><a class="light-btn feedback">Обратная связь</a>
+
+    <p class="text-right text16">
+        <?php if ($lang == 'ru'): ?>
+        <sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести
+        <?php endif; ?>
+    </p>
+    <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
         <?php $this->renderPartial('//layouts/addthis', ['force' => true]) ?>
     </span>

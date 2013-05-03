@@ -12,16 +12,20 @@ define([
     "text!game/jst/mail/title.jst",
     "text!game/jst/mail/content.jst",
     "text!game/jst/mail/folder_label.jst",
+
     "text!game/jst/mail/income_line.jst",
     "text!game/jst/mail/income_folder_skeleton.jst",
     "text!game/jst/mail/action.jst",
+
     "text!game/jst/mail/preview.jst",
     "text!game/jst/mail/new_email.jst",
     "text!game/jst/mail/phrase.jst",
+
     "text!game/jst/mail/sended_folder_sceleton.jst",
     "text!game/jst/mail/send_mail_line.jst",
     "text!game/jst/mail/read_email_sceleton.jst",
     "text!game/jst/mail/trash_email_line.jst",
+
     "text!game/jst/mail/trash_folder_sceleton.jst",
     "text!game/jst/mail/phrase_item.jst"
 
@@ -116,6 +120,9 @@ define([
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                     me.trigger('render_finished');
                     me.render_finished = true;
+
+                    var window = me.mailClient.getSimulationMailClientWindow();
+                    me.mailClient.window_uid = parseInt(window.window_uid, 10);
                 });
 
                 // render character subjects list
@@ -141,7 +148,6 @@ define([
                 // update inbox emails counter
                 this.listenTo(this.mailClient, 'mail:update_inbox_counter', function () {
                     var unreaded = me.mailClient.getInboxFolder().countUnreaded();
-                    console.log('unreaded: ', unreaded);
                     me.updateMailIconCounter(unreaded);
                     me.updateInboxFolderCounter(unreaded);
                 });
@@ -152,6 +158,9 @@ define([
                 // close with conditions action {
                 this.listenTo(this.options.model_instance, 'pre_close', this.onBeforeClose);
                 // close with conditions action }
+
+                this.listenTo(this.mailClient, 'process:start', this.onMailProcessStart);
+                this.listenTo(this.mailClient, 'process:finish', this.onMailProcessEnd);
 
                 // call parent initialize();
                 SKWindowView.prototype.initialize.call(this);
@@ -635,21 +644,16 @@ define([
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
 
-                        mailClientView.$('.NEW_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.REPLY_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.REPLY_ALL_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.FORWARD_EMAIL').parent('li').css('display', 'none');
-                        mailClientView.$('.ADD_TO_PLAN').parent('li').css('display', 'none');
                         // log {
                         mailClientView.mailClient.setWindowsLog(
                             'mailPreview',
                             $(event.currentTarget).data().emailId
                         );
                         // log }
+
                         mailClientView.renderReadEmail(
                             mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
                         );
-
                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                     } else {
                         // if user clicks on different email lines - activate clicked line email
@@ -1934,7 +1938,7 @@ define([
                     'message': message,
                     'buttons': [
                         {
-                            'value': 'Окей',
+                            'value': 'Ок',
                             'onclick': function () {
                                 delete mailClientView.message_window;
                             }
@@ -2111,7 +2115,7 @@ define([
                                     'message': 'Не удалось отправить черновик адресату.',
                                     'buttons': [
                                         {
-                                            'value': 'Окей',
+                                            'value': 'Ок',
                                             'onclick': function () {
                                                 delete SKApp.simulation.mailClient.message_window;
                                             }
@@ -2221,6 +2225,14 @@ define([
                         }*/
                     }
                 });
+            },
+
+            onMailProcessStart: function(e) {
+                this.block();
+            },
+
+            onMailProcessEnd: function() {
+                this.unBlock();
             }
         });
 

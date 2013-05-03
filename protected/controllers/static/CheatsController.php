@@ -182,8 +182,37 @@ class CheatsController extends AjaxController
         $user->getAccount()->invites_limit = $tariff->simulations_amount;
         $user->getAccount()->save();
 
-        Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
+        //Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
 
         $this->redirect('/profile/corporate/tariff');
+    }
+
+    /**
+     *
+     */
+    public function actionAssessmentsGrid()
+    {
+        $data = [
+            'Итоговый рейтинг менеджера' => [
+                'Управленческие характеристики' => [],
+                'Результативность' => [],
+                'Эффективность использования времени' => [],
+            ],
+            'Личные характеристики' => [[]],
+        ];
+
+        $fullScenario  = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $learningAreas = $fullScenario->getLearningAreas();
+
+        foreach ($learningAreas as $learningArea) {
+            $data['Итоговый рейтинг менеджера']['Управленческие характеристики'][$learningArea->title] = '';
+            $data['Итоговый рейтинг менеджера']['Результативность'][] = '';
+            $data['Итоговый рейтинг менеджера']['Эффективность использования времени'][] = '';
+            $data['Личные характеристики'][0][] = '';
+        }
+
+        $this->render('assessment_grid', [
+            'data' => $data
+        ]);
     }
 }

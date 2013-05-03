@@ -81,5 +81,5 @@ define([], function () {
         _excel_cache: _excel_cache
     });
 
-
+    return SKDocument;
 });

@@ -8,6 +8,7 @@ var SKSimulationView;
 
 define([
     "text!game/jst/world/simulation_template.jst",
+    "text!game/jst/world/tutorial.jst",
 
     "game/views/mail/SKMailClientView",
     "game/views/documents/SKXLSDisplayView",
@@ -22,7 +23,7 @@ define([
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/SKDialogView"
-], function (simulation_template, SKMailClientView, SKXLSDisplayView) {
+], function (simulation_template, tutorial_template, SKMailClientView, SKXLSDisplayView) {
     "use strict";
     /**
      * @class SKSimulationView
@@ -260,7 +261,7 @@ define([
                                 );
 
                                 var d = new SKDialogView({
-                                    message: 'Данные симуляции сохраняются. <br/> Это займёт 10-15 секунд.',
+                                    message: 'Данные симуляции сохраняются.',
                                     buttons: []
                                 });
                             }
@@ -284,7 +285,7 @@ define([
 
                 me._showPausedScreen();
                 var d = new SKDialogView({
-                    message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты. <br/> Это займёт 5-10 сек.',
+                    message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
                     buttons: [
                         {
                             value: 'Перейти к результатам',

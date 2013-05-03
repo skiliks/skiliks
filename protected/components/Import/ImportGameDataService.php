@@ -260,6 +260,10 @@ class ImportGameDataService
             $constructor->save();
             for ($row = 2; $row < $sheet->getHighestDataRow(); $row++) {
                 $phraseValue = $sheet->getCellByColumnAndRow($col, $row)->getValue();
+                if (empty($phraseValue)) {
+                    continue;
+                }
+
                 $phrase = MailPhrase::model()->findByAttributes(['constructor_id' => $constructor->getPrimaryKey(), 'name' => $phraseValue]);
                 if ($phrase === null) {
                     $phrase = new MailPhrase();

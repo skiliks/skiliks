@@ -137,6 +137,13 @@ define(
                             );
                         }
                     );
+                    server.respondWith(
+                        "POST",
+                        "/index.php/events/getState",
+                        function (xhr) {
+                            xhr.respond(200, { "Content-Type":"application/json" }, JSON.stringify(visitorEventResponse));
+                        }
+                    );
                     this.config = {'start': '9:00', 'skiliksSpeedFactor': 8, 'finish': '20:00', 'end': '18:00'};
                     window.SKApp = new SKApplication(this.config);
                     this.timeout = 1000;
@@ -147,11 +154,12 @@ define(
                 });
 
                 it('Visitor dialog test', function() {
+                    server.responses = _.filter(server.responses, function (response) {return response.method !== 'POST' || response.url !== "/index.php/events/getState";});
                     server.respondWith(
                         "POST",
-                        "/index.php/events/getState",
-                        [200, { "Content-Type":"application/json" }, JSON.stringify(visitorEventResponse)]
-                    );
+                        "/index.php/events/getState", function (xhr) {
+                            xhr.respond(200, { "Content-Type":"application/json" }, JSON.stringify(visitorEventResponse));
+                        });
 
                     server.respondWith(
                         "POST",
@@ -183,7 +191,8 @@ define(
                     expect(visitorView.$('.replica-select').length).toBe(2);
 
                     visitorView.$('.replica-select[data-id=802]').click();
-                    server.responses = [];
+                    server.responses = _.filter(server.responses, function (response) {return response.method !== 'POST' || response.url !== "/index.php/dialog/get";});
+
                     server.respondWith(
                         "POST",
                         "/index.php/dialog/get",
@@ -198,148 +207,11 @@ define(
                     expect(event.getMyReplicas()[2].is_final_replica).toBe('1');
 
                     event.selectReplica(807, function() {});
+                    simulation.stop();
                     server.respond();
 
                 });
 
-            /**
-             * Visitor phone call test
-             */
-
-                it('Visitor phone call test', function() {
-
-                    /* init simulation */
-                    var applicationView = new SKApplicationView();
-                    server.respond();
-
-                    var phone_spy = sinon.spy();
-                    SKApp.simulation.events.on('event:phone', phone_spy);
-
-                    server.respond();
-                    server.respond();
-
-                    /* test */
-
-                    server.respondWith(
-                        "POST",
-                        "/index.php/events/getState",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify({
-                                "result":     1,
-                                "serverTime": "09:03:00",
-                                "events":[
-                                    { "result":1, "eventType":1, "eventTime":"09:02:00",
-                                        "data":[
-                                            { "id":"786", "ch_from":"28", "ch_from_state":"1", "ch_to":"1",  "ch_to_state":"1", "dialog_subtype":"1", "text":"звук телефонного звонка", "sound":null, "is_final_replica":"0", "code":"RST10", "excel_id":"765", "title":"Друг", "name":"Петр Погодкин", "remote_title":"Начальник отдела анализа и планирования", "remote_name":"Федоров А.В." },
-                                            { "id":"787", "ch_from":"1", "ch_from_state":"1", "ch_to":"28", "ch_to_state":"1", "dialog_subtype":"1", "text":"Ответить", "sound":null, "is_final_replica":"1", "code":"RST10", "excel_id":"766" },
-                                            { "id":"788", "ch_from":"1", "ch_from_state":"1", "ch_to":"28", "ch_to_state":"1", "dialog_subtype":"1", "text":"Не ответить", "sound":null,  "is_final_replica":"1", "code":"RST10", "excel_id":"767" }
-                                        ]
-                                    }
-                                ]
-
-                            })
-                        ]
-                    );
-                    expect(SKApp.simulation.events.length).toBe(0);
-
-                    SKApp.simulation.getNewEvents();
-                    server.respond();
-                    assert.calledOnce(phone_spy);
-                    // check that event has been added to queue
-                    expect(SKApp.simulation.events.length).toBe(1);
-
-                    // check than phone icon - has been activated
-                    expect(applicationView.frame.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
-
-                    applicationView.frame.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
-
-                    server.respond();
-
-                    server.respondWith(
-                        "POST",
-                        "/index.php/dialog/get",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify({"result":1,"events":[{"result":1,"data":[{"id":"789","ch_from":"28","ch_from_state":"1","ch_to":"1","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0440\u0438\u0432\u0435\u0442, \u0434\u0440\u0443\u0433! \u0422\u044b \u0436\u0438\u0432? \u041d\u0430\u0434\u0435\u044e\u0441\u044c, \u0434\u043e \u043e\u0442\u043f\u0443\u0441\u043a\u0430 \u0434\u043e\u0442\u044f\u043d\u0435\u0448\u044c?","sound":"RS10_1.wav","step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"768","title":"\u0414\u0440\u0443\u0433","name":"\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d","remote_title":"\u041d\u0430\u0447\u0430\u043b\u044c\u043d\u0438\u043a \u043e\u0442\u0434\u0435\u043b\u0430 \u0430\u043d\u0430\u043b\u0438\u0437\u0430 \u0438 \u043f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f","remote_name":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412."},{"id":"790","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0435\u0442\u0440, \u043f\u0440\u043e\u0441\u0442\u0438, \u044f \u043d\u0435 \u043c\u043e\u0433\u0443 \u0433\u043e\u0432\u043e\u0440\u0438\u0442\u044c, \u043f\u0435\u0440\u0435\u0437\u0432\u043e\u043d\u044e! ","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"769"},{"id":"791","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0440\u0438\u0432\u0435\u0442, \u041f\u0435\u0442\u0440. \u0423 \u0442\u0435\u0431\u044f \u0447\u0442\u043e-\u0442\u043e \u0441\u0440\u043e\u0447\u043d\u043e\u0435?","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"770"},{"id":"792","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0435\u0442\u0440, \u043f\u0440\u0438\u0432\u0435\u0442! \u0420\u0430\u0434 \u0442\u0435\u0431\u044f \u0441\u043b\u044b\u0448\u0430\u0442\u044c! \u0422\u043e\u043b\u044c\u043a\u043e \u043e\u0442\u043f\u0443\u0441\u043a\u043e\u043c \u0438 \u0436\u0438\u0432 ! \u041a\u0430\u043a \u0442\u044b?","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"771"}],"eventType":1}]})
-                        ]
-                    );
-
-                    expect(applicationView.frame.$el.find('#phone_reply').length).toBe(1);
-                    expect(applicationView.frame.$el.find('.phone-content').length).toBe(0);
-                    applicationView.frame.$el.find('#phone_reply').click(); // .call_view
-                    server.respond();
-                    expect(applicationView.frame.$el.find('.phone-content').length).toBe(1);
-
-                    var requestChecked = false;
-                    for(var i in server.requests) {
-                        if (server.requests[i].url === '/index.php/dialog/get') {
-                            expect(!!server.requests[i].requestBody.match(/dialogId=787&time=09%3A00/)).toBeTrue();
-                            requestChecked = true;
-                        }
-                    }
-
-                    expect(requestChecked).toBe(true); // front not send dialog/get request
-                    server.respond();
-                });
-
-                /**
-                 * Incoming mail test
-                 */
-
-                it('Incoming mail test', function() {
-
-                    /* init simulation */
-
-                    var applicationView = new SKApplicationView();
-                    //SKApp.simulation.start();
-
-                    server.respond();
-
-
-                    server.respond();
-
-                    applicationView.simulation_view = new SKSimulationView();
-                    applicationView.simulation_view.render();
-
-                    server.respond();
-
-                    /* test */
-
-                    // check counter
-                    expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('4');
-
-                    SKApp.simulation.getNewEvents();
-                    var events = [
-                        {result:1,events:[{result:1,id:'46791',eventType:'M'}],serverTime:'09:05:00'},
-                        {"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"}
-                    ];
-                    server.respondWith(
-                        "POST",
-                        "/index.php/events/getState",
-                        function (xhr) {
-                            var event = events[0];
-                            events.shift();
-                            xhr.respond(
-                                200,
-                                { "Content-Type":"application/json" },
-                                JSON.stringify(event)
-                            );
-                        }
-                    );
-                    this.mailCounter = "5";
-
-                    server.respond();
-                    // check icon animation
-                    expect(applicationView.simulation_view.$el.find('.mail.icon-active').length).toBe(1);
-
-                    // check counter
-                    expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('5');
-                    server.respond();
-
-                });
             });
         });
     }

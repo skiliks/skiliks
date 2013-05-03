@@ -308,27 +308,12 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
         if (null !== Yii::app()->request->getParam('id')) {
             $vacancy = Vacancy::model()->findByPk(Yii::app()->request->getParam('id'));
-
             if (null === $vacancy) {
                 $vacancy = new Vacancy();
-
             }
         }
         $specializations = [];
-        // handle add vacancy {
-        if (null !== Yii::app()->request->getParam('add')) {
 
-            $vacancy->attributes = Yii::app()->request->getParam('Vacancy');
-            $vacancy->user_id
-                = Yii::app()->user->data()->id;
-
-            if ($vacancy->validate()) {
-                $vacancy->save();
-
-
-                $this->redirect('/profile/corporate/vacancies/');
-            }
-        }
         // handle send invitation }
         if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
             $specializations = StaticSiteTools::formatValuesArrayLite(
@@ -340,10 +325,57 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             );
         }
 
+        // positionLevels
+        $positionLevels = StaticSiteTools::formatValuesArrayLite(
+            'PositionLevel',
+            'slug',
+            'label',
+            '',
+            'Выберите уровень позиции'
+        );
+
         $this->render('vacancies_corporate', [
             'vacancy'         => $vacancy,
             'specializations' => $specializations,
+            'positionLevels'  => $positionLevels,
         ]);
+    }
+    /**
+     *
+     */
+    public function actionVacancyAdd()
+    {
+        $errors = [];
+
+        $vacancy = new Vacancy();
+        $vacancy->attributes = Yii::app()->request->getParam('Vacancy');
+
+        $id = Yii::app()->request->getParam('id');
+
+        if (null !== $id) {
+            $vacancy = Vacancy::model()->findByPk($id);
+
+            if (null === $vacancy) {
+                $vacancy = new Vacancy();
+            }
+        }
+
+        // handle add vacancy {
+        if (null !== Yii::app()->request->getParam('add')) {
+            $vacancy->attributes = Yii::app()->request->getParam('Vacancy');
+            $vacancy->user_id = Yii::app()->user->data()->id;
+        }
+
+        if ($vacancy->validate()) {
+            $vacancy->save();
+            $errors = true;
+        } else {
+            foreach ($vacancy->getErrors() as $key => $error) {
+                $errors['Vacancy_'.$key] = $error;
+            }
+        }
+
+        $this->sendJSON($errors);
     }
 
     /**
@@ -429,7 +461,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         // just to be sure - handle strange case
-        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
+        //Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 
