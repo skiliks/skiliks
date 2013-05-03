@@ -3234,22 +3234,44 @@ ul.profile-menu li {
 
 /* ******************** Add vacancy popup ************** */
 .add-vacancy-popup {
-    background: url("../img/vacancybg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
     overflow: visible;
     position: relative;
+    width:584px !important;
 }
 .add-vacancy-popup h1 {
-    padding-bottom: 20px;
+    margin-top: -4px;
+    padding-bottom: 6px;
 }
-.add-vacancy-popup #add-vacancy-form label {
+.add-vacancy-popup .form-vacancy {
+    overflow: visible;
+}
+.add-vacancy-popup .form-vacancy label {
     color:#146672;
     display: inline-block;
     font-size: 14px;
     width:145px;
 }
-.add-vacancy-popup .row {
-    vertical-align: top;
+.add-vacancy-popup .sbHolder {
+    width:385px;
+}
+.add-vacancy-popup .form-vacancy input[type="text"] {
+    width:380px;
+}
+.add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
+    padding-bottom: 0px;
+}
+#corporate-dashboard-add-vacancy {
+    border-radius: 4px;
+    background-color: #ddd;
+    cursor:pointer;
+    display: inline-block;
+    height: 22px;/*10 */
+    line-height: 22px;
+    padding: 0px 6px;
+    font-weight: bold;
+    width: 10px;
 }
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
@@ -4114,8 +4136,17 @@ ul.profile-menu li {
     .change_pass #change-password-form input[type="submit"]{
         text-indent: 13px;
     }
+    #corporate-dashboard-add-vacancy {
+        height:18px;
+        line-height:18px;
+        width: 6px;
+    }
 
 }
+
+
+/* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
+
 
 .errorMessage .cufon {
     color : #bd2929;
@@ -4136,20 +4167,6 @@ ul.profile-menu li {
     border : 2px solid #bd2929;
 }
 
-#corporate-dashboard-add-vacancy {
-    border-radius: 4px;
-    background-color: #ddd;
-    cursor:pointer;
-    display: inline-block;
-    height: 22px;/*10 */
-    line-height: 22px;
-    padding: 0px 6px;
-    font-weight: bold;
-    width: 10px;
-}
-
-/* ****************************** /ADAPTIVE FOR SMALL RESOLUTION ******************************* */
-
 .start-trial-full-scenario-agree,
 .start-trial-full-scenario-disagree {
     margin: 20px 20px 20px 60px
@@ -4159,6 +4176,4 @@ ul.profile-menu li {
     display: inline-block;
 }
 
-#invite-form .form-global-errors .errorMessage {
-    position: static;
-}
+
