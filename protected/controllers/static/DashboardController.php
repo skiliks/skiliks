@@ -456,7 +456,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionDeclineInvite($id)
     {
-        $this->checkUser();
         $declineExplanation = new DeclineExplanation();
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
 
