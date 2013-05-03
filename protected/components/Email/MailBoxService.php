@@ -601,22 +601,6 @@ class MailBoxService
         $model->save();
     }
 
-    /**
-     * @param int $id
-     *
-     * @return boolean
-     */
-    public static function markPlanned($id)
-    {
-        $model = MailBox::model()->byId($id)->find();
-        if (NULL === $model) {
-            return false;
-        }
-
-        $model->plan = 1;
-        $model->save();
-    }
-
     public static function getFoldersUnreadCount($simulation)
     {
         $folders = [];

@@ -232,18 +232,6 @@ class MailController extends AjaxController
     }
 
     /**
-     * @return type
-     */
-    public function actionMarkPlanned()
-    {
-        $simulation = $this->getSimulationEntity();
-        
-        return $this->sendJSON(array(
-            'result'  => (int)MailBoxService::markPlanned((int)Yii::app()->request->getParam('emailId', 0)),
-        ));
-    }
-
-    /**
      * Перенести письмо в другую папку
      * @todo: check is it in use?
      * How can I move letter. Just Delete(move to trash), Save or Send. 
