@@ -94,6 +94,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                 var a = $(this).next().toggle();
                 $(this).parent().parent().toggleClass('selected-sk');
             }
+            Cufon.refresh();
         });
 
         $('.invites-smallmenu-item').click(function(){
