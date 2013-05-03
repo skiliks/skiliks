@@ -762,6 +762,7 @@ class UserAuthController extends YumController
             $profile = YumProfile::model()->findByAttributes(['email' => $email]);
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
                 $user = $profile->user;
+
                 $passwordForm->attributes = $YumUserChangePassword;
 
                 if ($passwordForm->validate()) {
@@ -781,7 +782,12 @@ class UserAuthController extends YumController
         }
 
         if (null !== $email && null !== $key) {
+            /* @var $profile->user YumUser */
             $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            if($profile->user->isAuth()) {
+                Yii::app()->user->setFlash('notice', 'Вы уже залогинены');
+                $this->redirect('/dashboard');
+            }
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
                 $this->render('setPassword', [
                     'passwordForm' => $passwordForm
