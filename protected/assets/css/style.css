@@ -694,10 +694,20 @@ html[lang=ru] .features form div input[type=submit]{
     .features form div input[type=submit]:hover {
         background-image: url("../img/icon-btn-notify-hover.png") !important;
     }
-    .features .freeacess {
+    .features .freeacess, .feedback .form-buttons-wrapper .form-submit-button {
         height: 44px;
         line-height: 44px;
         background-position: 12px 12px;
+    }
+    #feedback-dialog {
+        overflow: hidden;
+    }
+    .feedback .form-buttons-wrapper .form-submit-button {
+        font-size:16px;
+        margin-top: -60px;
+        padding-left: 22px;
+        right: 17px;
+        width: 140px;
     }
     .features .freeacess, .footer .freeacess {
         font-size: 1em;
@@ -3477,7 +3487,7 @@ ul.profile-menu li {
         height:17px;
         width: 240px;
     }
-    .profileform input[type="submit"] {
+    .profileform input[type="submit"], .form-vacancy input[type=submit] {
         background-position: 20px 12px;
         height: 44px;
         line-height: 40px;
@@ -4106,9 +4116,11 @@ ul.profile-menu li {
 #corporate-dashboard-add-vacancy {
     border-radius: 4px;
     background-color: #ddd;
+    cursor:pointer;
     display: inline-block;
-    height: 10px;
-    padding: 6px;
+    height: 22px;/*10 */
+    line-height: 22px;
+    padding: 0px 6px;
     font-weight: bold;
     width: 10px;
 }
