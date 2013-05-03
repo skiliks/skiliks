@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: gugu
@@ -61,10 +62,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 
                 <nav id="account-links">
-                    <?php $this->renderPartial('//layouts/_account_links') ?>
+                    <?php $this->renderPartial('//global_partials/_account_links', [
+                        'isDisplayAccountLinks' => true
+                    ]) ?>
                 </nav>
 				<nav id="static-page-links">
-                    <?php $this->renderPartial('//layouts/_static_pages_links') ?>
+                    <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
 				</nav>
 
                 <br/>
@@ -74,7 +77,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--header end-->
 
             <!-- sing in { -->
-            <?php $this->renderPartial('//layouts/_sing_in') ?>
+            <?php $this->renderPartial('//global_partials/_sing_in') ?>
 
 			<?php if (Yii::app()->getController()->getId() == 'static/pages' &&
                 in_array(Yii::app()->getController()->getAction()->getId(), ['index', 'comingSoonSuccess'])): ?>
@@ -136,7 +139,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <!--footer-->
             <div class="footer">
                 <footer>
-                    <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
+                    <?php $this->renderPartial('//global_partials/addthis', ['force' => false]) ?>
                     <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
 
@@ -145,15 +148,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav id="footer-menu">
-                    <?php $this->renderPartial('//layouts/_account_links') ?>
+                    <?php $this->renderPartial('//global_partials/_account_links', [
+                        'isDisplayAccountLinks' => false
+                    ]) ?>
                 </nav>
-                <?php /*
-                    <nav>
-                        <a href="/"><?php echo Yii::t('site', 'Home') ?></a>
-                        <a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
-                        <a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
-                    </nav>
-                */ ?>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
             <script type="text/javascript"> Cufon.now(); </script>

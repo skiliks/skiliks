@@ -38,7 +38,7 @@
 
 <?php // add_vacancy_form { ?>
     <div class="form form-vacancy" style="display: none;">
-        <?php $this->renderPartial('//static/profile/_add_vacancy_form', [
+        <?php $this->renderPartial('//global_partials/_add_vacancy_form', [
             'h1'              => 'Добавить вакансию',
             'dataUrl'         => '/dashboard',
             'vacancy'         => new Vacancy(),
