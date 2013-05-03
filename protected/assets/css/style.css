@@ -4120,3 +4120,7 @@ ul.profile-menu li {
     margin: 20px 20px 20px 60px
 }
 
+#footer-menu li {
+    display: inline-block;
+}
+

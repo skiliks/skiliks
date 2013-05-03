@@ -136,4 +136,45 @@ class StaticSiteTools
 
         return $scenarioLite->duration_in_game_min / Yii::app()->params['public']['skiliksSpeedFactor'];
     }
+
+    /**
+     * @param CHttpRequest $request
+     * @param string $language: 'ru','en'
+     *
+     * @return mixed
+     */
+    public static function getLangSwitcherUrl(CHttpRequest $request, $language) {
+        $url = $request->getUrl();
+
+        if ('ru' == $language) {
+            $url = str_replace('/en', '', $url);
+            $url = str_replace('/ru', '/en', $url);
+            if (false === strpos($url, '/en')) {
+                $url .= '/en';
+            }
+        } else {
+            $url = str_replace('/ru', '', $url);
+            $url = str_replace('/en', '/ru', $url);
+            if (false === strpos($url, '/ru')) {
+                $url .= '/ru';
+            }
+        }
+
+        $url = str_replace('//','/', $url);
+
+        return $url;
+    }
+
+    /**
+     * @param CHttpRequest $request
+     * @param CController $controller
+     *
+     * @return bool
+     */
+    public static function skIsLangSwitcherUrlVisible(CHttpRequest $request, CController $controller) {
+        return (0 === strpos($request->getPathInfo(), 'static/team')) ||
+            (0 === strpos($request->getPathInfo(), 'static/product')) ||
+            (0 === strpos($request->getPathInfo(), 'static/tariffs')) ||
+            ($controller->getId() == 'static/pages' && $controller->getAction()->getId() == 'index');
+    }
 }
