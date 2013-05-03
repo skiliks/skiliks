@@ -1,6 +1,6 @@
-/*global Backbone:false, console, SKApp, session */
+/*global Backbone:false, console, SKApp */
 
-(function () {
+define([], function () {
     "use strict";
     /**
      * @class SKPhoneHistory
@@ -11,4 +11,5 @@
             is_displayed:false
         }
     });
-})();
+    return window.SKPhoneHistory;
+});

@@ -46,7 +46,7 @@ define([
                     'visit' :                     event.get('data'),
                     isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
                 }));
-
+                SKApp.simulation.trigger('audio-door-knock-start');
             },
 
             /**
@@ -55,6 +55,7 @@ define([
              */
             'allow':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                SKApp.simulation.trigger('audio-door-knock-stop');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
                 this.options.model_instance.close();
             },
@@ -65,6 +66,7 @@ define([
              */
             'deny':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                SKApp.simulation.trigger('audio-door-knock-stop');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 });
                 this.options.model_instance.close();

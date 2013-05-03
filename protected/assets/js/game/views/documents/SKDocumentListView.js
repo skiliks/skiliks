@@ -73,6 +73,8 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                         });
                     });
                 }
+            }else if("reload"){
+                return res;
             } else {
                 throw 'method not impremented';
             }
@@ -102,7 +104,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
              */
             renderContent: function (el) {
                 var me = this;
-                el.elfinder({
+                window.elfinderInstace = el.elfinder({
                     url: 'myDocuments/connector',
                     transport: SKElFinderTransport,
                     getFileCallback: function (file) {

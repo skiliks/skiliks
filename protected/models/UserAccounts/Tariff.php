@@ -8,8 +8,9 @@
  * @property string $label
  * @property integer $is_free
  * @property string $price
+ * @property string $price_usd
  * @property string $safe_amount
- * @property string $currency
+ * @property string $safe_amount_usd
  * @property integer $simulations_amount
  * @property string $description
  * @property string $benefits
@@ -27,22 +28,36 @@ class Tariff extends CActiveRecord
 
     /* ----------------------------------------------------------------------------------------------------- */
 
+    public function getPrice()
+    {
+        return Yii::app()->getLanguage() == 'ru' ? $this->price : $this->price_usd;
+    }
+
+    public function getSaveAmount()
+    {
+        return Yii::app()->getLanguage() == 'ru' ? $this->safe_amount : $this->safe_amount_usd;
+    }
+
     public function getFormattedPrice()
     {
         if ($this->is_free) {
-            return 'Бесплатно';
+            return Yii::t('site', 'Бесплатно');
         }
 
-        return  StaticSiteTools::getI18nCurrency($this->price, $this->currency);
+        $lang = Yii::app()->getLanguage();
+        $currency = $lang == 'ru' ? 'RUB' : 'USD';
+        return  StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang);
     }
 
     public function getFormattedSafeAmount($prefix = '')
     {
         if ($this->is_free) {
-            return 'Месяц бесплатно';
+            return Yii::t('site', '1 Month free');
         }
 
-        return  $prefix.StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#'). ' р';
+        $lang = Yii::app()->getLanguage();
+        $currency = $lang == 'ru' ? 'RUB' : 'USD';
+        return  $prefix.($lang == 'en' ? '$' : '').StaticSiteTools::getI18nCurrency($this->getSaveAmount(), $currency, $lang, '#').($lang == 'ru' ? ' р' : '');
     }
 
     public function getFormattedLabel()
@@ -56,42 +71,18 @@ class Tariff extends CActiveRecord
     public function getFormattedSimulationsAmount()
     {
         $postfix = '';
-        if (self::SLUG_LITE != $this->slug) {
+        if (self::SLUG_LITE != $this->slug && Yii::app()->getLanguage() == 'ru') {
             $postfix = '*';
         }
 
         if (null == $this->simulations_amount) {
-            return '0 симуляций'.$postfix;
-        }
-
-        if ($this->simulations_amount < 10) {
-            if (in_array($this->simulations_amount, [0,5,6,7,8,9])) {
-                return $this->simulations_amount.' симуляций'.$postfix;
-            }
-
-            if (1 == $this->simulations_amount) {
-                return $this->simulations_amount.' симуляция'.$postfix;
-            }
-
-            if (in_array($this->simulations_amount, [2,3,4])) {
-                return $this->simulations_amount.' симуляции'.$postfix;
-            }
-        } elseif($this->simulations_amount < 20) {
-             return $this->simulations_amount.' симуляций'.$postfix;
-        }else {
-            $value = $this->simulations_amount%10;
-
-            if (in_array($value, [0,5,6,7,8,9])) {
-                return $this->simulations_amount.' симуляций'.$postfix;
-            }
-
-            if (1 == $value) {
-                return $this->simulations_amount.' симуляция'.$postfix;
-            }
-
-            if (in_array($value, [2,3,4])) {
-                return $this->simulations_amount.' симуляции'.$postfix;
-            }
+            return '0 ' . Yii::t('site', 'simulations') . $postfix;
+        } else {
+            return sprintf('%d %s%s',
+                $this->simulations_amount,
+                Yii::t('site', 1 == $this->simulations_amount ? 'simulation' : 'simulations'),
+                $postfix
+            );
         }
     }
 
@@ -102,6 +93,10 @@ class Tariff extends CActiveRecord
      */
     public function isUserCanChooseTariff($user)
     {
+        if (Yii::app()->getLanguage() != 'ru') {
+            return false;
+        }
+
         if (self::SLUG_LITE !== $this->slug) {
             return false;
         }
@@ -124,9 +119,9 @@ class Tariff extends CActiveRecord
     public function getFormattedLinkLabel($user)
     {
         if ($user->isCorporate() && null != $user->getAccount()->tariff_id && $this->id === $user->getAccount()->tariff_id) {
-            return 'Текущий план';
+            return Yii::t('site', 'Current plan');
         } else {
-            return 'Выбрать';
+            return Yii::t('site', 'Subscribe');
         }
     }
 

@@ -482,7 +482,11 @@ class Invite extends CActiveRecord
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('owner_id', $ownerId ?: $this->owner_id);
-		$criteria->addNotInCondition('receiver_id', [$receiverId]);
+
+            $criteria2 = new CDbCriteria;
+		    $criteria2->condition = 'receiver_id IS NULL';
+            $criteria2->addNotInCondition('receiver_id', [$receiverId], 'OR');
+
 		$criteria->compare('firstname', $this->firstname);
 		$criteria->compare('lastname', $this->lastname);
 		$criteria->compare('email', $this->email);
@@ -493,6 +497,8 @@ class Invite extends CActiveRecord
 		$criteria->compare('status', $this->status);
         $criteria->compare('scenario_id', $this->scenario_id);
 		$criteria->compare('sent_time', $this->sent_time);
+
+        $criteria->mergeWith($criteria2);
 
 		return new CActiveDataProvider($this, [
 			'criteria' => $criteria,

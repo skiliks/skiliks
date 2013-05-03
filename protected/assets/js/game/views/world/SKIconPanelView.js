@@ -57,7 +57,12 @@ define([
                 this.listenTo(events, 'event:phone', this.onPhoneEvent);
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+                this.listenTo(events, 'mail:counter:update', function (count) {
+                    me.setCounter('.mail', count);
+                });
 
+                this.listenTo(SKApp.simulation, 'audio-door-knock-start', this.doSoundKnockStart);
+                this.listenTo(SKApp.simulation, 'audio-door-knock-stop', this.doSoundKnockStop);
                 this.listenTo(SKApp.simulation, 'audio-phone-call-start', this.doSoundPhoneCallInStart);
                 this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
                 this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
@@ -89,7 +94,6 @@ define([
              * @method onMailEvent
              */
             onMailEvent: function (event) {
-                this.updateMailCounter();
                 this.startAnimation('.mail');
             },
 
@@ -116,8 +120,12 @@ define([
              * @method onDocumentEvent
              */
             onDocumentEvent: function (event) {
-                this.startAnimation('.documents');
-                this.documentId = event.get('data').id;
+                var me = this;
+
+                me.documentId = event.get('data').id;
+                me.startAnimation('.documents', function() {
+                    me.documentId = null;
+                });
             },
 
             /**
@@ -184,6 +192,7 @@ define([
 
                 me.$('.door').attr('data-event-id', event.cid);
                 me.doBlockingPhoneIcon();
+                me.doSoundKnockStart();
                 me.startAnimation('.door', function() {
                     if (event.getStatus() === 'waiting') {
                         event.setStatus('completed');
@@ -213,19 +222,6 @@ define([
                 } else {
                     return this.defaultBouncesNo;
                 }
-            },
-
-            /**
-             * Обновляет счетчик почтовых сообщений
-             *
-             * @method
-             * @method updateMailCounter
-             */
-            updateMailCounter: function () {
-                var me = this;
-                this.sim_events.getUnreadMailCount(function (count) {
-                    me.setCounter('.mail', count);
-                });
             },
 
             /**
@@ -304,6 +300,7 @@ define([
                             el.removeClass('icon-active');
 
                             me.doSoundPhoneCallInStop();
+                            me.doSoundKnockStop();
 
                             if (end_cb !== undefined) {
                                 end_cb();
@@ -323,8 +320,6 @@ define([
             render: function () {
                 var me = this;
                 this.$el.html(_.template(icon_panel, {}));
-                me.updateMailCounter();
-                this.listenTo(SKApp.simulation, 'start', this.updateMailCounter);
             },
 
             /**
@@ -367,6 +362,7 @@ define([
              */
             doPlanToggle: function (e) {
                 e.preventDefault();
+                this.$('.plan').removeClass('icon-active');
                 SKApp.simulation.window_set.toggle('plan', 'plan');
             },
 
@@ -427,6 +423,30 @@ define([
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.3.ogg'
                 }));
                 me.$el.find("#audio-phone-short-zoom")[0].play();
+            },
+
+            doSoundKnockStart: function() {
+                var me = this;
+                me.doSoundKnockStop();
+                me.$el.append(_.template(audio_phone_call, {
+                    id        : 'audio-door-knock',
+                    audio_src : SKApp.get('storageURL') + '/sounds/visit/S1.5.1.ogg'
+                }));
+
+                if ('function' == typeof me.$el.find("#audio-door-knock")[0].play) {
+                    me.$el.find("#audio-door-knock")[0].play();
+                }
+            },
+
+            doSoundKnockStop: function() {
+                var me = this;
+                me.$el.find('#audio-door-knock').each(function() {
+                    if (this.pause !== undefined) {
+                        this.pause();
+                    }
+                    this.src = '';
+                });
+                me.$el.find('#audio-door-knock').remove();
             },
 
             /**

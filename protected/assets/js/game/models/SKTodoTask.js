@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session */
 
-(function () {
+define([], function () {
     "use strict";
     /**
      * @class SKTodoTask
@@ -23,4 +23,5 @@
             }
         }
     });
-})();
+    return window.SKTodoTask;
+});

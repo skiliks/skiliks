@@ -50,6 +50,13 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
      * @var string
      */
     public $import_id;
+
+    protected static $mimeMap = [
+        'docx' => 'application/msword',
+        'xlsx' => 'application/vnd.ms-excel',
+        'pptx' => 'application/vnd.ms-powerpoint',
+        'xls' => 'application/vnd.ms-excel'
+    ];
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
@@ -104,10 +111,13 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
     }
 
     public function getMimeType() {
-        
         // tweak for not ready files, in ready project we willn`t need it any more
         if (in_array($this->srcFile, ['TP', 'MG'])) {
             return 'plain/text';
+        }
+
+        if (isset(self::$mimeMap[$this->format])) {
+            return self::$mimeMap[$this->format];
         }
         
         $finfo = finfo_open(FILEINFO_MIME_TYPE);

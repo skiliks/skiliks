@@ -86,7 +86,7 @@ class UserAuthController extends YumController
                     if (false !== $result) {
                         $this->sendRegistrationEmail($this->user);
 
-                        $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
+                        $this->redirect(['afterRegistration']);
                     } else {
                         $this->user->password = '';
                         $this->user->password_again = '';
@@ -134,7 +134,7 @@ class UserAuthController extends YumController
             $this->redirect('/');
         }
 
-        if ($invite->receiverUser) {
+        if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => $invite->email])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
             $this->redirect('/');
         }
@@ -236,9 +236,7 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->render('afterRegistration', [
-            'user' => $this->user
-        ]);
+        $this->render('afterRegistration');
     }
 
     /**
@@ -429,6 +427,9 @@ class UserAuthController extends YumController
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
                         $this->sendCorporationEmailVerification($this->user);
+                        $this->redirect('afterRegistration');
+                    } else {
+                        $this->redirect('/dashboard');
                     }
 
                     $this->redirect(['registration/account-type/added']);
@@ -610,7 +611,7 @@ class UserAuthController extends YumController
         $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
         // redirect to success message page
-        Yii::app()->user->setFlash( 'success', 'Вы успешно подтвердили свой корпоративный e-mail.' );
+        //Yii::app()->user->setFlash( 'success', 'Вы успешно подтвердили свой корпоративный e-mail.' );
         $this->redirect('/dashboard');
     }
     
@@ -703,7 +704,7 @@ class UserAuthController extends YumController
 
         if ($profile && !$profile->user->isActive()) {
             $this->sendRegistrationEmail($profile->user);
-            $this->redirect(['afterRegistration', 'userId' => $profile->user->id]);
+            $this->redirect(['afterRegistration']);
         } else {
             $this->redirect('/');
         }
@@ -791,6 +792,8 @@ class UserAuthController extends YumController
                 ]);
 
                 Yii::app()->end();
+            }else{
+                $this->redirect('/fail-recovery');
             }
         }
 
@@ -822,6 +825,11 @@ class UserAuthController extends YumController
         $this->render('recovery', [
             'recoveryForm' => $recoveryForm
         ]);
+    }
+
+    public function actionFailRecovery()
+    {
+        $this->render('fail_recovery');
     }
 
 }

@@ -188,7 +188,7 @@ class ZohoDocuments
         $path = explode('-', $returnedId);
 
         if (2 !== count($path)) {
-            return 'RESPONSE: Wrong document id!';
+            return 'Wrong document id!';
         }
 
         $uuid = MyDocument::model()->findByPk($path[1])->uuid;
@@ -199,7 +199,7 @@ class ZohoDocuments
             $extention
         );
 
-        move_uploaded_file($tmpFileName, $pathToUserFile);
+        copy($tmpFileName, $pathToUserFile);
 
         return 'Saved.';
     }

@@ -1,5 +1,10 @@
 <?php
 
+/** @var YumUser $user */
+$user = Yii::app()->user->data();
+$isGuest = Yii::app()->user->isGuest;
+$isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->account_corporate->is_corporate_email_verified : $user->isCorporate() || $user->isPersonal()) : false;
+
 function skGetLangSwitcherUrl() {
     $url = Yii::app()->request->getUrl();
 
@@ -26,6 +31,7 @@ function skIsLangSwitcherUrlVisible() {
     //var_dump();
     return (0 === strpos(Yii::app()->request->getPathInfo(), 'static/team')) ||
         (0 === strpos(Yii::app()->request->getPathInfo(), 'static/product')) ||
+        (0 === strpos(Yii::app()->request->getPathInfo(), 'static/tariffs')) ||
         (Yii::app()->controller->getId() == 'static/pages' && Yii::app()->controller->getAction()->getId() == 'index');
 }
 
@@ -48,18 +54,19 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site', 'My office'),
             'url'     => ['static/dashboard/index'],
-            'visible' => ('ru' == Yii::app()->getLanguage() && null != Yii::app()->user->data() && null != Yii::app()->user->data()->id)
+            'visible' => !$isGuest && $isActivated
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
             'linkOptions' => ['class' => 'sign-in-link'],
-            'visible'     => Yii::app()->user->isGuest && 'ru' == Yii::app()->getLanguage()
+            'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
         ],
         [
             'label' => Yii::t('site', 'Log out'),
             'url' => ['/static/userAuth/logout'],
-            'visible' => !Yii::app()->user->isGuest
+            'visible' => !$isGuest,
+            'linkOptions' => ['class' => 'log-out-link']
         ],
     ]
 ));

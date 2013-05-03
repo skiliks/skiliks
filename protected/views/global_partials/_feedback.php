@@ -4,9 +4,8 @@ $assetsUrl = $this->getAssetsUrl();
 $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compiled_css/feedback.css');
 ?>
 
-<!--<script type="text/javascript" src="http://cdn.jotfor.ms/static/jotform.js"></script>-->
-
 <div id="feedback-dialog" style="display: none;">
+    <h2 class="feedback-dialog-title"><?= Yii::t('site', 'Please, tell us what we can do better, we appreciate your opinion') ?></h2>
     <?php
     $form = $this->beginWidget('CActiveForm', [
         'id' => 'feedback-form',
@@ -21,13 +20,7 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
 
     $model = new Feedback();
 
-    $themes = [
-        '' => 'Тема сообщения',
-        'Работа сайта' => 'Работа сайта',
-        'Симуляция' => 'Симуляция',
-        'Оплата' => 'Оплата',
-        'Прочее' => 'Прочее'
-    ];
+    $themes = Feedback::getFeedbackSubjects();
     ?>
 
     <div class="form-all">

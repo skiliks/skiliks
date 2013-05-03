@@ -11,10 +11,6 @@ $scoreRender = function(Invite $invite) {
         ],false);
     } elseif ($invite->isNotStarted()) {
         $class = '';
-        if ($invite->isTrialFull(Yii::app()->user->data())) {
-            $class = ' invite-for-trial-full-scenario ';
-        }
-
         return sprintf(
             '<a class="%s" href="/simulation/promo/%s/%s">Начать</a>',
             $class,

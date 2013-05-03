@@ -1286,16 +1286,16 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list.history li table .phone-contact-list-img img{
 	-webkit-border-radius:none;
 	-moz-border-radius:none;
-	border-radius:none;
+	border-radius: 0;
 	-webkit-box-shadow:none;
 	-moz-box-shadow:none;
 	box-shadow:none;
 }
 .phone-contact-list li table .phone-contact-list-img{
-	width:67px;
+	width:64px;
 }
-.phone-contact-list li table.active .phone-contact-list-img{
-	width:84px;
+.phone-contact-list li.contact-li:hover .phone-contact-list-img{
+	width:82px;
 }
 .phone-contact-list li table .phone-contact-list-f0{
 	font-size:14px;
@@ -1324,7 +1324,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	line-height:24px;
 	text-shadow:rgba(0,0,0,0.28) 1px 1px 0;
 	text-transform:uppercase;
-	margin-top:5px;
+	margin:5px 0 0;
 }
 .phone-call-btn:hover{
 	color:#fff;
@@ -1601,7 +1601,7 @@ ul.main-screen-stat li img{
 .main-screen-icons ul{
     list-style:none;
     width:88px;
-    margin:29px 18px 0 0;
+    margin:10px 18px 0 0;
     position:relative;
     z-index:9999;
 }
@@ -1747,7 +1747,6 @@ tr.email-list-separator {
     position: absolute;
     width: 100%;
 }
-}
 
 .matrix-has-you {
     background-image: url('../img/errors/matrix.png');
@@ -1800,5 +1799,9 @@ tr.email-list-separator {
 .clippy span {
     margin: 10px 15px;
     display: inline-block;
+}
+
+.canvas .elfinder-cwd-filename {
+    white-space: normal;
 }
 

@@ -372,7 +372,8 @@ class SimulationService
                 }
 
                 if ($rule->operation === 'AND' && !$satisfies ||
-                    $rule->operation === 'OR' && $satisfies
+                    $rule->operation === 'OR' && $satisfies ||
+                    $rule->operation === '-' && $satisfies
                 ) {
                     break;
                 }

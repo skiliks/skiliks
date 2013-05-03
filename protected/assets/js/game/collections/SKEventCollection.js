@@ -87,10 +87,15 @@ define(["game/models/SKEvent"], function () {
              * @param cb
              */
             'getUnreadMailCount': function (cb) {
+                var me = this;
                 SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
-                    if (parseInt(data.result) === 1) {
-                        var counter = parseInt(data.unreaded);
-                        cb(counter);
+                    if (parseInt(data.result, 10) === 1) {
+                        var counter = parseInt(data.unreaded, 10);
+                        me.unread_mail_count = counter;
+                        me.trigger('mail:counter:update', me.unread_mail_count);
+                        if (cb !== undefined) {
+                            cb(counter);
+                        }
                     }
                 });
             },

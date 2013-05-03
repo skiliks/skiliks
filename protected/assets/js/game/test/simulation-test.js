@@ -3,7 +3,7 @@
 buster.spec.expose();
 
 var spec = describe('simulation', function (run) {
-    require(["game/models/SKApplication", "game/models/SKSimulation"], function (SKApplication, SKSimulation) {
+    require(["game/models/SKApplication"], function (SKApplication) {
         run(function () {
             var server;
             var timers;
@@ -16,7 +16,7 @@ var spec = describe('simulation', function (run) {
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
-                SKApp = new SKApplication(SKConfig);
+                window.SKApp = new SKApplication(SKConfig);
                 server = sinon.fakeServer.create();
                 server.respondWith("POST", "/index.php/simulation/start",
                     [200, { "Content-Type":"application/json" },
@@ -28,6 +28,12 @@ var spec = describe('simulation', function (run) {
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:0})]);
                 server.respondWith("POST", "/index.php/dayPlan/copyPlan",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+                server.respondWith("POST", "/index.php/simulation/startPause",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+                server.respondWith("POST", "/index.php/simulation/stopPause",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
                 timers = sinon.useFakeTimers();
@@ -64,7 +70,20 @@ var spec = describe('simulation', function (run) {
                 assert.calledOnce(stop_spy);
 
             });
+            it("Can stop correctly from paused state", function () {
+                var log_spy = sinon.spy();
+                SKApp.simulation.start();
+                SKApp.simulation.startPause();
+                server.respond();
+                timers.tick(2 * 60 * 60 * 1000);
+                expect(SKApp.simulation.getGameMinutes()).toBe(540);
+                SKApp.simulation.stopPause();
+                server.respond();
+                timers.tick(10 * 60 * 1000);
+                expect(SKApp.simulation.getGameMinutes()).toBe(620);
+                server.respond();
 
+            });
             it("Write day plan log at 11:00", function () {
                 var log_spy = sinon.spy();
                 SKApp.simulation.start();
