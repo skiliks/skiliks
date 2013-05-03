@@ -193,7 +193,7 @@ class ZohoDocuments
 
         $uuid = MyDocument::model()->findByPk($path[1])->uuid;
 
-        $pathToUserFile = sprintf(
+        $pathToUserFile = __DIR__.'/../../../'.sprintf(
             'documents/zoho/%s.%s',
             $uuid,
             $extention
