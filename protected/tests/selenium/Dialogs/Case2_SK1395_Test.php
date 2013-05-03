@@ -17,7 +17,7 @@ class Case2_SK1395_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1395()
+    public function testDialogsCase2SK1395()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
