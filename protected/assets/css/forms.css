@@ -23,7 +23,8 @@
 .registrationform input[type=text], .registrationform input[type=password] {
     font-size:1.14em;
 }
-.features form div input[type=submit], .profileform input[type=submit], .inputsubmit  {
+.features form div input[type=submit], .profileform input[type=submit], .inputsubmit,
+.form-vacancy input[type=submit] {
     background:#146672 url("../img/icon-btn-notify.png") no-repeat;
     border:none;
     -webkit-border-radius:4px;
@@ -376,7 +377,7 @@ span.required {
 #profile_firstname, #profile_lastname, #UserAccountCorporate_company_name {
     width:158px;
 }
-.profileform input[type=submit] {
+.profileform input[type=submit], .form-vacancy input[type=submit] {
     background-position: 17px 18px;
     font: 19px "ProximaNova-Bold";
     height:54px;
@@ -537,6 +538,11 @@ span.required {
     background-color: #bd2929;
     color:#fff;
 }
+/* ******************** Add vacancy popup ************** */
+.add-vacancy-popup {
+border:1px solid red;
+}
+/* ******************** /Add vacancy popup ************** */
 /* **************************** POPUP **************************** */
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .90);
@@ -765,6 +771,10 @@ span.required {
     }
     .registrationform .row {
         margin-left: 9px;
+    }
+    .feedbackwrap .feedback-dialog-title {
+        font-size:26px;
+        margin-top: 20px;
     }
     .YumProfile_email {
 
