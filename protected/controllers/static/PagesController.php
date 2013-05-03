@@ -100,10 +100,7 @@ class PagesController extends AjaxController
 
             // prevent cheating
             if($user->getAccount()->tariff_id == $tariff->id) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Для Вашего профиля уже активирован тарифный план "%s".',
-                    $tariff->label
-                ));
+
                 $this->redirect('/profile/corporate/tariff');
             }
 
