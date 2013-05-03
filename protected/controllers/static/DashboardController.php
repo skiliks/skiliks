@@ -102,13 +102,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
-                //Yii::app()->user->setFlash('success', 'Приглашение успешно выслано');
 
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
+                //Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                //Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
             }
         }
         // handle send invitation }
@@ -133,11 +132,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
 
-                    /*Yii::app()->user->setFlash('success', sprintf(
-                        'Приглашение для %s %s успешно сохранено.',
-                        $inviteToEdit->firstname,
-                        $inviteToEdit->lastname
-                    ));*/
                 }
             }
         }
@@ -352,13 +346,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $this->sendInviteEmail($invite);
 
-        Yii::app()->user->setFlash('success', sprintf(
-            "Приглашение для %s %s отправлено повторно. Оно будет активно до %s.",
-            $invite->firstname,
-            $invite->lastname,
-            $invite->getExpiredDate()
-        ));
-
         $this->redirect('/dashboard');
     }
 
@@ -370,7 +357,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $this->checkUser();
         $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
-            Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
             $this->redirect('/dashboard');
         }
 
@@ -380,13 +366,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            Yii::app()->user->setFlash(
-                'error',
-                sprintf(
-                    'Это приглашение уже обработано,<br/> его статус "%s".',
-                    Yii::t('site', Invite::$statusText[$invite->status])
-                )
-            );
+
             $this->redirect('/dashboard');
         }
 

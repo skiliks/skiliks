@@ -182,7 +182,7 @@ class CheatsController extends AjaxController
         $user->getAccount()->invites_limit = $tariff->simulations_amount;
         $user->getAccount()->save();
 
-        //Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
+        Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
 
         $this->redirect('/profile/corporate/tariff');
     }
