@@ -464,5 +464,58 @@ class MailBoxTest extends CDbTestCase
         // check template
         $this->assertEquals('MS60', $subject->letter_number);
     }
+
+    public function testGetMessage()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $getRandomCharacters = function($max = 3) use ($simulation) {
+            $codes = range(1, 20);
+            shuffle($codes);
+            $codes = array_slice($codes, 0, rand(1, $max));
+
+            return array_map(function(Character $character) {
+                return $character->getPrimaryKey();
+            }, $simulation->game_type->getCharacters(['code' => $codes]));
+        };
+
+        // Lets send to our analytics
+        $recipients = $getRandomCharacters();
+        $copies = $getRandomCharacters();
+
+        $criteria = new CDbCriteria([
+            'limit' => 1,
+            'order' => 'rand()'
+        ]);
+
+        // Some random subject
+        $subject = $simulation->game_type->getCommunicationTheme($criteria);
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', $recipients));
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = 0;
+        $sendMailOptions->time       = date('H:i', rand(32400, 64800));
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+
+        $sentMessage = MailBoxService::sendMessagePro($sendMailOptions);
+        $foundMessage = MailBoxService::getMessage($sentMessage->id);
+
+        $sentMessage->refresh();
+
+        $this->assertEquals(1, $sentMessage->readed);
+        $this->assertArrayHasKey('id', $foundMessage);
+        $this->assertSame($sentMessage->id, $foundMessage['id']);
+        $this->assertSame($subject->text, $foundMessage['subject']);
+        $this->assertEquals(count($recipients), count(explode(',', $foundMessage['receiver'])));
+    }
 }
 

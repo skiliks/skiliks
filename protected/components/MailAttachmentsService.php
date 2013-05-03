@@ -48,19 +48,19 @@ class MailAttachmentsService {
      * Получение информации о вложениях
      * @param int $mailId 
      */
-    public static function get($mail)
+    public static function get(MailBox $mail)
     {
-        if (null === $mail) {
+        if (null === $mail || $mail->attachment === null) {
             return false;
         }
         
-        $file = MyDocument::model()->findByPk($mail->file_id);
+        $file = MyDocument::model()->findByPk($mail->attachment->file_id);
         if (null === $file) {
             return false;
         }
         
         return array(
-            'id'   => $mail->file_id,
+            'id'   => $file->id,
             'name' => $file->fileName
         );
     }
