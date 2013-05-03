@@ -62,7 +62,9 @@ class AggregationTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        foreach ($simulation->game_type->getHeroBehavours([]) as $behaviour) {
+        $behaviours = $simulation->game_type->getHeroBehavours([]);
+
+        foreach ($behaviours as $behaviour) {
             if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) {
                 $point1           = new AssessmentPoint();
                 $point1->sim_id   = $simulation->id;
@@ -92,6 +94,8 @@ class AggregationTest extends CDbTestCase
 
         SimulationService::saveAggregatedPoints($simulation->id);
         SimulationService::applyReductionFactors($simulation);
+
+        $this->assertGreaterThan(0, count($behaviours), 'Too few behaviours!');
 
         foreach ($simulation->assessment_aggregated as $mark) {
             if ($mark->point->type_scale == HeroBehaviour::TYPE_POSITIVE) {
