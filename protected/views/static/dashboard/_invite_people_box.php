@@ -6,7 +6,9 @@
         'id' => 'invite-form'
     )); ?>
 
-    <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+    <span class="form-global-errors">
+        <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+    </span>
 
     <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>">
         <?php echo $form->labelEx($invite, 'full_name'); ?>

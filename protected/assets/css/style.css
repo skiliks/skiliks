@@ -4159,3 +4159,6 @@ ul.profile-menu li {
     display: inline-block;
 }
 
+#invite-form .form-global-errors .errorMessage {
+    position: static;
+}
