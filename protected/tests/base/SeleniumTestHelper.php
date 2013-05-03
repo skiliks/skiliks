@@ -666,6 +666,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $x = $this;
         register_shutdown_function(function() use ($x) {
+            $x->open('/logout');
             $x->stopSession();
         });
 
