@@ -163,7 +163,7 @@
 
         // corporate dashboard vacancy {
         $('#_invite_people_box.php').click(function(event) {
-            event.prevenetDefault();
+            event.preventDefault();
             console.log('show add vacancy');
         });
         // corporate dashboard vacancy }
@@ -205,6 +205,7 @@
                 }
             });
             $(".form-vacancy").dialog('open');
+            Cufon.refresh();
         });
 
         // password recovery {
