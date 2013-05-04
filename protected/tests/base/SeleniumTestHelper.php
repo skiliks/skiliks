@@ -18,8 +18,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
-        // установим куку "уже просмотренное видео в начале симуляции"
-
 
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
@@ -404,7 +402,6 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }*/
-        // когда Андрей починит отправку письма убрать слип и раскомментить код сверху.
         sleep(20);
     }
 
