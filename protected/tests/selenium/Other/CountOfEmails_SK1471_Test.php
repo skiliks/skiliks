@@ -6,7 +6,7 @@
 /**
  * Тесты для тестирования счетчика писем (для SK1471)
  */
-class Case_SK1471_Test extends SeleniumTestHelper
+class CountOfEmails_SK1471_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -25,7 +25,7 @@ class Case_SK1471_Test extends SeleniumTestHelper
      * 5. Устанавливаем время на 17:50
      * 6. Проверяем, что количество входящих писем на даный момент = 28
      */
-    public function test_SK1471_Case() {
+    public function test_CountOfEmails_SK1471() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();

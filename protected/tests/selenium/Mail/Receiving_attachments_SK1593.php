@@ -18,7 +18,7 @@
  * Активируем F16. Получаем от Крутько рабочую версию презентации (D6)
  * Сохраняем ее и отрпавляем ГД. Убеждаемся что залогировалось письмо MS84
  */
-class SK1593_Test extends SeleniumTestHelper
+class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -27,7 +27,7 @@ class SK1593_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1593_MS25()
+    public function test_Receiving_attachment_MS25_SK1593()
     {
         $mail_code = array('M11','MS25','M11','','M11');
         $window = array('mail main','mail new','mail main','mail new','mail main');
@@ -57,7 +57,7 @@ class SK1593_Test extends SeleniumTestHelper
         $this->Mail_log($ms25, sizeof($window));
     }
 
-    public function testSK1593_MS83()
+    public function test_Receiving_attachment_MS83_SK1593()
     {
 
         $mail_code = array('M11','MS83','M11');
@@ -74,7 +74,7 @@ class SK1593_Test extends SeleniumTestHelper
         $this->Mail_log($ms83, sizeof($window));
     }
 
-    public function testSK1593_MS84()
+    public function test_Receiving_attachment_MS84_SK1593()
     {
         $mail_code = array('M11','MS84','M11');
         $window = array('mail main','mail new','mail main');

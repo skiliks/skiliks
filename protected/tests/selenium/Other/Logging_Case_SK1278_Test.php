@@ -6,7 +6,7 @@
 /**
  * Тесты для проверки правильности логирования по задаче SK1278 (логирование переключения окон Mail new при написании нового письма)
  */
-class Logging_Case_SK1278_Test extends SeleniumTestHelper
+class LoggingCase_SK1278_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -15,7 +15,7 @@ class Logging_Case_SK1278_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1278()
+    public function test_LoggingCase_SK1278()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();

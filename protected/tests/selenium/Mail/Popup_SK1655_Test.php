@@ -9,7 +9,7 @@
  * 3) Отправляем сохраняем письмо без адресата ловим поп-апы. Проверяем в них текст
  * 4) Закрываем окно написания нового письма, кликаем "Отмена". Снова закрываем окно, кликаем "Не сохранять"
  */
-class SK1655_Test extends SeleniumTestHelper
+class PopupInMailSK1655_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -18,7 +18,7 @@ class SK1655_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1655() {
+    public function test_PopupInMail_SK1655() {
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
