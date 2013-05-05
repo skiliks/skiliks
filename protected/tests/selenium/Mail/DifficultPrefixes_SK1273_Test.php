@@ -6,7 +6,7 @@
 /**
  * Тесты на отправку сообщений со сложными префиксами re, rere, rerere, rererere, fwdrerere (для SK1273)
  */
-class SK1273_Case1_2_Test extends SeleniumTestHelper
+class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -21,7 +21,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * тест на отправку сообщений со сложными префиксами для правильных писем (тех, которые есть в сценарие) :
      * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
-    public function testSK1273_Case1() {
+    public function test_DifficultPrefixes_SK1273_Case1() {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(30);
@@ -125,7 +125,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * тест на отправку сообщений со сложными префиксами для писем, которых нет в сценарие
      * (тест на то, что любое письмо можно кому-угодно переслать)
      */
-    public function testSK1273_Case2() {
+    public function test_DifficultPrefixes_SK1273_Case2() {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(30);
