@@ -16,7 +16,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
 
     public function testGoalsAndPriorities_Positive()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Спасибо тебе, значит, через две')])");
