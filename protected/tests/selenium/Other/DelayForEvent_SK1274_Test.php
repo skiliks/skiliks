@@ -6,7 +6,7 @@
 /**
  * Тесты (для SK1274)
  */
-class Case_SK1274_Test extends SeleniumTestHelper
+class DelayForEvent_SK1274_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -18,7 +18,7 @@ class Case_SK1274_Test extends SeleniumTestHelper
     /**
      * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
      */
-    public function test_SK1274_Case1() {
+    public function test_DelayForEvent_SK1274() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();

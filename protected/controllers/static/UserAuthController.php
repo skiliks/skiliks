@@ -784,7 +784,7 @@ class UserAuthController extends YumController
         if (null !== $email && null !== $key) {
             /* @var $profile->user YumUser */
             $profile = YumProfile::model()->findByAttributes(['email' => $email]);
-            if($profile->user->isAuth()) {
+            if(Yii::app()->user->data()->isAuth()) {
                 Yii::app()->user->setFlash('notice', 'Вы уже залогинены');
                 $this->redirect('/dashboard');
             }

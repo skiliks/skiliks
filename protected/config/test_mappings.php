@@ -112,6 +112,7 @@ return [
         'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[10]/a",
         'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[11]/a',
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
+        'goals' => "//tr[contains(@class, 'learning-area-code-1')]/td[3]",
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
         'admm_personal' => "//tr[@class='matrix-points-sum-scale-type-personal']/td[2]",

@@ -9,7 +9,7 @@
  * Выбираем тему письма для Трудякина. Удаляем его из адресатов, соглашаемся на очистку формы в поп-апе
  * Выбираем тему для оставшейся Крутько, убеждаемся что темы для Трудякина не отображаются
  */
-class SK1253_Test extends SeleniumTestHelper
+class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -18,7 +18,7 @@ class SK1253_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1253()
+    public function test_ChangeMailThemes_SK1253()
     {
 
         #TODO: убрать дублирование

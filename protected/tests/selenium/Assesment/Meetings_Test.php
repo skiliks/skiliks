@@ -4,10 +4,9 @@
  * @{
  */
 /**
- * Тест на диалоги, Case 7.
- * Выбиваем 100% по эффективности работы со встречами
+ * 100% по Эффективное управление встречами (Область обучения №7)
  */
-class Case7_meetings_Test extends SeleniumTestHelper
+class Meetings_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -16,7 +15,7 @@ class Case7_meetings_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK2420_4()
+    public function test_Dialogs_for_SK2420_4()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();

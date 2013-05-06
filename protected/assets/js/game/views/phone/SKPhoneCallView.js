@@ -94,8 +94,6 @@ define([
          * @param event
          */
         reply: function(event) {
-            SKApp.simulation.trigger('audio-phone-call-stop');
-
             event.preventDefault();
             event.stopPropagation();
 
@@ -128,8 +126,6 @@ define([
          * @param event
          */
         noReply: function(event) {
-            SKApp.simulation.trigger('audio-phone-call-stop');
-
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
             if ($(event.currentTarget).attr('data-disabled')) {
                 return;

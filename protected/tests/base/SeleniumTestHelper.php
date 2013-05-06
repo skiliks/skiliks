@@ -18,8 +18,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
-        // установим куку "уже просмотренное видео в начале симуляции"
-
 
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
@@ -288,7 +286,7 @@ class SeleniumTestHelper extends CWebTestCase
      * count - количество писем, которые мы ожидаем увидеть во "входящих" на момент указанного времени (время устанавливаем перед вызовом этого метода).
      * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
      * возвращаем false, если нет
-     * Пример использования - тест Case_SK1471_Test.php , строка 33-37
+     * Пример использования - тест CountOfEmails_SK1471_Test.php , строка 33-37
      */
     public function incoming_counter ($count)
     {
@@ -404,7 +402,6 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }*/
-        // когда Андрей починит отправку письма убрать слип и раскомментить код сверху.
         sleep(20);
     }
 

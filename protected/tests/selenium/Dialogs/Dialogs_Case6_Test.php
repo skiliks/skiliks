@@ -8,7 +8,7 @@
  * Пошагово запускаем диалоги из /Users/Tony/Dropbox/projectx - development/1. Documentation/1.1 Scenario/1.1.1 Оценка/Тесты/Расчет оценки_тест3_final.xls
  * После чего в Simulation points сверяем суммы оценок поведений positive, negative & personal по mail matrix и all dialogs
  */
-class Case6_SK1792_Test extends SeleniumTestHelper
+class Dialogs_Case6_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -17,7 +17,7 @@ class Case6_SK1792_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1792()
+    public function test_Dialogs_for_SK1792()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
