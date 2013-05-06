@@ -711,7 +711,7 @@ html[lang=ru] .features form div input[type=submit]{
     .feedback .form-buttons-wrapper .form-submit-button {
         font-size:16px;
         margin-top: -60px;
-        padding-left: 22px;
+        padding-left: 34px;
         right: 17px;
         width: 140px;
     }
@@ -2102,7 +2102,9 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery-view .popupclose,
     .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+    .feedbackwrap .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
         background-size: 26px;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
