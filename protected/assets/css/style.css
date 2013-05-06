@@ -4225,4 +4225,22 @@ ul.profile-menu li {
     display: inline-block;
 }
 
+#yum-login-global-errors .globalErrorMessage {
+    padding: 5px 10px 10px 10px;
+}
+
+.action-controller-login-auth .enter_form .nice-border {
+    background-color: #D1E8EA;
+}
+
+.sign-in-box #yum-login-global-errors {
+    color: #fff;
+    font-size: 10px;
+}
+
+.login-form #yum-login-global-errors a {
+    font-size: 11px;
+    text-decoration: underline;
+}
+
 
