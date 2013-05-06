@@ -2062,6 +2062,7 @@ html[lang="en"] .footer .social_networks {
     top: -22px;
     right: -22px;
 }
+
 .cabmessage .ui-dialog-titlebar-close {
     top:-35px;
     right: -20px;
@@ -2102,8 +2103,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery-view .popupclose,
     .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,{
         background-size: 26px;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
@@ -2113,6 +2113,18 @@ html[lang="en"] .footer .social_networks {
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
     .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
+    }
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+        background-image:url("../img/closepopup-min.png");
+        height:22px;
+        width:22px;
+    }
+    .add-vacancy-popup .ui-dialog-titlebar-close {
+        top: -19px;
+        right: -19px;
+    }
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        background-position: 0 -22px;
     }
     .ui-dialog .ui-dialog-title /*.add-vacancy-popup h1 */  {
         font-size:22px;
@@ -3320,6 +3332,13 @@ ul.profile-menu li {
 .add-vacancy-popup .form-vacancy .sbHolder {
     top:5px;
 }
+.add-vacancy-popup #add-vacancy-form .errorMessage {
+    top: -9px;
+    left: 155px;
+}
+.add-vacancy-popup #add-vacancy-form #Vacancy_label_em_ {
+    top: -13px;
+}
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
@@ -3528,7 +3547,12 @@ ul.profile-menu li {
         font-size: 11px;
     }
     .errorMessage {
-        font-size:11px;
+          font-size:11px;
+     }
+    .add-vacancy-popup #add-vacancy-form .errorMessage {
+        font-size: 10px;
+        left: 120px;
+        top: -8px;
     }
     .invite-people-form input[type="submit"] {
         margin-left: 55px;
