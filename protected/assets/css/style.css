@@ -196,7 +196,9 @@ a:focus, a:active {
     background: linear-gradient(to bottom,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6dede', endColorstr='#ccd5d5',GradientType=0 ); /* IE6-9 */
     border: solid 1px #b9c1c1;
+    cursor: text;
 }
+
 .sbHolder:focus .sbSelector{
 	color: #fff;
 }
@@ -235,6 +237,9 @@ a:focus, a:active {
 }
 .empty-select .sbToggle {
     background-image: url("../img/emp-select-toggle.png");
+}
+.empty-select .sbHolder .sbToggleOpen {
+    background-position: left top;
 }
 .sbToggleOpen{
 	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
@@ -2053,6 +2058,10 @@ html[lang="en"] .footer .social_networks {
     right: -25px;
     background: none;
 }
+.add-vacancy-popup .ui-dialog-titlebar-close {
+    top: -22px;
+    right: -22px;
+}
 .cabmessage .ui-dialog-titlebar-close {
     top:-35px;
     right: -20px;
@@ -3250,14 +3259,18 @@ ul.profile-menu li {
 }
 .add-vacancy-popup .form-vacancy {
     overflow: visible;
+    padding-left: 24px;
 }
 .add-vacancy-popup .form-vacancy label {
     color:#146672;
     display: inline-block;
     font-size: 14px;
-    /*height: 30px;*/
-    padding-bottom:26px;
-    width:145px;
+    height: 32px;
+    margin: 0px;
+    vertical-align: middle;
+    /*height: 30px;
+    padding-bottom:26px;*/
+    width:135px;
 }
 .add-vacancy-popup .form-vacancy label[for="Vacancy_link"] {
     padding-bottom:10px;
@@ -3267,6 +3280,7 @@ ul.profile-menu li {
 }
 .add-vacancy-popup .form-vacancy input[type="text"] {
     color:#146672;
+    font-size: 14px;
     width:380px;
 }
 .add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
@@ -4173,10 +4187,14 @@ ul.profile-menu li {
     .add-vacancy-popup h1 {
         font-size: 22px;
     }
+    .add-vacancy-popup .form-vacancy {
+        padding-left: 16px;
+    }
     .add-vacancy-popup .form-vacancy label {
+        display: table-cell;
         font-size: 11px;
-        /*height: 30px;*/
-        padding-bottom: 4px;
+        height: 22px;
+        /*padding-bottom: 4px;*/
         width: 115px;
     }
     .add-vacancy-popup .sbHolder {
@@ -4194,6 +4212,12 @@ ul.profile-menu li {
     }
     .add-vacancy-popup .form-vacancy input[type=submit] {
         margin-top:0px;
+    }
+    .add-vacancy-popup #add-vacancy-form input[type="submit"] {
+        background-position: 9px 8px;
+        height: 24px;
+        font-size: 12px;
+        line-height: 24px;
     }
 }
 
