@@ -1089,24 +1089,60 @@ section.mail.new {
 
     .mail-popup {
       border: none;
+      border-top:8px solid #75674c;
       -webkit-border-radius: 0px;
       -moz-border-radius: 0px;
       border-radius: 0px;
     }
+    .mail-popup-text {
+      border-top: 1px solid #564b37;
+      margin: 0px;
+      padding-top: 10px;
+    }
     .mail-popup-tit {
       display: none;
     }
+    h3 {
+      font:16px "ProximaNova-Bold";
+      padding-bottom: 10px;
+      text-align: left;
+      text-transform: uppercase;
+    }
     .popup-content {
-        p {
+        li, p {
+            font:16px "ProximaNova-Regular";
+            line-height: 150%;
+            text-align: left;
+        }
+        .tutrl-list {
+            margin-bottom: 0px;
+            margin-left: 10px;
 
-          padding:0px 0px 40px 80px;
+            li {
+              height:auto;
+              list-style-type: none;
+              padding:0px 0px 27px 72px;
+            }
+            .tutrl-command {
+              background:url("../img/main-screen/komanda-small.png") no-repeat 0px 4px;
+            }
+            .tutrl-plan {
+              background:url("../img/main-screen/plan-small.png") no-repeat 0px 18px;
+            }
+            .tutrl-email {
+              background:url("../img/main-screen/pochta-small.png") no-repeat 0px 8px;
+            }
+            .tutrl-phone {
+              background:url("../img/main-screen/phone-small.png") no-repeat 0px 0px;
+            }
+            .tutrl-folder {
+              background:url("../img/main-screen/papka-small.png") no-repeat 0px 12px;
+            }
+            .tutrl-workplace {
+              background:url("../img/main-screen/workplace-small.png") no-repeat 0px 12px;
+            }
         }
     }
-
-    .tutrl-command {
-
-    }
-
 }
 .mail-tags-words {
   list-style:none;
