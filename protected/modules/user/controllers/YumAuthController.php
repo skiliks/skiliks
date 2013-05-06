@@ -249,16 +249,21 @@ class YumAuthController extends YumController {
     protected function runAjaxValidation($model, $form) {
         if (isset($_POST['ajax']) && $_POST['ajax'] == $form) {
             $json = CActiveForm::validate($model);
-            if (0 < count(json_decode($json, true))) {
-                // validate is profile exist, bur email not confirmed {
-                $profile = YumProfile::model()->findByAttributes(['email' => $model->username]);
-                if (null !== $profile) {
-                    $jsonObj = json_decode($json);
-                    $attributeName = get_class($model).'_form';
-                    $jsonObj->$attributeName = $profile->getEmailAlreadyExistMessage();
-                    $json = json_encode($jsonObj);
+
+            // validate is profile exist, bur email not confirmed {
+            $profile = YumProfile::model()->findByAttributes(['email' => $model->username]);
+            if (null !== $profile && false == $profile->user->isActive()) {
+                $jsonObj = json_decode($json);
+                if (false == is_object($jsonObj)) {
+                    $jsonObj = new stdClass();
                 }
-                // validate is profile exist, bur email not confirmed }
+                $attributeName = get_class($model).'_form';
+                $jsonObj->$attributeName = $profile->getEmailAlreadyExistMessage();
+                $json = json_encode($jsonObj);
+            }
+            // validate is profile exist, bur email not confirmed }
+
+            if (0 < count(json_decode($json, true))) {
                 echo $json;
                 Yii::app()->end();
                 return false;
@@ -360,10 +365,10 @@ class YumAuthController extends YumController {
 			} else {
                 if ($t & UserModule::LOGIN_BY_EMAIL) {
                     $profile = YumProfile::model()->findByAttributes(['email' => $this->loginForm->username]);
-                    if (null === $profile) {
-                        $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
-                    } else {
+                    if (null !== $profile && false == $profile->user->isActive()) {
                         $this->loginForm->addError('form', $profile->getEmailAlreadyExistMessage());
+                    } else {
+                        $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
                     }
                 } else {
                     $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
