@@ -5,6 +5,16 @@ class PagesController extends AjaxController
     public $user;
     public $signInErrors = [];
 
+    public function beforeAction($action)
+    {
+        $user = Yii::app()->user;
+        if (!$user->isGuest && !$user->data()->account_corporate->is_corporate_email_verified) {
+            $this->redirect('/userAuth/afterRegistration');
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex()
     {
 
