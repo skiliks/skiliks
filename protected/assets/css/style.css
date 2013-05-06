@@ -3284,7 +3284,7 @@ ul.profile-menu li {
     color:#146672;
     display: table-cell;
     font-size: 14px;
-    height: 32px;
+    height: 30px;
     margin: 0px;
     vertical-align: middle;
     /*height: 30px;
@@ -3301,6 +3301,10 @@ ul.profile-menu li {
     color:#146672;
     font-size: 14px;
     width:375px;
+}
+.add-vacancy-popup .form-vacancy input[type="text"] {
+    height: 24px;
+    line-height: 24px;
 }
 .add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
     padding-bottom: 0px;
