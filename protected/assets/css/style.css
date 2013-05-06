@@ -3254,8 +3254,12 @@ ul.profile-menu li {
     color:#146672;
     display: inline-block;
     font-size: 14px;
-    height: 30px;
+    /*height: 30px;*/
+    padding-bottom:30px;
     width:145px;
+}
+.add-vacancy-popup .form-vacancy label:last-child {
+    padding-bottom:10px;
 }
 .add-vacancy-popup .sbHolder {
     width:385px;
@@ -4170,6 +4174,8 @@ ul.profile-menu li {
     }
     .add-vacancy-popup .form-vacancy label {
         font-size: 11px;
+        /*height: 30px;*/
+        padding-bottom: 12px;
         width: 115px;
     }
     .add-vacancy-popup .sbHolder {
