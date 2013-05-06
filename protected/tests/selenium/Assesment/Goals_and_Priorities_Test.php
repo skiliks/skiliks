@@ -16,7 +16,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
 
     public function testGoalsAndPriorities_Positive()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Спасибо тебе, значит, через две')])");
@@ -98,8 +98,8 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         sleep(60);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
-        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[1]/td[4]","0");
-        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[2]/td[4]","0");
+        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[1]/td[4]","0.00");
+        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[2]/td[4]","0.00");
     }
 
 }
