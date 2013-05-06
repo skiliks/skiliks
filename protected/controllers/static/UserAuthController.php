@@ -69,12 +69,7 @@ class UserAuthController extends YumController
             ]);
 
             if ($existProfile && !$existProfile->user->isActive()) {
-                $error =
-                    Yii::t('site',  'Email already exists, but not activated.')
-                    . CHtml::link(
-                        Yii::t('site','Send activation again'),
-                        '/activation/resend/' . $existProfile->id
-                );
+                $error = $profile->getEmailAlreadyExistMessage();
             } else {
                 // we need profile validation even if user invalid
                 $isUserValid = $this->user->validate();
