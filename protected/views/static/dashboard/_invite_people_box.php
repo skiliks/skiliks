@@ -28,7 +28,7 @@
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
         <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <?php echo $form->error($invite, 'vacancy_id'); ?>
-        <span id="corporate-dashboard-add-vacancy">+</span>
+        <span id="corporate-dashboard-add-vacancy"></span>
     </div>
 
     <div class="row buttons">
