@@ -4277,7 +4277,7 @@ ul.profile-menu li {
 .dashboard .error .sbHolder,
 .error select,
 .error textarea,
-.error input,
+.error input, .error input[type="text"],
 .error .sbHolder {
     border : 2px solid #bd2929;
 }
