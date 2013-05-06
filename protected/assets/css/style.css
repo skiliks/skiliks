@@ -3311,10 +3311,12 @@ ul.profile-menu li {
 }
 #corporate-dashboard-add-vacancy {
     border-radius: 4px;
-    background-color: #ddd;
+    background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
     cursor:pointer;
     display: inline-block;
     height: 22px;/*10 */
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
     line-height: 22px;
     padding: 0px 6px;
     font-weight: bold;
@@ -4216,6 +4218,7 @@ ul.profile-menu li {
         text-indent: 13px;
     }
     #corporate-dashboard-add-vacancy {
+        background-size: 7px;
         height:18px;
         line-height:18px;
         width: 6px;
