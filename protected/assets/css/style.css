@@ -2103,7 +2103,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery-view .popupclose,
     .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,{
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-size: 26px;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
@@ -2119,7 +2119,7 @@ html[lang="en"] .footer .social_networks {
         height:22px;
         width:22px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close {
+    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close {
         top: -19px;
         right: -19px;
     }
@@ -3554,6 +3554,9 @@ ul.profile-menu li {
         left: 120px;
         top: -8px;
     }
+    .add-vacancy-popup #add-vacancy-form #Vacancy_label_em_ {
+        top: -11px;
+    }
     .invite-people-form input[type="submit"] {
         margin-left: 55px;
     }
@@ -4018,7 +4021,7 @@ ul.profile-menu li {
         padding: 0 30px 0 50px;
     }
     #add-vacancy-form  .row   {
-        padding-bottom: 10px;
+        /*padding-bottom: 10px;*/
     }
     .empty-select .sbToggle {
         background-image: url("../img/emp-select-toggle-min.png");
@@ -4214,7 +4217,7 @@ ul.profile-menu li {
     }
     .add-vacancy-popup {
         background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
-        height: 270px !important;
+        height: 280px !important;
         margin-left: -212px !important;
         padding-bottom: 0px;
         width: 424px !important;
