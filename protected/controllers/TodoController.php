@@ -7,20 +7,6 @@
  */
 class TodoController extends AjaxController
 {
-
-    /**
-     * @return HttpResponce
-     */
-    public function actionGetCount()
-    {
-        $simulationId = $this->getSimulationId(); // external for make code clean
-
-        return $this->sendJSON(array(
-            'result' => self::STATUS_SUCCESS,
-            'data'   => Todo::model()->bySimulation($simulationId)->count()
-        ));
-    }
-
     /**
      * @return HttpResponce
      */

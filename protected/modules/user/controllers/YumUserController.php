@@ -66,10 +66,11 @@ class YumUserController extends YumController {
 		// If the user is not logged in, so we redirect to the actionLogin,
 		// which will render the login Form
 
-		if(Yii::app()->user->isGuest)
+		if(Yii::app()->user->isGuest) {
 			$this->actionLogin();
-		else
+        } else {
 			$this->actionList();
+        }
 	}
 
 	public function actionStats() {

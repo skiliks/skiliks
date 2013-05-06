@@ -30,6 +30,15 @@ class YumProfile extends YumActiveRecord
         }
     }
 
+    public function getEmailAlreadyExistMessage()
+    {
+        return Yii::t('site',  'Email already exists, but not activated.')
+            . CHtml::link(
+                Yii::t('site','Send activation again'),
+                '/activation/resend/' . $this->id
+            );
+    }
+
     // --------------------------------------------------------------------------------------------------------
 
 	public function init()

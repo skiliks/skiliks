@@ -196,7 +196,9 @@ a:focus, a:active {
     background: linear-gradient(to bottom,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6dede', endColorstr='#ccd5d5',GradientType=0 ); /* IE6-9 */
     border: solid 1px #b9c1c1;
+    cursor: text;
 }
+
 .sbHolder:focus .sbSelector{
 	color: #fff;
 }
@@ -235,6 +237,9 @@ a:focus, a:active {
 }
 .empty-select .sbToggle {
     background-image: url("../img/emp-select-toggle.png");
+}
+.empty-select .sbHolder .sbToggleOpen {
+    background-position: left top;
 }
 .sbToggleOpen{
 	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
@@ -706,7 +711,7 @@ html[lang=ru] .features form div input[type=submit]{
     .feedback .form-buttons-wrapper .form-submit-button {
         font-size:16px;
         margin-top: -60px;
-        padding-left: 22px;
+        padding-left: 34px;
         right: 17px;
         width: 140px;
     }
@@ -2053,6 +2058,11 @@ html[lang="en"] .footer .social_networks {
     right: -25px;
     background: none;
 }
+.add-vacancy-popup .ui-dialog-titlebar-close {
+    top: -22px;
+    right: -22px;
+}
+
 .cabmessage .ui-dialog-titlebar-close {
     top:-35px;
     right: -20px;
@@ -2100,10 +2110,23 @@ html[lang="en"] .footer .social_networks {
         -webkit-transform: scale(0.8);
         transform: scale(0.8);
     }
-    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
     }
-    .ui-dialog .ui-dialog-title, /*.add-vacancy-popup h1 */  {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+        background-image:url("../img/closepopup-min.png");
+        height:22px;
+        width:22px;
+    }
+    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close {
+        top: -19px;
+        right: -19px;
+    }
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+        background-position: 0 -22px;
+    }
+    .ui-dialog .ui-dialog-title /*.add-vacancy-popup h1 */  {
         font-size:22px;
     }
 	.login-form{
@@ -3237,9 +3260,17 @@ ul.profile-menu li {
 .add-vacancy-popup {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    left:50% !important;
+    margin-left:-292px !important;
     overflow: visible;
+    padding-bottom: 20px;
     position: relative;
+    padding-bottom: 20px;
     width:584px !important;
+}
+.add-vacancy-popup .row   {
+    padding-bottom: 12px;
 }
 .add-vacancy-popup h1 {
     margin-top: -4px;
@@ -3247,32 +3278,73 @@ ul.profile-menu li {
 }
 .add-vacancy-popup .form-vacancy {
     overflow: visible;
+    padding-left: 30px;
 }
 .add-vacancy-popup .form-vacancy label {
     color:#146672;
-    display: inline-block;
+    display: table-cell;
     font-size: 14px;
+    height: 30px;
+    margin: 0px;
+    vertical-align: middle;
+    /*height: 30px;
+    padding-bottom:26px;*/
     width:145px;
 }
+.add-vacancy-popup .form-vacancy label[for="Vacancy_link"] {
+    /*padding-bottom:10px;*/
+}
 .add-vacancy-popup .sbHolder {
-    width:385px;
+    width:380px;
 }
 .add-vacancy-popup .form-vacancy input[type="text"] {
-    width:380px;
+    color:#146672;
+    font-size: 14px;
+    width:375px;
+}
+.add-vacancy-popup .form-vacancy input[type="text"] {
+    height: 24px;
+    line-height: 24px;
 }
 .add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
     padding-bottom: 0px;
 }
 #corporate-dashboard-add-vacancy {
     border-radius: 4px;
-    background-color: #ddd;
+    background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
     cursor:pointer;
     display: inline-block;
     height: 22px;/*10 */
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
     line-height: 22px;
     padding: 0px 6px;
     font-weight: bold;
+    text-align: center;
     width: 10px;
+}
+#invite-form .v {
+    position: relative;
+}
+#invite-form #corporate-dashboard-add-vacancy {
+    bottom:1px;
+    position: absolute;
+    right:23px;
+}
+.add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
+    left:150px;
+    position: absolute;
+    top:0px;
+}
+.add-vacancy-popup .form-vacancy .sbHolder {
+    top:5px;
+}
+.add-vacancy-popup #add-vacancy-form .errorMessage {
+    top: -9px;
+    left: 155px;
+}
+.add-vacancy-popup #add-vacancy-form #Vacancy_label_em_ {
+    top: -13px;
 }
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
@@ -3455,7 +3527,7 @@ ul.profile-menu li {
         width: 130px;
     }
     .invite-people-form .sbHolder {
-        width: 120px;
+        width: 117px;
     }
     #simulations-counter-box, #invite-people-box {
         width:200px;
@@ -3482,7 +3554,15 @@ ul.profile-menu li {
         font-size: 11px;
     }
     .errorMessage {
-        font-size:11px;
+          font-size:11px;
+     }
+    .add-vacancy-popup #add-vacancy-form .errorMessage {
+        font-size: 10px;
+        left: 120px;
+        top: -7px;
+    }
+    .add-vacancy-popup #add-vacancy-form #Vacancy_label_em_ {
+        top: -11px;
     }
     .invite-people-form input[type="submit"] {
         margin-left: 55px;
@@ -3948,7 +4028,7 @@ ul.profile-menu li {
         padding: 0 30px 0 50px;
     }
     #add-vacancy-form  .row   {
-        padding-bottom: 10px;
+        /*padding-bottom: 10px;*/
     }
     .empty-select .sbToggle {
         background-image: url("../img/emp-select-toggle-min.png");
@@ -4138,11 +4218,56 @@ ul.profile-menu li {
         text-indent: 13px;
     }
     #corporate-dashboard-add-vacancy {
+        background-size: 7px;
         height:18px;
         line-height:18px;
         width: 6px;
     }
-
+    .add-vacancy-popup {
+        background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+        height: 280px !important;
+        margin-left: -212px !important;
+        padding-bottom: 0px;
+        width: 424px !important;
+    }
+    #invite-form #corporate-dashboard-add-vacancy {
+        bottom:0px;
+        right:4px;
+    }
+    .add-vacancy-popup h1 {
+        font-size: 22px;
+    }
+    .add-vacancy-popup .form-vacancy {
+        padding-left: 16px;
+    }
+    .add-vacancy-popup .form-vacancy label {
+        font-size: 11px;
+        height: 22px;
+        /*padding-bottom: 4px;*/
+        width: 115px;
+    }
+    .add-vacancy-popup .sbHolder {
+        width: 260px;
+    }
+    .add-vacancy-popup .form-vacancy input[type="text"] {
+        font-size: 11px;
+        height: 18px;
+        line-height: 18px;
+        padding: 1px 4px;
+        width: 252px;
+    }
+    .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
+        left: 115px;
+    }
+    .add-vacancy-popup .form-vacancy input[type=submit] {
+        margin-top:0px;
+    }
+    .add-vacancy-popup #add-vacancy-form input[type="submit"] {
+        background-position: 9px 8px;
+        height: 24px;
+        font-size: 12px;
+        line-height: 24px;
+    }
 }
 
 
@@ -4163,7 +4288,7 @@ ul.profile-menu li {
 .dashboard .error .sbHolder,
 .error select,
 .error textarea,
-.error input,
+.error input, .error input[type="text"],
 .error .sbHolder {
     border : 2px solid #bd2929;
 }
@@ -4175,6 +4300,24 @@ ul.profile-menu li {
 
 #footer-menu li {
     display: inline-block;
+}
+
+#yum-login-global-errors .globalErrorMessage {
+    padding: 5px 10px 10px 10px;
+}
+
+.action-controller-login-auth .enter_form .nice-border {
+    background-color: #D1E8EA;
+}
+
+.sign-in-box #yum-login-global-errors {
+    color: #fff;
+    font-size: 10px;
+}
+
+.login-form #yum-login-global-errors a {
+    font-size: 11px;
+    text-decoration: underline;
 }
 
 

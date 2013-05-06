@@ -50,6 +50,18 @@ Yum::renderFlash();
         <div class="row submit">
             <?php echo CHtml::submitButton(Yum::t('Войти')); ?>
         </div>
+
+        <?php // for "your email not activated" message { ?>
+        <div id="yum-login-global-errors">
+            <?php echo CHtml::error($model,'form') ?>
+            <script>
+                <?php // to prevent update text by Cufon - it`s brake link "send activation email again" ?>
+                $('#yum-login-global-errors .errorMessage').addClass('globalErrorMessage');
+                $('#yum-login-global-errors .errorMessage').removeClass('errorMessage');
+            </script>
+        </div>
+        <?php // for "your email not activated" message } ?>
+
     </div>
     <div class="row rememberMe">
         <?php echo CHtml::activeCheckBox($model,'rememberMe', array('style' => 'display: inline;', 'class' => 'niceCheck')); ?>

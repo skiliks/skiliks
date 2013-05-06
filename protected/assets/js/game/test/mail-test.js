@@ -1,4 +1,5 @@
-/*global buster, sinon, describe, before, after, require, spec, _, it */
+/*global buster, sinon, describe, before, after, require, spec, _, it, expect, SKApp, SKApplication,
+$, assert, console */
 
 buster.spec.expose();
 
@@ -87,6 +88,7 @@ define([
             _.templateSettings.interpolate = /<@=(.+?)@>/g;
             _.templateSettings.evaluate = /<@(.+?)@>/g;
             var server;
+            var timers;
             before(function () {
                 server = sinon.fakeServer.create();
 
@@ -96,9 +98,9 @@ define([
                             "result":1,"data":[
                                 {
                                     "id":"5546",
-                                    "name":"byudzhet_proizvodstva_01_itog.xlsx",
-                                    "srcFile":"byudzhet_proizvodstva_01_itog.xlsx",
-                                    "mime":"application\/vnd.ms-excel"
+                                    "name":"kvartalnyj_plan_01_Q4.pptx",
+                                    "srcFile":"kvartalnyj_plan_01_Q4.pdf",
+                                    "mime":"application\/pdf"
                                 },{
                                     "id":"5549",
                                     "name":"kvartalnyj_plan_01_Q4.pptx",
@@ -216,10 +218,14 @@ define([
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication({'start': '9:00', "skiliksSpeedFactor": 8 });
+                SKApp.set('finish', '20:00');
+                SKApp.set('end', '18:00');
                 this.timeout = 1000;
+                timers = sinon.useFakeTimers();
             });
             after(function () {
                 server.restore();
+                timers.restore();
             });
 
             it("can display mail client", function () {
@@ -253,6 +259,7 @@ define([
                 collection.fetch();
                 server.respond();
                 expect(collection.pluck('fio')).toEqual(["bob", "john"]);
+                server.respond();
             });
 
             it("can save draft and send draft", function () {
@@ -316,7 +323,6 @@ define([
                 server.respond();
                 expect(mailView.$el.find('.email-list-line').length).toBe(2);
                 server.respond();
-
             });
 
             it("can create and send new letter (phrases)", function () {
@@ -384,6 +390,7 @@ define([
 
                 // check that mail main screen opened after mail send
                 expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
+                server.respond();
             });
 
             it("can create and send new letter with attachment", function () {
@@ -454,7 +461,226 @@ define([
 
                 // check that mail main screen opened after mail send
                 expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
+                server.respond();
+            });
+
+            it("Check mail logs", function () {
+                var simulation = SKApp.simulation;
+
+                // action 1:
+                simulation.start();
+                server.respond();
+
+                var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
+                mail_window.open();
+
+                var mailView = new SKMailClientView({model_instance: mail_window});
+
+                // action 2:
+                mailView.render();
+                server.respond();
+
+                timers.tick(10 * 1000); // 10 sec
+                server.respond();
+
+                // action 3:
+                mailView.$('#FOLDER_DRAFTS').click();
+                timers.tick(10 * 1000); // 10 sec
+                server.respond();
+
+                // action 4:
+                mailView.$('a.NEW_EMAIL').click();
+                timers.tick(3 * 1000); // 10 sec
+                server.respond();
+
+                // action 5:
+                mailView.$('.win-close button').click();
+                timers.tick(3 * 1000); // 10 sec
+                simulation.mailClient.message_window.$('.mail-popup-button:eq(0)').click();
+                timers.tick(5 * 1000); // 10 sec
+                server.respond();
+
+                // action 6:
+                mailView.$('#FOLDER_INBOX').click();
+                timers.tick(5 * 1000); // 10 sec
+                mailView.$('.email-list-line:eq(1)').click();
+                timers.tick(10 * 1000); // 10 sec
+                server.respond();
+
+                // combine logs for assets [
+                var logs = new Array();
+
+                logs[0] = {
+                    'logs[0][0]': "1",
+                    'logs[0][1]': "1",
+                    'logs[0][2]': "activated",
+                    'logs[0][3]': "32400",
+                    'logs[0][window_uid]': "uid1-1",
+                    'timeString': "540"
+                };
+
+                logs[1] = {
+                    'logs[0][0]': "1",
+                    'logs[0][1]': "1",
+                    'logs[0][2]': "deactivated",
+                    'logs[0][3]': "32400",
+                    'logs[0][window_uid]': "uid1-2",
+                    'logs[1][0]': "10",
+                    'logs[1][1]': "11",
+                    'logs[1][2]': "activated",
+                    'logs[1][3]': "32400",
+                    'logs[1][window_uid]': "uid2-3",
+                    'logs[2][0]': "10",
+                    'logs[2][1]': "11",
+                    'logs[2][2]': "deactivated",
+                    'logs[2][3]': "32400",
+                    'logs[2][window_uid]': "uid2-4",
+                    'logs[3][0]': "10",
+                    'logs[3][1]': "11",
+                    'logs[3][2]': "activated",
+                    'logs[3][3]': "32400",
+                    'logs[3][4][mailId]': "996241",
+                    'logs[3][window_uid]': "uid2-5",
+                    'logs[4][0]': "10",
+                    'logs[4][1]': "11",
+                    'logs[4][2]': "deactivated",
+                    'logs[4][3]': "32400",
+                    'logs[4][4][mailId]': "996241",
+                    'logs[4][window_uid]': "uid2-6",
+                    'logs[5][0]': "10",
+                    'logs[5][1]': "11",
+                    'logs[5][2]': "activated",
+                    'logs[5][3]': "32400",
+                    'logs[5][4][mailId]': "996241",
+                    'logs[5][window_uid]': "uid2-7",
+                    'timeString': "541"
+                };
+
+                logs[2] = {
+                    'logs[0][0]': "10",
+                    'logs[0][1]': "11",
+                    'logs[0][2]': "deactivated",
+                    'logs[0][3]': "32480",
+                    'logs[0][4][mailId]': "996241",
+                    'logs[0][window_uid]': "uid2-8",
+                    'logs[1][0]': "10",
+                    'logs[1][1]': "11",
+                    'logs[1][2]': "activated",
+                    'logs[1][3]': "32480",
+                    'logs[1][window_uid]': "uid2-9",
+                    'timeString': "542"
+                };
+
+                logs[3] = {
+                    'logs[0][0]': "10",
+                    'logs[0][1]': "11",
+                    'logs[0][2]': "deactivated",
+                    'logs[0][3]': "32560",
+                    'logs[0][window_uid]': "uid2-10",
+                    'logs[1][0]': "10",
+                    'logs[1][1]': "13",
+                    'logs[1][2]': "activated",
+                    'logs[1][3]': "32560",
+                    'logs[1][window_uid]': "uid3-11",
+                    'timeString': "543"
+                };
+
+                logs[4] = {
+                    'logs[0][0]': "10",
+                    'logs[0][1]': "13",
+                    'logs[0][2]': "deactivated",
+                    'logs[0][3]': "32608",
+                    'logs[0][window_uid]': "uid3-12",
+                    'logs[1][0]': "10",
+                    'logs[1][1]': "11",
+                    'logs[1][2]': "activated",
+                    'logs[1][3]': "32608",
+                    'logs[1][window_uid]': "uid2-13",
+                    'timeString': "544"
+                };
+
+                logs[5] = {
+                    'logs[0][0]': "10",
+                    'logs[0][1]': "11",
+                    'logs[0][2]': "deactivated",
+                    'logs[0][3]': "32648",
+                    'logs[0][window_uid]': "uid2-14",
+                    'logs[1][0]': "10",
+                    'logs[1][1]': "11",
+                    'logs[1][2]': "activated",
+                    'logs[1][3]': "32648",
+                    'logs[1][4][mailId]': "996241",
+                    'logs[1][window_uid]': "uid2-15",
+                    'timeString': "545"
+                };
+                // combine logs for assets }
+
+                // window uids random - so we need to fix our predefine values of uid {
+                var windowUid_1 = null;
+                var windowUid_2 = null;
+                var windowUid_3 = null;
+                // window uids random - so we need to fix our predefine values of uid }
+
+                var i = 0;
+                _.each(server.requests, function(item) {
+                    if ('/index.php/events/getState' === item.url) {
+                        var requestArray = URLToArray(decodeURIComponent(item.requestBody));
+
+                        if (0 === i) {
+                            windowUid_1 = requestArray['logs[0][window_uid]'];
+                            logs[i]['logs[0][window_uid]'] = windowUid_1;
+                         }
+
+                        if (1 === i) {
+                            windowUid_2 = requestArray['logs[1][window_uid]'];
+                            logs[i]['logs[0][window_uid]'] = windowUid_1;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                            logs[i]['logs[2][window_uid]'] = windowUid_2;
+                            logs[i]['logs[3][window_uid]'] = windowUid_2;
+                            logs[i]['logs[4][window_uid]'] = windowUid_2;
+                            logs[i]['logs[5][window_uid]'] = windowUid_2;
+                        }
+
+                        if (2 === i) {
+                            logs[i]['logs[0][window_uid]'] = windowUid_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+
+                        }
+
+                        if (3 === i) {
+                            windowUid_3 = requestArray['logs[1][window_uid]'];
+                            logs[i]['logs[0][window_uid]'] = windowUid_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_3;
+                        }
+
+                        if (4 === i) {
+                            logs[i]['logs[0][window_uid]'] = windowUid_3;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                        }
+
+                        if (5 === i) {
+                            logs[i]['logs[0][window_uid]'] = windowUid_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                        }
+
+                        _.each(logs[i], function(logsItem, key){
+                            //console.log(logsItem);
+                            expect(logsItem.toString()).toBe(requestArray[key].toString());
+                        });
+                        i++;
+                    }
+                });
             });
         });
     });
 });
+
+function URLToArray(url) {
+    var request = {};
+    var pairs = url.substring(url.indexOf('?') + 1).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        request[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    }
+    return request;
+}
