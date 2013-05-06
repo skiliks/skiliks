@@ -3237,6 +3237,7 @@ ul.profile-menu li {
 .add-vacancy-popup {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     left:50% !important;
     margin-left:-292px !important;
     overflow: visible;
@@ -3255,10 +3256,10 @@ ul.profile-menu li {
     display: inline-block;
     font-size: 14px;
     /*height: 30px;*/
-    padding-bottom:30px;
+    padding-bottom:26px;
     width:145px;
 }
-.add-vacancy-popup .form-vacancy label:last-child {
+.add-vacancy-popup .form-vacancy label[for="Vacancy_link"] {
     padding-bottom:10px;
 }
 .add-vacancy-popup .sbHolder {
@@ -4165,7 +4166,7 @@ ul.profile-menu li {
     }
     .add-vacancy-popup {
         background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
-        height: 330px !important;
+        height: 270px !important;
         margin-left: -212px !important;
         width: 424px !important;
     }
@@ -4175,7 +4176,7 @@ ul.profile-menu li {
     .add-vacancy-popup .form-vacancy label {
         font-size: 11px;
         /*height: 30px;*/
-        padding-bottom: 12px;
+        padding-bottom: 4px;
         width: 115px;
     }
     .add-vacancy-popup .sbHolder {
@@ -4190,6 +4191,9 @@ ul.profile-menu li {
     }
     .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
         left: 115px;
+    }
+    .add-vacancy-popup .form-vacancy input[type=submit] {
+        margin-top:0px;
     }
 }
 
