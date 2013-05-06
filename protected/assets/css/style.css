@@ -3318,6 +3318,7 @@ ul.profile-menu li {
     line-height: 22px;
     padding: 0px 6px;
     font-weight: bold;
+    text-align: center;
     width: 10px;
 }
 #invite-form .v {
