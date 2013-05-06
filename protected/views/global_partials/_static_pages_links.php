@@ -20,11 +20,6 @@ $this->widget('zii.widgets.CMenu', array(
             'visible' => false,
         ],
         [
-            'label'   => Yii::t('site', 'My office'),
-            'url'     => ['static/dashboard/index'],
-            'visible' => !$isGuest && $isActivated
-        ],
-        [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
             'linkOptions' => ['class' => 'sign-in-link'],
