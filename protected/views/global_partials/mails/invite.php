@@ -10,13 +10,13 @@
             h1 {
                 color:#626250;
                 font-family: 'ProximaNova-Bold', Arial;
-                font-size:30px;
-                margin:0 0 10px 0;
+                font-size:28px;
+                margin:2px 0 20px 0;
                 padding:0;}
             p {
-                margin:0 0 10px 0;
+                margin:0 0 17px 0;
                 color:#555545;
-                font-family:'ProximaNova-Regular', Arial;
+                font-family:'ProximaNova-Regular', Tahoma;
                 font-size:16px;
                 text-align:justify;
                 line-height:22px;
@@ -24,7 +24,7 @@
             a {
                 text-decoration:none;
                 color:#147b99;
-                font-family: 'ProximaNova-Regular', Arial;
+                font-family: 'ProximaNova-Regular', Tahoma;
                 font-size: 16px;
             }
         </style>
@@ -44,7 +44,6 @@
                                 <table bgcolor="fdfbc6" width="100%" height="100%">
                                     <tr><td></td></tr>
                                 </table>
-                                <!--<img src="cid:mail-left"/>-->
                             </td>
                             <td bgcolor="fdfbc6" width="489" height="344" valign="top">
                                 <h1>
