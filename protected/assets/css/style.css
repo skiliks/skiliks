@@ -3263,25 +3263,25 @@ ul.profile-menu li {
 }
 .add-vacancy-popup .form-vacancy label {
     color:#146672;
-    display: inline-block;
+    display: table-cell;
     font-size: 14px;
     height: 32px;
     margin: 0px;
     vertical-align: middle;
     /*height: 30px;
     padding-bottom:26px;*/
-    width:135px;
+    width:145px;
 }
 .add-vacancy-popup .form-vacancy label[for="Vacancy_link"] {
     padding-bottom:10px;
 }
 .add-vacancy-popup .sbHolder {
-    width:385px;
+    width:380px;
 }
 .add-vacancy-popup .form-vacancy input[type="text"] {
     color:#146672;
     font-size: 14px;
-    width:380px;
+    width:375px;
 }
 .add-vacancy-popup #add-vacancy-form .buttons, .add-vacancy-popup  .ui-dialog-content {
     padding-bottom: 0px;
@@ -4191,7 +4191,6 @@ ul.profile-menu li {
         padding-left: 16px;
     }
     .add-vacancy-popup .form-vacancy label {
-        display: table-cell;
         font-size: 11px;
         height: 22px;
         /*padding-bottom: 4px;*/
