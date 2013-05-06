@@ -101,19 +101,6 @@ define(["game/models/SKEvent"], function () {
             },
 
             /**
-             * @method getPlanTodoCount
-             * @param cb
-             */
-            'getPlanTodoCount': function (cb) {
-                SKApp.server.api('todo/getCount', {}, function (data) {
-                    if (data.result === 1) {
-                        var counter = data.data;
-                        cb(counter);
-                    }
-                });
-            },
-
-            /**
              * Returns true if simulation can accept event
              *
              * @param {SKEvent} event
