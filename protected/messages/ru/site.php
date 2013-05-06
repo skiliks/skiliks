@@ -111,7 +111,7 @@ return array(
     'Personal account' => 'Аккаунт физ.лица',
     'Corporate account' => 'Корпоративный аккаунт',
     'User' => 'Пользователь',
-    'Industry' => 'Область деятельности',
+    'Industry' => 'Отрасль',
     'Position' => 'Вакансия',
     'Fields with * are required.' => 'Поля отмеченные * обязательные для заполнения.',
     'Submit' => 'Подтвердить',

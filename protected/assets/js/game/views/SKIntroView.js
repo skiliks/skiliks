@@ -44,7 +44,7 @@ define([
             window.AppView = new SKApplicationView();
 
             this.tutorial = new SKDialogView({
-                message: 'Это туториал',
+                class: 'tutorial-popup',
                 content: _.template(tutorial_template, {}),
                 buttons: [{
                     id: 'ok',

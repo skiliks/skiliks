@@ -69,12 +69,7 @@ class UserAuthController extends YumController
             ]);
 
             if ($existProfile && !$existProfile->user->isActive()) {
-                $error =
-                    Yii::t('site',  'Email already exists, but not activated.')
-                    . CHtml::link(
-                        Yii::t('site','Send activation again'),
-                        '/activation/resend/' . $existProfile->id
-                );
+                $error = $profile->getEmailAlreadyExistMessage();
             } else {
                 // we need profile validation even if user invalid
                 $isUserValid = $this->user->validate();
@@ -236,7 +231,7 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->render('afterRegistration');
+        $this->render('afterRegistration', ['isGuest' => Yii::app()->user->isGuest]);
     }
 
     /**
@@ -431,8 +426,6 @@ class UserAuthController extends YumController
                     } else {
                         $this->redirect('/dashboard');
                     }
-
-                    $this->redirect(['registration/account-type/added']);
                 }
             }
         }
@@ -785,7 +778,7 @@ class UserAuthController extends YumController
             /* @var $profile->user YumUser */
             $profile = YumProfile::model()->findByAttributes(['email' => $email]);
             if(Yii::app()->user->data()->isAuth()) {
-                Yii::app()->user->setFlash('notice', 'Вы уже залогинены');
+                Yii::app()->user->setFlash('notice', 'Вы уже авторизированы');
                 $this->redirect('/dashboard');
             }
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {

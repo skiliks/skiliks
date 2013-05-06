@@ -1,4 +1,4 @@
-<?php $submitButtonTitle = (isset($submitButtonTitle)) ? $submitButtonTitle : 'Сохранить изменения'; ?>
+<?php $submitButtonTitle = (isset($submitButtonTitle)) ? $submitButtonTitle : 'Добавить'; ?>
 <?php $dataUrl = (isset($dataUrl)) ? $dataUrl : '/profile/corporate/vacancies'; ?>
 
 <?php if (isset($h1)): ?>
