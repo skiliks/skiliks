@@ -6,7 +6,7 @@
 /**
  * Тесты для отображения реплик, от флага никак НЕ зависящих (для SK1623)
  */
-class Case_SK1623_Test extends SeleniumTestHelper
+class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -18,7 +18,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
     /**
      * testSK1623_Case1() тестирует задачу SKILIKS-1623 для реплики в диалоге ET12.1, появление которой не зависит от флага (флаг не включен)
      */
-    public function testSK1623_Case1() {
+    public function test_IndependentReplicas_SK1623_Case1() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -42,7 +42,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
     /**
      * testSK1623_Case2() тестирует задачу SKILIKS-1623 для реплики в диалоге ET12.1, появление которой не зависит от флага (флаг включен)
      */
-    public function testSK1623_Case2() {
+    public function test_IndependentReplicas_SK1623_Case2() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -70,7 +70,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
     /**
      * testSK1623_Case3() тестирует задачу SKILIKS-1623 для реплики в диалоге ET12.2, появление которой не зависит от флага (флаг включен)
      */
-    public function testSK1623_Case3() {
+    public function test_IndependentReplicas_SK1623_Case3() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -92,7 +92,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
     /**
      * testSK1623_Case4() тестирует задачу SKILIKS-1623 для реплики в диалоге ET12.1, появление которой не зависит от флага (флаг не включен)
      */
-    public function testSK1623_Case4() {
+    public function test_IndependentReplicas_SK1623_Case4() {
 
         //$this->markTestIncomplete();
         $this->start_simulation();

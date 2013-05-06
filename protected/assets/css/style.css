@@ -102,6 +102,7 @@ body.inner-registration{
 .container{
     position: relative;
 	min-height:100%;
+    overflow: hidden;
 }
 
 .action-controller-comingSoonSuccess-static-pages .container,

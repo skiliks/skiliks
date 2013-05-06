@@ -61,10 +61,6 @@ define([
                     me.setCounter('.mail', count);
                 });
 
-                this.listenTo(SKApp.simulation, 'audio-door-knock-start', this.doSoundKnockStart);
-                this.listenTo(SKApp.simulation, 'audio-door-knock-stop', this.doSoundKnockStop);
-                this.listenTo(SKApp.simulation, 'audio-phone-call-start', this.doSoundPhoneCallInStart);
-                this.listenTo(SKApp.simulation, 'audio-phone-call-stop', this.doSoundPhoneCallInStop);
                 this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
                     me.doSoundPhoneCallShortZoomerStart();
                     setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
@@ -148,8 +144,6 @@ define([
                 var me = this;
                 this.$('.phone').attr('data-event-id', event.cid);
 
-                me.doSoundPhoneCallInStart();
-
                 var data = event.get('data');
                 var callbackFunction;
                 if (undefined === data[2]) {
@@ -172,6 +166,11 @@ define([
                     };
                 }
                 this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getPhoneBounces(data));
+
+                me.doSoundPhoneCallInStart();
+                event.on('complete', function() {
+                    me.doSoundPhoneCallInStop();
+                });
             },
 
             /**
@@ -192,11 +191,15 @@ define([
 
                 me.$('.door').attr('data-event-id', event.cid);
                 me.doBlockingPhoneIcon();
-                me.doSoundKnockStart();
                 me.startAnimation('.door', function() {
                     if (event.getStatus() === 'waiting') {
                         event.setStatus('completed');
                     }
+                });
+
+                me.doSoundKnockStart();
+                event.on('complete', function() {
+                    me.doSoundKnockStop();
                 });
             },
 
@@ -298,9 +301,6 @@ define([
                         } else {
                             me.icon_lock[selector] = false;
                             el.removeClass('icon-active');
-
-                            me.doSoundPhoneCallInStop();
-                            me.doSoundKnockStop();
 
                             if (end_cb !== undefined) {
                                 end_cb();

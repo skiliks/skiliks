@@ -13,7 +13,7 @@
  * 2) Повторно звоним Трутневу по этой же теме.
  * 3) Ловим поп-ап, мол, вы уже говорили.
  */
-class SK1367_Test extends SeleniumTestHelper
+class SecondCall_SK1367_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -22,7 +22,7 @@ class SK1367_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1367()
+    public function test_SecondCall_SK1367()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();

@@ -11,7 +11,7 @@
  * 4) Проверяем поля в черновике.
  * 5) Отправляем из черновика, проверяем поля во вкладке "Отправленные".
  */
-class DisplayText_SK1370_Test extends SeleniumTestHelper
+class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -20,7 +20,7 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1370()
+    public function test_DisplayMailText_SK1370()
     {
         $mail_code = array('MY1','MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21');
         $window = array('mail main','mail main','mail main','mail new',

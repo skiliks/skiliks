@@ -5,6 +5,19 @@ class PagesController extends AjaxController
     public $user;
     public $signInErrors = [];
 
+    public function beforeAction($action)
+    {
+        $user = Yii::app()->user;
+        if (!$user->isGuest &&
+            $user->data()->account_corporate &&
+            !$user->data()->account_corporate->is_corporate_email_verified
+        ) {
+            $this->redirect('/userAuth/afterRegistration');
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex()
     {
 
@@ -100,10 +113,7 @@ class PagesController extends AjaxController
 
             // prevent cheating
             if($user->getAccount()->tariff_id == $tariff->id) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Для Вашего профиля уже активирован тарифный план "%s".',
-                    $tariff->label
-                ));
+
                 $this->redirect('/profile/corporate/tariff');
             }
 
