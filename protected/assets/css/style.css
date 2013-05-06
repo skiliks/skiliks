@@ -3253,6 +3253,9 @@ ul.profile-menu li {
     position: relative;
     width:584px !important;
 }
+.add-vacancy-popup .row   {
+    padding-bottom: 15px;
+}
 .add-vacancy-popup h1 {
     margin-top: -4px;
     padding-bottom: 6px;
@@ -3273,7 +3276,7 @@ ul.profile-menu li {
     width:145px;
 }
 .add-vacancy-popup .form-vacancy label[for="Vacancy_link"] {
-    padding-bottom:10px;
+    /*padding-bottom:10px;*/
 }
 .add-vacancy-popup .sbHolder {
     width:380px;
@@ -3309,6 +3312,9 @@ ul.profile-menu li {
     left:150px;
     position: absolute;
     top:0px;
+}
+.add-vacancy-popup .form-vacancy .sbHolder {
+    top:5px;
 }
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
