@@ -2103,8 +2103,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery-view .popupclose:hover,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-    .feedbackwrap .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
         background-size: 26px;
         -moz-transform: scale(0.8);
         -o-transform: scale(0.8);
@@ -2112,11 +2111,10 @@ html[lang="en"] .footer .social_networks {
         transform: scale(0.8);
     }
     .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
-    .feedbackwrap .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
     }
-    .ui-dialog .ui-dialog-title, /*.add-vacancy-popup h1 */  {
+    .ui-dialog .ui-dialog-title /*.add-vacancy-popup h1 */  {
         font-size:22px;
     }
 	.login-form{
