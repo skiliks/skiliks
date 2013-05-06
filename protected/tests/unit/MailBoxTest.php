@@ -584,5 +584,31 @@ class MailBoxTest extends CDbTestCase
         $this->assertGreaterThan($someEmail->id, $sentMessage->id);
         $this->assertSame($subject->id, $sentMessage->subject_id);
     }
+
+    public function testMessageBoxCounter()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M1');
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M2');
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M4');
+
+        $mail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M5');
+        MailBoxService::moveToFolder($mail, MailBox::FOLDER_TRASH_ID);
+
+        $unread = MailBoxService::getFoldersUnreadCount($simulation);
+
+        $this->assertEquals(4, $unread[MailBox::FOLDER_INBOX_ID]);
+        $this->assertEquals(0, $unread[MailBox::FOLDER_DRAFTS_ID]);
+        $this->assertEquals(0, $unread[MailBox::FOLDER_OUTBOX_ID]);
+        $this->assertEquals(1, $unread[MailBox::FOLDER_TRASH_ID]);
+    }
 }
 
