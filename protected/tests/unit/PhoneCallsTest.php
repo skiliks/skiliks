@@ -191,5 +191,31 @@ class PhoneServiceTest extends CDbTestCase
         $this->assertEquals([], $data['events']);
         SimulationService::simulationStop($simulation);
     }
+
+    public function testGetThemes()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $example =  [
+                ['themeId' => 1130, 'themeTitle' => "Динамика производственных затрат"],
+                ['themeId' => 1148, 'themeTitle' => "Просьба"],
+                ['themeId' => 1149, 'themeTitle' => "Деньги на сервер"],
+                ['themeId' => 1150, 'themeTitle' => "Перенос сроков сдачи сводного бюджета"],
+                ['themeId' => 1151, 'themeTitle' => "Задержка данных от логистов"],
+                ['themeId' => 1231, 'themeTitle' => "Прочее"]
+            ];
+
+        $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
+
+        $data = PhoneService::getThemes($character->code, $simulation);
+
+        $this->assertEquals($example, $data);
+        SimulationService::simulationStop($simulation);
+    }
 }
 
