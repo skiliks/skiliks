@@ -8,7 +8,10 @@ class PagesController extends AjaxController
     public function beforeAction($action)
     {
         $user = Yii::app()->user;
-        if (!$user->isGuest && !$user->data()->account_corporate->is_corporate_email_verified) {
+        if (!$user->isGuest &&
+            $user->data()->account_corporate &&
+            !$user->data()->account_corporate->is_corporate_email_verified
+        ) {
             $this->redirect('/userAuth/afterRegistration');
         }
 
