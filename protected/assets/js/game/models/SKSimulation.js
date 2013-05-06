@@ -175,7 +175,6 @@ define([
                     SKApp.simulation.documents.fetch();
                     return;
                 }
-                console.log('+');
                 // if crushed excel not opened this moment }
 
                 me.zohoErrorDialog = me.zohoErrorDialog || new SKDialogView({
