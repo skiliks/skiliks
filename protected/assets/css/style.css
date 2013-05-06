@@ -3250,7 +3250,9 @@ ul.profile-menu li {
     left:50% !important;
     margin-left:-292px !important;
     overflow: visible;
+    padding-bottom: 20px;
     position: relative;
+    padding-bottom: 20px;
     width:584px !important;
 }
 .add-vacancy-popup .row   {
@@ -3262,7 +3264,7 @@ ul.profile-menu li {
 }
 .add-vacancy-popup .form-vacancy {
     overflow: visible;
-    padding-left: 24px;
+    padding-left: 30px;
 }
 .add-vacancy-popup .form-vacancy label {
     color:#146672;
@@ -3304,9 +3306,9 @@ ul.profile-menu li {
     position: relative;
 }
 #invite-form #corporate-dashboard-add-vacancy {
-    bottom:0px;
+    bottom:1px;
     position: absolute;
-    right:4px;
+    right:23px;
 }
 .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
     left:150px;
@@ -4188,7 +4190,12 @@ ul.profile-menu li {
         background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
         height: 270px !important;
         margin-left: -212px !important;
+        padding-bottom: 0px;
         width: 424px !important;
+    }
+    #invite-form #corporate-dashboard-add-vacancy {
+        bottom:0px;
+        right:4px;
     }
     .add-vacancy-popup h1 {
         font-size: 22px;
