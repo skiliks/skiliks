@@ -23,6 +23,18 @@
                 <?php echo $loginWidget->error($loginForm, 'password'); ?>
                 <?php echo $loginWidget->passwordField($loginForm, "password", ['placeholder' => Yii::t('site', 'Enter password')]) ?>
             </div>
+
+            <?php // for "your email not activated" message { ?>
+            <div id="yum-login-global-errors">
+                <?php echo CHtml::error($loginForm, 'form') ?>
+                <script>
+                    <?php // to prevent update text by Cufon - it`s brake link "send activation email again" ?>
+                    $('#yum-login-global-errors .errorMessage').addClass('globalErrorMessage');
+                    $('#yum-login-global-errors .errorMessage').removeClass('errorMessage');
+                </script>
+            </div>
+            <?php // for "your email not activated" message } ?>
+
             <div class="remember">
                 <input type="checkbox" name="rememberMe" value="remember" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
             </div>
@@ -44,8 +56,8 @@
                 'action'=>Yii::app()->request->hostInfo.'/recovery',
                 'enableAjaxValidation' => true,
                 'clientOptions'=>array(
-                    'validateOnSubmit'=>true, // Required to perform AJAX validation on form submit
-                    'afterValidate'=>'js:passwordRecoverySubmit', // Your JS function to submit form
+                    'validateOnSubmit' => true, // Required to perform AJAX validation on form submit
+                    'afterValidate'    => 'js:passwordRecoverySubmit', // Your JS function to submit form
                 )
             )); ?>
             <?php $recoveryForm = new YumPasswordRecoveryForm; ?>

@@ -35,7 +35,7 @@ class YumProfile extends YumActiveRecord
         return Yii::t('site',  'Email already exists, but not activated.')
             . CHtml::link(
                 Yii::t('site','Send activation again'),
-                '/activation/resend/' . $this->profile->id
+                '/activation/resend/' . $this->id
             );
     }
 

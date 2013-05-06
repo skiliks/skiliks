@@ -128,11 +128,16 @@
 
         window.authenticateValidation = function authenticateValidation(form, data, hasError) {
             if (!hasError) {
+                $('.sign-in-box #yum-login-global-errors').html('');
                 $.post(form.attr('action'), form.serialize(), function (res) {
                     // Do stuff with your response data!
                     location.href = '/dashboard';
                     // location.reload();
                 });
+            } else {
+                if (data.YumUserLogin_form) {
+                    $('.sign-in-box #yum-login-global-errors').html(data.YumUserLogin_form);
+                }
             }
             return false;
         };
