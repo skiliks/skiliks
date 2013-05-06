@@ -13,4 +13,6 @@
         </div>
     </div>
 </div>
+<? if (!empty($isGuest)): ?>
 <p class="text-center"><a href="/registration/" class="whitelink nodecorlink">Начать регистрацию заново</a></p>
+<?php endif; ?>

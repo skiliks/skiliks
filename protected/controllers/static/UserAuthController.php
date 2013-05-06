@@ -231,7 +231,7 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->render('afterRegistration');
+        $this->render('afterRegistration', ['isGuest' => Yii::app()->user->isGuest]);
     }
 
     /**
@@ -426,8 +426,6 @@ class UserAuthController extends YumController
                     } else {
                         $this->redirect('/dashboard');
                     }
-
-                    $this->redirect(['registration/account-type/added']);
                 }
             }
         }
