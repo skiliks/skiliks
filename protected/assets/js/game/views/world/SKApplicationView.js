@@ -32,8 +32,6 @@ define([
         'initialize':function () {
             var me = this;
 
-            me.frame = new SKSimulationView();
-
             SKApp.simulation.on('user-agree-with-sim-stop', function () {
                 delete me.simulation_view;
                 location.assign(this.get('result-url'));
@@ -45,7 +43,8 @@ define([
                     location.assign(this.get('result-url'));
                 }
             });
-
+            me.frame = new SKSimulationView();
+            me.frame.render();
             SKApp.server.on('server:error', function () {
                     if (true === SKApp.simulation.isDebug()) {
                         me.message_window = me.message_window || new window.SKDialogView({
@@ -67,10 +66,7 @@ define([
                     }
                 }
             );
-        },
-
-        drawDesktop: function() {
-            this.frame.render();
+            this.render();
         }
     });
 

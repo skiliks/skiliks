@@ -85,11 +85,7 @@ define([
             });
             me.$el.topZIndex();
 
-            if ($('.windows-container').length) {
-                $('.windows-container').prepend(this.$el);
-            } else {
-                $('body').append(this.$el);
-            }
+            $('.windows-container').prepend(this.$el);
         },
 
         /**
