@@ -127,7 +127,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::saveAggregatedPoints($simulation->id);
         
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
         
         // assertions:
         $this->assertEquals(count($replicsFor_1122), ($count_0 + $count_1), 'Wrong replics add_value values!');
@@ -232,7 +234,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::saveAggregatedPoints($simulation->id);
         
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
         
         // assertions:        
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -639,7 +643,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -696,7 +702,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -735,7 +743,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -806,7 +816,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -876,7 +888,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -950,7 +964,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 0, 'No assessments!');
@@ -1021,7 +1037,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
         $this->assertNotEquals(count($assessments), 1, 'No assessments!');
@@ -1089,7 +1107,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         // assertions:
 
@@ -1136,7 +1156,9 @@ class SimulationServiceTest extends CDbTestCase
         $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         $is_3333_scored = true;
 
@@ -1188,7 +1210,9 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
-        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
 
         $is_3333_scored = true;
 
@@ -1299,7 +1323,7 @@ class SimulationServiceTest extends CDbTestCase
 
         foreach ($replicas as $replica) {
             $replica = $simulation->game_type->getReplica(['excel_id' => $replica]);
-            $points = ReplicaPoint::model()->byDialog($replica->id)->findAll();
+            $points = ReplicaPoint::model()->findAllByAttributes(['dialog_id' => $replica->id]);
             /** @var ReplicaPoint[] $points */
             foreach($points as $point) {
                 LogHelper::setDialogPoint($replica->id, $simulation->id, $point);

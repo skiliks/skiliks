@@ -141,6 +141,7 @@ class PhoneServiceTest extends CDbTestCase
         $characterCode = 3; // Трутнев
 
         $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
+
         $theme = CommunicationTheme::model()->findByAttributes([
             'scenario_id'  => $simulation->scenario_id,
             'text'         => 'Задача отдела логистики: статус',
@@ -149,6 +150,8 @@ class PhoneServiceTest extends CDbTestCase
         ]);
 
         $this->assertInstanceOf('CommunicationTheme', $theme);
+
+        var_dump($simulation->id, $theme->id, $characterCode, $time);
 
         $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
         $this->assertEquals(1, $result['result']);

@@ -1,70 +1,16 @@
 <?php
-
-
-
 /**
- * Оценки набранные за Excel в результате проверки конктрольных формул
- * в рамках конкретной симуляции
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @param integer $id
+ * @param integer $sim_id
+ * @param float $value
+ * @param integer $formula_id
  */
 class SimulationExcelPoint extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;   
-    
-    /**
-     * @var float
-     */
-    public $value;
-    
-    /**
-     * @var integer
-     */
-    public $formula_id;    
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param type $className
-     * @return SimulationExcelPoint
-     */
-    public static function model($className=__CLASS__)
-    {
-            return parent::model($className);
-    }
+    // Place your specific code there
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-            return 'simulations_excel_points';
-    }
-    
-    /**
-     * Выбрать по заданной симуляции
-     * @param int $simId
-     * @return SimulationExcelPoint
-     */
-    public function bySimulation($simId)
-    {
-        $simId = (int)$simId;
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
+    // ---------------------------------------------------------------------------------------------------
+
     /**
      * Выбрать по заданной формуле
      * @param int $formulaId
@@ -89,6 +35,26 @@ class SimulationExcelPoint extends CActiveRecord
             'condition' => "value != 0"
         ));
         return $this;
+    }
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     *
+     * @param type $className
+     * @return SimulationExcelPoint
+     */
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+            return 'simulations_excel_points';
     }
 }
 

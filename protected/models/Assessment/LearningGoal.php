@@ -15,20 +15,10 @@
  */
 class LearningGoal extends CActiveRecord
 {
-    /**
-     * @var string
-     */
-    public $code;
-    
-    /**
-     * @var string
-     */
-    public $title;
-    
-    /* ------------------------------------------------------------*/
+    // Place your specific code there
 
-    /* ------------------------------------------------------------*/
-    
+    // ---------------------------------------------------------------------------------------------------
+
     /**
      *
      * @param type $className
@@ -36,7 +26,7 @@ class LearningGoal extends CActiveRecord
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -44,7 +34,7 @@ class LearningGoal extends CActiveRecord
      */
     public function tableName()
     {
-            return 'learning_goal';
+        return 'learning_goal';
     }
 
     /**

@@ -92,7 +92,6 @@ class Scenario extends CActiveRecord
         }
     }
 
-
     /**
      * @param $data
      * @return Character[]
@@ -339,72 +338,6 @@ class Scenario extends CActiveRecord
         $array['scenario_id'] = $this->getPrimaryKey();
         return Weight::model()->findByAttributes($array);
     }
-
-//    public function getDocumentTemplate($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return DocumentTemplate::model()->findByAttributes($array);
-//    }
-
-//    public function getFlagBlockMail($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return FlagBlockMail::model()->findByAttributes($array);
-//    }
-//
-//    public function getFlagRunMail($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return FlagRunMail::model()->findByAttributes($array);
-//    }
-
-//    public function getFlagBlockDialog($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return FlagBlockDialog::model()->findByAttributes($array);
-//    }
-
-//    public function getFlagBlockReplica($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return FlagBlockReplica::model()->findByAttributes($array);
-//    }
-
-//    /**
-//     * @param $attributes
-//     * @return Dialog
-//     */
-//    public function getDialog($attributes)
-//    {
-//        $attributes['scenario_id'] = $this->primaryKey;
-//        return Dialog::model()->findByAttributes($attributes);
-//    }
-
-//    /**
-//     * @param $attributes
-//     * @return Replica
-//     */
-//    public function getReplicaPoint($attributes, $params = [])
-//    {
-//        $attributes['scenario_id'] = $this->primaryKey;
-//        return ReplicaPoint::model()->findByAttributes($attributes, $params);
-//    }
-
-//    public function getMailTemplate($array)
-//    {
-//        $array['scenario_id'] = $this->id;
-//        return MailTemplate::model()->findByAttributes($array);
-//    }
-
-//    /**
-//     * @param $array
-//     * @return LearningArea
-//     */
-//    public function getLearningArea($array)
-//    {
-//        $array['scenario_id'] = $this->getPrimaryKey();
-//        return LearningArea::model()->findByAttributes($array);
-//    }
 
     public function getFlagsRunMail($array)
     {

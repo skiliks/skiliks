@@ -49,10 +49,10 @@ class LearningGoalAnalyzer
 
                 $value = $values[$behaviour->id];
 
-                if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) { // Positive
+                if ($behaviour->isPositive()) {
                     $totalPos += $value;
                     $maxPos += $behaviour->scale;
-                } elseif ($behaviour->type_scale == HeroBehaviour::TYPE_NEGATIVE) { //Negative
+                } elseif ($behaviour->isNegative()) {
                     $totalCons += $value;
                     $maxCons += $behaviour->scale;
                 }

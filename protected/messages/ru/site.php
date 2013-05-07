@@ -378,4 +378,7 @@ return array(
     'Pricing and plans' => 'Тарифы и оплата',
 
     'Type %s symbols at least.' => 'Введите не менее %s символов.',
+    'positive' => 'Положительная',
+    'negative' => 'Отрицательная',
+    'personal' => 'Персональная',
 );

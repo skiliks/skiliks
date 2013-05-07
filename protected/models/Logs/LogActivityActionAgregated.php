@@ -4,27 +4,19 @@
  * @property integer $sim_id
  * @property integer $mail_id
  * @property integer $window
- * @property datetime $start_time
- * @property datetime $end_time
+ * @property string $start_time 'H:i:s'
+ * @property string $end_time 'H:i:s'
+ * @property string $leg_type
+ * @property string $leg_action
+ * @property integer $activity_action_id
+ * @property string $category
+ * @property integer $is_keep_last_category
+ *
  * @property Simulation $simulation
  * @property ActivityAction $activityAction
  */
 class LogActivityActionAgregated extends CActiveRecord
 {
-    public $id;
-    
-    public $sim_id;
-    
-    public $leg_type;
-    
-    public $leg_action;
-    
-    public $activity_action_id;
-    
-    public $category;
-    
-    public $is_keep_last_category;
-    
     /**
      * @var string 'hh:ii:ss'
      */
@@ -44,7 +36,7 @@ class LogActivityActionAgregated extends CActiveRecord
     
     public function updateDuration() {
         $this->duration = TimeTools::secondsToTime(
-            (TimeTools::TimeToSeconds($this->end_time) - TimeTools::TimeToSeconds($this->start_time))
+            (TimeTools::timeToSeconds($this->end_time) - TimeTools::timeToSeconds($this->start_time))
         );
     }
 
@@ -56,28 +48,13 @@ class LogActivityActionAgregated extends CActiveRecord
         return (in_array($this->leg_type, ['Inbox_leg', 'Outbox_leg']));
     }
 
-    /**
-     * @return int
-     */
-    public function getDurationInSeconds()
-    {
-        if (null === $this->duration) {
-            return 0;
-        }
-
-        list($hours, $minutes, $seconds) = explode(':', $this->duration);
-
-        return $hours*60*60 + $minutes*60 + $seconds;
-    }
-
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
-     *
-     * @param type $className
+     * @param string $className
      * @return
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

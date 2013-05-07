@@ -17,7 +17,10 @@ class TodoService
         // проверим есть ли такая задача у нас в туду или плане
         $sources = ['Todo', 'DayPlan', 'DayPlanAfterVacation'];
         foreach ($sources as $class) {
-            if ($class::model()->bySimulation($simulation->id)->byTask($task->id)->find()) {
+            if ($class::model()->findByAttributes([
+                'sim_id'  => $simulation->id,
+                'task_id' => $task->id,
+            ])) {
                 return;
             }
         }
@@ -36,7 +39,6 @@ class TodoService
      */
     public static function delete($simId, $taskId)
     {
-        //Todo::model()->bySimulation($simId)->byTask($taskId)->delete();
         Todo::model()->deleteAllByAttributes(array(
             'sim_id'  => $simId,
             'task_id' => $taskId
@@ -50,10 +52,10 @@ class TodoService
     public static function getTodoTasksList($simulationId)
     {
         try {
-            $todoCollection = Todo::model()
-                ->bySimulation($simulationId)
-                ->byLatestAddingDate()
-                ->findAll();
+            $todoCollection = Todo::model()->findAllByAttributes(
+                ['sim_id' => $simulationId],
+                ['order' => "adding_date desc"]
+            );
         } catch (Exception $e) {
             StringTools::logException($e);
             $todoCollection = array();

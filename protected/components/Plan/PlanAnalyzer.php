@@ -707,7 +707,7 @@ class PlanAnalyzer {
             $assessment->hero_behaviour_id    = $behaviour->id;
             $assessment->sim_id               = $this->simulation->id;
             $assessment->activity_parent_code = $rightAction['parent'];
-            $assessment->type_scale           = HeroBehaviour::TYPE_POSITIVE;
+            $assessment->type_scale           = HeroBehaviour::TYPE_ID_POSITIVE;
             $assessment->value                = 1;
             $assessment->save();
         }
@@ -717,7 +717,7 @@ class PlanAnalyzer {
             $assessment->hero_behaviour_id    = $behaviour->id;
             $assessment->sim_id               = $this->simulation->id;
             $assessment->activity_parent_code = $wrongAction['parent'];
-            $assessment->type_scale           = HeroBehaviour::TYPE_NEGATIVE;
+            $assessment->type_scale           = HeroBehaviour::TYPE_ID_NEGATIVE;
             $assessment->value                = 0;
             $assessment->save();
         }

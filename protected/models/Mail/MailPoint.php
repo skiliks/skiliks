@@ -79,18 +79,6 @@ class MailPoint extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * @param string $ids
-     * @return MailTemplate
-     */
-    public function byIdsNotIn($ids)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT  IN ({$ids})"
-        ));
-        return $this;
-    }
 
     /**
      * @return array relational rules.

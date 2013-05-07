@@ -18,6 +18,10 @@
  */
 class AssessmentPlaningPoint extends CActiveRecord
 {
+    // Place your specific code there
+
+    // ---------------------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

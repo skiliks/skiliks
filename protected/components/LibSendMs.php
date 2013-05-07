@@ -137,7 +137,8 @@ class LibSendMs
 
     }
 
-    public static function sendMsByCodeWithParent($simulation, $ms, $time, $win, $sub_win, $uid, $parent_id) {
+    public static function sendMsByCodeWithParent($simulation, $ms, $time, $win, $sub_win, $uid, $parent_id)
+    {
         self::sendMsByCode($simulation, $ms, $time, $win, $sub_win, $uid);
         $parent = MailBox::model()->findByAttributes(['coincidence_mail_code'=>$ms, 'sim_id'=>$simulation->id]);
         $parent->message_id = $parent_id;

@@ -65,7 +65,7 @@ class AggregationTest extends CDbTestCase
         $behaviours = $simulation->game_type->getHeroBehavours([]);
 
         foreach ($behaviours as $behaviour) {
-            if ($behaviour->type_scale == HeroBehaviour::TYPE_POSITIVE) {
+            if ($behaviour->isPositive()) {
                 $point1           = new AssessmentPoint();
                 $point1->sim_id   = $simulation->id;
                 $point1->point_id = $behaviour->id;
@@ -77,7 +77,7 @@ class AggregationTest extends CDbTestCase
                 $point0->point_id = $behaviour->id;
                 $point0->value    = 0;
                 $point0->save();
-            } elseif ($behaviour->type_scale == HeroBehaviour::TYPE_NEGATIVE) {
+            } elseif ($behaviour->isNegative()) {
                 $point1           = new AssessmentPoint();
                 $point1->sim_id   = $simulation->id;
                 $point1->point_id = $behaviour->id;
@@ -98,9 +98,9 @@ class AggregationTest extends CDbTestCase
         $this->assertGreaterThan(0, count($behaviours), 'Too few behaviours!');
 
         foreach ($simulation->assessment_aggregated as $mark) {
-            if ($mark->point->type_scale == HeroBehaviour::TYPE_POSITIVE) {
+            if ($mark->point->isPositive()) {
                 $this->assertEquals($mark->fixed_value, $mark->point->scale/2, $mark->point->code);
-            } elseif ($mark->point->type_scale == HeroBehaviour::TYPE_NEGATIVE) {
+            } elseif ($mark->point->isNegative()) {
                 $this->assertEquals($mark->fixed_value, $mark->point->scale*2, $mark->point->code);
             } else {
                 throw new InvalidArgumentException('Matrix behaviour produce assessment on personal scale!', 10);

@@ -127,7 +127,7 @@ class TimeManagementAnalyzer
             $itemActivityCode = $logItem->activityAction->activity->code;
 
             if (in_array($itemActivityCode, $timeSpendActivityCodes)) {
-                $this->durationsGrouped['inactivity']['total'] += $logItem->getDurationInSeconds();
+                $this->durationsGrouped['inactivity']['total'] += TimeTools::timeToSeconds($logItem->duration);
                 continue;
             }
 
@@ -136,9 +136,9 @@ class TimeManagementAnalyzer
                 // 1st, doc
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -146,9 +146,9 @@ class TimeManagementAnalyzer
                 if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
                     && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -156,9 +156,9 @@ class TimeManagementAnalyzer
                 if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
                     && $logItem->activityAction->dialog->dialogSubtype->isPhoneCall()) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -166,9 +166,9 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_INBOX == $itemLegType ||
                     ActivityAction::LEG_TYPE_OUTBOX == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -176,9 +176,9 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_WINDOW == $itemLegType &&
                     $logItem->activityAction->isPlan()) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
             } else {
@@ -186,9 +186,9 @@ class TimeManagementAnalyzer
                 // non, doc
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -196,9 +196,9 @@ class TimeManagementAnalyzer
                 if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
                     && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {;
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -206,9 +206,9 @@ class TimeManagementAnalyzer
                 if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
                     && $logItem->activityAction->dialog->dialogSubtype->isPhoneCall()) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -216,9 +216,9 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_INBOX == $itemLegType ||
                     ActivityAction::LEG_TYPE_OUTBOX == $itemLegType) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -226,9 +226,9 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_WINDOW == $itemLegType &&
                     $logItem->activityAction->isPlan()) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING]
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
-                        += $logItem->getDurationInSeconds();
+                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
             }

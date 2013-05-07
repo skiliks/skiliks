@@ -259,6 +259,9 @@ class AjaxController extends CController
             $this->redirect('/');
         }
 
+        /**
+         * @var YumUser $user
+         */
         $user = $user->data();  //YumWebUser -> YumUser
 
         if (null === Yii::app()->user->data()->getAccount()) {

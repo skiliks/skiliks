@@ -158,9 +158,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $mailClientSettingsEntity = MailSettings::model()
-            ->bySimulation($simulation->id)
-            ->find();
+        $mailClientSettingsEntity = MailSettings::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         
         if (NULL === $mailClientSettingsEntity){
             $this->sendJSON(array('result' => 0));
