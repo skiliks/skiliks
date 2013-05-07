@@ -87,14 +87,13 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 			<!--content-->
 			<div class="content">
-
                 <!-- flash-messages { -->
                 <?php $flashes = Yii::app()->user->getFlashes(); ?>
                 <?php if (0 < count($flashes)): ?>
                     <div class="flash">
                         <a class="popupclose"></a>
                         <?php foreach($flashes as $key => $message) : ?>
-                             <div class="flash-<?php echo $key ?>">
+                             <div class="flash-data flash-<?php echo $key ?>" data-key="<?php echo $key ?>"">
                                  <?php echo $message ?>
                              </div>
                         <?php endforeach ?>
@@ -103,20 +102,24 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
                 <?php if (0 < count($flashes)): ?>
                     <script type="text/javascript">
-                        $('.flash').dialog({
-                            closeOnEscape: true,
-                            dialogClass: 'flash-message-popup',
-                            minHeight: 220,
-                            modal: true,
-                            resizable: false,
-                            position: {
-                                my: "right top",
-                                at: "right bottom",
-                                of: $('#top header #static-page-links')
-                            },
-                            //title: '',
-                            width: 275,
-                            open: function( event, ui ) { Cufon.refresh(); }
+                        $('.flash').each(function() {
+                            var key = $(this).find('.flash-data').attr('data-key');
+                            console.log('key: ', key, $(this).find('.flash-data'));
+                            $(this).dialog({
+                                closeOnEscape: true,
+                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key,
+                                minHeight: 220,
+                                modal: true,
+                                resizable: false,
+                                position: {
+                                    my: "right top",
+                                    at: "right bottom",
+                                    of: $('#top header #static-page-links')
+                                },
+                                //title: '',
+                                width: 275,
+                                open: function( event, ui ) { Cufon.refresh(); }
+                            });
                         });
                         $('.flash-message-popup .ui-dialog-titlebar').remove();
                         //$('.flash-pop-up').addClass('transparent-boder errorblock');
