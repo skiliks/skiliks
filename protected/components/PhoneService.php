@@ -235,7 +235,7 @@ class PhoneService {
             'id' => $themeId,
             'phone' => 1
         ]);
-        var_dump($character->id);
+
         if ($communicationTheme) {
             $eventCode = $communicationTheme->phone_dialog_number;
             if ($eventCode == '' || $eventCode == 'AUTO') {
