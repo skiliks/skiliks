@@ -48,7 +48,7 @@ define([
                 content: _.template(tutorial_template, {}),
                 buttons: [{
                     id: 'ok',
-                    value: 'Понял!',
+                    value: 'Начать',
                     onclick: function() {
                         $('.time').removeClass('paused');
                         window.SKApp.run();
