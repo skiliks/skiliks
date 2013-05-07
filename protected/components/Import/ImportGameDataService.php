@@ -1800,7 +1800,7 @@ class ImportGameDataService
                     continue;
                 }
 
-                $charactersPoints = ReplicaPoint::model()->findAllByAttributes([
+                $charactersPoints = ReplicaPoint::model()->findByAttributes([
                     'point_id'  => $point->id,
                     'dialog_id' => $dialog->id,
                 ]);
