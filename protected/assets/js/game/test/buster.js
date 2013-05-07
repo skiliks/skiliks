@@ -21,7 +21,8 @@ var config = module.exports;
             "underscore.js",
             "backbone.js",
             "require.js",
-            "game/test/common.js"
+            "game/test/common.js",
+            "game/lib/hyphenate.js"
         ],
         sources: [
             "text.js",

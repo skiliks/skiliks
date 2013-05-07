@@ -3,116 +3,104 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Ruseller Email Newsletter</title>
-        <style type="text/css">
-            img {
-                display: block;
-            }
-            h1 {
-                color:#626250;
-                font-family: 'ProximaNova-Bold', Arial;
-                font-size:28px;
-                margin:2px 0 20px 0;
-                padding:0;}
-            p {
-                margin:0 0 17px 0;
-                color:#555545;
-                font-family:'ProximaNova-Regular', Tahoma;
-                font-size:16px;
-                text-align:justify;
-                line-height:22px;
-            }
-            a {
-                text-decoration:none;
-                color:#147b99;
-                font-family: 'ProximaNova-Regular', Tahoma;
-                font-size: 16px;
-            }
-        </style>
     </head>
     <body>
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <td>
-                    <img src="cid:mail-top">
+                    <img src="cid:mail-top" style="display:block;">
+                </td>
+                <td>
+                    <table cellpadding="0" cellspacing="0">
+                        <tr><td></td></tr>
+                    </table>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                     <table cellpadding="0" cellspacing="0">
                         <tr style="vertical-align: top;">
-                            <td width="31" bgcolor="f2f2f2" style="padding-left:10px;">
-                                <table bgcolor="fdfbc6" width="100%" height="100%">
+                            <td bgcolor="f2f2f2">
+                                <table cellpadding="5" cellspacing="0">
                                     <tr><td></td></tr>
                                 </table>
                             </td>
-                            <td bgcolor="fdfbc6" width="489" height="344" valign="top">
-                                <h1>
+                            <td bgcolor="fdfbc6">
+                                <table cellpadding="15" cellspacing="0">
+                                    <tr><td></td></tr>
+                                </table>
+                            </td>
+                            <td bgcolor="fdfbc6" valign="top">
+                                <h1 style="color:#626250;font-family:ProximaNova-Bold,'Lucida Grande',Arial;font-size:28px;margin:0 0 15px 0;padding:0;">
                                         <?= $invite->getReceiverUserName() ?>, приветствуем Вас!
                                 </h1>
 
-                                <p>
+                                <p style="margin:0 0 15px 0;color:#555545;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;text-align:justify;line-height:20px;">
                                        <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
                                         предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию
-                                        <a href="<?= $invite->vacancy->link ?: '#' ?>">
+                                        <a style="text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;" href="<?= $invite->vacancy->link ?: '#' ?>">
                                                 <?= $invite->getVacancyLabel() ?>
                                         </a>.
                                 </p>
 
                                 <?php if (empty($invite->receiverUser)): ?>
-                                    <p>
-                                        <a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">
+                                    <p style="margin:0 0 15px 0;color:#555545;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;text-align:justify;line-height:20px;">
+                                        <a style="text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">
                                                 «Базовый менеджмент»
                                         </a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме
                                         увлекательной игры.
                                     </p>
                                 <?php endif; ?>
 
-                                <p>
+                                <p  style="margin:0 0 15px 0;color:#555545;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;text-align:justify;line-height:20px;">
                                     <?= $invite->message ?>
                                 </p>
 
-                                <p>
+                                <p style="margin:0 0 15px 0;color:#555545;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;text-align:justify;line-height:20px;">
                                     <?php if ($invite->receiverUser): ?>
                                         Пожалуйста,
-                                        <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">
+                                        <a style="text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;" href="<?= $this->createAbsoluteUrl('dashboard') ?>">
                                              зайдите
                                         </a> в свой кабинет и примите приглашение на
                                         тестирование для прохождения симуляции.
                                     <?php else: ?>
                                         Пожалуйста,
-                                        <a href="<?= $invite->getInviteLink() ?>">
+                                        <a style="text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                             зарегистрируйтесь
                                         </a> и в своем кабинете примите приглашение на
                                         тестирование для прохождения симуляции.
                                     <?php endif; ?>
                                 </p>
-                                <p>
-                                    <b>Ваш Skiliks</b>
-                                </p>
-                                <br/>
-                                <a href="http://www.skiliks.com">
+                                <a style="text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;" href="http://www.skiliks.com">
                                         www.skiliks.com
                                 </a>
                             </td>
-                            <td width="300" style="padding-right:30px;">
-                                <table bgcolor="f2f2f2" width="100%" height="100%" cellspacing="0" cellpadding="0" style="padding-right:10px;">
-                                    <tr style="vertical-align: top;">
-                                        <td bgcolor="fdfbc6">
-                                            <img src="cid:mail-right" style="margin:0 -40px 0 0;"/>
-                                        </td>
-                                    </tr>
-                                </table>
-
+                            <td>
+                                <img src="cid:mail-right" style="display:block;"/>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <img src="cid:mail-bottom" />
+                <td colspan="2">
+                    <img src="cid:mail-bottom" style="display:block;" />
                 </td>
             </tr>
         </table>
+        <style type="text/css">
+            img {
+                display: block;
+            }
+            h1 {
+                color:#626250;font-family:ProximaNova-Bold,Arial;font-size:28px;margin:0 0 15px 0;padding:0;
+            }
+            p {
+                margin:0 0 15px 0;color:#555545;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;text-align:justify;line-height:20px;
+            }
+            a {
+                text-decoration:none;color:#147b99;font-family:ProximaNova-Regular,'Lucida Grande',Tahoma;font-size:14px;
+            }
+        </style>
     </body>
 </html>

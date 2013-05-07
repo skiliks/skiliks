@@ -292,7 +292,7 @@
                         {$heroBehaviour->scale}
                     </td>
                     <td>
-                        {$heroBehaviour->getTypeScaleTitle()}
+                        {Yii::t('site', $heroBehaviour->getTypeScaleSlug())}
                     </td>
                     <td width="50%">
                         {if (0 < count($analyzer->getMailPointsForBehaviour($heroBehaviour)))}

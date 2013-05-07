@@ -1,77 +1,23 @@
 <?php
 /**
- * @property HeroBehaviour point
+ *
  * @property float coefficient_for_fixed_value
  * @property float fixed_value
+ * @property float value
  * @property int point_id
+ * @property int id
+ * @property int sim_id
+ *
+ * @property HeroBehaviour point
  *
  * @author slavka
  */
 class AssessmentAggregated extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;    
-    
-    /**
-     * heroBehaviour.id
-     * @var integer
-     */
-    public $point_id;
-    
-    /**
-     * @var float
-     */
-    public $value; 
-    
+    // Place your specific code there
+
     /* -------------------------------------------------------------------------------------------------------------- */    
-    
-    /**
-     * Выборка по идентификатору оценки
-     * @param int $pointId
-     * @return AssessmentAgregated
-     */
-    public function byPoint($pointId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "point_id = '{$pointId}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выборка по симуляции
-     * 
-     * @param int $simId
-     * @return AssessmentAggregated
-     */
-    public function bySimId($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param Simulation $simulation
-     * @return array of AssessmentAgregated
-     */
-    public function findAllInSimulation($simulation)
-    {
-        return $this->model()->findAll('sim_id =:id',[
-            'id' => $simulation->id
-        ]);
-    }
-    
+
     /**
      * @param string $className
      * @return AssessmentAggregated

@@ -23,7 +23,6 @@ class LogTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
         $subject_id = $simulation->game_type->getCommunicationTheme([

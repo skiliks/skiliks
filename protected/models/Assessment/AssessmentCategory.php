@@ -18,6 +18,10 @@ class AssessmentCategory extends CActiveRecord
     const PERSONAL           = 'personal'; // Does not calculate, just for slug!
     const OVERALL            = 'overall';
 
+    // Place your specific code there
+
+    // ---------------------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

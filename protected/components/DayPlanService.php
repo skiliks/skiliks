@@ -68,7 +68,11 @@ class DayPlanService
         // Удалить задачу из после отпуска
         self::removeFromAfterVacation($simulation, $taskId);
         
-        $dayPlan = DayPlan::model()->bySimulation($simulation->id)->byTask($taskId)->find();
+        $dayPlan = DayPlan::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'task_id' => $taskId,
+        ]);
+
         if (!$dayPlan) {
             $dayPlan          = new DayPlan();
             $dayPlan->sim_id  = $simulation->id;
@@ -103,7 +107,7 @@ class DayPlanService
         try {
             $data = array();
             $tasks = array();
-            $plans = DayPlan::model()->bySimulation($simulation->id)->findAll();  // byDate($fromTime, $toTime)->
+            $plans = DayPlan::model()->findAllByAttributes(['sim_id' => $simulation->id]);
             
             foreach($plans as $plan) {
                 $tasks[] = $plan->task_id;
@@ -143,7 +147,7 @@ class DayPlanService
             // Загрузка задач после отпуска
             $tasks = array();
             $vacationTasks = array();
-            $vacationsCollection = DayPlanAfterVacation::model()->bySimulation($simulation->id)->findAll();
+            $vacationsCollection = DayPlanAfterVacation::model()->findAllByAttributes(['sim_id' => $simulation->id]);
             foreach($vacationsCollection as $item) {
                 $tasks[] = $item->task_id;
                 $vacationTasks[] = array(
@@ -320,10 +324,10 @@ class DayPlanService
      */
     public static function copyPlanToLog($simulation, $minutes, $snapShotTime = 1)
     {
-        $todoCount = Todo::model()->bySimulation($simulation->id)->count();
+        $todoCount = Todo::model()->countByAttributes(['sim_id' => $simulation->id]);
         
         // copy first 2 days to DayPlanLog
-        foreach (DayPlan::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+        foreach (DayPlan::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
             $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
             $log->date          = $dayPlanItem->date;
@@ -336,7 +340,7 @@ class DayPlanService
         }
         
         // copy after vacation list to DayPlanLog
-        foreach (DayPlanAfterVacation::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+        foreach (DayPlanAfterVacation::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
             $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
             $log->day           = DayPlanLog::AFTER_VACATION;
@@ -348,7 +352,7 @@ class DayPlanService
         }
 
         // copy 'Сделать' list to DayPlanLog
-        foreach (Todo::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+        foreach (Todo::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
             $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
             $log->day           = DayPlanLog::TODO;

@@ -24,7 +24,34 @@ class MailTemplateCopy extends CActiveRecord
      * characters.id
      * @var int
      */
-    public $receiver_id;     
+    public $receiver_id;
+
+
+    /**
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailTemplateCopy
+     */
+    public function byMailId($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
+
+    /**
+     * Выбрать по получателю
+     * @param int $receiverId
+     * @return MailTemplateCopy
+     */
+    public function byReceiverId($receiverId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "receiver_id = {$receiverId}"
+        ));
+        return $this;
+    }
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
@@ -45,44 +72,6 @@ class MailTemplateCopy extends CActiveRecord
     {
             return 'mail_copies_template';
     }
-    
-    /**
-     * Выбрать по заданному письму
-     * @param int $mailId
-     * @return MailTemplateCopy
-     */
-    public function byMailId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по получателю
-     * @param int $receiverId
-     * @return MailTemplateCopy
-     */
-    public function byReceiverId($receiverId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "receiver_id = {$receiverId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * @param string $ids
-     * @return MailTemplate
-     */
-    public function byIdsNotIn($ids)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT  IN ({$ids})"
-        ));
-        return $this;
-    }  
 }
 
 

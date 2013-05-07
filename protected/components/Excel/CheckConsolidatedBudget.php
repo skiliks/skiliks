@@ -51,10 +51,10 @@ class CheckConsolidatedBudget
         $this->userPoints = 0;
         $this->userPointsMap = array();
         
-        $simulationsExcelPoints = SimulationExcelPoint::model()
-            ->bySimulation($this->simId)
-            ->find();
-        
+        $simulationsExcelPoints = SimulationExcelPoint::model()->findAllByAttributes([
+            'sim_id' => $this->simId
+        ]);
+
         if (0 === count($simulationsExcelPoints)) {
             foreach (ExcelPointFormula::model()->findAll() as $formula) {
                 $this->userPointsMap[$formula->id] = 0;
@@ -411,7 +411,17 @@ class CheckConsolidatedBudget
     public function savePoints()
     {
         foreach($this->userPointsMap as $formulaId => $pointsValue) {
-            CalculationEstimateService::addExcelPoint($this->simId, $formulaId, $pointsValue);
+            $model = SimulationExcelPoint::model()->findByAttributes([
+                'sim_id'     => $this->simId,
+                'formula_id' => $formulaId,
+            ]);
+            if (!$model) {
+                $model = new SimulationExcelPoint();
+                $model->sim_id = $this->simId;
+                $model->formula_id = $formulaId;
+            }
+            $model->value = $pointsValue;
+            $model->save();
         }    
     }
 }

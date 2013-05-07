@@ -171,7 +171,7 @@ class StaticSiteTools
      *
      * @return bool
      */
-    public static function skIsLangSwitcherUrlVisible(CHttpRequest $request, CController $controller) {
+    public static function isLangSwitcherUrlVisible(CHttpRequest $request, CController $controller) {
         return (0 === strpos($request->getPathInfo(), 'static/team')) ||
             (0 === strpos($request->getPathInfo(), 'static/product')) ||
             (0 === strpos($request->getPathInfo(), 'static/tariffs')) ||

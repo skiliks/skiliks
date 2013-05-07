@@ -12,17 +12,12 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site', 'Русский'),
             'url'     => StaticSiteTools::getLangSwitcherUrl(Yii::app()->request, Yii::app()->getLanguage()),
-            'visible' => StaticSiteTools::skIsLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
+            'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
         ],
         [
             'label'   => Yii::t('site','Help'),
             'url'     => '',
             'visible' => false,
-        ],
-        [
-            'label'   => Yii::t('site', 'My office'),
-            'url'     => ['static/dashboard/index'],
-            'visible' => !$isGuest && $isActivated
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),

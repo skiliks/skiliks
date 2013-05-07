@@ -98,20 +98,6 @@ class DayPlanAfterVacation extends CActiveRecord
 	}
 
     /**
-     * Выборка по симуляции
-     *
-     * @param int $simId
-     * @return DayPlanAfterVacation
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id={$simId}"
-        ));
-        return $this;
-    }
-
-    /**
      * Выбрать по заданной задачи
      * @param int $taskId
      * @return DayPlan

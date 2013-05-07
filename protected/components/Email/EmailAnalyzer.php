@@ -156,7 +156,7 @@ class EmailAnalyzer
         /**
          * Get emails
          */
-        foreach (MailBox::model()->bySimulation($this->simId)->findAll() as $email) {
+        foreach (MailBox::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $email) {
             $this->userEmails[$email->id] = new EmailData($email);
             
             if (isset($this->mailTemplate[$email->code])) {
@@ -586,7 +586,7 @@ class EmailAnalyzer
         // обработка LogActivityActionAggregated
         foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
                 if ($logItem->isMail()) {
-                    $workWithMailTotalDuration += $logItem->getDurationInSeconds();
+                    $workWithMailTotalDuration += TimeTools::timeToSeconds($logItem->duration);
                 }
                 // check sessions from 11:00
                 list($hours) = explode(':', $logItem->start_time);

@@ -196,9 +196,9 @@ class Simulation extends CActiveRecord
     public function getAssessmentPointsByScale()
     {
         $result = [
-            HeroBehaviour::TYPE_POSITIVE => 0,
-            HeroBehaviour::TYPE_NEGATIVE => 0,
-            HeroBehaviour::TYPE_PERSONAL => 0,
+            HeroBehaviour::TYPE_ID_POSITIVE => 0,
+            HeroBehaviour::TYPE_ID_NEGATIVE => 0,
+            HeroBehaviour::TYPE_ID_PERSONAL => 0,
         ];
 
         // count heroBehavour "1" & "0" {
@@ -227,7 +227,7 @@ class Simulation extends CActiveRecord
 
         // calculate mark by scale
         foreach ($points as $point) {
-            if (HeroBehaviour::TYPE_NEGATIVE == $point->type_scale) {
+            if ($point->isNegative()) {
                 $result[$point->type_scale] += $ones[$point->code]*$point->scale;
             } else {
                 $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;

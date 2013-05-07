@@ -181,19 +181,7 @@ class Replica extends CActiveRecord implements IGameAction
         $this->getDbCriteria()->mergeWith(array('condition' => 'id = '.$id));
         return $this;
     }
-    
-    /**
-     * @param string $ids
-     * @return array of \Dialogs
-     */
-    public function byIdsNotIn($ids)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT IN ({$ids}) "
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать по коду и номеру шага.
      * @param string $code

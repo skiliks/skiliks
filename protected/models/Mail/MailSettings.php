@@ -47,7 +47,7 @@ class MailSettings extends CActiveRecord
     {
         $result = false;
         
-        $MailSettingsEntity = self::model()->bySimulation($simulation->id)->find();
+        $MailSettingsEntity = self::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         if (NULL !== $MailSettingsEntity) {
             $MailSettingsEntity->messageArriveSound = (int)$messageArriveSound;
             $MailSettingsEntity->update();
@@ -75,19 +75,6 @@ class MailSettings extends CActiveRecord
     public function tableName()
     {
             return 'mail_settings';
-    }
-    
-    /**
-     * Выбрать по заданной симуляции
-     * @param int $simId
-     * @return MailSettings
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
     }
 }
 

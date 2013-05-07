@@ -906,8 +906,7 @@ class ImportGameDataService
         // recipient relations {
         /** @var MailRecipient[] $emailRecipientEntities */
         $emailRecipientEntities = MailRecipient::model()
-            ->byIdsNotIn(implode(',', $emailToRecipientIds))
-            ->findAll();
+            ->findAll(" id NOT IN (:ids) ", ['ids' => $emailToRecipientIds]);
 
         foreach ($emailRecipientEntities as $entity) {
             $entity->delete();
@@ -1535,16 +1534,6 @@ class ImportGameDataService
             // save
             $document->save();
 
-            /*if ($document->format === 'xls') {
-                $excel = ExcelDocumentTemplate::model()->findByAttributes(['file_id' => $document->id]);
-                if (null === $excel) {
-                    $excel = new ExcelDocumentTemplate();
-                    $excel->name = 'unused, TODO: remove';
-                    $excel->file_id = $document->primaryKey;
-                }
-                $excel->save();
-            }*/
-
             $importedRows++;
         }
 
@@ -1811,10 +1800,10 @@ class ImportGameDataService
                     continue;
                 }
 
-                $charactersPoints = ReplicaPoint::model()
-                    ->byDialog($dialog->id)
-                    ->byPoint($point->id)
-                    ->find();
+                $charactersPoints = ReplicaPoint::model()->findAllByAttributes([
+                    'point_id'  => $point->id,
+                    'dialog_id' => $dialog->id,
+                ]);
                 if (NULL === $charactersPoints) {
                     $charactersPoints = new ReplicaPoint();
                     $charactersPoints->dialog_id = $dialog->id;
