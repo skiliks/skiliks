@@ -39,10 +39,6 @@ class MyDocument extends CActiveRecord
      */
     public $hidden;
 
-
-    /** ------------------------------------------------------------------------------------------------------------ **/
-
-
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -63,20 +59,6 @@ class MyDocument extends CActiveRecord
             return 'my_documents';
     }
 
-    
-    /**
-     * Выбрать по заданному идентификатору симуляции
-     * @param int $simId
-     * @return MyDocument 
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
     /**
      * Выбрать заданный документ
      * @param int $id
@@ -158,10 +140,6 @@ class MyDocument extends CActiveRecord
         }
         return parent::beforeSave();
     }
-
-
-
-    // -----------------------------------------------------------------------------------------------------------------
 }
 
 

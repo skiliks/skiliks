@@ -74,19 +74,6 @@ class PhoneCall extends CActiveRecord
     {
             return 'phone_calls';
     }
-    
-    /**
-     * Выбрать согласно заданной симуляции
-     * @param int $simId
-     * @return PhoneCall
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
 }
 
 

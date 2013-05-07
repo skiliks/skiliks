@@ -31,8 +31,6 @@ class TimeManagementAggregated extends CActiveRecord
     const SLUG_NON_PRIORITY_MAIL        = 'non_priority_mail';
     const SLUG_NON_PRIORITY_PLANING     = 'non_priority_planning';
 
-    /* --- */
-
     /**
      * @param string $slug
      * @return string

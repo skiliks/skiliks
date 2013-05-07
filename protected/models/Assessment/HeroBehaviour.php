@@ -1,58 +1,31 @@
 <?php
-
-
-
 /**
- * По сути справочник целей поведения. Хранит код, название, scale.
+ * По сути справочник оцениваемых поведений.
+ *
+ * @property integer $id
+ * @property string $code
+ * @property string $title
+ * @property string $scale
+ * @property string $learning_goal_code
+ * @property integer $group_id
+ * @property integer $type_scale; 1 - positive, 2 - negative, 3 - personal
+ * @property float $add_value
  *
  * @property LearningGoal learning_goal
- * @property mixed add_value
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class HeroBehaviour extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * @var string
-     */
-    public $code;
-    
-    /**
-     * @var string
-     */
-    public $title;
-    
-    /**
-     * @var float
-     */
-    public $scale;  
-    
-    /**
-     * 1 - positive
-     * 2 - negative
-     * 3 - personal
-     * 
-     * @var integer
-     */
-    public $type_scale;
-    
-    /**
-     * @var string
-     */
-    public $learning_goal_code;
+    const TYPE_ID_POSITIVE = 1;
+    const TYPE_ID_NEGATIVE = 2;
+    const TYPE_ID_PERSONAL = 3;
 
-    public $group_id;
-    
-    const TYPE_POSITIVE = 1;
-    const TYPE_NEGATIVE = 2;
-    const TYPE_PERSONAL = 3;
-    
-    /* ------------------------------------------------------------*/
+    const TYPE_SLUG_POSITIVE = 'positive';
+    const TYPE_SLUG_NEGATIVE = 'negative';
+    const TYPE_SLUG_PERSONAL = 'personal';
 
+    /**
+     * @return array
+     */
     public static function getExcludedFromAssessmentBehavioursCodes()
     {
         return ['214g1', '214g2', '214g3', '214g4', '32110', '32112', '32113',
@@ -60,53 +33,33 @@ class HeroBehaviour extends CActiveRecord
             '371a2', '371a3', '371a4', '371a5', '371b1', '371b2', '371b3', '8211'];
     }
 
+    /**
+     * @param $typeScalaCode
+     * @return string
+     */
     public static function getTypeScaleName($typeScalaCode)
     {
         switch ($typeScalaCode) {
-            case 1: return 'positive';
-            case 2: return 'negative';
-            case 3: return 'personal';
+            case self::TYPE_ID_POSITIVE: return self::TYPE_SLUG_POSITIVE;
+            case self::TYPE_ID_NEGATIVE: return self::TYPE_SLUG_NEGATIVE;
+            case self::TYPE_ID_PERSONAL: return self::TYPE_SLUG_PERSONAL;
         }
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isPositive() 
-    {
-        return (self::TYPE_POSITIVE == $this->type_scale);
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isNegative() 
-    {
-        return (self::TYPE_NEGATIVE == $this->type_scale);
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isPersonal() 
-    {
-        return (self::TYPE_PERSONAL == $this->type_scale);
     }
 
     /**
-     * User representation of type scale
-     * @return string
+     * @param string $name
+     * @return int|null
      */
-    public function getTypeScaleTitle()
-    {
-        if ($this->isPositive()) {
-            return 'Положительная';
-        } else if ($this->isNegative()) {
-            return 'Отрицательная';
-        } else if ($this->isPersonal()) {
-            return 'Персональная';
+    public static function getScaleId($name) {
+        switch ($name) {
+            case self::TYPE_SLUG_POSITIVE; return self::TYPE_ID_POSITIVE; break;
+            case self::TYPE_SLUG_NEGATIVE; return self::TYPE_ID_NEGATIVE; break;
+            case self::TYPE_SLUG_PERSONAL; return self::TYPE_ID_PERSONAL; break;
         }
+        
+        return null;
     }
+
 
     /**
      * User representation of type scale
@@ -115,27 +68,36 @@ class HeroBehaviour extends CActiveRecord
     public function getTypeScaleSlug()
     {
         if ($this->isPositive()) {
-            return 'positive';
-        } else if ($this->isNegative()) {
-            return 'negative';
-        } else if ($this->isPersonal()) {
-            return 'personal';
+            return self::TYPE_SLUG_POSITIVE;
+        } elseif ($this->isNegative()) {
+            return self::TYPE_SLUG_NEGATIVE;
+        } elseif ($this->isPersonal()) {
+            return self::TYPE_SLUG_PERSONAL;
         }
     }
 
     /**
-     * Amaizing! Id for property without table in DB.
-     * @param string $name
-     * @return int|null
+     * @return boolean
      */
-    public static  function getScaleId($name) {
-        switch ($name) {
-            case 'positive'; return 1; break;
-            case 'negative'; return 2; break;
-            case 'personal'; return 3; break;
-        }
-        
-        return null;
+    public function isPositive()
+    {
+        return (self::TYPE_ID_POSITIVE == $this->type_scale);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isNegative()
+    {
+        return (self::TYPE_ID_NEGATIVE == $this->type_scale);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPersonal()
+    {
+        return (self::TYPE_ID_PERSONAL == $this->type_scale);
     }
 
     /* ------------------------------------------------------------*/
@@ -157,42 +119,7 @@ class HeroBehaviour extends CActiveRecord
     {
             return 'hero_behaviour';
     }
-    
-    /**
-     * @return HeroBehaviour
-     */
-    public function negative()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'type_scale = 2'
-        ));
-        return $this;
-    }
-    
-    /**
-     * @return HeroBehaviour
-     */
-    public function positive()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'type_scale = 1'
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выборка цели по коду.
-     * @param string $code
-     * @return HeroBehaviour
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '$code'"
-        ));
-        return $this;
-    }
-    
+
     /**
      * 
      */

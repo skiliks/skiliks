@@ -443,14 +443,14 @@ class LogHelper
             $w_id = $activityAction->window_uid;
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $durationByWindowUid[$w_id] = (isset($durationByWindowUid[$w_id]))
-                ? $durationByWindowUid[$w_id] + TimeTools::TimeToSeconds($diff_time)
-                : TimeTools::TimeToSeconds($diff_time);
+                ? $durationByWindowUid[$w_id] + timeTools::TimeToSeconds($diff_time)
+                : TimeTools::timeToSeconds($diff_time);
 
             if ($activityAction->activityAction->getAction() instanceof MailTemplate) {
                 $m_code = $activityAction->activityAction->getAction()->getCode();
                 $durationByMailCode[$m_code]= (isset($durationByMailCode[$m_code]))
-                    ? $durationByMailCode[$m_code] + TimeTools::TimeToSeconds($diff_time)
-                    : TimeTools::TimeToSeconds($diff_time);
+                    ? $durationByMailCode[$m_code] + TimeTools::timeToSeconds($diff_time)
+                    : TimeTools::timeToSeconds($diff_time);
             }
         }
         // collect time by window id }

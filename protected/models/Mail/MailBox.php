@@ -294,20 +294,7 @@ class MailBox extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * Выбрать в рамках заданной симуляции
-     * @param int $simId
-     * @return MailBox 
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать по отправителю
      * @param int $senderId

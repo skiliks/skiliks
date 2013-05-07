@@ -12,6 +12,32 @@
  */
 class ActivityParent extends CActiveRecord
 {
+    /**
+     * Returns true if parent is already terminated in simulation
+     * @param $simulation Simulation
+     * @return bool
+     */
+    public function isTerminatedInSimulation($simulation)
+    {
+        return SimulationCompletedParent::model()->countByAttributes([
+            'sim_id' => $simulation->primaryKey, 'parent_code' => $this->parent_code
+        ]);
+    }
+
+    /**
+     * Terminates parent activity in given simulation
+     * @param $simulation Simulation
+     */
+    public function terminateInSimulation($simulation)
+    {
+        $simulationCompletedParent = new SimulationCompletedParent();
+        $simulationCompletedParent->sim_id = $simulation->primaryKey;
+        $simulationCompletedParent->parent_code = $this->parent_code;
+        $simulationCompletedParent->save();
+    }
+
+    // ---------------------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -65,11 +91,11 @@ class ActivityParent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'import_id' => 'Import',
+			'id'          => 'ID',
+			'import_id'   => 'Import',
 			'parent_code' => 'Parent Code',
-			'dialog_id' => 'Replica',
-			'mail_id' => 'Mail',
+			'dialog_id'   => 'Replica',
+			'mail_id'     => 'Mail',
 		);
 	}
 
@@ -94,28 +120,4 @@ class ActivityParent extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Returns true if parent is already terminated in simulation
-     * @param $simulation Simulation
-     * @return bool
-     */
-    public function isTerminatedInSimulation($simulation)
-    {
-        return SimulationCompletedParent::model()->countByAttributes([
-            'sim_id' => $simulation->primaryKey, 'parent_code' => $this->parent_code
-        ]);
-    }
-
-    /**
-     * Terminates parent activity in given simulation
-     * @param $simulation Simulation
-     */
-    public function terminateInSimulation($simulation)
-    {
-        $simulationCompletedParent = new SimulationCompletedParent();
-        $simulationCompletedParent->sim_id = $simulation->primaryKey;
-        $simulationCompletedParent->parent_code = $this->parent_code;
-        $simulationCompletedParent->save();
-    }
 }

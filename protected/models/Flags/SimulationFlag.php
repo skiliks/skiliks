@@ -63,21 +63,7 @@ class SimulationFlag extends CActiveRecord
     {
             return 'simulation_flags';
     }
-    
-    /**
-     * Выбрать согласно заданной симуляции
-     * @deprecated SQL injection
-     * @param int $simId
-     * @return SimulationFlag 
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать по заданному флагу
      * @deprecated SQL injection

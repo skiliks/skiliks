@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $activity_id
  * @property string $leg_type
+ * @property integer $is_keep_last_category, 0 OR 1
  * @property integer $dialog_id
  * @property integer $mail_id
  * @property integer $document_id
@@ -31,80 +32,6 @@ class ActivityAction extends CActiveRecord
     public function isPlan()
     {
         return (null === $this->document_id && null === $this->mail_id && null === $this->dialog_id);
-    }
-
-    /* ------------------------------------------------------------------------------------------------- */
-
-    /**
-     * @var bool
-     */
-    public $is_keep_last_category;
-
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return ActivityAction the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'activity_action';
-    }
-
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules()
-    {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('activity_id', 'required'),
-            array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly' => true),
-            array('activity_id', 'length', 'max' => 255),
-            array('import_id', 'length', 'max' => 255),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('id, activity_id, dialog_id, mail_id, document_id, import_id, window_id', 'safe', 'on' => 'search'),
-        );
-    }
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
-            'dialog'   => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
-            'mail'     => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
-            'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
-            'window'   => array(self::BELONGS_TO, 'Window', 'window_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'activity_id' => 'Activity',
-            'dialog_id' => 'Replica',
-            'mail_id' => 'Mail',
-            'document_id' => 'Document',
-            'window_id' => 'Window'
-        );
     }
 
     public function appendLog($log)
@@ -260,6 +187,75 @@ class ActivityAction extends CActiveRecord
         $result = $this->find($criteria);
 
         return $result;
+    }
+
+    /* ------------------------------------------------------------------------------------------------- */
+
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return ActivityAction the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'activity_action';
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('activity_id', 'required'),
+            array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly' => true),
+            array('activity_id', 'length', 'max' => 255),
+            array('import_id', 'length', 'max' => 255),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, activity_id, dialog_id, mail_id, document_id, import_id, window_id', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
+            'dialog'   => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+            'mail'     => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
+            'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
+            'window'   => array(self::BELONGS_TO, 'Window', 'window_id'),
+        );
+    }
+
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id'          => 'ID',
+            'activity_id' => 'Activity',
+            'dialog_id'   => 'Replica',
+            'mail_id'     => 'Mail',
+            'document_id' => 'Document',
+            'window_id'   => 'Window'
+        );
     }
 
     /**

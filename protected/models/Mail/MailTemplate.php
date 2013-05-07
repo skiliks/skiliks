@@ -76,45 +76,9 @@ class MailTemplate extends CActiveRecord implements IGameAction
      */
     public $flag_to_switch;
 
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param type $className
-     * @return MailTemplate
-     */
-    public static function model($className=__CLASS__)
-    {
-            return parent::model($className);
-    }
-
-    public function getCode()
-    {
-        return $this->code;
-    }
 
     /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-            return 'mail_template';
-    }
-    
-    /**
-     * @param string $ids
-     * @return \MailTemplate
-     */
-    public function byIdsNotIn($ids)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT IN ({$ids})"
-        ));
-        return $this;
-    }    
-    
-    /**
-      * @param integer $receiverId
+     * @param integer $receiverId
      * @return \MailTemplate
      */
     public function byReceiverId($receiverId)
@@ -124,7 +88,7 @@ class MailTemplate extends CActiveRecord implements IGameAction
         ));
         return $this;
     }
-    
+
     /**
      * @param integer $subjectId
      * @return \MailTemplate
@@ -136,10 +100,10 @@ class MailTemplate extends CActiveRecord implements IGameAction
         ));
         return $this;
     }
-    
+
     /**
      * Returns templates for outbox letters
-     * @return MailTemplate 
+     * @return MailTemplate
      */
     public function byMS()
     {
@@ -164,6 +128,27 @@ class MailTemplate extends CActiveRecord implements IGameAction
         return $this->game_type->getMailTemplate(['subject_id' => $parentTheme->primaryKey]);
     }
 
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     *
+     * @param type $className
+     * @return MailTemplate
+     */
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+            return 'mail_template';
+    }
+
+
     public function relations()
     {
         return [
@@ -172,6 +157,15 @@ class MailTemplate extends CActiveRecord implements IGameAction
             'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id'],
             'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id']
         ];
+    }
+
+    /**
+     * Implements interface
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }
 

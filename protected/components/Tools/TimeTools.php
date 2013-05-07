@@ -8,19 +8,18 @@ class TimeTools
     /**
      * Crazy, but legasy code
      * @param int || float $time
-     * 
+     *
      * @return integer
      */
     public static function roundTime($time)
     {
         return ceil($time / 30) * 30;
     }
-    
-    public static function minutesToTime($minutes)
-    {
-        return sprintf('%02s:%02s:00', floor($minutes/60), $minutes%60);
-    }
-    
+
+    /**
+     * @param $seconds
+     * @return string
+     */
     public static function secondsToTime($seconds)
     {
         $hours = floor($seconds/(60*60));
@@ -29,14 +28,24 @@ class TimeTools
         
         return sprintf('%02s:%02s:%02s', $hours, $minutes, $seconds);
     }
-    
-    public static function TimeToSeconds($time)
+
+    /**
+     * @param $time
+     * @return mixed
+     */
+    public static function timeToSeconds($time)
     {
         list($hours, $minutes, $seconds) = explode(':', $time);
         return ($seconds*1 + $minutes*60 + $hours*60*60);
     }
 
-    public static function timeStringPlusSeconds($time, $seconds) {
+    /**
+     * @param $time
+     * @param $seconds
+     * @return string
+     */
+    public static function timeStringPlusSeconds($time, $seconds)
+    {
         $t = self::TimeToSeconds($time);
         return self::secondsToTime($t + $seconds);
     }

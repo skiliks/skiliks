@@ -127,8 +127,11 @@
         // Ajax Validation {
 
         window.authenticateValidation = function authenticateValidation(form, data, hasError) {
-            if (!hasError) {
-                $('.sign-in-box #yum-login-global-errors').html('');
+
+            // clean custom message "your email is already registered, you may activate your email"
+            $('.sign-in-box #yum-login-global-errors').html('');
+
+            if (!hasError && 'undefined' == typeof data.YumUserLogin_form) {
                 $.post(form.attr('action'), form.serialize(), function (res) {
                     // Do stuff with your response data!
                     location.href = '/dashboard';
@@ -139,6 +142,7 @@
                     $('.sign-in-box #yum-login-global-errors').html(data.YumUserLogin_form);
                 }
             }
+
             return false;
         };
 

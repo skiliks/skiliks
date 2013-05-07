@@ -15,6 +15,10 @@
  */
 class AssessmentCalculation extends CActiveRecord
 {
+    // Place your specific code there
+
+    // ---------------------------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -96,31 +100,4 @@ class AssessmentCalculation extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Выбрать согласно заданной симуляции
-     * @param int $simId
-     * @return AssessmentCalculation
-     */
-    public function bySimulation($simId)
-    {
-        $simId = (int)$simId;
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по заданной оценке
-     * @param int $pointId
-     * @return AssessmentCalculation
-     */
-    public function byPoint($pointId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "point_id = {$pointId}"
-        ));
-        return $this;
-    }
 }

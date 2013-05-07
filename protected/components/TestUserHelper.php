@@ -1,9 +1,12 @@
 <?php
 
-class TestUserHelper {
+/**
+ * Class TestUserHelper
+ * @todo: move to UserService
+ */
 
-
-
+class TestUserHelper
+{
     public static function addUser($account=null)
     {
         if($account === "personal") {
@@ -59,7 +62,7 @@ class TestUserHelper {
             $permission->template = 1;
             $permission->save();
 
-        }elseif($account === "corporate"){
+        } elseif ($account === "corporate") {
             $accountCorporate = new UserAccountCorporate;
             $accountCorporate->user_id = $YumUser->id;
             $accountCorporate->is_corporate_email_verified = 1;
@@ -75,9 +78,6 @@ class TestUserHelper {
             // update account tariff
             $accountCorporate->setTariff($tariff);
             $accountCorporate->save();
-
         }
-
     }
-
 }

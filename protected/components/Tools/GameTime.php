@@ -2,18 +2,18 @@
 
 class GameTime
 {
-    const set_default_timezone = false;
+    const SET_DEFAULT_TIMEZONE = false;
 
-    const today = '04.10.2012';
+    const TODAY = '04.10.2012';
 
-    const time_zone = "Europe/Moscow";
+    const TIME_ZONE = "Europe/Moscow";
 
     /**
      * @return string
      */
     private static function getTimeZone()
     {
-        return self::set_default_timezone ? date_default_timezone_get() : self::time_zone;
+        return self::SET_DEFAULT_TIMEZONE ? date_default_timezone_get() : self::TIME_ZONE;
     }
 
     /**
@@ -22,7 +22,6 @@ class GameTime
      */
     public static function getDateTime($datetime)
     {
-
         $date = new DateTime($datetime, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('d.m.Y H:i');
@@ -34,8 +33,7 @@ class GameTime
      */
     public static function setTimeToday($time)
     {
-
-        $date = new DateTime(self::today . ' ' . $time, new DateTimeZone(self::getTimeZone()));
+        $date = new DateTime(self::TODAY . ' ' . $time, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('Y-m-d H:i:s');
     }
@@ -46,10 +44,9 @@ class GameTime
      */
     public static function timeToSeconds($time)
     {
-
-        $el = explode(':', $time);
-        $el[2] = isset($el[2]) ? $el[2] : 0;
-        return ($el[0] * 60 * 60) + ($el[1] * 60) + $el[2];
+        $elements = explode(':', $time);
+        $elements[2] = isset($elements[2]) ? $elements[2] : 0;
+        return ($elements[0] * 60 * 60) + ($elements[1] * 60) + $elements[2];
     }
 
     /**
@@ -59,13 +56,14 @@ class GameTime
      */
     public static function getTime($time)
     {
-        $el = explode(':', $time);
-        if (count($el) < 2) {
+        $elements = explode(':', $time);
+        if (count($elements) < 2) {
             throw new CException("Неверный формат времени, нужно HH:MM:SS");
-        } elseif (count($el) == 2) {
+        } elseif (count($elements) == 2) {
             throw new CException("Формат не нуждается в преобразовании! с HH:MM:SS в HH:MM");
         }
-        return $el[0] . ':' . $el[1];
+
+        return $elements[0] . ':' . $elements[1];
     }
 
     /**
@@ -83,6 +81,7 @@ class GameTime
     public static function setNowDateTime()
     {
         $date = new DateTime('now', new DateTimeZone(self::getTimeZone()));
+
         return $date->format('Y-m-d H:i:s');
     }
 
@@ -95,6 +94,7 @@ class GameTime
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone(self::getTimeZone()));
         $date->setTimestamp($datetime);
+
         return $date->format('Y-m-d H:i:s');
     }
 
@@ -107,6 +107,7 @@ class GameTime
     {
         $date = new DateTime($time, new DateTimeZone(self::getTimeZone()));
         $date->add(new DateInterval("PT" . $minutes . "M"));
+
         return $date->format("H:i:s");
     }
 }

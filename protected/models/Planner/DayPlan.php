@@ -16,6 +16,48 @@
  */
 class DayPlan extends CActiveRecord
 {
+    /**
+     * Выбрать по диапазону дат от и до
+     * @param int $from
+     * @param int $to
+     * @return DayPlan
+     */
+    public function byDate($from, $to)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "date >= $from and date <= $to"
+        ));
+        return $this;
+    }
+
+    /**
+     * Выбрать по заданной задачи
+     * @param int $taskId
+     * @return DayPlan
+     */
+    public function byTask($taskId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "task_id={$taskId}"
+        ));
+        return $this;
+    }
+
+    /**
+     * Выбрать ближайшую запись по дате от и до
+     * @param int $from
+     * @param int $to
+     * @return DayPlan
+     */
+    public function nearest($from, $to)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "date > '{$from}' and date < '{$to}'"
+        ));
+        return $this;
+    }
+    // -------------------------------------------------------------------------------
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -99,58 +141,4 @@ class DayPlan extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Выбрать по диапазону дат от и до
-     * @param int $from
-     * @param int $to
-     * @return DayPlan
-     */
-    public function byDate($from, $to)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "date >= $from and date <= $to"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать для заданной симуляции
-     * @param int $simId
-     * @return DayPlan
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id={$simId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по заданной задачи
-     * @param int $taskId
-     * @return DayPlan
-     */
-    public function byTask($taskId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "task_id={$taskId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать ближайшую запись по дате от и до
-     * @param int $from
-     * @param int $to
-     * @return DayPlan
-     */
-    public function nearest($from, $to)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "date > '{$from}' and date < '{$to}'"
-        ));
-        return $this;
-    }
 }

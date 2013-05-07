@@ -141,6 +141,7 @@ class PhoneServiceTest extends CDbTestCase
         $characterCode = 3; // Трутнев
 
         $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
+
         $theme = CommunicationTheme::model()->findByAttributes([
             'scenario_id'  => $simulation->scenario_id,
             'text'         => 'Задача отдела логистики: статус',
@@ -149,6 +150,8 @@ class PhoneServiceTest extends CDbTestCase
         ]);
 
         $this->assertInstanceOf('CommunicationTheme', $theme);
+
+        var_dump($simulation->id, $theme->id, $characterCode, $time);
 
         $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
         $this->assertEquals(1, $result['result']);
@@ -189,6 +192,32 @@ class PhoneServiceTest extends CDbTestCase
         $this->assertNotEquals([], $data['events']);
         $data = PhoneService::call($simulation, $theme_id, $character->code, '10:10');
         $this->assertEquals([], $data['events']);
+        SimulationService::simulationStop($simulation);
+    }
+
+    public function testGetThemes()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $example =  [
+                ['themeId' => 1130, 'themeTitle' => "Динамика производственных затрат"],
+                ['themeId' => 1148, 'themeTitle' => "Просьба"],
+                ['themeId' => 1149, 'themeTitle' => "Деньги на сервер"],
+                ['themeId' => 1150, 'themeTitle' => "Перенос сроков сдачи сводного бюджета"],
+                ['themeId' => 1151, 'themeTitle' => "Задержка данных от логистов"],
+                ['themeId' => 1231, 'themeTitle' => "Прочее"]
+            ];
+
+        $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
+
+        $data = PhoneService::getThemes($character->code, $simulation);
+
+        $this->assertEquals($example, $data);
         SimulationService::simulationStop($simulation);
     }
 }
