@@ -64,7 +64,7 @@ class LogMail extends CActiveRecord
     }
 
     public function dump() {
-        echo $this . "\n";
+        return $this . "\n";
     }
 
     public function __toString()

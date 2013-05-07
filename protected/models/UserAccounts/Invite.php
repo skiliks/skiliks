@@ -207,7 +207,9 @@ class Invite extends CActiveRecord
      */
     public function getSentTime()
     {
-        return new DateTime('@' . (int)$this->sent_time);
+        $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
+        $datetime->setTimestamp((int)$this->sent_time);
+        return $datetime;
     }
 
     /**
