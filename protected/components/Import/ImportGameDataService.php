@@ -906,7 +906,7 @@ class ImportGameDataService
         // recipient relations {
         /** @var MailRecipient[] $emailRecipientEntities */
         $emailRecipientEntities = MailRecipient::model()
-            ->findAll(" id NOT IN (:ids) ", ['ids' => $emailToRecipientIds]);
+            ->findAll(" id NOT IN (:ids) ", ['ids' => implode(',', $emailToRecipientIds)]);
 
         foreach ($emailRecipientEntities as $entity) {
             $entity->delete();
