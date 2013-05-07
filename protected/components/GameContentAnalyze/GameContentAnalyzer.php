@@ -765,13 +765,13 @@ class GameContentAnalyzer
         $result = $this->getAEvent($code);
         if ($result) {
             if (false == isset($this->replicas[$code])) {
-                echo $code; exit;
+                return $code;
             }
             if (false == isset($this->replicas[$code][$step])) {
-                echo 'S: '.$step; exit;
+                return 'S: '.$step;
             }
             if (false == isset($this->replicas[$code][$step][$replicaNumber])) {
-                echo $replicaNumber; exit;
+                return $replicaNumber;
             }
             return $result->title.' -- '.$this->replicas[$code][$step][$replicaNumber]->text;
         }

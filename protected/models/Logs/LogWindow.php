@@ -84,7 +84,7 @@ class LogWindow extends CActiveRecord
     }
 
     public function dump(){
-        echo $this->__toString() . "\n";
+        return $this->__toString() . "\n";
     }
 
     public function __toString()

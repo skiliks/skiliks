@@ -451,7 +451,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     color:white;
 }
 #login-form.login-form .errorMessage#YumUserLogin_username_em_ {
-    top:0;
+    bottom:29px;
     left:3px;
 }
 #login-form.login-form .errorMessage#YumUserLogin_password_em_ {

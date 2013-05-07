@@ -88,7 +88,7 @@ class LogActivityAction extends CActiveRecord
      * Prints all needed info in one row
      */
     public function dump() {
-        echo $this . "\n";
+        return $this . "\n";
     }
 
     /**

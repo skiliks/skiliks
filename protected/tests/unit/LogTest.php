@@ -147,7 +147,7 @@ class LogTest extends CDbTestCase
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
         foreach ($activity_actions as $log) {
-            $log->dump();
+            echo $log->dump();
         }
         $this->assertEquals(count($activity_actions), 13);
 
