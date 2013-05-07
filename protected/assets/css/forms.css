@@ -544,8 +544,9 @@ span.required {
 }
 
 /* **************************** POPUP **************************** */
-.ui-widget-overlay {
-    background: rgba(0, 0, 0, .90);
+.ui-widget-overlay, .controller-static-dashboard .ui-widget-overlay {
+    background: rgba(0, 0, 0, .55) !important;
+    opacity: 1;
 }
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
