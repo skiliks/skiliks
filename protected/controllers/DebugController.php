@@ -1,17 +1,12 @@
 <?php
 
-/**
- *
- *
- *
- */
+
 class DebugController extends AjaxController
 {
     public function actionIndex()
     {
-        $simulation = Simulation::model()->findByPk(19);
-
-        SimulationService::applyReductionFactors($simulation);
+        $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
+        echo $datetime->format('H:i');
     }
 }
 
