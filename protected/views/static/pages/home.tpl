@@ -37,8 +37,8 @@
                                            id = "user-email-value"
                                            placeholder="{Yii::t('site', 'Enter your email address')}"
                                            />
-                                    <p id="user-email-error-box" class="error" style="display: none;">
-                                        <span>{Yii::t('site', 'Please enter a valid email address')}</span>
+                                    <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
+                                        {Yii::t('site', 'Please enter a valid email address')}
                                     </p>
                                 </div>
                                 <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
@@ -127,14 +127,16 @@
             });
     
             displayError = function(msg) {
-                $('#user-email-error-box span').text(msg);
-                $('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
-                $('#user-email-error-box').fadeIn(1000);
+                $('#user-email-error-box').text(msg);
+                //$('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
+                $('#user-email-error-box').show();
+                $('#user-email-value').css({"border":"2px solid #BD2929","margin-top":"-2px"});
             }
-    
+
             hideError = function() {
-                $('#user-email-error-box').fadeOut(1000);
-                $('#user-email-error-box span').text('');        
+                $('#user-email-error-box').hide();
+                $('#user-email-error-box').text('');
+                $('#user-email-value').css({"border":"none","margin-top":"0"});
             }
         </script>
         {/literal}
