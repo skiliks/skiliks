@@ -52,6 +52,14 @@
     font-style: normal;
 
 }
+@font-face {font-family: 'ProximaNova-Regular';
+    src: url('../fonts/24F05C_4_0.eot');
+    src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
+
+@font-face {font-family: 'ProximaNova-Bold';
+    src: url('../fonts/24F05C_5_0.eot');
+    src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
 
 html, body {
     height: 100%;
