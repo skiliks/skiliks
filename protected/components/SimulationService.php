@@ -227,10 +227,10 @@ class SimulationService
 
         foreach (self::getAggregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
-            $existAssessment = AssessmentAggregated::model()
-                ->bySimId($simId)
-                ->byPoint($agrPoint->mark->id)
-                ->find();
+            $existAssessment = AssessmentAggregated::model()->findByAttributes([
+                'sim_id'   => $simId,
+                'point_id' => $agrPoint->mark->id
+            ]);
             // check, if in some fantastic way such value exists in DB }
 
             // init Log record {
@@ -260,12 +260,12 @@ class SimulationService
     public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
-        foreach (AssessmentCalculation::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+        foreach (AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $simId]) as $emailBehaviour) {
 
-            $assessment = AssessmentAggregated::model()
-                ->bySimId($simId)
-                ->byPoint($emailBehaviour->point_id)
-                ->find();
+            $assessment = AssessmentAggregated::model()->findByAttributes([
+                'sim_id'   => $simId,
+                'point_id' => $emailBehaviour->point_id
+            ]);
             // check, if in some fantastic way such value exists in DB }
 
             // init Log record {
@@ -363,12 +363,13 @@ class SimulationService
                         false;
                 } elseif ($condition->excel_formula_id) {
 
-                    $satisfies = SimulationExcelPoint::model()
-                        ->bySimulation($simulation->id)
-                        ->byFormula($condition->excel_formula_id)
-                        ->byExistsValue()
-                        ->exists();
-
+                    $satisfies = SimulationExcelPoint::model()->exists(
+                        ' sim_id = :sim_id AND formula_id = :formula_id AND value != 0 ',
+                        [
+                            'sim_id' => $simulation->id,
+                            'formula_id' => $condition->excel_formula_id
+                        ]
+                    );
                 }
 
                 if ($rule->operation === 'AND' && !$satisfies ||
@@ -730,96 +731,6 @@ class SimulationService
      */
     public static function applyReductionFactors(Simulation $simulation)
     {
-        /*
-        // we will calculate K based om MAX negative value for learning goals
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(['type' => MaxRate::TYPE_FAIL]);
-        $criteria->addCondition('learning_goal_id IS NOT NULL');
-        $maxRates = $simulation->game_type->getMaxRates($criteria);
-
-        $learningGoalsForUpdate = [];
-        $rateValues = [];
-        foreach ($maxRates as $rate) {
-            $learningGoalsForUpdate[] = $rate->learningGoal;
-            $rateValues[$rate->learning_goal_id] = $rate->rate;
-        }
-
-        // to access goals by code
-        $learningGoals = [];
-
-        // init "0" sum for learning goals, find ids of negative behaviours {
-        $learningGoalsForUpdateCodes = [];
-        $sum = [];  // learningGoalsForUpdateNegativeScaleSum
-        foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
-            $learningGoals[$learningGoalForUpdate->getPrimaryKey()] = $learningGoalForUpdate;
-
-            if (false == in_array($learningGoalForUpdate->code, ['214a', '214b', '214d'])) {
-                $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
-                $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
-            }
-        }
-
-        $negativeLearningGoalCriteria = new CDbCriteria();
-        $negativeLearningGoalCriteria->addInCondition('code', $learningGoalsForUpdateCodes);
-
-        $learningGoalsForUpdateIds = $simulation->game_type->getLearningGoals($negativeLearningGoalCriteria);
-
-        $negativeHeroBehavioursCriteria = new CDbCriteria();
-        $negativeHeroBehavioursCriteria->addInCondition(
-            'learning_goal_id',
-            array_map(function ($i) {return $i->id;}, $learningGoalsForUpdateIds)
-        );
-        $negativeHeroBehavioursCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
-        $negativeHeroBehaviours = $simulation->game_type->getHeroBehavours($negativeHeroBehavioursCriteria);
-
-        $heroBehavioursForUpdateCodes = [];
-        foreach ($negativeHeroBehaviours as $heroBehaviour) {
-            $heroBehavioursForUpdateCodes[] = $heroBehaviour->code;
-        }
-        // init "0" sum for learning goals, find ids of negative behaviours }
-
-        // calculate total negative sum for learning goals {
-        foreach ($simulation->assessment_aggregated as $assessment) {
-            if (in_array($assessment->point->code, $heroBehavioursForUpdateCodes) &&
-                isset($sum[$assessment->point->learning_goal_id])) {
-
-                $sum[$assessment->point->learning_goal_id] += $assessment->value;
-            }
-        }
-        // calculate total negative sum for learning goals }
-
-        // calculate coefficients {
-        foreach ($sum as $learningGoalId => $sumValue) {
-            $realK = $sumValue/$rateValues[$learningGoalId];
-
-            $k[$learningGoalId] = 1;
-
-            if ($realK <= 0.1) {
-                $k[$learningGoalId] = 1;
-            } elseif (0.1 < $realK && $realK <= 0.5) {
-                $k[$learningGoalId] = 0.5;
-            } elseif (0.5 < $realK) {
-                $k[$learningGoalId] = 0;
-            }
-        }
-        // calculate coefficients }
-
-        // update assessment on positive scale {
-        foreach ($simulation->assessment_aggregated as $assessment) {
-            if (isset($k[$assessment->point->learning_goal_id]) &&
-                $assessment->point->type_scale == HeroBehaviour::TYPE_POSITIVE
-            ) {
-                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_id];
-                $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
-            } else {
-                $assessment->coefficient_for_fixed_value = 1;
-                $assessment->fixed_value = $assessment->value;
-            }
-            $assessment->save();
-        }
-        // update assessment on positive scale }
-        */
-
         foreach ($simulation->assessment_aggregated as $assessment) {
             $assessment->coefficient_for_fixed_value = 1;
             $assessment->fixed_value = $assessment->value;

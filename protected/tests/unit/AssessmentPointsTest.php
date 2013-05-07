@@ -99,11 +99,11 @@ class AssessmentPointsTest extends CDbTestCase
         $learningGoalsUpdate = $simulation->game_type->getLearningGoals($learningGoalCriteria);
         $negativeCriteria = new CDbCriteria();
         $negativeCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->getPrimaryKey();}, $learningGoalsUpdate));
-        $negativeCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
+        $negativeCriteria->compare('type_scale', HeroBehaviour::TYPE_ID_NEGATIVE);
         $heroBehavioursNegative = $simulation->game_type->getHeroBehavours($negativeCriteria);
         $positiveCriteria = new CDbCriteria();
         $positiveCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->getPrimaryKey();}, $learningGoalsUpdate));
-        $positiveCriteria->compare('type_scale', HeroBehaviour::TYPE_POSITIVE);
+        $positiveCriteria->compare('type_scale', HeroBehaviour::TYPE_ID_POSITIVE);
         $heroBehavioursPositive = $simulation->game_type->getHeroBehavours($positiveCriteria);
 
         // get positive and negative behaviours to init assessments in future }
@@ -151,7 +151,7 @@ class AssessmentPointsTest extends CDbTestCase
         $this->assertNotEmpty($realAssessments);
         foreach ($realAssessments as $realAssessment) {
             $learningGoalId = $realAssessment->point->learning_goal_id;
-            if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale) {
+            if ($realAssessment->point->isPositive()) {
                 $this->assertEquals(
                     abs(1 - $learningGoalCoefficient[$learningGoalId]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
                     $realAssessment->coefficient_for_fixed_value,

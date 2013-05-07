@@ -33,11 +33,12 @@ class MyDocumentsService
      */
     public static function getDocumentsList($simulation)
     {
-        $documents = MyDocument::model()
-            ->bySimulation($simulation->id)
-            ->visible()
-            ->orderByFileName()
-            ->findAll();
+        $documents = MyDocument::model()->findAllByAttributes([
+            'sim_id' => $simulation->id,
+            'hidden' => 0,
+        ], [
+            'order' => 'fileName asc'
+        ]);
 
         $list = array();
         foreach ($documents as $document) {

@@ -16,6 +16,10 @@
  */
 class ReplicaPoint extends CActiveRecord
 {
+    // Place your specific code there
+
+    // ---------------------------------------------------------------------------------------------------
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -98,43 +102,5 @@ class ReplicaPoint extends CActiveRecord
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
-    }
-
-    /**
-     * @param string $ids
-     * @return array of ReplicaPoint
-     */
-    public function byIdsNotIn($ids)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT IN ({$ids}) "
-        ));
-        return $this;
-    }
-
-    /**
-     * Выборка оценки по конкретному диалогу
-     * @param int $dialogId идентификатор диалога
-     * @return ReplicaPoint
-     */
-    public function byDialog($dialogId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "dialog_id = '{$dialogId}'"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выборка по идентификатору оценки
-     * @param int $pointId
-     * @return ReplicaPoint
-     */
-    public function byPoint($pointId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "point_id = '{$pointId}'"
-        ));
-        return $this;
     }
 }

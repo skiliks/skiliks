@@ -48,25 +48,23 @@ class MailBoxService
         $simId      = $params['simId'];
         $simulation = Simulation::model()->findByPk($simId);
 
-        $order = (isset($params['order'])) ? $params['order'] : false;
-        if ($order == -1) {
-            $order = false;
-        }
+//        $order = (isset($params['order'])) ? $params['order'] : false;
+//        if ($order == -1) {
+//            $order = false;
+//        }
+//
+//        $orderField = false;
+//        if ($order == 'sender') $orderField = 'sender_id';
+//        if ($order == 'time') $orderField = 'sent_at';
+//
+//        $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
+//        if ($orderType == 0) $orderType = 'ASC';
+//        else $orderType = 'DESC';
 
-        $orderField = false;
-        if ($order == 'sender') $orderField = 'sender_id';
-        if ($order == 'time') $orderField = 'sent_at';
-
-        $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
-        if ($orderType == 0) $orderType = 'ASC';
-        else $orderType = 'DESC';
-
-        $model = MailBox::model();
-        $model->bySimulation($params['simId']);
-
-        $model->byFolder($folderId);
-        if ($orderField) $model->orderBy($orderField, $orderType);
-        $messages = $model->findAll();
+        $messages = MailBox::model()->findAllByAttributes([
+            'sim_id'   => $params['simId'],
+            'group_id' => $folderId,
+        ]);
 
         $users = array();
         $list = array();
@@ -137,11 +135,11 @@ class MailBoxService
         }
 
 
-        if ($orderType == 'ASC') {
-            $orderFlag = SORT_ASC;
-        } else {
-            $orderFlag = SORT_DESC;
-        }
+//        if ($orderType == 'ASC') {
+//            $orderFlag = SORT_ASC;
+//        } else {
+//            $orderFlag = SORT_DESC;
+//        }
 
         // Добавим информацию о вложениях
         if (count($mailIds) > 0) {
@@ -165,18 +163,18 @@ class MailBoxService
             $receivers[$key] = $row['receiver'];
 
         }
-
-        if ($order == 'subject') {
-            array_multisort($subjects, $orderFlag, $list);
-        }
-
-        if ($order == 'sender') {
-            array_multisort($senders, $orderFlag, $list);
-        }
-
-        if ($order == 'receiver') {
-            array_multisort($receivers, $orderFlag, $list);
-        }
+//
+//        if ($order == 'subject') {
+//            array_multisort($subjects, $orderFlag, $list);
+//        }
+//
+//        if ($order == 'sender') {
+//            array_multisort($senders, $orderFlag, $list);
+//        }
+//
+//        if ($order == 'receiver') {
+//            array_multisort($receivers, $orderFlag, $list);
+//        }
 
         return array_values($list);
     }
@@ -408,7 +406,10 @@ class MailBoxService
     public static function copyMessageFromTemplateByCode($simulation, $code)
     {
         // проверим а вдруг у нас уже есть такое сообщение
-        $mailModel = MailBox::model()->byCode($code)->bySimulation($simulation->id)->find();
+        $mailModel = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => $code,
+        ]);
         if ($mailModel) return $mailModel; // сообщение уже есть у нас
 
 
@@ -431,7 +432,10 @@ class MailBoxService
         $command->bindParam(":scenario_id", $scenarioId);
         $command->execute();
 
-        $mailModel = MailBox::model()->byCode($code)->bySimulation($simulation->id)->find();
+        $mailModel = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => $code,
+        ]);
         if (!$mailModel) return false; // что-то пошло не так - письмо не скопировалось в симуляцию
 
         // move from 5 (not send) to inbox (1)
@@ -466,7 +470,11 @@ class MailBoxService
 
         if (isset($row['file_id'])) {
             // определить file_id в симуляции
-            $file = MyDocument::model()->bySimulation($simulation->id)->byTemplateId((int)$row['file_id'])->find();
+            $file = MyDocument::model()->findByAttributes([
+                'sim_id'      => $simulation->id,
+                'template_id' => (int)$row['file_id'],
+            ]);
+
             if (!$file) {
                 // документа еще нет в симуляции
                 $fileId = MyDocumentsService::copyToSimulation($simulation->id, $row['file_id']);
@@ -506,16 +514,12 @@ class MailBoxService
     public static function initMailBoxEmails($simId)
     {
         $simulation = Simulation::model()->findByPk($simId);
-        $profiler = new SimpleProfiler(false);
-        $profiler->startTimer();    
-        $profiler->render('r1: ');
-        
+
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type)
             select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, ''
             from mail_template  where group_id IN (1,3) AND scenario_id=:scenario_id";
-        $profiler->render('r2: ');
 
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
@@ -523,10 +527,8 @@ class MailBoxService
         $command->bindParam(":scenario_id", $scenarioId, PDO::PARAM_INT);
         $command->execute();
 
-        $profiler->render('r3: ');
         // теперь скопируем информацию о копиях писем
-        $mailCollection = MailBox::model()->bySimulation($simId)->findAll();
-        $profiler->render('r4: ');
+        $mailCollection = MailBox::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         // prepare all doc templates
         $documentTemplates = [];
@@ -582,7 +584,6 @@ class MailBoxService
             $command = $connection->createCommand($sql);
             $command->execute();
         }
-        $profiler->render('r5: '); // 5
     }
 
     /**

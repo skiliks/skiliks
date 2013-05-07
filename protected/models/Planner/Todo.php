@@ -100,19 +100,6 @@ class Todo extends CActiveRecord
 	}
 
     /**
-     * Выбрать в рамках заданной симуляции
-     * @param int $simId
-     * @return Todo
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id={$simId}"
-        ));
-        return $this;
-    }
-
-    /**
      * Выбрать по заданной задаче
      * @param int $taskId
      * @return Todo

@@ -123,18 +123,4 @@ class DayPlanLog extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Выборка по симуляции
-     *
-     * @param int $simId
-     * @return DayPlanLog
-     */
-    public function bySimulation($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
 }

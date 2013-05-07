@@ -73,18 +73,6 @@ class MailRecipient extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * @param string $ids
-     * @return MailTemplate
-     */
-    public function byIdsNotIn($ids)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->addNotInCondition('id', explode(',', $ids));
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
 
     public function relations()
     {

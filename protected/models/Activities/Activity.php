@@ -4,12 +4,17 @@
  * This is the model class for table "activity".
  *
  * The followings are the available columns in table 'activity':
- * @property string $id
+ * @property integer $id
  * @property string $parent
  * @property string $grandparent
  * @property string $name
- * @property integer $category_id
- * @prorerty string $import_id
+ * @property string $code
+ * @property string $type
+ * @property string $category_id
+ * @property string $numeric_id
+ * @property string $import_id
+ * @property integer $scenario_id
+ *
  * @property ActivityParent parentActivity
  * @property ActivityCategory category
  *
@@ -18,53 +23,9 @@
  */
 class Activity extends CActiveRecord
 {
-    /**
-     * Activiti code, unique for activity
-     * @var string
-     */
-    public $id;
-    
-    /**
-     * Activiti id in numeric format, not uniq for activity
-     * @var string
-     */
-    public $numeric_id;
-    
-    /**
-     * Parrent code, not uniq for activity
-     * @var string
-     */
-    public $parent;
-    
-    /**
-     * Grandparrent code, not uniq for activity
-     * @var string
-     */
-    public $grandparent;
-    
-    /**
-     * @var string
-     */
-    public $name;
-    
-    /**
-     * @var string
-     */
-    public $type;
-    
-    /**
-     * Importance.
-     * From 0 to 5. 0 - very important, 5 - trash.
-     * 2_min - must be act in 3 real time seconds.
-     * @var integer
-     */
-    public $category_id;
-    
-    /**
-     * Systen value to check is entity just imported or old after reimport and delete olds.
-     * @var string
-     */
-    public $import_id;
+    // Place your specific code there
+
+    // ---------------------------------------------------------------------------------------------------
 
     /**
      * Returns the static model of the specified AR class.

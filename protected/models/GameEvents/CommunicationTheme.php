@@ -234,18 +234,6 @@ class CommunicationTheme extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * @param string $ids
-     * @return CommunicationTheme
-     */
-    public function byIdsNotIn($ids)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->addNotInCondition('id', explode(',',$ids));
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
 
     /**
      * Выбрать с признаком "телефон"
