@@ -25,8 +25,7 @@ define([
             this.$el.find('#skiliks_intro').bind('ended', function () {
                 this.pause();
                 this.src = '';
-                me.$(this).remove();
-                me.$el.unbind("mousemove");
+                me.$el.empty().removeClass('loading').unbind("mousemove");
                 me.appLaunch();
             });
 
@@ -40,20 +39,25 @@ define([
         },
 
         appLaunch: function() {
+            var me = this;
+
             window.SKApp = new SKApplication(window.gameConfig);
             window.AppView = new SKApplicationView();
 
-            this.tutorial = new SKDialogView({
-                class: 'tutorial-popup',
-                content: _.template(tutorial_template, {}),
-                buttons: [{
-                    id: 'ok',
-                    value: 'Начать',
-                    onclick: function() {
-                        $('.time').removeClass('paused');
-                        window.SKApp.run();
-                    }
-                }]
+            window.SKApp.simulation.start(function() {
+                window.AppView.drawDesktop();
+                me.tutorial = new SKDialogView({
+                    class: 'tutorial-popup',
+                    content: _.template(tutorial_template, {}),
+                    buttons: [{
+                        id: 'ok',
+                        value: 'Начать',
+                        onclick: function() {
+                            $('.time').removeClass('paused');
+                            window.SKApp.simulation.run();
+                        }
+                    }]
+                });
             });
         },
         handleClick: function(){
