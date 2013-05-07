@@ -5,7 +5,7 @@
         <title>Ruseller Email Newsletter</title>
     </head>
     <body>
-        <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0" width="870">
             <tr>
                 <td>
                     <img src="cid:mail-top" style="display:block;">
