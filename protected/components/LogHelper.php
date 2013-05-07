@@ -293,7 +293,7 @@ class LogHelper
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
                 if (0 == count($windows)) {
-                    $errors .= 'Can not close window: ' . $key. ' :: ' . print_r($log, true) . "\n";
+                    $errors .= 'Can not close window: ' . $key. ' :: ' . implode(',', $log) . "\n";
                     continue;
                 }
                 if (1 < count($windows)) {

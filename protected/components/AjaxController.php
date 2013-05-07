@@ -72,6 +72,7 @@ class AjaxController extends CController
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Access-Control-Allow-Origin: *");
         }
+
         echo $body;
 
         Yii::app()->end();
