@@ -6,7 +6,7 @@
 /**
  * 100% по Эффективное управлению звонками (Область обучения №6)
  */
-class Calls_Test extends SeleniumTestHelper
+class Calls_Management_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -37,6 +37,7 @@ class Calls_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
 
         $this->run_event('ET9', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);

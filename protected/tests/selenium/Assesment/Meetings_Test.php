@@ -14,8 +14,8 @@ class Meetings_Test extends SeleniumTestHelper
         $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
         parent::setUp();
     }
-
-    public function test_Dialogs_for_SK2420_4()
+//SK2420_4
+    public function test_meetings_management()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();

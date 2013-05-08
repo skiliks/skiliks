@@ -8,6 +8,7 @@
  *
  * @property DocumentTemplate template
  * @property string $uuid
+ * @property int $is_was_saved
  */
 class MyDocument extends CActiveRecord
 {

@@ -27,8 +27,6 @@ class F12_SK1412_Test extends SeleniumTestHelper
         //$this->optimal_click("css=li.icon-active.door a");
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[4]");
-
         $this->assertTrue($this->verify_flag('F12','1'));
 
         $this->transfer_time(9);

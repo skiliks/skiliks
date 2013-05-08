@@ -1,4 +1,4 @@
-<div class="form form-invite-message-editor dashboard" title="Текст приглашения">
+<div class="form form-invite-message-editor dashboard" title="Текст приглашения" style="display: none;">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'edit-invite-form',
