@@ -44,6 +44,10 @@ define([
             window.SKApp = new SKApplication(window.gameConfig);
             window.AppView = new SKApplicationView();
 
+            window.SKApp.simulation.on('start', function() {
+                this.startPause();
+            });
+
             window.SKApp.simulation.start(function() {
                 window.AppView.drawDesktop();
                 me.tutorial = new SKDialogView({
@@ -54,7 +58,7 @@ define([
                         value: 'Начать',
                         onclick: function() {
                             $('.time').removeClass('paused');
-                            window.SKApp.simulation.run();
+                            window.SKApp.simulation.stopPause();
                         }
                     }]
                 });

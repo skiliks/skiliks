@@ -78,6 +78,7 @@ define([
                 this.listenTo(simulation, 'start', this.startObservFullScreenMode);
                 this.listenTo(simulation, 'before-stop', this.stopExitProtection);
                 this.listenTo(simulation, 'stop-time', this.stopSimulation);
+                this.listenTo(simulation, 'documents:error', this.documentsLoadError);
 
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {
@@ -191,6 +192,20 @@ define([
                         'height':   $body.height() - 4
                     }));
                 }
+            },
+
+            documentsLoadError: function() {
+                var me = this;
+
+                new SKDialogView({
+                    message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
+                    buttons: []
+                });
+
+                setTimeout(function() {
+                    me.stopExitProtection();
+                    me.simulation.trigger('force-stop');
+                }, 3000);
             },
 
             /**
