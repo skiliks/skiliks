@@ -178,12 +178,29 @@ class Invite extends CActiveRecord
         return (self::STATUS_PENDING == $this->status);
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isAccepted()
+    {
+        return $this->status == self::STATUS_ACCEPTED;
+    }
+
     /**
      * @return bool
      */
     public function isCompleted()
     {
         return $this->status == self::STATUS_COMPLETED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStarted()
+    {
+        return $this->status == self::STATUS_STARTED;
     }
 
     /**
@@ -500,7 +517,7 @@ class Invite extends CActiveRecord
 		$criteria->compare('status', $this->status);
         $criteria->compare('scenario_id', $this->scenario_id);
 		$criteria->compare('sent_time', $this->sent_time);
-
+        $criteria->with = ['vacancy'];
         $criteria->mergeWith($criteria2);
 
 		return new CActiveDataProvider($this, [
@@ -665,5 +682,18 @@ class Invite extends CActiveRecord
         return $this->findByAttributes([
             'code' => $code
         ]);
+    }
+
+    public function canUserSimulationStart() {
+
+        if($this->receiver_id === null){
+            return true;
+        }
+        if((int)$this->receiver_id === (int)$this->receiverUser->id){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
