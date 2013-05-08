@@ -158,10 +158,9 @@ define([
                             console.log('saved!');
                             SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
                             SKApp.simulation.tryCloseLoadDocsDialog();
+                            return;
                         }
                     });
-
-                    return;
                 }
 
                 SKApp.simulation.set(
