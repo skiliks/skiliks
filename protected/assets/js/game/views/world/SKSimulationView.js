@@ -199,15 +199,13 @@ define([
 
                 new SKDialogView({
                     message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
-                    buttons: [{
-                        id: 'ok',
-                        value: 'Закрыть симуляцию',
-                        onclick: function() {
-                            me.stopExitProtection();
-                            me.simulation.trigger('force-stop');
-                        }
-                    }]
+                    buttons: []
                 });
+
+                setTimeout(function() {
+                    me.stopExitProtection();
+                    me.simulation.trigger('force-stop');
+                }, 3000);
             },
 
             /**
