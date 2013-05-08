@@ -188,7 +188,7 @@ define([
                         'left':     '-10000px',
                         'top':      0,
                         'width':    $body.width(),
-                        'height':   $body.height()
+                        'height':   $body.height() - 4
                     }));
                 }
             },
