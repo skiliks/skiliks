@@ -775,7 +775,7 @@ html[lang=ru] .main-article article{
 }
 .clients ul li{
 	float:left;
-	height:85px;
+	height:95px;
 	padding:27px 30px 0 0;
 }
 .clients ul li:nth-child(2) img {
@@ -797,7 +797,7 @@ html[lang=ru] .main-article article{
 	}
 	.clients ul li{
         padding:15px 10px 0 0;
-        height: 65px;
+        /*height: 95px;*/
 	}
 	.clients ul li img{
 		width:90%;
