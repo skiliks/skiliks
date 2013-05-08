@@ -166,7 +166,7 @@ class UserAuthController extends YumController
 
             $userValid = $this->user->validate();
             $profileValid = $profile->validate();
-            $accountValid = $account->validate(['industry_id', 'professional_status_id']);
+            $accountValid = $account->validate(['professional_status_id']);
 
             if ($userValid && $profileValid && $accountValid) {
                 $result = $this->user->register($this->user->username, $this->user->password, $profile);
