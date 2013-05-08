@@ -686,6 +686,9 @@ class Invite extends CActiveRecord
 
     public function canUserSimulationStart() {
 
+        if($this->receiver_id === null){
+            return true;
+        }
         if((int)$this->receiver_id === (int)$this->receiverUser->id){
             return true;
         }else{
