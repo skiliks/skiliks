@@ -152,7 +152,7 @@ define([
                 if ('Spreadsheet saved successfully' === iframe.document.getElementById('save_message_display').textContent ||
                     '' === iframe.document.getElementById('save_message_display').textContent) {
 
-                    SKApp.server.api('myDocuments/isDocumentExists', {id: doc_id}, function(result) {
+                    SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
                         console.log('result.status: ', result.status.toString());
                         if ('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) {
                             console.log('saved!');
