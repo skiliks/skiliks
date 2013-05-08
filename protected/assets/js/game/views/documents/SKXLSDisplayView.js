@@ -46,14 +46,16 @@ define([
                 return;
             }
 
-            var me = this;
+            var me = this,
+                offset = el.offset();
+
             $(doc.combineIframeId()).show().css({
                 'background-color': '#fff',
                 'zIndex':   parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
                 'width':    el.width() - 4,
                 'height':   this.$('.xls-container').parent().parent().parent().height() - this.$('.xls-container').parent().parent().find('header').height(), //el.height(),
-                'left':     me.$el[0].offsetLeft,
-                'top':      el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
+                'left':     offset.left,
+                'top':      offset.top,
                 'position': 'absolute'
             });
             $(doc.combineIframeId())[0].contentWindow.focus();

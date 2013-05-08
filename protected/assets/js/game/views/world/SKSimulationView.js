@@ -34,7 +34,10 @@ define([
          * @lends SKSimulationView
          */
         {
-            'el':              'body',
+            'attributes': {
+                'style': 'width: 100%; height: 100%'
+            },
+
             'events':          {
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
@@ -170,11 +173,13 @@ define([
             },
 
             _appendZohoIframe: function(doc) {
-                var iframe = $('#' + 'excel-preload-' + doc.id);
+                var iframe = $('#' + 'excel-preload-' + doc.id),
+                    $body = $('body');
+
                 if (iframe.length) {
                     iframe.attr('src', doc.get('excel_url'));
                 } else {
-                    $('body').append($('<iframe />', {
+                    $body.append($('<iframe />', {
                         src: doc.get('excel_url'),
                         id:  'excel-preload-' + doc.id,
                         class: 'excel-preload-window'
@@ -182,8 +187,8 @@ define([
                         'position': 'absolute',
                         'left':     '-10000px',
                         'top':      0,
-                        'width':    screen.availWidth,
-                        'height':   screen.availHeight
+                        'width':    $body.width(),
+                        'height':   $body.height()
                     }));
                 }
             },
@@ -193,7 +198,7 @@ define([
              */
             'render':          function () {
                 var login_html = _.template(simulation_template, {});
-                this.$el.html(login_html);
+                this.$el.html(login_html).appendTo('body');
                 this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
                 if (this.simulation.isDebug()) {
                     this.debug_view = new SKDebugView({'el': this.$('.debug-panel')});
