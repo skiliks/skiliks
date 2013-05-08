@@ -4083,16 +4083,18 @@ ul.profile-menu li {
         margin-top: 8px;
     }
     section.registration-by-link h1 {
-        font-size: 20px;
+        font-size: 21px;
         margin-bottom: 10px;
+    }
+    .registration-by-link .text-right {
         padding-top: 106px;
     }
     section.registration-by-link {
-        background-size: cover;
+        background-size:690px;
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
         padding: 0 14px 30px 20px;
-        height: 370px;
-        width: 630px;
+        height: 340px;
+        width: 640px;
     }
     section.registration-by-link .form .row label {
         font-size: 11px;
@@ -4111,7 +4113,7 @@ ul.profile-menu li {
         height: 40px;
         font-size: 16px;
     }
-    section.registration-by-link .form .row a.decline-link {
+    section.registration-by-link .form .row a.decline-link, .registration-by-link .text-right a {
         font-size:11px;
     }
     section.registration-by-link .form .row.buttons {
