@@ -201,13 +201,16 @@
     display:none;
 }
 section.registration-by-link {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     padding:0 20px 41px 30px;
     height:460px;
     width:746px;
     margin:50px auto 0;
-    background:url("../img/bg-register-by-link.png")no-repeat 0 0;
+    background:url("../img/bg-register-by-link2.png")no-repeat 0 0;
     z-index:5;
     position: relative;
+
 }
 section.registration-by-link h1 {
     padding-top:140px;
@@ -261,10 +264,9 @@ section.registration-by-link .form .row input[type="submit"] {
 }
 section.registration-by-link .form .row a.decline-link {
     font:14px/46px "ProximaNova-Regular";
-    color:#555545;
+    color:#2d7b91;
     cursor:pointer;
     text-decoration:none;
-    border-bottom:1px dotted #663;
 }
 section.registration-by-link .form .row a.decline-link:hover {
     border-bottom:none;
