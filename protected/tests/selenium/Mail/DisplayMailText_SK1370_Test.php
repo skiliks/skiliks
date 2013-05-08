@@ -22,22 +22,22 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 
     public function test_DisplayMailText_SK1370()
     {
-        $mail_code = array('MY1','MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21');
-        $window = array('mail main','mail main','mail main','mail new',
-            'mail main','mail main','mail main','mail main','mail main');
+        $mail_code = array('MY1','MY1','MY2', 'MY1', 'MS21','MY1','MY1','MS21','MS21','MSY10', 'MS21');
+        $window = array('mail main','mail main','mail main','mail main','mail new',
+            'mail main','mail main','mail main','mail main','mail main','mail main');
         $log = array($window, $mail_code);
 
-        /*$mail_code1 = array('MY1','MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21');
-        $window1 = array('mail main','mail main','mail main','mail new',
-            'mail main','mail main','mail main','mail main','mail main');
-        $log1 = array($window1, $mail_code1);*/
+        $mail_code1 = array('MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21','MSY10', 'MS21');
+        $window1 = array('mail main','mail main','mail new',
+            'mail main','mail main','mail main','mail main','mail main','mail main');
+        $log1 = array($window1, $mail_code1);
 
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
-        $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
@@ -72,6 +72,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->optimal_click("link=отправить черновик");
         $this->optimal_click("css=label.icon_SENDED");
         sleep(2);
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
@@ -83,9 +84,9 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         // выполняем проверку первого списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
         $a = $this->Mail_log($log, sizeof($window));
         // выполняем проверку второго списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
-        //$b = $this->Mail_log($log1, sizeof($window1));
+        $b = $this->Mail_log($log1, sizeof($window1));
         // проверяем есть хотя бы одна проверка вернула true значит все ок и продолжнаем проверку далее
-        if (($a!=true)/*||($b!=true)*/)
+        if (($a!=true)||($b!=true))
         {
             $this->fail("Mail log fail!!!");
         }

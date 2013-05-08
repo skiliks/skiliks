@@ -36,6 +36,8 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте. Только что отправил')])");
         $this->optimal_click("css=li.icon-active.mail a");
         sleep(2);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
+        sleep(2);
         $this->verifyTextPresent("Вот, сделал. Смотрите. \nС уваженим, Трутнев С.");
     }
 
@@ -52,6 +54,8 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте. Только что отправил')])");
 
         $this->optimal_click("css=li.icon-active.mail a");
+        sleep(2);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
         $this->verifyTextPresent("exact:Добрый день! Заполнил вашу форму. Есть ли вопросы? \nВсего доброго, Трутнев С.");
     }
