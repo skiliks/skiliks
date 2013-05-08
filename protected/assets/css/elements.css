@@ -410,6 +410,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     bottom: 27px;
 }
 /* Ошибки при отправке приглашения в личном кабинете */
+#invite-form {
+    position:relative;
+}
 .invite-people-form.sideform.darkblueplacehld .row{
     position: relative;
     padding:15px 0 0 0;

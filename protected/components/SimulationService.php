@@ -544,7 +544,7 @@ class SimulationService
 
         // TODO: Change checking logic
         if ($invite->scenario->slug == Scenario::TYPE_FULL
-            && false == $invite->receiverUser->can(UserService::CAN_START_FULL_SIMULATION)
+            && false == $invite->canUserSimulationStart()
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
