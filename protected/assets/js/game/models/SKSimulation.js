@@ -73,7 +73,11 @@ define([
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.handleEvents();
 
-                this.loadDocsDialog = null,
+                this.loadDocsDialog = null;
+
+                document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                this.set('isZohoDocumentSuccessfullySaved', null);
+                this.set('isZohoSavedDocTestRequestSent', false);
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
@@ -131,6 +135,25 @@ define([
                 return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             },
 
+            zohoDocumentSaveCheck: function(iframe) {
+                SKApp.simulation.set('ZohoDocumentSaveCheckAttempt', 1);
+                if (60 === SKApp.simulation.get('ZohoDocumentSaveCheckAttempt')) {
+                    SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
+                    return;
+                }
+
+                if ('' === iframe.document.getElementById('save_message_display').textContent) {
+                    SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
+                    return;
+                }
+                SKApp.simulation.set(
+                    'ZohoDocumentSaveCheckAttempt',
+                    SKApp.simulation.get('ZohoDocumentSaveCheckAttempt') + 1
+                );
+
+                setTimeout(SKApp.simulation.zohoDocumentSaveCheck(), 1000);
+            },
+
             onDocumentLoaded: function(event) {
                 var me = this;
 
@@ -138,6 +161,24 @@ define([
                     if (url === event.data.url) {
                         var docs = SKApp.simulation.documents.where({id:id.toString()});
                         docs[0].set('isInitialized', true);
+
+                        if (false === SKApp.simulation.get('isZohoSavedDocTestRequestSent')) {
+
+                            SKApp.simulation.set('isZohoSavedDocTestRequestSent', true);
+
+                            // get iframe {
+                            var iframeId = docs[0].combineIframeId().replase('#', '');
+                            var myIframe = document.getElementById(iframeId);
+                            var myIframeWin = myIframe.contentWindow || myIframe.contentDocument;
+                            // get iframe }
+
+                            // click check
+                            myIframeWin.document.getElementById('savefile').click();
+
+                            // check is excel saved
+                            setTimeout(SKApp.simulation.zohoDocumentSaveCheck(), 1000);
+                        }
+
                         if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
