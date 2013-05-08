@@ -187,6 +187,22 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return bool
+     */
+    public function isAccepted()
+    {
+        return $this->status == self::STATUS_ACCEPTED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStarted()
+    {
+        return $this->status == self::STATUS_STARTED;
+    }
+
+    /**
      * @return string
      */
     public function getFullname()

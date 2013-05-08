@@ -143,5 +143,19 @@ class SimulationController extends AjaxController
         }
     }
 
+    /**
+     *
+     */
+    public function actionMarkInviteStarted()
+    {
+        $simulation = $this->getSimulationEntity();
+        $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
+
+        // IF - to prevent cheating
+        if ($invite->isAccepted()) {
+            $invite->status = Invite::STATUS_STARTED;
+            $invite->save(false);
+        }
+    }
 }
 

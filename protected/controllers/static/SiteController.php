@@ -60,7 +60,7 @@ class SiteController extends AjaxController
             }
 
 
-            if (null !== $invite->simulation_id) {
+            if (null !== $invite->simulation_id && ($invite->isStarted() || $invite->isCompleted())) {
                 Yii::app()->user->setFlash('error', sprintf(
                     'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
                     $invite->getCompanyOwnershipType(),
