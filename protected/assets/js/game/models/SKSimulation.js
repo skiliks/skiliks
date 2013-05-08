@@ -172,7 +172,6 @@ define([
                 var doc_idX = doc_id;
                 setTimeout(function(){
                     SKApp.simulation.zohoDocumentSaveCheck(frameX, doc_idX);
-
                 }, 1000);
             },
 
