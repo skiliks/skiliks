@@ -589,8 +589,15 @@ class SimulationService
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
             $invite->simulation_id = $simulation->id;
+            $scenario = Scenario::model()->findByPk($invite->scenario_id);
+            /* @var $scenario Scenario */
+            if($scenario->slug == Scenario::TYPE_LITE) {
+                $invite->status = Invite::STATUS_STARTED;
+                $invite->save(false, ['simulation_id', 'status']);
+            }else{
+                $invite->save(false, ['simulation_id']);
+            }
             //$invite->status = Invite::STATUS_STARTED;//TODO:SKILIKS-2515
-            $invite->save(false, ['simulation_id']);
 
             if ($invite->isTrialFull(Yii::app()->user->data())
                 && Yii::app()->user->data()->isCorporate()) {
