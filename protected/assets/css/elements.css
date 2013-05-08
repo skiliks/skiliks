@@ -203,27 +203,30 @@
 section.registration-by-link {
     box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    padding:0 20px 41px 30px;
-    height:460px;
-    width:746px;
+    padding:0 20px 41px 28px;
+    height:374px;
+    width:776px;
     margin:50px auto 0;
-    background:url("../img/bg-register-by-link2.png")no-repeat 0 0;
+    background:url("../img/bg-register-by-link2.jpg")no-repeat center top;
     z-index:5;
     position: relative;
 
 }
 section.registration-by-link h1 {
-    padding-top:140px;
     font:normal 25px "ProximaNova-Regular";
     color:#666666;
-    margin-bottom:25px;
+    margin-bottom:16px;
+}
+.registration-by-link .text-right {
+    padding-bottom: 10px;
+    padding-top:120px;
 }
 section.registration-by-link .form {
     color:#666633;
     font:14px/34px "ProximaNova-Regular";
 }
 section.registration-by-link .form .row {
-    margin-bottom:8px;
+    margin-bottom:5px;
     position: relative;
 }
 section.registration-by-link .form .row label {
@@ -262,11 +265,13 @@ section.registration-by-link .form .row input[type="submit"] {
     padding: 0 14px 0 48px;
     margin-right:15px;
 }
-section.registration-by-link .form .row a.decline-link {
-    font:14px/46px "ProximaNova-Regular";
+section.registration-by-link .form .row a.decline-link, .registration-by-link .text-right a {
+    font:12px "ProximaNova-Regular";
     color:#2d7b91;
-    cursor:pointer;
     text-decoration:none;
+}
+section.registration-by-link .form .row a.decline-link {
+    line-height: 46px;
 }
 section.registration-by-link .form .row a.decline-link:hover {
     border-bottom:none;
