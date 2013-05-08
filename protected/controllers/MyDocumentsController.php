@@ -97,11 +97,12 @@ class MyDocumentsController extends AjaxController
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
+        /** @var MyDocument $file */
         $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
 
         $this->sendJSON([
-            'status' => (int)($zoho->checkIsUserFileExists()/* && (bool)$file->is_was_saved*/),
+            'status' => (int)($zoho->checkIsUserFileExists() && (bool)$file->is_was_saved),
             'IsUserFileExists' => $zoho->checkIsUserFileExists(),
             'is_was_saved' => $file->is_was_saved,
             'id' => $id,
