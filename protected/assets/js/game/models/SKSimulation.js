@@ -247,6 +247,7 @@ define([
                 var me = this;
                 SKApp.server.api('simulation/markInviteStarted', {}, function(){});
                 SKApp.simulation.loadDocsDialog.remove();
+                clearTimeout(me.loadDocsTimer);
                 SKApp.simulation.trigger('documents:loaded');
             },
 
@@ -310,7 +311,7 @@ define([
                             if (false === me.tryCloseLoadDocsDialog()) {
                                 me.trigger('documents:error');
                             }
-                        }, 90000);
+                        }, 60000);
                     }
                 }
             },
@@ -482,7 +483,7 @@ define([
 
                     if (!me.isDebug()) {
                         me.documents.fetch();
-                        me.on('documents:loaded', onDocsLoad);
+                        me.once('documents:loaded', onDocsLoad);
                     } else {
                         onDocsLoad.apply(me);
                     }
