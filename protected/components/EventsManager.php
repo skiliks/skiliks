@@ -96,9 +96,9 @@ class EventsManager {
      */
     public static function getState($simulation, $logs) {
         $simId = $simulation->id;
-        $gameTime = 0;
+        $gameTime = $simulation->getGameTime();
+        SimulationService::simulationIsStarted($simulation, $gameTime);
         try {
-            $gameTime = $simulation->getGameTime();
             $endTime = $simulation->game_type->finish_time;
 
             // 60 sec - delay between frontend request and server processing
