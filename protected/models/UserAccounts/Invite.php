@@ -500,7 +500,7 @@ class Invite extends CActiveRecord
 		$criteria->compare('status', $this->status);
         $criteria->compare('scenario_id', $this->scenario_id);
 		$criteria->compare('sent_time', $this->sent_time);
-
+        $criteria->join = 'LEFT JOIN vacancy ON vacancy.id=vacancy_id';
         $criteria->mergeWith($criteria2);
 
 		return new CActiveDataProvider($this, [
