@@ -666,4 +666,14 @@ class Invite extends CActiveRecord
             'code' => $code
         ]);
     }
+
+    public function canUserSimulationStart() {
+
+        if((int)$this->receiver_id === (int)$this->receiverUser->id){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 }
