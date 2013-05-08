@@ -101,7 +101,7 @@ return [
 
     'dev' => [
         'event_input' => "id=addTriggerSelect",
-        'event_create' => "css=input.btn.btn-primary",
+        'event_create' => "//div[@class='controls']//input[@value='Создать']",
         'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
     ],
