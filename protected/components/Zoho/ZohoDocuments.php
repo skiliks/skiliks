@@ -191,7 +191,11 @@ class ZohoDocuments
             return 'Wrong document id!';
         }
 
-        $uuid = MyDocument::model()->findByPk($path[1])->uuid;
+        $document = MyDocument::model()->findByPk($path[1]);
+        $document->is_was_saved = 1;
+        $document->save(false);
+
+        $uuid = $document->uuid;
 
         $pathToUserFile = __DIR__.'/../../../'.sprintf(
             'documents/zoho/%s.%s',
