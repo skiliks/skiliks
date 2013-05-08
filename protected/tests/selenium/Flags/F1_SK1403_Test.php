@@ -35,6 +35,7 @@ class F1_SK1403_Test extends SeleniumTestHelper
     public function testSK1403_Case2()
     {
         //$this->markTestIncomplete();
+
         $this->start_simulation();
         $this->run_event('S9', "css=li.icon-active.phone a", 'click');
         //$this->optimal_click("css=li.icon-active.phone a");
