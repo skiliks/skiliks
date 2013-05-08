@@ -192,18 +192,18 @@ return [
 
     'set_time' => [
         'set_hours' => "//*[@id='setTimeHours']",
-        'set_minutes' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[2]",
-        'submit_time' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[3]",
-        '0h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[1]',
-        '10h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[2]',
-        '11h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[3]',
-        '12h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[4]',
-        '13h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[5]',
-        '14h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[6]',
-        '15h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[7]',
-        '16h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[8]',
-        '17h' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[9]',
-        '17h50m' => '//div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[10]'
+        'set_minutes' => "//div[@class='control-group']//input[@name='minutes']",
+        'submit_time' => "//div[@class='control-group']//input[@name='submit']",
+        '0h' =>  "//button[@data-hour='0']",
+        '10h' => "//button[@data-hour='10']",
+        '11h' => "//button[@data-hour='11']",
+        '12h' => "//button[@data-hour='12']",
+        '13h' => "//button[@data-hour='13']",
+        '14h' => "//button[@data-hour='14']",
+        '15h' => "//button[@data-hour='15']",
+        '16h' => "//button[@data-hour='16']",
+        '17h' => "//button[@class='btn set-time'][9]",
+        '17h50m' => "//button[@class='btn set-time'][10]"
     ],
 
     'flags' => [

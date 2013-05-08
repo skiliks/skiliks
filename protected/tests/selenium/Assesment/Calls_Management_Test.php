@@ -6,7 +6,7 @@
 /**
  * 100% по Эффективное управлению звонками (Область обучения №6)
  */
-class Calls_Test extends SeleniumTestHelper
+class Calls_Management_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
