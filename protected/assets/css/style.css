@@ -4088,10 +4088,11 @@ ul.profile-menu li {
         padding-top: 106px;
     }
     section.registration-by-link {
-        background-size: contain;
+        background-size: cover;
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
         padding: 0 14px 30px 20px;
         height: 370px;
-        width: 595px;
+        width: 630px;
     }
     section.registration-by-link .form .row label {
         font-size: 11px;

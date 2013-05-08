@@ -2,6 +2,7 @@
 <h2 class="title"><?php echo Yii::t('site', 'Sign-up using your preferred option and get the results') ?></h2>
 
 <section class="registration-by-link">
+    <div class="text-right"><a href="/user/auth">Вход для зарегистрированных пользователей</a></div>
     <h1>Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h1>
 
     <div class="form">
@@ -20,9 +21,6 @@
         </div><div class="row wide">
             <?php echo $form->labelEx($account, 'professional_status_id'); ?>
             <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?><?php echo $form->error($account, 'professional_status_id'); ?>
-        </div><div class="row wide">
-            <?php echo $form->labelEx($account, 'industry_id'); ?>
-            <?php echo $form->dropDownList($account, 'industry_id', $industries); ?><?php echo $form->error($account, 'industry_id'); ?>
         </div><div class="row">
             <?php echo $form->labelEx($user, 'password'); ?>
             <?php echo $form->passwordField($user, 'password'); ?><?php echo $form->error($user, 'password'); ?>
