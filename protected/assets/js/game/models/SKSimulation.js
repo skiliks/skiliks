@@ -483,7 +483,7 @@ define([
 
                     if (!me.isDebug()) {
                         me.documents.fetch();
-                        me.on('documents:loaded', onDocsLoad);
+                        me.once('documents:loaded', onDocsLoad);
                     } else {
                         onDocsLoad.apply(me);
                     }
