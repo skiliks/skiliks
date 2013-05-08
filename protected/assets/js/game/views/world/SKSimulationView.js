@@ -170,11 +170,11 @@ define([
             },
 
             _appendZohoIframe: function(doc) {
-                var iframe = this.$('.windows-container').find('#' + 'excel-preload-' + doc.id);
+                var iframe = $('#' + 'excel-preload-' + doc.id);
                 if (iframe.length) {
                     iframe.attr('src', doc.get('excel_url'));
                 } else {
-                    this.$('.windows-container').append($('<iframe />', {
+                    $('body').append($('<iframe />', {
                         src: doc.get('excel_url'),
                         id:  'excel-preload-' + doc.id,
                         class: 'excel-preload-window'

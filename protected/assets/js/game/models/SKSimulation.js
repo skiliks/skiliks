@@ -132,6 +132,8 @@ define([
             },
 
             onDocumentLoaded: function(event) {
+                var me = this;
+
                 $.each(SKDocument._excel_cache, function(id, url) {
                     if (url === event.data.url) {
                         var docs = SKApp.simulation.documents.where({id:id.toString()});
@@ -139,11 +141,8 @@ define([
                         if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
-                            //$('.time').removeClass('paused');
-                            SKApp.simulation.stopPause(function(){
-                                $('.time').removeClass('paused');
-                                SKApp.simulation.loadDocsDialog.remove();
-                            });
+                            SKApp.simulation.loadDocsDialog.remove();
+                            me.trigger('documents:loaded');
                         }
                     }
                 });
@@ -197,13 +196,6 @@ define([
 
             onAddDocument : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    var is_paused = $('.time').hasClass('paused');
-                    if(is_paused){
-                        throw new Error("Игра уже на паузе!");
-                    } else {
-                        $('.time').addClass('paused');
-                        SKApp.simulation.startPause();
-                    }
                     this.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
@@ -338,18 +330,14 @@ define([
              * @method start
              * @async
              */
-            'start':function () {
+            'start':function (onDocsLoad) {
                 var me = this;
-                if (me.start_time !== undefined) {
-                    throw 'Simulation already started';
-                }
-                me.start_time = new Date();
+
                 SKApp.server.api('simulation/start', {
                     'mode':this.get('mode'),
                     'type':this.get('type'),
                     'invite_id': SKApp.get('invite_id')
                 }, function (data) {
-
                     if (data.result === 0) {
                         window.location = '/';
                     }
@@ -358,26 +346,39 @@ define([
                         me.id = data.simId;
                     }
 
-                    var win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                    win.open();
-                    me.todo_tasks.fetch();
-                    me.dayplan_tasks.fetch();
-                    me.characters.fetch();
                     if (!me.isDebug()) {
                         me.documents.fetch();
+                        me.on('documents:loaded', onDocsLoad);
+                    } else {
+                        onDocsLoad.apply(me);
                     }
-                    /**
-                     * Срабатывает, когда симуляция уже запущена
-                     * @event start
-                     */
-                    me.getNewEvents(function () {
-                        me.trigger('start');
-                    });
-                    me.events.getUnreadMailCount();
-                    me._startTimer();
-                    var nowDate = new Date();
-                    localStorage.setItem('lastGetState', nowDate.getTime());
                 });
+            },
+
+            run: function() {
+                var me = this,
+                    nowDate = new Date(),
+                    win;
+
+                if (me.start_time !== undefined) {
+                    throw 'Simulation already started';
+                }
+
+                me.start_time = new Date();
+                localStorage.setItem('lastGetState', nowDate.getTime());
+
+                win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                win.open();
+
+                me.todo_tasks.fetch();
+                me.dayplan_tasks.fetch();
+                me.characters.fetch();
+                me.events.getUnreadMailCount();
+
+                me.getNewEvents(function () {
+                    me.trigger('start');
+                });
+                me._startTimer();
             },
 
             /**
