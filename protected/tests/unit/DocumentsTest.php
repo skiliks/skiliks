@@ -106,6 +106,10 @@ Server: ZGS";
             $file->uuid,
             'xls'
         );
+        $this->assertEquals(MyDocument::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $documentTemplate->primaryKey,
+        ])->is_was_saved, 1);
         $this->assertFileExists($save_file);
     }
 
