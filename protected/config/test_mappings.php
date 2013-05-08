@@ -193,7 +193,7 @@ return [
     'set_time' => [
         'set_hours' => "//*[@id='setTimeHours']",
         'set_minutes' => "//div[@class='control-group']//input[@name='minutes']",
-        'submit_time' => "//div[@class='control-group']//input[@type='submit']",
+        'submit_time' => "//div[@class='control-group']//input[@value='Задать']",
         '0h' =>  "//button[@data-hour='0']",
         '10h' => "//button[@data-hour='10']",
         '11h' => "//button[@data-hour='11']",
