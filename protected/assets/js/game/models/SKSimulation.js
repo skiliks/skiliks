@@ -141,12 +141,8 @@ define([
                         if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
-                            //$('.time').removeClass('paused');
-                            SKApp.simulation.stopPause(function(){
-                                $('.time').removeClass('paused');
-                                SKApp.simulation.loadDocsDialog.remove();
-                                me.trigger('documents:loaded');
-                            });
+                            SKApp.simulation.loadDocsDialog.remove();
+                            me.trigger('documents:loaded');
                         }
                     }
                 });
@@ -200,13 +196,6 @@ define([
 
             onAddDocument : function(){
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    var is_paused = $('.time').hasClass('paused');
-                    if(is_paused){
-                        throw new Error("Игра уже на паузе!");
-                    } else {
-                        $('.time').addClass('paused');
-                        SKApp.simulation.startPause();
-                    }
                     this.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
