@@ -153,14 +153,11 @@ define([
                     '' === iframe.document.getElementById('save_message_display').textContent) {
 
                     SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
-                        console.log('result.status: ', result.status.toString());
+                        console.log('result: ', result);
                         if ('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) {
                             console.log('saved!');
                             SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
                             SKApp.simulation.tryCloseLoadDocsDialog();
-                        } else {
-                            console.log('not saved!');
-                            SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
                         }
                     });
 
