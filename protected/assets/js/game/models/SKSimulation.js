@@ -142,7 +142,9 @@ define([
                             SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                         ) {
                             SKApp.simulation.loadDocsDialog.remove();
+                            clearTimeout(me.loadDocsTimer);
                             me.trigger('documents:loaded');
+
                         }
                     }
                 });
@@ -195,12 +197,20 @@ define([
             },
 
             onAddDocument : function(){
+                var me = this;
+
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    this.loadDocsDialog = new SKDialogView({
+                    me.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
                         'buttons': []
                     });
+
+                    if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        me.loadDocsTimer = setTimeout(function() {
+                            me.trigger('documents:error');
+                        }, 60000);
+                    }
                 }
             },
 
@@ -338,6 +348,29 @@ define([
                     'type':this.get('type'),
                     'invite_id': SKApp.get('invite_id')
                 }, function (data) {
+                    var nowDate = new Date(),
+                        win;
+
+                    if (me.start_time !== undefined) {
+                        throw 'Simulation already started';
+                    }
+
+                    me.start_time = new Date();
+                    localStorage.setItem('lastGetState', nowDate.getTime());
+
+                    win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                    win.open();
+
+                    me.todo_tasks.fetch();
+                    me.dayplan_tasks.fetch();
+                    me.characters.fetch();
+                    me.events.getUnreadMailCount();
+
+                    me.getNewEvents(function () {
+                        me.trigger('start');
+                    });
+                    me._startTimer();
+
                     if (data.result === 0) {
                         window.location = '/';
                     }
@@ -353,32 +386,6 @@ define([
                         onDocsLoad.apply(me);
                     }
                 });
-            },
-
-            run: function() {
-                var me = this,
-                    nowDate = new Date(),
-                    win;
-
-                if (me.start_time !== undefined) {
-                    throw 'Simulation already started';
-                }
-
-                me.start_time = new Date();
-                localStorage.setItem('lastGetState', nowDate.getTime());
-
-                win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                win.open();
-
-                me.todo_tasks.fetch();
-                me.dayplan_tasks.fetch();
-                me.characters.fetch();
-                me.events.getUnreadMailCount();
-
-                me.getNewEvents(function () {
-                    me.trigger('start');
-                });
-                me._startTimer();
             },
 
             /**
