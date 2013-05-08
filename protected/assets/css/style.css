@@ -543,7 +543,7 @@ a:focus, a:active {
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
 }
 .controller-registration .thetitle {
-    margin: 0 auto;
+    margin: 0 auto 20px;
 }
 .thetitle {
     font:2.7em "ProximaNova-Bold";
