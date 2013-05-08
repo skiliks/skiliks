@@ -48,7 +48,6 @@ $(window.parent.window).load(function()
 
    window.parent.isExportEvent = true;
 
-    console.log('new code 1');
    //send postMessage
    window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a) {
        console.log('showBannerMessage');

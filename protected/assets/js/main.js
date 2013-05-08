@@ -173,7 +173,6 @@
         // corporate dashboard vacancy {
         $('#_invite_people_box.php').click(function(event) {
             event.preventDefault();
-            console.log('show add vacancy');
         });
         // corporate dashboard vacancy }
 
@@ -259,10 +258,8 @@
         // logout }
 
         // set recently added vacancy selected in vacancy drop-down {
-        console.log('recently_added_vacancy_id : cookie : ', $.cookie('recently_added_vacancy_id'));
         if (null !== $.cookie('recently_added_vacancy_id')) {
             $('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']').attr('selected', 'selected');
-            console.log($('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']'));
             $.cookie('recently_added_vacancy_id', null);
         }
         // set recently added vacancy selected in vacancy drop-down }
