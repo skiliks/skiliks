@@ -259,6 +259,7 @@
     text-align: right;
 }
 .longercontent {
+    margin: 0 auto;
     width: 900px;
 }
 /* ************************* /REGISTRATION ************************* */
