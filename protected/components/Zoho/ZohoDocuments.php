@@ -193,7 +193,7 @@ class ZohoDocuments
 
         $document = MyDocument::model()->findByPk($path[1]);
         $document->is_was_saved = 1;
-        $document->save(false);
+        $document->save(false, ['is_was_saved']);
 
         $uuid = $document->uuid;
 

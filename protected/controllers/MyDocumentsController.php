@@ -102,6 +102,10 @@ class MyDocumentsController extends AjaxController
 
         $this->sendJSON([
             'status' => (int)($zoho->checkIsUserFileExists() && (bool)$file->is_was_saved),
+            'IsUserFileExists' => $zoho->checkIsUserFileExists(),
+            'is_was_saved' => $file->is_was_saved,
+            'id' => $id,
+            'id_2' => $file->id,
         ]);
     }
 }
