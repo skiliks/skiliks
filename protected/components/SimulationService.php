@@ -521,14 +521,15 @@ class SimulationService
             && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
-        }else{
+        }else if(Simulation::MODE_DEVELOPER_LABEL == $simulationMode && $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
+                $user = $invite->receiverUser;
                 unset($invite);
                 $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
                 $invite = new Invite();
-                $invite->owner_id = Yii::app()->user->data()->id;
-                $invite->receiver_id = Yii::app()->user->data()->id;
-                $invite->firstname = Yii::app()->user->data()->profile->firstname;
-                $invite->lastname = Yii::app()->user->data()->profile->lastname;
+                $invite->owner_id = $user->id;
+                $invite->receiver_id = $user->id;
+                $invite->firstname = $user->profile->firstname;
+                $invite->lastname = $user->profile->lastname;
                 $invite->scenario_id = $fullScenario->id;
                 $invite->status = Invite::STATUS_ACCEPTED;
                 $invite->sent_time = time(); // @fix DB!
@@ -536,7 +537,7 @@ class SimulationService
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
 
-                $invite->email = Yii::app()->user->data()->profile->email;
+                $invite->email = $user->profile->email;
                 $invite->save(false);
 
         }
