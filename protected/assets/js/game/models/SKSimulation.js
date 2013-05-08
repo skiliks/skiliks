@@ -332,10 +332,7 @@ define([
              */
             'start':function (onDocsLoad) {
                 var me = this;
-                if (me.start_time !== undefined) {
-                    throw 'Simulation already started';
-                }
-                me.start_time = new Date();
+
                 SKApp.server.api('simulation/start', {
                     'mode':this.get('mode'),
                     'type':this.get('type'),
@@ -363,6 +360,11 @@ define([
                     nowDate = new Date(),
                     win;
 
+                if (me.start_time !== undefined) {
+                    throw 'Simulation already started';
+                }
+
+                me.start_time = new Date();
                 localStorage.setItem('lastGetState', nowDate.getTime());
 
                 win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
