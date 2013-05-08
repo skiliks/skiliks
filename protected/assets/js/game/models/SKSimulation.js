@@ -132,6 +132,8 @@ define([
             },
 
             onDocumentLoaded: function(event) {
+                var me = this;
+
                 $.each(SKDocument._excel_cache, function(id, url) {
                     if (url === event.data.url) {
                         var docs = SKApp.simulation.documents.where({id:id.toString()});
@@ -143,6 +145,7 @@ define([
                             SKApp.simulation.stopPause(function(){
                                 $('.time').removeClass('paused');
                                 SKApp.simulation.loadDocsDialog.remove();
+                                me.trigger('documents:loaded');
                             });
                         }
                     }
@@ -338,7 +341,7 @@ define([
              * @method start
              * @async
              */
-            'start':function () {
+            'start':function (onDocsLoad) {
                 var me = this;
                 if (me.start_time !== undefined) {
                     throw 'Simulation already started';
@@ -349,7 +352,6 @@ define([
                     'type':this.get('type'),
                     'invite_id': SKApp.get('invite_id')
                 }, function (data) {
-
                     if (data.result === 0) {
                         window.location = '/';
                     }
@@ -358,26 +360,34 @@ define([
                         me.id = data.simId;
                     }
 
-                    var win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                    win.open();
-                    me.todo_tasks.fetch();
-                    me.dayplan_tasks.fetch();
-                    me.characters.fetch();
                     if (!me.isDebug()) {
                         me.documents.fetch();
+                        me.on('documents:loaded', onDocsLoad);
+                    } else {
+                        onDocsLoad.apply(me);
                     }
-                    /**
-                     * Срабатывает, когда симуляция уже запущена
-                     * @event start
-                     */
-                    me.getNewEvents(function () {
-                        me.trigger('start');
-                    });
-                    me.events.getUnreadMailCount();
-                    me._startTimer();
-                    var nowDate = new Date();
-                    localStorage.setItem('lastGetState', nowDate.getTime());
                 });
+            },
+
+            run: function() {
+                var me = this,
+                    nowDate = new Date(),
+                    win;
+
+                localStorage.setItem('lastGetState', nowDate.getTime());
+
+                win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                win.open();
+
+                me.todo_tasks.fetch();
+                me.dayplan_tasks.fetch();
+                me.characters.fetch();
+                me.events.getUnreadMailCount();
+
+                me.getNewEvents(function () {
+                    me.trigger('start');
+                });
+                me._startTimer();
             },
 
             /**
