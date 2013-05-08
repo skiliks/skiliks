@@ -149,7 +149,9 @@ define([
                     console.log('saved!');
                     SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
 
+
                     SKApp.simulation.tryCloseLoadDocsDialog();
+                    console.log('Document saved!');
                     return;
                 }
 
@@ -161,6 +163,7 @@ define([
                 var frameX = iframe;
                 setTimeout(function(){
                     SKApp.simulation.zohoDocumentSaveCheck(frameX);
+
                 }, 1000);
             },
 
@@ -228,6 +231,8 @@ define([
             },
 
             closeLoadDocsDialog: function() {
+                var me = this;
+                SKApp.server.api('simulation/markInviteStarted', {}, function(){});
                 SKApp.simulation.loadDocsDialog.remove();
                 SKApp.simulation.trigger('documents:loaded');
             },

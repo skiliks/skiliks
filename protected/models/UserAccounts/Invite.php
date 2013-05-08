@@ -178,13 +178,6 @@ class Invite extends CActiveRecord
         return (self::STATUS_PENDING == $this->status);
     }
 
-    /**
-     * @return bool
-     */
-    public function isCompleted()
-    {
-        return $this->status == self::STATUS_COMPLETED;
-    }
 
     /**
      * @return bool
@@ -192,6 +185,14 @@ class Invite extends CActiveRecord
     public function isAccepted()
     {
         return $this->status == self::STATUS_ACCEPTED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->status == self::STATUS_COMPLETED;
     }
 
     /**
