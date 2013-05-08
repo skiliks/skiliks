@@ -75,7 +75,12 @@ define([
 
                 this.loadDocsDialog = null;
 
+                try {
                 document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                } catch(e) {
+                    // this to protect against busted-sj test crash
+                }
+
                 this.set('isZohoDocumentSuccessfullySaved', null);
                 this.set('isZohoSavedDocTestRequestSent', false);
 
@@ -137,7 +142,7 @@ define([
                 return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             },
 
-            zohoDocumentSaveCheck: function(iframe) {
+            zohoDocumentSaveCheck: function(iframe, doc_id) {
                 console.log('Check...');
                 if (60 === SKApp.simulation.get('ZohoDocumentSaveCheckAttempt')) {
                     SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
@@ -146,12 +151,19 @@ define([
 
                 if ('Spreadsheet saved successfully' === iframe.document.getElementById('save_message_display').textContent ||
                     '' === iframe.document.getElementById('save_message_display').textContent) {
-                    console.log('saved!');
-                    SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
 
+                    SKApp.server.api('myDocuments/isDocumentExists', {id: doc_id}, function(result) {
+                        console.log('result.status: ', result.status.toString());
+                        if ('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) {
+                            console.log('saved!');
+                            SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
+                            SKApp.simulation.tryCloseLoadDocsDialog();
+                        } else {
+                            console.log('not saved!');
+                            SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
+                        }
+                    });
 
-                    SKApp.simulation.tryCloseLoadDocsDialog();
-                    console.log('Document saved!');
                     return;
                 }
 
@@ -161,8 +173,9 @@ define([
                 );
 
                 var frameX = iframe;
+                var doc_idX = doc_id;
                 setTimeout(function(){
-                    SKApp.simulation.zohoDocumentSaveCheck(frameX);
+                    SKApp.simulation.zohoDocumentSaveCheck(frameX, doc_idX);
 
                 }, 1000);
             },
@@ -196,7 +209,7 @@ define([
 
                             // check is excel saved
                             setTimeout(function(){
-                                SKApp.simulation.zohoDocumentSaveCheck(myIframeWin);
+                                SKApp.simulation.zohoDocumentSaveCheck(myIframeWin, docs[0].get('id'));
                             }, 1000);
                         }
 
