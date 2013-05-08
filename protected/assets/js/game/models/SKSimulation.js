@@ -73,7 +73,13 @@ define([
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.handleEvents();
 
-                this.loadDocsDialog = null,
+                this.loadDocsDialog = null;
+
+                document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                this.set('isZohoDocumentSuccessfullySaved', null);
+                this.set('isZohoSavedDocTestRequestSent', false);
+
+                this.set('ZohoDocumentSaveCheckAttempt', 1);
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
@@ -131,6 +137,36 @@ define([
                 return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             },
 
+            zohoDocumentSaveCheck: function(iframe) {
+                console.log('Check...');
+                if (60 === SKApp.simulation.get('ZohoDocumentSaveCheckAttempt')) {
+                    SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
+                    return;
+                }
+
+                if ('Spreadsheet saved successfully' === iframe.document.getElementById('save_message_display').textContent ||
+                    '' === iframe.document.getElementById('save_message_display').textContent) {
+                    console.log('saved!');
+                    SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
+
+
+                    SKApp.simulation.tryCloseLoadDocsDialog();
+                    console.log('Document saved!');
+                    return;
+                }
+
+                SKApp.simulation.set(
+                    'ZohoDocumentSaveCheckAttempt',
+                    SKApp.simulation.get('ZohoDocumentSaveCheckAttempt') + 1
+                );
+
+                var frameX = iframe;
+                setTimeout(function(){
+                    SKApp.simulation.zohoDocumentSaveCheck(frameX);
+
+                }, 1000);
+            },
+
             onDocumentLoaded: function(event) {
                 var me = this;
 
@@ -138,16 +174,67 @@ define([
                     if (url === event.data.url) {
                         var docs = SKApp.simulation.documents.where({id:id.toString()});
                         docs[0].set('isInitialized', true);
-                        if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
-                            SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
-                        ) {
-                            SKApp.simulation.loadDocsDialog.remove();
-                            clearTimeout(me.loadDocsTimer);
-                            me.trigger('documents:loaded');
 
+                        console.log('Document loaded.');
+
+                        // check is user can save excel only once
+                        if (false === SKApp.simulation.get('isZohoSavedDocTestRequestSent')) {
+
+                            SKApp.simulation.set('isZohoSavedDocTestRequestSent', true);
+
+                            // get iframe {
+                            var iframeId = docs[0].combineIframeId().replace('#', '');
+                            var myIframe = document.getElementById(iframeId);
+                            var myIframeWin = myIframe.contentWindow || myIframe.contentDocument;
+                            // get iframe }
+
+                            // click check
+                            myIframeWin.document.getElementById('savefile').click();
+                            console.log('save...');
+
+                            SKApp.simulation.set('ZohoDocumentSaveCheckAttempt', 0);
+
+                            // check is excel saved
+                            setTimeout(function(){
+                                SKApp.simulation.zohoDocumentSaveCheck(myIframeWin);
+                            }, 1000);
                         }
+
+                        SKApp.simulation.tryCloseLoadDocsDialog();
                     }
                 });
+            },
+
+            /**
+             * Check that all excel docs loaded
+             * @returns {boolean}
+             */
+            isAllExcelDocsInitialized: function() {
+                return (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
+                    SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
+                );
+            },
+
+            /**
+             * If all documents loaded and user can save excel - hide LoadDocsDialog
+             */
+            tryCloseLoadDocsDialog: function() {
+                console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+
+                if (SKApp.simulation.isAllExcelDocsInitialized() &&
+                    true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
+                    SKApp.simulation.closeLoadDocsDialog();
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+
+            closeLoadDocsDialog: function() {
+                var me = this;
+                SKApp.server.api('simulation/markInviteStarted', {}, function(){});
+                SKApp.simulation.loadDocsDialog.remove();
+                SKApp.simulation.trigger('documents:loaded');
             },
 
             onZoho500: function(event) {
@@ -167,9 +254,6 @@ define([
 
                 // if crushed excel not opened this moment - reload it without dialog ("in silent mode") {
                 var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: doc.get('id')})[0];
-                console.log('active doc window', window);
-                console.log('active doc id', doc.get('id'));
-                console.log(undefined === typeof window);
                 if (!window) {
                     delete SKDocument._excel_cache[doc.get('id')];
                     SKApp.simulation.documents.remove(doc);
@@ -207,9 +291,13 @@ define([
                     });
 
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        // if after 60 sec when documents downloading started not all docs loaded
+                        // or save wasn`t finished -- throw error
                         me.loadDocsTimer = setTimeout(function() {
-                            me.trigger('documents:error');
-                        }, 60000);
+                            if (false === me.tryCloseLoadDocsDialog()) {
+                                me.trigger('documents:error');
+                            }
+                        }, 90000);
                     }
                 }
             },
