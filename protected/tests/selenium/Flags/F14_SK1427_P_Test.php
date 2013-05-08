@@ -32,8 +32,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
+        $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
 
@@ -73,8 +72,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
         sleep(60);
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
+        $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
 
@@ -118,8 +116,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
         sleep(60);
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
+        $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
 
@@ -167,8 +164,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
         sleep(60);
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
+        $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
 
@@ -219,8 +215,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
         sleep(60);
-        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
+        $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
 
