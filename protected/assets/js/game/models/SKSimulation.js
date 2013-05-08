@@ -148,10 +148,10 @@ define([
                     '' === iframe.document.getElementById('save_message_display').textContent) {
                     console.log('saved!');
                     SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
+
                     SKApp.simulation.tryCloseLoadDocsDialog();
                     return;
                 }
-
 
                 SKApp.simulation.set(
                     'ZohoDocumentSaveCheckAttempt',
@@ -189,11 +189,14 @@ define([
                             myIframeWin.document.getElementById('savefile').click();
                             console.log('save...');
 
+                            SKApp.simulation.set('ZohoDocumentSaveCheckAttempt', 0);
+
                             // check is excel saved
                             setTimeout(function(){
                                 SKApp.simulation.zohoDocumentSaveCheck(myIframeWin);
                             }, 1000);
                         }
+
                         SKApp.simulation.tryCloseLoadDocsDialog();
                     }
                 });
@@ -214,6 +217,7 @@ define([
              */
             tryCloseLoadDocsDialog: function() {
                 console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                     SKApp.simulation.closeLoadDocsDialog();
@@ -245,9 +249,6 @@ define([
 
                 // if crushed excel not opened this moment - reload it without dialog ("in silent mode") {
                 var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: doc.get('id')})[0];
-                console.log('active doc window', window);
-                console.log('active doc id', doc.get('id'));
-                console.log(undefined === typeof window);
                 if (!window) {
                     delete SKDocument._excel_cache[doc.get('id')];
                     SKApp.simulation.documents.remove(doc);
@@ -285,6 +286,8 @@ define([
                     });
 
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        // if after 60 sec when documents downloading started not all docs loaded
+                        // or save wasn`t finished -- throw error
                         me.loadDocsTimer = setTimeout(function() {
                             if (false === me.tryCloseLoadDocsDialog()) {
                                 me.trigger('documents:error');
