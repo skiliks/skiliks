@@ -78,6 +78,7 @@ define([
                 document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 this.set('isZohoDocumentSuccessfullySaved', null);
                 this.set('isZohoSavedDocTestRequestSent', false);
+
                 this.set('ZohoDocumentSaveCheckAttempt', 1);
 
                 this.on('tick', function () {
@@ -150,6 +151,7 @@ define([
                     SKApp.simulation.tryCloseLoadDocsDialog();
                     return;
                 }
+
 
                 SKApp.simulation.set(
                     'ZohoDocumentSaveCheckAttempt',
