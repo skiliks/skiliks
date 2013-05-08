@@ -1518,5 +1518,62 @@ class SimulationServiceTest extends CDbTestCase
 
         $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
+
+    public function testInviteMark() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $invite->owner_id = $user->id;
+        $invite->receiver_id = $user->id;
+        $invite->firstname = $user->profile->firstname;
+        $invite->lastname = $user->profile->lastname;
+        $invite->scenario_id = $fullScenario->id;
+        $invite->status = Invite::STATUS_ACCEPTED;
+        $invite->sent_time = time(); // @fix DB!
+        $invite->save(true, [
+            'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+        ]);
+
+        $invite->email = $user->profile->email;
+        $invite->scenario = $fullScenario;
+        $invite->receiverUser = $user;
+        $invite->save(false);
+
+        $simulation_bad = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation_good = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $this->setTime($simulation_good, 10, 01, false);
+        $this->setTime($simulation_bad, 10, 01, false);
+        EventsManager::getState($simulation_good, []);
+        try {
+            EventsManager::getState($simulation_bad, []);
+        }
+
+        catch (InviteException $e) {
+            return;
+        }
+        $this->fail('An expected exception has not been raised.');
+
+    }
+
+    /**
+     * Service method
+     *
+     * @param $simulation
+     * @param $newHours
+     * @param $newMinutes
+     * @param bool $s
+     */
+    public function setTime($simulation, $newHours, $newMinutes, $s = true)
+    {
+        SimulationService::setSimulationClockTime(
+            $simulation,
+            $newHours,
+            $newMinutes
+        );
+        if ($s == true) {
+            $simulation->deleteOldTriggers($newHours, $newMinutes);
+        }
+
+    }
 }
 
