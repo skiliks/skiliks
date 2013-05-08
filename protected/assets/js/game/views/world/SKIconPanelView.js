@@ -70,7 +70,6 @@ define([
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
-                this.updatePlanCounter();
 
                 var phone_history = SKApp.simulation.phone_history;
 
@@ -321,6 +320,7 @@ define([
             render: function () {
                 var me = this;
                 this.$el.html(_.template(icon_panel, {}));
+                this.updatePlanCounter();
             },
 
             /**
