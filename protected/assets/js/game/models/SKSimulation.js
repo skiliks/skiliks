@@ -158,7 +158,7 @@ define([
                         console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
                         if (('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
-                            true !== SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
+                            null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                             console.log('saved!');
                             SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
                             SKApp.simulation.tryCloseLoadDocsDialog();
@@ -171,11 +171,13 @@ define([
                     SKApp.simulation.get('ZohoDocumentSaveCheckAttempt') + 1
                 );
 
-                var frameX = iframe;
-                var doc_idX = doc_id;
-                setTimeout(function(){
-                    SKApp.simulation.zohoDocumentSaveCheck(frameX, doc_idX);
-                }, 1000);
+                if (null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
+                    var frameX = iframe;
+                    var doc_idX = doc_id;
+                    setTimeout(function(){
+                        SKApp.simulation.zohoDocumentSaveCheck(frameX, doc_idX);
+                    }, 1000);
+                }
             },
 
             onDocumentLoaded: function(event) {
