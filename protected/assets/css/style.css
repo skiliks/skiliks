@@ -94,6 +94,7 @@ body.inner-registration{
 	body.inner{
 		background: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
         background-repeat:  no-repeat, repeat-y;
+        background-position: 50% 0, 50% 0;
 	}
 	body.inner-team{
 		background-image:url("../img/bg-top-inner-team-min.jpg");
@@ -102,7 +103,7 @@ body.inner-registration{
 .container{
     position: relative;
 	min-height:100%;
-    overflow: hidden;
+/*    overflow: hidden; */
 }
 
 .action-controller-comingSoonSuccess-static-pages .container,

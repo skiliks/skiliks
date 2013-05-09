@@ -420,6 +420,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_firstname{top:-2px;left:72px;}
 .invite-people-form.sideform.darkblueplacehld .errorMessage.Invite_lastname {top:-2px;left:162px;}
 .invite-people-form.sideform.darkblueplacehld .errorMessage                 {top:-1px;left:72px;}
+.invite-people-form.sideform.darkblueplacehld .form-global-errors .errorMessage {top:auto;bottom:35px;left:72px;}
 /* Ошибки при регистрации */
 #yum-user-registration-form .YumProfile_email{
     top:-14px;
