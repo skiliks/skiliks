@@ -2194,6 +2194,8 @@ SocialCalc.EditorProcessMouseWheel = function(event, delta, mousewheelinfo, wobj
 SocialCalc.GridMousePosition = function(editor, clientX, clientY) { 
 
    var row, col, colpane;
+    clientX -= SocialCalc.GetElementPosition(document.getElementById('tableeditor')).left;
+    clientY -= SocialCalc.GetElementPosition(document.getElementById('tableeditor')).top;
    var result = {};
 
    for (row=1; row<editor.rowpositions.length; row++) {
@@ -3020,7 +3022,7 @@ SocialCalc.CalculateRowPositions = function(editor, panenum, positions, sizes) {
    for (rownum=context.rowpanes[rowpane].first; rownum<=context.rowpanes[rowpane].last; rownum++) {
       trowobj = tbodyobj.childNodes[toprow+offset];
       offset++;
-      cellposition = SocialCalc.GetElementPosition(trowobj.firstChild);
+      cellposition = SocialCalc.GetElementPosition(trowobj.firstChild, true);
 
 // Safari has problem: If a cell in the row is high, cell 1 is centered and it returns top of centered part 
 // but if you get position of row element, it always returns the same value (not the row's)
@@ -3059,7 +3061,7 @@ SocialCalc.CalculateColPositions = function(editor, panenum, positions, sizes) {
    trowobj = tbodyobj.childNodes[1]; // get heading row, which has all columns
    offset = 0;
    for (colnum=context.colpanes[colpane].first; colnum<=context.colpanes[colpane].last; colnum++) {
-      cellposition = SocialCalc.GetElementPosition(trowobj.childNodes[leftcol+offset]);
+      cellposition = SocialCalc.GetElementPosition(trowobj.childNodes[leftcol+offset], true);
       if (!positions[colnum]) {
          positions[colnum] = cellposition.left; // first one takes precedence
          if (trowobj.childNodes[leftcol+offset]) {
@@ -3853,8 +3855,9 @@ SocialCalc.SegmentDivHit = function(segtable, divWithMouseHit, x, y) {
 
    var width = divWithMouseHit.offsetWidth;
    var height = divWithMouseHit.offsetHeight;
-   var left = divWithMouseHit.offsetLeft;
-   var top = divWithMouseHit.offsetTop;
+   var pos = SocialCalc.GetElementPosition(divWithMouseHit)
+   var left = pos.left;
+   var top = pos.top;
    var v = 0;
    var table = segtable;
    var len = Math.sqrt(Math.pow(x-left-(width/2.0-.5), 2)+Math.pow(y-top-(height/2.0-.5), 2));

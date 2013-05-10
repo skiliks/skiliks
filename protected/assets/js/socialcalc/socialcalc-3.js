@@ -92,7 +92,9 @@ More comments yet to come...
 
 
 var SocialCalc;
-if (!SocialCalc) SocialCalc = {};
+if (!SocialCalc) {
+    SocialCalc = {};
+}
 
 // *************************************
 //
@@ -176,14 +178,14 @@ SocialCalc.Callbacks = {
 //
 
 SocialCalc.Cell = function(coord) {
-
+   "use strict";
    this.coord = coord;
    this.datavalue = "";
    this.datatype = null;
    this.formula = "";
    this.valuetype = "b";
 
-   }
+   };
 
 // The types of cell properties
 //
@@ -218,7 +220,7 @@ SocialCalc.CellPropertiesTable = {
 //
 
 SocialCalc.Sheet = function() {
-
+   "use strict";
    SocialCalc.ResetSheet(this);
 
    // Set other values:
@@ -247,7 +249,7 @@ SocialCalc.Sheet = function() {
                                 // sheet.statuscallback(data, status, arg, params)
    this.statuscallbackparams = null; // parameters passed to that routine
 
-   }
+   };
 
 //
 // SocialCalc.ResetSheet(sheet)
@@ -256,7 +258,7 @@ SocialCalc.Sheet = function() {
 // 
 
 SocialCalc.ResetSheet = function(sheet, reload) {
-
+    "use strict";
    // properties:
 
    sheet.cells = {}; // at least one for each non-blank cell: coord: cell-object
@@ -4896,11 +4898,11 @@ SocialCalc.GetViewportInfo = function () {
 // Goodman's JavaScript & DHTML Cookbook, 2nd Edition, page 415
 //
 
-SocialCalc.GetElementPosition = function (element) {
+SocialCalc.GetElementPosition = function (element, local) {
 
    var offsetLeft = 0;
    var offsetTop = 0;
-   while (element && element.id != "tableeditor") {
+   while (element && (!local || (element.id != "tableeditor"))) {
       offsetLeft+=element.offsetLeft;
       offsetTop+=element.offsetTop;
       element=element.offsetParent;

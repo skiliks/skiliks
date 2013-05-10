@@ -481,12 +481,8 @@ define([
                         me.id = data.simId;
                     }
 
-                    if (!me.isDebug()) {
-                        me.documents.fetch();
-                        me.once('documents:loaded', onDocsLoad);
-                    } else {
-                        onDocsLoad.apply(me);
-                    }
+                    me.documents.fetch();
+                    onDocsLoad.apply(me);
                 });
             },
 

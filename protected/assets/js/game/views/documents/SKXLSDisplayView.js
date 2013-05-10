@@ -1,11 +1,14 @@
-/*global SKWindow, _, SKDocument,  SKConfig, SKWindowView, SKApp, SKPhoneContactsCollection, SKDialogView, define, console, $
+/*global SocialCalc, _
  */
 
 define([
     "text!game/jst/document/document_xls_template.jst",
+    "text!game/jst/document/budget.jst",
     "game/views/SKWindowView"
 ],function (
-    document_xls_template
+    document_xls_template,
+    budget,
+    SKWindowView
 ) {
     "use strict";
 
@@ -36,53 +39,31 @@ define([
             return true;
         },
 
-        /**
-         * @method
-         * @param doc
-         * @param el
-         */
-        displayZohoIframe:function (doc, el) {
-            if (false === this.isRender) {
-                return;
-            }
-
-            var me = this,
-                offset = el.offset();
-
-            $(doc.combineIframeId()).show().css({
-                'background-color': '#fff',
-                'zIndex':   parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
-                'width':    el.width() - 4,
-                'height':   this.$('.xls-container').parent().parent().parent().height() - this.$('.xls-container').parent().parent().find('header').height(), //el.height(),
-                'left':     offset.left,
-                'top':      offset.top,
-                'position': 'absolute'
-            });
-            $(doc.combineIframeId())[0].contentWindow.focus();
-        },
 
         /**
          * @method
          * @param el
          */
         renderContent:function (el) {
-            if (false === this.isRender) {
-                return;
-            }
-
-            var me = this;
             var doc = this.options.model_instance.get('document');
-
             el.html( _.template(document_xls_template, {}) );
 
-            me.listenTo(this.options.model_instance, 'change:zindex', function () {
-                me.displayZohoIframe(doc, el);
-            });
+            SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
+            var spreadsheet = new SocialCalc.SpreadsheetControl();
+            doc.getContent(function () {
+                setTimeout(function () {
+                    var parts = spreadsheet.DecodeSpreadsheetSave(budget);
+                    spreadsheet.InitializeSpreadsheetControl("tableeditor", this.$('.xls-container').height() - 50, this.$('.xls-container').width(), 0);
+                    spreadsheet.ParseSheetSave(budget);
+                    spreadsheet.ExecuteCommand('recalc', '');
+                    spreadsheet.ExecuteCommand('redisplay', '');
 
-            // run me.displayZohoIframe after code done
-            setTimeout(function() {
-                me.displayZohoIframe(doc, el);
-            }, 0);
+                });
+            });
+            setInterval(function () {
+                console.log(spreadsheet.CreateSheetSave());
+            }, 60000);
+
         },
 
         /**
@@ -93,38 +74,6 @@ define([
             // this.hideZohoIframe();
         },
 
-        /**
-         * @method
-         * @param el
-         */
-        doEndDrag: function (el) {
-            var doc = this.options.model_instance.get('document');
-            this.displayZohoIframe(doc, el.find('.sim-window-content'));
-        },
-
-        /**
-         * @method
-         */
-        hideZohoIframe:function () {
-            var doc = this.options.model_instance.get('document');
-            $(doc.combineIframeId()).css({'left':'-4000px','position':'absolute'});
-        },
-
-        /**
-         * @method
-         */
-        remove:function () {
-            var me = this;
-            this.hideZohoIframe();
-
-            if (window.removeEventListener){
-                window.removeEventListener("message", me.zoho500callback,false);
-            } else {
-                window.detachEvent("onmessage", me.zoho500callback);
-            }
-
-            SKWindowView.prototype.remove.call(this);
-        }
     });
 
     return SKXLSDisplayView;
