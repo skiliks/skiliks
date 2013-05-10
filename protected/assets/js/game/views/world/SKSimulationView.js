@@ -80,20 +80,6 @@ define([
                 this.listenTo(simulation, 'stop-time', this.stopSimulation);
                 this.listenTo(simulation, 'documents:error', this.documentsLoadError);
 
-                this.listenTo(simulation.documents, 'reset', function () {
-                    simulation.documents.each(function (doc) {
-                        me.listenTo(doc, 'change:excel_url', function () {
-                            me.preloadZoho(doc);
-                        });
-                    });
-                });
-
-                this.listenTo(simulation.documents, 'add', function (doc) {
-                    me.listenTo(doc, 'document:excel_uploaded', function () {
-                        me.preloadZoho(doc);
-                    });
-                });
-
                 this.listenTo(simulation, 'start', function () {
                     $('#sim-id').text(simulation.id);
                 });

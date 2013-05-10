@@ -8,8 +8,11 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
      *
      * @class SKServer
      * @augments Backbone.Model
+     * @constructs
      */
-    var SKServer = Backbone.Model.extend({
+    var SKServer = Backbone.Model.extend(
+        /** @lends SKServer */
+        {
             /**
              * @private
              * @property api_root
@@ -56,14 +59,14 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
              * Отправляет запрос на сервер
              * @example
              *     SKApp.server.api('todo/get', {}, function (data) {})
-             * @method api
              * @param {String} path
              * @param {Object|undefined} params
              * @param {function(data:Object)|undefined} callback
              * @return {$.xhr}
+             * @method api
              * @async
              */
-            'api':function (path, params, callback) {
+            api:function (path, params, callback) {
 
                 var ajaxParams = this.getAjaxParams(path, params, callback);
                 return $.ajax(ajaxParams);

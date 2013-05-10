@@ -43,33 +43,11 @@ define([], function () {
          */
         initialize: function () {
             var me = this;
-
-            if (this.get('mime') === "application/vnd.ms-excel") {
-                if (_excel_cache[this.get('id')] === undefined) {
-                    SKApp.server.api('myDocuments/getExcel', {
-                        'id': decodeURIComponent(this.get('id'))
-                    }, function (data) {
-                        me.set('excel_url', data.excelDocumentUrl.replace('\r', ''));
-
-                        //me.set('isInitialized', true);
-
-                        me.trigger('document:excel_uploaded');
-                        _excel_cache[me.get('id')] = data.excelDocumentUrl.replace('\r', '');
-                    });
-                } else {
-                    me.set('excel_url', _excel_cache[this.get('id')]);
-                }
-            }
-
-            //me.set('isInitialized', true);
+            me.set('isInitialized', true);
         },
 
-        /**
-         * @method combineIframeId
-         * @return {string}
-         */
-        combineIframeId: function () {
-            return '#excel-preload-' + this.id;
+        getContent: function (cb) {
+            SKApp.server.api('myDocuments/getExcel', {'id': this.id}, cb)
         }
     },
     {
