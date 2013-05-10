@@ -43,7 +43,13 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mousewheel.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.tablesorter.js"></script>
-
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formatnumber2.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formula1.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/underscore.js"></script>

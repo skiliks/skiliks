@@ -56,33 +56,14 @@ class MyDocumentsController extends AjaxController
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
+        /** @var MyDocument $file */
         $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         assert($file);
-        $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
-        $errors = [];
-        $responses = [];
-
-        while (null === $zoho->getUrl() && $n < $limit ) {
-            try {
-                $n++;
-                $zoho->sendDocumentToZoho();
-                $responses[] = str_replace("\r", '', str_replace("\n", '.', $zoho->response));
-            } catch(LogicException $e) {
-                $errors[] = str_replace("\r", '', str_replace("\n", '.', $e->getMessage()));
-                if ($n === $limit) {
-                    throw $e;
-                }
-            }
-        }
 
         $result = array(
             'result'           => 1,
-            'filedId'          => $file->id,
-            'excelDocumentUrl' => $zoho->getUrl(),
-            'errors'           => $errors,
-            'responses'        => $responses,
-            'fn1'              => $file->template->srcFile,
-            'fn2'              => $file->fileName,
+            'fileId'          => $file->id,
+            'data' => file_get_contents($file->template->getFilePath()),
         );
         $this->sendJSON(
             $result
