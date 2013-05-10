@@ -126,7 +126,7 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         return $mime;
     }
 
-    private function getFilePath()
+    public function getFilePath()
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
