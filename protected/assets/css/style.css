@@ -336,15 +336,14 @@ a:focus, a:active {
 /* --------------- header ---------*/
 .container>header{
 	width:948px;
-	height:88px;
+	height:80px;
 	margin:0 auto;
-	padding-top:39px;
+	padding-top:47px;
 	position:relative;
 }
 .container>header h1{
-/*	background:url("../img/logo-header.png") no-repeat 0 0; */
-	width:222px;
-	height:58px;
+	width:265px;
+	height:69px;
 }
 .container>header h1 a{
 	display:block;
@@ -383,13 +382,12 @@ a:focus, a:active {
 }
 .container>header nav#static-page-links{
 	position:absolute;
-	top:8px;
-	right:0px;
+	top:10px;
+	right:0;
 }
 .container>header nav#static-page-links a {
     background: none;
-    font:14px/28px "ProximaNova-Regular";
-    margin-left:0;
+    font-size:14px;
 }
 .container>header nav#static-page-links a:hover,
 .container>header nav#static-page-links a.active {
@@ -400,28 +398,35 @@ a:focus, a:active {
    /*float: right;*/
 }
 .container>header nav li{
-    display: inline-block;
+    display: inline;
 }
 .container>header nav#account-links{
     position:absolute;
-    top:60px;
+    top:68px;
     right:0;
 }
 #simulation-details label,
 .container>header nav a {
 	display:block;
 	background:rgba(20,102,114,0.4);
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
 	border-radius:3px;
-	/*font:1.071em "ProximaNova-Regular";*/
-    font:16px/28px "ProximaNova-Regular";
+    font:18px/28px "ProximaNova-Regular";
     color:#fff;
 	text-decoration:none;
-	line-height:1.800em;
 	float:left;
-	margin-left:5px;
-	padding:0 8px;
+	margin:0 0 0 10px;
+	padding:0 10px;
+}
+.controller-static-cheats .container>header nav a{
+    background:rgba(20, 102, 114, 0.4);
+    border-radius: 3px;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font: 16px/1.8em "ProximaNova-Regular";
+    margin-left: 5px;
+    padding: 0 8px;
+    text-decoration: none;
 }
 /*
 .container>header nav a:first-child,
@@ -469,12 +474,12 @@ a:focus, a:active {
     height: 54px;
     margin-top: 20px; /* na makete - 30 */
     line-height: 54px;
-    padding:0 18px 0 42px;
+    padding:0 20px 0 51px;
 }
 .features .freeacess {
     background-image:url("../img/icon-circlarow.png");
-    font-weight: normal;
-    padding-left:50px;
+/*    font-weight: normal; */
+    padding-left:51px;
 }
 .footer .freeacess {
     background-image:url("../img/icon-btn-notify.png");
@@ -482,11 +487,11 @@ a:focus, a:active {
     background-color: #fff;
     background-position: 8px 50%;
     color: #146672;
-    font: 15px "ProximaNova-Bold";
+    font: 14px "ProximaNova-Bold";
     height: 38px;
     left: 320px;
     line-height: 38px;
-    padding:0 16px 0 32px;
+    padding:0 10px 0 33px;
     position: absolute;
     top:200px;
 }
@@ -2492,12 +2497,11 @@ ul.profile-menu li {
     cursor: pointer;
     display: inline-block;
     height: 30px;
-    line-height: 30px;
-    padding: 0px 12px 0px 18px;
+    padding: 0 10px 0 20px;
     text-decoration: none;
+    font:14px/30px "ProximaNova-Bold";
 }
 .light-btn, .invite-people-form input[type="submit"]  {
-    font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
 .blue-btn, .vacancy-add-form-switcher {
@@ -2916,9 +2920,8 @@ ul.profile-menu li {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-weight: normal;
-    margin-left: 3px;
-    margin-right: 3px;
-    padding: 0px;
+    margin:0 4.5px;
+    padding: 0;
     text-decoration: none;
 }
 .pager ul.yiiPager li, .pager ul.yiiPager li a {
@@ -2936,9 +2939,9 @@ ul.profile-menu li {
     background: #6caab3;
     border: none;
     font-size: 14px;
-    margin-left:20px;
-    margin-right:20px;
-    padding: 7px 9px;
+    margin-left:15.5px;
+    margin-right:15.5px;
+    padding: 7px 10px;
 }
 .pager ul.yiiPager .page {
     padding-bottom: 5px;
