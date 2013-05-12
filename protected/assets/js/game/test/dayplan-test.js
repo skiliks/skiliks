@@ -143,6 +143,16 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify(data_day_plan)]);
 
+                server.respondWith("POST", "/index.php/dayPlan/add",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+
+                server.respondWith("POST", "/index.php/dayPlan/delete",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+                server.respondWith("POST", "/index.php/todo/add",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication({'start':'9:00', "skiliksSpeedFactor":8 });
                 this.timeout = 1000;
@@ -168,6 +178,16 @@ define([
 
                 expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встреча с ГД в 16.00 по презентации');
                 //expect(1).toBe(1);
+                server.respond();
+
+                planView.$('.planner-task.day-plan-todo-task[data-task-id=7]').dblclick();
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").find(".title").text()).toBe('Поставить задачи сотрудникам на время моего отпуска');
+                planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").dblclick();
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").find(".title").text()).toBe('');
 
             });
         });
