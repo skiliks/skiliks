@@ -1492,6 +1492,10 @@ html[lang=ru] .product section table th{
         background-image: url("../img/icon-registration-submit-min.png");
         background-position: 13px center;
     }
+    .registration .form-account-personal .row input[type=submit],
+    .registration .form-account-corporate .row input[type=submit] {
+        width: 94px;
+    }
     #UserAccountCorporate_corporate_email {
         width: 200px;
     }
