@@ -2078,7 +2078,7 @@ html[lang="en"] .footer .social_networks {
     right: -25px;
     background: none;
 }
-.sing-in-pop-up .ui-dialog-titlebar-close {
+.sing-in-pop-up .ui-dialog-titlebar-close, .popup-recovery-view .ui-dialog-titlebar-close {
     top: -20px;
     right: -20px;
 }
