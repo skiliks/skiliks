@@ -166,8 +166,8 @@ define([
 
                 //console.log(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text());
 
-                //expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встре­ча с ГД в 16.00 по пре­зен­та­ции');
-                expect(1).toBe(1);
+                expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встре­ча с ГД в 16.00 по пре­зен­та­ции');
+                //expect(1).toBe(1);
 
             });
         });
