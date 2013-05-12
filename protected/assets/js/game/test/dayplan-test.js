@@ -189,6 +189,52 @@ define([
 
                 expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").find(".title").text()).toBe('');
 
+                var task_today = SKApp.simulation.todo_tasks.get(24);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_today.get('title'),
+                    date:"12:00",
+                    task_id:task_today.id,
+                    duration:task_today.get('duration'),
+                    day:1
+                });
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").find(".title").text()).toBe(task_today.get('title'));
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").parent('.planner-book-timetable-event-fl.bdb').attr('data-hour')).toBe("12");
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").parent('.planner-book-timetable-event-fl.bdb').attr('data-minute')).toBe("00");
+                //$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").parent('.planner-book-timetable-event-fl.bdb')
+
+                var task_tomorrow = SKApp.simulation.todo_tasks.get(16);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_tomorrow.get('title'),
+                    date:"12:00",
+                    task_id:task_tomorrow.id,
+                    duration:task_tomorrow.get('duration'),
+                    day:2
+                });
+                server.respond();
+
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").find(".title").text()).toBe(task_tomorrow.get('title'));
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").parent('.planner-book-timetable-event-fl.bdb').attr('data-hour')).toBe("12");
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").parent('.planner-book-timetable-event-fl.bdb').attr('data-minute')).toBe("00");
+
+                var task_after_vacation = SKApp.simulation.todo_tasks.get(22);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_after_vacation.get('title'),
+                    date:"9:00",
+                    task_id:task_after_vacation.id,
+                    duration:task_after_vacation.get('duration'),
+                    day:3
+                });
+                server.respond();
+
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").find(".title").text()).toBe(task_after_vacation.get('title'));
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").parent('.planner-book-timetable-afterv-fl').attr('data-hour')).toBe("9");
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").parent('.planner-book-timetable-afterv-fl').attr('data-minute')).toBe("00");
+
             });
         });
     });
