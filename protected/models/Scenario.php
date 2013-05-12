@@ -109,6 +109,17 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getCharacter($data)
+    {
+         $data['scenario_id'] = $this->id;
+         return Character::model()->findByAttributes($data);
+    }
+
+    public function getPhrases($data){
+        $data['scenario_id'] = $this->id;
+        return MailPhrase::model()->findByAttributes($data);
+    }
+
     public function getMailTemplates($array)
     {
         $array['scenario_id'] = $this->id;
@@ -126,6 +137,12 @@ class Scenario extends CActiveRecord
         } else {
             assert(false);
         }
+    }
+
+    public function getCommunicationTheme($data)
+    {
+         $data['scenario_id'] = $this->id;
+         return CommunicationTheme::model()->findAllByAttributes($data);
     }
 
     public function getHeroBehavours($data)

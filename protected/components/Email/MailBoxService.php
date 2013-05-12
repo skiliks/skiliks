@@ -750,7 +750,7 @@ class MailBoxService
 
     /**
      * This is code from controllers to send message
-     * @togo: merge sendMEssage to this method
+     * @togo: merge sendMessage to this method
      *
      * @param SendMailOptions $sendMailOptions
      * @return MailBox|null
@@ -772,7 +772,11 @@ class MailBoxService
 
         $receiverId = (int)$receivers[0];
 
-        $sendEmail = new MailBox();
+        if(null === $sendMailOptions->id) {
+            $sendEmail = new MailBox();
+        }else{
+            $sendEmail = MailBox::model()->findByPk($sendMailOptions->id);
+        }
         $sendEmail->group_id = $sendMailOptions->groupId;
         $sendEmail->sender_id = $sendMailOptions->senderId;
         $sendEmail->subject_id = $sendMailOptions->subject_id;
@@ -787,7 +791,11 @@ class MailBoxService
         $sendEmail->sim_id = $sendMailOptions->simulation->id;
         $sendEmail->letter_type = $sendMailOptions->getLetterType() ?: '';
 
-        $sendEmail->insert();
+        if(null === $sendMailOptions->id) {
+            $sendEmail->insert();
+        }else{
+            $sendEmail->update();
+        }
 
         // сохранение копий
         if (null != $sendMailOptions->copies) {
@@ -795,7 +803,9 @@ class MailBoxService
             if ($receivers[count($receivers) - 1] == '') {
                 unset($receivers[count($receivers) - 1]);
             }
-
+            if($sendMailOptions->id !== null){
+                MailCopy::model()->deleteAllByAttributes(['mail_id'=>$sendEmail->id]);
+            }
             foreach ($receivers as $receiverId) {
                 $model = new MailCopy();
                 $model->mail_id = $sendEmail->id;
@@ -812,7 +822,9 @@ class MailBoxService
             if ($receivers[count($receivers) - 1] == '') {
                 unset($receivers[count($receivers) - 1]);
             }
-
+            if($sendMailOptions->id !== null){
+                MailRecipient::model()->deleteAllByAttributes(['mail_id'=>$sendEmail->id]);
+            }
             foreach ($receivers as $receiverId) {
                 $model = new MailRecipient();
                 $model->mail_id     = $sendEmail->id;
@@ -831,7 +843,9 @@ class MailBoxService
         // Сохранение фраз
         if (null != $sendMailOptions->phrases) {
             $phrases = explode(',', $sendMailOptions->phrases);
-
+            if($sendMailOptions->id !== null){
+                MailMessage::model()->deleteAllByAttributes(['mail_id'=>$sendEmail->id]);
+            }
             foreach ($phrases as $phraseId) {
                 if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
                     $msg_model = new MailMessage();
