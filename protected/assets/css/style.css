@@ -2145,7 +2145,7 @@ html[lang="en"] .footer .social_networks {
     }
     .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close {
         top: -19px;
-        right: -19px;
+        right: -22px;
     }
     .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -22px;
@@ -3570,7 +3570,7 @@ ul.profile-menu li {
         font-size: 15px;
     }
     #simulations-counter-box .brightblock {
-        margin-left: 6px;
+        margin-left: 3px; /* 6 */
     }
     .greenbtn, .greenbtn:link, .greenbtn:visited {
         font-size: 11px;
