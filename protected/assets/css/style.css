@@ -806,6 +806,9 @@ html[lang=ru] .main-article article{
 	.clients ul li img{
 		width:90%;
 	}
+    .clients ul li:nth-child(3) img {
+        margin-top:30px;
+    }
 }
 /* --------------- /clients ---------*/
 
@@ -1187,6 +1190,10 @@ html[lang=ru] .product section table th{
 	margin-bottom:15px;
 	text-align:center;
 }
+.shorter-title {
+   margin: 0 auto;
+   width:900px;
+}
 .registration .form{
 	background-color:#fdfbc6;
 	background-repeat:no-repeat;
@@ -1388,6 +1395,9 @@ html[lang=ru] .product section table th{
 		font-size:2.239em;
 		margin-bottom:15px;
 	}
+    .shorter-title {
+        width:700px;
+    }
 	.registration .form{
 		background-position:305px 7px;
 		box-shadow:0 0 0 7px rgba(255,255,255,0.2);

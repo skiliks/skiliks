@@ -5,7 +5,7 @@
     })
 })</script>
 <section class="registration">
-	<h2><?php echo Yii::t('site', 'Sign-up using your preferred option' . (empty($simPassed) ? '' : ' and get the results')) ?></h2>
+	<h2 class="shorter-title"><?php echo Yii::t('site', 'Sign-up using your preferred option' . (empty($simPassed) ? '' : ' and get the results')) ?></h2>
 	<div class="form form-account-personal">
 	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
 	    <ul>
@@ -34,18 +34,18 @@
 	        <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
 	        </div>
 	    </div>
-	    <div class="row">
+        <div class="row">
+            <?php echo $form->error($accountPersonal       ,'professional_status_id'); ?>
+            <div class="field">
+                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
+                <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
+            </div>
+        </div>
+	    <div class="row wide">
             <?php echo $form->error($accountPersonal       ,'industry_id'); ?>
             <div class="field">
 	        <?php echo $form->labelEx($accountPersonal     ,'industry_id'); ?>
 	        <?php echo $form->dropDownList($accountPersonal,'industry_id', $industries); ?>
-	        </div>
-	    </div>
-	    <div class="row wide">
-            <?php echo $form->error($accountPersonal       ,'professional_status_id'); ?>
-            <div class="field">
-	        <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
-	        <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
 	        </div>
 	    </div>
 	    <div class="row buttons">
