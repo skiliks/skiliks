@@ -56,7 +56,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<header>
 				<h1>
                     <a href="/">
-                        <img src="<?php echo $assetsUrl?>/img/logo-header.png" alt="Skiliks"/>
+                        <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
                     </a>
                 </h1>
 
