@@ -11,7 +11,7 @@ define([
     spec = describe('DayPlan test', function (run) {
         "use strict";
         /**
-         * @type {SKMailClientView} SKMailClientView
+         * @type {SKDayPlanView} SKDayPlanView
          */
         run(function () {
 
