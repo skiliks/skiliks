@@ -6,7 +6,7 @@ define([
     "game/models/SKApplication",
     "game/models/SKSimulation",
     "game/views/plan/SKDayPlanView",
-    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKPayPlanView, SKWindow) {
+    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKDayPlanView, SKWindow) {
 
     spec = describe('DayPlan test', function (run) {
         "use strict";
@@ -157,8 +157,8 @@ define([
                 simulation.start();
                 var plan_window = new SKWindow({name:'plan', subname:'plan'});
                 plan_window.open();
-
-                var planView = new SKPayPlanView({model_instance:plan_window});
+                server.respond();
+                var planView = new SKDayPlanView({model_instance:plan_window});
                 planView.render();
 
 
@@ -166,7 +166,7 @@ define([
 
                 //console.log(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text());
 
-                expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встре­ча с ГД в 16.00 по пре­зен­та­ции');
+                expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встреча с ГД в 16.00 по презентации');
                 //expect(1).toBe(1);
 
             });
