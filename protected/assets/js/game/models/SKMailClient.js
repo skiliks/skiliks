@@ -859,7 +859,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var list = [];
                 for (var i in this.defaultRecipients) {
                     // non strict "!=" is important!
-                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
+                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email') && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
                         list.push(this.defaultRecipients[i].getFormatedForMailToName());
                     }
                 }

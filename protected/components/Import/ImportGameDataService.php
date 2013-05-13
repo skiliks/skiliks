@@ -1211,6 +1211,38 @@ class ImportGameDataService
             // add wrong forwards for each character, except 'R' }
         }
 
+        $my_characters = $this->scenario->getCharacters([]);
+
+        foreach($my_characters as $my_character) {
+            /* @var $my_character Character */
+            $mail_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'mail'=> 1, 'scenario_id'=>$this->scenario->id, 'mail_prefix'=>null, 'import_id'=>$this->import_id]);
+            $phone_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'phone'=> 1, 'scenario_id'=>$this->scenario->id, 'import_id'=>$this->import_id]);
+            assert(is_int($mail_count));
+            assert(is_int($phone_count));
+
+            if($mail_count === 0){
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_mail_theme = 0;
+                $char->update();
+                echo $my_character->fio." - 0 \r\n";
+            }else{
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_mail_theme = 1;
+                $char->update();
+                echo $my_character->fio." - 1 \r\n";
+            }
+            unset($char);
+            if($phone_count === 0){
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_phone_theme = 0;
+                $char->update();
+            }else{
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_phone_theme = 1;
+                $char->update();
+            }
+            unset($char);
+        }
         // remove all old, unused characterMailThemes after import {
         CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
