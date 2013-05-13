@@ -6,12 +6,12 @@ define([
     "game/models/SKApplication",
     "game/models/SKSimulation",
     "game/views/plan/SKDayPlanView",
-    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKPayPlanView, SKWindow) {
+    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKDayPlanView, SKWindow) {
 
     spec = describe('DayPlan test', function (run) {
         "use strict";
         /**
-         * @type {SKMailClientView} SKMailClientView
+         * @type {SKDayPlanView} SKDayPlanView
          */
         run(function () {
 
@@ -143,6 +143,16 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify(data_day_plan)]);
 
+                server.respondWith("POST", "/index.php/dayPlan/add",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+
+                server.respondWith("POST", "/index.php/dayPlan/delete",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+                server.respondWith("POST", "/index.php/todo/add",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication({'start':'9:00', "skiliksSpeedFactor":8 });
                 this.timeout = 1000;
@@ -157,8 +167,8 @@ define([
                 simulation.start();
                 var plan_window = new SKWindow({name:'plan', subname:'plan'});
                 plan_window.open();
-
-                var planView = new SKPayPlanView({model_instance:plan_window});
+                server.respond();
+                var planView = new SKDayPlanView({model_instance:plan_window});
                 planView.render();
 
 
@@ -166,8 +176,64 @@ define([
 
                 //console.log(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text());
 
-                //expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встре­ча с ГД в 16.00 по пре­зен­та­ции');
-                expect(1).toBe(1);
+                expect(planView.$('.planner-task.day-plan-todo-task.regular.locked').find(".title").text()).toBe('Встреча с ГД в 16.00 по презентации');
+                //expect(1).toBe(1);
+                server.respond();
+
+                planView.$('.planner-task.day-plan-todo-task[data-task-id=7]').dblclick();
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").find(".title").text()).toBe('Поставить задачи сотрудникам на время моего отпуска');
+                planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").dblclick();
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").find(".title").text()).toBe('');
+
+                var task_today = SKApp.simulation.todo_tasks.get(24);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_today.get('title'),
+                    date:"12:00",
+                    task_id:task_today.id,
+                    duration:task_today.get('duration'),
+                    day:1
+                });
+                server.respond();
+
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").find(".title").text()).toBe(task_today.get('title'));
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").parent('.planner-book-timetable-event-fl.bdb').attr('data-hour')).toBe("12");
+                expect(planView.$(".planner-task.day-plan-todo-task.regular[data-task-id=24]").parent('.planner-book-timetable-event-fl.bdb').attr('data-minute')).toBe("00");
+                //$(".planner-task.day-plan-todo-task.regular[data-task-id=7]").parent('.planner-book-timetable-event-fl.bdb')
+
+                var task_tomorrow = SKApp.simulation.todo_tasks.get(16);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_tomorrow.get('title'),
+                    date:"12:00",
+                    task_id:task_tomorrow.id,
+                    duration:task_tomorrow.get('duration'),
+                    day:2
+                });
+                server.respond();
+
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").find(".title").text()).toBe(task_tomorrow.get('title'));
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").parent('.planner-book-timetable-event-fl.bdb').attr('data-hour')).toBe("12");
+                expect(planView.$(".planner-book-tomorrow .planner-task.day-plan-todo-task.regular[data-task-id=16]").parent('.planner-book-timetable-event-fl.bdb').attr('data-minute')).toBe("00");
+
+                var task_after_vacation = SKApp.simulation.todo_tasks.get(22);
+
+                SKApp.simulation.dayplan_tasks.create({
+                    title:task_after_vacation.get('title'),
+                    date:"9:00",
+                    task_id:task_after_vacation.id,
+                    duration:task_after_vacation.get('duration'),
+                    day:3
+                });
+                server.respond();
+
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").find(".title").text()).toBe(task_after_vacation.get('title'));
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").parent('.planner-book-timetable-afterv-fl').attr('data-hour')).toBe("9");
+                expect(planView.$(".planner-book-after-vacation .planner-task.day-plan-todo-task.regular[data-task-id=22]").parent('.planner-book-timetable-afterv-fl').attr('data-minute')).toBe("00");
 
             });
         });
