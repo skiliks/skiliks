@@ -61,6 +61,7 @@ class MailBoxService
 //        if ($orderType == 0) $orderType = 'ASC';
 //        else $orderType = 'DESC';
 
+        /** @var MailBox[] $messages */
         $messages = MailBox::model()->findAllByAttributes([
             'sim_id'   => $params['simId'],
             'group_id' => $folderId,
@@ -120,12 +121,19 @@ class MailBoxService
                 'receiver'    => implode(',', $receiversCollection),
                 'copy'        => implode(',', $copiesCollection),
                 'readed'      => $readed,
-                'attachments' => 0
+                'attachments' => 0,
+                'folder'      => $folderId,
+                'letterType'  => $message->letter_type
             );
 
             if (!empty($messageId)) {
                 $reply = MailBox::model()->byId($messageId)->find();
                 $item['reply'] = $reply->message;
+            }
+
+            if ($folderId == MailBox::FOLDER_DRAFTS_ID && $theme->constructor_number !== 'TXT') {
+                $item['phrases'] = self::getMessagePhrases($message);
+                $item['phraseOrder'] = array_keys($item['phrases']);
             }
 
             $item['subjectSort'] = '';
@@ -203,7 +211,9 @@ class MailBoxService
             'message' => $email->message,
             'sentAt' => GameTime::getDateTime($email->sent_at),
             'sender' => $email->sender_id,
-            'receiver' => $email->receiver_id
+            'receiver' => $email->receiver_id,
+            'folder' => $email->group_id,
+            'letterType'  => $email->letter_type
         );
         $message_id = $email->message_id;
 
@@ -244,6 +254,12 @@ class MailBoxService
             $reply = MailBox::model()->byId($message_id)->find();
             $message['reply'] = $reply->message;
         }
+
+        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $themes->constructor_number !== 'TXT') {
+            $message['phrases'] = self::getMessagePhrases($email);
+            $message['phraseOrder'] = array_keys($message['phrases']);
+        }
+
         return $message;
     }
 
@@ -312,6 +328,32 @@ class MailBoxService
     }
 
     /**
+     * @param MailBox $mail
+     * @return array
+     */
+    public static function getMessagePhrases(MailBox $mail)
+    {
+        $messages = MailMessage::model()->findAllByAttributes([
+            'mail_id' => $mail->id
+        ]);
+
+        $result = [];
+        foreach ($messages as $message) {
+            $result[$message->phrase_id] = $message->phrase_id;
+        }
+
+        $phrases = MailPhrase::model()->findAllByAttributes([
+            'id' => array_values($result)
+        ]);
+
+        foreach ($phrases as $phrase) {
+            $result[$phrase->id] = $phrase->name;
+        }
+
+        return $result;
+    }
+
+    /**
      * Сборка сообщения
      * @param int $mailId
      * @return string
@@ -327,28 +369,8 @@ class MailBoxService
             return $mailTemplate->message;
         }
 
-        $models = MailMessage::model()->byMail($mailId)->findAll();
-
-        $phrases = array();
-        foreach ($models as $model) {
-            $phrases[] = $model->phrase_id;
-        }
-
-        // получение набора фраз
-        $phrasesCollection = MailPhrase::model()->byIds($phrases)->findAll();
-
-        $phrasesDictionary = array();
-        foreach ($phrasesCollection as $phraseModel) {
-            $phrasesDictionary[$phraseModel->id] = $phraseModel->name;
-        }
-
-        $collection = array();
-        foreach ($phrases as $index => $phraseId) {
-            $collection[] = $phrasesDictionary[$phraseId];
-        }
-
-        // склейка фраз
-        return implode(' ', $collection);
+        $phrases = self::getMessagePhrases($mail);
+        return implode(' ', array_values($phrases));
     }
 
     /**
