@@ -70,7 +70,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
-        $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         sleep(60);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -114,7 +114,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
-        $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         sleep(60);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -162,7 +162,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
-        $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         sleep(60);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -213,7 +213,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
-        $this->optimal_click("xpath=//div[1]/div[2]/div/div/div[1]/fieldset/button[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         sleep(60);
         $this->assertTrue($this->verify_flag('F14','0'));
 

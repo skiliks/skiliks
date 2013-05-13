@@ -40,6 +40,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
         <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
+        <meta property="og:description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
+        и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <title>Skiliks - game the skills</title>
 

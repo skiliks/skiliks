@@ -653,7 +653,31 @@ define([
                                     id: emailId
                                 },
                                 function (response) {
-                                    console.log('getDraftEmailData: ', response);
+                                    if (email.isNew()) {
+                                        // mailClientView.renderWriteCustomNewEmailScreen();
+                                        mailClientView.fillMessageWindow(response);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isForward()) {
+                                        mailClientView.doUpdateScreenFromForwardEmailData(response);
+                                        mailClientView.fillMessageWindow(response);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isReply()) {
+                                        mailClientView.fillMessageWindow(response);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isReplyAll()) {
+                                        mailClientView.fillMessageWindow(response);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
                                 }
                             );
                         } else {
@@ -1348,20 +1372,6 @@ define([
              * @method
              */
             updateSubjectsList: function () {
-                /*
-                var subjects = this.mailClient.availableSubjects; // to keep code shorter
-                var listHtml = '<option value="0"></option>';
-
-                for (var i in subjects) {
-                    listHtml += '<option value="' + subjects[i].characterSubjectId + '">' + subjects[i].getText() + '</option>';
-                }
-
-                this.$("#MailClient_NewLetterSubject select").html(listHtml);
-                if (subjects.length === 1) {
-                    this.$("#MailClient_NewLetterSubject select")[0].selectedIndex = 1;
-                    this.doUpdateMailPhrasesList();
-                }*/
-
                 var subjects_list = [];
                 for (var i in this.mailClient.availableSubjects) {
                     subjects_list.push({
@@ -1443,8 +1453,10 @@ define([
              * @method
              */
             renderPhrases: function () {
-                var phrases = this.mailClient.availablePhrases;
-                var addPhrases = this.mailClient.availableAdditionalPhrases;
+                var me = this,
+                    mailClient = this.mailClient,
+                    phrases = this.mailClient.availablePhrases,
+                    addPhrases = this.mailClient.availableAdditionalPhrases;
 
                 //if ('' !== response.phrases.message && undefined === response.phrases.message) {
 
@@ -1479,7 +1491,19 @@ define([
 
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
-                this.mailClient.newEmailUsedPhrases = [];
+                mailClient.newEmailUsedPhrases = [];
+                if (mailClient.activeEmail.phrases.length) {
+                    mailClient.activeEmail.phrases.forEach(function(phraseId) {
+                        var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId),
+                            phraseToAdd = new SKMailPhrase();
+
+                        phraseToAdd.mySqlId = phrase.mySqlId;
+                        phraseToAdd.text = phrase.text;
+                        mailClient.newEmailUsedPhrases.push(phraseToAdd);
+                        me.renderAddPhraseToEmail(phraseToAdd);
+                    });
+                }
+
                 this.renderTXT();
 
                 this.delegateEvents();
@@ -1817,7 +1841,7 @@ define([
              * @param text
              */
             renderPreviousMessage: function (text) {
-                if (undefined !== text && '' !== text) {
+                if (undefined !== text && '' !== text && null !== text) {
                     text = '<pre><p style="color:blue;">' + text + '</p></pre>';
                 }
                 this.$(".previouse-message-text").html(text);
@@ -1828,12 +1852,12 @@ define([
              * @method
              */
             renderTXT: function () {
-                this.$('#mailEmulatorNewLetterText').
-                    html(this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
-
                 // hide phrases in fantastic way
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
                     this.$('.mail-tags-bl').hide();
+                    this.$('#mailEmulatorNewLetterText').html(
+                        this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
+                    );
                 } else {
                     this.$('.mail-tags-bl').show();
                 }
@@ -1920,18 +1944,18 @@ define([
 
                 // set attachment
                 if (response.attachmentId) {
-                    this.on('attachment:load_completed', function () {
+                    this.once('attachment:load_completed', function () {
                         var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
-
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
+                        console.log('attachmentIndex: ', attachmentIndex);
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
 
                 // add phrases {
-                if ('' == response.phrases.message || undefined === response.phrases.message) {
+                if (null === response.phrases.message || '' === response.phrases.message || undefined === response.phrases.message) {
                     SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);
 
