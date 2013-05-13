@@ -643,18 +643,32 @@ define([
                     // if user click on same email line twice - open read email screen
                     // Do not change == to ===
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+                        var emailId = $(event.currentTarget).data().emailId;
+                        var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
+                        if (email.isDraft()) {
+                            console.log('edit draft', email);
+                            SKApp.server.api(
+                                'mail/edit',
+                                {
+                                    id: emailId
+                                },
+                                function (response) {
+                                    console.log('getDraftEmailData: ', response);
+                                }
+                            );
+                        } else {
+                            // log {
+                            mailClientView.mailClient.setWindowsLog(
+                                'mailPreview',
+                                $(event.currentTarget).data().emailId
+                            );
+                            // log }
 
-                        // log {
-                        mailClientView.mailClient.setWindowsLog(
-                            'mailPreview',
-                            $(event.currentTarget).data().emailId
-                        );
-                        // log }
-
-                        mailClientView.renderReadEmail(
-                            mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
-                        );
-                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
+                            mailClientView.renderReadEmail(
+                                mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
+                            );
+                            mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
+                        }
                     } else {
                         // if user clicks on different email lines - activate clicked line email
                         // log {
@@ -1758,7 +1772,7 @@ define([
                         });
                     }
                 } else {
-                    // standart way
+                    // standard way
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
 
                     // all "fantastic" emails has TXT constructor - but this extra request return default B1,
@@ -1879,7 +1893,7 @@ define([
                 if (undefined !== response.copiesIds) {
                     var ids = response.copiesIds.split(',');
                     for (var i in ids) {
-                        if (0 < parseInt(ids[i])) {
+                        if (0 < parseInt(ids[i], 10)) {
                             copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i],10))
                                 .getFormatedForMailToName());
                         }
@@ -1950,11 +1964,11 @@ define([
             },
 
             /**
-             * @method
+             * @method doUpdateScreenFromForwardEmailData
              * @param {Object} response API response
              */
             doUpdateScreenFromForwardEmailData: function (response) {
-                if (1 == response.result) {
+                if (1 === parseInt(response.result, 10)) {
 
                     if (null == response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
@@ -2048,7 +2062,7 @@ define([
             },
 
             /**
-             * @method
+             * @method renderReplyScreen
              */
             renderReplyScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
@@ -2068,7 +2082,7 @@ define([
             },
 
             /**
-             * @method
+             * @method renderReplyAllScreen
              */
             renderReplyAllScreen: function () {
                 var me = this;
@@ -2083,7 +2097,7 @@ define([
             },
 
             /**
-             * @method
+             * @method renderForwardEmailScreen
              */
             renderForwardEmailScreen: function () {
                 var me = this;
@@ -2100,7 +2114,7 @@ define([
             },
 
             /**
-             * @method
+             * @method doSendDraft
              */
             doSendDraft: function () {
                 var me = this;
@@ -2137,9 +2151,9 @@ define([
                             var draftEmails = me.mailClient.getDraftsFolder().emails;
 
                             SKApp.simulation.mailClient.activeEmail = undefined;
-                            for (var i in draftEmails) {
-                                SKApp.simulation.mailClient.activeEmail = draftEmails[i];
-                            }
+                            _.each(draftEmails, function(email){
+                                SKApp.simulation.mailClient.activeEmail = email;
+                            });
                             // get first email if email exist in folder }
 
                             me.renderDraftsFolder();
@@ -2147,6 +2161,10 @@ define([
                     });
 
             },
+
+            /**
+             * @method onMailSent
+             */
             onMailSent: function () {
                 this.updateFolderLabels();
                 this.renderActiveFolder();
@@ -2156,6 +2174,10 @@ define([
                     this.mailClient.getActiveEmailId()
                 );
             },
+
+            /**
+             * @method onMailFantasticSend
+             */
             onMailFantasticSend: function (email) {
 
                 var me = this;
@@ -2184,6 +2206,10 @@ define([
                         });
                 },0);
             },
+
+            /**
+             * @method onMailFantasticOpen
+             */
             onMailFantasticOpen: function () {
                 var me = this;
                 if (this.$('.save-attachment-icon')) {
@@ -2205,6 +2231,10 @@ define([
                     this.$('.mail-emulator-received-list-string-selected').click();
                 }
             },
+
+            /**
+             * @method clearSubject
+             */
             clearSubject:function(){
 
                 var subjects_list = [{
@@ -2213,26 +2243,27 @@ define([
                         selected: true
                     }];
                 this.$("#MailClient_NewLetterSubject").ddslick('destroy');
-                //this.$("#MailClient_NewLetterSubject").html('');
+
                 var me = this;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
                     selectText: "Нет темы.",
                     imagePosition: "left",
-                    onSelected: function () {
-                        /*if(me.mailClient.availableSubjects.length !== 0) {
-                            me.mailClient.availableSubjects = [];
-                            me.doUpdateMailPhrasesList();
-                        }*/
-                    }
+                    onSelected: function () {}
                 });
             },
 
-            onMailProcessStart: function(e) {
+            /**
+             * @method onMailProcessStart
+             */
+            onMailProcessStart: function() {
                 this.block();
             },
 
+            /**
+             * @method onMailProcessEnd
+             */
             onMailProcessEnd: function() {
                 this.unBlock();
             }

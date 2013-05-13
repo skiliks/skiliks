@@ -378,6 +378,9 @@ class MailController extends AjaxController
         );
     }
 
+    /**
+     * 
+     */
     public function actionSendMsInDevMode()
     {
         $msCode = Yii::app()->request->getParam('msCode', NULL);
@@ -398,5 +401,23 @@ class MailController extends AjaxController
                 'result' => 0
             ]);
         }
+    }
+
+    /**
+     *
+     */
+    public function actionEdit()
+    {
+        $id = Yii::app()->request->getParam('id', null);
+        if (null === $id) {
+            $this->sendJSON([
+                'status' => 0
+            ]);
+        }
+
+        $this->sendJSON([
+            'status'     => 1,
+            'emailData'  => []
+        ]);
     }
 }
