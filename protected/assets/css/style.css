@@ -1976,8 +1976,9 @@ html[lang="en"] .footer .social_networks {
 	padding:7px 9px;
 	outline:none;
 }
-.change_pass-pop-up div input[type=password]{
-    width:204px;
+.change_pass-pop-up div input[type=password], #change-password-form input.error:focus {
+    height: 26px;
+    width:202px;
 }
 .change_pass-pop-up div input[type=password], .change_pass #change-password-form input[type="submit"]  {
     float: left;
@@ -2062,12 +2063,16 @@ html[lang="en"] .footer .social_networks {
     margin-top:25px;
     padding-bottom: 25px;
 }
-.change_pass-pop-up {
+.change_pass-pop-up, .flash-message-popup-recovery-popup {
     background: none;
-    height: 230px !important; /* 74 */
+    margin-left:-430px !important;
+    /*height: 230px !important;  74 */
     padding: 10px;
     top:150px !important;
     width:860px !important;
+}
+.flash-message-popup-recovery-popup {
+    background: #f3ffff;
 }
 .action-recovery .change_pass-pop-up {
     background: none;
@@ -2090,9 +2095,14 @@ html[lang="en"] .footer .social_networks {
 .change_pass-pop-up .ui-dialog-title {
     font-size: 2.619em;
 }
-.flash-recovery-popup {
-    font-size:36px;
+.flash-message-popup-recovery-popup .flash-recovery-popup {
+    color:#555545;
+    display: table-cell;
+    font: 36px 'ProximaNova-Bold';
+    height:100px;
     text-align: center;
+    vertical-align: middle;
+    width: 820px;
 }
 /*.change_pass-pop-up .ui-corner-all,*/
 .sing-in-pop-up .ui-corner-all, .popup-recovery-view  .change_pass-pop-up {
@@ -2210,7 +2220,7 @@ html[lang="en"] .footer .social_networks {
         padding-bottom: 0px;
         padding-top: 0px;
     }
-    .change_pass-pop-up .ui-dialog-content {
+    .change_pass-pop-up .ui-dialog-content, .flash-recovery-popup {
         padding:20px;
     }
 	.login-form h6{
@@ -2244,11 +2254,14 @@ html[lang="en"] .footer .social_networks {
 		height:11px;
 		padding:6px 7px;
 	}
-    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"] {
+    #change-password-form input[type="password"]:focus {
+        height: 23px;
+        width: 143px;
+    }
+    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"],
+    #change-password-form input[type=password].error:focus{
         height: 25px;
         line-height: 25px;
-    }
-    #change-password-form input[type="password"] {
         width:145px;
     }
 	.login-form div input[type=submit]{
@@ -4355,14 +4368,22 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 24px;
     }
-    .change_pass-pop-up {
+    .change_pass-pop-up, .flash-message-popup-recovery-popup {
         left:50% !important;
         margin-left:-320px !important;
         width:620px !important;
     }
-    .change_pass-pop-up .ui-dialog-title {
-        font-size: 28px;
+    .change_pass-pop-up, .flash-message-popup-recovery-popup  .flash-recovery-popup {
+        font-size: 26px;
     }
+    .flash-message-popup-recovery-popup  .flash-recovery-popup {
+        height:70px;
+        width:600px;
+    }
+    .YumUserChangePassword_verifyPassword {
+        left:176px;
+    }
+
 }
 
 
@@ -4415,7 +4436,7 @@ ul.profile-menu li {
     text-decoration: underline;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close,
-.flash-message-popup-recovery-popup .ui-dialog-titlebar-close{
+.flash-message-popup-recovery-popup .popupclose {
     display: none;
 }
 
