@@ -155,9 +155,9 @@ define([
                     SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
 
                         console.log('result: ', result);
-                        console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                        console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
-                        if (('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
+                        if ((true === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
                             null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                             console.log('saved!');
                             SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);

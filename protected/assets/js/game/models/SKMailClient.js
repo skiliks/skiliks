@@ -370,6 +370,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                     me.folders[folderAlias].emails.push(email);
                 });
+                console.log(me.folders[folderAlias].emails.lenght);
             },
 
             /**
