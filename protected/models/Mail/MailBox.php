@@ -254,6 +254,9 @@ class MailBox extends CActiveRecord
             return parent::model($className);
     }
 
+    /**
+     * @return array
+     */
     public function relations() {
         return array(
             'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),

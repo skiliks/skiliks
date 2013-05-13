@@ -54,19 +54,6 @@ class MailBoxService
         $simId      = $params['simId'];
         $simulation = Simulation::model()->findByPk($simId);
 
-//        $order = (isset($params['order'])) ? $params['order'] : false;
-//        if ($order == -1) {
-//            $order = false;
-//        }
-//
-//        $orderField = false;
-//        if ($order == 'sender') $orderField = 'sender_id';
-//        if ($order == 'time') $orderField = 'sent_at';
-//
-//        $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
-//        if ($orderType == 0) $orderType = 'ASC';
-//        else $orderType = 'DESC';
-
         /** @var MailBox[] $messages */
         $messages = MailBox::model()->findAllByAttributes([
             'sim_id'   => $params['simId'],
@@ -147,13 +134,6 @@ class MailBoxService
 
             $list[(int)$message->id] = $item;
         }
-
-
-//        if ($orderType == 'ASC') {
-//            $orderFlag = SORT_ASC;
-//        } else {
-//            $orderFlag = SORT_DESC;
-//        }
 
         // Добавим информацию о вложениях
         if (count($mailIds) > 0) {
@@ -1169,6 +1149,17 @@ class MailBoxService
 
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
+
+            $result['phrases']['previouseMessage'] = '';
+            if (null !== $message->message_id) {
+                $previouseMessage = MailBox::model()->byId($message->message_id)->find();
+                $result['phrases']['previouseMessage'] = $previouseMessage->message;
+            }
+
+            if (null !== $message->attachment) {
+                $result['attachmentName']   = $message->attachment->myDocument->fileName;
+                $result['attachmentId']     = $message->attachment->file_id;
+            }
         }
 
         return $result;
