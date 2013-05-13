@@ -260,6 +260,9 @@ define([
              * @method
              */
             doAddToPlan: function () {
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
+                }
                 var dialog = new SKMailAddToPlanDialog();
                 dialog.render();
             },
@@ -1067,8 +1070,10 @@ define([
              */
             doMoveToTrashActiveEmail: function () {
                 if (undefined === this.mailClient.activeEmail) {
-                    throw 'try to delete unexistent email';
+                    console.log('try to delete non exist email');
+                    return;
                 }
+
                 this.doMoveToTrash(this.mailClient.activeEmail);
             },
 
@@ -1117,9 +1122,11 @@ define([
             },
 
             doMoveToInboxByClick: function () {
-                if (undefined !== typeof this.mailClient.activeEmail) {
-                    this.doMoveToInbox(this.mailClient.activeEmail);
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
                 }
+
+                this.doMoveToInbox(this.mailClient.activeEmail);
             },
 
             /**
@@ -2103,6 +2110,10 @@ define([
              * @method renderReplyScreen
              */
             renderReplyScreen: function () {
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
+                }
+
                 this.mailClient.newEmailUsedPhrases = [];
                 var me = this;
                 this.mailClient.getDataForReplyToActiveEmail(function (response) {
@@ -2123,6 +2134,10 @@ define([
              * @method renderReplyAllScreen
              */
             renderReplyAllScreen: function () {
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
+                }
+
                 var me = this;
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -2138,6 +2153,10 @@ define([
              * @method renderForwardEmailScreen
              */
             renderForwardEmailScreen: function () {
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
+                }
+
                 var me = this;
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -2155,6 +2174,9 @@ define([
              * @method doSendDraft
              */
             doSendDraft: function () {
+                if (undefined === this.mailClient.activeEmail) {
+                    return;
+                }
                 var me = this;
                 me.mailClient.trigger('process:start');
                 SKApp.server.api(
