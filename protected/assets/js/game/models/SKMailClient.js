@@ -362,6 +362,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
                     email.sendedAt          = emailData.sentAt;
                     email.subject           = subject;
+                    email.phrases           = emailData.phraseOrder || [];
                     email.setSenderEmailAndNameStrings(emailData.sender);
 
                     var attachment = new SKAttachment();

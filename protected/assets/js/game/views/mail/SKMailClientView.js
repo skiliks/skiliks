@@ -1453,8 +1453,10 @@ define([
              * @method
              */
             renderPhrases: function () {
-                var phrases = this.mailClient.availablePhrases;
-                var addPhrases = this.mailClient.availableAdditionalPhrases;
+                var me = this,
+                    mailClient = this.mailClient,
+                    phrases = this.mailClient.availablePhrases,
+                    addPhrases = this.mailClient.availableAdditionalPhrases;
 
                 //if ('' !== response.phrases.message && undefined === response.phrases.message) {
 
@@ -1489,7 +1491,19 @@ define([
 
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
-                this.mailClient.newEmailUsedPhrases = [];
+                mailClient.newEmailUsedPhrases = [];
+                if (mailClient.activeEmail.phrases.length) {
+                    mailClient.activeEmail.phrases.forEach(function(phraseId) {
+                        var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId),
+                            phraseToAdd = new SKMailPhrase();
+
+                        phraseToAdd.mySqlId = phrase.mySqlId;
+                        phraseToAdd.text = phrase.text;
+                        mailClient.newEmailUsedPhrases.push(phraseToAdd);
+                        me.renderAddPhraseToEmail(phraseToAdd);
+                    });
+                }
+
                 this.renderTXT();
 
                 this.delegateEvents();
