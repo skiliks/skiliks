@@ -106,6 +106,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'SEND_DRAFT_EMAIL'
             ],
 
+            iconsForEditDraftDraftScreenArray:[
+                'SAVE_TO_DRAFTS',
+                'SEND_DRAFT_EMAIL'
+            ],
+
             iconsForSendedScreenArray:[
                 'NEW_EMAIL'
             ],
@@ -167,7 +172,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // --------------------------------------------------
 
-            // @var stringone of 'screenXXX' literals
+            // @var integer
+            draftToEditEmailId: undefined,
+
+            // @var string, one of 'screenXXX' literals
             currentScreen:undefined,
 
             // @var SkWindow
@@ -851,7 +859,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var list = [];
                 for (var i in this.defaultRecipients) {
                     // non strict "!=" is important!
-                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
+                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email') && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
                         list.push(this.defaultRecipients[i].getFormatedForMailToName());
                     }
                 }
@@ -1129,13 +1137,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
 
                 return {
-                    copies:emailToSave.getCopyToIdsString(),
-                    fileId:emailToSave.getAttachmentId(),
-                    messageId:mailId,
-                    phrases:emailToSave.getPhrasesIdsString(),
-                    receivers:emailToSave.getRecipientIdsString(),
-                    subject:emailToSave.subject.characterSubjectId,
-                    time:SKApp.simulation.getGameTime(),
+                    id:         emailToSave.mySqlId,
+                    copies:     emailToSave.getCopyToIdsString(),
+                    fileId:     emailToSave.getAttachmentId(),
+                    messageId:  mailId,
+                    phrases:    emailToSave.getPhrasesIdsString(),
+                    receivers:  emailToSave.getRecipientIdsString(),
+                    subject:    emailToSave.subject.characterSubjectId,
+                    time:       SKApp.simulation.getGameTime(),
                     letterType: type
                 };
             },
