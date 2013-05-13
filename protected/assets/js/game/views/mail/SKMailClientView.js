@@ -1649,6 +1649,8 @@ define([
                     me.updateFolderLabels();
                     me.renderActiveFolder();
 
+                    setTimeout(function(){ me.renderActiveFolder(); }, 1000);
+
                     me.mailClient.setWindowsLog(
                         'mailMain',
                         me.mailClient.getActiveEmailId()
