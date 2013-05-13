@@ -653,7 +653,30 @@ define([
                                     id: emailId
                                 },
                                 function (response) {
-                                    console.log('getDraftEmailData: ', response);
+                                    if (email.isNew()) {
+                                        mailClientView.renderWriteCustomNewEmailScreen();
+                                        // mailClientView.fillMessageWindow(response.emailData);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isForward()) {
+                                        mailClientView.doUpdateScreenFromForwardEmailData(response.emailData);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isReply()) {
+                                        mailClientView.fillMessageWindow(response.emailData);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
+
+                                    if (email.isReplyAll()) {
+                                        mailClientView.fillMessageWindow(response.emailData);
+                                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
+                                        mailClientView.mailClient.setWindowsLog('mailNew');
+                                    }
                                 }
                             );
                         } else {
@@ -1348,20 +1371,6 @@ define([
              * @method
              */
             updateSubjectsList: function () {
-                /*
-                var subjects = this.mailClient.availableSubjects; // to keep code shorter
-                var listHtml = '<option value="0"></option>';
-
-                for (var i in subjects) {
-                    listHtml += '<option value="' + subjects[i].characterSubjectId + '">' + subjects[i].getText() + '</option>';
-                }
-
-                this.$("#MailClient_NewLetterSubject select").html(listHtml);
-                if (subjects.length === 1) {
-                    this.$("#MailClient_NewLetterSubject select")[0].selectedIndex = 1;
-                    this.doUpdateMailPhrasesList();
-                }*/
-
                 var subjects_list = [];
                 for (var i in this.mailClient.availableSubjects) {
                     subjects_list.push({
