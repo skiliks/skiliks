@@ -25,7 +25,9 @@ class Dialogs_Case2_Test extends SeleniumTestHelper
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
         sleep(2);
-        $this->run_event('E8.3',"xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день.')])", 'click');
+        $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "E8.3");
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас вернусь и напишу служебку. Спасибо за информацию! ')])");
         sleep(2);
