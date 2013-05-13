@@ -67,8 +67,13 @@
 }
 #change-password-form input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.3);
-    border:1px solid #24bdd3;
-    outline: 1px solid #24bdd3;
+    border:2px solid #24bdd3;
+    height: 24px;
+    width: 200px;
+}
+#change-password-form input.error:focus {
+    border-color:rgb(189, 41, 41) !important;
+    outline-color:rgb(189, 41, 41) !important;
 }
 .action-controller-login-auth .enter_form .row.rememberMe {
     display:block;
@@ -571,9 +576,8 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-position: 0 100%;
     border:none;
 }
-.flash-recovery-popup {
+.flash-message-popup-recovery-popup {
     padding: 30px;
-    width:820px;
 }
 .change_pass-pop-up .change_pass {
     background: #f3ffff;
@@ -611,7 +615,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     position: absolute;
     top:-14px;
 }
-
+.YumUserChangePassword_verifyPassword {
+    left:250px;
+}
 .change_pass {height:auto !important;}
 
 /* flash-message-popup */

@@ -306,7 +306,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
-    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction',
+    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .flash-recovery-popup',
     {fontFamily:"ProximaNova-Bold", hover:true}
 );
 Cufon.replace('.freeacess', {hover:true});
