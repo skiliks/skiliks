@@ -226,7 +226,7 @@ class MailBoxTest extends CDbTestCase
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $resultData = MailBoxService::getForwardMessageData($randomFirstEmail);
+        $resultData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
 
         $fwdSubject = CommunicationTheme::model()->findByAttributes([
             'character_id' => null,
@@ -257,7 +257,7 @@ class MailBoxTest extends CDbTestCase
 
         // case 2, M61 {      
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $resultDataM61 = MailBoxService::getForwardMessageData($emailM61);
+        $resultDataM61 = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
         $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
@@ -267,7 +267,7 @@ class MailBoxTest extends CDbTestCase
         
         // case 3, M62 {
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $resultDataM62 = MailBoxService::getForwardMessageData($emailM62);
+        $resultDataM62 = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
         
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
         $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
