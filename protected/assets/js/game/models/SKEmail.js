@@ -270,7 +270,7 @@ define([] ,function() {
          * @returns {boolean}
          */
         isRead: function() {
-            return parseInt(this.is_readed, 10) === 1;
+            return Boolean(this.is_readed);
         },
         
         /**
