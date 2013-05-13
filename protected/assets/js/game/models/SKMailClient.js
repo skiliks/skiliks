@@ -119,6 +119,22 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // --------------------------------------------------
 
+            // SKEmail.letterType:
+
+            // @var string
+            letterTypeReply: 'reply',
+
+            // @var string
+            letterTypeReplyAll: 'replyAll',
+
+            // @var string
+            letterTypeNew: 'new',
+
+            // @var string
+            letterTypeForward: 'forward',
+
+            // --------------------------------------------------
+
             // @var string
             screenInboxList:'SCREEN_INBOX_LIST',
 
@@ -338,6 +354,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     subject.text = emailData.subject;
 
                     var email               = new SKEmail();
+                    email.folderAlias       = folderAlias;
+                    email.letterType        = emailData.letterType;
                     email.mySqlId           = emailData.id;
                     email.text              = emailData.text;
                     email.is_readed         = (1 === parseInt(emailData.readed, 10));
