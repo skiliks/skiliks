@@ -1,6 +1,4 @@
-/* 
- * 
- */
+/* global SKApp, define, console */
 var SKEmail;
 
 define([] ,function() {
@@ -147,6 +145,22 @@ define([] ,function() {
         copyToString: '',
 
         /**
+         * mailClient.aliasFolderXxx;
+         * @property folderAlias
+         * @type string
+         * @default undefined
+         */
+        folderAlias: undefined,
+
+        /**
+         * 'reply', 'forward', 'new', 'replyAll'
+         * @property folderAlias
+         * @type string
+         * @default undefined
+         */
+        letterType: undefined,
+
+        /**
          * @method isSubjectValid
          * @returns {boolean}
          */
@@ -207,16 +221,16 @@ define([] ,function() {
          */
         addSenderEmailAndNameStrings: function(string) {
             var separator = '';
-            if ('' != this.senderNameString) {
+            if ('' !== this.senderNameString) {
                separator = ' ,'; 
             }
             this.senderNameString += separator + string.substring(0, string.indexOf('<', string)).trim();
             
-            var separator = '';
-            if ('' != this.senderNameString) {
-               separator = ' ,'; 
+            var separator2 = '';
+            if ('' !== this.senderNameString) {
+               separator2 = ' ,';
             }
-            this.senderEmailString += separator + string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
+            this.senderEmailString += separator2 + string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
         },
 
         /**
@@ -226,16 +240,16 @@ define([] ,function() {
          */
         addRecipientEmailAndNameStrings: function(string) {
             var separator = '';
-            if ('' != this.recipientNameString) {
+            if ('' !== this.recipientNameString) {
                separator = ' ,'; 
             }
             this.recipientNameString += separator + string.substring(0, string.indexOf('<', string)).trim();
             
-            var separator = '';
-            if ('' != this.recipientNameString) {
-               separator = ' ,'; 
+            var separator2 = '';
+            if ('' !== this.recipientNameString) {
+               separator2 = ' ,';
             }
-            this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
+            this.recipientEmailString += separator2 + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
         },
 
         /**
@@ -245,7 +259,7 @@ define([] ,function() {
          */
         addCopyEmailAndNameStrings: function(string) {
             var separator = '';
-            if ('' != this.copyToString) {
+            if ('' !== this.copyToString) {
                 separator = ' ,';
             }
             this.copyToString += separator + string.substring(0, string.indexOf('<', string)).trim();
@@ -256,7 +270,7 @@ define([] ,function() {
          * @returns {boolean}
          */
         isRead: function() {
-            return this.is_readed == 1;
+            return parseInt(this.is_readed, 10) === 1;
         },
         
         /**
@@ -272,7 +286,7 @@ define([] ,function() {
          * @return string, CSS style
          */
         getIsReadCssClass: function() {
-            if (true == this.is_readed) {
+            if (true === Boolean(this.is_readed)) {
                 return '';
             } else {
                 return ' notreaded ';
@@ -351,7 +365,7 @@ define([] ,function() {
                 string += this.recipients[i].getFormattedRecipientLabel();
             }
             
-            if ('' == string) {
+            if ('' === string) {
                 string = this.recipientNameString;
             }
             
@@ -382,6 +396,47 @@ define([] ,function() {
             }
             
             return string;
+        },
+
+        /**
+         * @method isDraft
+         * @returns {Boolean}
+         */
+        isDraft: function() {
+            return SKApp.simulation.mailClient.aliasFolderDrafts === this.folderAlias;
+        },
+
+        /**
+         * @method isForward
+         * @returns {Boolean}
+         */
+        isForward: function() {
+            return SKApp.simulation.mailClient.letterTypeForward === this.letterType;
+        },
+
+        /**
+         * @method isReplyAll
+         * @returns {Boolean}
+         */
+        isReplyAll: function() {
+            return SKApp.simulation.mailClient.letterTypeReplyAll === this.letterType;
+        },
+
+        /**
+         * @method isReply
+         * @returns {Boolean}
+         */
+        isReply: function() {
+            return SKApp.simulation.mailClient.letterTypeReply === this.letterType;
+        },
+
+        /**
+         * is letter type 'new'
+         * @method isNew
+         * @returns {Boolean}
+         */
+        isNew: function() {
+            return SKApp.simulation.mailClient.letterTypeNew === this.letterType;
         }
     });
 

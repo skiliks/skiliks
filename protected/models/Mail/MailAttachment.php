@@ -72,6 +72,15 @@ class MailAttachment extends CActiveRecord
         ));
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function relations() {
+        return array(
+            'myDocument' => array(self::BELONGS_TO, 'MyDocument', 'file_id'),
+        );
+    }
 }
 
 
