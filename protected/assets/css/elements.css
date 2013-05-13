@@ -709,6 +709,44 @@ section.registration-by-link .form .row a.decline-link:hover {
         margin: 0 0 10px 0;
     }
 }
+/* popup video */
+.popup-video {
+    overflow: visible;
+    padding:0;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    background:none #146672;
+    border:none;
+}
+.popup-video .popupclose {
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    display: block;
+    height: 27px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -17px;
+    top: -17px;
+    width: 27px;
+    z-index:2;
+}
+.popup-video .popupclose:hover {
+    background-position: 0 100%;
+}
+.iframe-video {
+    display:none;
+}
+.popup-video .iframe-video {
+    padding:0;
+    border-radius:8px;
+    overflow:hidden;
+    height:416px !important;
+}
+.popup-video .iframe-video iframe {
+    width:100%;
+    height:100%;
+}
+/* :hover кнопок */
 /* hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,

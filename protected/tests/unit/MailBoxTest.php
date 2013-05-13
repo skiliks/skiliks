@@ -226,7 +226,7 @@ class MailBoxTest extends CDbTestCase
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $resultData = MailBoxService::getForwardMessageData($randomFirstEmail);
+        $resultData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
 
         $fwdSubject = CommunicationTheme::model()->findByAttributes([
             'character_id' => null,
@@ -257,7 +257,7 @@ class MailBoxTest extends CDbTestCase
 
         // case 2, M61 {      
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $resultDataM61 = MailBoxService::getForwardMessageData($emailM61);
+        $resultDataM61 = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
         $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
@@ -267,7 +267,7 @@ class MailBoxTest extends CDbTestCase
         
         // case 3, M62 {
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $resultDataM62 = MailBoxService::getForwardMessageData($emailM62);
+        $resultDataM62 = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
         
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
         $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
@@ -613,7 +613,7 @@ class MailBoxTest extends CDbTestCase
 
     public function testUpdateMessage() {
 
-        /*$user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -627,12 +627,15 @@ class MailBoxTest extends CDbTestCase
         $copies = [];
         $copies[] = $simulation->game_type->getCharacter(['fio'=>'Железный С.'])->id;
 
-        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'text'=>"Деньги на сервер"])->id;
+        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'text'=>"Деньги на сервер"]);
 
+        /* @var $subject CommunicationTheme */
+        $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
         $phrases = [];
-        $phrases[] = $simulation->game_type->getPhrases([]);
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'не буду'])->id;
 
-
+        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_01_итог.xls"]);
 
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(implode(',', $recipients));
@@ -640,14 +643,64 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->messageId  = 0;
         $sendMailOptions->time = '10:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
-        $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
-        $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject_id = $subject;
+        $sendMailOptions->phrases    = implode(',', $phrases);
+        $sendMailOptions->fileId     = $attach->id;
+        $sendMailOptions->subject_id = $subject->id;
         $sendMailOptions->id         = null;
         $sendMailOptions->setLetterType('new');
 
-        MailBoxService::saveDraft($sendMailOptions);
-        */
+        $email = MailBoxService::saveDraft($sendMailOptions);
+
+        unset($recipients);
+        unset($copies);
+        unset($subject);
+        unset($phrases);
+        unset($constructor);
+        unset($sendMailOptions);
+        unset($attach);
+        $recipients = [];
+        $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Босс В.С.'])->id;
+
+        $copies = [];
+
+        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=> 1, 'text'=>'Индексация ЗП']);
+
+        /* @var $subject CommunicationTheme */
+        $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
+        $phrases = [];
+
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'не буду'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'день'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
+
+        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Презентация_ ГД_00_комментарии ГД.pptx"]);
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', $recipients));
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = 0;
+        $sendMailOptions->time = '10:20:00';
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = implode(',', $phrases);
+        $sendMailOptions->fileId     = $attach->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->id         = $email->id;
+        $sendMailOptions->setLetterType('new');
+        $draft = MailBoxService::saveDraft($sendMailOptions);
+
+        $mail = MailBoxService::getMessage($email->id);
+
+        $this->assertNotEmpty($mail);
+
+        $this->assertEquals('Индексация ЗП', $mail['subject']);
+        $this->assertEquals('не буду день в отделе аналитики', $mail['message']);
+        $this->assertEquals('04.10.2012 10:20', $mail['sentAt']);
+        $this->assertEquals("Босс В.С. <boss@skiliks.com>", $mail['receiver']);
+        $this->assertEquals('2', $mail['folder']);
+        $this->assertEquals('Железный С. <zhelezniy.so@skiliks.com>', $mail['copies']);
+        $this->assertEquals('Презентация_ ГД_00_комментарии ГД.pptx', $mail['attachments']['name']);
+        $this->assertEquals($email->id, $mail['id']);
+        $this->assertEquals($draft->id, $email->id);
     }
 }
 
