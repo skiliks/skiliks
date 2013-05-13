@@ -86,7 +86,7 @@ define([], function () {
                     my_replicas.push(replica);
                 }
             });
-
+            this.shuffle(my_replicas);
             return my_replicas;
         },
 
@@ -248,6 +248,10 @@ define([], function () {
                 throw 'This event is already completed';
             }
             this.setStatus('completed');
+        },
+        shuffle:function( array ) {
+            for(var j, x, i = array.length; i; j = parseInt(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+            return true;
         }
     });
     return SKEvent;
