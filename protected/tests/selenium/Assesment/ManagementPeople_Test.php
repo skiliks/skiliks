@@ -131,9 +131,8 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(1800);
-        //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
-        //$this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
+        sleep(60);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['management3'],"100");
     }
 
 
