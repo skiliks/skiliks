@@ -267,44 +267,29 @@ class MailController extends AjaxController
      */
     public function actionReply()
     {
+        $messageToReply = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $messageToReply = MailBox::model()
-            ->findByPk(Yii::app()->request->getParam('id', 0));
-
-        $characters = MailBoxService::getCharacters($this->getSimulationEntity());
-        $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
-
-        $this->sendJSON(array(
-            'result'      => 1,
-            'subjectId'   => (null === $subjectEntity) ? null : $subjectEntity->id,
-            'subject'     => (null === $subjectEntity) ? null : $subjectEntity->getFormattedTheme(),
-            'receiver'    => $characters[$messageToReply->sender_id],
-            'receiver_id' => $messageToReply->sender_id,
-            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity )
-        ));
+        $this->sendJSON(
+            MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY)
+        );
     }
 
     public function actionReplyAll()
     {
-        $simulation = $this->getSimulationEntity();
-        
-        $messageToReply = MailBox::model()
-            ->findByPk(Yii::app()->request->getParam('id', 0));
-         
-        $characters = MailBoxService::getCharacters($this->getSimulationEntity());
-        $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
-        list($copiesIds, $copies) = MailBoxService::getCopiesArrayForReplyAll($messageToReply);
+        $messageToReply = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        return $this->sendJSON(array(
-            'result'      => 1,
-            'subjectId'   => (null === $subjectEntity) ? null : $subjectEntity->id,
-            'subject'     => (null === $subjectEntity) ? null : $subjectEntity->getFormattedTheme(),
-            'receiver'    => $characters[$messageToReply->sender_id],
-            'receiver_id' => $messageToReply->sender_id,
-            'copiesIds'   => $copiesIds,
-            'copies'      => $copies,
-            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity)
-        ));
+        $this->sendJSON(
+            MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY_ALL)
+        );
+    }
+
+    public function actionEdit()
+    {
+        $message = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
+
+        $this->sendJSON(
+            MailBoxService::getMessageData($message, MailBoxService::ACTION_EDIT)
+        );
     }
 
     /**
@@ -369,15 +354,16 @@ class MailController extends AjaxController
      */
     public function actionForward()
     {
-        $simulation = $this->getSimulationEntity();
+        $messageToForward = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $messageToForward = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
-        
         $this->sendJSON(
-            MailBoxService::getForwardMessageData($messageToForward)
+            MailBoxService::getMessageData($messageToForward, MailBoxService::ACTION_FORWARD)
         );
     }
 
+    /**
+     * 
+     */
     public function actionSendMsInDevMode()
     {
         $msCode = Yii::app()->request->getParam('msCode', NULL);

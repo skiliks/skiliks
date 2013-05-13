@@ -109,10 +109,6 @@ class Scenario extends CActiveRecord
         }
     }
 
-    public function getPhrases($data){
-        $data['scenario_id'] = $this->id;
-        return MailPhrase::model()->findByAttributes($data);
-    }
 
     public function getMailTemplates($array)
     {
