@@ -17,7 +17,7 @@ class Stress_Test extends SeleniumTestHelper
 
     public function testStress()
     {
-        //$this->markTestIncomplete();
+        // $this->markTestIncomplete();
         $this->start_simulation();
 
         // 3
