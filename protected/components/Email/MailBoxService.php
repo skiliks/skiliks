@@ -116,7 +116,7 @@ class MailBoxService
                 'readed'      => $readed,
                 'attachments' => 0,
                 'folder'      => $folderId,
-                'letterType'  => $message->letter_type
+                'letterType'  => ('' === $message->letter_type ? 'new' : $message->letter_type),
             );
 
             if (!empty($messageId)) {
@@ -1133,7 +1133,10 @@ class MailBoxService
             list($result['copiesIds'], $result['copies']) = self::getCopiesArray($message);
         }
 
+        // Edit draft {
         if ($action == self::ACTION_EDIT) {
+            $result['id'] = $message->id;
+
             $characters = self::getCharacters($message->simulation);
             $result['receiver'] = $characters[$message->receiver_id];
             $result['receiver_id'] = $message->receiver_id;
@@ -1150,17 +1153,14 @@ class MailBoxService
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = '';
-            if (null !== $message->message_id) {
-                $previouseMessage = MailBox::model()->byId($message->message_id)->find();
-                $result['phrases']['previouseMessage'] = $previouseMessage->message;
-            }
+            $result['phrases']['previouseMessage'] = $message->message_id ? $message->parentMail->message : '';
 
             if (null !== $message->attachment) {
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;
                 $result['attachmentId']     = $message->attachment->file_id;
             }
         }
+        // Edit draft }
 
         return $result;
     }

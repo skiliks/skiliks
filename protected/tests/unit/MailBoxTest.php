@@ -702,5 +702,27 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals($email->id, $mail['id']);
         $this->assertEquals($draft->id, $email->id);
     }
+
+    public function testDemoMy(){
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $my_character = $simulation->game_type->getCharacter(['fio'=>'Анна Жукова']);
+        $c = CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'mail'=> 1, 'scenario_id'=>$simulation->game_type->id]);
+        $n = $c !== 1;
+        /*foreach($my_characters as $my_character) {
+             @var $my_character Character
+            $mail_count = CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'mail'=> 1, 'scenario_id'=>$this->scenario->id, 'mail_prefix'=>null]);
+            $phone_count = CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'phone'=> 1, 'scenario_id'=>$this->scenario->id]);
+            assert(is_numeric($mail_count));
+            assert(is_numeric($phone_count));
+            $my_character->has_mail_theme = ($mail_count !== 0)?1:0;
+            $my_character->has_phone_theme = ($phone_count !== 0)?1:0;
+            $my_character->update();
+        }*/
+    }
 }
 

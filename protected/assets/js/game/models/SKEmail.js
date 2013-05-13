@@ -1,4 +1,4 @@
-/* global SKApp, define, console */
+/* global SKApp, define, console, Backbone */
 var SKEmail;
 
 define([] ,function() {
