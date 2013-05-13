@@ -19,7 +19,7 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        //Delegation
+        // Delegation
 
         $this->run_event('MS28');
         sleep(2);
