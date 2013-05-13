@@ -1150,11 +1150,7 @@ class MailBoxService
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = '';
-            if (null !== $message->message_id) {
-                $previouseMessage = MailBox::model()->byId($message->message_id)->find();
-                $result['phrases']['previouseMessage'] = $previouseMessage->message;
-            }
+            $result['phrases']['previouseMessage'] = $message->message_id ? $message->parentMail->message : '';
 
             if (null !== $message->attachment) {
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;

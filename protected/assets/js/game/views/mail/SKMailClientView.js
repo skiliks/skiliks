@@ -1852,12 +1852,12 @@ define([
              * @method
              */
             renderTXT: function () {
-                this.$('#mailEmulatorNewLetterText').
-                    html(this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
-
                 // hide phrases in fantastic way
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
                     this.$('.mail-tags-bl').hide();
+                    this.$('#mailEmulatorNewLetterText').html(
+                        this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
+                    );
                 } else {
                     this.$('.mail-tags-bl').show();
                 }
@@ -1944,7 +1944,7 @@ define([
 
                 // set attachment
                 if (response.attachmentId) {
-                    this.on('attachment:load_completed', function () {
+                    this.once('attachment:load_completed', function () {
                         var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
