@@ -1497,7 +1497,7 @@ define([
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
                 mailClient.newEmailUsedPhrases = [];
-                if (mailClient.activeEmail.phrases.length) {
+                if (mailClient.activeEmail && mailClient.activeEmail.phrases.length) {
                     mailClient.activeEmail.phrases.forEach(function(phraseId) {
                         var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId),
                             phraseToAdd = new SKMailPhrase();
