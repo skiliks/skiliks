@@ -108,8 +108,6 @@ return array(
     '61258856' => '61279471',
     'Personal account' => 'Индивидуальный профиль',
     'Corporate account' => 'Корпоративный профиль',
-    'Personal account' => 'Аккаунт физ.лица',
-    'Corporate account' => 'Корпоративный аккаунт',
     'User' => 'Пользователь',
     'Industry' => 'Отрасль',
     'Position' => 'Вакансия',
@@ -365,6 +363,7 @@ return array(
     'Payment' => 'Оплата',
     'Other' => 'Прочее',
     'Industry' => 'Отрасль',
+    'Professional area' => 'Профессиональная сфера',
     'Position level is required' => 'Уровень позиции это обязательное поле',
     'Position level' => 'Уровень позиции',
 

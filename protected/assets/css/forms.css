@@ -779,6 +779,9 @@ span.required {
         font-size:24px;
         margin-top: 20px;
     }
+    .brightblock, .lightblock {
+        padding: 5px 3px 4px;
+    }
     .YumProfile_email {
 
     }

@@ -15,7 +15,9 @@ class SendMailOptions
     public $messageId  = NULL;
     public $time       = NULL;
     public $fileId     = NULL;
-    public $subject_id  = NULL;
+    public $subject_id = NULL;
+
+    public $id         = NULL;
 
     // is this email created by press 'Reply all'
     public $is_reply_all = false;

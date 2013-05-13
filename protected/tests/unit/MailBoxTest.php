@@ -610,5 +610,44 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(0, $unread[MailBox::FOLDER_OUTBOX_ID]);
         $this->assertEquals(1, $unread[MailBox::FOLDER_TRASH_ID]);
     }
+
+    public function testUpdateMessage() {
+
+        /*$user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $recipients = [];
+        $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.'])->id;
+        $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Крутько М.'])->id;
+
+        $copies = [];
+        $copies[] = $simulation->game_type->getCharacter(['fio'=>'Железный С.'])->id;
+
+        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'text'=>"Деньги на сервер"])->id;
+
+        $phrases = [];
+        $phrases[] = $simulation->game_type->getPhrases([]);
+
+
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', $recipients));
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = 0;
+        $sendMailOptions->time = '10:00:00';
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
+        $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
+        $sendMailOptions->subject_id = $subject;
+        $sendMailOptions->id         = null;
+        $sendMailOptions->setLetterType('new');
+
+        MailBoxService::saveDraft($sendMailOptions);
+        */
+    }
 }
 
