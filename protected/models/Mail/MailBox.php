@@ -18,6 +18,7 @@
  * @property Simulation simulation
  * @property CommunicationTheme subject_obj
  * @property MailAttachment $attachment
+ * @property MailBox $parentMail
  *
  */
 class MailBox extends CActiveRecord
@@ -38,6 +39,7 @@ class MailBox extends CActiveRecord
     const FOLDER_TRASH_ALIAS  = 'trash';
     const FOLDER_NOT_RECEIVED_ALIAS  = 'not received';
 
+    const TYPE_FORWARD   = 'forward';
     const TYPE_REPLY     = 'reply';
     const TYPE_REPLY_ALL = 'replyAll';
 
@@ -258,6 +260,7 @@ class MailBox extends CActiveRecord
             'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id'),
             'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),
+            'parentMail'    => array(self::BELONGS_TO, 'MailBox', 'message_id'),
         );
     }
 

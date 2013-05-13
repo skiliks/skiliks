@@ -7,6 +7,12 @@
  */
 class MailBoxService
 {
+    const ACTION_NEW       = 'new';
+    const ACTION_REPLY     = 'reply';
+    const ACTION_REPLY_ALL = 'replyAll';
+    const ACTION_FORWARD   = 'forward';
+    const ACTION_EDIT      = 'edit';
+
     /**
      * Загрузка персонажей
      *
@@ -933,23 +939,19 @@ class MailBoxService
      * @param CommunicationTheme $characterThemeModel
      * @return type
      */
-    public static function getPhrasesDataForReply($messageToReply, $characterThemeModel)
+    public static function getPhrasesData($message, $characterThemeModel)
     {
         // validation
-        if (NULL === $messageToReply ||
-            MailBox::FOLDER_DRAFTS_ID == $messageToReply->group_id ||
-            MailBox::FOLDER_OUTBOX_ID == $messageToReply->group_id
-        ) {
+        if (NULL === $message) {
             return array();
         }
-        ;
 
         // init default responce
         $result = array(
-               'message'          => '',
-            'data'             => self::getMailPhrases($messageToReply->simulation),
-            'previouseMessage' => $messageToReply->message,
-            'addData'          => self::getSigns($messageToReply->simulation)
+            'message'          => '',
+            'data'             => self::getMailPhrases($message->simulation),
+            'previouseMessage' => $message->message,
+            'addData'          => self::getSigns($message->simulation)
         );
 
         if ($characterThemeModel) {
@@ -960,7 +962,7 @@ class MailBoxService
                 $result['data']    = [];
                 $result['addData'] = [];
             } else {
-                $result['data'] = self::getMailPhrases($messageToReply->simulation, $characterThemeId);
+                $result['data'] = self::getMailPhrases($message->simulation, $characterThemeId);
             }
         }
         // get phrases }
@@ -970,25 +972,26 @@ class MailBoxService
 
 
     /**
-     * @param MailBox $messageToReply
+     * @param MailBox $message
      * @return mixed array
      */
-    public static function getCopiesArrayForReplyAll($messageToReply)
+    public static function getCopiesArray($message)
     {
         $copiesIds = array();
         $copies = array();
 
-        $collection = MailRecipient::model()->byMailId($messageToReply->id)->findAll();
+        $collection = MailRecipient::model()->byMailId($message->id)->findAll();
+        $hero = $message->simulation->game_type->getCharacter(['code' => Character::HERO_ID]);
 
         foreach ($collection as $model) {
             // exclude our hero from copies
-            if ($messageToReply->simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey !== $model->receiver_id) {
+            if ($hero->id !== $model->receiver_id && $message->receiver_id !== $model->receiver_id) {
                 $copiesIds[] = $model->receiver_id;
             }
         }
 
         if (count($copiesIds) > 0) {
-            $copies = self::getCharacters($messageToReply->simulation, $copiesIds);
+            $copies = self::getCharacters($message->simulation, $copiesIds);
         }
 
         return array(
@@ -1092,6 +1095,86 @@ class MailBoxService
     }
 
     /**
+     * @param MailBox $message
+     * @param string $action
+     * @return array
+     * @throws ErrorException
+     */
+    public static function getMessageData(MailBox $message, $action)
+    {
+        if (null === $message) {
+            throw new ErrorException('Replied email is empty');
+        }
+
+        $condition = [
+            'text'         => $message->subject_obj->text,
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX
+        ];
+
+        if ($action == self::ACTION_FORWARD) {
+            $condition['mail_prefix'] = $message->subject_obj->getPrefixForForward();
+            $condition['character_id'] = null;
+        } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
+            $condition['mail_prefix'] = $message->subject_obj->getPrefixForReply();
+            $condition['character_id'] = $message->sender_id;
+        } elseif ($action == self::ACTION_EDIT) {
+            $condition['id'] = $message->subject_id;
+        }
+
+        $subject = CommunicationTheme::model()->findByAttributes($condition);
+
+        if (null === $subject) {
+            throw new ErrorException('Can`t find subject for reply email');
+        }
+
+        $result = [
+            'result'      => 1,
+            'subjectId'   => $subject->id,
+            'subject'     => $subject->getFormattedTheme(),
+            'phrases'     => self::getPhrasesData($message, $subject)
+        ];
+
+        if ($action == self::ACTION_FORWARD) {
+            $result['parentSubjectId'] = $message->subject_obj->id;
+
+            // TODO: Check is this required
+            if ($subject->constructor_number === 'TXT') {
+                $result['text'] = $subject->getMailTemplate()->message;
+            }
+        }
+
+        if ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
+            $characters = self::getCharacters($message->simulation);
+            $result['receiver'] = $characters[$message->sender_id];
+            $result['receiver_id'] = $message->sender_id;
+        }
+
+        if ($action == self::ACTION_REPLY_ALL) {
+            list($result['copiesIds'], $result['copies']) = self::getCopiesArray($message);
+        }
+
+        if ($action == self::ACTION_EDIT) {
+            $characters = self::getCharacters($message->simulation);
+            $result['receiver'] = $characters[$message->receiver_id];
+            $result['receiver_id'] = $message->receiver_id;
+
+            if ($message->message_id) {
+                $result['parentSubjectId'] = $message->parentMail->subject_id;
+            }
+
+            $result['copiesIds'] = array_map(function(MailCopy $copy) use ($characters) {
+                return $copy->receiver_id;
+            }, MailCopy::model()->byMailId($message->id)->findAll());
+            $result['copies'] = self::getCharacters($message->simulation, $result['copiesIds']);
+
+            $result['copiesIds'] = implode(',', $result['copiesIds']);
+            $result['copies'] = implode(',', $result['copies']);
+        }
+
+        return $result;
+    }
+
+    /**
      * @param Simulation $simulation
      * @param MailBox $messageToForward
      *
@@ -1100,9 +1183,7 @@ class MailBoxService
     public static function getForwardMessageData($messageToForward)
     {
         if (NULL === $messageToForward) {
-            return array(
-                'result' => 0
-            );
+            return null;
         }
 
         $characterThemeId = null;
@@ -1114,7 +1195,7 @@ class MailBoxService
             'character_id' => null,
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
         ]);
-        
+
         if (NULL === $forwardSubject) {
             return array(
                 'result' => 0,
