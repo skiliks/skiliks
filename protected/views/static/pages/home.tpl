@@ -1,8 +1,9 @@
 <script>
     $(document).ready(function(){
         var popupwidth = $("section.features").width();
-        $(".video").click(function(){
-            $(".iframe-video").dialog({
+        var video = $(".iframe-video-wrap").html();
+            $(".video").click(function(){
+            $(video).dialog({
                 modal: true,
                 resizable: false,
                 height: 354,
@@ -19,6 +20,7 @@
             $('.popup-video a.popupclose').click(function() {
                 $('.iframe-video').dialog('close');
                 $('.popup-video a.popupclose').remove();
+                $('.iframe-video').detach();
             });
         });
     })
@@ -26,8 +28,10 @@
 				<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
-                    <div class="iframe-video">
-                        <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                    <div class="iframe-video-wrap">
+                        <div class="iframe-video">
+                            <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                        </div>
                     </div>
                     <div class="videosocwrap clearfix">
                         <div class="video" style="cursor: pointer;">
