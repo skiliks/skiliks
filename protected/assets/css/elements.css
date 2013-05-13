@@ -38,7 +38,9 @@
     position: static;
 }
 .action-controller-login-auth .enter_form .row input[type="text"],
-.action-controller-login-auth .enter_form .row input[type="password"] {
+.action-controller-login-auth .enter_form .row input[type="password"],
+#change-password-form input[type="password"]
+{
     color:#036675;
     background:white;
     border: 1px solid #666;
@@ -55,12 +57,23 @@
     margin:0 5px;
 }
 .action-controller-login-auth .enter_form input[type="text"]:focus,
-.action-controller-login-auth .enter_form input[type="password"]:focus {
+.action-controller-login-auth .enter_form input[type="password"]:focus,
+#change-password-form input[type="password"]:focus {
     /*border-color:#23BFD5;
     border-radius: 5px;
     outline:none;*/
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 3px #23BFD5;
     border:1px solid #24bdd3;
+}
+#change-password-form input[type="password"]:focus {
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.3);
+    border:2px solid #24bdd3;
+    height: 24px;
+    width: 200px;
+}
+#change-password-form input.error:focus {
+    border-color:rgb(189, 41, 41) !important;
+    outline-color:rgb(189, 41, 41) !important;
 }
 .action-controller-login-auth .enter_form .row.rememberMe {
     display:block;
@@ -165,7 +178,7 @@
     width:505px;
 }
 
-#invite-decline-form #form-decline-explanation input[type="submit"]{
+#invite-decline-form #form-decline-explanation input[type="submit"] {
     background: url("../img/icon-btn-notify.png") no-repeat 18px 50% #146672;
     border: none;
     border-radius: 4px;
@@ -253,7 +266,8 @@ section.registration-by-link .form .row .sbHolder {
 section.registration-by-link .form .row.buttons {
     padding-left:190px;
 }
-section.registration-by-link .form .row input[type="submit"] {
+section.registration-by-link .form .row input[type="submit"],
+#change-password-form  input[type="submit"] {
     background: url("../img/icon-btn-notify.png") no-repeat 17px 13px #146672;
     border: none;
     border-radius: 4px;
@@ -264,6 +278,19 @@ section.registration-by-link .form .row input[type="submit"] {
     height: 46px;
     padding: 0 14px 0 48px;
     margin-right:15px;
+}
+#change-password-form  input[type="submit"] {
+    background-position: 20px 17px;
+    font-size: 21px;
+    height:54px;
+    line-height: 54px;
+    margin-right:0px;
+    padding-left: 36px;
+}
+#change-password-form input[type="password"] {
+    font-size:16px;
+    height:26px;
+    line-height: 26px;
 }
 section.registration-by-link .form .row a.decline-link, .registration-by-link .text-right a {
     font:12px "ProximaNova-Regular";
@@ -549,13 +576,47 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-position: 0 100%;
     border:none;
 }
-.change_pass-pop-up .row input{
-    margin:16px 0 0 8px;
+.flash-message-popup-recovery-popup {
+    padding: 30px;
+}
+.change_pass-pop-up .change_pass {
+    background: #f3ffff;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    /*height: 74px !important;*/
+    padding: 30px;
+}
+.change_pass-pop-up .change_pass .form {
+    background:#e6f6f6;
+    border-radius: 8px;
+    padding:10px;
+}
+.change_pass-pop-up .change_pass .form:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.change_pass-pop-up .row input[type="password"]{
+    /*margin:16px 0 0 8px;*/
+    margin-right:10px;
+}
+.change_pass-pop-up .row {
+    position: relative;
 }
 .change_pass-pop-up .errorMessage {
-    top:0px;
+    /*top:0px;
     left:10px;
-    color:white;
+    color:white;*/
+    color: #bd2929;
+    position: absolute;
+    top:-14px;
+}
+.YumUserChangePassword_verifyPassword {
+    left:250px;
 }
 .change_pass {height:auto !important;}
 
@@ -692,6 +753,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     height:100%;
 }
 /* :hover кнопок */
+/* hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
 #registration-by-link-form input[type="submit"]:hover,
