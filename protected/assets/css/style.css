@@ -76,22 +76,26 @@ body {
 	font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 	line-height:14px;
 }
-body.inner{
+body.inner,
+body.inner-registration {
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
 }
-body.inner-team{
+body.inner-team {
 	background-image:url("../img/bg-top-inner-team.jpg");
 }
-body.inner-registration{
-	background-image:url("../img/bg-top-registration.jpg");
+/*
+body.inner-registration {
+    background: url("../img/bg-top-registration.jpg");
 }
+*/
 @media screen and (max-width: 1280px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
-	body.inner{
+	body.inner,
+    body.inner-registration {
 		background: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
         background-repeat:  no-repeat, repeat-y;
         background-position: 50% 0, 50% 0;
