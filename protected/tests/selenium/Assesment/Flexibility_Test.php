@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * 100% по Оптимальный выбор каналов коммуникации (Область обучения №5)
+ * 100% по Гибкости (Область обучения №16)
  */
 class Flexibility_Test extends SeleniumTestHelper
 {
@@ -64,7 +64,6 @@ class Flexibility_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Вероятно, начал бы с команды')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Простите, но у меня сейчас начинается давно запланированная встреча')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу')])",'click');
         sleep(5);
@@ -72,7 +71,6 @@ class Flexibility_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
-
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
