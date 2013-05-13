@@ -654,26 +654,27 @@ define([
                                 },
                                 function (response) {
                                     if (email.isNew()) {
-                                        mailClientView.renderWriteCustomNewEmailScreen();
-                                        // mailClientView.fillMessageWindow(response.emailData);
+                                        // mailClientView.renderWriteCustomNewEmailScreen();
+                                        mailClientView.fillMessageWindow(response);
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
                                         mailClientView.mailClient.setWindowsLog('mailNew');
                                     }
 
                                     if (email.isForward()) {
-                                        mailClientView.doUpdateScreenFromForwardEmailData(response.emailData);
+                                        mailClientView.doUpdateScreenFromForwardEmailData(response);
+                                        mailClientView.fillMessageWindow(response);
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
                                         mailClientView.mailClient.setWindowsLog('mailNew');
                                     }
 
                                     if (email.isReply()) {
-                                        mailClientView.fillMessageWindow(response.emailData);
+                                        mailClientView.fillMessageWindow(response);
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
                                         mailClientView.mailClient.setWindowsLog('mailNew');
                                     }
 
                                     if (email.isReplyAll()) {
-                                        mailClientView.fillMessageWindow(response.emailData);
+                                        mailClientView.fillMessageWindow(response);
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
                                         mailClientView.mailClient.setWindowsLog('mailNew');
                                     }
@@ -1826,7 +1827,7 @@ define([
              * @param text
              */
             renderPreviousMessage: function (text) {
-                if (undefined !== text && '' !== text) {
+                if (undefined !== text && '' !== text && null !== text) {
                     text = '<pre><p style="color:blue;">' + text + '</p></pre>';
                 }
                 this.$(".previouse-message-text").html(text);
@@ -1931,16 +1932,16 @@ define([
                 if (response.attachmentId) {
                     this.on('attachment:load_completed', function () {
                         var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
-
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
+                        console.log('attachmentIndex: ', attachmentIndex);
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
 
                 // add phrases {
-                if ('' == response.phrases.message || undefined === response.phrases.message) {
+                if (null === response.phrases.message || '' === response.phrases.message || undefined === response.phrases.message) {
                     SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);
 
