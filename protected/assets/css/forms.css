@@ -25,7 +25,7 @@
 }
 .features form div input[type=submit], .profileform input[type=submit], .inputsubmit,
 .form-vacancy input[type=submit] {
-    background:#146672 url("../img/icon-btn-notify.png") no-repeat;
+    background:#146672 url("../img/icon-circlarow.png") no-repeat;
     border:none;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
@@ -376,12 +376,12 @@ span.required {
     width:158px;
 }
 .profileform input[type=submit], .form-vacancy input[type=submit] {
-    background-position: 17px 18px;
+    background-position: 17px 17px;
     font: 18px "ProximaNova-Bold";
     height:54px;
     line-height: 20px;
     margin-top: 10px;
-    padding: 0 20px 0 48px;
+    padding: 0 20px 0 51px;
 }
 .profileform textarea, .controller-static-dashboard textarea {
     background:#fff;
