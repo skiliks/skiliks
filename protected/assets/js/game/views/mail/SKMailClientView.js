@@ -1,4 +1,5 @@
-/*global Backbone, _, SKApp, SKAttachment, SKMailSubject, define, console, $, SKMailPhrase, SKDocumentsWindow */
+/*global Backbone, _, SKApp, SKAttachment, SKMailSubject, define, console, $, SKMailPhrase,
+SKDocumentsWindow, SKMailPhrase */
 var SKMailClientView;
 
 define([
@@ -655,8 +656,18 @@ define([
                                     id: emailId
                                 },
                                 function (response) {
+                                    mailClientView.mailClient.activeEmail = email;
                                     if (email.isNew()) {
-                                        mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+                                        mailClientView.renderWriteCustomNewEmailScreen(
+                                            null,
+                                            mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
+                                            email
+                                        );
+                                        mailClientView.fillMessageWindow(
+                                            response,
+                                            mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
+                                            true
+                                        );
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
                                         mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                     }
@@ -767,6 +778,7 @@ define([
             renderActiveFolder: function () {
                 var mailClientView = this;
                 mailClientView.doRenderFolder(mailClientView.mailClient.getActiveFolder().alias);
+                mailClientView.mailClient.draftToEditEmailId = undefined;
             },
 
             /**
@@ -1190,7 +1202,7 @@ define([
             /**
              * @method
              */
-            renderWriteCustomNewEmailScreen: function () {
+            renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
                 this.mailClient.newEmailUsedPhrases = [];
                 this.mailClient.availableSubjects = [];
                 var mailClientView = this;
@@ -1203,9 +1215,19 @@ define([
                 // render HTML sceleton
                 this.$("#" + this.mailClientContentBlockId).html(htmlSceleton);
 
-                this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
+                if (undefined === icons) {
+                    icons = mailClientView.mailClient.iconsForWriteEmailScreenArray;
+                }
 
-                this.updateSubjectsList();
+                this.renderIcons(icons);
+
+                if (undefined === draftEmail) {
+                    this.updateSubjectsList();
+                } else {
+                    this.mailClient.availableSubjects.push(draftEmail.subject);
+                    mailClientView.updateSubjectsList(true);
+                }
+
                 // add attachments list {
                 this.mailClient.uploadAttachmentsList(function () {
                     var attachmentsListHtml = [];
@@ -1224,18 +1246,42 @@ define([
                             imageSrc: attachment.getIconImagePath()
                         });
                     });
+
                     mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                         data: attachmentsListHtml,
                         width: '100%',
                         selectText: "Нет вложения.",
                         imagePosition: "left"
                     });
+
+                    if (undefined !== draftEmail && undefined !== draftEmail.attachment) {
+                        var attachmentIndex = _.indexOf(
+                            mailClientView.mailClient.availableAttachments.map(function (attachment) {
+                                return attachment.fileMySqlId;
+                            }),
+                            draftEmail.attachment.fileMySqlId
+                        );
+                        mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick(
+                            "select", {index: attachmentIndex + 1 }
+                        );
+                    }
                 });
 
                 // add attachments list }
 
+                var assignedRecipient = [];
+
+                if (undefined !== draftEmail) {
+                    _.each(SKApp.simulation.characters.models, function(character){
+                        if (-1 < draftEmail.recipientNameString.indexOf(character.get('fio'))) {
+                            assignedRecipient.push(character.getFormatedForMailToName());
+                        }
+                    });
+                }
+
                 this.$("#MailClient_RecipientsList").tagHandler({
                     className: 'tagHandler recipients-list-widget',
+                    assignedTags:  assignedRecipient,
                     availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete: true,
                     allowAdd: false,
@@ -1303,9 +1349,20 @@ define([
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
 
+                var assignedCopy = [];
+
+                if (undefined !== draftEmail) {
+                    _.each(SKApp.simulation.characters.models, function(character){
+                        if (-1 < draftEmail.copyToString.indexOf(character.get('fio'))) {
+                            assignedCopy.push(character.getFormatedForMailToName());
+                        }
+                    });
+                }
+
                 // fills copyTo list
                 this.$("#MailClient_CopiesList").tagHandler({
                     className: 'tagHandler copy-list-widget',
+                    assignedTags: assignedCopy,
                     availableTags: mailClientView.mailClient.getFormatedCharacterList(),
                     autocomplete: true,
                     allowAdd: false,
@@ -1376,8 +1433,9 @@ define([
             /**
              * @method
              */
-            updateSubjectsList: function () {
+            updateSubjectsList: function (forceAllowChangeSubject) {
                 var subjects_list = [];
+
                 for (var i in this.mailClient.availableSubjects) {
                     subjects_list.push({
                         text: this.mailClient.availableSubjects[i].text,
@@ -1392,24 +1450,33 @@ define([
                     });
                 }
                 this.$("#MailClient_NewLetterSubject").ddslick('destroy');
-                //this.$("#MailClient_NewLetterSubject").html('');
+
                 var me = this;
+
+                var g_forceAllowChangeSubject = forceAllowChangeSubject;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
                     selectText: "Нет темы.",
                     imagePosition: "left",
                     onSelected: function () {
-                        me.doUpdateMailPhrasesList();
+                        if (true !== g_forceAllowChangeSubject) {
+                            me.doUpdateMailPhrasesList();
+                        }
                     }
                 });
-                if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
+
+                if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL') {
                     this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
                 }
-                if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
-                    this.$("#MailClient_NewLetterSubject").ddslick('disable');
+
+                if (undefined === forceAllowChangeSubject) {
+                    forceAllowChangeSubject = false;
                 }
 
+                if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL' && false === forceAllowChangeSubject) {
+                    this.$("#MailClient_NewLetterSubject").ddslick('disable');
+                }
             },
 
             /**
@@ -1423,14 +1490,15 @@ define([
                     value: subject.characterSubjectId,
                     selected: true
                 });
+
                 var me = this;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
                     imagePosition: "left",
                     onSelected: function () {
-                    me.doUpdateMailPhrasesList();
-                }
+                        me.doUpdateMailPhrasesList();
+                    }
                 });
                 if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
                     this.$("#MailClient_NewLetterSubject").ddslick('disable');
@@ -1499,13 +1567,15 @@ define([
                 mailClient.newEmailUsedPhrases = [];
                 if (mailClient.activeEmail && mailClient.activeEmail.phrases.length) {
                     mailClient.activeEmail.phrases.forEach(function(phraseId) {
-                        var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId),
-                            phraseToAdd = new SKMailPhrase();
+                        var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId);
+                        var phraseToAdd = new SKMailPhrase();
 
-                        phraseToAdd.mySqlId = phrase.mySqlId;
-                        phraseToAdd.text = phrase.text;
-                        mailClient.newEmailUsedPhrases.push(phraseToAdd);
-                        me.renderAddPhraseToEmail(phraseToAdd);
+                        if (undefined !== phrase) {
+                            phraseToAdd.mySqlId = phrase.mySqlId;
+                            phraseToAdd.text = phrase.text;
+                            mailClient.newEmailUsedPhrases.push(phraseToAdd);
+                            me.renderAddPhraseToEmail(phraseToAdd);
+                        }
                     });
                 }
 
@@ -1527,7 +1597,7 @@ define([
                 }
 
                 // simplest way to clone small object in js {
-                var phraseToAdd = new SKMailPhrase; // generate unique uid
+                var phraseToAdd = new SKMailPhrase(); // generate unique uid
                 phraseToAdd.mySqlId = phrase.mySqlId;
                 phraseToAdd.text = phrase.text;
                 // simplest way to clone small object in js }
@@ -1774,8 +1844,6 @@ define([
                 var mailClientView = this;
                 var mailClient = this.mailClient;
 
-
-
                 if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) && mailClient.isNotEmptySubject()) {
                     // warning
                     if (mailClient.activeScreen !== "SCREEN_WRITE_FORWARD") {
@@ -1832,7 +1900,8 @@ define([
                     }
                 });
                 if(index === null){
-                    throw new Error("index !== null");
+                    console.log("index !== null");
+                    return;
                 }
                 var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
                 this.$("#MailClient_NewLetterSubject").ddslick('destroy');
@@ -1878,8 +1947,13 @@ define([
              * @param response
              * @returns {boolean}
              */
-            fillMessageWindow: function (response, icons) {
+            fillMessageWindow: function (response, icons, isAllowEdit) {
                 var me = this;
+
+                // set defaults {
+                if (undefined === isAllowEdit) {
+                    isAllowEdit = false;
+                }
 
                 if (response.id) {
                     me.mailClient.draftToEditEmailId = response.id;
@@ -1890,69 +1964,74 @@ define([
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                     return  false;
                 }
-                this.mailClient.messageForNewEmail = response.phrases.message;
 
-                console.log('icons: ', icons);
                 if (undefined === icons) {
                     icons = this.mailClient.iconsForWriteEmailScreenArray;
                 }
+                // set defaults }
 
-                console.log('result icons: ', icons);
-                this.renderWriteEmailScreen(icons);
+                if (false === isAllowEdit) {
+                    this.renderWriteEmailScreen(icons);
 
-                var subject = new SKMailSubject();
-                subject.text = response.subject;
-                subject.mySqlId = response.subjectId;
-                subject.characterSubjectId = response.subjectId;
-                this.parentSubject = subject;
-                this.renderSingleSubject(subject);
+                    var subject = new SKMailSubject();
+                    subject.text = response.subject;
+                    subject.mySqlId = response.subjectId;
+                    subject.characterSubjectId = response.subjectId;
+                    this.parentSubject = subject;
+                    this.renderSingleSubject(subject);
 
+                    // even if there is one recipient,but it must be an array
+                    var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
+                        .getFormatedForMailToName()];
+                    var recipients = recipient;
+
+                    this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
+
+                    // set recipients
+                    this.$("#MailClient_RecipientsList").tagHandler({
+                        className:     'tagHandler recipients-list-widget',
+                        assignedTags:  recipient,
+                        availableTags: recipients,
+                        allowAdd:      isAllowEdit,
+                        allowEdit:     isAllowEdit
+                    });
+
+                    // if user can edit recipients - than push all recipients to drop-down list }
+
+                    this.$('#MailClient_RecipientsList').focus();
+                    this.$('#MailClient_RecipientsList').blur();
+
+                    // add IDs to lists of recipients and copies - to simplify testing
+                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
+
+                    // add copies if they exests {
+                    var copies = [];
+                    if (undefined !== response.copiesIds) {
+                        var ids = response.copiesIds.split(',');
+                        for (var i in ids) {
+                            if (0 < parseInt(ids[i], 10)) {
+                                copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i],10))
+                                    .getFormatedForMailToName());
+                            }
+                        }
+                    }
+
+                    $("#MailClient_CopiesList").tagHandler({
+                        className: 'tagHandler copy-list-widget',
+                        assignedTags: copies,
+                        availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
+                        autocomplete: true
+                    });
+
+                    this.$('#MailClient_CopiesList').focus();
+                    this.$('#MailClient_CopiesList').blur();
+
+                }
+
+                this.mailClient.messageForNewEmail = response.phrases.message;
                 this.renderPreviousMessage(response.phrases.previouseMessage);
 
                 this.renderTXT();
-
-                // even if there is one recipient,but it must be an array
-                var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
-                    .getFormatedForMailToName()];
-
-
-                this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
-                // set recipients
-                this.$("#MailClient_RecipientsList").tagHandler({
-                    className: 'tagHandler recipients-list-widget',
-                    assignedTags: recipient,
-                    availableTags: recipient,
-                    allowAdd: false,
-                    allowEdit: false
-                });
-
-                this.$('#MailClient_RecipientsList').focus();
-                this.$('#MailClient_RecipientsList').blur();
-
-                // add IDs to lists of recipients and copies - to simplify testing
-                this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
-
-                // add copies if they exests {
-                var copies = [];
-                if (undefined !== response.copiesIds) {
-                    var ids = response.copiesIds.split(',');
-                    for (var i in ids) {
-                        if (0 < parseInt(ids[i], 10)) {
-                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i],10))
-                                .getFormatedForMailToName());
-                        }
-                    }
-                }
-
-                $("#MailClient_CopiesList").tagHandler({
-                    className: 'tagHandler copy-list-widget',
-                    assignedTags: copies,
-                    availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
-                    autocomplete: true
-                });
-
-                this.$('#MailClient_CopiesList').focus();
-                this.$('#MailClient_CopiesList').blur();
 
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
@@ -1969,7 +2048,6 @@ define([
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
-                        console.log('attachmentIndex: ', attachmentIndex);
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
