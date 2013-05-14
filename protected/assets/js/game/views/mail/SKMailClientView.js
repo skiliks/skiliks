@@ -1881,7 +1881,6 @@ define([
             fillMessageWindow: function (response, icons) {
                 var me = this;
 
-                me.mailClient.draftToEditEmailId = undefined;
                 if (response.id) {
                     me.mailClient.draftToEditEmailId = response.id;
                 }
@@ -2207,6 +2206,8 @@ define([
                                 me.mailClient.getActiveEmailId()
                             );
                         }
+
+                        me.mailClient.draftToEditEmailId = undefined;
 
                         me.mailClient.getDraftsFolderEmails(function () {
                             me.mailClient.getSendedFolderEmails();
