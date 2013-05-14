@@ -1289,6 +1289,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             });
                         }
 
+                        mailClient.draftToEditEmailId = undefined;
                         mailClient.trigger('process:finish');
                     }
                 );
