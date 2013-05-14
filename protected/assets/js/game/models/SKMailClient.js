@@ -859,7 +859,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var list = [];
                 for (var i in this.defaultRecipients) {
                     // non strict "!=" is important!
-                    if(this.activeScreen === 'SCREEN_WRITE_NEW_EMAIL'){
+                    if(this.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
                         if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
                             list.push(this.defaultRecipients[i].getFormatedForMailToName());
                         }
