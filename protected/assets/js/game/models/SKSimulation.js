@@ -304,7 +304,14 @@ define([
             onAddDocument : function(){
                 var me = this;
 
-                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
+                    SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
+                ) {
+                    me.loadDocsDialog = new SKDialogView({
+                        'message': 'Пожалуйста, подождите, идёт загрузка документов',
+                        'modal': true,
+                        'buttons': []
+                    });
 
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
                         me.loadDocsDialog = new SKDialogView({
@@ -352,6 +359,20 @@ define([
 
                     me.once('documents:loaded', function() {
                         me.dayPlanDocId = response.docId;
+                        if (typeof callback === 'function') {
+                            callback(response);
+                        }
+                    });
+                });
+            },
+
+            savePlan: function(callback) {
+                var me = this;
+
+                SKApp.server.api('dayPlan/save', {}, function(response) {
+                    me.documents.fetch();
+
+                    me.once('documents:loaded', function() {
                         if (typeof callback === 'function') {
                             callback(response);
                         }
