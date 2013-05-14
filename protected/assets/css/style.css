@@ -2111,7 +2111,8 @@ html[lang="en"] .footer .social_networks {
     color:#555545;
     display: table-cell;
     font: 30px 'ProximaNova-Bold';
-    height:100px;
+    height:60px;
+    padding-bottom:20px;
     text-align: center;
     vertical-align: middle;
     width: 820px;
@@ -4384,6 +4385,9 @@ ul.profile-menu li {
         left:50% !important;
         margin-left:-320px !important;
         width:620px !important;
+    }
+    .password-recovery-step-4 .flash .flash-success {
+        font-size:26px;
     }
     .flash-message-popup-recovery-popup .flash-recovery-popup {
         font-size:22px;
