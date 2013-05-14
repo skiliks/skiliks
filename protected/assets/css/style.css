@@ -2053,7 +2053,7 @@ html[lang="en"] .footer .social_networks {
 }
 
 .sing-in-pop-up,
-.popup-recovery-view
+.popup-recovery-view, .flash-message-popup-recovery-popup
 { /* .flash-pop-up .change_pass-pop-up */
     background: none repeat scroll 0 0 #146672;
     border-radius: 8px 8px 8px 8px;
@@ -2063,7 +2063,19 @@ html[lang="en"] .footer .social_networks {
     margin-top:25px;
     padding-bottom: 25px;
 }
-.change_pass-pop-up, .flash-message-popup-recovery-popup {
+.flash-message-popup-recovery-popup {
+    margin-left:0px !important;
+    width: 275px !important;
+    top: 3px !important;
+    left: 734px !important;
+}
+.flash-message-popup-recovery-popup .flash-recovery-popup {
+    color:#fff;
+    font:25px "ProximaNova-Regular";
+    padding:50px 0px 50px 30px;
+    width:220px;
+}
+.change_pass-pop-up, .password-recovery-step-4 {
     background: none;
     margin-left:-430px !important;
     /*height: 230px !important;  74 */
@@ -2071,7 +2083,7 @@ html[lang="en"] .footer .social_networks {
     top:150px !important;
     width:860px !important;
 }
-.flash-message-popup-recovery-popup {
+.flash-message-popup-success {
     background: #f3ffff;
 }
 .action-recovery .change_pass-pop-up {
@@ -2095,10 +2107,10 @@ html[lang="en"] .footer .social_networks {
 .change_pass-pop-up .ui-dialog-title {
     font-size: 2.619em;
 }
-.flash-message-popup-recovery-popup .flash-recovery-popup {
+.password-recovery-step-4 .flash .flash-success {
     color:#555545;
     display: table-cell;
-    font: 36px 'ProximaNova-Bold';
+    font: 30px 'ProximaNova-Bold';
     height:100px;
     text-align: center;
     vertical-align: middle;
@@ -2220,7 +2232,7 @@ html[lang="en"] .footer .social_networks {
         padding-bottom: 0px;
         padding-top: 0px;
     }
-    .change_pass-pop-up .ui-dialog-content, .flash-recovery-popup {
+    .change_pass-pop-up .ui-dialog-content, .flash-success {
         padding:20px;
     }
 	.login-form h6{
@@ -4368,15 +4380,18 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 24px;
     }
-    .change_pass-pop-up, .flash-message-popup-recovery-popup {
+    .change_pass-pop-up, .password-recovery-step-4 {
         left:50% !important;
         margin-left:-320px !important;
         width:620px !important;
     }
-    .change_pass-pop-up, .flash-message-popup-recovery-popup  .flash-recovery-popup {
-        font-size: 26px;
+    .flash-message-popup-recovery-popup .flash-recovery-popup {
+        font-size:22px;
     }
-    .flash-message-popup-recovery-popup  .flash-recovery-popup {
+    .change_pass-pop-up, .password-recovery-step-4 .flash-success {
+        font-size: 22px;
+    }
+    .password-recovery-step-4 .flash-success {
         height:70px;
         width:600px;
     }
@@ -4435,8 +4450,7 @@ ul.profile-menu li {
     font-size: 11px;
     text-decoration: underline;
 }
-.change_pass-pop-up .ui-dialog-titlebar-close,
-.flash-message-popup-recovery-popup .popupclose {
+.change_pass-pop-up .ui-dialog-titlebar-close {
     display: none;
 }
 
