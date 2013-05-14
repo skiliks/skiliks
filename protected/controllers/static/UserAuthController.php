@@ -762,7 +762,7 @@ class UserAuthController extends YumController
                     $user->activationKey = 1;
                     $user->setPassword($passwordForm->password, $user->salt);
 
-                    Yii::app()->user->setFlash('recovery-popup', 'Новый пароль успешно сохранен');
+                    Yii::app()->user->setFlash('success', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
                         $login = new YumUserIdentity($user->username, false);
                         $login->authenticate(true);
