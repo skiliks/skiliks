@@ -1203,6 +1203,7 @@ define([
              * @method
              */
             renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
+                this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                 this.mailClient.newEmailUsedPhrases = [];
                 this.mailClient.availableSubjects = [];
                 var mailClientView = this;
@@ -1377,7 +1378,7 @@ define([
 
                 this.delegateEvents();
 
-                this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
+
 
                 this.mailClient.setWindowsLog('mailNew');
             },
