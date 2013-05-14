@@ -479,7 +479,7 @@ span.required {
 .sideform .row {
     padding-bottom: 8px;
 }
-.invite-people-form .sbHolder {
+.invite-people-form .sbHolder, .invite-people-form select {
     width:160px;
 }
 .brightblock {
