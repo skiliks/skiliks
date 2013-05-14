@@ -363,6 +363,41 @@ class DayPlanService
             $log->save();
         }
     }
+
+    public static function saveToXLS(Simulation $simulation, $day)
+    {
+        $dayPlans = [];
+        $timeMap = [];
+
+        if ($day == 1 || $day == 2) {
+            $dayPlans = DayPlan::model()->findAllByAttributes([
+                'sim_id' => $simulation->id,
+                'day' => $day
+            ]);
+        } elseif ($day == 3) {
+            $dayPlans = DayPlanAfterVacation::model()->findAllByAttributes([
+                'sim_id' => $simulation->id
+            ]);
+        }
+
+        foreach ($dayPlans as $plan) {
+            $timeMap[$plan->task_id] = $plan->date;
+        }
+
+        uasort($timeMap, function($a, $b) {
+            return strtotime($a) - strtotime($b);
+        });
+
+        $tasks = Task::model()->findAllByAttributes([
+            'id' => array_keys($timeMap)
+        ]);
+
+
+
+        return [
+            'result' => 1
+        ];
+    }
 }
 
 

@@ -36,7 +36,8 @@ define([
                 'click .todo-max':                                                   'doMaximizeTodo',
                 'click .todo-revert':                                                'doRestoreTodo',
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
-                'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan'
+                'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
+                'click .save-day-plan':                                              'doSaveTomorrowPlan'
             },
             SKWindowView.prototype.events
         ),
@@ -634,6 +635,18 @@ define([
                 $('.plannerBookDayPlan').css('display', 'block');
                 $('.plannerBookQuarterPlan').css('display', 'none');
             }
+        },
+
+        doSaveTomorrowPlan: function() {
+            SKApp.simulation.savePlan(function() {
+                var dialog = new SKDialogView({
+                    message: 'Ваш план на завтра успешно сохранен',
+                    buttons: [{
+                        id: 'close',
+                        value: 'Ok'
+                    }]
+                });
+            });
         }
     });
 
