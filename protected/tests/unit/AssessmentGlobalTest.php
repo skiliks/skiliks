@@ -640,14 +640,97 @@ class AssessmentGlobalTest extends CDbTestCase
     /**
      * Просто для перещёта старых (заниженныйх симуляций) симуляций
      */
-//    public function testAssessment_Goals_Areas_Overals_Recalculation()
-//    {
-//        $simulation = Simulation::model()->findByPk(194);
-//
-//        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//
+    public function testAssessment_Goals_Areas_Overals_Recalculation()
+    {
+        $logs_src = [];
+        $simulation = Simulation::model()->findByPk(2427);
+
+        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+        // If simulation was started by invite, mark it as completed
+        if (null !== $simulation->invite) {
+            $simulation->invite->status = Invite::STATUS_COMPLETED;
+            $simulation->invite->save(false);
+        }
+
+        // Remove pause if it was set
+        SimulationService::resume($simulation);
+
+        // @todo: find reason after release
+        // we close last Activation log
+        if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
+            $extra_log    = $logs_src[count($logs_src)-1];
+            $extra_log[2] = 'deactivated';
+            $logs_src[] = $extra_log;
+        }
+
+        // данные для логирования
+        try {
+            EventsManager::processLogs($simulation, $logs_src);
+        } catch (Exception $e) {
+            if ($simulation->isDevelopMode()) {
+                throw $e;
+            }
+        }
+
+        // Make agregated activity log
+        LogHelper::combineLogActivityAgregated($simulation);
+
+        // Calculate and save Time Management assessments
+        (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
+
+        // make attestation 'work with emails'
+        SimulationService::saveEmailsAnalyze($simulation);
+
+        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
+
+        $planAnalyzer = new PlanAnalyzer($simulation);
+        $planAnalyzer->run();
+
+        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+        // see Assessment scheme_v5.pdf
+
+//        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+//        $CheckConsolidatedBudget->calcPoints();
+
+        SimulationService::setFinishedPerformanceRules($simulation);
+
+        // результативность
+        SimulationService::calculatePerformanceRate($simulation);
+
+        SimulationService::setGainedStressRules($simulation);
+        SimulationService::stressResistance($simulation);
+        SimulationService::saveAggregatedPoints($simulation->id);
+
+        // @todo: this is trick
+        // write all mail outbox/inbox scores to AssessmentAggregate directly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        SimulationService::applyReductionFactors($simulation);
+
+        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+        $learningGoalAnalyzer->run();
+
+        $learning_area = new LearningAreaAnalyzer($simulation);
+        $learning_area->run();
+
+        $evaluation = new Evaluation($simulation);
+        $evaluation->run();
+        if ($simulation->isDevelopMode()) {
+            $simulation->checkLogs();
+        }
+
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->save();
+
+        // @ - for PHPUnit
+        @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+            new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+
 //        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
 //        $learningGoalAnalyzer->run();
 //
@@ -656,12 +739,17 @@ class AssessmentGlobalTest extends CDbTestCase
 //
 //        $evaluation = new Evaluation($simulation);
 //        $evaluation->run();
-//    }
+    }
 
     // -----------------------------------------------------
     // Service methods
     // -----------------------------------------------------
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @return bool
+     */
     private function addStressPoint(Simulation $simulation, $code )
     {
         if (is_integer($code)) {
@@ -680,6 +768,11 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save();
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $slug
+     * @param $value
+     */
     private function addTimeManagementAggregated(Simulation $simulation, $slug, $value )
     {
         $item = new TimeManagementAggregated();
@@ -690,6 +783,12 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param $persents
+     * @param $value
+     */
     private function addPerformanceAggregated(Simulation $simulation, $code, $persents, $value )
     {
         $category = ActivityCategory::model()->findByAttributes(['code' => $code]);
@@ -702,6 +801,13 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param null $value
+     * @param int $k
+     * @return AssessmentAggregated|bool
+     */
     private function addAssessmentAggregated(Simulation $simulation, $code, $value = null, $k = 1 )
     {
         if (is_string($code)) {
@@ -725,6 +831,12 @@ class AssessmentGlobalTest extends CDbTestCase
         return $item;
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param int $k
+     * @return bool
+     */
     private function addAssessmentPoints(Simulation $simulation, $code, $k = 1 )
     {
         if (is_string($code)) {
@@ -744,6 +856,12 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param int $k
+     * @return bool
+     */
     private function addAssessmentCalculation(Simulation $simulation, $code, $k = 1 )
     {
         if (is_string($code)) {
