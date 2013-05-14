@@ -801,12 +801,11 @@ class SimulationService
                 throw new InviteException("Вы запустили более одной симуляции по одному инвайту");
             }else if((int)$invite->status === Invite::STATUS_ACCEPTED){
                 $invite->status = Invite::STATUS_STARTED;
+                $invite->update();
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate()) {
                     Yii::app()->user->data()->getAccount()->invites_limit--;
                     Yii::app()->user->data()->getAccount()->save(false);
-                }else{
-                    $invite->update();
                 }
             }else if((int)$invite->status === Invite::STATUS_STARTED){
                 return;
