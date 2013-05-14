@@ -101,7 +101,7 @@ define([
                 "subjectId":"1278",
                 "subject":"Re: \u0441\u0440\u043e\u0447\u043d\u043e! \u041e\u0442\u0447\u0435\u0442\u043d\u043e\u0441\u0442\u044c",
                 "receiver":"\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c. <skorobey.am@skiliks.com>",
-                "receiver_id":"9",
+                "receiver_id":"50",
                 "copiesIds":"2,11,12",
                 "copies":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420. <denezhnaya.rr@skiliks.com>,\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440 <bobr.vs@skiliks.com>,\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d <trudyakin.ek@skiliks.com>",
                 "phrases":{
@@ -644,7 +644,7 @@ define([
                             fileId:    "",
                             messageId: "1274",
                             phrases:   "",
-                            receivers: "9,",
+                            receivers: "50,",
                             subject:   "1278",
                             time:      "09:00",
                             letterType: "replyAll"
