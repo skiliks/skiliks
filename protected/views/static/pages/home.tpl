@@ -1,8 +1,13 @@
 <script>
     $(document).ready(function(){
-        var popupwidth = $("section.features").width();
+        var iframesrc = $(".iframe-video iframe").attr("src");
+        var iframesrcautoplay = iframesrc +'?autoplay=1';
+
+        var popupwidth = $("header").width() * 0.85;
         var video = $(".iframe-video-wrap").html();
-            $(".video").click(function(){
+
+
+        $(".video").click(function(){
             $(video).dialog({
                 modal: true,
                 resizable: false,
@@ -15,6 +20,7 @@
                     of: $('header')
                 }
             });
+            $(".iframe-video iframe").attr("src",iframesrcautoplay);
             $('.popup-video .ui-dialog-titlebar').remove();
             $('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
             $('.popup-video a.popupclose').click(function() {
@@ -22,10 +28,12 @@
                 $('.popup-video a.popupclose').remove();
                 $('.iframe-video').detach();
             });
+
         });
     })
+
 </script>
-				<!--features-->
+<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
                     <div class="iframe-video-wrap">
