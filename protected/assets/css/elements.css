@@ -746,7 +746,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     padding:0;
     border-radius:8px;
     overflow:hidden;
-    height:450px !important;
+    height:475px !important;
 }
 .popup-video .iframe-video iframe {
     width:100%;
@@ -754,7 +754,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 @media screen and (max-width: 1280px){
     .popup-video .iframe-video {
-        height:370px !important;
+        height:385px !important;
     }
 }
 /* :hover кнопок */
