@@ -275,7 +275,7 @@ define([
                 var counterElement = $('#icons_email span');
 
                 if (0 === counterElement.length) {
-                    counterElement.html('<span></span>');
+                    $('#icons_email').html('<span></span>');
                     counterElement = $('#icons_email span');
                 }
 
