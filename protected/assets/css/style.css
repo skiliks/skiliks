@@ -2942,7 +2942,12 @@ ul.profile-menu li {
     padding-right: 3px;
     width: 112px;
 }
-
+#corporate-invitations-list-box .grid-view tr th:nth-child(7),
+#corporate-invitations-list-box .grid-view tr td:nth-child(7),
+#corporate-invitations-list-box .grid-view tr th:nth-child(8),
+#corporate-invitations-list-box .grid-view tr td:nth-child(8) {
+    display: none;
+}
 #corporate-invitations-list-box .rating, #private-invitations-list-box .rating {
     background-position: 0 -14px;
 }
@@ -3632,7 +3637,7 @@ ul.profile-menu li {
     #Invite_email {
         width: 130px;
     }
-    .invite-people-form .sbHolder {
+    .invite-people-form .sbHolder, .invite-people-form select {
         width: 117px;
     }
     #simulations-counter-box, #invite-people-box {
