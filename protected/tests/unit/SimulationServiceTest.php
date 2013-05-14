@@ -1400,6 +1400,11 @@ class SimulationServiceTest extends CDbTestCase
         $dialog->getDialog($simulation->id, $replica->id, '12:02');
         // end rule 1
 
+        // Action for rule id 13
+        $theme = $simulation->game_type->getCommunicationTheme(['phone_dialog_number' => 'T7.4']);
+        PhoneService::call($simulation, $theme->id, 3, '12:03');
+        // end rule 13
+
         // Actions for rule id 15
         LibSendMs::sendMsByCode($simulation, 'MS20', 40000, 1, 1, 1);
         // End rule 15
@@ -1416,7 +1421,7 @@ class SimulationServiceTest extends CDbTestCase
         }, $executedRules);
         sort($list);
 
-        $this->assertEquals([1, 2, 15], $list);
+        $this->assertEquals([1, 2, 13, 15], $list);
     }
 
     /**
