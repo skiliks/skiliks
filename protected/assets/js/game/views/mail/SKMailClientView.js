@@ -1456,7 +1456,7 @@ define([
 
                 var me = this;
 
-                var selectedText = "Нет темы.";
+                var selectedText = "без темы.";
                 if (true === g_forceAllowChangeSubject) {
                     selectedText = subject.text;
                 }
@@ -2410,7 +2410,7 @@ define([
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
-                    selectText: "Нет темы.",
+                    selectText: "без темы.",
                     imagePosition: "left",
                     onSelected: function () {}
                 });
