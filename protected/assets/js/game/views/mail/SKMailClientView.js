@@ -1456,12 +1456,18 @@ define([
 
                 var me = this;
 
+                var g_forceAllowChangeSubject = forceAllowChangeSubject;
+
                 var selectedText = "без темы.";
                 if (true === g_forceAllowChangeSubject) {
+                    var subject;
+                    _.each(subjects_list, function(item) {
+                        subject = item;
+                    });
+                    console.log('subjectXX: ', subject);
                     selectedText = subject.text;
                 }
 
-                var g_forceAllowChangeSubject = forceAllowChangeSubject;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
