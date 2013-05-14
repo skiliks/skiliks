@@ -246,6 +246,8 @@ class EventsManager {
             foreach($resultList as $index=>$dialog) {
                 // Если у нас реплика к герою
                 if ($dialog['replica_number'] == 0) {
+                    LogHelper::setReplicaLog(Replica::model()->findByPk($dialog['id']), $simulation);
+
                     // События типа диалог мы не создаем
                     // isDialog() Wrong!!!
                     if (!EventService::isDialog($dialog['next_event_code'])) {

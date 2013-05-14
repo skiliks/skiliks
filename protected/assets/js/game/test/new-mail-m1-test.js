@@ -101,7 +101,7 @@ define([
                 "subjectId":"1278",
                 "subject":"Re: \u0441\u0440\u043e\u0447\u043d\u043e! \u041e\u0442\u0447\u0435\u0442\u043d\u043e\u0441\u0442\u044c",
                 "receiver":"\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c. <skorobey.am@skiliks.com>",
-                "receiver_id":"9",
+                "receiver_id":"50",
                 "copiesIds":"2,11,12",
                 "copies":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420. <denezhnaya.rr@skiliks.com>,\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440 <bobr.vs@skiliks.com>,\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d <trudyakin.ek@skiliks.com>",
                 "phrases":{
@@ -116,7 +116,418 @@ define([
                 }
             };
 
-            var receivers = [{"id":"42","title":"\u041d\u0430\u0447\u0430\u043b\u044c\u043d\u0438\u043a \u041e\u0410\u0438\u041f","fio":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412.","email":"fedorov.av@skiliks.com","code":"1","phone":"+7(926)720-1148","has_mail_theme":"0","has_phone_theme":"0"},{"id":"43","title":"\u0424\u0438\u043d.\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440","fio":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420.","email":"denezhnaya.rr@skiliks.com","code":"2","phone":"+7(926)720-0012","has_mail_theme":"0","has_phone_theme":"0"},{"id":"44","title":"\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a","fio":"\u0422\u0440\u0443\u0442\u043d\u0435\u0432 \u0421.","email":"trutnev.ss@skiliks.com","code":"3","phone":"+7(926)720-1172","has_mail_theme":"0","has_phone_theme":"0"},{"id":"45","title":"\u0412\u0435\u0434.\u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a","fio":"\u041a\u0440\u0443\u0442\u044c\u043a\u043e \u041c.","email":"krutko.ma@skiliks.com","code":"4","phone":"+7(926)720-1173","has_mail_theme":"0","has_phone_theme":"0"},{"id":"46","title":"\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a","fio":"\u041b\u043e\u0448\u0430\u0434\u043a\u0438\u043d \u041c.","email":"loshadkin.ms@skiliks.com","code":"5","phone":"+7(926)720-1174","has_mail_theme":"0","has_phone_theme":"0"},{"id":"47","title":"\u0413\u0435\u043d.\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440","fio":"\u0411\u043e\u0441\u0441 \u0412.\u0421.","email":"boss@skiliks.com","code":"6","phone":"+7(926)720-0000","has_mail_theme":"0","has_phone_theme":"0"},{"id":"48","title":"\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043d\u0442 \u0413\u0414","fio":"\u0414\u043e\u043b\u0433\u043e\u0432\u0430 \u041d.\u0422.","email":"dolgova.nt@skiliks.com","code":"7","phone":"+7(926)720-0002","has_mail_theme":"0","has_phone_theme":"0"},{"id":"49","title":"\u0414\u0438\u0440.\u0440\u0430\u0437\u0432\u0438\u0442\u0438\u0435","fio":"\u041e\u043b\u0435\u0433 \u0420\u0430\u0437\u0443\u043c\u043d\u044b\u0439","email":"razumniy.or@skiliks.com","code":"8","phone":"+7(926)720-0014","has_mail_theme":"0","has_phone_theme":"0"},{"id":"50","title":"\u0414\u0438\u0440.\u043f\u0440\u043e\u0434\u0430\u0436\u0438","fio":"\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c.","email":"skorobey.am@skiliks.com","code":"9","phone":"+7(926)720-0016","has_mail_theme":"0","has_phone_theme":"0"},{"id":"51","title":"\u041d\u0430\u0447.\u043e\u0442\u0434\u0435\u043b\u0430 \u0418\u0422","fio":"\u0416\u0435\u043b\u0435\u0437\u043d\u044b\u0439 \u0421.","email":"zhelezniy.so@skiliks.com","code":"10","phone":"+7(926)720-1212","has_mail_theme":"0","has_phone_theme":"0"},{"id":"52","title":"\u041d\u0430\u0447.\u043f\u0440\u043e\u0438\u0437\u0432-\u0432\u0430","fio":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440","email":"bobr.vs@skiliks.com","code":"11","phone":"+7(926)720-1113","has_mail_theme":"0","has_phone_theme":"0"},{"id":"53","title":"\u041d\u0430\u0447. \u043b\u043e\u0433\u0438\u0441\u0442\u0438\u043a\u0438","fio":"\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d","email":"trudyakin.ek@skiliks.com","code":"12","phone":"+7(926)720-1114","has_mail_theme":"0","has_phone_theme":"0"},{"id":"54","title":"\u041d\u0430\u0447.HR \u043e\u0442\u0434\u0435\u043b","fio":"\u041b\u044e\u0434\u043e\u0432\u043a\u0438\u043d\u0430 \u0421.","email":"lyudovkina.sm@skiliks.com","code":"13","phone":"+7(926)720-1115","has_mail_theme":"0","has_phone_theme":"0"},{"id":"55","title":"\u041d\u0430\u0447.\u0410\u0425\u041e","fio":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0425\u043e\u0437\u0438\u043d","email":"khozin.vk@skiliks.com","code":"14","phone":"+7(926)720-1116","has_mail_theme":"0","has_phone_theme":"0"},{"id":"56","title":"\u041d\u0430\u0447.\u0441\u043b.\u0430\u0443\u0434\u0438\u0442\u0430","fio":"\u0422\u043e\u0447\u043d\u044b\u0445 \u0410.","email":"tochnykh.ay@skiliks.com","code":"15","phone":"+7(926)720-1117","has_mail_theme":"0","has_phone_theme":"0"},{"id":"57","title":"\u0421\u043f\u0435\u0446.\u0441\u043b.\u043a\u0430\u0434\u0440\u043e\u0432","fio":"\u0421\u0435\u043c\u0435\u043d\u043e\u0432\u0430 \u041e.","email":"semenova.oo@skiliks.com","code":"16","phone":"+7(926)720-1118","has_mail_theme":"0","has_phone_theme":"0"},{"id":"58","title":"\u041e\u0442\u0434\u0435\u043b \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u0430","fio":"\u0410\u043d\u043d\u0430 \u0416\u0443\u043a\u043e\u0432\u0430","email":"zhukova.ar@skiliks.com","code":"17","phone":"+7(926)720-1119","has_mail_theme":"0","has_phone_theme":"0"},{"id":"59","title":"\u042e\u0440\u0438\u0441\u0442","fio":"\u0410\u0434\u0432\u043e\u043a\u0430\u0442\u043e\u0432 \u042e.","email":"advokatov.yv@skiliks.com","code":"18","phone":"+7(926)720-1120","has_mail_theme":"0","has_phone_theme":"0"},{"id":"60","title":"\u0411\u0443\u0445\u0433\u0430\u043b\u0442\u0435\u0440","fio":"\u0424\u0430\u0438\u043d\u0430 \u0413\u043e\u043b\u044c\u0446","email":"golts.fe@skiliks.com","code":"19","phone":"+7(926)720-1121","has_mail_theme":"0","has_phone_theme":"0"},{"id":"61","title":"\u0418\u0441\u043f.\u0434\u0438\u0440.\u0440\u0435\u0433. \u0414","fio":"\u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0412.","email":"kamenskiy.vp@region.skiliks.com","code":"20","phone":"+7(909)726-1528","has_mail_theme":"0","has_phone_theme":"0"},{"id":"62","title":"\u041d\u0430\u0447.\u043f\u0440\u043e\u0434.\u0440\u0435\u0433.\u0410","fio":"\u0412\u0430\u0441\u0438\u043b\u044c\u0435\u0432 \u0410.","email":"vasiliev.aa@region.skiliks.com","code":"21","phone":"+7(915)124-6617","has_mail_theme":"0","has_phone_theme":"0"},{"id":"63","title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434. \u0418\u0422","fio":"\u042e\u0440\u0438\u0439 \u041c\u044f\u0433\u043a\u043e\u0432","email":"myagkov.ys@skiliks.com","code":"22","phone":"+7(926)720-1122","has_mail_theme":"0","has_phone_theme":"0"},{"id":"64","title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434.\u0440\u0435\u043a\u043b.","fio":"\u041f\u0435\u0442\u0440\u0430\u0448\u0435\u0432\u0438\u0447 \u0418.","email":"petrashevich.iv@skiliks.com","code":"23","phone":"+7(926)720-1150","has_mail_theme":"0","has_phone_theme":"0"},{"id":"65","title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434.\u043f\u0440\u043e\u0434\u0430\u0436","fio":"\u0410\u043d\u0442\u043e\u043d \u0421\u0435\u0440\u043a\u043e\u0432","email":"serkov.af@skiliks.com","code":"24","phone":"+7(926)720-1123","has_mail_theme":"0","has_phone_theme":"0"},{"id":"66","title":"\u041a\u043b\u0438\u0435\u043d\u0442","fio":"\u0414\u043e\u0431\u0440\u043e\u0445\u043e\u0442\u043e\u0432 \u0418.","email":"dobrokhotov@gmail.com","code":"25","phone":"+7(915)828-1421","has_mail_theme":"0","has_phone_theme":"0"},{"id":"67","title":"\u041a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442","fio":"\u0410\u043d\u0436\u0435\u043b\u0430 \u0411\u043b\u0435\u0441\u043a","email":"blesk@mckinsey.com","code":"26","phone":"+7(495)765-0051","has_mail_theme":"0","has_phone_theme":"0"},{"id":"68","title":"\u0421\u0443\u043f\u0440\u0443\u0433\u0430","fio":"\u041b\u044e\u0431\u0438\u043c\u0430\u044f \u0436\u0435\u043d\u0430","email":"lapochka@gmail.com","code":"27","phone":"+7(905)343-1722","has_mail_theme":"0","has_phone_theme":"0"},{"id":"69","title":"\u0414\u0440\u0443\u0433","fio":"\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d","email":"petya1984@gmail.com","code":"28","phone":"+7(909)812-9243","has_mail_theme":"0","has_phone_theme":"0"},{"id":"70","title":"\u0417\u043d\u0430\u043a\u043e\u043c\u044b\u0439","fio":"\u041e\u043b\u0435\u0433 \u0421\u043a\u043e\u0440\u043a\u0438\u043d","email":"ckorkin@gmail.com","code":"29","phone":"+7(926)544-5345","has_mail_theme":"0","has_phone_theme":"0"},{"id":"71","title":"\u0411\u0440\u0430\u0442","fio":"\u0421\u0435\u0440\u0435\u0433\u0430","email":"serjio@gmail.com","code":"30","phone":"+7(905)818-0643","has_mail_theme":"0","has_phone_theme":"0"},{"id":"72","title":"\u0413\u0414 \u041b\u0435\u0433\u043a\u0438\u0439 \u043f\u043e\u043b\u0435\u0442","fio":"\u0421\u0442\u0435\u043f\u0430\u043d\u043e\u0432 \u0421.","email":"stepanov@lpolet.com","code":"31","phone":"+7(909)989-9543","has_mail_theme":"0","has_phone_theme":"0"},{"id":"73","title":"\u041e\u0434\u043d\u043e\u043a\u0443\u0440\u0441\u043d\u0438\u0446\u0430","fio":"\u041c\u0430\u0440\u0438\u043d\u043a\u0430","email":"marina_pet@gmail.com","code":"32","phone":"+7(909)121-7654","has_mail_theme":"0","has_phone_theme":"0"},{"id":"74","title":"\u041e\u0440\u0433.\u043a\u043e\u043d\u0444\u0435\u0440\u0435\u043d\u0446\u0438\u0438","fio":"\u041e.\u0418.\u0418\u0432\u0430\u043d\u043e\u0432\u0430","email":"ivanova@businessanalytycs.com","code":"33","phone":"+7(915)675-0532","has_mail_theme":"0","has_phone_theme":"0"},{"id":"75","title":"\u041e\u0445\u0440\u0430\u043d\u043d\u0438\u043a","fio":"\u041e\u0445\u0440\u0430\u043d\u043d\u0438\u043a","email":"","code":"34","phone":"+7(495)720-1225","has_mail_theme":"0","has_phone_theme":"0"},{"id":"76","title":"\u0420\u0435\u043c\u043e\u043d\u0442 \u043a\u043e\u043d\u0434\u0438\u0446.","fio":"\u0420\u0435\u043c\u043e\u043d\u0442 \u043a\u043e\u043d\u0434\u0438\u0446.","email":"","code":"35","phone":"+7(495)720-1265","has_mail_theme":"0","has_phone_theme":"0"},{"id":"77","title":"\u0428\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436","fio":"\u0428\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436","email":"","code":"36","phone":"+7(495)422-1187","has_mail_theme":"0","has_phone_theme":"0"},{"id":"78","title":"\u0412\u0435\u0441\u044c \u043e\u0444\u0438\u0441","fio":"\u0412\u0435\u0441\u044c \u043e\u0444\u0438\u0441","email":"office@skiliks.com","code":"37","phone":"","has_mail_theme":"0","has_phone_theme":"0"},{"id":"79","title":"\u041c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u044b","fio":"\u041c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u044b","email":"manager@skiliks.com","code":"38","phone":"","has_mail_theme":"0","has_phone_theme":"0"},{"id":"80","title":"\u0412\u0441\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0438","fio":"\u0412\u0441\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0438","email":"analitics@skiliks.com","code":"39","phone":"","has_mail_theme":"0","has_phone_theme":"0"},{"id":"81","title":"\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f","fio":"\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f","email":"","code":"40","phone":"+7(495)811-1515","has_mail_theme":"0","has_phone_theme":"0"},{"id":"82","title":"\u0413\u0414 \u041b\u0443\u0447","fio":"\u0413\u043e\u0440\u0431\u0430\u0442\u044e\u043a \u0415.\u0414.","email":"gorbatyuk@luch.com","code":"41","phone":"+7(495)248-1416","has_mail_theme":"0","has_phone_theme":"0"}];
+            var receivers = [
+                {
+                    "id":"42",
+                    "title":"\u041d\u0430\u0447\u0430\u043b\u044c\u043d\u0438\u043a \u041e\u0410\u0438\u041f",
+                    "fio":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412.",
+                    "email":"fedorov.av@skiliks.com",
+                    "code":"1",
+                    "phone":"+7(926)720-1148",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"43",
+                    "title":"\u0424\u0438\u043d.\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
+                    "fio":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420.",
+                    "email":"denezhnaya.rr@skiliks.com",
+                    "code":"2",
+                    "phone":"+7(926)720-0012",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"44",
+                    "title":"\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a",
+                    "fio":"\u0422\u0440\u0443\u0442\u043d\u0435\u0432 \u0421.",
+                    "email":"trutnev.ss@skiliks.com",
+                    "code":"3",
+                    "phone":"+7(926)720-1172",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"45",
+                    "title":"\u0412\u0435\u0434.\u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a",
+                    "fio":"\u041a\u0440\u0443\u0442\u044c\u043a\u043e \u041c.",
+                    "email":"krutko.ma@skiliks.com",
+                    "code":"4",
+                    "phone":"+7(926)720-1173",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"46",
+                    "title":"\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a",
+                    "fio":"\u041b\u043e\u0448\u0430\u0434\u043a\u0438\u043d \u041c.",
+                    "email":"loshadkin.ms@skiliks.com",
+                    "code":"5",
+                    "phone":"+7(926)720-1174",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"47",
+                    "title":"\u0413\u0435\u043d.\u0434\u0438\u0440\u0435\u043a\u0442\u043e\u0440",
+                    "fio":"\u0411\u043e\u0441\u0441 \u0412.\u0421.",
+                    "email":"boss@skiliks.com",
+                    "code":"6",
+                    "phone":"+7(926)720-0000",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"48",
+                    "title":"\u0410\u0441\u0441\u0438\u0441\u0442\u0435\u043d\u0442 \u0413\u0414",
+                    "fio":"\u0414\u043e\u043b\u0433\u043e\u0432\u0430 \u041d.\u0422.",
+                    "email":"dolgova.nt@skiliks.com",
+                    "code":"7",
+                    "phone":"+7(926)720-0002",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"49",
+                    "title":"\u0414\u0438\u0440.\u0440\u0430\u0437\u0432\u0438\u0442\u0438\u0435",
+                    "fio":"\u041e\u043b\u0435\u0433 \u0420\u0430\u0437\u0443\u043c\u043d\u044b\u0439",
+                    "email":"razumniy.or@skiliks.com",
+                    "code":"8",
+                    "phone":"+7(926)720-0014",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"50",
+                    "title":"\u0414\u0438\u0440.\u043f\u0440\u043e\u0434\u0430\u0436\u0438",
+                    "fio":"\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c.",
+                    "email":"skorobey.am@skiliks.com",
+                    "code":"9",
+                    "phone":"+7(926)720-0016",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"51",
+                    "title":"\u041d\u0430\u0447.\u043e\u0442\u0434\u0435\u043b\u0430 \u0418\u0422",
+                    "fio":"\u0416\u0435\u043b\u0435\u0437\u043d\u044b\u0439 \u0421.",
+                    "email":"zhelezniy.so@skiliks.com",
+                    "code":"10",
+                    "phone":"+7(926)720-1212",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"52",
+                    "title":"\u041d\u0430\u0447.\u043f\u0440\u043e\u0438\u0437\u0432-\u0432\u0430",
+                    "fio":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440",
+                    "email":"bobr.vs@skiliks.com",
+                    "code":"11",
+                    "phone":"+7(926)720-1113",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"53",
+                    "title":"\u041d\u0430\u0447. \u043b\u043e\u0433\u0438\u0441\u0442\u0438\u043a\u0438",
+                    "fio":"\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d",
+                    "email":"trudyakin.ek@skiliks.com",
+                    "code":"12",
+                    "phone":"+7(926)720-1114",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"54",
+                    "title":"\u041d\u0430\u0447.HR \u043e\u0442\u0434\u0435\u043b",
+                    "fio":"\u041b\u044e\u0434\u043e\u0432\u043a\u0438\u043d\u0430 \u0421.",
+                    "email":"lyudovkina.sm@skiliks.com",
+                    "code":"13",
+                    "phone":"+7(926)720-1115",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"55",
+                    "title":"\u041d\u0430\u0447.\u0410\u0425\u041e",
+                    "fio":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0425\u043e\u0437\u0438\u043d",
+                    "email":"khozin.vk@skiliks.com",
+                    "code":"14",
+                    "phone":"+7(926)720-1116",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"56",
+                    "title":"\u041d\u0430\u0447.\u0441\u043b.\u0430\u0443\u0434\u0438\u0442\u0430",
+                    "fio":"\u0422\u043e\u0447\u043d\u044b\u0445 \u0410.",
+                    "email":"tochnykh.ay@skiliks.com",
+                    "code":"15",
+                    "phone":"+7(926)720-1117",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"57",
+                    "title":"\u0421\u043f\u0435\u0446.\u0441\u043b.\u043a\u0430\u0434\u0440\u043e\u0432",
+                    "fio":"\u0421\u0435\u043c\u0435\u043d\u043e\u0432\u0430 \u041e.",
+                    "email":"semenova.oo@skiliks.com",
+                    "code":"16",
+                    "phone":"+7(926)720-1118",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"58",
+                    "title":"\u041e\u0442\u0434\u0435\u043b \u043f\u0435\u0440\u0441\u043e\u043d\u0430\u043b\u0430",
+                    "fio":"\u0410\u043d\u043d\u0430 \u0416\u0443\u043a\u043e\u0432\u0430",
+                    "email":"zhukova.ar@skiliks.com",
+                    "code":"17",
+                    "phone":"+7(926)720-1119",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"59",
+                    "title":"\u042e\u0440\u0438\u0441\u0442",
+                    "fio":"\u0410\u0434\u0432\u043e\u043a\u0430\u0442\u043e\u0432 \u042e.",
+                    "email":"advokatov.yv@skiliks.com",
+                    "code":"18",
+                    "phone":"+7(926)720-1120",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"60",
+                    "title":"\u0411\u0443\u0445\u0433\u0430\u043b\u0442\u0435\u0440",
+                    "fio":"\u0424\u0430\u0438\u043d\u0430 \u0413\u043e\u043b\u044c\u0446",
+                    "email":"golts.fe@skiliks.com",
+                    "code":"19",
+                    "phone":"+7(926)720-1121",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"61",
+                    "title":"\u0418\u0441\u043f.\u0434\u0438\u0440.\u0440\u0435\u0433. \u0414",
+                    "fio":"\u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0412.",
+                    "email":"kamenskiy.vp@region.skiliks.com",
+                    "code":"20",
+                    "phone":"+7(909)726-1528",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"62",
+                    "title":"\u041d\u0430\u0447.\u043f\u0440\u043e\u0434.\u0440\u0435\u0433.\u0410",
+                    "fio":"\u0412\u0430\u0441\u0438\u043b\u044c\u0435\u0432 \u0410.",
+                    "email":"vasiliev.aa@region.skiliks.com",
+                    "code":"21",
+                    "phone":"+7(915)124-6617",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"63",
+                    "title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434. \u0418\u0422",
+                    "fio":"\u042e\u0440\u0438\u0439 \u041c\u044f\u0433\u043a\u043e\u0432",
+                    "email":"myagkov.ys@skiliks.com",
+                    "code":"22",
+                    "phone":"+7(926)720-1122",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"64",
+                    "title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434.\u0440\u0435\u043a\u043b.",
+                    "fio":"\u041f\u0435\u0442\u0440\u0430\u0448\u0435\u0432\u0438\u0447 \u0418.",
+                    "email":"petrashevich.iv@skiliks.com",
+                    "code":"23",
+                    "phone":"+7(926)720-1150",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"65",
+                    "title":"\u0421\u043f\u0435\u0446.\u043e\u0442\u0434.\u043f\u0440\u043e\u0434\u0430\u0436",
+                    "fio":"\u0410\u043d\u0442\u043e\u043d \u0421\u0435\u0440\u043a\u043e\u0432",
+                    "email":"serkov.af@skiliks.com",
+                    "code":"24",
+                    "phone":"+7(926)720-1123",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"66",
+                    "title":"\u041a\u043b\u0438\u0435\u043d\u0442",
+                    "fio":"\u0414\u043e\u0431\u0440\u043e\u0445\u043e\u0442\u043e\u0432 \u0418.",
+                    "email":"dobrokhotov@gmail.com",
+                    "code":"25",
+                    "phone":"+7(915)828-1421",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"67",
+                    "title":"\u041a\u043e\u043d\u0441\u0443\u043b\u044c\u0442\u0430\u043d\u0442",
+                    "fio":"\u0410\u043d\u0436\u0435\u043b\u0430 \u0411\u043b\u0435\u0441\u043a",
+                    "email":"blesk@mckinsey.com",
+                    "code":"26",
+                    "phone":"+7(495)765-0051",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                },
+                {
+                    "id":"68",
+                    "title":"\u0421\u0443\u043f\u0440\u0443\u0433\u0430",
+                    "fio":"\u041b\u044e\u0431\u0438\u043c\u0430\u044f \u0436\u0435\u043d\u0430",
+                    "email":"lapochka@gmail.com",
+                    "code":"27",
+                    "phone":"+7(905)343-1722",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"69",
+                    "title":"\u0414\u0440\u0443\u0433",
+                    "fio":"\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d",
+                    "email":"petya1984@gmail.com",
+                    "code":"28",
+                    "phone":"+7(909)812-9243",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"70",
+                    "title":"\u0417\u043d\u0430\u043a\u043e\u043c\u044b\u0439",
+                    "fio":"\u041e\u043b\u0435\u0433 \u0421\u043a\u043e\u0440\u043a\u0438\u043d",
+                    "email":"ckorkin@gmail.com",
+                    "code":"29",
+                    "phone":"+7(926)544-5345",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"71",
+                    "title":"\u0411\u0440\u0430\u0442",
+                    "fio":"\u0421\u0435\u0440\u0435\u0433\u0430",
+                    "email":"serjio@gmail.com",
+                    "code":"30",
+                    "phone":"+7(905)818-0643",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"72",
+                    "title":"\u0413\u0414 \u041b\u0435\u0433\u043a\u0438\u0439 \u043f\u043e\u043b\u0435\u0442",
+                    "fio":"\u0421\u0442\u0435\u043f\u0430\u043d\u043e\u0432 \u0421.",
+                    "email":"stepanov@lpolet.com",
+                    "code":"31",
+                    "phone":"+7(909)989-9543",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"73",
+                    "title":"\u041e\u0434\u043d\u043e\u043a\u0443\u0440\u0441\u043d\u0438\u0446\u0430",
+                    "fio":"\u041c\u0430\u0440\u0438\u043d\u043a\u0430",
+                    "email":"marina_pet@gmail.com",
+                    "code":"32",
+                    "phone":"+7(909)121-7654",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"74",
+                    "title":"\u041e\u0440\u0433.\u043a\u043e\u043d\u0444\u0435\u0440\u0435\u043d\u0446\u0438\u0438",
+                    "fio":"\u041e.\u0418.\u0418\u0432\u0430\u043d\u043e\u0432\u0430",
+                    "email":"ivanova@businessanalytycs.com",
+                    "code":"33",
+                    "phone":"+7(915)675-0532",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"75",
+                    "title":"\u041e\u0445\u0440\u0430\u043d\u043d\u0438\u043a",
+                    "fio":"\u041e\u0445\u0440\u0430\u043d\u043d\u0438\u043a",
+                    "email":"",
+                    "code":"34",
+                    "phone":"+7(495)720-1225",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"76",
+                    "title":"\u0420\u0435\u043c\u043e\u043d\u0442 \u043a\u043e\u043d\u0434\u0438\u0446.",
+                    "fio":"\u0420\u0435\u043c\u043e\u043d\u0442 \u043a\u043e\u043d\u0434\u0438\u0446.",
+                    "email":"",
+                    "code":"35",
+                    "phone":"+7(495)720-1265",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"77",
+                    "title":"\u0428\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436",
+                    "fio":"\u0428\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436",
+                    "email":"",
+                    "code":"36",
+                    "phone":"+7(495)422-1187",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"78",
+                    "title":"\u0412\u0435\u0441\u044c \u043e\u0444\u0438\u0441",
+                    "fio":"\u0412\u0435\u0441\u044c \u043e\u0444\u0438\u0441",
+                    "email":"office@skiliks.com",
+                    "code":"37",
+                    "phone":"",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"79",
+                    "title":"\u041c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u044b",
+                    "fio":"\u041c\u0435\u043d\u0435\u0434\u0436\u0435\u0440\u044b",
+                    "email":"manager@skiliks.com",
+                    "code":"38",
+                    "phone":"",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"80",
+                    "title":"\u0412\u0441\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0438",
+                    "fio":"\u0412\u0441\u0435 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0438",
+                    "email":"analitics@skiliks.com",
+                    "code":"39",
+                    "phone":"",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"81",
+                    "title":"\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f",
+                    "fio":"\u041d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u0430\u044f",
+                    "email":"",
+                    "code":"40",
+                    "phone":"+7(495)811-1515",
+                    "has_mail_theme":"0",
+                    "has_phone_theme":"0"
+                },
+                {
+                    "id":"82",
+                    "title":"\u0413\u0414 \u041b\u0443\u0447",
+                    "fio":"\u0413\u043e\u0440\u0431\u0430\u0442\u044e\u043a \u0415.\u0414.",
+                    "email":"gorbatyuk@luch.com",
+                    "code":"41",
+                    "phone":"+7(495)248-1416",
+                    "has_mail_theme":"1",
+                    "has_phone_theme":"1"
+                }
+            ];
 
             _.templateSettings.interpolate = /<@=(.+?)@>/g;
             _.templateSettings.evaluate = /<@(.+?)@>/g;
@@ -233,7 +644,7 @@ define([
                             fileId:    "",
                             messageId: "1274",
                             phrases:   "",
-                            receivers: "9,",
+                            receivers: "50,",
                             subject:   "1278",
                             time:      "09:00",
                             letterType: "replyAll"
@@ -249,9 +660,10 @@ define([
                 SKApp.simulation.start();
                 server.respond();
                 var client = new SKMailClient();
-                //client.updateRecipientsList();
-                expect(client.getFormatedCharacterList()).toEqual(["Федоров А.В.", "Денежная Р.Р.", "Трутнев С.", "Крутько М.", "Лошадкин М.", "Босс В.С.", "Долгова Н.Т.", "Олег Разумный", "Скоробей А.М.", "Железный С.", "Василий Бобр", "Егор Трудякин", "Людовкина С.", "Василий Хозин", "Точных А.", "Семенова О.", "Анна Жукова", "Адвокатов Ю.", "Фаина Гольц", "Каменский В.", "Васильев А.", "Юрий Мягков", "Петрашевич И.", "Антон Серков", "Доброхотов И.", "Анжела Блеск", "Любимая жена", "Петр Погодкин", "Олег Скоркин", "Серега", "Степанов С.", "Маринка", "О.И.Иванова"]);
-           });
+                client.updateRecipientsList();
+                expect(client.getFormatedCharacterList()).toEqual(["Денежная Р.Р.", "Трутнев С.", "Крутько М.", "Босс В.С.", "Долгова Н.Т.", "Олег Разумный", "Скоробей А.М.", "Железный С.", "Василий Бобр", "Егор Трудякин", "Людовкина С.", "Василий Хозин", "Точных А.", "Адвокатов Ю.", "Каменский В.", "Юрий Мягков", "Петрашевич И.", "Доброхотов И.", "Анжела Блеск", "Все аналитики", "Горбатюк Е.Д."]);
+                server.respond();
+            });
         });
     });
 });

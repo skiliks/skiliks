@@ -23,8 +23,6 @@ class ManagementPeople_Test extends SeleniumTestHelper {
 
         $this->run_event('MS28');
         sleep(2);
-        //$this->run_event('E10',"xpath=(//*[contains(text(),'Сейчас попрошу своего аналитика найти и переслать вам бюджет.')])",'click');
-        //sleep(15);
 
         $this->run_event('T6.2',"xpath=(//*[contains(text(),'Марина, запиши, пожалуйста, важную информацию по презентации.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Нет-нет. Ее надо распечатать. Запиши, пожалуйста.')])");
@@ -56,6 +54,10 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         $this->optimal_click("xpath=(//*[contains(text(),'Я все понял. Запланирую подготовку служебки сегодня-завтра. Спасибо!')])");
 
 
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");
         $this->assertTrue($this->verify_flag('F14','1'));
         sleep(5);
@@ -67,10 +69,6 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         $this->optimal_click("xpath=(//*[contains(text(),'В таких случаях надо сразу же спрашивать у меня или у заказчика. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы же говорили, что в письмах людям выше тебя статусом я должен стоять в копии! ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо,  сейчас поговорю с ним и уточню задание! Но впредь учти – детализация задачи – часть твоей работы!')])");
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Какой план? Я бюджетом занят!')])");
@@ -138,26 +136,29 @@ class ManagementPeople_Test extends SeleniumTestHelper {
 
     public function testManagementPeople_Negative()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         //Delegation
 
-        $this->run_event('E10',"xpath=(//*[contains(text(),'Хорошо, сейчас найду и перешлю. ')])",'click');
-
+        $this->run_event('E10',"xpath=(//*[contains(text(),'Хорошо, сейчас найду и перешлю.')])",'click');
+        sleep(2);
         $this->run_event('E8.5',"xpath=(//*[contains(text(),'Сергей, нужна помощь! Возьми ручку и записывай. Готов?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Так, отложи в сторону своих логистов, мне всего пять твоих минут нужно.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебя не задержу. Надо написать служебку на имя Денежной на выделение средств за рамками бюджета на покупку нового сервера для отдела. Я тебе письмо от АйТишников перешлю – данные возьми оттуда.')])");
+        sleep(20);
 
         $this->run_event('ET12.2',"xpath=(//*[contains(text(),'Нет у меня никакой презентации. У Крутько спрашивайте. Она обещала, а не сделала.')])",'click');
+        sleep(2);
 
         $this->run_event('T7.1',"xpath=(//*[contains(text(),'Я по поводу задания от логистов по выгрузке данных. Трудякин просил сегодня! Ты его сделал?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну кто же так делает? Что же ты молчишь? У тебя задание уже два дня висит! ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Не ответил? А ты ему звонил?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Сергей, это твое задание! Ты должен выяснить детали у заказчика! Прямо сейчас и звони. Результат доложишь!')])");
+        sleep(2);
 
         $this->run_event('T7.1.1',"xpath=(//*[contains(text(),'Я сказал доложить о результате! А пока результата нет. Сообщишь мне задание, когда уточнишь его у Трудякина.')])",'click');
-
+        sleep(2);
         $this->run_event('M8');
         sleep(2);
         $this->run_event('MS21');
@@ -170,37 +171,49 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         sleep(2);
         $this->run_event('MS29');
         sleep(2);
-        $this->run_event('E8.3',"xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное!')])",'click');
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
+        $this->run_event('E8.3');
+        sleep(5);
+        $this->optimal_click("xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы. Это ведь форс-мажор?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Понял тебя, скажу своему аналитику, чтобы срочно служебку писал.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Понял тебя, скажу своему аналитику, чтобы срочно писал служебку.')])");
+        sleep(2);
 
         $this->run_event('E2',"xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать! А аналитика, который тогда напортачил, я уже уволил.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка.')])");
-
-        $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией для Генерального? ')])",'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией для Генерального? ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это хорошо, что задача ясна. Я бы хотел через час просмотреть промежуточный вариант. Пришли, пожалуйста.')])");
+        sleep(10);
 
         $this->run_event('T6.2',"xpath=(//*[contains(text(),'Марина, запиши, пожалуйста, важную информацию по презентации.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты! Конечно нет. Он просит распечатать презентации. Передай, пожалуйста, его секретарю сорок экземпляров к пяти вечера в среду')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'По-моему, в семнадцать.')])");
+        sleep(2);
 
         // Feedback
         $this->run_event('T5.2',"xpath=(//*[contains(text(),'Марина, я посмотрел презентацию, все по делу.  Замечаний у меня нет. Продолжай.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Я дам тебе знать, что думает Босс, после встречи с ним. ')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'')])");
+        sleep(2);
 
         $this->run_event('E13',"xpath=(//*[contains(text(),'Марина, могу я чем-то помочь?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Кхе….кхе…')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Вот это новость! Ты, наверное, устала. Я понимаю, что бюджетная пора не из легких. Потому давай мы все обсудим после моего отпуска. Ты пока остынешь, отдохнешь и поразмыслишь как следует. Извини, мне на совещание.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Ну что же, если решение окончательное, то не стоит терять время. Мне очень жаль. Пойду – еще успею на совещание.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Вот это новость! Ты, наверное, устала.')])");
+        sleep(2);
 
         // Optimal_person
         $this->run_event('RS1.1',"xpath=(//*[contains(text(),'Привет, Сергей! Ты очень занят?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Понимаю. Много времени моя просьба не займет. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах. Сбегай в шиномонтаж на нашей улице – забери мою машину, пожалуйста. Я совсем никак не могу вырваться.  ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, заскочи, только быстро! Работа не должна страдать. ')])");
+        sleep(2);
 
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я, а Трутнев. Я непременно проверю в следующий раз.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, я готовлю презентацию для Босса, попрошу Трутнева поправить ошибку  в ближайшее время и переслать вам файл.')])");
+        sleep(2);
 
         $this->run_event('MS54');
         sleep(2);
@@ -214,7 +227,7 @@ class ManagementPeople_Test extends SeleniumTestHelper {
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(30);
+        sleep(180);
         //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
         //$this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[1]/td[4]","0");
         //$this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[2]/td[4]","0");
@@ -257,8 +270,7 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         $this->optimal_click("xpath=(//*[contains(text(),'Да, чем могу помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я не могу уйти, мне надо отпрашиваться у руководителя!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас от меня придет человек.')])");
-
-        $this->run_event('RS1.1',"xpath=(//*[contains(text(),'Доброе утро, Сергей! Нужна твоя помощь!')])",'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Доброе утро, Сергей! Нужна твоя помощь!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Понимаю. Много времени моя просьба не займет. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах. Сбегай в шиномонтаж на нашей улице – забери мою машину, пожалуйста. Я совсем никак не могу вырваться.  ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, заскочи, только быстро! Работа не должна страдать. ')])");
