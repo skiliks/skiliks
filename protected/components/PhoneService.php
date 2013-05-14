@@ -318,6 +318,9 @@ class PhoneService {
                     // создадим событие
                     EventService::addByCode($dialog->next_event_code, $simulation, $simulation->getGameTime());
                 }
+
+                // Log income replica
+                LogHelper::setReplicaLog($dialog, $simulation);
             }
             $data[] = DialogService::dialogToArray($dialog);
         }
