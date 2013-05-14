@@ -649,6 +649,7 @@ define([
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
                         var emailId = $(event.currentTarget).data().emailId;
                         var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
+                        console.log('email:', email);
                         if (email.isDraft()) {
                             SKApp.server.api(
                                 'mail/edit',
@@ -1225,6 +1226,7 @@ define([
                 if (undefined === draftEmail) {
                     this.updateSubjectsList();
                 } else {
+                    console.log('draftEmail.subject:' ,draftEmail.subject);
                     this.mailClient.availableSubjects.push(draftEmail.subject);
                     mailClientView.updateSubjectsList(true);
                 }
@@ -1454,11 +1456,16 @@ define([
 
                 var me = this;
 
+                var selectedText = "Нет темы.";
+                if (true === g_forceAllowChangeSubject) {
+                    selectedText = subject.text;
+                }
+
                 var g_forceAllowChangeSubject = forceAllowChangeSubject;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
-                    selectText: "Нет темы.",
+                    selectText: selectedText,
                     imagePosition: "left",
                     onSelected: function () {
                         if (true !== g_forceAllowChangeSubject) {
@@ -1468,6 +1475,17 @@ define([
                 });
 
                 if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL') {
+//                    if (true === g_forceAllowChangeSubject) {
+//                        var subject;
+//                        _.each(subjects_list, function(item) {
+//                            subject = item;
+//                        });
+//                        console.log('subject:', subject);
+//                        this.$("#MailClient_NewLetterSubject").ddslick('select', {'index': subject.value });
+//                    } else {
+//                        this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
+//                    }
+
                     this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
                 }
 
@@ -2379,6 +2397,7 @@ define([
              * @method clearSubject
              */
             clearSubject:function(){
+                console.log('clearSubject');
 
                 var subjects_list = [{
                         text: "без темы.",
