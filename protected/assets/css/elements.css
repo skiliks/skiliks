@@ -746,14 +746,18 @@ section.registration-by-link .form .row a.decline-link:hover {
     padding:0;
     border-radius:8px;
     overflow:hidden;
-    height:416px !important;
+    height:450px !important;
 }
 .popup-video .iframe-video iframe {
     width:100%;
     height:100%;
 }
+@media screen and (max-width: 1280px){
+    .popup-video .iframe-video {
+        height:370px !important;
+    }
+}
 /* :hover кнопок */
-/* hover кнопок */
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
 #registration-by-link-form input[type="submit"]:hover,
