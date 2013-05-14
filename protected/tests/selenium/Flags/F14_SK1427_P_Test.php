@@ -89,11 +89,11 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        // tests to checking the actions after F14 = 1 (DIALOG)
+        /*// tests to checking the actions after F14 = 1 (DIALOG)
         $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
 
         //$this->waitForVisible("xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
 
     }
 
@@ -134,14 +134,14 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        // tests to checking the actions after F14 = 1 (REPLICA)
+        /*// tests to checking the actions after F14 = 1 (REPLICA)
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         // через 10 минут звонок ET12.3
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
     }
 
     /**
@@ -182,7 +182,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
+        /*$this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
 
         // запускается ET12.2
@@ -192,7 +192,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
     }
 
     /**
@@ -233,8 +233,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        /*$this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);*/
 
     }
 }
