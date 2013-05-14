@@ -176,7 +176,13 @@ define([
                                     me.mailClient.activeScreen === me.mailClient.screenSendedList ||
                                     me.mailClient.activeScreen === me.mailClient.screenTrashList
                                 )) {
-                            me.doRenderFolder(me.mailClient.aliasFolderInbox, false, true);
+
+                            var isSwitchToFirstEmail = false;
+                            if (undefined === me.mailClient.activeEmail || null === undefined === me.mailClient.activeEmail) {
+                                isSwitchToFirstEmail = true;
+                            }
+
+                            me.doRenderFolder(me.mailClient.aliasFolderInbox, isSwitchToFirstEmail, true);
                         }
                         me.mailClient.trigger('mail:update_inbox_counter');
                     };
