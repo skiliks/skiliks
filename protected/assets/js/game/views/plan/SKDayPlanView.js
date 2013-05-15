@@ -354,9 +354,10 @@ define([
                 },
                 'drop':function (event, ui) {
                     me.$('.planner-book-after-vacation .day-plan-td-slot').each(function () {
-                        var duration = ui.draggable.attr('data-task-duration');
-                        var day = $(this).parents('div[data-day-id]').attr('data-day-id');
-                        var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+                        var duration = ui.draggable.attr('data-task-duration'),
+                            day = $(this).parents('div[data-day-id]').attr('data-day-id'),
+                            time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+
                         if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
                             // Reverting old element location
                             var task_id = ui.draggable.attr('data-task-id');
@@ -375,7 +376,7 @@ define([
                                 title:ui.draggable.find('.title').text(),
                                 date:time,
                                 task_id:task_id,
-                                duration:ui.draggable.attr('data-task-duration'),
+                                duration:duration,
                                 day:day
                             });
                             return false;
