@@ -641,7 +641,7 @@ define([
         doSaveTomorrowPlan: function() {
             SKApp.simulation.savePlan(function() {
                 var dialog = new SKDialogView({
-                    message: 'Ваш план на завтра успешно сохранен',
+                    message: 'Ваш план успешно сохранен',
                     buttons: [{
                         id: 'close',
                         value: 'Ok'

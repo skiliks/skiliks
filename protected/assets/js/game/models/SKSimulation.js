@@ -321,12 +321,20 @@ define([
             },
 
             savePlan: function(callback) {
-                var me = this;
+                var me = this,
+                    doc;
+
+                if (me.dayPlanDocId) {
+                    doc = me.documents.where({id: me.dayPlanDocId})[0];
+                    delete SKDocument._excel_cache[me.dayPlanDocId];
+                    me.documents.remove(doc);
+                }
 
                 SKApp.server.api('dayPlan/save', {}, function(response) {
                     me.documents.fetch();
 
                     me.once('documents:loaded', function() {
+                        me.dayPlanDocId = response.docId;
                         if (typeof callback === 'function') {
                             callback(response);
                         }
