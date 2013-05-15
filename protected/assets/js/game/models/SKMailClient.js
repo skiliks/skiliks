@@ -1234,6 +1234,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 // email.sunbject
                 if (false === emailToSave.isSubjectValid()) {
+                    console.log('Invalid subject', emailToSave.subject);
                     mailClient.message_window = new SKDialogView({
                         'message':'Укажите тему письма.',
                         'buttons':[
