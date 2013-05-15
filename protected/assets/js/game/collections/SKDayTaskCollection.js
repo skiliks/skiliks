@@ -48,9 +48,6 @@ define(["game/models/SKDayTask"], function () {
             if (parseInt(day, 10) === 1 && start_time < SKApp.simulation.getGameMinutes()) {
                 return false;
             }
-            if (end_time > 22 * 60) {
-                return false;
-            }
             this.each(function (task) {
                 if (task.get('day') !== day) {
                     return;

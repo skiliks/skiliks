@@ -13,6 +13,11 @@
  * @property boolean $is_corporate_email_verified
  * @property datetime $corporate_email_verified_at
  * @property boolean $corporate_email_activation_code
+ * @property string $inn
+ * @property string $cpp
+ * @property string $bank_account_number
+ * @property string $bic
+ * @property string $preference_payment_method
  *
  * The followings are the available model relations:
  * @property User $user
@@ -21,6 +26,8 @@
  */
 class UserAccountCorporate extends CActiveRecord
 {
+    const PaymentMethodInvoice = "invoice";
+    const PaymentMethodCard = "card";
     public function getTariffLabel()
     {
         return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();

@@ -1386,8 +1386,6 @@ define([
 
                 this.delegateEvents();
 
-
-
                 this.mailClient.setWindowsLog('mailNew');
             },
 
@@ -1596,6 +1594,7 @@ define([
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
                 mailClient.newEmailUsedPhrases = [];
                 if (mailClient.activeEmail && mailClient.activeEmail.phrases.length) {
+                    console.log('mailClient.activeEmail.phrases: ', mailClient.activeEmail.phrases);
                     mailClient.activeEmail.phrases.forEach(function(phraseId) {
                         var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId);
                         var phraseToAdd = new SKMailPhrase();
@@ -1883,11 +1882,16 @@ define([
                                 {
                                     'value': 'Продолжить',
                                     'onclick': function () {
-                                        mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
-                                        mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
+                                        mailClient.activeEmail.phrases = [];
+                                        console.log('mailClient.activeEmail.phrases: (clean): ', mailClient.activeEmail.phrases);
+
+                                        //mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
+                                        //mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
                                         mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
 
-                                            $('#mailEmulatorNewLetterText').html('');
+                                            console.log('clean-up phrases.', mailClientView.$('#mailEmulatorNewLetterText'));
+                                            mailClientView.$('#mailEmulatorNewLetterText').html('');
+                                            mailClientView.$('#mailEmulatorNewLetterText li').remove();
 
                                         });
                                         delete mailClient.message_window;
