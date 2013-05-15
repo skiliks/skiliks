@@ -465,6 +465,9 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals('MS60', $subject->letter_number);
     }
 
+    /**
+     *
+     */
     public function testGetMessage()
     {
         // init simulation
@@ -517,6 +520,9 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(count($recipients), count(explode(',', $foundMessage['receiver'])));
     }
 
+    /**
+     *
+     */
     public function testSendMessagePro()
     {
         // init simulation
@@ -585,6 +591,9 @@ class MailBoxTest extends CDbTestCase
         $this->assertSame($subject->id, $sentMessage->subject_id);
     }
 
+    /**
+     *
+     */
     public function testMessageBoxCounter()
     {
         // init simulation
@@ -611,6 +620,9 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(1, $unread[MailBox::FOLDER_TRASH_ID]);
     }
 
+    /**
+     *
+     */
     public function testUpdateMessage() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -652,7 +664,6 @@ class MailBoxTest extends CDbTestCase
         $email = MailBoxService::saveDraft($sendMailOptions);
 
         unset($recipients);
-        unset($copies);
         unset($subject);
         unset($phrases);
         unset($constructor);
@@ -660,8 +671,6 @@ class MailBoxTest extends CDbTestCase
         unset($attach);
         $recipients = [];
         $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Босс В.С.'])->id;
-
-        $copies = [];
 
         $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=> 1, 'text'=>'Индексация ЗП']);
 
