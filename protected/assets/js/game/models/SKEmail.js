@@ -166,6 +166,13 @@ define([] ,function() {
          */
         isSubjectValid: function() {
             // keep not strong compartion in non strong way!
+            if (undefined === this.subject) { console.log('this.subject is undefined!') };
+            if (undefined === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is undefined!') };
+            if (0 === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId = 0 !') };
+            if ('0' === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is "0"!') };
+            if ('' === this.subject.text) { console.log('this.subject.text is empty text!') };
+            if (undefined === this.subject.text) { console.log('this.subject.text is undefined!') };
+
             return (undefined !== this.subject &&
                 undefined !== this.subject.characterSubjectId && 
                 '0' !== this.subject.characterSubjectId && 
