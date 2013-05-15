@@ -948,6 +948,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             // clean up list
                             SKApp.simulation.mailClient.availableSubjects = [];
 
+                            // clean up phrases {
+                            if (SKApp.simulation.mailClient.activeEmail) {
+                                SKApp.simulation.mailClient.activeEmail.phrases = [];
+                            }
+                            // clean up phrases }
+
                             for (var i in response.data) {
                                 var string = response.data[i];
 
