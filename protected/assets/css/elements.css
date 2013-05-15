@@ -472,7 +472,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 #add-vacancy-form .errorMessage {top:-15px;left:185px;}
 #account-personal-personal-form .YumProfile_firstname {top:-15px;left:185px;}
 #account-personal-personal-form .YumProfile_lastname {top:-15px;left:335px;}
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     #account-corporate-personal-form .errorMessage.profile_firstname {left:157px;}
     #account-corporate-personal-form .errorMessage.profile_lastname {left:328px;}
     #add-vacancy-form .errorMessage {left:155px;}
@@ -495,7 +495,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-15px;
     left:3px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     #login-form.login-form .errorMessage#YumUserLogin_password_em_ {top:-13px;}
 }
 #password-recovery-form {
@@ -683,7 +683,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     font:normal 15px/20px "ProximaNova-Regular";
     margin: 0 0 15px 0;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .flash-message-popup {
         margin:0 0 0 -225px;
         width: 450px !important;
@@ -752,7 +752,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     width:100%;
     height:100%;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .popup-video .iframe-video {
         height:385px !important;
     }
