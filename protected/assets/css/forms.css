@@ -550,6 +550,9 @@ span.required {
     background: rgba(0, 0, 0, .55) !important;
     opacity: 1;
 }
+.action-recovery.action-controller-recovery-static-userAuth .ui-widget-overlay {
+    background: none !important;
+}
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
