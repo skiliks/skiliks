@@ -364,20 +364,6 @@ define([
                 });
             },
 
-            savePlan: function(callback) {
-                var me = this;
-
-                SKApp.server.api('dayPlan/save', {}, function(response) {
-                    me.documents.fetch();
-
-                    me.once('documents:loaded', function() {
-                        if (typeof callback === 'function') {
-                            callback(response);
-                        }
-                    });
-                });
-            },
-
             /**
              * Returns number of minutes past from the start of game
              *
