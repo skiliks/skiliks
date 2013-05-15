@@ -3,7 +3,7 @@
         var iframesrc = $(".iframe-video iframe").attr("src");
         var iframesrcautoplay = iframesrc +'?autoplay=1';
 
-        var popupwidth = $("header").width() * 0.85;
+        var popupwidth = $("header").width() * 0.9;
         var video = $(".iframe-video-wrap").html();
 
 
@@ -15,9 +15,17 @@
                 width: popupwidth,
                 dialogClass:"popup-video",
                 position: {
-                    my: "left top",
-                    at: "left bottom",
+                    my: "center top",
+                    at: "center bottom",
                     of: $('header')
+                },
+                show: {
+                    effect: "clip",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "puff",
+                    duration: 500
                 }
             });
             $(".iframe-video iframe").attr("src",iframesrcautoplay);

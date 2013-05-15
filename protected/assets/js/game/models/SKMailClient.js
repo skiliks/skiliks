@@ -358,8 +358,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 this.folders[folderAlias].emails = [];
 
                 _.forEach(emailsData, function(emailData) {
-                    var subject = new SKMailSubject();
-                    subject.text = emailData.subject;
+                    var subject                = new SKMailSubject();
+                    subject.text               = emailData.subject;
+                    subject.id                 = emailData.subjectId;
+                    subject.characterSubjectId = emailData.subjectId;
 
                     var email               = new SKEmail();
                     email.folderAlias       = folderAlias;
@@ -1232,6 +1234,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 // email.sunbject
                 if (false === emailToSave.isSubjectValid()) {
+                    console.log('Invalid subject', emailToSave.subject);
                     mailClient.message_window = new SKDialogView({
                         'message':'Укажите тему письма.',
                         'buttons':[

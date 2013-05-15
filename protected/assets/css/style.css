@@ -4477,3 +4477,6 @@ ul.profile-menu li {
     display: none;
 }
 
+.action-controller-index-static-pages .container{
+    overflow: hidden;
+}

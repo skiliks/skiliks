@@ -176,7 +176,13 @@ define([
                                     me.mailClient.activeScreen === me.mailClient.screenSendedList ||
                                     me.mailClient.activeScreen === me.mailClient.screenTrashList
                                 )) {
-                            me.doRenderFolder(me.mailClient.aliasFolderInbox, false, true);
+
+                            var isSwitchToFirstEmail = false;
+                            if (undefined === me.mailClient.activeEmail || null === undefined === me.mailClient.activeEmail) {
+                                isSwitchToFirstEmail = true;
+                            }
+
+                            me.doRenderFolder(me.mailClient.aliasFolderInbox, isSwitchToFirstEmail, true);
                         }
                         me.mailClient.trigger('mail:update_inbox_counter');
                     };
@@ -649,6 +655,7 @@ define([
                     if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
                         var emailId = $(event.currentTarget).data().emailId;
                         var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
+                        console.log('email:', email);
                         if (email.isDraft()) {
                             SKApp.server.api(
                                 'mail/edit',
@@ -1203,6 +1210,7 @@ define([
              * @method
              */
             renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
+                this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                 this.mailClient.newEmailUsedPhrases = [];
                 this.mailClient.availableSubjects = [];
                 var mailClientView = this;
@@ -1224,6 +1232,7 @@ define([
                 if (undefined === draftEmail) {
                     this.updateSubjectsList();
                 } else {
+                    console.log('draftEmail.subject:' ,draftEmail.subject);
                     this.mailClient.availableSubjects.push(draftEmail.subject);
                     mailClientView.updateSubjectsList(true);
                 }
@@ -1377,7 +1386,7 @@ define([
 
                 this.delegateEvents();
 
-                this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
+
 
                 this.mailClient.setWindowsLog('mailNew');
             },
@@ -1454,17 +1463,38 @@ define([
                 var me = this;
 
                 var g_forceAllowChangeSubject = forceAllowChangeSubject;
-                this.$("#MailClient_NewLetterSubject").ddslick({
-                    data: subjects_list,
-                    width: '100%',
-                    selectText: "Нет темы.",
-                    imagePosition: "left",
-                    onSelected: function () {
-                        if (true !== g_forceAllowChangeSubject) {
-                            me.doUpdateMailPhrasesList();
+
+//                var selectedText = "без темы.";
+                if (true === g_forceAllowChangeSubject) {
+//                    var subject;
+//                    _.each(subjects_list, function(item) {
+//                        subject = item;
+//                    });
+//                    console.log('subjectXX: ', subject);
+//                    selectedText = subject.text;
+                    this.$("#MailClient_NewLetterSubject").ddslick({
+                        data: subjects_list,
+                        width: '100%',
+                        imagePosition: "left",
+                        onSelected: function () {
+                            if (true !== g_forceAllowChangeSubject) {
+                                me.doUpdateMailPhrasesList();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    this.$("#MailClient_NewLetterSubject").ddslick({
+                        data: subjects_list,
+                        width: '100%',
+                        selectText: "без темы.",
+                        imagePosition: "left",
+                        onSelected: function () {
+                            if (true !== g_forceAllowChangeSubject) {
+                                me.doUpdateMailPhrasesList();
+                            }
+                        }
+                    });
+                }
 
                 if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL') {
                     this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
@@ -2378,6 +2408,7 @@ define([
              * @method clearSubject
              */
             clearSubject:function(){
+                console.log('clearSubject');
 
                 var subjects_list = [{
                         text: "без темы.",
@@ -2390,7 +2421,7 @@ define([
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
-                    selectText: "Нет темы.",
+                    selectText: "без темы.",
                     imagePosition: "left",
                     onSelected: function () {}
                 });
