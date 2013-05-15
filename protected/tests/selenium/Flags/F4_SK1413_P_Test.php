@@ -33,17 +33,12 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.1');
-
-        //$this->transfer_time(0);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -80,13 +75,10 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
@@ -131,17 +123,12 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.2');
-
-        //$this->transfer_time(0);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -185,8 +172,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 

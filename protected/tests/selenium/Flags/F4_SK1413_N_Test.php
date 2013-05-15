@@ -36,8 +36,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
-
         $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.1');
@@ -74,8 +72,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
-
         $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.2');
@@ -111,8 +107,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','0'));
 
