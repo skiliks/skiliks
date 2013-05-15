@@ -294,7 +294,7 @@ span.required {
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 232px -66px;
+    background: url("../img/menuarrows.png") no-repeat 236px -65px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -304,7 +304,7 @@ span.required {
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 232px 16px;
+    background-position: 236px 17px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
@@ -673,6 +673,7 @@ span.required {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
     padding-left: 15px;
+    top:205px !important;
     width:688px !important;
 }
 .feedbackwrap .ui-widget-header {
@@ -731,7 +732,7 @@ span.required {
 }
 /* **************************** /FEEDBACK **************************** */
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .registerpads {
         padding: 10px 0px 20px 20px;
     }

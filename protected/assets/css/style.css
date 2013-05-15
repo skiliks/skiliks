@@ -91,7 +91,7 @@ body.inner-registration {
     background: url("../img/bg-top-registration.jpg");
 }
 */
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
@@ -122,7 +122,7 @@ body.inner-registration {
 	height:966px;
 	*/
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
@@ -159,7 +159,7 @@ a:focus, a:active {
 .action-controller-index-static-pages .container .content{
 	height:1167px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.content{
         /* width:945px; width:925px;  */
 		padding-bottom:310px;
@@ -315,7 +315,7 @@ a:focus, a:active {
 .sbOptions .sbSub{
 	padding-left: 17px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.sbHolder {
 		height:17px;
 		font-size:11px;
@@ -446,7 +446,7 @@ a:focus, a:active {
 	background:rgba(20,102,114,1);
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.container>header{
 		width:765px;
 	}
@@ -535,7 +535,7 @@ a:focus, a:active {
 	left:50%;
 	margin-left:-610px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.heroes-comment{
 		display:none;
 	}
@@ -650,7 +650,7 @@ html[lang=ru] .features form div input[type=submit]{
 	margin-top:23px;
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.features{
         margin-left: 92px;
 		width:670px;
@@ -667,6 +667,7 @@ html[lang=ru] .features form div input[type=submit]{
     }
 	.features .video{
 		background-image:url("../img/img-video-min.png");
+        background-size:cover;
 		margin-top:30px;
 	}
     .features .video, .features .video iframe {
@@ -765,7 +766,7 @@ html[lang=ru] .main-article article{
 	line-height:1.500em;
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.main-article{
 		width:380px;
 		margin-left:283px;
@@ -804,7 +805,7 @@ html[lang=ru] .main-article article{
 .clients ul li a{
 	display:block;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.clients{
         margin-left: 20px;/* */
 		margin-top:104px;
@@ -942,7 +943,7 @@ html[lang=ru] .product section table th{
 .feedbackwrap .ui-dialog-titlebar-close {
     right:-22px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.product{
 		margin-top:0px;
 	}
@@ -1112,7 +1113,7 @@ html[lang=ru] .product section table th{
 	background:none;
 	padding-top:0;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.team-page{
 	    background:url("../img/bg-team-container-min.png") no-repeat center 608px;
 	}
@@ -1388,7 +1389,7 @@ html[lang=ru] .product section table th{
 	color:#fff;
 	margin-top:34px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.inner-registration .content{
 		width:765px;
 	}
@@ -1628,7 +1629,7 @@ html[lang=ru] .product section table th{
 .register-by-link .row .cancel:hover{
 	border-color:transparent;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.register-by-link{
 		background:url("../img/bg-register-by-link-min.png") no-repeat 0 0;
 		width:639px;
@@ -1698,7 +1699,7 @@ html[lang=ru] .product section table th{
 	margin-top:145px;
 	padding:0 8px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.footer footer .backtotop{
 		margin-top:108px;
 	}
@@ -1843,7 +1844,7 @@ html[lang="en"] .footer .social_networks {
 .smallicons .addthis_toolbox {
     float: right;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .videosocwrap {
         margin-top:-20px;
     }
@@ -1878,7 +1879,7 @@ html[lang="en"] .footer .social_networks {
 	line-height:1.167em;
 	margin-top:20px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
 		margin-top:-310px;
@@ -2173,7 +2174,8 @@ html[lang="en"] .footer .social_networks {
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon {
+.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon,
+.feedbackwrap .ui-widget-header .ui-icon {
     display: block;
     margin: 0;
     height: 100%;
@@ -2185,7 +2187,7 @@ html[lang="en"] .footer .social_networks {
 .cabmessage .ui-dialog-titlebar-close:hover, .add-vacancy-popup .ui-widget-header .ui-icon:hover {
     background-position: 0 100%;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .sing-in-pop-up,
     .popup-recovery-view,
     { /*.change_pass-pop-up */
@@ -2213,16 +2215,19 @@ html[lang="en"] .footer .social_networks {
     .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+    .feedbackwrap .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
         background-image:url("../img/closepopup-min.png");
         height:22px;
         width:22px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close {
+    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close,
+    .feedbackwrap .ui-dialog-titlebar-close {
         top: -19px;
         right: -22px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
+    .feedbackwrap .ui-icon-closethick:hover {
         background-position: 0 -22px;
     }
     .ui-dialog .ui-dialog-title /*.add-vacancy-popup h1 */  {
@@ -3461,7 +3466,7 @@ ul.profile-menu li {
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .narrow-contnt {
         margin-left: 10px;
     }
