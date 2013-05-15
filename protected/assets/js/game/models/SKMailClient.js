@@ -107,8 +107,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             ],
 
             iconsForEditDraftDraftScreenArray:[
-                'SAVE_TO_DRAFTS',
-                'SEND_DRAFT_EMAIL'
+                'SAVE_TO_DRAFTS'
             ],
 
             iconsForSendedScreenArray:[
