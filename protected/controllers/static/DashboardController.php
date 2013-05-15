@@ -272,7 +272,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
     {
         $this->checkUser();
         $invite = Invite::model()->findByPk($inviteId);
-
+        /* @var $invite Invite */
         $user = Yii::app()->user;
         if (null === $user) {
             Yii::app()->user->setFlash('success', sprintf(
@@ -298,18 +298,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/dashboard');
         }
 
-        $firstname = $invite->firstname;
-        $lastname  = $invite->lastname;
+        if ($invite->isStarted()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'Начато'."
+            ));
+            $this->redirect('/dashboard');
+        }
 
         $invite->delete();
 
         $user->getAccount()->increaseLimit($invite);
-
-        /*Yii::app()->user->setFlash('success', sprintf(
-            "Приглашение для %s %s удалено!",
-            $firstname,
-            $lastname
-        ));*/
 
         $this->redirect('/dashboard');
     }
