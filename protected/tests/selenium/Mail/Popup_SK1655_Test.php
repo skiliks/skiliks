@@ -34,7 +34,8 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
         $this->checkPopup('Добавьте адресата письма.');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
 

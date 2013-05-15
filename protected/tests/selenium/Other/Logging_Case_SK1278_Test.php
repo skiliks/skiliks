@@ -36,7 +36,7 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $this->write_email();
 
         $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-
+        sleep(5);
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
         $this->optimal_click($krutko);
