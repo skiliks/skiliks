@@ -26,9 +26,9 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        //жесть
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
+        sleep(5);
         //добавляем адресата
         $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
@@ -103,7 +103,8 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForTextPresent("Fwd: Re: Re: Re: Срочно жду бюджет логистики");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
 
@@ -142,7 +143,8 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForTextPresent("Fwd: вакцинация!");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
 

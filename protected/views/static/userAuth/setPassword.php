@@ -31,6 +31,7 @@
     $('.change_pass').dialog({
         closeOnEscape: true,
         dialogClass: 'change_pass-pop-up',
+        draggable: false,
         minHeight: 220,
         modal: true,
         resizable: false,
