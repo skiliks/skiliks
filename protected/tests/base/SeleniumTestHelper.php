@@ -59,7 +59,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
+            if ($second >= 6000) $this->fail("timeout");
             try {
                 if ($this->isVisible($next_event))
                 {
