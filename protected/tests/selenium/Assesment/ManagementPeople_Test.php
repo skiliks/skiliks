@@ -227,7 +227,7 @@ class ManagementPeople_Test extends SeleniumTestHelper {
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(180);
+        sleep(30);
         //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
         //$this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[1]/td[4]","0");
         //$this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[2]/td[4]","0");
