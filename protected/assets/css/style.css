@@ -75,6 +75,7 @@ body {
 	text-align: left;
 	font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 	line-height:14px;
+    min-height: 700px;
 }
 body.inner,
 body.inner-registration {
