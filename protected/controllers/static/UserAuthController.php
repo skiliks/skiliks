@@ -115,7 +115,7 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
-            Yii::app()->user->setFlash('error', 'У приглашения истек срок давности.');
+            Yii::app()->user->setFlash('error', 'Истёк срок ожидания ответа на приглашение');
             $this->redirect('/');
         }
 
