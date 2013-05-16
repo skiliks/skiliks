@@ -1980,7 +1980,7 @@ html[lang="en"] .footer .social_networks {
 }
 .change_pass-pop-up div input[type=password], #change-password-form input.error:focus {
     height: 26px;
-    width:202px;
+    width:201px;
 }
 .change_pass-pop-up div input[type=password], .change_pass #change-password-form input[type="submit"]  {
     float: left;
