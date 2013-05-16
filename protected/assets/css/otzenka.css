@@ -22,7 +22,8 @@
     padding-bottom: 30px;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
-.action-controller-corporate-static-dashboard #simulation-details-pop-up {
+.action-controller-corporate-static-dashboard #simulation-details-pop-up,
+.action-corporate #simulation-details-pop-up {
     /*padding: 10px;*/
     padding: 0px;
 }
