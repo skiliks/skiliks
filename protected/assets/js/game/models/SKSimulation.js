@@ -422,6 +422,7 @@ define([
                     var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
+                        console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);

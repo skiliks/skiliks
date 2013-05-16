@@ -485,6 +485,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var onSent = function () {
                     folder_to_load -= 1;
                     if (folder_to_load === 0) {
+                        console.log('trigger init_completed');
                         me.trigger('init_completed');
                     }
                     return folder_to_load;
