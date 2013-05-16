@@ -498,8 +498,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
         $vacancy->delete();
 
-        Yii::app()->user->setFlash('error', sprintf('Вакансия %s удалена.', $vacancy->label));
-
         $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
     }
 }

@@ -111,9 +111,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
-                //Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
             } else {
-                //Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
             }
         }
         // handle send invitation }

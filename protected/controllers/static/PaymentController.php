@@ -25,6 +25,36 @@ class PaymentController extends AjaxController
         ]);
     }
 
+    public function actionDo()
+    {
+        /** @var YumUser $user */
+        $user = Yii::app()->user->data();
+
+        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
+            $this->redirect('/');
+        }
+
+        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $account = $user->account_corporate;
+
+        if (null !== $UserAccountCorporate) {
+            $account->preference_payment_method = $UserAccountCorporate['preference_payment_method'];
+            $account->inn = $UserAccountCorporate['inn'];
+            $account->cpp = $UserAccountCorporate['cpp'];
+            $account->bank_account_number = $UserAccountCorporate['bank_account_number'];
+            $account->bic = $UserAccountCorporate['bic'];
+
+            $errors = CActiveForm::validate($account);
+
+            if (Yii::app()->request->getParam('ajax') === 'payment-form') {
+                echo $errors;
+            } elseif (!$account->hasErrors()) {
+                $account->save();
+                echo 'success';
+            }
+        }
+    }
+
     public function actionChangeTariff($type = null)
     {
         $user = Yii::app()->user->data();
