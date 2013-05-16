@@ -745,18 +745,24 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             setWindowsLog:function (newSubscreen, emailId) {
                 var window = this.getSimulationMailClientWindow();
-                var oldMailId = window.get('params') && window.get('params').mailId;
+                var oldSubwindowKey, newSubwindowKey;
+                if (window.get('params') && window.get('params').mailId) {
+                    oldSubwindowKey = window.get('subname')  + '/' + window.get('params').mailId;
+                }
+                if (emailId) {
+                    newSubwindowKey = newSubscreen  + '/' + emailId;
+                }
                 window.setOnTop();
-                if (oldMailId && !this.emailUIDs[oldMailId]) {
-                        this.emailUIDs[oldMailId] = window.window_uid;
+                if (oldSubwindowKey && !this.emailUIDs[oldSubwindowKey]) {
+                        this.emailUIDs[oldSubwindowKey] = window.window_uid;
                 }
                 SKApp.simulation.windowLog.deactivate(window);
-                if (emailId) {
-                    if (this.emailUIDs[emailId]) {
-                        window.window_uid = this.emailUIDs[emailId];
+                if (newSubwindowKey) {
+                    if (this.emailUIDs[newSubwindowKey]) {
+                        window.window_uid = this.emailUIDs[newSubwindowKey];
                     } else {
                         window.updateUid();
-                        this.emailUIDs[emailId] = window.window_uid;
+                        this.emailUIDs[newSubwindowKey] = window.window_uid;
                     }
                 } else {
                     window.updateUid();
