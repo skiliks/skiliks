@@ -578,28 +578,42 @@ define([
          * @method
          */
         doMinimizeTodo:function () {
-            this.$('.plan-todo').removeClass('open').removeClass('middle').addClass('closed');
-            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('half').addClass('full');
-            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
+
+            me.$('.plan-todo').removeClass('open middle').addClass('closed');
+            me.$('.planner-book-afterv-table').removeClass('closed half').addClass('full');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            setTimeout(function() {
+                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
+            }, 1000);
         },
 
         /**
          * @method
          */
         doMaximizeTodo:function () {
-            this.$('.plan-todo').removeClass('closed').removeClass('middle').addClass('open');
-            this.$('.planner-book-afterv-table').removeClass('full').removeClass('half').addClass('closed');
-            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
 
+            me.$('.plan-todo').removeClass('closed middle').addClass('open');
+            me.$('.planner-book-afterv-table').removeClass('full half').addClass('closed');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
         },
 
         /**
          * @method
          */
         doRestoreTodo:function () {
-            this.$('.plan-todo').removeClass('closed').removeClass('open').addClass('middle');
-            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('full').addClass('half');
-            this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
+
+            me.$('.plan-todo').removeClass('closed open').addClass('middle');
+            me.$('.planner-book-afterv-table').removeClass('closed full').addClass('half');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            setTimeout(function() {
+                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
+            }, 1000);
         },
 
         /**

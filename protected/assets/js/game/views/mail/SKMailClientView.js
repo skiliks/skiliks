@@ -119,6 +119,7 @@ define([
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
+                    console.log("trigger('render_finished')");
                     me.trigger('render_finished');
                     me.render_finished = true;
 
@@ -511,6 +512,9 @@ define([
                         mailClientView.mailClient.getActiveEmailId()
                     );
                 }
+
+                console.log("!! trigger('render_folder_finished')");
+                this.trigger('render_folder_finished');
             },
 
             /**
@@ -1210,6 +1214,7 @@ define([
              * @method
              */
             renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
+                console.log('>> renderWriteCustomNewEmailScreen');
                 this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                 this.mailClient.newEmailUsedPhrases = [];
                 this.mailClient.availableSubjects = [];
