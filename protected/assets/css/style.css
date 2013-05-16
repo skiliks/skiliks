@@ -2281,9 +2281,10 @@ html[lang="en"] .footer .social_networks {
     {
         height: 25px;
         line-height: 25px;
-        width:145px;
+        width:144px;
     }
-    #change-password-form input[type="password"]:focus, #change-password-form input[type=password].error:focus {
+    #change-password-form input[type="password"]:focus, #change-password-form input[type=password].error,
+    #change-password-form input.error:focus {
         height: 23px;
         width: 142px;
     }
