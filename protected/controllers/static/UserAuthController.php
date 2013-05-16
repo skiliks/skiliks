@@ -125,9 +125,11 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
-            $this->redirect('/');
+            //Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
+            $this->redirect('/dashboard');
         }
+
+
 
         if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => $invite->email])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
