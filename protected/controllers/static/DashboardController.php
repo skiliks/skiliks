@@ -29,7 +29,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         if (false === $this->user->isCorporate() ||
             empty($this->user->account_corporate->is_corporate_email_verified)
         ) {
-            $this->redirect('userAuth/afterRegistration');
+            $this->redirect('userAuth/afterRegistrationCorporate');
         }
 
         $vacancies = [];

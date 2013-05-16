@@ -101,10 +101,12 @@ define([
              * @method onMailEvent
              */
             onMailSendEvent: function (event) {
+                console.log('is fantastic: ', event.get('fantastic'));
                 if (!event.get('fantastic')) {
                     this.$('.mail').addClass('create-mail');
                     this.startAnimation('.mail');
                 }
+                console.log(this.$('.mail').hasClass('create-mail'));
             },
 
             /**
@@ -490,9 +492,12 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
+                console.log('doNewMailStart', SKApp.simulation.mailClient);
                 this.$('.mail').removeClass('create-mail');
                 SKApp.simulation.mailClient.once('init_completed', function () {
-                    this.view.once('render_finished', function () {
+                    console.log('this.view:', this.view);
+                    this.view.once('render_folder_finished', function () {
+                        console.log('this.renderWriteCustomNewEmailScreen()');
                         this.renderWriteCustomNewEmailScreen();
                     });
                 });
@@ -505,6 +510,7 @@ define([
              * @param e
              */
             doMailToggle: function (e) {
+                console.log('doMailToggle');
                 e.preventDefault();
                 this.$('.mail').removeClass('icon-active');
 
