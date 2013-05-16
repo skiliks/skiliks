@@ -162,7 +162,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         if (Yii::app()->user->data()->id !== $simulation->invite->owner_id &&
             Yii::app()->user->data()->id !== $simulation->invite->receiver_id) {
-            echo 'Вы не можете просмотривать результаты чужих симуляций.';
+            //echo 'Вы не можете просматривать результаты чужих симуляций.';
 
             Yii::app()->end(); // кошерное die;
         }
