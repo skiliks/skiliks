@@ -453,7 +453,7 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
-        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) ? true : false;
+        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) === null ? false : true;
 
         // clean up validation errors if not POST request
         if (false === Yii::app()->request->isPostRequest) {
