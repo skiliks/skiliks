@@ -35,22 +35,34 @@ class PaymentController extends AjaxController
         }
 
         $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $Tariff = Yii::app()->request->getParam('Tariff');
         $account = $user->account_corporate;
 
-        if (null !== $UserAccountCorporate) {
-            $account->preference_payment_method = $UserAccountCorporate['preference_payment_method'];
-            $account->inn = $UserAccountCorporate['inn'];
-            $account->cpp = $UserAccountCorporate['cpp'];
-            $account->bank_account_number = $UserAccountCorporate['bank_account_number'];
-            $account->bic = $UserAccountCorporate['bic'];
+        if (null !== $UserAccountCorporate && null !== $Tariff) {
+            $account->preference_payment_method = $method = $UserAccountCorporate['preference_payment_method'];
 
-            $errors = CActiveForm::validate($account);
+            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE) {
+                $invoice = new Invoice();
 
-            if (Yii::app()->request->getParam('ajax') === 'payment-form') {
-                echo $errors;
-            } elseif (!$account->hasErrors()) {
-                $account->save();
-                echo 'success';
+                $account->inn                 = $invoice->inn     = $UserAccountCorporate['inn'];
+                $account->cpp                 = $invoice->cpp     = $UserAccountCorporate['cpp'];
+                $account->bank_account_number = $invoice->account = $UserAccountCorporate['bank_account_number'];
+                $account->bic                 = $invoice->bic     = $UserAccountCorporate['bic'];
+
+                $invoice->user_id = $user->id;
+                $invoice->tariff_id = $Tariff['id'];
+                $invoice->status = Invoice::STATUS_PENDING;
+
+                $errors = CActiveForm::validate($account);
+
+                if (Yii::app()->request->getParam('ajax') === 'payment-form') {
+                    echo $errors;
+                } elseif (!$account->hasErrors()) {
+                    $account->save();
+                    $invoice->save();
+
+                    echo 'success';
+                }
             }
         }
     }

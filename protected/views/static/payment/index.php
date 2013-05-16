@@ -56,6 +56,9 @@
             'afterValidate'    => 'js:paymentSubmit',
         ]
     ));
+
+    $form->hiddenField($tariff, 'id');
+
     ?>
 
         <div class="order-method payment-invoice">
