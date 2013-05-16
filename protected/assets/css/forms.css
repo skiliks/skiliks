@@ -59,10 +59,10 @@
     height:24px;
 }
 .registrationform input[type=text] {
-    width:260px;
+    width:223px;
 }
 .registrationform input[type=password] {
-    width:180px;
+    width:162px;
 }
 /*
 .registrationform .errorMessage {
@@ -108,12 +108,13 @@
     -moz-border-radius:4px;
     border-radius:4px;
     display: inline-block;
-    font: 18px/54px "ProximaNova-Bold";
+    font: 18px/54px "ProximaNova-Regular";
     color:#fff;
     height:54px;
 }
 .registrationform input[type=submit] {
-    padding: 0 20px 0 51px;
+    padding: 0 20px 0 40px;
+    width:190px !important;
 }
 .bigbtnsubmt, .bigbtnsubmt:link, .bigbtnsubmt:visited {
     color:#fff;
@@ -126,6 +127,9 @@
     float:left;
     margin-left: 11px;
     position:relative;
+}
+.registrationform .row:last-child {
+    float:right;
 }
 .registrationform .row:first-child {
     margin-left:0px;
@@ -294,7 +298,7 @@ span.required {
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 232px -66px;
+    background: url("../img/menuarrows.png") no-repeat 236px -65px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -304,7 +308,7 @@ span.required {
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 232px 16px;
+    background-position: 236px 17px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
@@ -550,6 +554,9 @@ span.required {
     background: rgba(0, 0, 0, .55) !important;
     opacity: 1;
 }
+.action-recovery.action-controller-recovery-static-userAuth .ui-widget-overlay {
+    background: none !important;
+}
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
@@ -670,6 +677,7 @@ span.required {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
     padding-left: 15px;
+    top:205px !important;
     width:688px !important;
 }
 .feedbackwrap .ui-widget-header {
@@ -728,7 +736,7 @@ span.required {
 }
 /* **************************** /FEEDBACK **************************** */
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .registerpads {
         padding: 10px 0px 20px 20px;
     }
@@ -742,7 +750,7 @@ span.required {
         font-size: 1.2em;
     }
     .registrationform input[type=text] {
-        width: 168px;
+        width: 194px;
     }
     .registrationform input[type=text], .registrationform input[type=password] {
         height: 20px;
@@ -750,7 +758,7 @@ span.required {
         font-size: 1em;
     }
     .registrationform input[type=password] {
-        width: 156px;
+        width: 144px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
         padding: 8px 7px;
@@ -763,7 +771,7 @@ span.required {
     .registrationform input[type=submit] {
         background-position: 20px 10px;
         padding-left: 50px;
-        width: 155px;
+        width: 155px !important;
     }
     .feedbackwrap {
         background-size:contain;
