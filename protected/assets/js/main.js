@@ -59,6 +59,22 @@
         });
         // load simulation details pop-up data }
 
+
+        $('.container').append($('<div id="make-order-pop-up"></div>'));
+        $('.make-order-button').click(function(){
+            $('#make-order-pop-up').dialog({
+                dialogClass: 'make-order-page',
+                modal:       true,
+                width:       980,
+                minHeight:   600,
+                autoOpen:    false,
+                resizable:   false
+            });
+            $("#make-order-pop-up").dialog('open');
+            return false;
+        });
+
+
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
