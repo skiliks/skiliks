@@ -62,7 +62,7 @@
     width:223px;
 }
 .registrationform input[type=password] {
-    width:163px;
+    width:162px;
 }
 /*
 .registrationform .errorMessage {
@@ -108,7 +108,7 @@
     -moz-border-radius:4px;
     border-radius:4px;
     display: inline-block;
-    font: 18px/54px "ProximaNova-Bold";
+    font: 18px/54px "ProximaNova-Regular";
     color:#fff;
     height:54px;
 }
