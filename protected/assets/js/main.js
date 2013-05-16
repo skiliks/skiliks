@@ -78,6 +78,7 @@
             }
             $.ajax('/payment/' + tariff, {
                 success: function(data) {
+                    $('#make-order-pop-up').html(data);
                     $("#make-order-pop-up").dialog('open');
                 }
             });
