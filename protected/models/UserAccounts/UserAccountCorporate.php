@@ -26,8 +26,8 @@
  */
 class UserAccountCorporate extends CActiveRecord
 {
-    const PaymentMethodInvoice = "invoice";
-    const PaymentMethodCard = "card";
+    const PAYMENT_METHOD_INVOICE = "invoice";
+    const PAYMENT_METHOD_CARD = "card";
     public function getTariffLabel()
     {
         return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
