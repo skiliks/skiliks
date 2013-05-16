@@ -2356,13 +2356,10 @@ html[lang="en"] .footer .social_networks {
         height: 23px;
         width: 142px;
     }
-<<<<<<< HEAD
     #change-password-form input[type="password"]:focus {
         height: 23px;
         width: 142px;
     }
-=======
->>>>>>> Merge
 	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min2.png") no-repeat 0 0;
 		width:56px;
