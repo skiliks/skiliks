@@ -33,12 +33,18 @@ $lang = Yii::app()->getLanguage();
                     <?php endforeach ?>
                 </div>
 
-                <?php if($tariff->isUserCanChooseTariff($user)): ?>
+                <?php if ($tariff->isUserCanChooseTariff($user)): ?>
                      <div class="subscribe-ti-tariff">
                          <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
                      </div>
+                <?php else: ?>
+                    <div class="subscribe-ti-tariff">
+                        <span class="light-btn make-order-button" data-tariff="<?php echo $tariff->slug ?>">
+                            <?php echo  Yii::t('site', 'Subscribe') ?>
+                        </span>
+                    </div>
                 <?php endif ?>
             </div>
         </div>
