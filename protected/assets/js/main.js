@@ -70,7 +70,18 @@
                 autoOpen:    false,
                 resizable:   false
             });
-            $("#make-order-pop-up").dialog('open');
+
+            var tariff = $(this).attr('data-tariff');
+
+            if (undefined === tariff) {
+                tariff = '';
+            }
+            $.ajax('/static/payment/' + tariff, {
+                success: function(data) {
+                    $("#make-order-pop-up").dialog('open');
+                }
+            });
+
             return false;
         });
 
