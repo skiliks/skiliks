@@ -40,6 +40,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'extExcel'            => 'xls'
 
         ),
+        'frontendUrl'=>'http://stage.dev.skiliks.com/',
     )
 ));
 
