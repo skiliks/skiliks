@@ -1,4 +1,4 @@
-/*global SKEvent:true, Backbone, SKConfig, SKApp, console, define */
+/*global SKEvent:true, Backbone, SKConfig, SKApp, _, console, define */
 define([], function () {
     "use strict";
     /**
@@ -86,8 +86,8 @@ define([], function () {
                     my_replicas.push(replica);
                 }
             });
-            this.shuffle(my_replicas);
-            return my_replicas;
+
+            return _.shuffle(my_replicas);
         },
 
         /**
@@ -252,11 +252,6 @@ define([], function () {
                 throw 'This event is already completed';
             }
             this.setStatus('completed');
-        },
-
-        shuffle:function( array ) {
-            for(var j, x, i = array.length; i; j = parseInt(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
-            return true;
         }
     });
     return SKEvent;
