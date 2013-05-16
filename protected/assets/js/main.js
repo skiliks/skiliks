@@ -76,7 +76,7 @@
             if (undefined === tariff) {
                 tariff = '';
             }
-            $.ajax('/static/payment/' + tariff, {
+            $.ajax('/payment/' + tariff, {
                 success: function(data) {
                     $("#make-order-pop-up").dialog('open');
                 }
@@ -178,6 +178,10 @@
                 window.location.href = form.attr('data-url');
             }
             return false;
+        };
+
+        window.paymentSubmit = function paymentSubmit(form, data, hasError) {
+
         };
 
         // Ajax Validation }
