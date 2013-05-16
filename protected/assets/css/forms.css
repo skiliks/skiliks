@@ -59,10 +59,10 @@
     height:24px;
 }
 .registrationform input[type=text] {
-    width:260px;
+    width:223px;
 }
 .registrationform input[type=password] {
-    width:180px;
+    width:163px;
 }
 /*
 .registrationform .errorMessage {
@@ -113,7 +113,8 @@
     height:54px;
 }
 .registrationform input[type=submit] {
-    padding: 0 20px 0 51px;
+    padding: 0 20px 0 40px;
+    width:190px !important;
 }
 .bigbtnsubmt, .bigbtnsubmt:link, .bigbtnsubmt:visited {
     color:#fff;
@@ -126,6 +127,9 @@
     float:left;
     margin-left: 11px;
     position:relative;
+}
+.registrationform .row:last-child {
+    float:right;
 }
 .registrationform .row:first-child {
     margin-left:0px;
@@ -746,7 +750,7 @@ span.required {
         font-size: 1.2em;
     }
     .registrationform input[type=text] {
-        width: 168px;
+        width: 194px;
     }
     .registrationform input[type=text], .registrationform input[type=password] {
         height: 20px;
@@ -754,7 +758,7 @@ span.required {
         font-size: 1em;
     }
     .registrationform input[type=password] {
-        width: 156px;
+        width: 144px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
         padding: 8px 7px;
@@ -767,7 +771,7 @@ span.required {
     .registrationform input[type=submit] {
         background-position: 20px 10px;
         padding-left: 50px;
-        width: 155px;
+        width: 155px !important;
     }
     .feedbackwrap {
         background-size:contain;
