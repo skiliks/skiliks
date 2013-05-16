@@ -28,7 +28,7 @@
                     duration: 500
                 }
             });
-            $(".iframe-video iframe").attr("src",iframesrcautoplay);
+            $(".popup-video .iframe-video iframe").attr("src",iframesrcautoplay);
             $('.popup-video .ui-dialog-titlebar').remove();
             $('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
             $('.popup-video a.popupclose').click(function() {
