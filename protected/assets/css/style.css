@@ -2277,15 +2277,15 @@ html[lang="en"] .footer .social_networks {
 		height:11px;
 		padding:6px 7px;
 	}
-    #change-password-form input[type="password"]:focus {
-        height: 23px;
-        width: 143px;
-    }
     .change_pass-pop-up div input[type=password], #change-password-form input[type="password"],
     #change-password-form input[type=password].error:focus{
         height: 25px;
         line-height: 25px;
         width:145px;
+    }
+    #change-password-form input[type="password"]:focus {
+        height: 23px;
+        width: 142px;
     }
 	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min2.png") no-repeat 0 0;
