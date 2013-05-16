@@ -173,7 +173,7 @@ return array(
                 'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
                 'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
 
-                'tariffs/<type:\w+>'                   => 'static/pages/ChangeTariff',
+                'tariffs/<type:\w+>'                   => 'static/payment/changeTariff',
                 'registration'                         => 'static/userAuth/registration',
                 'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
@@ -249,6 +249,8 @@ return array(
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
+
+                'payment/<tariffType:\w+>'                           => 'static/payment/index',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
