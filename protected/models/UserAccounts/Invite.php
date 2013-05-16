@@ -127,15 +127,7 @@ class Invite extends CActiveRecord
      * @return string
      */
     public function getFormattedScenarioSlug() {
-        if (null !== $this->vacancy_id) {
-            return $this->scenario->slug === Scenario::TYPE_LITE ?
-                Yii::t("site","Lite version") :  '"Базовый менеджмент"';
-        } else {
-            return $this->scenario->slug === Scenario::TYPE_LITE ?
-                Yii::t("site",'Trial "Lite version"') :  'Пробная версия "Базовый менеджмент"';
-        }
-
-        return $this->scenario->slug === self::TYPE_LITE ? Yii::t("site","Lite verion") :  '"Базовый менеджмент"';
+        return $this->scenario->slug === Scenario::TYPE_LITE ? 'Демо-версия "Базовый менеджмент"' :  'Полная версия "Базовый менеджмент"';
     }
 
     /**

@@ -1,15 +1,15 @@
-<h2 class="thetitle longercontent text-center"><?php echo Yii::t('site', 'Your account has been activated'); ?> </h2>
+<h2 class="thetitle longercontent text-center">Вы можете пройти демо-версию</h2>
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
                 <a class="regicon <?php if($user->is_check == 1){ echo "icon-check"; }else{ echo "icon-chooce"; } ?>" id="registration_check" href="#"><span style="display: <?php if($user->is_check == 1){ echo "none";}else{ echo "block"; }?>"><?php echo Yii::t('site', 'Выбрать');?></a>
-                <h3>Пробный тест</h3>
+                <h3>Демо-версия</h3>
                 <div class="testtime"><strong>15</strong> Минут</div>
                 <ul>
-                    <li>Частичная оценка навыков бесплатно</li>
                     <li>Погружение в игровую среду для понимания, как работает симуляция</li>
-                    <li>Опыт прохождения теста</li>
+                    <li>Знакомство с интерфейсами</li>
+                    <li>Пример итогового отчёта по оценке навыков</li>
                 </ul>
             </div>
         </div>
