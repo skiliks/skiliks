@@ -86,7 +86,7 @@
     float:right;
 }
 .action-controller-login-auth .enter_form input[type="submit"] {
-    background-image: url("../img/icon-btn-notify.png");
+    background-image: url("../img/icon-circlarow.png");
     background-repeat: no-repeat;
     background-position: 37px 50%;
     background-color: #146672;
