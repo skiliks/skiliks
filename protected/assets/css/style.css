@@ -2943,7 +2943,7 @@ ul.profile-menu li {
     width: 112px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
-#corporate-invitations-list-box .grid-view tr td:nth-child(7),
+#corporate-invitations-list-box ..mail-new-textgrid-view tr td:nth-child(7),
 #corporate-invitations-list-box .grid-view tr th:nth-child(8),
 #corporate-invitations-list-box .grid-view tr td:nth-child(8) {
     display: none;
