@@ -494,14 +494,17 @@ define([
             doNewMailStart: function (e) {
                 console.log('doNewMailStart', SKApp.simulation.mailClient);
                 this.$('.mail').removeClass('create-mail');
-                SKApp.simulation.mailClient.once('init_completed', function () {
-                    console.log('this.view:', this.view);
-                    this.view.once('render_folder_finished', function () {
-                        console.log('this.renderWriteCustomNewEmailScreen()');
-                        this.renderWriteCustomNewEmailScreen();
+                var simulation = SKApp.simulation;
+                if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+                    SKApp.simulation.mailClient.once('init_completed', function () {
+                        this.view.once('render_folder_finished', function () {
+                            console.log('this.renderWriteCustomNewEmailScreen()');
+                            SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
+                        });
                     });
-                });
-
+                } else {
+                    SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
+                }
                 this.doMailToggle(e);
             },
 
