@@ -6,7 +6,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=skiliks_stage',
             'emulatePrepare' => true,
-            'username' => 'skiliks_live',
+            'username' => 'skiliks_stage',
             'password' => 'dep-vep-eb-up-a',
             'charset' => 'utf8',
 
