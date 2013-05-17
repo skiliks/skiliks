@@ -62,6 +62,7 @@ define([
                         }
                     }]
                 });
+                me.$('.tutorial-content').mCustomScrollbar();
             });
         },
         handleClick: function(){
