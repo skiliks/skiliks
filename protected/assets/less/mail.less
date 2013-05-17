@@ -48,7 +48,7 @@ a.dd-selected {
   color: black;
 }
 .mail-popup {
-  background:#fff;
+  background:#f6f6f6;
   border:2px solid #454545;
   border:2px solid #454545;
   -webkit-border-radius:2px;
@@ -1091,15 +1091,16 @@ section.mail.new {
   padding:14px 0 0 19px;
 }
 .tutorial-popup {
-    height:87vh !important; /*  87vh 79vh 570px */
-    min-height:560px;
-    margin-top:-20px !important;
+    height:80%;
+    height:80vh !important; /*  87vh 79vh 570px */
+    min-height:535px;
+    /*margin-top:-20px !important;*/
     overflow: hidden;
     padding: 10px;
     top:0px !important;
 
     .mail-popup {
-      border: none;
+      /*border: none;*/
       border-top:8px solid #75674c;
       -webkit-border-radius: 0px;
       -moz-border-radius: 0px;
@@ -1108,6 +1109,7 @@ section.mail.new {
       height:100%;
       min-height:530px;
       width:42vw; /* 530px */
+      margin-top: 0px;
       min-width:530px;
       overflow-y: scroll;
     }
@@ -1129,7 +1131,64 @@ section.mail.new {
       margin-bottom: 70px;
     }
     .popup-content {
+        .tutorial-firstpage {
+          padding-bottom:45px;
 
+          h2 {
+            text-align:left;
+            text-transform:uppercase;
+            font: 17px "ProximaNova-Bold";
+            padding-bottom:14px;
+          }
+          h3 {
+            font:15px "ProximaNova-Regular";
+          }
+          .tutorial-warn-bg {
+            background: #827861; /* Old browsers */
+            background: -moz-linear-gradient(top,  #827861 0%, #908978 93%, #f6f0e1 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#827861), color-stop(93%,#908978), color-stop(100%,#f6f0e1)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #827861 0%,#908978 93%,#f6f0e1 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #827861 0%,#908978 93%,#f6f0e1 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #827861 0%,#908978 93%,#f6f0e1 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #827861 0%,#908978 93%,#f6f0e1 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#827861', endColorstr='#f6f0e1',GradientType=0 ); /* IE6-9 */
+            padding:1px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            margin: 10px 0px 16px;
+
+            .tutorial-warn {
+              background: #dfd1b3; /* Old browsers */
+              background: -moz-linear-gradient(top,  #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%); /* FF3.6+ */
+              background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dfd1b3), color-stop(50%,#eadfc8), color-stop(100%,#f6efe1)); /* Chrome,Safari4+ */
+              background: -webkit-linear-gradient(top,  #dfd1b3 0%,#eadfc8 50%,#f6efe1 100%); /* Chrome10+,Safari5.1+ */
+              background: -o-linear-gradient(top,  #dfd1b3 0%,#eadfc8 50%,#f6efe1 100%); /* Opera 11.10+ */
+              background: -ms-linear-gradient(top,  #dfd1b3 0%,#eadfc8 50%,#f6efe1 100%); /* IE10+ */
+              background: linear-gradient(to bottom,  #dfd1b3 0%,#eadfc8 50%,#f6efe1 100%); /* W3C */
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfd1b3', endColorstr='#f6efe1',GradientType=0 ); /* IE6-9 */
+              padding:12px 15px;
+              -webkit-border-radius: 6px;
+              -moz-border-radius: 6px;
+              border-radius: 6px;
+
+                h4 {
+                  font: 16px "ProximaNova-Bold";
+                  padding-bottom:8px;
+                  text-align:left;
+                  text-transform:uppercase;
+                }
+              p {
+                font-size:13px;
+                margin-bottom: 13px;
+              }
+            }
+          }
+
+        }
+        .tutorial-content {
+          /*height: 300px;*/
+        }
         li, p {
             font:15px "ProximaNova-Regular";
             line-height: 140%;
@@ -1482,10 +1541,18 @@ section.mail {
 }
 .mail-text-wrap {
   height:100%;
-  padding: 199px 10px 217px;
-}
-.mail-text-area {
-  overflow: scroll;
+  padding: 210px 0px 217px 10px;
+
+  .mail-text-area {
+    height:~"calc(100% - 426px)";
+    overflow-x:hidden;
+    overflow-y: scroll;
+    padding-right:10px;
+
+    pre {
+      margin-top:-24px;
+    }
+  }
 }
 .mail-new-text {
   width:100%;
