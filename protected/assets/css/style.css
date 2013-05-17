@@ -1210,6 +1210,7 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
+    min-height: 446px;
 	width:452px;
     padding-bottom:20px;
     /* min-height:383px; */
