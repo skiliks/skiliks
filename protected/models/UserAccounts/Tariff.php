@@ -38,15 +38,25 @@ class Tariff extends CActiveRecord
         return Yii::app()->getLanguage() == 'ru' ? $this->safe_amount : $this->safe_amount_usd;
     }
 
-    public function getFormattedPrice()
+    public function getFormattedPrice($withCurrency = false)
     {
-        if ($this->is_free) {
-            return Yii::t('site', 'Бесплатно');
-        }
-
         $lang = Yii::app()->getLanguage();
         $currency = $lang == 'ru' ? 'RUB' : 'USD';
-        return  StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang);
+        $price = StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang);
+
+        if (preg_match('/^(\d{1,3})((?:\d{3})*)(\.\d+)/', $price, $match)) {
+            $price = $match[1] . preg_replace('/\d{3}/', ' $1', $match[2]) . $match[3];
+        }
+
+        if ($withCurrency) {
+            if ($lang == 'ru') {
+                $price .= ' р';
+            } else {
+                $price = '$' . $price;
+            }
+        }
+
+        return $price;
     }
 
     public function getFormattedSafeAmount($prefix = '')

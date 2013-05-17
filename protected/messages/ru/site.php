@@ -382,4 +382,14 @@ return array(
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
     'Please contact us' => 'Пожалуйста свяжитесь с нами',
+
+    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за Ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
+    'Accept terms of conditions' => 'Вы должны согласиться с условиями',
+    'INN is required' => 'Введите ИНН',
+    'CPP is required' => 'Введите КПП',
+    'Account number is required' => 'Введите расчётный счёт',
+    'BIC is required' => 'Введите БИК',
+    'Wrong INN' => 'Введите верный ИНН',
+    'Wrong CPP' => 'Введите верный КПП',
+    'Wrong BIC' => 'Введите верный БИК',
 );
