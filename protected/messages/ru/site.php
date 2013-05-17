@@ -381,4 +381,5 @@ return array(
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
+    'Please contact us' => 'Пожалуйста свяжитесь с нами',
 );
