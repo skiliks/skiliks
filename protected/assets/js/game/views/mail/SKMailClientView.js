@@ -1988,7 +1988,6 @@ define([
              */
             fillMessageWindow: function (response, icons, isAllowEdit) {
                 var me = this;
-
                 // set defaults {
                 if (undefined === isAllowEdit) {
                     isAllowEdit = false;
