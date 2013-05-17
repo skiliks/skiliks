@@ -173,7 +173,7 @@ class UserAuthController extends YumController
 
                 if (false !== $result) {
                     $account->user_id = $this->user->id;
-                    $account->save();
+                    $account->save(false);
 
                     $invite->receiver_id = $this->user->id;
                     $invite->save();
@@ -189,7 +189,7 @@ class UserAuthController extends YumController
                     $permission->action = $action->id;
                     $permission->type = 'user';
                     $permission->template = 1; // magic const
-                    $permission->save();
+                    $permission->save(false);
 
                     $this->redirect('/dashboard');
                 } else {
