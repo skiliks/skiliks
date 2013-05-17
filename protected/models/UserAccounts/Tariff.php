@@ -40,10 +40,6 @@ class Tariff extends CActiveRecord
 
     public function getFormattedPrice($withCurrency = false)
     {
-        if ($this->is_free) {
-            return Yii::t('site', 'Бесплатно');
-        }
-
         $lang = Yii::app()->getLanguage();
         $currency = $lang == 'ru' ? 'RUB' : 'USD';
         $price = StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang);
