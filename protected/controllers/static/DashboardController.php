@@ -490,13 +490,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $user = Yii::app()->user->data();
 
         if($user->isAuth()) {
+            $this->redirect('/dashboard');
+        } elseif($user->isPersonal()) {
             Yii::app()->user->setFlash('success', sprintf(
                 'Вы всегда можете <a href="/registration">зарегистрироваться</a> снова на главной странице и начать использовать наш продукт.
                 Мы верим, что он обязательно Вам понравится и окажется полезным.'
             ));
             $this->redirect('/');
-
-        } elseif($user->isPersonal()) {
             /*
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s отклонено.',
@@ -504,7 +504,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 ($declineExplanation->invite->getCompanyName() === null)?"компании":$declineExplanation->invite->getCompanyName()
             ));
             */
-            $this->redirect('/dashboard');
         }
     }
 
