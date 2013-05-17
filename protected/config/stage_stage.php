@@ -30,6 +30,16 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     ),
     'params'=>array(
         'frontendUrl'=>'http://stage.dev.skiliks.com/',
+        'zoho' => array(
+            'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
+            'saveUrl'             => 'http://stage.dev.skiliks.com/zoho/saveExcel',
+            'xlsTemplatesDirPath' => 'documents/templates',
+            'templatesDirPath'    => 'documents/zoho',
+            //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
+            'extExcel'            => 'xls'
+
+        ),
     )
 ));
 
