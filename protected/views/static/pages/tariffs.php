@@ -41,9 +41,9 @@ $lang = Yii::app()->getLanguage();
                      </div>
                 <?php else: ?>
                     <div class="subscribe-ti-tariff">
-                        <span class="light-btn make-order-button" data-tariff="<?php echo $tariff->slug ?>">
+                        <a class="light-btn" href="/payment/order/<?= $tariff->slug ?>">
                             <?php echo  Yii::t('site', 'Subscribe') ?>
-                        </span>
+                        </a>
                     </div>
                 <?php endif ?>
             </div>

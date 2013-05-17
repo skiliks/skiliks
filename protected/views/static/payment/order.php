@@ -1,10 +1,11 @@
 <?php
 /**
  * @var UserAccountCorporate $account
+ * @var Invoice $invoice
  * @var Tariff $tariff
  */
 ?>
-
+<h2 class="thetitle"><?= Yii::t('site', 'Оформление заказа') ?></h2>
 <div class="order-item">
     <h3>Ваш заказ</h3>
 
@@ -12,10 +13,7 @@
     <div class="period">1 Месяц</div>
 
     <div class="item-price">
-        <?php if (floor($tariff->getPrice() / 1000)): ?>
-            <span><?= floor($tariff->getPrice() / 1000) ?></span>
-        <?php endif ?>
-        <?= $tariff->getPrice() % 1000 ?>
+        <?= $tariff->getFormattedPrice(true) ?>
     </div>
 </div>
 
@@ -57,48 +55,66 @@
         ]
     ));
 
-    $form->hiddenField($tariff, 'id');
+    echo $form->hiddenField($tariff, 'id');
 
     ?>
 
         <div class="order-method payment-invoice">
             <div class="row">
-                <?= $form->radioButton($account, 'preference_payment_method', ['value' => UserAccountCorporate::PAYMENT_METHOD_INVOICE]) ?>
-                <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту']) ?>
+                <?= $form->radioButton(
+                    $account,
+                    'preference_payment_method',
+                    [
+                        'checked' => 'checked',
+                        'value' => UserAccountCorporate::PAYMENT_METHOD_INVOICE,
+                        'id' => 'payment_invoice',
+                        'uncheckValue' => null
+                    ]
+                ) ?>
+                <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту', 'for' => 'payment_invoice']) ?>
                 <div class="method-description">
                     <small>Заполните Ваши реквизиты и на Ваш email придет счет. Тарифный план будет подключён после получения платежа.</small>
                 </div>
             </div>
 
             <div class="row">
-                <?= $form->labelEx($account, 'inn') ?>
-                <?= $form->textField($account, 'inn') ?>
-                <?= $form->error($account, 'inn') ?>
+                <?= $form->labelEx($invoice, 'inn') ?>
+                <?= $form->textField($invoice, 'inn') ?>
+                <?= $form->error($invoice, 'inn') ?>
             </div>
 
             <div class="row">
-                <?= $form->labelEx($account, 'cpp') ?>
-                <?= $form->textField($account, 'cpp') ?>
-                <?= $form->error($account, 'cpp') ?>
+                <?= $form->labelEx($invoice, 'cpp') ?>
+                <?= $form->textField($invoice, 'cpp') ?>
+                <?= $form->error($invoice, 'cpp') ?>
             </div>
 
             <div class="row">
-                <?= $form->labelEx($account, 'bank_account_number') ?>
-                <?= $form->textField($account, 'bank_account_number') ?>
-                <?= $form->error($account, 'bank_account_number') ?>
+                <?= $form->labelEx($invoice, 'account') ?>
+                <?= $form->textField($invoice, 'account') ?>
+                <?= $form->error($invoice, 'account') ?>
             </div>
 
             <div class="row">
-                <?= $form->labelEx($account, 'bic') ?>
-                <?= $form->textField($account, 'bic') ?>
-                <?= $form->error($account, 'bic') ?>
+                <?= $form->labelEx($invoice, 'bic') ?>
+                <?= $form->textField($invoice, 'bic') ?>
+                <?= $form->error($invoice, 'bic') ?>
             </div>
         </div>
 
         <div class="order-method payment-card">
             <div class="row">
-                <?= $form->radioButton($account, 'preference_payment_method', ['disabled' => 'disabled', 'value' => UserAccountCorporate::PAYMENT_METHOD_CARD]) ?>
-                <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой']) ?>
+                <?= $form->radioButton(
+                    $account,
+                    'preference_payment_method',
+                    [
+                        'disabled' => 'disabled',
+                        'value' => UserAccountCorporate::PAYMENT_METHOD_CARD,
+                        'id' => 'payment_card',
+                        'uncheckValue' => null
+                    ]
+                ) ?>
+                <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
                 <div class="method-description">
                     <small>
                         <img src="" alt="Visa, MasterCard" /> Без дополнительных комиссий <br/>
@@ -113,8 +129,9 @@
                 <?= CHtml::submitButton('Оплатить'); ?>
             </div>
             <div class="terms-confirm">
-                <?= CHtml::checkBox('agree', false, ['id' => 'terms_agreement']) ?>
-                <?= CHtml::label('Я ознакомился и принимаю <a href="#">Условия</a>', 'terms_agreement') ?>
+                <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+                <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms">Условия</a>']); ?>
+                <?= $form->error($invoice, 'agreeWithTerms'); ?>
             </div>
         </div>
 

@@ -181,6 +181,11 @@ class PagesController extends AjaxController
         ]);
     }
 
+    public function actionTerms()
+    {
+        $this->renderPartial('terms');
+    }
+
     public function actionCharts()
     {
         $this->render('charts');

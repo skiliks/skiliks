@@ -2,12 +2,15 @@
 
 class PaymentController extends AjaxController
 {
-    public function actionIndex($tariffType = null)
+    public function actionOrder($tariffType = null)
     {
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
         if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
             $this->redirect('/');
         }
 
@@ -16,11 +19,17 @@ class PaymentController extends AjaxController
            Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
         if (null === $tariff) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+            ));
             $this->redirect('/');
         }
 
-        $this->renderPartial('index', [
+        $invoice = new Invoice();
+
+        $this->render('order', [
             'account' => $user->account_corporate,
+            'invoice' => $invoice,
             'tariff' => $tariff
         ]);
     }
@@ -31,29 +40,31 @@ class PaymentController extends AjaxController
         $user = Yii::app()->user->data();
 
         if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            $this->redirect('/');
+            echo 'false';
+            Yii::app()->end();
         }
 
         $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $Invoice = Yii::app()->request->getParam('Invoice');
         $Tariff = Yii::app()->request->getParam('Tariff');
         $account = $user->account_corporate;
 
         if (null !== $UserAccountCorporate && null !== $Tariff) {
             $account->preference_payment_method = $method = $UserAccountCorporate['preference_payment_method'];
 
-            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE) {
+            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE && null !== $Invoice) {
                 $invoice = new Invoice();
 
-                $account->inn                 = $invoice->inn     = $UserAccountCorporate['inn'];
-                $account->cpp                 = $invoice->cpp     = $UserAccountCorporate['cpp'];
-                $account->bank_account_number = $invoice->account = $UserAccountCorporate['bank_account_number'];
-                $account->bic                 = $invoice->bic     = $UserAccountCorporate['bic'];
+                $account->inn                 = $invoice->inn     = $Invoice['inn'];
+                $account->cpp                 = $invoice->cpp     = $Invoice['cpp'];
+                $account->bank_account_number = $invoice->account = $Invoice['account'];
+                $account->bic                 = $invoice->bic     = $Invoice['bic'];
 
                 $invoice->user_id = $user->id;
                 $invoice->tariff_id = $Tariff['id'];
                 $invoice->status = Invoice::STATUS_PENDING;
 
-                $errors = CActiveForm::validate($account);
+                $errors = CActiveForm::validate($invoice);
 
                 if (Yii::app()->request->getParam('ajax') === 'payment-form') {
                     echo $errors;
@@ -61,9 +72,14 @@ class PaymentController extends AjaxController
                     $account->save();
                     $invoice->save();
 
-                    echo 'success';
+                    echo sprintf(
+                        Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
+                        $user->profile->email
+                    );
                 }
             }
+        } else {
+            echo 'false';
         }
     }
 
