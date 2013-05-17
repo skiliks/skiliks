@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $communication_theme_id
  * @property string $flag_code
+ * @property string $value
  * @property integer $scenario_id
  * @property string $import_id
  *
