@@ -49,6 +49,7 @@ return array(
     'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
     'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
+    'Expired' => 'Просрочено',
 
     'Русский' => 'English',
     'Home' => 'Главная',
@@ -364,7 +365,7 @@ return array(
     'Other' => 'Прочее',
     'Industry' => 'Отрасль',
     'Professional area' => 'Профессиональная сфера',
-    'Position level is required' => 'Уровень позиции это обязательное поле',
+    'Position level is required' => 'Выберите уровень позиции',
     'Position level' => 'Уровень позиции',
 
     'Product features' => 'Возможности продукта',
