@@ -60,10 +60,11 @@
         // load simulation details pop-up data }
 
 
-        $('.container').append($('<div id="make-order-pop-up"></div>'));
-        $('.make-order-button').click(function(){
-            $('#make-order-pop-up').dialog({
-                dialogClass: 'make-order-page',
+
+        $('.terms').click(function() {
+            $('.container').append($('<div id="terms-pop-up"></div>'));
+            $('#terms-pop-up').dialog({
+                dialogClass: 'terms-page',
                 modal:       true,
                 width:       980,
                 minHeight:   600,
@@ -71,15 +72,9 @@
                 resizable:   false
             });
 
-            var tariff = $(this).attr('data-tariff');
-
-            if (undefined === tariff) {
-                tariff = '';
-            }
-            $.ajax('/payment/' + tariff, {
+            $.ajax('/static/terms', {
                 success: function(data) {
-                    $('#make-order-pop-up').html(data);
-                    $("#make-order-pop-up").dialog('open');
+                    $('#terms-pop-up').html(data).dialog('open');
                 }
             });
 
@@ -182,7 +177,13 @@
         };
 
         window.paymentSubmit = function paymentSubmit(form, data, hasError) {
-
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    var result = $('<div class="order-result"/>').html(res);
+                    $('.order-methods').html(result);
+                });
+            }
+            return false;
         };
 
         // Ajax Validation }

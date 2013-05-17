@@ -27,6 +27,8 @@ class Invoice extends CActiveRecord
     const STATUS_REJECTED = 'rejected';
     const STATUS_EXPIRED  = 'expired';
 
+    public $agreeWithTerms = false;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -53,7 +55,16 @@ class Invoice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, tariff_id, inn, cpp, account, bic, created_at', 'required'),
+			array('user_id, tariff_id', 'required'),
+			array('agreeWithTerms', 'required', 'on' => 'insert', 'message' => Yii::t('site', 'Accept terms of conditions')),
+            array('inn', 'required', 'message' => Yii::t('site', 'INN is required')),
+            array('inn', 'checkInn'),
+            array('cpp', 'required', 'message' => Yii::t('site', 'CPP is required')),
+            array('cpp', 'checkCpp'),
+            array('account', 'required', 'message' => Yii::t('site', 'Account number is required')),
+            array('account', 'checkAccount'),
+            array('bic', 'required', 'message' => Yii::t('site', 'BIC is required')),
+            array('bic', 'checkBic'),
 			array('tariff_id', 'numerical', 'integerOnly'=>true),
 			array('user_id', 'length', 'max'=>10),
 			array('status', 'length', 'max'=>20),
@@ -64,6 +75,48 @@ class Invoice extends CActiveRecord
 			array('id, user_id, tariff_id, status, inn, cpp, account, bic, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
+
+    public function checkInn()
+    {
+        $prefix = +substr($this->inn, 0, 4);
+        $correct = preg_match('/^\d{10}$/', $this->inn);
+        $correct = $correct && ($prefix >= 100 && $prefix <= 8399 || $prefix === 9909);
+
+        if (!$correct) {
+            $this->addError('inn', Yii::t('site', 'Wrong INN'));
+        }
+    }
+
+    public function checkCpp()
+    {
+        $prefix = +substr($this->cpp, 0, 2);
+        $correct = preg_match('/^\d{9}$/', $this->cpp);
+        $correct = $correct && $prefix >= 1 && $prefix <= 83 || $prefix === 99;
+
+        if (!$correct) {
+            $this->addError('cpp', Yii::t('site', 'Wrong CPP'));
+        }
+    }
+
+    public function checkAccount()
+    {
+        $correct = preg_match('/^\d{3}-?\d{2}-?(?:810|643)-?\d-?\d{4}-?\d{7}$/', $this->account);
+        if (!$correct) {
+            $this->addError('account', Yii::t('site', 'Wrong account number'));
+        }
+    }
+
+    public function checkBic()
+    {
+        $prefix = +substr($this->bic, 0, 2);
+        $suffix = +substr($this->bic, 6, 3);
+        $correct = preg_match('/^\d{9}$/', $this->bic);
+        $correct = $correct && $prefix === 4 && $suffix >= 50 && $suffix <= 999;
+
+        if (!$correct) {
+            $this->addError('bic', Yii::t('site', 'Wrong BIC'));
+        }
+    }
 
 	/**
 	 * @return array relational rules.

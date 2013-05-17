@@ -34,7 +34,7 @@
                 <?php endif ?>
             </div>
             <div class="action">
-                <a class="light-btn make-order-button" href="#">Продлить</a>
+                <a class="light-btn make-order-button" href="/payment/order/<?= Yii::app()->user->data()->getAccount()->tariff->slug ?>">Продлить</a>
             </div>
         </div>
 

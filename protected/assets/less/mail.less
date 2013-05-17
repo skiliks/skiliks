@@ -1483,10 +1483,18 @@ section.mail {
 }
 .mail-text-wrap {
   height:100%;
-  padding: 209px 10px 217px;
-}
-.mail-text-area {
-  overflow: scroll;
+  padding: 210px 0px 217px 10px;
+
+  .mail-text-area {
+    height:~"calc(100% - 426px)";
+    overflow-x:hidden;
+    overflow-y: scroll;
+    padding-right:10px;
+
+    pre {
+      margin-top:-24px;
+    }
+  }
 }
 .mail-new-text {
   width:100%;

@@ -131,6 +131,7 @@ return array(
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
+                'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
                 'static/team/'    => 'static/pages/team',
@@ -250,7 +251,8 @@ return array(
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
-                'payment/<tariffType:\w+>'                           => 'static/payment/index',
+                'payment/order/<tariffType:\w+>'       => 'static/payment/order',
+                'payment/do'                           => 'static/payment/do',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
