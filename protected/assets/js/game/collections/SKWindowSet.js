@@ -110,6 +110,12 @@ define([
                         simulation.mailClient.getActiveSubscreenName()
                     );
                     simulation.mailClient.view.on('render_finished', function () {
+
+                        var email_row = simulation.mailClient.view.$('.email-list-line:eq(0)');
+                        if (!email_row.hasClass('active')) {
+                            email_row.click();
+                        }
+
                         SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                     });
 
