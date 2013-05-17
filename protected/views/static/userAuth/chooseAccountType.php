@@ -41,6 +41,7 @@
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
         </div>
+        <div class="row"></div>
 	    <div class="row buttons">
             <div class="field">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Start'), ['name' => 'personal']); ?>
