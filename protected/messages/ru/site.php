@@ -169,7 +169,7 @@ return array(
     'Vacancy is required' => 'Выберите вакансию',
     'Theme is required' => 'Выберите тему',
     'Message is required' => 'Введите сообщение',
-    'Add vacancy in your profile' => 'Введите вакансию в Профиле',
+    'Add vacancy in your profile' => 'Добавьте вакансиию',
     'You cannot send invite to yourself' => 'Вы не можете отправить инвайт себе',
     'User with this email does not exist' => 'Отсутствующий email',
     'Enter Email address' => 'Введите e-mail',
