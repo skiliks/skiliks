@@ -12,7 +12,7 @@
         )); ?>
 
         <div class="row">
-            <p class="text16"><?php echo Yii::t('site', 'Вы можете изменить пароль'); ?></p>
+            <p class="text16"><?php echo Yii::t('site', 'Ваш новый пароль сохранён'); ?></p>
         </div>
 
         <div class="row">
