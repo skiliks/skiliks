@@ -11,7 +11,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo Yii::t('site', 'Вы можете изменить пароль'); ?>
+            <?php echo Yii::t('site', 'Ваш новый пароль сохранён'); ?>
         </div>
 
         <div class="row">
