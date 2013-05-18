@@ -195,6 +195,7 @@ class MailController extends AjaxController
         $this->sendJSON(array(
             'result'           => 1,
             'data'             => MailBoxService::getThemes(
+                $this->getSimulationEntity(),
                 Yii::app()->request->getParam('receivers', ''),
                 Yii::app()->request->getParam('parentSubjectId', null)
             )/*,

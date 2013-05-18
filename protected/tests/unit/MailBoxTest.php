@@ -119,15 +119,21 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectForNewEmail() 
     {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         //
-        $bossSubjects = array_values(MailBoxService::getThemes('6', NULL));
+        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', NULL));
         // Check for no duplicates in theme list
         $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
         /** @var $scenario Scenario */
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
-        $subjects = MailBoxService::getThemes($characterId, NULL);
+        $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
         $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
         
         $this->assertEquals(3, count($subjects));
@@ -141,7 +147,7 @@ class MailBoxTest extends CDbTestCase
         $character1 = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
         $character2 = $scenario->getCharacter(['code' => '26'])->getPrimaryKey();
         $character3 = $scenario->getCharacter(['code' => '24'])->getPrimaryKey();
-        $subjects2 = MailBoxService::getThemes(join(',', [$character1, $character2, $character3]), NULL);
+        $subjects2 = MailBoxService::getThemes($simulation, join(',', [$character1, $character2, $character3]), NULL);
         $id2 = CommunicationTheme::getCharacterThemeId('11', 0);
         
         $this->assertEquals(count($subjects2), 3);
@@ -261,10 +267,10 @@ class MailBoxTest extends CDbTestCase
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
         $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
-        
-        $subject = MailBoxService::getThemes('18', $emailM61->subject_id);
+
+        $subject = MailBoxService::getThemes($simulation, '18', $emailM61->subject_id);
         // case 2, M61 }
-        
+
         // case 3, M62 {
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
         $resultDataM62 = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
@@ -272,7 +278,7 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
         $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
         
-        $subject = MailBoxService::getThemes('18', $emailM62->subject_id);
+        $subject = MailBoxService::getThemes($simulation, '18', $emailM62->subject_id);
         // case 3, M62 }
     }
 

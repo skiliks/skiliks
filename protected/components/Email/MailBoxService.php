@@ -364,7 +364,7 @@ class MailBoxService
      * Получение списка тем
      * @param string $receivers
      */
-    public static function getThemes($receivers, $parentSubjectId = null)
+    public static function getThemes(Simulation $simulation, $receivers, $parentSubjectId = null)
     {
         if(empty($receivers)){
             return [];
@@ -399,8 +399,11 @@ class MailBoxService
             ]);
         }
 
-        foreach ($models as $model) {
-            $themes[(int)$model->id] = $model->getFormattedTheme();
+        foreach ($models as $theme) {
+            /* @var $theme CommunicationTheme */
+            if(false === $theme->isBlockedByFlags($simulation)) {
+                $themes[(int)$theme->id] = $theme->getFormattedTheme();
+            }
         }
 
         return $themes;
