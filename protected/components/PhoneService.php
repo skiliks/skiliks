@@ -128,7 +128,10 @@ class PhoneService {
         $themes = $simulation->game_type->getCommunicationThemes(['character_id' => $character->primaryKey, 'phone' => 1]);
         $list = array();
         foreach($themes as $theme) {
-            $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
+            /* @var $theme CommunicationTheme */
+            if(false === $theme->isBlockedByFlags($simulation)) {
+                $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
+            }
         }
         
         return $list;
