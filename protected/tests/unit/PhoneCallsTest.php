@@ -151,8 +151,6 @@ class PhoneServiceTest extends CDbTestCase
 
         $this->assertInstanceOf('CommunicationTheme', $theme);
 
-        var_dump($simulation->id, $theme->id, $characterCode, $time);
-
         $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
         $this->assertEquals(1, $result['result']);
         $this->assertEquals(1, $result['events'][0]['result']);
@@ -182,7 +180,7 @@ class PhoneServiceTest extends CDbTestCase
         $theme_id = CommunicationTheme::model()
             ->findByAttributes([
                 'scenario_id'  => $simulation->scenario_id,
-                'text' => 'Перенос сроков сдачи сводного бюджета',
+                'text' => 'Динамика производственных затрат',
                 'character_id' => $character->id,
                 'phone' => 1
             ])->id;
@@ -191,10 +189,17 @@ class PhoneServiceTest extends CDbTestCase
 
         $this->assertNotEquals([], $data['events']);
         $data = PhoneService::call($simulation, $theme_id, $character->code, '10:10');
-        $this->assertEquals([], $data['events']);
+
+        $this->assertEquals(
+            "Меня нет на месте. Перезвоните мне в следующий раз",
+            $data['events'][0]["data"][0]["text"]
+        );
         SimulationService::simulationStop($simulation);
     }
 
+    /**
+     *
+     */
     public function testGetThemes()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -208,8 +213,6 @@ class PhoneServiceTest extends CDbTestCase
                 ['themeId' => 1130, 'themeTitle' => "Динамика производственных затрат"],
                 ['themeId' => 1148, 'themeTitle' => "Просьба"],
                 ['themeId' => 1149, 'themeTitle' => "Деньги на сервер"],
-                ['themeId' => 1150, 'themeTitle' => "Перенос сроков сдачи сводного бюджета"],
-                ['themeId' => 1151, 'themeTitle' => "Задержка данных от логистов"],
                 ['themeId' => 1231, 'themeTitle' => "Прочее"]
             ];
 
