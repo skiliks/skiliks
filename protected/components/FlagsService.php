@@ -224,5 +224,21 @@ class FlagsService
     {
         return SimulationFlag::model()->findByAttributes(['sim_id' => $simulation->id, 'flag'=>$flag_code]);
     }
+
+    /**
+     * Получить список флагов диалогов в рамках симуляции
+     * @param $simulation
+     * @return array
+     */
+    public static function getFlags($simulation)
+    {
+        $flags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $list = array();
+        foreach ($flags as $flag) {
+            $list[$flag->flag] = $flag->value;
+        }
+
+        return $list;
+    }
 }
 
