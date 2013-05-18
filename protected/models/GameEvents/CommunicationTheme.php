@@ -315,8 +315,10 @@ class CommunicationTheme extends CActiveRecord
 
     public function isBlockedByFlags($simulation) {
 
-        $flagsDependence = $this->game_type->getFlagCommunicationThemeDependences(['communication_theme_id'=>$this->id]);
-
+        $flagsDependence = $this->game_type->getFlagCommunicationThemeDependencies(['communication_theme_id'=>$this->id]);
+        if(empty($flagsDependence)){
+            return false;
+        }
         foreach($flagsDependence as $flagDependence) {
             /* @var $flagDependence FlagCommunicationThemeDependence  */
             /* @var $flagSimulation SimulationFlag  */

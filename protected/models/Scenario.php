@@ -134,6 +134,19 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getFlagCommunicationThemeDependencies($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return FlagCommunicationThemeDependence::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->getPrimaryKey());
+            return CommunicationTheme::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
 
     public function getHeroBehavours($data)
     {
