@@ -322,10 +322,10 @@ class CommunicationTheme extends CActiveRecord
             /* @var $flagSimulation SimulationFlag  */
             $flagSimulation = FlagsService::getFlag($simulation, $flagDependence->flag_code);
             if($flagSimulation->value !== $flagDependence->value) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
 
