@@ -118,13 +118,13 @@ class PhoneService {
 
     /**
      * Получить список тем для телефона.
-     * @param int $id
+     * @param int $code
      * @param Simulation $simulation
      * @return array
      */
-    public static function getThemes($id, Simulation $simulation) {
+    public static function getThemes($code, Simulation $simulation) {
 
-        $character = $simulation->game_type->getCharacter(['code' => $id]);
+        $character = $simulation->game_type->getCharacter(['code' => $code]);
         $themes = $simulation->game_type->getCommunicationThemes(['character_id' => $character->primaryKey, 'phone' => 1]);
         $list = array();
         foreach($themes as $theme) {
