@@ -116,6 +116,7 @@ return [
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
         'admm_personal' => "//tr[@class='matrix-points-sum-scale-type-personal']/td[2]",
+        'tasks2'=> "//tr[contains(@class, 'learning-area-code-2')]/td[3]",
         'management3' => "//tr[contains(@class, 'learning-area-code-3')]/td[3]",
         'communication4' => "//tr[contains(@class, 'learning-area-code-4')]/td[3]",
         'calls6' => "//tr[contains(@class, 'learning-area-code-6')]/td[3]",
