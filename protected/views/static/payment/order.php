@@ -81,25 +81,25 @@
 
                 <div class="row">
                     <?= $form->labelEx($invoice, 'ИНН') ?>
-                    <?= $form->textField($invoice, 'inn') ?>
+                    <?= $form->textField($invoice, 'inn',['maxlength' => 10]) ?>
                     <?= $form->error($invoice, 'inn') ?>
                 </div>
 
                 <div class="row">
                     <?= $form->labelEx($invoice, 'КПП') ?>
-                    <?= $form->textField($invoice, 'cpp') ?>
+                    <?= $form->textField($invoice, 'cpp',['maxlength' => 9]) ?>
                     <?= $form->error($invoice, 'cpp') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'Расчётный счёт') ?>
+                    <?= $form->labelEx($invoice, 'Расчётный счёт', ['maxlength' => 25]) ?>
                     <?= $form->textField($invoice, 'account') ?>
                     <?= $form->error($invoice, 'account') ?>
                 </div>
 
                 <div class="row">
                     <?= $form->labelEx($invoice, 'БИК') ?>
-                    <?= $form->textField($invoice, 'bic') ?>
+                    <?= $form->textField($invoice, 'bic',['maxlength' => 9]) ?>
                     <?= $form->error($invoice, 'bic') ?>
                 </div>
             </div>
