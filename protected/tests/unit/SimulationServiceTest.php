@@ -910,6 +910,29 @@ class SimulationServiceTest extends CDbTestCase
 
     }
 
+    public function testEmptyInviteForDev()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $developerSim = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $promoSim = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $this->setTime($developerSim, 10, 01, false);
+        $this->setTime($promoSim, 10, 01, false);
+
+        $this->assertArrayHasKey('result', EventsManager::getState($developerSim, []));
+        $this->assertArrayHasKey('result', EventsManager::getState($promoSim, []));
+    }
+
     /**
      * Service method
      *
