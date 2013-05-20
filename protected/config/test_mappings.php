@@ -221,10 +221,11 @@ return [
         'F3' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[5]",
         'F30' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[6]",
         'F31' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[7]",
-        'F4' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[8]",
-        'F7' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[9]",
-        'FC31' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[10]",
-        'FNA' => "xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[3]/tbody/tr/td"
+        'F32' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[8]",
+        'F4' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[9]",
+        'F7' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][2]/tbody/tr/td[10]",
+        'FCS1' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][3]/tbody/tr/td[1]",
+        'FNA' => "//form[@class='form-inline form-flags']//table[@class='table table-bordered'][3]/tbody/tr/td[2]"
     ],
 
 
