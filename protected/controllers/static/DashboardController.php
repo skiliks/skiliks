@@ -58,7 +58,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
             }
 
             if (0 == $this->user->account_corporate->invites_limit) {
-                $invite->addError('invitations', 'У вас закончились приглашения');
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас закончились приглашения'
+                ));
                 $validPrevalidate = false;
             }
 
