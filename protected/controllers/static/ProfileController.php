@@ -55,7 +55,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $birthday = Yii::app()->request->getParam('birthday');
 
             if (!empty($birthday['day']) || !empty($birthday['month']) || !empty($birthday['year'])) {
-                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
+                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year']) && (int)$birthday['year'] >= 1910 && (int)$birthday['year'] <= 2010) {
                     $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
                 } else {
                     $account->addError('birthday', Yii::t('site', 'Incorrect birthday'));
