@@ -115,7 +115,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['11h']);
+        $this->optimal_click('link=F32');
         $this->write_email();
         sleep(5);
         $this->waitForVisible($krutko);
