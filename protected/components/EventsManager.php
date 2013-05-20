@@ -97,7 +97,7 @@ class EventsManager {
     public static function getState($simulation, $logs) {
         $simId = $simulation->id;
         $gameTime = $simulation->getGameTime();
-        SimulationService::simulationIsStarted($simulation, $gameTime);
+        //SimulationService::simulationIsStarted($simulation, $gameTime);
         try {
             $endTime = $simulation->game_type->finish_time;
 
