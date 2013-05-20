@@ -2,6 +2,24 @@
 
 class FlagCommunicationThemeDependenceTest extends PHPUnit_Framework_TestCase {
 
+    public function findPhoneThemeByName($themes, $name) {
+        foreach($themes as $theme){
+            if($theme['themeTitle'] === $name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function findMailThemeByName($themes, $name) {
+        foreach($themes as $theme){
+            if($theme === $name){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function testPhoneServiceGetThemesBlocking() {
 
         /** @var $user YumUser */
@@ -73,22 +91,22 @@ class FlagCommunicationThemeDependenceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->findMailThemeByName($themes, 'Сводный бюджет: файл'));
     }
 
-    public function findPhoneThemeByName($themes, $name) {
-        foreach($themes as $theme){
-            if($theme['themeTitle'] === $name){
-                return true;
+    public function testMailBoxReFwdNotBlocking() {
+        /** @var $user YumUser */
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $flags = $simulation->game_type->getFlagCommunicationThemeDependencies([]);
+        foreach($flags as $flag){
+            /* @var $flag FlagCommunicationThemeDependence */
+            if(!empty($flag->communicationTheme->mail_prefix) && $flag->communicationTheme->mail === '1') {
+                $this->assertFalse($flag->communicationTheme->isBlockedByFlags($simulation));
             }
         }
-        return false;
     }
 
-    public function findMailThemeByName($themes, $name) {
-        foreach($themes as $theme){
-            if($theme === $name){
-                return true;
-            }
-        }
-        return false;
-    }
 
 }
