@@ -26,6 +26,8 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('ET1.1',"css=li.icon-active.phone a",'click');
         //$this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
