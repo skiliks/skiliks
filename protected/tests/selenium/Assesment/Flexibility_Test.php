@@ -68,6 +68,7 @@ class Flexibility_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','1'));
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу')])",'click');
         sleep(5);
+
         $this->transfer_time(5);
         $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
