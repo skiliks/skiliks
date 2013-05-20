@@ -34,6 +34,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F32');
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);

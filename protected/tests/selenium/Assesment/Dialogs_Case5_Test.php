@@ -26,6 +26,8 @@ class Dialogs_Case5_Test extends SeleniumTestHelper
         $Mail_log = array ( $window, $mail_code);*/
 
         $this->start_simulation();
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать? ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да уж, ситуация')])");

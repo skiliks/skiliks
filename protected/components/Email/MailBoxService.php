@@ -860,13 +860,14 @@ class MailBoxService
             }
         }
 
-        $sendEmail->refresh();
-
-        MailBoxService::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
+        self::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
 
         $sendEmail->refresh();
+        self::updateCompletedParentActivities($sendMailOptions->simulation, $sendEmail);
 
-        MailBoxService::updateRelatedEmailForByReplyToAttribute($sendEmail);
+        $sendEmail->refresh();
+
+        self::updateRelatedEmailForByReplyToAttribute($sendEmail);
 
         return $sendEmail;
     }
@@ -1048,9 +1049,12 @@ class MailBoxService
 
         // update email folder }
 
-        MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
+        self::updateRelatedEmailForByReplyToAttribute($email);
 
-        MailBoxService::updateMsCoincidence($email->id, $simulation->id);
+        self::updateMsCoincidence($email->id, $simulation->id);
+
+        $email->refresh();
+        self::updateCompletedParentActivities($simulation, $email);
 
         return true;
     }
@@ -1230,6 +1234,20 @@ class MailBoxService
 
         foreach ($mailFlags as $mailFlag) {
             EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
+        }
+    }
+
+    public static function updateCompletedParentActivities(Simulation $simulation, MailBox $email)
+    {
+        if ($email->code) {
+            /** @var MailTemplate $template */
+            $template = $simulation->game_type->getMailTemplate(['code' => $email->code]);
+
+            foreach ($template->termination_parent_actions as $parent_action) {
+                if (!$parent_action->isTerminatedInSimulation($simulation)) {
+                    $parent_action->terminateInSimulation($simulation);
+                }
+            };
         }
     }
 }

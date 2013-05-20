@@ -718,5 +718,56 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals($draft->id, $email->id);
     }
 
+    public function testParentActivityCompletedOnSend()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $person = $simulation->game_type->getCharacter(['code' => 2]);
+        $theme = $simulation->game_type->getCommunicationTheme(['letter_number' => 'MS20']);
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', [$person->id]));
+        $sendMailOptions->simulation   = $simulation;
+        $sendMailOptions->messageId    = 0;
+        $sendMailOptions->time         = '10:00';
+        $sendMailOptions->copies       = [];
+        $sendMailOptions->phrases      = [];
+        $sendMailOptions->fileId       = 0;
+        $sendMailOptions->subject_id   = $theme->id;
+        $sendMailOptions->setLetterType('new');
+
+        MailBoxService::sendMessagePro($sendMailOptions);
+        $this->assertCount(1, $simulation->completed_parent_activities);
+
+        $person = $simulation->game_type->getCharacter(['code' => 11]);
+        $theme = $simulation->game_type->getCommunicationTheme(['letter_number' => 'MS28']);
+        $docTemplate = $simulation->game_type->getDocumentTemplate(['code' => 'D8']);
+        $document = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'template_id' => $docTemplate->id]);
+
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray(implode(',', [$person->id]));
+        $sendMailOptions->simulation   = $simulation;
+        $sendMailOptions->messageId    = 0;
+        $sendMailOptions->time         = '11:00';
+        $sendMailOptions->copies       = [];
+        $sendMailOptions->phrases      = [];
+        $sendMailOptions->fileId       = $document->id;
+        $sendMailOptions->subject_id   = $theme->id;
+        $sendMailOptions->setLetterType('new');
+
+        $email = MailBoxService::saveDraft($sendMailOptions);
+        $simulation->refresh();
+        $this->assertCount(1, $simulation->completed_parent_activities);
+
+        MailBoxService::sendDraft($simulation, $email);
+        $simulation->refresh();
+        $this->assertCount(2, $simulation->completed_parent_activities);
+    }
+
 }
 
