@@ -674,7 +674,7 @@ class MailBoxService
         // update check MS email coincidence
         /** @var $log_mails LogMail[] */
         $log_mails = LogMail::model()->findAll(
-            "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `window` DESC, `id` DESC",
+            "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `end_time`",
             [
                 'mailId' => $mailId,
                 'simId'  => $simId
@@ -860,14 +860,13 @@ class MailBoxService
             }
         }
 
-        self::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
-
-        $sendEmail->refresh();
-        self::updateCompletedParentActivities($sendMailOptions->simulation, $sendEmail);
-
         $sendEmail->refresh();
 
-        self::updateRelatedEmailForByReplyToAttribute($sendEmail);
+        MailBoxService::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
+
+        $sendEmail->refresh();
+
+        MailBoxService::updateRelatedEmailForByReplyToAttribute($sendEmail);
 
         return $sendEmail;
     }
@@ -1049,12 +1048,9 @@ class MailBoxService
 
         // update email folder }
 
-        self::updateRelatedEmailForByReplyToAttribute($email);
+        MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
 
-        self::updateMsCoincidence($email->id, $simulation->id);
-
-        $email->refresh();
-        self::updateCompletedParentActivities($simulation, $email);
+        MailBoxService::updateMsCoincidence($email->id, $simulation->id);
 
         return true;
     }
@@ -1234,20 +1230,6 @@ class MailBoxService
 
         foreach ($mailFlags as $mailFlag) {
             EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
-        }
-    }
-
-    public static function updateCompletedParentActivities(Simulation $simulation, MailBox $email)
-    {
-        if ($email->code) {
-            /** @var MailTemplate $template */
-            $template = $simulation->game_type->getMailTemplate(['code' => $email->code]);
-
-            foreach ($template->termination_parent_actions as $parent_action) {
-                if (!$parent_action->isTerminatedInSimulation($simulation)) {
-                    $parent_action->terminateInSimulation($simulation);
-                }
-            };
         }
     }
 }

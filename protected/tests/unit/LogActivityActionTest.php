@@ -386,7 +386,7 @@ class LogActivityActionTest extends CDbTestCase
      */
     public function testActivityCompletion()
     {
-        $transaction = Yii::app()->db->beginTransaction();
+        //$transaction = Yii::app()->db->beginTransaction();
         try {
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
             $invite = new Invite();
@@ -472,9 +472,9 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity->code, 'A_already_used');
             $this->assertEquals('T2', $activity_actions[7]->activityAction->activity->code);
-            $transaction->rollback();
+            //$transaction->rollback();
         } catch (CException $e) {
-            $transaction->rollback();
+            //$transaction->rollback();
             throw $e;
         }
     }

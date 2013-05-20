@@ -741,8 +741,7 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->subject_id   = $theme->id;
         $sendMailOptions->setLetterType('new');
 
-        MailBoxService::sendMessagePro($sendMailOptions);
-        $this->assertCount(1, $simulation->completed_parent_activities);
+        $message1 = MailBoxService::sendMessagePro($sendMailOptions);
 
         $person = $simulation->game_type->getCharacter(['code' => 11]);
         $theme = $simulation->game_type->getCommunicationTheme(['letter_number' => 'MS28']);
@@ -760,11 +759,34 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->subject_id   = $theme->id;
         $sendMailOptions->setLetterType('new');
 
-        $email = MailBoxService::saveDraft($sendMailOptions);
-        $simulation->refresh();
+        $message2 = MailBoxService::saveDraft($sendMailOptions);
+
+        $logs = [
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [10, 11, 'activated', 32460, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32520, 'window_uid' => 2],
+            [10, 13, 'activated', 32520, 'window_uid' => 3],
+            [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message1->primaryKey]]
+        ];
+        EventsManager::processLogs($simulation, $logs);
+
         $this->assertCount(1, $simulation->completed_parent_activities);
 
-        MailBoxService::sendDraft($simulation, $email);
+        $logs = [
+
+            [10, 11, 'activated', 32580, 'window_uid' => 4, ['mailId' => $message2->primaryKey]],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 4, ['mailId' => $message2->primaryKey]],
+            [10, 13, 'activated', 32640, 'window_uid' => 5, ['mailId' => $message2->primaryKey]],
+            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $message2->primaryKey]],
+            [10, 11, 'activated', 32700, 'window_uid' => 6, ['mailId' => $message2->primaryKey]],
+            [10, 11, 'deactivated', 32730, 'window_uid' => 6, ['mailId' => $message2->primaryKey]],
+            [10, 11, 'activated', 32800, 'window_uid' => 7],
+            [10, 11, 'deactivated', 32850, 'window_uid' => 7]
+        ];
+        EventsManager::processLogs($simulation, $logs);
+        MailBoxService::sendDraft($simulation, $message2);
+
         $simulation->refresh();
         $this->assertCount(2, $simulation->completed_parent_activities);
     }
