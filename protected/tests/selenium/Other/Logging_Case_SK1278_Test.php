@@ -19,7 +19,8 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        $this->optimal_click('link=F32');
+        sleep(5);
         // первый предположительный список, который может появится в юниверсал логах
         $m = array('main screen','mail','mail','mail', 'plan', 'mail','mail');
         $s= array('main screen','mail main','mail main','mail new','plan','mail new','mail main');

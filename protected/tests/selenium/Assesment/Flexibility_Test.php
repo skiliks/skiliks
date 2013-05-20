@@ -19,7 +19,8 @@ class Flexibility_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну ладно, придется делать самому')])");
 
