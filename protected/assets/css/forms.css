@@ -101,7 +101,7 @@
     width:162px;
 }
 */
-.registrationform input[type=submit], .bigbtnsubmt {
+.registrationform input[type=submit], .bigbtnsubmt, .order-methods input[type=submit]  {
     background:#146672 url("../img/icon-circlarow.png") no-repeat 20px 16px;
     border:none;
     -webkit-border-radius:4px;

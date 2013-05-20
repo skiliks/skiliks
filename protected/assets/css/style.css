@@ -3,6 +3,7 @@
 @import "elements.css";
 @import "otzenka.css";
 @import "popups.css";
+@import "order.css";
 
 /* --------------- reset.css --------------- */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
@@ -78,7 +79,7 @@ body {
     min-height: 700px;
 }
 body.inner,
-body.inner-registration {
+body.inner-registration, .action-controller-order-static-payment {
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
@@ -3752,7 +3753,7 @@ ul.profile-menu li {
     .tarifform .value, .simulations-counter {
         font-size: 16px;
     }
-    .inner .content, .inner-registration .content {
+    .inner .content, .inner-registration .content, .action-order .content {
         margin: 0 auto;
         width: 765px;
     }

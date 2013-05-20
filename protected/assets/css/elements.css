@@ -770,7 +770,8 @@ section.registration-by-link .form .row a.decline-link:hover {
 }
 #registration_switch:hover,
 .features .freeacess.bigbtnsubmt:hover,
-.registrationform input[type="submit"]:hover {
+.registrationform input[type="submit"]:hover,
+.order-methods input[type=submit]:hover {
     background-image: url("../img/icon-circlarow-hover.png");
     background-color:#BD2929;
     background-repeat: no-repeat;
