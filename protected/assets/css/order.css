@@ -1,0 +1,298 @@
+.thintitle {
+    font:2.7em "ProximaNova-Regular";
+    margin-bottom: 20px;
+}
+.order-page {
+    background:#fdfcc6 url("../img/order-pagebg.gif") no-repeat center -40px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
+    padding: 0px 116px 70px;
+}
+.order-header {
+    height: 200px;
+    padding-top: 36px;
+    padding-bottom: 10px;
+}
+.order-header:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.order-status {
+    float: left;
+}
+.order-item {
+    background:#fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
+    height: 136px;
+    float: right;
+    padding: 8px;
+    text-align: center;
+    width: 136px;
+}
+.order-item h3 {
+    color:#fff;
+    font-size: 18px;
+    margin-top: 7px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+.period {
+    font-size: 15px;
+}
+.tariff-name {
+    color: #3e3f3a;
+    display: block;
+    font: 22px "ProximaNova-Bold";
+}
+.item-price {
+    font: 26px "Myriad Pro";
+    font-weight: bold;
+    margin-top: 10px;
+}
+.order-status label {
+    color: #fff;
+    font-size: 17px;
+    width: 244px;
+}
+.order-status .sbHolder {
+    width:50px;
+}
+.order-status .expire-date, .order-status .tarifprice {
+    color:#d6d6d6;
+    font:11px "ProximaNova-Regular";
+}
+.order-status .tarifprice {
+    display: block;
+}
+.order-status .value {
+    color:#fff;
+    font: 18px "ProximaNova-Bold";
+    padding: 0px;
+}
+.order-status label, .order-status .value {
+    display:table-cell;
+    padding-bottom: 38px;
+    padding-right: 18px;
+    vertical-align: top;
+}
+.method-description {
+    padding-top: 3px;
+    width: 315px;
+}
+.method-description small, .method-description span {
+    color:#6d6d5b;
+    font-size:12px;
+}
+.payment-card .method-description small, .payment-card .method-description span {
+    color:#b5b490;
+}
+.payment-form .payment-invoice, .payment-form .payment-card {
+    display: table-cell;
+}
+.payment-invoice {
+    padding-right: 94px;
+}
+.payment-invoice .row {
+    padding-bottom: 18px;
+}
+.payment-invoice .row:first-child {
+    padding-bottom: 8px;
+}
+.order-method input[type="radio"] {
+    margin-left: -18px;
+}
+.payment-invoice label {
+    color:#3c3c32;
+    display: inline-block;
+    font-size: 14px;
+    padding-right: 10px;
+    width:132px;
+}
+.payment-invoice input[type="text"] {
+    background: #fff;
+    border: 1px solid #6b6a54;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    height: 22px;
+    font-size: 12px;
+    padding: 0px 4px;
+}
+.payment-invoice .errorMessage {
+    margin-top: -8px;
+}
+#Invoice_inn {
+    width:74px;
+}
+#Invoice_cpp {
+    width:64px;
+}
+#Invoice_account {
+    width:154px;
+}
+#Invoice_bic {
+    width:64px;
+}
+.order-methods input[type=submit] {
+    background-position: 20px 50%;
+    font: 18px "ProximaNova-Bold";
+    height: 46px;
+    line-height: 46px;
+    margin: 0 auto;
+    display: block;
+    padding-left: 54px;
+    padding-right: 24px;
+}
+.cardsbg {
+    background:url("../img/visa-mastercard.gif") no-repeat;
+    display: inline-block;
+    height: 23px;
+    margin-right: 14px;
+    width: 67px;
+}
+.nocommision {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 120px;
+}
+.terms-confirm {
+    color: #6d6d5b;
+    font-size:12px;
+    padding-top: 14px;
+    text-align: center;
+}
+.terms-confirm .errorMessage {
+    left:50%;
+    margin-left: -105px;
+    margin-top: 3px;
+}
+.terms-confirm a {
+    color:#0c707f;
+    text-decoration: none;
+}
+.order-result {
+    background: #f8f8e4;
+    border-radius: 8px;
+    color:#2e2e29;
+    font-size: 16px;
+    line-height: 130%;
+    margin: 40px auto 0px;
+    padding: 15px;
+    text-align: center;
+    width:420px;
+}
+@media screen and (max-width: 1146px){
+    .order-page {
+        background-position: center -80px;
+        padding: 0px 92px 60px;
+    }
+    .thintitle {
+        font-size: 2.219em;
+    }
+    .order-header {
+        height: 186px;
+        padding-top: 30px;
+        padding-bottom: 10px;
+    }
+    .order-status .sbHolder {
+        width:40px;
+    }
+    .order-item {
+        background-position: center -14px;
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+        height: 110px;
+        padding: 6px;
+        width:110px;
+    }
+    .order-status .expire-date, .order-status .tarifprice {
+        font-size: 10px;
+    }
+    .order-item h3 {
+        font-size: 16px;
+        margin-top: 4px;
+        padding-bottom: 24px;
+    }
+    .period {
+        font-size: 13px;
+    }
+    .order-status label, .order-status .value {
+        padding-bottom: 28px;
+        padding-right: 16px;
+    }
+    .order-status label {
+        font-size: 15px;
+        width: 220px;
+    }
+    .payment-invoice .row {
+        padding-bottom: 14px;
+    }
+    .tariff-name {
+        font-size: 20px;
+    }
+    .item-price {
+        font-size:20px;
+        margin-top: 4px;
+    }
+    .payment-invoice {
+        padding-right: 60px;
+    }
+    .payment-invoice label {
+        width: 112px;
+    }
+    .order-method label {
+        font-size: 12px;
+    }
+    .payment-invoice input[type="text"] {
+        height: 20px;
+        font-size: 11px;
+    }
+    .method-description small, .method-description span {
+        font-size: 11px;
+    }
+    #Invoice_inn {
+        width: 70px;
+    }
+    #Invoice_cpp, #Invoice_bic {
+        width: 60px;
+    }
+    #Invoice_account {
+        width: 150px;
+    }
+    .order-methods input[type=submit] {
+        background-image: url("../img/icon-btn-notify.png");
+        background-position: 17px 50%;
+        height: 44px;
+        font-size: 16px;
+        line-height: 44px;
+        padding-left: 44px;
+    }
+    .order-methods input[type=submit]:hover {
+        background-image: url("../img/icon-btn-notify-hover.png");
+    }
+    .terms-confirm {
+        font-size: 11px;
+    }
+    .terms-confirm .errorMessage {
+        margin-left: -96px;
+    }
+    .cardsbg {
+        background-size: contain;
+        height: 19px;
+        margin-right: 11px;
+        width: 52px;
+    }
+    .order-result {
+        font-size: 14px;
+        margin: 30px auto 0px;
+        padding: 12px;
+        width:370px;
+    }
+}
