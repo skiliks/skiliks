@@ -391,5 +391,6 @@ return array(
     'BIC is required' => 'Введите БИК',
     'Wrong INN' => 'Введите верный ИНН',
     'Wrong CPP' => 'Введите верный КПП',
+    'Wrong account number' => 'Введите рублёвый счёт',
     'Wrong BIC' => 'Введите верный БИК',
 );

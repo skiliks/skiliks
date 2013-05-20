@@ -91,7 +91,7 @@ class Invoice extends CActiveRecord
     {
         $prefix = +substr($this->cpp, 0, 2);
         $correct = preg_match('/^\d{9}$/', $this->cpp);
-        $correct = $correct && $prefix >= 1 && $prefix <= 83 || $prefix === 99;
+        $correct = $correct && ($prefix >= 1 && $prefix <= 83 || $prefix === 99);
 
         if (!$correct) {
             $this->addError('cpp', Yii::t('site', 'Wrong CPP'));
