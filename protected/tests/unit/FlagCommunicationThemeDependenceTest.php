@@ -117,16 +117,21 @@ class FlagCommunicationThemeDependenceTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         $replicas = $simulation->game_type->getReplicas(['fantastic_result' => 1]);
+        $fantastic = ['MS21','MS22','MS23'];
         $ms = [];
-        FlagsService::setFlag($simulation, 'F32', 1);
-        foreach($replicas as $replica){
+        //FlagsService::setFlag($simulation, 'F32', 1);
+        foreach($replicas as $replica) {
             /* @var $replica Replica */
-            if(substr($replica->next_event_code, 0, 2) === "MS" && false === in_array($replica->next_event_code, $ms)){
+            if(substr($replica->next_event_code, 0, 2) === "MS" && false === in_array($replica->next_event_code, $ms) && false === in_array($replica->next_event_code, $fantastic)){
                 $ms[] = $replica->next_event_code;
                 /* @var $theme CommunicationTheme */
                 $theme = $simulation->game_type->getCommunicationTheme(['letter_number'=>$replica->next_event_code]);
                 $this->assertNotNull($theme);
+                if($theme->isBlockedByFlags($simulation) === true){
+                    echo $replica->next_event_code;
+                }
                 $this->assertFalse($theme->isBlockedByFlags($simulation));
+
             }
         }
 
