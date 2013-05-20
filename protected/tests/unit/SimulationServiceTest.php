@@ -874,7 +874,8 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
 
-    public function testInviteMark() {
+    /* SK-2608 */
+    /*public function testInviteMark() {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
@@ -908,7 +909,7 @@ class SimulationServiceTest extends CDbTestCase
         }
         $this->fail('An expected exception has not been raised.');
 
-    }
+    }*/
 
     public function testEmptyInviteForDev()
     {
