@@ -336,11 +336,13 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
-    '.action-registration .registrationform .row input[type=submit]',
+    '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
+    '.method-description small, .terms-confirm, .period, .order-item h3',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
-    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4',
+    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
+    '.tariff-name',
     {fontFamily:"ProximaNova-Bold", hover:true}
 );
 Cufon.replace('.freeacess', {hover:true});
