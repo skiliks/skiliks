@@ -42,7 +42,7 @@ class Tariff extends CActiveRecord
     {
         $lang = Yii::app()->getLanguage();
         $currency = $lang == 'ru' ? 'RUB' : 'USD';
-        $price = StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang);
+        $price = StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang, '#,##0');
 
         if (preg_match('/^(\d{1,3})((?:\d{3})*)(\.\d+)/', $price, $match)) {
             $price = $match[1] . preg_replace('/\d{3}/', ' $1', $match[2]) . $match[3];
