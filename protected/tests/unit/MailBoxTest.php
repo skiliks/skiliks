@@ -773,8 +773,9 @@ class MailBoxTest extends CDbTestCase
 
         $this->assertCount(1, $simulation->completed_parent_activities);
 
-        $logs = [
+        MailBoxService::sendDraft($simulation, $message2);
 
+        $logs = [
             [10, 11, 'activated', 32580, 'window_uid' => 4, ['mailId' => $message2->primaryKey]],
             [10, 11, 'deactivated', 32640, 'window_uid' => 4, ['mailId' => $message2->primaryKey]],
             [10, 13, 'activated', 32640, 'window_uid' => 5, ['mailId' => $message2->primaryKey]],
@@ -785,7 +786,6 @@ class MailBoxTest extends CDbTestCase
             [10, 11, 'deactivated', 32850, 'window_uid' => 7]
         ];
         EventsManager::processLogs($simulation, $logs);
-        MailBoxService::sendDraft($simulation, $message2);
 
         $simulation->refresh();
         $this->assertCount(2, $simulation->completed_parent_activities);
