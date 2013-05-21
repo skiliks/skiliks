@@ -28,7 +28,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1338() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
@@ -55,7 +55,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1339() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
@@ -85,7 +85,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1340() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
@@ -115,7 +115,10 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-        $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['11h']);
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->optimal_click('link=F32');
 
         $this->write_email();
