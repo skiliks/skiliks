@@ -355,6 +355,12 @@ span.required {
     height:23px;
     width: 350px;
 }
+.profileform  .blueinputtext {
+    position: relative;
+}
+.profileform  .blueinputtext .errorMessage {
+    top: -6px;
+}
 #UserAccountPersonal_location {
     width: 340px;
 }
