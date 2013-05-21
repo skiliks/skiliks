@@ -39,7 +39,7 @@ class ZohoTest extends SeleniumTestHelper
         }
         //ждем самой загрузки документов
         sleep (95);
-        //кликаем по "ок" в туториале. Если туториала нет - значит зохо не загрузился
-        $this->click("xpath=//*[@id='messageSystemMessageDiv']/div/table/tbody/tr/td/div");
+        //кликаем по "Начать" в туториале. Если туториала нет - значит зохо не загрузился
+        $this->click("xpath=(//*[contains(text(),'Начать')])");
     }
 }
