@@ -758,7 +758,6 @@ section.registration-by-link .form .row a.decline-link:hover {
     }
 }
 /* :hover кнопок */
-#invite-decline-form #form-decline-explanation input[type="submit"]:hover,
 .action-controller-login-auth #usercontent input[type="submit"]:hover,
 #registration-by-link-form input[type="submit"]:hover,
 #subscribe-form input[type="submit"]:hover,
@@ -777,6 +776,10 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-repeat: no-repeat;
     color: #FFFFFF;
 }
+#invite-decline-form #form-decline-explanation input[type="submit"]:hover {
+    background-color:#BD2929;
+    background-image: url("../img/icon-btn-notify-hover.png");
+}
 /* universal */
 .blackout {
     position: fixed;
@@ -784,7 +787,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     height: 100%;
     background: #000000;
     opacity: 0.55;
-    z-index: 1;
+    z-index: 3;
 }
 .row {
     position: relative;

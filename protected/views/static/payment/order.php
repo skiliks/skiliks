@@ -5,7 +5,7 @@
  * @var Tariff $tariff
  */
 ?>
-<h2 class="thintitle"><?= Yii::t('site', 'Оформление заказа') ?></h2>
+<h2 class="thetitle"><?= Yii::t('site', 'Оформление заказа') ?></h2>
 
 <div class="order-page">
     <div class="order-header">
@@ -62,7 +62,7 @@
         ?>
 
             <div class="order-method payment-invoice">
-                <div class="row">
+                <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
                         'preference_payment_method',
@@ -105,7 +105,7 @@
             </div>
 
             <div class="order-method payment-card">
-                <div class="row">
+                <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
                         'preference_payment_method',
