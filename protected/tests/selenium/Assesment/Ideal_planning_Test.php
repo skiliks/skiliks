@@ -28,7 +28,7 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->dragAndDropToObject("//div[@data-task-id='24']","//div[@id='plannerBookToday']//td[@data-hour='16' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='15']","//div[@id='plannerBookToday']//td[@data-hour='17' and @data-minute='00']");
         //нужно крутнуть скролл, иначе селениум не увидит туду лист дальше 18.00
-        $this->dragAndDrop("//div[@id='plannerBookToday']//div[@class='mCSB_dragger ui-draggable']","0, +300");
+        //$this->dragAndDrop("//div[@id='plannerBookToday']//div[@class='mCSB_dragger ui-draggable']","0, +300");
         $this->dragAndDropToObject("//div[@data-task-id='25']","//div[@id='plannerBookToday']//td[@data-hour='18' and @data-minute='00']");
         //Завтра
         $this->dragAndDropToObject("//div[@data-task-id='12']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='9' and @data-minute='00']");
@@ -39,14 +39,14 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->dragAndDropToObject("//div[@data-task-id='14']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='13' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='18']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='16' and @data-minute='30']");
         //снова скролл
-        $this->dragAndDrop("//div[@id='plannerBookTomorrowTimeTable']//div[@class='mCSB_dragger ui-draggable']","0, +300");
+        //$this->dragAndDrop("//div[@id='plannerBookTomorrowTimeTable']//div[@class='mCSB_dragger ui-draggable']","0, +300");
         $this->dragAndDropToObject("//div[@data-task-id='21']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='17' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='11']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='18' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='13']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='19' and @data-minute='00']");
-        $this->dragAndDropToObject("//div[@data-task-id='16']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='20' and @data-minute='30']");
+        $this->dragAndDropToObject("//div[@data-task-id='16']","//div[@id='plannerBookAfterVacation']//div[@class='day-plan-td-slot']");
 
         //После отпуска
-        $this->dragAndDropToObject("//div[@data-task-id='22']","//div[@id='plannerBookAfterVacation']//div[@class='day-plan-td-slot']");
+        $this->dragAndDropToObject("//div[@data-task-id='22']","//td[@data-hour='1' and @data-minute='00']");
         //в 11.00 идет отправка того, что пользователь запланировал. Перематываем на 10:59, ждем
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "59");
