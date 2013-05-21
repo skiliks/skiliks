@@ -6,10 +6,10 @@
 /**
  * Cтартуем фулл промо симуляцию, ждем загрузку зохо
  */
-class Zoho_Test extends SeleniumTestHelper
+class ZohoTest extends SeleniumTestHelper
 {
 
-    public function test_Zoho() {
+    public function testZoho() {
 
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
