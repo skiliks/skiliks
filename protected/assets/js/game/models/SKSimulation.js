@@ -311,7 +311,7 @@ define([
                             if (false === me.tryCloseLoadDocsDialog()) {
                                 me.trigger('documents:error');
                             }
-                        }, 60000);
+                        }, 120000);
                     }
                 }
             },
