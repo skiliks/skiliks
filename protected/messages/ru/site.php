@@ -393,4 +393,6 @@ return array(
     'Wrong CPP' => 'Введите верный КПП',
     'Wrong account number' => 'Введите рублёвый счёт',
     'Wrong BIC' => 'Введите верный БИК',
+
+    'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );
