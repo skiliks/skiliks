@@ -117,6 +117,7 @@
                 dialogClass: 'feedbackwrap',
                 modal: true,
                 resizable: false,
+                draggable: false,
                 open: function( event, ui ) { Cufon.refresh(); }
             });
 
@@ -237,12 +238,13 @@
                 minHeight: 350,
                 modal: true,
                 resizable: false,
+                draggable: false,
                 title: '',
-                width: 600,
+                width: 584,
                 position: {
                     my: "left top",
-                    at: "right top",
-                    of: $('#invite-people-box')
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box .items')
                 }
             });
             $(".form-vacancy").dialog('open');
@@ -337,7 +339,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
     '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
-    '.method-description small, .terms-confirm, .period, .order-item h3',
+    '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
