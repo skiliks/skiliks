@@ -173,9 +173,15 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
 
+        $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+
+        $user = Yii::app()->user->data();
+
         $this->render('simulation_details', [
             'simulation'     => $simulation,
-            'learning_areas' => $learning_areas
+            'learning_areas' => $learning_areas,
+            'invite'=>$invite,
+            'user'=>$user
         ]);
     }
 }
