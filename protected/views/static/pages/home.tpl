@@ -51,7 +51,7 @@
                     </div>
                     <div class="videosocwrap clearfix">
                         <div class="video" style="cursor: pointer;">
-
+                            <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
                         </div>
                         <div class="social_networks smallicons">
                             <span>{Yii::t('site', 'Share')}:</span>

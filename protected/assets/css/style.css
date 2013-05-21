@@ -578,9 +578,19 @@ a:focus, a:active {
     width:396px;
 }
 .features .video{
-	background:url("../img/watchvideo.png") no-repeat 0 0;
+	background:url("../img/img-video.png") no-repeat 0 0;
 	height:211px;
 	text-align:center;
+}
+.features .video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    color: white;
+    display: inline-block;
+    font: bold 1.18em "ProximaNova-Regular";
+    margin: 135px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
 }
 .features .video p{
 	display:inline-block;
