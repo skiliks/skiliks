@@ -69,7 +69,15 @@
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 820,
+            resizable: false,
+            draggable: false,
+            width: 590,
+            height: 500,
+            position: {
+                my: "left top",
+                at: "left top",
+                of: $('#corporate-invitations-list-box .items')
+            },
             open: function( event, ui ) { Cufon.refresh(); }
         });
 

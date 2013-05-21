@@ -3381,13 +3381,10 @@ ul.profile-menu li {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    left:50% !important;
-    margin-left:-292px !important;
     overflow: visible;
     padding-bottom: 20px;
     position: relative;
     padding-bottom: 20px;
-    width:584px !important;
 }
 .add-vacancy-popup .row   {
     padding-bottom: 12px;
