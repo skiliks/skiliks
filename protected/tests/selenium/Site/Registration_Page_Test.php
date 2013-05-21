@@ -4,12 +4,6 @@
 // и проверяет error msg на странице регистрации
 class Registration_Page_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function test_SK2294()
     {

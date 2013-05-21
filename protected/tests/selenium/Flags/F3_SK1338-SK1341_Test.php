@@ -8,12 +8,6 @@
  */
 class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1338() тестирует задачу SKILIKS-1338 для dialog

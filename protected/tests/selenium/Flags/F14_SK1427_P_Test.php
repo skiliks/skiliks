@@ -8,12 +8,6 @@
  */
 class F14_SK1427_P_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1427_Case1() тестирует задачу SKILIKS-1427 для статуса MAIL
