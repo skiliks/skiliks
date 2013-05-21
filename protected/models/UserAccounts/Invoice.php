@@ -100,7 +100,7 @@ class Invoice extends CActiveRecord
 
     public function checkAccount()
     {
-        $correct = preg_match('/^\d{3}-?\d{2}-?(?:810|643)-?\d-?\d{4}-?\d{7}$/', $this->account);
+        $correct = preg_match('/^\d{5}(?:810|643)\d{12}$/', $this->account);
         if (!$correct) {
             $this->addError('account', Yii::t('site', 'Wrong account number'));
         }
