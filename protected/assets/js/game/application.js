@@ -19,7 +19,7 @@ require([
     if (compatibility.check(window.gameConfig)) {
         $(function () {
            var intro = new SKIntroView();
-           if($.cookie('intro_is_watched') === undefined || $.cookie('intro_is_watched') === null){
+           if($.cookie('intro_is_watched_2') === undefined || $.cookie('intro_is_watched_2') === null){
                intro.show();
            }else{
                intro.appLaunch();

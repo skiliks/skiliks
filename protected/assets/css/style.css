@@ -16,7 +16,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, 
 	font-size: 100%;
     outline: none;
 }
-a {                                      	
+a {           f
 	margin:0;
 	padding:0;
 	font-size:100%;
@@ -2289,14 +2289,19 @@ html[lang="en"] .footer .social_networks {
 		height:11px;
 		padding:6px 7px;
 	}
-    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"]
-    {
+    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"],
+    #change-password-form input[type=password].error:focus{
+
         height: 25px;
         line-height: 25px;
         width:144px;
     }
     #change-password-form input[type="password"]:focus, #change-password-form input[type=password].error,
     #change-password-form input.error:focus {
+        height: 23px;
+        width: 142px;
+    }
+    #change-password-form input[type="password"]:focus {
         height: 23px;
         width: 142px;
     }
