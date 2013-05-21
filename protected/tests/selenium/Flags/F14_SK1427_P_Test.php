@@ -69,7 +69,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
@@ -109,7 +109,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
@@ -148,7 +148,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
@@ -187,7 +187,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
