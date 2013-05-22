@@ -33,32 +33,7 @@
                 'label',
                 '',
                 'Выберите отрасль'
-            ),
-            [
-                'ajax' => [
-                    'type'     => 'POST',
-                    'dataType' =>'json',
-                    'url'      => $this->createUrl('profile/getSpecialization'),
-                    'success'  =>' function(data) {
-                            $("select#Vacancy_professional_specialization_id option").remove();
-                            for (var id in data) {
-                                $("select#Vacancy_professional_specialization_id").append(
-                                    "<option value=\"" + id + "\">" + data[id] + "</option>"
-                                );
-                            }
-
-                            if (0 == data.length) {
-                                $("select#Vacancy_professional_specialization_id").parent().addClass(\'empty-select\');
-                            } else {
-                                $("select#Vacancy_professional_specialization_id").parent().removeClass(\'empty-select\');
-                            }
-
-                            // refresh custom drop-down
-                            $("select#Vacancy_professional_specialization_id").selectbox("detach");
-                            $("select#Vacancy_professional_specialization_id").selectbox("attach");
-                        }',
-                ],
-            ]
+            )
         ); ?>
         <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?>
     </div>
@@ -69,7 +44,7 @@
         echo $form->error($vacancy       , 'position_level_slug'); ?>
     </div>
 
-    <div class="row <?php echo (0 == count($specializations) ? 'empty-select' : '') ?>">
+    <div class="row">
         <?php echo $form->labelEx($vacancy     , 'professional_specialization_id'); ?>
         <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations);
         echo $form->error($vacancy       , 'professional_specialization_id'); ?>
