@@ -413,6 +413,13 @@ define([
                         context[methodName]();
                     }
                 });
+
+                // switch body class
+                if ($('body').hasClass("simulation-full-screen-mode")) {
+                    $('body').removeClass("simulation-full-screen-mode");
+                } else {
+                    $('body').addClass("simulation-full-screen-mode");
+                }
             }
         });
 
