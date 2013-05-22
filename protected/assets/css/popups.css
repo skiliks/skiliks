@@ -38,6 +38,9 @@
     height:147px !important;
 }
 */
+.terms-page h1, .terms-page h2, .terms-page h3 {
+    color: #3d4041;
+}
 @media screen and (max-width: 1146px){
     .flash-pop-up {
         overflow: visible;
