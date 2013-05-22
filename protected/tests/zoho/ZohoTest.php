@@ -27,7 +27,7 @@ class ZohoTest extends SeleniumTestHelper
             } catch (Exception $e) {}
             usleep(100000);
         }
-        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
+        $this->createCookie("intro_is_watched_2=yes", "path=/, expires=365");
         $this->open('/simulation/promo/full');
         //ждем появление поп-апа "Подождите, идет загрузка документов"
         for ($second = 0; ; $second++) {
