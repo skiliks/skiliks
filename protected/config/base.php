@@ -308,7 +308,7 @@ return array(
             'afterCallZoomerDuration' => 2000, // milliseconds
         ],
         'zoho' => array(
-            'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
+            'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
