@@ -13,7 +13,6 @@ define(["text!game/jst/window.jst"], function (window_template) {
      * @augments Backbone.View
      */
     SKWindowView = Backbone.View.extend({
-        Windows: {},
 
         container: '.windows-container',
 

@@ -1,7 +1,7 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView,
 SKImmediateVisitView, SKPhoneView, SKMailClientView, SKDialogView,
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView,
- SKMailClientView, SKPhoneCallView, define */
+ SKMailClientView, SKPhoneCallView, SKManualView, define */
 
 var SKSimulationView;
 
@@ -22,6 +22,7 @@ define([
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
+    "game/views/world/SKManualView",
     "game/views/SKDialogView"
 ], function (simulation_template, tutorial_template, SKMailClientView, SKXLSDisplayView) {
     "use strict";
@@ -43,9 +44,11 @@ define([
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
                 'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
-                'click .fullscreen': 'doToggleFullscreen'
+                'click .fullscreen': 'doToggleFullscreen',
+                'click .manual-toggle': 'doToggleManual'
             },
             'window_views':    {
+                'mainScreen/manual':       SKManualView,
                 'plan/plan':               SKDayPlanView,
                 'phone/phoneMain':         SKPhoneView,
                 'mailEmulator/mailMain':   SKMailClientView,
@@ -420,6 +423,11 @@ define([
                 } else {
                     $('body').addClass("simulation-full-screen-mode");
                 }
+            },
+
+            doToggleManual: function(e) {
+                e.preventDefault();
+                SKApp.simulation.window_set.toggle('mainScreen', 'manual');
             }
         });
 
