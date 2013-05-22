@@ -52,7 +52,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
+        $this->createCookie("intro_is_watched_2=yes", "path=/, expires=365");
         $this->open('/simulation/developer/full'); // для full simulation
 
         for ($second = 0; ; $second++) {
