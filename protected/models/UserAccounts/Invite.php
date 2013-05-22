@@ -16,6 +16,7 @@
  * @property string $vacancy_id
  * @property string $status
  * @property string $sent_time
+ * @property string $updated_at
  * @property string $fullname
  * @property integer $simulation_id
  * @property integer $scenario_id
@@ -147,7 +148,7 @@ class Invite extends CActiveRecord
     {
         $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
         $this->sent_time = $datetime->getTimestamp();
-
+        $this->updated_at = $datetime->format("Y-m-d H:i:s");
         if (null === $this->status) {
             $this->status = self::STATUS_PENDING;
         }
@@ -222,6 +223,14 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return DateTime
+     */
+    public function getUpdatedTime()
+    {
+        return new DateTime($this->updated_at, new DateTimeZone('Europe/Moscow'));
+    }
+
+    /**
      * @param YumUser $user
      * @param Scenario $scenario
      * @return Invite
@@ -235,6 +244,7 @@ class Invite extends CActiveRecord
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
         $newInvite->sent_time   = time(); // @fix DB!
+        $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
         ]);

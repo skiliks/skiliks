@@ -531,6 +531,7 @@ class SimulationService
                 $invite->scenario_id = $scenario->id;
                 $invite->status = Invite::STATUS_ACCEPTED;
                 $invite->sent_time = time(); // @fix DB!
+                $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $invite->save(true, [
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
