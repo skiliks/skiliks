@@ -37,8 +37,8 @@
 .order-item h3 {
     color:#fff;
     font-size: 18px;
-    margin-top: 7px;
-    padding-bottom: 30px;
+    margin-top: 5px;
+    padding-bottom: 26px;
     text-align: center;
 }
 .period {
@@ -53,6 +53,13 @@
     font: 26px "Myriad Pro";
     font-weight: bold;
     margin-top: 10px;
+    position: relative;
+}
+.item-price span {
+    font-size: 16px;
+    margin-left: 8px;
+    position: absolute;
+    bottom: 5px;
 }
 .order-status label {
     color: #fff;
