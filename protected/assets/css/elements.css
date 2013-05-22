@@ -789,7 +789,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     opacity: 0.55;
     z-index:1;
 }
-.action-controller-chooseAccountType-static-userAuth .blackout {
+.action-controller-personal-static-dashboard .blackout {
     z-index:3;
 }
 .row {
