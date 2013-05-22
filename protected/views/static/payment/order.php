@@ -16,7 +16,8 @@
             <div class="period">1 Месяц</div>
 
             <div class="item-price">
-                <?= $tariff->getFormattedPrice(true) ?>
+                <?= $tariff->getFormattedPrice() ?>
+                <span><?= $tariff->getFormattedCyName() ?></span>
             </div>
         </div>
 

@@ -59,6 +59,19 @@ class Tariff extends CActiveRecord
         return $price;
     }
 
+    public function getFormattedCyName()
+    {
+        $lang = Yii::app()->getLanguage();
+
+            if ($lang == 'ru') {
+                $price = 'р';
+            } else {
+                $price = '$';
+            }
+
+        return $price;
+    }
+
     public function getFormattedSafeAmount($prefix = '')
     {
         if ($this->is_free) {
