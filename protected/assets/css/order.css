@@ -142,7 +142,8 @@
     padding: 0px 4px;
 }
 .payment-invoice .errorMessage {
-    top: -6px;
+    top: -14px;
+    left: 148px;
 }
 #Invoice_inn {
     width:74px;
