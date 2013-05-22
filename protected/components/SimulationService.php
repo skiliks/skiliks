@@ -801,7 +801,7 @@ class SimulationService
                 throw new InviteException('Симуляция запущена без инвайта');
             } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
                 $invite->status = Invite::STATUS_STARTED;
-                $invite->update();
+                $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate()) {
                     Yii::app()->user->data()->getAccount()->invites_limit--;
