@@ -279,7 +279,7 @@
             if(localStorage.getItem('lastGetState') === null){
                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
                     //window.alert("Ок");
                     return true;
                 } else {
