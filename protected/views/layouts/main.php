@@ -28,6 +28,7 @@ $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.9.2.custom.js', CClientScript::POS_BEGIN);
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
