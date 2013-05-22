@@ -41,11 +41,7 @@ class ProfessionalSpecialization extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('label', 'required'),
-			array('professional_occupation_id', 'numerical', 'integerOnly'=>true),
-			array('label', 'length', 'max'=>120),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, professional_occupation_id, label', 'safe', 'on'=>'search'),
+			array('label', 'length', 'max'=>120)
 		);
 	}
 
@@ -57,7 +53,6 @@ class ProfessionalSpecialization extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'professionalOccupation' => array(self::BELONGS_TO, 'ProfessionalOccupation', 'professional_occupation_id'),
 			'vacancies' => array(self::HAS_MANY, 'Vacancy', 'professional_specialization_id'),
 		);
 	}
@@ -69,7 +64,6 @@ class ProfessionalSpecialization extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'professional_occupation_id' => 'Professional Occupation',
 			'label' => 'Label',
 		);
 	}
@@ -86,7 +80,6 @@ class ProfessionalSpecialization extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('professional_occupation_id',$this->professional_occupation_id);
 		$criteria->compare('label',$this->label);
 
 		return new CActiveDataProvider($this, array(
