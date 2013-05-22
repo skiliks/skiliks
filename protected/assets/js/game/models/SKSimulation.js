@@ -240,15 +240,10 @@ define([
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                    var is_paused = $('.time').hasClass('paused');
-                    if(is_paused) {
-                        SKApp.simulation.stopPause(function(){
-                            $('.time').removeClass('paused');
-                            SKApp.simulation.closeLoadDocsDialog();
-                        });
-                    }else{
+                    SKApp.simulation.stopPause(function(){
+                        $('.time').removeClass('paused');
                         SKApp.simulation.closeLoadDocsDialog();
-                    }
+                    });
                     return true;
                 } else {
                     return false;
@@ -310,7 +305,6 @@ define([
                 var me = this;
 
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
                         me.loadDocsDialog = new SKDialogView({
                             'message': 'Пожалуйста, подождите, идёт загрузка документов',
