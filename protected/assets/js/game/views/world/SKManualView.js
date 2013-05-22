@@ -26,6 +26,8 @@ define(
 
             addClass: 'manual-window',
 
+            lastPage: '6',
+
             'events': _.defaults(
                 {
                     'click a[data-refer-page]': 'doOpenPage'
@@ -50,6 +52,31 @@ define(
                 });
 
                 this.pages = content.find('.page');
+                this.closeBtn = content.find('.close-window');
+
+                if (this.options.model_instance.get('required') === true) {
+                    this.closeBtn.hide();
+                }
+
+                this.$el.tooltip({
+                    tooltipClass: 'person-info-tooltip',
+                    position: {
+                        my: 'left+20 top-50',
+                        at: 'right center',
+                        collision: 'flipfit',
+                        within: content.find('.flyleaf')
+                    },
+                    show: {
+                        effect: 'fade',
+                        delay: 300
+                    },
+                    items: '[data-refer-tooltip]',
+                    content: function() {
+                        var tooltipId = $(this).attr('data-refer-tooltip');
+
+                        return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
+                    }
+                });
             },
 
             doOpenPage: function(e) {
@@ -57,6 +84,10 @@ define(
 
                 var page = $(e.currentTarget).attr('data-refer-page');
                 this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden');
+
+                if (page === this.lastPage) {
+                    this.closeBtn.show();
+                }
             }
         });
 

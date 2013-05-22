@@ -44,6 +44,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mousewheel.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.9.2.custom.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
