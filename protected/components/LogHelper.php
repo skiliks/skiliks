@@ -38,6 +38,7 @@ class LogHelper
 
     protected static $subScreens = array(
         1 =>  'main screen',
+        2 =>  'manual',
         3 =>  'plan',
         11 => 'mail main',
         12 => 'mail preview',
