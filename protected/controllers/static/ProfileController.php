@@ -308,20 +308,13 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 $vacancy = new Vacancy();
             }
         }
-        $specializations = [];
-
-        // handle send invitation }
-        if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
-            $specializations = StaticSiteTools::formatValuesArrayLite(
+        $specializations = StaticSiteTools::formatValuesArrayLite(
                 'ProfessionalSpecialization',
                 'id',
                 'label',
-                " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                false
+                "",
+                'Выберите уровень спецеализации'
             );
-        }
-
-        // positionLevels
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
             'slug',
