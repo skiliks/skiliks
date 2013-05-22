@@ -49,7 +49,6 @@ return array(
     'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
     'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
-    'Expired' => 'Просрочено',
 
     'Русский' => 'English',
     'Home' => 'Главная',
@@ -210,9 +209,10 @@ return array(
 
     'Pending' => 'в ожидании',
     'Accepted' => 'подтверждено',
-    'Completed' => 'завершено',
-    'Declined' => 'отвергнуто',
+    'Completed' => 'готово',
+    'Declined' => 'отклонено',
     'Started'  => 'начато',
+    'Expired' => 'просрочено',
 
     'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',
@@ -334,7 +334,6 @@ return array(
     'Manages time spent on meetings' => 'Управление временем, затрачиваемым на встречи',
     'Reasonably accepts visits' => 'Целесообразный прием посетителей',
     'Effectively processes meeting outcomes' => 'Эффективная обработка результатов встречи',
-
 
     'Back' => 'Назад',
     'Next' => 'Вперед',
