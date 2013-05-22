@@ -361,7 +361,8 @@ span.required {
     position: relative;
 }
 .profileform  .blueinputtext .errorMessage {
-    top: -6px;
+    top: -14px;
+    left: 186px;
 }
 #UserAccountPersonal_location {
     width: 340px;
@@ -797,7 +798,8 @@ span.required {
     .brightblock, .lightblock {
         padding: 5px 3px 4px;
     }
-    .YumProfile_email {
-
+    .profileform  .blueinputtext .errorMessage {
+        top: -12px;
+        left: 156px;
     }
 }
