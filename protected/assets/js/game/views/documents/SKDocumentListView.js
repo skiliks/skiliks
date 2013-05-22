@@ -123,15 +123,15 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                             window.open();
                         }
                     },
-                    ui: ['toolbar', 'places', 'path', 'stat'],
+                    ui: ['places', 'path', 'stat'],
                     uiOptions: {
                         // toolbar configuration
                         toolbar: [
-                            ['back', 'forward'],
+                            //['back', 'forward'],
                             // ['reload'],
                             // ['home', 'up'],
-                            ['info'],
-                            ['quicklook'],
+                            //['info'],
+                            //['quicklook'],
                             ['view']
                         ],
 
