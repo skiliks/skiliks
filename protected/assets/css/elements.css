@@ -787,7 +787,10 @@ section.registration-by-link .form .row a.decline-link:hover {
     height: 100%;
     background: #000000;
     opacity: 0.55;
-    z-index: 3;
+    z-index:1;
+}
+.action-controller-chooseAccountType-static-userAuth .blackout {
+    z-index:3;
 }
 .row {
     position: relative;
