@@ -1,14 +1,61 @@
-				<!--features-->
+<script>
+    $(document).ready(function(){
+        var iframesrc = $(".iframe-video iframe").attr("src");
+        var iframesrcautoplay = iframesrc +'?autoplay=1';
+
+        var popupwidth = $("header").width() * 0.9;
+        var video = $(".iframe-video-wrap").html();
+
+
+        $(".video").click(function(){
+            $(video).dialog({
+                modal: true,
+                resizable: false,
+                height: 354,
+                width: popupwidth,
+                dialogClass:"popup-video",
+                position: {
+                    my: "center top",
+                    at: "center bottom",
+                    of: $('header')
+                },
+                show: {
+                    effect: "clip",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "puff",
+                    duration: 500
+                }
+            });
+            $(".popup-video .iframe-video iframe").attr("src",iframesrcautoplay);
+            $('.popup-video .ui-dialog-titlebar').remove();
+            $('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
+            $('.popup-video a.popupclose').click(function() {
+                $('.iframe-video').dialog('close');
+                $('.popup-video a.popupclose').remove();
+                $('.iframe-video').detach();
+            });
+
+        });
+    })
+
+</script>
+<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
-
+                    <div class="iframe-video-wrap">
+                        <div class="iframe-video">
+                            <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                        </div>
+                    </div>
                     <div class="videosocwrap clearfix">
-                        <div class="video">
-                            <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                        <div class="video" style="cursor: pointer;">
+                            <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
                         </div>
                         <div class="social_networks smallicons">
                             <span>{Yii::t('site', 'Share')}:</span>
-                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}">
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                                 <a class="addthis_button_vk"></a>
                                 <a class="addthis_button_facebook"></a>
                                 <a class="addthis_button_twitter"></a>

@@ -1337,5 +1337,743 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals(0.375, $result['positive']);
     }
 
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 11 W, 15R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase1()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs($simulation, 'MS10');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS21');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS22');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS23');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS27');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS30');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS32');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS50');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS58');
+
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS51');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS53');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS55');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS61');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0 W, 1R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase2()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[20] = LibSendMs::sendMs($simulation, 'MS20');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 0R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase3()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0 W, 1R - 15 раз, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase4()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 14R, 0N => 2 балла
+     */
+    public function testCalculateAgregatedPointsFor3326_2pointsCase1()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS51');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS53');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS55');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS61');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 3W, 14R, 0N => 1 балл
+     */
+    public function testCalculateAgregatedPointsFor3326Part1pointsCase1()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS51');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS53');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS55');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS61');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+
+        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS58');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(1, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 14R, 0N (total R = 13) => 2 балла
+     */
+    public function testCalculateAgregatedPointsFor3326Part2pointsCase2()
+    {
+        //s//$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS51');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS53');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS55');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS61');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 1, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 12R, 1N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase5()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS51');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS53');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS55');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS79');
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        EventsManager::processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        // assertions:
+
+        $this->assertNotEquals(count($assessments), 1, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет что, если пользователь отверил всем на письма от Скоробей (MS60),
+     * то за 3333 он получит максимальный балл
+     */
+    public function testCalculateAggregatedPointsFor3333_OK_case1()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // activate mainScreen
+        $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
+        EventsManager::processLogs($simulation, $logs);
+
+        // we allow user reply all by MS60
+        LibSendMs::sendMsByCode($simulation, 'MS60', 35000, 1, 1, 100);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        $is_3333_scored = true;
+
+        // assertions:
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3333') {
+                $this->assertEquals($heroBehaviour->scale, $assessment->value, '3333 value!');
+                $is_3333_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3333_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет что, если пользователь отверил всем на письмо MS20 (не должен отвечать всем по этому письму),
+     * то за 3333 он получит "0"
+     */
+    public function testCalculateAggregatedPointsFor3333_bad_case1()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // activate mainScreen
+        $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
+        EventsManager::processLogs($simulation, $logs);
+
+        // we allow user reply all by MS60
+        $ms = LibSendMs::sendMsByCode(
+            $simulation,
+            'MS20', // code
+            35000,  // time
+            1,      // windowId
+            1,      // subWindowUid
+            100,   // windowUid
+            10,     // duration
+            false,  // isDraft
+            MailBox::TYPE_REPLY_ALL  // letter_type
+        );
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+
+        $is_3333_scored = true;
+
+        // assertions:
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3333') {
+                $this->assertEquals(0, $assessment->value, '3333 value!');
+                $is_3333_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3333_scored, '3326 not scored!');
+    }
+
+    /**
+     * @return MailBox|null
+     */
+    public function testEmailAnalyzerAssessmentForLiteSim()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_LITE;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        SimulationService::setSimulationClockTime($simulation, 10, 50);
+
+        EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, []);
+
+        $characterSomebody = $simulation->game_type->getCharacter(['code' => 32]);
+
+        // email-1 {
+        $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
+        $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
+        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
+            'character_id'  => $characterLudovkina->id,
+            'letter_number' => 'MS63',
+        ]);
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
+        $sendMailOptions->groupId    = MailBox::FOLDER_DRAFTS_ID;
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->messageId  = $mailM71->id;
+
+        MailBoxService::sendMessagePro($sendMailOptions);
+        // email-1 }
+
+        // email-2 {
+        $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
+        $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
+        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
+            'character_id'  => $characterLudovkina->id,
+            'letter_number' => 'MS63',
+        ]);
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->groupId    = MailBox::FOLDER_OUTBOX_ID;
+        $sendMailOptions->time       = '09:02';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->messageId  = $mailM71->id;
+
+        MailBoxService::sendMessagePro($sendMailOptions);
+        // email-2 }
+
+        // email-3 {
+        $mailM47 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M47']);
+        $characterWife = $simulation->game_type->getCharacter(['code' => 25]);
+        $subjectForCharacter25 = $simulation->game_type->getCommunicationTheme([
+            'character_id' => $characterWife->id,
+            'text'         => 'данные по рынку, срочно нужна помощь!',
+        ]);
+        $sendMailOptions = new SendMailOptions($simulation);
+        $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->groupId    = MailBox::FOLDER_DRAFTS_ID;
+        $sendMailOptions->time       = '09:03';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subjectForCharacter25->id;
+        $sendMailOptions->messageId  = $mailM47->id;
+
+        MailBoxService::sendMessagePro($sendMailOptions);
+        // email-3 }
+
+//        var_dump($simulation->id);
+//        die;
+
+        SimulationService::simulationStop($simulation);
+    }
 }
 

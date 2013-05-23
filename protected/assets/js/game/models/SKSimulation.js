@@ -155,9 +155,9 @@ define([
                     SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
 
                         console.log('result: ', result);
-                        console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                        console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
-                        if (('true' === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
+                        if ((true === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
                             null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                             console.log('saved!');
                             SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
@@ -297,7 +297,9 @@ define([
             onAddDocument : function(){
                 var me = this;
 
-                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
+                    SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
+                ) {
                     me.loadDocsDialog = new SKDialogView({
                         'message': 'Пожалуйста, подождите, идёт загрузка документов',
                         'modal': true,
@@ -311,9 +313,33 @@ define([
                             if (false === me.tryCloseLoadDocsDialog()) {
                                 me.trigger('documents:error');
                             }
-                        }, 60000);
+                        }, 120000);
                     }
+                } else {
+                    me.trigger('documents:loaded');
                 }
+            },
+
+            savePlan: function(callback) {
+                var me = this,
+                    doc;
+
+                if (me.dayPlanDocId) {
+                    doc = me.documents.where({id: me.dayPlanDocId})[0];
+                    delete SKDocument._excel_cache[me.dayPlanDocId];
+                    me.documents.remove(doc);
+                }
+
+                SKApp.server.api('dayPlan/save', {}, function(response) {
+                    me.documents.fetch();
+
+                    me.once('documents:loaded', function() {
+                        me.dayPlanDocId = response.docId;
+                        if (typeof callback === 'function') {
+                            callback(response);
+                        }
+                    });
+                });
             },
 
             /**
@@ -396,6 +422,7 @@ define([
                     var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
+                        console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);

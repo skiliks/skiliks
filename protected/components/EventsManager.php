@@ -97,7 +97,10 @@ class EventsManager {
     public static function getState($simulation, $logs) {
         $simId = $simulation->id;
         $gameTime = $simulation->getGameTime();
-        SimulationService::simulationIsStarted($simulation, $gameTime);
+
+        // not handled exception in simulationIsStarted()
+        // @todo: handle exception
+        //SimulationService::simulationIsStarted($simulation, $gameTime);
         try {
             $endTime = $simulation->game_type->finish_time;
 
@@ -246,6 +249,8 @@ class EventsManager {
             foreach($resultList as $index=>$dialog) {
                 // Если у нас реплика к герою
                 if ($dialog['replica_number'] == 0) {
+                    LogHelper::setReplicaLog(Replica::model()->findByPk($dialog['id']), $simulation);
+
                     // События типа диалог мы не создаем
                     // isDialog() Wrong!!!
                     if (!EventService::isDialog($dialog['next_event_code'])) {

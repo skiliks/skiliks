@@ -165,7 +165,6 @@ class CheatsController extends AjaxController
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
-            Yii::app()->user->setFlash('success', "Ваш тарифный план анулирован.");
 
             $user->getAccount()->tariff_id = null;
             $user->getAccount()->tariff_activated_at = null;

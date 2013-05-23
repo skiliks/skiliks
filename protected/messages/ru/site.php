@@ -49,6 +49,7 @@ return array(
     'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
     'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
+    'Expired' => 'Просрочено',
 
     'Русский' => 'English',
     'Home' => 'Главная',
@@ -108,8 +109,6 @@ return array(
     '61258856' => '61279471',
     'Personal account' => 'Индивидуальный профиль',
     'Corporate account' => 'Корпоративный профиль',
-    'Personal account' => 'Аккаунт физ.лица',
-    'Corporate account' => 'Корпоративный аккаунт',
     'User' => 'Пользователь',
     'Industry' => 'Отрасль',
     'Position' => 'Вакансия',
@@ -170,7 +169,7 @@ return array(
     'Vacancy is required' => 'Выберите вакансию',
     'Theme is required' => 'Выберите тему',
     'Message is required' => 'Введите сообщение',
-    'Add vacancy in your profile' => 'Введите вакансию в Профиле',
+    'Add vacancy in your profile' => 'Добавьте вакансиию',
     'You cannot send invite to yourself' => 'Вы не можете отправить инвайт себе',
     'User with this email does not exist' => 'Отсутствующий email',
     'Enter Email address' => 'Введите e-mail',
@@ -365,7 +364,8 @@ return array(
     'Payment' => 'Оплата',
     'Other' => 'Прочее',
     'Industry' => 'Отрасль',
-    'Position level is required' => 'Уровень позиции это обязательное поле',
+    'Professional area' => 'Профессиональная сфера',
+    'Position level is required' => 'Выберите уровень позиции',
     'Position level' => 'Уровень позиции',
 
     'Product features' => 'Возможности продукта',
@@ -381,4 +381,18 @@ return array(
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
+    'Please contact us' => 'Пожалуйста свяжитесь с нами',
+
+    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за Ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
+    'Accept terms of conditions' => 'Вы должны согласиться с условиями',
+    'INN is required' => 'Введите ИНН',
+    'CPP is required' => 'Введите КПП',
+    'Account number is required' => 'Введите расчётный счёт',
+    'BIC is required' => 'Введите БИК',
+    'Wrong INN' => 'Введите верный ИНН',
+    'Wrong CPP' => 'Введите верный КПП',
+    'Wrong account number' => 'Введите рублёвый счёт',
+    'Wrong BIC' => 'Введите верный БИК',
+
+    'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );

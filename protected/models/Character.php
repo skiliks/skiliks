@@ -56,6 +56,16 @@ class Character extends CActiveRecord
      */
     public $import_id;
 
+    /**
+     * @var string
+     */
+    public $has_mail_theme;
+
+    /**
+     * @var string
+     */
+    public $has_phone_theme;
+
     
     /* -------------------------------------------------------------------------------------- */
 

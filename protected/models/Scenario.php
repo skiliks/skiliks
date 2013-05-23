@@ -54,6 +54,11 @@ class Scenario extends CActiveRecord
     const TYPE_LITE = 'lite';
     const TYPE_FULL = 'full';
 
+    public function isLite()
+    {
+        return $this->slug === self::TYPE_LITE;
+    }
+
     /**
      * @param $attributes
      * @return Dialog
@@ -109,6 +114,7 @@ class Scenario extends CActiveRecord
         }
     }
 
+
     public function getMailTemplates($array)
     {
         $array['scenario_id'] = $this->id;
@@ -127,6 +133,20 @@ class Scenario extends CActiveRecord
             assert(false);
         }
     }
+
+    public function getFlagCommunicationThemeDependencies($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return FlagCommunicationThemeDependence::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->getPrimaryKey());
+            return CommunicationTheme::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
 
     public function getHeroBehavours($data)
     {

@@ -5,27 +5,28 @@ define([], function () {
     "use strict";
     var screens = {
         'mainScreen':1,
-            'plan':3,
-            'mailEmulator':10,
-            'phone':20,
-            'visitor':30,
-            'documents':40,
-            'browser': 50
+        'plan':3,
+        'mailEmulator':10,
+        'phone':20,
+        'visitor':30,
+        'documents':40,
+        'browser': 50
     };
     var screensSub = {
         'mainScreen':1,
-            'plan':3,
-            'mailMain':11,
-            'mailPreview':12,
-            'mailNew':13,
-            'mailPlan':14,
-            'phoneMain':21,
-            'phoneTalk':23,
-            'phoneCall':24,
-            'visitorEntrance':31,
-            'visitorTalk':32,
-            'documents':41,
-            'documentsFiles':42
+        'manual':2,
+        'plan':3,
+        'mailMain':11,
+        'mailPreview':12,
+        'mailNew':13,
+        'mailPlan':14,
+        'phoneMain':21,
+        'phoneTalk':23,
+        'phoneCall':24,
+        'visitorEntrance':31,
+        'visitorTalk':32,
+        'documents':41,
+        'documentsFiles':42
     };
     /**
      * Окно, открывается, закрывается, ведет за собой логи

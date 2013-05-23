@@ -63,6 +63,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
             $newInviteForFullSimulation->scenario_id = $liteScenario->id;
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
+            $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
             ]);
@@ -113,6 +114,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
             $newInviteForFullSimulation->scenario_id = $fullScenario->id;
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
+            $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
             ]);
@@ -162,7 +164,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         if (Yii::app()->user->data()->id !== $simulation->invite->owner_id &&
             Yii::app()->user->data()->id !== $simulation->invite->receiver_id) {
-            echo 'Вы не можете просмотривать результаты чужих симуляций.';
+            //echo 'Вы не можете просматривать результаты чужих симуляций.';
 
             Yii::app()->end(); // кошерное die;
         }
@@ -173,9 +175,15 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
 
+        $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+
+        $user = Yii::app()->user->data();
+
         $this->render('simulation_details', [
             'simulation'     => $simulation,
-            'learning_areas' => $learning_areas
+            'learning_areas' => $learning_areas,
+            'invite'=>$invite,
+            'user'=>$user
         ]);
     }
 }

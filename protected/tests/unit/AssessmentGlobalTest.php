@@ -640,14 +640,8 @@ class AssessmentGlobalTest extends CDbTestCase
     /**
      * Просто для перещёта старых (заниженныйх симуляций) симуляций
      */
-//    public function testAssessment_Goals_Areas_Overals_Recalculation()
-//    {
-//        $simulation = Simulation::model()->findByPk(194);
-//
-//        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-//
+    public function testAssessment_Goals_Areas_Overals_Recalculation()
+    {
 //        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
 //        $learningGoalAnalyzer->run();
 //
@@ -656,12 +650,17 @@ class AssessmentGlobalTest extends CDbTestCase
 //
 //        $evaluation = new Evaluation($simulation);
 //        $evaluation->run();
-//    }
+    }
 
     // -----------------------------------------------------
     // Service methods
     // -----------------------------------------------------
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @return bool
+     */
     private function addStressPoint(Simulation $simulation, $code )
     {
         if (is_integer($code)) {
@@ -680,6 +679,11 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save();
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $slug
+     * @param $value
+     */
     private function addTimeManagementAggregated(Simulation $simulation, $slug, $value )
     {
         $item = new TimeManagementAggregated();
@@ -690,6 +694,12 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param $persents
+     * @param $value
+     */
     private function addPerformanceAggregated(Simulation $simulation, $code, $persents, $value )
     {
         $category = ActivityCategory::model()->findByAttributes(['code' => $code]);
@@ -702,6 +712,13 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param null $value
+     * @param int $k
+     * @return AssessmentAggregated|bool
+     */
     private function addAssessmentAggregated(Simulation $simulation, $code, $value = null, $k = 1 )
     {
         if (is_string($code)) {
@@ -725,6 +742,12 @@ class AssessmentGlobalTest extends CDbTestCase
         return $item;
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param int $k
+     * @return bool
+     */
     private function addAssessmentPoints(Simulation $simulation, $code, $k = 1 )
     {
         if (is_string($code)) {
@@ -744,6 +767,12 @@ class AssessmentGlobalTest extends CDbTestCase
         $item->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param $code
+     * @param int $k
+     * @return bool
+     */
     private function addAssessmentCalculation(Simulation $simulation, $code, $k = 1 )
     {
         if (is_string($code)) {

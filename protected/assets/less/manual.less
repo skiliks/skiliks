@@ -1,0 +1,100 @@
+.manual-window {
+  position: relative;
+  background: url(../img/manual/cover.jpg) 0 0 no-repeat;
+
+  .tabs {
+    position: absolute;
+    top: -15px;
+    right: 50px;
+    list-style: none;
+
+    li {
+      position: relative;
+      float: right;
+      margin-left: 30px;
+      height: 20px;
+      padding: 5px 0;
+      background: url(../img/manual/tab.png) 0 -60px repeat-x;
+      color: white;
+      text-decoration: none;
+
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -10px;
+        bottom: 0;
+        width: 10px;
+        background: url(../img/manual/tab.png) 0 0 no-repeat;
+      }
+
+      &:after {
+        left: auto;
+        right: -10px;
+        background-position: 0 -30px;
+      }
+    }
+  }
+
+  .flyleaf {
+    position: absolute;
+    z-index: 1;
+    top: 11px;
+    bottom: 11px;
+    left: 10px;
+    right: 10px;
+
+    background: url(../img/manual/flyleaf.png) 0 0 no-repeat;
+
+    .page {
+      .navigation {
+        .back, .next {
+          position: absolute;
+          z-index: 2;
+          display: block;
+          width: 50px;
+          height: 50px;
+          top: 50%;
+          margin-top: -25px;
+          background: url(../img/manual/navigation.png) 0 0 no-repeat;
+        }
+
+        .back {
+          left: -3px;
+        }
+        .next {
+          right: 40px;
+          background-position: 0 -50px;
+        }
+      }
+
+      .person-block {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 4px;
+        background-color: #c1dcf3;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.person-info-tooltip {
+  z-index: 1000;
+  margin: 0;
+  width: 300px;
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: none #faf9d5;
+  font-size: 11px;
+
+  .photo {
+    width: 74px;
+    height: 114px;
+    float: left;
+    margin: 0 5px 5px 0;
+  }
+}

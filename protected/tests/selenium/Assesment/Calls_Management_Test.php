@@ -18,6 +18,7 @@ class Calls_Management_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK2420_3()
     {
         //$this->markTestIncomplete();
+
         $this->start_simulation();
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
@@ -57,10 +58,6 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
 
-        $this->run_event('ET12.1', "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю')])");
-
         $this->run_event('TT7.1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, я понял')])");
@@ -92,6 +89,10 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->run_event('ET3.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, Иван')])");
+
+        $this->run_event('ET12.1', "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю')])");
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);

@@ -106,6 +106,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'SEND_DRAFT_EMAIL'
             ],
 
+            iconsForEditDraftDraftScreenArray:[
+                'SAVE_TO_DRAFTS'
+            ],
+
             iconsForSendedScreenArray:[
                 'NEW_EMAIL'
             ],
@@ -116,6 +120,22 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'FORWARD_EMAIL',
                 'ADD_TO_PLAN'
             ],
+
+            // --------------------------------------------------
+
+            // SKEmail.letterType:
+
+            // @var string
+            letterTypeReply: 'reply',
+
+            // @var string
+            letterTypeReplyAll: 'replyAll',
+
+            // @var string
+            letterTypeNew: 'new',
+
+            // @var string
+            letterTypeForward: 'forward',
 
             // --------------------------------------------------
 
@@ -151,7 +171,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // --------------------------------------------------
 
-            // @var stringone of 'screenXXX' literals
+            // @var integer
+            draftToEditEmailId: undefined,
+
+            // @var string, one of 'screenXXX' literals
             currentScreen:undefined,
 
             // @var SkWindow
@@ -223,7 +246,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 this.folders[this.aliasFolderTrash] = new SKMailFolder();
                 this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
-
+                this.emailUIDs = {};
                 // init folder names
                 this.getInboxFolder().name  = 'Входящие';
                 this.getDraftsFolder().name = 'Черновики';
@@ -334,16 +357,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 this.folders[folderAlias].emails = [];
 
                 _.forEach(emailsData, function(emailData) {
-                    var subject = new SKMailSubject();
-                    subject.text = emailData.subject;
+                    var subject                = new SKMailSubject();
+                    subject.text               = emailData.subject;
+                    subject.id                 = emailData.subjectId;
+                    subject.characterSubjectId = emailData.subjectId;
 
                     var email               = new SKEmail();
+                    email.folderAlias       = folderAlias;
+                    email.letterType        = emailData.letterType;
                     email.mySqlId           = emailData.id;
                     email.text              = emailData.text;
                     email.is_readed         = (1 === parseInt(emailData.readed, 10));
                     email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
                     email.sendedAt          = emailData.sentAt;
                     email.subject           = subject;
+                    email.phrases           = emailData.phraseOrder || [];
                     email.setSenderEmailAndNameStrings(emailData.sender);
 
                     var attachment = new SKAttachment();
@@ -457,6 +485,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var onSent = function () {
                     folder_to_load -= 1;
                     if (folder_to_load === 0) {
+                        console.log('trigger init_completed');
                         me.trigger('init_completed');
                     }
                     return folder_to_load;
@@ -717,19 +746,27 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             setWindowsLog:function (newSubscreen, emailId) {
                 var window = this.getSimulationMailClientWindow();
+                var oldSubwindowKey, newSubwindowKey;
+                if (window.get('params') && window.get('params').mailId) {
+                    oldSubwindowKey = window.get('subname')  + '/' + window.get('params').mailId;
+                }
+                if (emailId) {
+                    newSubwindowKey = newSubscreen  + '/' + emailId;
+                }
                 window.setOnTop();
+                if (oldSubwindowKey && !this.emailUIDs[oldSubwindowKey]) {
+                        this.emailUIDs[oldSubwindowKey] = window.window_uid;
+                }
                 SKApp.simulation.windowLog.deactivate(window);
-
-                if ((window.get('subname') === 'mailMain' && 'mailNew' === newSubscreen) ||
-                    (window.get('subname') === 'mailMain' && 'mailPlan' === newSubscreen)) {
-                    this.window_uid = parseInt(window.window_uid, 10);
-                    window.updateUid();
-                } else if ((window.get('subname') === 'mailNew' && 'mailMain' === newSubscreen) ||
-                    (window.get('subname') === 'mailPlan' && 'mailMain' === newSubscreen)) {
-                    if (this.window_uid === undefined) {
-                        throw 'Window UID is undefined';
+                if (newSubwindowKey) {
+                    if (this.emailUIDs[newSubwindowKey]) {
+                        window.window_uid = this.emailUIDs[newSubwindowKey];
+                    } else {
+                        window.updateUid();
+                        this.emailUIDs[newSubwindowKey] = window.window_uid;
                     }
-                    window.window_uid = parseInt(this.window_uid, 10);
+                } else {
+                    window.updateUid();
                 }
 
                 window.set('id', newSubscreen);
@@ -832,9 +869,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var list = [];
                 for (var i in this.defaultRecipients) {
                     // non strict "!=" is important!
-                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
-                        list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                    if(this.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
+                        if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
+                            list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                        }
+                    }else{
+                        if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email') && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
+                            list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                        }
                     }
+
+
                 }
 
                 return list;
@@ -911,6 +956,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (undefined !== response.data) {
                             // clean up list
                             SKApp.simulation.mailClient.availableSubjects = [];
+
+                            // clean up phrases {
+                            if (SKApp.simulation.mailClient.activeEmail) {
+                                SKApp.simulation.mailClient.activeEmail.phrases = [];
+                            }
+                            // clean up phrases }
 
                             for (var i in response.data) {
                                 var string = response.data[i];
@@ -1110,13 +1161,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
 
                 return {
-                    copies:emailToSave.getCopyToIdsString(),
-                    fileId:emailToSave.getAttachmentId(),
-                    messageId:mailId,
-                    phrases:emailToSave.getPhrasesIdsString(),
-                    receivers:emailToSave.getRecipientIdsString(),
-                    subject:emailToSave.subject.characterSubjectId,
-                    time:SKApp.simulation.getGameTime(),
+                    id:         emailToSave.mySqlId,
+                    copies:     emailToSave.getCopyToIdsString(),
+                    fileId:     emailToSave.getAttachmentId(),
+                    messageId:  mailId,
+                    phrases:    emailToSave.getPhrasesIdsString(),
+                    receivers:  emailToSave.getRecipientIdsString(),
+                    subject:    emailToSave.subject.characterSubjectId,
+                    time:       SKApp.simulation.getGameTime(),
                     letterType: type
                 };
             },
@@ -1196,6 +1248,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 // email.sunbject
                 if (false === emailToSave.isSubjectValid()) {
+                    console.log('Invalid subject', emailToSave.subject);
                     mailClient.message_window = new SKDialogView({
                         'message':'Укажите тему письма.',
                         'buttons':[
@@ -1253,6 +1306,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             });
                         }
 
+                        mailClient.draftToEditEmailId = undefined;
                         mailClient.trigger('process:finish');
                     }
                 );

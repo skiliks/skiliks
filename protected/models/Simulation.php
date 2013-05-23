@@ -12,29 +12,29 @@
  * @property string paused
  * @property int skipped
  * @property int scenario_id
+ * @property string $uuid
  *
- * @property SimulationCompletedParent[] completed_parent_activities
- * @property AssessmentAggregated[] assessment_aggregated
- * @property LogWindow[] log_windows
- * @property LogActivityAction[] log_activity_actions
- * @property LogActivityActionAgregated[] log_activity_actions_aggregated
- * @property LogMail[] log_mail
- * @property LogDialog[] log_dialogs
- * @property AssessmentCalculation[] assessment_calculation
- * @property AssessmentPoint[] assessment_points
- * @property LogDocument[] log_documents
- * @property DayPlanLog[] log_day_plan
- * @property SimulationExcelPoint[] simulation_excel_points
- * @property PerformancePoint[] performance_points
- * @property PerformanceAggregated[] performance_aggregated
- * @property StressPoint[] stress_points
- * @property AssessmentOverall[] assessment_overall
- * @property Scenario game_type
- * @property string uuid
- * @property SimulationLearningArea[] learning_area
- * @property SimulationLearningGoal[] learning_goal
- * @property TimeManagementAggregated[] time_management_aggregated
- * @property Invite invite
+ * @property SimulationCompletedParent[] $completed_parent_activities
+ * @property AssessmentAggregated[] $assessment_aggregated
+ * @property LogWindow[] $log_windows
+ * @property LogActivityAction[] $log_activity_actions
+ * @property LogActivityActionAgregated[] $log_activity_actions_aggregated
+ * @property LogMail[] $log_mail
+ * @property LogDialog[] $log_dialogs
+ * @property AssessmentCalculation[] $assessment_calculation
+ * @property AssessmentPoint[] $assessment_points
+ * @property LogDocument[] $log_documents
+ * @property DayPlanLog[] $log_day_plan
+ * @property SimulationExcelPoint[] $simulation_excel_points
+ * @property PerformancePoint[] $performance_points
+ * @property PerformanceAggregated[] $performance_aggregated
+ * @property StressPoint[] $stress_points
+ * @property AssessmentOverall[] $assessment_overall
+ * @property Scenario $game_type
+ * @property SimulationLearningArea[] $learning_area
+ * @property SimulationLearningGoal[] $learning_goal
+ * @property TimeManagementAggregated[] $time_management_aggregated
+ * @property Invite $invite
  *
  */
 class Simulation extends CActiveRecord

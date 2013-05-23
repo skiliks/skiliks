@@ -363,6 +363,77 @@ class DayPlanService
             $log->save();
         }
     }
+
+    public static function saveToXLS(Simulation $simulation)
+    {
+        $dayPlans = DayPlan::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $timeMap = [];
+        foreach ($dayPlans as $plan) {
+            $timeMap[$plan->task_id] = [
+                'day' => $plan->day,
+                'date' => $plan->date
+            ];
+        }
+
+        uasort($timeMap, function($a, $b) {
+            return $a['day'] - $b['day'] ?: strtotime($a['date']) - strtotime($b['date']);
+        });
+
+        $tasks = Task::model()->findAllByAttributes([
+            'id' => array_keys($timeMap)
+        ]);
+
+        /** @var Task[] $taskMap */
+        $taskMap = [];
+        foreach ($tasks as $task) {
+            $taskMap[$task->id] = $task;
+            $timeMap[$task->id]['duration'] = $task->duration;
+        }
+
+        $docTemplate = $simulation->game_type->getDocumentTemplate(['code' => 'D20']);
+        /** @var MyDocument $document */
+        $document = MyDocument::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $docTemplate->id
+        ]);
+
+        $document->hidden = 0;
+        $document->save();
+
+        $zoho = new ZohoDocuments($simulation->id, $document->id, $document->template->srcFile, 'xls', $document->fileName);
+        $zoho->copyUserFileIfNotExists();
+        $filepath = $zoho->getUserFilepath();
+
+        /** @var PHPExcel_Reader_IReader $reader */
+        $reader = PHPExcel_IOFactory::createReader('Excel5');
+        $excel = $reader->load($filepath);
+        $sheet = $excel->getSheetByName('Plan');
+
+        foreach ($timeMap as $taskId => $time) {
+            $row = (strtotime($time['date']) - strtotime('today') - 32400) / 900 + 3;
+            $column = $time['day'] == 1 ? 'B' : 'C';
+            $height = $time['duration'] / 15 - 1;
+
+            $sheet
+                ->mergeCells($column . $row . ':' . $column . ($row + $height))
+                ->setCellValue($column . $row, $taskMap[$taskId]->title)
+                ->getStyle($column . $row)
+                ->getAlignment()
+                ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)
+                ->setWrapText(true);
+        }
+
+        $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $writer->save($filepath);
+
+        return [
+            'result' => 1,
+            'docId' => $document->id
+        ];
+    }
 }
 
 

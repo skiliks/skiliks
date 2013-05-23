@@ -98,7 +98,6 @@ class EmailAnalyzer
     
     public $reply_all = array();
 
-
     public function __construct(Simulation $simulation)
     {
         $this->simId = $simulation->id;
@@ -274,6 +273,16 @@ class EmailAnalyzer
      */
     public function check_3322_3324()
     {
+        $behave_3322 = $this->simulation->game_type->getHeroBehaviour(['code' => '3322', 'type_scale' => 1]);
+        $behave_3324 = $this->simulation->game_type->getHeroBehaviour(['code' => '3324', 'type_scale' => 2]);
+
+        if (null === $behave_3322 || null === $behave_3324) {
+            return [
+                '3322' => [],
+                '3324' => [],
+            ];
+        }
+
         $possibleRightActions = 0;
         $doneRightActions = 0;
         $wrongActions = 0;
@@ -309,11 +318,6 @@ class EmailAnalyzer
             }
         }
 
-        /** @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk($this->simId);
-        $behave_3322 = $simulation->game_type->getHeroBehaviour(['code' => '3322', 'type_scale' => 1]);
-        $behave_3324 = $simulation->game_type->getHeroBehaviour(['code' => '3324', 'type_scale' => 2]);
-        
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
 
         return array(
@@ -337,6 +341,14 @@ class EmailAnalyzer
      */
     public function check_3325()
     {
+        $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
+
+        if (null === $behave_3325) {
+            return [
+                '3325' => []
+            ];
+        }
+
         $wrongActions = 0;
         
         // inbox + trashCan
@@ -346,9 +358,7 @@ class EmailAnalyzer
                 $wrongActions++;
             }
         } 
-        
-        $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
-        
+
         return array(
             'negative' => $behave_3325 ? $wrongActions * $behave_3325->scale : 0,
             'obj'      => $behave_3325,
@@ -364,6 +374,14 @@ class EmailAnalyzer
      */
     public function check_3323() //24*60
     {
+        $behave_3323 = $this->simulation->game_type->getHeroBehaviour(['code' => '3323', 'type_scale' => 1]);
+
+        if (null === $behave_3323) {
+            return [
+                '3323' => []
+            ];
+        }
+
         $delta = 2 * (int)Yii::app()->params['public']['skiliksSpeedFactor'] * 60;
         $possibleRightActions = 0;
         $doneRightActions = 0;
@@ -380,9 +398,7 @@ class EmailAnalyzer
                     $doneRightActions++;
                 }
             }
-        } 
-        
-        $behave_3323 = $this->simulation->game_type->getHeroBehaviour(['code' => '3323', 'type_scale' => 1]);
+        }
          
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
@@ -401,6 +417,14 @@ class EmailAnalyzer
      */
     public function check_3313($limit = 0.9)
     {
+        $behave_3313 = $this->simulation->game_type->getHeroBehaviour(['code'=> 3313, 'type_scale'=>1]);
+
+        if (null === $behave_3313) {
+            return [
+                '3313' => []
+            ];
+        }
+
         $possibleRightActions = 0;
         $rightActions = 0;
         
@@ -413,9 +437,7 @@ class EmailAnalyzer
                     $rightActions++;
                 }
             }
-        } 
-        
-        $behave_3313 = $this->simulation->game_type->getHeroBehaviour(['code'=> 3313, 'type_scale'=>1]);
+        }
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $mark = 0;
@@ -438,6 +460,14 @@ class EmailAnalyzer
      */
     public function check_3333()
     {
+        $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
+
+        if (null === $behave_3333) {
+            return [
+                '3333' => []
+            ];
+        }
+
         $wrongActions = 0;
         
         // outbox not MS
@@ -449,9 +479,7 @@ class EmailAnalyzer
             if (!in_array($coincidence, $this->template_reply_all)) {
                 $wrongActions++;
             }
-        } 
-        
-        $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
+        }
         
         return array(
             'positive' => ($behave_3333 && $wrongActions == 0) ? $behave_3333->scale : 0,
@@ -460,7 +488,7 @@ class EmailAnalyzer
     }
 
     /**
-     * 3325 - read spam
+     * 3326
      *
      * @param integer $delta
      *
@@ -468,6 +496,14 @@ class EmailAnalyzer
      */
     public function check_3326()
     {
+        $behave_3326 = $this->simulation->game_type->getHeroBehaviour(['code' => '3326', 'type_scale' => 1]);
+
+        if (null === $behave_3326) {
+            return [
+                '3326' => []
+            ];
+        }
+
         $configs = Yii::app()->params['analizer']['emails']['3326'];
 
         $limitToGetPoints  = $configs['limitToGetPoints'];
@@ -478,7 +514,6 @@ class EmailAnalyzer
         $criteria->compare('wr', 'R');
         $criteria->addCondition('letter_number like "MS%"');
         $rightMsNumber = count($this->simulation->game_type->getCommunicationThemes($criteria));
-        $behave_3326 = $this->simulation->game_type->getHeroBehaviour(['code' => '3326', 'type_scale' => 1]);
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
@@ -536,6 +571,9 @@ class EmailAnalyzer
         );
     }
 
+    /**
+     * @return array
+     */
     public function check_3311()
     {
         $behave_3311 = $this->simulation->game_type->getHeroBehaviour(['code' => '3311']);
@@ -666,12 +704,17 @@ class EmailAnalyzer
         );
     }
 
+    /**
+     * @return array
+     */
     public function check_3332()
     {
         $behave_3332 = $this->simulation->game_type->getHeroBehaviour(['code' => '3332']);
 
         if (null === $behave_3332) {
-            return null;
+            return [
+                '3332' => []
+            ];
         }
 
         $totalRightMsWithCopies = 0;

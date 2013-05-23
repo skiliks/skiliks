@@ -8,12 +8,7 @@
  */
 class F13_SK1415_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
+
 
     /**
      * testSK1415_Case1() тестирует задачу SKILIKS-1415
@@ -31,6 +26,8 @@ class F13_SK1415_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
@@ -78,6 +75,8 @@ class F13_SK1415_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
@@ -124,6 +123,8 @@ class F13_SK1415_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Сергей, привет! Ты не мог бы мне помочь?')])",'click');
 
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");

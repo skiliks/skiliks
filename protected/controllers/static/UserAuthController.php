@@ -115,7 +115,7 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
-            Yii::app()->user->setFlash('error', 'У приглашения истек срок давности.');
+            Yii::app()->user->setFlash('error', 'Истёк срок ожидания ответа на приглашение');
             $this->redirect('/');
         }
 
@@ -125,9 +125,11 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
-            $this->redirect('/');
+            //Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
+            $this->redirect('/dashboard');
         }
+
+
 
         if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => $invite->email])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
@@ -173,7 +175,7 @@ class UserAuthController extends YumController
 
                 if (false !== $result) {
                     $account->user_id = $this->user->id;
-                    $account->save();
+                    $account->save(false);
 
                     $invite->receiver_id = $this->user->id;
                     $invite->save();
@@ -189,7 +191,7 @@ class UserAuthController extends YumController
                     $permission->action = $action->id;
                     $permission->type = 'user';
                     $permission->template = 1; // magic const
-                    $permission->save();
+                    $permission->save(false);
 
                     $this->redirect('/dashboard');
                 } else {
@@ -232,6 +234,14 @@ class UserAuthController extends YumController
     public function actionAfterRegistration()
     {
         $this->render('afterRegistration', ['isGuest' => Yii::app()->user->isGuest]);
+    }
+
+    /**
+     * User registration step 1 - handle form
+     */
+    public function actionAfterRegistrationCorporate()
+    {
+        $this->render('afterRegistrationCorporate', ['isGuest' => Yii::app()->user->isGuest]);
     }
 
     /**
@@ -422,7 +432,7 @@ class UserAuthController extends YumController
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
                         $this->sendCorporationEmailVerification($this->user);
-                        $this->redirect('afterRegistration');
+                        $this->redirect('afterRegistrationCorporate');
                     } else {
                         $this->redirect('/dashboard');
                     }
@@ -445,7 +455,7 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
-        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) ? true : false;
+        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) === null ? false : true;
 
         // clean up validation errors if not POST request
         if (false === Yii::app()->request->isPostRequest) {
@@ -762,7 +772,7 @@ class UserAuthController extends YumController
                     $user->activationKey = 1;
                     $user->setPassword($passwordForm->password, $user->salt);
 
-                    Yii::app()->user->setFlash('recovery-popup', 'Новый пароль успешно сохранен');
+                    Yii::app()->user->setFlash('success password-recovery-step-4', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
                         $login = new YumUserIdentity($user->username, false);
                         $login->authenticate(true);

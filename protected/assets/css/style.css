@@ -3,6 +3,7 @@
 @import "elements.css";
 @import "otzenka.css";
 @import "popups.css";
+@import "order.css";
 
 /* --------------- reset.css --------------- */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
@@ -15,7 +16,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, 
 	font-size: 100%;
     outline: none;
 }
-a {                                      	
+a {
 	margin:0;
 	padding:0;
 	font-size:100%;
@@ -75,25 +76,31 @@ body {
 	text-align: left;
 	font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 	line-height:14px;
+    min-height: 700px;
 }
-body.inner{
+body.inner,
+body.inner-registration, .action-controller-order-static-payment {
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
 }
-body.inner-team{
+body.inner-team {
 	background-image:url("../img/bg-top-inner-team.jpg");
 }
-body.inner-registration{
-	background-image:url("../img/bg-top-registration.jpg");
+/*
+body.inner-registration {
+    background: url("../img/bg-top-registration.jpg");
 }
-@media screen and (max-width: 1280px){
+*/
+@media screen and (max-width: 1146px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
-	body.inner{
+	body.inner,
+    body.inner-registration {
 		background: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
         background-repeat:  no-repeat, repeat-y;
+        background-position: 50% 0, 50% 0;
 	}
 	body.inner-team{
 		background-image:url("../img/bg-top-inner-team-min.jpg");
@@ -102,7 +109,7 @@ body.inner-registration{
 .container{
     position: relative;
 	min-height:100%;
-    overflow: hidden;
+/*    overflow: hidden; */
 }
 
 .action-controller-comingSoonSuccess-static-pages .container,
@@ -116,7 +123,7 @@ body.inner-registration{
 	height:966px;
 	*/
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
@@ -151,9 +158,9 @@ a:focus, a:active {
 
 .action-controller-comingSoonSuccess-static-pages .container .content,
 .action-controller-index-static-pages .container .content{
-	height:1167px;
+	height:1162px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.content{
         /* width:945px; width:925px;  */
 		padding-bottom:310px;
@@ -309,7 +316,7 @@ a:focus, a:active {
 .sbOptions .sbSub{
 	padding-left: 17px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.sbHolder {
 		height:17px;
 		font-size:11px;
@@ -335,15 +342,14 @@ a:focus, a:active {
 /* --------------- header ---------*/
 .container>header{
 	width:948px;
-	height:88px;
+	height:80px;
 	margin:0 auto;
-	padding-top:39px;
+	padding-top:47px;
 	position:relative;
 }
 .container>header h1{
-/*	background:url("../img/logo-header.png") no-repeat 0 0; */
-	width:222px;
-	height:58px;
+	width:265px;
+	height:69px;
 }
 .container>header h1 a{
 	display:block;
@@ -382,13 +388,12 @@ a:focus, a:active {
 }
 .container>header nav#static-page-links{
 	position:absolute;
-	top:8px;
-	right:0px;
+	top:10px;
+	right:0;
 }
 .container>header nav#static-page-links a {
     background: none;
-    font:14px/28px "ProximaNova-Regular";
-    margin-left:0;
+    font-size:14px;
 }
 .container>header nav#static-page-links a:hover,
 .container>header nav#static-page-links a.active {
@@ -399,28 +404,35 @@ a:focus, a:active {
    /*float: right;*/
 }
 .container>header nav li{
-    display: inline-block;
+    display: inline;
 }
 .container>header nav#account-links{
     position:absolute;
-    top:60px;
+    top:68px;
     right:0;
 }
 #simulation-details label,
 .container>header nav a {
 	display:block;
 	background:rgba(20,102,114,0.4);
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
 	border-radius:3px;
-	/*font:1.071em "ProximaNova-Regular";*/
-    font:16px/28px "ProximaNova-Regular";
+    font:18px/28px "ProximaNova-Regular";
     color:#fff;
 	text-decoration:none;
-	line-height:1.800em;
 	float:left;
-	margin-left:5px;
-	padding:0 8px;
+	margin:0 0 0 10px;
+	padding:0 10px;
+}
+.controller-static-cheats .container>header nav a{
+    background:rgba(20, 102, 114, 0.4);
+    border-radius: 3px;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font: 16px/1.8em "ProximaNova-Regular";
+    margin-left: 5px;
+    padding: 0 8px;
+    text-decoration: none;
 }
 /*
 .container>header nav a:first-child,
@@ -435,7 +447,7 @@ a:focus, a:active {
 	background:rgba(20,102,114,1);
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.container>header{
 		width:765px;
 	}
@@ -468,12 +480,12 @@ a:focus, a:active {
     height: 54px;
     margin-top: 20px; /* na makete - 30 */
     line-height: 54px;
-    padding:0 18px 0 42px;
+    padding:0 20px 0 51px;
 }
 .features .freeacess {
     background-image:url("../img/icon-circlarow.png");
-    font-weight: normal;
-    padding-left:50px;
+/*    font-weight: normal; */
+    padding-left:51px;
 }
 .footer .freeacess {
     background-image:url("../img/icon-btn-notify.png");
@@ -481,11 +493,11 @@ a:focus, a:active {
     background-color: #fff;
     background-position: 8px 50%;
     color: #146672;
-    font: 15px "ProximaNova-Bold";
+    font: 14px "ProximaNova-Bold";
     height: 38px;
     left: 320px;
     line-height: 38px;
-    padding:0 16px 0 32px;
+    padding:0 10px 0 33px;
     position: absolute;
     top:200px;
 }
@@ -524,7 +536,7 @@ a:focus, a:active {
 	left:50%;
 	margin-left:-610px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.heroes-comment{
 		display:none;
 	}
@@ -566,9 +578,19 @@ a:focus, a:active {
     width:396px;
 }
 .features .video{
-	background:url("../img/watchvideo.png") no-repeat 0 0;
+	background:url("../img/img-video.png") no-repeat 0 0;
 	height:211px;
 	text-align:center;
+}
+.features .video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    color: white;
+    display: inline-block;
+    font: bold 1.18em "ProximaNova-Regular";
+    margin: 135px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
 }
 .features .video p{
 	display:inline-block;
@@ -639,7 +661,7 @@ html[lang=ru] .features form div input[type=submit]{
 	margin-top:23px;
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.features{
         margin-left: 92px;
 		width:670px;
@@ -656,6 +678,7 @@ html[lang=ru] .features form div input[type=submit]{
     }
 	.features .video{
 		background-image:url("../img/img-video-min.png");
+        background-size:cover;
 		margin-top:30px;
 	}
     .features .video, .features .video iframe {
@@ -754,7 +777,7 @@ html[lang=ru] .main-article article{
 	line-height:1.500em;
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.main-article{
 		width:380px;
 		margin-left:283px;
@@ -785,7 +808,7 @@ html[lang=ru] .main-article article{
     margin-top:14px;
 }
 .clients ul li:nth-child(3) img {
-    margin-top:10px;
+    margin-top:30px;
 }
 .clients ul li:nth-child(4) img {
     margin-top:20px;
@@ -793,7 +816,7 @@ html[lang=ru] .main-article article{
 .clients ul li a{
 	display:block;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.clients{
         margin-left: 20px;/* */
 		margin-top:104px;
@@ -931,7 +954,7 @@ html[lang=ru] .product section table th{
 .feedbackwrap .ui-dialog-titlebar-close {
     right:-22px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.product{
 		margin-top:0px;
 	}
@@ -1101,7 +1124,7 @@ html[lang=ru] .product section table th{
 	background:none;
 	padding-top:0;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.team-page{
 	    background:url("../img/bg-team-container-min.png") no-repeat center 608px;
 	}
@@ -1186,6 +1209,10 @@ html[lang=ru] .product section table th{
 	margin-bottom:15px;
 	text-align:center;
 }
+.shorter-title {
+   margin: 0 auto;
+   width:900px;
+}
 .registration .form{
 	background-color:#fdfbc6;
 	background-repeat:no-repeat;
@@ -1194,6 +1221,7 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
+    min-height: 446px;
 	width:452px;
     padding-bottom:20px;
     /* min-height:383px; */
@@ -1309,7 +1337,7 @@ html[lang=ru] .product section table th{
 	-moz-border-radius:3px;
 	border-radius:3px;
 	height:46px;
-    padding: 0 8px 0 6px;
+    padding: 0 20px 0 6px;
 	font:1.071em "ProximaNova-Bold";
 	color:#fff;
 	text-align:left;
@@ -1373,7 +1401,7 @@ html[lang=ru] .product section table th{
 	color:#fff;
 	margin-top:34px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.inner-registration .content{
 		width:765px;
 	}
@@ -1387,6 +1415,9 @@ html[lang=ru] .product section table th{
 		font-size:2.239em;
 		margin-bottom:15px;
 	}
+    .shorter-title {
+        width:700px;
+    }
 	.registration .form{
 		background-position:305px 7px;
 		box-shadow:0 0 0 7px rgba(255,255,255,0.2);
@@ -1475,6 +1506,10 @@ html[lang=ru] .product section table th{
     .registration .form .row input[type=submit]:hover {
         background-image: url("../img/icon-registration-submit-min.png");
         background-position: 13px center;
+    }
+    .registration .form-account-personal .row input[type=submit],
+    .registration .form-account-corporate .row input[type=submit] {
+        width: 94px;
     }
     #UserAccountCorporate_corporate_email {
         width: 200px;
@@ -1606,7 +1641,7 @@ html[lang=ru] .product section table th{
 .register-by-link .row .cancel:hover{
 	border-color:transparent;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.register-by-link{
 		background:url("../img/bg-register-by-link-min.png") no-repeat 0 0;
 		width:639px;
@@ -1676,7 +1711,7 @@ html[lang=ru] .product section table th{
 	margin-top:145px;
 	padding:0 8px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.footer footer .backtotop{
 		margin-top:108px;
 	}
@@ -1821,7 +1856,7 @@ html[lang="en"] .footer .social_networks {
 .smallicons .addthis_toolbox {
     float: right;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .videosocwrap {
         margin-top:-20px;
     }
@@ -1856,7 +1891,7 @@ html[lang="en"] .footer .social_networks {
 	line-height:1.167em;
 	margin-top:20px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
 		margin-top:-310px;
@@ -1955,6 +1990,20 @@ html[lang="en"] .footer .social_networks {
 	padding:7px 9px;
 	outline:none;
 }
+.change_pass-pop-up div input[type=password], #change-password-form input.error:focus {
+    height: 26px;
+    width:201px;
+}
+.change_pass-pop-up div input[type=password], .change_pass #change-password-form input[type="submit"]  {
+    float: left;
+}
+.change_pass #change-password-form input[type="submit"] {
+
+}
+.change_pass #change-password-form input[type="submit"]:hover {
+    background-image: url("../img/icon-btn-notify-hover.png");
+    background-color: #BD2929;
+}
 .change_pass-pop-up div input[type=submit],
 .login-form div input[type=submit]{
 	background:url("../img/btn-bg-sign-in.png") no-repeat 0 0;
@@ -2018,8 +2067,8 @@ html[lang="en"] .footer .social_networks {
 }
 
 .sing-in-pop-up,
-.popup-recovery-view,
-.change_pass-pop-up{ /* .flash-pop-up */
+.popup-recovery-view, .flash-message-popup-recovery-popup
+{ /* .flash-pop-up .change_pass-pop-up */
     background: none repeat scroll 0 0 #146672;
     border-radius: 8px 8px 8px 8px;
     border:none;
@@ -2027,6 +2076,36 @@ html[lang="en"] .footer .social_networks {
     overflow: visible;
     margin-top:25px;
     padding-bottom: 25px;
+}
+.flash-message-popup-recovery-popup {
+    margin-left:0px !important;
+    width: 275px !important;
+    top: 13px !important;
+    left: 880px !important;
+}
+.flash-message-popup-recovery-popup .flash-recovery-popup {
+    color:#fff;
+    font:20px "ProximaNova-Regular";
+    padding:60px 0px 50px 30px;
+    width:200px;
+}
+.change_pass-pop-up, .password-recovery-step-4 {
+    background: none;
+    margin-left:-430px !important;
+    /*height: 230px !important;  74 */
+    padding: 10px;
+    top:150px !important;
+    width:860px !important;
+}
+.password-recovery-step-4 {
+    top:245px !important;
+}
+.flash-message-popup-success {
+    background: #f3ffff;
+}
+.action-recovery .change_pass-pop-up {
+    background: none;
+    border:none;
 }
 .action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
@@ -2042,12 +2121,38 @@ html[lang="en"] .footer .social_networks {
     font: 1.667em 'ProximaNova-Bold';
     margin: 7px 0 0 7px;
 }
-.change_pass-pop-up .ui-corner-all,
+.change_pass-pop-up .ui-dialog-title {
+    font-size: 2.619em;
+}
+.password-recovery-step-4 .flash .flash-success {
+    color:#555545;
+    display: table-cell;
+    font: 30px 'ProximaNova-Bold';
+    height:76px;
+    padding-bottom:20px;
+    padding-top:0px;
+    text-align: center;
+    vertical-align: middle;
+    width: 820px;
+}
+/*.change_pass-pop-up .ui-corner-all,*/
 .sing-in-pop-up .ui-corner-all, .popup-recovery-view  .change_pass-pop-up {
     background: none repeat scroll 0 0 #146672;
     border: 0;
     border-radius: 0;
     color: #fff;
+}
+.change_pass-pop-up .ui-corner-all {
+    background: none;
+    border:none;
+    text-align:center;
+    padding-bottom: 30px;
+}
+.change_pass-pop-up .ui-dialog-title {
+    float:none;
+}
+.change_pass-pop-up .ui-corner-all, .change_pass-pop-up  .ui-dialog-title {
+    text-align:center;
 }
 .change_pass-pop-up .ui-dialog-titlebar-close,
 .sing-in-pop-up .ui-dialog-titlebar-close, .cabmessage .ui-dialog-titlebar-close,
@@ -2060,6 +2165,10 @@ html[lang="en"] .footer .social_networks {
     top: -25px;
     right: -25px;
     background: none;
+}
+.sing-in-pop-up .ui-dialog-titlebar-close, .popup-recovery-view .ui-dialog-titlebar-close {
+    top: -20px;
+    right: -20px;
 }
 .add-vacancy-popup .ui-dialog-titlebar-close {
     top: -22px;
@@ -2077,7 +2186,8 @@ html[lang="en"] .footer .social_networks {
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon {
+.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon,
+.feedbackwrap .ui-widget-header .ui-icon {
     display: block;
     margin: 0;
     height: 100%;
@@ -2089,10 +2199,10 @@ html[lang="en"] .footer .social_networks {
 .cabmessage .ui-dialog-titlebar-close:hover, .add-vacancy-popup .ui-widget-header .ui-icon:hover {
     background-position: 0 100%;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .sing-in-pop-up,
     .popup-recovery-view,
-    .change_pass-pop-up{
+    { /*.change_pass-pop-up */
         height:190px !important;
         margin-left: -10px;
         width:247px !important;
@@ -2117,16 +2227,19 @@ html[lang="en"] .footer .social_networks {
     .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
         background-position: 0 -26px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
+    .feedbackwrap .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
         background-image:url("../img/closepopup-min.png");
         height:22px;
         width:22px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close {
+    .add-vacancy-popup .ui-dialog-titlebar-close, .sing-in-pop-up .ui-dialog-titlebar-close,
+    .feedbackwrap .ui-dialog-titlebar-close {
         top: -19px;
-        right: -19px;
+        right: -22px;
     }
-    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    .add-vacancy-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
+    .feedbackwrap .ui-icon-closethick:hover {
         background-position: 0 -22px;
     }
     .ui-dialog .ui-dialog-title /*.add-vacancy-popup h1 */  {
@@ -2141,6 +2254,9 @@ html[lang="en"] .footer .social_networks {
     .ui-dialog .ui-dialog-content {
         padding-bottom: 0px;
         padding-top: 0px;
+    }
+    .change_pass-pop-up .ui-dialog-content, .flash-success {
+        padding:20px;
     }
 	.login-form h6{
 		font-size:1.333em;
@@ -2167,14 +2283,27 @@ html[lang="en"] .footer .social_networks {
 	.login-form div input[type=text],
     .login-form div input[type=password],
     .popup-recovery input[type=text],
-    .change_pass-pop-up div input[type=password]{
+    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"] {
         font-size:11px;
 		width:171px;
 		height:11px;
 		padding:6px 7px;
 	}
-    .change_pass-pop-up div input[type=password]{
+    .change_pass-pop-up div input[type=password], #change-password-form input[type="password"],
+    #change-password-form input[type=password].error:focus{
+
+        height: 25px;
         line-height: 25px;
+        width:144px;
+    }
+    #change-password-form input[type="password"]:focus, #change-password-form input[type=password].error,
+    #change-password-form input.error:focus {
+        height: 23px;
+        width: 142px;
+    }
+    #change-password-form input[type="password"]:focus {
+        height: 23px;
+        width: 142px;
     }
 	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min2.png") no-repeat 0 0;
@@ -2204,14 +2333,14 @@ html[lang="en"] .footer .social_networks {
     .login-form div.login a, .login-form div.remember label  {
         font-size: 11px;
     }
-    .popup-recovery #password-recovery-form input[type="submit"],
-    .change_pass #change-password-form input[type="submit"]{
+    .popup-recovery #password-recovery-form input[type="submit"]
+    /*.change_pass #change-password-form input[type="submit"] */{
         height:21px;
         background-position: 0 -4px;
         line-height:21px;
     }
-    .popup-recovery #password-recovery-form input[type="submit"]:hover,
-    .change_pass #change-password-form input[type="submit"]:hover{
+
+    .popup-recovery #password-recovery-form input[type="submit"]:hover {
         background-position: 0 -34px;
     }
     .flash-notice {
@@ -2491,12 +2620,11 @@ ul.profile-menu li {
     cursor: pointer;
     display: inline-block;
     height: 30px;
-    line-height: 30px;
-    padding: 0px 12px 0px 18px;
+    padding: 0 10px 0 20px;
     text-decoration: none;
+    font:14px/30px "ProximaNova-Bold";
 }
 .light-btn, .invite-people-form input[type="submit"]  {
-    font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
 .blue-btn, .vacancy-add-form-switcher {
@@ -2830,15 +2958,20 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
-    width:114px;
+    width:116px;
 }
 #corporate-invitations-list-box .grid-view tr th:last-child,
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    width: 112px;
+    width: 114px;
 }
-
+#corporate-invitations-list-box .grid-view tr th:nth-child(7),
+#corporate-invitations-list-box ..mail-new-textgrid-view tr td:nth-child(7),
+#corporate-invitations-list-box .grid-view tr th:nth-child(8),
+#corporate-invitations-list-box .grid-view tr td:nth-child(8) {
+    display: none;
+}
 #corporate-invitations-list-box .rating, #private-invitations-list-box .rating {
     background-position: 0 -14px;
 }
@@ -2915,9 +3048,8 @@ ul.profile-menu li {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-weight: normal;
-    margin-left: 3px;
-    margin-right: 3px;
-    padding: 0px;
+    margin:0 4.5px;
+    padding: 0;
     text-decoration: none;
 }
 .pager ul.yiiPager li, .pager ul.yiiPager li a {
@@ -2935,9 +3067,9 @@ ul.profile-menu li {
     background: #6caab3;
     border: none;
     font-size: 14px;
-    margin-left:20px;
-    margin-right:20px;
-    padding: 7px 9px;
+    margin-left:15.5px;
+    margin-right:15.5px;
+    padding: 7px 10px;
 }
 .pager ul.yiiPager .page {
     padding-bottom: 5px;
@@ -3264,13 +3396,10 @@ ul.profile-menu li {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    left:50% !important;
-    margin-left:-292px !important;
     overflow: visible;
     padding-bottom: 20px;
     position: relative;
     padding-bottom: 20px;
-    width:584px !important;
 }
 .add-vacancy-popup .row   {
     padding-bottom: 12px;
@@ -3352,7 +3481,7 @@ ul.profile-menu li {
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .narrow-contnt {
         margin-left: 10px;
     }
@@ -3529,7 +3658,7 @@ ul.profile-menu li {
     #Invite_email {
         width: 130px;
     }
-    .invite-people-form .sbHolder {
+    .invite-people-form .sbHolder, .invite-people-form select {
         width: 117px;
     }
     #simulations-counter-box, #invite-people-box {
@@ -3551,7 +3680,7 @@ ul.profile-menu li {
         font-size: 15px;
     }
     #simulations-counter-box .brightblock {
-        margin-left: 6px;
+        margin-left: 3px; /* 6 */
     }
     .greenbtn, .greenbtn:link, .greenbtn:visited {
         font-size: 11px;
@@ -3636,7 +3765,7 @@ ul.profile-menu li {
     .tarifform .value, .simulations-counter {
         font-size: 16px;
     }
-    .inner .content, .inner-registration .content {
+    .inner .content, .inner-registration .content, .action-order .content {
         margin: 0 auto;
         width: 765px;
     }
@@ -4229,6 +4358,14 @@ ul.profile-menu li {
         line-height:18px;
         width: 6px;
     }
+
+    .change_pass #change-password-form input[type="submit"]{
+        background-position: 14px 10px;
+        font-size: 15px;
+        height:39px;
+        line-height:39px;
+        padding-left: 28px;
+    }
     .add-vacancy-popup {
         background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
         height: 280px !important;
@@ -4274,6 +4411,37 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 24px;
     }
+    .change_pass-pop-up, .password-recovery-step-4 {
+        left:50% !important;
+        margin-left:-320px !important;
+        width:620px !important;
+    }
+    .password-recovery-step-4 .flash .flash-success {
+        font-size:26px;
+        height:44px;
+    }
+    .flash-message-popup-recovery-popup {
+        top: 3px !important;
+        left: 734px !important;
+    }
+    .flash-message-popup-recovery-popup .flash-recovery-popup {
+        font-size:18px;
+        width:180px;
+    }
+    .change_pass-pop-up, .password-recovery-step-4 .flash-success {
+        font-size: 22px;
+    }
+    .password-recovery-step-4 {
+        top: 225px !important;
+    }
+    .password-recovery-step-4 .flash-success {
+        height:70px;
+        width:600px;
+    }
+    .YumUserChangePassword_verifyPassword {
+        left:176px;
+    }
+
 }
 
 
@@ -4325,5 +4493,10 @@ ul.profile-menu li {
     font-size: 11px;
     text-decoration: underline;
 }
+.change_pass-pop-up .ui-dialog-titlebar-close {
+    display: none;
+}
 
-
+.action-controller-index-static-pages .container{
+    overflow: hidden;
+}

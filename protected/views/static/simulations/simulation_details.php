@@ -1,7 +1,9 @@
-<?php /** @var Simulation $simulation */ ?>
-
-<h1><?php echo $simulation->user->profile->firstname ?> <?php echo $simulation->user->profile->lastname ?></h1>
-
+<?php /** @var Simulation $simulation */ /* @var YumUser $user */ /* @var Invite $invite */  ?>
+<?php if($user->isPersonal()) { ?>
+<h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
+<?php } else { ?>
+<h1><?php echo $invite->firstname ?> <?php echo $invite->lastname ?></h1>
+<?php } ?>
 <div class="simulation-details">
     <script type="text/javascript">
         var AR = <?= json_encode($simulation->getAssessmentDetails()); ?>;

@@ -118,17 +118,20 @@ class PhoneService {
 
     /**
      * Получить список тем для телефона.
-     * @param int $id
+     * @param int $code
      * @param Simulation $simulation
      * @return array
      */
-    public static function getThemes($id, Simulation $simulation) {
+    public static function getThemes($code, Simulation $simulation) {
 
-        $character = $simulation->game_type->getCharacter(['code' => $id]);
+        $character = $simulation->game_type->getCharacter(['code' => $code]);
         $themes = $simulation->game_type->getCommunicationThemes(['character_id' => $character->primaryKey, 'phone' => 1]);
         $list = array();
         foreach($themes as $theme) {
-            $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
+            /* @var $theme CommunicationTheme */
+            if(false === $theme->isBlockedByFlags($simulation)) {
+                $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
+            }
         }
         
         return $list;
@@ -318,6 +321,9 @@ class PhoneService {
                     // создадим событие
                     EventService::addByCode($dialog->next_event_code, $simulation, $simulation->getGameTime());
                 }
+
+                // Log income replica
+                LogHelper::setReplicaLog($dialog, $simulation);
             }
             $data[] = DialogService::dialogToArray($dialog);
         }

@@ -51,7 +51,13 @@
                     '',
                     'Выберите уровень позиции'
                 ),
-            'specializations' => [],
+            'specializations' => $specializations = StaticSiteTools::formatValuesArrayLite(
+                'ProfessionalSpecialization',
+                'id',
+                'label',
+                "",
+                'Выберите уровень спецеализации'
+            ),
         ]) ?>
     </div>
 <?php // add_vacancy_form } ?>

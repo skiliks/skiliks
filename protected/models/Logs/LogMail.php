@@ -138,12 +138,6 @@ class LogMail extends CActiveRecord
                 $this->simulation
             );
 
-            foreach ($template->termination_parent_actions as $parent_action) {
-                if (!$parent_action->isTerminatedInSimulation($this->simulation)) {
-                    $parent_action->terminateInSimulation($this->simulation);
-                }
-            };
-
             $exists = AssessmentPoint::model()->findByAttributes([
                 'sim_id' => $this->sim_id,
                 'mail_id' => $template->id

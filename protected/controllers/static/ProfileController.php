@@ -55,7 +55,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $birthday = Yii::app()->request->getParam('birthday');
 
             if (!empty($birthday['day']) || !empty($birthday['month']) || !empty($birthday['year'])) {
-                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
+                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year']) && (int)$birthday['year'] >= 1910 && (int)$birthday['year'] <= 2010) {
                     $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
                 } else {
                     $account->addError('birthday', Yii::t('site', 'Incorrect birthday'));
@@ -308,20 +308,13 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 $vacancy = new Vacancy();
             }
         }
-        $specializations = [];
-
-        // handle send invitation }
-        if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
-            $specializations = StaticSiteTools::formatValuesArrayLite(
+        $specializations = StaticSiteTools::formatValuesArrayLite(
                 'ProfessionalSpecialization',
                 'id',
                 'label',
-                " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                false
+                "",
+                'Выберите уровень спецеализации'
             );
-        }
-
-        // positionLevels
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
             'slug',
@@ -497,8 +490,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         $vacancy->delete();
-
-        Yii::app()->user->setFlash('error', sprintf('Вакансия %s удалена.', $vacancy->label));
 
         $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
     }

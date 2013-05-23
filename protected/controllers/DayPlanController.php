@@ -69,6 +69,13 @@ class DayPlanController extends AjaxController{
             )
         );
     }
+
+    public function actionSave()
+    {
+        $this->sendJSON(
+            DayPlanService::saveToXLS($this->getSimulationEntity(), 2)
+        );
+    }
 }
 
 

@@ -14,12 +14,6 @@
  */
 class F22_SK1428_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function testSK1428()
     {
