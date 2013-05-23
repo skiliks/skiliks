@@ -82,6 +82,7 @@ class PlanAnalyzer {
             $logItem->activityAction;
             $code = (null === $logItem->activityAction) ? null : $logItem->activityAction->activity->code;
 
+            // @for: SKILIKS-2754
             if ('plan' == $logItem->leg_action
                 || 'A_wait' == $code
                 || 'A_wrong_call' == $code
