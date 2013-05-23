@@ -2111,7 +2111,8 @@ html[lang="en"] .footer .social_networks {
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
-.action-controller-corporate-static-simulations .ui-dialog-titlebar {
+.action-controller-corporate-static-simulations .ui-dialog-titlebar,
+.terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;
 }

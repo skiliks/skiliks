@@ -38,9 +38,35 @@
     height:147px !important;
 }
 */
+.terms-page {
+    background: #fff;
+    top:50px !important;
+    width: 840px !important;
+}
 .terms-page h1, .terms-page h2, .terms-page h3 {
     color: #3d4041;
+    margin-bottom: 20px;
 }
+.terms-page h1 {
+    text-align: center;
+}
+.terms-page h2 {
+    font: 21px "ProximaNova-Regular";
+}
+.terms-page h3 {
+    font: 16px "ProximaNova-Bold";
+}
+.terms-page .ui-dialog-content p {
+    color: #3d4041;
+    font: 14px "ProximaNova-Regular";
+    line-height: 140%;
+    margin-bottom: 20px;
+}
+.terms-page .ui-dialog-content {
+    margin-top: -5px;
+    padding-top: 0px;
+}
+
 @media screen and (max-width: 1146px){
     .flash-pop-up {
         overflow: visible;
