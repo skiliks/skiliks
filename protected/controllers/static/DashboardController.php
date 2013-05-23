@@ -374,6 +374,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
     {
         $this->checkUser();
         $invite = Invite::model()->findByPk($id);
+        /* @var $invite Invite */
         if (null == $invite) {
             $this->redirect('/dashboard');
         }
@@ -399,6 +400,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         // fix (NULL) receiver_id to make sure that simulation can start
         $invite->receiver_id = Yii::app()->user->data()->id;
         $invite->status = Invite::STATUS_ACCEPTED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status', 'receiver_id']);
 
         /* @flash
@@ -435,6 +437,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $invite->status = Invite::STATUS_DECLINED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status']);
 
         /* @flash
@@ -481,6 +484,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $declineExplanation->save();
 
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
+        $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $declineExplanation->invite->update(false, ['status']);
 
         // for unregistered user - redirect to homepage
