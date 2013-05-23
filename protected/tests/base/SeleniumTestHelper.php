@@ -10,7 +10,7 @@ class SeleniumTestHelper extends CWebTestCase
 {
     protected $captureScreenshotOnFailure = TRUE;
     protected $screenshotPath = '/var/www/screenshots/';
-    protected $screenshotUrl = 'http://screenshots.dev.skiliks.com/screenshots';
+    protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
 
     public static $browsers = array(
         array(

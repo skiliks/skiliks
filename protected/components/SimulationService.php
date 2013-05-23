@@ -492,23 +492,21 @@ class SimulationService
             ->byNotTerminatorCode()
             ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
 
-        $transaction = Yii::app()->db->beginTransaction();
-        $triggers = [];
-
-        try {
+        if (count($events) > 0) {
+            $sql = [];
             foreach ($events as $event) {
-                $trigger = new EventTrigger();
-                $trigger->trigger_time = $event->trigger_time ?: '00:00:00';
-                $trigger->sim_id = $simulation->id;
-                $trigger->event_id = $event->id;
-
-                $trigger->save();
+                $eventTime = $event->trigger_time ?: '00:00:00';
+                $sql[] = "({$simulation->id}, {$event->id}, '$eventTime')";
             }
 
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
+            $sql = sprintf(
+                'INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES %s;',
+                implode(',', $sql)
+            );
+
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $command->execute();
         }
 
         return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);

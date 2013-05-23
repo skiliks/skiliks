@@ -9,6 +9,15 @@
 class ZohoTest extends SeleniumTestHelper
 {
 
+    public static $browsers = array(
+        array(
+            'name'    => 'Firefox',
+            'browser' => '*firefox',
+            'host'    => 'localhost',
+            'port'    => 4444,
+            'timeout' => 30000,
+        )
+    );
     public function testZoho() {
 
         $this->deleteAllVisibleCookies();
@@ -38,8 +47,9 @@ class ZohoTest extends SeleniumTestHelper
             usleep(100000);;
         }
         //ждем самой загрузки документов
-        sleep (95);
+        sleep (240);
         //кликаем по "Начать" в туториале. Если туториала нет  - значит зохо не загрузился
-        $this->click("xpath=(//*[contains(text(),'Начать')])");
+        $this->click("xpath=(//*[contains(text(),'Перед вами')])");
+        $this->getEval('$(window).off("beforeunload")');
     }
 }

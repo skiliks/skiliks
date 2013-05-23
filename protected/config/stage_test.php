@@ -16,7 +16,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'frontendUrl'=>'http://test.skiliks.com/',
         'zoho' => array(
-            'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
+            'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://test.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
