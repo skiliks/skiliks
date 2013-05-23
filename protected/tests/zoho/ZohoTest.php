@@ -21,7 +21,7 @@ class ZohoTest extends SeleniumTestHelper
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
+            if ($second >= 2400) $this->fail("timeout");
             try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'')])")) break;
             } catch (Exception $e) {}
