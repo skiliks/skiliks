@@ -75,6 +75,21 @@
     .flash-pop-up .ui-dialog-content p {
         font-size:15px !important;
     }
+    .terms-page {
+        left:50%;
+        margin-left:-340px;
+        width: 660px !important;
+    }
+    .terms-page h2 {
+        font-size: 18px;
+    }
+    .terms-page h3 {
+        font-size: 14px;
+    }
+    .terms-page .ui-dialog-content p {
+        font-size: 12px;
+        margin-bottom: 16px;
+    }
     /*
     .controller-static-dashboard .flash  {
         height:121px !important;
