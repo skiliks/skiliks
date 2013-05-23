@@ -8,8 +8,7 @@ require([
     'game/util/compatibility',
     'game/views/SKIntroView',
     'game/views/world/SKApplicationView',
-    'game/models/SKApplication',
-    'jquery/jquery-ui-1.10.3.custom.min'
+    'game/models/SKApplication'
 ], function(backbone, compatibility,SKIntroView, SKApplicationView, SKApplication) {
     "use strict";
 
