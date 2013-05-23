@@ -49,7 +49,7 @@ class ZohoTest extends SeleniumTestHelper
         //ждем самой загрузки документов
         sleep (240);
         //кликаем по "Начать" в туториале. Если туториала нет  - значит зохо не загрузился
-        $this->assertVisible("xpath=(//*[contains(text(),'Перед вами')])");
-        $this->getEval('$(window).off("beforeunload")');
+        $this->click("xpath=(//*[contains(text(),'Перед вами')])");
+        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 }
