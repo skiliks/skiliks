@@ -1,14 +1,16 @@
 .manual-window {
   position: relative;
   background: url(../img/manual/cover.jpg) 0 0 no-repeat;
+  top: 5px !important;
   z-index: 50000 !important;
 
   .warn {
+    background: #fcf9f2;
+    font: 17px 'orbi_sansregular';
     position: absolute;
     top: -50px;
     left: 0;
     right: 0;
-    background-color: white;
     border-radius: 7px;
     font-size: 1.28em;
     line-height: 30px;
@@ -17,14 +19,15 @@
 
   .tabs {
     position: absolute;
-    top: -15px;
+    top: -12px;
     right: 50px;
     list-style: none;
 
     li {
       position: relative;
       float: right;
-      margin-left: 30px;
+      font-family: orbi_sansregular;
+      margin-left: 16px;
       height: 20px;
       padding: 5px 0;
       background: url(../img/manual/tab.png) 0 -60px repeat-x;
@@ -46,41 +49,94 @@
         right: -10px;
         background-position: 0 -30px;
       }
+      a, a:hover {
+        color:#dad6d1;
+        font-family: orbi_sansregular;
+        text-decoration: none;
+      }
+      span {
+        font-family: orbi_sansregular;
+      }
+    }
+    .close-window {
+      display: block !important;
+
+      .btn-cl {
+        background-image: url(../img/manual/icon-close2.png);
+        height: 12px;
+        width:12px;
+
+        &:hover {
+          background-position: 0px -12px;
+        }
+      }
+    }
+    .pages {
+      background-image: url(../img/manual/tab-light.png);
+      color:#000;
+
+      &:before, &:after {
+        background-image: url(../img/manual/tab-light.png);
+      }
+      span {
+        color:#000;
+      }
     }
   }
 
   .flyleaf {
     position: absolute;
     z-index: 1;
-    top: 11px;
+    top: 3px;
     bottom: 11px;
-    left: 10px;
+    height:607px;
+    left: 2px;
     right: 10px;
+    width:983px;
 
-    background: url(../img/manual/flyleaf.png) 0 0 no-repeat;
+    background: url(../img/manual/bookcontentbg.png) 0 0 no-repeat;
 
     .page {
+      margin:44px 46px 10px 24px;
+
+      p, span, div, h2, h3, h4 {
+        font-family: orbi_sansregular;
+      }
+
       .navigation {
         .back, .next {
           position: absolute;
           z-index: 2;
           display: block;
-          width: 50px;
-          height: 50px;
+          width: 28px;
+          height: 49px;
           top: 50%;
           margin-top: -25px;
-          background: url(../img/manual/navigation.png) 0 0 no-repeat;
+          background: url(../img/manual/tutor-nav.png) 0 0 no-repeat;
         }
 
         .back {
-          left: -3px;
+          left: -4px;
         }
         .next {
-          right: 40px;
-          background-position: 0 -50px;
+          right: 18px;
+          background-position: 0 -49px;
         }
       }
-
+      h2 {
+        font-family: orbi_sansregular;
+        font-size:28px;
+        margin-bottom: 5px;
+        margin-left: 40px;
+      }
+      .pagecell {
+        display: table-cell;
+        padding:0px 10px 0px 40px;
+        width: 50%;
+      }
+      .leftpagecell {
+        padding-right: 20px;
+      }
       .person-block {
         width: 200px;
         padding: 5px;
@@ -93,7 +149,38 @@
     }
   }
 }
+.tutor-list {
+  margin:0px;
+  padding:0px;
 
+  li {
+    height:auto;
+    list-style-type: none;
+
+    img {
+      float: left;
+      margin: 0px;
+    }
+    .plan-list-content {
+      margin-left: 70px;
+    }
+    h3 {
+      color:#232323;
+      font-size: 17px;
+    }
+    p {
+      color:#232323;
+      font-size: 13px;
+      line-height: 130%;
+    }
+  }
+}
+.plan-list {
+  li {
+    height: 100px;
+    padding-bottom: 16px;
+  }
+}
 .person-info-tooltip {
   z-index: 100000;
   margin: 0;
