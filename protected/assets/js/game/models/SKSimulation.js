@@ -144,27 +144,25 @@ define([
 
             zohoDocumentSaveCheck: function(iframe, doc_id) {
                 console.log('Check...');
+
                 if (60 === SKApp.simulation.get('ZohoDocumentSaveCheckAttempt')) {
                     SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
                     return;
                 }
 
-                if ('Spreadsheet saved successfully' === iframe.document.getElementById('save_message_display').textContent ||
-                    '' === iframe.document.getElementById('save_message_display').textContent) {
 
-                    SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
+                SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
 
-                        console.log('result: ', result);
-                        console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                    console.log('result: ', result);
+                    console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
-                        if ((true === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
-                            null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                            console.log('saved!');
-                            SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
-                            SKApp.simulation.tryCloseLoadDocsDialog();
-                        }
-                    });
-                }
+                    if ((true === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
+                        null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
+                        console.log('saved!');
+                        SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
+                        SKApp.simulation.tryCloseLoadDocsDialog();
+                    }
+                });
 
                 SKApp.simulation.set(
                     'ZohoDocumentSaveCheckAttempt',
