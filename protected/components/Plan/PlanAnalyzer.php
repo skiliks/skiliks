@@ -74,6 +74,7 @@ class PlanAnalyzer {
          *
          * */
         $groupedLog = [];
+        $log_214d = [];
 
         $currentParentCode = null;
         $i = 0;
@@ -104,6 +105,17 @@ class PlanAnalyzer {
                     'end'         => $logItem->end_time,
                     'available'   => $parentAvailability ? $parentAvailability->available_at : null,
                 ];
+                $log_214d[] = [
+                    'sim_id' => $logItem->sim_id,
+                    'leg_type' => $logItem->leg_type,
+                    'leg_action' => $logItem->leg_action,
+                    'activity_action_id' => $logItem->activity_action_id,
+                    'category' => $logItem->category,
+                    'start_time' => $logItem->start_time,
+                    'end_time' => $logItem->end_time,
+                    'duration' => $logItem->duration,
+                    'is_keep_last_category' => $logItem->is_keep_last_category,
+                ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
                 $groupedLog[($i - 1)]['end'] = $logItem->end_time;
@@ -112,6 +124,21 @@ class PlanAnalyzer {
         }
 
         $this->logActivityActionsAggregatedGroupByParent = $groupedLog;
+
+        /* Log ActivityActionsAggregated214d */
+        foreach($log_214d as $log) {
+            $var_214d = new LogActivityActionAgregated214d();
+            $var_214d->sim_id = $log['sim_id'];
+            $var_214d->leg_type = $log['leg_type'];
+            $var_214d->leg_action = $log['leg_action'];
+            $var_214d->activity_action_id = $log['activity_action_id'];
+            $var_214d->category = $log['category'];
+            $var_214d->start_time = $log['start_time'];
+            $var_214d->end_time = $log['end_time'];
+            $var_214d->duration = $log['duration'];
+            $var_214d->is_keep_last_category = $log['is_keep_last_category'];
+            $var_214d->save();
+        }
     }
 
     /**
