@@ -63,6 +63,10 @@ define(
                     this.closeBtn.hide();
                 }
 
+                if ($.fn.tooltip.noConflict) {
+                    $.fn.tooltip.noConflict();
+                }
+
                 this.$el.tooltip({
                     tooltipClass: 'person-info-tooltip',
                     position: {
