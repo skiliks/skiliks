@@ -1211,6 +1211,36 @@ class ImportGameDataService
             // add wrong forwards for each character, except 'R' }
         }
 
+        $my_characters = $this->scenario->getCharacters([]);
+
+        foreach($my_characters as $my_character) {
+            /* @var $my_character Character */
+            $mail_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'mail'=> 1, 'scenario_id'=>$this->scenario->id, 'mail_prefix'=>null, 'import_id'=>$this->import_id]);
+            $phone_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'phone'=> 1, 'scenario_id'=>$this->scenario->id, 'import_id'=>$this->import_id]);
+            assert(is_int($mail_count));
+            assert(is_int($phone_count));
+
+            if($mail_count === 0){
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_mail_theme = 0;
+                $char->update();
+            }else{
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_mail_theme = 1;
+                $char->update();
+            }
+            unset($char);
+            if($phone_count === 0){
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_phone_theme = 0;
+                $char->update();
+            }else{
+                $char = Character::model()->findByPk($my_character->id);
+                $char->has_phone_theme = 1;
+                $char->update();
+            }
+            unset($char);
+        }
         // remove all old, unused characterMailThemes after import {
         CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
@@ -2644,6 +2674,38 @@ class ImportGameDataService
             // Flag blocks mail always }
         }
 
+        /* Создание зависимости ком. тем от флагов для тем в почте */
+        $importedCommunicationTheme = 0;
+        $importedFlagToRunOutboxMailRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('mail_outbox' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+            echo "Mail inbox " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+            /* Создание зависимости тем от флагов для реплик в телефоне */
+            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'letter_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $communicationTheme) {
+                echo "Mail fail " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+                continue;
+            }
+            echo "Mail Done " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagCommunicationThemeDependence) {
+                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
+                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
+                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            }
+            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagCommunicationThemeDependence->import_id = $this->import_id;
+            $flagCommunicationThemeDependence->save();
+            unset($communicationTheme);
+            unset($flagCommunicationThemeDependence);
+            $importedFlagToRunOutboxMailRows++;
+            $importedCommunicationTheme++;
+        }
+
+
         $importedFlagBlockReplica = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if ('replica' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
@@ -2702,6 +2764,25 @@ class ImportGameDataService
 
             $flagBlockDialog->save();
 
+            /* Создание зависимости тем от флагов для диалогов в телефоне */
+            $communicationTheme = $this->scenario->getCommunicationTheme(['phone'=> 1, 'phone_dialog_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $communicationTheme) {
+                continue;
+            }
+            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagCommunicationThemeDependence) {
+                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
+                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
+                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            }
+            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagCommunicationThemeDependence->import_id = $this->import_id;
+            $flagCommunicationThemeDependence->save();
+            unset($communicationTheme);
+            unset($flagCommunicationThemeDependence);
+
+            $importedCommunicationTheme++;
             $importedFlagBlockDialog++;
         }
         // for Dialogs }
@@ -2725,16 +2806,22 @@ class ImportGameDataService
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
+
+        FlagCommunicationThemeDependence::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
         // delete old unused data }
 
         $this->logEnd();
 
 
         return [
-            'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
-            'imported_Flag_block_replica' => $importedFlagBlockReplica,
-            'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
-            'errors'                      => false,
+            'imported_Flag_to_run_mail'          => $importedFlagToRunMailRows,
+            'imported_Flag_block_replica'        => $importedFlagBlockReplica,
+            'imported_Flag_block_dialog'         => $importedFlagBlockDialog,
+            'imported_Flag_communication_theme'  => $importedCommunicationTheme,
+            'errors'                             => false,
         ];
     }
 

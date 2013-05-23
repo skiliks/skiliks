@@ -25,7 +25,7 @@
 }
 .features form div input[type=submit], .profileform input[type=submit], .inputsubmit,
 .form-vacancy input[type=submit] {
-    background:#146672 url("../img/icon-btn-notify.png") no-repeat;
+    background:#146672 url("../img/icon-circlarow.png") no-repeat;
     border:none;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
@@ -59,10 +59,10 @@
     height:24px;
 }
 .registrationform input[type=text] {
-    width:224px;
+    width:223px;
 }
 .registrationform input[type=password] {
-    width:164px;
+    width:162px;
 }
 /*
 .registrationform .errorMessage {
@@ -101,22 +101,22 @@
     width:162px;
 }
 */
-.registrationform input[type=submit], .bigbtnsubmt {
-    background:#146672 url("../img/icon-circlarow.png") no-repeat 38px 16px;
+.registrationform input[type=submit], .bigbtnsubmt, .order-methods input[type=submit]  {
+    background:#146672 url("../img/icon-circlarow.png") no-repeat 20px 16px;
     border:none;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
     display: inline-block;
-    font-size:1.7em;
+    font: 18px/54px "ProximaNova-Regular";
+
     color:#fff;
-    text-align:left;
     height:54px;
-    vertical-align:top;
 }
 .registrationform input[type=submit] {
-    padding:0 16px 0 66px;
-    width: 184px;
+    font-size: 22px;
+    padding: 0 20px 0 40px;
+    width:190px !important;
 }
 .bigbtnsubmt, .bigbtnsubmt:link, .bigbtnsubmt:visited {
     color:#fff;
@@ -129,6 +129,9 @@
     float:left;
     margin-left: 11px;
     position:relative;
+}
+.registrationform .row:last-child {
+    float:right;
 }
 .registrationform .row:first-child {
     margin-left:0px;
@@ -233,22 +236,26 @@
 }
 .registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
 .darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder,
-.feedback .form-line input[type="email"]::-webkit-input-placeholder {
+.feedback .form-line input[type="email"]::-webkit-input-placeholder,
+#change-password-form input[type="password"]::-webkit-input-placeholder  {
      color:#146672;
  }
 .registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder,
 .darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
-.feedback .form-line input[type="email"]::-moz-placeholder{
+.feedback .form-line input[type="email"]::-moz-placeholder,
+#change-password-form input[type="password"]::-moz-placeholder {
     color:#146672;
 }
 .registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder,
 .darkblueplacehld input[type="text"]::-ms-input-placeholder, #password-recovery-form input[type="text"]::-ms-input-placeholder,
-.feedback .form-line input[type="email"]::-ms-input-placeholder{
+.feedback .form-line input[type="email"]::-ms-input-placeholder,
+#change-password-form input[type="password"]::-ms-input-placeholder {
     color:#146672;
 }
 .registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder,
 .darkblueplacehld input[type="text"]::-moz-placeholder, #password-recovery-form input[type="text"]::-moz-placeholder,
-.feedback .form-line input[type="email"]::-moz-placeholder {
+.feedback .form-line input[type="email"]::-moz-placeholder,
+#change-password-form input[type="password"]::-moz-placeholder {
     color:#146672;
 }
 
@@ -293,7 +300,7 @@ span.required {
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 232px -66px;
+    background: url("../img/menuarrows.png") no-repeat 236px -65px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -303,7 +310,7 @@ span.required {
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 232px 16px;
+    background-position: 236px 17px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
@@ -350,6 +357,13 @@ span.required {
     height:23px;
     width: 350px;
 }
+.profileform  .blueinputtext {
+    position: relative;
+}
+.profileform  .blueinputtext .errorMessage {
+    top: -14px;
+    left: 186px;
+}
 #UserAccountPersonal_location {
     width: 340px;
 }
@@ -379,12 +393,12 @@ span.required {
     width:158px;
 }
 .profileform input[type=submit], .form-vacancy input[type=submit] {
-    background-position: 17px 18px;
-    font: 19px "ProximaNova-Bold";
+    background-position: 17px 17px;
+    font: 18px "ProximaNova-Bold";
     height:54px;
     line-height: 20px;
     margin-top: 10px;
-    padding: 0px 20px 0px 48px;
+    padding: 0 20px 0 51px;
 }
 .profileform textarea, .controller-static-dashboard textarea {
     background:#fff;
@@ -478,7 +492,7 @@ span.required {
 .sideform .row {
     padding-bottom: 8px;
 }
-.invite-people-form .sbHolder {
+.invite-people-form .sbHolder, .invite-people-form select {
     width:160px;
 }
 .brightblock {
@@ -533,7 +547,7 @@ span.required {
     font:14px "ProximaNova-Bold";
     height: 31px;
     line-height: 31px;
-    padding: 0px 12px 0px 24px;
+    padding: 0 10px 0 22px;
     text-decoration: none;
 }
 .add-vacancy-popup #add-vacancy-form input[type="submit"] {
@@ -549,15 +563,13 @@ span.required {
     background: rgba(0, 0, 0, .55) !important;
     opacity: 1;
 }
+.action-recovery.action-controller-recovery-static-userAuth .ui-widget-overlay {
+    background: none !important;
+}
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
-    left:50% !important;
-    margin-left:-295px !important;
-    top:270px !important;
-    min-height: 380px !important;
     overflow: visible;
-    width:590px !important;
 }
 .cabmessage .ui-dialog-content {
     /*background:url("../img/bg-kniga.jpg") no-repeat right bottom;*/
@@ -669,6 +681,7 @@ span.required {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     overflow: visible;
     padding-left: 15px;
+    top:205px !important;
     width:688px !important;
 }
 .feedbackwrap .ui-widget-header {
@@ -727,7 +740,7 @@ span.required {
 }
 /* **************************** /FEEDBACK **************************** */
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .registerpads {
         padding: 10px 0px 20px 20px;
     }
@@ -741,7 +754,7 @@ span.required {
         font-size: 1.2em;
     }
     .registrationform input[type=text] {
-        width: 168px;
+        width: 194px;
     }
     .registrationform input[type=text], .registrationform input[type=password] {
         height: 20px;
@@ -749,7 +762,7 @@ span.required {
         font-size: 1em;
     }
     .registrationform input[type=password] {
-        width: 156px;
+        width: 144px;
     }
     .registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
         padding: 8px 7px;
@@ -762,7 +775,7 @@ span.required {
     .registrationform input[type=submit] {
         background-position: 20px 10px;
         padding-left: 50px;
-        width: 155px;
+        width: 155px !important;
     }
     .feedbackwrap {
         background-size:contain;
@@ -782,7 +795,11 @@ span.required {
         font-size:24px;
         margin-top: 20px;
     }
-    .YumProfile_email {
-
+    .brightblock, .lightblock {
+        padding: 5px 3px 4px;
+    }
+    .profileform  .blueinputtext .errorMessage {
+        top: -12px;
+        left: 156px;
     }
 }

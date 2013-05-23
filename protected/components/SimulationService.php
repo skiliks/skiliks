@@ -521,25 +521,23 @@ class SimulationService
             && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
-        }else if(Simulation::MODE_DEVELOPER_LABEL == $simulationMode && $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
+        } else if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
                 $user = $invite->receiverUser;
-                unset($invite);
-                $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-                $invite = new Invite();
+                $scenario = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug]);
                 $invite->owner_id = $user->id;
                 $invite->receiver_id = $user->id;
                 $invite->firstname = $user->profile->firstname;
                 $invite->lastname = $user->profile->lastname;
-                $invite->scenario_id = $fullScenario->id;
+                $invite->scenario_id = $scenario->id;
                 $invite->status = Invite::STATUS_ACCEPTED;
                 $invite->sent_time = time(); // @fix DB!
+                $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $invite->save(true, [
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
-
         }
 
         // TODO: Change checking logic
@@ -797,20 +795,21 @@ class SimulationService
 
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
             $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
-            if(null === $invite){
-                throw new InviteException("Вы запустили более одной симуляции по одному инвайту");
-            }else if((int)$invite->status === Invite::STATUS_ACCEPTED){
+            if (null === $invite &&
+                false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
+            ) {
+                throw new InviteException('Симуляция запущена без инвайта');
+            } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
                 $invite->status = Invite::STATUS_STARTED;
+                $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate()) {
                     Yii::app()->user->data()->getAccount()->invites_limit--;
                     Yii::app()->user->data()->getAccount()->save(false);
-                }else{
-                    $invite->update();
                 }
-            }else if((int)$invite->status === Invite::STATUS_STARTED){
+            } else if((int)$invite->status === Invite::STATUS_STARTED) {
                 return;
-            }else{
+            } else {
                 throw new InviteException("Статус инвайта не может быть не STATUS_ACCEPTED или STATUS_STARTED");
             }
         }

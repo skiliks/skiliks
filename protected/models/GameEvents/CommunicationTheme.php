@@ -312,6 +312,23 @@ class CommunicationTheme extends CActiveRecord
             'game_type' => array(self::BELONGS_TO, 'Scenario', 'scenario_id')
         );
     }
+
+    public function isBlockedByFlags($simulation) {
+
+        $flagsDependence = $this->game_type->getFlagCommunicationThemeDependencies(['communication_theme_id'=>$this->id]);
+        if(empty($flagsDependence)){
+            return false;
+        }
+        foreach($flagsDependence as $flagDependence) {
+            /* @var $flagDependence FlagCommunicationThemeDependence  */
+            /* @var $flagSimulation SimulationFlag  */
+            $flagSimulation = FlagsService::getFlag($simulation, $flagDependence->flag_code);
+            if($flagSimulation->value !== $flagDependence->value) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

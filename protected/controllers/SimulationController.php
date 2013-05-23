@@ -151,8 +151,10 @@ class SimulationController extends AjaxController
         $simulation = $this->getSimulationEntity();
         $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
 
+        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
         // IF - to prevent cheating
-        if ($invite->isAccepted()) {
+        if (null !== $invite && $invite->isAccepted() && false === $invite->scenario->isLite()) {
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false);
             if (Yii::app()->user->data()->isCorporate()) {

@@ -36,7 +36,8 @@ define([
                 'click .todo-max':                                                   'doMaximizeTodo',
                 'click .todo-revert':                                                'doRestoreTodo',
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
-                'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan'
+                'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
+                'click .save-day-plan':                                              'doSaveTomorrowPlan'
             },
             SKWindowView.prototype.events
         ),
@@ -353,9 +354,10 @@ define([
                 },
                 'drop':function (event, ui) {
                     me.$('.planner-book-after-vacation .day-plan-td-slot').each(function () {
-                        var duration = ui.draggable.attr('data-task-duration');
-                        var day = $(this).parents('div[data-day-id]').attr('data-day-id');
-                        var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+                        var duration = ui.draggable.attr('data-task-duration'),
+                            day = $(this).parents('div[data-day-id]').attr('data-day-id'),
+                            time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+
                         if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
                             // Reverting old element location
                             var task_id = ui.draggable.attr('data-task-id');
@@ -374,7 +376,7 @@ define([
                                 title:ui.draggable.find('.title').text(),
                                 date:time,
                                 task_id:task_id,
-                                duration:ui.draggable.attr('data-task-duration'),
+                                duration:duration,
                                 day:day
                             });
                             return false;
@@ -576,28 +578,42 @@ define([
          * @method
          */
         doMinimizeTodo:function () {
-            this.$('.plan-todo').removeClass('open').removeClass('middle').addClass('closed');
-            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('half').addClass('full');
-            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
+
+            me.$('.plan-todo').removeClass('open middle').addClass('closed');
+            me.$('.planner-book-afterv-table').removeClass('closed half').addClass('full');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            setTimeout(function() {
+                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
+            }, 1000);
         },
 
         /**
          * @method
          */
         doMaximizeTodo:function () {
-            this.$('.plan-todo').removeClass('closed').removeClass('middle').addClass('open');
-            this.$('.planner-book-afterv-table').removeClass('full').removeClass('half').addClass('closed');
-            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
 
+            me.$('.plan-todo').removeClass('closed middle').addClass('open');
+            me.$('.planner-book-afterv-table').removeClass('full half').addClass('closed');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
         },
 
         /**
          * @method
          */
         doRestoreTodo:function () {
-            this.$('.plan-todo').removeClass('closed').removeClass('open').addClass('middle');
-            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('full').addClass('half');
-            this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            var me = this;
+
+            me.$('.plan-todo').removeClass('closed open').addClass('middle');
+            me.$('.planner-book-afterv-table').removeClass('closed full').addClass('half');
+
+            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            setTimeout(function() {
+                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
+            }, 1000);
         },
 
         /**
@@ -634,6 +650,18 @@ define([
                 $('.plannerBookDayPlan').css('display', 'block');
                 $('.plannerBookQuarterPlan').css('display', 'none');
             }
+        },
+
+        doSaveTomorrowPlan: function() {
+            SKApp.simulation.savePlan(function() {
+                var dialog = new SKDialogView({
+                    message: 'Ваш план успешно сохранен',
+                    buttons: [{
+                        id: 'close',
+                        value: 'Ok'
+                    }]
+                });
+            });
         }
     });
 

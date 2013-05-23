@@ -11,12 +11,7 @@
  */
 class F30_SK1429_Tests extends SeleniumTestHelper
 {
-    protected function setUp()
-{
-    $this->setBrowser('firefox');
-    $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-    parent::setUp();
-}
+
     public function testSK1429()
     {
     //$this->markTestIncomplete();
@@ -25,7 +20,8 @@ class F30_SK1429_Tests extends SeleniumTestHelper
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-    $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+    sleep(5);
+    $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
     $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
 

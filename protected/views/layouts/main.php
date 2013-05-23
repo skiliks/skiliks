@@ -28,6 +28,7 @@ $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.9.2.custom.js', CClientScript::POS_BEGIN);
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
@@ -38,6 +39,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
         <meta charset="utf-8" />
         <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
+        и ситуациями принятия решений">
+        <meta property="og:description" content="Самый простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -56,7 +60,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<header>
 				<h1>
                     <a href="/">
-                        <img src="<?php echo $assetsUrl?>/img/logo-header.png" alt="Skiliks"/>
+                        <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
                     </a>
                 </h1>
 

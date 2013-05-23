@@ -131,6 +131,7 @@ return array(
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
+                'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
                 'static/team/'    => 'static/pages/team',
@@ -173,7 +174,7 @@ return array(
                 'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
                 'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
 
-                'tariffs/<type:\w+>'                   => 'static/pages/ChangeTariff',
+                'tariffs/<type:\w+>'                   => 'static/payment/changeTariff',
                 'registration'                         => 'static/userAuth/registration',
                 'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
@@ -250,6 +251,9 @@ return array(
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
+                'payment/order/<tariffType:\w+>'       => 'static/payment/order',
+                'payment/do'                           => 'static/payment/do',
+
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
@@ -304,7 +308,7 @@ return array(
             'afterCallZoomerDuration' => 2000, // milliseconds
         ],
         'zoho' => array(
-            'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
+            'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',

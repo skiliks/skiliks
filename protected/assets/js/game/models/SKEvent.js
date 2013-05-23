@@ -1,4 +1,4 @@
-/*global SKEvent:true, Backbone, SKConfig, SKApp*/
+/*global SKEvent:true, Backbone, SKConfig, SKApp, _, console, define */
 define([], function () {
     "use strict";
     /**
@@ -87,7 +87,7 @@ define([], function () {
                 }
             });
 
-            return my_replicas;
+            return _.shuffle(my_replicas);
         },
 
         /**
@@ -157,6 +157,7 @@ define([], function () {
                     if (cb) {
                         cb(data);
                     }
+                    console.log('parseNewEvents: ', data.events);
                     SKApp.simulation.parseNewEvents(data.events);
                 }
             });
@@ -184,6 +185,7 @@ define([], function () {
             this.status = status;
             if (prev_status !== this.status && this.status === 'in progress') {
                 this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
+                console.log('event:' + this.getTypeSlug() + ':in_progress');
                 this.trigger('in progress');
             }
             if (this.status === 'completed') {
@@ -207,6 +209,7 @@ define([], function () {
                 'dialogId': dialogId,
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
+                console.log('ignore: ', data.events);
                 SKApp.simulation.parseNewEvents(data.events);
                 if (cb !== undefined) {
                     cb();
@@ -228,6 +231,7 @@ define([], function () {
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 if (data.result === 1) {
+                    console.log('selectReplica: ', data.events);
                     if (me.getStatus() !== 'completed') {
                         me.complete();
                         cb();

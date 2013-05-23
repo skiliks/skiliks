@@ -5,7 +5,7 @@ $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compile
 ?>
 
 <div id="feedback-dialog" style="display: none;">
-    <h2 class="feedback-dialog-title"><?= Yii::t('site', 'Please, tell us what we can do better, we appreciate your opinion') ?></h2>
+    <h2 class="feedback-dialog-title"><?= Yii::t('site', 'Please contact us') ?></h2>
     <?php
     $form = $this->beginWidget('CActiveForm', [
         'id' => 'feedback-form',

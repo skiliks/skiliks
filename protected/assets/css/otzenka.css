@@ -22,7 +22,8 @@
     padding-bottom: 30px;
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
-.action-controller-corporate-static-dashboard #simulation-details-pop-up {
+.action-controller-corporate-static-dashboard #simulation-details-pop-up,
+.action-corporate #simulation-details-pop-up {
     /*padding: 10px;*/
     padding: 0px;
 }
@@ -665,9 +666,10 @@
 .feedbackwrap .ui-dialog-titlebar-close {
     top:-22px;
 }
-.feedbackwrap .ui-widget-header .ui-icon,
+/*.feedbackwrap .ui-widget-header .ui-icon,
 .feedbackwrap .ui-widget-header .ui-state-hover,
-.feedbackwrap .ui-widget-header .ui-state-focus, .flash-pop-up .popupclose {
+.feedbackwrap .ui-widget-header .ui-state-focus, */
+.flash-pop-up .popupclose {
     background-color:transparent !important;
     background-image:url("../img/closepopup.png") !important;
     background-repeat: no-repeat;
@@ -676,6 +678,11 @@
     width:27px;
     margin: 0px !important;
     z-index: 1000;
+}
+.feedbackwrap .ui-widget-header .ui-icon,
+.feedbackwrap .ui-widget-header .ui-state-hover,
+.feedbackwrap .ui-widget-header .ui-state-focus {
+    border: none;
 }
 .simulation-result-popup .ui-dialog-titlebar-close {
     height: 27px;
@@ -1058,7 +1065,7 @@
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
 }
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1146px){
     .simulation-result-popup {
         padding-bottom: 18px;
     }

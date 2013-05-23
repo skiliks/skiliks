@@ -618,6 +618,9 @@ define([
                 // window uids random - so we need to fix our predefine values of uid {
                 var windowUid_1 = null;
                 var windowUid_2 = null;
+                var windowUid_2_2 = null;
+                var windowUid_2_3 = null;
+                var windowUid_2_4 = null;
                 var windowUid_3 = null;
                 // window uids random - so we need to fix our predefine values of uid }
 
@@ -625,6 +628,8 @@ define([
                 _.each(server.requests, function(item) {
                     if ('/index.php/events/getState' === item.url) {
                         var requestArray = URLToArray(decodeURIComponent(item.requestBody));
+//                        console.log(requestArray);
+//                        console.log('-----------------------');
 
                         if (0 === i) {
                             windowUid_1 = requestArray['logs[0][window_uid]'];
@@ -633,38 +638,41 @@ define([
 
                         if (1 === i) {
                             windowUid_2 = requestArray['logs[1][window_uid]'];
+                            windowUid_2_2 = requestArray['logs[3][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_1;
                             logs[i]['logs[1][window_uid]'] = windowUid_2;
                             logs[i]['logs[2][window_uid]'] = windowUid_2;
-                            logs[i]['logs[3][window_uid]'] = windowUid_2;
-                            logs[i]['logs[4][window_uid]'] = windowUid_2;
-                            logs[i]['logs[5][window_uid]'] = windowUid_2;
+                            logs[i]['logs[3][window_uid]'] = windowUid_2_2;
+                            logs[i]['logs[4][window_uid]'] = windowUid_2_2;
+                            logs[i]['logs[5][window_uid]'] = windowUid_2_2;
                         }
 
                         if (2 === i) {
-                            logs[i]['logs[0][window_uid]'] = windowUid_2;
-                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                            windowUid_2_3 = requestArray['logs[1][window_uid]'];
+                            logs[i]['logs[0][window_uid]'] = windowUid_2_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2_3;
 
                         }
 
                         if (3 === i) {
                             windowUid_3 = requestArray['logs[1][window_uid]'];
-                            logs[i]['logs[0][window_uid]'] = windowUid_2;
+                            logs[i]['logs[0][window_uid]'] = windowUid_2_3;
                             logs[i]['logs[1][window_uid]'] = windowUid_3;
                         }
 
                         if (4 === i) {
+                            windowUid_2_4 = requestArray['logs[1][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_3;
-                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2_4;
                         }
 
                         if (5 === i) {
-                            logs[i]['logs[0][window_uid]'] = windowUid_2;
-                            logs[i]['logs[1][window_uid]'] = windowUid_2;
+                            logs[i]['logs[0][window_uid]'] = windowUid_2_4;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2_2;
                         }
 
-                        _.each(logs[i], function(logsItem, key){
-                            //console.log(logsItem);
+                        //console.log(i);
+                        _.each(logs[i], function(logsItem, key) {
                             expect(logsItem.toString()).toBe(requestArray[key].toString());
                         });
                         i++;

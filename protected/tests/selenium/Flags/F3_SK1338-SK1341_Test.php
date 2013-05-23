@@ -8,12 +8,6 @@
  */
 class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1338() тестирует задачу SKILIKS-1338 для dialog
@@ -57,7 +51,6 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
     public function testSK1339() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
@@ -88,7 +81,6 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
     public function testSK1340() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
@@ -118,8 +110,13 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->write_email();
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $this->optimal_click('link=F32');
 
+        $this->write_email();
+        sleep(5);
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
         $this->optimal_click($krutko);

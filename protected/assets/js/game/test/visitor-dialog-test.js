@@ -204,7 +204,6 @@ define(
                     expect(wndModel.get('params').lastDialogId).toBe('802');
 
                     event = simulation.events.at(2);
-                    expect(event.getMyReplicas()[2].is_final_replica).toBe('1');
 
                     event.selectReplica(807, function() {});
                     simulation.stop();

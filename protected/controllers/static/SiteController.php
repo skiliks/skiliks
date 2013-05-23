@@ -59,14 +59,15 @@ class SiteController extends AjaxController
                 $this->redirect('/simulations');
             }
 
-
-            if (null !== $invite->simulation_id && ($invite->isStarted() || $invite->isCompleted())) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
-                    $invite->getCompanyOwnershipType(),
-                    $invite->getCompanyName()
-                ));
-                $this->redirect('/simulations');
+            if ($invite->scenario->slug !== Scenario::TYPE_LITE) {
+                if (null !== $invite->simulation_id && ($invite->isStarted() || $invite->isCompleted())) {
+                    Yii::app()->user->setFlash('error', sprintf(
+                        'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
+                        $invite->getCompanyOwnershipType(),
+                        $invite->getCompanyName()
+                    ));
+                    $this->redirect('/simulations');
+                }
             }
 
             if ($invite->scenario->slug == Scenario::TYPE_FULL

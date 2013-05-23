@@ -52,7 +52,7 @@ class UserAccountPersonal extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'                 , 'required'),
-			array('industry_id'           , 'required', 'message' => Yii::t('site', 'Industry is required')),
+			//array('industry_id'           , 'required', 'message' => Yii::t('site', 'Industry is required')),
 			array('professional_status_id', 'required', 'message' => Yii::t('site', 'Professional status is required')),
 			array('user_id'                 , 'length'   , 'max'=>10),
 			array('location'                 , 'length'   , 'max'=>255),
@@ -84,7 +84,7 @@ class UserAccountPersonal extends CActiveRecord
 	{
 		return array(
 			'user_id'     => Yii::t('site', 'User'),
-			'industry_id' => Yii::t('site', 'Industry'),
+			'industry_id' => Yii::t('site', 'Professional area'),
 			'professional_status_id' => Yii::t('site', 'Professional status'),
 			'birthday' => Yii::t('site', 'Birthday'),
 			'location' => Yii::t('site', 'Location'),

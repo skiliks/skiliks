@@ -59,6 +59,29 @@
         });
         // load simulation details pop-up data }
 
+
+
+        $('.terms').click(function() {
+            $('.container').append($('<div id="terms-pop-up"></div>'));
+            $('#terms-pop-up').dialog({
+                dialogClass: 'terms-page',
+                modal:       true,
+                width:       980,
+                minHeight:   600,
+                autoOpen:    false,
+                resizable:   false
+            });
+
+            $.ajax('/static/terms', {
+                success: function(data) {
+                    $('#terms-pop-up').html(data).dialog('open');
+                }
+            });
+
+            return false;
+        });
+
+
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
@@ -94,6 +117,7 @@
                 dialogClass: 'feedbackwrap',
                 modal: true,
                 resizable: false,
+                draggable: false,
                 open: function( event, ui ) { Cufon.refresh(); }
             });
 
@@ -153,6 +177,16 @@
             return false;
         };
 
+        window.paymentSubmit = function paymentSubmit(form, data, hasError) {
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    var result = $('<div class="order-result"/>').html(res);
+                    $('.order-methods').html(result);
+                });
+            }
+            return false;
+        };
+
         // Ajax Validation }
 
         // delete vacancy {
@@ -204,12 +238,13 @@
                 minHeight: 350,
                 modal: true,
                 resizable: false,
+                draggable: false,
                 title: '',
-                width: 600,
+                width: 584,
                 position: {
                     my: "left top",
-                    at: "right top",
-                    of: $('#invite-people-box')
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box .items')
                 }
             });
             $(".form-vacancy").dialog('open');
@@ -244,7 +279,7 @@
             if(localStorage.getItem('lastGetState') === null){
                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
                     //window.alert("Ок");
                     return true;
                 } else {
@@ -278,7 +313,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
     '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
    '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
-    '.registration .form .row input[type=submit], .vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
+    '.vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
     '.icon-choose, .testtime, .testtime strong, .benefits, .tarifswrap .text16, .value, .tarifform .value, #simulations-counter-box strong, ' +
     '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
     '.action-controller-registerByLink-static-userAuth h2.title, #invite-decline-form #form-decline-explanation input[type="submit"], section.registration-by-link .form .row input[type="submit"],' +
@@ -296,17 +331,20 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
     '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
     '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
-    '.registrationform input[type=password], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
+    '.registrationform input[type=password], .registrationform input[type=submit], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
     '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
     '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
     'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
     '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
-    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a',
+    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
+    '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
+    '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
-    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction',
+    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
+    '.tariff-name, .video-caption',
     {fontFamily:"ProximaNova-Bold", hover:true}
 );
 Cufon.replace('.freeacess', {hover:true});

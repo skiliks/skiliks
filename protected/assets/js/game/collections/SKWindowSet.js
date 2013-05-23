@@ -1,4 +1,4 @@
-/*global console, Backbone, SKWindow, SKDialogWindow, SKApp, _*/
+/*global console, Backbone, SKWindow, SKDialogWindow, SKApp, _, define */
 define([
     "game/models/window/SKWindow",
     "game/models/window/SKDialogWindow"
@@ -96,6 +96,7 @@ define([
                         simulation.mailClient.view.on('render_finished', function () {
                             SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                         });*/
+                        console.log(); // just to make this IF branch not empty for JSHint
                     } else {
                         var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
                         windows[0].setOnTop();
@@ -110,6 +111,12 @@ define([
                         simulation.mailClient.getActiveSubscreenName()
                     );
                     simulation.mailClient.view.on('render_finished', function () {
+
+                        var email_row = simulation.mailClient.view.$('.email-list-line:eq(0)');
+                        if (!email_row.hasClass('active')) {
+                            email_row.click();
+                        }
+
                         SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                     });
 

@@ -38,6 +38,7 @@ class LogHelper
 
     protected static $subScreens = array(
         1 =>  'main screen',
+        2 =>  'manual',
         3 =>  'plan',
         11 => 'mail main',
         12 => 'mail preview',
@@ -160,6 +161,8 @@ class LogHelper
 
     public static function setMailLog($simId, $logs)
     {
+        $simulation = Simulation::model()->findByPk($simId);
+
         if (!is_array($logs)) return false;
         foreach ($logs as $log) {
 
@@ -238,6 +241,16 @@ class LogHelper
                             $log_obj->is_coincidence = $result['has_concidence'];
                             $log_obj->save();
                         }
+
+                        if ($result['full'] !== null && $result['full'] !== '-') {
+                            $template = $simulation->game_type->getMailTemplate(['code' => $result['full']]);
+                            foreach ($template->termination_parent_actions as $parent_action) {
+                                if (!$parent_action->isTerminatedInSimulation($simulation)) {
+                                    $parent_action->terminateInSimulation($simulation);
+                                }
+                            };
+                        }
+
                         continue;
 
                     }

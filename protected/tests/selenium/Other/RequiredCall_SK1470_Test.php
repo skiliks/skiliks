@@ -11,17 +11,12 @@
      */
 class RequiredCall_SK1470_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function test_RequiredCall_SK1470_Case1()
     {
         $this->start_simulation();
-        $this->run_event('ET2.4',"css=li.icon-active.phone a",'click');
+        $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "ET2.4");
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['phone']['no_reply']));
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);

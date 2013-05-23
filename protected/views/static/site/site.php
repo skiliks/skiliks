@@ -29,6 +29,7 @@
         $cs->registerCssFile($assetsUrl . '/css/main.css');
 
         $cs->registerLessFile($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
+        $cs->registerLessFile($assetsUrl . '/less/manual.less',     $assetsUrl . '/compiled_css/manual.css');
         $cs->registerLessFile($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
         $cs->registerLessFile($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
         $cs->registerLessFile($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_css/documents.css');
@@ -50,6 +51,8 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formula1.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.9.2.custom.js"></script>
+
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/underscore.js"></script>
