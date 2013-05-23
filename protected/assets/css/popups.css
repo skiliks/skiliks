@@ -80,6 +80,9 @@
         margin-left:-340px;
         width: 660px !important;
     }
+    .terms-page h1 {
+        font-size: 2em;
+    }
     .terms-page h2 {
         font-size: 18px;
     }
