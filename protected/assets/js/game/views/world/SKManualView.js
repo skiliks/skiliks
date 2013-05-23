@@ -45,7 +45,11 @@ define(
             },
 
             renderContent: function (content) {
-                content.html(_.template(frame));
+                var required = this.options.model_instance.get('required');
+
+                content.html(_.template(frame, {
+                    'required': required
+                }));
 
                 [contents, page2, page4, page6].forEach(function(tpl) {
                     content.find('.flyleaf').append(_.template(tpl));
@@ -53,8 +57,9 @@ define(
 
                 this.pages = content.find('.page');
                 this.closeBtn = content.find('.close-window');
+                content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
 
-                if (this.options.model_instance.get('required') === true) {
+                if (required) {
                     this.closeBtn.hide();
                 }
 
@@ -83,8 +88,9 @@ define(
                 e.preventDefault();
 
                 var page = $(e.currentTarget).attr('data-refer-page');
-                this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden');
+                var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
+                this.$el.find('.pages .current').html(index + 1);
                 if (page === this.lastPage) {
                     this.closeBtn.show();
                 }
