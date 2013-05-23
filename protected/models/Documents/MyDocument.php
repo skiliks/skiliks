@@ -130,6 +130,12 @@ class MyDocument extends CActiveRecord
         ];
     }
 
+    public function getContents()
+    {
+        $file_data = yaml_parse_file($this->template->getFilePath());
+        return $file_data;
+    }
+
     /**
      * Creates UUID to every document
      * @return bool

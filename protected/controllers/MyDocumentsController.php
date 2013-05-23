@@ -51,8 +51,6 @@ class MyDocumentsController extends AjaxController
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
 
-        $limit = 10;
-        $n = 0 ;
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
@@ -61,9 +59,9 @@ class MyDocumentsController extends AjaxController
         assert($file);
 
         $result = array(
-            'result'           => 1,
-            'fileId'          => $file->id,
-            'data' => file_get_contents($file->template->getFilePath()),
+            'result' => 1,
+            'fileId' => $file->id,
+            'data'   => $file->getContents()
         );
         $this->sendJSON(
             $result
