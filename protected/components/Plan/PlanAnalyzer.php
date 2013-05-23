@@ -103,7 +103,7 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
-                    'available'   => $parentAvailability ? $parentAvailability->available_at : null,
+                    'available'   => $this->parentAvailability($parentAvailability, $groupedLog),
                 ];
                 $log_214d[] = [
                     'sim_id' => $logItem->sim_id,
@@ -139,6 +139,25 @@ class PlanAnalyzer {
             $var_214d->is_keep_last_category = $log['is_keep_last_category'];
             $var_214d->save();
         }
+    }
+
+    public function parentAvailability($parentAvailability, $groupedLog) {
+        /*if($parentAvailability->code === 'T7b') {
+            $max_end_time = 0;
+            foreach($groupedLog as $log){
+                if(){
+
+                }
+            }
+            //LogActivityActionAgregated::model()->find();
+                    //return (new DateTime())->setTimestamp(strtotime($log['end_time']))->add("PT2H")->format("H:i:s");
+
+            //}
+        }
+        if($parentAvailability->code === 'T7b'){
+
+        }*/
+        return $parentAvailability ? $parentAvailability->available_at : null;
     }
 
     /**
