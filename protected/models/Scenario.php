@@ -51,8 +51,9 @@
  */
 class Scenario extends CActiveRecord
 {
-    const TYPE_LITE = 'lite';
-    const TYPE_FULL = 'full';
+    const TYPE_LITE     = 'lite';
+    const TYPE_FULL     = 'full';
+    const TYPE_TUTORIAL = 'tutorial';
 
     public function isLite()
     {

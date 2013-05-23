@@ -159,18 +159,16 @@ class LogMail extends CActiveRecord
         } else {
             // If mail is incorrect MS or not sent
             if ($this->mail !== null) {
-                if ($this->mail->isSended()) {
-                    $activity = $this->simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+                $activity = $this->simulation->game_type->getActivity([
+                    'code' => $this->mail->isSended() ? 'A_incorrect_sent' : 'A_not_sent'
+                ]);
+
+                if (null !== $activity) {
                     $activity_action = ActivityAction::model()->findByPriority(
                         ['activity_id' => $activity->getPrimaryKey() ],
                         NULL,
                         $this->simulation
                     );
-                } else {
-                    $activity = $this->simulation->game_type->getActivity(['code' => 'A_not_sent']);
-                    $activity_action = ActivityAction::model()->findByPriority([
-                        'activity_id' => $activity->getPrimaryKey()
-                    ], NULL, $this->simulation);
                 }
             }
         }
