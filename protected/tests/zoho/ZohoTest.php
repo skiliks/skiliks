@@ -31,14 +31,14 @@ class ZohoTest extends SeleniumTestHelper
         $this->open('/simulation/promo/full');
         //ждем появление поп-апа "Подождите, идет загрузка документов"
         for ($second = 0; ; $second++) {
-            if ($second >= 2400) $this->fail("Can't see popup 'Please, wait, documents is loading...'");
+            if ($second >= 600) $this->fail("Can't see popup 'Please, wait, documents is loading...'");
             try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'Пожалуйста, подождите, идёт загрузка документов')])")) break;
             } catch (Exception $e) {}
             usleep(100000);;
         }
         //ждем самой загрузки документов
-        sleep (95);
+        sleep (240);
         //кликаем по "Начать" в туториале. Если туториала нет  - значит зохо не загрузился
         $this->click("xpath=(//*[contains(text(),'Начать')])");
     }
