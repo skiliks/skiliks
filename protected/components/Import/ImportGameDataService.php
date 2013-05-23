@@ -59,6 +59,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Faces_new');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -238,6 +241,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Constructor');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -588,6 +594,10 @@ class ImportGameDataService
         $this->logStart();
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
@@ -985,6 +995,10 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL Themes');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
@@ -1260,6 +1274,10 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('to-do-list');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
@@ -1324,6 +1342,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('M-T');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -1427,6 +1448,10 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
@@ -1469,6 +1494,10 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
@@ -1524,6 +1553,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Documents');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet, 1);
@@ -1592,6 +1624,9 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet, 2);
@@ -1701,6 +1736,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet, 2);
@@ -1793,6 +1831,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet, 2);
@@ -1874,6 +1915,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet, 2);
@@ -2470,8 +2514,8 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Weights');
-        if (null === $sheet) {
-            return;
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
         }
         // load sheet }
 
@@ -2846,6 +2890,11 @@ class ImportGameDataService
             $scenario->end_time = '18:00:00';
             $scenario->finish_time = '20:00:00';
             $scenario->duration_in_game_min = 495;
+        } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
+            $scenario->start_time = '6:45:00';
+            $scenario->end_time = '9:45:00';
+            $scenario->finish_time = '9:45:00';
+            $scenario->duration_in_game_min = 180;
         }
 
         $scenario->save();
