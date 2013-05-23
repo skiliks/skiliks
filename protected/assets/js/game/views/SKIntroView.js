@@ -1,13 +1,14 @@
-/*global Backbone, _ */
+/*global define, Backbone, _, $ */
 
 var SKIntroView;
 define([
     'game/views/world/SKApplicationView',
     'game/models/SKApplication',
+    'game/models/window/SKWindow',
     'game/views/SKDialogView',
     'text!game/jst/intro.jst',
     'text!game/jst/world/tutorial.jst'
-], function (SKApplicationView, SKApplication, SKDialogView, template_intro, tutorial_template) {
+], function (SKApplicationView, SKApplication, SKWindow, SKDialogView, template_intro, tutorial_template) {
     "use strict";
     /**
      * Загрузка Интромуви
@@ -49,20 +50,21 @@ define([
             });
 
             window.SKApp.simulation.start(function() {
-                window.AppView.drawDesktop();
-                me.tutorial = new SKDialogView({
-                    class: 'tutorial-popup',
-                    content: _.template(tutorial_template, {}),
-                    buttons: [{
-                        id: 'ok',
-                        value: 'Начать',
-                        onclick: function() {
-                            $('.time').removeClass('paused');
-                            window.SKApp.simulation.stopPause();
-                        }
-                    }]
+                var me = this,
+                    wnd = new SKWindow({
+                        name: 'mainScreen',
+                        subname: 'manual',
+                        required: true
+                    });
+
+                wnd.on('close', function() {
+                    window.AppView.frame._hidePausedScreen();
+                    me.stopPause();
                 });
-                me.$('.tutorial-content').mCustomScrollbar();
+
+                window.AppView.drawDesktop();
+                window.AppView.frame._showPausedScreen();
+                wnd.open();
             });
         },
         handleClick: function(){

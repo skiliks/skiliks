@@ -14,19 +14,21 @@ define(
         'text!game/jst/manual/contents.jst',
         'text!game/jst/manual/page2.jst',
         'text!game/jst/manual/page4.jst',
-        'text!game/jst/manual/page6.jst'
+        'text!game/jst/manual/page6.jst',
+        'text!game/jst/manual/page8.jst',
+        'text!game/jst/manual/page10.jst',
+        'text!game/jst/manual/page12.jst',
+        'text!game/jst/manual/page14.jst'
     ],
     function (
         SKWindowView,
-        frame, contents, page2, page4, page6
+        frame, contents, page2, page4, page6, page8, page10, page12, page14
     ) {
         "use strict";
 
         SKManualView = SKWindowView.extend({
 
             addClass: 'manual-window',
-
-            lastPage: '6',
 
             'events': _.defaults(
                 {
@@ -51,7 +53,7 @@ define(
                     'required': required
                 }));
 
-                [contents, page2, page4, page6].forEach(function(tpl) {
+                [contents, page2, page4, page6, page8, page10, page12, page14].forEach(function(tpl) {
                     content.find('.flyleaf').append(_.template(tpl));
                 });
 
@@ -95,7 +97,7 @@ define(
                 var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
                 this.$el.find('.pages .current').html(index + 1);
-                if (page === this.lastPage) {
+                if (index + 1 === this.pages.length) {
                     this.closeBtn.show();
                 }
             }
