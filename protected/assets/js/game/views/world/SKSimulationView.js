@@ -427,7 +427,7 @@ define([
 
             doToggleManual: function(e) {
                 e.preventDefault();
-                SKApp.simulation.window_set.toggle('mainScreen', 'manual');
+                SKApp.simulation.window_set.toggle('mainScreen', 'manual', {required: true});
             }
         });
 

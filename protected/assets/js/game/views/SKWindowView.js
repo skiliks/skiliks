@@ -150,13 +150,13 @@ define(["text!game/jst/window.jst"], function (window_template) {
             if (position.left < 0) {
                 this.$el.css('left', 0);
             } else if (position.left + dimensions.width > bounds.width) {
-                this.$el.css('left', bounds.width - dimensions.width);
+                this.$el.css('left', Math.max(bounds.width - dimensions.width, 0));
             }
 
             if (position.top < 0) {
                 this.$el.css('top', 0);
             } else if (position.top + dimensions.height > bounds.height) {
-                this.$el.css('top', bounds.height - dimensions.height);
+                this.$el.css('top', Math.max(bounds.height - dimensions.height, 0));
             }
         },
 
@@ -193,6 +193,14 @@ define(["text!game/jst/window.jst"], function (window_template) {
                     return relation / 100 * value.slice(0, -1);
                 }
                 return +value;
+            }
+
+            if (sd.width) {
+                sd.minWidth = sd.maxWidth = sd.width;
+            }
+
+            if (sd.height) {
+                sd.minHeight = sd.maxHeight = sd.height;
             }
 
             rd.width = percent2px(containerWidth, specifiedWidth);

@@ -1,7 +1,11 @@
 <div class="book">
+    <@ if (required) { @>
+    <div class="warn">Перед вами важная информация, ознакомьтесь с ней полностью, кликая на <b>&gt;</b> , просмотрев до конца, вы сможете ее закрыть</div>
+    <@ } @>
     <ul class="tabs btn-window">
         <li class="close-window"><button class="btn-cl win-close">&nbsp;</button></li>
         <li><a href="#" data-refer-page="1">Содержание</a></li>
+        <li class="pages">Шаг <span class="current"></span> из <span class="total"></span></li>
     </ul>
 
     <div class="flyleaf">
