@@ -26,6 +26,8 @@ define(
 
             addClass: 'manual-window',
 
+            lastPage: '6',
+
             'events': _.defaults(
                 {
                     'click a[data-refer-page]': 'doOpenPage'
@@ -43,20 +45,55 @@ define(
             },
 
             renderContent: function (content) {
-                content.html(_.template(frame));
+                var required = this.options.model_instance.get('required');
+
+                content.html(_.template(frame, {
+                    'required': required
+                }));
 
                 [contents, page2, page4, page6].forEach(function(tpl) {
                     content.find('.flyleaf').append(_.template(tpl));
                 });
 
                 this.pages = content.find('.page');
+                this.closeBtn = content.find('.close-window');
+                content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
+
+                if (required) {
+                    this.closeBtn.hide();
+                }
+
+                this.$el.tooltip({
+                    tooltipClass: 'person-info-tooltip',
+                    position: {
+                        my: 'left+20 top-50',
+                        at: 'right center',
+                        collision: 'flipfit',
+                        within: content.find('.flyleaf')
+                    },
+                    show: {
+                        effect: 'fade',
+                        delay: 300
+                    },
+                    items: '[data-refer-tooltip]',
+                    content: function() {
+                        var tooltipId = $(this).attr('data-refer-tooltip');
+
+                        return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
+                    }
+                });
             },
 
             doOpenPage: function(e) {
                 e.preventDefault();
 
                 var page = $(e.currentTarget).attr('data-refer-page');
-                this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden');
+                var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
+
+                this.$el.find('.pages .current').html(index + 1);
+                if (page === this.lastPage) {
+                    this.closeBtn.show();
+                }
             }
         });
 

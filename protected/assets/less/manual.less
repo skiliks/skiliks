@@ -2,6 +2,18 @@
   position: relative;
   background: url(../img/manual/cover.jpg) 0 0 no-repeat;
 
+  .warn {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-radius: 7px;
+    font-size: 1.28em;
+    line-height: 30px;
+    text-align: center;
+  }
+
   .tabs {
     position: absolute;
     top: -15px;
@@ -67,6 +79,34 @@
           background-position: 0 -50px;
         }
       }
+
+      .person-block {
+        width: 200px;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 4px;
+        background-color: #c1dcf3;
+        text-align: center;
+        cursor: pointer;
+      }
     }
+  }
+}
+
+.person-info-tooltip {
+  z-index: 1000;
+  margin: 0;
+  width: 300px;
+  padding: 5px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: none #faf9d5;
+  font-size: 11px;
+
+  .photo {
+    width: 74px;
+    height: 114px;
+    float: left;
+    margin: 0 5px 5px 0;
   }
 }
