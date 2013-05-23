@@ -45,18 +45,25 @@ define([
          * @param el
          */
         renderContent:function (el) {
+            var me = this;
             var doc = this.options.model_instance.get('document');
+            var spreadsheet;
             el.html( _.template(document_xls_template, {}) );
 
             SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
-            var spreadsheet = new SocialCalc.SpreadsheetControl();
-            doc.getContent(function () {
+            doc.getContent(function (response) {
                 setTimeout(function () {
-                    var parts = spreadsheet.DecodeSpreadsheetSave(budget);
-                    spreadsheet.InitializeSpreadsheetControl("tableeditor", this.$('.xls-container').height() - 50, this.$('.xls-container').width(), 0);
-                    spreadsheet.ParseSheetSave(budget);
-                    spreadsheet.ExecuteCommand('recalc', '');
-                    spreadsheet.ExecuteCommand('redisplay', '');
+                    response.data.forEach(function (sheet) {
+                        spreadsheet = new SocialCalc.SpreadsheetControl();
+                        var parts = spreadsheet.DecodeSpreadsheetSave(sheet.content);
+                        var root = $('<div></div>').attr('id',  _.uniqueId('tableeditor-'));
+                        root.appendTo($('#tableeditor'));
+                        spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$('.xls-container').height() - 50, me.$('.xls-container').width(), 0);
+                        spreadsheet.ParseSheetSave(sheet.content);
+                        spreadsheet.ExecuteCommand('recalc', '');
+                        spreadsheet.ExecuteCommand('redisplay', '');
+                    });
+
 
                 });
             });
