@@ -257,7 +257,7 @@ class MailBoxService
      */
     public static function getMailPhrases(Simulation $simulation, $id = NULL)
     {
-        $phrases = array();
+        $phrases = [];
 
         if (NULL !== $id) {
             // получить код набора фраз
@@ -266,30 +266,18 @@ class MailBoxService
             // Если у нас прописан какой-то конструктор
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;
-                $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
-                if (null === $constructor) {
-                    $constructorNumber = 'B1';
-                    $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
-                }
-                // получить фразы по коду
-                $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
-
-                $list = array();
-                foreach ($phrases as $model) {
-                    $list[$model->id] = $model->name;
-                }
-                return $list;
+                $constructor = $simulation->game_type->getMailConstructor(['code' => $constructorNumber]);
             }
         }
 
-        // конструтор не прописан - вернем дефолтовый
-        if (count($phrases) == 0) {
+        if (empty($constructor)) {
             $constructor = $simulation->game_type->getMailConstructor(['code' => 'B1']);
+        }
+        if ($constructor) {
             $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
-        };
+        }
 
-        $list = array();
-
+        $list = [];
         foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }
@@ -304,9 +292,9 @@ class MailBoxService
     public static function getSigns($simulation)
     {
         $constructor = $simulation->game_type->getMailConstructor(['code' => 'SYS']);
-        $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
+        $phrases = $constructor ? MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]) : [];
 
-        $list = array();
+        $list = [];
         foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }

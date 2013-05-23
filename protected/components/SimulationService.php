@@ -480,7 +480,7 @@ class SimulationService
     /**
      * @param Simulation $simulation
      *
-     * @return array of EventTrigger
+     * @return EventTrigger[]
      */
     public static function initEventTriggers($simulation)
     {
@@ -492,19 +492,24 @@ class SimulationService
             ->byNotTerminatorCode()
             ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
 
-        $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
+        $transaction = Yii::app()->db->beginTransaction();
+        $triggers = [];
 
-        $add = '';
-        foreach ($events as $event) {
-            $eventTime = $event->trigger_time ?: '00:00:00';
-            $sql .= $add . "({$simulation->id}, {$event->id}, '$eventTime')";
-            $add = ',';
+        try {
+            foreach ($events as $event) {
+                $trigger = new EventTrigger();
+                $trigger->trigger_time = $event->trigger_time ?: '00:00:00';
+                $trigger->sim_id = $simulation->id;
+                $trigger->event_id = $event->id;
+
+                $trigger->save();
+            }
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
         }
-        $sql .= ";";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->execute();
 
         return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);
     }
