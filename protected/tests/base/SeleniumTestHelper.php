@@ -22,6 +22,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
         $this->open('/cheat/quick-start/full');
 
+
         /*$this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
         $this->type("css=.login>input", "asd@skiliks.com");
