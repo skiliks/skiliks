@@ -19,14 +19,7 @@ class SeleniumTestHelper extends CWebTestCase
             'host'    => 'localhost',
             'port'    => 4444,
             'timeout' => 30000,
-        ),
-        array(
-            'name'    => 'Chrome',
-            'browser' => '*googlechrome',
-            'host'    => 'localhost',
-            'port'    => 9515,
-            'timeout' => 30000,
-        ),
+        )
     );
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
