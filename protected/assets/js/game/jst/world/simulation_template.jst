@@ -6,8 +6,14 @@
         <li>4 октября, четверг</li>
         <li><img src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-bat-full.png" alt=""/></li>
         <li><a class="manual-toggle"><img alt="" src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-help.png" /></a></li>
-        <@ if(SKApp.isLite()) { @>
+        <@ if (showPause) { @>
             <li class="pause-control"> <a class="pause" href="javascript:void(0);"></a></li>
+        <@ } @>
+        <@ if (showStart) { @>
+            <li class="tutorial-mode">
+                <a class="start" href="#"></a>
+                <span class="minutes"></span><span class="delimiter">:</span><span class="seconds"></span>
+            </li>
         <@ } @>
         <li class="finish hidden"><a href="#"></a></li>
         <!--li><a href="" class="fullscreen-toggle"><img alt="" src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-help.png" /></a></li-->

@@ -518,7 +518,7 @@ class SimulationService
      * @throws Exception
      * @return Simulation
      */
-    public static function simulationStart($invite, $simulationMode)
+    public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
         if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
             && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
@@ -550,12 +550,22 @@ class SimulationService
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
 
+        if (null === $simulationType) {
+            $simulationType = $invite->scenario->slug;
+        }
+
+        if ($invite->scenario->slug == Scenario::TYPE_FULL && $simulationType == Scenario::TYPE_TUTORIAL) {
+            $scenarioType = Scenario::TYPE_TUTORIAL;
+        } else {
+            $scenarioType = $invite->scenario->slug;
+        }
+
         // Создаем новую симуляцию
         $simulation = new Simulation();
         $simulation->user_id = $invite->receiverUser->id;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug])->primaryKey;
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
         $simulation->save();
 
         // save simulation ID to user session

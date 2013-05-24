@@ -103,7 +103,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @method
          */
         doSimStopAndLoadLogs: function () {
-            SKApp.simulation.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
+            SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
             AppView.frame.stopExitProtection();
             SKApp.simulation.stop();
         },
