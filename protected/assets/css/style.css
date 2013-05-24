@@ -1749,7 +1749,8 @@ html[lang=ru] .product section table th{
     left:320px;
 }
 html[lang="en"] .footer .social_networks {
-    top:198px;
+    top:136px;
+    margin-left: 68px;
 }
 .social_networks span {
     display:block;
