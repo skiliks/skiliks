@@ -1357,8 +1357,8 @@ define([
                     }
                 });
 
-                this.$('#MailClient_RecipientsList input').focus();
-                this.$('#MailClient_RecipientsList input').blur();
+                //this.$('#MailClient_RecipientsList input').focus();
+                //this.$('#MailClient_RecipientsList input').blur();
 
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
@@ -1383,8 +1383,8 @@ define([
                     msgNoNewTag: "Вы не можете написать письмо данному получателю"
                 });
 
-                this.$('#MailClient_CopiesList input').focus();
-                this.$('#MailClient_CopiesList input').blur();
+                //this.$('#MailClient_CopiesList input').focus();
+                //this.$('#MailClient_CopiesList input').blur();
 
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
@@ -2036,8 +2036,8 @@ define([
 
                     // if user can edit recipients - than push all recipients to drop-down list }
 
-                    this.$('#MailClient_RecipientsList').focus();
-                    this.$('#MailClient_RecipientsList').blur();
+                    //this.$('#MailClient_RecipientsList').focus();
+                    //this.$('#MailClient_RecipientsList').blur();
 
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
@@ -2189,8 +2189,8 @@ define([
                         }
                     });
 
-                    this.$('#MailClient_RecipientsList').focus();
-                    this.$('#MailClient_RecipientsList').blur();
+                    //this.$('#MailClient_RecipientsList').focus();
+                    //this.$('#MailClient_RecipientsList').blur();
 
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
@@ -2201,8 +2201,8 @@ define([
                         autocomplete: true
                     });
 
-                    this.$('#MailClient_CopiesList').focus();
-                    this.$('#MailClient_CopiesList').blur();
+                    //this.$('#MailClient_CopiesList').focus();
+                    //this.$('#MailClient_CopiesList').blur();
 
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
