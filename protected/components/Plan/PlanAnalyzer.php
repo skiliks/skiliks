@@ -142,21 +142,33 @@ class PlanAnalyzer {
     }
 
     public function parentAvailability($parentAvailability, $groupedLog) {
-        /*if($parentAvailability->code === 'T7b') {
+        if($parentAvailability->code === 'T7b') {
             $max_end_time = 0;
             foreach($groupedLog as $log){
-                if(){
-
+                if($log['parent'] === "T7a" && !empty($log['end'])){
+                    $max_end_time = ($max_end_time < strtotime($log['end']))?strtotime($log['end']):$max_end_time;
                 }
             }
-            //LogActivityActionAgregated::model()->find();
-                    //return (new DateTime())->setTimestamp(strtotime($log['end_time']))->add("PT2H")->format("H:i:s");
-
-            //}
+            if(0 !== $max_end_time){
+                return (new DateTime())->setTimestamp($max_end_time)->add(new DateInterval("PT2H"))->format("H:i:s");
+            }
         }
-        if($parentAvailability->code === 'T7b'){
+        if($parentAvailability->code === 'TM8') {
+            $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
+            if(null !== $mail_template){
+                $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id]);
+                if(null !== $mail_box){
+                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id]);
+                    if(null !== $log_mail){
+                        $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
+                        if(strtotime($log_mail->start_time) < strtotime($dialog->start_time)) {
+                            return (new DateTime())->setTimestamp(strtotime($log_mail->start_time))->format("H:i:s");
+                        }
+                    }
+                }
+            }
 
-        }*/
+        }
         return $parentAvailability ? $parentAvailability->available_at : null;
     }
 

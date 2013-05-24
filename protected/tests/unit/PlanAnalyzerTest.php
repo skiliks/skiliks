@@ -1912,26 +1912,18 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        // log 1 {
-        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
-        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
-        $activityAction = $simulation->game_type->getActivityAction([
-            'activity_id' => $activity->id,
-            'window_id'   => $window->id,
-        ]);
-        $log = new LogActivityActionAgregated();
-        $log->sim_id                = $simulation->id;
-        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
-        $log->leg_action            = 'main screen';
-        $log->activity_action_id    = $activityAction->id;
-        $log->activityAction        = $activityAction;
-        $log->category              = $activity->category_id;
-        $log->start_time            = '10:45:02';
-        $log->end_time              = '11:09:33';
-        $log->duration              = 0;
-        $log->is_keep_last_category = null;
-        $log->save();
-        // log 1 }
+        EventsManager::startEvent($simulation, 'M47');
+        $mail = EventsManager::getState($simulation, []);
+        $log_mail = new LogMail();
+        $log_mail->mail_id = $mail['events'][0]['id'];
+        $log_mail->sim_id = $simulation->id;
+        $log_mail->mail_task_id = null;
+        $log_mail->full_coincidence = null;
+        $log_mail->start_time = '11:00:20';
+        $log_mail->end_time = '11:03:30';
+        $log_mail->window = 13;
+        $log_mail->window_uid = '34';
+        $log_mail->save();
 
         // log 2 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.3']);
@@ -1952,25 +1944,6 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->duration              = 0;
         $log->is_keep_last_category = null;
         $log->save();
-        // log 2 }
-
-        // log 3 {
-        $activity = $simulation->game_type->getActivity(['code' => 'T1.1']);
-        $activityAction = $simulation->game_type->getActivityAction([
-            'activity_id' => $activity->id,
-        ]);
-        $log = new LogActivityActionAgregated();
-        $log->sim_id                = $simulation->id;
-        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
-        $log->leg_action            = 'plan';
-        $log->activity_action_id    = $activityAction->id;
-        $log->activityAction        = $activityAction;
-        $log->category              = $activity->category_id;
-        $log->start_time            = '12:10:55';
-        $log->end_time              = '12:12:55';
-        $log->duration              = 0;
-        $log->save();
-        // log 3 }
 
         // log 4 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.5']);
@@ -1991,28 +1964,6 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->duration              = 0;
         $log->is_keep_last_category = null;
         $log->save();
-        // log 4 }
-
-        // log 5 {
-        $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
-        $activity = $simulation->game_type->getActivity(['code' => 'A_wait']);
-        $activityAction = $simulation->game_type->getActivityAction([
-            'activity_id' => $activity->id,
-            'window_id'   => $window->id,
-        ]);
-        $log = new LogActivityActionAgregated();
-        $log->sim_id                = $simulation->id;
-        $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
-        $log->leg_action            = 'main screen';
-        $log->activity_action_id    = $activityAction->id;
-        $log->activityAction        = $activityAction;
-        $log->category              = $activity->category_id;
-        $log->start_time            = '12:23:55';
-        $log->end_time              = '12:26:15';
-        $log->duration              = 0;
-        $log->is_keep_last_category = null;
-        $log->save();
-        // log 5 }
 
         // log 6 {
         $mail = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
@@ -2027,7 +1978,6 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->leg_action            = 'M76';
         $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
-        var_dump($activity->category_id);
         $log->category              = $activity->category_id;
         $log->start_time            = '12:26:15';
         $log->end_time              = '12:27:21';
@@ -2035,9 +1985,72 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
-
+        unset($log);
         $pn = new PlanAnalyzer($simulation);
         var_dump($pn->logActivityActionsAggregatedGroupByParent);
+        $log = $pn->logActivityActionsAggregatedGroupByParent[1];
+        $this->assertEquals('14:10:55', $log['available']);
+        $log = $pn->logActivityActionsAggregatedGroupByParent[2];
+        $this->assertEquals('10:00:20', $log['available']);
+
+    }
+
+    public function testParentEndingHard() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log 4 {
+        $replica = $simulation->game_type->getReplica(['code' => 'T7.5']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T7.5']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'dialog_id'   => $replica->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action            = 'T7.5';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = $activity->category_id;
+        $log->start_time            = '12:12:55';
+        $log->end_time              = '12:23:55';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+
+        // log 6 {
+        $mail = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
+        $activity = $simulation->game_type->getActivity(['code' => 'TM8']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $mail->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action            = 'M76';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = $activity->category_id;
+        $log->start_time            = '12:26:15';
+        $log->end_time              = '12:27:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 6 }
+        unset($log);
+        $pn = new PlanAnalyzer($simulation);
+        var_dump($pn->logActivityActionsAggregatedGroupByParent);
+        $log = $pn->logActivityActionsAggregatedGroupByParent[0];
+        $this->assertEquals('11:45:00', $log['available']);
+        $log = $pn->logActivityActionsAggregatedGroupByParent[1];
+        $this->assertEquals('14:35:00', $log['available']);
 
     }
 }
