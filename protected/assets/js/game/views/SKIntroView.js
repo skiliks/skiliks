@@ -57,14 +57,19 @@ define([
                         required: true
                     });
 
-                wnd.on('close', function() {
-                    window.AppView.frame._hidePausedScreen();
-                    me.stopPause();
-                });
-
                 window.AppView.drawDesktop();
-                window.AppView.frame._showPausedScreen();
-                wnd.open();
+
+                if (SKApp.isTutorial()) {
+                    wnd.on('close', function() {
+                        window.AppView.frame._hidePausedScreen();
+                        window.AppView.frame._toggleClockFreeze(false);
+                        me.stopPause();
+                    });
+                    window.AppView.frame._showPausedScreen();
+                    wnd.open();
+                } else {
+                    me.stopPause();
+                }
             });
         },
         handleClick: function(){

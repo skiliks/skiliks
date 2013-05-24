@@ -18,9 +18,9 @@ require([
     if (compatibility.check(window.gameConfig)) {
         $(function () {
            var intro = new SKIntroView();
-           if($.cookie('intro_is_watched_2') === undefined || $.cookie('intro_is_watched_2') === null){
+           if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
                intro.show();
-           }else{
+           } else {
                intro.appLaunch();
            }
         });

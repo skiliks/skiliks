@@ -40,8 +40,7 @@ class SimulationController extends AjaxController
         }
         // check invite if it setted }
 
-
-        $simulation = SimulationService::simulationStart($invite, $mode);
+        $simulation = SimulationService::simulationStart($invite, $mode, $type);
 
         if (null === $simulation) {
             $this->sendJSON(
