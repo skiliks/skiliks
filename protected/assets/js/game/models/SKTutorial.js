@@ -50,7 +50,7 @@ define([
                 });
 
                 me.trigger('before-stop');
-                me.trigger('force-stop');
+                me.trigger('user-agree-with-sim-stop');
                 $('.mail-popup-button').show();
                 localStorage.removeItem('lastGetState');
             });
