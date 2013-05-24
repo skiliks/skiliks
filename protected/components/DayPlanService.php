@@ -400,6 +400,13 @@ class DayPlanService
             'template_id' => $docTemplate->id
         ]);
 
+        if (null === $document) {
+            $document = new MyDocument();
+            $document->sim_id = $simulation->id;
+            $document->fileName = $docTemplate->fileName;
+            $document->template_id = $docTemplate->id;
+        }
+
         $document->hidden = 0;
         $document->save();
 

@@ -39,7 +39,7 @@ define([
                 location.assign(SKApp.get('result-url'));
             });
             SKApp.simulation.on('force-stop', function () {
-                location.assign(SKApp.get('result-url'));
+                location.assign('/dashboard');
             });
             SKApp.simulation.on('stop', function () {
                 // after 20:00 - wait for user confirmation by 'user-agree-with-sim-stop'
