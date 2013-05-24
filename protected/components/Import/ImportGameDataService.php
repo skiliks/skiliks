@@ -2891,9 +2891,9 @@ class ImportGameDataService
             $scenario->finish_time = '20:00:00';
             $scenario->duration_in_game_min = 495;
         } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
-            $scenario->start_time = '6:45:00';
-            $scenario->end_time = '9:45:00';
-            $scenario->finish_time = '9:45:00';
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '12:45:00';
+            $scenario->finish_time = '12:45:00';
             $scenario->duration_in_game_min = 180;
         }
 
