@@ -102,6 +102,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
+                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->save();
                 $this->sendInviteEmail($invite);
 

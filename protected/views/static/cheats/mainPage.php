@@ -42,8 +42,9 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Начать симуляцию в режиме promo (lite)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Начать симуляцию в режиме promo (full)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Promo (lite)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Promo (full)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Promo (tutorial)</a>
 
     <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <a href="/dashboard">
@@ -68,18 +69,10 @@
         <br>
         <br>
     */ ?>
-    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
-        <a href="/registration/choose-account-type">
-            <?php echo Yii::t('site', 'Choose account type') ?>
-        </a>
-    <?php else: ?>
-        <a href="/cheats/cleanUpAccount">
-            <?php echo Yii::t('site', 'Reset account type') ?>
-        </a>
-    <?php endif; ?>
 
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Начать симуляцию (lite) в режиме developer</a>
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Начать симуляцию (full) в режиме developer</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Developer (tutorial)</a>
 
         <br>
         <br>
@@ -141,6 +134,16 @@
         <br>
 
 <a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
+
+<?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
+    <a href="/registration/choose-account-type">
+        <?php echo Yii::t('site', 'Choose account type') ?>
+    </a>
+<?php else: ?>
+    <a href="/cheats/cleanUpAccount">
+        <?php echo Yii::t('site', 'Reset account type') ?>
+    </a>
+<?php endif; ?>
 
     </nav>
 

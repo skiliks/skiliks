@@ -564,7 +564,7 @@ class Invite extends CActiveRecord
             $status = self::$statusId;
         }
 
-        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $criteria=new CDbCriteria;
         
@@ -582,7 +582,7 @@ class Invite extends CActiveRecord
         $criteria->compare('sent_time', $this->sent_time);
 
         // restriction!
-        $criteria->addNotInCondition('scenario_id', [$liteScenario->id]);
+        $criteria->addInCondition('scenario_id', [$fullScenario->id]);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id LEFT JOIN user_account_corporate ON user_account_corporate.user_id = vacancy.user_id'
@@ -627,7 +627,6 @@ class Invite extends CActiveRecord
         // should not be searched.
 
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
         $criteria=new CDbCriteria;
 
@@ -638,7 +637,6 @@ class Invite extends CActiveRecord
         $criteria->compare('lastname', $this->lastname);
         $criteria->compare('email', $invitedUserEmail ?: $this->email);
         $criteria->compare('status', Invite::STATUS_ACCEPTED);
-        $criteria->addInCondition('scenario_id', [$fullScenario->id, $liteScenario->id]);
 
         if ($isIncludeCompleted) {
             $criteriaForFinishedSimulations = new CDbCriteria;

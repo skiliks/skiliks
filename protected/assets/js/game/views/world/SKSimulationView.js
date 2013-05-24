@@ -45,7 +45,8 @@ define([
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
                 'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
                 'click .fullscreen': 'doToggleFullscreen',
-                'click .manual-toggle': 'doToggleManual'
+                'click .manual-toggle': 'doToggleManual',
+                'click .start': 'doStartFullSimulation'
             },
             'window_views':    {
                 'mainScreen/manual':       SKManualView,
@@ -215,7 +216,11 @@ define([
              * @method
              */
             'render':          function () {
-                var login_html = _.template(simulation_template, {});
+                var login_html = _.template(simulation_template, {
+                    showPause: SKApp.isLite(),
+                    showStart: SKApp.isTutorial()
+                });
+
                 this.$el.html(login_html).appendTo('body');
                 this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
                 if (this.simulation.isDebug()) {
@@ -260,6 +265,12 @@ define([
                 var parts = this.simulation.getGameTime().split(':');
                 this.$('.time .hour').text(parts[0]);
                 this.$('.time .minute').text(parts[1]);
+
+                if (this.$('.tutorial-mode').length) {
+                    parts = this.simulation.getTutorialTime().split(':');
+                    this.$('.tutorial-mode .minutes').text(parts[0]);
+                    this.$('.tutorial-mode .seconds').text(parts[1]);
+                }
             },
 
             /**
@@ -390,7 +401,7 @@ define([
             },
 
             _showPausedScreen: function(showTopIcons) {
-                this.$('.time').addClass('paused');
+                this._toggleClockFreeze(false);
                 this.$('.canvas .paused-screen')
                     .removeClass('hidden')
                     .find('.top-icons')
@@ -398,9 +409,13 @@ define([
             },
 
             _hidePausedScreen: function() {
-                this.$('.time').removeClass('paused');
+                this._toggleClockFreeze(true);
                 this.$('.canvas .paused-screen')
                     .addClass('hidden');
+            },
+
+            _toggleClockFreeze: function(run) {
+                this.$('.time').toggleClass('paused', !run);
             },
 
             doToggleFullscreen: function(e) {
@@ -428,6 +443,11 @@ define([
             doToggleManual: function(e) {
                 e.preventDefault();
                 SKApp.simulation.window_set.toggle('mainScreen', 'manual');
+            },
+
+            doStartFullSimulation: function(e) {
+                e.preventDefault();
+                SKApp.simulation.stop();
             }
         });
 

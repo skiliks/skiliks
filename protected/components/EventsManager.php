@@ -100,7 +100,7 @@ class EventsManager {
 
         // not handled exception in simulationIsStarted()
         // @todo: handle exception
-        //SimulationService::simulationIsStarted($simulation, $gameTime);
+        SimulationService::simulationIsStarted($simulation, $gameTime);
         try {
             $endTime = $simulation->game_type->finish_time;
 
