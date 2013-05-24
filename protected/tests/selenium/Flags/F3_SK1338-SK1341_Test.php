@@ -27,7 +27,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
 
-        $this->miracle_send_email ();
+        sleep(20);
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
         $this->assertTrue($this->verify_flag('F3','1'));
         sleep(3);
@@ -56,7 +56,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Пусть спрашивает')])");
 
-        $this->miracle_send_email ();
+        sleep(20);
         $this->assertTrue($this->verify_flag('F3','1'));
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
         sleep(3);
@@ -86,7 +86,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
 
-        $this->miracle_send_email ();
+        sleep(20);
         $this->assertTrue($this->verify_flag('F3','1'));
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
         sleep(3);

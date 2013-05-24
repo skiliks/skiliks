@@ -8,27 +8,6 @@
  */
 class SeleniumTestHelper extends CWebTestCase
 {
-    protected $captureScreenshotOnFailure = TRUE;
-    protected $screenshotPath = '/var/www/screenshots/';
-    protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
-
-    public static $browsers = array(
-        array(
-            'name'    => 'Firefox',
-            'browser' => '*firefox',
-            'host'    => 'localhost',
-            'port'    => 4444,
-            'timeout' => 30000,
-        ),
-        array(
-            'name'    => 'Chrome',
-            'browser' => '*googlechrome',
-            'host'    => 'localhost',
-            'port'    => 9515,
-            'timeout' => 30000,
-        ),
-    );
-
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
@@ -40,7 +19,10 @@ class SeleniumTestHelper extends CWebTestCase
         $this->windowMaximize();
         $this->open('/ru');
 
-        $this->optimal_click("css=.sign-in-link");
+        $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
+        $this->open('/cheat/quick-start/full');
+
+        /*$this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
         $this->type("css=.login>input", "asd@skiliks.com");
         $this->type("css=.password>input", "123123");
@@ -52,8 +34,8 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-        $this->createCookie("intro_is_watched_2=yes", "path=/, expires=365");
-        $this->open('/simulation/developer/full'); // для full simulation
+        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
+        $this->open('/simulation/developer/full'); // для full simulation*/
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -62,8 +44,6 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        $this->optimal_click("xpath=//*[@id='messageSystemMessageDiv']/div/table/tbody/tr/td/div");
-        sleep(10);
     }
 
     /**
@@ -71,7 +51,7 @@ class SeleniumTestHelper extends CWebTestCase
      * Пример использования - тест F1_SK1403_Test.php , строка 23
      */
     // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
-    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то какую-то херню можно написать. Оно расспознает пока только click
+    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
     // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
     // если еще что-то надо, то можно дописать в switch
     public function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
@@ -81,7 +61,6 @@ class SeleniumTestHelper extends CWebTestCase
 
         for ($second = 0; ; $second++) {
             if ($second >= 6000) $this->fail("timeout");
-            try {
                 if ($this->isVisible($next_event))
                 {
                     // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
@@ -97,9 +76,8 @@ class SeleniumTestHelper extends CWebTestCase
                     }
                     break;
                 }
-            } catch (Exception $e) {}
+            }
             usleep(100000);
-        }
     }
 
     /**
@@ -187,12 +165,10 @@ class SeleniumTestHelper extends CWebTestCase
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
         $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
         if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
-        {
-                                              // если выходим за рамки 60 минут, то
+        {                                              // если выходим за рамки 60 минут, то
             $time_array[0]=$time_array[0]+1;  // увеличиваем количество часов на 1
             $time_array[1]=$time_array[1]-60; // изменяем количество минут
         }
-
         // меняем поточное время
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
@@ -218,13 +194,14 @@ class SeleniumTestHelper extends CWebTestCase
                 $was_done = false;
                 break;
             }
-            try {
+            else
+            {
                 if ($this->isVisible($locator))
                 {
                     $was_done=true;
                     break;
                 }
-            } catch (Exception $e) {}
+            }
             usleep(100000);
         }
         return $was_done;
@@ -250,14 +227,15 @@ class SeleniumTestHelper extends CWebTestCase
                 $was_changed = false;
                 break;
             }
-            try {
+            else
+            {
                 $current_value=$this->getText(Yii::app()->params['test_mappings']['flags'][$num_flag]);
                 if ($current_value == $ver_value)
                 {
                     $was_changed=true;
                     break;
                 }
-            } catch (Exception $e) {}
+            }
             usleep(100000);
         }
         return $was_changed;
@@ -324,13 +302,14 @@ class SeleniumTestHelper extends CWebTestCase
                     $was_changed = false;
                     break;
                 }
-                try {
+                else
+                {
                     if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail']))
                     {
                         $was_changed = true;
                         break;
                     }
-                } catch (Exception $e) {}
+                }
                 usleep(100000);
             }
         }
@@ -410,21 +389,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible("xpath=(//*[contains(text(), '$filename')])");
         $this->mouseOver("xpath=(//*[contains(text(), '$filename')])");
         $this->click("xpath=(//*[contains(text(), '$filename')])");
-    }
-
-    /**
-     *
-     */
-    public function miracle_send_email ()
-    {
-        /*for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("css=.display-lock")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }*/
-        sleep(20);
     }
 
 
@@ -690,13 +654,6 @@ class SeleniumTestHelper extends CWebTestCase
         });
 
         parent::__construct();
-    }
-
-    protected function setUp()
-    {
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        $this->setPort(isset($_ENV['SELENIUM_PORT']) ? $_ENV['SELENIUM_PORT'] : 4444);
-        parent::setUp(); // TODO: Change the autogenerated stub
     }
 }
 
