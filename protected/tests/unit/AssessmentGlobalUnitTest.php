@@ -6,7 +6,7 @@
  * Time: 11:40 AM
  * To change this template use File | Settings | File Templates.
  */
-class AssessmentGlobalTest extends CDbTestCase
+class AssessmentGlobalUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 

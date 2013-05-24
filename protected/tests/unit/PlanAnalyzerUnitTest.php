@@ -3,7 +3,7 @@
  * Оценка План - 214a
  */
 
-class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
+class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     protected function addToPlan(Simulation $simulation, $code, $time, $day){
         $task = $simulation->game_type->getTask(['code'=>$code]);

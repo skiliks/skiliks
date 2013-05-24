@@ -3,7 +3,7 @@
 /**
  *
  */
-class UserServiceTest extends CDbTestCase
+class UserServiceUnitTest extends CDbTestCase
 {
     public function testAddNotifyMeEmail()
     {

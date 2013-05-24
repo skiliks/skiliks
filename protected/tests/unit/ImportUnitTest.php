@@ -6,7 +6,7 @@
  * Time: 22:58
  * To change this template use File | Settings | File Templates.
  */
-class ImportTest extends CDbTestCase
+class ImportUnitTest extends CDbTestCase
 {
     /**
      * Проверяет результаты импорта:
