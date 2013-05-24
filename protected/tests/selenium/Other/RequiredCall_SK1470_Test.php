@@ -11,6 +11,12 @@
      */
 class RequiredCall_SK1470_Test extends SeleniumTestHelper
 {
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
 
     public function test_RequiredCall_SK1470_Case1()
     {

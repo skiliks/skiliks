@@ -26,6 +26,13 @@ class SeleniumTestHelper extends CWebTestCase
      * (начиная с открытия окна браузера до самого входа в dev-режим).
      * Пример использования - тест F1_SK1403_Test.php , строка 21
      */
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
+
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
