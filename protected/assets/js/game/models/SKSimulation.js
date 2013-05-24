@@ -92,10 +92,9 @@ define([
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {
-                        me.trigger('stop-time');
+                        me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
-                        me.trigger('before-end');
-                        me.trigger('end');
+                        me.onEndTime();
                     }
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
@@ -666,6 +665,15 @@ define([
                     clearInterval(this.events_timer);
                     delete this.events_timer;
                 }
+            },
+
+            onEndTime: function() {
+                this.trigger('before-end');
+                this.trigger('end');
+            },
+
+            onFinishTime: function() {
+                this.trigger('stop-time');
             },
 
             /**
