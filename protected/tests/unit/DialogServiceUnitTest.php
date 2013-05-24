@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class DialogServiceTest extends PHPUnit_Framework_TestCase
+class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
 {
 
     public function testDialogGet()

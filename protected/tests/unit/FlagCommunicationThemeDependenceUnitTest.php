@@ -1,6 +1,6 @@
 <?php
 
-class FlagCommunicationThemeDependenceTest extends PHPUnit_Framework_TestCase {
+class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCase {
 
     public function findPhoneThemeByName($themes, $name) {
         foreach($themes as $theme){

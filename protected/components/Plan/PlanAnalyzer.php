@@ -103,7 +103,7 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
-                    'available'   => $parentAvailability ? $parentAvailability->available_at : null,
+                    'available'   => $this->parentAvailability($parentAvailability, $groupedLog),
                 ];
                 $log_214d[] = [
                     'sim_id' => $logItem->sim_id,
@@ -139,6 +139,37 @@ class PlanAnalyzer {
             $var_214d->is_keep_last_category = $log['is_keep_last_category'];
             $var_214d->save();
         }
+    }
+
+    public function parentAvailability($parentAvailability, $groupedLog) {
+        if($parentAvailability->code === 'T7b') {
+            $max_end_time = 0;
+            foreach($groupedLog as $log){
+                if($log['parent'] === "T7a" && !empty($log['end'])){
+                    $max_end_time = ($max_end_time < strtotime($log['end']))?strtotime($log['end']):$max_end_time;
+                }
+            }
+            if(0 !== $max_end_time){
+                return (new DateTime())->setTimestamp($max_end_time)->add(new DateInterval("PT2H"))->format("H:i:s");
+            }
+        }
+        if($parentAvailability->code === 'TM8') {
+            $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
+            if(null !== $mail_template){
+                $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id, 'sim_id'=>$this->simulation->id]);
+                if(null !== $mail_box){
+                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id, 'sim_id'=>$this->simulation->id]);
+                    if(null !== $log_mail){
+                        $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
+                        if(strtotime($log_mail->start_time) < strtotime($dialog->start_time)) {
+                            return (new DateTime())->setTimestamp(strtotime($log_mail->start_time))->format("H:i:s");
+                        }
+                    }
+                }
+            }
+
+        }
+        return $parentAvailability ? $parentAvailability->available_at : null;
     }
 
     /**

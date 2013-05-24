@@ -1,6 +1,6 @@
 <?php
 
-class DayPlanAndTodoTest extends CDbTestCase
+class DayPlanAndTodoUnitTest extends CDbTestCase
 {
     public function testGetTodoTasksList()
     {

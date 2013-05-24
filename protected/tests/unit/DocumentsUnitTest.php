@@ -6,7 +6,7 @@
  * Time: 14:07
  * To change this template use File | Settings | File Templates.
  */
-class DocumentsTest extends CDbTestCase
+class DocumentsUnitTest extends CDbTestCase
 {
     /**
      * Checks if user can open attachment from e-mail

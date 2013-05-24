@@ -3,7 +3,7 @@
 /**
  *
  */
-class PhoneServiceTest extends CDbTestCase
+class PhoneServiceUnitTest extends CDbTestCase
 {
 
     /**

@@ -6,7 +6,7 @@
  * Time: 21:07
  * To change this template use File | Settings | File Templates.
  */
-class CacheTest extends CDbTestCase
+class CacheUnitTest extends CDbTestCase
 {
     public function test_cache() {
         $key = 'test' . time();
