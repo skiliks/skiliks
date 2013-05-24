@@ -8,7 +8,12 @@
  */
 class F4_SK1413_P_Test extends SeleniumTestHelper
 {
-
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
     /**
      * testSK1413_P_Case1() тестирует задачу SKILIKS-1413
      *

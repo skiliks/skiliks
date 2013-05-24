@@ -20,6 +20,12 @@
  */
 class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
 {
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
 
     public function test_Receiving_attachment_MS25_SK1593()
     {
