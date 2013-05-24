@@ -83,7 +83,7 @@
     }
   }
 
-  .flyleaf {
+  .page {
     position: absolute;
     z-index: 1;
     top: 3px;
@@ -95,7 +95,7 @@
 
     background: url(../img/manual/bookcontentbg.png) 0 0 no-repeat;
 
-    .page {
+    .pagewrap {
       margin:44px 46px 10px 24px;
 
       p, span, div, h2, h3, h4 {
@@ -125,10 +125,13 @@
       h2 {
         font-family: orbi_sansregular;
         font-size:28px;
+        font-weight: normal;
+        line-height: 100%;
         margin-bottom: 5px;
         margin-left: 40px;
       }
       .centertitle {
+        margin: 0px 30px 14px;
         text-align: center;
       }
       .pagecell {
@@ -242,6 +245,13 @@
       }
     }
   }
+  .pagecontent {
+    background-image:  url(../img/manual/contentbg.png);
+
+    .pagewrap {
+      margin-top: 36px;
+    }
+  }
 }
 .tutor-list {
   margin:0px;
@@ -274,7 +284,7 @@
 .aboutgame {
   p {
     font-size:17px;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
   }
 }
 .tutorial-warn-bg {
@@ -297,7 +307,7 @@
     background: -ms-linear-gradient(top,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
     background: linear-gradient(to bottom,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfd1b3',endColorstr='#f6efe1',GradientType=0);
-    padding:15px;
+    padding:12px 14px 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
@@ -307,14 +317,39 @@
       font-family: orbi_sans_boldregular;
       text-transform: uppercase;
     }
+    p {
+      font-size: 14px;
+      padding-bottom: 0px;
+    }
     p+h4 {
       margin-top: 20px;
     }
-    p {
-      font-size: 14px;
+  }
+}
+.soderzhanie {
+  width:400px;
+
+  td {
+    padding-top: 9px;
+  }
+  .pageref {
+    background: url(../img/manual/dotsbg.png) repeat-x bottom;
+    padding-bottom:10px;
+    padding-left: 10px;
+    vertical-align: bottom;
+    width: 330px;
+
+    a, span {
+      color:#232323;
+      font-size:17px;
+      text-decoration: none;
+    }
+    .pagenumber {
+      float:right;
     }
   }
 }
+
 .plan-list {
   li {
     height: 100px;
