@@ -34,7 +34,7 @@ define([
             var passed = this.getGameSeconds() - this.timeStringToMinutes(this.get('app').get('start')) * 60,
                 from = this.timeStringToMinutes(this.get('app').get('start')) * 60,
                 to   = this.timeStringToMinutes(this.get('app').get('end')) * 60,
-                left = (to - from - passed) / this.get('app').get('skiliksSpeedFactor'),
+                left = Math.max(0, (to - from - passed) / this.get('app').get('skiliksSpeedFactor')),
                 minutes = Math.floor(left / 60),
                 seconds = Math.floor(left % 60);
 
@@ -56,14 +56,11 @@ define([
             });
         },
 
-        setTime: function (hour, minute) {},
+        onEndTime: function() {},
 
-        _startTimeout: function() {
-            var me = this;
-
-            me.timeout = setInterval(function () {
-                me.trigger('tick');
-            }, 1000);
+        onFinishTime: function() {
+            this._stopTimer();
+            this.stop();
         }
     });
 
