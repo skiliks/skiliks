@@ -4,7 +4,7 @@
  *
  * @author slavka
  */
-class EmailAnalyzerTest extends CDbTestCase
+class EmailAnalyzerUnitTest extends CDbTestCase
 {
     /**
      * Тест оценки 3313:

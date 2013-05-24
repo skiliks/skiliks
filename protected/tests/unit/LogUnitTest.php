@@ -6,7 +6,7 @@
  * Time: 14:06
  * To change this template use File | Settings | File Templates.
  */
-class LogTest extends CDbTestCase
+class LogUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
     /**

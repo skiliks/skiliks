@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class LogActivityActionTest extends CDbTestCase
+class LogActivityActionUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 

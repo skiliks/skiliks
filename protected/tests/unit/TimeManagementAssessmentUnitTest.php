@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class TimeManagementAssessmentTest extends CDbTestCase
+class TimeManagementAssessmentUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 

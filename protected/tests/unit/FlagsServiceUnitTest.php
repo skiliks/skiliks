@@ -1,6 +1,6 @@
 <?php
 
-class FlagServiceTest extends CDbTestCase
+class FlagServiceUnitTest extends CDbTestCase
 {
     /**
      * Проверяет, устанавливаются ли флаги, при выборе определенной реплики
