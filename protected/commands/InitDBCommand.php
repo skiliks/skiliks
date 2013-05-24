@@ -56,6 +56,9 @@ class InitDBCommand extends CConsoleCommand
         $import = new ImportGameDataService('full');
         $import->importAll();
 
+        $import = new ImportGameDataService('tutorial');
+        $import->importAll();
+
         // init users
         $this->runInitYumUsers();
     }

@@ -37,6 +37,9 @@ define([
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
+
+            timerSpeed: 60000,
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -89,10 +92,9 @@ define([
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {
-                        me.trigger('stop-time');
+                        me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
-                        me.trigger('before-end');
-                        me.trigger('end');
+                        me.onEndTime();
                     }
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
@@ -537,8 +539,8 @@ define([
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/dashboard');
+                    if(SKApp.get('result-url') === undefined){
+                        SKApp.set('result-url', '/dashboard');
                         document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
                     }
 
@@ -655,7 +657,7 @@ define([
                      * @event tick
                      */
                     me.trigger('tick');
-                }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+                }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
             },
 
             _stopTimer: function() {
@@ -663,6 +665,15 @@ define([
                     clearInterval(this.events_timer);
                     delete this.events_timer;
                 }
+            },
+
+            onEndTime: function() {
+                this.trigger('before-end');
+                this.trigger('end');
+            },
+
+            onFinishTime: function() {
+                this.trigger('stop-time');
             },
 
             /**

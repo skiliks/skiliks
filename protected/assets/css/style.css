@@ -84,6 +84,8 @@ body.inner-registration, .action-controller-order-static-payment {
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
 }
+
+body.action-error404,
 body.inner-team {
 	background-image:url("../img/bg-top-inner-team.jpg");
 }

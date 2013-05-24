@@ -112,6 +112,14 @@ class SiteController extends AjaxController
             ]
         );
 
+        if ($type == Scenario::TYPE_TUTORIAL) {
+            $config['result-url'] = $this->createUrl('static/site/simulation', [
+                'mode' => $mode,
+                'type' => Scenario::TYPE_FULL,
+                'invite_id' => $invite_id
+            ]);
+        }
+
         $this->layout = false;
         $this->render('site', [
             'config'    => CJSON::encode($config),
@@ -134,6 +142,19 @@ class SiteController extends AjaxController
     public function actionRunSimulationOrChooseAccount()
     {
         $this->render('runSimulationOrChooseAccount');
+    }
+
+    /**
+     *
+     */
+    public function actionError404()
+    {
+        $error = Yii::app()->errorHandler->error;
+
+        if( $error )
+        {
+            $this->render('error404');
+        }
     }
 }
 

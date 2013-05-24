@@ -29,6 +29,7 @@ return array(
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
     'Start using it now for free' => 'Получить бесплатный доступ',
+    'Back to homepage' => 'Вернуться на главную',
     'Easiest' => 'Самый простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',

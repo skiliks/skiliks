@@ -281,9 +281,11 @@ return array(
             'cache' => true,
             'basePath' => realpath(dirname(__FILE__) . '/../..')
         ),
+        'errorHandler'=>array(
+            'errorAction' => 'static/site/error404'
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
-
 
     'preload' => array('log'),
 
