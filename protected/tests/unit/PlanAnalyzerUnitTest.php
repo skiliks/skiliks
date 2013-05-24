@@ -3,7 +3,7 @@
  * Оценка План - 214a
  */
 
-class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
+class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     protected function addToPlan(Simulation $simulation, $code, $time, $day){
         $task = $simulation->game_type->getTask(['code'=>$code]);
@@ -1912,7 +1912,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        EventsManager::startEvent($simulation, 'M47');
+        EventsManager::startEvent($simulation, 'M8');
         $mail = EventsManager::getState($simulation, []);
         $log_mail = new LogMail();
         $log_mail->mail_id = $mail['events'][0]['id'];
@@ -1924,6 +1924,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $log_mail->window = 13;
         $log_mail->window_uid = '34';
         $log_mail->save();
+        //var_dump($mail['events'][0]['id']);
 
         // log 2 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.3']);
@@ -1987,11 +1988,11 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        var_dump($pn->logActivityActionsAggregatedGroupByParent);
+        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
         $this->assertEquals('14:10:55', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[2];
-        $this->assertEquals('10:00:20', $log['available']);
+        $this->assertEquals('11:00:20', $log['available']);
 
     }
 
@@ -2046,11 +2047,44 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        var_dump($pn->logActivityActionsAggregatedGroupByParent);
+        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[0];
         $this->assertEquals('11:45:00', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
         $this->assertEquals('14:35:00', $log['available']);
+
+    }
+
+    public function testLegD24(){
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $document = $simulation->game_type->getDocumentTemplate(['code' => 'D24']);
+        $activity = $simulation->game_type->getActivity(['code' => 'T5.1']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'document_id'     => $document->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_DOCUMENTS;
+        $log->leg_action            = 'D24';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = $activity->category_id;
+        $log->start_time            = '12:26:15';
+        $log->end_time              = '12:27:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+        // log 6 }
+        unset($log);
+        $pn = new PlanAnalyzer($simulation);
+        $this->assertEquals([], $pn->logActivityActionsAggregatedGroupByParent);
 
     }
 }

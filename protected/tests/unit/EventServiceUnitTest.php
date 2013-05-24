@@ -1,6 +1,6 @@
 <?php
 
-class EventServiceTest extends PHPUnit_Framework_TestCase
+class EventServiceUnitTest extends PHPUnit_Framework_TestCase
 {
 
     public function testAddByCode()

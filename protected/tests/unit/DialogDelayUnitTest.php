@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class DialogDelayTest extends CDbTestCase
+class DialogDelayUnitTest extends CDbTestCase
 {
 
     /**

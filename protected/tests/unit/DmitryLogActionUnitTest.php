@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class DmitryLogActionTest extends PHPUnit_Framework_TestCase {
+class DmitryLogActionUnitTest extends PHPUnit_Framework_TestCase {
     public function testSimulation()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);

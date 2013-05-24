@@ -1,6 +1,6 @@
 <?php
 
-class AggregationTest extends CDbTestCase
+class AggregationUnitTest extends CDbTestCase
 {
     public function testCommunicationAggregationSpecificCase()
     {

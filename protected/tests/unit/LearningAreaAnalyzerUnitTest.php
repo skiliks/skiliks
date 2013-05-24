@@ -1,6 +1,6 @@
 <?php
 
-class LearningAreaAnalyzerTest extends PHPUnit_Framework_TestCase {
+class LearningAreaAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function addValueByCode($simulation, $code, $value) {
 
