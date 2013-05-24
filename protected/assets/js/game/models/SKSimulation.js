@@ -495,10 +495,9 @@ define([
                     me.characters.fetch();
                     me.events.getUnreadMailCount();
 
-                    me.getNewEvents(function () {
-                        me.trigger('start');
-                    });
+                    me.getNewEvents();
                     me._startTimer();
+                    me.trigger('start');
 
                     if (data.result === 0) {
                         window.location = '/';
