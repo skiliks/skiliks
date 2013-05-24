@@ -518,7 +518,7 @@ class SimulationService
      * @throws Exception
      * @return Simulation
      */
-    public static function simulationStart($invite, $simulationMode, $simulationType)
+    public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
         if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
             && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
@@ -548,6 +548,10 @@ class SimulationService
             && false == $invite->canUserSimulationStart()
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
+        }
+
+        if (null === $simulationType) {
+            $simulationType = $invite->scenario->slug;
         }
 
         if ($invite->scenario->slug == Scenario::TYPE_FULL && $simulationType == Scenario::TYPE_TUTORIAL) {
