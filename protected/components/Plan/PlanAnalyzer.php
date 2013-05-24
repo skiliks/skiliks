@@ -87,7 +87,10 @@ class PlanAnalyzer {
             if ('plan' == $logItem->leg_action
                 || 'A_wait' == $code
                 || 'A_wrong_call' == $code
-                || '2_min' == $logItem->category) {
+                || '2_min' == $logItem->category
+                || 'D24' === $logItem->leg_action
+                || 'D27' === $logItem->leg_action
+            ) {
                 continue;
             }
 
@@ -156,9 +159,9 @@ class PlanAnalyzer {
         if($parentAvailability->code === 'TM8') {
             $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
             if(null !== $mail_template){
-                $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id]);
+                $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id, 'sim_id'=>$this->simulation->id]);
                 if(null !== $mail_box){
-                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id]);
+                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id, 'sim_id'=>$this->simulation->id]);
                     if(null !== $log_mail){
                         $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
                         if(strtotime($log_mail->start_time) < strtotime($dialog->start_time)) {

@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class PerformanceRuleTest extends CDbTestCase {
+class PerformanceRuleUnitTest extends CDbTestCase {
     use UnitLoggingTrait;
 
     public function addExcelPoints($simulation){

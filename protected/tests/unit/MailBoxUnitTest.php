@@ -6,7 +6,7 @@
  * Time: 12:18
  * To change this template use File | Settings | File Templates.
  */
-class MailBoxTest extends CDbTestCase
+class MailBoxUnitTest extends CDbTestCase
 {
     /**
      * 1. Проверяет темы для письма которое инициализитуются при старте симуляции,

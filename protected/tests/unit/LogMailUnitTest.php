@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class LogMailTest extends PHPUnit_Framework_TestCase
+class LogMailUnitTest extends PHPUnit_Framework_TestCase
 {
     use UnitLoggingTrait;
 

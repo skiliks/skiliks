@@ -4,7 +4,7 @@
  *
  * @author slavka
  */
-class SimulationServiceTest extends CDbTestCase
+class SimulationServiceUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
     /**
