@@ -13,7 +13,6 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             'submit .trigger-event': 'doEventTrigger',
             'click .btn-load-documents': 'doLoadDocs',
             'click .btn-simulation-stop-logs': 'doSimStopAndLoadLogs',
-            'click .send-email-ms': 'doSendMs'
         },
 
         /**
@@ -106,38 +105,6 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
             AppView.frame.stopExitProtection();
             SKApp.simulation.stop();
-        },
-
-        /**
-         * @method
-         * @param event
-         */
-        doSendMs: function (event) {
-            event.preventDefault(event);
-            event.stopPropagation(event);
-
-            var target = event.currentTarget;
-
-            SKApp.server.api(
-                'mail/sendMsInDevMode',
-                {
-                    msCode: $(target).attr('data-code'),
-                    time: SKApp.simulation.getGameSeconds(),
-                    windowId: SKApp.simulation.window_set.getActiveWindow().getWindowId(),
-                    subWindowId: SKApp.simulation.window_set.getActiveWindow().getSubwindowId(),
-                    windowUid: SKApp.simulation.window_set.getActiveWindow().window_uid
-                },
-                function (response) {
-                    if (response.result) {
-                        // Oh no, please, don't insert this :(
-                        $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" отправлено!</div>');
-                        window.scrollTo(0, 0);
-                    } else {
-                        $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" НЕ отправлено!</div>');
-                    }
-                    $('body form.trigger-event .alert').fadeOut(4000);
-                }
-            );
         }
     });
 
