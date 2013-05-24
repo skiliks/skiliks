@@ -135,6 +135,19 @@ class SiteController extends AjaxController
     {
         $this->render('runSimulationOrChooseAccount');
     }
+
+    /**
+     *
+     */
+    public function actionError404()
+    {
+        $error = Yii::app()->errorHandler->error;
+
+        if( $error )
+        {
+            $this->render('error404');
+        }
+    }
 }
 
 
