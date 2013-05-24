@@ -74,6 +74,7 @@ class SeleniumTestHelper extends CWebTestCase
 
         for ($second = 0; ; $second++) {
             if ($second >= 6000) $this->fail("timeout");
+            try{
                 if ($this->isVisible($next_event))
                 {
                     // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
@@ -89,8 +90,9 @@ class SeleniumTestHelper extends CWebTestCase
                     }
                     break;
                 }
-            }
+            } catch (Exception $e) {}
             usleep(100000);
+        }
     }
 
     /**
