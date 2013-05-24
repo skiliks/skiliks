@@ -8,6 +8,12 @@
  */
 class DelayForEvent_SK1274_Test extends SeleniumTestHelper
 {
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
 
     /**
      * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
