@@ -8,6 +8,26 @@
  */
 class SeleniumTestHelper extends CWebTestCase
 {
+    protected $captureScreenshotOnFailure = TRUE;
+    protected $screenshotPath = '/var/www/screenshots/';
+    protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
+
+    public static $browsers = array(
+        array(
+            'name'    => 'Firefox',
+            'browser' => '*firefox',
+            'host'    => 'localhost',
+            'port'    => 4444,
+            'timeout' => 30000,
+        ),
+        array(
+            'name'    => 'Chrome',
+            'browser' => '*googlechrome',
+            'host'    => 'localhost',
+            'port'    => 9515,
+            'timeout' => 30000,
+        ),
+    );
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
