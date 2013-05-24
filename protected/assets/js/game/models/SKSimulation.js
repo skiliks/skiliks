@@ -40,6 +40,8 @@ define([
 
             timerSpeed: 60000,
 
+            constTutorialScenario: 'tutorial',
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -88,6 +90,7 @@ define([
                 this.set('isZohoSavedDocTestRequestSent', false);
 
                 this.set('ZohoDocumentSaveCheckAttempt', 1);
+                this.set('scenarioName', null);
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
@@ -506,6 +509,10 @@ define([
                     if ('undefined' !== typeof data.simId) {
                         me.id = data.simId;
                     }
+
+                    console.log('scenarioName: ', data, data.scenarioName);
+
+                    me.set('scenarioName', data.scenarioName);
 
                     if (!me.isDebug()) {
                         me.documents.fetch();

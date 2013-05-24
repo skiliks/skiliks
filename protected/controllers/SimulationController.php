@@ -27,6 +27,8 @@ class SimulationController extends AjaxController
         $invite_id = Yii::app()->request->getParam('invite_id');
         $invite = Invite::model()->findByPk($invite_id);
 
+        $scenarioName = null;
+
         if (null == $invite) {
             if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
                 $type != Scenario::TYPE_LITE) {
@@ -37,6 +39,10 @@ class SimulationController extends AjaxController
             $invite->scenario = new Scenario();
             $invite->receiverUser = Yii::app()->user->data();
             $invite->scenario->slug = Yii::app()->request->getParam('type');
+
+            $scenarioName = $invite->scenario->slug;
+        } else {
+            $scenarioName = $invite->scenario->slug;
         }
         // check invite if it setted }
 
@@ -52,9 +58,10 @@ class SimulationController extends AjaxController
 
         $this->sendJSON(
             array(
-                'result'      => 1,
-                'speedFactor' => Yii::app()->params['public']['skiliksSpeedFactor'],
-                'simId'       => $simulation->id
+                'result'       => 1,
+                'speedFactor'  => Yii::app()->params['public']['skiliksSpeedFactor'],
+                'simId'        => $simulation->id,
+                'scenarioName' => $scenarioName
             )
         );
     }
