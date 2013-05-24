@@ -37,6 +37,9 @@ define([
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
+
+            timerSpeed: 60000,
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -537,8 +540,8 @@ define([
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/dashboard');
+                    if(SKApp.get('result-url') === undefined){
+                        SKApp.set('result-url', '/dashboard');
                         document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
                     }
 
@@ -655,7 +658,7 @@ define([
                      * @event tick
                      */
                     me.trigger('tick');
-                }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+                }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
             },
 
             _stopTimer: function() {
