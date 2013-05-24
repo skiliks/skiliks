@@ -813,7 +813,14 @@ define([
                     this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderInbox);
                 }
 
-                this.renderIcons(this.mailClient.iconsForInboxScreenArray);
+                // set icons {
+                var icons = this.mailClient.iconsForInboxScreenArray;
+                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                    icons = this.mailClient.iconsForTutorialScenarioFolderInbox;
+                }
+                this.renderIcons(icons);
+                // set icons }
+
                 this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
             },
 
@@ -839,7 +846,14 @@ define([
                     this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderTrash);
                 }
 
-                this.renderIcons(this.mailClient.iconsForTrashScreenArray);
+                // set icons {
+                var icons = this.mailClient.iconsForTrashScreenArray;
+                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                    icons = this.mailClient.iconsForTutorialScenarioFolderTrash;
+                }
+                this.renderIcons(icons);
+                // set icons }
+
                 this.mailClient.setActiveScreen(this.mailClient.screenTrashList);
             },
 
@@ -865,7 +879,13 @@ define([
                     this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderSended);
                 }
 
-                this.renderIcons(this.mailClient.iconsForSendedScreenArray);
+                // set icons {
+                var icons = this.mailClient.iconsForSendedScreenArray;
+                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                    icons = this.mailClient.iconsForTutorialScenarioFolderSend;
+                }
+                this.renderIcons(icons);
+                // set icons }
 
                 // this dublicates model code, but this is first step to use models like data storage only
 
@@ -896,7 +916,13 @@ define([
                     this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderDrafts);
                 }
 
-                this.renderIcons(this.mailClient.iconsForDraftsScreenArray);
+                // set icons {
+                var icons = this.mailClient.iconsForDraftsScreenArray;
+                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                    icons = this.mailClient.iconsForTutorialScenarioFolderDrafts;
+                }
+                this.renderIcons(icons);
+                // set icons }
 
                 // this dublicates model code, but this is first step to use models like data storage only
 

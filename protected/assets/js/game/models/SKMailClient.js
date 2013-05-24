@@ -114,12 +114,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'NEW_EMAIL'
             ],
 
-            iconsForMailPreviewScreenArray:[
-                'REPLY_EMAIL',
-                'REPLY_ALL_EMAIL',
-                'FORWARD_EMAIL',
-                'ADD_TO_PLAN'
+            // - tutorial scenario:
+
+            iconsForTutorialScenarioFolderInbox: [
+                'ADD_TO_PLAN',
+                'MOVE_TO_TRASH'
             ],
+
+            iconsForTutorialScenarioFolderTrash:[
+                'ADD_TO_PLAN',
+                'RESTORE'
+            ],
+
+            iconsForTutorialScenarioFolderDrafts:[],
+
+            iconsForTutorialScenarioFolderSend:[],
 
             // --------------------------------------------------
 
