@@ -1,5 +1,5 @@
 <?php
-class CodeStyleCheckTest  extends CDbTestCase
+class CodeStyleCheckUnitTest  extends CDbTestCase
 {
     /**
      *

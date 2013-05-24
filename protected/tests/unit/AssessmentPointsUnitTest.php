@@ -1,6 +1,6 @@
 <?php
 
-class AssessmentPointsTest extends CDbTestCase
+class AssessmentPointsUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 

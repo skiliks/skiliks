@@ -1,6 +1,6 @@
 <?php
 
-class EvaluationTest extends PHPUnit_Framework_TestCase {
+class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
 
 
     public function testBadEvaluation() {
