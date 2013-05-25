@@ -93,5 +93,6 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['calls6'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['calls6'],"100");
+        $this->stop();
     }
 }

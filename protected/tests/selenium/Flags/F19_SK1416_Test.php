@@ -29,7 +29,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
 
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->stop();
 
     }
 
@@ -55,7 +55,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
 
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->stop();
     }
 
     /**
@@ -80,7 +80,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
 
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->stop();
     }
 
     /**
@@ -107,7 +107,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->stop();
 
     }
 
@@ -136,6 +136,6 @@ class F19_SK1416_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->stop();
     }
 }

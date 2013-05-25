@@ -53,5 +53,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->waitForVisible('css=p.mail-popup-text');
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
+        $this->stop();
     }
 }

@@ -40,5 +40,6 @@ class Attentiveness_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal11'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal11'],"100");
+        $this->stop();
     }
 }

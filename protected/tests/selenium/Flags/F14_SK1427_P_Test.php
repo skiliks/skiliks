@@ -43,7 +43,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Презентация для ГД_итог"));
-
+        $this->stop();
     }
 
     /**
@@ -80,7 +80,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени')])");
 
         $this->assertTrue($this->verify_flag('F14','1'));
-
+        $this->stop();
     }
 
     /**
@@ -118,6 +118,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
         $this->assertTrue($this->verify_flag('F14','1'));
+        $this->stop();
     }
 
     /**
@@ -156,6 +157,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
         $this->assertTrue($this->verify_flag('F14','1'));
+        $this->stop();
     }
 
     /**
@@ -196,5 +198,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'У меня нет уверенности, что ты сделаешь')])");
 
         $this->assertTrue($this->verify_flag('F14','0'));
+        $this->stop();
     }
 }

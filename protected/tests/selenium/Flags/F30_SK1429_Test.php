@@ -39,5 +39,6 @@ class F30_SK1429_Tests extends SeleniumTestHelper
     $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
     sleep(2);
     $this->verifyTextPresent("Привет, Алексей! Проверяю. Как будет готов - перешлю. \nУдачи, Трудякин");
+    $this->stop();
     }
 }

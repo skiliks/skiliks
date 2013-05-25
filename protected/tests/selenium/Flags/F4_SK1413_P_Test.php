@@ -47,6 +47,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
+        $this->stop();
     }
 
     /**
@@ -94,6 +95,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
+        $this->stop();
     }
 
     /**
@@ -137,6 +139,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
+        $this->stop();
     }
 
     /**
@@ -186,5 +189,6 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
+        $this->stop();
     }
 }

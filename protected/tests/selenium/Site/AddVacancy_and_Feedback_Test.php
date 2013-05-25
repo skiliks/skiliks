@@ -81,6 +81,6 @@ class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
         $this->type('id=Vacancy_label','Шофер-виртуоз');
         sleep(3);
         $this->optimal_click("//div[@class='row buttons']/input[@type='submit']");*/
-
+        $this->stop();
     }
 }

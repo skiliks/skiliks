@@ -21,6 +21,7 @@ class RequiredCall_SK1470_Test extends SeleniumTestHelper
         $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['phone']['no_reply']));
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович! Буду у Вас в 16.00 с готовой презентаций')])");
+        $this->stop();
     }
 
     public function test_RequiredCall_SK1470_Case2()
@@ -30,5 +31,6 @@ class RequiredCall_SK1470_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['phone']['no_reply']));
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович! Буду у Вас в 16.00 с готовой презентаций')])");
+        $this->stop();
     }
 }

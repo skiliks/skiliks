@@ -27,6 +27,7 @@ class F12_SK1412_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
+        $this->stop();
     }
 
     public function testSK1412_Case2()
@@ -40,5 +41,6 @@ class F12_SK1412_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Сделал, прямо перед тобой отправил')])");
 
         $this->assertTrue($this->verify_flag('F12','0'));
+        $this->stop();
     }
 }

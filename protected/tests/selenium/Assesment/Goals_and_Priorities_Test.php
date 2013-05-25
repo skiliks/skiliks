@@ -44,6 +44,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
+        $this->stop();
     }
 
 
@@ -91,6 +92,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
         $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-112'],"0.00");
         $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-123'],"0.00");
+        $this->stop();
     }
 
 }

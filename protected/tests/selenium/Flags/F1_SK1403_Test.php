@@ -23,6 +23,7 @@ class F1_SK1403_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
+        $this->stop();
     }
 
     public function testSK1403_Case2()
@@ -34,5 +35,6 @@ class F1_SK1403_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем')])");
         $this->assertFalse($this->verify_flag('F1','1'));
+        $this->stop();
     }
 }

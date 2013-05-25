@@ -68,5 +68,6 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
             $this->fail("Universal logs doesn't match with expected results!!!");
         }
 */
+        $this->stop();
     }
 }

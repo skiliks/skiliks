@@ -54,5 +54,6 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->assertText("//tr[@class='learning-goal-code-214b ']/td[4]","100.00");
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['tasks2'],"65.45");
         $this->assertText(Yii::app()->params['test_mappings']['log']['tasks2'],"65.45");
+        $this->stop();
     }
 }
