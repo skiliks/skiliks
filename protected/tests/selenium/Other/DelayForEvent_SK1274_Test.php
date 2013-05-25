@@ -8,13 +8,6 @@
  */
 class DelayForEvent_SK1274_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     /**
      * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
      */
@@ -33,15 +26,9 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Да, об этом я и не подумал. Ладно, все')])");
         sleep(10);
-
         $this->assertTrue($this->is_it_done("css=li.icon-active.phone a"));
-
         $this->no_reply_call();
-
         sleep(40);
-
         $this->no_reply_call();
-
-        $this->click("css=input.btn.btn-simulation-stop");
     }
 }

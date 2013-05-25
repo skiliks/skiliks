@@ -8,12 +8,6 @@
  */
 class Ideal_planning_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 //SK2420_4
     public function test_214b_214a()
     {
@@ -54,7 +48,6 @@ class Ideal_planning_Test extends SeleniumTestHelper
         sleep(45);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(5);
         $this->waitForVisible("//tr[@class='learning-goal-code-214a ']/td[4]");
         $this->assertText("//tr[@class='learning-goal-code-214a ']/td[4]","100.00");
         $this->waitForVisible("//tr[@class='learning-goal-code-214b ']/td[4]");

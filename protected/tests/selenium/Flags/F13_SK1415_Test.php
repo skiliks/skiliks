@@ -8,12 +8,6 @@
  */
 class F13_SK1415_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
     /**
      * testSK1415_Case1() тестирует задачу SKILIKS-1415
      *
@@ -35,6 +29,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
+        sleep(40);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
@@ -57,8 +52,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
-
-        $this->click("css=input.btn.btn-simulation-stop");
 
     }
 
@@ -84,7 +77,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
-
+        sleep(40);
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->assertTrue($this->verify_flag('F13','0'));
@@ -106,9 +99,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
-
-        $this->click("css=input.btn.btn-simulation-stop");
-
     }
 
     /**
@@ -133,7 +123,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
 
         //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
-
+        sleep(40);
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->assertTrue($this->verify_flag('F13','0'));
@@ -157,8 +147,5 @@ class F13_SK1415_Test extends SeleniumTestHelper
         {
             print ("The test crashed! This action couldn't be active in such situation!");
         }
-
-        $this->click("css=input.btn.btn-simulation-stop");
-
     }
 }

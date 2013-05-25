@@ -2,16 +2,10 @@
 
 //пока что быдловерсия теста, который ходит на страницу регистрации по разным маппингам
 // и проверяет error msg на странице регистрации
-class Vacancy_add_and_feeback_Test extends SeleniumTestHelper
+class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
-    public function test_vacancy_add_and_feedback()
+    public function test_addVacancy_add_feedback()
     {
         //cоздаем корпоративного пользователя
         TestUserHelper::addUser("corporate");
@@ -55,8 +49,7 @@ class Vacancy_add_and_feeback_Test extends SeleniumTestHelper
         //закрываем поп-ап
         $this->optimal_click("css=a.popupclose");
 
-
-/*
+        /*
         sleep(2);
         //Клик на "Мой профиль"
         $this->optimal_click("//a[@href='/profile']");
@@ -87,7 +80,7 @@ class Vacancy_add_and_feeback_Test extends SeleniumTestHelper
         sleep(2);
         $this->type('id=Vacancy_label','Шофер-виртуоз');
         sleep(3);
-        $this->optimal_click("//div[@class='row buttons']/input[@type='submit']")*/;
+        $this->optimal_click("//div[@class='row buttons']/input[@type='submit']");*/
 
     }
 }

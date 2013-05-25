@@ -8,12 +8,6 @@
  */
 class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
     /**
      * testSK1338() тестирует задачу SKILIKS-1338 для dialog
      *
@@ -139,7 +133,6 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         sleep(5);
         $this->assertFalse($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));
-        $this->click("css=input.btn.btn-simulation-stop");
     }
 
     /**

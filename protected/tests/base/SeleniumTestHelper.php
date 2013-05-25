@@ -24,7 +24,6 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
-     * Пример использования - тест F1_SK1403_Test.php , строка 21
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class SeleniumTestHelper extends CWebTestCase
 
     public function start_simulation()
     {
+        $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
@@ -68,7 +68,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * run_event - это метод для запуска события по его event_code.
-     * Пример использования - тест F1_SK1403_Test.php , строка 23
      */
     // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
     // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
@@ -105,7 +104,6 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * call_phone - это метод для звонка по телефону, когда телефон не активен (иконка не движется).
      * Где whom - это адресат письма, а theme - тема звонка.
-     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 59
      */
     public function call_phone ($whom, $theme)
     {
@@ -123,7 +121,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * reply_call - это метод для ответа на входящий звонок, когда телефон активен (иконка движется).
-     * Пример использования - ...
      */
     public function reply_call ()
     {
@@ -133,7 +130,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * no_reply_call - это метод для игнора входящего звонка, когда телефон активен (иконка движется).
-     * Пример использования - ...
      */
     public function no_reply_call ()
     {
@@ -143,7 +139,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * write_mail_active - это метод для создания письма, когда мейл-клиент активен (иконка мигает).
-     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 144-147
      */
     public function write_mail_active()
     {
@@ -153,7 +148,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * optimal_click - это метод для корректного нажатия на элемент (ожидание элемента и только потом нажатие).
-     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 36
      */
     public function optimal_click ($loc)
     {
@@ -180,7 +174,6 @@ class SeleniumTestHelper extends CWebTestCase
      * transfer_time - это метод для переноса времени на differ минут.
      * Метод стоит использовать для коректного изменения времени для выполнения событий,
      * которые должны происходить с задержкой, где differ -это колличество минут задежки.
-     * Пример использования - тест F14_SK1427_P_Test.php , строка 147
      */
     public function transfer_time ($differ)
     {
@@ -204,8 +197,6 @@ class SeleniumTestHelper extends CWebTestCase
      * locator - локатор элемента, наличие которого мы проверяем.
      * Возвращаем true, если произошло событие и
      * возвращаем false, если не произошло.
-     * Пример использования - тест F4_SK1413_N_Test.php , строка 49-52
-     * Пример использования - тест F4_SK1413_P_Test.php , строка 48-60
      */
     public function is_it_done ($locator)
     {
@@ -235,7 +226,6 @@ class SeleniumTestHelper extends CWebTestCase
      * и соответсвует значению ver_value.
      * Возвращаем true, если поменялось значение флага и
      * возвращаем false, если не изменилось.
-     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 54
      */
     public function verify_flag ($num_flag, $ver_value)
     {
@@ -268,7 +258,6 @@ class SeleniumTestHelper extends CWebTestCase
      * mail_theme - тема письма, которое мы ожидаем.
      * Возвращаем true, если пришло письмо с необходимой темой и
      * возвращаем false, если не пришло.
-     * Пример использования - тест F14_SK1427_P_Test.php , строка 51-55
      */
     public function mail_comes ($mail_theme)
     {
@@ -308,7 +297,6 @@ class SeleniumTestHelper extends CWebTestCase
      * count - количество писем, которые мы ожидаем увидеть во "входящих" на момент указанного времени (время устанавливаем перед вызовом этого метода).
      * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
      * возвращаем false, если нет
-     * Пример использования - тест CountOfEmails_SK1471_Test.php , строка 33-37
      */
     public function incoming_counter ($count)
     {

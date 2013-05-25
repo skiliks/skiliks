@@ -8,13 +8,6 @@
  */
 class Calls_Management_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     public function test_Dialogs_for_SK2420_3()
     {
         //$this->markTestIncomplete();
@@ -100,10 +93,5 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['calls6'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['calls6'],"100");
-        //sleep(20);
-        /*      $this->waitForVisible("id=simulation-points");
-                $this->waitForTextPresent('Simulation points');
-                $this->checkSimPoints('9.667','-10');
-                $this->checkLearningArea('2.56','0.00','0.00','4.55','2.41','15','8.33','10');*/
     }
 }

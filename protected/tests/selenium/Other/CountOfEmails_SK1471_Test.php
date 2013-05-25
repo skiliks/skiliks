@@ -8,12 +8,6 @@
  */
 class CountOfEmails_SK1471_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * test_SK1471_Case() тестирует задачу SKILIKS-1471
