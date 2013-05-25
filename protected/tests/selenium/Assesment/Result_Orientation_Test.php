@@ -8,12 +8,6 @@
  */
 class Result_Orientation_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function test_result_orientation()
     {
@@ -104,7 +98,6 @@ class Result_Orientation_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        sleep(30);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal14'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal14'],"100");
     }

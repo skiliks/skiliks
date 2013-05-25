@@ -8,12 +8,6 @@
  */
 class F20_SK1417_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
     /**
      * testSK1417_Case1() тестирует задачу SKILIKS-1417
      *
@@ -37,8 +31,6 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),' Вот спасибо! Выручил! Давай до вечера,')])");
 
         $this->assertTrue($this->verify_flag('F20','1'));
-
-        $this->click("css=input.btn.btn-simulation-stop");
 
     }
 
@@ -67,8 +59,6 @@ class F20_SK1417_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F20','1'));
 
-        $this->click("css=input.btn.btn-simulation-stop");
-
     }
 
     /**
@@ -94,8 +84,6 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давай встретимся вечером,')])");
 
         $this->assertTrue($this->verify_flag('F20','1'));
-
-        $this->click("css=input.btn.btn-simulation-stop");
 
     }
 }

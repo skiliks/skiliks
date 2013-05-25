@@ -6,15 +6,8 @@
  * Time: 12:32 PM
  * To change this template use File | Settings | File Templates.
  */
-class Case_for_no_registered_user_Test extends SeleniumTestHelper
+class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     /**
      * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
      */

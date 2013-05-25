@@ -6,13 +6,8 @@
 /**
  * 100% по Управление людьми (Область обучения №2)
  */
-class ManagementPeople_Test extends SeleniumTestHelper {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
+class ManagementPeople_Test extends SeleniumTestHelper
+{
 
     public function testManagementPeople_Positive()
     {
@@ -129,7 +124,6 @@ class ManagementPeople_Test extends SeleniumTestHelper {
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(60);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['management3'],"100");
     }
 }

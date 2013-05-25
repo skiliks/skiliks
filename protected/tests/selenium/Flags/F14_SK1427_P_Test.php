@@ -8,12 +8,6 @@
  */
 class F14_SK1427_P_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
     /**
      * testSK1427_Case1() тестирует задачу SKILIKS-1427 для статуса MAIL
      *
@@ -85,7 +79,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Но ведь я сказала, что успею! Обычная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
 
     }
@@ -124,7 +117,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
     }
 
@@ -162,7 +154,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хотелось бы знать')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
-
 
         $this->assertTrue($this->verify_flag('F14','1'));
     }
@@ -203,7 +194,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хотелось бы знать')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'У меня нет уверенности, что ты сделаешь')])");
-
 
         $this->assertTrue($this->verify_flag('F14','0'));
     }

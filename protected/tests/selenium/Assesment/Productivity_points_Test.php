@@ -8,13 +8,6 @@
  */
 class Productivity_points_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     public function testProductivity()
     {
         //$this->markTestIncomplete();
@@ -127,8 +120,6 @@ class Productivity_points_Test extends SeleniumTestHelper
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(30);
-
         $this->waitForVisible("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]","31%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","80%");

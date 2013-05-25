@@ -6,13 +6,8 @@
 /**
  * 100% по Следование приоритетам (Область обучения №1)
  */
-class Goals_and_Priorities_Test extends SeleniumTestHelper {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
+class Goals_and_Priorities_Test extends SeleniumTestHelper
+{
 
     public function testGoalsAndPriorities_Positive()
     {
@@ -41,15 +36,12 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
         $this->optimal_click("xpath=(//*[contains(text(),'А мы в двадцать минут впишемся?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, пойдем, но у меня только двадцать минут.')])");
 
-        $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");
+        $this->optimal_click('link=F14');
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
         sleep(5);
-        //$this->run_event('Е15',"xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения, но я планирую ')])",'click');
-        ///sleep(10);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(20);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
     }
@@ -79,7 +71,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
 
-        $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");
+        $this->optimal_click('link=F14');
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план новое время.')])",'click');
@@ -96,10 +88,9 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper {
         $this->optimal_click("xpath=(//*[contains(text(),'Я вас понял. Давайте сегодня после 18.00! ')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(60);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
-        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[1]/td[4]","0.00");
-        $this->assertText("xpath=//div[1]/div/div[2]/table[17]/tbody/tr[2]/td[4]","0.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-112'],"0.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-123'],"0.00");
     }
 
 }

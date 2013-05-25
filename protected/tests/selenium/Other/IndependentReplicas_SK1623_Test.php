@@ -8,12 +8,6 @@
  */
 class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1623_Case1() тестирует задачу SKILIKS-1623 для реплики в диалоге ET12.1, появление которой не зависит от флага (флаг не включен)

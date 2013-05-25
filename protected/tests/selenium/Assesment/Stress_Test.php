@@ -8,12 +8,6 @@
  */
 class Stress_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function testStress()
     {
@@ -136,7 +130,6 @@ class Stress_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(60);
 
     }
 }

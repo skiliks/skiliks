@@ -112,10 +112,15 @@ return [
         'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[10]/a",
         'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[11]/a',
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
-        'goals' => "//tr[contains(@class, 'learning-area-code-1')]/td[3]",
+
+        'learn-goal-112' => "//tr[contains(@class, 'learning-goal-code-112')]/td[4]",
+        'learn-goal-123' => "//tr[contains(@class, 'learning-goal-code-123')]/td[4]",
+
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
         'admm_personal' => "//tr[@class='matrix-points-sum-scale-type-personal']/td[2]",
+
+        'goals' => "//tr[contains(@class, 'learning-area-code-1')]/td[3]",
         'tasks2'=> "//tr[contains(@class, 'learning-area-code-2')]/td[3]",
         'management3' => "//tr[contains(@class, 'learning-area-code-3')]/td[3]",
         'communication4' => "//tr[contains(@class, 'learning-area-code-4')]/td[3]",
@@ -153,38 +158,6 @@ return [
         'kamenskiy' => "//ul[contains(@class,'ui-autocomplete')]/li[13]/a",
         'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[14]/a",
         'ludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a"
-    ],
-
-
-    'send_message_quickly' => [
-        'MS10' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[1]",
-        'MS20' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[2]",
-        'MS21' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[3]",
-        'MS22' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[4]",
-        'MS23' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[5]",
-        'MS27' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[6]",
-        'MS28' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[7]",
-        'MS29' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[8]",
-        'MS30' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[9]",
-        'MS32' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[10]",
-        'MS35' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[11]",
-        'MS36' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[12]",
-        'MS37' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[13]",
-        'MS39' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[14]",
-        'MS48' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[15]",
-        'MS49' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[16]",
-        'MS50' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[17]",
-        'MS51' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[18]",
-        'MS53' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[19]",
-        'MS54' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[20]",
-        'MS55' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[21]",
-        'MS57' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[22]",
-        'MS58' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[23]",
-        'MS60' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[24]",
-        'MS61' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[25]",
-        'MS69' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[26]",
-        'MS74' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[27]",
-        'MS76' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[28]"
     ],
 
     'set_time' => [

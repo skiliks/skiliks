@@ -8,12 +8,6 @@
  */
 class Resistance_to_manipulation_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function test_resistance_max()
     {
@@ -48,13 +42,7 @@ class Resistance_to_manipulation_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        sleep(5);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"100");
-        //sleep(20);
-        /*      $this->waitForVisible("id=simulation-points");
-                $this->waitForTextPresent('Simulation points');
-                $this->checkSimPoints('9.667','-10');
-                $this->checkLearningArea('2.56','0.00','0.00','4.55','2.41','15','8.33','10');*/
     }
 }

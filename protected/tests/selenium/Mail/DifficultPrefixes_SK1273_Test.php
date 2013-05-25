@@ -8,12 +8,6 @@
  */
 class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1273_Case1() по задаче SKILIKS-1273
@@ -116,7 +110,6 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
 
-        $this->click("css=input.btn.btn-simulation-stop");
     }
 
 
@@ -156,6 +149,5 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: вакцинация!"));
 
-        $this->click("css=input.btn.btn-simulation-stop");
     }
 }

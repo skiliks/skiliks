@@ -13,12 +13,6 @@
  */
 class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function test_DisplayMailText_SK1370()
     {
@@ -67,7 +61,6 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
-        //$this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[5]/td","Ценовая политика.xlsx");
 
         $this->optimal_click("link=отправить черновик");
         $this->optimal_click("css=label.icon_SENDED");
@@ -80,16 +73,6 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
         sleep(5);
-
-       /* // выполняем проверку первого списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
-        $a = $this->Mail_log($log, sizeof($window));
-        // выполняем проверку второго списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
-        $b = $this->Mail_log($log1, sizeof($window1));
-        // проверяем есть хотя бы одна проверка вернула true значит все ок и продолжнаем проверку далее
-        if (($a!=true)||($b!=true))
-        {
-            $this->fail("Mail log fail!!!");
-        }*/
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

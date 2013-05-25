@@ -8,12 +8,6 @@
  */
 class Meetings_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 //SK2420_4
     public function test_meetings_management()
     {
@@ -84,13 +78,7 @@ class Meetings_Test extends SeleniumTestHelper
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(20);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
-        //sleep(20);
-/*        $this->waitForVisible("id=simulation-points");
-        $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('9.667','-10');
-        $this->checkLearningArea('2.56','0.00','0.00','4.55','2.41','15','8.33','10');*/
     }
 }
