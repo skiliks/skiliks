@@ -49,6 +49,7 @@ class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         sleep(30);
         $this->Mail_log($ms25, sizeof($window));
+        $this->stop();
     }
 
     public function test_Receiving_attachment_MS83_SK1593()
@@ -66,6 +67,7 @@ class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
         $this->save_send();
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->Mail_log($ms83, sizeof($window));
+        $this->stop();
     }
 
     public function test_Receiving_attachment_MS84_SK1593()
@@ -82,6 +84,7 @@ class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
         $this->save_send();
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->Mail_log($ms84, sizeof($window));
+        $this->stop();
     }
 
     private function save_send()
@@ -105,7 +108,7 @@ class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
         $this->addAttach('Презентация_ ГД_01');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
-        sleep(5);
+        $this->stop();
 
     }
 }

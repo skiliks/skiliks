@@ -130,6 +130,7 @@ class Stress_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->stop();
 
     }
 }

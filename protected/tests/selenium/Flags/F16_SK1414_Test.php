@@ -45,6 +45,7 @@ class F16_SK1414_Test extends SeleniumTestHelper
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Презентация для ГД_рабочая версия"));
+        $this->stop();
 
     }
 

@@ -25,12 +25,14 @@ class SeleniumTestHelper extends CWebTestCase
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
      */
+
     protected function setUp()
     {
         $this->setBrowser('firefox');
         $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
         parent::setUp();
     }
+
 
     public function start_simulation()
     {

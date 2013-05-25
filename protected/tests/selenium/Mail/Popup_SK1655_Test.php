@@ -42,6 +42,7 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_cancel']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
+        $this->stop();
     }
 
     protected function checkPopup ($str)

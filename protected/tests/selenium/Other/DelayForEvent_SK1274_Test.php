@@ -30,5 +30,6 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         $this->no_reply_call();
         sleep(40);
         $this->no_reply_call();
+        $this->stop();
     }
 }

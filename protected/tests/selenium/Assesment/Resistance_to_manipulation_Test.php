@@ -44,5 +44,6 @@ class Resistance_to_manipulation_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"100");
+        $this->stop();
     }
 }

@@ -43,6 +43,7 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(5);
         $this->assertTrue($this->incoming_counter(28));
+        $this->stop();
 
     }
 }

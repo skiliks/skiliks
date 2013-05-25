@@ -32,7 +32,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         sleep(3);
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         $this->assertTrue($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->stop();
     }
 
     /**
@@ -62,7 +62,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
 
         $this->assertTrue($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->stop();
     }
 
     /**
@@ -91,7 +91,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         sleep(3);
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         $this->assertTrue($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->stop();
     }
 
     /**
@@ -133,6 +133,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         sleep(5);
         $this->assertFalse($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));
+        $this->stop();
     }
 
     /**
@@ -157,6 +158,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все, что есть по презентации для Босса')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что это с тобой случилось?! Столько агрессии')])");
+        $this->stop();
     }
 }
 
