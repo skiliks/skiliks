@@ -26,36 +26,63 @@ class ZohoTest extends SeleniumTestHelper
     );
     public function testZoho() {
 
+        $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
+        $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
+        $this->open('/cheat/quick-start/full');
 
-        $this->optimal_click("css=.sign-in-link");
-        $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "tatiana@skiliks.com");
-        $this->type("css=.password>input", "123123");
-        $this->optimal_click("css=.submit>input");
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'')])")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
-        $this->createCookie("intro_is_watched_2=yes", "path=/, expires=365");
-        $this->open('/simulation/promo/full');
-        //ждем появление поп-апа "Подождите, идет загрузка документов"
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("Can't see popup 'Please, wait, documents is loading...'");
-            try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'Пожалуйста, подождите, идёт загрузка документов')])")) break;
-            } catch (Exception $e) {}
-            usleep(100000);;
-        }
-        //ждем самой загрузки документов
-        sleep (240);
-        //кликаем по "Начать" в туториале. Если туториала нет  - значит зохо не загрузился
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        sleep(5);
+
+
+        $startTimer = microtime(true);
+        $dateOfStart = date("d.m.y");
+        $timeOfStart = date("H:i:s");
+
+        for ($second = 0; ; $second++) {
+            if ($second >= 12000)
+            {
+                $message = "Failed";
+                break;
+            }
+            try {
+                if (!($this->isTextPresent("Пожалуйста, подождите, идёт загрузка документов")))
+                {
+                    $message = "Passed";
+                    break;
+                }
+            } catch (Exception $e)
+            {
+                print ($e);
+            }
+            usleep(10000);
+        }
+
+        $timeDifference = microtime(true) - $startTimer;
+
+        if ($timeDifference>120)
+        {
+            $message = "Failed";
+        }
+
+        $dateOfEnd = date("d.m.y");
+        $timeOfEnd = date("H:i:s");
+        print(' Date of start= ');
+        print ($dateOfStart);
+        print(' Time of start = ');
+        print ($timeOfStart);
+        print(' Date of end = ');
+        print ($dateOfEnd);
+        print(' Time of end = ');
+        print ($timeOfEnd);
+        print(' Time of loading documents = ');
+        print($timeDifference);
+        print(' Message = ');
+        print($message);
+        print(' ');
+        $this->close();
     }
 }
