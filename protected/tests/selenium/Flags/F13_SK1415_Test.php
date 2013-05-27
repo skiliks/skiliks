@@ -36,7 +36,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F13','0'));
 
         $this->run_event('ET1.3.1');
-
+        sleep(5);
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
             $this->optimal_click("css=li.icon-active.phone a");
