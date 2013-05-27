@@ -684,8 +684,8 @@ define([
                                     }
 
                                     if (email.isForward()) {
-                                        mailClientView.doUpdateScreenFromForwardEmailData(response);
-                                        mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+                                        mailClientView.doUpdateScreenFromForwardEmailData(response, email);
+                                        mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray, true);
                                         mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
                                         mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                     }
@@ -2152,8 +2152,9 @@ define([
             /**
              * @method doUpdateScreenFromForwardEmailData
              * @param {Object} response API response
+             * @param {Object} draftEmail email if edit
              */
-            doUpdateScreenFromForwardEmailData: function (response) {
+            doUpdateScreenFromForwardEmailData: function (response, draftEmail) {
                 if (1 === parseInt(response.result, 10)) {
 
                     if (null == response.subjectId) {
@@ -2174,9 +2175,21 @@ define([
 
                     this.renderPreviousMessage(response.phrases.previouseMessage);
                     var me = this;
+
+                    var assignedRecipient = [];
+
+                    if (undefined !== draftEmail) {
+                        _.each(SKApp.simulation.characters.models, function(character){
+                            if (-1 < draftEmail.recipientNameString.indexOf(character.get('fio'))) {
+                                assignedRecipient.push(character.getFormatedForMailToName());
+                            }
+                        });
+                    }
+
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
                         className: 'tagHandler recipients-list-widget',
+                        assignedTags:  assignedRecipient,
                         availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true,
                         onAdd: function (tag) {
@@ -2221,8 +2234,19 @@ define([
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
 
+                    var assignedCopy = [];
+
+                    if (undefined !== draftEmail) {
+                        _.each(SKApp.simulation.characters.models, function(character){
+                            if (-1 < draftEmail.copyToString.indexOf(character.get('fio'))) {
+                                assignedCopy.push(character.getFormatedForMailToName());
+                            }
+                        });
+                    }
+
                     $("#MailClient_CopiesList").tagHandler({
                         className: 'tagHandler copy-list-widget',
+                        assignedTags:  assignedCopy,
                         availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true
                     });
