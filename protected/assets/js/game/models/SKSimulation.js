@@ -94,7 +94,7 @@ define([
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
                         me.onEndTime();
