@@ -243,6 +243,9 @@ define([
                     $('.mail-view-header').addClass('min');
                     $('.mail-new-text').addClass('max');
                     $('.mail-new-text-scroll').addClass('max');
+                    $('.mail-text-wrap').addClass('mail-text-wrap-max');
+
+                    $('.mail-text-area').css('height', 'calc(100% - 236px)');
                     // maximize }
                 } else {
                     // minimize {
@@ -252,6 +255,9 @@ define([
                     $('.mail-view-header').removeClass('min');
                     $('.mail-new-text').removeClass('max');
                     $('.mail-new-text-scroll').removeClass('max');
+                    $('.mail-text-wrap').removeClass('mail-text-wrap-max');
+
+                    $('.mail-text-area').css('height', 'calc(100% - 426px)');
                     // minimize }
                 }
             },
