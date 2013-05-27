@@ -292,7 +292,7 @@ define([
                             bounce_counter--;
                             setTimeout(function () {
                                 if (el.hasClass('icon-active')) {
-                                    el.effect("bounce", {times: 3, direction: 'left'}, 400, bounce_cb);
+                                    el.effect("bounce", {times: 3, direction: 'left'}, 1000, bounce_cb);
                                 } else {
                                     me.icon_lock[selector] = false;
                                     if (end_cb !== undefined) {
