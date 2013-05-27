@@ -112,7 +112,7 @@ define([
                     );
                     simulation.mailClient.view.on('render_finished', function () {
 
-                        var email_row = simulation.mailClient.view.$('.email-list-line:eq(0)');
+                        var email_row = simulation.mailClient.view.$('.email-list-line[data-email-id=' + event.get('id') + ']');
                         if (!email_row.hasClass('active')) {
                             email_row.click();
                         }
