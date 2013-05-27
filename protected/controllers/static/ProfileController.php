@@ -313,7 +313,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 'id',
                 'label',
                 "",
-                'Выберите уровень спецеализации'
+                'Выберите уровень специализации'
             );
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',

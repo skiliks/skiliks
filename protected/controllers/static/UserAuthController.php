@@ -815,7 +815,7 @@ class UserAuthController extends YumController
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {
-                    Yii::app()->user->setFlash('recovery-popup', 'На Ваш email выслана инструкция по смене пароля.');
+                    Yii::app()->user->setFlash('recovery-popup', 'На ваш email выслана инструкция по смене пароля.');
                     if (!Yii::app()->request->getIsAjaxRequest()) {
                         $this->redirect('/');
                     } else {

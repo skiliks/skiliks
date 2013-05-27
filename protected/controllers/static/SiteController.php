@@ -53,7 +53,7 @@ class SiteController extends AjaxController
             if (null == $invite) {
                 Yii::app()->user->setFlash(
                     'error',
-                    'Выберите приглашение по которому Вы хотите начать симуляцию'
+                    'Выберите приглашение по которому вы хотите начать симуляцию'
                 );
 
                 $this->redirect('/simulations');
