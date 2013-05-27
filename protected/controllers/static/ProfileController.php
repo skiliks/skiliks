@@ -52,23 +52,11 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         if (null !== Yii::app()->request->getParam('save')) {
             $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
             $YumProfile = Yii::app()->request->getParam('YumProfile');
-            $birthday = Yii::app()->request->getParam('birthday');
-
-            if (!empty($birthday['day']) || !empty($birthday['month']) || !empty($birthday['year'])) {
-                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year']) && (int)$birthday['year'] >= 1910 && (int)$birthday['year'] <= 2010) {
-                    $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
-                } else {
-                    $account->addError('birthday', Yii::t('site', 'Incorrect birthday'));
-                }
-            } else {
-                $account->birthday = null;
-            }
-
             $account->attributes = $UserAccountPersonal;
             $profile->firstname = $YumProfile['firstname'];
             $profile->lastname  = $YumProfile['lastname'];
-
-            $isAccountValid = $account->validate(null, false);
+            $account->setBirthdayDate($UserAccountPersonal['birthday']);//['day'],['month'],['year'] 1910 && (int)$birthday['year'] <= 2010
+            $isAccountValid = $account->validate(['birthday']);
             $isProfileValid = $profile->validate(['firstname', 'lastname']);
 
             if ($isProfileValid && $isAccountValid) {

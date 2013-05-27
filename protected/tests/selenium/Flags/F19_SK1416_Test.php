@@ -19,17 +19,25 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case1()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
-        $this->assertTrue($this->verify_flag('F19','0'));
+        try
+        {
+            sleep(10);
+            $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
+            $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
+            $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
+            $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
 
-        $this->assertTrue($this->verify_flag('F19','1'));
-        $this->stop();
+            $this->assertTrue($this->verify_flag('F19','1'));
+        }
+        catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
 
     }
 
@@ -44,18 +52,26 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case2()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
-        $this->assertTrue($this->verify_flag('F19','0'));
+        try
+        {
+            sleep(10);
+            $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
+            $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
+            $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
+            $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
+            $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
 
-        $this->assertTrue($this->verify_flag('F19','1'));
-        $this->stop();
+            $this->assertTrue($this->verify_flag('F19','1'));
+        }
+        catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
     }
 
     /**
@@ -69,18 +85,26 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case3()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
-        $this->assertTrue($this->verify_flag('F19','0'));
+        try
+        {
+            sleep(10);
+            $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
+            $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
+            $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
+            $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
+            $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
 
-        $this->assertTrue($this->verify_flag('F19','1'));
-        $this->stop();
+            $this->assertTrue($this->verify_flag('F19','1'));
+        }
+        catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
     }
 
     /**
@@ -94,20 +118,27 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(5);
-        $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
+        try{
+            sleep(5);
+            $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
 
-        $this->assertTrue($this->verify_flag('F19','1'));
+            $this->assertTrue($this->verify_flag('F19','1'));
 
-        $this->run_event('E3',"xpath=(//*[contains(text(),'октября')])",'-');
+            $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
 
-        $this->transfer_time(8);
+            $this->transfer_time(8);
 
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
+            if ($this->is_it_done("css=li.icon-active.phone a"))
+            {
+                print ("The test crashed! This action couldn't be active in such situation!");
+            }
         }
-        $this->stop();
+        catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
 
     }
 
@@ -123,19 +154,24 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
-        $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
+        try {
+            sleep(10);
+            $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
 
-        $this->assertTrue($this->verify_flag('F19','1'));
+            $this->assertTrue($this->verify_flag('F19','1'));
 
-        $this->run_event('T2');
+            $this->run_event('T2');
 
-        $this->transfer_time(8);
+            $this->transfer_time(8);
 
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
+            if ($this->is_it_done("css=li.icon-active.phone a"))
+            {
+                print ("The test crashed! This action couldn't be active in such situation!");
+            }
+        } catch (Exception $e) {
+            $this->fail($e);
+            $this->close();
         }
-        $this->stop();
+        $this->close();
     }
 }
