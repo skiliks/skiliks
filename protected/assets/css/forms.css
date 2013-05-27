@@ -803,3 +803,10 @@ span.required {
         left: 156px;
     }
 }
+
+.profileform input.error{
+    border: 2px solid #bd2929;
+}
+.feedback .form-section .error textarea{
+    border: 2px solid #bd2929;
+}
