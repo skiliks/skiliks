@@ -63,14 +63,16 @@ class ZohoTest extends SeleniumTestHelper
 
         $timeDifference = microtime(true) - $startTimer;
 
+        $dateOfEnd = date("d.m.y");
+        $timeOfEnd = date("H:i:s");
+
         if ($timeDifference>120)
         {
             $message = "Failed";
+            $this->failed("Failed for timeout");
         }
 
-        $dateOfEnd = date("d.m.y");
-        $timeOfEnd = date("H:i:s");
-        print(' Date of start= ');
+        /*print(' Date of start= ');
         print ($dateOfStart);
         print(' Time of start = ');
         print ($timeOfStart);
@@ -82,7 +84,7 @@ class ZohoTest extends SeleniumTestHelper
         print($timeDifference);
         print(' Message = ');
         print($message);
-        print(' ');
+        print(' ');*/
         $this->close();
     }
 }
