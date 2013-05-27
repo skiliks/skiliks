@@ -66,6 +66,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
+        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 
     /**
