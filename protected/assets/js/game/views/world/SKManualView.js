@@ -72,14 +72,18 @@ define(
                 this.$el.tooltip({
                     tooltipClass: 'person-info-tooltip',
                     position: {
-                        my: 'left+20 top-50',
+                        my: 'left+10 top-50',
                         at: 'right center',
-                        collision: 'flipfit',
-                        within: content.find('.flyleaf')
+                        collision: 'flip',
+                        within: this.$el
                     },
                     show: {
                         effect: 'fade',
-                        delay: 300
+                        delay: 500
+                    },
+                    hide: {
+                        effect: 'fade',
+                        duration: 50
                     },
                     items: '[data-refer-tooltip]',
                     content: function() {
