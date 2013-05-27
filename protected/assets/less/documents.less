@@ -19,14 +19,29 @@
   .sim-window-container {
     height: 100%;
     .sim-window-content {
-      height: 100%;
-      #tableeditor {
-        position: relative;
-      }
+      height: ~"-webkit-calc(100% - 48px)";
+      height: ~"-moz-calc(100% - 48px)";
+      height: ~"-o-calc(100% - 48px)";
+      height: ~"calc(100% - 48px)";
       .xls-container {
         background-color: white;
         height: 100%;
-        position: relative;
+        .table-container {
+          position: relative;
+          height: ~"-webkit-calc(100% - 20px)";
+          .table-editor {
+            height: 100%;
+            overflow: hidden;
+          }
+        }
+        .sheet-tabs {
+          li {
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: underline;
+            border: inset 1px #000 ;
+          }
+        }
         .loader {
           text-align: center;
           background-color: #ffffff;

@@ -1,7 +1,7 @@
 /*global Backbone:false, console, SKApp, session */
 
 var SKDocument;
-define([], function () {
+define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
     "use strict";
 
     /**
@@ -43,11 +43,8 @@ define([], function () {
          */
         initialize: function () {
             var me = this;
-            me.set('isInitialized', true);
-        },
-
-        getContent: function (cb) {
-            SKApp.server.api('myDocuments/getExcel', {'id': this.id}, cb)
+            me.set('sheets', new SKSheetCollection([], {'document': this}));
+            me.get('sheets').fetch();
         }
     },
     {

@@ -561,7 +561,7 @@ SocialCalc.Popup.Types.List.Create = function(type, id, attribs) {
    var spc = sp.Controls;
 
    var spcid = {type: type, value: "", display: "", data: {}};
-   if (spc[id]) {alert("Already created "+id); return;}
+   if (spc[id]) { return;}
    spc[id] = spcid;
    var spcdata = spcid.data;
 
@@ -965,7 +965,7 @@ SocialCalc.Popup.Types.ColorChooser.Create = function(type, id, attribs) {
    var spc = sp.Controls;
 
    var spcid = {type: type, value: "", display: "", data: {}};
-   if (spc[id]) {alert("Already created "+id); return;}
+   if (spc[id]) {return;}
    spc[id] = spcid;
    var spcdata = spcid.data;
 
