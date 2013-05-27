@@ -65,13 +65,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             }
 
             $invite->message = sprintf(
-                'Компания %s является лидером российского рынка, ' .
-                'известна своим подходом к формированию профессиональной команды ' .
-                'и развитию сотрудников на рабочем месте.' .
-                "\n" .
-                'Вопросы относительно вакансии и прохождения симуляции вы можете ' .
-                'задать по адресу %s куратору вакансии %s.',
-                $this->user->account_corporate->company_name,
+                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
