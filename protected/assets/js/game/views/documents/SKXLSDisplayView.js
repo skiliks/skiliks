@@ -1,14 +1,16 @@
-/*global SocialCalc, _
+/*global SocialCalc, _, SKApp
  */
 
 define([
     "text!game/jst/document/document_xls_template.jst",
     "text!game/jst/document/budget.jst",
-    "game/views/SKWindowView"
+    "game/views/SKWindowView",
+    "game/views/documents/spreadsheets/SKSheetView"
 ],function (
     document_xls_template,
     budget,
-    SKWindowView
+    SKWindowView,
+    SKSheetView
 ) {
     "use strict";
 
@@ -22,8 +24,9 @@ define([
         addClass: 'document-window',
 
         dimensions: {},
-
-        isRender: true,
+        events: _.defaults({
+            'click .sheet-tabs li': 'doSelectTab'
+        }, SKWindowView.prototype.events),
 
         /*
         * Constructor
@@ -51,35 +54,35 @@ define([
             el.html( _.template(document_xls_template, {}) );
 
             SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
-            doc.getContent(function (response) {
+            var sheetViews = [];
+            var i = 0;
+            doc.get('sheets').each(function (sheet) {
                 setTimeout(function () {
-                    response.data.forEach(function (sheet) {
-                        spreadsheet = new SocialCalc.SpreadsheetControl();
-                        var parts = spreadsheet.DecodeSpreadsheetSave(sheet.content);
-                        var root = $('<div></div>').attr('id',  _.uniqueId('tableeditor-'));
-                        root.appendTo($('#tableeditor'));
-                        spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$('.xls-container').height() - 50, me.$('.xls-container').width(), 0);
-                        spreadsheet.ParseSheetSave(sheet.content);
-                        spreadsheet.ExecuteCommand('recalc', '');
-                        spreadsheet.ExecuteCommand('redisplay', '');
+                    var sheetView = new SKSheetView({
+                        'el': me.$('.table-container'),
+                        'sheet': sheet
                     });
+                    sheetView.render();
+                    sheetViews.push(sheetView);
 
-
-                });
+                    var sheetTab = $('<li></li>');
+                    sheetTab.attr('data-sheet-name', sheet.get('name'));
+                    sheetTab.text(sheet.get('name'));
+                    sheetTab.appendTo(this.$('.sheet-tabs'));
+                    doc.get('sheets').at(0).activate();
+                    me.undelegateEvents();
+                    me.delegateEvents();
+                }, i+=2000);
             });
-            setInterval(function () {
-                console.log(spreadsheet.CreateSheetSave());
-            }, 60000);
+
+
 
         },
 
-        /**
-         * @method
-         * @param el
-         */
-        doStartDrag: function (el) {
-            // this.hideZohoIframe();
-        },
+        doSelectTab: function doSelectTab () {
+            var doc = this.options.model_instance.get('document');
+            doc.get('sheets').where({'name': $(event.currentTarget).attr('data-sheet-name')})[0].activate();
+        }
 
     });
 
