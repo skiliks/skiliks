@@ -25,15 +25,19 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
+        sleep(5);
 
-        sleep(20);
-        $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->assertTrue($this->verify_flag('F3','1'));
         sleep(3);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[5]");
+        //Сводный бюджет: контроль
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
-        $this->assertTrue($this->isVisible("xpath=(//a[contains(text(),'дела')])"));
-        $this->stop();
+        $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
+        $this->close();
     }
 
     /**
@@ -52,18 +56,20 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
-        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Пусть спрашивает')])");
-
-        sleep(20);
-        $this->assertTrue($this->verify_flag('F3','1'));
-        $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
-        sleep(3);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[5]");
         sleep(5);
-        $this->assertTrue($this->isVisible("xpath=(//a[contains(text(),'дела')])"));
-        $this->stop();
+        $this->assertTrue($this->verify_flag('F3','1'));
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
+        sleep(3);
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
+        sleep(5);
+        $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
+        $this->close();
     }
 
     /**
@@ -85,15 +91,18 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
-
-        sleep(20);
-        $this->assertTrue($this->verify_flag('F3','1'));
-        $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
-        sleep(3);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[5]");
         sleep(5);
-        $this->assertTrue($this->isVisible("xpath=(//a[contains(text(),'дела')])"));
-        $this->stop();
+        $this->assertTrue($this->verify_flag('F3','1'));
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
+        sleep(3);
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
+        sleep(5);
+        $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
+        $this->close();
     }
 
     /**
@@ -111,9 +120,10 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->optimal_click('link=F32');
 
         $this->write_email();
@@ -132,10 +142,10 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->assertFalse($this->verify_flag('F3','1'));
 
         sleep(5);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[5]");
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
-        $this->assertFalse($this->isVisible("xpath=(//a[contains(text(),'Марина, ну как у тебя дела?')])"));
-        $this->stop();
+        $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Марина, ну как у тебя дела?')])"));
+        $this->close();
     }
 
     /**
@@ -160,7 +170,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все, что есть по презентации для Босса')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что это с тобой случилось?! Столько агрессии')])");
-        $this->stop();
+        $this->close();
     }
 }
 

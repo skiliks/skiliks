@@ -82,7 +82,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 6000) $this->fail("timeout");
+            if ($second >= 600) $this->fail("timeout");
             try{
                 if ($this->isVisible($next_event))
                 {
@@ -205,19 +205,14 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $was_done = false;
         for ($second = 0; ; $second++) {
-            if ($second >= 600)
-            {
-                $was_done = false;
-                break;
-            }
-            else
-            {
-                if ($this->isVisible($locator))
+            if ($second >= 600) $this->fail("timeout");
+            try{
+                if (!($this->isVisible($locator)))
                 {
-                    $was_done=true;
+                    $was_done = true;
                     break;
                 }
-            }
+            } catch (Exception $e) {}
             usleep(100000);
         }
         return $was_done;
