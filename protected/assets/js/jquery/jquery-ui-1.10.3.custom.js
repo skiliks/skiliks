@@ -1,6 +1,6 @@
-/*! jQuery UI - v1.10.3 - 2013-05-23
+/*! jQuery UI - v1.10.3 - 2013-05-26
 * http://jqueryui.com
-* Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.position.js, jquery.ui.tooltip.js, jquery.ui.effect.js, jquery.ui.effect-fold.js
+* Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.position.js, jquery.ui.tooltip.js, jquery.ui.effect.js, jquery.ui.effect-bounce.js, jquery.ui.effect-fade.js
 * Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
 
 (function( $, undefined ) {
@@ -2979,64 +2979,118 @@ $.each( baseEasings, function( name, easeIn ) {
 })(jQuery);
 (function( $, undefined ) {
 
-$.effects.effect.fold = function( o, done ) {
-
-	// Create element
+$.effects.effect.bounce = function( o, done ) {
 	var el = $( this ),
 		props = [ "position", "top", "bottom", "left", "right", "height", "width" ],
-		mode = $.effects.setMode( el, o.mode || "hide" ),
-		show = mode === "show",
+
+		// defaults:
+		mode = $.effects.setMode( el, o.mode || "effect" ),
 		hide = mode === "hide",
-		size = o.size || 15,
-		percent = /([0-9]+)%/.exec( size ),
-		horizFirst = !!o.horizFirst,
-		widthFirst = show !== horizFirst,
-		ref = widthFirst ? [ "width", "height" ] : [ "height", "width" ],
-		duration = o.duration / 2,
-		wrapper, distance,
-		animation1 = {},
-		animation2 = {};
+		show = mode === "show",
+		direction = o.direction || "up",
+		distance = o.distance,
+		times = o.times || 5,
+
+		// number of internal animations
+		anims = times * 2 + ( show || hide ? 1 : 0 ),
+		speed = o.duration / anims,
+		easing = o.easing,
+
+		// utility:
+		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
+		motion = ( direction === "up" || direction === "left" ),
+		i,
+		upAnim,
+		downAnim,
+
+		// we will need to re-assemble the queue to stack our animations in place
+		queue = el.queue(),
+		queuelen = queue.length;
+
+	// Avoid touching opacity to prevent clearType and PNG issues in IE
+	if ( show || hide ) {
+		props.push( "opacity" );
+	}
 
 	$.effects.save( el, props );
 	el.show();
+	$.effects.createWrapper( el ); // Create Wrapper
 
-	// Create Wrapper
-	wrapper = $.effects.createWrapper( el ).css({
-		overflow: "hidden"
-	});
-	distance = widthFirst ?
-		[ wrapper.width(), wrapper.height() ] :
-		[ wrapper.height(), wrapper.width() ];
-
-	if ( percent ) {
-		size = parseInt( percent[ 1 ], 10 ) / 100 * distance[ hide ? 0 : 1 ];
+	// default distance for the BIGGEST bounce is the outer Distance / 3
+	if ( !distance ) {
+		distance = el[ ref === "top" ? "outerHeight" : "outerWidth" ]() / 3;
 	}
+
 	if ( show ) {
-		wrapper.css( horizFirst ? {
-			height: 0,
-			width: size
-		} : {
-			height: size,
-			width: 0
-		});
+		downAnim = { opacity: 1 };
+		downAnim[ ref ] = 0;
+
+		// if we are showing, force opacity 0 and set the initial position
+		// then do the "first" animation
+		el.css( "opacity", 0 )
+			.css( ref, motion ? -distance * 2 : distance * 2 )
+			.animate( downAnim, speed, easing );
 	}
 
-	// Animation
-	animation1[ ref[ 0 ] ] = show ? distance[ 0 ] : size;
-	animation2[ ref[ 1 ] ] = show ? distance[ 1 ] : 0;
+	// start at the smallest distance if we are hiding
+	if ( hide ) {
+		distance = distance / Math.pow( 2, times - 1 );
+	}
 
-	// Animate
-	wrapper
-		.animate( animation1, duration, o.easing )
-		.animate( animation2, duration, o.easing, function() {
-			if ( hide ) {
-				el.hide();
-			}
-			$.effects.restore( el, props );
-			$.effects.removeWrapper( el );
-			done();
-		});
+	downAnim = {};
+	downAnim[ ref ] = 0;
+	// Bounces up/down/left/right then back to 0 -- times * 2 animations happen here
+	for ( i = 0; i < times; i++ ) {
+		upAnim = {};
+		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + distance;
+
+		el.animate( upAnim, speed, easing )
+			.animate( downAnim, speed, easing );
+
+		distance = hide ? distance * 2 : distance / 2;
+	}
+
+	// Last Bounce when Hiding
+	if ( hide ) {
+		upAnim = { opacity: 0 };
+		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + distance;
+
+		el.animate( upAnim, speed, easing );
+	}
+
+	el.queue(function() {
+		if ( hide ) {
+			el.hide();
+		}
+		$.effects.restore( el, props );
+		$.effects.removeWrapper( el );
+		done();
+	});
+
+	// inject all the animations we just queued to be first in line (after "inprogress")
+	if ( queuelen > 1) {
+		queue.splice.apply( queue,
+			[ 1, 0 ].concat( queue.splice( queuelen, anims + 1 ) ) );
+	}
+	el.dequeue();
 
 };
 
 })(jQuery);
+(function( $, undefined ) {
+
+$.effects.effect.fade = function( o, done ) {
+	var el = $( this ),
+		mode = $.effects.setMode( el, o.mode || "toggle" );
+
+	el.animate({
+		opacity: mode
+	}, {
+		queue: false,
+		duration: o.duration,
+		easing: o.easing,
+		complete: done
+	});
+};
+
+})( jQuery );
