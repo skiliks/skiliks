@@ -31,7 +31,7 @@
                                 <td valign="top" bgcolor="fdfbc6">
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
-                                        <?= $invite->getReceiverUserName() ?>, приветствуем Вас!
+                                        <?= $invite->getReceiverFirstName() ?>, приветствуем Вас!
                                     </h1>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
@@ -56,19 +56,29 @@
                                     </p>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        <?php if ($invite->receiverUser): ?>
+                                        <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                                             Пожалуйста,
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= Yii::app()->request->hostInfo."/dashboard"; ?>">
+                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">
                                                 зайдите
-                                            </a> в свой кабинет и примите приглашение на
-                                            тестирование для прохождения симуляции.
+                                            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                                        <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
+                                            Пожалуйста,
+                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
+                                                создайте личный профиль
+                                            </a> или
+                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">
+                                                войдите в личный кабинет
+                                            </a> и примите приглашение на тестирование для прохождения симуляции.
                                         <?php else: ?>
                                             Пожалуйста,
                                             <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                                 зарегистрируйтесь
-                                            </a> и в своем кабинете примите приглашение на
-                                            тестирование для прохождения симуляции.
+                                            </a> или
+                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">
+                                                войдите
+                                            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
+                                        Код данного приглашения <?= $invite->code ?>.
                                     </p>
                                     <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">
                                         www.skiliks.com
