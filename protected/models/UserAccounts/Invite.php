@@ -394,7 +394,7 @@ class Invite extends CActiveRecord
             $this->email &&
             $this->ownerUser->account_corporate->corporate_email == $this->email
         ) {
-            $this->addError('email', Yii::t('site', 'You cannot send invite to yourself'));
+            $this->addError('email', Yii::t('site', 'Действие не возможно'));
         }
     }
 

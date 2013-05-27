@@ -17,7 +17,7 @@
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
 <?php else: ?>
-    У Вас не выбран тип аккаунта.
+    У вас не выбран тип аккаунта.
 <?php endif; ?>
 
 <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
