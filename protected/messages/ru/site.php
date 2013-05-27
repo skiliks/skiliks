@@ -238,8 +238,7 @@ return array(
     'Vacancy' => 'Вакансия',
     'Status' => 'Статус',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
-    'Pricing & Plans' => 'Тарифы',
-    'Pricing & Plans' => 'Тарифы',
+    'Pricing & Plans' => 'Цены и тарифы',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
@@ -250,7 +249,7 @@ return array(
     'Failure cause' => 'Причина отказа',
     'Confirmation' => 'Подтверждение',
     'Sign up' => 'Зарегистрироваться',
-    'Enter email' => 'Введите Ваш email',
+    'Enter email' => 'Введите ваш email',
 
     'Next' => 'Вперед',
     'Previous' => 'Назад',
@@ -383,7 +382,7 @@ return array(
     'personal' => 'Персональная',
     'Please contact us' => 'Пожалуйста свяжитесь с нами',
 
-    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за Ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
+    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
     'Accept terms of conditions' => 'Вы должны согласиться с условиями',
     'INN is required' => 'Введите ИНН',
     'CPP is required' => 'Введите КПП',
