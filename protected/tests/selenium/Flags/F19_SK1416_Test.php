@@ -19,7 +19,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case1()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         try
         {
@@ -52,7 +52,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case2()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         try
         {
@@ -85,7 +85,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case3()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         try
         {
@@ -120,7 +120,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->start_simulation();
         try{
             sleep(5);
-            $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
+            $this->optimal_click("link=F19");
 
             $this->assertTrue($this->verify_flag('F19','1'));
 
@@ -128,10 +128,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
 
             $this->transfer_time(8);
 
-            if ($this->is_it_done("css=li.icon-active.phone a"))
-            {
-                print ("The test crashed! This action couldn't be active in such situation!");
-            }
+            $this->assertFalse($this->isVisible("css=li.icon-active.phone a"));
         }
         catch (Exception $e)
         {
@@ -150,28 +147,27 @@ class F19_SK1416_Test extends SeleniumTestHelper
      * 2. Запускаем T2
      * 3. Проверить, что в течении 10 игровых минут ничего не произошло
      */
-    public function testSK1416_N_Case2()
-    {
-        //$this->markTestIncomplete();
-        $this->start_simulation();
-        try {
-            sleep(10);
-            $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
+    /*
+        public function testSK1416_N_Case2()
+        {
+            //$this->markTestIncomplete();
+            $this->start_simulation();
+            try {
+                sleep(10);
+                $this->optimal_click("link=F19");
 
-            $this->assertTrue($this->verify_flag('F19','1'));
+                $this->assertTrue($this->verify_flag('F19','1'));
 
-            $this->run_event('T2');
+                $this->run_event('T2');
 
-            $this->transfer_time(8);
+                $this->transfer_time(8);
 
-            if ($this->is_it_done("css=li.icon-active.phone a"))
-            {
-                print ("The test crashed! This action couldn't be active in such situation!");
+                $this->assertFalse($this->isVisible("css=li.icon-active.phone a"));
+            } catch (Exception $e) {
+                $this->fail($e);
+                $this->close();
             }
-        } catch (Exception $e) {
-            $this->fail($e);
             $this->close();
         }
-        $this->close();
-    }
+    */
 }
