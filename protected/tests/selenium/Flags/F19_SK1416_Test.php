@@ -34,8 +34,8 @@ class F19_SK1416_Test extends SeleniumTestHelper
         }
         catch (Exception $e)
         {
-            $this->fail($e);
             $this->close();
+            $this->fail($e);
         }
         $this->close();
 
@@ -68,8 +68,8 @@ class F19_SK1416_Test extends SeleniumTestHelper
         }
         catch (Exception $e)
         {
-            $this->fail($e);
             $this->close();
+            $this->fail($e);
         }
         $this->close();
     }
@@ -101,8 +101,8 @@ class F19_SK1416_Test extends SeleniumTestHelper
         }
         catch (Exception $e)
         {
-            $this->fail($e);
             $this->close();
+            $this->fail($e);
         }
         $this->close();
     }
@@ -125,49 +125,15 @@ class F19_SK1416_Test extends SeleniumTestHelper
             $this->assertTrue($this->verify_flag('F19','1'));
 
             $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
-
-            $this->transfer_time(8);
-
-            $this->assertFalse($this->isVisible("css=li.icon-active.phone a"));
+            sleep(5);
+            $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         }
         catch (Exception $e)
         {
-            $this->fail($e);
             $this->close();
+            $this->fail($e);
         }
         $this->close();
 
     }
-
-
-    /**
-     * testSK1416_N_Case2() тестирует задачу SKILIKS-1416
-     *
-     * 1. Установить флаг F19=1
-     * 2. Запускаем T2
-     * 3. Проверить, что в течении 10 игровых минут ничего не произошло
-     */
-    /*
-        public function testSK1416_N_Case2()
-        {
-            //$this->markTestIncomplete();
-            $this->start_simulation();
-            try {
-                sleep(10);
-                $this->optimal_click("link=F19");
-
-                $this->assertTrue($this->verify_flag('F19','1'));
-
-                $this->run_event('T2');
-
-                $this->transfer_time(8);
-
-                $this->assertFalse($this->isVisible("css=li.icon-active.phone a"));
-            } catch (Exception $e) {
-                $this->fail($e);
-                $this->close();
-            }
-            $this->close();
-        }
-    */
 }
