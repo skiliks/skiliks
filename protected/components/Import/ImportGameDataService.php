@@ -2619,6 +2619,7 @@ class ImportGameDataService
             $transaction->rollback();
             throw $e;
         }
+
         return $result;
     }
 
@@ -2889,7 +2890,7 @@ class ImportGameDataService
         }
 
         $scenario->slug = $this->scenario_slug;
-        $scenario->filename = basename($this->filename);
+        // $scenario->filename = basename($this->filename);
 
         // TODO: Hardcode. Time should be defined in scenario file
         if ($scenario->slug == Scenario::TYPE_LITE) {
