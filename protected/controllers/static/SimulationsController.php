@@ -116,13 +116,13 @@ class SimulationsController extends AjaxController implements AccountPageControl
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
-            $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario;
+            $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
             ]);
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
-            $newInviteForFullSimulation->save(false);
+            $newInviteForFullSimulation->save(true, ['email']);
         }
         // check and add trial full version }
 
