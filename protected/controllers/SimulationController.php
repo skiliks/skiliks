@@ -21,6 +21,7 @@ class SimulationController extends AjaxController
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
+        /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
         // check invite if it setted {
@@ -31,7 +32,8 @@ class SimulationController extends AjaxController
 
         if (null == $invite) {
             if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
-                $type != Scenario::TYPE_LITE) {
+                $type !== Scenario::TYPE_LITE
+            ) {
                 throw new LogicException('You must have invite.');
             }
 
