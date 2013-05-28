@@ -12,7 +12,7 @@ $scoreRender = function(Invite $invite) {
     } elseif ($invite->isNotStarted()) {
         return sprintf(
             '<a href="/simulation/promo/%s/%s">Начать</a>',
-            $invite->scenario->slug == Scenario::TYPE_FULL ? Scenario::TYPE_TUTORIAL : $invite->scenario->slug,
+            $invite->scenario->slug,
             $invite->id
         );
     } else {
