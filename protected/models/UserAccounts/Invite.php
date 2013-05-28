@@ -20,6 +20,8 @@
  * @property string $fullname
  * @property integer $simulation_id
  * @property integer $scenario_id
+ * @property integer $tutorial_scenario_id
+ * @property string $tutorial_displayed_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -27,6 +29,7 @@
  * @property Vacancy $vacancy
  * @property Simulation $simulation
  * @property Scenario $scenario
+ * @property Scenario $tutorial
  */
 class Invite extends CActiveRecord
 {
@@ -411,6 +414,7 @@ class Invite extends CActiveRecord
 			'vacancy'      => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id'),
 			'simulation'   => array(self::BELONGS_TO, 'Simulation', 'simulation_id'),
 			'scenario'     => array(self::BELONGS_TO, 'Scenario', 'scenario_id'),
+			'tutorial'     => array(self::BELONGS_TO, 'Scenario', 'tutorial_scenario_id'),
 		);
 	}
 

@@ -93,6 +93,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 ->findByAttributes(['slug' => Scenario::TYPE_FULL])
                 ->getPrimaryKey();
 
+            $invite->tutorial_scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
+                ->getPrimaryKey();
+
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
