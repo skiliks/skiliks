@@ -8,7 +8,7 @@
  */
 
 class ZohoStatsCommand extends CConsoleCommand {
-    public function actionIndex()
+    public function actionIndex($output)
     {
         $pExcel = new PHPExcel();
         $pExcel->setActiveSheetIndex(0);
@@ -58,6 +58,6 @@ class ZohoStatsCommand extends CConsoleCommand {
             $aSheet->setCellValueByColumnAndRow(7, $i, $buildXml->statusText);
         };
         $objWriter = new PHPExcel_Writer_Excel2007($pExcel);
-        $objWriter->save('media/zoho.xls');
+        $objWriter->save($output);
     }
 }
