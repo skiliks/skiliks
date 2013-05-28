@@ -97,7 +97,6 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
         sleep(3);
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
