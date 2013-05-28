@@ -240,5 +240,29 @@ class FlagsService
 
         return $list;
     }
+
+    public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
+
+        $queue = new SimulationFlagQueue();
+        $queue->sim_id = $simulation->id;
+        $queue->flag_code = $flag->code;
+        $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify('+30 minutes')->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
+        $queue->is_processed = SimulationFlagQueue::NONE;
+        $queue->save(false);
+
+    }
+
+    public static function checkFlagsDelay(Simulation $simulation) {
+
+        $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time >= :switch_time", [
+            'sim_id' => $simulation->id, 'switch_time' => $simulation->getGameTime(), 'is_processed' => SimulationFlagQueue::NONE
+        ]);
+        /* @var SimulationFlagQueue $flag */
+        foreach($flags as $flag) {
+            FlagsService::setFlag($simulation, $flag->flag_code, 1);
+            $flag->is_processed = SimulationFlagQueue::DONE;
+            $flag->update();
+        }
+    }
 }
 

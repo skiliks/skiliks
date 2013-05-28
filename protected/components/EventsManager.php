@@ -94,10 +94,12 @@ class EventsManager {
      * @return array
      * @throws CHttpException
      */
-    public static function getState($simulation, $logs) {
+    public static function getState(Simulation $simulation, $logs) {
+
         $simId = $simulation->id;
         $gameTime = $simulation->getGameTime();
 
+        FlagsService::checkFlagsDelay($simulation);
         // not handled exception in simulationIsStarted()
         // @todo: handle exception
         SimulationService::simulationIsStarted($simulation, $gameTime);
