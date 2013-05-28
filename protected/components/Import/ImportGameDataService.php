@@ -45,6 +45,10 @@ class ImportGameDataService
 
         $this->filename = __DIR__ . '/../../../media/' . $name;
     }
+    public function getFilename()
+    {
+        return $this->filename;
+    }
 
     /**
      * Import characters, requires nothing
@@ -1427,6 +1431,7 @@ class ImportGameDataService
             //$flag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
             $flag->code = $code;
             $flag->description = $this->getCellValue($sheet, 'Flag_name', $i);
+            $flag->delay = $this->getCellValue($sheet, 'Flag_delay', $i);
             $flag->import_id = $this->import_id;
             $flag->scenario_id = $this->scenario->primaryKey;
             $flag->save();

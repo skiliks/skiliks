@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'flag':
  * @property string $code
  * @property string $description
+ * @property string $delay
  */
 class Flag extends CActiveRecord
 {

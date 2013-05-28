@@ -322,7 +322,7 @@ class DialogService
         );
     }
 
-    public function setFlagByReplica(Simulation $simulation, Replica $replica){
+    public function setFlagByReplica(Simulation $simulation, Replica $replica) {
         if (NULL !== $replica->flag_to_switch && '' !== $replica->flag_to_switch) {
             $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch]);
             if($flag->delay === '0'){
