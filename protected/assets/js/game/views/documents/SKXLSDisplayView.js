@@ -55,9 +55,8 @@ define([
 
             SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
             var sheetViews = [];
-            var i = 0;
-            doc.get('sheets').each(function (sheet) {
-                setTimeout(function () {
+            setTimeout(function () {
+                doc.get('sheets').each(function (sheet) {
                     var sheetView = new SKSheetView({
                         'el': me.$('.table-container'),
                         'sheet': sheet
@@ -68,20 +67,17 @@ define([
                     var sheetTab = $('<li></li>');
                     sheetTab.attr('data-sheet-name', sheet.get('name'));
                     sheetTab.text(sheet.get('name'));
-                    sheetTab.appendTo(this.$('.sheet-tabs'));
+                    sheetTab.appendTo(me.$('.sheet-tabs'));
                     doc.get('sheets').at(0).activate();
                     me.undelegateEvents();
                     me.delegateEvents();
-                }, i+=2000);
-            });
-
-
-
+                });
+            }, 0);
         },
 
         doSelectTab: function doSelectTab () {
             var doc = this.options.model_instance.get('document');
-            doc.get('sheets').where({'name': $(event.currentTarget).attr('data-sheet-name')})[0].activate();
+            doc.get('sheets').where({'name': $(event.target).attr('data-sheet-name')})[0].activate();
         }
 
     });

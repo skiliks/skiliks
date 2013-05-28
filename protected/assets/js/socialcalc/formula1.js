@@ -56,11 +56,22 @@ SocialCalc.Formula = {};
        "a": 5, "b": 5, "c": 5, "d": 5, "e": 5, "f": 5, "g": 5, "h": 5, "i": 5, "j": 5, "k": 5, "l": 5, "m": 5, "n": 5,
        "o": 5, "p": 5, "q": 5, "r": 5, "s": 5, "t": 5, "u": 5, "v": 5, "w": 5, "x": 5, "y": 5, "z": 5
        };
+    for (var i = "а".charCodeAt(0); i < "я".charCodeAt(0); i++) {
+        SocialCalc.Formula.CharClassTable[String.fromCharCode(i)] = 5;
+    }
+
+    for (var j = "А".charCodeAt(0); j < "Я".charCodeAt(0); j++) {
+        SocialCalc.Formula.CharClassTable[String.fromCharCode(j)] = 5;
+    }
 
    SocialCalc.Formula.UpperCaseTable = {
        "a": "A", "b": "B", "c": "C", "d": "D", "e": "E", "f": "F", "g": "G", "h": "H", "i": "I", "j": "J", "k": "K", "l": "L", "m": "M",
        "n": "N", "o": "O", "p": "P", "q": "Q", "r": "R", "s": "S", "t": "T", "u": "U", "v": "V", "w": "W", "x": "X", "y": "Y", "z": "Z"
        }
+
+    for (var k = "А".charCodeAt(0); k < "Я".charCodeAt(0); k++) {
+        SocialCalc.Formula.UpperCaseTable[String.fromCharCode(j).toLowerCase()] = String.fromCharCode(j);
+    }
 
    SocialCalc.Formula.SpecialConstants = { // names that turn into constants for name lookup
       "#NULL!": "0,e#NULL!", "#NUM!": "0,e#NUM!", "#DIV/0!": "0,e#DIV/0!", "#VALUE!": "0,e#VALUE!",

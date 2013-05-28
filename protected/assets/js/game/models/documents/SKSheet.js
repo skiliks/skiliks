@@ -6,10 +6,12 @@ define([], function () {
         activate: function () {
             var me = this;
             this.collection.each(function (sheet) {
-                if (sheet.id === me.id) {
-                    me.trigger('activate');
+                if (sheet.get('name') === me.get('name')) {
+                    sheet.set('active', true);
+                    sheet.trigger('activate');
                 } else {
-                    me.trigger('deactivate');
+                    sheet.set('active', false);
+                    sheet.trigger('deactivate');
                 }
             });
         }
