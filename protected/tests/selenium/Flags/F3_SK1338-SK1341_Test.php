@@ -133,18 +133,22 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click($krutko);
 
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+        sleep(5);
+        $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Сводный бюджет: файл')])"));
 
-        $this->addAttach('Сводный бюджет_02_v23');
-        $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
-        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
-        $this->click("xpath=(//*[contains(text(),'13:00')])");
         $this->assertFalse($this->verify_flag('F3','1'));
 
         sleep(5);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone_contacts']['krutko']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone_contacts']['krutko']);
+        $this->click(Yii::app()->params['test_mappings']['phone_contacts']['krutko']);
+
         sleep(5);
-        $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Марина, ну как у тебя дела?')])"));
+        $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Сводный бюджет: контроль')])"));
         $this->close();
     }
 
