@@ -79,10 +79,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->assertTrue($this->mail_comes("Re: Re: Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['close']);
 
-        if ($this->is_it_done("css=li.icon-active.mail a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.mail a"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
