@@ -25,7 +25,9 @@ class CheatsController extends AjaxController
             $this->redirect('/');
         }
 
-        $this->render('mainPage', []);
+        $this->render('mainPage', [
+            'scenarios' => Scenario::model()->findAll(),
+        ]);
     }
 
     /**

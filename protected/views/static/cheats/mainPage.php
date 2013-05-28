@@ -12,8 +12,6 @@
 <div class="container container-2">
     <header>
 <br>
-<br>
-<br>
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
 <?php else: ?>
@@ -149,8 +147,15 @@
 
 <?php endif ?>
 
+<br/>
+<br/>
+<br/>
 
-<br>
+<h2 style="color: #3C747B;">Импортированные версии сценариев:</h2>
+
+<?php foreach ($scenarios as $scenario): ?>
+    <div><strong><?php echo $scenario->slug ?></strong>: <?php echo $scenario->filename ?></div><br/>
+<?php endforeach; ?>
 <br>
 
     </header>
