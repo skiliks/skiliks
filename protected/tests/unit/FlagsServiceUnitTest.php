@@ -399,4 +399,28 @@ class FlagServiceUnitTest extends CDbTestCase
 
         $this->assertEquals('408', $result['events'][0]['data'][1]['excel_id']);
     }
+
+    public function testFlagToSwitch2() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $dialog = new DialogService();
+        //FlagsService::setFlag($simulation, 'F14', 1);
+        $flag = FlagsService::getFlag($simulation, "F22");
+        $this->assertEquals('0', $flag->value);
+        $flag = FlagsService::getFlag($simulation, "F38_1");
+        $this->assertEquals('0', $flag->value);
+        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_1'])->id;
+        $dialog->getDialog($simulation->id, $id, '9:00');
+        $flag = FlagsService::getFlag($simulation, "F22");
+        $this->assertEquals('1', $flag->value);
+        $flag = FlagsService::getFlag($simulation, "F38_1");
+        $this->assertEquals('1', $flag->value);
+
+    }
 }

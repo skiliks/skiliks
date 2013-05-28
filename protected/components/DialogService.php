@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Description of DialogService
  *
@@ -35,10 +32,7 @@ class DialogService
 
         EventService::deleteByCode($currentReplica->code, $simulation);
         // set flag 1, @1229
-        if (NULL !== $currentReplica->flag_to_switch) {
-            FlagsService::setFlag($simulation, $currentReplica->flag_to_switch, 1);
-        }
-
+        $this->setFlagByReplica($simulation, $currentReplica);
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
 
         if (false == FlagsService::isAllowToStartDialog($simulation, $currentReplica->code)) {
@@ -272,9 +266,7 @@ class DialogService
                 if (!EventService::isDialog($dialog['next_event_code'])) {
                     /** @var $replica Replica */
                     $replica = Replica::model()->findByPk($dialog['id']);
-                    if (NULL !== $replica->flag_to_switch) {
-                        FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
-                    }
+                    $this->setFlagByReplica($simulation, $replica);
                     // создадим событие
                     if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-') {
                         EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime, $replica->fantastic_result);
@@ -328,6 +320,16 @@ class DialogService
             'code'              => $dialog->code,
             'excel_id'          => $dialog->excel_id
         );
+    }
+
+    public function setFlagByReplica(Simulation $simulation, Replica $replica){
+        if (NULL !== $replica->flag_to_switch) {
+            FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+        }
+        if (NULL !== $replica->flag_to_switch_2) {
+            FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
+        }
+
     }
     
 }

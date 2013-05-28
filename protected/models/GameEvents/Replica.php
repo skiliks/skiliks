@@ -117,7 +117,13 @@ class Replica extends CActiveRecord implements IGameAction
      * @var string | NULL
      */
     public $flag_to_switch;
-    
+
+    /**
+     * "F1", "F2", ...
+     * @var string | NULL
+     */
+    public $flag_to_switch_2;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     // business logic code
