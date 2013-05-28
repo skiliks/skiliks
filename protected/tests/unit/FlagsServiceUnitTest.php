@@ -3,6 +3,26 @@
 class FlagServiceUnitTest extends CDbTestCase
 {
     /**
+     * Service method
+     *
+     * @param $simulation
+     * @param $newHours
+     * @param $newMinutes
+     * @param bool $s
+     */
+    public function setTime($simulation, $newHours, $newMinutes, $s = true)
+    {
+        SimulationService::setSimulationClockTime(
+            $simulation,
+            $newHours,
+            $newMinutes
+        );
+        if ($s == true) {
+            $simulation->deleteOldTriggers($newHours, $newMinutes);
+        }
+
+    }
+    /**
      * Проверяет, устанавливаются ли флаги, при выборе определенной реплики
      */
     public function testDialogFlagSet()
@@ -413,26 +433,19 @@ class FlagServiceUnitTest extends CDbTestCase
         //FlagsService::setFlag($simulation, 'F14', 1);
         $flag = FlagsService::getFlag($simulation, "F22");
         $this->assertEquals('0', $flag->value);
-        $flag = FlagsService::getFlag($simulation, "F38_1");
+        $flag = FlagsService::getFlag($simulation, "F38_3");
         $this->assertEquals('0', $flag->value);
-        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_1'])->id;
-        $dialog->getDialog($simulation->id, $id, '9:00');
+        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_3'])->id;
+        $dialog->getDialog($simulation->id, $id, '9:45');
         $flag = FlagsService::getFlag($simulation, "F22");
         $this->assertEquals('1', $flag->value);
-        $flag = FlagsService::getFlag($simulation, "F38_1");
+        $flag = FlagsService::getFlag($simulation, "F38_3");
+        $this->assertEquals('0', $flag->value);
+        $flag = SimulationFlagQueue::model()->findByAttributes(['sim_id'=>$simulation->id, 'flag_code'=>'F38_3']);
+        $this->assertEquals("11:45", (new DateTime($flag->switch_time))->format("H:i"));
+        $this->setTime($simulation, 11, 45);
+        EventsManager::getState($simulation, []);
+        $flag = FlagsService::getFlag($simulation, "F38_3");
         $this->assertEquals('1', $flag->value);
-
-    }
-
-    public function testFlagQueue() {
-
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-        FlagsService::checkFlagsDelay($simulation);
-
     }
 }

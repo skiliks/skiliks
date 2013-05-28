@@ -246,7 +246,7 @@ class FlagsService
         $queue = new SimulationFlagQueue();
         $queue->sim_id = $simulation->id;
         $queue->flag_code = $flag->code;
-        $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify('+30 minutes')->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
+        $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify("+{$flag->delay} minutes")->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
         $queue->is_processed = SimulationFlagQueue::NONE;
         $queue->save(false);
 
