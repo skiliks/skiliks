@@ -809,7 +809,7 @@ class ImportGameDataService
             $emailTemplateEntity->type_of_importance = $typeOfImportance ? : 'none';
             $emailTemplateEntity->import_id = $this->import_id;
             $emailTemplateEntity->scenario_id = $this->scenario->primaryKey;
-            $emailTemplateEntity->flag_to_switch = (NULL == $flag) ? NULL : $flag;
+            $emailTemplateEntity->flag_to_switch = $flag;
 
             $emailTemplateEntity->save();
             $emailIds[] = $emailTemplateEntity->id;
@@ -1688,6 +1688,18 @@ class ImportGameDataService
                 $replica->flag_to_switch = $flag->code;
             } else {
                 $replica->flag_to_switch = null;
+            }
+            unset($flagCode);
+            unset($flag);
+            $flagCode = $this->getCellValue($sheet, 'Переключение флагов 2', $i);
+            if ($flagCode !== '') {
+                $flag = Flag::model()->findByAttributes([
+                    'code' => $flagCode
+                ]);
+                //assert($flag, 'Flag for ' . $flagCode);
+                $replica->flag_to_switch_2 = $flag->code;
+            } else {
+                $replica->flag_to_switch_2 = null;
             }
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
