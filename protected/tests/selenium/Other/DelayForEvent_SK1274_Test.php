@@ -17,7 +17,7 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "57");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "58");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         $this->run_event('E3',"xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])",'click');
@@ -26,9 +26,7 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Да, об этом я и не подумал. Ладно, все')])");
         sleep(10);
-        $this->assertTrue($this->is_it_done("css=li.icon-active.phone a"));
-        $this->no_reply_call();
-        sleep(40);
+        $this->assertTrue($this->isElementPresent("css=li.icon-active.phone a"));
         $this->no_reply_call();
         $this->stop();
     }
