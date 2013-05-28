@@ -19,7 +19,7 @@ EXHIBIT A. Common Public Attribution License Version 1.0.
 The contents of this file are subject to the Common Public Attribution License Version 1.0 (the 
 "License"); you may not use this file except in compliance with the License. You may obtain a copy 
 of the License at http://socialcalc.org. The License is based on the Mozilla Public License Version 1.1 but 
-Sections 14 and 15 have been added to cover use of software over a computer network and provide for 
+Sections 14 and 15 have been added to cover use of software over a computer network and provide for
 limited attribution for the Original Developer. In addition, Exhibit A has been modified to be 
 consistent with Exhibit B.
 
@@ -2194,8 +2194,8 @@ SocialCalc.EditorProcessMouseWheel = function(event, delta, mousewheelinfo, wobj
 SocialCalc.GridMousePosition = function(editor, clientX, clientY) { 
 
    var row, col, colpane;
-    clientX -= SocialCalc.GetElementPosition(document.getElementById('tableeditor')).left;
-    clientY -= SocialCalc.GetElementPosition(document.getElementById('tableeditor')).top;
+    clientX -= SocialCalc.GetElementPosition(document.querySelector('.table-container')).left;
+    clientY -= SocialCalc.GetElementPosition(document.querySelector('.table-container')).top;
    var result = {};
 
    for (row=1; row<editor.rowpositions.length; row++) {
