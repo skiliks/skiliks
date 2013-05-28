@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TestUserHelper
+ * Class TestUserHelper for selenium tests
  * @todo: move to UserService
  */
 
@@ -77,7 +77,7 @@ class TestUserHelper
 
             // update account tariff
             $accountCorporate->setTariff($tariff);
-            $accountCorporate->save();
+            $accountCorporate->save(false);
         }
     }
 }
