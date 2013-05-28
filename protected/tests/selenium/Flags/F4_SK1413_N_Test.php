@@ -33,13 +33,8 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.1');
-
-        $this->transfer_time(10);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
+        sleep(10);
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         $this->stop();
     }
 
@@ -69,13 +64,8 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.2');
-
-        $this->transfer_time(10);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
+        sleep(5);
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         $this->stop();
     }
 
@@ -105,13 +95,8 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.3');
-
-        $this->transfer_time(10);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
+        sleep(5);
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         $this->stop();
     }
 }
