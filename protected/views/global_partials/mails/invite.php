@@ -78,7 +78,6 @@
                                                 войдите
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
-                                        Код данного приглашения <?= $invite->id ?>.
                                     </p>
                                     <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">
                                         www.skiliks.com
