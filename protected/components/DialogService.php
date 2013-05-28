@@ -12,7 +12,7 @@ class DialogService
 
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-     
+        FlagsService::checkFlagsDelay($simulation);
         if ($dialogId == 0) {
             return
                 [
@@ -323,11 +323,21 @@ class DialogService
     }
 
     public function setFlagByReplica(Simulation $simulation, Replica $replica){
-        if (NULL !== $replica->flag_to_switch) {
-            FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+        if (NULL !== $replica->flag_to_switch && '' !== $replica->flag_to_switch) {
+            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch]);
+            if($flag->delay === '0'){
+                FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
         }
-        if (NULL !== $replica->flag_to_switch_2) {
-            FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
+        if (NULL !== $replica->flag_to_switch_2 && '' !== $replica->flag_to_switch_2) {
+            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch_2]);
+            if($flag->delay === '0'){
+                FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
         }
 
     }

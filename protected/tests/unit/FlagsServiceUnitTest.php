@@ -423,4 +423,16 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('1', $flag->value);
 
     }
+
+    public function testFlagQueue() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        FlagsService::checkFlagsDelay($simulation);
+
+    }
 }
