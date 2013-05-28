@@ -41,17 +41,23 @@ class SiteController extends AjaxController
         if (null !== $invite_id) {
             /** @var Invite $invite */
             $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
-
             if (null === $invite) {
                 Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
                 $this->redirect('/simulations');
             }
+
+            $invite->refresh(); // Important! Prevent caching
         }
 
         if (isset($invite) &&
             $invite->scenario->slug == Scenario::TYPE_FULL &&
             false == $invite->canUserSimulationStart()
         ) {
+            Yii::app()->user->setFlash('error', 'У вас нет прав для старта этой симуляции');
+            $this->redirect('/dashboard');
+        }
+
+        if (isset($invite) && $invite->receiver_id !== $user->id) {
             Yii::app()->user->setFlash('error', 'У вас нет прав для старта этой симуляции');
             $this->redirect('/dashboard');
         }

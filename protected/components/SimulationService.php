@@ -520,11 +520,8 @@ class SimulationService
      */
     public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
-        if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
-            && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
-        ) {
-            throw new Exception('У вас нет прав для старта этой симуляции');
-        } else if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
+        if ($simulationMode === Simulation::MODE_DEVELOPER_LABEL) {
+            if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
                 $user = $invite->receiverUser;
                 $scenario = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug]);
                 $invite->owner_id = $user->id;
@@ -541,7 +538,11 @@ class SimulationService
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
+            } else {
+                    throw new Exception('У вас нет прав для старта этой симуляции');
+            }
         }
+
 
         // TODO: Change checking logic
         if ($invite->scenario->slug == Scenario::TYPE_FULL
