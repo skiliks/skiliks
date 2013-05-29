@@ -2,7 +2,17 @@
 define([], function () {
     "use strict";
     var loadQueue = $({});
+    var sc = new SocialCalc.SpreadsheetControl();
+
     var SKSheetView = Backbone.View.extend({
+        initialize: function () {
+            var sheet = this.options.sheet;
+            var parts = sc.DecodeSpreadsheetSave(sheet.get('content'));
+            if (parts && parts.sheet) {
+                var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
+                SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
+            }
+        },
         /**
          *
          * @param {SKSheet} sheet
@@ -10,31 +20,35 @@ define([], function () {
         render: function () {
             var me = this;
             var sheet = this.options.sheet;
+
             loadQueue.queue('fx', function () {
                 console.log('sheet init');
+                me.spreadsheet = new SocialCalc.SpreadsheetControl();
                 var editorID = _.uniqueId('tableeditor-');
-                var spreadsheet = me.spreadsheet = new SocialCalc.SpreadsheetControl();
-                SocialCalc.Formula.AddSheetToCache(sheet.get('name'),sheet.get('content'));
+                var spreadsheet = me.spreadsheet;
                 spreadsheet.editor.idPrefix = editorID + '-';
                 spreadsheet.editor.StatusCallback.continue_queue = {
                     func: function(object, cmdtype) {
-                        console.log(arguments);
                         if (!sheet.loaded && cmdtype === "doneposcalc") {
                             sheet.loaded = true;
-                            console.log("status queue");
                             loadQueue.dequeue('fx');
                         }
                     }
                 };
-                var parts = spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
                 var root = $('<div></div>')
                     .addClass('table-editor')
                     .attr('id', editorID);
                 me.rootView = root;
                 root.appendTo(me.$el);
                 root.hide();
+
+                var parts = me.spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
                 spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height() - 50, me.$el.width(), 0);
-                spreadsheet.ParseSheetSave(sheet.get('content'));
+                if (parts && parts.sheet) {
+                    var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
+                    me.spreadsheet.ParseSheetSave(sheet_data);
+                }
+                sheet.collection.each(function (i) { i.trigger('recalc'); });
                 me.spreadsheet.ExecuteCommand('recalc', '');
                 me.spreadsheet.ExecuteCommand('redisplay', '');
 
@@ -43,6 +57,17 @@ define([], function () {
                 loadQueue.queue('fx', function () {
                     me.rootView.show();
                     me.spreadsheet.editor.SchedulePositionCalculations();
+                    loadQueue.dequeue('fx');
+
+                });
+            });
+            me.listenTo(sheet, 'recalc', function () {
+                loadQueue.queue('fx', function () {
+                    if (me.spreadsheet) {
+                        console.log('recalc!' + sheet.get('name'));
+                        me.spreadsheet.ExecuteCommand('recalc', '');
+                        me.spreadsheet.ExecuteCommand('redisplay', '');
+                    }
                     loadQueue.dequeue('fx');
 
                 });

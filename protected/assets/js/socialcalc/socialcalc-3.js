@@ -573,7 +573,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
             break;
 
          default:
-alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
+//alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
             throw scc.s_pssUnknownLineType+" '"+parts[0]+"'";
             break;
          }
