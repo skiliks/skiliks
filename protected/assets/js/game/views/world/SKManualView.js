@@ -38,8 +38,16 @@ define(
             ),
 
             dimensions: {
-                width: 1000,
-                height: 605
+                width: 1060,
+                height: 640
+            },
+
+            initialize: function() {
+                if ($(window).width() < 1200) {
+                    this.dimensions = {width: 845, height: 510};
+                }
+
+                SKWindowView.prototype.initialize.call(this);
             },
 
             renderTitle: function (title) {

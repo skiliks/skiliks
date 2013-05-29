@@ -1,11 +1,11 @@
 <div class="book">
     <@ if (required) { @>
-    <div class="warn">Перед вами важная информация, ознакомьтесь с ней полностью, кликая на <img src="<@=SKApp.get('assetsUrl')@>/img/manual/rightnav.png"/> , просмотрев до конца, вы сможете ее закрыть</div>
+    <div class="warn">Перед вами важная информация, ознакомьтесь с ней полностью, кликая на <img src="<@= SKApp.get('assetsUrl') @>/img/manual/right-arrow.png"/> , просмотрев до конца, вы сможете ее закрыть</div>
     <@ } @>
     <ul class="tabs btn-window">
-        <li class="close-window"><button class="btn-cl win-close">&nbsp;</button></li>
-        <li><a href="#" data-refer-page="1">Содержание</a></li>
         <li class="pages">Шаг <span class="current"></span> из <span class="total"></span></li>
+        <li><a href="#" data-refer-page="1">Содержание</a></li>
+        <li class="close-window"><button class="win-close">&nbsp;</button></li>
     </ul>
 
     <div class="flyleaf">

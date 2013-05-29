@@ -1,38 +1,52 @@
 .manual-window {
   position: relative;
-  background: url(../img/manual/cover.jpg) 0 0 no-repeat;
-  top: 5px !important;
   z-index: 50000 !important;
+  font: 17px 'orbi_sansregular';
+  background: url(../img/manual/cover.png) 0 0 no-repeat;
+
+  @media screen and (max-width: 1024px) {
+    background-image: url(../img/manual/cover-small.png);
+    font-size: 15px;
+  }
 
   .warn {
     background: #fcf9f2;
-    font: 17px 'orbi_sansregular';
     position: absolute;
-    top: -50px;
+    top: -55px;
     left: 0;
     right: 0;
     border-radius: 7px;
-    font-size: 1.28em;
     line-height: 30px;
     text-align: center;
   }
 
   .tabs {
     position: absolute;
-    top: -12px;
-    right: 50px;
+    margin: 0;
+    top: -16px;
+    right: 55px;
+    width: 240px;
     list-style: none;
+    font-size: 15px;
+
+    @media screen and (max-width: 1024px) {
+      top: -18px;
+      right: 30px;
+      font-size: 13px;
+    }
 
     li {
       position: relative;
-      float: right;
-      font-family: orbi_sansregular;
+      float: left;
       margin-left: 16px;
       height: 20px;
       padding: 5px 0;
       background: url(../img/manual/tab.png) 0 -60px repeat-x;
       color: white;
-      text-decoration: none;
+
+      @media screen and (max-width: 1024px) {
+        height: 17px;
+      }
 
       &:before, &:after {
         content: '';
@@ -49,210 +63,251 @@
         right: -10px;
         background-position: 0 -30px;
       }
+
       a, a:hover {
-        color:#dad6d1;
-        font-family: orbi_sansregular;
+        color: #dad6d1;
         text-decoration: none;
       }
-      span {
-        font-family: orbi_sansregular;
-      }
     }
-    .close-window {
 
-      .btn-cl {
-        background-image: url(../img/manual/icon-close2.png);
+    .close-window {
+      width: 12px;
+
+      .win-close {
+        background: url(../img/manual/icon-close2.png) 0 0 no-repeat;
         height: 12px;
         width:12px;
+        border: medium none;
 
         &:hover {
           background-position: 0px -12px;
         }
       }
     }
+
     .pages {
       background-image: url(../img/manual/tab-light.png);
-      color:#000;
+      color: #000;
 
       &:before, &:after {
         background-image: url(../img/manual/tab-light.png);
       }
+
       span {
         color:#000;
       }
     }
   }
 
-  .page {
+  .flyleaf {
     position: absolute;
-    z-index: 1;
-    top: 3px;
-    bottom: 11px;
-    height:607px;
-    left: 2px;
-    right: 10px;
-    width:983px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 
-    background: url(../img/manual/bookcontentbg.png) 0 0 no-repeat;
+  .navigation {
+    .back, .next {
+      background: url(../img/manual/tutor-nav.png) 0 0 no-repeat;
+      position: absolute;
+      z-index: 2;
+      display: block;
+      width: 28px;
+      height: 49px;
+      top: 50%;
+      margin-top: -35px;
+    }
 
-    .pagewrap {
-      margin:44px 46px 10px 24px;
+    .back {
+      left: -3px;
+    }
+    .next {
+      right: 40px;
+      background-position: 0 -49px;
+    }
 
-      p, span, div, h2, h3, h4 {
-        font-family: orbi_sansregular;
+    @media screen and (max-width: 1024px) {
+      .back, .next {
+        background: url(../img/manual/navigation.png) 0 0 no-repeat;
+        width: 25px;
+        height: 41px;
+        top: 50%;
+        margin-top: -20px;
       }
-
-      .navigation {
-        .back, .next {
-          background: url(../img/manual/tutor-nav.png) 0 0 no-repeat;
-          position: absolute;
-          z-index: 2;
-          display: block;
-          width: 28px;
-          height: 49px;
-          top: 50%;
-          margin-top: -35px;
-        }
-
-        .back {
-          left: -4px;
-        }
-        .next {
-          right: 18px;
-          background-position: 0 -49px;
-        }
+      .back {
+        left: -6px;
       }
-      h2 {
-        font-family: orbi_sansregular;
-        font-size:28px;
-        font-weight: normal;
-        line-height: 100%;
-        margin-bottom: 5px;
-        margin-left: 40px;
-      }
-      .centertitle {
-        margin: 0px 30px 14px;
-        text-align: center;
-      }
-      .pagecell {
-        display: table-cell;
-        padding:0px 10px 0px 40px;
-        width: 50%;
-      }
-      .leftpagecell {
-        padding-right: 20px;
-      }
-      .company-structure {
-        background: url(../img/manual/structure-dots.png) no-repeat 78px 44px;
-        height: 490px;
-        margin-top: -5px;
-      }
-      .person-block {
-        font-size: 11px;
-        line-height: 130%;
-        width: 138px;
-        padding: 1px;
-        position: absolute;
-        border-radius: 6px;
-        text-align: center;
-        cursor: pointer;
-
-        .person-block-bg {
-          background-color: #c1dcf3;
-          border-radius: 6px;
-          display: table-cell;
-          height: 42px;
-          padding: 1px 5px;
-          vertical-align: middle;
-          width:138px;
-        }
-      }
-      .upravlenie {
-        background: #a3b9cd; /* Old browsers */
-        background: -moz-linear-gradient(top,  #a3b9cd 0%, #a3b9cd 71%, #d5d4c8 100%, #e7f2fa 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3b9cd), color-stop(71%,#a3b9cd), color-stop(100%,#d5d4c8), color-stop(100%,#e7f2fa)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* Chrome10+,Safari5.1+ */
-        background: linear-gradient(to bottom,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* W3C */
-
-        .person-block-bg {
-          background-color: #c1dcf3;
-        }
-      }
-      .srednzveno {
-        background: #d5d4c8; /* Old browsers */
-        background: -moz-linear-gradient(top,  #d5d4c8 0%, #d5d4c8 71%, #fefef8 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5d4c8), color-stop(71%,#d5d4c8), color-stop(100%,#fefef8)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* Chrome10+,Safari5.1+ */
-        background: linear-gradient(to bottom,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* W3C */
-
-        .person-block-bg {
-          background-color: #fcfcee;
-        }
-      }
-      .thehero {
-        background: #a3cdaf; /* Old browsers */
-        background: -moz-linear-gradient(top,  #a3cdaf 0%, #a3cdaf 71%, #e5faec 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3cdaf), color-stop(71%,#a3cdaf), color-stop(100%,#e5faec)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* Chrome10+,Safari5.1+ */
-        background: linear-gradient(to bottom,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* W3C */
-
-        .person-block-bg {
-          background-color: #c1f3d0;
-        }
-      }
-      .boss {
-        left:386px;
-        top:0px;
-      }
-      .leftcolmn1 {
-        left:10px;
-      }
-      .leftcolmn2 {
-        left:158px;
-      }
-      .leftcolmn3 {
-        left:306px;
-      }
-      .leftcolmn4 {
-        left:466px;
-      }
-      .leftcolmn5 {
-        left:614px;
-      }
-      .leftcolmn6 {
-        left:762px;
-      }
-      .topcolumn1 {
-        top:66px;
-      }
-      .topcolumn2 {
-        top:122px;
-      }
-      .topcolumn3 {
-        top:178px;
-      }
-      .topcolumn4 {
-        top:234px;
-      }
-      .topcolumn5 {
-        top:290px;
-      }
-      .topcolumn6 {
-        top:346px;
-      }
-      .topcolumn7 {
-        top:402px;
+      .next {
+        right: 27px;
+        background-position: 0 -41px;
       }
     }
   }
-  .pagecontent {
-    background-image:  url(../img/manual/contentbg.png);
 
-    .pagewrap {
-      margin-top: 36px;
+  .page {
+    box-sizing: border-box;
+    width: 1060px;
+    height: 640px;
+    padding: 15px 70px 15px 25px;
+
+    background: url(../img/manual/left-page.png) 25px 11px no-repeat,
+                url(../img/manual/right-page.png) 510px 12px no-repeat;
+
+    &:first-child {
+      background: url(../img/manual/right-page.png) 510px 12px no-repeat;
+      padding-left: 15px;
+    }
+
+    &:last-child {
+      background: url(../img/manual/left-page.png) 25px 11px no-repeat;
+      padding-right: 15px;
+    }
+
+    @media screen and (max-width: 1024px) {
+      width: 845px;
+      height: 510px;
+      padding: 10px 55px 10px 20px;
+
+      background: url(../img/manual/left-page-small.png) 17px 4px no-repeat,
+                  url(../img/manual/right-page-small.png) 407px 6px no-repeat;
+
+      &:first-child {
+        background: url(../img/manual/right-page-small.png) 407px 6px no-repeat;
+        padding-left: 10px;
+      }
+
+      &:last-child {
+        background: url(../img/manual/left-page-small.png) 17px 4px no-repeat;
+        padding-right: 10px;
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      .left-page, .right-page {
+        box-sizing: border-box;
+        float: left;
+        padding: 5px 20px 5px 30px;
+        width: 50%;
+      }
+    }
+
+    h2 {
+      font-size:28px;
+      font-weight: normal;
+      line-height: 100%;
+      margin-bottom: 5px;
+      margin-left: 40px;
+    }
+    .centertitle {
+      margin: 0px 30px 14px;
+      text-align: center;
+    }
+
+    .company-structure {
+      background: url(../img/manual/structure-dots.png) no-repeat 78px 44px;
+      height: 490px;
+      margin-top: -5px;
+    }
+    .person-block {
+      font-size: 11px;
+      line-height: 130%;
+      width: 138px;
+      padding: 1px;
+      position: absolute;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+
+      .person-block-bg {
+        background-color: #c1dcf3;
+        border-radius: 6px;
+        display: table-cell;
+        height: 42px;
+        padding: 1px 5px;
+        vertical-align: middle;
+        width:138px;
+      }
+    }
+    .upravlenie {
+      background: #a3b9cd; /* Old browsers */
+      background: -moz-linear-gradient(top,  #a3b9cd 0%, #a3b9cd 71%, #d5d4c8 100%, #e7f2fa 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3b9cd), color-stop(71%,#a3b9cd), color-stop(100%,#d5d4c8), color-stop(100%,#e7f2fa)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* Chrome10+,Safari5.1+ */
+      background: linear-gradient(to bottom,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* W3C */
+
+      .person-block-bg {
+        background-color: #c1dcf3;
+      }
+    }
+    .srednzveno {
+      background: #d5d4c8; /* Old browsers */
+      background: -moz-linear-gradient(top,  #d5d4c8 0%, #d5d4c8 71%, #fefef8 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5d4c8), color-stop(71%,#d5d4c8), color-stop(100%,#fefef8)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* Chrome10+,Safari5.1+ */
+      background: linear-gradient(to bottom,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* W3C */
+
+      .person-block-bg {
+        background-color: #fcfcee;
+      }
+    }
+    .thehero {
+      background: #a3cdaf; /* Old browsers */
+      background: -moz-linear-gradient(top,  #a3cdaf 0%, #a3cdaf 71%, #e5faec 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3cdaf), color-stop(71%,#a3cdaf), color-stop(100%,#e5faec)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* Chrome10+,Safari5.1+ */
+      background: linear-gradient(to bottom,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* W3C */
+
+      .person-block-bg {
+        background-color: #c1f3d0;
+      }
+    }
+    .boss {
+      left:386px;
+      top:0px;
+    }
+    .leftcolmn1 {
+      left:10px;
+    }
+    .leftcolmn2 {
+      left:158px;
+    }
+    .leftcolmn3 {
+      left:306px;
+    }
+    .leftcolmn4 {
+      left:466px;
+    }
+    .leftcolmn5 {
+      left:614px;
+    }
+    .leftcolmn6 {
+      left:762px;
+    }
+    .topcolumn1 {
+      top:66px;
+    }
+    .topcolumn2 {
+      top:122px;
+    }
+    .topcolumn3 {
+      top:178px;
+    }
+    .topcolumn4 {
+      top:234px;
+    }
+    .topcolumn5 {
+      top:290px;
+    }
+    .topcolumn6 {
+      top:346px;
+    }
+    .topcolumn7 {
+      top:402px;
     }
   }
 }
+
 .tutor-list {
   margin:0px;
   padding:0px;
