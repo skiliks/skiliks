@@ -21,6 +21,9 @@ define([
              * @return void
              */
             'initialize':function () {
+                if ('developer' === this.get('mode')) {
+                    this.set('skiliksSpeedFactor', this.get('skiliksDeveloperModeSpeedFactor'));
+                }
                 /**
                  * Ссылка на API-сервер
                  * @attribute server

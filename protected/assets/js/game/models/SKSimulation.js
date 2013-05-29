@@ -81,7 +81,7 @@ define([
                 this.loadDocsDialog = null;
 
                 try {
-                document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                    document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 } catch(e) {
                     // this to protect against busted-sj test crash
                 }
