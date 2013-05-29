@@ -1508,7 +1508,7 @@ class ImportGameDataService
         // load sheet }
 
         $documents = [];
-        foreach (DocumentTemplate::model()->findAll() as $document) {
+        foreach ($this->scenario->getDocumentTemplates([]) as $document) {
             $documents[$document->code] = $document->id;
         }
 
@@ -1857,7 +1857,7 @@ class ImportGameDataService
 
         // link points to excelColums: pint titles placed in row 2 {        
         $points = [];
-        foreach (HeroBehaviour::model()->findAll() as $point) {
+        foreach ($this->scenario->getHeroBehavours([]) as $point) {
             if (isset($this->columnNoByName[$point->code])) {
                 $points[] = $point;
             }
