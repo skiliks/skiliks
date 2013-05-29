@@ -192,7 +192,7 @@ define([
 
                         // check is user can save excel only once
                         if (false === SKApp.simulation.get('isZohoSavedDocTestRequestSent')) {
-
+                            console.log('trying to save');
                             SKApp.simulation.set('isZohoSavedDocTestRequestSent', true);
 
                             // get iframe {
@@ -210,7 +210,7 @@ define([
                                 myIframeWin.document.getElementById('savefile').click();
                                 console.log('save...');
                                 SKApp.simulation.zohoDocumentSaveCheck(myIframeWin, docs[0].get('id'));
-                            }, 5000);
+                            }, 8000);
                         }
 
                         SKApp.simulation.tryCloseLoadDocsDialog();
