@@ -122,7 +122,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
             ]);
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
-            $newInviteForFullSimulation->save(true, ['email']);
+            $newInviteForFullSimulation->save();
         }
         // check and add trial full version }
 
