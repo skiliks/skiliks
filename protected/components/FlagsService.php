@@ -259,6 +259,7 @@ class FlagsService
         ]);
         /* @var SimulationFlagQueue $flag */
         foreach($flags as $flag) {
+            var_dump($flag->flag_code);
             FlagsService::setFlag($simulation, $flag->flag_code, 1);
             $flag->is_processed = SimulationFlagQueue::DONE;
             $flag->update();

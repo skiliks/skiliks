@@ -446,6 +446,7 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->setTime($simulation, 11, 45);
         EventsManager::getState($simulation, []);
         $flag = FlagsService::getFlag($simulation, "F38_3");
+        var_dump($flag->flag);
         $this->assertEquals('1', $flag->value);
     }
 }
