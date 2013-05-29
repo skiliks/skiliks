@@ -43,11 +43,15 @@ define([], function () {
                 root.hide();
 
                 var parts = me.spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
-                spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height() - 50, me.$el.width(), 0);
                 if (parts && parts.sheet) {
                     var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
                     me.spreadsheet.ParseSheetSave(sheet_data);
                 }
+                if (parts && parts.edit) {
+                    console.log(sheet.get('content').substring(parts.edit.start, parts.edit.end));
+                    me.spreadsheet.editor.LoadEditorSettings(sheet.get('content').substring(parts.edit.start, parts.edit.end));
+                }
+                spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height() - 50, me.$el.width(), 0);
                 sheet.collection.each(function (i) { i.trigger('recalc'); });
                 me.spreadsheet.ExecuteCommand('recalc', '');
                 me.spreadsheet.ExecuteCommand('redisplay', '');
@@ -64,7 +68,6 @@ define([], function () {
             me.listenTo(sheet, 'recalc', function () {
                 loadQueue.queue('fx', function () {
                     if (me.spreadsheet) {
-                        console.log('recalc!' + sheet.get('name'));
                         me.spreadsheet.ExecuteCommand('recalc', '');
                         me.spreadsheet.ExecuteCommand('redisplay', '');
                     }
