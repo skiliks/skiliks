@@ -160,13 +160,12 @@ define([
                 var me = this;
 
                 if (!me.preloadObject) {
-                    /*
                     me.preloadObject = new Image();
                     me.preloadObject.src = doc.get('excel_url');
                     me.preloadObject.onload = me.preloadObject.onerror = function(e) {
-                        me._appendZohoIframe(doc);*/
-                        me.trigger('preload:finished');/*
-                    };*/
+                        me._appendZohoIframe(doc);
+                        me.trigger('preload:finished');
+                    };
                 } else if (me.preloadObject.complete) {
                     me._appendZohoIframe(doc);
                 } else {
