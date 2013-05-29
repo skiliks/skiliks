@@ -813,7 +813,7 @@ class ImportGameDataService
             $emailTemplateEntity->type_of_importance = $typeOfImportance ? : 'none';
             $emailTemplateEntity->import_id = $this->import_id;
             $emailTemplateEntity->scenario_id = $this->scenario->primaryKey;
-            $emailTemplateEntity->flag_to_switch = $flag;
+            $emailTemplateEntity->flag_to_switch = (empty($flag))?null:$flag;
 
             $emailTemplateEntity->save();
             $emailIds[] = $emailTemplateEntity->id;

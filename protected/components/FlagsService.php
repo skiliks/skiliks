@@ -149,7 +149,9 @@ class FlagsService
             'sim_id' => $simulation->id,
             'flag' => $flag
         ]);
-
+        if(empty($flag)){
+            throw new Exception(" Set empty flag ");
+        }
         if (null === $simulationFlag) {
             $simulationFlag         = new SimulationFlag();
             $simulationFlag->sim_id = $simulation->id;
