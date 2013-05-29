@@ -61,15 +61,25 @@ class FlagsService
      */
     public static function getFlagsStateForJs(Simulation $simulation) {
         $result = [];
-
+        $stack = SimulationFlagQueue::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
             foreach (SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;
+                $result[$flag->flag]['time'] = self::getSwitchTime($stack, $flag);
             }
         }
         return $result;
+    }
+
+    public static function getSwitchTime($stack, $flag){
+        foreach($stack as $item){
+            if($item->flag_code === $flag->flag){
+                return $item->switch_time;
+            }
+        }
+        return null;
     }
 
     /**
