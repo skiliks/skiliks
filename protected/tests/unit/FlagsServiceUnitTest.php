@@ -443,10 +443,10 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('0', $flag->value);
         $flag = SimulationFlagQueue::model()->findByAttributes(['sim_id'=>$simulation->id, 'flag_code'=>'F38_3']);
         $this->assertEquals("11:45", (new DateTime($flag->switch_time))->format("H:i"));
-        $this->setTime($simulation, 11, 45);
-        EventsManager::getState($simulation, []);
+        $this->setTime($simulation, 11, 47);
+        FlagsService::checkFlagsDelay($simulation);
         $flag = FlagsService::getFlag($simulation, "F38_3");
-        var_dump($flag->flag);
+        //var_dump($flag->flag);
         $this->assertEquals('1', $flag->value);
     }
 }
