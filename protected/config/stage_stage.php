@@ -29,18 +29,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'public' => [
-//            'isLocalPc' => true,
-        ],
-        'frontendUrl'=>'http://stage.dev.skiliks.com/',
+        'frontendUrl'=>'http://stage.skiliks.com/',
         'zoho' => array(
-            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/templates',
-            'templatesDirPath'    => 'documents/zoho',
-            //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
-            'extExcel'            => 'xls'
         ),
     )
 ));
