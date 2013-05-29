@@ -308,6 +308,7 @@ return array(
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor'      => 6,
+            'skiliksDeveloperModeSpeedFactor'   => 8,
             'storageURL'              => 'http://storage.skiliks.com/v1',
             'afterCallZoomerDuration' => 2000, // milliseconds
         ],
