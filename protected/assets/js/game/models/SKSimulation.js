@@ -236,10 +236,7 @@ define([
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                    SKApp.simulation.stopPause(function(){
-                        $('.time').removeClass('paused');
-                        SKApp.simulation.closeLoadDocsDialog();
-                    });
+                    SKApp.simulation.closeLoadDocsDialog();
                     return true;
                 } else {
                     return false;
@@ -301,28 +298,21 @@ define([
                 var me = this;
 
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
-                    var is_paused = $('.time').hasClass('paused');
-                    if(!is_paused) {
-                        $('.time').addClass('paused');
-                        SKApp.simulation.startPause(function(){
-                            me.loadDocsDialog = new SKDialogView({
-                                'message': 'Пожалуйста, подождите, идёт загрузка документов',
-                                'modal': true,
-                                'buttons': []
-                            });
+                    me.loadDocsDialog = new SKDialogView({
+                        'message': 'Пожалуйста, подождите, идёт загрузка документов',
+                        'modal': true,
+                        'buttons': []
+                    });
 
-                            if (!me.get('isZohoSavedDocTestRequestSent')) {
-                                // if after 60 sec when documents downloading started not all docs loaded
-                                // or save wasn`t finished -- throw error
-                                me.loadDocsTimer = setTimeout(function() {
-                                    if (false === me.tryCloseLoadDocsDialog()) {
-                                        me.trigger('documents:error');
-                                    }
-                                }, 120000);
+                    if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        // if after 60 sec when documents downloading started not all docs loaded
+                        // or save wasn`t finished -- throw error
+                        me.loadDocsTimer = setTimeout(function() {
+                            if (false === me.tryCloseLoadDocsDialog()) {
+                                me.trigger('documents:error');
                             }
-                        });
+                        }, 120000);
                     }
-
                 }
             },
 
