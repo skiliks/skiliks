@@ -791,5 +791,24 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertCount(2, $simulation->completed_parent_activities);
     }
 
+    public function testFlagSwitchEmpty(){
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $templates = $simulation->game_type->getMailTemplates([]);
+
+        foreach($templates as $template){
+            /* @var MailTemplate $template */
+            if($template->flag_to_switch !== null){
+                $flag = Flag::model()->findByAttributes(['code'=>$template->flag_to_switch]);
+                $this->assertNotNull($flag);
+            }
+        }
+    }
+
 }
 
