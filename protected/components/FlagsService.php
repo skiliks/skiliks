@@ -254,7 +254,7 @@ class FlagsService
 
     public static function checkFlagsDelay(Simulation $simulation) {
 
-        $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time >= :switch_time", [
+        $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time <= :switch_time", [
             'sim_id' => $simulation->id, 'switch_time' => $simulation->getGameTime(), 'is_processed' => SimulationFlagQueue::NONE
         ]);
         /* @var SimulationFlagQueue $flag */
