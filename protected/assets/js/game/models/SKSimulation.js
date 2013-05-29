@@ -236,15 +236,10 @@ define([
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                    var is_paused = $('.time').hasClass('paused');
-                    if(is_paused !== undefined && true === is_paused) {
-                        SKApp.simulation.stopPause(function(){
-                            $('.time').removeClass('paused');
-                            SKApp.simulation.closeLoadDocsDialog();
-                        });
-                    }else{
+                    SKApp.simulation.stopPause(function(){
+                        $('.time').removeClass('paused');
                         SKApp.simulation.closeLoadDocsDialog();
-                    }
+                    });
                     return true;
                 } else {
                     return false;
