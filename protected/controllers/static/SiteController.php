@@ -66,7 +66,7 @@ class SiteController extends AjaxController
             $type = $invite->tutorial->slug;
             $tutorial = true;
             $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
-            $invite->save();
+            $invite->save(false);
         }
 
         /** @var Scenario $scenario */
