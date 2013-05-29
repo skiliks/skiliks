@@ -237,7 +237,7 @@ define([
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                     var is_paused = $('.time').hasClass('paused');
-                    if(is_paused !== undefined && true === is_paused) {
+                    if(is_paused) {
                         SKApp.simulation.stopPause(function(){
                             $('.time').removeClass('paused');
                             SKApp.simulation.closeLoadDocsDialog();
