@@ -159,9 +159,19 @@ define([
             preloadZoho:       function (doc) {
                 var me = this;
 
-
+                if (!me.preloadObject) {
+                    /*
+                    me.preloadObject = new Image();
+                    me.preloadObject.src = doc.get('excel_url');
+                    me.preloadObject.onload = me.preloadObject.onerror = function(e) {
+                        me._appendZohoIframe(doc);*/
+                        me.trigger('preload:finished');/*
+                    };*/
+                } else if (me.preloadObject.complete) {
                     me._appendZohoIframe(doc);
-                
+                } else {
+                    me.on('preload:finished', _.bind(me._appendZohoIframe, me, doc));
+                }
             },
 
             _appendZohoIframe: function(doc) {
