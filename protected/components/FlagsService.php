@@ -257,10 +257,8 @@ class FlagsService
         $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time >= :switch_time", [
             'sim_id' => $simulation->id, 'switch_time' => $simulation->getGameTime(), 'is_processed' => SimulationFlagQueue::NONE
         ]);
-        var_dump(empty($flags));
         /* @var SimulationFlagQueue $flag */
         foreach($flags as $flag) {
-            var_dump($flag->flag_code);
             FlagsService::setFlag($simulation, $flag->flag_code, 1);
             $flag->is_processed = SimulationFlagQueue::DONE;
             $flag->update();
