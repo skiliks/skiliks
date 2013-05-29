@@ -5,11 +5,11 @@ var SKIconPanelView;
 
 define([
         "text!game/jst/world/icon_panel.jst",
-        "text!game/jst/audio/phone_call.jst"
+        "text!game/jst/world/audio.jst"
     ],
     function (
         icon_panel,
-        audio_phone_call
+        audio
     ) {
         "use strict";
         /**
@@ -91,6 +91,7 @@ define([
              */
             onMailEvent: function (event) {
                 this.startAnimation('.mail');
+                this.doSoundIncomeMail();
             },
 
             /**
@@ -383,8 +384,9 @@ define([
             doSoundPhoneCallInStart: function() {
                 var me = this;
                 me.doSoundPhoneCallInStop();
-                me.$el.append(_.template(audio_phone_call, {
+                me.$el.append(_.template(audio, {
                     id        : 'audio-phone-call',
+                    repeat    : true,
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
                 }));
 
@@ -403,8 +405,9 @@ define([
 
             doSoundPhoneCallLongZoomerStart: function() {
                 var me = this;
-                me.$el.append(_.template(audio_phone_call, {
+                me.$el.append(_.template(audio, {
                     id        : 'audio-phone-long-zoom',
+                    repeat    : true,
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
                 }));
                 me.$el.find("#audio-phone-long-zoom")[0].play();
@@ -421,8 +424,9 @@ define([
 
             doSoundPhoneCallShortZoomerStart: function() {
                 var me = this;
-                me.$el.append(_.template(audio_phone_call, {
+                me.$el.append(_.template(audio, {
                     id        : 'audio-phone-short-zoom',
+                    repeat    : true,
                     audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.3.ogg'
 
                 }));
@@ -432,8 +436,9 @@ define([
             doSoundKnockStart: function() {
                 var me = this;
                 me.doSoundKnockStop();
-                me.$el.append(_.template(audio_phone_call, {
+                me.$el.append(_.template(audio, {
                     id        : 'audio-door-knock',
+                    repeat    : true,
                     audio_src : SKApp.get('storageURL') + '/sounds/visit/S1.5.1.ogg'
                 }));
 
@@ -451,6 +456,34 @@ define([
                     this.src = '';
                 });
                 me.$el.find('#audio-door-knock').remove();
+            },
+
+            doSoundIncomeMail: function() {
+                var me = this,
+                    el;
+
+                if (me.$el.find("#income-mail").length) {
+                    return;
+                }
+
+                me.$el.append(_.template(audio, {
+                    id        : 'income-mail',
+                    repeat    : false,
+                    audio_src : SKApp.get('storageURL') + '/sounds/mail/S1.1.1.ogg'
+                }));
+
+                el = me.$el.find("#income-mail")[0];
+
+                if ('function' === typeof el.play) {
+                    $(el).on('ended', function() {
+                        if (this.pause !== undefined) {
+                            this.pause();
+                        }
+                        this.src = '';
+                        $(this).remove();
+                    });
+                    el.play();
+                }
             },
 
             /**
