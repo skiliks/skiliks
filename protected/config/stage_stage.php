@@ -29,9 +29,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'frontendUrl'=>'http://stage.dev.skiliks.com/',
+        'frontendUrl'=>'http://stage.skiliks.com/',
         'zoho' => array(
-            'saveUrl'             => 'http://stage.dev.skiliks.com/zoho/saveExcel',
+            'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
         ),
     )
 ));
