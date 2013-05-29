@@ -1,4 +1,4 @@
-/*global Backbone, _ */
+/*global Backbone, _, $, define, SKApp */
 
 var SKFlagStateView;
 
@@ -60,7 +60,7 @@ define([],
                     } else {
                         $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг ' + flagName + ' не переключён в "' + flagValue + '"!</div>');
                     }
-                    $('body form.trigger-event .alert').fadeOut(4000)
+                    $('body form.trigger-event .alert').fadeOut(4000);
                 });
         },
 
@@ -93,19 +93,27 @@ define([],
                 el1.attr('title', flagsState[i].name); // add title
                 el1.attr('data-flag-code',  i); // add title
                 el1.attr('data-flag-value', flagsState[i].value); // add title
-
+                el1.attr('data-flag-time', '00:00:00'); // add title
                 // generate th
                 var el = $('<th/>', {});
                 el.append(el1);
                 $('.form-flags table:eq('+j+') thead tr').append(el);
 
-                el = $('<td/>', {text: flagsState[i].value});
+                el = $('<td/>', {text: this.getFlagData(flagsState[i])});
                 $('.form-flags table:eq('+j+') tbody tr').append(el);
 
                 n++;
             }
+        },
+        getFlagData: function(data){
+            if(data.time === null){
+                return data.value;
+            }else{
+                return data.value+" "+data.time;
+            }
         }
     });
+
 
     return SKFlagStateView;
 });
