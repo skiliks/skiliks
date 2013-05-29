@@ -58,7 +58,6 @@ class SiteController extends AjaxController
         }
 
         if (isset($invite) && $invite->receiver_id !== $user->id) {
-            Yii::app()->user->setFlash('error', 'У вас нет прав для старта этой симуляции');
             $this->redirect('/dashboard');
         }
 
