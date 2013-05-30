@@ -445,6 +445,11 @@ class LogHelper
             'subtype' => 'documents main'
         ]);
 
+        $mailPreviewWindow = Window::model()->findByAttributes([
+            'type'    => 'mail',
+            'subtype' => 'mail preview'
+        ]);
+
         $mainWindowLegActions = [$mainScreenWindow->subtype, $mainMailWindow->subtype, $mainPhoneWindow->subtype, $mainDocumentWindow->subtype];
         // Особенности логики, пункт 1 }
 
@@ -452,6 +457,7 @@ class LogHelper
         $durationByWindowUid = [];
         $durationByMailCode = [];
         foreach ($data as $activityAction) {
+            /* @var $activityAction LogActivityAction */
             assert($activityAction instanceof LogActivityAction);
             $w_id = $activityAction->window_uid;
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
@@ -481,6 +487,7 @@ class LogHelper
 
             /** @var $activityAction LogActivityAction */
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
+            $diff_time_second = (new DateTime($activityAction->end_time))->getTimestamp() - (new DateTime($activityAction->start_time))->getTimestamp();
             $legAction = $activityAction->activityAction->getAction();
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
@@ -521,22 +528,28 @@ class LogHelper
                         ) ||
                             self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)
                         ) {
+                        // 1
                         $actionDurationInGameSeconds = TimeTools::TimeToSeconds($diff_time);
                     } else {
+                        // 2
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    if ($activityAction->activityAction->getAction() instanceof MailTemplate && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id) {
+                    if ($activityAction->activityAction->getAction() instanceof MailTemplate
+                        && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id && $activityAction->window_id !== $mailPreviewWindow->id) {
+                        // 3
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
-                        $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
+                        $actionDurationInGameSeconds = $diff_time_second;
                     }
+
                 }
+
+                //
 
                 // Особенности логики, пункт 1 }
 
-                if ($aggregatedActivity->leg_action == ($legAction ? $legAction->getCode() : null) ||
-                    $actionDurationInGameSeconds < $limit )
+                if ($aggregatedActivity->leg_action == ($legAction ? $legAction->getCode() : null) || $actionDurationInGameSeconds < $limit )
                 {
                     // prolong previous activity :
                     $aggregatedActivity->end_time = $activityAction->end_time;
