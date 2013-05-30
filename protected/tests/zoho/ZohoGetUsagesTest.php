@@ -25,7 +25,7 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         )
     );
 
-    public function testZoho() {
+    public function testZohoGetUsages() {
         $this->markTestIncomplete();
         $this->setUp();
         $this->deleteAllVisibleCookies();
