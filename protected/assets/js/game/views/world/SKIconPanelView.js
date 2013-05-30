@@ -70,6 +70,7 @@ define([
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
+                this.listenTo(todo_tasks, 'add', this.doSoundNewTodo);
 
                 var phone_history = SKApp.simulation.phone_history;
 
@@ -371,91 +372,35 @@ define([
             },
 
             doSoundPhoneCallInStop: function() {
-                var me = this;
-                me.$el.find('#audio-phone-call').each(function() {
-                    if (this.pause !== undefined) {
-                        this.pause();
-                    }
-                    this.src = '';
-                });
-                me.$el.find('#audio-phone-call').remove();
+                this._stopSound('audio-phone-call');
             },
 
             doSoundPhoneCallInStart: function() {
-                var me = this;
-                me.doSoundPhoneCallInStop();
-                me.$el.append(_.template(audio, {
-                    id        : 'audio-phone-call',
-                    repeat    : true,
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
-                }));
-
-                if ('function' == typeof me.$el.find("#audio-phone-call")[0].play) {
-                    me.$el.find("#audio-phone-call")[0].play();
-                }
+                this._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
             },
 
             doSoundPhoneCallLongZoomerStop: function() {
-                var me = this;
-                $.each(me.$el.find('#audio-phone-long-zoom'), function() {
-                    this.pause();
-                });
-                me.$el.find('#audio-phone-long-zoom').remove();
+                this._stopSound('audio-phone-long-zoom');
             },
 
             doSoundPhoneCallLongZoomerStart: function() {
-                var me = this;
-                me.$el.append(_.template(audio, {
-                    id        : 'audio-phone-long-zoom',
-                    repeat    : true,
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
-                }));
-                me.$el.find("#audio-phone-long-zoom")[0].play();
+                this._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
             },
 
             doSoundPhoneCallShortZoomerStop: function() {
-                var me = this;
-                // @todo: later replace $() with me.$el.find()
-                $.each($('#audio-phone-short-zoom'), function() {
-                    this.pause();
-                });
-                $('#audio-phone-short-zoom').remove();
+                this._stopSound('audio-phone-short-zoom');
             },
 
             doSoundPhoneCallShortZoomerStart: function() {
-                var me = this;
-                me.$el.append(_.template(audio, {
-                    id        : 'audio-phone-short-zoom',
-                    repeat    : true,
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.3.ogg'
-
-                }));
-                me.$el.find("#audio-phone-short-zoom")[0].play();
+                this._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
             },
 
             doSoundKnockStart: function() {
-                var me = this;
-                me.doSoundKnockStop();
-                me.$el.append(_.template(audio, {
-                    id        : 'audio-door-knock',
-                    repeat    : true,
-                    audio_src : SKApp.get('storageURL') + '/sounds/visit/S1.5.1.ogg'
-                }));
-
-                if ('function' == typeof me.$el.find("#audio-door-knock")[0].play) {
-                    me.$el.find("#audio-door-knock")[0].play();
-                }
+                this._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
             },
 
             doSoundKnockStop: function() {
-                var me = this;
-                me.$el.find('#audio-door-knock').each(function() {
-                    if (this.pause !== undefined) {
-                        this.pause();
-                    }
-                    this.src = '';
-                });
-                me.$el.find('#audio-door-knock').remove();
+                this._stopSound('audio-door-knock');
             },
 
             doSoundIncomeMail: function() {
@@ -470,23 +415,21 @@ define([
                 this._playSound('mail/S1.1.3.ogg');
             },
 
+            doSoundNewTodo: function() {
+                this._playSound('plan/S1.2.1.ogg');
+            },
+
             _playSound: function(filename, repeat, replay, id) {
                 var me = this,
-                    selector, el;
+                    el;
 
                 id = id || 'sound' + Math.floor(Math.random() * 10000);
-                selector = '#' + id;
 
-                if (me.$el.find(selector).length && !replay) {
-                    return;
+                if (me.$el.find('#' + id).length && !replay) {
+                    return false;
                 }
 
-                me.$el.find(selector).each(function() {
-                    if (this.pause !== undefined) {
-                        this.pause();
-                    }
-                    this.src = '';
-                }).remove();
+                me._stopSound(id);
 
                 me.$el.append(_.template(audio, {
                     id        : id,
@@ -494,7 +437,7 @@ define([
                     audio_src : SKApp.get('storageURL') + '/sounds/' + filename
                 }));
 
-                el = me.$el.find(selector)[0];
+                el = me.$el.find('#' + id)[0];
                 if ('function' === typeof el.play) {
                     el.play();
                     if (!repeat) {
@@ -507,6 +450,17 @@ define([
                         });
                     }
                 }
+
+                return id;
+            },
+
+            _stopSound: function(id) {
+                this.$el.find('#' + id).each(function() {
+                    if (this.pause !== undefined) {
+                        this.pause();
+                    }
+                    this.src = '';
+                }).remove();
             },
 
             /**

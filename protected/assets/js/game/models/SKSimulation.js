@@ -366,7 +366,7 @@ define([
             handleEvents: function () {
                 var me = this;
                 this.events.on('event:plan', function (event) {
-                    me.todo_tasks.fetch();
+                    me.todo_tasks.fetch({update: true});
                 });
                 this.events.on('event:mail', function () {
                     me.getNewEvents();
