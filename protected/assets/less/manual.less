@@ -4,7 +4,7 @@
   font: 17px 'orbi_sansregular';
   background: url(../img/manual/cover.png) 0 0 no-repeat;
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 1280px) {
     background-image: url(../img/manual/cover-small.png);
     font-size: 15px;
   }
@@ -29,7 +29,7 @@
     list-style: none;
     font-size: 15px;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1280px) {
       top: -18px;
       right: 30px;
       font-size: 13px;
@@ -44,7 +44,7 @@
       background: url(../img/manual/tab.png) 0 -60px repeat-x;
       color: white;
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: 1280px) {
         height: 17px;
       }
 
@@ -127,7 +127,7 @@
       background-position: 0 -49px;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1280px) {
       .back, .next {
         background: url(../img/manual/navigation.png) 0 0 no-repeat;
         width: 25px;
@@ -164,7 +164,7 @@
       padding-right: 15px;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1280px) {
       width: 845px;
       height: 510px;
       padding: 10px 55px 10px 20px;
@@ -183,7 +183,14 @@
       }
     }
 
-    @media screen and (max-width: 1024px) {
+    .left-page, .right-page {
+      box-sizing: border-box;
+      float: left;
+      padding: 5px 20px 5px 30px;
+      width: 50%;
+    }
+
+    @media screen and (max-width: 1280px) {
       .left-page, .right-page {
         box-sizing: border-box;
         float: left;
@@ -193,15 +200,182 @@
     }
 
     h2 {
-      font-size:28px;
+      font-size: 28px;
       font-weight: normal;
-      line-height: 100%;
-      margin-bottom: 5px;
-      margin-left: 40px;
+      line-height: 110%;
+      margin: 25px 0 5px 35px;
+
+      &.center {
+        margin: 20px 60px 15px;
+        text-align: center;
+      }
     }
-    .centertitle {
-      margin: 0px 30px 14px;
-      text-align: center;
+
+    @media screen and (max-width: 1280px) {
+      h2 {
+        font-size: 24px;
+        line-height: 100%;
+        &.center {
+          margin: 15px 35px 10px;
+        }
+      }
+    }
+
+    .aboutgame {
+      p {
+        margin: 0 0 22px;
+        text-align: justify;
+        line-height: 128%;
+      }
+
+      .warning-block {
+        background: #dfd1b3;
+        background: -webkit-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
+        background: -moz-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
+        background: linear-gradient(to bottom,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
+
+        padding: 14px 14px 10px;
+        border-radius: 6px;
+
+        h4 {
+          margin-bottom: 5px;
+          font-size: 19px;
+          text-transform: uppercase;
+        }
+        p {
+          text-align: left;
+          font-size: 15px;
+          padding-bottom: 0px;
+
+          &:last-child {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+      .aboutgame {
+        p {
+          margin: 0 0 9px;
+          font-size: 16px;
+          line-height: 113%;
+        }
+
+        .warning-block {
+          padding: 12px 14px 10px;
+          border-radius: 6px;
+
+          h4 {
+            margin-bottom: 3px;
+            font-size: 15px;
+          }
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .contents {
+      .line {
+        margin-top: 12px;
+        overflow: hidden;
+      }
+
+      .picture {
+        a {
+          display: block;
+          float: left;
+          width: 63px;
+          height: 63px;
+          background: url(../img/manual/pictures.png) 0 0 no-repeat;
+        }
+
+        &.company a {
+          background-position: 0 0;
+        }
+        &.plan a {
+          background-position: 0 -63px;
+        }
+        &.mail a {
+          background-position: 0 -126px;
+        }
+        &.documents a {
+          background-position: 0 -189px;
+        }
+        &.phone a {
+          background-position: 0 -252px;
+        }
+        &.visitors a {
+          background-position: 0 -315px;
+        }
+        &.menu a {
+          background-position: 0 -378px;
+        }
+      }
+
+      .ref {
+        margin: 35px 0 0 65px;
+        padding: 0 0 5px 10px;
+        background: url(../img/manual/dotsbg.png) 0 100% repeat-x;
+
+        .page-number {
+          float: right;
+        }
+      }
+
+      a, span {
+        color: #232323;
+        text-decoration: none;
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+      .contents {
+        .line {
+          margin-top: 7px;
+        }
+
+        .picture {
+          a {
+            width: 50px;
+            height: 50px;
+            background: url(../img/manual/pictures-small.png) 0 0 no-repeat;
+          }
+
+          &.company a {
+            background-position: 0 0;
+          }
+          &.plan a {
+            background-position: 0 -50px;
+          }
+          &.mail a {
+            background-position: 0 -100px;
+          }
+          &.documents a {
+            background-position: 0 -150px;
+          }
+          &.phone a {
+            background-position: 0 -200px;
+          }
+          &.visitors a {
+            background-position: 0 -250px;
+          }
+          &.menu a {
+            background-position: 0 -300px;
+          }
+        }
+
+        .ref {
+          margin: 25px 0 0 55px;
+          padding: 0 0 5px 10px;
+        }
+
+        a, span {
+          font-size: 16px;
+        }
+      }
     }
 
     .company-structure {
@@ -333,74 +507,6 @@
       color:#232323;
       font-size: 13px;
       line-height: 130%;
-    }
-  }
-}
-.aboutgame {
-  p {
-    font-size:17px;
-    padding-bottom: 16px;
-  }
-}
-.tutorial-warn-bg {
-  background: #827861;
-  background: -moz-linear-gradient(top,#827861 0%,#908978 93%,#f6f0e1 100%);
-  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#827861),color-stop(93%,#908978),color-stop(100%,#f6f0e1));
-  background: -webkit-linear-gradient(top,#827861 0%,#908978 93%,#f6f0e1 100%);
-  background: linear-gradient(to bottom,#827861 0%,#908978 93%,#f6f0e1 100%);
-  padding: 1px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-
-  .tutorial-warn {
-    background: #dfd1b3;
-    background: -moz-linear-gradient(top,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#dfd1b3),color-stop(50%,#eadfc8),color-stop(100%,#f6efe1));
-    background: -webkit-linear-gradient(top,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
-    background: -o-linear-gradient(top,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
-    background: -ms-linear-gradient(top,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
-    background: linear-gradient(to bottom,#dfd1b3 0%,#eadfc8 50%,#f6efe1 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfd1b3',endColorstr='#f6efe1',GradientType=0);
-    padding:12px 14px 6px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-
-    h4 {
-      font-size: 17px;
-      font-family: orbi_sans_boldregular;
-      text-transform: uppercase;
-    }
-    p {
-      font-size: 14px;
-      padding-bottom: 0px;
-    }
-    p+h4 {
-      margin-top: 20px;
-    }
-  }
-}
-.soderzhanie {
-  width:400px;
-
-  td {
-    padding-top: 9px;
-  }
-  .pageref {
-    background: url(../img/manual/dotsbg.png) repeat-x bottom;
-    padding-bottom:10px;
-    padding-left: 10px;
-    vertical-align: bottom;
-    width: 330px;
-
-    a, span {
-      color:#232323;
-      font-size:17px;
-      text-decoration: none;
-    }
-    .pagenumber {
-      float:right;
     }
   }
 }
