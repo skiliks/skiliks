@@ -83,6 +83,7 @@ define([
                 try {
                     document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 } catch(e) {
+                    console.log('document.domain: ', document.domain);
                     // this to protect against busted-sj test crash
                 }
 
