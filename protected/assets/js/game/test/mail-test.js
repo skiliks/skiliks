@@ -276,6 +276,8 @@ define([
                 server.respond();
                 mailView.$('#FOLDER_DRAFTS').click();
                 server.respond();
+                expect(0).toBe(0);
+
                 expect(mailView.$el.find('.email-list-line').length).toBe(0);
                 mailView.$('#FOLDER_INBOX').click();
                 server.respond();
@@ -313,15 +315,14 @@ define([
 
                 mailView.$el.find('#FOLDER_DRAFTS').click();
                 server.respond();
-
                 expect(mailView.$el.find('.email-list-line').length).toBe(1);
 
                 mailView.doSendDraft();
                 server.respond();
-                expect(mailView.$el.find('.email-list-line').length).toBe(0);
+                expect(mailView.$el.find('.email-list-line').length).toBe(1);
                 mailView.$el.find('#FOLDER_SENDED').click();
                 server.respond();
-                expect(mailView.$el.find('.email-list-line').length).toBe(2);
+                expect(mailView.$el.find('.email-list-line').length).toBe(1);
                 server.respond();
             });
 
@@ -367,8 +368,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length)
-                    .toBe(3);
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length).toBe(3);
 
                 server.respond();
 
@@ -381,7 +381,7 @@ define([
                 server.respond();
 
                 // check is email send
-                expect(server.requests[server.requests.length - 2].url).toBe('/index.php/mail/sendMessage');
+                expect(server.requests[server.requests.length - 1].url).toBe('/index.php/mail/sendMessage');
                 server.respond();
 
                 // check response
@@ -389,7 +389,7 @@ define([
                     .toBe('{"result":1,"mailId":"1245"}');
 
                 // check that mail main screen opened after mail send
-                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
+                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(0);
                 server.respond();
             });
 
@@ -451,16 +451,16 @@ define([
                 server.respond();
 
                 // check is email send
-                expect(server.requests[server.requests.length - 2].url).toBe('/index.php/mail/sendMessage');
+                expect(server.requests[server.requests.length-1].url).toBe('/index.php/mail/sendMessage');
                 server.respond();
-                expect(server.requests[server.requests.length - 2].requestBody).toMatch('fileId=5546');
+                expect(server.requests[server.requests.length - 1].requestBody).toMatch('fileId=5546');
 
                 // check response
                 expect(server.responses[server.responses.length - 1].response[2])
                     .toBe('{"result":1,"mailId":"1245"}');
 
                 // check that mail main screen opened after mail send
-                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
+                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(0);
                 server.respond();
             });
 
@@ -539,19 +539,19 @@ define([
                     'logs[3][1]': "11",
                     'logs[3][2]': "activated",
                     'logs[3][3]': "32400",
-                    'logs[3][4][mailId]': "996241",
+                    //'logs[3][4][mailId]': "996241",
                     'logs[3][window_uid]': "uid2-5",
                     'logs[4][0]': "10",
                     'logs[4][1]': "11",
                     'logs[4][2]': "deactivated",
                     'logs[4][3]': "32400",
-                    'logs[4][4][mailId]': "996241",
+                    //'logs[4][4][mailId]': "996241",
                     'logs[4][window_uid]': "uid2-6",
                     'logs[5][0]': "10",
                     'logs[5][1]': "11",
                     'logs[5][2]': "activated",
                     'logs[5][3]': "32400",
-                    'logs[5][4][mailId]': "996241",
+                    //'logs[5][4][mailId]': "996241",
                     'logs[5][window_uid]': "uid2-7",
                     'timeString': "541"
                 };
@@ -561,7 +561,7 @@ define([
                     'logs[0][1]': "11",
                     'logs[0][2]': "deactivated",
                     'logs[0][3]': "32480",
-                    'logs[0][4][mailId]': "996241",
+                    //'logs[0][4][mailId]': "996241",
                     'logs[0][window_uid]': "uid2-8",
                     'logs[1][0]': "10",
                     'logs[1][1]': "11",
@@ -609,7 +609,7 @@ define([
                     'logs[1][1]': "11",
                     'logs[1][2]': "activated",
                     'logs[1][3]': "32648",
-                    'logs[1][4][mailId]': "996241",
+                    //'logs[1][4][mailId]': "996241",
                     'logs[1][window_uid]': "uid2-15",
                     'timeString': "545"
                 };
@@ -621,58 +621,76 @@ define([
                 var windowUid_2_2 = null;
                 var windowUid_2_3 = null;
                 var windowUid_2_4 = null;
+                var windowUid_2_5 = null;
                 var windowUid_3 = null;
+                var windowUid_4 = null;
+                var windowUid_5 = null;
                 // window uids random - so we need to fix our predefine values of uid }
 
                 var i = 0;
                 _.each(server.requests, function(item) {
                     if ('/index.php/events/getState' === item.url) {
                         var requestArray = URLToArray(decodeURIComponent(item.requestBody));
-//                        console.log(requestArray);
-//                        console.log('-----------------------');
+                        //console.log(requestArray);
+                        //console.log('-----------------------');
 
                         if (0 === i) {
+                            //console.log(i);
                             windowUid_1 = requestArray['logs[0][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_1;
                          }
 
                         if (1 === i) {
+                            //console.log(i);
+                            //console.log(requestArray)
                             windowUid_2 = requestArray['logs[1][window_uid]'];
                             windowUid_2_2 = requestArray['logs[3][window_uid]'];
+                            windowUid_2_3 = requestArray['logs[5][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_1;
                             logs[i]['logs[1][window_uid]'] = windowUid_2;
                             logs[i]['logs[2][window_uid]'] = windowUid_2;
                             logs[i]['logs[3][window_uid]'] = windowUid_2_2;
                             logs[i]['logs[4][window_uid]'] = windowUid_2_2;
-                            logs[i]['logs[5][window_uid]'] = windowUid_2_2;
+                            logs[i]['logs[5][window_uid]'] = windowUid_2_3;
                         }
 
                         if (2 === i) {
-                            windowUid_2_3 = requestArray['logs[1][window_uid]'];
-                            logs[i]['logs[0][window_uid]'] = windowUid_2_2;
-                            logs[i]['logs[1][window_uid]'] = windowUid_2_3;
+                            //console.log(i);
+                            //windowUid_2_4 = requestArray['logs[0][window_uid]'];
+                            windowUid_2_4 = requestArray['logs[1][window_uid]'];
+                            logs[i]['logs[0][window_uid]'] = windowUid_2_3;
+                            logs[i]['logs[1][window_uid]'] = windowUid_2_4;
 
                         }
 
                         if (3 === i) {
+                            //console.log(i);
+
                             windowUid_3 = requestArray['logs[1][window_uid]'];
-                            logs[i]['logs[0][window_uid]'] = windowUid_2_3;
+                            logs[i]['logs[0][window_uid]'] = windowUid_2_4;
                             logs[i]['logs[1][window_uid]'] = windowUid_3;
                         }
 
                         if (4 === i) {
+                            //console.log(i);
                             windowUid_2_4 = requestArray['logs[1][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_3;
                             logs[i]['logs[1][window_uid]'] = windowUid_2_4;
                         }
 
                         if (5 === i) {
+                            //console.log(i);
+                            //console.log(requestArray);
+                            windowUid_5 = requestArray['logs[1][window_uid]'];
                             logs[i]['logs[0][window_uid]'] = windowUid_2_4;
-                            logs[i]['logs[1][window_uid]'] = windowUid_2_2;
+                            logs[i]['logs[1][window_uid]'] = windowUid_5;
                         }
 
                         //console.log(i);
                         _.each(logs[i], function(logsItem, key) {
+//                            if (2 < i) {
+//                                console.log('key:', key);
+//                            }
                             expect(logsItem.toString()).toBe(requestArray[key].toString());
                         });
                         i++;

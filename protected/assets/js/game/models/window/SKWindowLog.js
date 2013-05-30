@@ -34,7 +34,7 @@ define([],function () {
                 'window_uid': window.window_uid
             };
 
-            console.log(log_raw_data);
+            //console.log(log_raw_data);
 
             this.log.push(log_raw_data);
         },
@@ -58,7 +58,7 @@ define([],function () {
                 4:            window.get('params'),
                 'window_uid': window.window_uid
             };
-            console.log(log_raw_data);
+            //console.log(log_raw_data);
 
             this.log.push(log_raw_data);
         },

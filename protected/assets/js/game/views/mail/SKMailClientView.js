@@ -119,7 +119,7 @@ define([
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
-                    console.log("trigger('render_finished')");
+                    //console.log("trigger('render_finished')");
                     me.trigger('render_finished');
                     me.render_finished = true;
 
@@ -512,7 +512,7 @@ define([
                     );
                 }
 
-                console.log("!! trigger('render_folder_finished')");
+                //console.log("!! trigger('render_folder_finished')");
                 this.trigger('render_folder_finished');
             },
 
@@ -658,7 +658,7 @@ define([
                     if (mailClientView.mailClient.activeEmail !== undefined && $(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
                         var emailId = $(event.currentTarget).data().emailId;
                         var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
-                        console.log('email:', email);
+                        //console.log('email:', email);
                         if (email.isDraft()) {
                             SKApp.server.api(
                                 'mail/edit',
@@ -1218,7 +1218,7 @@ define([
              * @method
              */
             renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
-                console.log('>> renderWriteCustomNewEmailScreen');
+                //console.log('>> renderWriteCustomNewEmailScreen');
                 this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                 this.mailClient.newEmailUsedPhrases = [];
                 this.mailClient.availableSubjects = [];
@@ -1241,7 +1241,7 @@ define([
                 if (undefined === draftEmail) {
                     this.updateSubjectsList();
                 } else {
-                    console.log('draftEmail.subject:' ,draftEmail.subject);
+                    //console.log('draftEmail.subject:' ,draftEmail.subject);
                     this.mailClient.availableSubjects.push(draftEmail.subject);
                     mailClientView.updateSubjectsList(true);
                 }
@@ -1603,7 +1603,7 @@ define([
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
                 mailClient.newEmailUsedPhrases = [];
                 if (mailClient.activeEmail && mailClient.activeEmail.phrases.length) {
-                    console.log('mailClient.activeEmail.phrases: ', mailClient.activeEmail.phrases);
+                    //console.log('mailClient.activeEmail.phrases: ', mailClient.activeEmail.phrases);
                     mailClient.activeEmail.phrases.forEach(function(phraseId) {
                         var phrase = mailClient.getAvailablePhraseByMySqlId(phraseId);
                         var phraseToAdd = new SKMailPhrase();
@@ -1892,13 +1892,13 @@ define([
                                     'value': 'Продолжить',
                                     'onclick': function () {
                                         mailClient.activeEmail.phrases = [];
-                                        console.log('mailClient.activeEmail.phrases: (clean): ', mailClient.activeEmail.phrases);
+                                        //console.log('mailClient.activeEmail.phrases: (clean): ', mailClient.activeEmail.phrases);
 
                                         //mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                                         //mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
                                         mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
 
-                                            console.log('clean-up phrases.', mailClientView.$('#mailEmulatorNewLetterText'));
+                                            //console.log('clean-up phrases.', mailClientView.$('#mailEmulatorNewLetterText'));
                                             mailClientView.$('#mailEmulatorNewLetterText').html('');
                                             mailClientView.$('#mailEmulatorNewLetterText li').remove();
 
@@ -1943,7 +1943,7 @@ define([
                     }
                 });
                 if(index === null){
-                    console.log("index !== null");
+                    //console.log("index !== null");
                     return;
                 }
                 var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
@@ -2449,7 +2449,7 @@ define([
              * @method clearSubject
              */
             clearSubject:function(){
-                console.log('clearSubject');
+                //console.log('clearSubject');
 
                 var subjects_list = [{
                         text: "без темы.",
