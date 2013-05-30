@@ -152,12 +152,12 @@ return array(
                 'admin/displayLog/<simulation\w+>' => 'static/admin/displayLog',
                 'static/admin/saveLog/<simulation\w+>' => 'static/admin/saveLog',
 
-                'cheat/dialogsAnalyzer'            => 'static/admin/dialogsAnalyzer',
-                'cheat/uploadDialogsToAnalyzer'    => 'static/admin/uploadDialogsToAnalyzer',
-                'cheat/assessments/grid'           => 'static/cheats/assessmentsGrid',
-                'cheat/quick-start/full'           => 'static/cheats/startSimulationForFastSeleniumTest',
-                'cheat/zoho/saveUsageValue/:value' => 'static/cheats/saveZohoUsageStatus',
-                'cheat/zoho/getUsageValue'         => 'static/cheats/getZohoUsageStatus',
+                'cheat/dialogsAnalyzer'                => 'static/admin/dialogsAnalyzer',
+                'cheat/uploadDialogsToAnalyzer'        => 'static/admin/uploadDialogsToAnalyzer',
+                'cheat/assessments/grid'               => 'static/cheats/assessmentsGrid',
+                'cheat/quick-start/full'               => 'static/cheats/startSimulationForFastSeleniumTest',
+                'cheat/zoho/saveUsageValue/<value\w+>' => 'static/cheats/saveZohoUsageStatus',
+                'cheat/zoho/getUsageValue'             => 'static/cheats/getZohoUsageStatus',
 
                 'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
