@@ -486,6 +486,34 @@ define([
                 }
             },
 
+            doSoundMailSent: function() {
+                var me = this,
+                    el;
+
+                if (me.$el.find("#mail-sent").length) {
+                    return;
+                }
+
+                me.$el.append(_.template(audio, {
+                    id        : 'mail-sent',
+                    repeat    : false,
+                    audio_src : SKApp.get('storageURL') + '/sounds/mail/S1.1.2.ogg'
+                }));
+
+                el = me.$el.find("#mail-sent")[0];
+
+                if ('function' === typeof el.play) {
+                    $(el).on('ended', function() {
+                        if (this.pause !== undefined) {
+                            this.pause();
+                        }
+                        this.src = '';
+                        $(this).remove();
+                    });
+                    el.play();
+                }
+            },
+
             /**
              * @method
              * @param e

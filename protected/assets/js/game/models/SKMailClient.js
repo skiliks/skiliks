@@ -569,7 +569,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (undefined != cb) {
                             cb();
                         }
-                        MailClientModel.trigger('mail:sent');
+                        MailClientModel.trigger('outbox:updated');
                     }
                 );
             },
@@ -1204,11 +1204,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
+                            me.trigger('mail:sent');
                             me.getSendedFolderEmails(function () {
                                 if (callback !== undefined) {
                                     callback();
                                 }
-                                me.trigger('mail:sent');
                                 me.trigger('process:finish');
                             }); // callback is usually 'render active folder'
                         } else {
