@@ -483,30 +483,22 @@ define([
                 this.mailClient.newEmailUsedPhrases = [];
 
                 if (this.mailClient.aliasFolderInbox === folderAlias) {
-                    if (isSwitchToFirst) {
-                        this.mailClient.setActiveEmail(this.mailClient.getInboxFolder().getFirstEmail());
-                    }
+
                     this.renderInboxFolder();
                 }
 
                 if (this.mailClient.aliasFolderSended === folderAlias) {
-                    if (isSwitchToFirst) {
-                        this.mailClient.setActiveEmail(this.mailClient.getSendedFolder().getFirstEmail());
-                    }
+
                     this.renderSendFolder();
                 }
 
                 if (this.mailClient.aliasFolderDrafts === folderAlias) {
-                    if (isSwitchToFirst) {
-                        this.mailClient.setActiveEmail(this.mailClient.getDraftsFolder().getFirstEmail());
-                    }
+
                     this.renderDraftsFolder();
                 }
 
                 if (this.mailClient.aliasFolderTrash === folderAlias) {
-                    if (isSwitchToFirst) {
-                        this.mailClient.setActiveEmail(this.mailClient.getTrashFolder().getFirstEmail());
-                    }
+
                     this.renderTrashFolder();
                 }
 
@@ -663,7 +655,7 @@ define([
 
                     // if user click on same email line twice - open read email screen
                     // Do not change == to ===
-                    if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+                    if (mailClientView.mailClient.activeEmail !== undefined && $(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
                         var emailId = $(event.currentTarget).data().emailId;
                         var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
                         console.log('email:', email);
@@ -815,11 +807,6 @@ define([
 
                 this.updateInboxListView();
 
-                // render preview email
-                if (undefined !== this.mailClient.activeEmail) {
-                    this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderInbox);
-                }
-
                 // set icons {
                 var icons = this.mailClient.iconsForInboxScreenArray;
                 if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
@@ -847,12 +834,6 @@ define([
                 // set HTML skeleton }
 
                 this.updateTrashListView();
-
-                // render preview email
-                if (undefined !== this.mailClient.activeEmail) {
-                    this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderTrash);
-                }
-
                 // set icons {
                 var icons = this.mailClient.iconsForTrashScreenArray;
                 if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
@@ -880,11 +861,6 @@ define([
                 // set HTML skeleton }
 
                 this.updateSendListView();
-
-                // render preview email
-                if (undefined !== this.mailClient.activeEmail) {
-                    this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderSended);
-                }
 
                 // set icons {
                 var icons = this.mailClient.iconsForSendedScreenArray;
@@ -917,11 +893,6 @@ define([
                 // set HTML skeleton }
 
                 this.updateDraftsListView();
-
-                // render preview email
-                if (undefined !== this.mailClient.activeEmail) {
-                    this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderDrafts);
-                }
 
                 // set icons {
                 var icons = this.mailClient.iconsForDraftsScreenArray;
