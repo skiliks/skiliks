@@ -914,23 +914,40 @@ class SimulationServiceUnitTest extends CDbTestCase
     public function testEmptyInviteForDev()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $invite->status = $invite::STATUS_ACCEPTED;
+        $invite->ownerUser = $user;
+        $invite->owner_id = $user->id;
+        $invite->scenario = $scenario;
+        $invite->scenario_id = $scenario->id;
+        $invite->save(false);
+
         $developerSim = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        $this->setTime($developerSim, 10, 01, false);
+
+        $this->assertArrayHasKey('result', EventsManager::getState($developerSim, []));
+
+        // ---
+
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $invite->status = $invite::STATUS_ACCEPTED;
+        $invite->ownerUser = $user;
+        $invite->owner_id = $user->id;
+        $invite->scenario = $scenario;
+        $invite->scenario_id = $scenario->id;
+        $invite->save(false);
+        
         $promoSim = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        $this->setTime($developerSim, 10, 01, false);
         $this->setTime($promoSim, 10, 01, false);
 
-        $this->assertArrayHasKey('result', EventsManager::getState($developerSim, []));
         $this->assertArrayHasKey('result', EventsManager::getState($promoSim, []));
     }
 
