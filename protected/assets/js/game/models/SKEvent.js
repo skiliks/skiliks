@@ -209,7 +209,7 @@ define([], function () {
                 'dialogId': dialogId,
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
-                console.log('ignore: ', data.events);
+                // console.log('ignore: ', data.events);
                 SKApp.simulation.parseNewEvents(data.events);
                 if (cb !== undefined) {
                     cb();

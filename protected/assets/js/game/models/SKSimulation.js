@@ -83,7 +83,7 @@ define([
                 try {
                     document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 } catch(e) {
-                    console.log('document.domain: ', document.domain);
+                    //console.log('document.domain: ', document.domain);
                     // this to protect against busted-sj test crash
                 }
 
@@ -511,7 +511,7 @@ define([
                         me.id = data.simId;
                     }
 
-                    console.log('scenarioName: ', data, data.scenarioName);
+                    //console.log('scenarioName: ', data, data.scenarioName);
 
                     me.set('scenarioName', data.scenarioName);
 
