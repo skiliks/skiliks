@@ -629,22 +629,20 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 this.setEmailsToFolder(this.aliasFolderTrash, messages);
             },
 
-            /**
-             * @method
-             * @param emails
-             * @returns {boolean}
-             */
-            setActiveEmailFromArray:function (emails) {
-                if (0 === emails.length) {
-                    this.activeEmail = undefined;
-                    return false;
-                }
-
-                for (var key in emails) {
-                    this.activeEmail = emails[key];
-                    return true;
-                }
-            },
+//            /**
+//             * dead code
+//             */
+//            setActiveEmailFromArray:function (emails) {
+//                if (0 === emails.length) {
+//                    this.activeEmail = undefined;
+//                    return false;
+//                }
+//
+//                for (var key in emails) {
+//                    this.activeEmail = emails[key];
+//                    return true;
+//                }
+//            },
 
             /**
              * @method
