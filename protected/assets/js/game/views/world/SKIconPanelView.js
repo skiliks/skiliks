@@ -459,58 +459,53 @@ define([
             },
 
             doSoundIncomeMail: function() {
-                var me = this,
-                    el;
-
-                if (me.$el.find("#income-mail").length) {
-                    return;
-                }
-
-                me.$el.append(_.template(audio, {
-                    id        : 'income-mail',
-                    repeat    : false,
-                    audio_src : SKApp.get('storageURL') + '/sounds/mail/S1.1.1.ogg'
-                }));
-
-                el = me.$el.find("#income-mail")[0];
-
-                if ('function' === typeof el.play) {
-                    $(el).on('ended', function() {
-                        if (this.pause !== undefined) {
-                            this.pause();
-                        }
-                        this.src = '';
-                        $(this).remove();
-                    });
-                    el.play();
-                }
+                this._playSound('mail/S1.1.1.ogg');
             },
 
             doSoundMailSent: function() {
-                var me = this,
-                    el;
+                this._playSound('mail/S1.1.2.ogg');
+            },
 
-                if (me.$el.find("#mail-sent").length) {
+            doSoundSaveAttachment: function() {
+                this._playSound('mail/S1.1.3.ogg');
+            },
+
+            _playSound: function(filename, repeat, replay, id) {
+                var me = this,
+                    selector, el;
+
+                id = id || 'sound' + Math.floor(Math.random() * 10000);
+                selector = '#' + id;
+
+                if (me.$el.find(selector).length && !replay) {
                     return;
                 }
 
+                me.$el.find(selector).each(function() {
+                    if (this.pause !== undefined) {
+                        this.pause();
+                    }
+                    this.src = '';
+                }).remove();
+
                 me.$el.append(_.template(audio, {
-                    id        : 'mail-sent',
-                    repeat    : false,
-                    audio_src : SKApp.get('storageURL') + '/sounds/mail/S1.1.2.ogg'
+                    id        : id,
+                    repeat    : !!repeat,
+                    audio_src : SKApp.get('storageURL') + '/sounds/' + filename
                 }));
 
-                el = me.$el.find("#mail-sent")[0];
-
+                el = me.$el.find(selector)[0];
                 if ('function' === typeof el.play) {
-                    $(el).on('ended', function() {
-                        if (this.pause !== undefined) {
-                            this.pause();
-                        }
-                        this.src = '';
-                        $(this).remove();
-                    });
                     el.play();
+                    if (!repeat) {
+                        $(el).on('ended', function() {
+                            if (this.pause !== undefined) {
+                                this.pause();
+                            }
+                            this.src = '';
+                            $(this).remove();
+                        });
+                    }
                 }
             },
 
