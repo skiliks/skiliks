@@ -751,6 +751,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         // end rule 1
 
         // Action for rule id 13
+        FlagsService::setFlag($simulation, 'F38_3', 1);
         $theme = $simulation->game_type->getCommunicationTheme(['phone_dialog_number' => 'T7.4']);
         PhoneService::call($simulation, $theme->id, 3, '12:03');
         // end rule 13
@@ -943,7 +944,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->scenario = $scenario;
         $invite->scenario_id = $scenario->id;
         $invite->save(false);
-        
+
         $promoSim = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $this->setTime($promoSim, 10, 01, false);
