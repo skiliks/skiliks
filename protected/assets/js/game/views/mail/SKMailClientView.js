@@ -154,6 +154,7 @@ define([
                     me.updateInboxFolderCounter(unreaded);
                 });
 
+                this.listenTo(this.mailClient, 'outbox:updated', this.onMailOutboxUpdated);
                 this.listenTo(this.mailClient, 'mail:sent', this.onMailSent);
                 this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
                 this.listenTo(this.mailClient, 'mail:fantastic-open', this.onMailFantasticOpen);
@@ -2372,6 +2373,7 @@ define([
                                     ]
                                 });
                         } else {
+                            me.mailClient.trigger('mail:sent');
                             me.mailClient.trigger('process:finish');
                             me.mailClient.setWindowsLog(
                                 'mailMain',
@@ -2401,7 +2403,7 @@ define([
             /**
              * @method onMailSent
              */
-            onMailSent: function () {
+            onMailOutboxUpdated: function () {
                 this.updateFolderLabels();
                 this.renderActiveFolder();
 
@@ -2409,6 +2411,10 @@ define([
                     'mailMain',
                     this.mailClient.getActiveEmailId()
                 );
+            },
+
+            onMailSent: function() {
+                AppView.frame.icon_view.doSoundMailSent();
             },
 
             /**
