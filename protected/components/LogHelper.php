@@ -502,6 +502,9 @@ class LogHelper
 
                 // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
                 // Особенности логики, пункт 1 {
+
+                // @2865 написать метод $activityAction->isMailLog() для кода:
+                // $activityAction->activityAction->getAction() instanceof MailTemplate
                 if ($activityAction->activityAction->getAction() instanceof MailTemplate) {
                     $mail_code = $activityAction->activityAction->getAction()->getCode();
                 } else {
@@ -510,8 +513,14 @@ class LogHelper
                 $id = $activityAction->window_uid;
 
                 if (NULL === $mail_code) {
-                    if (($activityAction->activityAction->getAction() instanceof Window && in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions)) ||
-                        self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
+                    // @2865 написать метод $activityAction->isWindow() для кода:
+                    // $activityAction->activityAction->getAction() instanceof Window
+                    if ((
+                            $activityAction->activityAction->getAction() instanceof Window &&
+                            in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions)
+                        ) ||
+                            self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)
+                        ) {
                         $actionDurationInGameSeconds = TimeTools::TimeToSeconds($diff_time);
                     } else {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
