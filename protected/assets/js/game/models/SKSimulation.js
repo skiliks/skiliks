@@ -213,7 +213,7 @@ define([
                                 myIframeWin.document.getElementById('savefile').click();
                                 console.log('save...');
                                 SKApp.simulation.zohoDocumentSaveCheck(myIframeWin, docs[0].get('id'));
-                            }, 5000);
+                            }, 6000);
                         }
 
                         SKApp.simulation.tryCloseLoadDocsDialog();
