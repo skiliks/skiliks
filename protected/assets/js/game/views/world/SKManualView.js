@@ -37,19 +37,6 @@ define(
                 SKWindowView.prototype.events
             ),
 
-            dimensions: {
-                width: 1060,
-                height: 640
-            },
-
-            initialize: function() {
-                if ($(window).width() < 1200) {
-                    this.dimensions = {width: 845, height: 510};
-                }
-
-                SKWindowView.prototype.initialize.call(this);
-            },
-
             renderTitle: function (title) {
                 $(title).hide();
             },
@@ -112,6 +99,15 @@ define(
                 if (index + 1 === this.pages.length) {
                     this.closeBtn.show();
                 }
+            },
+
+            resize: function() {
+                var dimensions = [1060, 640];
+                if (window.innerWidth <= 1280) {
+                    dimensions = [845, 510];
+                }
+
+                SKWindowView.prototype.resize.apply(this, dimensions);
             }
         });
 
