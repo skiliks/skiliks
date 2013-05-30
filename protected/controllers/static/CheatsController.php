@@ -277,7 +277,7 @@ class CheatsController extends AjaxController
             $data = fread($file, 100);
             fclose($file);
 
-            echo $data;
+            echo urldecode($data);
         } else {
             echo 'No statistic.';
         }
