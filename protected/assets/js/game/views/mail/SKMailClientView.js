@@ -1891,14 +1891,12 @@ define([
                                 {
                                     'value': 'Продолжить',
                                     'onclick': function () {
-                                        mailClient.activeEmail.phrases = [];
-                                        //console.log('mailClient.activeEmail.phrases: (clean): ', mailClient.activeEmail.phrases);
+                                        if(mailClient.activeEmail !== undefined){
+                                            mailClient.activeEmail.phrases = [];
+                                        }
 
-                                        //mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
-                                        //mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
                                         mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
 
-                                            //console.log('clean-up phrases.', mailClientView.$('#mailEmulatorNewLetterText'));
                                             mailClientView.$('#mailEmulatorNewLetterText').html('');
                                             mailClientView.$('#mailEmulatorNewLetterText li').remove();
 
