@@ -40,10 +40,6 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Promo (lite)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Promo (full)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Promo (tutorial)</a>
-
     <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <a href="/dashboard">
         <?php echo Yii::t('site', 'Dashboard') ?>

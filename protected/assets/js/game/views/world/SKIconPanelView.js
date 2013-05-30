@@ -66,7 +66,11 @@ define([
                     setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
                 });
 
-                this.listenTo(SKApp.simulation, 'audio-phone-small-zoom-stop', me.doSoundPhoneCallShortZoomerStop);
+                this.listenTo(
+                    SKApp.simulation,
+                    'audio-phone-small-zoom-stop',
+                    _.bind(me.doSoundPhoneCallShortZoomerStop, me)
+                );
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
@@ -372,39 +376,39 @@ define([
             },
 
             doSoundPhoneCallInStop: function() {
-                this._stopSound('audio-phone-call');
+                window.AppView.frame.icon_view._stopSound('audio-phone-call');
             },
 
             doSoundPhoneCallInStart: function() {
-                this._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
+                window.AppView.frame.icon_view._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
             },
 
             doSoundPhoneCallLongZoomerStop: function() {
-                this._stopSound('audio-phone-long-zoom');
+                window.AppView.frame.icon_view._stopSound('audio-phone-long-zoom');
             },
 
             doSoundPhoneCallLongZoomerStart: function() {
-                this._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
+                window.AppView.frame.icon_view._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
             },
 
             doSoundPhoneCallShortZoomerStop: function() {
-                this._stopSound('audio-phone-short-zoom');
+                window.AppView.frame.icon_view._stopSound('audio-phone-short-zoom');
             },
 
             doSoundPhoneCallShortZoomerStart: function() {
-                this._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
+                window.AppView.frame.icon_view._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
             },
 
             doSoundKnockStart: function() {
-                this._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
+                window.AppView.frame.icon_view._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
             },
 
             doSoundKnockStop: function() {
-                this._stopSound('audio-door-knock');
+                window.AppView.frame.icon_view._stopSound('audio-door-knock');
             },
 
             doSoundIncomeMail: function() {
-                this._playSound('mail/S1.1.1.ogg');
+                window.AppView.frame.icon_view._playSound('mail/S1.1.1.ogg');
             },
 
             doSoundMailSent: function() {
@@ -412,11 +416,11 @@ define([
             },
 
             doSoundSaveAttachment: function() {
-                this._playSound('mail/S1.1.3.ogg');
+                window.AppView.frame.icon_view._playSound('mail/S1.1.3.ogg');
             },
 
             doSoundNewTodo: function() {
-                this._playSound('plan/S1.2.1.ogg');
+                window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
             },
 
             _playSound: function(filename, repeat, replay, id) {
