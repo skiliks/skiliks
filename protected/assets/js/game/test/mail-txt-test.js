@@ -183,7 +183,7 @@ define([
                 server.respond();
 
                 // check is email send
-                expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/sendMessage');
+                expect(server.requests[server.requests.length-1].url).toBe('/index.php/mail/sendMessage');
 
             });
         });
