@@ -20,7 +20,7 @@
  * @property string $preference_payment_method
  *
  * The followings are the available model relations:
- * @property User $user
+ * @property YumUser $user
  * @property Industry $industry
  * @property Tariff tariff
  */

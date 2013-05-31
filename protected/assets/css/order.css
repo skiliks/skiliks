@@ -193,6 +193,12 @@
     /*margin-top: 3px;*/
     top:4px;
 }
+.reg.terms-confirm {
+    padding-top: 0px;
+}
+.reg-by-link.terms-confirm {
+    line-height: 10px;
+}
 .terms-confirm a {
     color:#0c707f;
     text-decoration: none;

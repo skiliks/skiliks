@@ -13,6 +13,7 @@
  * @property integer $lastvisit
  * @property integer $superuser
  * @property integer $status
+ * @property integer $agree_with_terms
  *
  * Relations
  * @property YumProfile $profile
@@ -39,6 +40,7 @@ class YumUser extends YumActiveRecord
     const NOT_CHECK = 0;
     const ACCOUNT_TYPE_PERSONAL  = 'Personal';
     const ACCOUNT_TYPE_CORPORATE = 'Corporate';
+    const AGREEMENT_MADE = 'yes';
 
     public $username;
     public $password;
@@ -47,7 +49,6 @@ class YumUser extends YumActiveRecord
     public $activationKey;
     public $password_changed = false;
     public $is_check = 1;
-
     // ------------------------------------------------------------------------------------------------------------
 
     /**
@@ -376,7 +377,7 @@ class YumUser extends YumActiveRecord
     {
         $usernameRequirements = Yum::module()->usernameRequirements;
         $passwordRequirements = Yum::module()->passwordRequirements;
-
+        $rules[] = array('agree_with_terms', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Вы должны согласиться с условиями'));
         $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
         $rules[] = array('superuser', 'in', 'range' => array(0, 1));
         $rules[] = array('username, createtime, lastvisit, lastpasswordchange, superuser, status', 'required');
