@@ -105,6 +105,29 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
             AppView.frame.stopExitProtection();
             SKApp.simulation.stop();
+        },
+
+        doUpdateEventsList: function(eventsQueue) {
+            var me = this;
+            var color = '#dddddd';
+
+            // clean up list
+            me.$('table#events-queue-table tbody').html('');
+
+            _.each(eventsQueue, function(item, key) {
+                if (item.isMail) {
+                    color = '#ffffda';
+                } else {
+                    color = '#dddddd';
+                }
+                me.$('table#events-queue-table tbody').append(
+                    '<tr class="' + item.code + '-event" style="background-color:' + color + '">'
+                    + '<td>' + item.time + '</td>'
+                    + '<td>' + item.code + '</td>'
+                    + '<td>' + item.title + '</td>'
+                    + '</tr>'
+                );
+            });
         }
     });
 

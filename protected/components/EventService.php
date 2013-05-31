@@ -195,6 +195,63 @@ class EventService
         
         return $result;
     }
+
+    /**
+     *
+     */
+    public function getEventsQueueForJs(Simulation $simulation, $eventsQueueDepth = 0)
+    {
+        $result = [];
+
+        if (0 === $eventsQueueDepth) {
+            return $result;
+        }
+
+        $gameTime = explode(':', $simulation->getGameTime());
+
+        $gameTime = ($gameTime[0] + $eventsQueueDepth).':'.$gameTime[1].':'.$gameTime[2];
+
+        $events = EventTrigger::model()->findAll([
+            'condition' => ' 0 < trigger_time AND trigger_time < :gameTime AND sim_id = :simId ',
+            'params'    => [
+                'gameTime' => $gameTime,
+                'simId'    => $simulation->id,
+            ],
+            'order' => 'trigger_time'
+        ]);
+        // display flags for developers only ! :) no chanses for cheatting
+        if ($simulation->isDevelopMode()) {
+            foreach ($events as $event) {
+
+                $title = $event->event_sample->title;
+
+                if (empty($event->event_sample->title)) {
+                    if ($event->event_sample->isMail()) {
+                        $mail = $simulation->game_type->getMailTemplate(['code' => $event->event_sample->code]);
+                        if (null === $mail) {
+                            $title = 'Такого письма нет в БД!';
+                        } else {
+                            $title = sprintf(
+                                '<strong>from:</strong> %s, <strong>to:</strong> %s, <strong>subject:</strong> %s',
+                                $mail->sender->fio,
+                                $mail->recipient->fio,
+                                $mail->subject_obj->text
+                            );
+                        }
+                    }
+                }
+
+                $result[] = [
+                    'code'   => $event->event_sample->code,
+                    'title'  => $title,
+                    'time'   => $event->event_sample->trigger_time,
+                    'isMail' => $event->event_sample->isMail()
+                ];
+            }
+        }
+
+        return $result;
+    }
 }
 
 

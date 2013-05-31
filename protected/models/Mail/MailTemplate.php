@@ -11,7 +11,7 @@
  * @property ActivityParent[] termination_parent_actions
  * @property MailAttachmentTemplate[] attachments
  * @property Scenario game_type
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ *
  */
 class MailTemplate extends CActiveRecord implements IGameAction
 {
@@ -155,7 +155,9 @@ class MailTemplate extends CActiveRecord implements IGameAction
             'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id'],
             'subject_obj'                => [self::BELONGS_TO, 'CommunicationTheme', 'subject_id'],
             'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id'],
-            'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id']
+            'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
+            'sender'                     => [self::BELONGS_TO, 'Character', 'sender_id'],
+            'recipient'                  => [self::BELONGS_TO, 'Character', 'receiver_id']
         ];
     }
 

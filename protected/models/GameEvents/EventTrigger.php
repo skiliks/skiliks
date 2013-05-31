@@ -6,11 +6,12 @@
  * Именно здесь хранится информация какое событие и когда должно произойти в 
  * рамках конкретной симуляции.
  *
- * @property int sim_id
- * @property mixed event_id
- * @property mixed trigger_time
- * @property bool force_run
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property int $sim_id
+ * @property mixed $event_id
+ * @property mixed $trigger_time
+ * @property bool $force_run
+ *
+ * @property EventSample $event_sample
  */
 class EventTrigger extends CActiveRecord
 {

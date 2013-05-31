@@ -4,15 +4,14 @@
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
  *
- * @property MailTemplate letter
- * @property string constructor_number
- * @property string import_id
- * @property string wr
- * @property Scenario game_type
- * @property mixed|null mail_prefix
- * @property string theme_usage, used to filter MSY themes from new mail themes list
+ * @property MailTemplate $letter
+ * @property string $constructor_number
+ * @property string $import_id
+ * @property string $wr
+ * @property Scenario $game_type
+ * @property mixed|null $mail_prefix
+ * @property string $theme_usage, used to filter MSY themes from new mail themes list
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CommunicationTheme extends CActiveRecord
 {

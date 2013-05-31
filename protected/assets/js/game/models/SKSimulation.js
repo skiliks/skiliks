@@ -445,13 +445,16 @@ define([
                 localStorage.setItem('lastGetState', nowDate.getTime());
                 var me = this;
                 var logs = this.windowLog.getAndClear();
+
                 SKApp.server.apiQueue('events', 'events/getState', {
-                    logs:logs,
-                    timeString:this.getGameMinutes()
+                    logs:             logs,
+                    timeString:       this.getGameMinutes(),
+                    eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
                     // update flags for dev mode
                     if (undefined !== data.flagsState && undefined !== data.serverTime) {
                         me.updateFlagsForDev(data.flagsState, data.serverTime);
+                        me.updateEventsListTableForDev(data.eventsQueue);
                     }
 
                     if (data.result === 1 && data.events !== undefined) {
@@ -703,6 +706,16 @@ define([
                 if (this.isDebug()) {
                     var flagStateView = new SKFlagStateView();
                     flagStateView.updateValues(flagsState, serverTime);
+                }
+            },
+
+            /**
+             *
+             */
+            updateEventsListTableForDev:function (eventsQueue) {
+                if (this.isDebug()) {
+                    var flagStateView = new SKFlagStateView();
+                    window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
                 }
             }
         });
