@@ -120,6 +120,12 @@
 .action-controller-registerByLink-static-userAuth  .ui-widget-content {
     background: #146672;
 }
+.action-controller-registerByLink-static-userAuth  .ui-widget-content.terms-page{
+    background: #FDFBC6;
+}
+.action-controller-registerByLink-static-userAuth  .ui-widget-content#terms-pop-up{
+    background: #FDFBC6;
+}
 #invite-decline-form .form-decline-explanation {
     position: absolute;
     top:200px;
