@@ -55,7 +55,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes    = $YumProfile;
-            $this->user->is_check = (int)$YumUser['is_check'];
+            //$this->user->is_check = (int)$YumUser['is_check'];
             $this->user->setUserNameFromEmail($profile->email);
             $profile->updateFirstNameFromEmail();
 
