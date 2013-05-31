@@ -52,15 +52,10 @@
         <div class="row">
             <?php echo CHtml::submitButton(Yii::t('site', 'Начать')); ?>
         </div>
-        <?php if (!empty($error)): ?>
-            <div class="errorlongMessage">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
     </div><div class="reg terms-confirm">
+        <?= $form->error($user, 'agree_with_terms'); ?>
         <?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
         <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
-        <?= $form->error($user, 'agree_with_terms'); ?>
     </div>
 <?php $this->endWidget(); ?>
 
