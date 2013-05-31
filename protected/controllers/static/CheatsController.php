@@ -260,7 +260,9 @@ class CheatsController extends AjaxController
 
         if (null !== $value) {
             $file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'c');
-            fwrite($file, $value . '% ; '. $expireDate);
+            $data = $value . '% ; '. $expireDate;
+            $data = str_replace(['_','__', '___'],[', ',', ',' - '],$data);
+            fwrite($file, $data);
             fclose($file);
         }
 
