@@ -45,6 +45,8 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         $value = split ("%", $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]"), 3);
         $date = $this->getText("xpath=//div[1]/div[2]/div[1]/div[3]/div[1]/div/ul/li[2]/span");
 
+        $date = str_replace(['-',' ', ','],['_','_','_'],$date);
+
         $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value[0]).'/'.urlencode($date));
 
         sleep(10);
