@@ -76,10 +76,7 @@ define(
                         effect: 'fade',
                         delay: 500
                     },
-                    hide: {
-                        effect: 'fade',
-                        duration: 50
-                    },
+                    hide: false,
                     items: '[data-refer-tooltip]',
                     content: function() {
                         var tooltipId = $(this).attr('data-refer-tooltip');
