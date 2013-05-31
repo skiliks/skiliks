@@ -536,7 +536,7 @@ class LogHelper
                     }
                 } else {
                     if ($activityAction->activityAction->getAction() instanceof MailTemplate
-                        && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id && $activityAction->window_id !== $mailPreviewWindow->id) {
+                        && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id && $activityAction->window !== $mailPreviewWindow->id) {
                         // 3
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
