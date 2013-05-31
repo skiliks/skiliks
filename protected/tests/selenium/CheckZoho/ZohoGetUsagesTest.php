@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Cтартуем фулл промо симуляцию, ждем загрузку зохо
+ * Тест для проверки процентов использования поточного аккаунта Зохо и даты, до которого можно использовать ключ
  */
 class ZohoGetUsagesTest extends SeleniumTestHelper
 {
@@ -42,14 +42,16 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         $this->selectFrame("relative=parent");
 
         sleep(5);
+        $value = split ("%", $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]"), 3);
+        $date = $this->getText("xpath=//div[1]/div[2]/div[1]/div[3]/div[1]/div/ul/li[2]/span");
 
-        $value = $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]");
+        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value[0]).'/'.urlencode($date));
 
-        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value));
+        sleep(10);
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
 
         sleep(2);
 
-        $this->stop();
+        //$this->stop();
     }
 }
