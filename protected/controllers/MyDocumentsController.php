@@ -42,6 +42,32 @@ class MyDocumentsController extends AjaxController
     }
 
     /**
+     * Sheet saving
+     */
+    public function actionSaveSheet($id)
+    {
+        $simulation = $this->getSimulationEntity();
+        $clientModel = CJSON::decode(Yii::app()->request->getParam('model'));
+
+        /** @var MyDocument $file */
+        $file   = MyDocument::model()->findByPk($id);
+        assert($file->simulation->getPrimaryKey() == $simulation->getPrimaryKey());
+        $content = $clientModel['content'];
+        $name = $clientModel['name'];
+
+        $file->setSheetContent($name, $content);
+
+        $this->sendJSON(array(
+            'result' => 1,
+            'file'   => [
+                'id'   => $file->id,
+                'name' => $file->fileName,
+                'mime' => $file->template->getMimeType(),
+            ]
+        ));
+    }
+
+    /**
      * New code!
      * @autor Slavka
      * @return
@@ -61,7 +87,7 @@ class MyDocumentsController extends AjaxController
         $result = array(
             'result' => 1,
             'fileId' => $file->id,
-            'data'   => $file->getContents()
+            'data'   => $file->getSheetList()
         );
         $this->sendJSON(
             $result

@@ -325,7 +325,7 @@ class CheckConsolidatedBudget
         if ($documentTemplate === null) {
             return $documentTemplate;
         }
-
+        /** @var MyDocument $document */
         $document = MyDocument::model()->findByAttributes([
             'template_id' => $documentTemplate->id,
             'sim_id' => $this->simId
@@ -336,19 +336,7 @@ class CheckConsolidatedBudget
             return false;
         }
 
-        $zohoDoc = new ZohoDocuments($this->simId, $document->id, null); // template name isn`t so important here
 
-        //$documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
-        $documentPath = $zohoDoc->getUserFilepath();
-        
-        if (null === $documentPath) {
-            throw new Exception("Document not found by path {$documentPath}");
-            return false;
-        }
-
-        if($path !== null) {
-            $documentPath = $path;
-        }
         // check document }
         
         // init configs {
@@ -360,14 +348,59 @@ class CheckConsolidatedBudget
         // get workSheets {
         $objPHPExcel = null;
         PHPExcel_Calculation::getInstance()->clearCalculationCache();
-        try {
-            $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
-        } catch (Exception $e) {
-            $this->resetUserPoints();
-            $this->savePoints();
-            throw new Exception("Error objPHPExcel");
-            return false;
-        }        
+        $objPHPExcel = new PHPExcel();
+        $sheets = $document->getSheetList();
+        foreach ($sheets as $sheet) {
+            $excelSheet = $objPHPExcel->createSheet();
+            $excelSheet->setTitle($sheet['name']);
+            $parts = explode('--SocialCalcSpreadsheetControlSave', $sheet['content']);
+            $cells = [];
+            foreach (explode("\n", $parts[2]) as $part) {
+                if (!preg_match('/^cell:/', $part)) {
+                    continue;
+                }
+                $row_parts = explode(':', $part);
+                for ($i = 0; $i < count($row_parts); $i++) {
+                    switch ($row_parts[$i]) {
+                        case 'b':
+                            $i += 4;
+                            break;
+                        case 'vtf':
+                            $i += 3;
+                            $cells[$row_parts[1]] = $row_parts[$i];
+                            break;
+                        case 'v':
+                        case 't':
+                            $i ++;
+                            $cells[$row_parts[1]] = $row_parts[$i];
+                            break;
+                        case 'l':
+                        case 'cell':
+                        case "f":
+                        case "c":
+                        case "bg":
+                        case "cf":
+                        case "ntvf":
+                        case "tvf":
+                        case "colspan":
+                        case "rowspan":
+                        case "cssc":
+                        case "csss":
+                            $i += 1;
+                            break;
+                        default:
+                            print($row_parts[1]);
+                            print($row_parts[$i] . "\n");
+
+                    }
+                }
+            };
+            foreach ($cells as $cell => $value) {
+                $excelSheet->setCellValue($cell, $value);
+            };
+
+        }
+
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);

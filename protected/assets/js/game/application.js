@@ -15,6 +15,7 @@ require([
 
     _.templateSettings.interpolate = /<@=(.+?)@>/g;
     _.templateSettings.evaluate = /<@(.+?)@>/g;
+    Backbone.emulateJSON = true;
 
     if (compatibility.check(window.gameConfig)) {
         $(function () {

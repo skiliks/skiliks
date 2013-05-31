@@ -3,6 +3,7 @@
 define([], function () {
     "use strict";
     var SKSheet = Backbone.Model.extend({
+        url: function () { return '/myDocuments/saveSheet/' + this.collection.document.id ; },
         activate: function () {
             var me = this;
             this.collection.each(function (sheet) {
