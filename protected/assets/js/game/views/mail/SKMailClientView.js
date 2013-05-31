@@ -522,6 +522,7 @@ define([
              * @method
              */
             updateInboxListView: function () {
+                this.mailClient.activeEmail = undefined;
                 // generate emails list {
                 var me = this;
                 // We  use this 2 variables to separate emails to display unreaded emails first in list
@@ -553,6 +554,8 @@ define([
              * @method
              */
             updateTrashListView: function () {
+
+                this.mailClient.activeEmail = undefined;
                 // generate emails list {
 
                 // We  use this 2 variables to separate emails to display unreaded emails first in list
@@ -585,7 +588,7 @@ define([
              */
             updateSendListView: function () {
                 // generate emails list {
-
+                this.mailClient.activeEmail = undefined;
                 // We  use this 2 variables to separate emails to display unreaded emails first in list
                 var emailsList = '';
                 var sendedEmails = this.mailClient.folders[this.mailClient.aliasFolderSended].emails; // to make code shorter
@@ -615,7 +618,7 @@ define([
              */
             updateDraftsListView: function () {
                 // generate emails list {
-
+                this.mailClient.activeEmail = undefined;
                 // We  use this 2 variables to separate emails to display unreaded emails first in list
                 var emailsList = '';
                 var draftEmails = this.mailClient.folders[this.mailClient.aliasFolderDrafts].emails; // to make code shorter
