@@ -46,6 +46,11 @@ class EventSample extends CActiveRecord
      */
     public $import_id;
 
+    public function isMail()
+    {
+        return preg_match("/M\w+/", $this->code);
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**

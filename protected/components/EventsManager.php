@@ -94,7 +94,7 @@ class EventsManager {
      * @return array
      * @throws CHttpException
      */
-    public static function getState(Simulation $simulation, $logs) {
+    public static function getState(Simulation $simulation, $logs, $eventsQueueDepth = 0) {
 
         $simId = $simulation->id;
         $gameTime = $simulation->getGameTime();
@@ -291,15 +291,17 @@ class EventsManager {
             }
             
             $result['flagsState'] = FlagsService::getFlagsStateForJs($simulation);
-            
+            $result['eventsQueue'] = EventService::getEventsQueueForJs($simulation, $eventsQueueDepth);
+
             return $result;
         } catch (CHttpException $exc) {
             return [
-                'result'     => 0,
-                'message'    => $exc->getMessage(),
-                'code'       => $exc->getCode(),
-                'serverTime' => $gameTime,
-                'flagsState' => FlagsService::getFlagsStateForJs($simulation)
+                'result'           => 0,
+                'message'          => $exc->getMessage(),
+                'code'             => $exc->getCode(),
+                'serverTime'       => $gameTime,
+                'flagsState'       => FlagsService::getFlagsStateForJs($simulation),
+                'eventsQueue'      => EventService::getEventsQueueForJs($simulation, $eventsQueueDepth),
             ];
         }
 
