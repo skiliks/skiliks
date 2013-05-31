@@ -26,7 +26,7 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
     );
 
     public function testZohoGetUsages() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
@@ -39,14 +39,17 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
 
         $this->click("name=submit");
 
-        // $this->click("//form[@id='login']/table/tr[0]/td[0]/table/tr[7]/td[1]/input");
+        $this->selectFrame("relative=parent");
+
+        sleep(5);
+
+        $value = $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]");
+
+        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value));
+        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
 
         sleep(2);
 
-        $value = $this->getText("//div[.usageinner_topdiv']/table/td[1]");
-
-        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value));
-
-        $this->close();
+        $this->stop();
     }
 }
