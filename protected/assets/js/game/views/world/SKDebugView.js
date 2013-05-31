@@ -114,6 +114,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             // clean up list
             me.$('table#events-queue-table tbody').html('');
 
+            // me.$("#events-queue-clock").text($('.main-screen-stat .time').text());
+
             _.each(eventsQueue, function(item, key) {
                 if (item.isMail) {
                     color = '#ffffda';
