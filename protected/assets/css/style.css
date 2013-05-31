@@ -4226,10 +4226,10 @@ ul.profile-menu li {
         padding-top: 106px;
     }
     section.registration-by-link {
+        background-color: #FDFBC6;
         background-size:690px;
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
         padding: 0 14px 30px 20px;
-        height: 340px;
         width: 640px;
     }
     section.registration-by-link .form .row label {
