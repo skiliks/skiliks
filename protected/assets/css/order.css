@@ -196,6 +196,9 @@
 .reg.terms-confirm {
     padding-top: 0px;
 }
+.reg.terms-confirm .errorMessage {
+    margin-top: -20px;
+}
 .reg-by-link.terms-confirm {
     line-height: 10px;
 }
