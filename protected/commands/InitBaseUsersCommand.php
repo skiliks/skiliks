@@ -62,6 +62,7 @@ class InitBaseUsersCommand
             if (null === $yumUser) {
                 echo " init ";
                 $yumUser = new YumUser();
+                $yumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
                 if ($yumUser->register($user['username'], $user['password'], $profile)) {
                     echo " => registered";
                 } else {
