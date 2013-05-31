@@ -392,7 +392,7 @@ class CheckConsolidatedBudget
                 }
             };
             foreach ($cells as $cell => $value) {
-                $excelSheet->setCellValue(preg_replace('/\\c/', ';', $value));
+                $excelSheet->setCellValue(str_replace('\c', ';', $value));
             };
 
         }
