@@ -156,8 +156,9 @@ return array(
                 'cheat/uploadDialogsToAnalyzer'         => 'static/admin/uploadDialogsToAnalyzer',
                 'cheat/assessments/grid'                => 'static/cheats/assessmentsGrid',
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
-                'cheat/zoho/saveUsageValue/<value:\w+>' => 'static/cheats/saveZohoUsageStatus',
                 'cheat/zoho/getUsageValue'              => 'static/cheats/getZohoUsageStatus',
+
+                'cheat/zoho/saveUsageValue/<value:\w+>/<expireDate:\w+>' => 'static/cheats/saveZohoUsageStatus',
 
                 'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
