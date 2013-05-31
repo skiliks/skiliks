@@ -1,4 +1,4 @@
-- name: Логистик
+- name: Logistics
   content: |
     socialcalc:version:1.0
     MIME-Version: 1.0
