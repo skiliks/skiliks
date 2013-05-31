@@ -126,14 +126,44 @@ class MyDocument extends CActiveRecord
     public function relations()
     {
         return [
-           'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id']
+            'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id'],
         ];
     }
 
-    public function getContents()
+    /**
+     * Returns sheet list
+     * @return array
+     */
+    public function getSheetList()
     {
-        $file_data = yaml_parse_file($this->template->getFilePath());
-        return $file_data;
+        $filePath = file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath();
+        $fileData = yaml_parse_file($filePath);
+        return $fileData;
+    }
+
+    public function setSheetContent($name, $sheetContent)
+    {
+        $content = $this->getSheetList();
+        foreach ($content as &$sheet) {
+            if ($sheet['name'] === $name) {
+                $sheet['content'] = $sheetContent;
+            }
+        }
+        $yamlContent = yaml_emit($content);
+        $filePath = $this->getFilePath();
+        $result = file_put_contents($filePath, $yamlContent);
+        if ($result === false) {
+            assert('Can not save sheet');
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return __DIR__ . '/../../../documents/user/' . $this->uuid . '.sc';
     }
 
     /**
