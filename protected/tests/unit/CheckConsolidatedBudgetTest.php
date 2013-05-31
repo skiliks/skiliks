@@ -15,7 +15,7 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
         /*
          * Проверка оценок по эталону
          */
-        $budgetPath = __DIR__ . '/files/D1.xls';
+        $budgetPath = __DIR__ . '/files/D1.sc';
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -32,7 +32,7 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
 
         if ($points !== null) {
             foreach ($points as $point) {
-                $this->assertEquals('1.00', $point->value);
+                $this->assertEquals('1.00', $point->value, $point->formula_id);
             }
         }
 
@@ -52,14 +52,14 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1_new.xlsx');
+        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1.sc');
 
         $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $this->assertNotNull($points);
 
         if ($points !== null) {
             foreach ($points as $point) {
-                $this->assertEquals('0.00', $point->value);
+                $this->assertEquals('0.00', $point->value, $point->formula_id);
             }
         }
     }

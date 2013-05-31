@@ -349,7 +349,7 @@ class CheckConsolidatedBudget
         $objPHPExcel = null;
         PHPExcel_Calculation::getInstance()->clearCalculationCache();
         $objPHPExcel = new PHPExcel();
-        $sheets = $document->getSheetList();
+        $sheets = $document->getSheetList($path);
         foreach ($sheets as $sheet) {
             $excelSheet = $objPHPExcel->createSheet();
             $excelSheet->setTitle($sheet['name']);
@@ -367,7 +367,7 @@ class CheckConsolidatedBudget
                             break;
                         case 'vtf':
                             $i += 3;
-                            $cells[$row_parts[1]] = $row_parts[$i];
+                            $cells[$row_parts[1]] = '=' . $row_parts[$i];
                             break;
                         case 'v':
                         case 't':
@@ -392,7 +392,7 @@ class CheckConsolidatedBudget
                 }
             };
             foreach ($cells as $cell => $value) {
-                $excelSheet->setCellValue($cell, str_replace('\c', ';', $value));
+                $excelSheet->setCellValue($cell, str_replace('\c', ':', $value));
             };
 
         }
