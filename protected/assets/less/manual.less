@@ -190,6 +190,11 @@
       width: 50%;
     }
 
+    .dual-page {
+      box-sizing: border-box;
+      padding: 5px 10px;
+    }
+
     @media screen and (max-width: 1280px) {
       .left-page, .right-page {
         box-sizing: border-box;
@@ -203,7 +208,7 @@
       font-size: 28px;
       font-weight: normal;
       line-height: 110%;
-      margin: 25px 0 5px 35px;
+      margin: 30px 0 5px 40px;
 
       &.center {
         margin: 20px 60px 15px;
@@ -377,110 +382,122 @@
         }
       }
     }
+  }
 
-    .company-structure {
-      background: url(../img/manual/structure-dots.png) no-repeat 78px 44px;
-      height: 490px;
-      margin-top: -5px;
+  .content.company {
+    overflow: hidden;
+    background: url(../img/manual/company-structure.png) 85px 125px no-repeat;
+
+    .branch {
+      float: left;
+      overflow: hidden;
+      width: 150px;
+      margin-right: 9px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
+
     .person-block {
-      font-size: 11px;
-      line-height: 130%;
-      width: 138px;
-      padding: 1px;
-      position: absolute;
+      margin-top: 11.3px;
+      width: 148px;
+      height: 53px;
       border-radius: 6px;
+      border: 1px solid #d5d4c8;
+      background-color: #fcfcee;
       text-align: center;
+      font-size: 13px;
+      line-height: 130%;
       cursor: pointer;
 
-      .person-block-bg {
-        background-color: #c1dcf3;
-        border-radius: 6px;
+      span {
         display: table-cell;
-        height: 42px;
         padding: 1px 5px;
+        height: 50px;
+        width: 138px;
+
         vertical-align: middle;
-        width:138px;
       }
-    }
-    .upravlenie {
-      background: #a3b9cd; /* Old browsers */
-      background: -moz-linear-gradient(top,  #a3b9cd 0%, #a3b9cd 71%, #d5d4c8 100%, #e7f2fa 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3b9cd), color-stop(71%,#a3b9cd), color-stop(100%,#d5d4c8), color-stop(100%,#e7f2fa)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* Chrome10+,Safari5.1+ */
-      background: linear-gradient(to bottom,  #a3b9cd 0%,#a3b9cd 71%,#d5d4c8 100%,#e7f2fa 100%); /* W3C */
 
-      .person-block-bg {
+      &.root {
+        margin: -4px auto 4px;
+      }
+      &.top, &.root {
         background-color: #c1dcf3;
+        border-color: #a3b9cd;
       }
-    }
-    .srednzveno {
-      background: #d5d4c8; /* Old browsers */
-      background: -moz-linear-gradient(top,  #d5d4c8 0%, #d5d4c8 71%, #fefef8 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d5d4c8), color-stop(71%,#d5d4c8), color-stop(100%,#fefef8)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* Chrome10+,Safari5.1+ */
-      background: linear-gradient(to bottom,  #d5d4c8 0%,#d5d4c8 71%,#fefef8 100%); /* W3C */
-
-      .person-block-bg {
-        background-color: #fcfcee;
-      }
-    }
-    .thehero {
-      background: #a3cdaf; /* Old browsers */
-      background: -moz-linear-gradient(top,  #a3cdaf 0%, #a3cdaf 71%, #e5faec 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a3cdaf), color-stop(71%,#a3cdaf), color-stop(100%,#e5faec)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* Chrome10+,Safari5.1+ */
-      background: linear-gradient(to bottom,  #a3cdaf 0%,#a3cdaf 71%,#e5faec 100%); /* W3C */
-
-      .person-block-bg {
+      &.hero {
         background-color: #c1f3d0;
+        border-color: #a3cdaf;
       }
     }
-    .boss {
-      left:386px;
-      top:0px;
-    }
-    .leftcolmn1 {
-      left:10px;
-    }
-    .leftcolmn2 {
-      left:158px;
-    }
-    .leftcolmn3 {
-      left:306px;
-    }
-    .leftcolmn4 {
-      left:466px;
-    }
-    .leftcolmn5 {
-      left:614px;
-    }
-    .leftcolmn6 {
-      left:762px;
-    }
-    .topcolumn1 {
-      top:66px;
-    }
-    .topcolumn2 {
-      top:122px;
-    }
-    .topcolumn3 {
-      top:178px;
-    }
-    .topcolumn4 {
-      top:234px;
-    }
-    .topcolumn5 {
-      top:290px;
-    }
-    .topcolumn6 {
-      top:346px;
-    }
-    .topcolumn7 {
-      top:402px;
+
+    @media screen and (max-width: 1280px) {
+      background: url(../img/manual/company-structure-small.png) 67px 99px no-repeat;
+
+      .branch {
+        width: 120px;
+        margin-right: 6px;
+      }
+
+      .person-block {
+        width: 118px;
+        margin-top: 8px;
+        height: 43px;
+        font-size: 11px;
+        line-height: 100%;
+
+        span {
+          padding: 1px;
+          height: 40px;
+          width: 116px;
+        }
+
+        &.root {
+          margin: -12px auto 4px;
+        }
+      }
     }
   }
 }
+
+.person-info-tooltip {
+  z-index: 100000;
+  overflow: hidden;
+  margin: 0;
+  width: 245px;
+  padding: 5px 5px 0;
+  border: 1px solid #d3d1b3;
+  border-radius: 6px;
+  background: none #faf9d5;
+  font-size: 11px;
+
+  .photo {
+    float: left;
+    margin: 0 5px 5px 0;
+  }
+  h3 {
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 0px;
+    text-transform: uppercase;
+  }
+  h4 {
+    font-size: 12px;
+    margin-bottom: 12px;
+    font-weight: normal;
+    line-height: 100%;
+    padding: 0px;
+  }
+  p {
+    margin-bottom: 9px;
+    line-height: 130%;
+  }
+}
+
 
 .tutor-list {
   margin:0px;
@@ -530,56 +547,4 @@
 }
 .relative-content {
   position: relative;
-}
-.person-info-tooltip {
-  z-index: 100000;
-  margin: 0;
-  width: 220px;
-  padding: 5px;
-  border: 1px solid #d3d1b3;
-  border-radius: 6px;
-  background: none #faf9d5;
-  font-size: 11px;
-
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: "";
-    clear: both;
-    height: 0;
-  }
-
-  .photo {
-    /*width: 74px;*/
-    height: 94px;
-    float: left;
-    margin: 0 5px 5px 0;
-  }
-  h3 {
-    font-size: 13px;
-    font-family: orbi_sans_boldregular;
-    margin-bottom: 0px;
-    padding-bottom:0px;
-    text-transform: uppercase;
-  }
-  h4 {
-    font-size: 13px;
-    font-family: orbi_sansregular;
-    margin-bottom: 5px;
-    margin-top:-6px;
-    font-weight: normal;
-    line-height: 100%;
-    padding: 0px;
-  }
-  p {
-    font-family: orbi_sansregular;
-    font-size: 12px;
-    line-height: 130%;
-    margin-bottom: 8px;
-  }
-  strong {
-    font-size: 12px;
-    font-family: orbi_sans_boldregular;
-  }
 }
