@@ -4,7 +4,7 @@
   font: 17px 'orbi_sansregular';
   background: url(../img/manual/cover.png) 0 0 no-repeat;
 
-  @media screen and (max-width: 1280px) {
+  @media (max-width: 1280px), (max-height: 750px) {
     background-image: url(../img/manual/cover-small.png);
     font-size: 15px;
   }
@@ -29,7 +29,7 @@
     list-style: none;
     font-size: 15px;
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       top: -18px;
       right: 30px;
       font-size: 13px;
@@ -44,7 +44,7 @@
       background: url(../img/manual/tab.png) 0 -60px repeat-x;
       color: white;
 
-      @media screen and (max-width: 1280px) {
+      @media (max-width: 1280px), (max-height: 750px) {
         height: 17px;
       }
 
@@ -127,7 +127,7 @@
       background-position: 0 -49px;
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       .back, .next {
         background: url(../img/manual/navigation.png) 0 0 no-repeat;
         width: 25px;
@@ -164,7 +164,7 @@
       padding-right: 15px;
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       width: 845px;
       height: 510px;
       padding: 10px 55px 10px 20px;
@@ -195,7 +195,7 @@
       padding: 5px 10px;
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       .left-page, .right-page {
         box-sizing: border-box;
         float: left;
@@ -216,7 +216,7 @@
       }
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       h2 {
         margin: 25px 0 5px 32px;
         font-size: 24px;
@@ -260,7 +260,7 @@
       }
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       .aboutgame {
         p {
           margin: 0 0 9px;
@@ -337,7 +337,7 @@
       }
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       .contents {
         .line {
           margin-top: 7px;
@@ -434,7 +434,7 @@
       }
     }
 
-    @media screen and (max-width: 1280px) {
+    @media (max-width: 1280px), (max-height: 750px) {
       background: url(../img/manual/company-structure-small.png) 67px 99px no-repeat;
 
       .branch {
@@ -463,7 +463,161 @@
   }
 
   .content.team {
+    table {
+      border-collapse: collapse;
+      table-layout: fixed;
+      float: left;
+      width: 945px;
+      font-size: 13px;
 
+      td {
+        padding: 8px 18px;
+        text-align: center;
+        vertical-align: middle;
+        border: 2px solid #555;
+        border-color: #d5d4c8 #70706f;
+        background-color: #fcfcee;
+
+        &.person {
+          padding: 0;
+
+          .person-block {
+            position: relative;
+            overflow: hidden;
+            top: -2px;
+            width: 203px;
+            padding: 5px 8px;
+            border: 2px solid #a3b9cd;
+            border-color: #a3b9cd #b1c9de #ddecf8;
+            background-color: #c1dcf3;
+            text-align: left;
+
+            .photo {
+              width: 63px;
+              height: 63px;
+              float: left;
+              margin: 0 5px 5px 0;
+
+              &.federov {
+                background: url(../img/manual/pictures.png) 0 -441px no-repeat;
+              }
+              &.krutyko {
+                background: url(../img/manual/pictures.png) 0 -504px no-repeat;
+              }
+              &.trutnev {
+                background: url(../img/manual/pictures.png) 0 -567px no-repeat;
+              }
+              &.loshadkin {
+                background: url(../img/manual/pictures.png) 0 -441px no-repeat;
+              }
+            }
+
+            h3 {
+              font-size: 14px;
+              line-height: 22px;
+              font-weight: bold;
+              margin: 0;
+              text-transform: uppercase;
+            }
+            h4 {
+              font-size: 13px;
+              font-weight: normal;
+            }
+          }
+
+          &:nth-child(3n+1) {
+            border-width: 2px 0 0 2px;
+            .person-block {
+              border-radius: 0 10px 10px 10px;
+              left: -3px;
+            }
+          }
+          &:nth-child(3n+2) {
+            border-width: 2px 2px 0 0;
+            .person-block {
+              border-radius: 10px 0 10px 10px;
+              left: 4px;
+            }
+          }
+        }
+
+        &.subheader {
+          padding: 3px 0;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        &.fake {
+          width: 1px;
+          border: 0 none;
+          background-color: transparent;
+        }
+
+        &.big {
+          font-size: 130%;
+        }
+      }
+
+      tr:nth-child(2) td {
+        border-top-width: 0;
+      }
+
+
+    }
+
+    @media (max-width: 1280px), (max-height: 750px) {
+      table {
+        width: 748px;
+        font-size: 12px;
+
+        td {
+          padding: 3px 7px;
+
+          &.subheader {
+            padding: 1px 0;
+            font-size: 11px;
+          }
+
+          &.person {
+            .person-block {
+              width: 164px;
+              padding: 3px 6px;
+
+              .photo {
+                width: 50px;
+                height: 50px;
+                margin: 0 3px 0 0;
+
+                &.federov {
+                  background: url(../img/manual/pictures-small.png) 0 -350px no-repeat;
+                }
+                &.krutyko {
+                  background: url(../img/manual/pictures-small.png) 0 -400px no-repeat;
+                }
+                &.trutnev {
+                  background: url(../img/manual/pictures-small.png) 0 -450px no-repeat;
+                }
+                &.loshadkin {
+                  background: url(../img/manual/pictures-small.png) 0 -350px no-repeat;
+                }
+              }
+
+              h3 {
+                font-size: 13px;
+                line-height: 18px;
+              }
+              h4 {
+                font-size: 11px;
+                font-weight: normal;
+              }
+              h5 {
+                font-size: 11px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 

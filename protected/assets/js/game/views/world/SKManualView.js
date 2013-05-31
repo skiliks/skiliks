@@ -100,7 +100,7 @@ define(
 
             resize: function() {
                 var dimensions = [1060, 640];
-                if (window.innerWidth <= 1280) {
+                if (window.innerWidth <= 1280 || window.innerHeight <= 750) {
                     dimensions = [845, 510];
                 }
 
