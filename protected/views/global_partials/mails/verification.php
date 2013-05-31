@@ -8,10 +8,10 @@
 <br/>
 Из кабинета вы можете:
 <ul>
-    <li>обновить данные,</li>
-    <li>пригласить кандидата к оценке,</li>
-    <li>выбрать тариф,</li>
-    <li>пройти симуляцию самостоятельно.</li>
+    <li><a href="<?= $link.'&redirect=profile' ?>">обновить данные,</a></li>
+    <li><a href="<?= $link.'&redirect=dashboard' ?>">пригласить кандидата к оценке,</a></li>
+    <li><a href="<?= $link.'&redirect=profile/corporate/tariff' ?>">выбрать тариф,</a></li>
+    <li><a href="<?= $link.'&redirect=simulations' ?>">пройти симуляцию самостоятельно.</a></li>
 </ul>
 <br/>
 Ваш skiliks

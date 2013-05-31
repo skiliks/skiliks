@@ -608,12 +608,22 @@ class UserAuthController extends YumController
             || $userAccountCorporate->is_corporate_email_verified) {
             $this->redirect('/');
         }
-
+        /* @var $userAccountCorporate->user YumUser */
+        /* @var $userAccountCorporate UserAccountCorporate */
         $userAccountCorporate->is_corporate_email_verified = 1;
         $userAccountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
         $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
-        $this->redirect('/dashboard');
+        $login = new YumUserIdentity($userAccountCorporate->user->username, false);
+        $login->authenticate(true);
+        Yii::app()->user->login($login);
+
+        $redirect = Yii::app()->request->getParam('redirect', null);
+        if($redirect !== null){
+            $this->redirect('/'.$redirect);
+        }else{
+            $this->redirect('/dashboard');
+        }
     }
     
     /**
