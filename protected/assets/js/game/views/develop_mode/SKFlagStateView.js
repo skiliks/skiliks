@@ -113,7 +113,7 @@ define([],
                 $('.form-flags table:eq('+j+') thead tr').append(el_th);
 
                 var el_td = $('<td/>', {text: flagsState[i].value});
-                el_td.addClass(flagsState[i].name + '-value');
+                el_td.addClass(i + '-value');
                 $('.form-flags table:eq('+j+') tbody tr:eq(0)').append(el_td);
 
                 // flag queue time
@@ -124,7 +124,7 @@ define([],
                 }
 
                 var el_td2 = $('<td/>', {text: flagTime});
-                el_td2.addClass(flagsState[i].name + '-time');
+                el_td2.addClass(i + '-time');
                 $('.form-flags table:eq('+j+') tbody tr:eq(1)').append(el_td2);
 
                 n++;
