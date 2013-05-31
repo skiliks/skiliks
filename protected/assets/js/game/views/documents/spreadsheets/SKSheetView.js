@@ -55,16 +55,13 @@ define([], function () {
 
             loadQueue.queue('fx', function () {
                 console.log('sheet init');
-                me.spreadsheet = new SocialCalc.SpreadsheetControl();
                 var editorID = _.uniqueId('tableeditor-');
+                me.spreadsheet = new SocialCalc.SpreadsheetControl(editorID + '-');
                 var spreadsheet = me.spreadsheet;
-                spreadsheet.idPrefix = editorID + '-';
                 spreadsheet.editor.idPrefix = editorID + '-';
                 spreadsheet.editor.StatusCallback.continue_queue = {
                     func: function (object, cmdtype) {
-                        console.log(sheet);
                         if ( me.dequeue || !me.is_loaded && cmdtype === "doneposcalc") {
-                            console.log(sheet);
                             me.is_loaded = true;
                             loadQueue.dequeue('fx');
                         }

@@ -388,10 +388,6 @@ class CheckConsolidatedBudget
                         case "csss":
                             $i += 1;
                             break;
-                        default:
-                            print($row_parts[1]);
-                            print($row_parts[$i] . "\n");
-
                     }
                 }
             };

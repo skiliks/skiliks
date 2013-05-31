@@ -102,11 +102,11 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 // Global constants:
 
    SocialCalc.CurrentSpreadsheetControlObject = null; // right now there can only be one active at a time
-
+    SocialCalc.SpreadsheetControlObjects = {};
 
 // Constructor:
 
-SocialCalc.SpreadsheetControl = function() {
+SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    var scc = SocialCalc.Constants;
 
@@ -178,7 +178,7 @@ SocialCalc.SpreadsheetControl = function() {
 
    // Constants:
 
-   this.idPrefix = "SocialCalc-"; // prefix added to element ids used here, should end in "-"
+   this.idPrefix = idPrefix || "SocialCalc-"; // prefix added to element ids used here, should end in "-"
    this.multipartBoundary = "SocialCalcSpreadsheetControlSave"; // boundary used by SpreadsheetControlCreateSpreadsheetSave
    this.imagePrefix = scc.defaultImagePrefix; // prefix added to img src
 
@@ -211,10 +211,11 @@ SocialCalc.SpreadsheetControl = function() {
                 recalcid2: this.idPrefix+"button_recalc"}};
 
    SocialCalc.CurrentSpreadsheetControlObject = this; // remember this for rendezvousing on events
+   SocialCalc.SpreadsheetControlObjects[this.idPrefix] = this; // remember this for rendezvousing on events
 
    this.editor.MoveECellCallback.movefrom = function(editor) {
       var cr;
-      var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+      var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
       spreadsheet.context.cursorsuffix = "";
       if (editor.range2.hasrange && !editor.cellhandles.noCursorSuffix) {
          if (editor.ecell.row==editor.range2.top && (editor.ecell.col<editor.range2.left || editor.ecell.col>editor.range2.right+1)) {
@@ -824,7 +825,7 @@ SocialCalc.SpreadsheetControl = function() {
       '  <input type="radio" id="%id.clipboardformat-csv" name="%id.clipboardformat" onclick="%s.SpreadsheetControlClipboardFormat(\'csv\');"> %loc!CSV format! &nbsp;'+
       '  <input type="radio" id="%id.clipboardformat-scsave" name="%id.clipboardformat" onclick="%s.SpreadsheetControlClipboardFormat(\'scsave\');"> %loc!SocialCalc-save format!'+
       ' </div>'+
-      ' <input type="button" value="%loc!Load SocialCalc Clipboard With This!" style="font-size:x-small;" onclick="%s.SpreadsheetControlClipboardLoad();">&nbsp; '+
+      ' <input type="button" value="%loc!Load SocialCalc Clipboard With This!" data-spreadsheet="%id." style="font-size:x-small;" onclick="%s.SpreadsheetControlClipboardLoad(this);">&nbsp; '+
       ' <input type="button" value="%loc!Clear SocialCalc Clipboard!" style="font-size:x-small;" onclick="%s.SpreadsheetControlClipboardClear();">&nbsp; '+
       ' <br>'+
       ' <textarea id="%id.clipboardtext" style="font-size:small;height:350px;width:800px;overflow:auto;" onfocus="%s.CmdGotFocus(this);"></textarea>'
@@ -921,7 +922,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       '<table cellpadding="0" cellspacing="0"><tr>';
 
    for (i=0; i<tabs.length; i++) {
-      html += '  <td id="%id.' + tabs[i].name + 'tab" style="' +
+      html += '  <td id="%id.' + tabs[i].name + 'tab" data-spreadsheet="%id." style="' +
          (i==0 ? spreadsheet.tabselectedCSS : spreadsheet.tabplainCSS) +
          '" onclick="%s.SetTab(this);">' + SCLoc(tabs[i].text) + '</td>';
       }
@@ -978,6 +979,7 @@ spreadsheet.Buttons = {
       bele = document.getElementById(spreadsheet.idPrefix+button);
       if (!bele) {alert("Button "+(spreadsheet.idPrefix+button)+" missing"); continue;}
       bele.style.border = "1px solid "+scc.ISCButtonBorderNormal;
+      bele.setAttribute('data-spreadsheet', spreadsheet.idPrefix);
       SocialCalc.TooltipRegister(bele, SCLoc(spreadsheet.Buttons[button].tooltip), {});
       SocialCalc.ButtonRegister(bele,
          {normalstyle: "border:1px solid "+scc.ISCButtonBorderNormal+";backgroundColor:"+scc.ISCButtonBorderNormal+";",
@@ -1136,10 +1138,16 @@ SocialCalc.LocalizeSubstrings = function(str) {
 // Returns the current spreadsheet control object
 //
 
-SocialCalc.GetSpreadsheetControlObject = function() {
+SocialCalc.GetSpreadsheetControlObject = function(id) {
 
-   var csco = SocialCalc.CurrentSpreadsheetControlObject;
-   if (csco) return csco;
+    if (id === undefined) {
+        console.warn('GetSpreadsheetControlObject MUST have id argument to work properly')
+        console.trace();
+       var csco = SocialCalc.CurrentSpreadsheetControlObject;
+       if (csco) return csco;
+    } else {
+        return SocialCalc.SpreadsheetControlObjects[id];
+    }
 
 //   throw ("No current SpreadsheetControl object.");
 
@@ -1234,17 +1242,18 @@ SocialCalc.SizeSSDiv = function(spreadsheet) {
 // The obj argument is either a string with the tab name or a DOM element with an ID
 //
 
-SocialCalc.SetTab = function(obj) {
+SocialCalc.SetTab = function(obj, sheet) {
 
    var newtab, tname, newtabnum, newview, i, vname, ele;
    var menutabs = {};
    var tools = {};
-   var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+
+   var spreadsheet = SocialCalc.GetSpreadsheetControlObject(obj.getAttribute('data-spreadsheet'));
    var tabs = spreadsheet.tabs;
    var views = spreadsheet.views;
 
-   if (typeof obj == "string") {
-      newtab = obj;
+   if (typeof sheet == "string") {
+      newtab = sheet;
       }
    else {
       newtab = obj.id.slice(spreadsheet.idPrefix.length,-3);
@@ -1466,11 +1475,10 @@ SocialCalc.DoButtonCmd = function(e, buttoninfo, bobj) {
 //
 
 SocialCalc.DoCmd = function(obj, which) {
-
    var combostr, sstr, cl, i, clele, slist, slistele, str, sele, rele, lele, ele, sortrange, nrange, rparts;
    var sheet, cell, color, bgcolor, defaultcolor, defaultbgcolor;
 
-   var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+   var spreadsheet = SocialCalc.GetSpreadsheetControlObject(obj.getAttribute('data-spreadsheet'));
    var editor = spreadsheet.editor;
 
    switch (which) {
@@ -1855,7 +1863,7 @@ SocialCalc.SpreadsheetCmdTable = {
 SocialCalc.SpreadsheetControlExecuteCommand = function(obj, combostr, sstr) {
 
    var i, commands;
-   var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+   var spreadsheet = obj;
    var eobj = spreadsheet.editor;
 
    var str = {};
@@ -2617,7 +2625,7 @@ SocialCalc.SpreadsheetControlSortSave = function(editor, setting) {
    // Format is:
    //    sort:sortrange:major:up/down:minor:up/down:last:up/down
 
-   var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+   var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
    var str, sele, rele;
 
    str = "sort:"+SocialCalc.encodeForSave(spreadsheet.sortrange)+":";
@@ -2829,7 +2837,7 @@ SocialCalc.SpreadsheetControlNamesDelete = function() {
 // Clipboard
 
 SocialCalc.SpreadsheetControlClipboardOnclick = function(s, t) {
-   var s = SocialCalc.GetSpreadsheetControlObject();
+   var s = SocialCalc.GetSpreadsheetControlObject(s.idPrefix);
    clipele = document.getElementById(s.idPrefix+"clipboardtext");
    document.getElementById(s.idPrefix+"clipboardformat-tab").checked = true;
    clipele.value = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
@@ -2842,10 +2850,10 @@ SocialCalc.SpreadsheetControlClipboardFormat = function(which) {
    clipele.value = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, which);
    }
 
-SocialCalc.SpreadsheetControlClipboardLoad = function() {
-   var s = SocialCalc.GetSpreadsheetControlObject();
+SocialCalc.SpreadsheetControlClipboardLoad = function(target) {
+   var s = SocialCalc.GetSpreadsheetControlObject(target.getAttribute('data-spreadsheet'));
    var savetype = "tab";
-   SocialCalc.SetTab(s.tabs[0].name); // return to first tab
+   SocialCalc.SetTab(target, s.tabs[0].name); // return to first tab
    SocialCalc.KeyboardFocus();
    if (document.getElementById(s.idPrefix+"clipboardformat-csv").checked) {
       savetype = "csv";
@@ -2907,7 +2915,7 @@ SocialCalc.SettingsControlSave = function(target) {
    var panelobj = sc.CurrentPanel;
    var attribs = SocialCalc.SettingsControlUnloadPanel(panelobj);
 
-   SocialCalc.SetTab(s.tabs[0].name); // return to first tab
+   SocialCalc.SetTab(target, s.tabs[0].name); // return to first tab
    SocialCalc.KeyboardFocus();
 
    if (target=="sheet") {

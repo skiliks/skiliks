@@ -5798,7 +5798,6 @@ SocialCalc.ButtonMouseOut = function(event) {
 SocialCalc.ButtonMouseDown = function(event) {
 
    var e = event || window.event;
-
    var buttoninfo = SocialCalc.ButtonInfo;
 
    var viewportinfo = SocialCalc.GetViewportInfo();
