@@ -48,9 +48,5 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         $date = str_replace(['-',' ', ','],['_','_','_'],$date);
 
         $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value[0]).'/'.urlencode($date));
-
-        //sleep(10);
-
-        $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 }
