@@ -127,7 +127,6 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(2);
         $this->run_event('MS53');
 
-
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]","31%");
