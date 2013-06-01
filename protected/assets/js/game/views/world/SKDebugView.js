@@ -124,9 +124,9 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 }
                 me.$('table#events-queue-table tbody').append(
                     '<tr class="' + item.code + '-event" style="background-color:' + color + '">'
-                    + '<td>' + item.time + '</td>'
-                    + '<td>' + item.code + '</td>'
-                    + '<td>' + item.title + '</td>'
+                    + '<td class="event-time">' + item.time + '</td>'
+                    + '<td class="event-code">' + item.code + '</td>'
+                    + '<td class="event-title">' + item.title + '</td>'
                     + '</tr>'
                 );
             });

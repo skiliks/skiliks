@@ -34,7 +34,7 @@ define([
             var passed = this.getGameSeconds() - this.timeStringToMinutes(this.get('app').get('start')) * 60,
                 from = this.timeStringToMinutes(this.get('app').get('start')) * 60,
                 to   = this.timeStringToMinutes(this.get('app').get('end')) * 60,
-                left = Math.max(0, (to - from - passed) / this.get('app').get('skiliksSpeedFactor')),
+                left = Math.max(0, (to - from - passed) / 6),
                 minutes = Math.floor(left / 60),
                 seconds = Math.floor(left % 60);
 
