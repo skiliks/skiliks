@@ -30,17 +30,19 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, я готовлю презентацию для Босса, могу я ')])");
         sleep(20);
 
+        $this->optimal_click('link=F14');
+        $this->optimal_click('link=F36');
+        $this->assertTrue($this->verify_flag('F14','1'));
+
+        $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
+        sleep(5);
+
         $this->run_event('ET8',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Привет, Семен! С бюджетом покончено')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мы в двадцать минут впишемся?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, пойдем, но у меня только двадцать минут.')])");
 
-        $this->optimal_click('link=F14');
-        $this->assertTrue($this->verify_flag('F14','1'));
-
-        $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
-        sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
@@ -73,6 +75,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
 
         $this->optimal_click('link=F14');
+        $this->optimal_click('link=F36');
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план новое время.')])",'click');
