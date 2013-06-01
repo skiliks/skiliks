@@ -33,6 +33,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->run_event('T7.3',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным. Им нужно заполнить данными определенную форму за прошедшие девять месяцев. Она у тебя в почте.  Если будут вопросы – звони не откладывая.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю, двух часов тебе хватит. Перед отправкой перешли мне для проверки. ')])");
 
+        $this->optimal_click("link=F38_3");
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
@@ -67,12 +68,18 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального! Босс сам звонил и интересовался!')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
         sleep(5);
+
         // formula 5
-        //$this->run_event('M10');
-        //sleep(20);
-        //$this->run_event('MS83');
-        $this->run_event('MS37');
-        sleep(2);
+        $this->run_event('M10');
+        sleep(20);
+        $this->run_event('MS83');
+        sleep(5);
+
+        $this->optimal_click("link=F36");
+        $this->optimal_click("link=F37");
+
+        //$this->run_event('MS37');
+        //sleep(2);
         $this->run_event('T6.1',"xpath=(//*[contains(text(),'Валерий Семенович просил уточнить сколько копий презентаций и к какому числу необходимо сделать.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Среда, 17.00, у вас в коробках, сорок копий. Спасибо!')])");
         sleep(5);
@@ -80,9 +87,11 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(10);
         $this->run_event('RS8.1',"xpath=(//*[contains(text(),'Добрый день! Федоров. У меня есть к вам важный вопрос по теме бюджета. Давайте встретимся завтра. Минут на тридцать.')])",'click');
         sleep(10);
+
         // formula 18
-        //sleep(10);
-        //$this->run_event('MS48');
+        sleep(10);
+        $this->run_event('MS48');
+
         $this->run_event('MS55');
         sleep(5);
         $this->run_event('M47');
@@ -124,7 +133,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]","31%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","80%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2')]/td[3]","100%");
-        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2_min')]/td[3]","82%");
+        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2_min')]/td[3]","100%");
         $this->stop();
     }
 }

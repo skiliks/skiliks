@@ -16,6 +16,7 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[2]/td[2]");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['plan']);
         $this->checkPopup('Это письмо уже запланировано.');

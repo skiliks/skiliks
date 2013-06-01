@@ -46,9 +46,10 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->click('css=div.mail-popup-button > div');
 
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
-        $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'двух часов тебе хватит')])");
-        sleep(1);
+        $this->optimal_click("xpath=(//*[contains(text(),'Сергей, нужна помощь! Возьми ручку и записывай')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Так, отложи в сторону своих логистов')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Уйдешь, когда работу закончишь')])");
+        sleep(10);
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
         $this->waitForVisible('css=p.mail-popup-text');
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');

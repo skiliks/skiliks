@@ -35,7 +35,14 @@ class Stress_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Именно об этом я и говорю. Трутнев два дня назад написал тебе письмо с уточнениями, но ты не ответил. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Когда тебе нужны данные?')])");
 
+        // 11
+        $this->run_event('T7.3');
+        sleep(5);
+        $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю,')])");
+
         // 13
+        $this->optimal_click("link=F38_3");
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
@@ -108,14 +115,10 @@ class Stress_Test extends SeleniumTestHelper
         $this->run_event('E2',"xpath=(//*[contains(text(),'Конечно, Валерий Семенович! Буду у Вас в 16.00 с готовой презентаций.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, у меня в графике уже выделено время на проверку')])");
 
-
-        // 11
-        $this->run_event('T7.3');
-        sleep(5);
-        $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю,')])");
-
         // 8
+        $this->optimal_click("link=F35");
+        $this->optimal_click("link=F36");
+        $this->optimal_click("link=F37");
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Добрый день, Валерий Семенович!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
@@ -130,7 +133,10 @@ class Stress_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->stop();
-
+        $this->waitForVisible("id=simulation-points");
+        $this->waitForTextPresent('Simulation points');
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"100");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['personal9'],"100");
+        sleep(60);
     }
 }

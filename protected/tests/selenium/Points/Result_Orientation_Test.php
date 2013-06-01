@@ -81,7 +81,7 @@ class Result_Orientation_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Именно об этом я и говорю. Трутнев два дня назад написал тебе письмо с уточнениями, но ты не ответил. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Когда тебе нужны данные?')])");
         sleep(5);
-
+        $this->optimal_click("link=F38_4");
         $this->run_event('T7.5',"xpath=(//*[contains(text(),'Егор, ты посмотрел файл по твоему заданию? Трутнев тебе отправил.')])",'click');
         sleep(5);
 
