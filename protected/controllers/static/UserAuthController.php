@@ -645,6 +645,9 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
+        $email = trim($email);
+        $email = str_replace(' ', '+', $email);
+
         if (false === Yii::app()->user->isGuest && Yii::app()->user->data()->profile->email !== $email) {
             Yii::app()->user->setFlash(
                 'error',
@@ -680,7 +683,6 @@ class UserAuthController extends YumController
         // If everything is set properly, let the model handle the Validation
         // and do the Activation
         $status = YumUser::activate($email, $key);
-
 
         if($status instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
