@@ -26,8 +26,8 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         $this->optimal_click("css=li.icon-active.mail a");
 
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        sleep(2);
-        $this->assertTrue($this->mail_comes("консультанты и новый проект"));
+        sleep(10);
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'консультанты и новый проект')])"));
 
         $this->mail_open("консультанты и новый проект");
 
@@ -43,8 +43,8 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         sleep(5);
-        $this->assertTrue($this->mail_comes("Re: консультанты и новый проект"));
-        $this->stop();
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Re: консультанты и новый проект')])"));
+        $this->close();
     }
 
 
@@ -102,6 +102,6 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'новое письмо')])");
-        $this->stop();
+        $this->close();
     }
 }
