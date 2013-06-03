@@ -565,7 +565,7 @@
               }
 
               h3 {
-                font-size: 13px;
+                font-size: 12px;
                 line-height: 18px;
               }
               h4 {
@@ -586,7 +586,8 @@
     color: #232323;
 
     .item-block {
-      margin: 5px 25px 10px 0;
+      height: 113px;
+      margin: 5px 0 10px 0;
       overflow: hidden;
 
       h3 {
@@ -597,13 +598,13 @@
       }
       p {
         overflow: hidden;
-        font-size: 13px;
+        font-size: 14px;
         line-height: 120%;
       }
 
       .picture {
         float: left;
-        margin: 0 8px 50px 0;
+        margin-right: 8px;
         .draw-picture(10);
 
         &.plan-day {
@@ -621,22 +622,46 @@
         &.plan-nav {
           .draw-picture(14);
         }
-        &.plan-close {
+        &.plan-close, &.mail-close {
           .draw-picture(15);
+        }
+        &.mail-inbox {
+          .draw-picture(16);
+        }
+        &.mail-outbox {
+          .draw-picture(17);
+        }
+        &.mail-draft {
+          .draw-picture(18);
+        }
+        &.mail-trash {
+          .draw-picture(19);
+        }
+        &.mail-new {
+          .draw-picture(20);
+        }
+        &.mail-planner {
+          .draw-picture(21);
+        }
+        &.mail-settings {
+          .draw-picture(22);
         }
       }
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
       .item-block {
+        height: 96px;
         margin: 3px 0 5px 0;
 
         h3 {
           margin-bottom: 0;
         }
-
+        p {
+          font-size: 12px;
+        }
         .picture {
-          margin: 0 5px 43px 0;
+          margin-right: 5px;
         }
       }
     }
@@ -644,6 +669,21 @@
 
   .content.plan {
 
+  }
+
+  .content.mail {
+    .item-block {
+      height: 91px;
+    }
+
+    @media (max-width: 1280px), (max-height: 750px) {
+      .item-block {
+        height: 74px;
+      }
+      .right-page .item-block {
+        height: 85px;
+      }
+    }
   }
 }
 
