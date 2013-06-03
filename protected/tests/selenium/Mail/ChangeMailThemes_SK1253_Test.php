@@ -68,7 +68,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
-        $this->stop();
+        $this->close();
     }
 
     private function checkThemes()

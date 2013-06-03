@@ -32,7 +32,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('4.667','0');
         $this->checkLearningArea('0.00','16.67','0.00','0.00','0.00','0.00','0.00','0.00','0.00');
-        $this->stop();
+        $this->close();
     }
 
     public function test_Dialogs_for_SK1395()
@@ -59,7 +59,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2','0');
         $this->checkLearningArea('4.27','0.00','0.00','0.00','8.82','5','0.00','20');
-        $this->stop();
+        $this->close();
     }
 
     public function test_Dialogs_for_SK910()
@@ -91,7 +91,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('5.833','-7');
         $this->checkLearningArea('4.27','0.00','12.5','0.00','8.82','5','0.00','20');
-        $this->stop();
+        $this->close();
     }
 
     public function test_Dialogs_for_SK1790()
@@ -150,7 +150,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2.667','-34');
         $this->checkLearningArea('0.00','0.00','0.00','4.55','23.3','0.00','4.17','0.00');
-        $this->stop();
+        $this->close();
     }
 
     public function test_Dialogs_for_SK1791()
@@ -210,7 +210,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2','-31');
         $this->checkLearningArea('0.00','0.00','0.00','4.55','11.23','5','12.5','0.00');
-        $this->stop();
+        $this->close();
     }
 
     public function test_Dialogs_for_SK1792()
@@ -241,6 +241,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('9.667','-10');
         $this->checkLearningArea('2.56','0.00','0.00','4.55','2.41','15','8.33','10');
-        $this->stop();
+        $this->close();
     }
 }

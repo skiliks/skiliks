@@ -46,6 +46,6 @@ class Registration_Page_Test extends SeleniumTestHelper
         $this->type('id=YumUser_password_again','123123');
         $this->clickAndWait("name=yt0");
         $this->assertTrue($this->isTextPresent('Email введён неверно', 'Введите пароль'));
-        $this->stop();
+        $this->close();
     }
 }

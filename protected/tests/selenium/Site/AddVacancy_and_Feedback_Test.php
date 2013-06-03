@@ -7,6 +7,9 @@ class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
 
     public function test_addVacancy_add_feedback()
     {
+        //в игноре до тех пор, пока не будет починена задача 2875
+        $this->markTestIncomplete();
+
         //cоздаем корпоративного пользователя
         TestUserHelper::addUser("corporate");
 
@@ -17,18 +20,15 @@ class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
         //клик на "вход" на главной
         $this->optimal_click("css=a.sign-in-link > cufon.cufon.cufon-canvas > canvas");
         //заполняем инпуты в поп-апе авторизации
-        $this->type('id=YumUserLogin_username','corporate_user@skiliks.com');
+        $this->type('id=YumUserLogin_username','asd@skiliks.com');
         $this->type('id=YumUserLogin_password','123123');
         //клик на "вход" в поп-апе авторизации
         $this->optimal_click("name=yt0");
 
-
-        //Раскоментировать когда Ваня поправит addUser
-
         //проверяем что у нового корпоративного юзера 10 симуляций после регистрации
-        //$this->assertText("css=span.brightblock > cufon.cufon.cufon-canvas > canvas", '10');
+        $this->assertText("css=span.brightblock > cufon.cufon.cufon-canvas > canvas", '10');
         //проверяем что у нового корпоративного Lite тариф после регистрации
-        //$this->assertText("//div[@id='simulations-counter-box']/div[2]/a[@class='brightblock']",'Lite');
+        $this->assertText("//div[@id='simulations-counter-box']/div[2]/a[@class='brightblock']",'Lite');
 
 
         //клик по "Обратная связь" на дэшборде корпоративного пользователя
@@ -81,6 +81,6 @@ class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
         $this->type('id=Vacancy_label','Шофер-виртуоз');
         sleep(3);
         $this->optimal_click("//div[@class='row buttons']/input[@type='submit']");*/
-        $this->stop();
+        $this->close();
     }
 }

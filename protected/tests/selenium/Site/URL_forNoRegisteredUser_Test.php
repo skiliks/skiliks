@@ -73,7 +73,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
         $this->isTextPresent("уже был добавлен!");
-        $this->stop();
+        $this->close();
 
     }
 }
