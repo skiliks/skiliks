@@ -24,7 +24,7 @@ class F2_SK1405_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
-        $this->stop();
+        $this->close();
     }
 
     public function testSK1405_Case2()
@@ -35,6 +35,6 @@ class F2_SK1405_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я')])");
         $this->assertFalse($this->verify_flag('F2','1'));
-        $this->stop();
+        $this->close();
     }
 }
