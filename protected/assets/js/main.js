@@ -228,6 +228,14 @@
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
+
+        $('.sign-in-link-in-popup').click(function(event){
+            event.preventDefault();
+            $(".sign-in-box").dialog('open');
+            $('.flash-message-popup.flash-message-popup-error').find('.popupclose').click();
+            //$('.sign-in-link').click();
+            $(".link-recovery").click();
+        });
         // show/hide sign-in box }
 
         $('#corporate-dashboard-add-vacancy').click(function(event) {
