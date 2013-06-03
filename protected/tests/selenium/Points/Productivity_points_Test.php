@@ -42,7 +42,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(2);
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "10");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         sleep(5);
