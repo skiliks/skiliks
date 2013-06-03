@@ -36,6 +36,12 @@ define([
                 SKWindowView.prototype.initialize.call(this);
             },
 
+            center: function() {
+                //$(".sim-window").css('top', '0px');
+                //$(".sim-window").css('left', '0px');
+
+            },
+
             /**
              * @method
              * @param el
