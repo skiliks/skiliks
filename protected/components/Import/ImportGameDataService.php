@@ -77,7 +77,8 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $character = $this->scenario->getCharacter(['code' => $this->getCellValue($sheet, 'id_персонажа', $i)]);
+            $character = $this->scenario
+                ->getCharacter(['code' => $this->getCellValue($sheet, 'id_персонажа', $i)]);
 
             // create entity if not exists {
             if (null === $character) {
@@ -197,9 +198,10 @@ class ImportGameDataService
                 continue;
             }
 
-            // try to find exists entity 
+            // try to find exists entity
             $learningGoal = LearningGoal::model()->findByAttributes([
-                'code' => $this->getCellValue($sheet, 'Номер цели обучения', $i), 'scenario_id' => $this->scenario->primaryKey
+                'code' => $this->getCellValue($sheet, 'Номер цели обучения', $i),
+                'scenario_id' => $this->scenario->primaryKey
             ]);
 
             // create entity if not exists {
@@ -274,7 +276,11 @@ class ImportGameDataService
                     continue;
                 }
 
-                $phrase = MailPhrase::model()->findByAttributes(['constructor_id' => $constructor->getPrimaryKey(), 'name' => $phraseValue]);
+                // @todo: use scenario_id!
+                $phrase = MailPhrase::model()->findByAttributes([
+                    'constructor_id' => $constructor->getPrimaryKey(),
+                    'name' => $phraseValue]);
+
                 if ($phrase === null) {
                     $phrase = new MailPhrase();
                 }
@@ -288,7 +294,10 @@ class ImportGameDataService
         }
 
         // Manual add punctuation signs
-        $constructor = MailConstructor::model()->findByAttributes(['code' => 'SYS', 'scenario_id' => $this->scenario->primaryKey]);
+        $constructor = MailConstructor::model()
+            ->findByAttributes(['code' => 'SYS',
+            'scenario_id' => $this->scenario->primaryKey]);
+
         if ($constructor === null) {
             $constructor = new MailConstructor();
         }
@@ -299,7 +308,12 @@ class ImportGameDataService
 
         $signs = ['.', ',', ':', '"', '-', ';'];
         foreach ($signs as $sign) {
-            $phrase = MailPhrase::model()->findByAttributes(['constructor_id' => $constructor->getPrimaryKey(), 'name' => $sign]);
+
+            // @todo: use scenario_id!
+            $phrase = MailPhrase::model()->findByAttributes([
+                'constructor_id' => $constructor->getPrimaryKey(),
+                'name' => $sign]);
+
             if ($phrase === null) {
                 $phrase = new MailPhrase();
             }
@@ -426,7 +440,8 @@ class ImportGameDataService
             }
 
             // try to find exists entity
-            $assessment_group = $this->scenario->getAssessmentGroup(['name'=>$this->getCellValue($sheet, 'Assessment group', $i)]);
+            $assessment_group = $this->scenario
+                ->getAssessmentGroup(['name'=>$this->getCellValue($sheet, 'Assessment group', $i)]);
 
             // create entity if not exists {
             if (null === $assessment_group) {
@@ -560,7 +575,8 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Parent', $i);
 
-            $entity = $this->scenario->getActivityParentAvailability(['code' => $code]);
+            $entity = $this->scenario
+                ->getActivityParentAvailability(['code' => $code]);
 
             if (null === $entity) {
                 $entity = new ActivityParentAvailability();
@@ -593,6 +609,11 @@ class ImportGameDataService
         );
     }
 
+    /**
+     * @todo: make code simpler!
+     * @return array
+     * @throws Exception
+     */
     public function importEmails()
     {
         $this->logStart();
@@ -861,7 +882,9 @@ class ImportGameDataService
                 $receiverId = $characters[$receiverCode];
 
                 // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
-                $mrt = MailTemplateRecipient::model()->byMailId($emailTemplateEntity->id)->byReceiverId($receiverId)->find();
+                // todo: use scenario_id!
+                $mrt = MailTemplateRecipient::model()->byMailId($emailTemplateEntity->id)
+                    ->byReceiverId($receiverId)->find();
                 if (null === $mrt) {
                     $mrt = new MailTemplateRecipient();
                     $mrt->mail_id = $emailTemplateEntity->id;
@@ -882,6 +905,7 @@ class ImportGameDataService
                 }
                 $characterId = $characters[$characterCode];
 
+                // todo: use scenario_id!
                 $mct = MailTemplateCopy::model()
                     ->byMailId($emailTemplateEntity->id)
                     ->byReceiverId($characterId)
@@ -919,6 +943,7 @@ class ImportGameDataService
 
         // recipient relations {
         /** @var MailRecipient[] $emailRecipientEntities */
+        // todo: use scenario_id!
         $emailRecipientEntities = MailRecipient::model()
             ->findAll(" id NOT IN (:ids) ", ['ids' => implode(',', $emailToRecipientIds)]);
 
@@ -1233,8 +1258,21 @@ class ImportGameDataService
 
         foreach($my_characters as $my_character) {
             /* @var $my_character Character */
-            $mail_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'mail'=> 1, 'scenario_id'=>$this->scenario->id, 'mail_prefix'=>null, 'import_id'=>$this->import_id]);
-            $phone_count = (int)CommunicationTheme::model()->countByAttributes(['character_id' => $my_character->id, 'phone'=> 1, 'scenario_id'=>$this->scenario->id, 'import_id'=>$this->import_id]);
+            $mail_count = (int)CommunicationTheme::model()->countByAttributes([
+                'character_id' => $my_character->id,
+                'mail'=> 1,
+                'scenario_id'=>$this->scenario->id,
+                'mail_prefix'=>null,
+                'import_id'=>$this->import_id
+            ]);
+
+            $phone_count = (int)CommunicationTheme::model()->countByAttributes([
+                'character_id' => $my_character->id,
+                'phone'=> 1,
+                'scenario_id'=>$this->scenario->id,
+                'import_id'=>$this->import_id
+            ]);
+
             assert(is_int($mail_count));
             assert(is_int($phone_count));
 
@@ -1297,7 +1335,6 @@ class ImportGameDataService
             $name = $this->getCellValue($sheet, 'Список дел в to-do-list', $i);
             // Жесткая
             $startTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Fixed time', $i), 'hh:mm:ss');
-            ;
 
             // Категория
             $category = $this->getCellValue($sheet, 'Категория', $i);
@@ -1365,7 +1402,8 @@ class ImportGameDataService
                 break;
             }
 
-            // try to find exists entity 
+            // try to find exists entity
+            // todo: use scenario_id!
             $mailTask = MailTask::model()
                 ->byMailId($mail->id)
                 ->byName($this->getCellValue($sheet, 'Task', $i))
@@ -1522,6 +1560,7 @@ class ImportGameDataService
             $mail = $this->scenario->getMailTemplate(['code' => $code]);
             $fileId = $documents[$attache];
 
+            // todo: use scenario_id!
             $attacheModel = MailAttachmentTemplate::model()->byMailId($mail->id)->byFileId($fileId)->find();
             if ($attacheModel === null) {
                 $attacheModel = new MailAttachmentTemplate();
@@ -1687,7 +1726,8 @@ class ImportGameDataService
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
                 $flag = Flag::model()->findByAttributes([
-                    'code' => $flagCode
+                    'code'        => $flagCode,
+                    'scenario_id' => $this->scenario->primaryKey,
                 ]);
                 //assert($flag, 'Flag for ' . $flagCode);
                 $replica->flag_to_switch = $flag->code;
@@ -1696,10 +1736,13 @@ class ImportGameDataService
             }
             unset($flagCode);
             unset($flag);
+
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 2', $i);
+
             if ($flagCode !== '') {
                 $flag = Flag::model()->findByAttributes([
-                    'code' => $flagCode
+                    'code'        => $flagCode,
+                    'scenario_id' => $this->scenario->primaryKey,
                 ]);
                 //assert($flag, 'Flag for ' . $flagCode);
                 $replica->flag_to_switch_2 = $flag->code;
@@ -1875,7 +1918,6 @@ class ImportGameDataService
 
             $dialog = $this->scenario->getReplica(['excel_id' => $excelId]);
 
-
             if (NULL === $dialog) {
                 throw new Exception('Try to use unexisi in DB dialog, with ExcelId ' . $excelId);
             }
@@ -1889,8 +1931,9 @@ class ImportGameDataService
                 }
 
                 $charactersPoints = ReplicaPoint::model()->findByAttributes([
-                    'point_id'  => $point->id,
-                    'dialog_id' => $dialog->id,
+                    'point_id'    => $point->id,
+                    'dialog_id'   => $dialog->id,
+                    'scenario_id' => $this->scenario->primaryKey,
                 ]);
                 if (NULL === $charactersPoints) {
                     $charactersPoints = new ReplicaPoint();
@@ -1959,7 +2002,11 @@ class ImportGameDataService
 
             $this->importedEvents[] = $code;
 
-            $event = EventSample::model()->findByAttributes(['code' => $code, 'scenario_id' => $this->scenario->primaryKey]);
+            $event = EventSample::model()->findByAttributes([
+                'code'        => $code,
+                'scenario_id' => $this->scenario->primaryKey
+            ]);
+
             if (!$event) {
                 $event = new EventSample(); // Создаем событие
                 $event->code = $code;
@@ -2166,7 +2213,10 @@ class ImportGameDataService
                 break;
             }
             //try to find exest activity in DB
-            $activity = Activity::model()->findByAttributes(['code' => $activityCode, 'scenario_id' => $this->scenario->primaryKey]);
+            $activity = Activity::model()->findByAttributes([
+                'code' => $activityCode,
+                'scenario_id' => $this->scenario->primaryKey
+            ]);
 
             // create Activity 
             if ($activity === null) {
@@ -2253,6 +2303,7 @@ class ImportGameDataService
                 /** @var ActivityAction $activityAction */
                 $activityAction = ActivityAction::model()->findByAttributes(array(
                     'activity_id' => $activity->primaryKey,
+                    'scenario_id' => $this->scenario->primaryKey,
                     $type         => ($value !== null ? $value->primaryKey : null)
                 ));
                 if ($activityAction === null) {
@@ -2277,8 +2328,19 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        ActivityAction::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
-        Activity::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
+        ActivityAction::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array(
+                'import_id' => $this->import_id,
+                'scenario_id' => $this->scenario->primaryKey
+            ));
+
+        Activity::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array(
+                'import_id' => $this->import_id,
+                'scenario_id' => $this->scenario->primaryKey
+            ));
         // delete old unused data }
 
         $this->logEnd();
@@ -2324,6 +2386,7 @@ class ImportGameDataService
             if (isset($entity)) {
                 $parentActivity = ActivityParent::model()->findByAttributes([
                     'parent_code'    => $parentCode,
+                    'scenario_id'    => $this->scenario->primaryKey,
                     $types[$endType] => $entity->id
                 ]);
 
@@ -2418,6 +2481,7 @@ class ImportGameDataService
             if (isset($entity)) {
                 $condition = PerformanceRuleCondition::model()->findByAttributes([
                     'performance_rule_id' => $rule->id,
+                    'scenario_id'         => $this->scenario->primaryKey,
                     $types[$type]         => $entity->id
                 ]);
 
