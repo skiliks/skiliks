@@ -693,15 +693,17 @@ class UserAuthController extends YumController
 
             $this->render(Yum::module('registration')->activationSuccessView, ['user'=>$YumProfile->user]);
         } else {
-            $this->layout = false;
-            Yii::app()->user->setFlash(
-                (-1 == $status) ? 'error' : 'success',
-                $this->render(
-                    Yum::module('registration')->activationFailureView,
-                    array('error' => $status),
-                    true
-                )
-            );
+            if(Yii::app()->user->isGuest){
+                $this->layout = false;
+                Yii::app()->user->setFlash(
+                    (-1 == $status) ? 'error' : 'success',
+                    $this->render(
+                        Yum::module('registration')->activationFailureView,
+                        array('error' => $status),
+                        true
+                    )
+                );
+            }
             $this->redirect('/');
         }
     }
