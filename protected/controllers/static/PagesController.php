@@ -19,7 +19,7 @@ class PagesController extends AjaxController
             $user->data()->isActive() &&
             !$user->data()->isHasAccount()
         ) {
-            $this->redirect('/userAuth/chooseAccountType');
+            $this->redirect('/registration/choose-account-type');
         }
 
         return parent::beforeAction($action);
