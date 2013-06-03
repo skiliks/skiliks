@@ -40,7 +40,8 @@ class TestUserHelper
         $YumUser->register($YumUser->username, $YumUser->password, $YumProfile);
         $YumUser->activationKey = '1';
         $YumUser->status = 1;
-        $YumUser->update();
+        $YumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
+        $YumUser->save(false);
 
         if($account === "personal") {
 
