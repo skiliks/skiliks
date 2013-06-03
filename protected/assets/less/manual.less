@@ -228,6 +228,10 @@
       }
     }
 
+    .left-page > h2, .right-page > h2 {
+      margin: 25px 0 12px;
+    }
+
     @media (max-width: 1280px), (max-height: 750px) {
       h2 {
         margin: 25px 0 5px 32px;
@@ -236,6 +240,10 @@
         &.center {
           margin: 15px 35px 10px;
         }
+      }
+
+      .left-page > h2, .right-page > h2 {
+        margin: 20px 0 12px 3px;
       }
     }
 
@@ -582,7 +590,7 @@
     }
   }
 
-  .content.block-list {
+  .block-list {
     color: #232323;
 
     .item-block {
@@ -622,7 +630,7 @@
         &.plan-nav {
           .draw-picture(14);
         }
-        &.plan-close, &.mail-close, &.docs-close {
+        &.plan-close, &.mail-close, &.docs-close, &.phone-close {
           .draw-picture(15);
         }
         &.mail-inbox {
@@ -661,6 +669,18 @@
         &.docs-mail {
           .draw-picture(27);
         }
+        &.phone-income {
+          .draw-picture(28);
+        }
+        &.phone-contacts {
+          .draw-picture(29);
+        }
+        &.phone-call {
+          .draw-picture(30);
+        }
+        &.phone-history {
+          .draw-picture(31);
+        }
       }
     }
 
@@ -681,7 +701,7 @@
     }
   }
 
-  .content.plan {
+  .page .plan {
     .item-block {
       height: 113px;
       @media (max-width: 1280px), (max-height: 750px) {
@@ -690,7 +710,7 @@
     }
   }
 
-  .content.mail {
+  .page .mail {
     .item-block {
       height: 91px;
     }
@@ -705,11 +725,37 @@
     }
   }
 
-  .content.docs {
+  .page .docs, .page .phone {
     .item-block {
       height: 91px;
       @media (max-width: 1280px), (max-height: 750px) {
         height: 76px;
+      }
+    }
+  }
+
+  .page .visitors {
+    .image {
+      width: 278px;
+      height: 271px;
+      margin: 0 0 15px 2px;
+      background: url(../img/manual/visitor.png) 0 0 no-repeat;
+
+      @media (max-width: 1280px), (max-height: 750px) {
+        width: 222;
+        height: 218px;
+        background: url(../img/manual/visitor-small.png) 0 0 no-repeat;
+      }
+    }
+
+    & p {
+      margin: 0 40px 13px 0;
+      font-size: 14px;
+      line-height: 120%;
+      @media (max-width: 1280px), (max-height: 750px) {
+        font-size: 13px;
+        line-height: 110%;
+        margin: 0 40px 11px 0;
       }
     }
   }
