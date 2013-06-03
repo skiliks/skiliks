@@ -365,7 +365,7 @@ class UserAuthController extends YumController
             if(null !== $UserAccountPersonal && null !== $YumProfile)
             {
                 $accountPersonal->attributes = $UserAccountPersonal; //$_POST['UserAccountPersonal'];
-                $isUserAccountPersonalValid = $accountPersonal->validate();
+                $isUserAccountPersonalValid = $accountPersonal->validate(['user_id', 'industry_id', 'professional_status_id']);
 
                 if($isUserAccountPersonalValid && $isProfileValid)
                 {
@@ -388,7 +388,7 @@ class UserAuthController extends YumController
                     // grands permission to start full simulation }
 
                     $profile->save();
-                    $accountPersonal->save();
+                    $accountPersonal->save(true, ['user_id', 'industry_id', 'professional_status_id']);
                     $this->redirect(['registration/account-type/added']);
                 }
             }
