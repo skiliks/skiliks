@@ -586,7 +586,7 @@
     color: #232323;
 
     .item-block {
-      height: 113px;
+      height: 100px;
       margin: 5px 0 10px 0;
       overflow: hidden;
 
@@ -622,7 +622,7 @@
         &.plan-nav {
           .draw-picture(14);
         }
-        &.plan-close, &.mail-close {
+        &.plan-close, &.mail-close, &.docs-close {
           .draw-picture(15);
         }
         &.mail-inbox {
@@ -646,12 +646,26 @@
         &.mail-settings {
           .draw-picture(22);
         }
+        &.docs-folder {
+          .draw-picture(23);
+        }
+        &.docs-ppt {
+          .draw-picture(24);
+        }
+        &.docs-doc {
+          .draw-picture(25);
+        }
+        &.docs-xls {
+          .draw-picture(26);
+        }
+        &.docs-mail {
+          .draw-picture(27);
+        }
       }
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
       .item-block {
-        height: 96px;
         margin: 3px 0 5px 0;
 
         h3 {
@@ -668,7 +682,12 @@
   }
 
   .content.plan {
-
+    .item-block {
+      height: 113px;
+      @media (max-width: 1280px), (max-height: 750px) {
+        height: 96px;
+      }
+    }
   }
 
   .content.mail {
@@ -682,6 +701,15 @@
       }
       .right-page .item-block {
         height: 85px;
+      }
+    }
+  }
+
+  .content.docs {
+    .item-block {
+      height: 91px;
+      @media (max-width: 1280px), (max-height: 750px) {
+        height: 76px;
       }
     }
   }
