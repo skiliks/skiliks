@@ -42,19 +42,9 @@
 
         <div class="row" style="display: none">
             <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-        </div>
-
-
-    <!--<a id="pass-switcher"><?php echo Yii::t('site', 'Show passwords') ?></a>
-
-    <p class="note"><?php echo Yii::t('site', 'Fields with * are required.') ?></p>-->
-
-        <div class="row">
+        </div><div class="row">
             <?php echo CHtml::submitButton(Yii::t('site', 'Начать')); ?>
-        </div>
-    </div><div class="reg terms-confirm">
-        <?= $form->error($user, 'agree_with_terms'); ?>
-        <?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+        </div></div><div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
         <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
     </div>
 <?php $this->endWidget(); ?>
