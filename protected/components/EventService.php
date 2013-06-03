@@ -199,7 +199,7 @@ class EventService
     /**
      *
      */
-    public function getEventsQueueForJs(Simulation $simulation, $eventsQueueDepth = 0)
+    public static function getEventsQueueForJs(Simulation $simulation, $eventsQueueDepth = 0)
     {
         $result = [];
 
