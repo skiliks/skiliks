@@ -5,7 +5,7 @@ class DebugController extends AjaxController
 {
     public function actionIndex()
     {
-        TestUserHelper::addUser('corporate');
+        TestUserHelper::addUser("personal");
     }
 }
 
