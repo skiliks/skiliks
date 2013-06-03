@@ -36,7 +36,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
         $this->verifyTextPresent("Вот, сделал. Смотрите. \nС уваженим, Трутнев С.");
-        $this->stop();
+        $this->close();
     }
 
     public function testSK1428_Case2()
@@ -58,6 +58,6 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
         $this->verifyTextPresent("exact:Добрый день! Заполнил вашу форму. Есть ли вопросы? \nВсего доброго, Трутнев С.");
-        $this->stop();
+        $this->close();
     }
 }

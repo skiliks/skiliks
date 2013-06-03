@@ -37,7 +37,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->stop();
+        $this->close();
     }
 
     /**
@@ -71,7 +71,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->stop();
+        $this->close();
     }
 
     /**
@@ -103,7 +103,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->stop();
+        $this->close();
     }
 
     /**
@@ -138,6 +138,6 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->stop();
+        $this->close();
     }
 }

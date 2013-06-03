@@ -47,6 +47,6 @@ class Communication_Choice_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['communication4'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['communication4'],"100");
-        $this->stop();
+        $this->close();
     }
 }

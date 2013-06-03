@@ -28,6 +28,6 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->assertTrue($this->isElementPresent("css=li.icon-active.phone a"));
         $this->no_reply_call();
-        $this->stop();
+        $this->close();
     }
 }
