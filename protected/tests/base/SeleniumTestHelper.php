@@ -653,7 +653,7 @@ class SeleniumTestHelper extends CWebTestCase
 
     }
 
-    public function __construct()
+    /*public function __construct()
     {
         $x = $this;
         register_shutdown_function(function() use ($x) {
@@ -666,6 +666,6 @@ class SeleniumTestHelper extends CWebTestCase
         });
 
         parent::__construct();
-    }
+    }*/
 }
 
