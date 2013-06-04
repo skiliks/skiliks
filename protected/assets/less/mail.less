@@ -652,7 +652,7 @@ section.mail.new {
 }
 #mailEmulatorNewLetterText {
   padding: 10px;
-  width: 100%;
+  /*width: 100%;*/
   display: inline-block;
   list-style: none;
   li {
@@ -1546,8 +1546,9 @@ section.mail {
 
   .mail-text-area {
     height:~"calc(100% - 426px)";
+    min-height:33%;
     overflow-x:hidden;
-    overflow-y: scroll;
+    overflow-y:auto;
     padding-right:10px;
 
     pre {
