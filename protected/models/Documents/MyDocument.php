@@ -142,17 +142,26 @@ class MyDocument extends CActiveRecord
         return $fileData;
     }
 
-    public function setSheetContent($name, $sheetContent)
+    public function setSheetContent($name, $sheetContent, $filename = null)
     {
-        $content = $this->getSheetList();
-        foreach ($content as &$sheet) {
-            if ($sheet['name'] === $name) {
-                $sheet['content'] = $sheetContent;
+        $filePath = $filename ?: (file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath());
+        $fHandle = fopen($filePath, 'r');
+        try {
+            flock($fHandle, LOCK_EX);
+            $content = yaml_parse_file($filePath);
+            foreach ($content as &$sheet) {
+                if ($sheet['name'] === $name) {
+                    $sheet['content'] = $sheetContent;
+                }
             }
+            $yamlContent = yaml_emit($content);
+            $filePath = $this->getFilePath();
+            $result = file_put_contents($filePath, $yamlContent);
+            fclose($fHandle);
+        } catch (Exception $e) {
+            fclose($fHandle);
+            throw $e;
         }
-        $yamlContent = yaml_emit($content);
-        $filePath = $this->getFilePath();
-        $result = file_put_contents($filePath, $yamlContent);
         if ($result === false) {
             assert('Can not save sheet');
         }
