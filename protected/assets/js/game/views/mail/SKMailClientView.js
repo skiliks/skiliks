@@ -1598,8 +1598,14 @@ define([
                     this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
                     this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                    );
                 } else {
                     this.$('.mail-tags-bl').hide();
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
+                    );
                 }
 
                 // some letter has predefine text, update it
@@ -1981,8 +1987,14 @@ define([
                     this.$('#mailEmulatorNewLetterText').html(
                         this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                     );
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
+                    );
                 } else {
                     this.$('.mail-tags-bl').show();
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                    );
                 }
             },
 
