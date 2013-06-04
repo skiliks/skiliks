@@ -79,7 +79,9 @@ define([], function () {
                             sheet.set('content', spreadsheet_data);
                             SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
                             sheet.collection.each(function (element) {
-                                element.trigger('recalc');
+                                if (element !== sheet) {
+                                    element.trigger('recalc');
+                                }
                             });
                             sheet.save();
                         }
