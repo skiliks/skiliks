@@ -287,7 +287,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
 
         $time = 32000;
-        $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
+        $speedFactor = $simulation->getSpeedFactor();
 
         $email1 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
