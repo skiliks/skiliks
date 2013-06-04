@@ -1984,11 +1984,11 @@ define([
                 // hide phrases in fantastic way
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
                     this.$('.mail-tags-bl').hide();
-                    this.$('#mailEmulatorNewLetterText').html(
-                        this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
-                    );
                     this.$('.mail-text-wrap').height(
                         this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
+                    );
+                    this.$('#mailEmulatorNewLetterText').html(
+                        this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                     );
                 } else {
                     this.$('.mail-tags-bl').show();
