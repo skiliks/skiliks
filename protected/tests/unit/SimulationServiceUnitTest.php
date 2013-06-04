@@ -357,6 +357,7 @@ class SimulationServiceUnitTest extends CDbTestCase
             'sim_id' => $simulation->id
         ]);
 
+        // speedFactor : 6;
         $res = [
             ['action' => 'MY1'        , 'duration' => '00:00:10'],
             ['action' => 'plan'       , 'duration' => '00:00:40'],
@@ -391,9 +392,45 @@ class SimulationServiceUnitTest extends CDbTestCase
             ['action' => 'MY2'        , 'duration' => '00:02:12']
         ];
 
+        if (8 == $speedFactor) {
+            $res = [
+                ['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'], // short activity aggregated
+                ['action' => 'MY2'        , 'duration' => '00:03:04'],
+                ['action' => 'main screen', 'duration' => '00:03:08'], // long activity stand alone
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:03:06'],
+                //['action' => 'MY1'        , 'duration' => '00:00:10'],
+                ['action' => 'plan'       , 'duration' => '00:00:40'],
+                ['action' => 'MY2'        , 'duration' => '00:02:56']
+            ];
+        }
+
         $j = 0;
         foreach ($aggregatedLogs as $aggregatedLog) {
-            echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
+            // echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
             $this->assertEquals($res[$j]['action'],   $aggregatedLog->leg_action, 'type, iteration '.$j);
             $this->assertEquals($res[$j]['duration'], $aggregatedLog->duration,  'duration, iteration '.$j);
             $j++;
