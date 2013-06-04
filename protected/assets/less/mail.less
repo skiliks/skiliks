@@ -320,7 +320,7 @@ a.dd-selected {
   border-left:none;
   width:100%;
   /*height:100%;*/
-  padding:0 0 225px 0;
+  height:~"calc(100% - 220px)";
   background-color: white;
   .mail-view-header {
     /*position:absolute;*/
@@ -653,6 +653,7 @@ section.mail.new {
 }
 #mailEmulatorNewLetterText {
   padding: 10px;
+  margin:0px;
   /*width: 100%;*/
   display: inline-block;
   list-style: none;
@@ -1262,7 +1263,8 @@ section.mail.new {
   }
 }
 .mail-view-header {
-  border-bottom:1px solid #faf9f9;
+  border-bottom:1px solid #ccc;
+  /* border-bottom:1px solid #faf9f9; */
   background: #bfeab1;
   background: -moz-linear-gradient(top, #fff, #f3f0f0);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f3f0f0));
@@ -1274,6 +1276,7 @@ section.mail.new {
   -webkit-box-shadow: 0 1px 0 #ccc;
   box-shadow: 0 1px 0 #ccc;
   padding:2px 0;
+  height:205px;
   /*position:absolute;*/
   .dd-option {
     padding: 3px;
@@ -1545,13 +1548,14 @@ section.mail {
   /*height:100%;
   padding: 210px 0px 222px 10px;
   min-height:50px; */
-  height:~"calc(100% - 225px)";
+  height:~"calc(100% - 210px)";
+  overflow-y:auto;
 
   .mail-text-area {
     /*height:~"calc(100% - 426px)";*/
-    overflow-x:hidden;
-    overflow-y:auto;
-    padding-right:10px;
+    /*overflow-x:hidden;
+    overflow-y:auto;*/
+    /*padding-right:10px;*/
 
     pre {
       margin-top:-24px;
