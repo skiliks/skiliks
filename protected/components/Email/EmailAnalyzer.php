@@ -382,7 +382,7 @@ class EmailAnalyzer
             ];
         }
 
-        $delta = 2 * (int)Yii::app()->params['public']['skiliksSpeedFactor'] * 60;
+        $delta = 2 * $this->simulation->getSpeedFactor() * 60;
         $possibleRightActions = 0;
         $doneRightActions = 0;
         

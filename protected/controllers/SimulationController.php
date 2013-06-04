@@ -61,7 +61,7 @@ class SimulationController extends AjaxController
         $this->sendJSON(
             array(
                 'result'       => 1,
-                'speedFactor'  => Yii::app()->params['public']['skiliksSpeedFactor'],
+                'speedFactor'  => $simulation->getSpeedFactor(),
                 'simId'        => $simulation->id,
                 'scenarioName' => $scenarioName
             )
