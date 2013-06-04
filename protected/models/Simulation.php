@@ -110,7 +110,7 @@ class Simulation extends CActiveRecord
     public function getGameTime()
     {
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
-        $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
+        $variance = $variance * $this->getSpeedFactor();
 
         $startTime = explode(':', $this->game_type->start_time);
         $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
@@ -290,7 +290,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty window end time WindowLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap WindowLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -312,7 +312,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time ActivityLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap ActivityLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -337,7 +337,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time ActivityAggregatedLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap ActivityAggregatedLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -398,7 +398,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time UniversalLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap UniversalLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -469,6 +469,13 @@ class Simulation extends CActiveRecord
         /* @var $scenario Scenario */
         return ($scenario->slug === Scenario::TYPE_FULL)?true:false;
 
+    }
+
+    public function getSpeedFactor()
+    {
+        return Yii::app()->params['public'][
+            $this->mode == self::MODE_DEVELOPER_ID ? 'skiliksDeveloperModeSpeedFactor' : 'skiliksSpeedFactor'
+        ];
     }
 
     /**
