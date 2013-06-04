@@ -17,6 +17,9 @@ define([], function () {
             this.listenTo(sheet, 'recalc', this.recalcSheet);
             this.listenTo(sheet, 'deactivate', this.deactivateSheet);
         },
+        updateRelatedSheets: function () {
+
+        },
         deactivateSheet: function () {
             var me = this;
             loadQueue.queue('fx', function () {
@@ -67,7 +70,17 @@ define([], function () {
                         }
 
                         if (cmdtype === "doneposcalc") {
-                            sheet.set('content', me.spreadsheet.CreateSpreadsheetSave());
+                            var spreadsheet_data = me.spreadsheet.CreateSpreadsheetSave();
+                            var parts = sc.DecodeSpreadsheetSave(spreadsheet_data);
+                            var sheet_data = spreadsheet_data.substring(parts.sheet.start, parts.sheet.end);
+                            if (sheet.get('content') === spreadsheet_data) {
+                                return;
+                            }
+                            sheet.set('content', spreadsheet_data);
+                            SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
+                            sheet.collection.each(function (element) {
+                                element.trigger('recalc');
+                            });
                             sheet.save();
                         }
                     }
@@ -87,7 +100,6 @@ define([], function () {
                 }
                 spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height() - 50, me.$el.width(), 0);
                 if (parts && parts.edit) {
-                    console.log(sheet.get('content').substring(parts.edit.start, parts.edit.end));
                     me.spreadsheet.editor.LoadEditorSettings(sheet.get('content').substring(parts.edit.start, parts.edit.end));
                 }
                 sheet.collection.each(function (i) {
