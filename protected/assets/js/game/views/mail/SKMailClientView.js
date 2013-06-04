@@ -812,7 +812,7 @@ define([
 
                 // set icons {
                 var icons = this.mailClient.iconsForInboxScreenArray;
-                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                if (SKApp.isTutorial()) {
                     icons = this.mailClient.iconsForTutorialScenarioFolderInbox;
                 }
                 this.renderIcons(icons);
@@ -839,7 +839,7 @@ define([
                 this.updateTrashListView();
                 // set icons {
                 var icons = this.mailClient.iconsForTrashScreenArray;
-                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                if (SKApp.isTutorial()) {
                     icons = this.mailClient.iconsForTutorialScenarioFolderTrash;
                 }
                 this.renderIcons(icons);
@@ -867,7 +867,7 @@ define([
 
                 // set icons {
                 var icons = this.mailClient.iconsForSendedScreenArray;
-                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                if (SKApp.isTutorial()) {
                     icons = this.mailClient.iconsForTutorialScenarioFolderSend;
                 }
                 this.renderIcons(icons);
@@ -899,7 +899,7 @@ define([
 
                 // set icons {
                 var icons = this.mailClient.iconsForDraftsScreenArray;
-                if (SKApp.simulation.get('scenarioName') === SKApp.simulation.constTutorialScenario) {
+                if (SKApp.isTutorial()) {
                     icons = this.mailClient.iconsForTutorialScenarioFolderDrafts;
                 }
                 this.renderIcons(icons);
