@@ -319,10 +319,11 @@ a.dd-selected {
 .mail-view.new {
   border-left:none;
   width:100%;
-  height:100%;
+  /*height:100%;*/
+  padding:0 0 225px 0;
   background-color: white;
   .mail-view-header {
-    position:absolute;
+    /*position:absolute;*/
     table {
       border-spacing:7px 5px;
       td {
@@ -1235,7 +1236,7 @@ section.mail.new {
   li {
     display:inline-block;
     height:24px;
-    margin:3px 0 0 1px;
+    margin:3px 0 0 3px;
     a {
       display:block;
       background:url("../img/mail/bg-items.png") no-repeat 0 -48px;
@@ -1273,7 +1274,7 @@ section.mail.new {
   -webkit-box-shadow: 0 1px 0 #ccc;
   box-shadow: 0 1px 0 #ccc;
   padding:2px 0;
-  position:absolute;
+  /*position:absolute;*/
   .dd-option {
     padding: 3px;
   }
@@ -1541,9 +1542,10 @@ section.mail {
   }
 }
 .mail-text-wrap {
-  /*height:100%;*/
-  padding: 210px 0px 217px 10px;
-  min-height:55px;
+  /*height:100%;
+  padding: 210px 0px 222px 10px;
+  min-height:50px; */
+  height:~"calc(100% - 225px)";
 
   .mail-text-area {
     /*height:~"calc(100% - 426px)";*/
