@@ -1971,7 +1971,7 @@ define([
              */
             renderPreviousMessage: function (text) {
                 if (undefined !== text && '' !== text && null !== text) {
-                    text = '<pre><p style="color:blue;">' + text + '</p></pre>';
+                    text = '<pre><p>' + text + '</p></pre>';
                 }
                 this.$(".previouse-message-text").html(text);
                 this.delegateEvents();
