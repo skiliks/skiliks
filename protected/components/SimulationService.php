@@ -805,10 +805,18 @@ class SimulationService
 
     }
 
-    public static function simulationIsStarted($simulation, $gameTime) {
-
+    /**
+     * @param Simulation $simulation
+     * @param Scenario $gameTime
+     *
+     * @throws InviteException
+     */
+    public static function simulationIsStarted($simulation, $gameTime)
+    {
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
+
             $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+
             if (null === $invite &&
                 false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
             ) {
@@ -824,7 +832,7 @@ class SimulationService
             } else if((int)$invite->status === Invite::STATUS_STARTED) {
                 return;
             } else {
-                throw new InviteException("Статус инвайта не может быть не STATUS_ACCEPTED или STATUS_STARTED");
+                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_STARTED. А он ".$invite->status);
             }
         }
 
