@@ -145,7 +145,7 @@ class MyDocument extends CActiveRecord
     public function setSheetContent($name, $sheetContent, $filename = null)
     {
         $filePath = $filename ?: (file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath());
-        $fHandle = fopen($filePath, 'r');
+        $fHandle = fopen($this->getFilePath(), 'a');
         try {
             flock($fHandle, LOCK_EX);
             $content = yaml_parse_file($filePath);

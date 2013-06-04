@@ -2654,7 +2654,7 @@ SocialCalc.SpreadsheetControlSortSave = function(editor, setting) {
 SocialCalc.SpreadsheetControlSortLoad = function(editor, setting, line, flags) {
    var parts, ele;
 
-   var spreadsheet = SocialCalc.GetSpreadsheetControlObject();
+   var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
 
    parts = line.split(":");
    spreadsheet.sortrange = SocialCalc.decodeFromSave(parts[1]);

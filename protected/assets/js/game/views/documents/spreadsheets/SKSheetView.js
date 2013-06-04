@@ -77,13 +77,14 @@ define([], function () {
                                 return;
                             }
                             sheet.set('content', spreadsheet_data);
+                            sheet.save();
+                            SKApp.simulation.documents.fetch();
                             SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
                             sheet.collection.each(function (element) {
                                 if (element !== sheet) {
                                     element.trigger('recalc');
                                 }
                             });
-                            sheet.save();
                         }
                     }
                 };
@@ -96,6 +97,7 @@ define([], function () {
                 root.hide();
 
                 var parts = me.spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
+                console.log(sheet.get('content'));
                 if (parts && parts.sheet) {
                     var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
                     me.spreadsheet.ParseSheetSave(sheet_data);
