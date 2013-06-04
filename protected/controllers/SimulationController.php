@@ -162,7 +162,7 @@ class SimulationController extends AjaxController
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
         // IF - to prevent cheating
-        if (null !== $invite && $invite->isAccepted() && false === $invite->scenario->isLite()) {
+        if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false);
             if (Yii::app()->user->data()->isCorporate()) {
