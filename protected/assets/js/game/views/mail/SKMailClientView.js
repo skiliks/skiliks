@@ -1999,6 +1999,9 @@ define([
                     this.$('#mailEmulatorNewLetterText').html(
                         this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                     );
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
+                    );
                 } else {
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
