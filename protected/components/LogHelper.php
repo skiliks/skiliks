@@ -474,7 +474,7 @@ class LogHelper
         }
         // collect time by window id }
 
-        $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
+        $limit = $simulation->getSpeedFactor() * 10; // 10 real seconds
 
         foreach ($data as $activityAction) {
 
