@@ -310,7 +310,8 @@ class DialogService
     public function isPlan($code) {
 
         preg_match_all("/([A-Z]+)(\d+)/", $code, $matches);
-        if($matches[1][0] === 'P') {
+
+        if(isset($matches[1][0]) && $matches[1][0] === 'P') {
             return true;
         }else{
             return false;
