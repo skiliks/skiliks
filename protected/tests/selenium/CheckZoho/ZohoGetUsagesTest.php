@@ -29,7 +29,7 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->setUp();
         $this->deleteAllVisibleCookies();
-        $this->windowMaximize();
+        //$this->windowMaximize();
         $this->open('https://zapi.zoho.com/login.do');
 
         $this->selectFrame('zohoiam');
@@ -41,20 +41,24 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
 
         sleep(5);
 
-        $this->selectFrame("relative=parent");
-
-        sleep(5);
+//        $this->selectFrame("relative=parent");
+//
+//        sleep(1);
 
         // $value = split ("%", $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]"), 3);
-        $date = $this->getText("xpath=//div[1]/div[2]/div[1]/div[3]/div[1]/div/ul/li[2]/span");
+        //$date = $this->getText("xpath=//*[@class='payment_div']/ul/li[1]/span/span");
+        //$date = $this->getText("xpath=//div[1]/div[2]/div[1]/div[3]/div[1]/div/ul/li[2]/span");
+//
+        //$this->click("css=#UserAccount_usg");
+        //sleep(5);
+//
 
-        $this->optimal_click("css=#UserAccount_usg");
+//        $usages_today = $this->getText("xpath=//div[@class='usage_report_chart']/ul/li[7]/span[1]");
+//
+//        $date = str_replace(['-',' ', ','],['_','_','_'],$date);
+//
+//        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($usages_today).'/'.urlencode($date));
 
-        sleep(5);
-        $usages_today = $this->getText("xpath=//div[@class='usage_report_chart']/ul/li[7]/span[1]");
 
-        $date = str_replace(['-',' ', ','],['_','_','_'],$date);
-
-        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($usages_today).'/'.urlencode($date));
     }
 }
