@@ -44,6 +44,7 @@ class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
 
     public function testDialogGetForDialogAndPlan()
     {
+        $this->markTestIncomplete();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
