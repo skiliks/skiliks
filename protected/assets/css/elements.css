@@ -790,6 +790,8 @@ section.registration-by-link .form .row a.decline-link:hover {
 /* error 404*/
 #error404-message {
     text-align:center;
+    color:white;
+    font:bold 14px/18px "ProximaNova-Bold";
 }
 /* universal */
 .blackout {
