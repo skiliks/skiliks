@@ -73,7 +73,7 @@ class PhoneService {
         $dialog = $simulation->game_type->getReplica(['code'=>$dialog_code, 'replica_number'=>1]);
 
         if($ev === null && $dialog->next_event_code == 'E1') {
-            return 'fail1';  //todo:Костыль
+            return 'fail';  //todo:Костыль
         }
 
         if (!empty($dialog->next_event_code)) {
@@ -91,23 +91,18 @@ class PhoneService {
            } else {
                EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
 
-               $dialog_cancel = $simulation->game_type->getReplica([
-                   'code'=>$dialog_code,
-                   'replica_number'=>2
-               ]);
-
-               $cancel_event = $simulation->game_type->getEventSample([
-                   'code'=>$dialog_cancel->next_event_code
-               ]);
-
-               $cur_event = EventTrigger::model()->findByAttributes([
-                   'sim_id' => $simulation->id,
-                   'event_id' => $cancel_event->id
-               ]);
-
-               if($cur_event !== null){
-                   $cur_event->delete();
+               /* Рекурсию лучше не применять */
+               $next_code = $this->deleteCancelReplica($simulation, $dialog_code);
+               $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$dialog_code]);
+               if(null !== $call) {
+                   $next_code = $this->deleteCancelReplica($simulation, $next_code);
+                   $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
+                   if(null !== $call) {
+                       $this->deleteCancelReplica($simulation, $next_code);
+                       PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
+                   }
                }
+
            }
 
            return 'ok';
@@ -360,6 +355,26 @@ class PhoneService {
         );
         
         return array_merge($newData, $data);
+    }
+
+    public function deleteCancelReplica(Simulation $simulation, $dialog_code) {
+        $dialog_cancel = $simulation->game_type->getReplica([
+            'code'=>$dialog_code,
+            'replica_number'=>2
+        ]);
+
+        $cancel_event = $simulation->game_type->getEventSample([
+            'code'=>$dialog_cancel->next_event_code
+        ]);
+
+        $cur_event = EventTrigger::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'event_id' => $cancel_event->id
+        ]);
+        if($cur_event !== null){
+            $cur_event->delete();
+        }
+        return $dialog_cancel->next_event_code;
     }
 }
 

@@ -257,10 +257,11 @@ class CheatsController extends AjaxController
     public function actionSaveZohoUsageStatus($value, $expireDate)
     {
         //  $value = Yii::app()->request->getParam('value');
+        $usages_today = $value;
 
-        if (null !== $value) {
+        if (null !== $usages_today) {
             $file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'c');
-            $data = $value . '% ; '. $expireDate;
+            $data = $usages_today . ' UDS, '. $expireDate;
             $data = str_replace([ '___','__','_'],[' - ',', ',', '],$data);
             fwrite($file, $data);
             fclose($file);

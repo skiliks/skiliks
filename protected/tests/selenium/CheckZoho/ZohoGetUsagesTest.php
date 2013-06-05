@@ -26,10 +26,9 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
     );
 
     public function testZohoGetUsages() {
-        //$this->markTestIncomplete();
         $this->setUp();
         $this->deleteAllVisibleCookies();
-        $this->windowMaximize();
+        //$this->windowMaximize();
         $this->open('https://zapi.zoho.com/login.do');
 
         $this->selectFrame('zohoiam');
@@ -47,6 +46,14 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
 
         $date = str_replace(['-',' ', ','],['_','_','_'],$date);
 
-        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($value[0]).'/'.urlencode($date));
+        sleep(5);
+        $this->click("css=#UserAccount_usg a");
+        $this->selectFrame("relative=parent");
+
+        sleep(5);
+
+        $today_usages = $this->getText("xpath=//div[1]/div[2]/div[2]/div[1]/div[4]/div/ul/li[8]/span[2]");
+
+        $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($today_usages).'/'.urlencode($date));
     }
 }
