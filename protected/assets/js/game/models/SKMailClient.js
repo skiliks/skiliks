@@ -801,20 +801,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 AppView.frame.icon_view.doSoundSaveAttachment();
                             }
 
-                            SKApp.simulation.mailClient.message_window = new SKDialogView({
-                                'message':'Файл был успешно сохранён в папку Мои документы.',
-                                'buttons':[
-                                    {
-                                        'value':'Ок',
-                                        'onclick':function () {
-                                            delete SKApp.simulation.mailClient.message_window;
-                                            if(window.elfinderInstace !== undefined){
-                                                window.elfinderInstace.exec('reload');
-                                            }
+                            SKApp.simulation.once('documents:loaded', function() {
+                                if (window.elfinderInstace !== undefined) {
+                                    window.elfinderInstace.exec('reload');
+                                }
+
+                                new SKDialogView({
+                                    'message':'Файл был успешно сохранён в папку Мои документы.',
+                                    'buttons':[
+                                        {
+                                            'value':'Ок'
                                         }
-                                    }
-                                ]
+                                    ]
+                                });
                             });
+
                             SKApp.simulation.documents.fetch();
                         } else {
                             throw 'Can not add document';
