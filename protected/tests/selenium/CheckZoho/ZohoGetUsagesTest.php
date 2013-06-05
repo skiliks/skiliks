@@ -39,6 +39,8 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
 
         $this->click("name=submit");
 
+        sleep(5);
+
         $this->selectFrame("relative=parent");
 
         sleep(5);
