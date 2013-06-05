@@ -817,10 +817,10 @@ class SimulationService
 
             $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
 
-            if (null === $invite &&
-                false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
-            ) {
-                throw new InviteException('Симуляция запущена без инвайта');
+            if (null === $invite) {
+                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+                    throw new InviteException('Симуляция запущена без инвайта');
+                }
             } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false);
