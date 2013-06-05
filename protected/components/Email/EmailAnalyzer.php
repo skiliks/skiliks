@@ -654,9 +654,8 @@ class EmailAnalyzer
             );
         }
 
-
         // редко читает почту
-        if ($mailSessionsTotalAmount = 0) {
+        if (0 == $mailSessionsTotalAmount) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
