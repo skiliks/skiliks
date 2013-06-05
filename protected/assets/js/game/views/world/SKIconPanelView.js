@@ -107,12 +107,17 @@ define([
              * @method onMailEvent
              */
             onMailSendEvent: function (event) {
-                //console.log('is fantastic: ', event.get('fantastic'));
+                var me = this,
+                    mailClientView = SKApp.simulation.mailClient.view;
+
                 if (!event.get('fantastic')) {
-                    this.$('.mail').addClass('create-mail');
-                    this.startAnimation('.mail');
+                    if (mailClientView) {
+                        me.doNewMailStart();
+                    } else {
+                        me.$('.mail').addClass('create-mail');
+                        me.startAnimation('.mail');
+                    }
                 }
-                //console.log(this.$('.mail').hasClass('create-mail'));
             },
 
             /**
@@ -506,29 +511,44 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
-                //console.log('doNewMailStart', SKApp.simulation.mailClient);
-                this.$('.mail').removeClass('create-mail');
-                var simulation = SKApp.simulation;
-                if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-                    SKApp.simulation.mailClient.once('init_completed', function () {
-                        this.view.once('render_folder_finished', function () {
-                            //console.log('this.renderWriteCustomNewEmailScreen()');
-                            SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
-                        });
+                var me = this,
+                    mailClient = SKApp.simulation.mailClient,
+                    mailClientView = mailClient.view,
+                    windowSet = SKApp.simulation.window_set;
+
+                if (e) {
+                    e.preventDefault();
+                }
+
+                this.$('.mail').removeClass('create-mail icon-active');
+                if (mailClientView && mailClientView.render_finished) {
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    mailClientView.renderWriteCustomNewEmailScreen();
+                } else if (mailClientView) {
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    mailClientView.once('render_folder_finished', function () {
+                        mailClientView.renderWriteCustomNewEmailScreen();
                     });
                 } else {
-                    SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
+                    mailClient.once('init_completed', function () {
+                        this.view.once('render_finished', function () {
+                            this.renderWriteCustomNewEmailScreen();
+                        });
+                    });
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
                 }
-                this.doMailToggle(e);
             },
 
             /**
              * @method
-             * @param e
+             * @param event
              */
-            doMailToggle: function (e) {
+            doMailToggle: function (event) {
                 //console.log('doMailToggle');
-                e.preventDefault();
+                if (event) {
+                    event.preventDefault();
+                }
+
                 this.$('.mail').removeClass('icon-active');
 
                 // we need getActiveSubscreenName() because mailClient window subname changed dinamically
