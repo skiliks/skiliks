@@ -155,9 +155,10 @@ class PlanAnalyzer {
     public function parentAvailability($parentAvailability, $groupedLog) {
         if($parentAvailability->code === 'T7b') {
             $max_end_time = 0;
+
             foreach($groupedLog as $log){
                 if($log['parent'] === "T7a" && !empty($log['end'])){
-                    $max_end_time = ($max_end_time < strtotime($log['end']))?strtotime($log['end']):$max_end_time;
+                    $max_end_time = ($max_end_time < strtotime($log['end'])) ? strtotime($log['end']) : $max_end_time;
                 }
             }
             if(0 !== $max_end_time){
@@ -182,30 +183,25 @@ class PlanAnalyzer {
             $parentTM8activityLogsIds = [];
 
             $activityActions = ActivityAction::model()->findAll(
-                ' activity_id IN (:activity_ids)',
-                [
-                    'activity_ids' => implode($parentTM8activityIds),
-                ]
+                ' activity_id IN ('.implode(',', $parentTM8activityIds).')',[]
             );
 
             foreach ($activityActions as $activityAction) {
                 $parentTM8activityActionIds[] = $activityAction->id;
             }
 
-            $parentTM8firstLog = LogActivityActionAgregated::model()->find(
-                [
-                    'condition' => 'sim_id = :sim_id AND activity_action_id IN (:activity_action_ids)',
-                    'params' => [
-                        'sim_id' => $this->simulation->id,
-                        'activity_action_ids' => implode(',', $parentTM8activityActionIds),
-                    ],
-                    'order' => 'start_time ASC'
-                ]
-            );
+            $parentTM8firstLog = LogActivityActionAgregated::model()->find([
+                'condition' => ' `t`.`sim_id` = :sim_id AND `t`.`activity_action_id` IN ('.implode(', ', $parentTM8activityActionIds).')',
+                'params' => [
+                    'sim_id' => $this->simulation->id,
+                ],
+                'order' => 'start_time ASC'
+            ]);
 
             if (null !== $parentTM8firstLog) {
                 $startTimes[] = strtotime($parentTM8firstLog->start_time);
             }
+
             // when parent logged at first }
 
             // when M8 read {
@@ -216,8 +212,13 @@ class PlanAnalyzer {
                     'template_id' => $mail_template->id,
                     'sim_id'      => $this->simulation->id
                 ]);
+
                 if(null !== $m8){
-                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$m8->id, 'sim_id'=>$this->simulation->id]);
+                    $log_mail = LogMail::model()->findByAttributes([
+                        'mail_id' => $m8->id,
+                        'sim_id'  =>  $this->simulation->id
+                    ]);
+
                     if(null !== $log_mail){
                         $startTimes[] = strtotime($log_mail->start_time);
                     }
