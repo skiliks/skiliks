@@ -656,7 +656,7 @@ class EmailAnalyzer
 
 
         // редко читает почту
-        if ($mailSessionsTotalAmount < 2) {
+        if ($mailSessionsTotalAmount = 0) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
@@ -665,7 +665,7 @@ class EmailAnalyzer
         }
 
         // часто читает почту
-        if (3 < $mailSessionsTotalAmount) {
+        if (4 < $mailSessionsTotalAmount) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
@@ -673,8 +673,19 @@ class EmailAnalyzer
             );
         }
 
-        // часто читает почту
-        if (1 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 4) {
+        // немного часто читает почту
+        if (1 == $mailSessionsTotalAmount || 4 == $mailSessionsTotalAmount) {
+            $value = $behave_3311->scale*(1/2);
+
+            return array(
+                $behave_3311->getTypeScaleSlug() => $value,
+                'obj'                            => $behave_3311,
+                'case'                           => 6, // 'case' - option for test reasons only
+            );
+        }
+
+        // правильно читает почту
+        if (0 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 4) {
             $value = 0;
 
             if ($workWithMailTotalDuration <= 60*60) {
