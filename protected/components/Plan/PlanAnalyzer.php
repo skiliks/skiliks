@@ -164,22 +164,57 @@ class PlanAnalyzer {
                 return (new DateTime())->setTimestamp($max_end_time)->add(new DateInterval("PT2H"))->format("H:i:s");
             }
         }
+
         if($parentAvailability->code === 'TM8') {
+            $startTimes = [];
+
+            // when parent logged at first {
+            $parentTM8activityIds = [];
+
+            foreach ($this->simulation->game_type->getActivity(['parent' => 'TM8']) as $activity) {
+                $parentTM8activityIds[] = $activity->id;
+            }
+
+            $parentTM8firstLog = LogActivityAction::model()->with('activityAction')->find(
+                'sim_id = :sim_id AND activityAction.id IN (activity_action_ids)',
+                [
+                    'sim_id' => $this->simulation->id,
+                    'activity_action_ids' => implode(',', $parentTM8activityIds),
+                ],
+                [
+                    'order' => 'start_time ASD'
+                ]
+            );
+
+            if (null !== $parentTM8firstLog) {
+                $startTimes[] = strtotime($parentTM8firstLog->start_time);
+            }
+            // when parent logged at first }
+
+            // when M8 read {
             $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
+
             if(null !== $mail_template){
                 $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id, 'sim_id'=>$this->simulation->id]);
                 if(null !== $mail_box){
                     $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id, 'sim_id'=>$this->simulation->id]);
                     if(null !== $log_mail){
-                        $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
-                        if(strtotime($log_mail->start_time) < strtotime($dialog->start_time)) {
-                            return (new DateTime())->setTimestamp(strtotime($log_mail->start_time))->format("H:i:s");
-                        }
+                        $startTimes[] = strtotime($log_mail->start_time);
                     }
                 }
             }
+            // when M8 read }
+
+            // get ET8 start time {
+            $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
+            $startTimes[] = strtotime($dialog->start_time);
+            // get ET8 start time }
+
+            // return minimum of [TM8 first log, M8 read time, ET8 start time]
+            return (new DateTime())->setTimestamp(min($startTimes))->format("H:i:s");
 
         }
+
         return $parentAvailability ? $parentAvailability->available_at : null;
     }
 
