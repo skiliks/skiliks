@@ -1751,7 +1751,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
         ]);
-        $this->assertEquals($behaviour->scale/2, $point->value, '214d1');
+        $this->assertEquals($behaviour->scale, $point->value, '214d1');
         unset($point);
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
@@ -1767,7 +1767,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 0,
         ]);
-        $this->assertEquals(1, $points, '214d1 : 0');
+        $this->assertEquals(0, $points, '214d1 : 0');
         unset($points);
 
         // --- 214b2 //
@@ -1873,7 +1873,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
         ]);
-        $this->assertEquals($behaviour->scale, $point->value, '214d6');
+        $this->assertEquals(0, $point->value, '214d6');
         unset($point);
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
@@ -1881,7 +1881,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 1,
         ]);
-        $this->assertEquals(1, $points, '214d6 : 1');
+        $this->assertEquals(0, $points, '214d6 : 1');
         unset($points);
 
         // --- 214d8 //
