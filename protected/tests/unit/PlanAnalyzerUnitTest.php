@@ -2066,7 +2066,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
+        $m8 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
 
         // log 4 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.5']);
@@ -2088,6 +2088,35 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->is_keep_last_category = null;
         $log->save();
 
+        //--- mail M8 {
+
+        $activity = $simulation->game_type->getActivity(['code' => 'TM8']);
+        $activityAction = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity->id,
+            'mail_id'     => $m8->template->id,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id                = $simulation->id;
+        $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action            = 'M8';
+        $log->activity_action_id    = $activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->category              = $activity->category_id;
+        $log->start_time            = '11:00:15';
+        $log->end_time              = '11:02:21';
+        $log->duration              = 0;
+        $log->is_keep_last_category = null;
+        $log->save();
+
+        $logMail = new LogMail();
+        $logMail->mail_id = $m8->id;
+        $logMail->sim_id = $simulation->id;
+        $logMail->window = null;
+        $logMail->start_time = '11:00:14';
+        $logMail->end_time = '11:02:20';
+        $logMail->save();
+        //--- mail M8 }
+
         // log 6 {
         $mail = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
         $activity = $simulation->game_type->getActivity(['code' => 'TM8']);
@@ -2098,24 +2127,24 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log = new LogActivityActionAgregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
-        $log->leg_action            = 'TM8';
-        $log->activity_action_id    = $activityAction->id;
+        $log->leg_action            = 'MS20';
+        $log->activity_action_id    = (int)$activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = $activity->category_id;
-        $log->start_time            = '12:26:15';
-        $log->end_time              = '12:27:21';
+        $log->start_time            = '10:00:15';
+        $log->end_time              = '10:02:21';
         $log->duration              = 0;
         $log->is_keep_last_category = null;
         $log->save();
-
         // log 6 }
         unset($log);
+
         $pn = new PlanAnalyzer($simulation);
 
         $log = $pn->logActivityActionsAggregatedGroupByParent[0];
-        $this->assertEquals('11:45:00', $log['available']);
+        $this->assertEquals('10:00:15', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
-        $this->assertEquals('14:35:00', $log['available']);
+        $this->assertEquals('11:45:00', $log['available']);
 
     }
 
