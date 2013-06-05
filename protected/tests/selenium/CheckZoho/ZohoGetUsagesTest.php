@@ -48,9 +48,9 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         // $value = split ("%", $this->getText("xpath=//div[2]/div/div/div/table/tbody/tr/td[2]"), 3);
         $date = $this->getText("xpath=//div[1]/div[2]/div[1]/div[3]/div[1]/div/ul/li[2]/span");
 
-        sleep(5);
+        $this->optimal_click("css=#UserAccount_usg");
 
-        $this->click("#UserAccount_usg a");
+        sleep(5);
         $usages_today = $this->getText("xpath=//div[@class='usage_report_chart']/ul/li[7]/span[1]");
 
         $date = str_replace(['-',' ', ','],['_','_','_'],$date);
