@@ -223,7 +223,7 @@ class EventService
         if ($simulation->isDevelopMode()) {
             foreach ($events as $event) {
 
-                $title = $event->event_sample->title;
+                $title = $event->event_sample->title.', ID #'.$event->id;
 
                 if (empty($event->event_sample->title)) {
                     if ($event->event_sample->isMail()) {
@@ -235,7 +235,7 @@ class EventService
                                 '<strong>from:</strong> %s, <strong>to:</strong> %s, <strong>subject:</strong> %s',
                                 $mail->sender->fio,
                                 $mail->recipient->fio,
-                                $mail->subject_obj->text
+                                $mail->subject_obj->text.', ID #'.$event->id
                             );
                         }
                     }
@@ -244,7 +244,7 @@ class EventService
                 $result[] = [
                     'code'   => $event->event_sample->code,
                     'title'  => $title,
-                    'time'   => $event->event_sample->trigger_time,
+                    'time'   => $event->trigger_time,
                     'isMail' => $event->event_sample->isMail()
                 ];
             }
