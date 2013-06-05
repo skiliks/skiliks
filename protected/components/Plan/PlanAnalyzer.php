@@ -171,18 +171,35 @@ class PlanAnalyzer {
             // when parent logged at first {
             $parentTM8activityIds = [];
 
-            foreach ($this->simulation->game_type->getActivity(['parent' => 'TM8']) as $activity) {
+            $activities = Activity::model()->findAllByAttributes([
+                'parent'      => 'TM8',
+                'scenario_id' => $this->simulation->game_type->id
+            ]);
+            foreach ($activities as $activity) {
                 $parentTM8activityIds[] = $activity->id;
             }
 
-            $parentTM8firstLog = LogActivityAction::model()->with('activityAction')->find(
-                'sim_id = :sim_id AND activityAction.id IN (activity_action_ids)',
+            $parentTM8activityLogsIds = [];
+
+            $activityActions = ActivityAction::model()->findAll(
+                ' activity_id IN (:activity_ids)',
                 [
-                    'sim_id' => $this->simulation->id,
-                    'activity_action_ids' => implode(',', $parentTM8activityIds),
-                ],
+                    'activity_ids' => implode($parentTM8activityIds),
+                ]
+            );
+
+            foreach ($activityActions as $activityAction) {
+                $parentTM8activityActionIds[] = $activityAction->id;
+            }
+
+            $parentTM8firstLog = LogActivityActionAgregated::model()->find(
                 [
-                    'order' => 'start_time ASD'
+                    'condition' => 'sim_id = :sim_id AND activity_action_id IN (:activity_action_ids)',
+                    'params' => [
+                        'sim_id' => $this->simulation->id,
+                        'activity_action_ids' => implode(',', $parentTM8activityActionIds),
+                    ],
+                    'order' => 'start_time ASC'
                 ]
             );
 
@@ -195,9 +212,12 @@ class PlanAnalyzer {
             $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
 
             if(null !== $mail_template){
-                $mail_box = MailBox::model()->findByAttributes(['template_id'=>$mail_template->id, 'sim_id'=>$this->simulation->id]);
-                if(null !== $mail_box){
-                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$mail_box->id, 'sim_id'=>$this->simulation->id]);
+                $m8 = MailBox::model()->findByAttributes([
+                    'template_id' => $mail_template->id,
+                    'sim_id'      => $this->simulation->id
+                ]);
+                if(null !== $m8){
+                    $log_mail = LogMail::model()->findByAttributes(['mail_id'=>$m8->id, 'sim_id'=>$this->simulation->id]);
                     if(null !== $log_mail){
                         $startTimes[] = strtotime($log_mail->start_time);
                     }
