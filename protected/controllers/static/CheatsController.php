@@ -261,7 +261,7 @@ class CheatsController extends AjaxController
 
         if (null !== $usages_today) {
             $file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'c');
-            $data = $usages_today . 'UDS, '. $expireDate;
+            $data = $usages_today . ' UDS, '. $expireDate;
             $data = str_replace([ '___','__','_'],[' - ',', ',', '],$data);
             fwrite($file, $data);
             fclose($file);
