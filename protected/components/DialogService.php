@@ -78,7 +78,7 @@ class DialogService
         $data = [];
 
         if ($currentReplica->next_event_code != '' && $currentReplica->next_event_code != '-') {
-            list($dialog, $data, $result) = $this->processNextReplica($currentReplica, $data, $simulation, $result, $gameTime);
+            list($data, $result) = $this->processNextReplica($currentReplica, $data, $simulation, $result, $gameTime);
 
         }
         else {
@@ -211,23 +211,42 @@ class DialogService
      * @param $gameTime
      * @return array
      */
-    public function processNextReplica($currentReplica, $data, $simulation, $result, $gameTime)
+    public function processNextReplica(Replica $currentReplica, $data, Simulation $simulation, $result, $gameTime)
     {
 // смотрим а не является ли следующее событие у нас диалогом
         // if next event has delay it can`t statr immediatly
-        $dialog = $simulation->game_type->getReplica(['code' => $currentReplica->next_event_code, 'step_number' => 1], ['order' => 'replica_number']);
+        $dialog = $simulation->game_type->getReplica([
+            'code' => $currentReplica->next_event_code,
+            'step_number' => 1
+        ], ['order' => 'replica_number']);
         $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
 
         // isDialog() Wrong!!!
         $isDialog = EventService::isDialog($currentReplica->next_event_code);
+        /* @var $currentReplica Replica */
+        // @2899
+        if( $this->isPlan($currentReplica->next_event_code) && (int)$currentReplica->is_final_replica === 0 ){
+            $isDialog = true;
+            $step_number = (int)$currentReplica->step_number + 1;
+            $dialog = $simulation->game_type->getReplica([
+                'code' => $currentReplica->code,
+                'step_number' => $step_number
+            ], ['order' => 'replica_number']);
 
-        if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
+            $next_event_code = $currentReplica->code;
+            EventsManager::waitEvent($simulation, $currentReplica->next_event_code, date("H:i:s", strtotime('+2 minutes', strtotime($gameTime))));
+        } else {
+            $next_event_code = $currentReplica->next_event_code;
+            $step_number = 1;
+        }
+
+        if ( null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay) ) {
             // сразу же отдадим реплики по этому событию - моментально
-            $dialogs = $simulation->game_type->getReplicas(['code' => $currentReplica->next_event_code, 'step_number' => 1]);
+            $dialogs = $simulation->game_type->getReplicas(['code' => $next_event_code, 'step_number' => $step_number]);
             foreach ($dialogs as $dialog) {
                 $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
-            return array($dialog, $data, $result);
+            return array($data, $result);
         } else {
             // запуск следующего события
             $res = EventService::processLinkedEntities($currentReplica->next_event_code, $simulation, $currentReplica->fantastic_result);
@@ -286,6 +305,16 @@ class DialogService
         if (!isset($matches[1][0])) return false;
         
         return $matches[1][0];
+    }
+
+    public function isPlan($code) {
+
+        preg_match_all("/([A-Z]+)(\d+)/", $code, $matches);
+        if($matches[1][0] === 'P') {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
