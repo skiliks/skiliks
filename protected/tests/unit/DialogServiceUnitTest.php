@@ -42,6 +42,29 @@ class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testDialogGetForDialogAndPlan()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $standard = [
+            'result' => 1,
+            'events' => []
+        ];
+
+        $res = (new DialogService())->getDialog(
+            $simulation->id,
+            Replica::model()->findByAttributes(['code' => 'E3.5', 'step_number'=>5, 'replica_number' => 1])->id,
+            '11:00');
+
+        $this->assertEquals($res, $standard);
+
+    }
+
 
 
 }
