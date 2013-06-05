@@ -90,6 +90,14 @@ class PlanAnalyzer {
                 || '2_min' == $logItem->category
                 || 'D24' === $logItem->leg_action
                 || 'D27' === $logItem->leg_action
+                || 'D8' === $logItem->leg_action
+                || 'D20' === $logItem->leg_action
+                || 'D13' === $logItem->leg_action
+                || 'MSY10' === $logItem->leg_action
+                || 'D9' === $logItem->leg_action
+                || 'D2' === $logItem->leg_action
+                || 'D25' === $logItem->leg_action
+                || 'D26' === $logItem->leg_action
             ) {
                 continue;
             }
