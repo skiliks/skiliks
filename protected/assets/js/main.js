@@ -62,12 +62,14 @@
 
 
         $('.terms').click(function() {
+            var dHeight = $("html").height() * 0.85;
             $('.container').append($('<div id="terms-pop-up"></div>'));
             $('#terms-pop-up').dialog({
                 dialogClass: 'terms-page',
                 modal:       true,
                 width:       980,
-                minHeight:   600,
+                minHeight:   400,
+                height: dHeight,
                 autoOpen:    false,
                 resizable:   false
             });
