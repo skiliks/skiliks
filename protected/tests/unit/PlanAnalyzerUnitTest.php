@@ -2039,8 +2039,8 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->activity_action_id    = $activityAction->id;
         $log->activityAction        = $activityAction;
         $log->category              = $activity->category_id;
-        $log->start_time            = '12:26:15';
-        $log->end_time              = '12:27:21';
+        $log->start_time            = '15:26:15';
+        $log->end_time              = '15:27:21';
         $log->duration              = 0;
         $log->is_keep_last_category = null;
         $log->save();
