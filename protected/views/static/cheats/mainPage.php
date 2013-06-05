@@ -11,7 +11,9 @@
 
 <div class="container container-2">
     <header>
-<br>
+
+<h2>Skiliks: release 1.2</h2>
+
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
 <?php else: ?>
