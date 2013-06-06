@@ -811,8 +811,9 @@ class UserAuthController extends YumController
                 ]);
 
                 Yii::app()->end();
-            }else{
-                $this->redirect('/fail-recovery');
+            } else {
+                Yii::app()->user->setFlash('notice', 'Пароль уже востановлен');
+                $this->redirect('/');
             }
         }
 
@@ -844,11 +845,6 @@ class UserAuthController extends YumController
         $this->render('recovery', [
             'recoveryForm' => $recoveryForm
         ]);
-    }
-
-    public function actionFailRecovery()
-    {
-        $this->render('fail_recovery');
     }
 
 }
