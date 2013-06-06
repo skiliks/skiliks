@@ -1599,7 +1599,7 @@ define([
                     this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
-                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
                     );
                 } else {
                     this.$('.mail-tags-bl').hide();
