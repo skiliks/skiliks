@@ -56,7 +56,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             'point_id' => $point->id,
         ]);
         
-        $this->assertEquals($result->value, 1);
+        $this->assertEquals(2, $result->value);
     }
 
     /**
@@ -82,7 +82,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         );
 
         foreach ($emailTemplates as $emailTemplate) {
-            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+            $mail = MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
         }
         // move all not received emails to inbox }
 
@@ -398,7 +398,6 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-
         //good M47
         $code_3323 = HeroBehaviour::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -420,7 +419,6 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             [1, 1, 'activated', 35180, 'window_uid'=>20]
         ]);
 
-        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
 
         SimulationService::saveEmailsAnalyze($simulation);
@@ -430,7 +428,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             'sim_id'   => $simulation->id
         ]);
 
-        $this->assertEquals('2', $point->value);
+        $this->assertEquals(3, $point->value);
 
         //good M71
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -452,11 +450,11 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
             [1, 1, 'activated', 35180, 'window_uid'=>20]
         ]);
-        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
         SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
-        $this->assertEquals('2', $point->value);
+        $this->assertEquals(3, $point->value);
 
         //good M47 and M71
 
@@ -479,7 +477,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
             [1, 1, 'activated', 35180, 'window_uid'=>20]
         ]);
-        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
         SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
@@ -505,7 +503,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
             [1, 1, 'activated', 35180, 'window_uid'=>20]
         ]);
-        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
         SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
@@ -1334,7 +1332,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3332();
 
-        $this->assertEquals(0.375, $result['positive']);
+        $this->assertEquals(0.5, $result['positive']);
     }
 
     /**
@@ -1659,7 +1657,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $this->assertEquals(3, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1735,7 +1733,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(1, $assessment->value, '3326 value!');
+                $this->assertEquals(1.5, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1808,7 +1806,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $this->assertEquals(3, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
