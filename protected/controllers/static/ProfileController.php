@@ -45,7 +45,9 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionPersonalPersonalData()
     {
         $this->checkUser();
-
+        if(!$this->user->isPersonal()){
+            $this->redirect('/dashboard');
+        }
         $account = $this->user->account_personal;
         $profile = $this->user->profile;
 
@@ -90,6 +92,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporatePersonalData()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
 
         if (empty($this->user->account_corporate->is_corporate_email_verified)) {
             $this->redirect('/');
@@ -148,6 +154,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     {
         $this->checkUser();
 
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
@@ -181,6 +191,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionPersonalPassword()
     {
         $this->checkUser();
+
+        if(!$this->user->isPersonal()){
+            $this->redirect('/dashboard');
+        }
 
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
@@ -231,6 +245,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporateCompanyInfo()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
 
         $account = $this->user->account_corporate;
 
@@ -288,6 +306,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporateVacancies()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -322,6 +344,11 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionVacancyAdd()
     {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $errors = [];
 
         $vacancy = new Vacancy();
@@ -397,16 +424,11 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     /**
      *
      */
-    public function actionPersonalPaymentMethod()
-    {
-        $this->redirect('');
-    }
-
-    /**
-     *
-     */
     public function actionCorporatePaymentMethod()
     {
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $this->render('payment_method_corporate', []);
     }
 
@@ -461,6 +483,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
     public function actionRemoveVacancy($id)
     {
+        $this->checkUser();
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $vacancy = Vacancy::model()->findByPk($id);
 
         if ($vacancy->user_id != Yii::app()->user->data()->id) {
