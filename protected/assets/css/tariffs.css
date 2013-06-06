@@ -48,8 +48,10 @@ body  .onetariff  {
     padding: 0px 18px;
 }
 .price.ru p {
-    background:url("../img/rublicon-big.png") no-repeat 4px 15px;
-    padding: 0 6px 0 25px;
+    background:url("../img/rublicon.png") no-repeat 5px 5px;
+}
+.price.en p {
+    background:url("../img/dollar.png") no-repeat 10px 5px;
 }
 .price span {
     font-size: 58px;
@@ -144,9 +146,9 @@ body  .onetariff  {
         font-size: 36px;
         padding: 0px 16px;
     }
-    .price.ru p {
+    /*.price.ru p {
         background:url("../img/rublicon.png") no-repeat 4px 15px;
-    }
+    }*/
     .price span {
         font-size: 42px;
     }
