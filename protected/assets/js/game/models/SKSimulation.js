@@ -319,7 +319,7 @@ define([
                             if (false === me.tryCloseLoadDocsDialog()) {
                                 me.trigger('documents:error');
                             }
-                        }, 120000);
+                        }, 180000);
                     }
                 } else {
                     me.trigger('documents:loaded');
