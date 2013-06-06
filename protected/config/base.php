@@ -310,10 +310,11 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor'      => 5,
-            'skiliksDeveloperModeSpeedFactor'   => 8,
-            'storageURL'              => 'http://storage.skiliks.com/v1',
-            'afterCallZoomerDuration' => 2000, // milliseconds
+            'skiliksSpeedFactor'              => 5,
+            'skiliksDeveloperModeSpeedFactor' => 8,
+            'storageURL'                      => 'http://storage.skiliks.com/v1',
+            'afterCallZoomerDuration'         => 2000, // milliseconds
+            'isDisplayServer500errors'        => false
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
