@@ -673,30 +673,25 @@ class EmailAnalyzer
         }
 
         // немного часто читает почту
+        $k = 1;
         if (1 == $mailSessionsTotalAmount || 4 == $mailSessionsTotalAmount) {
-            $value = $behave_3311->scale*(1/2);
-
-            return array(
-                $behave_3311->getTypeScaleSlug() => $value,
-                'obj'                            => $behave_3311,
-                'case'                           => 6, // 'case' - option for test reasons only
-            );
+            $k = 0.5;
         }
 
         // правильно читает почту
-        if (0 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 4) {
+        if (0 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 5) {
             $value = 0;
 
             if ($workWithMailTotalDuration <= 60*60) {
-                $value = $behave_3311->scale;
+                $value = $behave_3311->scale * $k;
             }
 
             if (60*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 75*60) {
-                $value = $behave_3311->scale*(2/3);
+                $value = $behave_3311->scale * (2/3) * $k;
             }
 
             if (75*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 90*60) {
-                $value = $behave_3311->scale*(1/3);
+                $value = $behave_3311->scale * (1/3) * $k;
             }
 
             return array(
