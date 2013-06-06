@@ -44,7 +44,7 @@ define([], function () {
         initialize: function () {
             var me = this;
 
-            if (this.get('mime') === "application/vnd.ms-excel") {
+            if (this.get('srcFile').match(/\.xls$/) /*this.get('mime') === "application/vnd.ms-excel"*/) {
                 if (_excel_cache[this.get('id')] === undefined) {
                     SKApp.server.api('myDocuments/getExcel', {
                         'id': decodeURIComponent(this.get('id'))
