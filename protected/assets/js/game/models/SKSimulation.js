@@ -227,6 +227,7 @@ define([
              * @returns {boolean}
              */
             isAllExcelDocsInitialized: function() {
+                console.log('isInitialized.length: ', SKApp.simulation.documents.where({'isInitialized': true}).length, SKApp.simulation.documents.where({}).length);
                 return (SKApp.simulation.documents.where({'isInitialized': true}).length ===
                     SKApp.simulation.documents.where({}).length
                 );
