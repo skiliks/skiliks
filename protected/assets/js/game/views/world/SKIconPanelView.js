@@ -178,7 +178,7 @@ define([
                         }
                     };
                 }
-                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getPhoneBounces(data));
+                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
 
                 me.doSoundPhoneCallInStart();
                 event.on('complete', function() {
@@ -204,11 +204,23 @@ define([
 
                 me.$('.door').attr('data-event-id', event.cid);
                 me.doBlockingPhoneIcon();
-                me.startAnimation('.door', function() {
-                    if (event.getStatus() === 'waiting') {
-                        event.setStatus('completed');
+
+                var data = event.get('data');
+                var callbackFunction = function() {
+                    if (undefined === data[2]) {
+                        // user can`t ignore visit
+                        if (event.getStatus() !== 'in progress') {
+                            event.setStatus('in progress');
+                        }
+                    } else {
+                        // user can ignore visit
+                        if (event.getStatus() === 'waiting') {
+                            event.setStatus('completed');
+                        }
                     }
-                });
+                };
+
+                me.startAnimation('.door', callbackFunction, me.getEventBounces(data));
 
                 me.doSoundKnockStart();
                 event.on('complete', function() {
@@ -232,7 +244,7 @@ define([
              * @param data
              * @returns {number}
              */
-            getPhoneBounces: function (data) {
+            getEventBounces: function (data) {
                 if (undefined === data[2]) {
                     return 2;
                 } else {
