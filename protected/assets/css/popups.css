@@ -41,7 +41,7 @@
 .terms-page {
     background: #fff;
     /*top:50px !important;*/
-    width: 840px !important;
+    /*min-height: 374px;*/
 }
 .terms-page h1, .terms-page h2, .terms-page h3 {
     color: #3d4041;
