@@ -38,8 +38,8 @@ class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
         $simLearnGoal = new SimulationLearningGoal();
         $simLearnGoal->sim_id           = $simulation->id;
         $simLearnGoal->learning_goal_id = $goals[1]->id;
-        $simLearnGoal->percent          = 20;
-        $simLearnGoal->value            = 20;
+        $simLearnGoal->percent          = 26;
+        $simLearnGoal->value            = 26;
         $simLearnGoal->problem          = 30;
         $simLearnGoal->save();
 

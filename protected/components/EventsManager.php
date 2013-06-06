@@ -188,6 +188,10 @@ class EventsManager {
 
             $data = array();
             foreach($dialogs as $dialog) {
+                if (0 == $dialog->replica_number) {
+                    $ds = new DialogService();
+                    $ds->setFlagByReplica($simulation, $dialog);
+                }
                 $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
             

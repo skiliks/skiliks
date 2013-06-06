@@ -82,7 +82,7 @@ class ImportUnitTest extends CDbTestCase
                 ])->next_event_code, 
                 'E1.2');
 
-            $this->assertEquals(821, Replica::model()->count('scenario_id = '.$fullScenario->id));
+            $this->assertEquals(861, Replica::model()->count('scenario_id = '.$fullScenario->id));
 
             $this->assertNotNull(Replica::model()->findByAttributes([
                 'code' => 'S12.3',
@@ -91,9 +91,9 @@ class ImportUnitTest extends CDbTestCase
 
             $this->assertGreaterThan(0, FlagRunMail::model()->count('scenario_id = '.$fullScenario->id));
 
-            $this->assertEquals(11, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
-            $this->assertEquals(20, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
-            $this->assertEquals(31, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
+            $this->assertEquals(9, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
+            $this->assertEquals(22, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
+            $this->assertEquals(37, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
 
             $this->assertEquals(5, FlagBlockMail::model()->count('scenario_id = '.$fullScenario->id), 'block mail');
 

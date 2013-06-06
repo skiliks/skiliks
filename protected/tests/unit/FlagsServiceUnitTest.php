@@ -181,8 +181,8 @@ class FlagServiceUnitTest extends CDbTestCase
 
         EventsManager::startEvent($simulation, 'S2', true, true, 0);
 
-       $result = EventsManager::getState($simulation, []);
-       foreach ($result['events'][0]['data'] as $replica) {
+        $result = EventsManager::getState($simulation, []);
+        foreach ($result['events'][0]['data'] as $replica) {
            if($replica['ch_from'] == 1) {
                $this->assertFalse(in_array($replica['excel_id'], $data));
                $data[] = $replica['excel_id'];
@@ -190,26 +190,13 @@ class FlagServiceUnitTest extends CDbTestCase
         }
 
         //case3
-        FlagsService::setFlag($simulation, 'F1', 0);
-        FlagsService::setFlag($simulation, 'F2', 1);
 
-        EventsManager::startEvent($simulation, 'S2', true, true, 0);
-
-        $result = EventsManager::getState($simulation, []);
-        foreach ($result['events'][0]['data'] as $replica) {
-            if($replica['ch_from'] == 1) {
-                $this->assertFalse(in_array($replica['excel_id'], $data));
-                $data[] = $replica['excel_id'];
-            }
-        }
-
-        //case 4
-        FlagsService::setFlag($simulation, 'F2', 0);
         FlagsService::setFlag($simulation, 'F12', 1);
+        FlagsService::setFlag($simulation, 'F1', 0);
 
         EventsManager::startEvent($simulation, 'S2', true, true, 0);
-
         $result = EventsManager::getState($simulation, []);
+
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
                 $this->assertFalse(in_array($replica['excel_id'], $data));

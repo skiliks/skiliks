@@ -133,9 +133,12 @@ class MailBoxUnitTest extends CDbTestCase
         /** @var $scenario Scenario */
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
+
+        FlagsService::setFlag($simulation, 'F42', 1);
+
         $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
         $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
-        
+
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects));
