@@ -311,11 +311,11 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
         $v = [
             'Следование приоритетам'  => 100,
-            'Управление задачами'     => 60.909092,
-            'Управление людьми'       => 63.793102,
+            'Управление задачами'     => 56.976746, // 60.909092
+            'Управление людьми'       => 65.000000, // 63.793102
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 73.913040,
+            'Эффективная работа с почтой'      => 71.875000, // 73.913040
             'Эффективное управление звонками'  => 100,
             'Эффективное управление встречами' => 100,
             'Эффективная работа с IM'          => 0,
@@ -343,8 +343,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 74.50,
-            'overall'     => 68.02,
+            'management'  => 70.00, // 74.50
+            'overall'     => 65.77, // 68.02
             'performance' => 69.24,
             'time'        => 50,
         ];
@@ -502,10 +502,10 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $v = [
             'Следование приоритетам'  => 100,
             'Управление задачами'     => 0,
-            'Управление людьми'       => 27.586206,
+            'Управление людьми'       => 30, // 27.586206
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 73.913040,
+            'Эффективная работа с почтой'      => 71.875000, // 73.913040
             'Эффективное управление звонками'  => 100,
             'Эффективное управление встречами' => 100,
             'Эффективная работа с IM'          => 0,
@@ -533,8 +533,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 44.97,
-            'overall'     => 53.26,
+            'management'  => 38.50, // 44.97
+            'overall'     => 50.02, // 53.26
             'performance' => 69.24,
             'time'        => 50,
         ];
@@ -588,13 +588,13 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 //                    $goal->percent,
 //                    '%'
 //                );
-                $this->assertEquals('47.05', $goal->percent);
+                $this->assertEquals(50, $goal->percent); // '47.05'
             }
         }
 
         // --- Areas
 
-        $v = [ 'Управление людьми' => 27.586206 ];
+        $v = [ 'Управление людьми' => 30 ]; // 27.586206
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         echo "\n Areas: \n";
         foreach ($areas as $listItem) {
@@ -617,8 +617,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'management'  => 5.37,
-            'overall'     => 2.69,
+            'management'  => 6,    // 5.37
+            'overall'     => 3,    // 2.69
             'performance' => 0.00,
             'time'        => 0.00,
         ];
