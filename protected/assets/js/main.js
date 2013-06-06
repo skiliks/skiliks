@@ -72,13 +72,20 @@
                 width:       980,
                 height:      dHeight,
                 autoOpen:    false,
-                resizable:   false
+                resizable:   false,
+                open: function() {
+                    $("html").css("overflow-y","hidden");
+                },
+                close: function () {
+                    $("html").css("overflow-y","visible");
+                }
             });
 
             $.ajax('/static/terms', {
                 success: function(data) {
                     $('#terms-pop-up').html(data).dialog('open');
                     $('#terms-pop-up').css("min-height","374px");
+                    $("#terms-pop-up").scrollTop($("#terms-pop-up h1.total").scrollTop());
                 }
             });
             return false;
