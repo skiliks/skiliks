@@ -314,7 +314,8 @@ return array(
             'skiliksDeveloperModeSpeedFactor' => 8,
             'storageURL'                      => 'http://storage.skiliks.com/v1',
             'afterCallZoomerDuration'         => 2000, // milliseconds
-            'isDisplayServer500errors'        => false
+            'isDisplayServer500errors'        => false,
+            'isUseStrictAssertsWhenSimStop'   => false,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
