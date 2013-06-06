@@ -44,14 +44,14 @@ define([], function () {
         initialize: function () {
             var me = this;
 
-            if (this.get('srcFile').match(/\.xls$/) /*this.get('mime') === "application/vnd.ms-excel"*/) {
+            if (this.get('mime') === "application/vnd.ms-excel") {
                 if (_excel_cache[this.get('id')] === undefined) {
                     SKApp.server.api('myDocuments/getExcel', {
                         'id': decodeURIComponent(this.get('id'))
                     }, function (data) {
                         me.set('excel_url', data.excelDocumentUrl.replace('\r', ''));
 
-                        me.set('isInitialized', true);
+                        //me.set('isInitialized', true);
 
                         me.trigger('document:excel_uploaded');
                         _excel_cache[me.get('id')] = data.excelDocumentUrl.replace('\r', '');
@@ -59,9 +59,9 @@ define([], function () {
                 } else {
                     me.set('excel_url', _excel_cache[this.get('id')]);
                 }
-            } else {
-                me.set('isInitialized', true);
             }
+
+            //me.set('isInitialized', true);
         },
 
         /**

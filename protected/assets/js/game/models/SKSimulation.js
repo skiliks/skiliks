@@ -227,13 +227,9 @@ define([
              * @returns {boolean}
              */
             isAllExcelDocsInitialized: function() {
-                console.log('isInitialized.length: ', SKApp.simulation.documents.where({'isInitialized': true}).length, SKApp.simulation.documents.length);
-                return (SKApp.simulation.documents.where({'isInitialized': true}).length ===
-                    SKApp.simulation.documents.length
+                return (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
+                    SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
                 );
-//                return (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
-//                    SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
-//                );
             },
 
             /**
@@ -241,8 +237,6 @@ define([
              */
             tryCloseLoadDocsDialog: function() {
                 console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
-
-                console.log('isAllExcelDocsInitialized: ', SKApp.simulation.isAllExcelDocsInitialized());
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
