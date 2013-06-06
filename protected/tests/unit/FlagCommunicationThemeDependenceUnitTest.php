@@ -117,7 +117,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         $replicas = $simulation->game_type->getReplicas(['fantastic_result' => 1]);
-        $fantastic = ['MS21','MS22','MS23'];
+        $fantastic = ['MS21','MS22','MS23','MS29'];
         $ms = [];
         //FlagsService::setFlag($simulation, 'F32', 1);
         foreach($replicas as $replica) {
@@ -131,7 +131,6 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
                     echo $replica->next_event_code;
                 }
                 $this->assertFalse($theme->isBlockedByFlags($simulation));
-
             }
         }
 
