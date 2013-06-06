@@ -238,6 +238,8 @@ define([
             tryCloseLoadDocsDialog: function() {
                 console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
+                console.log('isAllExcelDocsInitialized: ', SKApp.simulation.isAllExcelDocsInitialized());
+
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                     SKApp.simulation.closeLoadDocsDialog();
