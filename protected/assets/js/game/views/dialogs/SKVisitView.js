@@ -41,11 +41,19 @@ define([
              * @param el
              */
             'renderWindow':function (el) {
-                var event = this.options.model_instance.get('sim_event');
+                var me = this,
+                    event = this.options.model_instance.get('sim_event');
+
                 el.html(_.template(visitDoorTpl, {
                     'visit' :                     event.get('data'),
                     isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
                 }));
+
+                if ('undefined' === typeof event.get('data')[2]) {
+                    setTimeout(function() {
+                        me.$('.visitor-allow').click();
+                    }, 5000);
+                }
             },
 
             /**
