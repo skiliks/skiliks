@@ -413,7 +413,7 @@ define([
              * @method parseNewEvents
              * @param events
              */
-            parseNewEvents:function (events) {
+            parseNewEvents:function (events, url) {
                 var me = this;
                 events.forEach(function (event) {
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
@@ -424,7 +424,7 @@ define([
                     event.type = event.eventType;
                     delete event.result;
                     var event_model = new SKEvent(event);
-                    if (me.events.canAddEvent(event_model)) {
+                    if (me.events.canAddEvent(event_model, url)) {
                         me.events.push(event_model);
                         console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
@@ -458,7 +458,7 @@ define([
                     }
 
                     if (null !== data && data.result === 1 && data.events !== undefined) {
-                        me.parseNewEvents(data.events);
+                        me.parseNewEvents(data.events, 'events/getState');
                     }
                     if (cb !== undefined) {
                         cb();

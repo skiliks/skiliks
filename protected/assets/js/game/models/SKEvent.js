@@ -158,7 +158,7 @@ define([], function () {
                         cb(data);
                     }
                     console.log('parseNewEvents: ', data.events);
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 }
             });
         },
@@ -210,7 +210,7 @@ define([], function () {
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 // console.log('ignore: ', data.events);
-                SKApp.simulation.parseNewEvents(data.events);
+                SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 if (cb !== undefined) {
                     cb();
                 }
@@ -236,7 +236,7 @@ define([], function () {
                         me.complete();
                         cb();
                     }
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                     SKApp.simulation.getNewEvents();
                 }
             });
