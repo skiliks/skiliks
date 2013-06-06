@@ -752,7 +752,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $result = $emailAnalyzer->check_3311();
 
         $this->assertEquals($result['obj']->scale/2, $result['positive']);
-        $this->assertEquals(6, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
     }
 
     /**
@@ -814,8 +814,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals(6, $result['case']); // 'case' - option for test reasons only
-        $this->assertEquals($result['obj']->scale/2, $result['positive']);
+        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
+        $this->assertEquals($result['obj']->scale/3, $result['positive']);
 
     }
 
