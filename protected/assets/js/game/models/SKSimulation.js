@@ -227,9 +227,12 @@ define([
              * @returns {boolean}
              */
             isAllExcelDocsInitialized: function() {
-                return (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
-                    SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
+                return (SKApp.simulation.documents.where({'isInitialized': true}).length ===
+                    SKApp.simulation.documents.where({}).length
                 );
+//                return (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length ===
+//                    SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length
+//                );
             },
 
             /**
