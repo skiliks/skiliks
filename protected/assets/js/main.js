@@ -63,13 +63,14 @@
 
         $('.terms').click(function() {
             var dHeight = $("html").height() * 0.85;
+
             $('.container').append($('<div id="terms-pop-up"></div>'));
             $('#terms-pop-up').dialog({
+                //minHeight:   400,
                 dialogClass: 'terms-page',
                 modal:       true,
                 width:       980,
-                minHeight:   400,
-                height: dHeight,
+                height:      dHeight,
                 autoOpen:    false,
                 resizable:   false
             });
@@ -77,9 +78,9 @@
             $.ajax('/static/terms', {
                 success: function(data) {
                     $('#terms-pop-up').html(data).dialog('open');
+                    $('#terms-pop-up').css("min-height","374px");
                 }
             });
-
             return false;
         });
 
