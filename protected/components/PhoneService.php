@@ -362,7 +362,9 @@ class PhoneService {
             'code'=>$dialog_code,
             'replica_number'=>2
         ]);
-
+        if(null === $dialog_cancel){
+            return '';
+        }
         $cancel_event = $simulation->game_type->getEventSample([
             'code'=>$dialog_cancel->next_event_code
         ]);
