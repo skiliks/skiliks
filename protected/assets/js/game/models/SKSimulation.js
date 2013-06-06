@@ -452,12 +452,12 @@ define([
                     eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
                     // update flags for dev mode
-                    if (undefined !== data.flagsState && undefined !== data.serverTime) {
+                    if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                         me.updateFlagsForDev(data.flagsState, data.serverTime);
                         me.updateEventsListTableForDev(data.eventsQueue);
                     }
 
-                    if (data.result === 1 && data.events !== undefined) {
+                    if (null !== data && data.result === 1 && data.events !== undefined) {
                         me.parseNewEvents(data.events);
                     }
                     if (cb !== undefined) {
