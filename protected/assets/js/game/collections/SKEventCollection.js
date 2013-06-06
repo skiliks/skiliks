@@ -1,4 +1,4 @@
-/*global SKEventCollection:true, SKEvent, Backbone, _, SKApp*/
+/*global SKEventCollection:true, SKEvent, Backbone, _, SKApp, define*/
 var SKEventCollection;
 
 define(["game/models/SKEvent"], function () {
@@ -43,6 +43,10 @@ define(["game/models/SKEvent"], function () {
              * @default empty SKEvent
              */
             'model': SKEvent,
+
+            'isLock':false,
+
+            'unLockUrl':'',
 
             /**
              * constructor
@@ -107,7 +111,12 @@ define(["game/models/SKEvent"], function () {
              * @returns {Boolean}
              * @method canAddEvent
              */
-            canAddEvent: function (event) {
+            canAddEvent: function (event, url) {
+
+                if(this.isLock && this.unLockUrl !== url) {
+                    return false;
+                }
+
                 if (!event.getTypeSlug().match(/(phone|visit)$/)) {
                     return true;
                 }
@@ -159,6 +168,14 @@ define(["game/models/SKEvent"], function () {
                     eventCode: code,
                     eventTime: originalTime
                 });
+            },
+            'unlockEvents' : function() {
+                this.isLock = false;
+                this.unLockUrl = '';
+            },
+            'lockEvents' : function(url) {
+                this.unLockUrl = url;
+                this.isLock = true;
             }
         });
 
