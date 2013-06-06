@@ -692,7 +692,7 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-        if ($simulation->isDevelopMode()) {
+        if ($simulation->isDevelopMode() || true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
             $simulation->checkLogs();
         }
 
