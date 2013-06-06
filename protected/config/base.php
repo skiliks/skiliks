@@ -259,6 +259,8 @@ return array(
                 'payment/order/<tariffType:\w+>'       => 'static/payment/order',
                 'payment/do'                           => 'static/payment/do',
 
+                'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
+
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
