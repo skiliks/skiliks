@@ -11,7 +11,7 @@ $lang = Yii::app()->getLanguage();
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price <?= $lang ?>">
-                <p><?= $lang == 'en' ? '$' : '' ?>
+                <p>
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
                     <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
                 <?php endif ?>
