@@ -144,6 +144,9 @@ body  .onetariff  {
         font-size: 36px;
         padding: 0px 16px;
     }
+    .price.ru p {
+        background:url("../img/rublicon.png") no-repeat 4px 15px;
+    }
     .price span {
         font-size: 42px;
     }
