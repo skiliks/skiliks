@@ -44,18 +44,17 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
         sleep(5);
+
         //добавляем адресата
-        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
+
         //тема
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
         //аттач 'Сводный бюджет',
         $this->addAttach('Сводный бюджет_02_v23');
 
         //КОПИЯ - не достучался
-
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
         sleep(2);
         $this->optimal_click("css=label.icon_DRAFTS");

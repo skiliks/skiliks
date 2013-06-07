@@ -27,7 +27,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
-        //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
         sleep(40);
 
@@ -68,7 +67,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
-        //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
         sleep(40);
         $this->assertTrue($this->verify_flag('F4','1'));
@@ -106,8 +104,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Сергей, привет! Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
         sleep(40);
         $this->assertTrue($this->verify_flag('F4','1'));

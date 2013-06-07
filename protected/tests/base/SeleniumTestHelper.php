@@ -380,17 +380,28 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      *
      */
+
     public function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->optimal_click("xpath=//*[contains(text(),'новое письмо')]");
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-
+        $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
     }
 
-    /**
-     *
-     */
+    public function addRecipient ($address)
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
+        $this->waitForVisible($address);
+        $this->mouseOver($address);
+        $this->optimal_click($address);
+    }
+
+    public function addTheme($theme)
+    {
+        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->click($theme);
+    }
+
     public function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");

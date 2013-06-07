@@ -17,21 +17,15 @@ class F30_SK1429_Test extends SeleniumTestHelper
     //$this->markTestIncomplete();
     $this->start_simulation();
     sleep(5);
-    $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
-    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-    sleep(5);
-    $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-    $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-    $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-
-    $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-    $this->optimal_click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+    $this->write_email();
+    $this->addRecipient("xpath=(//a[contains(text(),'Трудякин')])");
+    $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
 
     $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
     $this->click(Yii::app()->params['test_mappings']['mail']['send']);
 
     $this->assertTrue($this->verify_flag('F30','1'));
+    sleep(2);
 
     $this->optimal_click("css=li.icon-active.mail a");
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);

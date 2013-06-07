@@ -145,8 +145,8 @@ return [
     'mail_contacts' => [
         'advokatov' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/a",
         'blesk' => "//ul[contains(@class,'ui-autocomplete')]/li[2]/a",
-        'boss' => "//ul[contains(@class,'ui-autocomplete')]/li[3]/a",
-        'bobr' => "//ul[contains(@class,'ui-autocomplete')]/li[4]/a",
+        'bobr' => "//ul[contains(@class,'ui-autocomplete')]/li[3]/a",
+        'boss' => "//ul[contains(@class,'ui-autocomplete')]/li[4]/a",
         'analitics' => "//ul[contains(@class,'ui-autocomplete')]/li[5]/a",
         'gorbatuk' => "//ul[contains(@class,'ui-autocomplete')]/li[6]/a",
         'denejnaya' => "//ul[contains(@class,'ui-autocomplete')]/li[7]/a",

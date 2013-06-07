@@ -14,33 +14,25 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
 
     public function test_ChangeMailThemes_SK1253()
     {
-        #TODO: убрать дублирование
         //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->write_email();
-        sleep(5);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
 
         //проверяем темы
         $this->checkThemes();
 
-	    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
-        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[13]/a");
-        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[13]/a");
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         //проверяем темы еще раз
         $this->checkThemes();
 
-        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
-        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
+
+        $this->addTheme("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
 
@@ -49,23 +41,15 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
 
         $this->write_email();
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Беседа с консультантами')])");
 
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
-        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->click("xpath=(//*[contains(text(),'Беседа с консультантами')])");
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
-        $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[13]/a");
-        $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[13]/a");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
-        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
+
+        $this->addTheme("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
         $this->close();
