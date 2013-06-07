@@ -29,7 +29,7 @@ class Result_Orientation_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам. Спасибо. Можешь идти. ')])");
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         $this->optimal_click('link=F20');
@@ -65,7 +65,7 @@ class Result_Orientation_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "32");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "40");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         $this->run_event('E15',"xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения, но я планирую завтрашний день, который у меня последний перед отпуском. Можем мы поговорить об этом в другой раз?')])",'click');
