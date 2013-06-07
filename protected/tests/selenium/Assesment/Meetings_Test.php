@@ -13,6 +13,7 @@ class Meetings_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click("link=F41");
         $this->run_event('E3.1',"xpath=(//*[contains(text(),'Здравствуйте, Анжела')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Благодарю, польщен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Сколько именно времени  вам нужно и для чего')])");
@@ -60,11 +61,13 @@ class Meetings_Test extends SeleniumTestHelper
         $this->run_event('T6.1',"xpath=(//*[contains(text(),'Валерий Семенович просил')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Среда, 17.00, у вас в коробках, сорок копий')])");
 
-        //странная реплика конечная
+
         $this->run_event('RS8.1',"xpath=(//*[contains(text(),'Добрый день! Федоров. У меня есть к вам важный вопрос по теме бюджета')])", 'click');
         sleep(7);
 
         $this->run_event('RVT1',"css=li.icon-active.door a",'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
+        $this->run_event('RVT1.1',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         sleep(2);
@@ -72,10 +75,6 @@ class Meetings_Test extends SeleniumTestHelper
         sleep(2);
         $this->run_event('MS55');
         sleep(2);
-
-        $this->run_event('RVT1.1',"css=li.icon-active.door a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
-
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['meetings7'],"100");

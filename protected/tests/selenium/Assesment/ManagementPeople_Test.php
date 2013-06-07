@@ -109,12 +109,22 @@ class ManagementPeople_Test extends SeleniumTestHelper
 
         // Resources
 
+        //$this->run_event('ET10', "css=li.icon-active.phone a", 'click');
+        //$this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        //$this->run_event('S10', "css=li.icon-active.phone a", 'click');
+        //$this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "40");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->assertTrue($this->verify_flag('F37','1'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией для Генерального? ')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
 
-        $this->optimal_click("link=F35");
+        //$this->optimal_click("link=F35");
+        //sleep(5);
         $this->run_event('T5.2',"xpath=(//*[contains(text(),'Марина, я по поводу презентации. Спасибо, что прислала вовремя, как договаривались. Работа полностью соответствует требованиям. Мне и корректировать нечего.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Я дам тебе знать, что думает Босс, после встречи с ним. ')])");
 
