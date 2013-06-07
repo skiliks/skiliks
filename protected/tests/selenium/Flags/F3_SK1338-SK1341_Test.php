@@ -117,8 +117,6 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
     public function testSK1341() {
         $this->start_simulation();
 
-        $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
@@ -126,11 +124,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click('link=F32');
 
         $this->write_email();
-        sleep(5);
-        $this->waitForVisible($krutko);
-        $this->mouseOver($krutko);
-        $this->optimal_click($krutko);
-
+        $this->addRecipient("xpath=(//a[contains(text(),'Крутько')])");
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         sleep(5);
         $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Сводный бюджет: файл')])"));

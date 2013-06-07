@@ -21,8 +21,6 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
-        //$this->optimal_click("css=li.icon-active.phone a");
-
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
@@ -48,8 +46,6 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
-
-        //$this->optimal_click("css=li.icon-active.phone a");
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 

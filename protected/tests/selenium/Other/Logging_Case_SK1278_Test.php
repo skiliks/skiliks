@@ -29,15 +29,9 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $TH1 = array($s1, $m1);
 
         $this->write_email();
-
-        $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-        sleep(5);
-        $this->waitForVisible($krutko);
-        $this->mouseOver($krutko);
-        $this->optimal_click($krutko);
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
-
         sleep(3);
 
         $this->optimal_click("css=.sim-window.planner-book-main-div .sim-window-content > div .btn-close button");

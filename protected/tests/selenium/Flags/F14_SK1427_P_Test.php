@@ -66,8 +66,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
@@ -183,8 +181,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
