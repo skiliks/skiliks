@@ -33,7 +33,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->run_event('ET12.4',"xpath=(//*[contains(text(),'Кхе-кхе…')])", 'click');
+        $this->run_event('E12.7',"xpath=(//*[contains(text(),'Кхе-кхе…')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ваша презентация была не единственным его промахом')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
