@@ -10,7 +10,7 @@ define([], function () {
             var parts = sc.DecodeSpreadsheetSave(sheet.get('content'));
             if (parts && parts.sheet) {
                 var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
-                SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
+                SocialCalc.Formula.AddSheetToCache(sheet.collection.document.get('name'), sheet.get('name'), sheet_data);
             }
 
             this.listenTo(sheet, 'activate', this.activateSheet);
@@ -62,6 +62,7 @@ define([], function () {
                 me.spreadsheet = new SocialCalc.SpreadsheetControl(editorID + '-');
                 var spreadsheet = me.spreadsheet;
                 spreadsheet.editor.idPrefix = editorID + '-';
+                spreadsheet.editor.document = sheet.collection.document;
                 spreadsheet.editor.StatusCallback.continue_queue = {
                     func: function (object, cmdtype) {
                         if ( me.dequeue || !me.is_loaded && cmdtype === "doneposcalc") {
@@ -79,7 +80,7 @@ define([], function () {
                             sheet.set('content', spreadsheet_data);
                             sheet.save();
                             SKApp.simulation.documents.fetch();
-                            SocialCalc.Formula.AddSheetToCache(sheet.get('name'), sheet_data);
+                            SocialCalc.Formula.AddSheetToCache(sheet.collection.document.get('name'), sheet.get('name'), sheet_data);
                             sheet.collection.each(function (element) {
                                 if (element !== sheet) {
                                     element.trigger('recalc');

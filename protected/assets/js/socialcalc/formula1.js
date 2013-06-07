@@ -1098,7 +1098,7 @@ SocialCalc.Formula.OperandValueAndType = function(sheet, operand) {
       coordsheet = sheet;
       pos = result.value.indexOf("!");
       if (pos != -1) { // sheet reference
-         coordsheet = scf.FindInSheetCache(result.value.substring(pos+1)); // get other sheet
+         coordsheet = scf.FindInSheetCache(sheet.statuscallbackparams.document.get('name'), result.value.substring(pos+1)); // get other sheet
          if (coordsheet == null) { // unavailable
             result.type = "e#REF!";
             result.error = SocialCalc.Constants.s_sheetunavailable+" "+result.value.substring(pos+1);
@@ -1191,7 +1191,7 @@ SocialCalc.Formula.OperandsAsCoordOnSheet = function(sheet, operand) {
    operand.pop(); // we have data - pop stack
 
    sheetname = scf.OperandAsSheetName(sheet, operand); // get sheetname as text
-   othersheet = scf.FindInSheetCache(sheetname.value);
+   othersheet = scf.FindInSheetCache(sheet.statuscallbackparams.document.get('name'), sheetname.value);
    if (othersheet == null) { // unavailable
       result.type = "e#REF!";
       result.value = 0;
@@ -1257,7 +1257,7 @@ SocialCalc.Formula.OperandsAsRangeOnSheet = function(sheet, operand) {
    if (pos1 != -1) { // sheet reference
       pos2 = value1.value.indexOf("|", pos1+1);
       if (pos2 < 0) pos2 = value1.value.length;
-      othersheet = scf.FindInSheetCache(value1.value.substring(pos1+1,pos2)); // get other sheet
+      othersheet = scf.FindInSheetCache(sheet.statuscallbackparams.document.get('name'), value1.value.substring(pos1+1,pos2)); // get other sheet
       if (othersheet == null) { // unavailable
          return {value: 0, type: "e#REF!", errortext: scc.s_sheetunavailable+" "+value1.value.substring(pos1+1,pos2)};
          }
@@ -4459,15 +4459,15 @@ SocialCalc.Formula.SheetCache = {
 // Loading is handled elsewhere, e.g., in the recalc loop.
 //
 
-SocialCalc.Formula.FindInSheetCache = function(sheetname) {
+SocialCalc.Formula.FindInSheetCache = function(document_name, sheetname) {
 
    var str;
    var sfsc = SocialCalc.Formula.SheetCache;
 
    var nsheetname = SocialCalc.Formula.NormalizeSheetName(sheetname); // normalize different versions
 
-   if (sfsc.sheets[nsheetname]) { // a sheet by that name is in the cache already
-      return sfsc.sheets[nsheetname].sheet; // return it
+   if (sfsc.sheets[document_name] && sfsc.sheets[document_name][nsheetname]) { // a sheet by that name is in the cache already
+      return sfsc.sheets[document_name][nsheetname].sheet; // return it
       }
 
    if (sfsc.waitingForLoading) { // waiting already - only queue up one
@@ -4475,6 +4475,7 @@ SocialCalc.Formula.FindInSheetCache = function(sheetname) {
       }
 
    sfsc.waitingForLoading = nsheetname; // let recalc loop know that we have a sheet to load
+   sfsc.waitingForLoadingDocumentName = document_name;
 
    return null; // return not found
 
@@ -4487,8 +4488,11 @@ SocialCalc.Formula.FindInSheetCache = function(sheetname) {
 // Returns the sheet object filled out with the str (a saved sheet).
 //
 
-SocialCalc.Formula.AddSheetToCache = function(sheetname, str) {
+SocialCalc.Formula.AddSheetToCache = function(document_name, sheetname, str) {
 
+    if (str === undefined) {
+        throw 'Old AddSheetToCache call';
+    }
    var newsheet = null;
    var sfsc = SocialCalc.Formula.SheetCache;
    var sfscc = sfsc.constants;
@@ -4499,9 +4503,15 @@ SocialCalc.Formula.AddSheetToCache = function(sheetname, str) {
       newsheet.ParseSheetSave(str);
       }
 
-   sfsc.sheets[newsheetname] = {sheet: newsheet, recalcstate: sfscc.asloaded, name: newsheetname};
+   if (sfsc.sheets[document_name] === undefined) {
+       sfsc.sheets[document_name] = {};
+   }
+   if (SocialCalc.Formula.FreshnessInfo.sheets[document_name] === undefined) {
+       SocialCalc.Formula.FreshnessInfo.sheets[document_name] = {};
+   }
+   sfsc.sheets[document_name][newsheetname] = {sheet: newsheet, recalcstate: sfscc.asloaded, name: newsheetname};
 
-   SocialCalc.Formula.FreshnessInfo.sheets[newsheetname] = true;
+   SocialCalc.Formula.FreshnessInfo.sheets[document_name][newsheetname] = true;
 
    return newsheet;
 

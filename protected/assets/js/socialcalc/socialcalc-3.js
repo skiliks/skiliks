@@ -3411,20 +3411,21 @@ SocialCalc.RecalcClearTimeout = function() {
 // If sheetname is null, then the sheetname waiting for will be used.
 //
 
-SocialCalc.RecalcLoadedSheet = function(sheetname, str, recalcneeded) {
+SocialCalc.RecalcLoadedSheet = function(document_name, sheetname, str, recalcneeded) {
 
    var sheet;
    var scri = SocialCalc.RecalcInfo;
    var scf = SocialCalc.Formula;
 
-   sheet = SocialCalc.Formula.AddSheetToCache(sheetname || scf.SheetCache.waitingForLoading, str);
+   sheet = SocialCalc.Formula.AddSheetToCache(document_name || scf.SheetCache.waitingForLoadingDocumentName, sheetname || scf.SheetCache.waitingForLoading, str);
 
    if (recalcneeded && sheet && sheet.attribs.recalc!="off") { // if recalcneeded, and not manual sheet, chain in this new sheet to recalc loop
       sheet.previousrecalcsheet = scri.sheet;
       scri.sheet = sheet;
       scri.currentState = scri.state.start_calc;
       }
-   scf.SheetCache.waitingForLoading = null;
+    scf.SheetCache.waitingForLoading = null;
+    scf.SheetCache.waitingForLoadingDocumentName = null;
 
    SocialCalc.RecalcSetTimeout();
 
@@ -3500,7 +3501,7 @@ SocialCalc.RecalcTimerRoutine = function() {
             return;
             }
          }
-      SocialCalc.RecalcLoadedSheet(null, "", false);
+      SocialCalc.RecalcLoadedSheet(null, null, "", false);
       return;
       }
 
