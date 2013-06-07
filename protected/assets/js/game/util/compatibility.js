@@ -13,7 +13,7 @@ define([], function() {
                 version;
 
             if (match) {
-                version = match[1] + match[2] * 0.1;
+                version = parseInt(match[1], 10) + match[2] * 0.1;
                 if (version < minVersion) {
                     location.href = cfg.oldBrowserUrl;
                     return false;
