@@ -9,7 +9,7 @@
  * Убеждаемся что F2=1. Дожидаемся злую Денежную,
  * Case 2. Запускаем S11, отвечаем на звонок. Убеждаемся что F2=0
  */
-class F30_SK1429_Tests extends SeleniumTestHelper
+class F30_SK1429_Test extends SeleniumTestHelper
 {
 
     public function testSK1429()
