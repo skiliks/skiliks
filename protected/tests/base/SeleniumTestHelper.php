@@ -627,10 +627,8 @@ class SeleniumTestHelper extends CWebTestCase
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_negative'],"$negative");
     }
 
-    public function checkLearningArea($personal9,$personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
+    public function checkLearningArea($personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
     {
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal9'],"$personal9");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal9'],"$personal9");
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal11'],"$personal11");

@@ -30,8 +30,8 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('4.667','0');
-        $this->checkLearningArea('0.00','16.67','0.00','0.00','0.00','0.00','0.00','0.00','0.00');
+        $this->checkSimPoints('6.667','0');
+        $this->checkLearningArea('16.67','0.00','0.00','0.00','0.00','0.00','0.00','0.00');
         $this->close();
     }
 
@@ -52,13 +52,16 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
         sleep(3);
-        $this->run_event('E12.4',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])", 'click');
-        sleep(3);
+        $this->optimal_click('link=F14');
+        $this->optimal_click('link=F36');
+        sleep(1);
+        $this->run_event('E12.4',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('2','0');
-        $this->checkLearningArea('4.27','0.00','0.00','0.00','8.82','5','0.00','20');
+        sleep(30);
+        $this->checkSimPoints('3','0');
+        $this->checkLearningArea('0.00','0.00','0.00','8.82','5','0.00','20');
         $this->close();
     }
 
@@ -66,6 +69,8 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F14');
+        $this->optimal_click('link=F36');
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
         $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
@@ -89,8 +94,8 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('5.833','-7');
-        $this->checkLearningArea('4.27','0.00','12.5','0.00','8.82','5','0.00','20');
+        $this->checkSimPoints('8.5','-7');
+        $this->checkLearningArea('0.00','12.5','0.00','8.82','5','0.00','20');
         $this->close();
     }
 
@@ -98,6 +103,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F39');
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, бросай все свои дела')])");
@@ -148,8 +154,8 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('2.667','-34');
-        $this->checkLearningArea('0.00','0.00','0.00','4.55','23.3','0.00','4.17','0.00');
+        $this->checkSimPoints('3','-34');
+        $this->checkLearningArea('0.00','0.00','4.55','23.3','0.00','4.17','0.00');
         $this->close();
     }
 
@@ -158,6 +164,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click('link=F32');
+        $this->optimal_click('link=F39');
         sleep(5);
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать? ')])");
@@ -209,7 +216,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2','-31');
-        $this->checkLearningArea('0.00','0.00','0.00','4.55','11.23','5','12.5','0.00');
+        $this->checkLearningArea('0.00','0.00','4.55','11.23','5','12.5','0.00');
         $this->close();
     }
 
@@ -239,8 +246,8 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('9.667','-10');
-        $this->checkLearningArea('2.56','0.00','0.00','4.55','2.41','15','8.33','10');
+        $this->checkSimPoints('11.667','-10');
+        $this->checkLearningArea('0.00','0.00','4.55','2.41','15','8.33','10');
         $this->close();
     }
 }

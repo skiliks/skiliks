@@ -14,8 +14,12 @@ class ManagementPeople_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
+        $this->clearEventQueueBeforeEleven('RST1');
+
         // Delegation
         $this->optimal_click("link=F36");
+        $this->optimal_click("link=F39");
+        $this->optimal_click("link=F14");
 
         $this->run_event('MS28');
         sleep(2);
@@ -43,15 +47,6 @@ class ManagementPeople_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да у Денежной снега зимой не выпросишь, а тут деньги вне бюджета! Что же делать?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я все понял. Запланирую подготовку служебки сегодня-завтра. Спасибо!')])");
-
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
-        $this->optimal_click("link=F14");
-        $this->assertTrue($this->verify_flag('F14','1'));
-        sleep(5);
 
         $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
