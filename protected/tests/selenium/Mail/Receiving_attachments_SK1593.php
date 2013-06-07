@@ -18,7 +18,7 @@
  * Активируем F16. Получаем от Крутько рабочую версию презентации (D6)
  * Сохраняем ее и отрпавляем ГД. Убеждаемся что залогировалось письмо MS84
  */
-class Receiving_attachments_SK1593_Test extends SeleniumTestHelper
+class ReceivingAttachments_SK1593_Test extends SeleniumTestHelper
 {
 
     public function test_Receiving_attachment_MS25_SK1593()

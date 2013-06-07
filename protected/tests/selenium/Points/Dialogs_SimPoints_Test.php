@@ -114,7 +114,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('E2.2',"xpath=(//*[contains(text(),'Босс звонил. Требует эту презентацию.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Ах да. Помню. Шли, что есть вместе с твоими мыслями и прошлогодней презентацией')])");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->run_event('E8.3',"xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Понял тебя,  скажу своему аналитику, чтобы срочно служебку писал')])");
@@ -172,7 +172,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         //а тут идет отправка MS23
         sleep(10);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->run_event('E1.3.3',"xpath=(//*[contains(text(),'Как твои дела?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вообще-то я про сводный бюджет')])");
@@ -220,7 +220,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('E1.3.2',"xpath=(//*[contains(text(),'Я тебя для чего тут держу?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, я сам все сделаю, письмо от логистов у меня тоже есть')])");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->run_event('E2.7',"xpath=(//*[contains(text(),'Вот уж не ждал от тебя такого легкомыслия!')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Потрясающая безответственность!')])");
