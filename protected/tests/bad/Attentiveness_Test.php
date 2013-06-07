@@ -14,6 +14,8 @@ class Attentiveness_Test extends SeleniumTestHelper
         $this->start_simulation();
         $this->optimal_click("link=F36");
         $this->optimal_click("link=F37");
+        $this->optimal_click("link=F14");
+
         $this->run_event('T6.1',"xpath=(//*[contains(text(),'Валерий Семенович просил уточнить сколько копий презентаций и к какому числу необходимо сделать.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Среда, 17.00, у вас в коробках, сорок копий. Спасибо!')])");
 
