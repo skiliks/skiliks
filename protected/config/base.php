@@ -260,6 +260,10 @@ return array(
                 'payment/do'                           => 'static/payment/do',
 
                 'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
+                'statistics/SeleniumTests' => 'statistics/statistics/SeleniumTests',
+                'statistics/SeleniumTestsAuth' => 'statistics/statistics/SeleniumTestsAuth',
+                'statistics/Zoho500' => 'statistics/statistics/Zoho500',
+                'statistics/CiTests' => 'statistics/statistics/CiTests',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
