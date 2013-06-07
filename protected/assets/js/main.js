@@ -78,7 +78,8 @@
                 },
                 close: function () {
                     $("html").css("overflow-y","visible");
-                }
+                },
+                draggable: false
             });
 
             $.ajax('/static/terms', {
