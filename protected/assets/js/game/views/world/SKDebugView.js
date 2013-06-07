@@ -85,13 +85,14 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 target.elements.clear_assessment.value,
                 function (data) {
                     if (data.result) {
-                        window.scrollTo(0, 0);
+                        // window.scrollTo(0, 0);
                         me.$('form.trigger-event')
                             .append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача добавлена а очередь!</div>');
                     } else {
                         me.$('form.trigger-event')
                             .append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача НЕ добавлена а очередь!</div>');
                     }
+                    $('.debug-panel form.trigger-event .alert').css('position', 'static');
                     me.$('form.trigger-event .alert').fadeOut(4000);
                 }
             );
