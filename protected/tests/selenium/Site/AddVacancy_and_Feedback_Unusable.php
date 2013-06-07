@@ -2,7 +2,7 @@
 
 //пока что быдловерсия теста, который ходит на страницу регистрации по разным маппингам
 // и проверяет error msg на странице регистрации
-class AddVacancy_and_Feedback_Test extends SeleniumTestHelper
+class AddVacancy_and_Feedback_Unusable extends SeleniumTestHelper
 {
 
     public function test_addVacancy_add_feedback()
