@@ -500,6 +500,11 @@ class MailBoxService
             }
         }
 
+        // switch flag when receive email
+        if (NULL !== $mailModel->template && NULL !== $mailModel->template->flag_to_switch) {
+            FlagsService::setFlag($simulation, $mailModel->template->flag_to_switch, 1);
+        }
+
         // copyMessageStructure }
 
         $mailModel->refresh();
