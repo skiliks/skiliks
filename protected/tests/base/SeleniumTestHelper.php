@@ -664,6 +664,15 @@ class SeleniumTestHelper extends CWebTestCase
 
     }
 
+    public function clearEventQueueBeforeEleven($event)
+    {
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $event .= '.1';
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+    }
+
     /*public function __construct()
     {
         $x = $this;

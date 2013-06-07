@@ -13,13 +13,13 @@ class Communication_Choice_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F41');
 
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, привет! Это Федоров')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Давай встретимся вечером')])");
 
         $this->run_event('T3.1',"xpath=(//*[contains(text(),'Егор, приветствую')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, но у тебя не больше пяти минут')])");
-
 
         $this->run_event('T7.1',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну кто же так делает? Что же ты молчишь?')])");
