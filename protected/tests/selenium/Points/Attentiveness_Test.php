@@ -22,7 +22,7 @@ class Attentiveness_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'По-моему, в семнадцать')])");
         sleep(10);
 
-        $this->run_event('ET12.4',"xpath=(//*[contains(text(),'Ну как')])", 'click');
+        $this->run_event('E12.7',"xpath=(//*[contains(text(),'Ну как')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'В этот раз точно лучше, чем в прошлый')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович, мы все ваши замечания учли')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Цветовая гамма')])");
