@@ -30,7 +30,7 @@ class Flexibility_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели и увидимся')])");
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(2);
 

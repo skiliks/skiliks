@@ -90,7 +90,7 @@ class SeleniumTestHelper extends CWebTestCase
                     switch ($after) {
                         case 'click':
                             {
-                                sleep(5);
+                                sleep(2);
                                 $this->click($next_event);
                                 break;
                             }
