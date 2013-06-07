@@ -96,4 +96,13 @@ class TestUserHelper
             }
         }
     }
+
+    public static function getActivationUrl($email) {
+        $profile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        if(null === $profile){
+            throw new Exception(" User not found ");
+        }
+        /* @var $profile YumProfile */
+        return $profile->user->getActivationUrl();
+    }
 }
