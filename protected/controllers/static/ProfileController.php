@@ -398,16 +398,14 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     /**
      *
      */
-    public function actionPersonalTariff()
-    {
-        $this->redirect('');
-    }
-
-    /**
-     *
-     */
     public function actionCorporateTariff()
     {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
         $this->render('tariff_corporate', []);
     }
 
@@ -426,6 +424,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporatePaymentMethod()
     {
+        $this->checkUser();
         if(!$this->user->isCorporate()){
             $this->redirect('/dashboard');
         }
