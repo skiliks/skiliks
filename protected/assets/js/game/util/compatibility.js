@@ -7,9 +7,24 @@ define([], function() {
     "use strict";
 
     var checkers = {
+        os: function(cfg) {
+            var match = navigator.userAgent.match(/mac os(?: x)? (\d+)[\._](\d)/i),
+                minVersion = 10.7,
+                version;
+
+            if (match) {
+                version = match[1] + match[2] * 0.1;
+                if (version < minVersion) {
+                    location.href = cfg.oldBrowserUrl;
+                    return false;
+                }
+            }
+
+            return true;
+        },
         browser: function(cfg) {
             var minSupport = {
-                mozilla: 17,
+                mozilla: 18,
                 webkit: 536.5
             };
 
