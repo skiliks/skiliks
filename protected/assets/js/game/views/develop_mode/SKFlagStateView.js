@@ -63,7 +63,7 @@ define([],
                         );
 
                         me.updateValues(response.flags);
-                        window.scrollTo(0, 0);
+                        //window.scrollTo(0, 0);
                     } else {
                         $('body form.trigger-event').append(
                             '<div class="alert alert-error "><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг '
@@ -73,6 +73,7 @@ define([],
                             + '"!</div>'
                         );
                     }
+                    $('.debug-panel form.trigger-event .alert').css('position', 'static');
                     $('body form.trigger-event .alert').fadeOut(4000);
                 });
         },
