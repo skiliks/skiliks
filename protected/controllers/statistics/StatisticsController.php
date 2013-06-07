@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Контроллер статистики для офиса, Zoho, PHPUnit, Selenium
+ */
 class StatisticsController extends AjaxController
 {
     /**
