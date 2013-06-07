@@ -13,7 +13,7 @@
  * 2) Повторно звоним Трутневу по этой же теме.
  * 3) Ловим поп-ап, мол, вы уже говорили.
  */
-class SecondCall_SK1367_Test extends SeleniumTestHelper
+class SecondCall_SK1367_Unusable extends SeleniumTestHelper
 {
 
     public function test_SecondCall_SK1367()
