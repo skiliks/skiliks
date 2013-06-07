@@ -647,19 +647,17 @@ class SeleniumTestHelper extends CWebTestCase
 
     public function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
-        //  $all_buttons = array($urls, $buttons_xpath, $buttons_text, $text_inside);
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
             $this->optimal_click($all_buttons[0][$i]); // кликаем на кнопку по xpath
             sleep(5);
-            $this->isTextPresent($all_buttons[2][$i]); // проверяем, что есть особый текст
-            $this->isTextPresent($text);
+            $this->assertTextPresent($all_buttons[2][$i]); // проверяем, что есть особый текст
+            $this->assertTextPresent($text);
             for ($j = 0; $j<sizeof($all_buttons[0])-1 ; $j++)  // цикл проверки есть ли все нужные кнопки
             {
-                $this->isTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
+                $this->assertTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
             }
             sleep(1);
         }
-
     }
 
     public function clearEventQueueBeforeEleven($event)

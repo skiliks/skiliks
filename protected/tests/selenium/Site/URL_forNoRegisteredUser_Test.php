@@ -33,30 +33,27 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         // проверка наличия попапа Входа
         $this->optimal_click($all_buttons[0][sizeof($all_buttons[0])-1]); // кликаем на кнопку по xpath
         sleep(5);
-        $this->isTextPresent($all_buttons[2][sizeof($all_buttons[0])-1]); // проверяем, что есть особый текст
+        $this->assertTextPresent($all_buttons[2][sizeof($all_buttons[0])-1]); // проверяем, что есть особый текст
 
         $this->optimal_click("css=.ui-icon.ui-icon-closethick");
 
         // проверка Тарифов
         $this->optimal_click("xpath=//*[@id='yw0']/li[4]/a"); // кликаем на кнопку по xpath
         sleep(5);
-        $this->isTextPresent("Тарифные"); // проверяем, что есть особый текст
+        $this->assertTextPresent("Тарифные"); // проверяем, что есть особый текст
         for ($j = 0; $j<sizeof($all_buttons[0]) ; $j++)  // цикл проверки есть ли все нужные кнопки
         {
-            $this->isTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
+            $this->assertTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
         }
-
-        // проверка английской версии
-        $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
-        $this->optimal_click("xpath=//*[@id='yw1']/li[1]/a");
-
-        $this->check_all_urls($all_buttons_en, "Русский");
 
         $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
         sleep(5);
+        $this->optimal_click("xpath=(//*[contains(text(),'English')])");
+        sleep(5);
+
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
-        $this->isTextPresent("Невалидный email - ''!");
+        $this->assertTextPresent("Enter your email address");
 
         $new_email = "gty1991+";
         $new_email .= (string)rand(1, 10000);
@@ -65,14 +62,14 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $this->type("xpath=//*[@id='user-email-value']", $new_email);
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(10);
-        $this->isTextPresent("Thank");
+        $this->assertTextPresent("Thank");
 
         $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
         sleep(5);
         $this->type("xpath=//*[@id='user-email-value']", $new_email);
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
-        $this->isTextPresent("уже был добавлен!");
+        $this->assertTextPresent("has been already added before!");
         $this->close();
 
     }
