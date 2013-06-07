@@ -13,6 +13,8 @@ class Productivity_points_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
+        $this->clearEventQueueBeforeEleven('RST1');
+
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, привет! Это Федоров. У нас с тобой была договоренность о встрече. Сегодня около часа-двух дня. Помнишь?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, когда я вернусь из отпуска? Через две недели? У меня два дня осталось, приходится концентрироваться на срочном!')])");
         sleep(20);
@@ -40,10 +42,6 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->optimal_click("link=F38_3");
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
         sleep(2);
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         sleep(5);
         $this->run_event('MS45');
@@ -85,6 +83,7 @@ class Productivity_points_Test extends SeleniumTestHelper
 
         $this->optimal_click("link=F36");
         $this->optimal_click("link=F37");
+        $this->optimal_click("link=F41");
 
         //$this->run_event('MS37');
         //sleep(2);
