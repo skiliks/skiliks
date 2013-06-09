@@ -2,6 +2,15 @@
 
 class SetTariffCommand extends CConsoleCommand
 {
+    /**
+     * Устанавливает указанный тариф корпоративному пользователю и/или продлевает на указанное кол-во дней
+     *
+     * @param $email
+     * @param null $tariff
+     * @param int $period
+     * @return int
+     * @throws LogicException
+     */
     public function actionIndex($email, $tariff = null, $period = 0)
     {
         $profile = YumProfile::model()->findByAttributes(['email' => $email]);

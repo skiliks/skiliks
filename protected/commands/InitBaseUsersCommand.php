@@ -1,6 +1,7 @@
 <?php
 /**
- * initbaseusers
+ * Инициализация пользователей для всех участников проекта
+ * Список пользователей берётся из /protected/config/base.php, массив ['params']['initial_data']['users']
  */
 class InitBaseUsersCommand
 {
