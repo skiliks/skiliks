@@ -2,6 +2,16 @@
 
 class ResetInviteCommand extends CConsoleCommand
 {
+    /**
+     * Сбрасывает инвайт в состояние принятого.
+     * Необходимо указать email пользователя получившего инвайт и его айди.
+     * При этом если симуляция была начата по этому инвайту, она будет отвязана.
+     *
+     * @param $email
+     * @param $inviteId
+     * @return int
+     * @throws LogicException
+     */
     public function actionIndex($email, $inviteId)
     {
         $profile = YumProfile::model()->findByAttributes(['email' => $email]);

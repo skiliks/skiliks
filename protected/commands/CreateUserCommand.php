@@ -4,7 +4,6 @@
  *
  * php protected/yiic.php createuser --email=xxx --password=xxx
  */
-
 class CreateUserCommand extends CConsoleCommand
 {
     public function actionIndex($login, $password, $isAdmin="true")
