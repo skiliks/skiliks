@@ -2086,7 +2086,7 @@ html[lang="en"] .footer .social_networks {
     margin-left:0px !important;
     width: 275px !important;
     top: 13px !important;
-    left: 880px !important;
+   /* left: 880px !important; */
 }
 .flash-message-popup-recovery-popup .flash-recovery-popup {
     color:#fff;
@@ -4425,10 +4425,6 @@ ul.profile-menu li {
     .password-recovery-step-4 .flash .flash-success {
         font-size:26px;
         height:44px;
-    }
-    .flash-message-popup-recovery-popup {
-        top: 3px !important;
-        left: 734px !important;
     }
     .flash-message-popup-recovery-popup .flash-recovery-popup {
         font-size:18px;
