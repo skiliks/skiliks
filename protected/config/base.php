@@ -201,7 +201,7 @@ return array(
                 'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-
+                '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
