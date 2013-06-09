@@ -35,7 +35,6 @@
 
 <br>
 <br>
-<br>
 <?php if (Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
     Вы имеет доступ к опциям режима разработчика:
 
@@ -61,27 +60,8 @@
         <br>
         <br>
 
-<a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
-<a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
-
-        <br>
-        <br>
-        <br>
-
 <a href="/invite/add-10">Добавить себе 10 приглашений в корп. аккаунт</a>
-<a href="/admin">Старая "админка" - отображение таблиц с логами</a>
 
-        <br>
-        <br>
-        <br>
-
-        <hr>
-Свободные приглашения:
-<br/><br>
-<?php $invites = Invite::model()->findAllByAttributes(['status' => 0], ['limit'=>'5']); ?>
-<?php foreach ($invites as $invite) : ?>
-    <a href="/dashboard/accept-invite/<?php echo $invite->code ?>"?>Приглашение</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php endforeach ?>
         <br>
         <br>
 
@@ -100,23 +80,12 @@
 
         <br>
         <br>
-
-        <hr>
-
         <br>
         <br>
 
-<a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
-
-<?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
-    <a href="/registration/choose-account-type">
-        <?php echo Yii::t('site', 'Choose account type') ?>
-    </a>
-<?php else: ?>
-    <a href="/cheats/cleanUpAccount">
-        <?php echo Yii::t('site', 'Reset account type') ?>
-    </a>
-<?php endif; ?>
+    <a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
+    <a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
+    <a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
     </nav>
 
@@ -136,4 +105,10 @@
     </header>
     </div>
 
+<br/>
+<br/>
+<br/>
+
 <div style="float: none; clear: both; height: 100px;"></div>
+
+
