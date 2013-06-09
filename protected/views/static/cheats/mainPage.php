@@ -43,7 +43,7 @@
     <nav>
 
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
+    <a style="background-color: #2d7b91" href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Developer (tutorial)</a>
 
         <br>
@@ -64,9 +64,6 @@
 
         <br>
         <br>
-
-        <hr>
-
         <br>
 
 Смена тарифа:
@@ -81,10 +78,14 @@
         <br>
         <br>
         <br>
+
+    <a href="/static/cheats/listOfsubscriptions" style="background-color: #ffa73d">Список подписавшихся на рассылку</a>
+    <a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
+
+        <br>
+        <br>
         <br>
 
-    <a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
-    <a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
     <a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
     </nav>
