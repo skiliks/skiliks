@@ -6,7 +6,9 @@
  * Time: 19:25
  * To change this template use File | Settings | File Templates.
  */
-
+/**
+ * Что она делает?
+ */
 class LogWindowCommand extends CConsoleCommand {
     public function actionIndex($sim_id){
         /** @var Simulation $simulation */

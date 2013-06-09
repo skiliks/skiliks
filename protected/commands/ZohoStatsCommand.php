@@ -6,7 +6,9 @@
  * Time: 1:34
  * To change this template use File | Settings | File Templates.
  */
-
+/**
+ * Что она делает?
+ */
 class ZohoStatsCommand extends CConsoleCommand {
     public function actionIndex($output)
     {

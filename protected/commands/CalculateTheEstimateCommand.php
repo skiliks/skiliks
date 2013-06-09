@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Что она делает?
+ */
 class СalculateTheEstimateCommand extends CConsoleCommand {
 
     public function actionIndex($email, $simId)

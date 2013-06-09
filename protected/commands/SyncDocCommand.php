@@ -1,6 +1,9 @@
 <?php
-
+/**
+ * Что она делает?
+ */
 class SyncDocCommand extends CConsoleCommand{
+
 
     public function init() {
         ini_set('memory_limit', '900M');

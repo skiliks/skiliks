@@ -1,6 +1,8 @@
 <?php
 /**
  * installusermanagement
+ *
+ * Что она делает?
  */
 class InstallUserManagementCommand
 {

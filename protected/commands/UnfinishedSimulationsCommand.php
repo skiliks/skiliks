@@ -2,6 +2,15 @@
 
 class UnfinishedSimulationsCommand extends CConsoleCommand
 {
+    /**
+     * Выводит таблицу со списком всех незавершенных симуляций.
+     * Незавершенными считаются симуляции у которых end time is null,
+     * и если это lite, то время старта больше часа назад,
+     * либо full и время старта больше 3х часов назад.
+     *
+     * @param null $email
+     * @throws LogicException
+     */
     public function actionIndex($email = null)
     {
         $lite = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
