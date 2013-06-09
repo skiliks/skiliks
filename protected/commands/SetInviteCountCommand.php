@@ -2,6 +2,15 @@
 
 class SetInviteCountCommand extends CConsoleCommand
 {
+    /**
+     * Увеличивает или уменьшает кол-во доступных приглашений корпоративному пользователю
+     *
+     * @param $email
+     * @param int $add
+     * @param int $remove
+     * @return int
+     * @throws LogicException
+     */
     public function actionIndex($email, $add = 0, $remove = 0)
     {
         $profile = YumProfile::model()->findByAttributes(['email' => $email]);
