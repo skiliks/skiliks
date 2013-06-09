@@ -340,7 +340,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
     '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
     '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
-    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message',
+    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .action-badBrowser h2, .browsers span a',
     {hover: true}
 );
 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
@@ -359,7 +359,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
     '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
     '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-    '.terms-page p',
+    '.terms-page p, .browsers a, .action-badBrowser span',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
@@ -368,5 +368,5 @@ Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .valu
     {fontFamily:"ProximaNova-Bold", hover:true}
 );
 Cufon.replace('.freeacess', {hover:true});
-//Cufon.replace('.light-btn', {fontFamily:"ProximaNova-Bold", hover: true});
+Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
 

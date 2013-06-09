@@ -81,7 +81,9 @@ body {
 body.inner,
 body.inner-registration,
 .action-controller-order-static-payment,
-body.action-error404{
+body.action-error404,
+body.action-badBrowser,
+body.action-oldBrowser{
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
