@@ -793,6 +793,53 @@ section.registration-by-link .form .row a.decline-link:hover {
     color:white;
     font:bold 14px/18px "ProximaNova-Regular";
 }
+/* Bad browser */
+.browsers{
+    text-align:center;
+    color:white;
+}
+.browsers h2 {
+    font:normal 44px/60px ProximaNova-Bold;
+    margin:10px 0 0;
+}
+.browsers span {
+    font:20px ProximaNova-Regular;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+    vertical-align: middle;
+}
+.browsers .chrome,
+.browsers .firefox {
+    font: normal 30px ProximaNova-Regular;
+    padding:30px 40px 0;
+}
+.browsers .ico {
+    background:url("../img/browsers.png") no-repeat -100% -100%;
+    margin:20px auto 0;
+    width:130px;
+    height:130px;
+}
+.browsers .chrome .ico {
+    background-position:0 -40px;
+}
+.browsers .firefox .ico {
+    background-position:100% -40px;
+}
+.browsers a {
+    background:url(../img/browsers.png) #146672 no-repeat 0 0;
+    font:normal 14px/30px ProximaNova-Bold;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+    padding:0 10px 0 20px;
+    color:white;
+}
+.browsers a:hover {
+    background-color: #bd2929;
+}
 /* universal */
 .blackout {
     position: fixed;
