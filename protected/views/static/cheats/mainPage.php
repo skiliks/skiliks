@@ -35,22 +35,6 @@
 
 <br>
 <br>
-<nav>
-    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
-        <a href="/registration/choose-account-type">
-            <?php echo Yii::t('site', 'Choose account type') ?>
-        </a>
-    <?php endif; ?>
-
-    <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
-    <a href="/dashboard">
-        <?php echo Yii::t('site', 'Dashboard') ?>
-    </a>
-    <?php endif; ?>
-</nav>
-<br>
-<br>
-<br>
 <br>
 <?php if (Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
     Вы имеет доступ к опциям режима разработчика:
@@ -58,13 +42,6 @@
     <br><br>
 
     <nav>
-    <?php /*
-        <a href="/cheat/assessments/grid">Таблица оценок</a>
-
-        <br>
-        <br>
-        <br>
-    */ ?>
 
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
