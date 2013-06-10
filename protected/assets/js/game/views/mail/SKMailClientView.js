@@ -2451,6 +2451,7 @@ define([
              */
             onMailFantasticOpen: function () {
                 var me = this;
+
                 if (this.$('.save-attachment-icon')) {
                     this.$('.save-attachment-icon').click();
                     setTimeout(function () {
