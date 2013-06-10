@@ -1,8 +1,8 @@
 <?php
 /**
- * Что она делает?
+ * Пересчитывает оценку у симуляции по email и ID симуляции
  */
-class СalculateTheEstimateCommand extends CConsoleCommand {
+class CalculateTheEstimateCommand extends CConsoleCommand {
 
     public function actionIndex($email, $simId)
     {
@@ -21,7 +21,9 @@ class СalculateTheEstimateCommand extends CConsoleCommand {
             throw new Exception("This simulation does not belong to this user.");
         }
 
+        echo 'Clean tables: ... ';
         LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
@@ -36,9 +38,10 @@ class СalculateTheEstimateCommand extends CConsoleCommand {
         SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
+        echo "done!\nRecalculating: ... ";
         SimulationService::simulationStop($simulation);
 
-        echo "Сalculate the estimate for email = {$email} and simId = {$simId} - done. \r\n";
+        echo "done for email {$email} and simId {$simId}.\r\n";
     }
 
 }
