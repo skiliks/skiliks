@@ -153,23 +153,31 @@ class FlagsService
      * @param string $flag
      * @param string $value
      */
-    public static function setFlag($simulation, $flag, $value)
+    public static function setFlag($simulation, $flag_code, $value)
     {
         $simulationFlag = SimulationFlag::model()->findByAttributes([
             'sim_id' => $simulation->id,
-            'flag' => $flag
+            'flag' => $flag_code
         ]);
-        if(empty($flag)){
-            throw new Exception(" Set empty flag ");
+        if(empty($flag_code)){
+            return null;
         }
-        if (null === $simulationFlag) {
-            $simulationFlag         = new SimulationFlag();
-            $simulationFlag->sim_id = $simulation->id;
-            $simulationFlag->flag   = $flag;
-        }
+        if (NULL !== $flag_code && '' !== $flag_code) {
+            $flag = Flag::model()->findByAttributes(['code'=>$flag_code]);
+            if( $flag->delay === '0' ){
+                if (null === $simulationFlag) {
+                    $simulationFlag         = new SimulationFlag();
+                    $simulationFlag->sim_id = $simulation->id;
+                    $simulationFlag->flag   = $flag_code;
+                }
 
-        $simulationFlag->value = $value;
-        $simulationFlag->save();
+                $simulationFlag->value = $value;
+                $simulationFlag->save();
+
+            } else {
+                FlagsService::addFlagToQueue($simulation, $flag);
+            }
+        }
 
         return $simulationFlag;
     }
@@ -253,7 +261,7 @@ class FlagsService
         return $list;
     }
 
-    public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
+    public static function addFlagToQueue(Simulation $simulation, Flag $flag) {
 
         $queue = new SimulationFlagQueue();
         $queue->sim_id = $simulation->id;
