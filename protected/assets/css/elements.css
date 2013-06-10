@@ -843,6 +843,10 @@ section.registration-by-link .form .row a.decline-link:hover {
 .browsers a:hover {
     background-color: #bd2929;
 }
+.browsers span.or,
+.browsers span.firefox {
+    display:none;
+}
 /* universal */
 .blackout {
     position: fixed;
