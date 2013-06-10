@@ -175,6 +175,14 @@ class FlagsService
                 $simulationFlag->save();
 
             } else {
+                if (null === $simulationFlag) {
+                    $simulationFlag         = new SimulationFlag();
+                    $simulationFlag->sim_id = $simulation->id;
+                    $simulationFlag->flag   = $flag_code;
+                }
+
+                //$simulationFlag->value = 0;
+                $simulationFlag->save();
                 FlagsService::addFlagToQueue($simulation, $flag);
             }
         }
@@ -279,7 +287,10 @@ class FlagsService
         ]);
         /* @var SimulationFlagQueue $flag */
         foreach($flags as $flag) {
-            FlagsService::setFlag($simulation, $flag->flag_code, 1);
+            $simulationFlag = SimulationFlag::model()->findByAttributes(['flag'=>$flag->flag_code, 'sim_id'=>$simulation->id]);
+            $simulationFlag->value = 1;
+            $simulationFlag->update();
+            ///FlagsService::setFlag($simulation, $flag->flag_code, 1);
             $flag->is_processed = SimulationFlagQueue::DONE;
             $flag->update();
         }
