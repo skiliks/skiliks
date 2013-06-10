@@ -85,4 +85,12 @@ class Flag extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getDelay(){
+        if(null === $this->delay){
+            throw new Exception("Must be not null");
+        }else{
+            return (int)$this->delay;
+        }
+    }
 }
