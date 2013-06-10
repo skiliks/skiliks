@@ -32,7 +32,8 @@ class DialogService
 
         EventService::deleteByCode($currentReplica->code, $simulation);
         // set flag 1, @1229
-        $this->setFlagByReplica($simulation, $currentReplica);
+        FlagsService::setFlag($simulation, $currentReplica->flag_to_switch, 1);
+        FlagsService::setFlag($simulation, $currentReplica->flag_to_switch_2, 1);
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
 
         if (false == FlagsService::isAllowToStartDialog($simulation, $currentReplica->code)) {
@@ -287,7 +288,9 @@ class DialogService
                 if (!EventService::isDialog($dialog['next_event_code'])) {
                     /** @var $replica Replica */
                     $replica = Replica::model()->findByPk($dialog['id']);
-                    $this->setFlagByReplica($simulation, $replica);
+
+                    FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+                    FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
                     // создадим событие
                     if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-') {
                         EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime, $replica->fantastic_result);
@@ -354,26 +357,7 @@ class DialogService
         );
     }
 
-    public function setFlagByReplica(Simulation $simulation, Replica $replica) {
-        if (NULL !== $replica->flag_to_switch && '' !== $replica->flag_to_switch) {
-            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch]);
-            if($flag->delay === '0'){
-                FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
-            }else{
-                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
-            }
-        }
-        if (NULL !== $replica->flag_to_switch_2 && '' !== $replica->flag_to_switch_2) {
-            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch_2]);
-            if($flag->delay === '0'){
-                FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
-            }else{
-                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
-            }
-        }
 
-    }
-    
 }
 
 
