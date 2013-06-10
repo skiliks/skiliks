@@ -1230,7 +1230,7 @@ class MailBoxService
         if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
             $flag = Flag::model()->findByAttributes(['code'=>$mail->template->flag_to_switch]);
             /* @var $flag Flag */
-            if($flag->delay === '0'){
+            if($flag->getDelay() === 0){
                 FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
             }else{
                 FlagsService::addFlagDelayAfterReplica($simulation, $flag);
