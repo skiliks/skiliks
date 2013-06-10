@@ -580,7 +580,16 @@ class UserAuthController extends YumController
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => $user->profile->email,
             'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
-            'body' => $body
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         ];
 
         $sent = YumMailer::send($mail);
