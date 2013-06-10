@@ -678,10 +678,6 @@ class MailBoxService
         $mail->save();
 
         // switch flag if necessary {
-        // @1229
-        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
-            FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
-        }
         self::addToQueue($simulation, $mail);
         // switch flag if necessary }
 
