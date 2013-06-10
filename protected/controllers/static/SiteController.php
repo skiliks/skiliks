@@ -94,7 +94,7 @@ class SiteController extends AjaxController
                 'start' => $scenario->start_time,
                 'end' => $scenario->end_time,
                 'finish' => $scenario->finish_time,
-                'badBrowserUrl' => '/bad-browser',
+                'badBrowserUrl' => '/old-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,

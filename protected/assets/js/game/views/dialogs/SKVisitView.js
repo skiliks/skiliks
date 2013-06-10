@@ -50,8 +50,9 @@ define([
                 }));
 
                 if ('undefined' === typeof event.get('data')[2]) {
-                    setTimeout(function() {
+                    me.timer = setTimeout(function() {
                         me.$('.visitor-allow').click();
+                        me.timer = null;
                     }, 5000);
                 }
             },
@@ -62,6 +63,12 @@ define([
              */
             'allow':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
+
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
                 this.options.model_instance.close();
             },
