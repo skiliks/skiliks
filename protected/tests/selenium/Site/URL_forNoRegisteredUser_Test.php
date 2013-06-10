@@ -55,9 +55,9 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         sleep(1);
         $this->assertTextPresent("Enter your email address");
 
-        $new_email = "gty1991+";
-        $new_email .= (string)rand(1, 10000);
-        $new_email .= "@bigmir.net";
+        $new_email = "test-email+";
+        $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
+        $new_email .= "@skiliks.mail";
 
         $this->type("xpath=//*[@id='user-email-value']", $new_email);
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
