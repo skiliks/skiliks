@@ -2910,7 +2910,7 @@ class ImportGameDataService
             $importedCommunicationTheme++;
             $importedFlagBlockDialog++;
             /*  */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id]);
+            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id, 'mail_prefix'=>null]);
             if(null === $communicationTheme) {
                 echo "Mail fail " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
                 continue;

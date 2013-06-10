@@ -2154,7 +2154,9 @@ define([
                         return  false;
                     }
 
-                    this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                    this.mailClient.draftToEditEmailId = response.id;
+
+                    this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
 
                     var subject = new SKMailSubject();
                     subject.text = response.subject;
@@ -2241,6 +2243,17 @@ define([
                         availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true
                     });
+
+                    // set attachment
+                    if (response.attachmentId) {
+                        this.once('attachment:load_completed', function () {
+                            var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
+                                return attachment.fileMySqlId;
+                            }), response.attachmentId
+                            );
+                            me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
+                        });
+                    }
 
                     //this.$('#MailClient_CopiesList').focus();
                     //this.$('#MailClient_CopiesList').blur();
