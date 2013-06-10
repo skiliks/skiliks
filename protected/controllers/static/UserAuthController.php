@@ -583,9 +583,9 @@ class UserAuthController extends YumController
             'body' => $body,
             'embeddedImages' => [
                 [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],[
@@ -595,23 +595,11 @@ class UserAuthController extends YumController
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.jpg',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
                     'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
+                    'type'     => 'image/jpg',
                 ],[
                     'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
                     'cid'      => 'mail-bottom',
