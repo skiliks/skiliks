@@ -106,6 +106,9 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
                 $this->assertFalse($flag->communicationTheme->isBlockedByFlags($simulation));
             }
         }
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
     }
 
     public function testMailBoxFantasticNotBlocking() {
