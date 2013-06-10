@@ -25,7 +25,7 @@
 </style>
 
 <script>
-    var prefix = '/tools/ci.php?params=';
+    var prefix = '/statistics/SeleniumTestsAuth?params=';
     var xml = '/httpAuth/app/rest/buildTypes/id:bt3/builds/';
     function ci_call(url, result) {
         $.ajax({
