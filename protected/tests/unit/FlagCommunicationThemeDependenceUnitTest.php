@@ -136,5 +136,29 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
     }
 
+    public function testMailGetThemesNotMSBlocking() {
+
+        /** @var $user YumUser */
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $character = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
+
+        $themes = MailBoxService::getThemes($simulation, $character->id);
+
+        $this->assertFalse($this->findMailThemeByName($themes, 'Задача отдела логистики: итоговый файл'));
+
+        FlagsService::setFlag($simulation, 'F38_3', 1);
+
+        $themes = MailBoxService::getThemes($simulation, $character->id);
+
+        $this->assertTrue($this->findMailThemeByName($themes, 'Задача отдела логистики: итоговый файл'));
+    }
+
+
 
 }

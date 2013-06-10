@@ -2905,11 +2905,32 @@ class ImportGameDataService
             $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
             $flagCommunicationThemeDependence->import_id = $this->import_id;
             $flagCommunicationThemeDependence->save();
-            unset($communicationTheme);
             unset($flagCommunicationThemeDependence);
 
             $importedCommunicationTheme++;
             $importedFlagBlockDialog++;
+            /*  */
+            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id]);
+            if(null === $communicationTheme) {
+                echo "Mail fail " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+                continue;
+            }
+
+            echo "Mail Done for not MS" . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagCommunicationThemeDependence) {
+                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
+                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
+                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            }
+            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagCommunicationThemeDependence->import_id = $this->import_id;
+            $flagCommunicationThemeDependence->save();
+            unset($communicationTheme);
+            unset($flagCommunicationThemeDependence);
+            $importedFlagToRunOutboxMailRows++;
+            $importedCommunicationTheme++;
         }
         // for Dialogs }
 

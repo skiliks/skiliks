@@ -71,7 +71,8 @@ class EventTrigger extends CActiveRecord
         $condition->compare('sim_id', $simId);
         $condition->addCondition('t.trigger_time IS NOT NULL');
         $condition->addCondition('t.trigger_time != "00:00:00" ');
-        $condition->order = 'IF(event.code like "M%", "00:00:00", t.trigger_time) ASC';
+        $condition->order = 'CASE WHEN event.code LIKE "P%" THEN 1 WHEN event.code LIKE "M%" THEN 2 ELSE 3 END, '.
+                            't.trigger_time';
         $condition->join = 'JOIN event_sample event ON event.id=t.event_id';
         $this->getDbCriteria()->mergeWith($condition);
 
