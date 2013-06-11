@@ -628,17 +628,11 @@ class UserAuthController extends YumController
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.jpg',
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
                     'cid'      => 'mail-chair',
                     'name'     => 'mailchair',
                     'encoding' => 'base64',
-                    'type'     => 'image/jpg',
+                    'type'     => 'image/png',
                 ],[
                     'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
                     'cid'      => 'mail-bottom',
