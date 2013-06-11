@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<table width="870" cellpadding="0" cellspacing="0">
+<table width="840" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="2"><img src="cid:mail-top-clean" style="display:block;" /></td>
     </tr>
@@ -20,7 +20,7 @@
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                     <td bgcolor="fdfbc6">
-                        <table cellpadding="0" cellspacing="0" width="490">
+                        <table cellpadding="0" cellspacing="0" width="495">
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
