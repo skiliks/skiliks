@@ -269,6 +269,7 @@ define([
              */
             doSaveAttachment: function (event) {
                 if("true" !== $(event.currentTarget).attr('data-disabled')) {
+                    console.log("Click once");
                     $(event.currentTarget).attr('data-disabled', 'true');
                     this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
                 }
