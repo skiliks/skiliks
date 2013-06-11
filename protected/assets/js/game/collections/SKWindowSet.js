@@ -100,6 +100,8 @@ define([
                     } else {
                         console.log('HAS active mail client view');
                         var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                        simulation.mailClient.view.setForcedClosing();
+
                         windows[0].setOnTop();
                         windows[0].close(
                             'mailEmulator',
