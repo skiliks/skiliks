@@ -264,6 +264,7 @@ return array(
                 'statistics/Zoho500' => 'statistics/statistics/Zoho500',
                 'statistics/CiTests' => 'statistics/statistics/CiTests',
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
+                'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
