@@ -1,7 +1,6 @@
 <?php
+//
 
-//пока что быдловерсия теста, который ходит на страницу регистрации по разным маппингам
-// и проверяет error msg на странице регистрации
 class Register_Corporate_Test extends SeleniumTestHelper
 {
 
@@ -18,7 +17,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->waitForVisible("//div[@class='testtime']");
         $this->assertText("//div[@class='testtime']", '15 Минут');
 
-        
+
         $new_email = "test-email+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
         $new_email .= "@skiliks.mail";
