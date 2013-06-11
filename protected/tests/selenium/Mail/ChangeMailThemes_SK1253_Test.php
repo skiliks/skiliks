@@ -59,7 +59,6 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
     {
         $this->assertTextPresent("Срочно жду бюджет логистики");
         $this->assertTextPresent("Квартальный план");
-        $this->assertTextPresent("форма по задаче от логистики - ГОТОВО");
         $this->assertTextPresent("Задача отдела логистики: уточнения");
         $this->assertTextPresent("Обсуждение сроков отчетности");
         $this->assertTextPresent("Беседа с консультантами");
