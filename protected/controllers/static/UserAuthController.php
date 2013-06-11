@@ -511,6 +511,12 @@ class UserAuthController extends YumController
                     'name'     => 'mailbottomangela',
                     'encoding' => 'base64',
                     'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
                 ],
             ],
         );

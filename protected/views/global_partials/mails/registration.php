@@ -22,7 +22,7 @@
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                     <td>
-                        <table cellpadding="0" cellspacing="0" width="840" border="0">
+                        <table cellpadding="0" cellspacing="0" width="842" border="0">
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
