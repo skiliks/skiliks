@@ -37,11 +37,14 @@
                             </tr>
                         </table>
                     </td>
+                    <td valign="top">
+                        <img src="cid:mail-chair" style="display:block;" />
+                    </td>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5" border="1"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
                 </tr>
             </table>
-        </td>
-        <td valign="top">
-            <img src="cid:mail-chair" style="display:block;" />
         </td>
     </tr>
     <tr>
