@@ -7,7 +7,7 @@
 
 <table width="870" border="1" cellpadding="0" cellspacing="0">
     <tr>
-        <td colspan="2">
+        <td>
             <img src="cid:mail-top-angela" style="display:block;" />
         </td>
     </tr>
@@ -21,8 +21,8 @@
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
-                    <td>
-                        <table cellpadding="0" cellspacing="0" width="800" border="1">
+                    <td  bgcolor="fdfbc6">
+                        <table cellpadding="0" cellspacing="0" width="465" border="1">
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
@@ -32,20 +32,20 @@
                                         www.skiliks.com
                                     </a>
                                 </td>
+                                <td><img src="cid:mail-bottom-angela" style="display:block;" /></td>
                             </tr>
                         </table>
+                    </td>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                 </tr>
             </table>
         </td>
-        <td><img src="cid:mail-bottom-angela" style="display:block;" /></td>
     </tr>
     <tr>
-        <td colspan="2">
-            <img src="cid:mail-bottom" style="display:block;" />
-        </td>
         <td>
-
+            <img src="cid:mail-bottom" style="display:block;" />
         </td>
     </tr>
 </table>

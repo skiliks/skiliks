@@ -7,7 +7,7 @@
 
 <table width="840" cellpadding="0" cellspacing="0"  border="0">
     <tr>
-        <td colspan="2"><img src="cid:mail-top-clean" style="display:block;" /></td>
+        <td><img src="cid:mail-top-clean" style="display:block;" /></td>
     </tr>
     <tr>
         <td valign="top">
@@ -48,7 +48,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             <img src="cid:mail-bottom" style="display:block;" />
         </td>
     </tr>
