@@ -2156,7 +2156,11 @@ define([
 
                     this.mailClient.draftToEditEmailId = response.id;
 
-                    this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
+                    if (draftEmail) {
+                        this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
+                    } else {
+                        this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                    }
 
                     var subject = new SKMailSubject();
                     subject.text = response.subject;
