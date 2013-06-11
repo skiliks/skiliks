@@ -56,4 +56,27 @@ class StatisticsController extends AjaxController
         $this->layout = false;
         $this->render('zoho_500');
     }
+
+    public function actionOrderCount()
+    {
+        $this->checkUserDeveloper();
+        $this->layout = false;
+        $this->render('order_count', [
+            'total' => Invoice::model()->count(),
+            'today' => Invoice::model()->count('created_at > CURDATE()'),
+            'server' => Yii::app()->request->serverName
+        ]);
+    }
+
+    public function actionFeedbackCount()
+    {
+        $this->checkUserDeveloper();
+
+        //$this->layout = 'statistics';
+        $this->layout = false;
+        $this->render('feedback_count', [
+            'count' => Feedback::model()->count(),
+            'count_today' => Feedback::model()->count(" addition >= :addition", ['addition'=>(new DateTime())->format("Y-m-d")])
+        ]);
+    }
 }

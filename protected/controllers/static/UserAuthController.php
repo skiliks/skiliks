@@ -498,6 +498,27 @@ class UserAuthController extends YumController
             'to' => $user->profile->email,
             'subject' => 'Активация на сайте skiliks.com',
             'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
+                    'cid'      => 'mail-top-angela',
+                    'name'     => 'mailtopangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
+                    'cid'      => 'mail-bottom-angela',
+                    'name'     => 'mailbottomangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         );
         $sent = YumMailer::send($mail);
 
@@ -545,6 +566,27 @@ class UserAuthController extends YumController
             'to'      => $user->getAccount()->corporate_email,
             'subject' => 'Регистрация корпоративного пользователя на skiliks.com',
             'body'    => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
+                    'cid'      => 'mail-top-angela',
+                    'name'     => 'mailtopangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
+                    'cid'      => 'mail-bottom-angela',
+                    'name'     => 'mailbottomangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         );
         $sent = YumMailer::send($mail);
 
@@ -580,7 +622,28 @@ class UserAuthController extends YumController
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => $user->profile->email,
             'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
-            'body' => $body
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         ];
 
         $sent = YumMailer::send($mail);

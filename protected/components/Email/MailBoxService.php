@@ -500,10 +500,8 @@ class MailBoxService
             }
         }
 
-        // switch flag when receive email
-        if (NULL !== $mailModel->template && NULL !== $mailModel->template->flag_to_switch) {
-            FlagsService::setFlag($simulation, $mailModel->template->flag_to_switch, 1);
-        }
+        self::addToQueue($simulation, $mailModel);
+
 
         // copyMessageStructure }
 
@@ -680,10 +678,7 @@ class MailBoxService
         $mail->save();
 
         // switch flag if necessary {
-        // @1229
-        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
-            FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
-        }
+        self::addToQueue($simulation, $mail);
         // switch flag if necessary }
 
         // update logs {
@@ -1225,4 +1220,19 @@ class MailBoxService
             EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
         }
     }
+
+    public static function addToQueue(Simulation $simulation, MailBox $mail){
+        // switch flag when receive email
+        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
+            $flag = Flag::model()->findByAttributes(['code'=>$mail->template->flag_to_switch]);
+            /* @var $flag Flag */
+            if($flag->getDelay() === 0){
+                FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
+
+        }
+    }
+
 }

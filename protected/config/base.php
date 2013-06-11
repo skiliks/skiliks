@@ -263,6 +263,10 @@ return array(
                 'statistics/SeleniumTestsAuth' => 'statistics/statistics/SeleniumTestsAuth',
                 'statistics/Zoho500' => 'statistics/statistics/Zoho500',
                 'statistics/CiTests' => 'statistics/statistics/CiTests',
+                'statistics/OrderCount' => 'statistics/statistics/OrderCount',
+                'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
+
+                'admin_area/dashboard' => 'admin_area/AdminPages/Dashboard',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

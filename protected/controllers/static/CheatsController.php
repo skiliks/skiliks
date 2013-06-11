@@ -277,7 +277,7 @@ class CheatsController extends AjaxController
     {
         @$file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'r');
         if (null !== $file) {
-            $data = fread($file, 100);
+            $data = fread($file, 200);
             fclose($file);
 
             echo urldecode($data);
