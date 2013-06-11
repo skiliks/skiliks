@@ -498,6 +498,45 @@ class UserAuthController extends YumController
             'to' => $user->profile->email,
             'subject' => 'Активация на сайте skiliks.com',
             'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                    'cid'      => 'mail-top-2',
+                    'name'     => 'mailtop2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                    'cid'      => 'mail-right-1',
+                    'name'     => 'mailright1',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                    'cid'      => 'mail-right-2',
+                    'name'     => 'mailright2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                    'cid'      => 'mail-right-3',
+                    'name'     => 'mailright3',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         );
         $sent = YumMailer::send($mail);
 
