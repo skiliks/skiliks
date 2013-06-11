@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<table width="870" border="1" cellpadding="0" cellspacing="0">
+<table width="870" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td>
             <img src="cid:mail-top-angela" style="display:block;" />
@@ -21,8 +21,8 @@
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
-                    <td  bgcolor="fdfbc6">
-                        <table cellpadding="0" cellspacing="0" width="465" border="1">
+                    <td>
+                        <table cellpadding="0" cellspacing="0" width="840" border="0">
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
@@ -35,9 +35,6 @@
                                 <td><img src="cid:mail-bottom-angela" style="display:block;" /></td>
                             </tr>
                         </table>
-                    </td>
-                    <td bgcolor="f2f2f2">
-                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                 </tr>
             </table>
