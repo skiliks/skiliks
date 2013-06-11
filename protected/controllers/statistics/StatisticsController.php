@@ -67,4 +67,16 @@ class StatisticsController extends AjaxController
             'server' => Yii::app()->request->serverName
         ]);
     }
+
+    public function actionFeedbackCount()
+    {
+        $this->checkUserDeveloper();
+
+        //$this->layout = 'statistics';
+        $this->layout = false;
+        $this->render('feedback_count', [
+            'count' => Feedback::model()->count(),
+            'count_today' => Feedback::model()->count(" addition >= :addition", ['addition'=>(new DateTime())->format("Y-m-d")])
+        ]);
+    }
 }
