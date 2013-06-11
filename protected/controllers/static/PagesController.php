@@ -201,6 +201,7 @@ class PagesController extends AjaxController
 
         if (Yii::app()->request->getParam('Feedback')) {
             $model = new Feedback();
+            $model->addition = (new DateTime())->format("Y-m-d H:i:s");
             $model->attributes = Yii::app()->request->getParam('Feedback');
             if ($user->profile && $user->profile->email && empty($model->email)) {
                 $model->email = $user->profile->email;

@@ -268,7 +268,12 @@ define([
              * @param event
              */
             doSaveAttachment: function (event) {
-                this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
+                if("true" !== $(event.currentTarget).attr('data-disabled')) {
+                    console.log("Click once");
+                    $(event.currentTarget).attr('data-disabled', 'true');
+                    this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
+                }
+
             },
 
             /**
@@ -319,10 +324,14 @@ define([
              * @returns {boolean}
              */
             isCanBeClosed: function () {
-                return (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
+                return this.forcedClose || (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteReply &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteReplyAll &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteForward);
+            },
+
+            setForcedClosing: function() {
+                this.forcedClose = true;
             },
 
             /**
@@ -2156,7 +2165,11 @@ define([
 
                     this.mailClient.draftToEditEmailId = response.id;
 
-                    this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
+                    if (draftEmail) {
+                        this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
+                    } else {
+                        this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                    }
 
                     var subject = new SKMailSubject();
                     subject.text = response.subject;
@@ -2451,6 +2464,7 @@ define([
              */
             onMailFantasticOpen: function () {
                 var me = this;
+
                 if (this.$('.save-attachment-icon')) {
                     this.$('.save-attachment-icon').click();
                     setTimeout(function () {

@@ -8,6 +8,7 @@
  * @property string $theme
  * @property string $message
  * @property string $email
+ * @property string $addition
  */
 class Feedback extends CActiveRecord
 {
