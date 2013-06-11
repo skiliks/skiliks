@@ -11,10 +11,10 @@
     </tr>
     <tr>
         <td valign="top">
-            <table cellpadding="0" cellspacing="0" border="1">
+            <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td bgcolor="f2f2f2">
-                        <table cellspacing="0" cellpadding="5" border="1"><tbody><tr><td></td></tr></tbody></table>
+                        <table cellspacing="0" cellpadding="5" border="0"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
@@ -41,7 +41,7 @@
                         <img src="cid:mail-chair" style="display:block;" />
                     </td>
                     <td bgcolor="f2f2f2">
-                        <table cellspacing="0" cellpadding="5" border="1"><tbody><tr><td></td></tr></tbody></table>
+                        <table cellspacing="0" cellpadding="5" border="0"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                 </tr>
             </table>
