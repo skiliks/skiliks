@@ -5,13 +5,13 @@
 </head>
 <body>
 
-<table width="870" border="1" cellpadding="0" cellspacing="0">
+<table width="870" cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="2"><img src="cid:mail-top-clean" style="display:block;" /></td>
     </tr>
     <tr>
         <td valign="top">
-            <table cellpadding="0" cellspacing="0">
+            <table cellpadding="0" cellspacing="0" border="1">
                 <tr>
                     <td bgcolor="f2f2f2">
                         <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
