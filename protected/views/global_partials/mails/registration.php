@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <td valign="top">
-            <table cellpadding="0" cellspacing="0">
+            <table cellpadding="0" cellspacing="0" width="856">
                 <tr>
                     <td bgcolor="f2f2f2">
                         <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
