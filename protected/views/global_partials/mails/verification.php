@@ -30,7 +30,7 @@
 Приветствуем, <?= $name ?>!</h1>
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
 Благодарим за доверие skiliks!</p>
-<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, зайдите в ваш <a href="<?= $link ?>">корпоративный кабинет</a> для запуска его работы.</p>
+<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, зайдите в ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $link ?>">корпоративный кабинет</a> для запуска его работы.</p>
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Из кабинета вы можете:</p>
 <ul>
     <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile' ?>">обновить данные,</a></li>
