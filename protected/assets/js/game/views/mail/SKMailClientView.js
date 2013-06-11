@@ -319,10 +319,14 @@ define([
              * @returns {boolean}
              */
             isCanBeClosed: function () {
-                return (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
+                return this.forcedClose || (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteReply &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteReplyAll &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteForward);
+            },
+
+            setForcedClosing: function() {
+                this.forcedClose = true;
             },
 
             /**
