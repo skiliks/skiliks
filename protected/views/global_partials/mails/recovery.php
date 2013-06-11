@@ -14,7 +14,7 @@
             <table cellpadding="0" cellspacing="0" border="1">
                 <tr>
                     <td bgcolor="f2f2f2">
-                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
+                        <table cellspacing="0" cellpadding="5" border="1"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
