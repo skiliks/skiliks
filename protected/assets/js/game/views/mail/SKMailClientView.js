@@ -2467,7 +2467,7 @@ define([
 
                 if (this.$('.save-attachment-icon')) {
                     var docId = this.$('.save-attachment-icon').click().attr('data-document-id');
-                    SKApp.simulation.once('documents:loaded', function () {
+                    this.mailClient.once('attachment:saved', function () {
                         $('.mail-popup-button').click();
                         var document = SKApp.simulation.documents.where({id: docId})[0];
                         var window = new SKDocumentsWindow({

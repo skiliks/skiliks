@@ -788,6 +788,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param attachmentId
              */
             saveAttachmentToMyDocuments:function (attachmentId) {
+                var me = this;
+
                 // call saveAttachment URL
                 SKApp.server.api(
                     'myDocuments/add',
@@ -806,6 +808,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     window.elfinderInstace.exec('reload');
                                 }
 
+                                me.trigger('attachment:saved');
                                 new SKDialogView({
                                     'message':'Файл был успешно сохранён в папку Мои документы.',
                                     'buttons':[
