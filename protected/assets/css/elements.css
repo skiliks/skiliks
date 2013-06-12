@@ -632,7 +632,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    /*left: 50% !important;*/
+    /*left: 50% !important; */
     top: 130px !important;
     margin:0 0 0 -275px;
     width: 550px !important;
