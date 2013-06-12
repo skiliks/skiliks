@@ -187,11 +187,6 @@ class ZohoDocuments
     {
         $path = explode('-', $returnedId);
 
-        $f =  new Feedback();
-        $f->theme = 'count';
-        $f->message = count($path);
-        $f->save(false);
-
         if (2 !== count($path)) {
             $f =  new Feedback();
             $f->message = 'Wrong document id!';
@@ -202,19 +197,10 @@ class ZohoDocuments
 
         $document = MyDocument::model()->findByAttributes(['id' => $path[1]]);
 
-        $f =  new Feedback();
-        $f->theme = (null === $document) ? 'NULL DOC' : 'DOC EXISTS';
-        $f->message = count($document).', ID = '.$document->id;
-        $f->save(false);
-
         $document->is_was_saved = 1;
         $document->save(false);
 
         $uuid = $document->uuid;
-
-        $f =  new Feedback();
-        $f->message = 'Log after update';
-        $f->save(false);
 
         $pathToUserFile = __DIR__.'/../../../'.sprintf(
             'documents/zoho/%s.%s',
@@ -222,15 +208,7 @@ class ZohoDocuments
             $extention
         );
 
-        $f =  new Feedback();
-        $f->message = $pathToUserFile;
-        $f->save(false);
-
         copy($tmpFileName, $pathToUserFile);
-
-        $f =  new Feedback();
-        $f->message = 'Log after copying';
-        $f->save(false);
 
         return 'Saved.';
     }
