@@ -200,11 +200,11 @@ class ZohoDocuments
             return 'Wrong document id!';
         }
 
-        $document = MyDocument::model()->findByPk($path[1]);
+        $document = MyDocument::model()->findByAttributes(['id' => $path[1]]);
 
         $f =  new Feedback();
         $f->theme = (null === $document) ? 'NULL DOC' : 'DOC EXISTS';
-        $f->message = count($document);
+        $f->message = count($document).', ID = '.$document->id;
         $f->save(false);
 
         $document->is_was_saved = 1;
