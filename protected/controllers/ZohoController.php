@@ -10,6 +10,7 @@ class ZohoController extends AjaxController
     public function actionSaveExcel()
     {
         $f =  new Feedback();
+        $f->theme = 'ID';
         $f->message = Yii::app()->getRequest()->getParam('id');
         $f->save(false);
 

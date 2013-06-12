@@ -187,11 +187,25 @@ class ZohoDocuments
     {
         $path = explode('-', $returnedId);
 
+        $f =  new Feedback();
+        $f->theme = 'count';
+        $f->message = count($path);
+        $f->save(false);
+
         if (2 !== count($path)) {
+            $f =  new Feedback();
+            $f->message = 'Wrong document id!';
+            $f->save(false);
+
             return 'Wrong document id!';
         }
 
         $document = MyDocument::model()->findByPk($path[1]);
+
+        $f =  new Feedback();
+        $f->message = (null === $document) ? 'NULL DOC' : 'DOC EXISTS';
+        $f->save(false);
+
         $document->is_was_saved = 1;
         $document->save(false, ['is_was_saved']);
 
