@@ -1896,6 +1896,16 @@ html[lang="en"] .footer .social_networks {
 	line-height:1.167em;
 	margin-top:20px;
 }
+.footer .copyright span {
+    display: block;
+    float: right;
+    font-size: 14px;
+}
+.footer .copyright span a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+}
 @media screen and (max-width: 1146px){
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
