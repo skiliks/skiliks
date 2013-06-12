@@ -788,6 +788,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param attachmentId
              */
             saveAttachmentToMyDocuments:function (attachmentId) {
+                var me = this;
+
                 // call saveAttachment URL
                 SKApp.server.api(
                     'myDocuments/add',
@@ -814,6 +816,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         }
                                     ]
                                 });
+
+                                me.trigger('attachment:saved');
                             });
 
                             SKApp.simulation.documents.fetch();
