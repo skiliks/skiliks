@@ -211,7 +211,7 @@ define([
 
                             // check is excel saved
                             setTimeout(function(){
-                                myIframeWin.document.getElementById('savefile').click();
+                                myIframeWin.document.getElementById('save').click();
                                 console.log('save...');
                                 SKApp.simulation.zohoDocumentSaveCheck(myIframeWin, docs[0].get('id'));
                             }, 8000);
