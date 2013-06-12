@@ -808,7 +808,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     window.elfinderInstace.exec('reload');
                                 }
 
-                                me.trigger('attachment:saved');
                                 new SKDialogView({
                                     'message':'Файл был успешно сохранён в папку Мои документы.',
                                     'buttons':[
@@ -817,6 +816,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         }
                                     ]
                                 });
+
+                                me.trigger('attachment:saved');
                             });
 
                             SKApp.simulation.documents.fetch();
