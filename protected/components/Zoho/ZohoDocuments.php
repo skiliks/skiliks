@@ -203,13 +203,18 @@ class ZohoDocuments
         $document = MyDocument::model()->findByPk($path[1]);
 
         $f =  new Feedback();
-        $f->message = (null === $document) ? 'NULL DOC' : 'DOC EXISTS';
+        $f->theme = (null === $document) ? 'NULL DOC' : 'DOC EXISTS';
+        $f->message = count($document);
         $f->save(false);
 
         $document->is_was_saved = 1;
-        $document->save(false, ['is_was_saved']);
+        $document->save(false);
 
         $uuid = $document->uuid;
+
+        $f =  new Feedback();
+        $f->message = 'Log after update';
+        $f->save(false);
 
         $pathToUserFile = __DIR__.'/../../../'.sprintf(
             'documents/zoho/%s.%s',
@@ -217,7 +222,15 @@ class ZohoDocuments
             $extention
         );
 
+        $f =  new Feedback();
+        $f->message = $pathToUserFile;
+        $f->save(false);
+
         copy($tmpFileName, $pathToUserFile);
+
+        $f =  new Feedback();
+        $f->message = 'Log after copying';
+        $f->save(false);
 
         return 'Saved.';
     }
