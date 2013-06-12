@@ -2466,10 +2466,9 @@ define([
                 var me = this;
 
                 if (this.$('.save-attachment-icon')) {
-                    this.$('.save-attachment-icon').click();
-                    setTimeout(function () {
+                    var docId = this.$('.save-attachment-icon').click().attr('data-document-id');
+                    SKApp.simulation.once('documents:loaded', function () {
                         $('.mail-popup-button').click();
-                        var docId = me.$('.save-attachment-icon').attr('data-document-id');
                         var document = SKApp.simulation.documents.where({id: docId})[0];
                         var window = new SKDocumentsWindow({
                             subname: 'documentsFiles',
@@ -2478,7 +2477,7 @@ define([
                         });
                         window.open();
                         me.mailClient.trigger('mail:fantastic-open:complete');
-                    }, 3000);
+                    });
                 } else {
                     // did not tested it
                     this.$('.mail-emulator-received-list-string-selected').click();
