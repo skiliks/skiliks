@@ -185,6 +185,10 @@ class ZohoDocuments
      */
     public static function saveFile($returnedId, $tmpFileName, $extention)
     {
+        $f = fopen(__DIR__.'/../../../documents/data.txt', 'w+');
+        fwrite($f, $returnedId."\n");
+        fclose($f);
+
         $path = explode('-', $returnedId);
 
         if (2 !== count($path)) {
