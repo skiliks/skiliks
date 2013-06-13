@@ -52,7 +52,7 @@ class AdminPagesController extends AjaxController {
 
         $models = Invite::model()->findAllByAttributes([]);
         $this->layout = '//admin_area/layouts/admin_main';
-        $this->render('/admin_area/admin_pages/invites', ['models'=>$models]);
+        $this->render('/admin_area/pages/invites', ['models'=>$models]);
 
     }
 
