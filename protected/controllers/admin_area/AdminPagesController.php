@@ -18,9 +18,9 @@ class AdminPagesController extends AjaxController {
 
     public function actionDashboard() {
 
-        $this->layout = '//admin_area/admin_area';
+        $this->layout = '//admin_area/layouts/admin_main';
         Yii::app()->user->setFlash('error', "Data saved!");
-        $this->render('/admin_area/admin_pages/dashboard', ['user'=>$this->user]);
+        $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
 
     }
 
@@ -35,8 +35,8 @@ class AdminPagesController extends AjaxController {
                 $this->redirect('/admin_area/dashboard');
             }
         }
-        $this->layout = '//admin_area/container';
-        $this->render('/admin_area/admin_pages/login', ['model'=>$model]);
+        $this->layout = '//admin_area/layouts/login';
+        $this->render('/admin_area/pages/login', ['model'=>$model]);
 
     }
 
@@ -46,7 +46,6 @@ class AdminPagesController extends AjaxController {
             Yii::app()->user->logout();
         }
         $this->redirect('/');
-
     }
 
     public function actionInvites() {
