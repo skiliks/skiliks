@@ -52,7 +52,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->addTheme("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
         //аттач 'Сводный бюджет',
-        $this->addAttach('Сводный бюджет_02_v23');
+        $this->addAttach('Сводный бюджет_2014_план');
 
         //КОПИЯ - не достучался
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
