@@ -94,3 +94,11 @@ nav ul, nav ul li {
 .btn-site:hover {
     background-color:#bf292a;
 }
+.yiiPager .previous a, .yiiPager .next a {
+    background: #6caab3;
+    border: none;
+    font-size: 14px;
+    margin-left: 15.5px;
+    margin-right: 15.5px;
+    padding: 7px 10px 7px 9px;
+}
