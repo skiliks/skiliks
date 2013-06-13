@@ -28,6 +28,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
     ),
+    'public' => [
+        'isLocalPc' => true,
+    ],
     'params'=>array(
         'frontendUrl'=>'http://stage.dev.skiliks.com/',
         'zoho' => array(
