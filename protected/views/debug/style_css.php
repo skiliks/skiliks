@@ -11,5 +11,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 </head>
 <body>
 <a href="#" class="btn btn-large">Get access</a>
+
+<a href="#" class="btn btn-primary">Get access</a>
 </body>
 </html>
