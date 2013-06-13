@@ -9,7 +9,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <html lang="en">
 <head>
 </head>
-<body style="padding: 100px">
+<body style="padding: 100px;background:#7cb8c2">
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
