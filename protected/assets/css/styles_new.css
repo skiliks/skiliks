@@ -99,9 +99,12 @@ a {
 }
 
 /* ************************ Pager ************************ */
+.yiiPager, .yiiPager li {
+    margin:0px;
+    padding: 0px;
+}
 .yiiPager li {
     list-style-type: none;
-    padding: 0px;
 }
 .yiiPager .first, .yiiPager .last {
     display: none;
