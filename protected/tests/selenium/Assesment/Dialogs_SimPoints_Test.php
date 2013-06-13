@@ -45,7 +45,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         sleep(2);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "E8.3");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Нет, прости, Семен. Сегодня просто сумасшедший день')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас вернусь и напишу служебку. Спасибо за информацию! ')])");
         sleep(2);

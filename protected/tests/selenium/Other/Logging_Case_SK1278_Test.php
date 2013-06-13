@@ -39,7 +39,7 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
         sleep(2);
-        $this->addAttach('Сводный бюджет_02_v23');
+        $this->addAttach('Сводный бюджет_2014_план');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'сохранить')])");
         sleep(2);
