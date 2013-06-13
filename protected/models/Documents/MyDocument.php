@@ -138,7 +138,7 @@ class MyDocument extends CActiveRecord
     public function getSheetList($filename = null)
     {
         $filePath = $filename ?: (file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath());
-        $fileData = yaml_parse_file($filePath);
+        $fileData = include($filePath);
         return $fileData;
     }
 
