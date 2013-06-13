@@ -20,24 +20,39 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">Skiliks</a>
-                <? $this->renderPartial('//admin_area/main_menu') ?>
+            <a class="brand" href="/">Skiliks</a>
+                <? $this->renderPartial('//admin_area/partials/_top_menu') ?>
         </div>
     </div>
 </div>
 
+<br/><br/>
+
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3">
-            <? $this->renderPartial('//admin_area/sidebar', []) ?>
-        </div><!--/span-->
-        <div class="span9">
+        <div class="span2">
+            <? $this->renderPartial('//admin_area/partials/_left_menu', []) ?>
+        </div>
+        <div class="span10">
+
+            <br/>
+
+            <? foreach(Yii::app()->user->getFlashes() as $class => $message) : ?>
+                <div class="alert alert-<?= $class ?>">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <?= $message ?>
+                </div>
+            <? endforeach ?>
+
             <?=$content?>
-        </div><!--/span-->
-    </div><!--/row-->
+        </div>
+    </div>
 
     <hr>
-    <? $this->renderPartial('//admin_area/footer', []) ?>
-</div><!--/.fluid-container-->
+
+    <footer>
+        <p></p>
+    </footer>
+</div>
 </body>
 </html>
