@@ -29,13 +29,8 @@ $cs->registerCssFile($assetsUrl . "/css/style_new.css");
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-<style>
-
-
-</style>
 </head>
 
 <body>
-<a class="btn-large" href="#">Получить</a>
 </body>
 </html>
