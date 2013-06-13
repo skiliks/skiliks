@@ -49,6 +49,9 @@ nav ul, nav ul li {
 @font-face {font-family: 'ProximaNova-Regular';src: url('../fonts/24F05C_4_0.eot');src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
 @font-face {font-family: 'ProximaNova-Bold';src: url('../fonts/24F05C_5_0.eot');src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
 
+a {
+    text-decoration: none;
+}
 .btn, .btn-large, .btn-primary {
     border-radius: 4px;
     cursor: pointer;
@@ -98,6 +101,9 @@ nav ul, nav ul li {
     list-style-type: none;
     margin: 0px 5px 0px 4px;
     padding: 0px;
+}
+.yiiPager .hidden {
+    display: none;
 }
 .yiiPager li, .yiiPager li a {
     color: #fff;
