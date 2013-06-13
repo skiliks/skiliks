@@ -4,7 +4,7 @@ class GameTime
 {
     const SET_DEFAULT_TIMEZONE = false;
 
-    const TODAY = '04.10.2012';
+    const TODAY = '04.10.2013';
 
     const TIME_ZONE = "Europe/Moscow";
 
