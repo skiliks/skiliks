@@ -3,17 +3,6 @@
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->registerCoreScript('jquery');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
-$cs->registerCoreScript('jquery.yiiactiveform.js');
-$cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
-$cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
-$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
-$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
-$cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 ?>
 
@@ -39,8 +28,16 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
     <li class="page"><a href="/dashboard/corporate?page=2">2</a></li>
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
-    <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li></ul>
-
+    <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
+</ul>
+<p>&nbsp;</p><p>&nbsp;</p>
 <h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
+<p>&nbsp;</p><p>&nbsp;</p>
+<ul id="yw0">
+    <li class="active"><a href="/"><cufon class="cufon cufon-canvas" alt="Главная" style="width: 69px; height: 18px;"><canvas width="80" height="19" style="width: 80px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Главная</cufontext></cufon></a></li>
+    <li><a href="/static/team"><cufon class="cufon cufon-canvas" alt="О " style="width: 19px; height: 18px;"><canvas width="35" height="19" style="width: 35px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>О </cufontext></cufon><cufon class="cufon cufon-canvas" alt="нас" style="width: 30px; height: 18px;"><canvas width="41" height="19" style="width: 41px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>нас</cufontext></cufon></a></li>
+    <li><a href="/static/product"><cufon class="cufon cufon-canvas" alt="О " style="width: 19px; height: 18px;"><canvas width="35" height="19" style="width: 35px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>О </cufontext></cufon><cufon class="cufon cufon-canvas" alt="продукте" style="width: 79px; height: 18px;"><canvas width="89" height="19" style="width: 89px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>продукте</cufontext></cufon></a></li>
+    <li><a href="/static/tariffs"><cufon class="cufon cufon-canvas" alt="Цены " style="width: 52px; height: 18px;"><canvas width="68" height="19" style="width: 68px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Цены </cufontext></cufon><cufon class="cufon cufon-canvas" alt="и " style="width: 15px; height: 18px;"><canvas width="31" height="19" style="width: 31px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>и </cufontext></cufon><cufon class="cufon cufon-canvas" alt="тарифы" style="width: 66px; height: 18px;"><canvas width="74" height="19" style="width: 74px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>тарифы</cufontext></cufon></a></li>
+</ul>
 </body>
 </html>
