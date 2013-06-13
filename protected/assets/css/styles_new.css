@@ -116,6 +116,8 @@ a {
 }
 .yiiPager a {
     margin: 0px 4.5px;
+    padding: 0px;
+    border:1px solid red;
 }
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
