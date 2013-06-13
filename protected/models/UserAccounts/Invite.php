@@ -705,4 +705,13 @@ class Invite extends CActiveRecord
         }
 
     }
+
+    public function getOverall() {
+        $assessment = AssessmentOverall::model()->findByAttributes(['sim_id'=>$this->simulation_id, 'assessment_category_code'=>'overall']);
+        if(null === $assessment){
+            return 'Нет оценки';
+        }else{
+            return $assessment->value;
+        }
+    }
 }

@@ -269,6 +269,7 @@ return array(
                 'admin_area/dashboard' => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login' => 'admin_area/AdminPages/Login',
                 'admin_area/logout' => 'admin_area/AdminPages/Logout',
+                'admin_area/invites' => 'admin_area/AdminPages/Invites',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
