@@ -60,6 +60,7 @@ nav ul, nav ul li {
 .btn-large { /* large green button */
     background: #146672 url("../img/btn-circle.png") no-repeat;
     background-position: 20px 50%;
+    color: #fff;
     font-size: 18px;
     height: 54px;
     line-height: 54px;
