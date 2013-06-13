@@ -28,5 +28,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     <li class="page"><a href="/dashboard/corporate?page=2">1</a></li>
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li></ul>
+
+<h2>Самый простой и надёжный способ<br/>проверить навыки менеджера</h2>
 </body>
 </html>
