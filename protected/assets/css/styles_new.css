@@ -121,14 +121,15 @@ a {
     font-family:"ProximaNova-Bold";
 }
 .yiiPager a {
+    font-size: 16px;
     margin: 0px 4.5px;
 }
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
-    font-size: 16px;
-    margin: 0px 15.5px;
-    padding: 7px 10px;
+    font-size: 14px;
+    margin: 0px 11.5px;
+    padding: 7px 10px 7px 9px;
 }
 
 /* ************************ /Pager ************************ */
