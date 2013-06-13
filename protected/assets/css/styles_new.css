@@ -76,3 +76,7 @@ nav ul, nav ul li {
     line-height: 30px;
     padding: 0 20px 0 51px;
 }
+.btn-primary:hover {
+    color:#ffffff;
+    background-position: left bottom;
+}
