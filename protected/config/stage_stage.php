@@ -30,11 +30,11 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     ),
     'params'=>array(
         'public' => [
-            'isLocalPc' => true,
+//            'isLocalPc' => true,
         ],
         'frontendUrl'=>'http://stage.dev.skiliks.com/',
         'zoho' => array(
-            'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a',
+            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
