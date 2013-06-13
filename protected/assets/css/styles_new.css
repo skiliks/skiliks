@@ -84,7 +84,7 @@ nav ul, nav ul li {
     background-position: left bottom;
 }
 .btn-site { /* example -  manage subscription */
-    background:#146672 url("../img/arrowleft.png") no-repeat;
+    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
     color: #fff;
     font-size: 14px;
     height: 30px;
