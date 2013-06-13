@@ -48,7 +48,13 @@ nav ul, nav ul li {
 /* --------------- main styles ---------*/
 @font-face {font-family: 'ProximaNova-Regular';src: url('../fonts/24F05C_4_0.eot');src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
 @font-face {font-family: 'ProximaNova-Bold';src: url('../fonts/24F05C_5_0.eot');src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
-
+body {
+    line-height: 1;
+    color: #29313d;
+    text-align: left;
+    font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
+    line-height: 14px;
+}
 a {
     text-decoration: none;
 }
@@ -116,15 +122,18 @@ a {
 }
 .yiiPager a {
     margin: 0px 4.5px;
-    padding: 0px;
-    border:1px solid red;
 }
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
-    font-size: 14px;
-    margin: 0px 15px;
-    padding: 7px 15.5px;
+    font-size: 16px;
+    margin: 0px 15.5px;
+    padding: 7px 10px;
 }
 
 /* ************************ /Pager ************************ */
+/* ************************ !!!!!!!!!!! Pager FONT !!!!!!!!!!************************ */
+
+h2 {
+
+}
