@@ -11,6 +11,8 @@
             <th>Время начала симуляции</th>
             <th>Время конца симуляции</th>
             <th>Тип (название) основного сценария</th>
+            <th>Оценка</th>
+            <th>Логи</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +27,8 @@
             <td><?=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start)?></td>
             <td><?=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end)?></td>
             <td><span class="label label-inverse"><?=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug)?></span></td>
+            <td><?=$model->getOverall() ?></td>
+            <td><?=(empty($model->simulation->id)?'Не найдена':"<a href=\"/static/admin/saveLog/{$model->simulation->id}\">Скачать</a>")?></td>
         </tr>
         <? endforeach ?>
         </tbody>
