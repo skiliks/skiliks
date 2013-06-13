@@ -2,6 +2,7 @@
 
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 ?>
 
@@ -25,10 +26,10 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <ul id="yw1" class="yiiPager"><li class="first hidden"><a href="/dashboard/corporate">&lt;&lt; начало</a></li>
     <li class="previous hidden"><a href="/dashboard/corporate">Назад</a></li>
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
-    <li class="page"><a href="/dashboard/corporate?page=2">1</a></li>
+    <li class="page"><a href="/dashboard/corporate?page=2">2</a></li>
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li></ul>
 
-<h2>Самый простой и надёжный способ<br/>проверить навыки менеджера</h2>
+<h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
 </body>
 </html>
