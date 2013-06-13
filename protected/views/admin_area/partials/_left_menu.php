@@ -10,6 +10,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Приглашения',
+                'url'   => ['admin_area/AdminPages/Invites'],
+                'visible' => true,
+
+            ),
             /*array('label'=>'About', 'url'=>array('/site/page')),
             array('label'=>'Contact', 'url'=>array('/site/contact')),
             array('label'=>'Login', 'url'=>array('/site/login'))*/
