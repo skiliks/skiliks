@@ -51,6 +51,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formula1.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.9.2.custom.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>

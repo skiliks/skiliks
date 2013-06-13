@@ -75,7 +75,7 @@ define([
             }, 0);
         },
 
-        doSelectTab: function doSelectTab () {
+        doSelectTab: function doSelectTab (event) {
             var doc = this.options.model_instance.get('document');
             doc.get('sheets').where({'name': $(event.target).attr('data-sheet-name')})[0].activate();
         }
