@@ -378,12 +378,12 @@ a:focus, a:active {
 	top:26px;
 	left:235px;
 }
-.betaflag {
+html[lang=ru] .betaflag {
     background:url("../img/betaflag.png") no-repeat 0 0;
     height: 49px;
-    left:235px;
+    left:275px;
     position: absolute;
-    top:40px;
+    top:31px;
     width: 105px;
 }
 .container>header .language{
