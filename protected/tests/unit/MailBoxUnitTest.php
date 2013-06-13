@@ -656,7 +656,7 @@ class MailBoxUnitTest extends CDbTestCase
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'не буду'])->id;
 
-        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_01_итог.xls"]);
+        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_2013_утв.xls"]);
 
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(implode(',', $recipients));
@@ -691,7 +691,8 @@ class MailBoxUnitTest extends CDbTestCase
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'день'])->id;
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
 
-        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Презентация_ ГД_00_комментарии ГД.pptx"]);
+        $doc = $simulation->game_type->getDocumentTemplate(['code'=>"D5"]);
+        $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'template_id'=>$doc->id]);
 
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(implode(',', $recipients));
@@ -712,11 +713,11 @@ class MailBoxUnitTest extends CDbTestCase
 
         $this->assertEquals('Индексация ЗП', $mail['subject']);
         $this->assertEquals('не буду день в отделе аналитики', $mail['message']);
-        $this->assertEquals('04.10.2012 10:20', $mail['sentAt']);
+        $this->assertEquals('04.10.2013 10:20', $mail['sentAt']);
         $this->assertEquals("Босс В.С. <boss@skiliks.com>", $mail['receiver']);
         $this->assertEquals('2', $mail['folder']);
         $this->assertEquals('Железный С. <zhelezniy.so@skiliks.com>', $mail['copies']);
-        $this->assertEquals('Презентация_ ГД_00_комментарии ГД.pptx', $mail['attachments']['name']);
+        $this->assertEquals('Презентация_ ГД_2013_итог.pptx', $mail['attachments']['name']);
         $this->assertEquals($email->id, $mail['id']);
         $this->assertEquals($draft->id, $email->id);
     }
