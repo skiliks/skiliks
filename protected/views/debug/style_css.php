@@ -9,9 +9,12 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <html lang="en">
 <head>
 </head>
-<body>
-<a href="#" class="btn btn-large">Get access</a>
-
-<a href="#" class="btn btn-primary">Get access</a>
+<body style="padding: 100px">
+<div>
+    <a href="#" class="btn btn-large">Get access</a>
+</div>
+<div>
+    <a href="#" class="btn btn-primary">Get access</a>
+</div>
 </body>
 </html>
