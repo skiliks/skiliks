@@ -1895,11 +1895,13 @@ html[lang="en"] .footer .social_networks {
 	text-align:center;
 	line-height:1.167em;
 	margin-top:20px;
+    padding-left: 250px;
 }
 .footer .copyright span {
     display: block;
     float: right;
     font-size: 14px;
+    width:250px;
 }
 .footer .copyright span a {
     color: #fff;
