@@ -68,7 +68,7 @@ a {
     font-size: 18px;
     height: 54px;
     line-height: 54px;
-    padding: 0 20px 0 50px;
+    padding: 0 19px 0 50px;
 }
 .btn-large:hover {
     background-color: #BD2929;
@@ -123,8 +123,8 @@ a {
     background: #6caab3;
     border: none;
     font-size: 14px;
-    /*margin: 0px 15px;
-    padding: 7px 15.5px;*/
+    margin: 0px 15px;
+    padding: 7px 15.5px;
 }
 
 /* ************************ /Pager ************************ */
