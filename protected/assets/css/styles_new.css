@@ -84,7 +84,7 @@ nav ul, nav ul li {
     background-position: left bottom;
 }
 .btn-site { /* example -  manage subscription */
-    background: #146672;
+    background:#146672 url("../img/arrowleft.png") no-repeat;
     color: #fff;
     font-size: 14px;
     height: 30px;
@@ -92,5 +92,5 @@ nav ul, nav ul li {
     padding: 0 10px 0 22px;
 }
 .btn-site:hover {
-    background: #bf292a;
+    background-color:#bf292a;
 }
