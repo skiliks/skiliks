@@ -40,7 +40,7 @@
  */
 class Simulation extends CActiveRecord
 {
-    const SIMULATION_DAY_DATE = '04.10.2012';
+    const SIMULATION_DAY_DATE = '04.10.2013';
     
     const MODE_PROMO_ID       = 1;
     const MODE_DEVELOPER_ID   = 2;
