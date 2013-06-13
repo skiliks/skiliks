@@ -97,12 +97,13 @@ a {
 .btn-site:hover {
     background-color:#bf292a;
 }
+
+/* ************************ Pager ************************ */
 .yiiPager li {
     list-style-type: none;
-    margin: 0px 5px 0px 4px;
     padding: 0px;
 }
-.yiiPager .hidden {
+.yiiPager .first, .yiiPager .last {
     display: none;
 }
 .yiiPager li, .yiiPager li a {
@@ -110,10 +111,15 @@ a {
     display: inline-block;
     font-family:"ProximaNova-Bold";
 }
+.yiiPager a {
+    margin: 0px 4.5px;
+}
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
     font-size: 14px;
     margin: 0px 15px;
-    padding: 7px 10px 7px 9px;
+    padding: 7px 15.5px;
 }
+
+/* ************************ /Pager ************************ */
