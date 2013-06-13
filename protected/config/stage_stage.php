@@ -28,10 +28,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
     ),
-    'public' => [
-        'isLocalPc' => true,
-    ],
     'params'=>array(
+        'public' => [
+            'isLocalPc' => true,
+        ],
         'frontendUrl'=>'http://stage.dev.skiliks.com/',
         'zoho' => array(
             'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a',
