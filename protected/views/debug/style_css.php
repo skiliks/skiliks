@@ -32,5 +32,6 @@ $cs->registerCssFile($assetsUrl . "/css/style_new.css");
 </head>
 
 <body>
+!!!
 </body>
 </html>
