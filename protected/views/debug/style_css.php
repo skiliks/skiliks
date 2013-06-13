@@ -2,6 +2,7 @@
 
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 ?>
