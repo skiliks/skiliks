@@ -10,6 +10,6 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <head>
 </head>
 <body>
-
+<a href="#" class="btn-large">Get access</a>
 </body>
 </html>
