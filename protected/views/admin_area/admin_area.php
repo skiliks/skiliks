@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="brand" href="#">Skiliks</a>
-                <? $this->renderPartial('//admin_area/main_menu', []) ?>
+                <? $this->renderPartial('//admin_area/main_menu') ?>
         </div>
     </div>
 </div>

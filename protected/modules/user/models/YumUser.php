@@ -14,6 +14,7 @@
  * @property integer $superuser
  * @property integer $status
  * @property integer $agree_with_terms
+ * @property integer $is_admin
  *
  * Relations
  * @property YumProfile $profile
@@ -998,5 +999,13 @@ class YumUser extends YumActiveRecord
 
         Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
+    }
+
+    public function isAdmin() {
+        if((int)$this->is_admin === 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

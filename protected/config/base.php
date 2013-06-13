@@ -267,6 +267,8 @@ return array(
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
                 'admin_area/dashboard' => 'admin_area/AdminPages/Dashboard',
+                'admin_area/login' => 'admin_area/AdminPages/Login',
+                'admin_area/logout' => 'admin_area/AdminPages/Logout',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
