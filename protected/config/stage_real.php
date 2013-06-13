@@ -39,6 +39,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a ',
         ),
     )
-)));
+));
 
 
