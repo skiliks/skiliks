@@ -32,6 +32,6 @@ $cs->registerCssFile($assetsUrl . "/css/style_new.css");
 </head>
 
 <body>
-!!!
+<a class="btn-large" href="#">Получить</a>
 </body>
 </html>
