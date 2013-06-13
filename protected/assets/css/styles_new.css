@@ -140,7 +140,11 @@ a {
 /* ************************ !!!!!!!!!!! Pager FONT
 CUFON!!!!!!
 !!!!!!!!!!************************ */
-
+h1, h2, h3, h4 {
+    font-family:"ProximaNova-Bold";
+}
 h2 {
-
+    font-size: 44px;
+    color: #fff;
+    line-height: 52px;
 }
