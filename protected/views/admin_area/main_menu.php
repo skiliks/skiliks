@@ -1,6 +1,9 @@
+<?/* @var $user YumUser */
+    $user = Yii::app()->user->data();
+?>
 <div class="nav-collapse collapse">
     <p class="navbar-text pull-right">
-        Logged in as <a href="#" class="navbar-link">Username</a>
+        <?=$user->profile->firstname?> <?=$user->profile->lastname?> <a href="/admin_area/logout" class="navbar-link">Выйти</a>
     </p>
     <ul class="nav">
         <li class="active"><a href="#">Home</a></li>
