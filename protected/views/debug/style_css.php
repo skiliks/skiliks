@@ -33,11 +33,13 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <p>&nbsp;</p><p>&nbsp;</p>
 <h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
 <p>&nbsp;</p><p>&nbsp;</p>
-<ul id="yw0">
-    <li class="active"><a href="/"><cufon class="cufon cufon-canvas" alt="Главная" style="width: 69px; height: 18px;"><canvas width="80" height="19" style="width: 80px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Главная</cufontext></cufon></a></li>
-    <li><a href="/static/team"><cufon class="cufon cufon-canvas" alt="О " style="width: 19px; height: 18px;"><canvas width="35" height="19" style="width: 35px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>О </cufontext></cufon><cufon class="cufon cufon-canvas" alt="нас" style="width: 30px; height: 18px;"><canvas width="41" height="19" style="width: 41px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>нас</cufontext></cufon></a></li>
-    <li><a href="/static/product"><cufon class="cufon cufon-canvas" alt="О " style="width: 19px; height: 18px;"><canvas width="35" height="19" style="width: 35px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>О </cufontext></cufon><cufon class="cufon cufon-canvas" alt="продукте" style="width: 79px; height: 18px;"><canvas width="89" height="19" style="width: 89px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>продукте</cufontext></cufon></a></li>
-    <li><a href="/static/tariffs"><cufon class="cufon cufon-canvas" alt="Цены " style="width: 52px; height: 18px;"><canvas width="68" height="19" style="width: 68px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Цены </cufontext></cufon><cufon class="cufon cufon-canvas" alt="и " style="width: 15px; height: 18px;"><canvas width="31" height="19" style="width: 31px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>и </cufontext></cufon><cufon class="cufon cufon-canvas" alt="тарифы" style="width: 66px; height: 18px;"><canvas width="74" height="19" style="width: 74px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>тарифы</cufontext></cufon></a></li>
-</ul>
+<nav class="menu-main">
+    <ul>
+        <li class="active"><a href="/">Главная</a></li>
+        <li><a href="/static/team">О нас</a></li>
+        <li><a href="#">Цены</a></li>
+    </ul>
+</nav>
+<p>&nbsp;</p><p>&nbsp;</p>
 </body>
 </html>
