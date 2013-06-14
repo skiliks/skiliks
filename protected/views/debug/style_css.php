@@ -40,9 +40,9 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         <li><a href="#">Цены</a></li>
     </ul>
 </nav>
-<p>&nbsp;</p><p>&nbsp;</p>
+<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+<div class="nice-border backgroud-rich-blue sideblock">
 <form id="invite-form" class="form-simple">
-
     <div class="row ">
         <label for="Invite_full_name">Имя</label>
         <input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
@@ -54,12 +54,6 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="row wide">
         <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
-        <select name="Invite[vacancy_id]" id="Invite_vacancy_id" sb="26848379" style="display: none;">
-            <option value="41">Длинное ну очень длинное такое вот название вакансии</option>
-            <option value="42">Analitic</option>
-            <option value="44">Директор</option>
-            <option value="45">Научный сотрудник</option>
-        </select>
         <div id="sbHolder_26848379" class="sbHolder">
             <a id="sbToggle_26848379" href="#" class="sbToggle"></a><a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
             <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
@@ -71,8 +65,9 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="row buttons"><input name="prevalidate" type="submit" value="Отправить"></div>
+    <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
 
 </form>
+</div>
 </body>
 </html>
