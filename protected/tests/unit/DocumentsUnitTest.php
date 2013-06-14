@@ -13,8 +13,6 @@ class DocumentsUnitTest extends CDbTestCase
      */
     public function testCanOpenDocument()
     {
-        // $this->markTestSkipped();
-
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -22,7 +20,6 @@ class DocumentsUnitTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
 
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,

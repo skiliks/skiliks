@@ -137,6 +137,7 @@ class MailBoxService
         }
 
         // Добавим информацию о вложениях
+
         if (count($mailIds) > 0) {
             $attachments = MailAttachment::model()->byMailIds($mailIds)->findAll();
             foreach ($attachments as $attachment) {
