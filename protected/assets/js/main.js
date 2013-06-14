@@ -373,7 +373,7 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
     '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
     '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-    '.terms-page p, .browsers a, .browsers span, .copyright',
+    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
