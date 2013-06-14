@@ -1937,7 +1937,7 @@ html[lang="en"] .footer .social_networks {
 		height:46px;
 		margin-top:38px;
 	}
-	.footer .copyright{
+	.footer .copyright, .copyright span, .copyright a {
 		font-size:0.692em;
 	}
 	.footer footer nav a{
