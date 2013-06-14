@@ -766,7 +766,7 @@ html[lang=ru] .features form div input[type=submit]{
 /* --------------- main article ---------*/
 .main-article{
 	width:415px;
-	margin:65px 0 0 315px;
+	margin:45px 0 0 300px; /* 65px 0 0 315px; */
 	overflow:hidden;
 }
 .main-article article{
