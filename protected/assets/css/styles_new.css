@@ -190,6 +190,10 @@ h2 {
     line-height: 26px;
     padding: 2px 4px;
 }
+.form-simple label {
+    color: #fff;
+    display: inline-block;
+}
 .form-simple .row {
     position: relative;
     padding: 10px 0 0 0;
