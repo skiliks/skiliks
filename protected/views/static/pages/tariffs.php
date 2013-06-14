@@ -53,7 +53,7 @@ $lang = Yii::app()->getLanguage();
 
     <p class="text-right text16">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong> чтобы приобрести</a>
+        <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> чтобы приобрести
         <?php endif; ?>
     </p>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>

@@ -164,12 +164,15 @@ class SimulationsController extends AjaxController implements AccountPageControl
     public function actionDetails($id)
     {
         $simulation = Simulation::model()->findByPk($id);
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+        if( false === $user->isAdmin() ){
+            if ($user->id !== $simulation->invite->owner_id &&
+                $user->id !== $simulation->invite->receiver_id) {
+                //echo 'Вы не можете просматривать результаты чужих симуляций.';
 
-        if (Yii::app()->user->data()->id !== $simulation->invite->owner_id &&
-            Yii::app()->user->data()->id !== $simulation->invite->receiver_id) {
-            //echo 'Вы не можете просматривать результаты чужих симуляций.';
-
-            Yii::app()->end(); // кошерное die;
+                Yii::app()->end(); // кошерное die;
+            }
         }
 
         $this->layout = false;
@@ -180,7 +183,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
 
-        $user = Yii::app()->user->data();
+
 
         $this->render('simulation_details', [
             'simulation'     => $simulation,
