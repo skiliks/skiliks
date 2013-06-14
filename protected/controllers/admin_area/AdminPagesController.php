@@ -56,4 +56,12 @@ class AdminPagesController extends AjaxController {
 
     }
 
+    public function actionSimulationDetail() {
+        $sim_id = Yii::app()->request->getParam('sim_id', null);
+        @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+            new CHttpCookie('display_result_for_simulation_id', $sim_id);
+
+        $this->redirect('/dashboard');
+    }
+
 }
