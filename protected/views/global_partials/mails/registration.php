@@ -21,16 +21,16 @@
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
-                    <td bgcolor="f2f2f2" alight="right">
-                        <table cellpadding="0" cellspacing="0" width="830" border="0" bgcolor="f2f2f2">
+                    <td alight="right">
+                        <table cellpadding="0" cellspacing="0" width="840" border="0">
                             <tr>
-                                <td valign="top" bgcolor="fdfbc6">
+                                <td valign="top" bgcolor="fdfbc6" width="495">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
 Благодарим вас за выбор skiliks!</h1>
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $link ?>">активируйте</a> ваш аккаунт.</p>
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">skiliks</a></p>
                                 </td>
-                                <td bgcolor="f2f2f2" alight="right"><img src="cid:mail-bottom-angela" style="display:block;" /></td>
+                                <td alight="right" width="335"><img src="cid:mail-bottom-angela" style="display:block;" /></td>
                             </tr>
                         </table>
                     </td>
