@@ -24,7 +24,7 @@
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
-Приветствуем, <?= $name ?>!</h1>
+Приветствуем, <?= $invite->receiverUser->profile->firstname ?>!</h1>
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
 Вы просили обновить данные вашего аккаунта.</p>
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
