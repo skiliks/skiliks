@@ -15,6 +15,7 @@
             <th>Оценка</th>
             <th>Логи</th>
             <th>Оценки</th>
+            <th>D1</th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
             <td><?=$model->getOverall() ?></td>
             <td><?=(empty($model->simulation->id)?'Не найдена':"<a href=\"/static/admin/saveLog/{$model->simulation->id}\">Скачать</a>")?></td>
             <td><?=(empty($model->simulation->id)?'Не найдена':"<a target=\"_blank\" href=\"/admin_area/simulation_detail?sim_id={$model->simulation->id}\">Открыть</a>")?></td>
+            <td><?=(empty($model->simulation->id)?'Не найдена':"<a href=\"/admin_area/budget?sim_id={$model->simulation->id}\">Скачать</a>")?></td>
         </tr>
         <? endforeach ?>
         </tbody>
