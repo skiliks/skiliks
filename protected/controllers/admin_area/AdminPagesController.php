@@ -60,6 +60,7 @@ class AdminPagesController extends AjaxController {
 
     public function actionInvitesSave() {
 
+        $this->layout = false;
         $models = Invite::model()->findAll([
             "order" => "updated_at desc"
         ]);
@@ -98,6 +99,7 @@ class AdminPagesController extends AjaxController {
     }
 
     public function actionGetBudget() {
+        $this->layout = false;
         $sim_id = Yii::app()->request->getParam('sim_id', null);
         $simulation = Simulation::model()->findByPk($sim_id);
 
