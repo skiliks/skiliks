@@ -335,8 +335,6 @@ class CheckConsolidatedBudget
             throw new Exception("Template not found by template_id {$documentTemplate->id}");
             return false;
         }
-
-
         // check document }
         
         // init configs {
@@ -346,56 +344,10 @@ class CheckConsolidatedBudget
         // init configs }
         
         // get workSheets {
-        $objPHPExcel = null;
         PHPExcel_Calculation::getInstance()->clearCalculationCache();
         $objPHPExcel = new PHPExcel();
-        $sheets = $document->getSheetList($path);
-        foreach ($sheets as $sheet) {
-            $excelSheet = $objPHPExcel->createSheet();
-            $excelSheet->setTitle($sheet['name']);
-            $parts = explode('--SocialCalcSpreadsheetControlSave', $sheet['content']);
-            $cells = [];
-            foreach (explode("\n", $parts[2]) as $part) {
-                if (!preg_match('/^cell:/', $part)) {
-                    continue;
-                }
-                $row_parts = explode(':', $part);
-                for ($i = 0; $i < count($row_parts); $i++) {
-                    switch ($row_parts[$i]) {
-                        case 'b':
-                            $i += 4;
-                            break;
-                        case 'vtf':
-                            $i += 3;
-                            $cells[$row_parts[1]] = '=' . $row_parts[$i];
-                            break;
-                        case 'v':
-                        case 't':
-                            $i ++;
-                            $cells[$row_parts[1]] = $row_parts[$i];
-                            break;
-                        case 'l':
-                        case 'cell':
-                        case "f":
-                        case "c":
-                        case "bg":
-                        case "cf":
-                        case "ntvf":
-                        case "tvf":
-                        case "colspan":
-                        case "rowspan":
-                        case "cssc":
-                        case "csss":
-                            $i += 1;
-                            break;
-                    }
-                }
-            };
-            foreach ($cells as $cell => $value) {
-                $excelSheet->setCellValue($cell, str_replace('\c', ':', $value));
-            };
-
-        }
+        $scData = $document->getSheetList($path);
+        ScXlsConverter::writeScDataToXls($scData, $objPHPExcel);
 
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);

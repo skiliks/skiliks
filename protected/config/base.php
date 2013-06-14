@@ -37,6 +37,7 @@ return array(
         'application.components.GameContentAnalyze.*',
         'application.components.ForStaticSite.*',
         'application.components.Exception.*',
+        'application.components.SocialCalc.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
@@ -346,11 +347,11 @@ return array(
              'excel' => array(
                  'consolidatedBudget' => array(
                      'worksheetNames' => array(
-                        'consolidated' => 'Сводный',
-                        'sales'        => 'Продажи',
-                        'production'   => 'Производство',
-                        'logistic'     => 'Логистика',
-                        'other'        => 'Прочее',
+                        'consolidated' => 'сводный',
+                        'sales'        => 'продажи',
+                        'production'   => 'производство',
+                        'logistic'     => 'логистика',
+                        'other'        => 'прочее',
                      ),
                      'etalons' => array(
                          1 => 876264,
