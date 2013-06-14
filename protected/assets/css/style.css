@@ -788,7 +788,7 @@ html[lang=ru] .main-article article{
 .main-article li{
 	font:0.953em "ProximaNova-Regular";
 	color:#29313d;
-	line-height:1.500em;
+	line-height:1.500em; /* 1.500em; */
 }
 
 @media screen and (max-width: 1146px){
