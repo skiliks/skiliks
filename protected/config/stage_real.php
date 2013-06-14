@@ -1,7 +1,6 @@
 <?php
 
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
-    'components' => array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'RSentryException'=> array(
@@ -37,9 +36,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ],
         'zoho' => array(
             'saveUrl'             => 'http://skiliks.com/zoho/saveExcel',
-            'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a ',
+            'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a',
         ),
     )
-)));
+));
 
 
