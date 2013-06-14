@@ -11,7 +11,6 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <head>
 <style>
 body {
-    padding: 100px;
     background:#7cb8c2;
 }
 .blockfortest, .testblocks div {
@@ -25,7 +24,7 @@ body {
 }
 </style>
 </head>
-<body>
+<body style="padding: 100px;">
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
@@ -51,12 +50,12 @@ body {
 
 <div class="razdelitel"></div>
     <div class="testblocks">
-        <div class="block-border"></div>
+        <div class="block-border border-primary"></div>
         <div class="bg-rich-blue block-border"></div>
-        <div class="bg-light-blue"></div>
-        <div class="bg-blue"></div>
-        <div class="bg-yellow"></div>
-        <div class="bg-yellow-light"></div>
+        <div class="bg-light-blue border-primary""></div>
+        <div class="bg-blue border-primary""></div>
+        <div class="bg-yellow border-primary""></div>
+        <div class="bg-yellow-light border-large""></div>
     </div>
 <nav class="menu-main">
     <ul>
