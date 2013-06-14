@@ -1,5 +1,6 @@
 <div class="row fix-top">
     <h2>Инвайты</h2>
+    <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
     <table class="table table-hover">
         <thead>
         <tr>

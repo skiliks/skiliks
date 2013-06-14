@@ -167,6 +167,18 @@ class YumUser extends YumActiveRecord
         return $this->profile->firstname.' '.$this->profile->lastname;
     }
 
+    /**
+     * @return string
+     */
+    public function getFormattedFirstName()
+    {
+        if (null == $this->profile->firstname) {
+            return 'Ваше имя';
+        }
+
+        return $this->profile->firstname;
+    }
+
     // ------------------------------------------------------------------------------------------------------------
 
     public function behaviors()
