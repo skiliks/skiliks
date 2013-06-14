@@ -522,6 +522,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         me.updateInboxFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -543,6 +544,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -565,6 +567,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type: 1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         MailClientModel.updateSendedFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -587,6 +590,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
