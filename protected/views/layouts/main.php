@@ -149,7 +149,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php $this->renderPartial('//global_partials/addthis', ['force' => false]) ?>
                     <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
-                    <p class="copyright" style="font-size:11px;">Copyright - Skiliks  - 2012
+                    <p class="copyright">Copyright - Skiliks  - 2012
                         <?php if ('ru' == Yii::app()->getlanguage()): ?>
                             <span class="float-right">
                                 Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
