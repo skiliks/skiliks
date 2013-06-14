@@ -34,9 +34,9 @@
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, зайдите в ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $link ?>">корпоративный кабинет</a> для запуска его работы.</p>
 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Из кабинета вы можете:</p>
 <ul>
-    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile' ?>">обновить данные,</a></li>
-    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=dashboard' ?>">пригласить кандидата к оценке,</a></li>
-    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile/corporate/tariff' ?>">выбрать тариф,</a></li>
+    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile' ?>">обновить данные</a>,</li>
+    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=dashboard' ?>">пригласить кандидата</a> к оценке,</li>
+    <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile/corporate/tariff' ?>">выбрать тариф</a>,</li>
     <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=simulations' ?>">пройти симуляцию</a> самостоятельно.</li>
 </ul>
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">skiliks</a></p>
