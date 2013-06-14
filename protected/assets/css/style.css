@@ -776,14 +776,16 @@ html[lang=ru] .main-article article{
 	/*margin-top:15px;*/
     margin-top:0px;
 }
-.main-article article h3{
+.main-article h3{
 	font:2.144em "ProximaNova-Bold";
 	color:#146672;
+    margin-bottom: 17px;
 }
-.main-article article ul{
+.main-article ul{
 	list-style:none;
+    margin-bottom: 45px;
 }
-.main-article article ul li{
+.main-article li{
 	font:0.953em "ProximaNova-Regular";
 	color:#29313d;
 	line-height:1.500em;
