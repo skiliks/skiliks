@@ -50,10 +50,43 @@ class AdminPagesController extends AjaxController {
 
     public function actionInvites() {
 
-        $models = Invite::model()->findAllByAttributes([]);
+        $models = Invite::model()->findAll([
+            "order" => "updated_at desc"
+        ]);
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invites', ['models'=>$models]);
 
+    }
+
+    public function actionInvitesSave() {
+
+        $models = Invite::model()->findAll([
+            "order" => "updated_at desc"
+        ]);
+        $csv = "ID-симуляции;";
+        $csv .= "Email работодателя;";
+        $csv .= "Email соискателя;";
+        $csv .= "ID инвайта;";
+        $csv .= "Статус инвайта;";
+        $csv .= "Время начала симуляции;";
+        $csv .= "Время конца симуляции;";
+        $csv .= "Тип (название) основного сценария;";
+        $csv .= "Оценка\r\n";
+        foreach($models as $model) {
+        $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
+        $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
+        $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
+        $csv .=$model->id.';';
+        $csv .=$model->getStatusText().';';
+        $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
+        $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
+        $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
+        $csv .=$model->getOverall()."\r\n";
+}
+        header("Content-type: csv/plain");
+        header("Content-Disposition: attachment; filename=invites.csv");
+        header("Content-length:".(string)(strlen($csv)));
+        echo $csv;
     }
 
     public function actionSimulationDetail() {
