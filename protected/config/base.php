@@ -271,6 +271,7 @@ return array(
                 'admin_area/login' => 'admin_area/AdminPages/Login',
                 'admin_area/logout' => 'admin_area/AdminPages/Logout',
                 'admin_area/simulation_detail' => 'admin_area/AdminPages/SimulationDetail',
+                'admin_area/invites/save' => 'admin_area/AdminPages/InvitesSave',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
