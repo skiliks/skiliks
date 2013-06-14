@@ -1940,8 +1940,8 @@ html[lang="en"] .footer .social_networks {
 	.footer .copyright  {
 		font-size:0.692em;
 	}
-    .copyright span, .copyright a {
-        font-size:11px;
+    .copyright span, .copyright span a {
+        font-size:10px;
     }
 	.footer footer nav a{
 		font-size:0.858em;
