@@ -21,11 +21,13 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
 
         //проверяем темы
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->checkThemes();
 
         $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         //проверяем темы еще раз
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->checkThemes();
 
         $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
