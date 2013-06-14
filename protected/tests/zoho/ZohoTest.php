@@ -29,9 +29,9 @@ class ZohoTest extends SeleniumTestHelper
         $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('http://wwww.skiliks.com/ru');
+        $this->open('http://test.skiliks.com/ru');
         $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
-        $this->open('http://www.skiliks.com/cheat/quick-start/full');
+        $this->open('http://test.skiliks.com/cheat/quick-start/full');
 
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
