@@ -1911,6 +1911,7 @@ html[lang="en"] .footer .social_networks {
     display: block;
     float: right;
     font-size: 14px;
+    text-align: right;
     width:250px;
 }
 .copyright span a {
@@ -1937,10 +1938,7 @@ html[lang="en"] .footer .social_networks {
 		height:46px;
 		margin-top:38px;
 	}
-	.footer .copyright  {
-		font-size:0.692em;
-	}
-    .copyright span, .copyright span a {
+    .footer .copyright, .copyright span, .copyright span a {
         font-size:10px;
     }
 	.footer footer nav a{
