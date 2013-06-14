@@ -558,7 +558,7 @@ class UserAuthController extends YumController
 
         $body = $this->renderPartial('//global_partials/mails/verification', [
             'link' => $activation_url,
-            'name' => $user->getFormattedName()
+            'name' => $user->getFormattedFirstName()
         ], true);
 
         $mail = array(
@@ -614,7 +614,7 @@ class UserAuthController extends YumController
         );
 
         $body = $this->renderPartial('//global_partials/mails/recovery', [
-            'name' => $user->profile->firstname . ' ' . $user->profile->lastname,
+            'name' => $user->getFormattedFirstName(),
             'link' => $recoveryUrl
         ], true);
 
