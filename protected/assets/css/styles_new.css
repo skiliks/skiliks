@@ -136,6 +136,9 @@ a {
 .yiiPager .previous a {
     margin-right: 14px;
 }
+.yiiPager .previous a:hover, .yiiPager .next a:hover {
+    background: #146672;
+}
 /* ************************ /Pager ************************ */
 /* ************************ !!!!!!!!!!! Pager FONT
 CUFON!!!!!!
@@ -149,3 +152,25 @@ h2 {
     color: #fff;
     line-height: 52px;
 }
+
+/*  ************************ Menu ************************  */
+.menu-main li {
+   display: inline;
+   list-style-type: none;
+}
+.menu-main a {
+    display: block;
+    background: rgba(20,102,114,0.4);
+    border-radius: 3px;
+    font: 18px/28px "ProximaNova-Regular";
+    color: #fff;
+    text-decoration: none;
+    float: left;
+    margin: 0 0 0 9px;
+    padding: 0 10px;
+}
+.menu-main a:hover{
+    background:rgba(20,102,114,1);
+}
+
+/*  ************************ /Menu ************************  */
