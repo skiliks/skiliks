@@ -182,6 +182,9 @@ h2 {
     border-radius: 8px;
     border: 8px solid rgba(255, 255, 255, 0.25);
 }
+.border-primary {
+    border-radius: 3px;
+}
 .bg-rich-blue {
     background-color: #146672;
 }
@@ -226,6 +229,9 @@ h2 {
     padding: 10px 0 0 0;
 }
 /*  ************************ FORM SIMPLE ************************ /
+
+/*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
+
 /* --------------- select ---------*/
 .sbHolder {
     display:inline-block;
