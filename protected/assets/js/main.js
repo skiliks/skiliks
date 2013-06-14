@@ -123,13 +123,27 @@
             }
         });
         $('a.feedback').on('click', function (e) {
+            var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
                 width: 700,
                 dialogClass: 'feedbackwrap',
                 modal: true,
                 resizable: false,
                 draggable: false,
-                open: function( event, ui ) { Cufon.refresh(); }
+                open: function( event, ui ) {
+                    //Cufon.refresh();
+                    console.log();
+                    if(selected !== undefined) {
+                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                            var a = $(element).find('a');
+                            if(a.attr('rel') === selected){
+                                a.click();
+                            }
+                        });
+                    }
+
+                    Cufon.refresh();
+                }
             });
 
             e.stopPropagation();
