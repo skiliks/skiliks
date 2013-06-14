@@ -13,6 +13,7 @@
             <th>Тип (название) основного сценария</th>
             <th>Оценка</th>
             <th>Логи</th>
+            <th>Оценки</th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +30,7 @@
             <td><span class="label label-inverse"><?=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug)?></span></td>
             <td><?=$model->getOverall() ?></td>
             <td><?=(empty($model->simulation->id)?'Не найдена':"<a href=\"/static/admin/saveLog/{$model->simulation->id}\">Скачать</a>")?></td>
+            <td><?=(empty($model->simulation->id)?'Не найдена':"<a target=\"_blank\" href=\"/admin_area/simulation_detail?sim_id={$model->simulation->id}\">Открыть</a>")?></td>
         </tr>
         <? endforeach ?>
         </tbody>
