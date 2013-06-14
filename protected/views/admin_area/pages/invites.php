@@ -1,26 +1,41 @@
+<? $titles = [
+    'ID-симуляции',
+    'Email работодателя',
+    'Email соискателя',
+    'ID инвайта',
+    'Статус инвайта',
+    'Время начала симуляции',
+    'Время конца симуляции',
+    'Тип (название) основного сценария',
+    'Оценка',
+    'Логи',
+    'Оценки',
+    'D1',
+] ?>
 <div class="row fix-top">
     <h2>Инвайты</h2>
     <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>ID-симуляции</th>
-            <th>Email работодателя</th>
-            <th>Email соискателя</th>
-            <th>ID инвайта</th>
-            <th>Статус инвайта</th>
-            <th>Время начала симуляции</th>
-            <th>Время конца симуляции</th>
-            <th>Тип (название) основного сценария</th>
-            <th>Оценка</th>
-            <th>Логи</th>
-            <th>Оценки</th>
-            <th>D1</th>
+            <? foreach($titles as $title) :?>
+            <th><?=$title?></th>
+            <? endforeach ?>
         </tr>
         </thead>
         <tbody>
         <? /* @var $model Invite*/ ?>
+        <? $step = 12; $i = 0; ?>
         <? foreach($models as $model) : ?>
+        <? $i++ ?>
+        <? if($i === $step) : ?>
+                <tr>
+                    <? foreach($titles as $title) :?>
+                        <th><?=$title?></th>
+                    <? endforeach ?>
+                </tr>
+        <? $i= 0 ?>
+        <? endif ?>
         <tr>
             <td><?=(empty($model->simulation->id)?'Не найден':$model->simulation->id)?></td>
             <td><?=(empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email?></td>
