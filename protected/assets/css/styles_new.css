@@ -166,10 +166,10 @@ h2 {
     color: #fff;
     text-decoration: none;
     float: left;
-    margin: 0 0 0 9px;
-    padding: 0 10px;
+    margin: 0 0 0 10px;
+    padding: 0 9px;
 }
-.menu-main a:hover{
+.menu-main a:hover, .menu-main a.active {
     background:rgba(20,102,114,1);
 }
 
