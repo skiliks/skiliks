@@ -9,20 +9,35 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+body {
+    padding: 100px;
+    background:#7cb8c2;
+}
+.blockfortest, .testblocks div {
+    display: inline-block;
+    height:20px;
+    margin: 0px 20px;
+    width:30px;
+}
+.razdelitel {
+    height: 30px;
+}
+</style>
 </head>
-<body style="padding: 100px;background:#7cb8c2">
+<body>
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
-<p>&nbsp;</p><p>&nbsp;</p>
+<div class="razdelitel"></div>
 <div>
     <a href="#" class="btn btn-primary">Get access</a>
 </div>
-<p>&nbsp;</p><p>&nbsp;</p>
+<div class="razdelitel"></div>
 <div>
     <a href="#" class="btn btn-site">Get access</a>
 </div>
-<p>&nbsp;</p><p>&nbsp;</p>
+<div class="razdelitel"></div>
 <ul id="yw1" class="yiiPager"><li class="first hidden"><a href="/dashboard/corporate">&lt;&lt; начало</a></li>
     <li class="previous hidden"><a href="/dashboard/corporate">Назад</a></li>
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
@@ -30,9 +45,19 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
 </ul>
-<p>&nbsp;</p><p>&nbsp;</p>
-<h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
-<p>&nbsp;</p><p>&nbsp;</p>
+<div class="razdelitel"></div>
+
+    <h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
+
+<div class="razdelitel"></div>
+    <div class="testblocks">
+        <div class="block-border"></div>
+        <div class="bg-rich-blue block-border"></div>
+        <div class="bg-light-blue"></div>
+        <div class="bg-blue"></div>
+        <div class="bg-yellow"></div>
+        <div class="bg-yellow-light"></div>
+    </div>
 <nav class="menu-main">
     <ul>
         <li class="active"><a href="/">Главная</a></li>
@@ -40,7 +65,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         <li><a href="#">Цены</a></li>
     </ul>
 </nav>
-<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+<div class="razdelitel"></div>
 <div class="nice-border backgroud-rich-blue sideblock">
 <form id="invite-form" class="form-simple">
     <div class="row ">
