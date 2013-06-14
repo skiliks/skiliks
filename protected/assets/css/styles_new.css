@@ -180,7 +180,7 @@ h2 {
 /*  ************************ Colors and Borders ************************  */
 .block-border {
     border-radius: 8px;
-    border: 8px solid rgba(255, 255, 255, 0.2);
+    border: 8px solid rgba(255, 255, 255, 0.25);
 }
 .bg-rich-blue {
     background-color: #146672;
