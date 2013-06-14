@@ -1905,7 +1905,7 @@ html[lang="en"] .footer .social_networks {
 	text-align:center;
 	line-height:1.167em;
 	margin-top:20px;
-    padding-left: 240px;
+    //padding-left: 240px;
 }
 .copyright span {
     display: block;
@@ -1919,7 +1919,28 @@ html[lang="en"] .footer .social_networks {
     font-size: 14px;
     text-decoration: none;
 }
+.help-contact-us {
+    font: 14px "ProximaNova-Regular";
+    color: #fff;
+    text-align: center;
+    line-height: 1.167em;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+    margin-top: -18px;
+}
+
+.help-contact-us a {
+    text-decoration: none;
+    font: 14px "ProximaNova-Regular";
+    color: #fff;
+    text-align: right;
+}
 @media screen and (max-width: 1146px){
+    .help-contact-us {
+        margin-top: -12px;
+    }
+
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
 		margin-top:-310px;
@@ -1938,7 +1959,8 @@ html[lang="en"] .footer .social_networks {
 		height:46px;
 		margin-top:38px;
 	}
-    .footer .copyright, .copyright span, .copyright span a {
+    .footer .copyright, .copyright span, .copyright span a,
+    .help-contact-us, .help-contact-us a {
         font-size:10px;
     }
 	.footer footer nav a{
@@ -4525,3 +4547,4 @@ ul.profile-menu li {
 .action-controller-index-static-pages .container{
     overflow: hidden;
 }
+
