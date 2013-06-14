@@ -97,4 +97,36 @@ class AdminPagesController extends AjaxController {
         $this->redirect('/dashboard');
     }
 
+    public function actionGetBudget() {
+        $sim_id = Yii::app()->request->getParam('sim_id', null);
+        $simulation = Simulation::model()->findByPk($sim_id);
+
+        // check document {
+        $documentTemplate = $simulation->game_type->getDocumentTemplate([
+            'code' => 'D1'
+        ]);
+
+        if ($documentTemplate === null) {
+            throw new Exception("Файл не найден");
+        }
+
+        $document = MyDocument::model()->findByAttributes([
+            'template_id' => $documentTemplate->id,
+            'sim_id' => $sim_id
+        ]);
+
+        $zohoConfigs = Yii::app()->params['zoho'];
+        $D1 = $_SERVER['DOCUMENT_ROOT'].'/'.$zohoConfigs['templatesDirPath'].'/'.$document->uuid.'.xls';
+        if(file_exists($D1)){
+            $xls = file_get_contents($D1);
+        }else{
+            throw new Exception("Файл не найден");
+        }
+        $filename = $sim_id.'_'.$documentTemplate->fileName;
+        header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+        header("Content-Disposition: attachment; filename={$filename}");
+        echo $xls;
+
+    }
+
 }
