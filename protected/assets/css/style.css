@@ -620,14 +620,14 @@ html[lang=ru] .betaflag {
 	list-style:none;
 	margin-top:24px;
 }
-.features ul li{
-	background:url("../img/icon-features.png") no-repeat 0 0;
+.features li{
+	background:url("../img/icon-features.png") no-repeat 0 2px;
 	font:1.191em "ProximaNova-Regular";
 	color:#fff;
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
 	min-height:18px;
 	margin-bottom:7px;
-	padding-left:25px;
+	padding-left:27px;
 }
 .features ul li:last-child{
 	margin-bottom:0;
@@ -766,7 +766,7 @@ html[lang=ru] .features form div input[type=submit]{
 /* --------------- main article ---------*/
 .main-article{
 	width:415px;
-	margin:65px 0 0 315px;
+	margin:45px 0 0 300px; /* 65px 0 0 315px; */
 	overflow:hidden;
 }
 .main-article article{
@@ -776,14 +776,16 @@ html[lang=ru] .main-article article{
 	/*margin-top:15px;*/
     margin-top:0px;
 }
-.main-article article h3{
+.main-article h3{
 	font:2.144em "ProximaNova-Bold";
 	color:#146672;
+    margin-bottom: 17px;
 }
-.main-article article ul{
+.main-article ul{
 	list-style:none;
+    margin-bottom: 45px;
 }
-.main-article article ul li{
+.main-article li{
 	font:0.953em "ProximaNova-Regular";
 	color:#29313d;
 	line-height:1.500em;
@@ -1897,21 +1899,21 @@ html[lang="en"] .footer .social_networks {
 .footer footer nav a:hover{
 	background:rgba(20,102,114,1);;
 }
-.footer footer .copyright{
-	font:0.714em "ProximaNova-Regular";
+.copyright{
+	font:14px "ProximaNova-Regular";
 	color:#fff;
 	text-align:center;
 	line-height:1.167em;
 	margin-top:20px;
     padding-left: 240px;
 }
-.footer .copyright span {
+.copyright span {
     display: block;
     float: right;
     font-size: 14px;
     width:250px;
 }
-.footer .copyright span a {
+.copyright span a {
     color: #fff;
     font-size: 14px;
     text-decoration: none;
@@ -1935,7 +1937,7 @@ html[lang="en"] .footer .social_networks {
 		height:46px;
 		margin-top:38px;
 	}
-	.footer footer .copyright{
+	.footer .copyright{
 		font-size:0.692em;
 	}
 	.footer footer nav a{
