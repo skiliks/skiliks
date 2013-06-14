@@ -8,6 +8,7 @@
 /.idea
 /assets/
 /documents/zoho
+/documents/user
 /protected/tests/documents/
 /protected/tests/documents/*
 /protected/assets/js/game/node_modules/*

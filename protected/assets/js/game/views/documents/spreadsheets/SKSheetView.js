@@ -65,12 +65,14 @@ define([], function () {
                 spreadsheet.editor.document = sheet.collection.document;
                 spreadsheet.editor.StatusCallback.continue_queue = {
                     func: function (object, cmdtype) {
+                        console.log(cmdtype);
+
                         if ( me.dequeue || !me.is_loaded && cmdtype === "doneposcalc") {
                             me.is_loaded = true;
                             loadQueue.dequeue('fx');
                         }
 
-                        if (cmdtype === "doneposcalc") {
+                        if (cmdtype === "renderdone") {
                             var spreadsheet_data = me.spreadsheet.CreateSpreadsheetSave();
                             var parts = sc.DecodeSpreadsheetSave(spreadsheet_data);
                             var sheet_data = spreadsheet_data.substring(parts.sheet.start, parts.sheet.end);
@@ -79,7 +81,7 @@ define([], function () {
                             }
                             sheet.set('content', spreadsheet_data);
                             sheet.save();
-                            SKApp.simulation.documents.fetch();
+                            //SKApp.simulation.documents.fetch();
                             SocialCalc.Formula.AddSheetToCache(sheet.collection.document.get('name'), sheet.get('name'), sheet_data);
                             sheet.collection.each(function (element) {
                                 if (element !== sheet) {

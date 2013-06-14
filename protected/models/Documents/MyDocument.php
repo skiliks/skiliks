@@ -137,34 +137,29 @@ class MyDocument extends CActiveRecord
      */
     public function getSheetList($filename = null)
     {
-        $filePath = $filename ?: (file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath());
-        $fileData = include($filePath);
-        return $fileData;
+        $filePath = $filename ?: $this->getFilePath();
+
+        if (file_exists($filePath)) {
+            $scData = unserialize(file_get_contents($filePath));
+        } else {
+            $scData = ScXlsConverter::extractXlsFile($this->template->getFilePath());
+            file_put_contents($filePath, serialize($scData));
+        }
+
+        return array_values($scData);
     }
 
     public function setSheetContent($name, $sheetContent, $filename = null)
     {
-        $filePath = $filename ?: (file_exists($this->getFilePath()) ? $this->getFilePath() : $this->template->getFilePath());
-        $fHandle = fopen($this->getFilePath(), 'a');
-        try {
-            flock($fHandle, LOCK_EX);
-            $content = yaml_parse_file($filePath);
-            foreach ($content as &$sheet) {
-                if ($sheet['name'] === $name) {
-                    $sheet['content'] = $sheetContent;
-                }
-            }
-            $yamlContent = yaml_emit($content);
-            $filePath = $this->getFilePath();
-            $result = file_put_contents($filePath, $yamlContent);
-            fclose($fHandle);
-        } catch (Exception $e) {
-            fclose($fHandle);
-            throw $e;
-        }
-        if ($result === false) {
-            assert('Can not save sheet');
-        }
+        $filePath = $filename ?: $this->getFilePath();
+        $scData = file_exists($filePath) ? unserialize(file_get_contents($filePath)) : [];
+
+        $scData[$name] = [
+            'name' => $name,
+            'content' => $sheetContent
+        ];
+
+        file_put_contents($filePath, serialize($scData));
     }
 
     /**
@@ -172,7 +167,7 @@ class MyDocument extends CActiveRecord
      */
     public function getFilePath()
     {
-        return __DIR__ . '/../../../documents/user/' . $this->uuid . '.sc';
+        return __DIR__ . '/../../../documents/user/' . $this->uuid;
     }
 
     /**

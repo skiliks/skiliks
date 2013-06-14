@@ -1552,8 +1552,6 @@ class ImportGameDataService
             $document->srcFile = str_replace(' ', '_', $document->srcFile);
             $document->srcFile = str_replace('.docx', '.pdf', $document->srcFile);
             $document->srcFile = str_replace('.pptx', '.pdf', $document->srcFile);
-            $document->srcFile = str_replace('.xlsx', '.php', $document->srcFile);
-            $document->srcFile = str_replace('.xls', '.php', $document->srcFile);
             // may be this is hack, but let it be }
 
             $document->format = $this->getCellValue($sheet, 'Document_extension', $i);
