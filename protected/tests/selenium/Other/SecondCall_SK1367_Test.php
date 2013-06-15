@@ -20,11 +20,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
         $this->optimal_click('link=F32');
 
         sleep(5);
