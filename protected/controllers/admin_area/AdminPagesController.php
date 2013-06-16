@@ -131,4 +131,21 @@ class AdminPagesController extends AjaxController {
 
     }
 
+    public function actionResetInvite() {
+
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+        /** @var Invite $invite */
+        if (empty($invite)) {
+            throw new LogicException('Invite does not exist');
+        }
+
+        $result = $invite->resetInvite();
+        if(false === $result){
+            throw new LogicException("The operation is not successful");
+        }
+
+        $this->redirect("/admin_area/invites");
+    }
+
 }

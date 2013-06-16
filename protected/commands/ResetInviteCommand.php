@@ -26,9 +26,7 @@ class ResetInviteCommand extends CConsoleCommand
             throw new LogicException('Specified user is not invite owner');
         }
 
-        $invite->status = Invite::STATUS_ACCEPTED;
-        $invite->simulation_id = null;
-        $result = $invite->save(false);
+        $result = $invite->resetInvite();
 
         echo $result ? 'Success' : 'Fail';
         return $result === true ? 0 : 1;
