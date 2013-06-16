@@ -274,6 +274,7 @@ return array(
                 'admin_area/invites/save' => 'admin_area/AdminPages/InvitesSave',
                 'admin_area/budget' => 'admin_area/AdminPages/GetBudget',
                 'admin_area/invite/reset' => 'admin_area/AdminPages/ResetInvite',
+                'admin_area/orders' => 'admin_area/AdminPages/Orders',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
