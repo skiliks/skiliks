@@ -148,4 +148,14 @@ class AdminPagesController extends AjaxController {
         $this->redirect("/admin_area/invites");
     }
 
+    public function actionOrders() {
+
+        $models = Invoice::model()->findAll([
+            "order" => "updated_at desc"
+        ]);
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/orders', ['models'=>$models]);
+
+    }
+
 }

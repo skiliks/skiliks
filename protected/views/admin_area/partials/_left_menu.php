@@ -16,6 +16,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Заказы',
+                'url'   => ['admin_area/AdminPages/Orders'],
+                'visible' => true,
+
+            ),
             /*array('label'=>'About', 'url'=>array('/site/page')),
             array('label'=>'Contact', 'url'=>array('/site/contact')),
             array('label'=>'Login', 'url'=>array('/site/login'))*/
