@@ -273,6 +273,7 @@ return array(
                 'admin_area/simulation_detail' => 'admin_area/AdminPages/SimulationDetail',
                 'admin_area/invites/save' => 'admin_area/AdminPages/InvitesSave',
                 'admin_area/budget' => 'admin_area/AdminPages/GetBudget',
+                'admin_area/invite/reset' => 'admin_area/AdminPages/ResetInvite',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

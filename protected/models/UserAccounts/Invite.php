@@ -714,4 +714,10 @@ class Invite extends CActiveRecord
             return $assessment->value;
         }
     }
+
+    public function resetInvite() {
+        $this->status = Invite::STATUS_ACCEPTED;
+        $this->simulation_id = null;
+        return $result = $this->save(false);
+    }
 }
