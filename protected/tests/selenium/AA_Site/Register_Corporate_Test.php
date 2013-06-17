@@ -13,7 +13,6 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         //это линг регистрации в центре на главной
         $this->optimal_click("link=Получить бесплатный доступ");
-        //$this->assertLocation('http://test.skiliks.com/registration');
         $this->waitForVisible("//div[@class='testtime']");
         $this->assertText("//div[@class='testtime']", '15 Минут');
 
@@ -30,32 +29,29 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->isTextPresent('Активация'));
         sleep(3);
-        echo TestUserHelper::getActivationUrl($new_email);
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
-        //sleep(30);
-
+        sleep(5);
         $this->assertTrue($this->isTextPresent('можете'));
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
+        sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь,')])");
-        $this->type('id=YumProfile_firstname','test-name');
-        $this->type('id=YumProfile_lastname','test-surname');
-        $this->type('id=YumProfile_lastname','test-surname');
+        $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_firstname",'test-name');
+        $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-name');
 
         $korp_email = "gty1991+";
         $korp_email .= (string)rand(1, 10000)+(string)rand(1,500);
         $korp_email .= "@skiliks.com";
 
-        $this->type('id=UserAccountCorporate_corporate_email', $korp_email);
+        $this->type('css=#user-account-corporate-form > div.row > div.field > #UserAccountCorporate_corporate_email', $korp_email);
 
-        $this->optimal_click("link=Автомобильный");
+        $this->optimal_click("xpath=//div[1]/div[1]/section/div[2]/form/div[3]/div/div/a[2]");
         sleep(2);
-        $this->optimal_click("link=Агропромышленный");
+        $this->optimal_click("xpath=(//*[contains(text(),'Агропромышленный')])");
 
         $this->optimal_click("xpath=(//*[contains(text(),'Войти')])");
-+
         $this->close();
     }
 }
