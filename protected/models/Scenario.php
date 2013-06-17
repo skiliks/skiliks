@@ -60,11 +60,6 @@ class Scenario extends CActiveRecord
         return $this->slug === self::TYPE_LITE;
     }
 
-    public function isLite()
-    {
-        return $this->slug === self::TYPE_LITE;
-    }
-
     /**
      * @param $attributes
      * @return Dialog
