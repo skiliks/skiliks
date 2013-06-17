@@ -168,7 +168,7 @@ class AdminPagesController extends AjaxController {
         }
         $model->is_verified = Invoice::CHECKED;
         $model->update();
-
+        $this->redirect("/admin_area/orders");
     }
 
     public function actionOrderUnchecked() {
@@ -182,7 +182,7 @@ class AdminPagesController extends AjaxController {
         $model->is_verified = Invoice::UNCHECKED;
         $model->status = Invoice::STATUS_PENDING;
         $model->update();
-
+        $this->redirect("/admin_area/orders");
     }
 
 }
