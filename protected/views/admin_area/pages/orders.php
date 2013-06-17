@@ -11,7 +11,8 @@
     'КПП',
     'Расчётный счёт',
     'БИК',
-    'Пометить как'
+    'Пометить как',
+    ''
 ] ?>
 <div class="row fix-top">
     <h2>Заказы</h2>
@@ -24,7 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invoice*/ ?>
+        <? /* @var $model Invoice */ ?>
         <? $step = 12; $i = 0; ?>
         <? foreach($models as $model) : ?>
         <? $i++ ?>
@@ -43,13 +44,14 @@
             <td><?=$model->id?></td>
             <td><?=(empty($model->updated_at)?'---- -- -- --':$model->updated_at)?></td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
-            <td><span class="label"><?=$model->status?></span></td>
+            <td><span class="label <?=$model->getStatusLabel()?>"><?=$model->status?></span></td>
             <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
             <td><?=$model->inn?></td>
             <td><?=$model->cpp?></td>
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
             <td><a href="<?=$model->getValidationAction()?>" class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
+            <td><a href="<?=$model->getStatusAction()?>" class="btn <?=$model->getStatusBtn()?>"><?=$model->getStatusBtnText()?></a></td>
         </tr>
         <? endforeach ?>
         </tbody>
