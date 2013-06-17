@@ -20,7 +20,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         $new_email = "gty1991+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
-        $new_email .= "@tanyaa.com";
+        $new_email .= "@gmail.com";
 
         $this->type('id=YumProfile_email',$new_email);
         $this->type('id=YumUser_password','123123');
