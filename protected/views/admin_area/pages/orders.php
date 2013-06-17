@@ -6,11 +6,11 @@
     'Время заказа',
     'Название тарифа',
     'Статус',
+    'Валидность',
     'ИНН',
     'КПП',
     'Расчётный счёт',
     'БИК',
-    'Валидность',
     'Пометить как'
 ] ?>
 <div class="row fix-top">
@@ -44,11 +44,11 @@
             <td><?=(empty($model->updated_at)?'---- -- -- --':$model->updated_at)?></td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
             <td><span class="label"><?=$model->status?></span></td>
+            <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
             <td><?=$model->inn?></td>
             <td><?=$model->cpp?></td>
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
-            <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
             <td><a href="<?=$model->getValidationAction()?>" class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
         </tr>
         <? endforeach ?>
