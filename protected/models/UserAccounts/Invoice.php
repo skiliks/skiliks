@@ -51,6 +51,10 @@ class Invoice extends CActiveRecord
 		return 'invoice';
 	}
 
+    public function getStatuses() {
+        return [self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_EXPIRED, self::STATUS_REJECTED];
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -209,5 +213,42 @@ class Invoice extends CActiveRecord
 
     public function getValidationAction() {
         return ((int)$this->is_verified === 1)?"/admin_area/order/unchecked?order_id={$this->id}":"/admin_area/order/checked?order_id={$this->id}";
+    }
+
+    public function getStatusBtn() {
+        if($this->status === self::STATUS_PENDING){
+            return '';
+        }elseif($this->status === self::STATUS_PAID){
+            return 'btn-success';
+        }else{
+            return 'btn-danger';
+        }
+    }
+
+    public function getStatusLabel() {
+        if($this->status === self::STATUS_PENDING){
+            return '';
+        }elseif($this->status === self::STATUS_PAID){
+            return 'label-success';
+        }else{
+            return 'label-important';
+        }
+    }
+
+    public function getStatusAction() {
+
+        if($this->status === self::STATUS_PAID){
+            return '/admin_area/order/action/status?order_id='.$this->id.'&status='.self::STATUS_PENDING;
+        }else{
+            return '/admin_area/order/action/status?order_id='.$this->id.'&status='.self::STATUS_PAID;
+        }
+    }
+
+    public function getStatusBtnText() {
+        if($this->status === self::STATUS_PENDING){
+            return 'Оплаченный';
+        }else{
+            return 'Неоплаченный';
+        }
     }
 }
