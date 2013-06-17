@@ -167,7 +167,7 @@ class AdminPagesController extends AjaxController {
             throw new Exception("Order - {$order_id} is not found!");
         }
         $model->is_verified = Invoice::CHECKED;
-        $model->update();
+        $model->save(false);
         $this->redirect("/admin_area/orders");
     }
 
@@ -181,7 +181,7 @@ class AdminPagesController extends AjaxController {
         }
         $model->is_verified = Invoice::UNCHECKED;
         $model->status = Invoice::STATUS_PENDING;
-        $model->update();
+        $model->save(false);
         $this->redirect("/admin_area/orders");
     }
 
