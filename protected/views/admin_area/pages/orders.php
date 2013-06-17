@@ -10,6 +10,7 @@
     'КПП',
     'Расчётный счёт',
     'БИК',
+    'Валидность',
     'Пометить как'
 ] ?>
 <div class="row fix-top">
@@ -47,7 +48,8 @@
             <td><?=$model->cpp?></td>
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
-            <td><a class="btn">Валидный</a></td>
+            <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
+            <td><a class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
         </tr>
         <? endforeach ?>
         </tbody>
