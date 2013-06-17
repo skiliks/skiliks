@@ -10,7 +10,7 @@
     'КПП',
     'Расчётный счёт',
     'БИК',
-    ''
+    'Пометить как'
 ] ?>
 <div class="row fix-top">
     <h2>Заказы</h2>
@@ -47,7 +47,7 @@
             <td><?=$model->cpp?></td>
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
-            <td><a class="btn">Пометить как валидный</a></td>
+            <td><a class="btn">Валидный</a></td>
         </tr>
         <? endforeach ?>
         </tbody>
