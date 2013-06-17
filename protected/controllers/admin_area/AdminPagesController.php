@@ -158,4 +158,31 @@ class AdminPagesController extends AjaxController {
 
     }
 
+    public function actionOrderChecked() {
+
+        $order_id = Yii::app()->request->getParam('order_id', null);
+        /* @var $model Invoice */
+        $model = Invoice::model()->findByPk($order_id);
+        if(null === $model){
+            throw new Exception("Order - {$order_id} is not found!");
+        }
+        $model->is_verified = Invoice::CHECKED;
+        $model->update();
+
+    }
+
+    public function actionOrderUnchecked() {
+
+        $order_id = Yii::app()->request->getParam('order_id', null);
+        /* @var $model Invoice */
+        $model = Invoice::model()->findByPk($order_id);
+        if(null === $model){
+            throw new Exception("Order - {$order_id} is not found!");
+        }
+        $model->is_verified = Invoice::UNCHECKED;
+        $model->status = Invoice::STATUS_PENDING;
+        $model->update();
+
+    }
+
 }
