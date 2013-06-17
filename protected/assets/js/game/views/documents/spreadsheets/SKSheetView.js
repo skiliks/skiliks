@@ -65,8 +65,6 @@ define([], function () {
                 spreadsheet.editor.document = sheet.collection.document;
                 spreadsheet.editor.StatusCallback.continue_queue = {
                     func: function (object, cmdtype) {
-                        console.log(cmdtype);
-
                         if ( me.dequeue || !me.is_loaded && cmdtype === "doneposcalc") {
                             me.is_loaded = true;
                             loadQueue.dequeue('fx');
@@ -100,7 +98,7 @@ define([], function () {
                 root.hide();
 
                 var parts = me.spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
-                console.log(sheet.get('content'));
+
                 if (parts && parts.sheet) {
                     var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
                     me.spreadsheet.ParseSheetSave(sheet_data);
