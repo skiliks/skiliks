@@ -158,4 +158,55 @@ class AdminPagesController extends AjaxController {
 
     }
 
+    public function actionOrderChecked() {
+
+        $order_id = Yii::app()->request->getParam('order_id', null);
+        /* @var $model Invoice */
+        $model = Invoice::model()->findByPk($order_id);
+        if(null === $model){
+            throw new Exception("Order - {$order_id} is not found!");
+        }
+        $model->is_verified = Invoice::CHECKED;
+        if(false === $model->save(false)){
+            throw new Exception("Not save");
+        }
+        $this->redirect("/admin_area/orders");
+    }
+
+    public function actionOrderUnchecked() {
+
+        $order_id = Yii::app()->request->getParam('order_id', null);
+        /* @var $model Invoice */
+        $model = Invoice::model()->findByPk($order_id);
+        if(null === $model){
+            throw new Exception("Order - {$order_id} is not found!");
+        }
+        $model->is_verified = Invoice::UNCHECKED;
+        $model->status = Invoice::STATUS_PENDING;
+        if(false === $model->save(false)){
+            throw new Exception("Not save");
+        }
+        $this->redirect("/admin_area/orders");
+    }
+
+    public function actionOrderActionStatus() {
+
+        $order_id = Yii::app()->request->getParam('order_id', null);
+        $status = Yii::app()->request->getParam('status', null);
+        /* @var $model Invoice */
+        $model = Invoice::model()->findByPk($order_id);
+        if(null === $model && null === $status){
+            throw new Exception("Order - {$order_id} is not found!");
+        }
+        if(in_array($status, $model->getStatuses())){
+            $model->status = $status;
+            if(false === $model->save(false)){
+                throw new Exception("Not save");
+            }
+        }else{
+            throw new Exception("Status not found");
+        }
+        $this->redirect("/admin_area/orders");
+    }
+
 }

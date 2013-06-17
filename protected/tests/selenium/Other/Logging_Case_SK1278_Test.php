@@ -29,6 +29,7 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $TH1 = array($s1, $m1);
 
         $this->write_email();
+        sleep(2);
         $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
