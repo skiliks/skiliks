@@ -275,6 +275,8 @@ return array(
                 'admin_area/budget' => 'admin_area/AdminPages/GetBudget',
                 'admin_area/invite/reset' => 'admin_area/AdminPages/ResetInvite',
                 'admin_area/orders' => 'admin_area/AdminPages/Orders',
+                'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
+                'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
