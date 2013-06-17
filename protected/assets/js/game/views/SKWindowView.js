@@ -13,7 +13,6 @@ define(["text!game/jst/window.jst"], function (window_template) {
      * @augments Backbone.View
      */
     SKWindowView = Backbone.View.extend({
-        Windows: {},
 
         container: '.windows-container',
 
@@ -151,13 +150,13 @@ define(["text!game/jst/window.jst"], function (window_template) {
             if (position.left < 0) {
                 this.$el.css('left', 0);
             } else if (position.left + dimensions.width > bounds.width) {
-                this.$el.css('left', bounds.width - dimensions.width);
+                this.$el.css('left', Math.max(bounds.width - dimensions.width, 0));
             }
 
             if (position.top < 0) {
                 this.$el.css('top', 0);
             } else if (position.top + dimensions.height > bounds.height) {
-                this.$el.css('top', bounds.height - dimensions.height);
+                this.$el.css('top', Math.max(bounds.height - dimensions.height, 0));
             }
         },
 
@@ -186,7 +185,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 containerWidth = this.$container.width(),
                 containerHeight = this.$container.height(),
                 specifiedWidth = width || sd.width || sd.maxWidth || '100%',
-                specifiedHeight = height || sd.height || sd.minHeight || '100%',
+                specifiedHeight = height || sd.height || sd.maxHeight || '100%',
                 maxWidth, maxHeight, minWidth, minHeight;
 
             function percent2px(relation, value) {
@@ -194,6 +193,18 @@ define(["text!game/jst/window.jst"], function (window_template) {
                     return relation / 100 * value.slice(0, -1);
                 }
                 return +value;
+            }
+
+            if (sd.width) {
+                sd.minWidth = sd.maxWidth = sd.width;
+            } else if (width) {
+                sd.minWidth = sd.maxWidth = width;
+            }
+
+            if (sd.height) {
+                sd.minHeight = sd.maxHeight = sd.height;
+            } else if (height) {
+                sd.minHeight = sd.maxHeight = height;
             }
 
             rd.width = percent2px(containerWidth, specifiedWidth);

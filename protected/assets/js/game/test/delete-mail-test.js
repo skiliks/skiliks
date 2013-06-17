@@ -202,6 +202,15 @@ define([
 
                 var mailClientView = new SKMailClientView({model_instance:mail_window});
                 mailClientView.render();
+
+                mailClientView.mailClient.getInboxFolderEmails();
+                server.respond()
+
+                mailClientView.mailClient.activeEmail =
+                    mailClientView.mailClient.getInboxFolder().getFirstEmail();
+;
+                //console.log(mailClientView.mailClient.getInboxFolder().emails);
+
                 server.respond();
                 expect(mailClientView.$('tr[data-email-id=1274] td.mail-emulator-received-list-cell-theme').text()).toBe('По ценовой политике');
                 mailClientView.doMoveToTrash(mailClientView.mailClient.activeEmail);

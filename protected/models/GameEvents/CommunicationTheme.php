@@ -4,15 +4,14 @@
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
  *
- * @property MailTemplate letter
- * @property string constructor_number
- * @property string import_id
- * @property string wr
- * @property Scenario game_type
- * @property mixed|null mail_prefix
- * @property string theme_usage, used to filter MSY themes from new mail themes list
+ * @property MailTemplate $letter
+ * @property string $constructor_number
+ * @property string $import_id
+ * @property string $wr
+ * @property Scenario $game_type
+ * @property mixed|null $mail_prefix
+ * @property string $theme_usage, used to filter MSY themes from new mail themes list
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CommunicationTheme extends CActiveRecord
 {
@@ -311,6 +310,23 @@ class CommunicationTheme extends CActiveRecord
         return array(
             'game_type' => array(self::BELONGS_TO, 'Scenario', 'scenario_id')
         );
+    }
+
+    public function isBlockedByFlags($simulation) {
+
+        $flagsDependence = $this->game_type->getFlagCommunicationThemeDependencies(['communication_theme_id'=>$this->id]);
+        if(empty($flagsDependence)){
+            return false;
+        }
+        foreach($flagsDependence as $flagDependence) {
+            /* @var $flagDependence FlagCommunicationThemeDependence  */
+            /* @var $flagSimulation SimulationFlag  */
+            $flagSimulation = FlagsService::getFlag($simulation, $flagDependence->flag_code);
+            if($flagSimulation->value !== $flagDependence->value) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

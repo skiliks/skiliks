@@ -16,9 +16,12 @@
  * @property string $vacancy_id
  * @property string $status
  * @property string $sent_time
+ * @property string $updated_at
  * @property string $fullname
  * @property integer $simulation_id
  * @property integer $scenario_id
+ * @property integer $tutorial_scenario_id
+ * @property string $tutorial_displayed_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -26,6 +29,7 @@
  * @property Vacancy $vacancy
  * @property Simulation $simulation
  * @property Scenario $scenario
+ * @property Scenario $tutorial
  */
 class Invite extends CActiveRecord
 {
@@ -72,6 +76,11 @@ class Invite extends CActiveRecord
         }
 
         return 'Ваше имя';
+    }
+
+    public function getReceiverFirstName()
+    {
+        return null !== $this->receiverUser ? $this->receiverUser->profile->firstname : $this->firstname;
     }
 
     /**
@@ -127,15 +136,7 @@ class Invite extends CActiveRecord
      * @return string
      */
     public function getFormattedScenarioSlug() {
-        if (null !== $this->vacancy_id) {
-            return $this->scenario->slug === Scenario::TYPE_LITE ?
-                Yii::t("site","Lite version") :  '"Базовый менеджмент"';
-        } else {
-            return $this->scenario->slug === Scenario::TYPE_LITE ?
-                Yii::t("site",'Trial "Lite version"') :  'Пробная версия "Базовый менеджмент"';
-        }
-
-        return $this->scenario->slug === self::TYPE_LITE ? Yii::t("site","Lite verion") :  '"Базовый менеджмент"';
+        return $this->scenario->slug === Scenario::TYPE_LITE ? 'Демо-версия "Базовый менеджмент"' :  'Полная версия "Базовый менеджмент"';
     }
 
     /**
@@ -155,7 +156,7 @@ class Invite extends CActiveRecord
     {
         $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
         $this->sent_time = $datetime->getTimestamp();
-
+        $this->updated_at = $datetime->format("Y-m-d H:i:s");
         if (null === $this->status) {
             $this->status = self::STATUS_PENDING;
         }
@@ -230,6 +231,14 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return DateTime
+     */
+    public function getUpdatedTime()
+    {
+        return new DateTime($this->updated_at, new DateTimeZone('Europe/Moscow'));
+    }
+
+    /**
      * @param YumUser $user
      * @param Scenario $scenario
      * @return Invite
@@ -243,6 +252,7 @@ class Invite extends CActiveRecord
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
         $newInvite->sent_time   = time(); // @fix DB!
+        $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
         ]);
@@ -387,7 +397,7 @@ class Invite extends CActiveRecord
             $this->email &&
             $this->ownerUser->account_corporate->corporate_email == $this->email
         ) {
-            $this->addError('email', Yii::t('site', 'You cannot send invite to yourself'));
+            $this->addError('email', Yii::t('site', 'Действие не возможно'));
         }
     }
 
@@ -404,6 +414,7 @@ class Invite extends CActiveRecord
 			'vacancy'      => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id'),
 			'simulation'   => array(self::BELONGS_TO, 'Simulation', 'simulation_id'),
 			'scenario'     => array(self::BELONGS_TO, 'Scenario', 'scenario_id'),
+			'tutorial'     => array(self::BELONGS_TO, 'Scenario', 'tutorial_scenario_id'),
 		);
 	}
 
@@ -562,7 +573,7 @@ class Invite extends CActiveRecord
             $status = self::$statusId;
         }
 
-        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $criteria=new CDbCriteria;
         
@@ -580,7 +591,7 @@ class Invite extends CActiveRecord
         $criteria->compare('sent_time', $this->sent_time);
 
         // restriction!
-        $criteria->addNotInCondition('scenario_id', [$liteScenario->id]);
+        $criteria->addInCondition('scenario_id', [$fullScenario->id]);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id LEFT JOIN user_account_corporate ON user_account_corporate.user_id = vacancy.user_id'
@@ -625,7 +636,6 @@ class Invite extends CActiveRecord
         // should not be searched.
 
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
         $criteria=new CDbCriteria;
 
@@ -636,7 +646,6 @@ class Invite extends CActiveRecord
         $criteria->compare('lastname', $this->lastname);
         $criteria->compare('email', $invitedUserEmail ?: $this->email);
         $criteria->compare('status', Invite::STATUS_ACCEPTED);
-        $criteria->addInCondition('scenario_id', [$fullScenario->id, $liteScenario->id]);
 
         if ($isIncludeCompleted) {
             $criteriaForFinishedSimulations = new CDbCriteria;
@@ -695,5 +704,20 @@ class Invite extends CActiveRecord
             return false;
         }
 
+    }
+
+    public function getOverall() {
+        $assessment = AssessmentOverall::model()->findByAttributes(['sim_id'=>$this->simulation_id, 'assessment_category_code'=>'overall']);
+        if(null === $assessment){
+            return 'Нет оценки';
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    public function resetInvite() {
+        $this->status = Invite::STATUS_ACCEPTED;
+        $this->simulation_id = null;
+        return $result = $this->save(false);
     }
 }

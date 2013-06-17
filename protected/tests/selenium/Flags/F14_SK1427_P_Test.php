@@ -8,13 +8,6 @@
  */
 class F14_SK1427_P_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     /**
      * testSK1427_Case1() тестирует задачу SKILIKS-1427 для статуса MAIL
      *
@@ -35,8 +28,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше')])");
@@ -52,7 +43,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Презентация для ГД_итог"));
-
+        $this->close();
     }
 
     /**
@@ -71,30 +62,23 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Пересылаю. Но смысл-то какой? Это')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Послушай, так здесь и смотреть нечего!')])");
+        sleep(10);
         $this->waitForVisible("xpath=(//*[contains(text(),'Но ведь я сказала, что успею! Обычная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
-
-        /*// tests to checking the actions after F14 = 1 (DIALOG)
-        $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
-
+        $this->close();
     }
 
     /**
@@ -115,33 +99,24 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Пересылаю. Но смысл-то какой? Это')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Что такое?! Так ведь она пустая!')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Хотелось бы знать')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
-
-        /*// tests to checking the actions after F14 = 1 (REPLICA)
-
-        $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        // через 10 минут звонок ET12.3
-
-        $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
+        $this->close();
     }
 
     /**
@@ -163,36 +138,24 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Пересылаю. Но смысл-то какой? Это')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Что такое?! Так ведь она пустая!')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Хотелось бы знать')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-
         $this->assertTrue($this->verify_flag('F14','1'));
-
-        /*$this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-
-        // запускается ET12.2
-        sleep(5);
-        $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю.')])");
-
-
-        $this->run_event('E12',"xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])",'-');
-        $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");*/
+        $this->close();
     }
 
     /**
@@ -214,27 +177,23 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
-        sleep(60);
+        sleep(95);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай мы все-таки посмотрим, что у')])");
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Пересылаю. Но смысл-то какой? Это')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Что такое?! Так ведь она пустая!')])");
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Хотелось бы знать')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'У меня нет уверенности, что ты сделаешь')])");
 
-
         $this->assertTrue($this->verify_flag('F14','0'));
-
-        /*$this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);*/
-
+        $this->close();
     }
 }

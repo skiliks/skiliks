@@ -14,21 +14,20 @@
  */
 class F22_SK1428_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function testSK1428()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F38_1');
+        $this->optimal_click('link=F38_2');
+        sleep(2);
         $this->run_event('T7.3',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно')])");
         sleep(5);
         $this->assertTrue($this->verify_flag('F22','1'));
+
+        $this->optimal_click('link=F38_3');
 
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте. Только что отправил')])");
@@ -37,12 +36,16 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
         $this->verifyTextPresent("Вот, сделал. Смотрите. \nС уваженим, Трутнев С.");
+        $this->close();
     }
 
     public function testSK1428_Case2()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        $this->optimal_click('link=F38_1');
+        $this->optimal_click('link=F38_2');
+        $this->optimal_click('link=F38_3');
         sleep(5);
 
         $this->assertTrue($this->verify_flag('F22','0'));
@@ -55,5 +58,6 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
         $this->verifyTextPresent("exact:Добрый день! Заполнил вашу форму. Есть ли вопросы? \nВсего доброго, Трутнев С.");
+        $this->close();
     }
 }

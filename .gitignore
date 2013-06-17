@@ -15,3 +15,4 @@
 /protected/assets/compiled_css
 /.idea/modules.xml
 atlassian-ide-plugin.xml
+/web.config

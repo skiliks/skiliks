@@ -17,11 +17,11 @@
                     <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
                 </div>
             <?php endif ?>
-            <div class="action">
-                <?php /*
-                <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
-                */ ?>
-            </div>
+            <?php /*
+                <div class="action">
+                    <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
+                </div>
+            */ ?>
         </div>
 
         <div class="row rowpad30">
@@ -34,7 +34,7 @@
                 <?php endif ?>
             </div>
             <div class="action">
-                <a class="light-btn feedback" href="#">Продлить</a>
+                <a class="light-btn make-order-button" href="/payment/order/<?= Yii::app()->user->data()->getAccount()->tariff->slug ?>">Продлить</a>
             </div>
         </div>
 

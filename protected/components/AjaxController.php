@@ -240,12 +240,33 @@ class AjaxController extends CController
         );
     }
 
+    /**
+     * Is user authenticated
+     */
     public function checkUser()
     {
         $this->user = Yii::app()->user;
         if ($this->user->isGuest) {
             $this->redirect('/user/auth');
         }
+        $this->user = $this->user->data();
+    }
+
+    /**
+     * Is user authenticated and has DEV rights
+     */
+    public function checkUserDeveloper()
+    {
+        $this->user = Yii::app()->user;
+
+        if ($this->user->isGuest) {
+            $this->redirect('/user/auth');
+        }
+
+        if (false == $this->user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/');
+        }
+
         $this->user = $this->user->data();
     }
 

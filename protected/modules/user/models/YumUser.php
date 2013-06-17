@@ -13,6 +13,8 @@
  * @property integer $lastvisit
  * @property integer $superuser
  * @property integer $status
+ * @property integer $agree_with_terms
+ * @property integer $is_admin
  *
  * Relations
  * @property YumProfile $profile
@@ -39,6 +41,7 @@ class YumUser extends YumActiveRecord
     const NOT_CHECK = 0;
     const ACCOUNT_TYPE_PERSONAL  = 'Personal';
     const ACCOUNT_TYPE_CORPORATE = 'Corporate';
+    const AGREEMENT_MADE = 'yes';
 
     public $username;
     public $password;
@@ -47,7 +50,6 @@ class YumUser extends YumActiveRecord
     public $activationKey;
     public $password_changed = false;
     public $is_check = 1;
-
     // ------------------------------------------------------------------------------------------------------------
 
     /**
@@ -163,6 +165,18 @@ class YumUser extends YumActiveRecord
         }
 
         return $this->profile->firstname.' '.$this->profile->lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormattedFirstName()
+    {
+        if (null == $this->profile->firstname) {
+            return 'Ваше имя';
+        }
+
+        return $this->profile->firstname;
     }
 
     // ------------------------------------------------------------------------------------------------------------
@@ -376,7 +390,7 @@ class YumUser extends YumActiveRecord
     {
         $usernameRequirements = Yum::module()->usernameRequirements;
         $passwordRequirements = Yum::module()->passwordRequirements;
-
+        $rules[] = array('agree_with_terms', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Вы должны согласиться с условиями'));
         $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
         $rules[] = array('superuser', 'in', 'range' => array(0, 1));
         $rules[] = array('username, createtime, lastvisit, lastpasswordchange, superuser, status', 'required');
@@ -997,5 +1011,13 @@ class YumUser extends YumActiveRecord
 
         Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
+    }
+
+    public function isAdmin() {
+        if((int)$this->is_admin === 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

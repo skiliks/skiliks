@@ -11,7 +11,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo Yii::t('site', 'Вы можете изменить пароль'); ?>
+            <?php if($is_done) { echo Yii::t('site', 'Ваш новый пароль сохранён'); }else{ echo Yii::t('site', 'Вы можете изменить пароль'); } ?>
         </div>
 
         <div class="row">
@@ -29,7 +29,7 @@
             <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?><?php echo $form->error($passwordForm, 'verifyPassword'); ?>
         </div>
         <?php if($is_done) { ?>
-            <div class="done-password-change">Новый пароль был сохранен</div>
+            <div class="done-password-change"></div>
         <?php }else{ ?>
         <div class="row buttons">
             <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>

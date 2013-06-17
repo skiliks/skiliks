@@ -44,10 +44,13 @@
         </div>
         <div class="row">
             <p>
-            <?php if ($invite->receiverUser): ?>
+            <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                 Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+            <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
+                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
+                <a href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
             <?php else: ?>
-                Пожалуйста, <a href="<?= $invite->getInviteLink() ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
+                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
             <?php endif; ?>
             </p>
         </div>
@@ -69,7 +72,15 @@
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 820,
+            resizable: false,
+            draggable: false,
+            width: 590,
+            height: 500,
+            position: {
+                my: "left top",
+                at: "left top",
+                of: $('#corporate-invitations-list-box .items')
+            },
             open: function( event, ui ) { Cufon.refresh(); }
         });
 

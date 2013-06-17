@@ -382,7 +382,7 @@ class EmailAnalyzer
             ];
         }
 
-        $delta = 2 * (int)Yii::app()->params['public']['skiliksSpeedFactor'] * 60;
+        $delta = 2 * $this->simulation->getSpeedFactor() * 60;
         $possibleRightActions = 0;
         $doneRightActions = 0;
         
@@ -654,9 +654,8 @@ class EmailAnalyzer
             );
         }
 
-
         // редко читает почту
-        if ($mailSessionsTotalAmount < 2) {
+        if (0 == $mailSessionsTotalAmount) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
@@ -665,7 +664,7 @@ class EmailAnalyzer
         }
 
         // часто читает почту
-        if (3 < $mailSessionsTotalAmount) {
+        if (4 < $mailSessionsTotalAmount) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
@@ -673,20 +672,26 @@ class EmailAnalyzer
             );
         }
 
-        // часто читает почту
-        if (1 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 4) {
+        // немного часто читает почту
+        $k = 1;
+        if (1 == $mailSessionsTotalAmount || 4 == $mailSessionsTotalAmount) {
+            $k = 0.5;
+        }
+
+        // правильно читает почту
+        if (0 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 5) {
             $value = 0;
 
             if ($workWithMailTotalDuration <= 60*60) {
-                $value = $behave_3311->scale;
+                $value = $behave_3311->scale * $k;
             }
 
             if (60*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 75*60) {
-                $value = $behave_3311->scale*(2/3);
+                $value = $behave_3311->scale * (2/3) * $k;
             }
 
             if (75*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 90*60) {
-                $value = $behave_3311->scale*(1/3);
+                $value = $behave_3311->scale * (1/3) * $k;
             }
 
             return array(

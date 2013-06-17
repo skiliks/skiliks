@@ -1,7 +1,7 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView,
 SKImmediateVisitView, SKPhoneView, SKMailClientView, SKDialogView,
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView,
- SKMailClientView, SKPhoneCallView, define */
+ SKMailClientView, SKPhoneCallView, SKManualView, define */
 
 var SKSimulationView;
 
@@ -22,6 +22,7 @@ define([
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
+    "game/views/world/SKManualView",
     "game/views/SKDialogView"
 ], function (simulation_template, tutorial_template, SKMailClientView, SKXLSDisplayView) {
     "use strict";
@@ -43,9 +44,12 @@ define([
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
                 'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
-                'click .fullscreen': 'doToggleFullscreen'
+                'click .fullscreen': 'doToggleFullscreen',
+                'click .manual-toggle': 'doToggleManual',
+                'click .start': 'doStartFullSimulation'
             },
             'window_views':    {
+                'mainScreen/manual':       SKManualView,
                 'plan/plan':               SKDayPlanView,
                 'phone/phoneMain':         SKPhoneView,
                 'mailEmulator/mailMain':   SKMailClientView,
@@ -212,7 +216,11 @@ define([
              * @method
              */
             'render':          function () {
-                var login_html = _.template(simulation_template, {});
+                var login_html = _.template(simulation_template, {
+                    showPause: SKApp.isLite(),
+                    showStart: SKApp.isTutorial()
+                });
+
                 this.$el.html(login_html).appendTo('body');
                 this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
                 if (this.simulation.isDebug()) {
@@ -257,6 +265,12 @@ define([
                 var parts = this.simulation.getGameTime().split(':');
                 this.$('.time .hour').text(parts[0]);
                 this.$('.time .minute').text(parts[1]);
+
+                if (this.$('.tutorial-mode').length) {
+                    parts = this.simulation.getTutorialTime().split(':');
+                    this.$('.tutorial-mode .minutes').text(parts[0]);
+                    this.$('.tutorial-mode .seconds').text(parts[1]);
+                }
             },
 
             /**
@@ -387,7 +401,7 @@ define([
             },
 
             _showPausedScreen: function(showTopIcons) {
-                this.$('.time').addClass('paused');
+                this._toggleClockFreeze(false);
                 this.$('.canvas .paused-screen')
                     .removeClass('hidden')
                     .find('.top-icons')
@@ -395,9 +409,13 @@ define([
             },
 
             _hidePausedScreen: function() {
-                this.$('.time').removeClass('paused');
+                this._toggleClockFreeze(true);
                 this.$('.canvas .paused-screen')
                     .addClass('hidden');
+            },
+
+            _toggleClockFreeze: function(run) {
+                this.$('.time').toggleClass('paused', !run);
             },
 
             doToggleFullscreen: function(e) {
@@ -413,6 +431,23 @@ define([
                         context[methodName]();
                     }
                 });
+
+                // switch body class
+                if ($('body').hasClass("simulation-full-screen-mode")) {
+                    $('body').removeClass("simulation-full-screen-mode");
+                } else {
+                    $('body').addClass("simulation-full-screen-mode");
+                }
+            },
+
+            doToggleManual: function(e) {
+                e.preventDefault();
+                SKApp.simulation.window_set.toggle('mainScreen', 'manual');
+            },
+
+            doStartFullSimulation: function(e) {
+                e.preventDefault();
+                SKApp.simulation.stop();
             }
         });
 

@@ -183,7 +183,6 @@ class YumRegistrationController extends YumController {
 							$user->password = YumEncrypt::encrypt($passwordform->password, $user->salt);
 							$user->activationKey = YumEncrypt::encrypt(microtime() . $passwordform->password, $user->salt);
 							$user->save();
-							Yum::setFlash('Your new password has been saved.');
 							if(Yum::module('registration')->loginAfterSuccessfulRecovery) {
 								$login = new YumUserIdentity($user->username, false); 
 								$login->authenticate(true);

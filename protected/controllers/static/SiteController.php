@@ -21,8 +21,51 @@ class SiteController extends AjaxController
     {
         $user = Yii::app()->user->data();
         /* @var $user YumUser  */
-        if(!$user->isAuth()){
+        if (!$user->isAuth()) {
             $this->redirect('/user/auth');
+        }
+
+        if (Simulation::MODE_DEVELOPER_LABEL == $mode
+            && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/dashboard');
+        }
+
+        if ($mode !== Simulation::MODE_PROMO_LABEL && $mode !== Simulation::MODE_DEVELOPER_LABEL) {
+            $this->redirect('/dashboard');
+        }
+
+        if (null === $invite_id && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/dashboard');
+        }
+
+        if (null !== $invite_id) {
+            /** @var Invite $invite */
+            $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
+            if (null === $invite) {
+                Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
+                $this->redirect('/simulations');
+            }
+
+            $invite->refresh(); // Important! Prevent caching
+        }
+
+        if (isset($invite) &&
+            $invite->scenario->slug == Scenario::TYPE_FULL &&
+            false == $invite->canUserSimulationStart()
+        ) {
+            Yii::app()->user->setFlash('error', 'У вас нет прав для старта этой симуляции');
+            $this->redirect('/dashboard');
+        }
+
+        if (isset($invite) && $invite->receiver_id !== $user->id) {
+            $this->redirect('/dashboard');
+        }
+
+        if (isset($invite) && null === $invite->tutorial_displayed_at && null !== $invite->tutorial) {
+            $type = $invite->tutorial->slug;
+            $tutorial = true;
+            $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
+            $invite->save(false);
         }
 
         /** @var Scenario $scenario */
@@ -30,69 +73,16 @@ class SiteController extends AjaxController
             'slug' => $type
         ]);
 
-        if (null === $user || null === $scenario) {
-
-            $this->redirect('/');
+        if (null === $scenario) {
+            $this->redirect('/dashboard');
         }
 
-        if (Simulation::MODE_DEVELOPER_LABEL == $mode
-            && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
-            // redirect such cheater with no message!
-            $this->redirect('/');
+        if (isset($invite) && $invite->isTrialFull($user) &&
+            $user->isCorporate() && $user->account_corporate->invites_limit == 0
+        ) {
+            Yii::app()->user->setFlash('error', 'У вас закончились приглашения');
+            $this->redirect('/profile/corporate/tariff');
         }
-
-        if (false == in_array($mode, [Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL])) {
-            // wrong mode name mode
-            $this->redirect('/');
-        }
-
-        // check invite if it setted {
-        if (null !== $invite_id) {
-            $invite = Invite::model()->findByPk($invite_id);
-
-            if (null == $invite) {
-                Yii::app()->user->setFlash(
-                    'error',
-                    'Выберите приглашение по которому Вы хотите начать симуляцию'
-                );
-
-                $this->redirect('/simulations');
-            }
-
-
-            if (null !== $invite->simulation_id && ($invite->isStarted() || $invite->isCompleted())) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
-                    $invite->getCompanyOwnershipType(),
-                    $invite->getCompanyName()
-                ));
-                $this->redirect('/simulations');
-            }
-
-            if ($invite->scenario->slug == Scenario::TYPE_FULL
-                && false == $invite->canUserSimulationStart()
-            ) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'У вас нет прав для старта этой симуляции'
-                ));
-                $this->redirect("/dashboard");//throw new Exception('У вас нет прав для старта этой симуляции');
-                return;
-            }
-
-            if ($invite->isTrialFull(Yii::app()->user->data())
-                && Yii::app()->user->data()->isCorporate()
-                && Yii::app()->user->data()->getAccount()->invites_limit == 0) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'У вас закончились приглашения'
-                ));
-                $this->redirect("/profile/corporate/tariff");
-            }
-        } else {
-            if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
-                $this->redirect("/dashboard");
-            }
-        }
-        // check invite if it setted }
 
         $assetsUrl = $this->getAssetsUrl();
         $config = array_merge(
@@ -104,12 +94,20 @@ class SiteController extends AjaxController
                 'start' => $scenario->start_time,
                 'end' => $scenario->end_time,
                 'finish' => $scenario->finish_time,
-                'badBrowserUrl' => '/bad-browser',
+                'badBrowserUrl' => '/old-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,
             ]
         );
+
+        if (!empty($tutorial)) {
+            $config['result-url'] = $this->createUrl('static/site/simulation', [
+                'mode' => $mode,
+                'type' => isset($invite) ? Scenario::model()->findByPk($invite->scenario_id)->slug : Scenario::TYPE_FULL,
+                'invite_id' => $invite_id
+            ]);
+        }
 
         $this->layout = false;
         $this->render('site', [
@@ -133,6 +131,19 @@ class SiteController extends AjaxController
     public function actionRunSimulationOrChooseAccount()
     {
         $this->render('runSimulationOrChooseAccount');
+    }
+
+    /**
+     *
+     */
+    public function actionError404()
+    {
+        $error = Yii::app()->errorHandler->error;
+
+        if( $error )
+        {
+            $this->render('error404');
+        }
     }
 }
 

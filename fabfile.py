@@ -5,6 +5,7 @@ def deploy():
     with cd('/srv/www/skiliks'):
         sudo('git pull', user='skiliks')
         sudo('phing -Dstage=real', user='skiliks')
+        sudo('touch protected/assets', user='skiliks')
         sudo('./yiic migrate', user='skiliks')
 
 def reimport():

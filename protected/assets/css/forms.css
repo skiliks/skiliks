@@ -101,7 +101,7 @@
     width:162px;
 }
 */
-.registrationform input[type=submit], .bigbtnsubmt {
+.registrationform input[type=submit], .bigbtnsubmt, .order-methods input[type=submit]  {
     background:#146672 url("../img/icon-circlarow.png") no-repeat 20px 16px;
     border:none;
     -webkit-border-radius:4px;
@@ -356,6 +356,13 @@ span.required {
     height:23px;
     width: 350px;
 }
+.profileform  .blueinputtext {
+    position: relative;
+}
+.profileform  .blueinputtext .errorMessage {
+    top: -14px;
+    left: 186px;
+}
 #UserAccountPersonal_location {
     width: 340px;
 }
@@ -561,12 +568,7 @@ span.required {
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
-    left:50% !important;
-    margin-left:-295px !important;
-    top:270px !important;
-    min-height: 380px !important;
     overflow: visible;
-    width:590px !important;
 }
 .cabmessage .ui-dialog-content {
     /*background:url("../img/bg-kniga.jpg") no-repeat right bottom;*/
@@ -795,7 +797,15 @@ span.required {
     .brightblock, .lightblock {
         padding: 5px 3px 4px;
     }
-    .YumProfile_email {
-
+    .profileform  .blueinputtext .errorMessage {
+        top: -12px;
+        left: 156px;
     }
+}
+
+.profileform input.error{
+    border: 2px solid #bd2929;
+}
+.feedback .form-section .error textarea{
+    border: 2px solid #bd2929;
 }

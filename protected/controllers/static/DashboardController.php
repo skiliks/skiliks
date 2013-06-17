@@ -29,7 +29,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         if (false === $this->user->isCorporate() ||
             empty($this->user->account_corporate->is_corporate_email_verified)
         ) {
-            $this->redirect('userAuth/afterRegistration');
+            $this->redirect('userAuth/afterRegistrationCorporate');
         }
 
         $vacancies = [];
@@ -58,18 +58,14 @@ class DashboardController extends AjaxController implements AccountPageControlle
             }
 
             if (0 == $this->user->account_corporate->invites_limit) {
-                $invite->addError('invitations', 'У вас закончились приглашения');
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас закончились приглашения'
+                ));
                 $validPrevalidate = false;
             }
 
             $invite->message = sprintf(
-                'Компания %s является лидером российского рынка, ' .
-                'известна своим подходом к формированию профессиональной команды ' .
-                'и развитию сотрудников на рабочем месте.' .
-                "\n" .
-                'Вопросы относительно вакансии и прохождения симуляции вы можете ' .
-                'задать по адресу %s куратору вакансии %s.',
-                $this->user->account_corporate->company_name,
+                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
@@ -97,9 +93,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 ->findByAttributes(['slug' => Scenario::TYPE_FULL])
                 ->getPrimaryKey();
 
+            $invite->tutorial_scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
+                ->getPrimaryKey();
+
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
+                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->save();
                 $this->sendInviteEmail($invite);
 
@@ -111,9 +114,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
-                //Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
             } else {
-                //Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
             }
         }
         // handle send invitation }
@@ -272,7 +275,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
     {
         $this->checkUser();
         $invite = Invite::model()->findByPk($inviteId);
-
+        /* @var $invite Invite */
         $user = Yii::app()->user;
         if (null === $user) {
             Yii::app()->user->setFlash('success', sprintf(
@@ -298,18 +301,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/dashboard');
         }
 
-        $firstname = $invite->firstname;
-        $lastname  = $invite->lastname;
+        if ($invite->isStarted()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'Начато'."
+            ));
+            $this->redirect('/dashboard');
+        }
 
         $invite->delete();
 
         $user->getAccount()->increaseLimit($invite);
-
-        /*Yii::app()->user->setFlash('success', sprintf(
-            "Приглашение для %s %s удалено!",
-            $firstname,
-            $lastname
-        ));*/
 
         $this->redirect('/dashboard');
     }
@@ -374,6 +375,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
     {
         $this->checkUser();
         $invite = Invite::model()->findByPk($id);
+        /* @var $invite Invite */
         if (null == $invite) {
             $this->redirect('/dashboard');
         }
@@ -399,6 +401,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         // fix (NULL) receiver_id to make sure that simulation can start
         $invite->receiver_id = Yii::app()->user->data()->id;
         $invite->status = Invite::STATUS_ACCEPTED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status', 'receiver_id']);
 
         /* @flash
@@ -435,6 +438,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $invite->status = Invite::STATUS_DECLINED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status']);
 
         /* @flash
@@ -481,6 +485,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $declineExplanation->save();
 
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
+        $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $declineExplanation->invite->update(false, ['status']);
 
         // for unregistered user - redirect to homepage
@@ -492,13 +497,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $user = Yii::app()->user->data();
 
         if($user->isAuth()) {
+            $this->redirect('/dashboard');
+        } elseif($user->isPersonal()) {
             Yii::app()->user->setFlash('success', sprintf(
                 'Вы всегда можете <a href="/registration">зарегистрироваться</a> снова на главной странице и начать использовать наш продукт.
                 Мы верим, что он обязательно Вам понравится и окажется полезным.'
             ));
             $this->redirect('/');
-
-        } elseif($user->isPersonal()) {
             /*
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s отклонено.',
@@ -506,7 +511,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 ($declineExplanation->invite->getCompanyName() === null)?"компании":$declineExplanation->invite->getCompanyName()
             ));
             */
-            $this->redirect('/dashboard');
         }
     }
 

@@ -1,0 +1,439 @@
+<?php
+
+class FlagServiceUnitTest extends CDbTestCase
+{
+    /**
+     * Service method
+     *
+     * @param $simulation
+     * @param $newHours
+     * @param $newMinutes
+     * @param bool $s
+     */
+    public function setTime($simulation, $newHours, $newMinutes, $s = true)
+    {
+        SimulationService::setSimulationClockTime(
+            $simulation,
+            $newHours,
+            $newMinutes
+        );
+        if ($s == true) {
+            $simulation->deleteOldTriggers($newHours, $newMinutes);
+        }
+
+    }
+    /**
+     * Проверяет, устанавливаются ли флаги, при выборе определенной реплики
+     */
+    public function testDialogFlagSet()
+    {
+        //$this->markTestSkipped();
+
+        /** @var $user Users */
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        $dialogService = new DialogService();
+
+        $dialogService->getDialog(
+            $simulation->id,
+            $simulation->game_type->getReplica(['excel_id' => 35])->id,
+            '11:00'
+        );
+        $dialogService->getDialog(
+            $simulation->id,
+            $simulation->game_type->getReplica(['excel_id' => 50])->id,
+            '11:00'
+        );
+        $dialogService->getDialog(
+            $simulation->id,
+            $simulation->game_type->getReplica(['excel_id' => 70])->id,
+            '11:00'
+        );
+
+        $flags = FlagsService::getFlagsState($simulation);
+
+        $this->assertEquals($flags['F3'], '1');
+        $this->assertEquals($flags['F4'], '1');
+        $this->assertEquals($flags['F13'], '1');
+    }
+
+    /**
+     * Проверяет то, что письмо после флага приходит с правильным временем
+     */
+    public function testFlagMailTimeSet()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        LibSendMs::sendMs($simulation, 'MS30');
+        $eventManager = new EventsManager();
+        $result = $eventManager->getState($simulation, []);
+        $this->assertEquals($result['events'][0]['eventType'],'M');
+        $mailManager = new MailBoxService();
+        $mailList = $mailManager->getMessages(['folderId' =>1, 'simId' => $simulation->getPrimaryKey()]);
+        $M31 = array_values(array_filter($mailList, function ($mailItem) {
+            return $mailItem['template'] == 'M31';
+        }))[0];
+        $this->assertEquals('04.10.2013 09:45',$M31['sentAt']);
+
+    }
+
+    /**
+     * Тест на установку флага, при отправке правильного письма
+     */
+    public function testSentMailFlagSet()
+    {
+        //$this->markTestSkipped();
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+        // null prefix
+        $receiverId = Character::model()->findByAttributes([
+            'code' => '12',
+            'scenario_id'  => $simulation->scenario_id,
+        ])->primaryKey;
+
+        $msgParams = new SendMailOptions($simulation);
+        $msgParams->simulation = $simulation;
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code'         => 55,
+            'character_id' => $receiverId,
+            'mail_prefix'  => null,
+            'scenario_id'  => $simulation->scenario_id,
+        ])->primaryKey; // 55?
+        $msgParams->setRecipientsArray($receiverId);
+        $msgParams->groupId = MailBox::FOLDER_OUTBOX_ID;
+        $msgParams->time = '11:00';
+        $msgParams->messageId = 0;
+        $msgParams->copies = '';
+        $msgParams->phrases = '';
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
+        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+
+        // RE: RE:
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code'         => 55,
+            'character_id' => $receiverId,  // 55?
+            'mail_prefix'  => 'rere',
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
+            'scenario_id'  => $simulation->scenario_id,
+        ])->primaryKey;
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
+        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+
+        $flags = FlagsService::getFlagsState($simulation);
+
+        $this->assertEquals($flags['F30'], '1');
+        $this->assertEquals($flags['F31'], '1');
+    }
+
+    /**
+     * Проверяет что на фронтенд попадают только правильные реплики по диалогу S2
+     *
+     */
+    public function testBlockReplica()
+    {
+        //$this->markTestSkipped();
+
+        /** @var $user Users */
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // case 1
+
+        EventsManager::startEvent($simulation, 'S2', false, false, 0);
+
+        $data = [];
+        //case 1
+        $result = EventsManager::getState($simulation, []);
+        foreach ($result['events'][0]['data'] as $replica) {
+            if($replica['ch_from'] == 1) {
+                $this->assertFalse(in_array($replica['excel_id'], $data));
+                $data[] = $replica['excel_id'];
+            }
+        }
+
+        // case 2
+        FlagsService::setFlag($simulation, 'F1', 1);
+
+        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+
+        $result = EventsManager::getState($simulation, []);
+        foreach ($result['events'][0]['data'] as $replica) {
+           if($replica['ch_from'] == 1) {
+               $this->assertFalse(in_array($replica['excel_id'], $data));
+               $data[] = $replica['excel_id'];
+           }
+        }
+
+        //case3
+
+        FlagsService::setFlag($simulation, 'F12', 1);
+        FlagsService::setFlag($simulation, 'F1', 0);
+
+        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+        $result = EventsManager::getState($simulation, []);
+
+        foreach ($result['events'][0]['data'] as $replica) {
+            if($replica['ch_from'] == 1) {
+                $this->assertFalse(in_array($replica['excel_id'], $data));
+                $data[] = $replica['excel_id'];
+            }
+        }
+    }
+
+    /**
+     * Проверяет что диалог прокируется если не выставлен флаг
+     */
+    public function testBlockDialog()
+    {
+        //$this->markTestSkipped(); // S
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+
+        FlagsService::setFlag($simulation, 'F4', 0);
+
+        // Case 1: block event
+        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+
+        $result = EventsManager::getState($simulation, []);
+
+        $this->assertFalse(isset($result['events']));
+
+        // Case 2: run event
+        FlagsService::setFlag($simulation, 'F4', 1);
+
+        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+
+        $result2 = EventsManager::getState($simulation, []);
+
+        $this->assertTrue(isset($result2['events']));
+    }
+
+    /**
+     * Проверяет блокировку по флагу F14 собитыя E12
+     * Тест эмулирует не просто запуск E12, а ответ на реплику в ЕТ12.3 которая приводит к Е12
+     */
+    public function testBlockDialogByGetDialog()
+    {
+        //$this->markTestSkipped();
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+
+        FlagsService::setFlag($simulation, 'F14', 0);
+
+        $e = new EventsManager();
+        EventsManager::startEvent($simulation, 'ET12.3', false, false, 0);
+
+        EventsManager::getState($simulation, []);
+
+        $dialog = new DialogService();
+        $json = $dialog->getDialog($simulation->id, Replica::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
+
+        $this->assertEquals(0, count($json['events']));
+    }
+
+    /**
+     * Проверяет блокировку по флагу F3 собитыя E1.2.1
+     */
+    public function testBlockDialogByPhone()
+    {
+        ////$this->markTestSkipped();
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+
+        // Case 1: block event
+        $e = new EventsManager();
+        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+
+        $result = EventsManager::getState($simulation, []);
+
+        $this->assertFalse(isset($result['events']));
+
+        // Case 2: run event
+        FlagsService::setFlag($simulation, 'F3', 1);
+
+        $e = new EventsManager();
+        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+
+        $result2 = EventsManager::getState($simulation, []);
+
+        $this->assertTrue(isset($result2['events']));
+    }
+
+    /**
+     * Проверяет что письмо M31 отправляется по флагу F30, а M9 при флаге M16 — нет
+     */
+    public function testSendEmailAfterFlagSwitched()
+    {
+        //$this->markTestSkipped();
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        FlagsService::setFlag($simulation, 'F30', 1);
+        FlagsService::setFlag($simulation, 'F16', 1);
+
+        $e = new EventsManager();
+        $result = EventsManager::getState($simulation, []);
+        $this->assertEquals(1, count($result['events']));
+        $result = EventsManager::getState($simulation, []);
+        $this->assertEquals(0, $result['result']);
+
+        /** @var $email MailBox */
+        $email = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M31'
+        ]);
+        /** @var $time_email MailBox */
+        $time_email = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M9'
+        ]);
+
+        $this->assertEquals('inbox', $email->getGroupName());
+        $this->assertNull($time_email);
+
+        SimulationService::setSimulationClockTime($simulation, 13, 30); // M9 must come by time at 13:30
+        $i = 0;
+        while (true) {
+            $state = EventsManager::getState($simulation, []);
+            $i++;
+            if ($state['result'] == 0) {
+                break;
+            }
+        };
+        /** @var $timed_good_email MailBox */
+        $timed_good_email = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M31',
+        ]);
+        /** @var $timed_bad_email MailBox */
+        $timed_bad_email = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M9',
+        ]);
+
+        $this->assertEquals('inbox', $timed_good_email->getGroupName());
+        $this->assertNotNull($timed_bad_email);
+        $this->assertEquals('inbox',$timed_bad_email->getGroupName());
+    }
+
+    /*
+     * Проверка ET12.1 для флага F14 чтоб была кнопка "Ответить"
+     */
+
+    public function testNewFlagsRules() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+
+        FlagsService::setFlag($simulation, 'F14', 1);
+
+        EventsManager::startEvent($simulation, 'ET12.1', false, false, 0);
+
+        $result = EventsManager::getState($simulation, []);
+
+        $this->assertEquals(3, count($result['events'][0]['data']));
+    }
+
+    /*
+     * Проверяет ET12.2 для F14 что есть нужная реплика excel_id = 408
+     */
+
+    public function testNewFlagsRulesByDialogGet() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $dialog = new DialogService();
+        FlagsService::setFlag($simulation, 'F14', 1);
+        $id = Replica::model()->findByAttributes(['code'=>'ET12.1', 'replica_number'=> 1, 'step_number'=> 1])->id;
+
+        $result = $dialog->getDialog($simulation->id, $id, '9:00');
+
+        $this->assertEquals('408', $result['events'][0]['data'][1]['excel_id']);
+    }
+
+    public function testFlagToSwitch2() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $dialog = new DialogService();
+        //FlagsService::setFlag($simulation, 'F14', 1);
+        $flag = FlagsService::getFlag($simulation, "F22");
+        $this->assertEquals('0', $flag->value);
+        $flag = FlagsService::getFlag($simulation, "F38_3");
+        $this->assertEquals('0', $flag->value);
+        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_3'])->id;
+        $dialog->getDialog($simulation->id, $id, '9:45');
+        $flag = FlagsService::getFlag($simulation, "F22");
+        $this->assertEquals('1', $flag->value);
+        $flag = FlagsService::getFlag($simulation, "F38_3");
+        $this->assertEquals('0', $flag->value);
+        $flag = SimulationFlagQueue::model()->findByAttributes(['sim_id'=>$simulation->id, 'flag_code'=>'F38_3']);
+        $this->assertEquals("11:45", (new DateTime($flag->switch_time))->format("H:i"));
+        $this->setTime($simulation, 11, 47);
+        FlagsService::checkFlagsDelay($simulation);
+        $flag = FlagsService::getFlag($simulation, "F38_3");
+        //var_dump($flag->flag);
+        $this->assertEquals('1', $flag->value);
+    }
+}

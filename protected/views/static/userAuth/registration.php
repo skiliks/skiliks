@@ -1,16 +1,16 @@
-<h2 class="thetitle text-center">Вы можете <span>Бесплатно</span> пройти пробную версию </h2>
+<h2 class="thetitle text-center">Вы можете пройти демо-версию</h2>
 
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
                 <a class="regicon icon-check" id="registration_check" href="/simulation/promo/2"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
-                <h3>Пробный тест</h3>
+                <h3>Демо-версия</h3>
                 <div class="testtime"><strong>15</strong> Минут</div>
                 <ul>
-                    <li>Частичная оценка навыков бесплатно</li>
                     <li>Погружение в игровую среду для понимания, как работает симуляция</li>
-                    <li>Опыт прохождения теста</li>
+                    <li>Знакомство с интерфейсами</li>
+                    <li>Пример итогового отчёта по оценке навыков</li>
                 </ul>
             </div>
         </div>
@@ -42,24 +42,11 @@
 
         <div class="row" style="display: none">
             <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-        </div>
-
-
-    <!--<a id="pass-switcher"><?php echo Yii::t('site', 'Show passwords') ?></a>
-
-    <p class="note"><?php echo Yii::t('site', 'Fields with * are required.') ?></p>-->
-
-        <div class="row">
+        </div><div class="row">
             <?php echo CHtml::submitButton(Yii::t('site', 'Начать')); ?>
-        </div>
-
-        <?php if (!empty($error)): ?>
-            <div class="errorlongMessage">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
+        </div></div><div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+        <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
     </div>
-
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TestUserHelper
+ * Class TestUserHelper for selenium tests
  * @todo: move to UserService
  */
 
@@ -22,6 +22,7 @@ class TestUserHelper
         $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
 
         if($YumProfile === null) {
+            unset($YumProfile);
             $YumUser = new YumUser('registration');
             $YumProfile = new YumProfile('registration');
         }else{
@@ -34,13 +35,23 @@ class TestUserHelper
         }
         $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123', 'is_check'=>'1'];
         $YumProfile->attributes = ['email'=>$email];
-        $YumUser->is_check = (int)$YumUser['is_check'];
         $YumUser->setUserNameFromEmail($YumProfile->email);
+        $YumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
         $YumProfile->updateFirstNameFromEmail();
+        $YumUser->is_check = (int)$YumUser['is_check'];
         $YumUser->register($YumUser->username, $YumUser->password, $YumProfile);
         $YumUser->activationKey = '1';
         $YumUser->status = 1;
-        $YumUser->update();
+        if(false === $YumUser->save(false)){
+            throw new Exception(" Fail ");
+        }
+        //$YumProfile->user_id = $YumUser->id;
+        $YumProfile->firstname = 'Ivan';
+        $YumProfile->lastname  = 'Ivanov';
+        $YumProfile->timestamp = time();
+        if(false === $YumProfile->save(false)){
+            throw new Exception(" Fail ");
+        }
 
         if($account === "personal") {
 
@@ -48,11 +59,9 @@ class TestUserHelper
             $accountPersonal->user_id = $YumUser->id;
             $accountPersonal->industry_id = 3;
             $accountPersonal->professional_status_id = 3;
-            $accountPersonal->save();
-
-            $YumProfile->firstname = 'Ivan';
-            $YumProfile->lastname  = 'Ivanov';
-            $YumProfile->timestamp = gmdate("Y-m-d H:i:s");
+            if(false === $accountPersonal->save(false)){
+                throw new Exception(" Fail ");
+            }
             $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
             $permission = new YumPermission();
             $permission->principal_id = $YumUser->id;
@@ -60,7 +69,9 @@ class TestUserHelper
             $permission->type = 'user';
             $permission->action = $action->id;
             $permission->template = 1;
-            $permission->save();
+            if(false === $permission->save(false)){
+                throw new Exception(" Fail ");
+            }
 
         } elseif ($account === "corporate") {
             $accountCorporate = new UserAccountCorporate;
@@ -70,14 +81,28 @@ class TestUserHelper
             // todo: take care about user timezone
             $accountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
             $accountCorporate->generateActivationKey();
-            $accountCorporate->save(false);
-
+            //$accountCorporate->save(false);
+            if(false === $accountCorporate->save(false)){
+                throw new Exception(" Fail ");
+            }
             // set Lite tariff by default
             $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
             // update account tariff
             $accountCorporate->setTariff($tariff);
-            $accountCorporate->save();
+
+            if(false === $accountCorporate->save(false)){
+                throw new Exception(" Fail ");
+            }
         }
+    }
+
+    public static function getActivationUrl($email) {
+        $profile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        if(null === $profile){
+            throw new Exception(" User not found ");
+        }
+        /* @var $profile YumProfile */
+        return $profile->user->getActivationUrl();
     }
 }

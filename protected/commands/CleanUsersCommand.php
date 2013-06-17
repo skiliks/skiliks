@@ -6,7 +6,10 @@
  * Time: 6:42 PM
  * To change this template use File | Settings | File Templates.
  */
-
+/**
+ *
+ * Что она делает?
+ */
 class CleanUsersCommand extends CConsoleCommand
 {
     public function actionIndex() // 7 days

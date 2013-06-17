@@ -128,16 +128,6 @@ class StaticSiteTools
     }
 
     /**
-     * @return int
-     */
-    public static function getLiteSimulationDurationInMinutes()
-    {
-        $scenarioLite = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
-
-        return $scenarioLite->duration_in_game_min / Yii::app()->params['public']['skiliksSpeedFactor'];
-    }
-
-    /**
      * @param CHttpRequest $request
      * @param string $language: 'ru','en'
      *

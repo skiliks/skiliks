@@ -16,7 +16,8 @@ class EventsController extends AjaxController
         $this->sendJSON(
             EventsManager::getState(
                 $this->getSimulationEntity(),
-                Yii::app()->request->getParam('logs', null)
+                Yii::app()->request->getParam('logs', null),
+                Yii::app()->request->getParam('eventsQueueDepth', 0)
             )
         );
     }

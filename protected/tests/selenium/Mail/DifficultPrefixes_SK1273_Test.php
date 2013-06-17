@@ -8,12 +8,6 @@
  */
 class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     /**
      * testSK1273_Case1() по задаче SKILIKS-1273
@@ -24,18 +18,10 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
     public function test_DifficultPrefixes_SK1273_Case1() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(30);
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        //жесть
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        //добавляем адресата
-        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->write_email();
+        $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
         //тема
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['close']);
 
@@ -85,10 +71,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->assertTrue($this->mail_comes("Re: Re: Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['close']);
 
-        if ($this->is_it_done("css=li.icon-active.mail a"))
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.mail a"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
@@ -102,10 +85,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 
         $this->waitForTextPresent("Fwd: Re: Re: Re: Срочно жду бюджет логистики");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         sleep(5);
@@ -114,8 +94,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->close();
     }
 
 
@@ -142,9 +121,10 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForTextPresent("Fwd: вакцинация!");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        sleep(5);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Трудякин')])");
+        $this->mouseOver("xpath=(//*[contains(text(),'Трудякин')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Трудякин')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         sleep(5);
@@ -153,7 +133,6 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: вакцинация!"));
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->close();
     }
 }

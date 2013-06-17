@@ -59,6 +59,40 @@
         });
         // load simulation details pop-up data }
 
+
+
+        $('.terms').click(function() {
+            var dHeight = $("html").height() * 0.85;
+
+            $('.container').append($('<div id="terms-pop-up"></div>'));
+            $('#terms-pop-up').dialog({
+                //minHeight:   400,
+                dialogClass: 'terms-page',
+                modal:       true,
+                width:       980,
+                height:      dHeight,
+                autoOpen:    false,
+                resizable:   false,
+                open: function() {
+                    $("html").css("overflow-y","hidden");
+                },
+                close: function () {
+                    $("html").css("overflow-y","visible");
+                },
+                draggable: false
+            });
+
+            $.ajax('/static/terms', {
+                success: function(data) {
+                    $('#terms-pop-up').html(data).dialog('open');
+                    $('#terms-pop-up').css("min-height","374px");
+                    $("#terms-pop-up").scrollTop($("#terms-pop-up h1.total").scrollTop());
+                }
+            });
+            return false;
+        });
+
+
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
@@ -89,12 +123,27 @@
             }
         });
         $('a.feedback').on('click', function (e) {
+            var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
                 width: 700,
                 dialogClass: 'feedbackwrap',
                 modal: true,
                 resizable: false,
-                open: function( event, ui ) { Cufon.refresh(); }
+                draggable: false,
+                open: function( event, ui ) {
+                    //Cufon.refresh();
+                    console.log();
+                    if(selected !== undefined) {
+                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                            var a = $(element).find('a');
+                            if(a.attr('rel') === selected){
+                                a.click();
+                            }
+                        });
+                    }
+
+                    Cufon.refresh();
+                }
             });
 
             e.stopPropagation();
@@ -153,6 +202,16 @@
             return false;
         };
 
+        window.paymentSubmit = function paymentSubmit(form, data, hasError) {
+            if (!hasError) {
+                $.post(form.attr('action'), form.serialize(), function (res) {
+                    var result = $('<div class="order-result"/>').html(res);
+                    $('.order-methods').html(result);
+                });
+            }
+            return false;
+        };
+
         // Ajax Validation }
 
         // delete vacancy {
@@ -194,6 +253,14 @@
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
+
+        $('.sign-in-link-in-popup').click(function(event){
+            event.preventDefault();
+            $(".sign-in-box").dialog('open');
+            $('.flash-message-popup.flash-message-popup-error').find('.popupclose').click();
+            //$('.sign-in-link').click();
+            $(".link-recovery").click();
+        });
         // show/hide sign-in box }
 
         $('#corporate-dashboard-add-vacancy').click(function(event) {
@@ -204,12 +271,13 @@
                 minHeight: 350,
                 modal: true,
                 resizable: false,
+                draggable: false,
                 title: '',
-                width: 600,
+                width: 584,
                 position: {
                     my: "left top",
-                    at: "right top",
-                    of: $('#invite-people-box')
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box .items')
                 }
             });
             $(".form-vacancy").dialog('open');
@@ -244,7 +312,7 @@
             if(localStorage.getItem('lastGetState') === null){
                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-                if (window.confirm("У Вас есть незаконченная симуляция. Выйти?")) {
+                if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
                     //window.alert("Ок");
                     return true;
                 } else {
@@ -286,7 +354,7 @@ Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblo
     '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
     '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
     '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
-    '.value, .tarifform .value, .light-btn',
+    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large',
     {hover: true}
 );
 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
@@ -303,13 +371,16 @@ Cufon.replace('.main-article article ul li, .container>header nav a, .features u
     '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
     '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
-    '.action-registration .registrationform .row input[type=submit]',
+    '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
+    '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
+    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a',
     {fontFamily:"ProximaNova-Regular", hover:true});
 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
-    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4',
+    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
+    '.tariff-name, .video-caption',
     {fontFamily:"ProximaNova-Bold", hover:true}
 );
 Cufon.replace('.freeacess', {hover:true});
-//Cufon.replace('.light-btn', {fontFamily:"ProximaNova-Bold", hover: true});
+Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
 
