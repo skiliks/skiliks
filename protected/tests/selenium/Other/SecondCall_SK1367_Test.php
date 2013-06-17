@@ -21,10 +21,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click('link=F32');
-
-        $this->clearEventQueueBeforeEleven('RST1');
-
-        sleep(5);
         $this->run_event('ET1.1',"css=li.icon-active.phone a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(1);
@@ -40,6 +36,8 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->waitForVisible('css=p.mail-popup-text');
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
+
+        $this->clearEventQueueBeforeEleven('RST1');
 
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
