@@ -51,28 +51,22 @@ define([
             var me = this;
             var doc = this.options.model_instance.get('document');
             var spreadsheet;
-            el.html( _.template(document_xls_template, {}) );
+            el.html( _.template(document_xls_template, {
+                sheets: doc.get('sheets')
+            }) );
 
             SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
-            var sheetViews = [];
-            setTimeout(function () {
-                doc.get('sheets').each(function (sheet) {
-                    var sheetView = new SKSheetView({
-                        'el': me.$('.table-container'),
-                        'sheet': sheet
-                    });
-                    sheetView.render();
-                    sheetViews.push(sheetView);
-
-                    var sheetTab = $('<li></li>');
-                    sheetTab.attr('data-sheet-name', sheet.get('name'));
-                    sheetTab.text(sheet.get('name'));
-                    sheetTab.appendTo(me.$('.sheet-tabs'));
-                    doc.get('sheets').at(0).activate();
-                    me.undelegateEvents();
-                    me.delegateEvents();
+            doc.get('sheets').each(function (sheet, i) {
+                var sheetView = new SKSheetView({
+                    'el': me.$('.table-container'),
+                    'sheet': sheet
                 });
-            }, 0);
+                sheetView.render();
+
+                if (i === 0) {
+                    sheet.activate();
+                }
+            });
         },
 
         doSelectTab: function doSelectTab (event) {
