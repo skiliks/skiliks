@@ -345,9 +345,8 @@ class CheckConsolidatedBudget
         
         // get workSheets {
         PHPExcel_Calculation::getInstance()->clearCalculationCache();
-        $objPHPExcel = new PHPExcel();
         $scData = $document->getSheetList($path);
-        ScXlsConverter::writeScDataToXls($scData, $objPHPExcel);
+        $objPHPExcel = ScXlsConverter::sc2xls($scData);
 
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);

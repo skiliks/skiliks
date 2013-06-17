@@ -7,7 +7,7 @@ class ScXlsConverter {
      * @return array
      * @throws RuntimeException
      */
-    public static function extractXlsFile($xls)
+    public static function xls2sc($xls)
     {
         Yii::import('ext.sheetnode.*');
         require_once 'modules/sheetnode_phpexcel/sheetnode_phpexcel.import.inc';
@@ -33,21 +33,16 @@ class ScXlsConverter {
 
     /**
      * @param array $sheetsData
-     * @param PHPExcel|string $xls
      */
-    public static function writeScDataToXls(array $sheetsData, $xls)
+    public static function sc2xls(array $sheetsData)
     {
         Yii::import('ext.sheetnode.*');
         require_once 'modules/sheetnode_phpexcel/sheetnode_phpexcel.export.inc';
         require_once 'sheetnode.module';
         require_once 'socialcalc.inc';
 
-        if ($xls instanceof PHPExcel) {
-            $excel = $xls;
-        } else {
-            $excel = new PHPExcel();
-            $excel->removeSheetByIndex(0);
-        }
+        $excel = new PHPExcel();
+        $excel->removeSheetByIndex(0);
 
         foreach ($sheetsData as $sheetData) {
             $sheet = $excel->getSheetByName($sheetData['name']) ?: $excel->createSheet();
@@ -55,10 +50,6 @@ class ScXlsConverter {
         }
 
         $excel->setActiveSheetIndex(0);
-
-        if (is_string($xls) && file_exists(dirname($xls))) {
-            $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-            $writer->save($xls);
-        }
+        return $excel;
     }
 }
