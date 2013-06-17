@@ -190,4 +190,24 @@ class Invoice extends CActiveRecord
             ]
         ];
     }
+
+    public function getValidationStatus() {
+        return ((int)$this->is_verified === 1)?'Валидный':'Невалидный';
+    }
+
+    public function getValidationStatusBtnText() {
+        return ((int)$this->is_verified === 1)?'Невалидный':'Валидный';
+    }
+
+    public function getValidationStatusBtn() {
+        return ((int)$this->is_verified === 1)?'btn-danger':'btn-success';
+    }
+
+    public function getValidationStatusLabel() {
+        return ((int)$this->is_verified === 1)?'label-success':'label-important';
+    }
+
+    public function getValidationAction() {
+        return ((int)$this->is_verified === 1)?"/admin_area/order/unchecked?order_id={$this->id}":"/admin_area/order/checked?order_id={$this->id}";
+    }
 }
