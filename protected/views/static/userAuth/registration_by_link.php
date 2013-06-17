@@ -31,8 +31,10 @@
             <?php echo CHtml::submitButton(Yii::t("site","Sign up")); ?>
 
             <a class="decline-link">Отказаться от приглашения</a>
+        </div><div class="reg-by-link terms-confirm">
+            <?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?><?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
+            <?= $form->error($user, 'agree_with_terms'); ?>
         </div>
-
         <?php $this->endWidget(); ?>
     </div>
 </section>

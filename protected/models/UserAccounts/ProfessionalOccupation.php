@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'professional_occupation':
  * @property integer $id
+ * @property integer $order_no
  * @property string $label
  *
  * The followings are the available model relations:

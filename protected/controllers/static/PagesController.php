@@ -19,7 +19,7 @@ class PagesController extends AjaxController
             $user->data()->isActive() &&
             !$user->data()->isHasAccount()
         ) {
-            $this->redirect('/userAuth/chooseAccountType');
+            $this->redirect('/registration/choose-account-type');
         }
 
         return parent::beforeAction($action);
@@ -72,75 +72,6 @@ class PagesController extends AjaxController
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
         ]);
-    }
-
-    public function actionChangeTariff($type = null)
-    {
-        $user = Yii::app()->user->data();
-        $type = Yii::app()->request->getParam('type');
-
-        $tariff = Tariff::model()->findByAttributes(['slug' => $type]);
-
-        // is Tariff exist
-        if (null == $tariff) {
-
-            $this->redirect('/static/tariff');
-        }
-
-        // in release 1 - user can use "Lite" plan only
-        if (Tariff::SLUG_LITE != $type) {
-
-            $this->redirect('/static/tariff');
-        }
-
-        // is user authenticated
-        if (false == $user->isAuth()) {
-            $this->redirect('/registration');
-        }
-
-        // is Anonymous
-        if ($user->isAnonymous()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
-            ));
-            $this->redirect('/registration/choose-account-type');
-        }
-
-        // is Personal account
-        if ($user->isPersonal()) {
-            Yii::app()->user->setFlash('error',
-                "Выбор тарифа доступен только для корпоративных пользователей.<br/><br/>  ".
-                "Вы можете <a href='/logout/registration'>зарегистрировать</a> корпоративный профиль"
-            );
-            $this->redirect('/static/tariffs');
-        }
-
-        // is Corporate account
-        if($user->isCorporate()) {
-
-            // prevent cheating
-            if($user->getAccount()->tariff_id == $tariff->id) {
-
-                $this->redirect('/profile/corporate/tariff');
-            }
-
-            // update account tariff
-            $user->getAccount()->setTariff($tariff);
-            $user->getAccount()->save();
-
-            if($user->getAccount()->tariff_id == $tariff->id) {
-
-                $this->redirect('/profile/corporate/tariff');
-            }
-
-            $this->redirect("/profile/corporate/tariff");
-        }
-
-        // other undefined errors
-        Yii::app()->user->setFlash('error', sprintf(
-            "Ошибка системы. Обратитесь в владельцам сайта для уточнения причины."
-        ));
-        $this->redirect('/static/tariff');
     }
 
     /**
@@ -250,6 +181,11 @@ class PagesController extends AjaxController
         ]);
     }
 
+    public function actionTerms()
+    {
+        $this->renderPartial('terms');
+    }
+
     public function actionCharts()
     {
         $this->render('charts');
@@ -265,6 +201,7 @@ class PagesController extends AjaxController
 
         if (Yii::app()->request->getParam('Feedback')) {
             $model = new Feedback();
+            $model->addition = (new DateTime())->format("Y-m-d H:i:s");
             $model->attributes = Yii::app()->request->getParam('Feedback');
             if ($user->profile && $user->profile->email && empty($model->email)) {
                 $model->email = $user->profile->email;

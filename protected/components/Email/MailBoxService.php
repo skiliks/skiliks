@@ -137,6 +137,7 @@ class MailBoxService
         }
 
         // Добавим информацию о вложениях
+
         if (count($mailIds) > 0) {
             $attachments = MailAttachment::model()->byMailIds($mailIds)->findAll();
             foreach ($attachments as $attachment) {
@@ -257,7 +258,7 @@ class MailBoxService
      */
     public static function getMailPhrases(Simulation $simulation, $id = NULL)
     {
-        $phrases = array();
+        $phrases = [];
 
         if (NULL !== $id) {
             // получить код набора фраз
@@ -266,30 +267,18 @@ class MailBoxService
             // Если у нас прописан какой-то конструктор
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;
-                $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
-                if (null === $constructor) {
-                    $constructorNumber = 'B1';
-                    $constructor = $communicationTheme->game_type->getMailConstructor(['code' => $constructorNumber]);
-                }
-                // получить фразы по коду
-                $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
-
-                $list = array();
-                foreach ($phrases as $model) {
-                    $list[$model->id] = $model->name;
-                }
-                return $list;
+                $constructor = $simulation->game_type->getMailConstructor(['code' => $constructorNumber]);
             }
         }
 
-        // конструтор не прописан - вернем дефолтовый
-        if (count($phrases) == 0) {
+        if (empty($constructor)) {
             $constructor = $simulation->game_type->getMailConstructor(['code' => 'B1']);
+        }
+        if ($constructor) {
             $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
-        };
+        }
 
-        $list = array();
-
+        $list = [];
         foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }
@@ -304,9 +293,9 @@ class MailBoxService
     public static function getSigns($simulation)
     {
         $constructor = $simulation->game_type->getMailConstructor(['code' => 'SYS']);
-        $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
+        $phrases = $constructor ? MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]) : [];
 
-        $list = array();
+        $list = [];
         foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }
@@ -364,7 +353,7 @@ class MailBoxService
      * Получение списка тем
      * @param string $receivers
      */
-    public static function getThemes($receivers, $parentSubjectId = null)
+    public static function getThemes(Simulation $simulation, $receivers, $parentSubjectId = null)
     {
         if(empty($receivers)){
             return [];
@@ -399,8 +388,11 @@ class MailBoxService
             ]);
         }
 
-        foreach ($models as $model) {
-            $themes[(int)$model->id] = $model->getFormattedTheme();
+        foreach ($models as $theme) {
+            /* @var $theme CommunicationTheme */
+            if(false === $theme->isBlockedByFlags($simulation)) {
+                $themes[(int)$theme->id] = $theme->getFormattedTheme();
+            }
         }
 
         return $themes;
@@ -508,6 +500,9 @@ class MailBoxService
                 }
             }
         }
+
+        self::addToQueue($simulation, $mailModel);
+
 
         // copyMessageStructure }
 
@@ -671,7 +666,7 @@ class MailBoxService
         // update check MS email coincidence
         /** @var $log_mails LogMail[] */
         $log_mails = LogMail::model()->findAll(
-            "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `window` DESC, `id` DESC",
+            "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `end_time`",
             [
                 'mailId' => $mailId,
                 'simId'  => $simId
@@ -684,10 +679,7 @@ class MailBoxService
         $mail->save();
 
         // switch flag if necessary {
-        // @1229
-        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
-            FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
-        }
+        self::addToQueue($simulation, $mail);
         // switch flag if necessary }
 
         // update logs {
@@ -1229,4 +1221,19 @@ class MailBoxService
             EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
         }
     }
+
+    public static function addToQueue(Simulation $simulation, MailBox $mail){
+        // switch flag when receive email
+        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
+            $flag = Flag::model()->findByAttributes(['code'=>$mail->template->flag_to_switch]);
+            /* @var $flag Flag */
+            if($flag->getDelay() === 0){
+                FlagsService::setFlag($simulation, $mail->template->flag_to_switch, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
+
+        }
+    }
+
 }

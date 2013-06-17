@@ -3,7 +3,7 @@
   list-style:none;
   width:44px;
   height:100%;
-  margin:0 0 17px 0;
+  margin:0;
   float: right;
   li {
     width:23px;
@@ -59,6 +59,7 @@ a.dd-selected {
   box-shadow:1px 2px 8px rgba(0,0,0,0.75);
   width:588px;
   margin:20px auto 0;
+  /*overflow: scroll;*/
 }
 .dd-options {
   li {
@@ -117,6 +118,12 @@ a.dd-selected {
 #mailEmulatorNewLetterDiv {
   pre {
     font: 14px/16px orbi_sansregular;
+    color:blue;
+    padding:8px;
+    margin:8px !important;
+    border:1px solid gray;
+    background:#F5F5F5;
+    border-radius:4px;
 
     p {
       font: 14px/16px orbi_sansregular;
@@ -287,6 +294,7 @@ a.dd-selected {
     overflow-y: auto;
     padding: 7px 15px 15px 15px;
     height:516px;
+    margin:0;
   }
 }
 .previouse-message-text {
@@ -297,10 +305,14 @@ a.dd-selected {
   }
 }
 #MailClient_IncomeFolder_EmailPreview {
+  .mail-view-header {
+    /*height:auto;*/
+  }
   .readed-email-text {
     height: 154px !important;
     overflow-y: auto;
-    padding: 7px 15px 15px 15px
+    padding: 7px 15px 15px 15px;
+    margin:0;
   }
 }
 .ml-list {
@@ -319,9 +331,10 @@ a.dd-selected {
   border-left:none;
   width:100%;
   height:100%;
+  /*height:~"calc(100% - 220px)";*/
   background-color: white;
   .mail-view-header {
-    position:absolute;
+    /*position:absolute;*/
     table {
       border-spacing:7px 5px;
       td {
@@ -650,8 +663,9 @@ section.mail.new {
   }
 }
 #mailEmulatorNewLetterText {
-  padding: 10px;
-  width: 100%;
+  padding: 10px 10px 0 10px;
+  margin:0px;
+  /*width: 100%;*/
   display: inline-block;
   list-style: none;
   li {
@@ -1111,7 +1125,6 @@ section.mail.new {
       width:42vw; /* 530px */
       margin-top: 0px;
       min-width:530px;
-      overflow-y: scroll;
     }
     .mail-popup-text {
       border-top: 1px solid #564b37;
@@ -1227,14 +1240,14 @@ section.mail.new {
 }
 .mail-tags-words {
   list-style:none;
-  overflow-y:scroll;
+  overflow-y:auto;
   height: 100%;
-  margin:0 0 17px 0;
+  margin:0;
   box-sizing: border-box;
   li {
     display:inline-block;
     height:24px;
-    margin:3px 0 0 1px;
+    margin:3px 0 0 3px;
     a {
       display:block;
       background:url("../img/mail/bg-items.png") no-repeat 0 -48px;
@@ -1260,7 +1273,8 @@ section.mail.new {
   }
 }
 .mail-view-header {
-  border-bottom:1px solid #faf9f9;
+  border-bottom:1px solid #ccc;
+  /* border-bottom:1px solid #faf9f9; */
   background: #bfeab1;
   background: -moz-linear-gradient(top, #fff, #f3f0f0);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f3f0f0));
@@ -1272,7 +1286,8 @@ section.mail.new {
   -webkit-box-shadow: 0 1px 0 #ccc;
   box-shadow: 0 1px 0 #ccc;
   padding:2px 0;
-  position:absolute;
+  /*height:205px;*/
+  /*position:absolute;*/
   .dd-option {
     padding: 3px;
   }
@@ -1540,20 +1555,33 @@ section.mail {
   }
 }
 .mail-text-wrap {
-  height:100%;
-  padding: 210px 0px 217px 10px;
+  /*height:100%;
+  padding: 210px 0px 222px 10px;
+  min-height:50px; */
+  /*height:~"calc(100% - 430px)";*/
+  overflow-y:auto;
+  /*max-height:272px;*/
+  min-height:50px;
 
   .mail-text-area {
-    height:~"calc(100% - 426px)";
-    overflow-x:hidden;
-    overflow-y: scroll;
-    padding-right:10px;
-
+    /*height:~"calc(100% - 426px)";*/
+    /*overflow-x:hidden;
+    overflow-y:auto;*/
+    /*padding-right:10px;*/
     pre {
       margin-top:-24px;
     }
   }
+  padding: 199px 10px 217px;
 }
+.mail-text-area {
+  overflow: scroll;
+}
+
+.mail-text-wrap-max {
+  padding: 20px 0px 217px 10px;
+}
+
 .mail-new-text {
   width:100%;
   box-sizing: border-box;
@@ -1584,6 +1612,15 @@ section.mail {
         background-position:right -120px;
       }
     }
+  }
+  pre {
+    background:none;
+    border:none;
+    border-radius:0px;
+    margin:0 !important;
+    padding:0 0 0 15px;
+    font: 14px/16px orbi_sansregular;
+    color:#000000;
   }
 }
 .mail-emulator-received-list-sort-time {
@@ -1659,13 +1696,13 @@ table.ml-title {
 }
 .mail-tags-bl {
   border-top:2px solid #363636;
-  height:215px;
+  height:220px;
+  background-color: white;
   overflow:hidden;
   position: absolute;
   bottom: 0;
   left: -179px;
-  right: 0;
-  background-color: white;
+  right:0;
 }
 .mail-attach {
   font:14px 'orbi_sansregular';

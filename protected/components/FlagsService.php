@@ -61,15 +61,25 @@ class FlagsService
      */
     public static function getFlagsStateForJs(Simulation $simulation) {
         $result = [];
-
+        $stack = SimulationFlagQueue::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
             foreach (SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;
+                $result[$flag->flag]['time'] = self::getSwitchTime($stack, $flag);
             }
         }
         return $result;
+    }
+
+    public static function getSwitchTime($stack, $flag){
+        foreach($stack as $item){
+            if($item->flag_code === $flag->flag){
+                return $item->switch_time;
+            }
+        }
+        return null;
     }
 
     /**
@@ -149,7 +159,9 @@ class FlagsService
             'sim_id' => $simulation->id,
             'flag' => $flag
         ]);
-
+        if(empty($flag)){
+            throw new Exception(" Set empty flag ");
+        }
         if (null === $simulationFlag) {
             $simulationFlag         = new SimulationFlag();
             $simulationFlag->sim_id = $simulation->id;
@@ -217,6 +229,17 @@ class FlagsService
     /**
      * Получить список флагов диалогов в рамках симуляции
      * @param $simulation
+     * @param $flag_code
+     * @return array
+     */
+    public static function getFlag($simulation, $flag_code)
+    {
+        return SimulationFlag::model()->findByAttributes(['sim_id' => $simulation->id, 'flag'=>$flag_code]);
+    }
+
+    /**
+     * Получить список флагов диалогов в рамках симуляции
+     * @param $simulation
      * @return array
      */
     public static function getFlags($simulation)
@@ -228,6 +251,30 @@ class FlagsService
         }
 
         return $list;
+    }
+
+    public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
+
+        $queue = new SimulationFlagQueue();
+        $queue->sim_id = $simulation->id;
+        $queue->flag_code = $flag->code;
+        $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify("+{$flag->delay} minutes")->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
+        $queue->is_processed = SimulationFlagQueue::NONE;
+        $queue->save(false);
+
+    }
+
+    public static function checkFlagsDelay(Simulation $simulation) {
+
+        $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time <= :switch_time", [
+            'sim_id' => $simulation->id, 'switch_time' => $simulation->getGameTime(), 'is_processed' => SimulationFlagQueue::NONE
+        ]);
+        /* @var SimulationFlagQueue $flag */
+        foreach($flags as $flag) {
+            FlagsService::setFlag($simulation, $flag->flag_code, 1);
+            $flag->is_processed = SimulationFlagQueue::DONE;
+            $flag->update();
+        }
     }
 }
 

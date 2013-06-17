@@ -8,13 +8,6 @@
  */
 class F4_SK1413_P_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
-
     /**
      * testSK1413_P_Case1() тестирует задачу SKILIKS-1413
      *
@@ -31,35 +24,20 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
     public function testSK1413_P_Case1() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
+        $this->optimal_click('link=F32');
         sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.1');
-
-        //$this->transfer_time(0);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            $this->click("css=li.icon-active.phone a");
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-
-            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-            $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
-        }
-        else
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
+        $this->close();
     }
 
     /**
@@ -78,39 +56,22 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
     public function testSK1413_P_Case2() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.1');
-
-        //$this->transfer_time(0);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            $this->optimal_click("css=li.icon-active.phone a");
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-
-            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-            $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
-
-            $this->click("css=input.btn.btn-simulation-stop");
-        }
-        else
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
+        $this->close();
     }
 
     /**
@@ -129,37 +90,20 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
     public function testSK1413_P_Case3() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
+        $this->optimal_click('link=F32');
         sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.2');
-
-        //$this->transfer_time(0);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            $this->optimal_click("css=li.icon-active.phone a");
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-
-            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-            $this->assertTextPresent("Господи, и что же мне теперь делать");
-
-            $this->click("css=input.btn.btn-simulation-stop");
-        }
-        else
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
+        $this->close();
     }
 
     /**
@@ -178,38 +122,22 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
     public function testSK1413_P_Case4() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        $this->optimal_click('link=F32');
+        sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
-        sleep(5);
-        //$this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        sleep(10);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.2');
 
-        //$hours = $this->transfer_time(0);
-
-        if ($this->is_it_done("css=li.icon-active.phone a"))
-        {
-            $this->optimal_click("css=li.icon-active.phone a");
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-
-            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-            $this->assertTextPresent("Господи, и что же мне теперь делать");
-
-            $this->click("css=input.btn.btn-simulation-stop");
-        }
-        else
-        {
-            print ("The test crashed! This action couldn't be active in such situation!");
-        }
-
-        $this->click("css=input.btn.btn-simulation-stop");
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
+        $this->close();
     }
 }

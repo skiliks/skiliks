@@ -85,7 +85,7 @@ class ZohoDocuments
         $this->saveUrl = $zohoConfigs['saveUrl'];
         $this->xlsTemplatesDirPath = $zohoConfigs['xlsTemplatesDirPath']; //'documents/excel';
         $root = __DIR__ . '/../../../';
-        $this->templatesDirPath = $root . $zohoConfigs['templatesDirPath']; //'documents';
+        $this->templatesDirPath = realpath($root . $zohoConfigs['templatesDirPath']); //'documents';
         $this->zohoUrl = sprintf(
             $zohoConfigs['sendFileUrl'], // 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor'
             $this->apiKey
@@ -188,12 +188,17 @@ class ZohoDocuments
         $path = explode('-', $returnedId);
 
         if (2 !== count($path)) {
+            $f =  new Feedback();
+            $f->message = 'Wrong document id!';
+            $f->save(false);
+
             return 'Wrong document id!';
         }
 
-        $document = MyDocument::model()->findByPk($path[1]);
+        $document = MyDocument::model()->findByAttributes(['id' => $path[1]]);
+
         $document->is_was_saved = 1;
-        $document->save(false, ['is_was_saved']);
+        $document->save(false);
 
         $uuid = $document->uuid;
 
@@ -266,21 +271,20 @@ class ZohoDocuments
      * Копирование всех файлов для захо при старте симуляции
      */
     public static function copyExcelFiles($simId) {
-
         $zohoConfigs = Yii::app()->params['zoho'];
         // нужно на ORM
         $documents = MyDocument::model()->with('template')->findAllByAttributes(['sim_id' => $simId]);
         $path_zoho = __DIR__ . '/../../../'.$zohoConfigs['templatesDirPath'].'/';
+        $templateDir = __DIR__ . '/../../../' . $zohoConfigs['xlsTemplatesDirPath'] . '/';
 
         foreach($documents as $document){
-            $xls = __DIR__ . '/../../../'.$zohoConfigs['xlsTemplatesDirPath'].'/'.$document->template->srcFile;
-            if(file_exists($xls)){
-                copy($xls, $path_zoho.'/'.$document->uuid.'.'.$zohoConfigs['extExcel']);
+            if ($document->template->format === 'xls') {
+                $xls = $templateDir . $document->template->srcFile;
+                if (file_exists($xls)) {
+                    copy($xls, $path_zoho . '/' . $document->uuid . '.' . $zohoConfigs['extExcel']);
+                }
             }
-
         }
-
-
     }
 }
 

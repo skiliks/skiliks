@@ -132,10 +132,11 @@ define([
             var themeId = $(event.currentTarget).attr('data-theme-id');
             var contactId = $(event.currentTarget).attr('data-contact-id');
             this.options.model_instance.close();
+            SKApp.simulation.events.lockEvents('phone/call');
             SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.simulation.getGameTime()}, function (data) {
                 SKApp.simulation.getNewEvents();
                 if(data.params !== 'already_call'){
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'phone/call');
                 }else{
                     SKApp.simulation.mailClient.message_window = new SKDialogView({
                         'message':'Вы уже обсудили этот вопрос!',
@@ -150,6 +151,7 @@ define([
                         ]
                     });
                 }
+                SKApp.simulation.events.unlockEvents();
             });
 
         },

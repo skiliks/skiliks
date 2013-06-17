@@ -32,11 +32,11 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'frontendUrl' => 'http://front.skiliks.com/',
 
         'public' => [
-            'skiliksSpeedFactor' => 6,
-            'simulationStartTime' => '9:45',
+
         ],
         'zoho' => array(
-            'saveUrl'             => 'http://new.skiliks.com/zoho/saveExcel',
+            'saveUrl'             => 'http://skiliks.com/zoho/saveExcel',
+            'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a',
         ),
     )
 ));

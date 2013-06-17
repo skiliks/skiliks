@@ -10,17 +10,12 @@
  */
 class F1_SK1403_Test extends SeleniumTestHelper
 {
-    protected function setUp()
-    {
-        $this->setBrowser('firefox');
-        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
-        parent::setUp();
-    }
 
     public function testSK1403()
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        try {
         $this->run_event('S9', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $this->assertTrue($this->verify_flag('F1','1'));
@@ -29,16 +24,28 @@ class F1_SK1403_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
+        } catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
     }
 
     public function testSK1403_Case2()
     {
         //$this->markTestIncomplete();
-
         $this->start_simulation();
+        try {
         $this->run_event('S9', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем')])");
         $this->assertFalse($this->verify_flag('F1','1'));
+        } catch (Exception $e)
+        {
+            $this->fail($e);
+            $this->close();
+        }
+        $this->close();
     }
 }

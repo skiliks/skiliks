@@ -9,9 +9,13 @@
             <@ } @>
             <p class="visitor-name"><@=visit[0].title@></p>
             <div class="visitor-btn">
+                <@ if (undefined !== visit[1]) { @>
                 <a class="visitor-allow" data-dialog-id="<@=visit[1].id@>"><span><@=visit[1].text@></span></a><br>
+                <@ } @>
 
+                <@ if (undefined !== visit[2]) { @>
                 <a class="visitor-deny" data-dialog-id="<@=visit[2].id@>"><span><@=visit[2].text@></span></a><br>
+                <@ } @>
             </div>
         </div>
     </section>

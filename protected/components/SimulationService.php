@@ -480,7 +480,7 @@ class SimulationService
     /**
      * @param Simulation $simulation
      *
-     * @return array of EventTrigger
+     * @return EventTrigger[]
      */
     public static function initEventTriggers($simulation)
     {
@@ -492,19 +492,22 @@ class SimulationService
             ->byNotTerminatorCode()
             ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
 
-        $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
+        if (count($events) > 0) {
+            $sql = [];
+            foreach ($events as $event) {
+                $eventTime = $event->trigger_time ?: '00:00:00';
+                $sql[] = "({$simulation->id}, {$event->id}, '$eventTime')";
+            }
 
-        $add = '';
-        foreach ($events as $event) {
-            $eventTime = $event->trigger_time ?: '00:00:00';
-            $sql .= $add . "({$simulation->id}, {$event->id}, '$eventTime')";
-            $add = ',';
+            $sql = sprintf(
+                'INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES %s;',
+                implode(',', $sql)
+            );
+
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $command->execute();
         }
-        $sql .= ";";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->execute();
 
         return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);
     }
@@ -515,13 +518,10 @@ class SimulationService
      * @throws Exception
      * @return Simulation
      */
-    public static function simulationStart($invite, $simulationMode)
+    public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
-        if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
-            && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
-        ) {
-            throw new Exception('У вас нет прав для старта этой симуляции');
-        }else if(Simulation::MODE_DEVELOPER_LABEL == $simulationMode && $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)){
+        if ($simulationMode === Simulation::MODE_DEVELOPER_LABEL) {
+            if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
                 $user = $invite->receiverUser;
                 $scenario = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug]);
                 $invite->owner_id = $user->id;
@@ -531,14 +531,18 @@ class SimulationService
                 $invite->scenario_id = $scenario->id;
                 $invite->status = Invite::STATUS_ACCEPTED;
                 $invite->sent_time = time(); // @fix DB!
+                $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $invite->save(true, [
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
-
+            } else {
+                    throw new Exception('У вас нет прав для старта этой симуляции');
+            }
         }
+
 
         // TODO: Change checking logic
         if ($invite->scenario->slug == Scenario::TYPE_FULL
@@ -547,12 +551,22 @@ class SimulationService
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
 
+        if (null === $simulationType) {
+            $simulationType = $invite->scenario->slug;
+        }
+
+        if ($invite->scenario->slug == Scenario::TYPE_FULL && $simulationType == Scenario::TYPE_TUTORIAL) {
+            $scenarioType = Scenario::TYPE_TUTORIAL;
+        } else {
+            $scenarioType = $invite->scenario->slug;
+        }
+
         // Создаем новую симуляцию
         $simulation = new Simulation();
         $simulation->user_id = $invite->receiverUser->id;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug])->primaryKey;
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
         $simulation->save();
 
         // save simulation ID to user session
@@ -678,7 +692,7 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-        if ($simulation->isDevelopMode()) {
+        if ($simulation->isDevelopMode() || true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
             $simulation->checkLogs();
         }
 
@@ -727,7 +741,7 @@ class SimulationService
      */
     public static function setSimulationClockTime($simulation, $newHours, $newMinutes)
     {
-        $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
+        $speedFactor = $simulation->getSpeedFactor();
 
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->start);
         $variance = $variance * $speedFactor;
@@ -791,24 +805,34 @@ class SimulationService
 
     }
 
-    public static function simulationIsStarted($simulation, $gameTime) {
-
+    /**
+     * @param Simulation $simulation
+     * @param Scenario $gameTime
+     *
+     * @throws InviteException
+     */
+    public static function simulationIsStarted($simulation, $gameTime)
+    {
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
+
             $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
-            if(null === $invite){
-                throw new InviteException("Вы запустили более одной симуляции по одному инвайту");
-            }else if((int)$invite->status === Invite::STATUS_ACCEPTED){
+
+            if (null === $invite) {
+                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+                    throw new InviteException('Симуляция запущена без инвайта');
+                }
+            } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
                 $invite->status = Invite::STATUS_STARTED;
-                $invite->update();
+                $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate()) {
                     Yii::app()->user->data()->getAccount()->invites_limit--;
                     Yii::app()->user->data()->getAccount()->save(false);
                 }
-            }else if((int)$invite->status === Invite::STATUS_STARTED){
+            } else if((int)$invite->status === Invite::STATUS_STARTED) {
                 return;
-            }else{
-                throw new InviteException("Статус инвайта не может быть не STATUS_ACCEPTED или STATUS_STARTED");
+            } else {
+                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_STARTED. А он ".$invite->status);
             }
         }
 

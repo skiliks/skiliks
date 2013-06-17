@@ -8,8 +8,7 @@ require([
     'game/util/compatibility',
     'game/views/SKIntroView',
     'game/views/world/SKApplicationView',
-    'game/models/SKApplication',
-    'jquery/jquery-ui-1.8.24.custom'
+    'game/models/SKApplication'
 ], function(backbone, compatibility,SKIntroView, SKApplicationView, SKApplication) {
     "use strict";
 
@@ -19,9 +18,9 @@ require([
     if (compatibility.check(window.gameConfig)) {
         $(function () {
            var intro = new SKIntroView();
-           if($.cookie('intro_is_watched_2') === undefined || $.cookie('intro_is_watched_2') === null){
+           if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
                intro.show();
-           }else{
+           } else {
                intro.appLaunch();
            }
         });

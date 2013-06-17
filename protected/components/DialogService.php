@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Description of DialogService
  *
@@ -15,7 +12,7 @@ class DialogService
 
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-     
+        FlagsService::checkFlagsDelay($simulation);
         if ($dialogId == 0) {
             return
                 [
@@ -35,10 +32,7 @@ class DialogService
 
         EventService::deleteByCode($currentReplica->code, $simulation);
         // set flag 1, @1229
-        if (NULL !== $currentReplica->flag_to_switch) {
-            FlagsService::setFlag($simulation, $currentReplica->flag_to_switch, 1);
-        }
-
+        $this->setFlagByReplica($simulation, $currentReplica);
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
 
         if (false == FlagsService::isAllowToStartDialog($simulation, $currentReplica->code)) {
@@ -85,7 +79,6 @@ class DialogService
 
         if ($currentReplica->next_event_code != '' && $currentReplica->next_event_code != '-') {
             list($dialog, $data, $result) = $this->processNextReplica($currentReplica, $data, $simulation, $result, $gameTime);
-
         }
         else {
             // пробуем загрузить реплики
@@ -217,19 +210,41 @@ class DialogService
      * @param $gameTime
      * @return array
      */
-    public function processNextReplica($currentReplica, $data, $simulation, $result, $gameTime)
+    public function processNextReplica(Replica $currentReplica, $data, Simulation $simulation, $result, $gameTime)
     {
+
 // смотрим а не является ли следующее событие у нас диалогом
         // if next event has delay it can`t statr immediatly
-        $dialog = $simulation->game_type->getReplica(['code' => $currentReplica->next_event_code, 'step_number' => 1], ['order' => 'replica_number']);
+        $dialog = $simulation->game_type->getReplica([
+            'code' => $currentReplica->next_event_code,
+            'step_number' => 1
+        ], ['order' => 'replica_number']);
         $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
 
         // isDialog() Wrong!!!
         $isDialog = EventService::isDialog($currentReplica->next_event_code);
+        /* @var $currentReplica Replica */
+        // @2899
+        if( $this->isPlan($currentReplica->next_event_code) && (int)$currentReplica->is_final_replica === 0 ){
+            $isDialog = true;
+            $step_number = (int)$currentReplica->step_number + 1;
+            $dialog = $simulation->game_type->getReplica([
+                'code' => $currentReplica->code,
+                'step_number' => $step_number
+            ], ['order' => 'replica_number']);
 
-        if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
+            $next_event_code = $currentReplica->code;
+            EventsManager::waitEvent($simulation, $currentReplica->next_event_code, date("H:i:s", strtotime('+2 minutes', strtotime($gameTime))));
+        } else {
+            $next_event_code = $currentReplica->next_event_code;
+            $step_number = 1;
+        }
+
+        if ( null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay) ) {
             // сразу же отдадим реплики по этому событию - моментально
-            $dialogs = $simulation->game_type->getReplicas(['code' => $currentReplica->next_event_code, 'step_number' => 1]);
+            $dialogs = $simulation->game_type->getReplicas([
+                'code' => $next_event_code,
+                'step_number' => $step_number]);
             foreach ($dialogs as $dialog) {
                 $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
@@ -272,9 +287,7 @@ class DialogService
                 if (!EventService::isDialog($dialog['next_event_code'])) {
                     /** @var $replica Replica */
                     $replica = Replica::model()->findByPk($dialog['id']);
-                    if (NULL !== $replica->flag_to_switch) {
-                        FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
-                    }
+                    $this->setFlagByReplica($simulation, $replica);
                     // создадим событие
                     if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-') {
                         EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime, $replica->fantastic_result);
@@ -294,6 +307,17 @@ class DialogService
         if (!isset($matches[1][0])) return false;
         
         return $matches[1][0];
+    }
+
+    public function isPlan($code) {
+
+        preg_match_all("/([A-Z]+)(\d+)/", $code, $matches);
+
+        if(isset($matches[1][0]) && $matches[1][0] === 'P') {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -328,6 +352,26 @@ class DialogService
             'code'              => $dialog->code,
             'excel_id'          => $dialog->excel_id
         );
+    }
+
+    public function setFlagByReplica(Simulation $simulation, Replica $replica) {
+        if (NULL !== $replica->flag_to_switch && '' !== $replica->flag_to_switch) {
+            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch]);
+            if($flag->delay === '0'){
+                FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
+        }
+        if (NULL !== $replica->flag_to_switch_2 && '' !== $replica->flag_to_switch_2) {
+            $flag = Flag::model()->findByAttributes(['code'=>$replica->flag_to_switch_2]);
+            if($flag->delay === '0'){
+                FlagsService::setFlag($simulation, $replica->flag_to_switch_2, 1);
+            }else{
+                FlagsService::addFlagDelayAfterReplica($simulation, $flag);
+            }
+        }
+
     }
     
 }

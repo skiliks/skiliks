@@ -1,4 +1,4 @@
-/*global SKEvent:true, Backbone, SKConfig, SKApp*/
+/*global SKEvent:true, Backbone, SKConfig, SKApp, _, console, define */
 define([], function () {
     "use strict";
     /**
@@ -86,8 +86,8 @@ define([], function () {
                     my_replicas.push(replica);
                 }
             });
-            this.shuffle(my_replicas);
-            return my_replicas;
+
+            return _.shuffle(my_replicas);
         },
 
         /**
@@ -102,7 +102,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 video_src = video_src || replica.sound;
             });
-            if (!video_src.match(/\.webm$/)) {
+            if (null !== video_src && !video_src.match(/\.webm$/)) {
                 video_src = undefined;
             }
             return video_src ? SKApp.get('storageURL') + '/videos/' + video_src : undefined;
@@ -120,7 +120,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 img_src = img_src || replica.sound;
             });
-            if (!img_src.match(/\.jpeg$/)) {
+            if (null !== img_src && !img_src.match(/\.jpeg$/)) {
                 img_src = undefined;
             }
             return img_src ? SKApp.get('storageURL') + '/dialog_images/' + img_src : undefined;
@@ -157,7 +157,8 @@ define([], function () {
                     if (cb) {
                         cb(data);
                     }
-                    SKApp.simulation.parseNewEvents(data.events);
+                    console.log('parseNewEvents: ', data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 }
             });
         },
@@ -184,6 +185,7 @@ define([], function () {
             this.status = status;
             if (prev_status !== this.status && this.status === 'in progress') {
                 this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
+                console.log('event:' + this.getTypeSlug() + ':in_progress');
                 this.trigger('in progress');
             }
             if (this.status === 'completed') {
@@ -207,7 +209,8 @@ define([], function () {
                 'dialogId': dialogId,
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
-                SKApp.simulation.parseNewEvents(data.events);
+                // console.log('ignore: ', data.events);
+                SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 if (cb !== undefined) {
                     cb();
                 }
@@ -228,11 +231,12 @@ define([], function () {
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 if (data.result === 1) {
+                    console.log('selectReplica: ', data.events);
                     if (me.getStatus() !== 'completed') {
                         me.complete();
                         cb();
                     }
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                     SKApp.simulation.getNewEvents();
                 }
             });
@@ -248,10 +252,6 @@ define([], function () {
                 throw 'This event is already completed';
             }
             this.setStatus('completed');
-        },
-        shuffle:function( array ) {
-            for(var j, x, i = array.length; i; j = parseInt(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
-            return true;
         }
     });
     return SKEvent;

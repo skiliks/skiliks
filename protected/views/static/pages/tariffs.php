@@ -11,7 +11,7 @@ $lang = Yii::app()->getLanguage();
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price <?= $lang ?>">
-                <p><?= $lang == 'en' ? '$' : '' ?>
+                <p>
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
                     <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
                 <?php endif ?>
@@ -33,12 +33,18 @@ $lang = Yii::app()->getLanguage();
                     <?php endforeach ?>
                 </div>
 
-                <?php if($tariff->isUserCanChooseTariff($user)): ?>
+                <?php if ($tariff->isUserCanChooseTariff($user)): ?>
                      <div class="subscribe-ti-tariff">
                          <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
                      </div>
+                <?php else: ?>
+                    <div class="subscribe-ti-tariff">
+                        <a class="light-btn" href="/payment/order/<?= $tariff->slug ?>">
+                            <?php echo  Yii::t('site', 'Subscribe') ?>
+                        </a>
+                    </div>
                 <?php endif ?>
             </div>
         </div>
@@ -47,7 +53,7 @@ $lang = Yii::app()->getLanguage();
 
     <p class="text-right text16">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести
+        <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> чтобы приобрести
         <?php endif; ?>
     </p>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>

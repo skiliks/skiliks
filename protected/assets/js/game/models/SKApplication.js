@@ -1,7 +1,11 @@
 /*global Backbone:false*/
 var SKApplication;
 
-define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, SKSimulation) {
+define([
+    "game/models/SKServer",
+    "game/models/SKSimulation",
+    "game/models/SKTutorial"
+], function (SKServer, SKSimulation, SKTutorial) {
     "use strict";
     /**
      * Корневой класс нашей игры. Инстанциируется в начале игры и инстанс доступен под именем SKApp
@@ -17,6 +21,9 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
              * @return void
              */
             'initialize':function () {
+                if ('developer' === this.get('mode')) {
+                    this.set('skiliksSpeedFactor', this.get('skiliksDeveloperModeSpeedFactor'));
+                }
                 /**
                  * Ссылка на API-сервер
                  * @attribute server
@@ -24,7 +31,8 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
                  */
                 this.server = new SKServer();
 
-                this.simulation = new SKSimulation({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
+                var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
+                this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
             },
 
             run: function() {
@@ -43,6 +51,10 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
 
             isLite: function() {
                 return this.get('type') === 'lite';
+            },
+
+            isTutorial: function() {
+                return this.get('type') === 'tutorial';
             }
         });
 

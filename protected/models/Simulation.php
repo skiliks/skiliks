@@ -19,6 +19,7 @@
  * @property LogWindow[] $log_windows
  * @property LogActivityAction[] $log_activity_actions
  * @property LogActivityActionAgregated[] $log_activity_actions_aggregated
+ * @property LogActivityActionAgregated214d[] $log_activity_actions_aggregated_214d
  * @property LogMail[] $log_mail
  * @property LogDialog[] $log_dialogs
  * @property AssessmentCalculation[] $assessment_calculation
@@ -39,7 +40,7 @@
  */
 class Simulation extends CActiveRecord
 {
-    const SIMULATION_DAY_DATE = '04.10.2012';
+    const SIMULATION_DAY_DATE = '04.10.2013';
     
     const MODE_PROMO_ID       = 1;
     const MODE_DEVELOPER_ID   = 2;
@@ -109,7 +110,7 @@ class Simulation extends CActiveRecord
     public function getGameTime()
     {
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
-        $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
+        $variance = $variance * $this->getSpeedFactor();
 
         $startTime = explode(':', $this->game_type->start_time);
         $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
@@ -147,6 +148,7 @@ class Simulation extends CActiveRecord
             'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
             'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
             'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
             'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
@@ -259,27 +261,16 @@ class Simulation extends CActiveRecord
 
     public function checkLogs()
     {
-        $this->checkMailLogs();
-        $this->checkDialogLogs();
-        $this->checkActivityLogs();
-        $this->checkWindowLogs();
-        $this->checkActivityAggregatedLogs();
-        $this->checkUniversalLogs();
-        //$this->checkDayPlan();
+        if (Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
+            $this->checkMailLogs();
+            $this->checkDialogLogs();
+            $this->checkActivityLogs();
+            $this->checkWindowLogs();
+            $this->checkActivityAggregatedLogs();
+            $this->checkUniversalLogs();
+            $this->checkDayPlan();
+        }
     }
-
-//    public function checkDayPlan() {
-//        $logAt11oclockPresent = false;
-//        foreach ($this->log_day_plan as $logItem) {
-//            if (DayPlanLog::ON_11_00 == $logItem->snapshot_date) {
-//                $logAt11oclockPresent = true;
-//            }
-//        }
-//
-//        if (false === $logAt11oclockPresent) {
-//            throw new LogicException("Day plan hasn`t been logged at 11:00.");
-//        }
-//    }
 
     public function checkWindowLogs()
     {
@@ -288,7 +279,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty window end time WindowLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap WindowLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -310,7 +301,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time ActivityLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap ActivityLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -335,7 +326,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time ActivityAggregatedLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap ActivityAggregatedLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -396,7 +387,7 @@ class Simulation extends CActiveRecord
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time UniversalLogs");
             }
-            if ($unixtime && ($unixtime + 3 * Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
                 throw new Exception("Time gap UniversalLogs");
             }
             if ($unixtime > strtotime($log->start_time)) {
@@ -467,6 +458,13 @@ class Simulation extends CActiveRecord
         /* @var $scenario Scenario */
         return ($scenario->slug === Scenario::TYPE_FULL)?true:false;
 
+    }
+
+    public function getSpeedFactor()
+    {
+        return Yii::app()->params['public'][
+            $this->mode == self::MODE_DEVELOPER_ID ? 'skiliksDeveloperModeSpeedFactor' : 'skiliksSpeedFactor'
+        ];
     }
 
     /**

@@ -11,13 +11,13 @@
 
 <div class="container container-2">
     <header>
-<br>
-<br>
-<br>
+
+<h2>Skiliks: release 1.2</h2>
+
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
 <?php else: ?>
-    У Вас не выбран тип аккаунта.
+    У вас не выбран тип аккаунта.
 <?php endif; ?>
 
 <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
@@ -35,51 +35,16 @@
 
 <br>
 <br>
-<nav>
-    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
-        <a href="/registration/choose-account-type">
-            <?php echo Yii::t('site', 'Choose account type') ?>
-        </a>
-    <?php endif; ?>
-
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Начать симуляцию в режиме promo (lite)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Начать симуляцию в режиме promo (full)</a>
-
-    <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
-    <a href="/dashboard">
-        <?php echo Yii::t('site', 'Dashboard') ?>
-    </a>
-    <?php endif; ?>
-</nav>
-<br>
-<br>
-<br>
-<br>
 <?php if (Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
     Вы имеет доступ к опциям режима разработчика:
 
     <br><br>
 
     <nav>
-    <?php /*
-        <a href="/cheat/assessments/grid">Таблица оценок</a>
 
-        <br>
-        <br>
-        <br>
-    */ ?>
-    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
-        <a href="/registration/choose-account-type">
-            <?php echo Yii::t('site', 'Choose account type') ?>
-        </a>
-    <?php else: ?>
-        <a href="/cheats/cleanUpAccount">
-            <?php echo Yii::t('site', 'Reset account type') ?>
-        </a>
-    <?php endif; ?>
-
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Начать симуляцию (lite) в режиме developer</a>
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Начать симуляцию (full) в режиме developer</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
+    <a style="background-color: #2d7b91" href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Developer (tutorial)</a>
 
         <br>
         <br>
@@ -95,32 +60,10 @@
         <br>
         <br>
 
-<a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
-<a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
-
-        <br>
-        <br>
-        <br>
-
 <a href="/invite/add-10">Добавить себе 10 приглашений в корп. аккаунт</a>
-<a href="/admin">Старая "админка" - отображение таблиц с логами</a>
 
         <br>
         <br>
-        <br>
-
-        <hr>
-Свободные приглашения:
-<br/><br>
-<?php $invites = Invite::model()->findAllByAttributes(['status' => 0], ['limit'=>'5']); ?>
-<?php foreach ($invites as $invite) : ?>
-    <a href="/dashboard/accept-invite/<?php echo $invite->code ?>"?>Приглашение</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<?php endforeach ?>
-        <br>
-        <br>
-
-        <hr>
-
         <br>
 
 Смена тарифа:
@@ -134,23 +77,56 @@
 
         <br>
         <br>
+        <br>
 
-        <hr>
+    <a href="/static/cheats/listOfsubscriptions" style="background-color: #ffa73d">Список подписавшихся на рассылку</a>
+    <a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
 
         <br>
         <br>
+        <br>
 
-<a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
+    <a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
     </nav>
 
 <?php endif ?>
 
+<br/>
+<br/>
+<br/>
 
-<br>
+<h2 style="color: #3C747B;">Импортированные версии сценариев:</h2>
+
+<?php foreach ($scenarios as $scenario): ?>
+    <div><strong><?php echo $scenario->slug ?></strong>: <?php echo $scenario->filename ?></div><br/>
+<?php endforeach; ?>
 <br>
 
     </header>
     </div>
 
+<br/>
+<br/>
+<br/>
+
 <div style="float: none; clear: both; height: 100px;"></div>
+
+<br/>
+<br/>
+<br/>
+
+<form action="/zoho/saveExcel" method="post">
+    <input name="content_path" value="1">
+    <input type="submit" value="test" />
+</form>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+

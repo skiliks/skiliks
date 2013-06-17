@@ -45,30 +45,20 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionPersonalPersonalData()
     {
         $this->checkUser();
-
+        if(!$this->user->isPersonal()){
+            $this->redirect('/dashboard');
+        }
         $account = $this->user->account_personal;
         $profile = $this->user->profile;
 
         if (null !== Yii::app()->request->getParam('save')) {
             $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
             $YumProfile = Yii::app()->request->getParam('YumProfile');
-            $birthday = Yii::app()->request->getParam('birthday');
-
-            if (!empty($birthday['day']) || !empty($birthday['month']) || !empty($birthday['year'])) {
-                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
-                    $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
-                } else {
-                    $account->addError('birthday', Yii::t('site', 'Incorrect birthday'));
-                }
-            } else {
-                $account->birthday = null;
-            }
-
             $account->attributes = $UserAccountPersonal;
             $profile->firstname = $YumProfile['firstname'];
             $profile->lastname  = $YumProfile['lastname'];
-
-            $isAccountValid = $account->validate(null, false);
+            $account->setBirthdayDate($UserAccountPersonal['birthday']);//['day'],['month'],['year'] 1910 && (int)$birthday['year'] <= 2010
+            $isAccountValid = $account->validate(['birthday']);
             $isProfileValid = $profile->validate(['firstname', 'lastname']);
 
             if ($isProfileValid && $isAccountValid) {
@@ -102,6 +92,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporatePersonalData()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
 
         if (empty($this->user->account_corporate->is_corporate_email_verified)) {
             $this->redirect('/');
@@ -160,6 +154,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     {
         $this->checkUser();
 
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
@@ -193,6 +191,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionPersonalPassword()
     {
         $this->checkUser();
+
+        if(!$this->user->isPersonal()){
+            $this->redirect('/dashboard');
+        }
 
         $passwordForm = new YumUserChangePassword;
         $passwordForm->scenario = 'user_request';
@@ -243,6 +245,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporateCompanyInfo()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
 
         $account = $this->user->account_corporate;
 
@@ -300,6 +306,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     public function actionCorporateVacancies()
     {
         $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -308,20 +318,13 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 $vacancy = new Vacancy();
             }
         }
-        $specializations = [];
-
-        // handle send invitation }
-        if (!empty($vacancy->professional_specialization_id) AND !empty($vacancy->professional_occupation_id)) {
-            $specializations = StaticSiteTools::formatValuesArrayLite(
+        $specializations = StaticSiteTools::formatValuesArrayLite(
                 'ProfessionalSpecialization',
                 'id',
                 'label',
-                " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                false
+                "",
+                'Выберите уровень специализации'
             );
-        }
-
-        // positionLevels
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
             'slug',
@@ -341,6 +344,11 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionVacancyAdd()
     {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $errors = [];
 
         $vacancy = new Vacancy();
@@ -390,16 +398,14 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     /**
      *
      */
-    public function actionPersonalTariff()
-    {
-        $this->redirect('');
-    }
-
-    /**
-     *
-     */
     public function actionCorporateTariff()
     {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
         $this->render('tariff_corporate', []);
     }
 
@@ -416,16 +422,12 @@ class ProfileController extends AjaxController implements AccountPageControllerI
     /**
      *
      */
-    public function actionPersonalPaymentMethod()
-    {
-        $this->redirect('');
-    }
-
-    /**
-     *
-     */
     public function actionCorporatePaymentMethod()
     {
+        $this->checkUser();
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $this->render('payment_method_corporate', []);
     }
 
@@ -480,6 +482,10 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
     public function actionRemoveVacancy($id)
     {
+        $this->checkUser();
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
         $vacancy = Vacancy::model()->findByPk($id);
 
         if ($vacancy->user_id != Yii::app()->user->data()->id) {
@@ -497,8 +503,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         $vacancy->delete();
-
-        Yii::app()->user->setFlash('error', sprintf('Вакансия %s удалена.', $vacancy->label));
 
         $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
     }

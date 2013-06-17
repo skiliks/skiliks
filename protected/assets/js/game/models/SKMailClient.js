@@ -114,12 +114,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'NEW_EMAIL'
             ],
 
-            iconsForMailPreviewScreenArray:[
-                'REPLY_EMAIL',
-                'REPLY_ALL_EMAIL',
-                'FORWARD_EMAIL',
-                'ADD_TO_PLAN'
+            // - tutorial scenario:
+
+            iconsForTutorialScenarioFolderInbox: [
+                'ADD_TO_PLAN',
+                'MOVE_TO_TRASH'
             ],
+
+            iconsForTutorialScenarioFolderTrash:[
+                'ADD_TO_PLAN',
+                'RESTORE'
+            ],
+
+            iconsForTutorialScenarioFolderDrafts:[],
+
+            iconsForTutorialScenarioFolderSend:[],
 
             // --------------------------------------------------
 
@@ -485,6 +494,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var onSent = function () {
                     folder_to_load -= 1;
                     if (folder_to_load === 0) {
+                        // console.log('trigger init_completed');
                         me.trigger('init_completed');
                     }
                     return folder_to_load;
@@ -512,6 +522,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         me.updateInboxFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -533,6 +544,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -555,11 +567,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type: 1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         MailClientModel.updateSendedFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
                         }
-                        MailClientModel.trigger('mail:sent');
+                        MailClientModel.trigger('outbox:updated');
                     }
                 );
             },
@@ -577,6 +590,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
+                        console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -619,22 +633,20 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 this.setEmailsToFolder(this.aliasFolderTrash, messages);
             },
 
-            /**
-             * @method
-             * @param emails
-             * @returns {boolean}
-             */
-            setActiveEmailFromArray:function (emails) {
-                if (0 === emails.length) {
-                    this.activeEmail = undefined;
-                    return false;
-                }
-
-                for (var key in emails) {
-                    this.activeEmail = emails[key];
-                    return true;
-                }
-            },
+//            /**
+//             * dead code
+//             */
+//            setActiveEmailFromArray:function (emails) {
+//                if (0 === emails.length) {
+//                    this.activeEmail = undefined;
+//                    return false;
+//                }
+//
+//                for (var key in emails) {
+//                    this.activeEmail = emails[key];
+//                    return true;
+//                }
+//            },
 
             /**
              * @method
@@ -780,6 +792,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param attachmentId
              */
             saveAttachmentToMyDocuments:function (attachmentId) {
+                var me = this;
+
                 // call saveAttachment URL
                 SKApp.server.api(
                     'myDocuments/add',
@@ -789,21 +803,27 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (response) {
                         // and display message for user
                         if (response.result === 1) {
+                            if (response.status === true) {
+                                AppView.frame.icon_view.doSoundSaveAttachment();
+                            }
 
-                            SKApp.simulation.mailClient.message_window = new SKDialogView({
-                                'message':'Файл был успешно сохранён в папку Мои документы.',
-                                'buttons':[
-                                    {
-                                        'value':'Ок',
-                                        'onclick':function () {
-                                            delete SKApp.simulation.mailClient.message_window;
-                                            if(window.elfinderInstace !== undefined){
-                                                window.elfinderInstace.exec('reload');
-                                            }
+                            SKApp.simulation.once('documents:loaded', function() {
+                                if (window.elfinderInstace !== undefined) {
+                                    window.elfinderInstace.exec('reload');
+                                }
+
+                                new SKDialogView({
+                                    'message':'Файл был успешно сохранён в папку Мои документы.',
+                                    'buttons':[
+                                        {
+                                            'value':'Ок'
                                         }
-                                    }
-                                ]
+                                    ]
+                                });
+
+                                me.trigger('attachment:saved');
                             });
+
                             SKApp.simulation.documents.fetch();
                         } else {
                             throw 'Can not add document';
@@ -1194,11 +1214,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
+                            me.trigger('mail:sent');
                             me.getSendedFolderEmails(function () {
                                 if (callback !== undefined) {
                                     callback();
                                 }
-                                me.trigger('mail:sent');
                                 me.trigger('process:finish');
                             }); // callback is usually 'render active folder'
                         } else {

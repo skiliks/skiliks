@@ -3,10 +3,11 @@
 /**
  * Class YumProfile
  *
- * @param string $email
- * @param string $user_id
- * @param string $lastname
- * @param string $firstname
+ * @property string $email
+ * @property string $user_id
+ * @property string $lastname
+ * @property string $firstname
+ * @property YumUser $user
  */
 
 class YumProfile extends YumActiveRecord
@@ -32,10 +33,22 @@ class YumProfile extends YumActiveRecord
 
     public function getEmailAlreadyExistMessage()
     {
+
+        if(null === $this->id){
+            $profile = $this->findByAttributes(['email'=>$this->email]);
+            if(null === $profile){
+                throw new Exception("Profile by email {$this->email} not found!");
+            }else{
+                $id = $profile->id;
+            }
+
+        }else{
+            $id = $this->id;
+        }
         return Yii::t('site',  'Email already exists, but not activated.')
             . CHtml::link(
                 Yii::t('site','Send activation again'),
-                '/activation/resend/' . $this->id
+                '/activation/resend/' . $id
             );
     }
 

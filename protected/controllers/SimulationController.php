@@ -21,15 +21,19 @@ class SimulationController extends AjaxController
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
+        /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
         // check invite if it setted {
         $invite_id = Yii::app()->request->getParam('invite_id');
         $invite = Invite::model()->findByPk($invite_id);
 
+        $scenarioName = null;
+
         if (null == $invite) {
             if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
-                $type != Scenario::TYPE_LITE) {
+                $type !== Scenario::TYPE_LITE
+            ) {
                 throw new LogicException('You must have invite.');
             }
 
@@ -37,11 +41,14 @@ class SimulationController extends AjaxController
             $invite->scenario = new Scenario();
             $invite->receiverUser = Yii::app()->user->data();
             $invite->scenario->slug = Yii::app()->request->getParam('type');
+
+            $scenarioName = $invite->scenario->slug;
+        } else {
+            $scenarioName = $invite->scenario->slug;
         }
         // check invite if it setted }
 
-
-        $simulation = SimulationService::simulationStart($invite, $mode);
+        $simulation = SimulationService::simulationStart($invite, $mode, $type);
 
         if (null === $simulation) {
             $this->sendJSON(
@@ -53,9 +60,10 @@ class SimulationController extends AjaxController
 
         $this->sendJSON(
             array(
-                'result'      => 1,
-                'speedFactor' => Yii::app()->params['public']['skiliksSpeedFactor'],
-                'simId'       => $simulation->id
+                'result'       => 1,
+                'speedFactor'  => $simulation->getSpeedFactor(),
+                'simId'        => $simulation->id,
+                'scenarioName' => $scenarioName
             )
         );
     }
@@ -154,7 +162,7 @@ class SimulationController extends AjaxController
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
         // IF - to prevent cheating
-        if (null !== $invite && $invite->isAccepted() && false === $invite->scenario->isLite()) {
+        if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false);
             if (Yii::app()->user->data()->isCorporate()) {

@@ -74,6 +74,7 @@ class PlanAnalyzer {
          *
          * */
         $groupedLog = [];
+        $log_214d = [];
 
         $currentParentCode = null;
         $i = 0;
@@ -82,10 +83,22 @@ class PlanAnalyzer {
             $logItem->activityAction;
             $code = (null === $logItem->activityAction) ? null : $logItem->activityAction->activity->code;
 
+            // @for: SKILIKS-2754
             if ('plan' == $logItem->leg_action
                 || 'A_wait' == $code
                 || 'A_wrong_call' == $code
-                || '2_min' == $logItem->category) {
+                || '2_min' == $logItem->category
+                || 'D24' === $logItem->leg_action
+                || 'D27' === $logItem->leg_action
+                || 'D8' === $logItem->leg_action
+                || 'D20' === $logItem->leg_action
+                || 'D13' === $logItem->leg_action
+                || 'MSY10' === $logItem->leg_action
+                || 'D9' === $logItem->leg_action
+                || 'D2' === $logItem->leg_action
+                || 'D25' === $logItem->leg_action
+                || 'D26' === $logItem->leg_action
+            ) {
                 continue;
             }
 
@@ -101,7 +114,18 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
-                    'available'   => $parentAvailability ? $parentAvailability->available_at : null,
+                    'available'   => $this->parentAvailability($parentAvailability, $groupedLog),
+                ];
+                $log_214d[] = [
+                    'sim_id' => $logItem->sim_id,
+                    'leg_type' => $logItem->leg_type,
+                    'leg_action' => $logItem->leg_action,
+                    'activity_action_id' => $logItem->activity_action_id,
+                    'category' => $logItem->category,
+                    'start_time' => $logItem->start_time,
+                    'end_time' => $logItem->end_time,
+                    'duration' => $logItem->duration,
+                    'is_keep_last_category' => $logItem->is_keep_last_category,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
@@ -111,6 +135,108 @@ class PlanAnalyzer {
         }
 
         $this->logActivityActionsAggregatedGroupByParent = $groupedLog;
+
+        /* Log ActivityActionsAggregated214d */
+        foreach($log_214d as $log) {
+            $var_214d = new LogActivityActionAgregated214d();
+            $var_214d->sim_id = $log['sim_id'];
+            $var_214d->leg_type = $log['leg_type'];
+            $var_214d->leg_action = $log['leg_action'];
+            $var_214d->activity_action_id = $log['activity_action_id'];
+            $var_214d->category = $log['category'];
+            $var_214d->start_time = $log['start_time'];
+            $var_214d->end_time = $log['end_time'];
+            $var_214d->duration = $log['duration'];
+            $var_214d->is_keep_last_category = $log['is_keep_last_category'];
+            $var_214d->save();
+        }
+    }
+
+    public function parentAvailability($parentAvailability, $groupedLog) {
+        if($parentAvailability->code === 'T7b') {
+            $max_end_time = 0;
+
+            foreach($groupedLog as $log){
+                if($log['parent'] === "T7a" && !empty($log['end'])){
+                    $max_end_time = ($max_end_time < strtotime($log['end'])) ? strtotime($log['end']) : $max_end_time;
+                }
+            }
+            if(0 !== $max_end_time){
+                return (new DateTime())->setTimestamp($max_end_time)->add(new DateInterval("PT2H"))->format("H:i:s");
+            }
+        }
+
+        if($parentAvailability->code === 'TM8') {
+            $startTimes = [];
+
+            // when parent logged at first {
+            $parentTM8activityIds = [];
+
+            $activities = Activity::model()->findAllByAttributes([
+                'parent'      => 'TM8',
+                'scenario_id' => $this->simulation->game_type->id
+            ]);
+            foreach ($activities as $activity) {
+                $parentTM8activityIds[] = $activity->id;
+            }
+
+            $parentTM8activityLogsIds = [];
+
+            $activityActions = ActivityAction::model()->findAll(
+                ' activity_id IN ('.implode(',', $parentTM8activityIds).')',[]
+            );
+
+            foreach ($activityActions as $activityAction) {
+                $parentTM8activityActionIds[] = $activityAction->id;
+            }
+
+            $parentTM8firstLog = LogActivityActionAgregated::model()->find([
+                'condition' => ' `t`.`sim_id` = :sim_id AND `t`.`activity_action_id` IN ('.implode(', ', $parentTM8activityActionIds).')',
+                'params' => [
+                    'sim_id' => $this->simulation->id,
+                ],
+                'order' => 'start_time ASC'
+            ]);
+
+            if (null !== $parentTM8firstLog) {
+                $startTimes[] = strtotime($parentTM8firstLog->start_time);
+            }
+
+            // when parent logged at first }
+
+            // when M8 read {
+            $mail_template = $this->simulation->game_type->getMailTemplate(['code'=>"M8"]);
+
+            if(null !== $mail_template){
+                $m8 = MailBox::model()->findByAttributes([
+                    'template_id' => $mail_template->id,
+                    'sim_id'      => $this->simulation->id
+                ]);
+
+                if(null !== $m8){
+                    $log_mail = LogMail::model()->findByAttributes([
+                        'mail_id' => $m8->id,
+                        'sim_id'  =>  $this->simulation->id
+                    ]);
+
+                    if(null !== $log_mail){
+                        $startTimes[] = strtotime($log_mail->start_time);
+                    }
+                }
+            }
+            // when M8 read }
+
+            // get ET8 start time {
+            $dialog = $this->simulation->game_type->getDialog(['code'=>'ET8']);
+            $startTimes[] = strtotime($dialog->start_time);
+            // get ET8 start time }
+
+            // return minimum of [TM8 first log, M8 read time, ET8 start time]
+            return (new DateTime())->setTimestamp(min($startTimes))->format("H:i:s");
+
+        }
+
+        return $parentAvailability ? $parentAvailability->available_at : null;
     }
 
     /**

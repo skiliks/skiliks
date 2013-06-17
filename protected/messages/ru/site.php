@@ -29,6 +29,7 @@ return array(
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
     'Start using it now for free' => 'Получить бесплатный доступ',
+    'Back to homepage' => 'Вернуться на главную',
     'Easiest' => 'Самый простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',
@@ -168,7 +169,7 @@ return array(
     'Vacancy is required' => 'Выберите вакансию',
     'Theme is required' => 'Выберите тему',
     'Message is required' => 'Введите сообщение',
-    'Add vacancy in your profile' => 'Введите вакансию в Профиле',
+    'Add vacancy in your profile' => 'Добавьте вакансиию',
     'You cannot send invite to yourself' => 'Вы не можете отправить инвайт себе',
     'User with this email does not exist' => 'Отсутствующий email',
     'Enter Email address' => 'Введите e-mail',
@@ -209,9 +210,10 @@ return array(
 
     'Pending' => 'в ожидании',
     'Accepted' => 'подтверждено',
-    'Completed' => 'завершено',
-    'Declined' => 'отвергнуто',
+    'Completed' => 'готово',
+    'Declined' => 'отклонено',
     'Started'  => 'начато',
+    'Expired' => 'просрочено',
 
     'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',
@@ -236,8 +238,7 @@ return array(
     'Vacancy' => 'Вакансия',
     'Status' => 'Статус',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
-    'Pricing & Plans' => 'Тарифы',
-    'Pricing & Plans' => 'Тарифы',
+    'Pricing & Plans' => 'Цены и тарифы',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
@@ -248,7 +249,7 @@ return array(
     'Failure cause' => 'Причина отказа',
     'Confirmation' => 'Подтверждение',
     'Sign up' => 'Зарегистрироваться',
-    'Enter email' => 'Введите Ваш email',
+    'Enter email' => 'Введите ваш email',
 
     'Next' => 'Вперед',
     'Previous' => 'Назад',
@@ -334,7 +335,6 @@ return array(
     'Reasonably accepts visits' => 'Целесообразный прием посетителей',
     'Effectively processes meeting outcomes' => 'Эффективная обработка результатов встречи',
 
-
     'Back' => 'Назад',
     'Next' => 'Вперед',
 
@@ -364,7 +364,7 @@ return array(
     'Other' => 'Прочее',
     'Industry' => 'Отрасль',
     'Professional area' => 'Профессиональная сфера',
-    'Position level is required' => 'Уровень позиции это обязательное поле',
+    'Position level is required' => 'Выберите уровень позиции',
     'Position level' => 'Уровень позиции',
 
     'Product features' => 'Возможности продукта',
@@ -380,4 +380,18 @@ return array(
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
+    'Please contact us' => 'Пожалуйста свяжитесь с нами',
+
+    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
+    'Accept terms of conditions' => 'Вы должны согласиться с условиями',
+    'INN is required' => 'Введите ИНН',
+    'CPP is required' => 'Введите КПП',
+    'Account number is required' => 'Введите расчётный счёт',
+    'BIC is required' => 'Введите БИК',
+    'Wrong INN' => 'Введите верный ИНН',
+    'Wrong CPP' => 'Введите верный КПП',
+    'Wrong account number' => 'Введите рублёвый счёт',
+    'Wrong BIC' => 'Введите верный БИК',
+
+    'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );

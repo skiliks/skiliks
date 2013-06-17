@@ -67,6 +67,7 @@
 <script type="text/javascript">
     $(function() {
         setTimeout(function() {
+            $(".gauge-charts").html('');
             var r = Math.round;
 
             new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
