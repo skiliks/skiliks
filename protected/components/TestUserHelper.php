@@ -112,7 +112,7 @@ class TestUserHelper
         }else{
             $_SERVER['HTTP_HOST'] = $temp;
         }
-        return $host;
+        return str_replace('/usr/bin', '', $host); //
     }
 
     public static function getHost($url){
