@@ -208,6 +208,6 @@ class Invoice extends CActiveRecord
     }
 
     public function getValidationAction() {
-        return ($this->is_verified === 1)?"admin_area/order/unchecked?order_id={$this->id}":"admin_area/order/checked?order_id={$this->id}";
+        return ($this->is_verified === 1)?"/admin_area/order/unchecked?order_id={$this->id}":"/admin_area/order/checked?order_id={$this->id}";
     }
 }
