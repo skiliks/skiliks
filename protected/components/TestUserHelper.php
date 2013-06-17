@@ -102,7 +102,25 @@ class TestUserHelper
         if(null === $profile){
             throw new Exception(" User not found ");
         }
+
+        $temp = (isset($_SERVER['HTTP_HOST']))?$_SERVER['HTTP_HOST']:null;
+        $_SERVER['HTTP_HOST'] = self::getHost(Yii::app()->params['frontendUrl']);
         /* @var $profile YumProfile */
-        return $profile->user->getActivationUrl();
+        $host = $profile->user->getActivationUrl();
+        if($temp){
+            unset($_SERVER['HTTP_HOST']);
+        }else{
+            $_SERVER['HTTP_HOST'] = $temp;
+        }
+        return $host;
+    }
+
+    public static function getHost($url){
+        preg_match('@^(?:http://)?([^/]+)@i',
+            $url, $matches);
+        $host = $matches[1];
+
+        //preg_match('/[^.]+\.[^.]+$/', $host, $matches);
+        return $host;
     }
 }
