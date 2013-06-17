@@ -15,6 +15,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property string $comment
+ * @property integer $is_verified
  *
  * The followings are the available model relations:
  * @property Tariff $tariff
@@ -26,6 +27,9 @@ class Invoice extends CActiveRecord
     const STATUS_PAID     = 'paid';
     const STATUS_REJECTED = 'rejected';
     const STATUS_EXPIRED  = 'expired';
+
+    const CHECKED = 1;
+    const UNCHECKED = 0;
 
     public $agreeWithTerms = false;
 
