@@ -200,7 +200,7 @@ class Invoice extends CActiveRecord
     }
 
     public function getValidationStatusBtn() {
-        return ($this->is_verified === 1)?'btn-danger':'btn-success';
+        return ($this->is_verified === 1)?'btn-success':'btn-danger';
     }
 
     public function getValidationStatusLabel() {
