@@ -47,7 +47,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         $this->type('css=#user-account-corporate-form > div.row > div.field > #UserAccountCorporate_corporate_email', $korp_email);
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Войти')])");
+        $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
 
         //раскоментить, когда будут правильные тексты
         //$this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Корпоративный')])"));
