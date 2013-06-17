@@ -216,9 +216,9 @@ class Invoice extends CActiveRecord
     }
 
     public function getStatusBtn() {
-        if($this->status === self::STATUS_PENDING){
+        if($this->status === self::STATUS_PAID){
             return '';
-        }elseif($this->status === self::STATUS_PAID){
+        }elseif($this->status === self::STATUS_PENDING){
             return 'btn-success';
         }else{
             return 'btn-danger';
