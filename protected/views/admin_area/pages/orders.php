@@ -49,7 +49,7 @@
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
             <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
-            <td><a class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
+            <td><a href="<?=$model->getValidationAction()?>" class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
         </tr>
         <? endforeach ?>
         </tbody>
