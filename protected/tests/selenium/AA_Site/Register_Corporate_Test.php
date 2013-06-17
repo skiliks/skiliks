@@ -39,7 +39,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь,')])");
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_firstname",'test-name');
-        $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-name');
+        $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-surname');
 
         $korp_email = "gty1991+";
         $korp_email .= (string)rand(1, 10000)+(string)rand(1,500);
@@ -49,9 +49,11 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         $this->optimal_click("xpath=//div[1]/div[1]/section/div[2]/form/div[3]/div/div/a[2]");
         sleep(2);
-        $this->optimal_click("xpath=(//*[contains(text(),'Агропромышленный')])");
+        $this->optimal_click("xpath=/div[1]/div[1]/section/div[2]/form/div[3]/div/div/ul/li[2]/a");
 
         $this->optimal_click("xpath=(//*[contains(text(),'Войти')])");
+
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Корпоративный')])"));
         $this->close();
     }
 }
