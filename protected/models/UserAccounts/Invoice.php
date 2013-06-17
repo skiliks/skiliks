@@ -196,7 +196,7 @@ class Invoice extends CActiveRecord
     }
 
     public function getValidationStatusBtnText() {
-        return ($this->is_verified === 1)?'Валидный':'Невалидный';
+        return ($this->is_verified === 1)?'Невалидный':'Валидный';
     }
 
     public function getValidationStatusBtn() {
