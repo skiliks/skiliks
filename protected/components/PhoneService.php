@@ -264,6 +264,7 @@ class PhoneService {
                      )
                 );
             } else {
+
                 // у нас есть событие
                 // сгенерируем событие
 
@@ -285,6 +286,10 @@ class PhoneService {
                     ];
 
                 } else {
+                    //Логируем комм. темы
+                    $themeService = new CommunicationThemeService();
+                    $themeService->addToTheLogUsed($simulation, $themeId);
+
                     $data = self::getReplicaByCode($eventCode, $simulation);
                     PhoneService::registerOutgoing($simulation->id, $characterCode, $time, $themeId);
                     return [
