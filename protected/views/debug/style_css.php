@@ -77,7 +77,7 @@ body {
         <input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255">
     </div>
 
-    <div class="row wide">
+    <div class="row wide" style="position:relative">
         <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
         <div id="sbHolder_26848379" class="sbHolder">
             <a id="sbToggle_26848379" href="#" class="sbToggle"></a>

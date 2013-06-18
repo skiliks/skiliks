@@ -238,7 +238,18 @@ h2 {
 .row.buttons {
     padding-top: 15px;
 }
-
+.form-simple input[type="text"]::-webkit-input-placeholder {
+    color:#146672;
+}
+.form-simpleinput[type="text"]::-moz-placeholder {
+    color:#146672;
+}
+.form-simple input[type="text"]:-ms-input-placeholder {
+    color:#146672;
+}
+.form-simple  input[type="text"]:-moz-placeholder {
+    color:#146672;
+}
 /*  ************************ /FORM SIMPLE ************************  */
 /*  ************************ PADDINGS ************************/
 .pad30 {
