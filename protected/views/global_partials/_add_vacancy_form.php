@@ -22,7 +22,8 @@
     <?= CHtml::hiddenField('id', $vacancy->id) ?>
 <?php endif ?>
 
-    <div class="row shortSelector"><?php echo $form->labelEx($vacancy     , 'professional_occupation_id'); ?><?php echo $form->dropDownList(
+    <div class="row shortSelector"><?php echo $form->labelEx($vacancy     , 'professional_occupation_id'); ?>\
+        <?php echo $form->dropDownList(
             $vacancy,
             'professional_occupation_id',
             StaticSiteTools::formatValuesArrayLite(
@@ -32,7 +33,8 @@
                 '',
                 'Выберите отрасль'
             )
-        ); ?><?php echo $form->error($vacancy       , 'professional_occupation_id'); ?></div><div class="row">
+        ); ?>
+        <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?></div><div class="row">
         <?php echo $form->labelEx($vacancy     , 'position_level_slug'); ?>
         <?php echo $form->dropDownList($vacancy, 'position_level_slug', $positionLevels);
         echo $form->error($vacancy       , 'position_level_slug'); ?>
