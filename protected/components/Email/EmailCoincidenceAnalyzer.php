@@ -110,6 +110,11 @@ class EmailCoincidenceAnalyzer
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
 
+
+            //
+           $themeService = new CommunicationThemeService();
+           $themeService->addToTheLogUsed($this->userEmail->simulation, $this->userEmail->subject_id);
+
            unset($mailRecipientId);
            unset($mailCopyId);
            unset($mailAttachId);
