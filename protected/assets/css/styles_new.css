@@ -239,15 +239,27 @@ h2 {
     padding-top: 15px;
 }
 .form-simple input[type="text"]::-webkit-input-placeholder {
-    color:#146672;
+    color:#89b2b8;
 }
-.form-simpleinput[type="text"]::-moz-placeholder {
-    color:#146672;
+.form-simple input[type="text"]::-moz-placeholder {
+    color:#89b2b8;
 }
 .form-simple input[type="text"]:-ms-input-placeholder {
+    color:#89b2b8;
+}
+.form-simple input[type="text"]:-moz-placeholder {
+    color:#89b2b8;
+}
+.placehldrs-dark input[type="text"]::-webkit-input-placeholder {
     color:#146672;
 }
-.form-simple  input[type="text"]:-moz-placeholder {
+.placehldrs-dark input[type="text"]::-moz-placeholder {
+    color:#146672;
+}
+.placehldrs-dark input[type="text"]:-ms-input-placeholder {
+    color:#146672;
+}
+.placehldrs-dark input[type="text"]:-moz-placeholder {
     color:#146672;
 }
 /*  ************************ /FORM SIMPLE ************************  */
