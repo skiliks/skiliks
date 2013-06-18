@@ -203,8 +203,11 @@
     line-height: 10px;
 }
 .terms-confirm a {
-    color:#fff;
+    color:#0c707f;
     text-decoration: none;
+}
+.action-registration .terms-confirm a {
+    color: #fff;
 }
 .order-result {
     background: #f8f8e4;
