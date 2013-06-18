@@ -247,6 +247,7 @@ h3 {
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:24px;
+    font-size: 16px;
     padding: 14px 10px 14px 19px;
 }
 .form-simple input[type="text"]+input[type="text"] {
@@ -267,6 +268,9 @@ h3 {
 }
 .row.buttons, .row.wide+.row.wide {
     padding-top: 15px;
+}
+.rows-inline .row {
+    display: inline;
 }
 .form-simple input[type="text"]::-webkit-input-placeholder {
     color:#a6bcc0;
