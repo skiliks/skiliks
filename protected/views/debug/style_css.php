@@ -95,7 +95,19 @@ body {
             </ul>
         </div>
     </div>
-
+    <div class="row wide postn-reltv">
+        <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
+        <div id="sbHolder_26848379" class="sbHolder">
+            <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
+            <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
+            <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
+                <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
+                <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
+                <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
+                <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
 
 </form>
