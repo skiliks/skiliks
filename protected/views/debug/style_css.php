@@ -46,7 +46,7 @@ body {
 </ul>
 <div class="razdelitel"></div>
 
-    <h2 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h2>
+    <h1 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h1>
 
 <div class="razdelitel"></div>
     <div class="testblocks">
