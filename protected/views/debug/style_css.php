@@ -83,8 +83,7 @@ body {
     </div>
 
     <div class="row wide postn-reltv">
-        <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
-        <div id="sbHolder_26848379" class="sbHolder">
+        <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
             <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
             <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
             <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
@@ -96,8 +95,7 @@ body {
         </div>
     </div>
     <div class="row wide postn-reltv">
-        <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
-        <div id="sbHolder_26848379" class="sbHolder">
+        <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
             <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
             <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
             <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
