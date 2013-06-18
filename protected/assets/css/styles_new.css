@@ -251,14 +251,28 @@ h2 {
     color:#146672;
 }
 /*  ************************ /FORM SIMPLE ************************  */
-/*  ************************ PADDINGS ************************/
+/*  *************************** PADDINGS ****************************/
 .pad30 {
     padding: 30px;
 }
-/*  ************************ /PADDINGS ************************/
+/*  *************************** /PADDINGS ****************************/
+/*  *************************** POZITZIONIROVANIE ****************************/
+.postn-reltv {
+    position: relative;
+}
+.postn-absolt {
+    position: absolute;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+/*  *************************** /POZITZIONIROVANIE ****************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
 
-/* --------------- select ---------*/
+/*  ************************ SELECT ************************/
 .sbHolder {
     display:inline-block;
     background: #54c4d4;
@@ -378,3 +392,4 @@ h2 {
 .sbOptions .sbSub{
     padding-left: 17px;
 }
+/*  ************************ /SELECT ************************/
