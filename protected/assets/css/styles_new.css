@@ -376,7 +376,52 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
 }
 /*  *************************** /POZITZIONIROVANIE ****************************/
-/*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
+.social_networks {
+    float:right;
+    margin-top:10px;
+}
+.smallicons {
+    width:300px;
+}
+.smallicons .addthis_toolbox {
+    float: right;
+}
+.smallicons a {
+    background:url("../img/social-small.png") -100% -100% no-repeat;
+    width:28px !important;
+    height:27px !important;
+    margin-left:10px;
+}
+.smallicons>span {
+    display: inline-block;
+    text-align: right;
+    width: 115px;
+}
+.smallicons a.addthis_button_facebook {
+    background-position: -36px 0px;
+}
+.smallicons a.addthis_button_facebook:hover {
+    background-position: -36px -33px;
+}
+.smallicons a.addthis_button_twitter {
+    background-position: -71px 0px;
+    width:29px !important;
+}
+.smallicons a.addthis_button_twitter:hover {
+    background-position: -71px -33px;
+}
+.smallicons a.addthis_button_google_plusone_share {
+    background-position: -107px 0px;
+}
+.smallicons a.addthis_button_google_plusone_share:hover {
+    background-position: -107px -33px;
+}
+.smallicons a.addthis_button_linkedin {
+    background-position: -142px 0px;
+}
+.smallicons a.addthis_button_linkedin:hover {
+    background-position: -142px -33px;
+}
 
 /*  ************************ SELECT ************************/
 .sbHolder {
@@ -502,7 +547,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
 .site-header {
-    height: 104px;
+    height: 103px;
     margin: 0 auto;
     padding-top: 47px;
     position: relative;
@@ -553,3 +598,4 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:190px;
 }
 /*  ************************ /KABINET ************************/
+/*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
