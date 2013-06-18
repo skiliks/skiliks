@@ -143,19 +143,26 @@ a {
     background: #146672;
 }
 /* ************************ /Pager ************************ */
-/* ************************ !!!!!!!!!!! Pager FONT
-CUFON!!!!!!
-!!!!!!!!!!************************ */
+/* ************************ !!!!!!!!!!! Pager FONT CUFON!!!!!!!!!!!!!************************ */
 h1, h2, h3, h4 {
     font-family:"ProximaNova-Bold";
     font-weight: normal;
 }
-h2 {
-    font-size: 44px;
+h1 {
+    font-size:44px;
     color: #fff;
-    line-height: 52px;
+    line-height:52px;
 }
-
+h2 {
+    font-size:36px;
+    color: #fff;
+    line-height:52px;
+}
+h3 {
+    font-size:28px;
+    color: #fff;
+    line-height:38px;
+}
 /*  ************************ Menu ************************  */
 .menu-main li {
    display: inline;
