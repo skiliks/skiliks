@@ -244,8 +244,11 @@ h3 {
 .bg-rich-blue {
     background-color: #146672;
 }
-.bg-light-blue {
-     background-color: #f0fdff;
+.bg-light-blue { /*  example - bg popupa smenit parol */
+     background-color: #f3ffff;
+}
+.bg-lblue-rezlts {/*  example - bg rezultatov simulyatzii  */
+    background-color: #e8f7f7;
 }
 .bg-blue { /*  example - ostalos simulyatziy v dashboard */
     background-color: #51c1d2;
