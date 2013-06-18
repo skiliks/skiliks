@@ -195,17 +195,18 @@ h3 {
    display: inline;
    list-style-type: none;
 }
-.menu-main a {
-    display: block;
-    background: rgba(20,102,114,0.4);
-    border-radius: 3px;
+.menu-site a {
+    color: #fff;
+    display: inline-block;
     font-family: "ProximaNova-Regular";
     font-size: 18px;
-    color: #fff;
+    margin-left: 10px;
+    padding: 9px;
     text-decoration: none;
-    float: left;
-    margin: 0 0 0 10px;
-    padding: 0 9px;
+}
+.menu-main a {
+    background: rgba(20,102,114,0.4);
+    border-radius: 3px;
 }
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
