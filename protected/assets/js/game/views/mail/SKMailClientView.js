@@ -93,7 +93,6 @@ define([
 
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
-                '#MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
