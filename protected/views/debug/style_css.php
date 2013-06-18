@@ -23,7 +23,6 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
 body {
     background:#7cb8c2;
-    padding:0px 100px 100px;
 }
 .blockfortest, .testblocks div {
     display: inline-block;
@@ -39,19 +38,42 @@ body {
 
 </head>
 <body>
+<header class="site-header">
+    <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+    <nav class="menu-site menu-top" id="static-page-links">
+        <ul>
+            <li><a href="#">English</a></li>
+            <li><a href="#">Вход</a></li>
+        </ul>
+    </nav>
+    <nav class="menu-site menu-main">
+        <ul>
+            <li class="menu-link-active"><a href="/">Главная</a></li>
+            <li class="menu-link-regular"><a href="/static/team">О нас</a></li>
+            <li class="menu-link-regular"><a href="#">Цены</a></li>
+        </ul>
+    </nav>
+</header>
 
+<div style="padding: 0px 100px 100px;">
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
+
 <div class="razdelitel"></div>
+
 <div>
     <a href="#" class="btn btn-primary">Get access</a>
 </div>
+
 <div class="razdelitel"></div>
+
 <div>
     <a href="#" class="btn btn-site">Get access</a>
 </div>
+
 <div class="razdelitel"></div>
+
 <ul id="yw1" class="yiiPager"><li class="first hidden"><a href="/dashboard/corporate">&lt;&lt; начало</a></li>
     <li class="previous hidden"><a href="/dashboard/corporate">Назад</a></li>
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
@@ -59,6 +81,7 @@ body {
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
 </ul>
+
 <div class="razdelitel"></div>
 
     <h1 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h1>
@@ -76,14 +99,9 @@ body {
         <div class="bg-yellow border-primary""></div>
         <div class="bg-yellow-light border-large""></div>
     </div>
+
 <div class="razdelitel"></div>
-<nav class="menu-main">
-    <ul>
-        <li class="active"><a href="/">Главная</a></li>
-        <li><a href="/static/team">О нас</a></li>
-        <li><a href="#">Цены</a></li>
-    </ul>
-</nav>
+
 <div class="razdelitel"></div><div class="razdelitel"></div>
 <a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
 <div class="razdelitel"></div>
@@ -124,14 +142,16 @@ body {
 </div>
 
 <div class="razdelitel"></div>
-<div class="registrationform" style="float: left">
-    <form id="yum-user-registration-form" class="form-simple form-large">
-        <div class="block-border bg-transparnt rows-inline">
-            <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large font-xxlarge"></div>
-        </div>
-    </form>
-</div>
 
+    <div class="registrationform" style="float: left">
+        <form id="yum-user-registration-form" class="form-simple form-large">
+            <div class="block-border bg-transparnt rows-inline">
+                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large font-xxlarge"></div>
+            </div>
+        </form>
+    </div>
+
+</div>
 </body>
 
 <script type="text/javascript">
