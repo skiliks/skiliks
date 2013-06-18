@@ -308,11 +308,6 @@ define([
                 if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
                 ) {
-                    me.loadDocsDialog = new SKDialogView({
-                        'message': 'Пожалуйста, подождите, идёт загрузка документов',
-                        'modal': true,
-                        'buttons': []
-                    });
 
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
                         me.loadDocsDialog = new SKDialogView({
