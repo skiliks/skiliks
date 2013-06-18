@@ -66,7 +66,8 @@ body {
     </ul>
 </nav>
 <div class="razdelitel"></div><div class="razdelitel"></div>
-<div class="block-border bg-rich-blue border-large pad30">
+
+<div class="block-border bg-rich-blue border-large pad30 pull-left">
 <form id="invite-form" class="form-simple">
     <div class="row ">
         <label for="Invite_full_name">Имя</label>
@@ -77,11 +78,11 @@ body {
         <input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255">
     </div>
 
-    <div class="row wide" style="position:relative">
+    <div class="row wide postn-reltv">
         <label for="Invite_vacancy_id" class="required">Вакансия</span></label>
         <div id="sbHolder_26848379" class="sbHolder">
             <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-            <a id="sbSelector_26848379" href="#" class="sbSelector" style="border:1px solid red">aaa</a>
+            <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
             <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
                 <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
                 <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
