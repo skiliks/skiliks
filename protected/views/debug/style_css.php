@@ -51,8 +51,23 @@ body {
         </ul>
     </nav>
 </header>
+<div class="grid-container">
+    <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
+
+</div>
+
+
+
 
 <div style="padding: 0px 100px 100px;">
+
+    <div class="razdelitel"></div>
+
+
+    <h1 class="font-blue-dark">Самый простой</h1>
+    <h2 class="font-dark">Результативность</h2>
+    <h3 class="font-brown">Индивидуальный профиль</h3>
+
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
@@ -78,13 +93,6 @@ body {
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
 </ul>
-
-<div class="razdelitel"></div>
-
-    <h1 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h1>
-    <h1 class="font-blue-dark">Самый простой</h1>
-    <h2 class="font-dark">Результативность</h2>
-    <h3 class="font-brown">Индивидуальный профиль</h3>
 
 
 <div class="razdelitel"></div>
