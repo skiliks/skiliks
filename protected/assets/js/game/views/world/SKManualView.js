@@ -14,19 +14,21 @@ define(
         'text!game/jst/manual/contents.jst',
         'text!game/jst/manual/page2.jst',
         'text!game/jst/manual/page4.jst',
-        'text!game/jst/manual/page6.jst'
+        'text!game/jst/manual/page6.jst',
+        'text!game/jst/manual/page8.jst',
+        'text!game/jst/manual/page10.jst',
+        'text!game/jst/manual/page12.jst',
+        'text!game/jst/manual/page14.jst'
     ],
     function (
         SKWindowView,
-        frame, contents, page2, page4, page6
+        frame, contents, page2, page4, page6, page8, page10, page12, page14
     ) {
         "use strict";
 
         SKManualView = SKWindowView.extend({
 
             addClass: 'manual-window',
-
-            lastPage: '6',
 
             'events': _.defaults(
                 {
@@ -35,41 +37,46 @@ define(
                 SKWindowView.prototype.events
             ),
 
-            dimensions: {
-                width: 1000,
-                height: 605
-            },
-
             renderTitle: function (title) {
                 $(title).hide();
             },
 
             renderContent: function (content) {
-                content.html(_.template(frame));
+                var required = this.options.model_instance.get('required');
 
-                [contents, page2, page4, page6].forEach(function(tpl) {
+                content.html(_.template(frame, {
+                    'required': required
+                }));
+
+                [contents, page2, page4, page6, page8, page10, page12, page14].forEach(function(tpl) {
                     content.find('.flyleaf').append(_.template(tpl));
                 });
 
                 this.pages = content.find('.page');
                 this.closeBtn = content.find('.close-window');
+                content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
 
-                if (this.options.model_instance.get('required') === true) {
+                if (required) {
                     this.closeBtn.hide();
+                }
+
+                if ($.fn.tooltip.noConflict) {
+                    $.fn.tooltip.noConflict();
                 }
 
                 this.$el.tooltip({
                     tooltipClass: 'person-info-tooltip',
                     position: {
-                        my: 'left+20 top-50',
+                        my: 'left+10 top-50',
                         at: 'right center',
-                        collision: 'flipfit',
-                        within: content.find('.flyleaf')
+                        collision: 'flip',
+                        within: this.$el
                     },
                     show: {
                         effect: 'fade',
-                        delay: 300
+                        delay: 500
                     },
+                    hide: false,
                     items: '[data-refer-tooltip]',
                     content: function() {
                         var tooltipId = $(this).attr('data-refer-tooltip');
@@ -83,11 +90,21 @@ define(
                 e.preventDefault();
 
                 var page = $(e.currentTarget).attr('data-refer-page');
-                this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden');
+                var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
-                if (page === this.lastPage) {
+                this.$el.find('.pages .current').html(index + 1);
+                if (index + 1 === this.pages.length) {
                     this.closeBtn.show();
                 }
+            },
+
+            resize: function() {
+                var dimensions = [1060, 640];
+                if (window.innerWidth <= 1280 || window.innerHeight <= 750) {
+                    dimensions = [845, 510];
+                }
+
+                SKWindowView.prototype.resize.apply(this, dimensions);
             }
         });
 

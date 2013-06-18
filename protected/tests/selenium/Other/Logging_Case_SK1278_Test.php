@@ -29,15 +29,10 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $TH1 = array($s1, $m1);
 
         $this->write_email();
-
-        $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-        sleep(5);
-        $this->waitForVisible($krutko);
-        $this->mouseOver($krutko);
-        $this->optimal_click($krutko);
+        sleep(2);
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
-
         sleep(3);
 
         $this->optimal_click("css=.sim-window.planner-book-main-div .sim-window-content > div .btn-close button");
@@ -45,7 +40,7 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
         sleep(2);
-        $this->addAttach('Сводный бюджет_02_v23');
+        $this->addAttach('Сводный бюджет_2014_план');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'сохранить')])");
         sleep(2);
@@ -68,5 +63,6 @@ class LoggingCase_SK1278_Test extends SeleniumTestHelper
             $this->fail("Universal logs doesn't match with expected results!!!");
         }
 */
+        $this->close();
     }
 }

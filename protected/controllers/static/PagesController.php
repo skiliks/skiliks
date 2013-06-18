@@ -19,7 +19,7 @@ class PagesController extends AjaxController
             $user->data()->isActive() &&
             !$user->data()->isHasAccount()
         ) {
-            $this->redirect('/userAuth/chooseAccountType');
+            $this->redirect('/registration/choose-account-type');
         }
 
         return parent::beforeAction($action);
@@ -201,6 +201,7 @@ class PagesController extends AjaxController
 
         if (Yii::app()->request->getParam('Feedback')) {
             $model = new Feedback();
+            $model->addition = (new DateTime())->format("Y-m-d H:i:s");
             $model->attributes = Yii::app()->request->getParam('Feedback');
             if ($user->profile && $user->profile->email && empty($model->email)) {
                 $model->email = $user->profile->email;

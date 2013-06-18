@@ -55,7 +55,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes    = $YumProfile;
-            $this->user->is_check = (int)$YumUser['is_check'];
+            //$this->user->is_check = (int)$YumUser['is_check'];
             $this->user->setUserNameFromEmail($profile->email);
             $profile->updateFirstNameFromEmail();
 
@@ -365,7 +365,7 @@ class UserAuthController extends YumController
             if(null !== $UserAccountPersonal && null !== $YumProfile)
             {
                 $accountPersonal->attributes = $UserAccountPersonal; //$_POST['UserAccountPersonal'];
-                $isUserAccountPersonalValid = $accountPersonal->validate();
+                $isUserAccountPersonalValid = $accountPersonal->validate(['user_id', 'industry_id', 'professional_status_id']);
 
                 if($isUserAccountPersonalValid && $isProfileValid)
                 {
@@ -388,7 +388,7 @@ class UserAuthController extends YumController
                     // grands permission to start full simulation }
 
                     $profile->save();
-                    $accountPersonal->save();
+                    $accountPersonal->save(true, ['user_id', 'industry_id', 'professional_status_id']);
                     $this->redirect(['registration/account-type/added']);
                 }
             }
@@ -498,6 +498,27 @@ class UserAuthController extends YumController
             'to' => $user->profile->email,
             'subject' => 'Активация на сайте skiliks.com',
             'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
+                    'cid'      => 'mail-top-angela',
+                    'name'     => 'mailtopangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
+                    'cid'      => 'mail-bottom-angela',
+                    'name'     => 'mailbottomangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         );
         $sent = YumMailer::send($mail);
 
@@ -537,7 +558,7 @@ class UserAuthController extends YumController
 
         $body = $this->renderPartial('//global_partials/mails/verification', [
             'link' => $activation_url,
-            'name' => $user->getFormattedName()
+            'name' => $user->getFormattedFirstName()
         ], true);
 
         $mail = array(
@@ -545,6 +566,27 @@ class UserAuthController extends YumController
             'to'      => $user->getAccount()->corporate_email,
             'subject' => 'Регистрация корпоративного пользователя на skiliks.com',
             'body'    => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
+                    'cid'      => 'mail-top-angela',
+                    'name'     => 'mailtopangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
+                    'cid'      => 'mail-bottom-angela',
+                    'name'     => 'mailbottomangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         );
         $sent = YumMailer::send($mail);
 
@@ -572,7 +614,7 @@ class UserAuthController extends YumController
         );
 
         $body = $this->renderPartial('//global_partials/mails/recovery', [
-            'name' => $user->profile->firstname . ' ' . $user->profile->lastname,
+            'name' => $user->getFormattedFirstName(),
             'link' => $recoveryUrl
         ], true);
 
@@ -580,7 +622,28 @@ class UserAuthController extends YumController
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => $user->profile->email,
             'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
-            'body' => $body
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
         ];
 
         $sent = YumMailer::send($mail);
@@ -608,12 +671,22 @@ class UserAuthController extends YumController
             || $userAccountCorporate->is_corporate_email_verified) {
             $this->redirect('/');
         }
-
+        /* @var $userAccountCorporate->user YumUser */
+        /* @var $userAccountCorporate UserAccountCorporate */
         $userAccountCorporate->is_corporate_email_verified = 1;
         $userAccountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
         $userAccountCorporate->save(true, ['is_corporate_email_verified', 'corporate_email_verified_at']);
 
-        $this->redirect('/dashboard');
+        $login = new YumUserIdentity($userAccountCorporate->user->username, false);
+        $login->authenticate(true);
+        Yii::app()->user->login($login);
+
+        $redirect = Yii::app()->request->getParam('redirect', null);
+        if($redirect !== null){
+            $this->redirect('/'.$redirect);
+        }else{
+            $this->redirect('/dashboard');
+        }
     }
     
     /**
@@ -634,6 +707,9 @@ class UserAuthController extends YumController
      * (more than once)
      */
     public function actionActivation($email, $key) {
+
+        $email = trim($email);
+        $email = str_replace(' ', '+', $email);
 
         if (false === Yii::app()->user->isGuest && Yii::app()->user->data()->profile->email !== $email) {
             Yii::app()->user->setFlash(
@@ -671,7 +747,6 @@ class UserAuthController extends YumController
         // and do the Activation
         $status = YumUser::activate($email, $key);
 
-
         if($status instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
                 $login = new YumUserIdentity($status->username, false);
@@ -681,15 +756,17 @@ class UserAuthController extends YumController
 
             $this->render(Yum::module('registration')->activationSuccessView, ['user'=>$YumProfile->user]);
         } else {
-            $this->layout = false;
-            Yii::app()->user->setFlash(
-                (-1 == $status) ? 'error' : 'success',
-                $this->render(
-                    Yum::module('registration')->activationFailureView,
-                    array('error' => $status),
-                    true
-                )
-            );
+            if(Yii::app()->user->isGuest){
+                $this->layout = false;
+                Yii::app()->user->setFlash(
+                    (-1 == $status) ? 'error' : 'success',
+                    $this->render(
+                        Yum::module('registration')->activationFailureView,
+                        array('error' => $status),
+                        true
+                    )
+                );
+            }
             $this->redirect('/');
         }
     }
@@ -797,8 +874,9 @@ class UserAuthController extends YumController
                 ]);
 
                 Yii::app()->end();
-            }else{
-                $this->redirect('/fail-recovery');
+            } else {
+                Yii::app()->user->setFlash('notice', 'Пароль уже востановлен');
+                $this->redirect('/');
             }
         }
 
@@ -815,7 +893,7 @@ class UserAuthController extends YumController
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {
-                    Yii::app()->user->setFlash('recovery-popup', 'На Ваш email выслана инструкция по смене пароля.');
+                    Yii::app()->user->setFlash('recovery-popup', 'На ваш email выслана инструкция по смене пароля.');
                     if (!Yii::app()->request->getIsAjaxRequest()) {
                         $this->redirect('/');
                     } else {
@@ -830,11 +908,6 @@ class UserAuthController extends YumController
         $this->render('recovery', [
             'recoveryForm' => $recoveryForm
         ]);
-    }
-
-    public function actionFailRecovery()
-    {
-        $this->render('fail_recovery');
     }
 
 }

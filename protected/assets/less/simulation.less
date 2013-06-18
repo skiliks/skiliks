@@ -170,18 +170,6 @@ body {
 
   .time {
 
-    .delimiter {
-      -webkit-animation-name: blinker;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
-      -webkit-animation-duration: 1s;
-      -webkit-animation-name: blinker;
-      animation-iteration-count: infinite;
-      animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
-      animation-duration: 1s;
-      animation-name: blinker;
-    }
-
     .pause-control {
       /*
       cursor: pointer;
@@ -214,6 +202,34 @@ body {
         content: '\25BA';
       }
     }
+  }
+
+  .tutorial-mode {
+    font-size: 17px;
+    line-height: 26px;
+    color: #222;
+    text-shadow: 1px 1px 1px #444;
+
+    .start {
+      background: url(../img/main-screen/icon-start.png) no-repeat 0 0;
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      vertical-align: top;
+      margin-right: 5px;
+    }
+  }
+
+  .delimiter {
+    -webkit-animation-name: blinker;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
+    -webkit-animation-duration: 1s;
+    -webkit-animation-name: blinker;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
+    animation-duration: 1s;
+    animation-name: blinker;
   }
 
   .finish {

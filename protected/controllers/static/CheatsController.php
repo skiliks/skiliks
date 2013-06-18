@@ -25,7 +25,9 @@ class CheatsController extends AjaxController
             $this->redirect('/');
         }
 
-        $this->render('mainPage', []);
+        $this->render('mainPage', [
+            'scenarios' => Scenario::model()->findAll(),
+        ]);
     }
 
     /**
@@ -213,5 +215,76 @@ class CheatsController extends AjaxController
         $this->render('assessment_grid', [
             'data' => $data
         ]);
+    }
+
+    /**
+     * Логинит пользователя под ником asd@skiliks.com (тестовый пользователь)
+     * И перенаправляет к началу полной дев симуляции
+     *
+     * Для защиты от читтинга проверяем cookie со странным длинным именем и странным длинным названием
+     * cookie(cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds = 'dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9')
+     */
+    public function actionStartSimulationForFastSeleniumTest()
+    {
+        $cookies = Yii::app()->request->cookies;
+
+        if (false === isset($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds'])) {
+            Yii::app()->end();
+        }
+
+        if ($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds']->value !== 'dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9') {
+            Yii::app()->end();
+        }
+
+        $user = YumUser::model()->findByAttributes([
+            'username' => 'asd'
+        ]);
+
+        if (null === $user) {
+            throw new Exception('User not found.');
+        }
+
+        $login = new YumUserIdentity($user->username, false);
+        $login->authenticate(true);
+        Yii::app()->user->login($login);
+
+        $this->redirect('/simulation/developer/full');
+    }
+
+    /**
+     *
+     */
+    public function actionSaveZohoUsageStatus($value, $expireDate)
+    {
+        //  $value = Yii::app()->request->getParam('value');
+        $usages_today = $value;
+
+        if (null !== $usages_today) {
+            $file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'c');
+            $data = $usages_today . ' UDS, '. $expireDate;
+            $data = str_replace([ '___','__','_'],[' - ',', ',', '],$data);
+            fwrite($file, $data);
+            fclose($file);
+        }
+
+        Yii::app()->end();
+    }
+
+    /**
+     *
+     */
+    public function actionGetZohoUsageStatus()
+    {
+        @$file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'r');
+        if (null !== $file) {
+            $data = fread($file, 200);
+            fclose($file);
+
+            echo urldecode($data);
+        } else {
+            echo 'No statistic.';
+        }
+
+        Yii::app()->end();
     }
 }

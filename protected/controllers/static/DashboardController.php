@@ -65,13 +65,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             }
 
             $invite->message = sprintf(
-                'Компания %s является лидером российского рынка, ' .
-                'известна своим подходом к формированию профессиональной команды ' .
-                'и развитию сотрудников на рабочем месте.' .
-                "\n" .
-                'Вопросы относительно вакансии и прохождения симуляции вы можете ' .
-                'задать по адресу %s куратору вакансии %s.',
-                $this->user->account_corporate->company_name,
+                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
@@ -99,9 +93,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 ->findByAttributes(['slug' => Scenario::TYPE_FULL])
                 ->getPrimaryKey();
 
+            $invite->tutorial_scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
+                ->getPrimaryKey();
+
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
+                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->save();
                 $this->sendInviteEmail($invite);
 
@@ -374,6 +375,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
     {
         $this->checkUser();
         $invite = Invite::model()->findByPk($id);
+        /* @var $invite Invite */
         if (null == $invite) {
             $this->redirect('/dashboard');
         }
@@ -399,6 +401,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         // fix (NULL) receiver_id to make sure that simulation can start
         $invite->receiver_id = Yii::app()->user->data()->id;
         $invite->status = Invite::STATUS_ACCEPTED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status', 'receiver_id']);
 
         /* @flash
@@ -435,6 +438,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $invite->status = Invite::STATUS_DECLINED;
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status']);
 
         /* @flash
@@ -481,6 +485,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $declineExplanation->save();
 
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
+        $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $declineExplanation->invite->update(false, ['status']);
 
         // for unregistered user - redirect to homepage

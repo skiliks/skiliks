@@ -9,7 +9,8 @@ class YumUserLogin extends YumFormModel {
 	public $username;
 	public $password;
 	public $rememberMe;
-
+    public $user = null;
+    public $profile = null;
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
@@ -27,6 +28,10 @@ class YumUserLogin extends YumFormModel {
             array('username' , 'loginByUsername', 'on' => 'login', 'message' => Yii::t('site', 'Имя пользователя или неверный пароль')),
 			array('username', 'required', 'on' => 'openid'),
 			array('rememberMe', 'boolean'),
+            array('username', 'required', 'on' => 'login_admin', 'message' => Yii::t('site', 'Login (email) is required')),
+            array('username', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
+            array('password', 'required', 'on' => 'login_admin', 'message' => Yii::t('site', 'Password is required')),
+            array('username' , 'loginByUsernameAdmin', 'on' => 'login_admin', 'message' => Yii::t('site', 'Имя пользователя или неверный пароль')),
 		);
 
 		return $rules;
@@ -42,24 +47,42 @@ class YumUserLogin extends YumFormModel {
 
     public function loginByUsername() {
 
-        /* @var $user YumUser */
-        /* @var $profile YumProfile */
-        $profile = YumProfile::model()->findByAttributes(['email'=>$this->username]);
-        if(null !== $profile) {
-            $user = YumUser::model()->findByPK($profile->user_id);
-            if(null !== $user) {
-                if(YumEncrypt::encrypt($this->password, $user->salt) === $user->password){
+        /* @var $this->user YumUser */
+        /* @var $this->profile YumProfile */
+        $this->profile = YumProfile::model()->findByAttributes(['email'=>$this->username]);
+        if(null !== $this->profile) {
+            $this->user = YumUser::model()->findByPK($this->profile->user_id);
+            if(null !== $this->user) {
+                if(YumEncrypt::encrypt($this->password, $this->user->salt) === $this->user->password){
                     return true;
                 }else{
                     $this->addError('password', Yum::t('Неверный пароль'));
+                    return false;
                 }
             }else{
                 $this->addError('username', Yum::t('Неверный логин'));
+                return false;
             }
         }else{
             $this->addError('username', Yum::t('Неверный логин'));
+            return false;
         }
 
     }
 
-}
+    public function loginByUsernameAdmin() {
+        if($this->loginByUsername()){
+            /* @var $this->user YumUser */
+            /* @var $this->profile YumProfile */
+                if(null !== $this->user) {
+                    if($this->user->isAdmin()){
+                        return true;
+                    }else{
+                        $this->addError('password', Yum::t('Неверный пароль'));
+                        return false;
+                    }
+            }
+        }
+    }
+
+ }

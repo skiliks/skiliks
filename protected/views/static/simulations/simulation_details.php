@@ -26,7 +26,9 @@
             <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>
             <li><a href="#productivity"><?php echo Yii::t('site', 'Productivity') ?></a></li>
             <li><a href="#time-management"><?php echo Yii::t('site', 'Time management') ?></a></li>
-            <li><a href="#personal-qualities"><?php echo Yii::t('site', 'Personal qualities') ?></a></li>
+            <?php /* not in release 1.2
+                <li><a href="#personal-qualities"><?php echo Yii::t('site', 'Personal qualities') ?></a></li>
+            */ ?>
         </ul>
     </div>
 
@@ -66,10 +68,11 @@
         <div id="time-management-detail">
             <?php $this->renderPartial('partials/tab_time_management_detail', []) ?>
         </div>
-
+<?php /* not in release 1.2
         <div id="personal-qualities">
             <?php $this->renderPartial('partials/tab_personal_skills', ['simulation' => $simulation, 'learning_areas'=>$learning_areas]) ?>
         </div>
+    */ ?>
     </div>
 
     <div class="estmfooter">

@@ -5,11 +5,11 @@ var SKIconPanelView;
 
 define([
         "text!game/jst/world/icon_panel.jst",
-        "text!game/jst/audio/phone_call.jst"
+        "text!game/jst/world/audio.jst"
     ],
     function (
         icon_panel,
-        audio_phone_call
+        audio
     ) {
         "use strict";
         /**
@@ -66,10 +66,15 @@ define([
                     setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
                 });
 
-                this.listenTo(SKApp.simulation, 'audio-phone-small-zoom-stop', me.doSoundPhoneCallShortZoomerStop);
+                this.listenTo(
+                    SKApp.simulation,
+                    'audio-phone-small-zoom-stop',
+                    _.bind(me.doSoundPhoneCallShortZoomerStop, me)
+                );
 
                 var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
+                this.listenTo(todo_tasks, 'add', this.doSoundNewTodo);
 
                 var phone_history = SKApp.simulation.phone_history;
 
@@ -91,6 +96,7 @@ define([
              */
             onMailEvent: function (event) {
                 this.startAnimation('.mail');
+                this.doSoundIncomeMail();
             },
 
             /**
@@ -101,12 +107,17 @@ define([
              * @method onMailEvent
              */
             onMailSendEvent: function (event) {
-                console.log('is fantastic: ', event.get('fantastic'));
+                var me = this,
+                    mailClientView = SKApp.simulation.mailClient.view;
+
                 if (!event.get('fantastic')) {
-                    this.$('.mail').addClass('create-mail');
-                    this.startAnimation('.mail');
+                    if (mailClientView) {
+                        me.doNewMailStart();
+                    } else {
+                        me.$('.mail').addClass('create-mail');
+                        me.startAnimation('.mail');
+                    }
                 }
-                console.log(this.$('.mail').hasClass('create-mail'));
             },
 
             /**
@@ -167,7 +178,7 @@ define([
                         }
                     };
                 }
-                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getPhoneBounces(data));
+                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
 
                 me.doSoundPhoneCallInStart();
                 event.on('complete', function() {
@@ -193,11 +204,23 @@ define([
 
                 me.$('.door').attr('data-event-id', event.cid);
                 me.doBlockingPhoneIcon();
-                me.startAnimation('.door', function() {
-                    if (event.getStatus() === 'waiting') {
-                        event.setStatus('completed');
+
+                var data = event.get('data');
+                var callbackFunction = function() {
+                    if (undefined === data[2]) {
+                        // user can`t ignore visit
+                        if (event.getStatus() !== 'in progress') {
+                            event.setStatus('in progress');
+                        }
+                    } else {
+                        // user can ignore visit
+                        if (event.getStatus() === 'waiting') {
+                            event.setStatus('completed');
+                        }
                     }
-                });
+                };
+
+                me.startAnimation('.door', callbackFunction, me.getEventBounces(data));
 
                 me.doSoundKnockStart();
                 event.on('complete', function() {
@@ -221,7 +244,7 @@ define([
              * @param data
              * @returns {number}
              */
-            getPhoneBounces: function (data) {
+            getEventBounces: function (data) {
                 if (undefined === data[2]) {
                     return 2;
                 } else {
@@ -292,7 +315,7 @@ define([
                             bounce_counter--;
                             setTimeout(function () {
                                 if (el.hasClass('icon-active')) {
-                                    el.effect("bounce", {times: 3, direction: 'left'}, 400, bounce_cb);
+                                    el.effect("bounce", {times: 3, direction: 'left'}, 1000, bounce_cb);
                                 } else {
                                     me.icon_lock[selector] = false;
                                     if (end_cb !== undefined) {
@@ -370,87 +393,95 @@ define([
             },
 
             doSoundPhoneCallInStop: function() {
-                var me = this;
-                me.$el.find('#audio-phone-call').each(function() {
-                    if (this.pause !== undefined) {
-                        this.pause();
-                    }
-                    this.src = '';
-                });
-                me.$el.find('#audio-phone-call').remove();
+                window.AppView.frame.icon_view._stopSound('audio-phone-call');
             },
 
             doSoundPhoneCallInStart: function() {
-                var me = this;
-                me.doSoundPhoneCallInStop();
-                me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-phone-call',
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.1.ogg'
-                }));
-
-                if ('function' == typeof me.$el.find("#audio-phone-call")[0].play) {
-                    me.$el.find("#audio-phone-call")[0].play();
-                }
+                window.AppView.frame.icon_view._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
             },
 
             doSoundPhoneCallLongZoomerStop: function() {
-                var me = this;
-                $.each(me.$el.find('#audio-phone-long-zoom'), function() {
-                    this.pause();
-                });
-                me.$el.find('#audio-phone-long-zoom').remove();
+                window.AppView.frame.icon_view._stopSound('audio-phone-long-zoom');
             },
 
             doSoundPhoneCallLongZoomerStart: function() {
-                var me = this;
-                me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-phone-long-zoom',
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.2.ogg'
-                }));
-                me.$el.find("#audio-phone-long-zoom")[0].play();
+                window.AppView.frame.icon_view._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
             },
 
             doSoundPhoneCallShortZoomerStop: function() {
-                var me = this;
-                // @todo: later replace $() with me.$el.find()
-                $.each($('#audio-phone-short-zoom'), function() {
-                    this.pause();
-                });
-                $('#audio-phone-short-zoom').remove();
+                window.AppView.frame.icon_view._stopSound('audio-phone-short-zoom');
             },
 
             doSoundPhoneCallShortZoomerStart: function() {
-                var me = this;
-                me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-phone-short-zoom',
-                    audio_src : SKApp.get('storageURL') + '/sounds/phone/S1.4.3.ogg'
-
-                }));
-                me.$el.find("#audio-phone-short-zoom")[0].play();
+                window.AppView.frame.icon_view._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
             },
 
             doSoundKnockStart: function() {
-                var me = this;
-                me.doSoundKnockStop();
-                me.$el.append(_.template(audio_phone_call, {
-                    id        : 'audio-door-knock',
-                    audio_src : SKApp.get('storageURL') + '/sounds/visit/S1.5.1.ogg'
-                }));
-
-                if ('function' == typeof me.$el.find("#audio-door-knock")[0].play) {
-                    me.$el.find("#audio-door-knock")[0].play();
-                }
+                window.AppView.frame.icon_view._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
             },
 
             doSoundKnockStop: function() {
-                var me = this;
-                me.$el.find('#audio-door-knock').each(function() {
+                window.AppView.frame.icon_view._stopSound('audio-door-knock');
+            },
+
+            doSoundIncomeMail: function() {
+                window.AppView.frame.icon_view._playSound('mail/S1.1.1.ogg');
+            },
+
+            doSoundMailSent: function() {
+                this._playSound('mail/S1.1.2.ogg');
+            },
+
+            doSoundSaveAttachment: function() {
+                window.AppView.frame.icon_view._playSound('mail/S1.1.3.ogg');
+            },
+
+            doSoundNewTodo: function() {
+                window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
+            },
+
+            _playSound: function(filename, repeat, replay, id) {
+                var me = this,
+                    el;
+
+                id = id || 'sound' + Math.floor(Math.random() * 10000);
+
+                if (me.$el.find('#' + id).length && !replay) {
+                    return false;
+                }
+
+                me._stopSound(id);
+
+                me.$el.append(_.template(audio, {
+                    id        : id,
+                    repeat    : !!repeat,
+                    audio_src : SKApp.get('storageURL') + '/sounds/' + filename
+                }));
+
+                el = me.$el.find('#' + id)[0];
+                if ('function' === typeof el.play) {
+                    el.play();
+                    if (!repeat) {
+                        $(el).on('ended', function() {
+                            if (this.pause !== undefined) {
+                                this.pause();
+                            }
+                            this.src = '';
+                            $(this).remove();
+                        });
+                    }
+                }
+
+                return id;
+            },
+
+            _stopSound: function(id) {
+                this.$el.find('#' + id).each(function() {
                     if (this.pause !== undefined) {
                         this.pause();
                     }
                     this.src = '';
-                });
-                me.$el.find('#audio-door-knock').remove();
+                }).remove();
             },
 
             /**
@@ -492,29 +523,44 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
-                console.log('doNewMailStart', SKApp.simulation.mailClient);
-                this.$('.mail').removeClass('create-mail');
-                var simulation = SKApp.simulation;
-                if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-                    SKApp.simulation.mailClient.once('init_completed', function () {
-                        this.view.once('render_folder_finished', function () {
-                            console.log('this.renderWriteCustomNewEmailScreen()');
-                            SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
-                        });
+                var me = this,
+                    mailClient = SKApp.simulation.mailClient,
+                    mailClientView = mailClient.view,
+                    windowSet = SKApp.simulation.window_set;
+
+                if (e) {
+                    e.preventDefault();
+                }
+
+                this.$('.mail').removeClass('create-mail icon-active');
+                if (mailClientView && mailClientView.render_finished) {
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    mailClientView.renderWriteCustomNewEmailScreen();
+                } else if (mailClientView) {
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    mailClientView.once('render_folder_finished', function () {
+                        mailClientView.renderWriteCustomNewEmailScreen();
                     });
                 } else {
-                    SKApp.simulation.mailClient.view.renderWriteCustomNewEmailScreen();
+                    mailClient.once('init_completed', function () {
+                        this.view.once('render_finished', function () {
+                            this.renderWriteCustomNewEmailScreen();
+                        });
+                    });
+                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
                 }
-                this.doMailToggle(e);
             },
 
             /**
              * @method
-             * @param e
+             * @param event
              */
-            doMailToggle: function (e) {
-                console.log('doMailToggle');
-                e.preventDefault();
+            doMailToggle: function (event) {
+                //console.log('doMailToggle');
+                if (event) {
+                    event.preventDefault();
+                }
+
                 this.$('.mail').removeClass('icon-active');
 
                 // we need getActiveSubscreenName() because mailClient window subname changed dinamically

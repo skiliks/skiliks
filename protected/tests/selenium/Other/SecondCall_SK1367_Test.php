@@ -20,16 +20,8 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
         $this->optimal_click('link=F32');
-
-        sleep(5);
         $this->run_event('ET1.1',"css=li.icon-active.phone a",'click');
-        //$this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(1);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
@@ -45,13 +37,18 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
 
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
+        $this->clearEventQueueBeforeEleven('RST1');
+
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'двух часов тебе хватит')])");
-        sleep(1);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
+        $this->optimal_click("xpath=(//*[contains(text(),'Ну кто же так делает? Что же ты молчишь?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Мы же говорили, что в письмах людям выше тебя статусом')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
+        sleep(10);
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
         $this->waitForVisible('css=p.mail-popup-text');
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
+        $this->close();
     }
 }

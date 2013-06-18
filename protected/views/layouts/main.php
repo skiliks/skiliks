@@ -63,7 +63,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
                     </a>
                 </h1>
-
+                <div class="betaflag"></div>
 
                 <nav id="account-links">
                     <?php $this->renderPartial('//global_partials/_account_links', [
@@ -149,8 +149,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php $this->renderPartial('//global_partials/addthis', ['force' => false]) ?>
                     <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
-
-
+                    <p class="copyright">Copyright - Skiliks  - 2012</p>
+                    <?php if ('ru' == Yii::app()->getlanguage()): ?>
+                        <span class="help-contact-us">
+                            Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
+                        </span>
+                    <?php endif; ?>
                     <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>

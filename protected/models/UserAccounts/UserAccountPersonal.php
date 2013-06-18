@@ -57,6 +57,7 @@ class UserAccountPersonal extends CActiveRecord
 			array('user_id'                 , 'length'   , 'max'=>10),
 			array('location'                 , 'length'   , 'max'=>255),
 			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
+            array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id, professional_status_id,birthday,location', 'safe', 'on'=>'search'),
@@ -116,8 +117,39 @@ class UserAccountPersonal extends CActiveRecord
     /**
      * @return DateTime|null
      */
-    public function getBirthdayDate()
+    public function getBirthdayDate($format)
     {
-        return DateTime::createFromFormat('Y-m-d', $this->birthday) ?: null;
+        if(empty($this->birthday)){
+            return '';
+        }else{
+            return (new DateTime($this->birthday))->format($format);
+        }
+    }
+
+    public function setBirthdayDate($date)
+    {
+        $this->birthday = $date['year'].'-'.$date['month'].'-'.$date['day'];
+    }
+
+    public function validBirthday($attribute, $params) {
+
+            $date = explode('-', $this->attributes[$attribute]);
+            if(checkdate((int)$date[1], (int)$date[2], (int)$date[0])){
+                if(strtotime($this->attributes[$attribute]) >= strtotime('1910-01-01') && strtotime($this->attributes[$attribute]) <= strtotime('2010-01-01')) {
+                    return true;
+                }else{
+                    $this->birthday = null;
+                    $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
+                    $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));
+                    $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday'));
+                }
+            }else{
+                $this->birthday = null;
+                $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
+                $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));
+                $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday'));
+
+            }
+
     }
 }

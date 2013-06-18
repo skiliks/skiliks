@@ -1,4 +1,4 @@
-.simulation-result-popup {
+.simulation-result-popup, .terms-page {
     background: #e8f7f7;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
@@ -684,7 +684,7 @@
 .feedbackwrap .ui-widget-header .ui-state-focus {
     border: none;
 }
-.simulation-result-popup .ui-dialog-titlebar-close {
+.simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close {
     height: 27px;
     width:27px;
     margin: 0;
@@ -695,11 +695,13 @@
     background:url("../img/closepopup.png") no-repeat 0 0;
     z-index: 1000;
 }
-.simulation-result-popup .ui-dialog-titlebar-close:hover {
+.simulation-result-popup .ui-dialog-titlebar-close:hover,
+.terms-page .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
     border: none;
 }
-.simulation-result-popup .ui-dialog-titlebar-close span {
+.simulation-result-popup .ui-dialog-titlebar-close span,
+.terms-page .ui-dialog-titlebar-close span {
     display:none;
 }
 /*.simulation-result-popup .ui-widget-header .ui-icon,*/

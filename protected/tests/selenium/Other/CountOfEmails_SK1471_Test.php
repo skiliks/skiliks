@@ -9,7 +9,6 @@
 class CountOfEmails_SK1471_Test extends SeleniumTestHelper
 {
 
-
     /**
      * test_SK1471_Case() тестирует задачу SKILIKS-1471
      *
@@ -35,7 +34,7 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "01");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        sleep(30);
+        sleep(20);
         $this->assertTrue($this->incoming_counter(19));
 
 
@@ -44,6 +43,7 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(5);
         $this->assertTrue($this->incoming_counter(28));
+        $this->close();
 
     }
 }

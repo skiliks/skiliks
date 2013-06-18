@@ -32,36 +32,37 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[2]/td[2]");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['trash']);
         sleep(2);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
         sleep(5);
+
         //добавляем адресата
-        $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
-        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['krutko']);
+        $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");
+
         //тема
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
         //аттач 'Сводный бюджет',
-        $this->addAttach('Сводный бюджет_02_v23');
+        $this->addAttach('Сводный бюджет_2014_план');
 
         //КОПИЯ - не достучался
-
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
         sleep(2);
         $this->optimal_click("css=label.icon_DRAFTS");
         sleep(2);
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
-        //$this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[5]/td","Ценовая политика.xlsx");
 
         $this->optimal_click("link=отправить черновик");
         $this->optimal_click("css=label.icon_SENDED");
@@ -73,17 +74,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
-        sleep(5);
-
-       /* // выполняем проверку первого списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
-        $a = $this->Mail_log($log, sizeof($window));
-        // выполняем проверку второго списка в Юниверсал логах, передаем в юниверсал список и размер одного из массивов
-        $b = $this->Mail_log($log1, sizeof($window1));
-        // проверяем есть хотя бы одна проверка вернула true значит все ок и продолжнаем проверку далее
-        if (($a!=true)||($b!=true))
-        {
-            $this->fail("Mail log fail!!!");
-        }*/
+        $this->close();
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

@@ -185,7 +185,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 containerWidth = this.$container.width(),
                 containerHeight = this.$container.height(),
                 specifiedWidth = width || sd.width || sd.maxWidth || '100%',
-                specifiedHeight = height || sd.height || sd.minHeight || '100%',
+                specifiedHeight = height || sd.height || sd.maxHeight || '100%',
                 maxWidth, maxHeight, minWidth, minHeight;
 
             function percent2px(relation, value) {
@@ -197,10 +197,14 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
             if (sd.width) {
                 sd.minWidth = sd.maxWidth = sd.width;
+            } else if (width) {
+                sd.minWidth = sd.maxWidth = width;
             }
 
             if (sd.height) {
                 sd.minHeight = sd.maxHeight = sd.height;
+            } else if (height) {
+                sd.minHeight = sd.maxHeight = height;
             }
 
             rd.width = percent2px(containerWidth, specifiedWidth);

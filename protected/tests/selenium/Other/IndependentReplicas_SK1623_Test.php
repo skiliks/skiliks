@@ -21,15 +21,13 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
-        //$this->optimal_click("css=li.icon-active.phone a");
-
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
-
+        $this->close();
     }
 
 
@@ -49,15 +47,13 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
-        //$this->optimal_click("css=li.icon-active.phone a");
-
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
-
+        $this->close();
     }
 
 

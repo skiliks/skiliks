@@ -24,7 +24,9 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                  *
                  * @event server:error
                  */
-                this.trigger('server:error');
+                if (SKApp.get('isDisplayServer500errors')) {
+                    this.trigger('server:error');
+                }
             },
             'getAjaxParams': function (path, params, callback) {
                 var me = this;

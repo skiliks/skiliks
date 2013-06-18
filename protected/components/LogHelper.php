@@ -306,7 +306,7 @@ class LogHelper
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
                 if (0 == count($windows)) {
-                    $errors .= 'Can not close window: ' . $key. ' :: ' . implode(',', $log) . "\n";
+                    $errors .= 'Can not close window: ' . $key. ' :: ' . implode($log, true) . "\n";
                     continue;
                 }
                 if (1 < count($windows)) {
@@ -445,6 +445,11 @@ class LogHelper
             'subtype' => 'documents main'
         ]);
 
+        $mailPreviewWindow = Window::model()->findByAttributes([
+            'type'    => 'mail',
+            'subtype' => 'mail preview'
+        ]);
+
         $mainWindowLegActions = [$mainScreenWindow->subtype, $mainMailWindow->subtype, $mainPhoneWindow->subtype, $mainDocumentWindow->subtype];
         // Особенности логики, пункт 1 }
 
@@ -452,6 +457,7 @@ class LogHelper
         $durationByWindowUid = [];
         $durationByMailCode = [];
         foreach ($data as $activityAction) {
+            /* @var $activityAction LogActivityAction */
             assert($activityAction instanceof LogActivityAction);
             $w_id = $activityAction->window_uid;
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
@@ -468,7 +474,7 @@ class LogHelper
         }
         // collect time by window id }
 
-        $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
+        $limit = $simulation->getSpeedFactor() * 10; // 10 real seconds
 
         foreach ($data as $activityAction) {
 
@@ -481,6 +487,7 @@ class LogHelper
 
             /** @var $activityAction LogActivityAction */
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
+            $diff_time_second = (new DateTime($activityAction->end_time))->getTimestamp() - (new DateTime($activityAction->start_time))->getTimestamp();
             $legAction = $activityAction->activityAction->getAction();
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
@@ -502,6 +509,9 @@ class LogHelper
 
                 // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
                 // Особенности логики, пункт 1 {
+
+                // @2865 написать метод $activityAction->isMailLog() для кода:
+                // $activityAction->activityAction->getAction() instanceof MailTemplate
                 if ($activityAction->activityAction->getAction() instanceof MailTemplate) {
                     $mail_code = $activityAction->activityAction->getAction()->getCode();
                 } else {
@@ -510,24 +520,36 @@ class LogHelper
                 $id = $activityAction->window_uid;
 
                 if (NULL === $mail_code) {
-                    if (($activityAction->activityAction->getAction() instanceof Window && in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions)) ||
-                        self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
+                    // @2865 написать метод $activityAction->isWindow() для кода:
+                    // $activityAction->activityAction->getAction() instanceof Window
+                    if ((
+                            $activityAction->activityAction->getAction() instanceof Window &&
+                            in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions)
+                        ) ||
+                            self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)
+                        ) {
+                        // 1
                         $actionDurationInGameSeconds = TimeTools::TimeToSeconds($diff_time);
                     } else {
+                        // 2
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    if ($activityAction->activityAction->getAction() instanceof MailTemplate && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id) {
+                    if ($activityAction->activityAction->getAction() instanceof MailTemplate
+                        && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id && $activityAction->window !== $mailPreviewWindow->id) {
+                        // 3
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
-                        $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
+                        $actionDurationInGameSeconds = $diff_time_second;
                     }
+
                 }
+
+                //
 
                 // Особенности логики, пункт 1 }
 
-                if ($aggregatedActivity->leg_action == ($legAction ? $legAction->getCode() : null) ||
-                    $actionDurationInGameSeconds < $limit )
+                if ($aggregatedActivity->leg_action == ($legAction ? $legAction->getCode() : null) || $actionDurationInGameSeconds < $limit )
                 {
                     // prolong previous activity :
                     $aggregatedActivity->end_time = $activityAction->end_time;

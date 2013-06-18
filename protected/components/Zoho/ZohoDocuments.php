@@ -188,12 +188,17 @@ class ZohoDocuments
         $path = explode('-', $returnedId);
 
         if (2 !== count($path)) {
+            $f =  new Feedback();
+            $f->message = 'Wrong document id!';
+            $f->save(false);
+
             return 'Wrong document id!';
         }
 
-        $document = MyDocument::model()->findByPk($path[1]);
+        $document = MyDocument::model()->findByAttributes(['id' => $path[1]]);
+
         $document->is_was_saved = 1;
-        $document->save(false, ['is_was_saved']);
+        $document->save(false);
 
         $uuid = $document->uuid;
 

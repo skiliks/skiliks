@@ -102,7 +102,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 video_src = video_src || replica.sound;
             });
-            if (!video_src.match(/\.webm$/)) {
+            if (null !== video_src && !video_src.match(/\.webm$/)) {
                 video_src = undefined;
             }
             return video_src ? SKApp.get('storageURL') + '/videos/' + video_src : undefined;
@@ -120,7 +120,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 img_src = img_src || replica.sound;
             });
-            if (!img_src.match(/\.jpeg$/)) {
+            if (null !== img_src && !img_src.match(/\.jpeg$/)) {
                 img_src = undefined;
             }
             return img_src ? SKApp.get('storageURL') + '/dialog_images/' + img_src : undefined;
@@ -158,7 +158,7 @@ define([], function () {
                         cb(data);
                     }
                     console.log('parseNewEvents: ', data.events);
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 }
             });
         },
@@ -209,8 +209,8 @@ define([], function () {
                 'dialogId': dialogId,
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
-                console.log('ignore: ', data.events);
-                SKApp.simulation.parseNewEvents(data.events);
+                // console.log('ignore: ', data.events);
+                SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 if (cb !== undefined) {
                     cb();
                 }
@@ -236,7 +236,7 @@ define([], function () {
                         me.complete();
                         cb();
                     }
-                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                     SKApp.simulation.getNewEvents();
                 }
             });

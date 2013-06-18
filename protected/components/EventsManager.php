@@ -94,13 +94,15 @@ class EventsManager {
      * @return array
      * @throws CHttpException
      */
-    public static function getState($simulation, $logs) {
+    public static function getState(Simulation $simulation, $logs, $eventsQueueDepth = 0) {
+
         $simId = $simulation->id;
         $gameTime = $simulation->getGameTime();
 
+        FlagsService::checkFlagsDelay($simulation);
         // not handled exception in simulationIsStarted()
         // @todo: handle exception
-        //SimulationService::simulationIsStarted($simulation, $gameTime);
+        SimulationService::simulationIsStarted($simulation, $gameTime);
         try {
             $endTime = $simulation->game_type->finish_time;
 
@@ -186,6 +188,10 @@ class EventsManager {
 
             $data = array();
             foreach($dialogs as $dialog) {
+                if (0 == $dialog->replica_number) {
+                    $ds = new DialogService();
+                    $ds->setFlagByReplica($simulation, $dialog);
+                }
                 $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
             
@@ -289,15 +295,17 @@ class EventsManager {
             }
             
             $result['flagsState'] = FlagsService::getFlagsStateForJs($simulation);
-            
+            $result['eventsQueue'] = EventService::getEventsQueueForJs($simulation, $eventsQueueDepth);
+
             return $result;
         } catch (CHttpException $exc) {
             return [
-                'result'     => 0,
-                'message'    => $exc->getMessage(),
-                'code'       => $exc->getCode(),
-                'serverTime' => $gameTime,
-                'flagsState' => FlagsService::getFlagsStateForJs($simulation)
+                'result'           => 0,
+                'message'          => $exc->getMessage(),
+                'code'             => $exc->getCode(),
+                'serverTime'       => $gameTime,
+                'flagsState'       => FlagsService::getFlagsStateForJs($simulation),
+                'eventsQueue'      => EventService::getEventsQueueForJs($simulation, $eventsQueueDepth),
             ];
         }
 

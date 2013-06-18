@@ -79,7 +79,11 @@ body {
     min-height: 700px;
 }
 body.inner,
-body.inner-registration, .action-controller-order-static-payment {
+body.inner-registration,
+.action-controller-order-static-payment,
+body.action-error404,
+body.action-badBrowser,
+body.action-oldBrowser{
     background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
@@ -374,6 +378,14 @@ a:focus, a:active {
 	top:26px;
 	left:235px;
 }
+html[lang=ru] .betaflag {
+    background:url("../img/betaflag.png") no-repeat 0 0;
+    height: 49px;
+    left:275px;
+    position: absolute;
+    top:31px;
+    width: 105px;
+}
 .container>header .language{
 	position:absolute;
 	top:18px;
@@ -495,7 +507,7 @@ a:focus, a:active {
     color: #146672;
     font: 14px "ProximaNova-Bold";
     height: 38px;
-    left: 320px;
+    left: 250px;
     line-height: 38px;
     padding:0 10px 0 33px;
     position: absolute;
@@ -608,14 +620,14 @@ a:focus, a:active {
 	list-style:none;
 	margin-top:24px;
 }
-.features ul li{
-	background:url("../img/icon-features.png") no-repeat 0 0;
+.features li{
+	background:url("../img/icon-features.png") no-repeat 0 2px;
 	font:1.191em "ProximaNova-Regular";
 	color:#fff;
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
 	min-height:18px;
 	margin-bottom:7px;
-	padding-left:25px;
+	padding-left:27px;
 }
 .features ul li:last-child{
 	margin-bottom:0;
@@ -754,7 +766,7 @@ html[lang=ru] .features form div input[type=submit]{
 /* --------------- main article ---------*/
 .main-article{
 	width:415px;
-	margin:65px 0 0 315px;
+	margin:45px 0 0 300px; /* 65px 0 0 315px; */
 	overflow:hidden;
 }
 .main-article article{
@@ -764,17 +776,19 @@ html[lang=ru] .main-article article{
 	/*margin-top:15px;*/
     margin-top:0px;
 }
-.main-article article h3{
+.main-article h3{
 	font:2.144em "ProximaNova-Bold";
 	color:#146672;
+    /*margin-bottom: 17px; ! standarts */
 }
-.main-article article ul{
+.main-article ul{
 	list-style:none;
+    /*margin-bottom: 45px; ! standarts */
 }
-.main-article article ul li{
+.main-article li{
 	font:0.953em "ProximaNova-Regular";
 	color:#29313d;
-	line-height:1.500em;
+	line-height:1.500em; /* 1.500em; */
 }
 
 @media screen and (max-width: 1146px){
@@ -1747,7 +1761,8 @@ html[lang=ru] .product section table th{
     left:320px;
 }
 html[lang="en"] .footer .social_networks {
-    top:198px;
+    top:136px;
+    margin-left: 68px;
 }
 .social_networks span {
     display:block;
@@ -1884,14 +1899,48 @@ html[lang="en"] .footer .social_networks {
 .footer footer nav a:hover{
 	background:rgba(20,102,114,1);;
 }
-.footer footer .copyright{
-	font:0.714em "ProximaNova-Regular";
+.copyright{
+	font:14px "ProximaNova-Regular";
 	color:#fff;
 	text-align:center;
 	line-height:1.167em;
 	margin-top:20px;
+    //padding-left: 240px;
+}
+.copyright span {
+    display: block;
+    float: right;
+    font-size: 14px;
+    text-align: right;
+    width:250px;
+}
+.copyright span a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+}
+.help-contact-us {
+    font: 14px "ProximaNova-Regular";
+    color: #fff;
+    text-align: center;
+    line-height: 1.167em;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+    margin-top: -18px;
+}
+
+.help-contact-us a {
+    text-decoration: none;
+    font: 14px "ProximaNova-Regular";
+    color: #fff;
+    text-align: right;
 }
 @media screen and (max-width: 1146px){
+    .help-contact-us {
+        margin-top: -12px;
+    }
+
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
 		margin-top:-310px;
@@ -1910,9 +1959,10 @@ html[lang="en"] .footer .social_networks {
 		height:46px;
 		margin-top:38px;
 	}
-	.footer footer .copyright{
-		font-size:0.692em;
-	}
+    .footer .copyright, .copyright span, .copyright span a,
+    .help-contact-us, .help-contact-us a {
+        font-size:10px;
+    }
 	.footer footer nav a{
 		font-size:0.858em;
 		line-height:1.571em;
@@ -2081,7 +2131,7 @@ html[lang="en"] .footer .social_networks {
     margin-left:0px !important;
     width: 275px !important;
     top: 13px !important;
-    left: 880px !important;
+   /* left: 880px !important; */
 }
 .flash-message-popup-recovery-popup .flash-recovery-popup {
     color:#fff;
@@ -2111,7 +2161,8 @@ html[lang="en"] .footer .social_networks {
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
-.action-controller-corporate-static-simulations .ui-dialog-titlebar {
+.action-controller-corporate-static-simulations .ui-dialog-titlebar,
+.terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;
 }
@@ -2298,6 +2349,14 @@ html[lang="en"] .footer .social_networks {
     }
     #change-password-form input[type="password"]:focus, #change-password-form input[type=password].error,
     #change-password-form input.error:focus {
+        height: 23px;
+        width: 142px;
+    }
+    #change-password-form input[type="password"]:focus {
+        height: 23px;
+        width: 142px;
+    }
+    #change-password-form input[type="password"]:focus {
         height: 23px;
         width: 142px;
     }
@@ -4222,10 +4281,10 @@ ul.profile-menu li {
         padding-top: 106px;
     }
     section.registration-by-link {
+        background-color: #FDFBC6;
         background-size:690px;
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
         padding: 0 14px 30px 20px;
-        height: 340px;
         width: 640px;
     }
     section.registration-by-link .form .row label {
@@ -4419,10 +4478,6 @@ ul.profile-menu li {
     .password-recovery-step-4 .flash .flash-success {
         font-size:26px;
         height:44px;
-    }
-    .flash-message-popup-recovery-popup {
-        top: 3px !important;
-        left: 734px !important;
     }
     .flash-message-popup-recovery-popup .flash-recovery-popup {
         font-size:18px;

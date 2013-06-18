@@ -1,7 +1,7 @@
 
 var SKDayPlanView;
 
-/*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView*/
+/*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView, $, define, SKDialogView*/
 define([
     "text!game/jst/phone/todo_task_template.jst",
     "text!game/jst/phone/plan_title_template.jst",

@@ -1,6 +1,7 @@
 <?php
 /**
- * initbaseusers
+ * Инициализация пользователей для всех участников проекта
+ * Список пользователей берётся из /protected/config/base.php, массив ['params']['initial_data']['users']
  */
 class InitBaseUsersCommand
 {
@@ -62,6 +63,7 @@ class InitBaseUsersCommand
             if (null === $yumUser) {
                 echo " init ";
                 $yumUser = new YumUser();
+                $yumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
                 if ($yumUser->register($user['username'], $user['password'], $profile)) {
                     echo " => registered";
                 } else {
