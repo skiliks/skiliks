@@ -111,8 +111,7 @@ body {
 <div class="registrationform">
     <form id="yum-user-registration-form" class="form-simple form-large">
         <div class="block-border bg-transparnt rows-inline">
-            <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div>
-            <div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large"></div>
+            <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large"></div>
         </div>
     </form>
 </div>
