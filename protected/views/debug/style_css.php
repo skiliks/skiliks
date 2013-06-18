@@ -73,37 +73,49 @@ body {
 
 <div id="invite-people-box" class="block-border bg-rich-blue border-large pad30 pull-left">
     <h3>Отправить приглашение</h3>
-<form id="invite-form" class="form-simple placehldrs-dark">
-    <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
-    <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
+    <form id="invite-form" class="form-simple form-small placehldrs-dark">
+        <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
+        <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
 
-    <div class="row wide postn-reltv">
-        <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
-            <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-            <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
-            <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
-                <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
-            </ul>
+        <div class="row wide postn-reltv">
+            <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
+                <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
+                <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
+                <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
+                    <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="row wide postn-reltv">
-        <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
-            <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-            <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
-            <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
-                <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
-                <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
-            </ul>
+        <div class="row wide postn-reltv">
+            <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
+                <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
+                <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
+                <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
+                    <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
+        <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
 
-</form>
+    </form>
+</div>
+
+<div class="razdelitel"></div>
+<div class="registrationform">
+    <form id="yum-user-registration-form" class="form-simple form-large">
+        <div class="block-border bg-transparnt">
+            <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div>
+            <div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div>
+            <div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div>
+            <div class="row"><input type="submit" name="yt0" value="Начать"></div>
+        </div>
+    </form>
 </div>
 </body>
 </html>
