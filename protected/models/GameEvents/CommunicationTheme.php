@@ -328,6 +328,17 @@ class CommunicationTheme extends CActiveRecord
         }
         return false;
     }
+
+    public function themeIsUsed($themes) {
+        /* @var $theme LogCommunicationThemeUsage */
+        foreach($themes as $key => $theme) {
+            if((int)$this->id === (int)$theme->communication_theme_id) {
+                unset($themes[$key]);
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

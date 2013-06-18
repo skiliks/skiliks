@@ -387,10 +387,11 @@ class MailBoxService
                 'outbox'   => CommunicationTheme::USAGE_OUTBOX
             ]);
         }
+        $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
         foreach ($models as $theme) {
             /* @var $theme CommunicationTheme */
-            if(false === $theme->isBlockedByFlags($simulation)) {
+            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $themes[(int)$theme->id] = $theme->getFormattedTheme();
             }
         }
