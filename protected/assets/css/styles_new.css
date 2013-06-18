@@ -191,7 +191,7 @@ h3 {
     text-align: right;
 }
 /*  ************************ Menu ************************  */
-.menu-main li {
+.menu-site li {
    display: inline;
    list-style-type: none;
 }
@@ -199,17 +199,21 @@ h3 {
     display: block;
     background: rgba(20,102,114,0.4);
     border-radius: 3px;
-    font: 18px/28px "ProximaNova-Regular";
+    font-family: "ProximaNova-Regular";
+    font-size: 18px;
     color: #fff;
     text-decoration: none;
     float: left;
     margin: 0 0 0 10px;
     padding: 0 9px;
 }
-.menu-main a:hover, .menu-main .active a {
+.menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
 }
-
+.menu-top {
+    position: absolute;
+    top:10px;
+}
 /*  ************************ /Menu ************************  */
 /*  ************************ Colors and Borders ************************  */
 .block-border {
