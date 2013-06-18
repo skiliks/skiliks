@@ -375,6 +375,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     font:14px 'ProximaNova-Regular';
     position: relative;
     height: 23px;
+    min-width: 60px;
     color: #fff;
     vertical-align:middle;
 }
@@ -387,7 +388,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     line-height: 22px;
     outline: none;
     overflow: hidden;
-    text-indent: 5px;
+    text-indent: 9px;
     width: 100%;
     position: absolute;
     top: 0;
