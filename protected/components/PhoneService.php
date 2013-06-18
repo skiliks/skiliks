@@ -121,10 +121,11 @@ class PhoneService {
 
         $character = $simulation->game_type->getCharacter(['code' => $code]);
         $themes = $simulation->game_type->getCommunicationThemes(['character_id' => $character->primaryKey, 'phone' => 1]);
+        $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
         $list = array();
         foreach($themes as $theme) {
             /* @var $theme CommunicationTheme */
-            if(false === $theme->isBlockedByFlags($simulation)) {
+            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
             }
         }
