@@ -395,7 +395,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .social_networks span {
     display: inline-block;
     font: 14px "ProximaNova-Bold";
-    line-height: 31px;
 }
 .smallicons a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
@@ -405,8 +404,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .smallicons>span {
     display: inline-block;
-    text-align: right;
-    width: 115px;
+    padding-right: 10px;
 }
 .smallicons a.addthis_button_facebook {
     background-position: -36px 0px;
