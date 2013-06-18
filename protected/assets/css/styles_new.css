@@ -239,7 +239,7 @@ h3 {
 /*  ************************ /Colors and Borders ************************  */
 
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-.form-simple input[type="text"], .form-simple input[type="password"]  {
+input[type="text"], input[type="password"]  {
     background: #fff;
     border: 1px solid #3e5259;
     border-radius: 5px;
@@ -284,19 +284,19 @@ h3 {
     padding-top: 15px;
 }
 .rows-inline .row {
-    display: inline;
+    display: inline-block;
     padding-top: 0px;
 }
-.form-simple input[type="text"]::-webkit-input-placeholder {
+input[type="text"]::-webkit-input-placeholder {
     color:#a6bcc0;
 }
-.form-simple input[type="text"]::-moz-placeholder {
+input[type="text"]::-moz-placeholder {
     color:#a6bcc0;
 }
-.form-simple input[type="text"]:-ms-input-placeholder {
+input[type="text"]:-ms-input-placeholder {
     color:#a6bcc0;
 }
-.form-simple input[type="text"]:-moz-placeholder {
+input[type="text"]:-moz-placeholder {
     color:#a6bcc0;
 }
 .placehldrs-dark input[type="text"]::-webkit-input-placeholder {
