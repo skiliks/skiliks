@@ -39,10 +39,7 @@ body {
 
 </head>
 <body>
-<header class="site-header">
-    <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
 
-</header>
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
