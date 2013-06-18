@@ -56,7 +56,11 @@ body {
     line-height: 14px;
 }
 a {
+    color:#fff;
     text-decoration: none;
+}
+.link-dark {
+    color:#2d7b91;
 }
 .btn, .btn-large, .btn-primary {
     border:none;
