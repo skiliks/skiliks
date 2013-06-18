@@ -20,6 +20,7 @@ body {
     width:30px;
 }
 .razdelitel {
+    clear:both;
     height: 30px;
 }
 </style>
@@ -117,5 +118,6 @@ body {
         </div>
     </form>
 </div>
+
 </body>
 </html>
