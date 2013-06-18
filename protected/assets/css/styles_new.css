@@ -104,7 +104,6 @@ a {
 .btn-site:hover {
     background-color:#bf292a;
 }
-
 /* ************************ Pager ************************ */
 .yiiPager, .yiiPager li {
     margin:0px;
@@ -181,10 +180,14 @@ h2 {
 /*  ************************ Colors and Borders ************************  */
 .block-border {
     border-radius: 8px;
-    border: 8px solid rgba(255, 255, 255, 0.25);
+    /*border: 8px solid rgba(255, 255, 255, 0.2);*/
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
 .border-primary {
     border-radius: 3px;
+}
+.border-large {
+    border-radius: 8px;
 }
 .bg-rich-blue {
     background-color: #146672;
@@ -227,7 +230,7 @@ h2 {
 }
 .form-simple .row {
     position: relative;
-    padding: 10px 0 0 0;
+    /*padding: 10px 0 0 0;*/
 }
 /*  ************************ FORM SIMPLE ************************ /
 
