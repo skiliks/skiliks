@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'flag':
  * @property string $code
  * @property string $description
+ * @property string $delay
  */
 class Flag extends CActiveRecord
 {
@@ -84,4 +85,12 @@ class Flag extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getDelay(){
+        if(null === $this->delay){
+            throw new Exception("Must be not null");
+        }else{
+            return (int)$this->delay;
+        }
+    }
 }

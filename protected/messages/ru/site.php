@@ -29,6 +29,7 @@ return array(
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
     'Start using it now for free' => 'Получить бесплатный доступ',
+    'Back to homepage' => 'Вернуться на главную',
     'Easiest' => 'Самый простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',
@@ -49,7 +50,6 @@ return array(
     'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
     'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
-    'Expired' => 'Просрочено',
 
     'Русский' => 'English',
     'Home' => 'Главная',
@@ -210,9 +210,10 @@ return array(
 
     'Pending' => 'в ожидании',
     'Accepted' => 'подтверждено',
-    'Completed' => 'завершено',
-    'Declined' => 'отвергнуто',
+    'Completed' => 'готово',
+    'Declined' => 'отклонено',
     'Started'  => 'начато',
+    'Expired' => 'просрочено',
 
     'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',
@@ -237,8 +238,7 @@ return array(
     'Vacancy' => 'Вакансия',
     'Status' => 'Статус',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
-    'Pricing & Plans' => 'Тарифы',
-    'Pricing & Plans' => 'Тарифы',
+    'Pricing & Plans' => 'Цены и тарифы',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
@@ -249,7 +249,7 @@ return array(
     'Failure cause' => 'Причина отказа',
     'Confirmation' => 'Подтверждение',
     'Sign up' => 'Зарегистрироваться',
-    'Enter email' => 'Введите Ваш email',
+    'Enter email' => 'Введите ваш email',
 
     'Next' => 'Вперед',
     'Previous' => 'Назад',
@@ -335,7 +335,6 @@ return array(
     'Reasonably accepts visits' => 'Целесообразный прием посетителей',
     'Effectively processes meeting outcomes' => 'Эффективная обработка результатов встречи',
 
-
     'Back' => 'Назад',
     'Next' => 'Вперед',
 
@@ -383,7 +382,7 @@ return array(
     'personal' => 'Персональная',
     'Please contact us' => 'Пожалуйста свяжитесь с нами',
 
-    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за Ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
+    'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
     'Accept terms of conditions' => 'Вы должны согласиться с условиями',
     'INN is required' => 'Введите ИНН',
     'CPP is required' => 'Введите КПП',

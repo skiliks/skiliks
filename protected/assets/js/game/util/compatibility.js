@@ -9,7 +9,7 @@ define([], function() {
     var checkers = {
         browser: function(cfg) {
             var minSupport = {
-                mozilla: 17,
+                mozilla: 18,
                 webkit: 536.5
             };
 

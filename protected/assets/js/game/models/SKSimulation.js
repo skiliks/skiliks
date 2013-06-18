@@ -37,6 +37,11 @@ define([
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
+
+            timerSpeed: 60000,
+
+            constTutorialScenario: 'tutorial',
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -76,8 +81,9 @@ define([
                 this.loadDocsDialog = null;
 
                 try {
-                document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                    document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 } catch(e) {
+                    //console.log('document.domain: ', document.domain);
                     // this to protect against busted-sj test crash
                 }
 
@@ -85,14 +91,14 @@ define([
                 this.set('isZohoSavedDocTestRequestSent', false);
 
                 this.set('ZohoDocumentSaveCheckAttempt', 1);
+                this.set('scenarioName', null);
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('finish'))) {
-                        me.trigger('stop-time');
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
+                        me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
-                        me.trigger('before-end');
-                        me.trigger('end');
+                        me.onEndTime();
                     }
 
                     var hours = parseInt(me.getGameMinutes() / 60, 10);
@@ -187,7 +193,7 @@ define([
             handleEvents: function () {
                 var me = this;
                 this.events.on('event:plan', function (event) {
-                    me.todo_tasks.fetch();
+                    me.todo_tasks.fetch({update: true});
                 });
                 this.events.on('event:mail', function () {
                     me.getNewEvents();
@@ -234,7 +240,7 @@ define([
              * @method parseNewEvents
              * @param events
              */
-            parseNewEvents:function (events) {
+            parseNewEvents:function (events, url) {
                 var me = this;
                 events.forEach(function (event) {
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
@@ -245,7 +251,7 @@ define([
                     event.type = event.eventType;
                     delete event.result;
                     var event_model = new SKEvent(event);
-                    if (me.events.canAddEvent(event_model)) {
+                    if (me.events.canAddEvent(event_model, url)) {
                         me.events.push(event_model);
                         console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
@@ -266,17 +272,20 @@ define([
                 localStorage.setItem('lastGetState', nowDate.getTime());
                 var me = this;
                 var logs = this.windowLog.getAndClear();
+
                 SKApp.server.apiQueue('events', 'events/getState', {
-                    logs:logs,
-                    timeString:this.getGameMinutes()
+                    logs:             logs,
+                    timeString:       this.getGameMinutes(),
+                    eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
                     // update flags for dev mode
-                    if (undefined !== data.flagsState && undefined !== data.serverTime) {
+                    if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                         me.updateFlagsForDev(data.flagsState, data.serverTime);
+                        me.updateEventsListTableForDev(data.eventsQueue);
                     }
 
-                    if (data.result === 1 && data.events !== undefined) {
-                        me.parseNewEvents(data.events);
+                    if (null !== data && data.result === 1 && data.events !== undefined) {
+                        me.parseNewEvents(data.events, 'events/getState');
                     }
                     if (cb !== undefined) {
                         cb();
@@ -320,10 +329,9 @@ define([
                     me.characters.fetch();
                     me.events.getUnreadMailCount();
 
-                    me.getNewEvents(function () {
-                        me.trigger('start');
-                    });
+                    me.getNewEvents();
                     me._startTimer();
+                    me.trigger('start');
 
                     if (data.result === 0) {
                         window.location = '/';
@@ -332,6 +340,8 @@ define([
                     if ('undefined' !== typeof data.simId) {
                         me.id = data.simId;
                     }
+
+                    me.set('scenarioName', data.scenarioName);
 
                     me.documents.fetch();
                     onDocsLoad.apply(me);
@@ -360,8 +370,8 @@ define([
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    if(SKApp.simulation.get('result-url') === undefined){
-                        SKApp.simulation.set('result-url', '/dashboard');
+                    if(SKApp.get('result-url') === undefined){
+                        SKApp.set('result-url', '/dashboard');
                         document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
                     }
 
@@ -478,7 +488,7 @@ define([
                      * @event tick
                      */
                     me.trigger('tick');
-                }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+                }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
             },
 
             _stopTimer: function() {
@@ -486,6 +496,15 @@ define([
                     clearInterval(this.events_timer);
                     delete this.events_timer;
                 }
+            },
+
+            onEndTime: function() {
+                this.trigger('before-end');
+                this.trigger('end');
+            },
+
+            onFinishTime: function() {
+                this.trigger('stop-time');
             },
 
             /**
@@ -508,6 +527,16 @@ define([
                 if (this.isDebug()) {
                     var flagStateView = new SKFlagStateView();
                     flagStateView.updateValues(flagsState, serverTime);
+                }
+            },
+
+            /**
+             *
+             */
+            updateEventsListTableForDev:function (eventsQueue) {
+                if (this.isDebug()) {
+                    var flagStateView = new SKFlagStateView();
+                    window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
                 }
             }
         });

@@ -120,6 +120,12 @@
 .action-controller-registerByLink-static-userAuth  .ui-widget-content {
     background: #146672;
 }
+.action-controller-registerByLink-static-userAuth  .ui-widget-content.terms-page{
+    background: #FFFFFF;
+}
+.action-controller-registerByLink-static-userAuth  .ui-widget-content#terms-pop-up{
+    background: #FFFFFF;
+}
 #invite-decline-form .form-decline-explanation {
     position: absolute;
     top:200px;
@@ -217,7 +223,7 @@ section.registration-by-link {
     box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding:0 20px 41px 28px;
-    height:374px;
+    height:400px;
     width:776px;
     margin:50px auto 0;
     background:url("../img/bg-register-by-link2.jpg")no-repeat center top;
@@ -626,13 +632,16 @@ section.registration-by-link .form .row a.decline-link:hover {
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-    left: 50% !important;
+    /*left: 50% !important; */
     top: 130px !important;
     margin:0 0 0 -275px;
     width: 550px !important;
     overflow: visible;
     padding: 0;
     color:#3d4041;
+}
+.flash-message-popup-success {
+    left: 50% !important;
 }
 .flash-message-popup .popupclose {
     display: block;
@@ -682,6 +691,9 @@ section.registration-by-link .form .row a.decline-link:hover {
 .flash-message-popup .flash p {
     font:normal 15px/20px "ProximaNova-Regular";
     margin: 0 0 15px 0;
+}
+.flash-message-popup.flash-message-popup-notice {
+    left:50% !important;
 }
 @media screen and (max-width: 1146px){
     .flash-message-popup {
@@ -770,7 +782,8 @@ section.registration-by-link .form .row a.decline-link:hover {
 #registration_switch:hover,
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover,
-.order-methods input[type=submit]:hover {
+.order-methods input[type=submit]:hover,
+#error404-message .bigbtnsubmt:hover {
     background-image: url("../img/icon-circlarow-hover.png");
     background-color:#BD2929;
     background-repeat: no-repeat;
@@ -779,6 +792,59 @@ section.registration-by-link .form .row a.decline-link:hover {
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover {
     background-color:#BD2929;
     background-image: url("../img/icon-btn-notify-hover.png");
+}
+/* error 404*/
+#error404-message {
+    text-align:center;
+    color:white;
+    font:bold 14px/18px "ProximaNova-Regular";
+}
+/* Bad browser */
+.browsers{
+    text-align:center;
+    color:white;
+}
+.browsers h2 {
+    font:normal 44px/60px ProximaNova-Bold;
+    margin:10px 0 0;
+}
+.browsers span {
+    font:20px ProximaNova-Regular;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+    vertical-align: middle;
+}
+.browsers .chrome,
+.browsers .firefox {
+    font: normal 30px ProximaNova-Regular;
+    padding:30px 40px 0;
+}
+.browsers .ico {
+    background:url("../img/browsers.png") no-repeat -100% -100%;
+    margin:20px auto 0;
+    width:130px;
+    height:130px;
+}
+.browsers .chrome .ico {
+    background-position:0 -40px;
+}
+.browsers .firefox .ico {
+    background-position:100% -40px;
+}
+.browsers a {
+    background:url(../img/browsers.png) #146672 no-repeat 0 0;
+    font:normal 14px/30px ProximaNova-Bold;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-block;
+    zoom:1;
+    *display:inline;
+    padding:0 10px 0 20px;
+    color:white;
+}
+.browsers a:hover {
+    background-color: #bd2929;
 }
 /* universal */
 .blackout {

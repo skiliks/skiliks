@@ -3,10 +3,11 @@
 /**
  * Class YumProfile
  *
- * @param string $email
- * @param string $user_id
- * @param string $lastname
- * @param string $firstname
+ * @property string $email
+ * @property string $user_id
+ * @property string $lastname
+ * @property string $firstname
+ * @property YumUser $user
  */
 
 class YumProfile extends YumActiveRecord

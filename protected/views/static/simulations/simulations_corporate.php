@@ -10,10 +10,8 @@ $scoreRender = function(Invite $invite) {
             'isDisplayScaleIfSimulationNull' => false,
         ],false);
     } elseif ($invite->isNotStarted()) {
-        $class = '';
         return sprintf(
-            '<a class="%s" href="/simulation/promo/%s/%s">Начать</a>',
-            $class,
+            '<a href="/simulation/promo/%s/%s">Начать</a>',
             $invite->scenario->slug,
             $invite->id
         );

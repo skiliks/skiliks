@@ -19,6 +19,14 @@ class ImportCommand extends CConsoleCommand
         $import = new ImportGameDataService($scenario);
         $import->{'import' . $method}();
 
+        //TODO: поправить логику
+        // update file name (version) only after import done {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $scenario]);
+        if (null !== $scenario) {
+            $scenario->filename = basename($import->getFilename());
+            $scenario->save(false);
+        }
+        // update file name (version) only after import done }
 
         echo "\n'Import $method' complete. \n";
     }

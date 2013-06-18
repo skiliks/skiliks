@@ -109,7 +109,6 @@
     border-radius:4px;
     display: inline-block;
     font: 18px/54px "ProximaNova-Regular";
-
     color:#fff;
     height:54px;
 }
@@ -802,4 +801,11 @@ span.required {
         top: -12px;
         left: 156px;
     }
+}
+
+.profileform input.error{
+    border: 2px solid #bd2929;
+}
+.feedback .form-section .error textarea{
+    border: 2px solid #bd2929;
 }

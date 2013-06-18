@@ -96,9 +96,12 @@ define([
                         simulation.mailClient.view.on('render_finished', function () {
                             SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
                         });*/
-                        console.log(); // just to make this IF branch not empty for JSHint
+                        console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
                     } else {
+                        console.log('HAS active mail client view');
                         var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                        simulation.mailClient.view.setForcedClosing();
+
                         windows[0].setOnTop();
                         windows[0].close(
                             'mailEmulator',
@@ -112,7 +115,7 @@ define([
                     );
                     simulation.mailClient.view.on('render_finished', function () {
 
-                        var email_row = simulation.mailClient.view.$('.email-list-line:eq(0)');
+                        var email_row = simulation.mailClient.view.$('.email-list-line[data-email-id=' + event.get('id') + ']');
                         if (!email_row.hasClass('active')) {
                             email_row.click();
                         }

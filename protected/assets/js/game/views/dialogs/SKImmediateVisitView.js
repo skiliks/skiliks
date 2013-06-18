@@ -18,7 +18,9 @@ define([
      */
     SKImmediateVisitView = SKWindowView.extend(
         /** @lends SKImmediateVisitView.prototype */
-        {     'el':'body .visitor-container',
+        {
+            addClass: 'visitor-window',
+            'el':'body .visitor-container',
 
             'events':_.defaults({
                 'click .replica-select':'doSelectReplica'
@@ -34,6 +36,11 @@ define([
                     me.render();
                 });
                 SKWindowView.prototype.initialize.call(this);
+            },
+
+            center: function() {
+                $(".sim-window.visitor-window").css('height', '100%');
+                $(".sim-window.visitor-window").css('width', '100%');
             },
 
             /**

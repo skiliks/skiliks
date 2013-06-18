@@ -76,7 +76,7 @@
                     ) ?>
                     <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту', 'for' => 'payment_invoice']) ?>
                     <div class="method-description">
-                        <small>Заполните Ваши реквизиты и на Ваш email придет счет. Тарифный план будет подключён после получения платежа.</small>
+                        <small>Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</small>
                     </div>
                 </div>
 
@@ -121,7 +121,7 @@
                     <div class="method-description">
                         <small>
                             <span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>
-                            Выбирая данную опцию, Вы будете перенаправлены на страницу провайдера платежа - ХХХ
+                            Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ
                         </small>
                     </div>
                 </div>

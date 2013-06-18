@@ -4,24 +4,248 @@
         <a href="#" data-refer-page="4" class="next"></a>
     </div>
 
-    <div class="content" style="position: relative; top: 150px; left: 100px">
-        <div class="person-block" data-refer-tooltip="r.r.denezhnaya">
-            Финансовый директор<br/>
-            Р.Р.Денежная
+    <div class="content company">
+        <h2>Структура компании</h2>
+        <div class="dual-page">
+            <div class="person-block root" data-refer-tooltip="boss">
+                <span>Генеральный директор<br/>В.С.Босс</span>
+                <div class="tooltip hidden" data-tooltip="boss">
+                    <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch6-1.png"/>
+                    <h3>Босс</h3><h4>Валерий Семенович</h4>
+                    <p><strong>Начальник начальника</strong></p>
+                    <p><strong>Характер:</strong> властный, эмоциональный, оказывает давление</p>
+                    <p><strong>Отношение к Вам:</strong> как к одному из винтиков, который не должен ломаться</p>
+                </div>
+            </div>
 
-            <div class="tooltip hidden" data-tooltip="r.r.denezhnaya">
-                <img class="photo" src="<@=SKApp.get('assetsUrl')@>/img/phone/icon-ch2-1.png" alt="Р.Р.Денежная"/>
-                <h3>ДЕНЕЖНАЯ</h3>
-                <h4>Раиса Романовна</h4>
-                <p>
-                    <b>Дура</b>
-                </p>
-                <p>
-                    <b>Характер:</b> Бешеная стерва
-                </p>
-                <p>
-                    <b>Отношение ко мне:</b> @#%@*&@%
-                </p>
+            <div class="branch">
+                <div class="person-block top" data-refer-tooltip="denezhnaya">
+                    <span>Финансовый директор<br/>Р.Р.Денежная</span>
+                    <div class="tooltip hidden" data-tooltip="denezhnaya">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch2-1.png" alt="Р.Р.Денежная"/>
+                        <h3>Денежная</h3><h4>Раиса Романовна</h4>
+                        <p><strong>Начальник</strong></p>
+                        <p><strong>Характер:</strong> жесткая, требует чёткого исполнения долга</p>
+                        <p><strong>Отношение к Вам:</strong> на грани конфликта, имеет массу претензий к дисциплине (во многом не заслуженных), ожидает подвига на работе</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="svetlakova">
+                    <span>Бухгалтерия ГБ<br>О.П.Светлакова</span>
+                    <div class="tooltip hidden" data-tooltip="svetlakova">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="О.П.Светлакова"/>
+                        <h3>Светлакова О.П.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="tochnyh">
+                    <span>Служба внут.аудита<br>А.К.Точных</span>
+                    <div class="tooltip hidden" data-tooltip="tochnyh">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="А.К.Точных"/>
+                        <h3>Точных А.К.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="aristov">
+                    <span>Начальник юр.службы<br>С.П. Аристов</span>
+                    <div class="tooltip hidden" data-tooltip="aristov">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="С.П. Аристов"/>
+                        <h3>Аристов С.П.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block hero">
+                    <span>Отдел анализа<br>А.А. Фёдоров</span>
+                </div>
+            </div>
+            <div class="branch">
+                <div class="person-block top">
+                    <span>Зам.генерального<br>директора<br>вакансия</span>
+                </div>
+                <div class="person-block" data-refer-tooltip="bobr">
+                    <span>Нач.производства<br/>В.П. Бобр</span>
+                    <div class="tooltip hidden" data-tooltip="bobr">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch11-1.png"/>
+                        <h3>Бобр</h3><h4>Василий</h4>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Характер:</strong> уступчивый, немного рассеянный, постоянно уставший</p>
+                        <p><strong>Отношение к Вам:</strong> выражающий подобострастие</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="trudyakin">
+                    <span>Нач.отд.логистики<br>Е.Е.Трудякин</span>
+                    <div class="tooltip hidden" data-tooltip="trudyakin">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch12-1.png"/>
+                        <h3>Трудякин</h3><h4>Егор</h4>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Характер:</strong> прямой, дисциплинированный, ответственный</p>
+                        <p><strong>Отношение к Вам:</strong> позитивное</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="zheleznyiy">
+                    <span>Начальник отдела ИТ<br>С.Е.Железный</span>
+                    <div class="tooltip hidden" data-tooltip="zheleznyiy">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch10-1.png"/>
+                        <h3>Железный</h3><h4>Семен</h4>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Характер:</strong> толковый, с юмором<br/><br/></p>
+                        <p><strong>Отношение к Вам:</strong> дружеское</p>
+                    </div>
+                </div>
+            </div>
+            <div class="branch">
+                <div class="person-block top" data-refer-tooltip="skorobey">
+                    <span>Директор по продажам и маркетингу<br>А.М.Скоробей</span>
+                    <div class="tooltip hidden" data-tooltip="skorobey">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="А.М.Скоробей"/>
+                        <h3>Скоробей А.М.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="toli">
+                    <span>Исп.директор регион А<br/>П.Р.Толи</span>
+                    <div class="tooltip hidden" data-tooltip="toli">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="П.Р.Толи"/>
+                        <h3>Толи П.Р.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="sinyakov">
+                    <span>Исп.директор регион B<br>А.К.Синяков</span>
+                    <div class="tooltip hidden" data-tooltip="sinyakov">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="А.К.Синяков"/>
+                        <h3>Синяков А.К.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="shackiy">
+                    <span>Исп.директор регион С<br>А.К.Шацкий</span>
+                    <div class="tooltip hidden" data-tooltip="shackiy">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="А.К.Шацкий"/>
+                        <h3>Шацкий А.К.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="kamensky">
+                    <span>Исп.директор регион D<br>В.П.Каменский</span>
+                    <div class="tooltip hidden" data-tooltip="kamensky">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="В.П.Каменский"/>
+                        <h3>Каменский В.П.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="hitruk">
+                    <span>Исп.директор регионов<br>E,F,G<br>О.П.Хитрук</span>
+                    <div class="tooltip hidden" data-tooltip="hitruk">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="О.П.Хитрук"/>
+                        <h3>Хитрук О.П.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="usachova">
+                    <span>Отдел рекламы<br>и оформления<br>Р.Ю.Усачёва</span>
+                    <div class="tooltip hidden" data-tooltip="usachova">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="Р.Ю.Усачёва"/>
+                        <h3>Усачёва Р.Ю.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+            </div>
+            <div class="branch">
+                <div class="person-block top" data-refer-tooltip="razumniy">
+                    <span>Директор по развитию<br/>О.Р.Разумный</span>
+                    <div class="tooltip hidden" data-tooltip="razumniy">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="О.Р.Разумный"/>
+                        <h3>Разумный О.Р.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+            </div>
+            <div class="branch">
+                <div class="person-block top" data-refer-tooltip="lydovkina">
+                    <span>Нач. отдела персонала<br>С.С.Людовкина</span>
+                    <div class="tooltip hidden" data-tooltip="lydovkina">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="С.С.Людовкина"/>
+                        <h3>Людовкина С.С.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="drozdova">
+                    <span>Служба оформления<br>кадров<br>Ж.М.Дроздова</span>
+                    <div class="tooltip hidden" data-tooltip="drozdova">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="Ж.М.Дроздова"/>
+                        <h3>Дроздова Ж.М.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="svalya">
+                    <span>Служба мотивации<br>и расчета ЗП<br>О.О.Сваля</span>
+                    <div class="tooltip hidden" data-tooltip="svalya">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="О.О.Сваля"/>
+                        <h3>Сваля О.О.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="ostrova">
+                    <span>Служба обучения<br>персонала<br>И.К.Острова</span>
+                    <div class="tooltip hidden" data-tooltip="ostrova">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="И.К.Острова"/>
+                        <h3>Острова И.К.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+            </div>
+            <div class="branch">
+                <div class="person-block top" data-refer-tooltip="hozin">
+                    <span>Начальник отдела АХО<br>В.А.Хозин</span>
+                    <div class="tooltip hidden" data-tooltip="hozin">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="В.А.Хозин"/>
+                        <h3>Хозин В.А.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="koleva">
+                    <span>Секретариат<br>Ст. И.О.Колева</span>
+                    <div class="tooltip hidden" data-tooltip="koleva">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch9-1.png" alt="И.О.Колева"/>
+                        <h3>Колева И.О.</h3>
+                        <p><strong>Коллега</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="voditely">
+                    <span>Водители</span>
+                    <div class="tooltip hidden" data-tooltip="voditely">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="Водители"/>
+                        <h3>Водители</h3>
+                        <p><strong>Коллеги</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
+                <div class="person-block" data-refer-tooltip="chernih">
+                    <span>Эксплуатац.-инженерная<br>служба<br>Н.Н.Черных</span>
+                    <div class="tooltip hidden" data-tooltip="chernih">
+                        <img class="photo" src="<@= SKApp.get('assetsUrl') @>/img/phone/icon-ch8-1.png" alt="Н.Н.Черных"/>
+                        <h3>Черных Н.Н.</h3>
+                        <p><strong>Коллеги</strong></p>
+                        <p><strong>Отношение к Вам:</strong> рабочие отношения</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

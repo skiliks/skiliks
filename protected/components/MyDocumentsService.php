@@ -65,11 +65,18 @@ class MyDocumentsService
      */
     public static function makeDocumentVisibleInSimulation($simulation, $file)
     {
-        $file = MyDocument::model()
-            ->findByAttributes(['sim_id' => $simulation->id, 'id' => $file->primaryKey]);
+        $status = false;
+        $file = MyDocument::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'id' => $file->primaryKey
+        ]);
+
+        if (null === $file->hidden) {
+            $status = true;
+        }
+
         $file->hidden = 0;
         $file->save();
-        $status = true;
 
         return $status;
     }

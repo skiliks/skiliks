@@ -8,7 +8,6 @@
  */
 class F16_SK1414_Test extends SeleniumTestHelper
 {
-
     /**
      * testSK1414_Case1() тестирует задачу SKILIKS-1414
      *
@@ -29,8 +28,6 @@ class F16_SK1414_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F16','0'));
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
-
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это хорошо, что задача ясна.')])");
@@ -46,6 +43,7 @@ class F16_SK1414_Test extends SeleniumTestHelper
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Презентация для ГД_рабочая версия"));
+        $this->close();
 
     }
 

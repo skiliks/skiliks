@@ -44,10 +44,13 @@
         </div>
         <div class="row">
             <p>
-            <?php if ($invite->receiverUser): ?>
+            <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                 Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+            <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
+                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
+                <a href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
             <?php else: ?>
-                Пожалуйста, <a href="<?= $invite->getInviteLink() ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
+                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
             <?php endif; ?>
             </p>
         </div>

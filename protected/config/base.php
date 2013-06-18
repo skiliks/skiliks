@@ -150,16 +150,20 @@ return array(
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
                 'admin/'                  => 'static/admin/',
-                'admin/displayLog/<simulation\w+>' => 'static/admin/displayLog',
-                'static/admin/saveLog/<simulation\w+>' => 'static/admin/saveLog',
-                'cheat/dialogsAnalyzer'   => 'static/admin/dialogsAnalyzer',
-                'cheat/uploadDialogsToAnalyzer'   => 'static/admin/uploadDialogsToAnalyzer',
-                'cheat/assessments/grid'   => 'static/cheats/assessmentsGrid',
-                'Admin/Log'              => 'static/Admin/Log',
+                'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
+                'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
 
+                'cheat/dialogsAnalyzer'                 => 'static/admin/dialogsAnalyzer',
+                'cheat/uploadDialogsToAnalyzer'         => 'static/admin/uploadDialogsToAnalyzer',
+                'cheat/assessments/grid'                => 'static/cheats/assessmentsGrid',
+                'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
+                'cheat/zoho/getUsageValue'              => 'static/cheats/getZohoUsageStatus',
+
+                'cheat/zoho/saveUsageValue/<value:\w+>/<expireDate:\w+>' => 'static/cheats/saveZohoUsageStatus',
+
+                'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
 
-                'bad-browser' => 'static/pages/badBrowser',
                 'old-browser' => 'static/pages/oldBrowser',
 
                 'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
@@ -197,7 +201,7 @@ return array(
                 'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-
+                '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
@@ -255,6 +259,28 @@ return array(
                 'payment/order/<tariffType:\w+>'       => 'static/payment/order',
                 'payment/do'                           => 'static/payment/do',
 
+                'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
+                'statistics/SeleniumTests' => 'statistics/statistics/SeleniumTests',
+                'statistics/SeleniumTestsAuth' => 'statistics/statistics/SeleniumTestsAuth',
+                'statistics/Zoho500' => 'statistics/statistics/Zoho500',
+                'statistics/CiTests' => 'statistics/statistics/CiTests',
+                'statistics/OrderCount' => 'statistics/statistics/OrderCount',
+                'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
+
+                'admin_area/invites' => 'admin_area/AdminPages/Invites',
+                'admin_area/dashboard' => 'admin_area/AdminPages/Dashboard',
+                'admin_area/login' => 'admin_area/AdminPages/Login',
+                'admin_area/logout' => 'admin_area/AdminPages/Logout',
+                'admin_area/simulation_detail' => 'admin_area/AdminPages/SimulationDetail',
+                'admin_area/invites/save' => 'admin_area/AdminPages/InvitesSave',
+                'admin_area/budget' => 'admin_area/AdminPages/GetBudget',
+                'admin_area/invite/reset' => 'admin_area/AdminPages/ResetInvite',
+                'admin_area/orders' => 'admin_area/AdminPages/Orders',
+                'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
+                'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
+                'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
+
+
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
@@ -282,9 +308,11 @@ return array(
             'cache' => true,
             'basePath' => realpath(dirname(__FILE__) . '/../..')
         ),
+        'errorHandler'=>array(
+            'errorAction' => 'static/site/error404'
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
-
 
     'preload' => array('log'),
 
@@ -304,13 +332,16 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor'      => 6,
-            'storageURL'              => 'http://storage.skiliks.com/v1',
-            'afterCallZoomerDuration' => 2000, // milliseconds
+            'skiliksSpeedFactor'              => 5,
+            'skiliksDeveloperModeSpeedFactor' => 8,
+            'storageURL'                      => 'http://storage.skiliks.com/v1',
+            'afterCallZoomerDuration'         => 2000, // milliseconds
+            'isDisplayServer500errors'        => false,
+            'isUseStrictAssertsWhenSimStop'   => false,
         ],
         'zoho' => array(
-            'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
-            'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
+            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
+            'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
             //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',

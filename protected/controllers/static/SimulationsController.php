@@ -83,6 +83,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
     {
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
 
         $notUsedFullSimulations = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
@@ -115,8 +116,10 @@ class SimulationsController extends AjaxController implements AccountPageControl
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+            $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
             $newInviteForFullSimulation->save(true, [
-                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status', 'tutorial_scenario_id',
+                'updated_at',
             ]);
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
@@ -161,12 +164,15 @@ class SimulationsController extends AjaxController implements AccountPageControl
     public function actionDetails($id)
     {
         $simulation = Simulation::model()->findByPk($id);
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+        if( false === $user->isAdmin() ){
+            if ($user->id !== $simulation->invite->owner_id &&
+                $user->id !== $simulation->invite->receiver_id) {
+                //echo 'Вы не можете просматривать результаты чужих симуляций.';
 
-        if (Yii::app()->user->data()->id !== $simulation->invite->owner_id &&
-            Yii::app()->user->data()->id !== $simulation->invite->receiver_id) {
-            //echo 'Вы не можете просматривать результаты чужих симуляций.';
-
-            Yii::app()->end(); // кошерное die;
+                Yii::app()->end(); // кошерное die;
+            }
         }
 
         $this->layout = false;
@@ -177,7 +183,7 @@ class SimulationsController extends AjaxController implements AccountPageControl
 
         $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
 
-        $user = Yii::app()->user->data();
+
 
         $this->render('simulation_details', [
             'simulation'     => $simulation,

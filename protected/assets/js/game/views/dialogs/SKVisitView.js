@@ -41,11 +41,20 @@ define([
              * @param el
              */
             'renderWindow':function (el) {
-                var event = this.options.model_instance.get('sim_event');
+                var me = this,
+                    event = this.options.model_instance.get('sim_event');
+
                 el.html(_.template(visitDoorTpl, {
                     'visit' :                     event.get('data'),
                     isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
                 }));
+
+                if ('undefined' === typeof event.get('data')[2]) {
+                    me.timer = setTimeout(function() {
+                        me.$('.visitor-allow').click();
+                        me.timer = null;
+                    }, 5000);
+                }
             },
 
             /**
@@ -54,6 +63,12 @@ define([
              */
             'allow':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
+
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
                 this.options.model_instance.close();
             },
