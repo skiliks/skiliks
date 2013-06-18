@@ -210,6 +210,9 @@ h3 {
 .border-large {
     border-radius: 8px;
 }
+.bg-transparnt {
+    background: rgba(255, 255, 255, 0.2);
+}
 .bg-rich-blue {
     background-color: #146672;
 }
@@ -236,6 +239,8 @@ h3 {
     color: #146672;
     line-height: 1;
     outline: none;
+}
+.form-small input[type="text"] {
     height: 26px;
     line-height: 26px;
     padding: 3px 9px;
@@ -260,16 +265,16 @@ h3 {
     padding-top: 15px;
 }
 .form-simple input[type="text"]::-webkit-input-placeholder {
-    color:#89b2b8;
+    color:#a6bcc0;
 }
 .form-simple input[type="text"]::-moz-placeholder {
-    color:#89b2b8;
+    color:#a6bcc0;
 }
 .form-simple input[type="text"]:-ms-input-placeholder {
-    color:#89b2b8;
+    color:#a6bcc0;
 }
 .form-simple input[type="text"]:-moz-placeholder {
-    color:#89b2b8;
+    color:#a6bcc0;
 }
 .placehldrs-dark input[type="text"]::-webkit-input-placeholder {
     color:#146672;
@@ -282,6 +287,9 @@ h3 {
 }
 .placehldrs-dark input[type="text"]:-moz-placeholder {
     color:#146672;
+}
+.form-large input[type=text], .form-large input[type=password] {
+    height:24px;
 }
 /*  ************************ /FORM SIMPLE ************************  */
 /*  *************************** PADDINGS ****************************/
@@ -426,7 +434,29 @@ h3 {
     padding-left: 17px;
 }
 /*  ************************ /SELECT ************************/
-
+/*  ************************ REGISTRATION ************************/
+.registrationform {
+    margin: 0 auto;
+    width: 900px;
+}
+.registrationform input[type=text] {
+    width:223px;
+}
+.registrationform input[type=password] {
+    width:162px;
+}
+.registrationform .row {
+    float:left;
+    margin-left: 10px;
+    position:relative;
+}
+.registrationform .row:last-child {
+    float:right;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+/*  ************************ /REGISTRATION ************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder {
     width:160px;
