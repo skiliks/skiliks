@@ -238,7 +238,7 @@ h3 {
     outline: none;
     height: 26px;
     line-height: 26px;
-    padding: 2px 4px;
+    padding: 3px 9px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 10px;
@@ -435,6 +435,7 @@ h3 {
     padding-top: 20px;
 }
 #invite-people-box h3 {
+    padding-bottom: 5px;
     width:190px;
 }
 /*  ************************ /KABINET ************************/
