@@ -178,18 +178,7 @@ h3 {
 .font-white {
     color:#fff;
 }
-.font-small {
-    font-size:12px;
-}
-.font-large {
-    font-size:16px;
-}
-.font-xlarge {
-    font-size:18px;
-}
-.font-xxlarge {
-    font-size:21px;
-}
+
 /* ************************ /FONTS ************************ */
 .text-center {
     text-align: center;
@@ -328,7 +317,22 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#146672;
 }
 /*  ************************ /FORM SIMPLE ************************  */
+.font-small {
+    font-size:12px;
+}
+.font-large {
+    font-size:16px;
+}
+.font-xlarge {
+    font-size:18px;
+}
+.font-xxlarge {
+    font-size:21px;
+}
 /*  *************************** PADDINGS ****************************/
+.pad20 {
+    padding: 20px;
+}
 .pad30 {
     padding: 30px;
 }
