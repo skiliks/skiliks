@@ -163,7 +163,7 @@ h2 {
 h3 {
     font-size:28px;
     color: #fff;
-    line-height:38px;
+    line-height:30px;
 }
 .font-blue-dark {
     color:#146672;
@@ -433,5 +433,8 @@ h3 {
 }
 #invite-people-box {
     padding-top: 20px;
+}
+#invite-people-box h3 {
+    width:190px;
 }
 /*  ************************ /KABINET ************************/
