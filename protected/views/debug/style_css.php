@@ -72,15 +72,10 @@ body {
 <div class="razdelitel"></div><div class="razdelitel"></div>
 
 <div class="block-border bg-rich-blue border-large pad30 pull-left">
+    <h3>Отправить приглашение</h3>
 <form id="invite-form" class="form-simple placehldrs-dark">
-    <div class="row ">
-        <label for="Invite_full_name">Имя</label>
-        <input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
-
-    <div class="row ">
-        <label for="Invite_email" class="required">Email</label>
-        <input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255">
-    </div>
+    <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
+    <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
 
     <div class="row wide postn-reltv">
         <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
