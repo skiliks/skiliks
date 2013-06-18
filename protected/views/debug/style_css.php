@@ -23,6 +23,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
 body {
     background:#7cb8c2;
+    padding:0px 100px 100px;
 }
 .blockfortest, .testblocks div {
     display: inline-block;
@@ -37,7 +38,11 @@ body {
 </style>
 
 </head>
-<body style="padding: 100px;">
+<body>
+<header class="site-header">
+    <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+
+</header>
 <div>
     <a href="#" class="btn btn-large">Get access</a>
 </div>
@@ -107,7 +112,7 @@ body {
         <div class="row wide postn-reltv">
             <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
                 <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-                <a id="sbSelector_26848379" href="#" class="sbSelector">aaa</a>
+                <a id="sbSelector_26848379" href="#" class="sbSelector">selector</a>
                 <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
                     <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
                     <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
