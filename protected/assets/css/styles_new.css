@@ -163,6 +163,18 @@ h3 {
     color: #fff;
     line-height:38px;
 }
+.font-blue-dark {
+    color:#146672;
+}
+.font-brown {
+    color:#555545;
+}
+.font-dark {
+    color:#3d4041;
+}
+.font-white {
+    color:#ffffff;
+}
 /*  ************************ Menu ************************  */
 .menu-main li {
    display: inline;
