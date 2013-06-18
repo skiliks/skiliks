@@ -68,7 +68,7 @@ body {
 <div class="razdelitel"></div><div class="razdelitel"></div>
 
 <div class="block-border bg-rich-blue border-large pad30 pull-left">
-<form id="invite-form" class="form-simple">
+<form id="invite-form" class="form-simple placehldrs-dark">
     <div class="row ">
         <label for="Invite_full_name">Имя</label>
         <input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
