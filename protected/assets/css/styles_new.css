@@ -238,7 +238,7 @@ h3 {
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     color: #146672;
     line-height: 1;
-    outline: 1px solid rgba(255, 255, 255, 0);
+    outline: 1px solid rgba(255, 255, 255, 1);
 }
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 26px;
@@ -319,6 +319,9 @@ h3 {
 }
 .pull-right {
     float: right;
+}
+.pull-center {
+    margin: 0 auto;
 }
 /*  *************************** /POZITZIONIROVANIE ****************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
@@ -446,8 +449,10 @@ h3 {
 /*  ************************ /SELECT ************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform {
-    margin: 0 auto;
     width: 900px;
+}
+.registrationform:after {
+    clear: both;
 }
 .registrationform input[type=text] {
     width:223px;
@@ -456,7 +461,6 @@ h3 {
     width:162px;
 }
 .registrationform .row {
-    float:left;
     margin-left: 10px;
     position:relative;
 }
