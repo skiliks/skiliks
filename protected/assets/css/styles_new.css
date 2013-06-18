@@ -462,17 +462,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /SELECT ************************/
 /*  ************************ REGISTRATION ************************/
-.registrationform {
-    /*width: 900px;*/
-}
-.registrationform:after {
-    clear: both;
-}
 .registrationform input[type=text] {
     width:223px;
 }
 .registrationform input[type=password] {
     width:162px;
+}
+.registrationform input[type=submit] {
+    width:188px;
 }
 .registrationform .row {
     margin-left: 10px;
