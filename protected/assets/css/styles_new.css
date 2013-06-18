@@ -144,6 +144,7 @@ a {
 }
 /* ************************ /Pager ************************ */
 /* ************************ !!!!!!!!!!! Pager FONT CUFON!!!!!!!!!!!!!************************ */
+/* ************************ FONTS ************************ */
 h1, h2, h3, h4 {
     color:#fff;
     font-family:"ProximaNova-Bold";
@@ -176,6 +177,13 @@ h3 {
 }
 .font-white {
     color:#fff;
+}
+/* ************************ /FONTS ************************ */
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
 }
 /*  ************************ Menu ************************  */
 .menu-main li {
@@ -253,8 +261,8 @@ h3 {
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
-    border:2px solid #24bdd3;
-    padding: 13px 9px 13px 18px;
+    border:3px solid #24bdd3;
+    padding: 12px 8px 12px 17px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 10px;
@@ -451,7 +459,7 @@ h3 {
 /*  ************************ /SELECT ************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform {
-    width: 900px;
+    /*width: 900px;*/
 }
 .registrationform:after {
     clear: both;
@@ -467,7 +475,7 @@ h3 {
     position:relative;
 }
 .registrationform .row:last-child {
-    float:right;
+    /*float:right;*/
 }
 .registrationform .row:first-child {
     margin-left:0px;
