@@ -200,9 +200,8 @@ h3 {
 /*  ************************ Colors and Borders ************************  */
 .block-border {
     border-radius: 8px;
-    /*border: 8px solid rgba(255, 255, 255, 0.2);*/
-    /*box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);*/
-    outline:8px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 8px;
 }
 .border-primary {
     border-radius: 3px;
