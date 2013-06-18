@@ -657,6 +657,7 @@ class MailBoxService
      */
     public static function updateMsCoincidence($mailId, $simId)
     {
+        /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
 
         $emailCoincidenceAnalyzer = new EmailCoincidenceAnalyzer();
@@ -681,6 +682,7 @@ class MailBoxService
         // switch flag if necessary {
         self::addToQueue($simulation, $mail);
         // switch flag if necessary }
+
 
         // update logs {
         foreach ($log_mails as $log_mail) {
