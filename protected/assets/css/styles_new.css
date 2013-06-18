@@ -377,21 +377,25 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /POZITZIONIROVANIE ****************************/
 .social_networks {
-    float:right;
     margin-top:10px;
+}
+.social_networks:after {
+    clear:both;
 }
 .social_networks a, .smallicons a {
     dispay: block;
     float: left;
     overflow: hidden;
     text-indent: -1000px;
-    padding: 0px !important;
-}
-.smallicons {
-    width:300px;
+    padding: 0px;
 }
 .smallicons .addthis_toolbox {
-    float: right;
+    display: inline-block;
+}
+.social_networks span {
+    display: inline-block;
+    font: 14px "ProximaNova-Bold";
+    line-height: 31px;
 }
 .smallicons a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
