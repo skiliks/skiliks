@@ -53,13 +53,15 @@ body {
 </header>
 <div class="grid-container">
     <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
+    <section class="article-main">
 
+    </section>
 </div>
 
 
 
 
-<div style="padding: 0px 100px 100px;">
+<div class="grid-container" style="padding: 0px 100px 100px;">
 
     <div class="razdelitel"></div>
 
@@ -67,6 +69,8 @@ body {
     <h1 class="font-blue-dark">Самый простой</h1>
     <h2 class="font-dark">Результативность</h2>
     <h3 class="font-brown">Индивидуальный профиль</h3>
+
+    <div class="razdelitel"></div>
 
 <div>
     <a href="#" class="btn btn-large">Get access</a>
