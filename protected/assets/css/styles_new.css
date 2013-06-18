@@ -238,7 +238,8 @@ h3 {
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     color: #146672;
     line-height: 1;
-    /*outline: 1px solid rgba(255, 255, 255, 0);*/
+    outline:none;
+   /*outline: 1px solid rgba(255, 255, 255, 0);*/
 }
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 26px;
