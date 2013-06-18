@@ -145,6 +145,7 @@ a {
 /* ************************ /Pager ************************ */
 /* ************************ !!!!!!!!!!! Pager FONT CUFON!!!!!!!!!!!!!************************ */
 h1, h2, h3, h4 {
+    color:#fff;
     font-family:"ProximaNova-Bold";
     font-weight: normal;
 }
@@ -173,7 +174,7 @@ h3 {
     color:#3d4041;
 }
 .font-white {
-    color:#ffffff;
+    color:#fff;
 }
 /*  ************************ Menu ************************  */
 .menu-main li {
