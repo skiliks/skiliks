@@ -406,6 +406,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: inline-block;
     padding-right: 10px;
 }
+.social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
+    background-position: 0px 0px;
+}
+.social_networks a.addthis_button_vk:hover {
+    background-position: 0px 100%;
+}
 .smallicons a.addthis_button_facebook {
     background-position: -36px 0px;
 }
