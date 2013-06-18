@@ -219,7 +219,7 @@ h2 {
     line-height: 26px;
     padding: 2px 4px;
 }
-.form-simple input[type="text"]+.form-simple input[type="text"] {
+.form-simple input[type="text"]+input[type="text"] {
     margin-left: 10px;
 }
 .form-simple label {
