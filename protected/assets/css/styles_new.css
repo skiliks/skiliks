@@ -253,9 +253,11 @@ h3 {
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     /*box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.3);
-    border: 2px solid #24bdd3;*/
+    border: 2px solid #24bdd3;
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 3px #23BFD5;
-    border:1px solid #24bdd3;
+    border:1px solid #24bdd3;*/
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.3);
+    border:2px solid #24bdd3;
     padding: 13px 9px 13px 18px;
 }
 .form-simple input[type="text"]+input[type="text"] {
