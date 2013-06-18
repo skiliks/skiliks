@@ -503,7 +503,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
     padding-top: 47px;
     position: relative;
-    width: 948px;
+    width: 960px;
 }
 .site-header h1 {
     left: 0px;
@@ -511,6 +511,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top:47px;
 }
 /*  ************************ /SITE ************************/
+/*  *************************** GRID ***************************/
+.grid-container {
+    margin: 0 auto;
+    width:960px;
+}
+/*  *************************** /GRID ***************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
     width:223px;
