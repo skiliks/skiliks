@@ -66,7 +66,7 @@ body {
     </ul>
 </nav>
 <div class="razdelitel"></div><div class="razdelitel"></div>
-<div class="block-border bg-rich-blue sideblock border-large">
+<div class="block-border bg-rich-blue border-large pad30">
 <form id="invite-form" class="form-simple">
     <div class="row ">
         <label for="Invite_full_name">Имя</label>
