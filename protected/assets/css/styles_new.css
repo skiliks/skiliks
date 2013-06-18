@@ -206,6 +206,9 @@ h3 {
 .menu-top a {
     font-size: 14px;
 }
+.menu-main {
+    top:72px;
+}
 .menu-main a {
     background: rgba(20,102,114,0.4);
     border-radius: 3px;
@@ -213,13 +216,13 @@ h3 {
 }
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
+    border-radius: 3px;
 }
 .menu-top, .menu-main {
     position: absolute;
     right:0px;
 }
 .menu-top {
-    margin-bottom: 10px;
     top:10px;
 }
 /*  ************************ /Menu ************************  */
