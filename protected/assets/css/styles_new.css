@@ -499,7 +499,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
 .site-header {
-    height: 80px;
+    height: 104px;
     margin: 0 auto;
     padding-top: 47px;
     position: relative;
