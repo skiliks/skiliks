@@ -83,6 +83,8 @@ body {
     </ul>
 </nav>
 <div class="razdelitel"></div><div class="razdelitel"></div>
+<a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
+<div class="razdelitel"></div>
 
 <div id="invite-people-box" class="block-border bg-rich-blue border-large pad30 pull-left">
     <h3>Отправить приглашение</h3>
