@@ -210,8 +210,11 @@ h3 {
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
 }
-.menu-top {
+.menu-top, .menu-main {
     position: absolute;
+    right:0px;
+}
+.menu-top {
     top:10px;
 }
 /*  ************************ /Menu ************************  */
