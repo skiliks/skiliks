@@ -57,6 +57,7 @@ body {
         <div class="bg-yellow border-primary""></div>
         <div class="bg-yellow-light border-large""></div>
     </div>
+<div class="razdelitel"></div>
 <nav class="menu-main">
     <ul>
         <li class="active"><a href="/">Главная</a></li>
@@ -64,8 +65,8 @@ body {
         <li><a href="#">Цены</a></li>
     </ul>
 </nav>
-<div class="razdelitel"></div>
-<div class="nice-border backgroud-rich-blue sideblock">
+<div class="razdelitel"></div><div class="razdelitel"></div>
+<div class="block-border bg-rich-blue sideblock">
 <form id="invite-form" class="form-simple">
     <div class="row ">
         <label for="Invite_full_name">Имя</label>
