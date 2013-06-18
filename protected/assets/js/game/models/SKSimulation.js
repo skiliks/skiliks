@@ -253,6 +253,7 @@ define([
             closeLoadDocsDialog: function() {
                 var me = this;
                 SKApp.server.api('simulation/markInviteStarted', {}, function(){});
+                console.log('CLOSE WINDOW');
                 SKApp.simulation.loadDocsDialog.remove();
                 clearTimeout(me.loadDocsTimer);
                 SKApp.simulation.trigger('documents:loaded');
