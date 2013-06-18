@@ -47,7 +47,7 @@ body {
 <div class="razdelitel"></div>
 
     <h1 style="width:780px">Самый простой и надёжный способ проверить навыки менеджера</h1>
-    <h1 class="font-blue-dark">Самый простой и надёжный способ проверить навыки менеджера</h1>
+    <h1 class="font-blue-dark">Самый простой</h1>
     <h2 class="font-dark">Результативность</h2>
     <h3 class="font-brown">Индивидуальный профиль</h3>
 
