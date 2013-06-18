@@ -23,7 +23,7 @@
 <?php endif ?>
 
     <div class="row shortSelector">
-        <?php echo $form->labelEx($vacancy     , 'professional_occupation_id'); ?>\
+        <?php echo $form->labelEx($vacancy     , 'professional_occupation_id'); ?>
         <?php echo $form->dropDownList(
             $vacancy,
             'professional_occupation_id',
