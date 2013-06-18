@@ -231,7 +231,7 @@ h3 {
 /*  ************************ /Colors and Borders ************************  */
 
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-.form-simple input[type="text"] {
+.form-simple input[type="text"], .form-simple input[type="password"]  {
     background: #fff;
     border: 1px solid #3e5259;
     border-radius: 5px;
@@ -240,10 +240,14 @@ h3 {
     line-height: 1;
     outline: none;
 }
-.form-small input[type="text"] {
+.form-small input[type="text"], .form-small input[type="password"] {
     height: 26px;
     line-height: 26px;
     padding: 3px 9px;
+}
+.form-large input[type=text], .form-large input[type=password] {
+    height:24px;
+    padding: 14px 10px 14px 19px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 10px;
@@ -287,9 +291,6 @@ h3 {
 }
 .placehldrs-dark input[type="text"]:-moz-placeholder {
     color:#146672;
-}
-.form-large input[type=text], .form-large input[type=password] {
-    height:24px;
 }
 /*  ************************ /FORM SIMPLE ************************  */
 /*  *************************** PADDINGS ****************************/
