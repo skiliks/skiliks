@@ -148,7 +148,6 @@ h1, h2, h3, h4 {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-weight: normal;
-    padding-bottom: 20px;
 }
 h1 {
     font-size:44px;
@@ -202,7 +201,8 @@ h3 {
 .block-border {
     border-radius: 8px;
     /*border: 8px solid rgba(255, 255, 255, 0.2);*/
-    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    /*box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);*/
+    outline:8px solid rgba(255, 255, 255, 0.2);
 }
 .border-primary {
     border-radius: 3px;
