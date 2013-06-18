@@ -380,6 +380,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     float:right;
     margin-top:10px;
 }
+.social_networks a, .smallicons a {
+    dispay: block;
+    float: left;
+    overflow: hidden;
+    text-indent: -1000px;
+    padding: 0px !important;
+}
 .smallicons {
     width:300px;
 }
