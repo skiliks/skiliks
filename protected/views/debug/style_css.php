@@ -91,7 +91,7 @@ body {
 <div class="razdelitel"></div>
 
 <ul id="yw1" class="yiiPager"><li class="first hidden"><a href="/dashboard/corporate">&lt;&lt; начало</a></li>
-    <li class="previous hidden"><a href="/dashboard/corporate" style="font-family:'Conv_ProximaNova-Semibold', Sans-Serif">Назад</a></li>
+    <li class="previous hidden"><a href="/dashboard/corporate" style="font-family:'Conv_ProximaNova-Semibold'">Назад</a></li>
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
     <li class="page"><a href="/dashboard/corporate?page=2">2</a></li>
     <li class="page"><a href="/dashboard/corporate?page=2">3</a></li>
