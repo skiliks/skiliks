@@ -157,6 +157,9 @@ li {
     min-height: 21px;
     padding-left: 28px;
 }
+.list-dark {
+    color: #555545;
+}
 /* ************************ /FONTS ************************ */
 .text-center {
     text-align: center;
