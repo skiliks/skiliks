@@ -148,15 +148,11 @@ li {
     list-style: none;
     margin-left: 0;
 }
-.list-style-large {
-    list-style: none;
-}
-.list-style-large li {
+.list-light li {
     background: url("../img/icon-features.png") no-repeat 0 2px;
-    font: 1.191em "ProximaNova-Regular";
     color: #fff;
     text-shadow: rgba(0,0,0,0.14) 0 0 8px;
-    min-height: 18px;
+    line-height: 36px;
     margin-bottom: 7px;
     padding-left: 27px;
 }
