@@ -149,11 +149,12 @@ li {
     margin-left: 0;
 }
 .list-light li {
-    background: url("../img/icon-listlight.png") no-repeat 0 2px;
+    background: url("../img/icon-listlight.png") no-repeat 0 0px;
     color: #fff;
     text-shadow: rgba(0,0,0,0.14) 0 0 8px;
     line-height: 20px;
     margin-bottom: 11px;
+    min-height: 21px;
     padding-left: 28px;
 }
 /* ************************ /FONTS ************************ */
