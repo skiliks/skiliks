@@ -376,6 +376,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
 }
 /*  *************************** /POZITZIONIROVANIE ****************************/
+
+/*  ****************************** SOCIAL ICONS *******************************/
 .social_networks:after {
     clear:both;
 }
@@ -386,57 +388,85 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-indent: -1000px;
     padding: 0px;
 }
-.social_networks span {
+.social_networks>span {
     display: block;
     float:left;
     font: 14px "ProximaNova-Bold";
+    line-height: 26px;
 }
 .smallicons .addthis_toolbox {
     display: block;
     float:left;
 }
+.social_networks a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+}
 .smallicons a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
-    width:28px !important;
-    height:27px !important;
+    width:28px;
+    height:27px;
+}
+.social_networks a, .smallicons a {
     margin-left:10px;
 }
-.smallicons>span {
-    display: inline-block;
-    padding-right: 10px;
-}
-.social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
+.social_networks .addthis_button_vk {
     background-position: 0px 0px;
 }
-.social_networks a.addthis_button_vk:hover {
+.social_networks .addthis_button_vk:hover {
     background-position: 0px 100%;
 }
-.smallicons a.addthis_button_facebook {
+.social_networks .addthis_button_facebook {
+    background-position: -42px 0px;
+}
+.social_networks .addthis_button_facebook:hover {
+    background-position: -42px 100%;
+}
+.social_networks .addthis_button_twitter {
+    background-position: -83px 0px;
+}
+.social_networks .addthis_button_twitter:hover {
+    background-position: -83px 100%;
+}
+.social_networks .addthis_button_google_plusone_share {
+    background-position: -125px 0px;
+}
+.social_networks .addthis_button_google_plusone_share:hover {
+    background-position: -125px 100%;
+}
+.social_networks .addthis_button_linkedin {
+    background-position: -166px 0px;
+}
+.social_networks .addthis_button_linkedin:hover {
+    background-position: -166px 100%;
+}
+.smallicons .addthis_button_facebook {
     background-position: -36px 0px;
 }
-.smallicons a.addthis_button_facebook:hover {
+.smallicons .addthis_button_facebook:hover {
     background-position: -36px -33px;
 }
-.smallicons a.addthis_button_twitter {
+.smallicons .addthis_button_twitter {
     background-position: -71px 0px;
     width:29px !important;
 }
-.smallicons a.addthis_button_twitter:hover {
+.smallicons .addthis_button_twitter:hover {
     background-position: -71px -33px;
 }
-.smallicons a.addthis_button_google_plusone_share {
+.smallicons .addthis_button_google_plusone_share {
     background-position: -107px 0px;
 }
-.smallicons a.addthis_button_google_plusone_share:hover {
+.smallicons .addthis_button_google_plusone_share:hover {
     background-position: -107px -33px;
 }
-.smallicons a.addthis_button_linkedin {
+.smallicons .addthis_button_linkedin {
     background-position: -142px 0px;
 }
-.smallicons a.addthis_button_linkedin:hover {
+.smallicons .addthis_button_linkedin:hover {
     background-position: -142px -33px;
 }
-
+/*  ****************************** /SOCIAL ICONS *******************************/
 /*  ************************ SELECT ************************/
 .sbHolder {
     display:inline-block;
