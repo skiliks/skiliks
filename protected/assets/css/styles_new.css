@@ -46,8 +46,33 @@ nav ul, nav ul li {
 /* --------------- /reset.css --------------- */
 
 /* --------------- main styles ---------*/
-@font-face {font-family: 'ProximaNova-Regular';src: url('../fonts/24F05C_4_0.eot');src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
-@font-face {font-family: 'ProximaNova-Bold';src: url('../fonts/24F05C_5_0.eot');src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
+@font-face {
+    font-family: 'ProximaNova-Regular';
+    src: url('../fonts/24F05C_4_0.eot');
+    src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/24F05C_4_0.woff') format('woff'),
+    url('../fonts/24F05C_4_0.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ProximaNova-Bold';
+    src: url('../fonts/24F05C_5_0.eot');
+    src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/24F05C_5_0.woff') format('woff'),
+    url('../fonts/24F05C_5_0.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Conv_ProximaNova-Semibold';
+    src: url('../fonts/ProximaNova-Semibold.eot');
+    src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
+    url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
+    url('../fonts/ProximaNova-Semibold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 body {
     line-height: 1;
     color: #29313d;
@@ -122,7 +147,7 @@ a {
 .yiiPager li, .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:"ProximaNova-Bold";
+    font-family:'Conv_ProximaNova-Semibold';
 }
 .yiiPager a {
     font-size: 16px;
@@ -651,7 +676,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 
 }
 .home-contnt-box {
-    width:415px;
+    width:515px;
 }
 /*  *************************** /GRID ***************************/
 /*  ************************ REGISTRATION ************************/
