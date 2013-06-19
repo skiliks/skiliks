@@ -87,93 +87,6 @@ a {
 .link-dark {
     color:#2d7b91;
 }
-.btn, .btn-large, .btn-primary {
-    border:none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    font-family:"ProximaNova-Bold";
-    vertical-align: middle;
-    text-decoration: none;
-    white-space: nowrap;
-}
-.btn-large { /* large green button */
-    background: #146672 url("../img/btn-circle.png") no-repeat;
-    background-position: 20px 50%;
-    color: #fff;
-    font-size: 18px;
-    height: 54px;
-    line-height: 54px;
-    padding: 0 19px 0 50px;
-}
-.btn-large:hover {
-    background-color: #BD2929;
-}
-.btn-primary { /* example -  feedback */
-    background: url("../img/btn-primry-bg.png") no-repeat;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
-    color: #3c3c32;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px 0 22px;
-}
-.btn-primary:hover {
-    color:#fff;
-    background-position: left bottom;
-}
-.btn-site { /* example -  manage subscription */
-    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
-    color: #fff;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px 0 22px;
-}
-.btn-site:hover {
-    background-color:#bf292a;
-}
-/* ************************ Pager ************************ */
-.yiiPager, .yiiPager li {
-    margin:0px;
-    padding: 0px;
-}
-.yiiPager li {
-    list-style-type: none;
-}
-.yiiPager .first, .yiiPager .last {
-    display: none;
-}
-.yiiPager li, .yiiPager li a {
-    color: #fff;
-    display: inline-block;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
-}
-.yiiPager a {
-    font-size: 16px;
-    margin: 0px 2px;
-    padding: 0px;
-    text-align: center;
-}
-.yiiPager .selected a {
-    color: #146672;
-}
-.yiiPager .previous a, .yiiPager .next a {
-    background: #6caab3;
-    border: none;
-    font-family: "ProximaNova-Bold";
-    font-size: 14px;
-    margin: 0px 11.5px;
-    padding: 7px 10px 7px 9px;
-}
-.yiiPager .previous a {
-    margin-right: 14px;
-}
-.yiiPager .previous a:hover, .yiiPager .next a:hover {
-    background: #146672;
-}
-/* ************************ /Pager ************************ */
-/* ************************ !!!!!!!!!!! Pager FONT CUFON!!!!!!!!!!!!!************************ */
 /* ************************ FONTS ************************ */
 h1, h2, h3, h4 {
     color:#fff;
@@ -220,6 +133,9 @@ li {
     list-style: none;
     margin-left: 0;
 }
+.list-style-large {
+
+}
 /* ************************ /FONTS ************************ */
 .text-center {
     text-align: center;
@@ -227,6 +143,95 @@ li {
 .text-right {
     text-align: right;
 }
+/* ************************ Buttons ************************ */
+.btn, .btn-large, .btn-primary {
+    border:none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family:"ProximaNova-Bold";
+    vertical-align: middle;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.btn-large { /* large green button */
+    background: #146672 url("../img/btn-circle.png") no-repeat;
+    background-position: 20px 50%;
+    color: #fff;
+    font-size: 18px;
+    height: 54px;
+    line-height: 54px;
+    padding: 0 19px 0 50px;
+}
+.btn-large:hover {
+    background-color: #BD2929;
+}
+.btn-primary { /* example -  feedback */
+    background: url("../img/btn-primry-bg.png") no-repeat;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    color: #3c3c32;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px 0 22px;
+}
+.btn-primary:hover {
+    color:#fff;
+    background-position: left bottom;
+}
+.btn-site { /* example -  manage subscription */
+    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
+    color: #fff;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px 0 22px;
+}
+.btn-site:hover {
+    background-color:#bf292a;
+}
+/* ************************ /Buttons ************************ */
+/* ************************ Pager ************************ */
+.yiiPager, .yiiPager li {
+    margin:0px;
+    padding: 0px;
+}
+.yiiPager li {
+    list-style-type: none;
+}
+.yiiPager .first, .yiiPager .last {
+    display: none;
+}
+.yiiPager li, .yiiPager li a {
+    color: #fff;
+    display: inline-block;
+    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
+}
+.yiiPager a {
+    font-size: 16px;
+    margin: 0px 2px;
+    padding: 0px;
+    text-align: center;
+}
+.yiiPager .selected a {
+    color: #146672;
+}
+.yiiPager .previous a, .yiiPager .next a {
+    background: #6caab3;
+    border: none;
+    font-family: "ProximaNova-Bold";
+    font-size: 14px;
+    margin: 0px 11.5px;
+    padding: 7px 10px 7px 9px;
+}
+.yiiPager .previous a {
+    margin-right: 14px;
+}
+.yiiPager .previous a:hover, .yiiPager .next a:hover {
+    background: #146672;
+}
+/* ************************ /Pager ************************ */
+
 /*  ************************ Menu ************************  */
 .menu-site li {
    display: inline;
@@ -237,7 +242,7 @@ li {
     display: inline-block;
     font-family: "ProximaNova-Regular";
     margin-left: 10px;
-    padding: 9px;
+    padding: 8px 9px;
     text-decoration: none;
 }
 .menu-top a {
