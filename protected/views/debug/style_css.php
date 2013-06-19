@@ -77,7 +77,7 @@ body {
     <div class="razdelitel"></div>
 
 <div>
-    <a href="#" class="btn btn-large">Get access</a>
+    <a href="#" class="btn btn-large btn-green">Get access</a>
 </div>
 
 <div class="razdelitel"></div>
@@ -89,7 +89,7 @@ body {
 <div class="razdelitel"></div>
 
 <div>
-    <a href="#" class="btn btn-site">Get access</a>
+    <a href="#" class="btn btn-site btn-green">Get access</a>
 </div>
 
 <div class="razdelitel"></div>
