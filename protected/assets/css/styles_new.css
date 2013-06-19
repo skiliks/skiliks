@@ -688,7 +688,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /KABINET ************************/
 /*  ************************** HOME **************************/
 .home-contnt-box li {
-    /*font-size: 16px;*/
+    font-size: 16px;
 }
 /*  ************************** /HOME **************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
