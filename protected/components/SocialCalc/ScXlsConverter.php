@@ -51,10 +51,15 @@ class ScXlsConverter {
 
         $excel->setActiveSheetIndex(0);
 
-        if (null !== $xlsPath) {
-            $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-            $writer->save($xlsPath);
+        if (null === $xlsPath) {
+            $xlsPath = tempnam('/tmp', 'excel_');
         }
+
+        $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $writer->save($xlsPath);
+
+        // We need this hack due to wrong export of empty cells
+        $excel = PHPExcel_IOFactory::load($xlsPath);
 
         return $excel;
     }

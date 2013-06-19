@@ -344,9 +344,7 @@ class CheckConsolidatedBudget
         // init configs }
 
         $scData = $document->getSheetList($path);
-        $xlsPath = $document->getFilePath() . '.xls';
-        ScXlsConverter::sc2xls($scData, $xlsPath);
-        $objPHPExcel = PHPExcel_IOFactory::load($xlsPath);
+        $objPHPExcel = ScXlsConverter::sc2xls($scData, $document->getFilePath() . '.xls');
 
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
