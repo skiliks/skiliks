@@ -153,7 +153,7 @@ li {
     color: #fff;
     text-shadow: rgba(0,0,0,0.14) 0 0 8px;
     line-height: 20px;
-    margin-bottom: 11px;
+    margin-bottom: 13px;
     min-height: 21px;
     padding-left: 28px;
 }
@@ -703,6 +703,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .home-contnt-box ul+h2 {
     margin-top:43px;
 }
+.home-contnt-box {
+    width:515px;
+}
+.home-list-box {
+    padding-right: 20px;
+    padding-top: 32px;
+    width:450px;
+}
 /*  ************************** /HOME **************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
 /*  *************************** GRID ***************************/
@@ -737,11 +745,5 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .half-page-block {
 
 }
-.home-contnt-box {
-    width:515px;
-}
-.home-list-box {
-    padding-right: 20px;
-    width:450px;
-}
+
 /*  *************************** /GRID ***************************/
