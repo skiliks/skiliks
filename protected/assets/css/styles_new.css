@@ -697,7 +697,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .registrationform input[type=submit] {
     padding-right: 30px;
-    width:188px;
 }
 .registrationform .row {
     margin-left: 10px;
