@@ -147,7 +147,7 @@ a {
 .yiiPager li, .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:'Conv_ProximaNova-Semibold';
+    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
 }
 .yiiPager a {
     font-size: 16px;
@@ -643,42 +643,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top:47px;
 }
 /*  ************************ /SITE ************************/
-/*  *************************** GRID ***************************/
-.grid-container {
-    margin: 0 auto;
-    width:960px;
-}
-.standard-rigth-box {
-
-}
-.standard-big-left-box {
-
-}
-.standard-full-width-box {
-
-}
-.login-form-in-place-width {
-
-}
-.sign-in-pop-up-width {
-
-}
-.profile-rigth-box {
-
-}
-.profile-big-letf-box {
-
-}
-.info-pop-up-width {
-
-}
-.half-page-block {
-
-}
-.home-contnt-box {
-    width:515px;
-}
-/*  *************************** /GRID ***************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
     width:223px;
@@ -724,3 +688,39 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************** /HOME **************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
+/*  *************************** GRID ***************************/
+.grid-container {
+    margin: 0 auto;
+    width:960px;
+}
+.standard-rigth-box {
+
+}
+.standard-big-left-box {
+
+}
+.standard-full-width-box {
+
+}
+.login-form-in-place-width {
+
+}
+.sign-in-pop-up-width {
+
+}
+.profile-rigth-box {
+
+}
+.profile-big-letf-box {
+
+}
+.info-pop-up-width {
+
+}
+.half-page-block {
+
+}
+.home-contnt-box {
+    width:515px;
+}
+/*  *************************** /GRID ***************************/
