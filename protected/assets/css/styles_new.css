@@ -224,6 +224,17 @@ ul li:last-child {
 .btn-site:hover {
     background-color:#bf292a;
 }
+.btn-add {
+    border-radius: 4px;
+    background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "ProximaNova-Bold";
+    height: 22px;
+    line-height: 22px;
+    padding: 0px 6px;
+    width: 10px;
+}
 /* ************************ /Buttons ************************ */
 /* ************************ Pager ************************ */
 .yiiPager, .yiiPager li {
@@ -369,6 +380,7 @@ input[type="text"], input[type="password"]  {
 .form-simple label {
     color: #fff;
     display: inline-block;
+    line-height: 90%;
     min-width: 60px;
     padding-right: 10px;
 }
