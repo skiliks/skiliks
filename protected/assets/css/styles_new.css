@@ -392,6 +392,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     float:left;
     font: 14px "ProximaNova-Bold";
+    line-height: 31px;
+}
+.smallicons>span {
     line-height: 26px;
 }
 .smallicons .addthis_toolbox {
