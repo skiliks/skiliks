@@ -27,6 +27,9 @@ define([
      * @augments Backbone.View
      */
     SKPhoneView = SKWindowView.extend({
+
+        isDisplaySettingsButton:true,
+
         title: "Телефон",
         events:_.defaults({
             'click .phone_get_contacts': 'getContacts',
@@ -48,7 +51,7 @@ define([
          * @param window_el
          */
         renderContent: function (window_el) {
-            window_el.html(_.template(main_template, SKApp.attributes));
+            window_el.html(_.template(main_template, SKApp.attributes, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
         },
 
         /**

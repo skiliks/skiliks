@@ -90,6 +90,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
     SKDocumentsListView = SKWindowView.extend(
         /** @lends SKDocumentsListView.prototype */
         {
+            isDisplaySettingsButton:false,
             title: 'Мои документы',
             addClass: 'documents-list',
 
