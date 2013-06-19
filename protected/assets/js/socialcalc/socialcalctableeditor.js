@@ -248,9 +248,8 @@ SocialCalc.TableEditor = function(context) {
             ta.select();
             window.setTimeout(function() {
                if (!SocialCalc.GetSpreadsheetControlObject) return; // in case not loaded
-               var s = SocialCalc.GetSpreadsheetControlObject();
+               var s = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
                if (!s) return;
-               var editor = s.editor;
                /*
                var ha = editor.pasteHTMLarea;
                if (ha) {
@@ -296,9 +295,8 @@ SocialCalc.TableEditor = function(context) {
             }
             window.setTimeout(function() {
                if (!SocialCalc.GetSpreadsheetControlObject) return;
-               var s = SocialCalc.GetSpreadsheetControlObject();
+               var s = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
                if (!s) return;
-               var editor = s.editor;
                var value = null;
                var isPasteSameAsClipboard = false;
 

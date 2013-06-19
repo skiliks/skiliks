@@ -34,7 +34,7 @@ class ScXlsConverter {
     /**
      * @param array $sheetsData
      */
-    public static function sc2xls(array $sheetsData)
+    public static function sc2xls(array $sheetsData, $xlsPath = null)
     {
         Yii::import('ext.sheetnode.*');
         require_once 'modules/sheetnode_phpexcel/sheetnode_phpexcel.export.inc';
@@ -50,6 +50,12 @@ class ScXlsConverter {
         }
 
         $excel->setActiveSheetIndex(0);
+
+        if (null !== $xlsPath) {
+            $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+            $writer->save($xlsPath);
+        }
+
         return $excel;
     }
 }

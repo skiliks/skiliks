@@ -332,7 +332,7 @@ function _sheetnode_phpexcel_export_sheet($worksheet, $title, $socialcalc) {
       catch (Exception $e) {
         $coord = $cell->getCoordinate();
         $cell->setValue($sc['cells'][$coord]['datavalue']);
-        $comment = t(variable_get('sheetnode_phpexcel_bad_formula', 'Could not export formula !formula.'), array('!formula' => $sc['cells'][$coord]['formula']));
+        $comment = 'Could not export formula ' . $sc['cells'][$coord]['formula'];
         $worksheet->getComment($coord)->getText()->createTextRun($comment);
       }
     }
