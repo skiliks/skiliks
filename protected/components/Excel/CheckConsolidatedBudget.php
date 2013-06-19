@@ -342,11 +342,11 @@ class CheckConsolidatedBudget
         $this->configs = $params['excel']['consolidatedBudget']; // We don`t sure is PHP 5.3 used on server.
         $worksheetNames = $this->configs['worksheetNames'];
         // init configs }
-        
-        // get workSheets {
-        PHPExcel_Calculation::getInstance()->clearCalculationCache();
+
         $scData = $document->getSheetList($path);
-        $objPHPExcel = ScXlsConverter::sc2xls($scData);
+        $xlsPath = $document->getFilePath() . '.xls';
+        ScXlsConverter::sc2xls($scData, $xlsPath);
+        $objPHPExcel = PHPExcel_IOFactory::load($xlsPath);
 
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
@@ -364,6 +364,7 @@ class CheckConsolidatedBudget
         }
         
         // start analyze {
+        PHPExcel_Calculation::getInstance()->clearCalculationCache();
         $this->resetUserPoints();
         
         $this->checkNo1($whLogistic)
