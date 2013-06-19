@@ -729,7 +729,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:190px;
 }
 #Invite_firstname {
-    width: 70px;
+    width: 60px;
+}
+#Invite_lastname {
+    width: 90px;
+}
+#Invite_email {
+    width: 178px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************** HOME **************************/
