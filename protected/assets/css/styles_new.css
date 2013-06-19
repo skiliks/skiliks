@@ -163,8 +163,10 @@ ul li:last-child {
 .list-light li:last-child {
     margin-bottom: 0px;
 }
-.list-dark {
+.list-dark li {
+    background: url("../img/icon-registration-list.png") no-repeat 0 0px;
     color: #555545;
+    font-family: "ProximaNova-Bold";
 }
 /* ************************ /FONTS ************************ */
 .text-center {
