@@ -68,6 +68,17 @@ body {
 
     <div class="razdelitel"></div>
 
+        <div class="block-border bg-yellow border-primary pad20">
+            <ul class="list-dark unstyled font-large">
+                <li>Полная оценка навыков бесплатно</li>
+                <li>Сравнение навыков с другими</li>
+                <li>Бесплатные обновления</li>
+            </ul>
+
+        </div>
+
+    <div class="razdelitel"></div>
+
 
     <h2 class="font-blue-dark">Самый простой</h2>
     <h2 class="font-dark">Результативность</h2>
