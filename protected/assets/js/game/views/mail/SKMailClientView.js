@@ -47,6 +47,7 @@ define([
     SKMailClientView = SKWindowView.extend(
         /** @lends SKMailClientView.prototype */
         {
+            isDisplaySettingsButton:true,
             dimensions: {
                 maxWidth: 1100,
                 maxHeight: 700
@@ -349,7 +350,7 @@ define([
              * @param el
              */
             renderTitle: function (el) {
-                el.html(_.template(mail_client_title_template, {}));
+                el.html(_.template(mail_client_title_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
                 this.delegateEvents();
             },
 
@@ -361,7 +362,8 @@ define([
             renderContent: function (el) {
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id: this.mailClientScreenID,
-                    contentBlockId: this.mailClientContentBlockId
+                    contentBlockId: this.mailClientContentBlockId,
+                    isDisplaySettingsButton:this.isDisplaySettingsButton
                 });
                 // append to <body>
                 el.html(mailClientWindowBasicHtml);
