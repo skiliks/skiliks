@@ -53,9 +53,12 @@ body {
 </header>
 <div class="grid-container">
     <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
-    <section class="article-main">
-
-    </section>
+    <ul class="list-style-large list-light font-xxlarge">
+        <li>Деловая симуляция, позволяющая оценить управленческие навыки</li>
+        <li>2-3 часовая игра</li>
+        <li>Реальные задачи и ситуации, требующие принятия решений</li>
+        <li>Отличный инструмент для оценки кандидатов и новых сотрудников</li>
+    </ul>
 </div>
 
 
@@ -156,7 +159,7 @@ body {
     <div class="registrationform" style="float: left">
         <form id="yum-user-registration-form" class="form-simple form-large">
             <div class="block-border bg-transparnt rows-inline">
-                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large font-xxlarge"></div>
+                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large font-xxxlarge"></div>
             </div>
         </form>
     </div>

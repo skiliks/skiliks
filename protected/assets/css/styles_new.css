@@ -109,6 +109,21 @@ h3 {
     color: #fff;
     line-height:30px;
 }
+.font-small {
+    font-size:12px;
+}
+.font-large {
+    font-size:16px;
+}
+.font-xlarge {
+    font-size:18px;
+}
+.font-xxlarge {
+    font-size:20px;
+}
+.font-xxxlarge {
+    font-size:21px;
+}
 .font-blue-dark {
     color:#146672;
 }
@@ -134,7 +149,16 @@ li {
     margin-left: 0;
 }
 .list-style-large {
-
+    list-style: none;
+}
+.list-style-large li {
+    background: url("../img/icon-features.png") no-repeat 0 2px;
+    font: 1.191em "ProximaNova-Regular";
+    color: #fff;
+    text-shadow: rgba(0,0,0,0.14) 0 0 8px;
+    min-height: 18px;
+    margin-bottom: 7px;
+    padding-left: 27px;
 }
 /* ************************ /FONTS ************************ */
 .text-center {
@@ -381,18 +405,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#146672;
 }
 /*  ************************ /FORM SIMPLE ************************  */
-.font-small {
-    font-size:12px;
-}
-.font-large {
-    font-size:16px;
-}
-.font-xlarge {
-    font-size:18px;
-}
-.font-xxlarge {
-    font-size:21px;
-}
+
 /*  *************************** PADDINGS ****************************/
 .pad20 {
     padding: 20px;
