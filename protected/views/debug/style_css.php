@@ -53,7 +53,7 @@ body {
 </header>
 <div class="grid-container">
     <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
-    <ul class="list-style-large list-light font-xxlarge">
+    <ul class="unstyled list-light font-xxlarge">
         <li>Деловая симуляция, позволяющая оценить управленческие навыки</li>
         <li>2-3 часовая игра</li>
         <li>Реальные задачи и ситуации, требующие принятия решений</li>
