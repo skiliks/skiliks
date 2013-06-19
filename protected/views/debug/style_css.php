@@ -171,7 +171,7 @@ body {
         <div class="row wide">
             <label for="Invite_vacancy_id" class="required">Профессиональный статус</span></label><div id="sbHolder_26848379" class="sbHolder">
                 <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-                <a id="sbSelector_26848379" href="#" class="sbSelector">selector</a>
+                <a id="sbSelector_26848379" href="#" class="sbSelector">Analytic</a>
                 <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
                     <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
                     <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
@@ -179,6 +179,7 @@ body {
                     <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
                 </ul>
             </div>
+            <span class="btn-add"></span>
         </div>
     </form>
 </div>
