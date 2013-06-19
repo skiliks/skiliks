@@ -739,4 +739,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .home-contnt-box {
     width:515px;
 }
+.home-list-box {
+    padding-right: 20px;
+    width:450px;
+}
 /*  *************************** /GRID ***************************/
