@@ -161,7 +161,7 @@ a {
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
+    font-family:"Conv_ProximaNova-Semibold" !important;
     font-size: 16px;
     margin: 0px 11.5px;
     padding: 7px 10px 7px 9px;
