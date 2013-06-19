@@ -426,8 +426,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .social_networks .addthis_button_facebook:hover {
     background-position: -42px 100%;
 }
-.social_networks .addthis_button_twitter {
+.social_networks a.addthis_button_twitter {
     background-position: -83px 0px;
+    width:33px;
 }
 .social_networks .addthis_button_twitter:hover {
     background-position: -83px 100%;
@@ -452,7 +453,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .smallicons .addthis_button_twitter {
     background-position: -71px 0px;
-    width:29px !important;
+    width:29px;
 }
 .smallicons .addthis_button_twitter:hover {
     background-position: -71px -33px;
