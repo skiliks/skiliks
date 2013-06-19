@@ -745,9 +745,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width: 170px;
 }
 #invite-form .btn-add {
-    bottom: 2px;
+    bottom: 1px;
     position: absolute;
-    right: 23px;
+    right: 0px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************** HOME **************************/
