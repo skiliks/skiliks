@@ -69,7 +69,7 @@ body {
     <div class="razdelitel"></div>
 
         <div class="block-border bg-yellow border-primary pad20">
-            <ul class="list-dark unstyled font-large">
+            <ul class="list-dark unstyled font-xlarge">
                 <li>Полная оценка навыков бесплатно</li>
                 <li>Сравнение навыков с другими</li>
                 <li>Бесплатные обновления</li>
