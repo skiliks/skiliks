@@ -182,7 +182,10 @@ h3 {
 .font-white {
     color:#fff;
 }
-
+.unstyled {
+    list-style: none;
+    margin-left: 0;
+}
 /* ************************ /FONTS ************************ */
 .text-center {
     text-align: center;
@@ -247,7 +250,7 @@ h3 {
 .bg-light-blue { /*  example - bg popupa smenit parol */
      background-color: #f3ffff;
 }
-.bg-lblue-rezlts {/*  example - bg rezultatov simulyatzii  */
+.bg-lblue-primary {/*  example - bg rezultatov simulyatzii  */
     background-color: #e8f7f7;
 }
 .bg-blue { /*  example - ostalos simulyatziy v dashboard */
