@@ -426,7 +426,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .social_networks .addthis_button_facebook:hover {
     background-position: -42px 100%;
 }
-.social_networks a.addthis_button_twitter {
+.social_networks .addthis_button_twitter {
     background-position: -83px 0px;
     width:33px;
 }
