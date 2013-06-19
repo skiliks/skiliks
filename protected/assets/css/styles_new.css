@@ -694,5 +694,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .home-contnt-box h2 {
     margin-bottom: 14px;
 }
+.home-contnt-box ul+h2 {
+    margin-top:43px;
+}
 /*  ************************** /HOME **************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
