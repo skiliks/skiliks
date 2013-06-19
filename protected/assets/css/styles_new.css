@@ -372,6 +372,10 @@ input[type="text"], input[type="password"]  {
     min-width: 60px;
     padding-right: 10px;
 }
+.dark-labels label {
+    color:#555545;
+    font-family: "ProximaNova-Bold";
+}
 .row {
     position: relative;
     padding-top: 10px;
@@ -692,6 +696,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .registrationform .row:first-child {
     margin-left:0px;
+}
+.form-profl-reg label {
+    width:130px;
 }
 /*  ************************ /REGISTRATION ************************/
 /*  ************************ KABINET ************************/

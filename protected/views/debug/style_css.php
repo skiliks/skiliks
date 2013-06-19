@@ -163,10 +163,10 @@ body {
         <li>Сравнение навыков с другими</li>
         <li>Бесплатные обновления</li>
     </ul>
-    <form class="form-simple form-small">
+    <div class="razdelitel"></div>
+    <form class="form-simple form-small dark-labels form-profl-reg">
         <div class="row">
-            <label>Имя</label>
-            <input placeholder="Имя" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"><input placeholder="Фамилия" class="" name="YumProfile[lastname]" id="YumProfile_lastname" type="text">
+            <label>Имя</label><input placeholder="Имя" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"><input placeholder="Фамилия" class="" name="YumProfile[lastname]" id="YumProfile_lastname" type="text">
         </div>
         <div class="row wide">
             <label for="Invite_vacancy_id" class="required">Профессиональный статус</span></label><div id="sbHolder_26848379" class="sbHolder">
