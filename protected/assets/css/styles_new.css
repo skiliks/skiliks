@@ -705,6 +705,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-bottom: 5px;
     width:190px;
 }
+#Invite_firstname {
+    width: 70px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************** HOME **************************/
 .home-contnt-box li {
