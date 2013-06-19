@@ -1104,7 +1104,10 @@ class MailBoxService
 
         if ($action == self::ACTION_FORWARD) {
             $result['parentSubjectId'] = $message->subject_obj->id;
-
+            if (null !== $message->attachment) {
+                $result['attachmentName']   = $message->attachment->myDocument->fileName;
+                $result['attachmentId']     = $message->attachment->file_id;
+            }
             // TODO: Check is this required
             if ($subject->constructor_number === 'TXT') {
                 $result['text'] = $subject->getMailTemplate()->message;
