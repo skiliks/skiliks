@@ -718,7 +718,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /REGISTRATION ************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder {
-    width:160px;
+    width:150px;
+}
+#invite-form .btn-primary {
+    margin-left: 70px;
 }
 #invite-people-box {
     padding-top: 20px;
@@ -731,10 +734,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width: 60px;
 }
 #Invite_lastname {
-    width: 90px;
+    width: 80px;
 }
 #Invite_email {
     width: 178px;
+}
+#invite-form .btn-add {
+    bottom: 1px;
+    position: absolute;
+    right: 23px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************** HOME **************************/
