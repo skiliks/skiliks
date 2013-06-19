@@ -167,6 +167,8 @@ ul li:last-child {
     background: url("../img/icon-registration-list.png") no-repeat 0 0px;
     color: #555545;
     font-family: "ProximaNova-Bold";
+    min-height: 21px;
+    padding-left: 28px;
 }
 /* ************************ /FONTS ************************ */
 .text-center {
