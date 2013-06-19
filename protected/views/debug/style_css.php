@@ -66,7 +66,7 @@ body {
     <div class="razdelitel"></div>
 
 
-    <h1 class="font-blue-dark">Самый простой</h1>
+    <h2 class="font-blue-dark">Самый простой</h2>
     <h2 class="font-dark">Результативность</h2>
     <h3 class="font-brown">Индивидуальный профиль</h3>
 
@@ -184,9 +184,9 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<section class="bg-lblue-primary main-article">
+<section class="bg-lblue-primary home-contnt-box" style="padding:40px 100px;">
     <article>
-        <h3>Самый надежный</h3>
+        <h2 class="font-blue-dark">Самый надежный</h2>
         <ul class="unstyled">
             <li>Экономит время</li>
             <li>Максимально приближен к реальному деловому окружению, задачам и ситуациям</li>
