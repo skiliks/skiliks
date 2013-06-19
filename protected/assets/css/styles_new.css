@@ -144,6 +144,9 @@ li {
     line-height: 16px;
     margin-bottom: 10px;
 }
+ul li:last-child {
+    margin-bottom: 0px;
+}
 .unstyled {
     list-style: none;
     margin-left: 0;
@@ -156,6 +159,9 @@ li {
     margin-bottom: 13px;
     min-height: 21px;
     padding-left: 28px;
+}
+.list-light li:last-child {
+    margin-bottom: 0px;
 }
 .list-dark {
     color: #555545;
