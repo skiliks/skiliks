@@ -66,16 +66,6 @@ body {
 
 <div class="grid-container">
 
-    <div class="razdelitel"></div>
-
-        <div class="block-border bg-yellow border-primary pad20">
-            <ul class="list-dark unstyled font-xlarge">
-                <li>Полная оценка навыков бесплатно</li>
-                <li>Сравнение навыков с другими</li>
-                <li>Бесплатные обновления</li>
-            </ul>
-
-        </div>
 
     <div class="razdelitel"></div>
 
@@ -167,10 +157,38 @@ body {
 
 <div class="razdelitel"></div>
 
+<div class="block-border bg-yellow border-primary pad20 pull-left">
+    <ul class="list-dark unstyled font-xlarge">
+        <li>Полная оценка навыков бесплатно</li>
+        <li>Сравнение навыков с другими</li>
+        <li>Бесплатные обновления</li>
+    </ul>
+    <form class="form-simple form-small">
+        <div class="row">
+            <label>Имя</label>
+            <input placeholder="Имя" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"><input placeholder="Фамилия" class="" name="YumProfile[lastname]" id="YumProfile_lastname" type="text">
+        </div>
+        <div class="row wide">
+            <label for="Invite_vacancy_id" class="required">Профессиональный статус</span></label><div id="sbHolder_26848379" class="sbHolder">
+                <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
+                <a id="sbSelector_26848379" href="#" class="sbSelector">selector</a>
+                <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
+                    <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
+                    <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="razdelitel"></div>
+
     <div class="registrationform" style="float: left">
         <form id="yum-user-registration-form" class="form-simple form-large">
             <div class="block-border bg-transparnt rows-inline">
-                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Начать" class="btn-large font-xxxlarge"></div>
+                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Сохранить изменения" class="btn-large font-xxxlarge"></div>
             </div>
         </form>
     </div>
