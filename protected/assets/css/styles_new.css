@@ -723,7 +723,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /REGISTRATION ************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder {
-    width:150px;
+    width:155px;
 }
 #invite-form .btn-primary {
     margin-left: 70px;
@@ -775,6 +775,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
     width:960px;
 }
+.controls-border { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
+
+}
+.controls-border .grid2 {
+    width:459px;
+}
+.controls-border .grid2+.grid2 {
+    margin-left: 18px;
+}
 .standard-rigth-box {
 
 }
@@ -782,7 +791,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 
 }
 .standard-full-width-box {
-
+    width:100%;
 }
 .login-form-in-place-width {
 
@@ -793,7 +802,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .profile-rigth-box {
 
 }
-.profile-big-letf-box {
+.profile-big-left-box {
 
 }
 .info-pop-up-width {
