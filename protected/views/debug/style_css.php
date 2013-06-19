@@ -61,7 +61,7 @@ body {
 
 
 
-<div class="grid-container" style="padding: 0px 100px 100px;">
+<div class="grid-container">
 
     <div class="razdelitel"></div>
 
@@ -94,6 +94,7 @@ body {
     <li class="previous hidden"><a href="/dashboard/corporate">Назад</a></li>
     <li class="page selected"><a href="/dashboard/corporate">1</a></li>
     <li class="page"><a href="/dashboard/corporate?page=2">2</a></li>
+    <li class="page"><a href="/dashboard/corporate?page=2">3</a></li>
     <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
     <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
 </ul>
