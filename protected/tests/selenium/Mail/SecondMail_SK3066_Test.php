@@ -16,7 +16,7 @@ class SecondMail_SK3066_Test extends SeleniumTestHelper
         $this->write_email();
         // Пишем письмо с темой правильной MS
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
-        $this->addTheme('Сводный бюджет');
+        $this->addTheme("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         sleep(2);
