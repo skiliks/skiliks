@@ -478,6 +478,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .pull-center {
     margin: 0 auto;
 }
+.thetable {
+    display: table;
+}
+.grid-cell {
+    display: table-cell;
+}
 /*  *************************** /POZITZIONIROVANIE ****************************/
 
 /*  ****************************** SOCIAL ICONS *******************************/
@@ -862,9 +868,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:316px;
 }
 .container-results-3 .grid2 {
-    width:632px;
+    width:634px;
 }
 .container-results-3 .grid1+.grid2 {
     margin-left: 10px;
+}
+.container-results-2 .grid1 {
+    width:475px;
+}
+.container-results-2 .grid-space {
+    width:10px;
 }
 /*  *************************** /GRID ***************************/
