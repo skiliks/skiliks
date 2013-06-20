@@ -904,7 +904,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .sign-block .ui-dialog-title {
     color:#fff;
     font-family:"ProximaNova-Bold";
-    font-size:16px;
+    font-size:28px;
 }
 .sign-block .ui-dialog-titlebar-close, .popupclose {
     background: url("../img/closepopup.png") no-repeat 0 0;

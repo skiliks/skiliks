@@ -46,8 +46,11 @@ body {
 
     <div class="sign-block">
         <div class="ui-dialog-titlebar">
-            <span class="ui-dialog-titlebar ui-dialog-title">Вход</div>
+            <span class="ui-dialog-titlebar ui-dialog-title">Восстановление пароля</div>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
+        </div>
+        <div class="ui-dialog-content ui-widget-content"">
+            Content
         </div>
     </div>
 
