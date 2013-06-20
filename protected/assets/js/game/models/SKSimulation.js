@@ -121,6 +121,9 @@ define([
                 this.config = [];
                 this.config.isMuteVideo = false;
 
+                this.isPlayIncomingCallSound = true;
+                this.isPlayIncomingMailSound = true;
+
                 this.once('time:11-00', function () {
                     SKApp.server.api('dayPlan/CopyPlan', {
                         minutes:me.getGameMinutes()
