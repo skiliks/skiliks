@@ -783,17 +783,27 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-borders-2 .grid2 {
     float:left;
-    width:47%; /*459px */
+    width:459px; /*47% */
 }
 .container-borders-2 .grid2+.grid2 {
     margin-left: 18px;
 }
-.standard-rigth-box {
+.container-borders-3 .grid1 {
+    width:300px;
+}
+.container-borders-3 .grid2 {
+    width:596px;
+}
+.container-borders-3 .grid1+.grid2 {
+    margin-left: 28px;
+}
+.standard-left-box {
+    width:300px;
+}
+.standard-right-box {
 
 }
-.standard-big-left-box {
 
-}
 .standard-full-width-box {
     width:100%;
 }
