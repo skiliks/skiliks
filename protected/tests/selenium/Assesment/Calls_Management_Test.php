@@ -81,8 +81,8 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['calls6'],"100");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['calls6'],"100");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['calls6'],"75");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['calls6'],"75");
         $this->close();
     }
 }
