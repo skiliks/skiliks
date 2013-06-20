@@ -22,6 +22,8 @@ define([
     SKDayPlanView = SKWindowView.extend({
         'addClass': 'planner-book-main-div',
 
+        isDisplaySettingsButton:false,
+
         dimensions: {
             maxWidth: 1100,
             maxHeight: 700
@@ -481,7 +483,7 @@ define([
          */
         renderContent:function (window_el) {
             var me = this;
-            window_el.html(_.template(plan_content_template, {}));
+            window_el.html(_.template(plan_content_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
             this.updateTodos();
             me.listenTo(SKApp.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();
