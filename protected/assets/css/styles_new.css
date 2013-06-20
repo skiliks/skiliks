@@ -897,6 +897,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sign-block .ui-dialog-titlebar {
     padding:20px 20px 0px;
+    position: relative;
 }
 .sign-block .ui-dialog-content {
     padding: 0px 20px 25px;
@@ -905,6 +906,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-size:28px;
+    line-height: 32px;
 }
 .sign-block .ui-dialog-titlebar-close, .popupclose {
     background: url("../img/closepopup.png") no-repeat 0 0;
