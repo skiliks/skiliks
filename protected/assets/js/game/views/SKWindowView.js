@@ -18,7 +18,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         'events': {
             'click .win-close': 'doWindowClose',
-            'mousedown': 'doActivate'
+            'mousedown': 'doActivate',
+            'click .btn-set':'doSettingsMenu'
         },
 
         isDisplaySettingsButton: true,
@@ -234,6 +235,15 @@ define(["text!game/jst/window.jst"], function (window_template) {
             }
 
             return rd;
+        },
+        doSettingsMenu:function(event) {
+            var me = this;
+            if(me.$('.sim-window-settings').css('display') === 'none') {
+                me.$('.sim-window-settings').css('display', 'block');
+            }else{
+                me.$('.sim-window-settings').css('display', 'none');
+            }
+            console.log("Click YES");
         }
     });
     return SKWindowView;
