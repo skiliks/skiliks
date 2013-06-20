@@ -180,7 +180,9 @@ define([
                 }
                 this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
 
-                me.doSoundPhoneCallInStart();
+                if(SKApp.simulation.isPlayIncomingCallSound){
+                    me.doSoundPhoneCallInStart();
+                }
                 event.on('complete', function() {
                     me.doSoundPhoneCallInStop();
                 });
