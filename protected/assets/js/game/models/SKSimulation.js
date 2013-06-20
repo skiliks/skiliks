@@ -317,8 +317,13 @@ define([
                 if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
                 ) {
-                    console.log("onAddDocument if");
+                    var is_paused;
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        console.log("onAddDocument if");
+                        is_paused = $('.time').hasClass('paused');
+                        if(!is_paused) {
+                            $('.time').addClass('paused');
+                        }
                         me.loadDocsDialog = new SKDialogView({
                             'message': 'Пожалуйста, подождите, идёт загрузка документов',
                             'modal': true,
@@ -333,7 +338,7 @@ define([
                         }, 120000);
                     }else{
                         console.log("onAddDocument else");
-                        var is_paused = $('.time').hasClass('paused');
+                        is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
                             SKApp.simulation.startPause(function(){
