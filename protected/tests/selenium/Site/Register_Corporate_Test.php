@@ -29,7 +29,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         //это лого в футере
         $this->clickAndWait("link=Skiliks");
         $this->clickAndWait("css=footer > a.bigbtnsubmt.freeacess > cufon.cufon.cufon-canvas > canvas");
-        //$this->assertLocation('http://test.skiliks.com/registration');
+
         $this->type('id=YumProfile_email','empty');
         $this->type('id=YumUser_password','1');
         $this->type('id=YumUser_password_again','1');
@@ -40,12 +40,13 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->clickAndWait("css=img[alt='Skiliks']");
         $this->clickAndWait("//ul[@id='yw0']/li[4]/a/cufon/canvas");
         $this->clickAndWait("//div[@id='top']/div[2]/div/div/div/div[2]/div[4]/a/cufon[2]/canvas");
-        //$this->assertLocation('http://test.skiliks.com/registration');
+
         $this->type('id=YumProfile_email','asd@skilikscom');
         $this->type('id=YumUser_password_again','123123');
         $this->clickAndWait("name=yt0");
         $this->assertTrue($this->isTextPresent('Email введён неверно', 'Введите пароль'));
 
+        //генерируем каждый раз новый персональный e-mail для пользователя
         $new_email = "gty1991_1+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
         $new_email .= "@mail.ru";
@@ -70,12 +71,12 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_firstname",'test-name');
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-surname');
 
+        //генерируем каждый раз новый корпоративный e-mail для пользователя
         $korp_email = "gty1991+";
         $korp_email .= (string)rand(1, 10000)+(string)rand(1,500);
         $korp_email .= "@skiliks.com";
 
         $this->type('css=#user-account-corporate-form > div.row > div.field > #UserAccountCorporate_corporate_email', $korp_email);
-
         $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
 
         $this->open(TestUserHelper::getCorporateActivationUrl($korp_email));
