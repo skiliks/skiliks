@@ -793,6 +793,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     clear: both;
     height: 0;
 }
+.container-border-1 {
+    width:944px;
+}
 .container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
 
 }

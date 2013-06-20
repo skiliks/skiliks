@@ -39,6 +39,11 @@ body {
 </head>
 <body style="padding: 100px;">
 <div class="grid-container">
+
+    <div class="container-border-1 block-border bg-yellow border-primary">
+        <div class="pad20">AAA</div>
+    </div>
+
     <div class="razdelitel"></div>
     <div class="container-borders-2">
         <div class="block-border bg-yellow grid2 border-primary">
