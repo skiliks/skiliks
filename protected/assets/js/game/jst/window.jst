@@ -18,7 +18,17 @@
         </div>
     </header>
     <@ if(isDisplaySettingsButton) { @>
-        <div class="sim-window-settings"></div>
+        <div class="sim-window-settings settings-<@=windowName@>">
+            <@ if(windowName === 'phone') { @>
+                <a href="#" class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingCallSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
+                    <@ if(SKApp.simulation.isPlayIncomingCallSound){ @>Вкл.<@ } else { @>Выкл.<@ } @>
+                </a>
+            <@ } else if(windowName === 'mail') { @>
+                <a href="#" class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingMailSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
+                    <@ if(SKApp.simulation.isPlayIncomingMailSound){ @>Вкл.<@ } else { @>Выкл.<@ } @>
+                </a>
+            <@ } @>
+        </div>
     <@ } @>
     <div class="sim-window-content">
     </div>

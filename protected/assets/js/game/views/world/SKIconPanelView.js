@@ -96,7 +96,9 @@ define([
              */
             onMailEvent: function (event) {
                 this.startAnimation('.mail');
-                this.doSoundIncomeMail();
+                if(SKApp.simulation.isPlayIncomingMailSound){
+                    this.doSoundIncomeMail();
+                }
             },
 
             /**
@@ -180,7 +182,9 @@ define([
                 }
                 this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
 
-                me.doSoundPhoneCallInStart();
+                if(SKApp.simulation.isPlayIncomingCallSound){
+                    me.doSoundPhoneCallInStart();
+                }
                 event.on('complete', function() {
                     me.doSoundPhoneCallInStop();
                 });

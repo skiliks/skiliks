@@ -186,7 +186,7 @@ body {
     <div class="registrationform" style="float: left">
         <form id="yum-user-registration-form" class="form-simple form-large">
             <div class="block-border bg-transparnt rows-inline">
-                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Сохранить изменения" class="btn-large font-xxxlarge btn-green"></div>
+                <div class="row"><input placeholder="Email" name="YumProfile[email]" id="YumProfile_email" type="text" value=""></div><div class="row"><input placeholder="Введите пароль" name="YumUser[password]" id="YumUser_password" type="password"></div><div class="row"><input placeholder="Подтвердите пароль" name="YumUser[password_again]" id="YumUser_password_again" type="password"></div><div class="row"><input type="submit" name="yt0" value="Сохранить изменения" class="btn-large font-xxxlarge btn-green proxima-bold"></div>
             </div>
         </form>
     </div>
@@ -194,7 +194,7 @@ body {
 <div class="razdelitel"></div>
 
 <div class="social_networks smallicons">
-    <span>Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+    <span class="proxima-bold">Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
         <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y"></span></span></a>
         <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y"></span></span></a>
         <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y"></span></span></a>
@@ -204,7 +204,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 <div class="social_networks">
-    <span>Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+    <span class="proxima-bold">Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
         <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y"></span></span></a>
         <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y"></span></span></a>
         <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y"></span></span></a>
