@@ -35,9 +35,9 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
         $this->checkPopup('Укажите тему письма.');
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icon']['close']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_cancel']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icon']['close']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
         $this->close();
     }
