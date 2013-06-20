@@ -283,7 +283,7 @@ ul li:last-child {
 /* ************************ /Pager ************************ */
 
 /*  ************************ Menu ************************  */
-.menu-site li {
+.menu-site li, .menu-link-regular, .menu-link-active {
    display: inline;
    list-style-type: none;
 }
