@@ -46,9 +46,16 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
         sleep(10);
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[3]");
-        $this->waitForVisible('css=p.mail-popup-text');
-        $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
-        $this->click('css=div.mail-popup-button > div');
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
+        $this->click(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
+        sleep(2);
+        $this->assertFalse($this->isVisible("xpath=(//*[contains(text(),'Задача отдела логистики: статус')])"));
         $this->close();
     }
 }
