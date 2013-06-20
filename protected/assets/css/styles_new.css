@@ -109,6 +109,9 @@ h3 {
     color: #fff;
     line-height:30px;
 }
+.proxima-bold {
+    font-family:"ProximaNova-Bold";
+}
 .font-small {
     font-size:12px;
 }

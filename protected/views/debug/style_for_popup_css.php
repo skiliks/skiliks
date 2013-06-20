@@ -42,7 +42,7 @@ body {
 
     <div class="block-border bg-rich-blue sign-in-pop-up-width">
         <div class="pad20">
-            <div class="ui-dialog-titlebar font-white ">Вход</div>
+            <div class="ui-dialog-titlebar font-white proxima-bold">Вход</div>
         </div>
     </div>
 
