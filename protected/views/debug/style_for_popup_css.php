@@ -138,20 +138,20 @@ body {
         </div>
         <div class="razdelitel"></div>
 
-        <h2 class="font-dark">Четыре колонки!</h2>
+        <h2 class="font-dark">Четыре колонки</h2>
 
-        <div class="container-results-4 font-dark">
+        <div class="container-results-4">
             <div class="grid1">
-                <h2 class="font-xlarge text-center">Уровень владения навыками</h2>
+                <h2 class="font-xlarge text-center font-dark">Уровень владения навыками</h2>
             </div>
             <div class="grid1">
-                <h2 class="font-xlarge text-center">Уровень достижения результатов: количество и значимость выполненных задач</h2>
+                <h2 class="font-xlarge text-center font-dark">Уровень достижения результатов: количество и значимость выполненных задач</h2>
             </div>
             <div class="grid1">
-                <h2 class="font-xlarge text-center">Скорость достижения результатов</h2>
+                <h2 class="font-xlarge text-center font-dark">Скорость достижения результатов</h2>
             </div>
             <div class="grid1">
-                <h2 class="font-xlarge text-center">Личностные качества, проявленные в симуляции</h2>
+                <h2 class="font-xlarge text-center font-dark">Личностные качества, проявленные в симуляции</h2>
             </div>
         </div>
         <div class="razdelitel"></div>
