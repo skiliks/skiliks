@@ -762,9 +762,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #invite-form .btn-primary {
     margin-left: 70px;
 }
-#invite-people-box {
-    padding-top: 20px;
-}
 #invite-people-box h3 {
     padding-bottom: 5px;
     width:190px;
