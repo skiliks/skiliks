@@ -38,11 +38,15 @@ body {
 
 </head>
 <body style="padding: 100px;">
+<style>
+
+
+</style>
 <div class="grid-container">
 
-    <div class="block-border bg-rich-blue sign-in-pop-up-width">
-        <div class="pad20">
-            <div class="ui-dialog-titlebar font-white proxima-bold">Вход</div>
+    <div class="sign-block">
+        <div class="ui-dialog-titlebar">
+            <span class="ui-dialog-titlebar ui-dialog-title">Вход</div>
         </div>
     </div>
 
