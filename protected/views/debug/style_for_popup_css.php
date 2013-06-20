@@ -119,7 +119,7 @@ body {
 
 </div>
 
-<div class="results-width-block block-border bg-lblue-primary">
+<div class="results-width-block block-border bg-lblue-primary border-primary">
     <div class="pad10">
         AAA
     </div>
