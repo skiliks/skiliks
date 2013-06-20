@@ -93,18 +93,20 @@ body {
         </div>
     </div>
 
+    <div class="razdelitel"></div>
+
     <div class="container-4">
         <div class="grid1 text-center">
-            <h2 class="font-white font-24 text-center">Уровень владения навыками</h2>
+            <h2 class="font-white font-xlarge text-center">Уровень владения навыками</h2>
         </div>
         <div class="grid1 text-center">
-            <h2 class="font-white font-24 text-center">Уровень достижения результатов: количество и значимость выполненных задач</h2>
+            <h2 class="font-white font-xlarge text-center">Уровень достижения результатов: количество и значимость выполненных задач</h2>
         </div>
         <div class="grid1 text-center">
-            <h2 class="font-white font-24 text-center">Скорость достижения результатов</h2>
+            <h2 class="font-white font-xlarge text-center">Скорость достижения результатов</h2>
         </div>
         <div class="grid1 text-center">
-            <h2 class="font-white font-24 text-center">Личностные качества, проявленные в симуляции</h2>
+            <h2 class="font-white font-xlarge text-center">Личностные качества, проявленные в симуляции</h2>
         </div>
     </div>
 
