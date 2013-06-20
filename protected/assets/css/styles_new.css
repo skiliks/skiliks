@@ -127,6 +127,7 @@ h3 {
 }
 .font-24 {
     font-size:24px;
+    line-height: 100%;
 }
 .font-blue-dark {
     color:#146672;
@@ -826,7 +827,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:238px;
 }
 .container-4 .grid1+.grid1 {
-    margin-left: 4px;
+    margin-left: 3px;
 }
 .standard-left-box+.standard-right-box {
     margin-left: 15px;
