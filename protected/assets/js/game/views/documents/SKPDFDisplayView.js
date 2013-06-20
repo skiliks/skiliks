@@ -20,6 +20,7 @@ define([
     SKPDFDisplayView = SKWindowView.extend(
         /** @lends SKPDFDisplayView.prototype */
         {
+            isDisplaySettingsButton:false,
             /**
              * @property {string} title
              */
@@ -93,7 +94,7 @@ define([
                 el.html(
                     _.template(
                         document_pdf_template,
-                        { filename: this.options.model_instance.get('document').get('srcFile') }
+                        { filename: this.options.model_instance.get('document').get('srcFile'), isDisplaySettingsButton:this.isDisplaySettingsButton }
                     )
                 );
             }

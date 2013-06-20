@@ -15,6 +15,8 @@ define([
      */
     var SKXLSDisplayView = SKWindowView.extend({
 
+        isDisplaySettingsButton:false,
+
         title:'Мои документы',
         addClass: 'document-window',
 
@@ -73,7 +75,7 @@ define([
             var me = this;
             var doc = this.options.model_instance.get('document');
 
-            el.html( _.template(document_xls_template, {}) );
+            el.html( _.template(document_xls_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}) );
 
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
