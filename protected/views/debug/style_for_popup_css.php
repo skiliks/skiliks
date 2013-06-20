@@ -61,11 +61,11 @@ body {
 
     <div class="razdelitel"></div>
 
-    <div class="container-3 border-primary">
-        <div class="block-border bg-light-blue standard-left-box">
+    <div class="container-3 block-border">
+        <div class="border-primary bg-light-blue standard-left-box">
             <div class="pad20">AAA</div>
         </div>
-        <div class="block-border bg-light-blue standard-right-box">
+        <div class="border-primary bg-light-blue standard-right-box">
             <div class="pad20">BBB</div>
         </div>
     </div>
