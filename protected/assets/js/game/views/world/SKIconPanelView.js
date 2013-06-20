@@ -96,7 +96,9 @@ define([
              */
             onMailEvent: function (event) {
                 this.startAnimation('.mail');
-                this.doSoundIncomeMail();
+                if(SKApp.simulation.isPlayIncomingMailSound){
+                    this.doSoundIncomeMail();
+                }
             },
 
             /**
