@@ -47,9 +47,9 @@ body {
     <div class="sign-block">
         <div class="ui-dialog-titlebar">
             <span class="ui-dialog-titlebar ui-dialog-title">Вход</div>
+            <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
         </div>
     </div>
-
 
 </div>
 

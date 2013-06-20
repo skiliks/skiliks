@@ -896,7 +896,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     overflow: visible;
 }
 .sign-block .ui-dialog-titlebar {
-    padding-top:20px;
+    padding:20px 20px 0px;
 }
 .sign-block .ui-dialog-content {
     padding: 0px 20px 25px;
@@ -905,4 +905,20 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#fff;
     font-family:"ProximaNova-Bold";
     font-size:16px;
+}
+.sign-block .ui-dialog-titlebar-close, .popupclose {
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    cursor: pointer;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.sign-block .ui-dialog-titlebar-close {
+    top: -20px;
+    right: -20px;
 }
