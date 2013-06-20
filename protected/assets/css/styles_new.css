@@ -350,6 +350,12 @@ ul li:last-child {
 .bg-blue { /*  example - ostalos simulyatziy v dashboard */
     background-color: #51c1d2;
 }
+.bg-blue-block {/*  example - block v resultatax */
+    background-color: #ddf0f0;
+}
+.bg-blue-bar {/*  example - v resultatax bar neaktivnyi */
+    background-color: #b5d4d7;
+}
 .bg-yellow {/*  example - corporate table darker rows */
     background-color: #fdfbc6;
 }
