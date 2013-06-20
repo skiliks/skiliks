@@ -138,7 +138,7 @@ body {
         </div>
         <div class="razdelitel"></div>
 
-        <h2 class="font-dark">Четыре колонки</h2>
+        <h2 class="font-dark">Четыре колонки!</h2>
 
         <div class="container-results-4 font-dark">
             <div class="grid1">
