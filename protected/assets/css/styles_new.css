@@ -117,6 +117,7 @@ h3 {
 }
 .font-xlarge {
     font-size:18px;
+    line-height: 120%;
 }
 .font-xxlarge {
     font-size:20px;
