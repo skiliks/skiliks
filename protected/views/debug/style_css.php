@@ -110,13 +110,18 @@ body {
         <div class="bg-rich-blue block-border"></div>
         <div class="bg-light-blue border-primary""></div>
         <div class="bg-blue border-primary""></div>
+        <div class="bg-blue border-primary""></div>
         <div class="bg-yellow border-primary""></div>
-        <div class="bg-yellow-light border-large""></div>
     </div>
 
 <div class="razdelitel"></div>
+    <div class="testblocks">
+        <div class="block-border-dark bg-lblue-primary border-large""></div><!-- bg results -->
+        <div class="bg-blue-block border-large""></div><!-- bg results blocks -->
+        <div class="bg-blue-bar border-primary""></div><!-- bg results bar -->
+    </div>
 
-<div class="razdelitel"></div><div class="razdelitel"></div>
+<div class="razdelitel"></div>
 <a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
 <div class="razdelitel"></div>
 
