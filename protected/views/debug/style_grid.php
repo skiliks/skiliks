@@ -34,6 +34,9 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
             clear:both;
             height: 30px;
         }
+        .razdelitel+h3 {
+            margin-bottom: 15px;
+        }
     </style>
 
 </head>
