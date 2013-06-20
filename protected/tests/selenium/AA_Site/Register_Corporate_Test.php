@@ -19,7 +19,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         $new_email = "gty1991+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
-        $new_email .= "@gmail.com";
+        $new_email .= "@testskiliksmail.com";
 
         $this->type('id=YumProfile_email',$new_email);
         $this->type('id=YumUser_password','123123');
@@ -48,6 +48,8 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->type('css=#user-account-corporate-form > div.row > div.field > #UserAccountCorporate_corporate_email', $korp_email);
 
         $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
+
+        $this->open(TestUserHelper::getCorporateActivationUrl($korp_email));
 
         //раскоментить, когда будут правильные тексты
         //$this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Корпоративный')])"));
