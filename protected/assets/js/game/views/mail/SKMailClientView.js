@@ -47,6 +47,7 @@ define([
     SKMailClientView = SKWindowView.extend(
         /** @lends SKMailClientView.prototype */
         {
+            isDisplaySettingsButton:true,
             dimensions: {
                 maxWidth: 1100,
                 maxHeight: 700
@@ -93,7 +94,6 @@ define([
 
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
-                '#MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
@@ -350,7 +350,7 @@ define([
              * @param el
              */
             renderTitle: function (el) {
-                el.html(_.template(mail_client_title_template, {}));
+                el.html(_.template(mail_client_title_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
                 this.delegateEvents();
             },
 
@@ -362,7 +362,8 @@ define([
             renderContent: function (el) {
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id: this.mailClientScreenID,
-                    contentBlockId: this.mailClientContentBlockId
+                    contentBlockId: this.mailClientContentBlockId,
+                    isDisplaySettingsButton:this.isDisplaySettingsButton
                 });
                 // append to <body>
                 el.html(mailClientWindowBasicHtml);
@@ -2113,6 +2114,7 @@ define([
                         );
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
+
                 }
 
                 // add phrases {
@@ -2156,7 +2158,7 @@ define([
             doUpdateScreenFromForwardEmailData: function (response, draftEmail) {
                 if (1 === parseInt(response.result, 10)) {
 
-                    if (null == response.subjectId) {
+                    if (null === response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
                         return  false;
@@ -2258,12 +2260,37 @@ define([
 
                     // set attachment
                     if (response.attachmentId) {
-                        this.once('attachment:load_completed', function () {
-                            var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
-                                return attachment.fileMySqlId;
-                            }), response.attachmentId
-                            );
-                            me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
+                        this.mailClient.uploadAttachmentsList(function () {
+                            var attachmentsListHtml = [];
+                            $("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
+
+                            var attach = new SKAttachment();
+                            attach.fileMySqlId = response.attachmentId;
+                            attach.label = response.attachmentName;
+
+                            attachmentsListHtml.push({
+                                text: attach.label,
+                                value: attach.fileMySqlId,
+                                selected: 1,
+                                imageSrc: attach.getIconImagePath()
+                            });
+                            me.mailClient.availableAttachments.forEach(function (attachment) {
+                             attachmentsListHtml.push({
+                             text: attachment.label,
+                             value: attachment.fileMySqlId,
+                             imageSrc: attachment.getIconImagePath()
+                             });
+                             });
+                            me.mailClient.availableAttachments.push(attach);
+                            me.$("#MailClient_NewLetterAttachment div.list").ddslick({
+                                data: attachmentsListHtml,
+                                width: '100%',
+                                imagePosition: "left"
+                            });
+                            // add attachments list }
+
+                            me.delegateEvents();
+                            me.trigger('attachment:load_completed');
                         });
                     }
 

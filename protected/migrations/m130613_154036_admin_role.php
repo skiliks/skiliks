@@ -7,9 +7,13 @@ class m130613_154036_admin_role extends CDbMigration
         $users = Yii::app()->params['initial_data']['users'];
         foreach($users as $user) {
             $user_db = YumUser::model()->findByAttributes(['username'=>$user['username']]);
-            $user_db->is_admin = 1;
-            $user_db->update();
-            echo $user['username']." - done\r\n";
+            if(null !== $user_db) {
+                $user_db->is_admin = 1;
+                $user_db->update();
+                echo $user['username']." - done\r\n";
+            }else{
+                echo $user['username']." - fail\r\n";
+            }
         }
 	}
 
@@ -18,9 +22,13 @@ class m130613_154036_admin_role extends CDbMigration
         $users = Yii::app()->params['initial_data']['users'];
         foreach($users as $user) {
             $user_db = YumUser::model()->findByAttributes(['username'=>$user['username']]);
-            $user_db->is_admin = 0;
-            $user_db->update();
-            echo $user['username']." - done\r\n";
+            if(null !== $user_db) {
+                $user_db->is_admin = 0;
+                $user_db->update();
+                echo $user['username']." - done\r\n";
+            }else{
+                echo $user['username']." - fail\r\n";
+            }
         }
 	}
 

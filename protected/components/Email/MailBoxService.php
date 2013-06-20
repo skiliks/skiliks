@@ -387,10 +387,11 @@ class MailBoxService
                 'outbox'   => CommunicationTheme::USAGE_OUTBOX
             ]);
         }
+        $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
         foreach ($models as $theme) {
             /* @var $theme CommunicationTheme */
-            if(false === $theme->isBlockedByFlags($simulation)) {
+            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $themes[(int)$theme->id] = $theme->getFormattedTheme();
             }
         }
@@ -657,6 +658,7 @@ class MailBoxService
      */
     public static function updateMsCoincidence($mailId, $simId)
     {
+        /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
 
         $emailCoincidenceAnalyzer = new EmailCoincidenceAnalyzer();
@@ -681,6 +683,7 @@ class MailBoxService
         // switch flag if necessary {
         self::addToQueue($simulation, $mail);
         // switch flag if necessary }
+
 
         // update logs {
         foreach ($log_mails as $log_mail) {
@@ -1101,7 +1104,10 @@ class MailBoxService
 
         if ($action == self::ACTION_FORWARD) {
             $result['parentSubjectId'] = $message->subject_obj->id;
-
+            if (null !== $message->attachment) {
+                $result['attachmentName']   = $message->attachment->myDocument->fileName;
+                $result['attachmentId']     = $message->attachment->file_id;
+            }
             // TODO: Check is this required
             if ($subject->constructor_number === 'TXT') {
                 $result['text'] = $subject->getMailTemplate()->message;

@@ -35,34 +35,23 @@
                 'Выберите отрасль'
             )
         ); ?>
-        <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?>
-    </div>
-
-    <div class="row">
+        <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?></div><div class="row">
         <?php echo $form->labelEx($vacancy     , 'position_level_slug'); ?>
         <?php echo $form->dropDownList($vacancy, 'position_level_slug', $positionLevels);
         echo $form->error($vacancy       , 'position_level_slug'); ?>
-    </div>
-
-    <div class="row">
+    </div><div class="row">
         <?php echo $form->labelEx($vacancy     , 'professional_specialization_id'); ?>
         <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations);
         echo $form->error($vacancy       , 'professional_specialization_id'); ?>
-    </div>
-
-    <div class="row">
+    </div><div class="row">
         <?php echo $form->labelEx($vacancy  , 'label'); ?>
         <?php echo $form->textField($vacancy, 'label');
         echo $form->error($vacancy    , 'label'); ?>
-    </div>
-
-    <div class="row">
+    </div><div class="row">
         <?php echo $form->labelEx($vacancy  , 'link'); ?>
         <?php echo $form->textField($vacancy, 'link');
         echo $form->error($vacancy    , 'link'); ?>
-    </div>
-
-    <div class="row buttons">
+    </div><div class="row buttons">
         <?php echo CHtml::submitButton($submitButtonTitle , ['name' => 'add']); ?>
     </div>
 

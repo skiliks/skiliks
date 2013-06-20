@@ -236,14 +236,23 @@ define([
              * If all documents loaded and user can save excel - hide LoadDocsDialog
              */
             tryCloseLoadDocsDialog: function() {
-                console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                console.log("SKApp.simulation.isAllExcelDocsInitialized()");
+                console.log(SKApp.simulation.isAllExcelDocsInitialized());
+                console.log("SKApp.simulation.get('isZohoDocumentSuccessfullySaved')");
+                console.log(SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                    SKApp.simulation.stopPause(function(){
-                        $('.time').removeClass('paused');
+                    if ($('.time').hasClass('paused')) {
+                        console.log("tryCloseLoadDocsDialog if");
+                        SKApp.simulation.stopPause(function(){
+                            $('.time').removeClass('paused');
+                            SKApp.simulation.closeLoadDocsDialog();
+                        });
+                    } else {
+                        console.log("tryCloseLoadDocsDialog else");
                         SKApp.simulation.closeLoadDocsDialog();
-                    });
+                    }
                     return true;
                 } else {
                     return false;
@@ -253,6 +262,7 @@ define([
             closeLoadDocsDialog: function() {
                 var me = this;
                 SKApp.server.api('simulation/markInviteStarted', {}, function(){});
+                console.log('CLOSE WINDOW');
                 SKApp.simulation.loadDocsDialog.remove();
                 clearTimeout(me.loadDocsTimer);
                 SKApp.simulation.trigger('documents:loaded');
@@ -307,13 +317,13 @@ define([
                 if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
                 ) {
-                    me.loadDocsDialog = new SKDialogView({
-                        'message': 'Пожалуйста, подождите, идёт загрузка документов',
-                        'modal': true,
-                        'buttons': []
-                    });
-
+                    var is_paused;
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
+                        console.log("onAddDocument if");
+                        is_paused = $('.time').hasClass('paused');
+                        if(!is_paused) {
+                            $('.time').addClass('paused');
+                        }
                         me.loadDocsDialog = new SKDialogView({
                             'message': 'Пожалуйста, подождите, идёт загрузка документов',
                             'modal': true,
@@ -327,7 +337,8 @@ define([
                             }
                         }, 120000);
                     }else{
-                        var is_paused = $('.time').hasClass('paused');
+                        console.log("onAddDocument else");
+                        is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
                             SKApp.simulation.startPause(function(){
