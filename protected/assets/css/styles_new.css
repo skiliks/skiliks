@@ -781,8 +781,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
 
 }
-.container-borders-2 .grid2 {
+.grid1, .grid2, .grid3 {
     float:left;
+}
+.container-borders-2 .grid2 {
     width:459px; /*47% */
 }
 .container-borders-2 .grid2+.grid2 {
