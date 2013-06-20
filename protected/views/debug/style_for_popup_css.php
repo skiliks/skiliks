@@ -73,13 +73,13 @@ body {
     <div class="razdelitel"></div>
 
     <div class="container-3">
-        <div class="grid1 text-center">
+        <div class="grid1 text-center font-white">
             Some text
         </div>
-        <div class="grid1 text-center">
+        <div class="grid1 text-center font-white">
             Some text
         </div>
-        <div class="grid1 text-center">
+        <div class="grid1 text-center font-white">
             Some text
         </div>
     </div>
