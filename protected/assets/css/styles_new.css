@@ -841,18 +841,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .standard-full-width-box {
     width:100%;
 }
-
-.login-form-in-place-width {
-
+.results-width-block {
+    width:1000px;
 }
-.profile-rigth-box {
-
-}
-.profile-big-left-box {
-
-}
-.info-pop-up-width {
-
-}
-
 /*  *************************** /GRID ***************************/
