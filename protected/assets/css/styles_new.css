@@ -775,13 +775,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
     width:960px;
 }
-.grid-container:after, .container-borders-2:after {
+.grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after {
     clear: both;
 }
 .container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
 
 }
-.grid1, .grid2, .grid3 {
+.grid1, .grid2, .grid3, .standard-left-box, .standard-right-box {
     float:left;
 }
 .container-borders-2 .grid2 {
@@ -790,17 +790,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-2 .grid2+.grid2 {
     margin-left: 18px;
 }
-.container-borders-3 .grid1 {
+.container-borders-3 .grid1, .standard-left-box {
     width:300px;
 }
 .container-borders-3 .grid2 {
-    width:596px;
+    width:608px;
 }
 .container-borders-3 .grid1+.grid2 {
     margin-left: 28px;
-}
-.standard-left-box {
-    width:300px;
 }
 .standard-right-box {
 
