@@ -118,6 +118,9 @@ body {
     <div class="razdelitel"></div>
 
 </div>
+
+<div class="results-width-block block-border bg-lblue-primary"></div>
+
 </body>
 
 <script type="text/javascript">
