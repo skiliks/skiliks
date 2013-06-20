@@ -776,7 +776,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:960px;
 }
 .grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
     clear: both;
+    height: 0;
 }
 .container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
 
@@ -803,7 +808,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin-left: 15px;
 }
 .standard-right-box {
-    width:630px;
+    width:629px;
 }
 .standard-full-width-box {
     width:100%;
