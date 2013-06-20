@@ -794,7 +794,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
     width:960px;
 }
-.grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after {
+.grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after,
+.container-results-3:after {
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -853,5 +854,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .results-width-block {
     margin: 0 auto;
     width:1000px;
+}
+.container-results-3 .grid1 {
+    width:316px;
+}
+.container-results-3 .grid2 {
+    width:632px;
 }
 /*  *************************** /GRID ***************************/

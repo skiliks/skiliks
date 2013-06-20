@@ -116,13 +116,14 @@ body {
     </div>
 
     <div class="razdelitel"></div>
+    <div class="razdelitel"></div>
 
 </div>
 
 <div class="results-width-block block-border bg-lblue-primary border-primary">
-    <div class="pad10 container-3">
+    <div class="pad10 container-results-3">
         <div class="grid1">!!!</div>
-        <div class="grid2">AAA</div>
+        <div class="grid2 bg-blue-block">AAA</div>
     </div>
 </div>
 
