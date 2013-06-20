@@ -331,8 +331,9 @@ ul li:last-child {
 }
 .block-border-dark {
     border-radius: 8px;
-    box-shadow: 0 0 0 8px rgba(41, 116, 127, 0.2);
-    margin: 8px;
+    /*box-shadow: 0 0 0 8px rgba(41, 116, 127, 0.2);
+    margin: 8px;*/
+    border:8px solid rgba(41, 116, 127, 0.2);
 }
 .border-primary {
     border-radius: 3px;
@@ -882,6 +883,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:475px;
 }
 .container-results-2 .grid-space {
-    width:10px;
+    width:26px;
 }
 /*  *************************** /GRID ***************************/
