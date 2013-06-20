@@ -13,13 +13,42 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         //это линг регистрации в центре на главной
         $this->optimal_click("link=Получить бесплатный доступ");
+
         $this->waitForVisible("//div[@class='testtime']");
         $this->assertText("//div[@class='testtime']", '15 Минут');
+        //это кнопка "Начать"
+        $this->clickAndWait("name=yt0");
+        $this->assertTrue($this->isTextPresent('Введите email','Введите пароль','Подтвердите пароль'));
 
+        $this->type('id=YumProfile_email','empty');
+        $this->type('id=YumUser_password','123123');
+        $this->type('id=YumUser_password_again','1231231');
+        $this->clickAndWait("name=yt0");
+        $this->assertTrue($this->isTextPresent('Email введён неверно','Пароли не совпадают'));
+
+        //это лого в футере
+        $this->clickAndWait("link=Skiliks");
+        $this->clickAndWait("css=footer > a.bigbtnsubmt.freeacess > cufon.cufon.cufon-canvas > canvas");
+        //$this->assertLocation('http://test.skiliks.com/registration');
+        $this->type('id=YumProfile_email','empty');
+        $this->type('id=YumUser_password','1');
+        $this->type('id=YumUser_password_again','1');
+        $this->clickAndWait("name=yt0");
+        $this->assertTrue($this->isTextPresent('Email введён неверно','Введите не менее 6 символов'));
+
+        //это лого в хедере
+        $this->clickAndWait("css=img[alt='Skiliks']");
+        $this->clickAndWait("//ul[@id='yw0']/li[4]/a/cufon/canvas");
+        $this->clickAndWait("//div[@id='top']/div[2]/div/div/div/div[2]/div[4]/a/cufon[2]/canvas");
+        //$this->assertLocation('http://test.skiliks.com/registration');
+        $this->type('id=YumProfile_email','asd@skilikscom');
+        $this->type('id=YumUser_password_again','123123');
+        $this->clickAndWait("name=yt0");
+        $this->assertTrue($this->isTextPresent('Email введён неверно', 'Введите пароль'));
 
         $new_email = "gty1991+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
-        $new_email .= "@gmail.com";
+        $new_email .= "@testskiliks.com";
 
         $this->type('id=YumProfile_email',$new_email);
         $this->type('id=YumUser_password','123123');
