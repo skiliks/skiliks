@@ -329,6 +329,12 @@ ul li:last-child {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     margin: 8px;
 }
+.block-border-dark {
+    border-radius: 8px;
+    /*box-shadow: 0 0 0 8px rgba(41, 116, 127, 0.2);
+    margin: 8px;*/
+    border:8px solid rgba(41, 116, 127, 0.2);
+}
 .border-primary {
     border-radius: 3px;
 }
@@ -756,9 +762,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #invite-form .btn-primary {
     margin-left: 70px;
 }
-#invite-people-box {
-    padding-top: 20px;
-}
 #invite-people-box h3 {
     padding-bottom: 5px;
     width:190px;
@@ -874,9 +877,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin-left: 10px;
 }
 .container-results-2 .grid1 {
-    width:475px;
+    width:459px;
 }
 .container-results-2 .grid-space {
     width:10px;
+}
+.container-results-4 .grid1 {
+    width:240px;
 }
 /*  *************************** /GRID ***************************/
