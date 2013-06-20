@@ -225,16 +225,8 @@ body {
     </article>
 </section>
 
-<div class="razdelitel"></div><div class="razdelitel"></div>
-    <div class="container-borders-2">
-         <div class="block-border bg-yellow grid2 border-primary">
-             <div class="pad20">AAA</div>
-         </div>
-        <div class="block-border bg-yellow grid2 border-primary">
-            <div class="pad20">AAA</div>
-        </div>
-    </div>
 <div class="razdelitel"></div>
+
 
 
 </div>
