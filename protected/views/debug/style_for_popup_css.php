@@ -121,9 +121,18 @@ body {
 </div>
 
 <div class="results-width-block block-border bg-lblue-primary border-primary">
-    <div class="pad20 container-results-3">
-        <div class="grid1">!!!</div>
-        <div class="grid2 bg-blue-block border-primary"><div class="pad16">AAA</div></div>
+    <div class="pad20">
+        <div class="container-results-2 thetable">
+            <div class="grid1 grid-cell block-border"><div class="pad20">AAA</div></div>
+            <div class="grid-cell grid-space"></div>
+            <div class="grid1 grid-cell block-border"><div class="pad20">AAA</div></div>
+        </div>
+        <div class="razdelitel"></div>
+
+        <div class="container-results-3">
+            <div class="grid1">!!!</div>
+            <div class="grid2 bg-blue-block border-primary"><div class="pad16">AAA</div></div>
+        </div>
     </div>
 </div>
 

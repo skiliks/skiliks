@@ -115,7 +115,26 @@ class TestUserHelper
         return str_replace('/usr/bin', '', $host); //
     }
 
-    public static function getHost($url){
+    public static function getCorporateActivationUrl($email) {
+        $profile = UserAccountCorporate::model()->findByAttributes(['corporate_email'=>$email]);
+        if(null === $profile){
+            throw new Exception(" User not found ");
+        }
+        $user = YumUser::model()->findByPk($profile->user_id);
+
+        $temp = (isset($_SERVER['HTTP_HOST']))?$_SERVER['HTTP_HOST']:null;
+        $_SERVER['HTTP_HOST'] = self::getHost(Yii::app()->params['frontendUrl']);
+        /* @var $profile YumProfile */
+        $host = $profile->user->getCorporationEmailVerificationUrl();
+        if($temp){
+            unset($_SERVER['HTTP_HOST']);
+        }else{
+            $_SERVER['HTTP_HOST'] = $temp;
+        }
+        return str_replace('/usr/bin', '', $host); //
+    }
+
+    protected static function getHost($url){
         preg_match('@^(?:http://)?([^/]+)@i',
             $url, $matches);
         $host = $matches[1];
