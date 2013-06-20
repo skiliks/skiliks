@@ -120,8 +120,9 @@ body {
 </div>
 
 <div class="results-width-block block-border bg-lblue-primary border-primary">
-    <div class="pad10">
-        AAA
+    <div class="pad10 container-3">
+        <div class="grid1">!!!</div>
+        <div class="grid2">AAA</div>
     </div>
 </div>
 
