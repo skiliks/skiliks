@@ -125,30 +125,33 @@ body {
 <a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
 <div class="razdelitel"></div>
 
-<div id="invite-people-box" class="block-border bg-rich-blue border-large pad20 pull-left">
-    <h3>Отправить приглашение</h3>
-    <form id="invite-form" class="form-simple form-small placehldrs-dark">
-        <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
-        <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
+<div class="container-borders-3">
+    <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left grid1">
+        <div class="pad20">
+        <h3>Отправить приглашение</h3>
+            <form id="invite-form" class="form-simple form-small placehldrs-dark">
+                <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
+                <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
 
-        <div class="row wide postn-reltv">
-            <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
-                <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
-                <a id="sbSelector_26848379" href="#" class="sbSelector">Analytic</a>
-                <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
-                    <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
-                    <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
-                    <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
-                    <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
-                </ul>
-            </div>
-            <span class="btn-add"></span>
+                <div class="row wide postn-reltv">
+                    <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
+                        <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
+                        <a id="sbSelector_26848379" href="#" class="sbSelector">Analytic</a>
+                        <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
+                            <li><a href="#" rel="4" class="sbFocus">Текст 1</a></li>
+                            <li><a href="#" rel="4" class="sbFocus">Текст 2</a></li>
+                            <li><a href="#" rel="4" class="sbFocus">Текст 3</a></li>
+                            <li><a href="#" rel="4" class="sbFocus">Текст 4</a></li>
+                        </ul>
+                    </div>
+                    <span class="btn-add"></span>
+                </div>
+                <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
+
+            </form>
         </div>
-        <div class="row buttons"><input name="prevalidate" type="submit" class="btn btn-primary" value="Отправить"></div>
-
-    </form>
+    </div>
 </div>
-
 <div class="razdelitel"></div>
 
 <div class="block-border bg-yellow border-primary pad20 pull-left">
