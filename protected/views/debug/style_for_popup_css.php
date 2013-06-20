@@ -38,7 +38,18 @@ body {
 
 </head>
 <body style="padding: 100px;">
-!!!!!!!!!!!!
+
+<div class="razdelitel"></div>
+<div class="container-borders-2">
+    <div class="block-border bg-yellow grid2 border-primary">
+        <div class="pad20">AAA</div>
+    </div>
+    <div class="block-border bg-yellow grid2 border-primary">
+        <div class="pad20">BBB</div>
+    </div>
+</div>
+<div class="razdelitel"></div>
+
 </body>
 
 <script type="text/javascript">
