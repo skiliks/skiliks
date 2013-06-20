@@ -102,16 +102,16 @@ body {
 
     <div class="container-4">
         <div class="grid1">
-            <h2 class="font-white font-xlarge text-center">Уровень владения навыками</h2>
+            <h2 class="font-xlarge text-center">Уровень владения навыками</h2>
         </div>
         <div class="grid1">
-            <h2 class="font-white font-xlarge text-center">Уровень достижения результатов: количество и значимость выполненных задач</h2>
+            <h2 class="font-xlarge text-center">Уровень достижения результатов: количество и значимость выполненных задач</h2>
         </div>
         <div class="grid1">
-            <h2 class="font-white font-xlarge text-center">Скорость достижения результатов</h2>
+            <h2 class="font-xlarge text-center">Скорость достижения результатов</h2>
         </div>
         <div class="grid1">
-            <h2 class="font-white font-xlarge text-center">Личностные качества, проявленные в симуляции</h2>
+            <h2 class="font-xlarge text-center">Личностные качества, проявленные в симуляции</h2>
         </div>
     </div>
 
@@ -133,14 +133,14 @@ body {
         <h2 class="font-dark">Три колонки (1 +2 )</h2>
 
         <div class="container-results-3">
-            <div class="grid1">AAA</div>
+            <div class="grid1">Следование приоритетам </div>
             <div class="grid2 bg-blue-block border-primary"><div class="pad16">BBB</div></div>
         </div>
         <div class="razdelitel"></div>
 
         <h2 class="font-dark">Четыре колонки</h2>
 
-        <div class="container-results-4">
+        <div class="container-results-4 font-dark">
             <div class="grid1">
                 <h2 class="font-xlarge text-center">Уровень владения навыками</h2>
             </div>
