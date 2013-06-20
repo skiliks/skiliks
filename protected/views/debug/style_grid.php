@@ -32,7 +32,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         }
         .razdelitel {
             clear:both;
-            height: 30px;
+            height: 40px;
         }
         .razdelitel+h3 {
             margin-bottom: 15px;
@@ -42,6 +42,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 </head>
 <body style="padding: 100px;">
 <div class="grid-container">
+    <div class="razdelitel"></div>
     <h3>Одна колонка с бордером</h3>
     <div class="container-border-1 block-border bg-yellow border-primary">
         <div class="pad20">AAA</div>
