@@ -236,7 +236,10 @@ define([
              * If all documents loaded and user can save excel - hide LoadDocsDialog
              */
             tryCloseLoadDocsDialog: function() {
-                console.log(SKApp.simulation.isAllExcelDocsInitialized(), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                console.log("SKApp.simulation.isAllExcelDocsInitialized()");
+                console.log(SKApp.simulation.isAllExcelDocsInitialized());
+                console.log("SKApp.simulation.get('isZohoDocumentSuccessfullySaved')");
+                console.log(SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
