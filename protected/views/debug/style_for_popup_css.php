@@ -40,6 +40,14 @@ body {
 <body style="padding: 100px;">
 <div class="grid-container">
 
+    <div class="block-border bg-rich-blue sign-in-pop-up-width">
+        <div class="pad20">
+            <div class="ui-dialog-titlebar font-white ">Вход</div>
+        </div>
+    </div>
+
+    <div class="razdelitel"></div>
+
     <div class="container-border-1 block-border bg-yellow border-primary">
         <div class="pad20">AAA</div>
     </div>
