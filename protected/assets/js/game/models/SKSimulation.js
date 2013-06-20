@@ -244,11 +244,13 @@ define([
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                     if ($('.time').hasClass('paused')) {
+                        console.log("tryCloseLoadDocsDialog if");
                         SKApp.simulation.stopPause(function(){
                             $('.time').removeClass('paused');
                             SKApp.simulation.closeLoadDocsDialog();
                         });
                     } else {
+                        console.log("tryCloseLoadDocsDialog else");
                         SKApp.simulation.closeLoadDocsDialog();
                     }
                     return true;
@@ -315,7 +317,7 @@ define([
                 if (SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel", 'isInitialized':true}).length
                 ) {
-
+                    console.log("onAddDocument if");
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
                         me.loadDocsDialog = new SKDialogView({
                             'message': 'Пожалуйста, подождите, идёт загрузка документов',
@@ -330,6 +332,7 @@ define([
                             }
                         }, 120000);
                     }else{
+                        console.log("onAddDocument else");
                         var is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
