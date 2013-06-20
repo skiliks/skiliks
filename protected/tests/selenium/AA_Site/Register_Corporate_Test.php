@@ -46,9 +46,9 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->clickAndWait("name=yt0");
         $this->assertTrue($this->isTextPresent('Email введён неверно', 'Введите пароль'));
 
-        $new_email = "gty1991+";
+        $new_email = "gty1991_1+";
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
-        $new_email .= "@testskiliks.com";
+        $new_email .= "@mail.ru";
 
         $this->type('id=YumProfile_email',$new_email);
         $this->type('id=YumUser_password','123123');
