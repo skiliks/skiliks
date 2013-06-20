@@ -121,7 +121,7 @@ body {
 </div>
 
 <div class="results-width-block block-border bg-lblue-primary border-primary">
-    <div class="pad10 container-results-3">
+    <div class="pad20 container-results-3">
         <div class="grid1">!!!</div>
         <div class="grid2 bg-blue-block border-primary"><div class="pad16">AAA</div></div>
     </div>
