@@ -52,12 +52,24 @@ body {
 
     <div class="container-borders-3">
         <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad20">AAA</div>
+            <div class="pad20 font-white">AAA</div>
         </div>
         <div class="block-border bg-yellow grid2 border-primary">
             <div class="pad20">BBB</div>
         </div>
     </div>
+
+    <div class="razdelitel"></div>
+
+    <div class="container-3 border-primary">
+        <div class="block-border bg-light-blue standard-left-box">
+            <div class="pad20">AAA</div>
+        </div>
+        <div class="block-border bg-light-blue standard-right-box">
+            <div class="pad20">BBB</div>
+        </div>
+    </div>
+
 
 </div>
 </body>
