@@ -50,10 +50,9 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
 
         $this->open(TestUserHelper::getCorporateActivationUrl($korp_email));
-        sleep(30);
+        sleep(5);
 
-        //раскоментить, когда будут правильные тексты
-        //$this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Корпоративный')])"));
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Корпоративный')])"));
         $this->close();
     }
 }
