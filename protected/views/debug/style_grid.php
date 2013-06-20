@@ -40,7 +40,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     </style>
 
 </head>
-<body style="padding: 100px;">
+<body style="padding: 20px 100px 100px;">
 <div class="grid-container">
     <div class="razdelitel"></div>
     <h3>Одна колонка с бордером</h3>
