@@ -803,9 +803,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin-left: 15px;
 }
 .standard-right-box {
-    width:608px;
+    width:630px;
 }
-
 .standard-full-width-box {
     width:100%;
 }

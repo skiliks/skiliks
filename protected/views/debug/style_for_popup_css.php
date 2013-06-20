@@ -61,7 +61,7 @@ body {
 
     <div class="razdelitel"></div>
 
-    <div class="container-3 block-border">
+    <div class="container-3 block-border border-primary bg-transparnt">
         <div class="border-primary bg-light-blue standard-left-box">
             <div class="pad20">AAA</div>
         </div>
