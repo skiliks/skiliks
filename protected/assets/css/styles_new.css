@@ -885,4 +885,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-results-2 .grid-space {
     width:10px;
 }
+.container-results-4 .grid1 {
+    width:240px;
+}
 /*  *************************** /GRID ***************************/

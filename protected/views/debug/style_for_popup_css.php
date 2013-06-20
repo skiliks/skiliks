@@ -122,6 +122,7 @@ body {
 
 <div class="results-width-block block-border bg-lblue-primary border-primary">
     <div class="pad20">
+        <h2 class="font-dark">Две колонки</h2>
         <div class="container-results-2 thetable">
             <div class="grid1 grid-cell block-border-dark border-large"><div class="pad20">AAA</div></div>
             <div class="grid-cell grid-space"></div>
@@ -129,9 +130,21 @@ body {
         </div>
         <div class="razdelitel"></div>
 
+        <h2 class="font-dark">Три колонки</h2>
+
         <div class="container-results-3">
             <div class="grid1">!!!</div>
             <div class="grid2 bg-blue-block border-primary"><div class="pad16">AAA</div></div>
+        </div>
+        <div class="razdelitel"></div>
+
+        <h2 class="font-dark">Четыре колонки</h2>
+
+        <div class="container-results-4">
+            <div class="grid1">!!!</div>
+            <div class="grid1">!!!</div>
+            <div class="grid1">!!!</div>
+            <div class="grid1">!!!</div>
         </div>
     </div>
 </div>
