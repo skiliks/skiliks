@@ -70,7 +70,19 @@ body {
         </div>
     </div>
 
+    <div class="razdelitel"></div>
 
+    <div class="container-3">
+        <div class="grid1 text-center">
+            Some text
+        </div>
+        <div class="grid1 text-center">
+            Some text
+        </div>
+        <div class="grid1 text-center">
+            Some text
+        </div>
+    </div>
 </div>
 </body>
 
