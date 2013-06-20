@@ -443,6 +443,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /FORM SIMPLE ************************  */
 
 /*  *************************** PADDINGS ****************************/
+.pad10 {
+    padding: 10px;
+}
 .pad20 {
     padding: 20px;
 }
@@ -842,6 +845,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:100%;
 }
 .results-width-block {
+    margin: 0 auto;
     width:1000px;
 }
 /*  *************************** /GRID ***************************/
