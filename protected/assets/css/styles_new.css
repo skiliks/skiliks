@@ -904,7 +904,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sign-block .ui-dialog-title {
     color:#fff;
-    float: left;
     font-family:"ProximaNova-Bold";
     font-size:28px;
     line-height: 32px;
