@@ -799,8 +799,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-3 .grid1+.grid2 {
     margin-left: 28px;
 }
+.standard-left-box+.standard-right-box {
+    margin-left: 15px;
+}
 .standard-right-box {
-
+    width:608px;
 }
 
 .standard-full-width-box {
