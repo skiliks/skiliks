@@ -109,6 +109,9 @@ h3 {
     color: #fff;
     line-height:30px;
 }
+.proxima-bold {
+    font-family:"ProximaNova-Bold";
+}
 .font-small {
     font-size:12px;
 }
@@ -239,7 +242,6 @@ ul li:last-child {
     background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
     cursor: pointer;
     display: inline-block;
-    font-family: "ProximaNova-Bold";
     height: 22px;
     line-height: 22px;
     padding: 0px 6px;
@@ -830,7 +832,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
     margin-left: 18px;
 }
-.container-borders-3 .grid1, .sign-in-pop-up-width, .standard-left-box {
+.container-borders-3 .grid1, .sign-block, .standard-left-box {
     width:300px;
 }
 .container-borders-3 .grid2 {
@@ -886,3 +888,37 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:240px;
 }
 /*  *************************** /GRID ***************************/
+.sign-block {
+    background: #146672;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    height: 245px;
+    overflow: visible;
+}
+.sign-block .ui-dialog-titlebar {
+    padding:20px 20px 0px;
+}
+.sign-block .ui-dialog-content {
+    padding: 0px 20px 25px;
+}
+.sign-block .ui-dialog-title {
+    color:#fff;
+    font-family:"ProximaNova-Bold";
+    font-size:28px;
+}
+.sign-block .ui-dialog-titlebar-close, .popupclose {
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    cursor: pointer;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.sign-block .ui-dialog-titlebar-close {
+    top: -20px;
+    right: -20px;
+}
