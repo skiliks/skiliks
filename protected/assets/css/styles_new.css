@@ -824,10 +824,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:216.5px;
 }
 .container-4 .grid1 {
-    width:238px;
+    width:237px;
 }
 .container-4 .grid1+.grid1 {
-    margin-left: 3px;
+    margin-left: 4px;
 }
 .standard-left-box+.standard-right-box {
     margin-left: 15px;
