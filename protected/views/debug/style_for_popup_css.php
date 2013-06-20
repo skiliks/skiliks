@@ -93,6 +93,21 @@ body {
         </div>
     </div>
 
+    <div class="container-4">
+        <div class="grid1 text-center">
+            <h2 class="font-white font-24">Уровень владения навыками</h2>
+        </div>
+        <div class="grid1 text-center">
+            <h2 class="font-white font-24">Уровень достижения результатов: количество и значимость выполненных задач</h2>
+        </div>
+        <div class="grid1 text-center">
+            <h2 class="font-white font-24">Скорость достижения результатов</h2>
+        </div>
+        <div class="grid1 text-center">
+            <h2 class="font-white font-24">Личностные качества, проявленные в симуляции</h2>
+        </div>
+    </div>
+
     <div class="razdelitel"></div>
 
 </div>
