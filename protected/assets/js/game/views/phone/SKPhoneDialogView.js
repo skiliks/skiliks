@@ -20,6 +20,8 @@ define([
         isDisplaySettingsButton:true,
         
         title: "Телефон",
+
+        windowName:'phone',
         
         isDisplayCloseWindowsButton: false,
         
@@ -94,7 +96,8 @@ define([
                 'audio_src':                 event.getAudioSrc(),
                 'type':                      'audio/wav',
                 isUserCanFinalizeCall: this.isUserCanFinalizeCall,
-                isDisplaySettingsButton:this.isDisplaySettingsButton
+                isDisplaySettingsButton:this.isDisplaySettingsButton,
+                windowName:this.windowName
             });
 
             window_el.html(callInHtml);

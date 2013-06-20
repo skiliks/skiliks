@@ -54,6 +54,8 @@ define([
             },
             mailClient: undefined,
 
+            windowName:'mail',
+
             addClass: 'mail-window',
 
             mailClientScreenID: 'mailEmulatorMainScreen',
@@ -350,7 +352,9 @@ define([
              * @param el
              */
             renderTitle: function (el) {
-                el.html(_.template(mail_client_title_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
+                el.html(_.template(mail_client_title_template, {
+                    isDisplaySettingsButton:this.isDisplaySettingsButton,
+                    windowName:this.windowName}));
                 this.delegateEvents();
             },
 
@@ -363,7 +367,8 @@ define([
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id: this.mailClientScreenID,
                     contentBlockId: this.mailClientContentBlockId,
-                    isDisplaySettingsButton:this.isDisplaySettingsButton
+                    isDisplaySettingsButton:this.isDisplaySettingsButton,
+                    windowName:this.windowName
                 });
                 // append to <body>
                 el.html(mailClientWindowBasicHtml);

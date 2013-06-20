@@ -1,4 +1,4 @@
-/*global Backbone, _, SKConfig*/
+/*global Backbone, _, SKConfig, $, define, SKApp, console*/
 /**
  * @class SKWindowView
  *
@@ -16,10 +16,13 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         container: '.windows-container',
 
+        windowName:null,
+
         'events': {
             'click .win-close': 'doWindowClose',
             'mousedown': 'doActivate',
-            'click .btn-set':'doSettingsMenu'
+            'click .btn-set':'doSettingsMenu',
+            'click .sim-window-settings .volume-control':'doVolumeChange'
         },
 
         isDisplaySettingsButton: true,
@@ -49,7 +52,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.$el.html(_.template(window_template, {
                 title: this.title,
                 isDisplaySettingsButton: this.isDisplaySettingsButton,
-                isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton
+                isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
+                windowName:this.windowName
             }));
             this.renderTitle(this.$('header'));
             this.$el.draggable({
@@ -244,6 +248,38 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 me.$('.sim-window-settings').css('display', 'none');
             }
             console.log("Click YES");
+        },
+        doVolumeChange:function(event) {
+            if($(event.currentTarget).hasClass('volume-on')){
+                $(event.currentTarget).text("Выкл.");
+                if($(event.currentTarget).hasClass('control-mail')) {
+                    $(event.currentTarget).removeClass('volume-on');
+                    $(event.currentTarget).addClass('volume-off');
+                    SKApp.simulation.isPlayIncomingMailSound = false;
+                }else if($(event.currentTarget).hasClass('control-phone')){
+                    $(event.currentTarget).removeClass('volume-on');
+                    $(event.currentTarget).addClass('volume-off');
+                    SKApp.simulation.isPlayIncomingCallSound = false;
+                }else{
+                    throw new Error("Must be has class control-mail or control-phone");
+                }
+            }else if($(event.currentTarget).hasClass('volume-off')) {
+                $(event.currentTarget).text("Вкл.");
+                if($(event.currentTarget).hasClass('control-mail')) {
+                    $(event.currentTarget).removeClass('volume-off');
+                    $(event.currentTarget).addClass('volume-on');
+                    SKApp.simulation.isPlayIncomingMailSound = true;
+                }else if($(event.currentTarget).hasClass('control-phone')){
+                    $(event.currentTarget).removeClass('volume-off');
+                    $(event.currentTarget).addClass('volume-on');
+                    SKApp.simulation.isPlayIncomingCallSound = true;
+                }else{
+                    throw new Error("Must be has class control-mail or control-phone");
+                }
+            }else{
+                throw new Error("Must be has class volume-off or volume-on");
+            }
+            return false;
         }
     });
     return SKWindowView;
