@@ -14,7 +14,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->has_not_settings(Yii::app()->params['test_mappings']['icons']['plan']);
+        $this->has_not_settings(Yii::app()->params['test_mappings']['icons']['todo']);
 
         $this->has_settings(Yii::app()->params['test_mappings']['icons']['phone']);
 
