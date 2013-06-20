@@ -43,6 +43,7 @@ class InitBaseUsersCommand
             echo "\n user {$user['username']}:";
 
             // get user, if user has been already initialized
+            /* @var $yumUser YumUser */
             $yumUser = YumUser::model()->findByAttributes([
                 'username' => $user['username']
             ]);
@@ -64,6 +65,7 @@ class InitBaseUsersCommand
                 echo " init ";
                 $yumUser = new YumUser();
                 $yumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
+                $yumUser->is_admin = $user['is_admin'];
                 if ($yumUser->register($user['username'], $user['password'], $profile)) {
                     echo " => registered";
                 } else {

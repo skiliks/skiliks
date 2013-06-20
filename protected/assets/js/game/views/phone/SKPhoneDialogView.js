@@ -16,6 +16,8 @@ define([
      * @augments Backbone.View
      */
     SKPhoneDialogView = SKWindowView.extend({
+
+        isDisplaySettingsButton:true,
         
         title: "Телефон",
         
@@ -91,7 +93,8 @@ define([
                 'my_replicas':               my_replicas,
                 'audio_src':                 event.getAudioSrc(),
                 'type':                      'audio/wav',
-                isUserCanFinalizeCall: this.isUserCanFinalizeCall
+                isUserCanFinalizeCall: this.isUserCanFinalizeCall,
+                isDisplaySettingsButton:this.isDisplaySettingsButton
             });
 
             window_el.html(callInHtml);

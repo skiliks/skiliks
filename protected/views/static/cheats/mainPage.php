@@ -88,6 +88,13 @@
 
     <a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/debug/styleCss">style css</a>
+    <a href="/debug/styleCss">style popup css</a>
+
     </nav>
 
 <?php endif ?>
@@ -111,16 +118,6 @@
 <br/>
 
 <div style="float: none; clear: both; height: 100px;"></div>
-
-<br/>
-<br/>
-<br/>
-
-<form action="/zoho/saveExcel" method="post">
-    <input name="content_path" value="1">
-    <input type="submit" value="test" />
-</form>
-
 
 <br/>
 <br/>

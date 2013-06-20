@@ -272,7 +272,7 @@ class ImportGameDataService
             $constructor->save();
             for ($row = 2; $row < $sheet->getHighestDataRow(); $row++) {
                 $phraseValue = $sheet->getCellByColumnAndRow($col, $row)->getValue();
-                if (empty($phraseValue)) {
+                if (empty($phraseValue) || $phraseValue === '****') {
                     continue;
                 }
 

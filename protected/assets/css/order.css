@@ -206,6 +206,9 @@
     color:#0c707f;
     text-decoration: none;
 }
+.action-registration .terms-confirm a {
+    color: #fff;
+}
 .order-result {
     background: #f8f8e4;
     border-radius: 8px;

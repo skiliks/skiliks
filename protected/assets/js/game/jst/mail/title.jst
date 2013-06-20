@@ -1,7 +1,16 @@
 <div class="header-inner">
     <h1>Почта</h1>
     <ul class="actions"></ul>
-    <div class="btn-close win-close">
-        <button></button>
-    </div>
+ <ul class="btn-window">
+     <@ if(isDisplaySettingsButton){ @>
+          <li>
+              <button class="btn-set">&nbsp;</button>
+          </li>
+     <@ } @>
+
+     <li>
+         <button class="btn-cl win-close">&nbsp;</button>
+     </li>
+
+     </ul>
 </div>
