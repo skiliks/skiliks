@@ -798,7 +798,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-2 .grid2 {
     width:459px; /*47% */
 }
-.container-borders-2 .grid2+.grid2 {
+.container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
     margin-left: 18px;
 }
 .container-borders-3 .grid1, .sign-in-pop-up-width, .standard-left-box {
@@ -815,6 +815,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-3 .grid1+.grid1 {
     margin-left: 32px;
+}
+.container-borders-4 .grid1 {
+    width:216.5px;
 }
 .standard-left-box+.standard-right-box {
     margin-left: 15px;

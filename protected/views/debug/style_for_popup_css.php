@@ -72,6 +72,15 @@ body {
 
     <div class="razdelitel"></div>
 
+    <div class="container-borders-4">
+        <div class="block-border bg-yellow grid1 border-primary">AAA</div>
+        <div class="block-border bg-yellow grid1 border-primary">BBB</div>
+        <div class="block-border bg-yellow grid1 border-primary">CCC</div>
+        <div class="block-border bg-yellow grid1 border-primary">DDD</div>
+    </div>
+
+    <div class="razdelitel"></div>
+
     <div class="container-3 font-xlarge">
         <div class="grid1 text-center font-white">
             Вам потребуется не более пяти минут.
@@ -83,6 +92,9 @@ body {
             Вы сможете сравнить между собой кандидатов.
         </div>
     </div>
+
+    <div class="razdelitel"></div>
+
 </div>
 </body>
 
