@@ -109,6 +109,7 @@ h3 {
     font-size:28px;
     color: #fff;
     line-height:30px;
+    margin-bottom: 12px;
 }
 .proxima-bold {
     font-family:"ProximaNova-Bold";
@@ -981,6 +982,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: #E8F7F7;
     color: #3d4041;
     overflow: visible;
+}
+.popup-flash h3 {
+    margin-top:-6px;
 }
 .popup-flash a {
     color: #2d7b91;

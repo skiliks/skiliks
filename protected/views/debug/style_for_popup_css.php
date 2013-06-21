@@ -73,7 +73,7 @@ body {
         <div class="ui-dialog-content ui-widget-content">
             <a class="popupclose"></a>
             <h3 class="font-dark text-center">Заголовок</h3>
-            <div class="flash-data">Content <a href="#" class="link-dark">link</a></div>
+            <div class="font-large">Content <a href="#" class="link-dark">link</a></div>
         </div>
     </div>
 
