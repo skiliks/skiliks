@@ -1115,6 +1115,10 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
          break;
       }
 
+   return editor.ecell.coord;
+
+    // Don't need following calculations
+
    if (!progress && params.calculating) {
       progress = scc.s_statusline_calculating;
       }
