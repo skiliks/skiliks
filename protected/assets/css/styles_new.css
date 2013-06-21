@@ -961,6 +961,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
+    margin-top: -5px;
     padding-bottom: 30px;
     text-align: center;
 }
