@@ -64,19 +64,19 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="razdelitel"></div><div class="razdelitel" style="height:60px;"></div>
+    <div class="razdelitel"></div><div class="razdelitel" style="height:80px;"></div>
 
     <div class="container-borders-3">
         <div class="block-border bg-rich-blue grid1 border-primary">
             <div class="pad20 font-white"><h3>Заголовок</h3></div>
         </div>
         <div class="block-border bg-yellow grid2 border-primary dashboard">
-            <table class="items table-primary">
+            <table class="table-primary">
                 <thead>
                     <tr>
-                        <td>Title 1</td>
-                        <td>Title 2</td>
-                        <td>Title 3</td>
+                        <th>Title 1</th>
+                        <th>Title 2</th>
+                        <th>Title 3</th>
                     </tr>
                 </thead>
                 <tbody>

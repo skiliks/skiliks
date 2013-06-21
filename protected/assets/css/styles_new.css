@@ -1022,11 +1022,18 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /REZULTATY ***************************/
 /*  *************************** DASHBOARD TABLE ***************************/
+.table-primary {
+    width:100%;
+}
 .table-primary th {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
+    padding: 7px 6px;
     text-align: left;
     vertical-align: middle;
+}
+.table-primary td {
+    padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
