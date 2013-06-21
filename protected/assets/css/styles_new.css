@@ -982,4 +982,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color: #3d4041;
     overflow: visible;
 }
+.popup-flash a {
+    color: #2d7b91;
+}
 /*  *************************** /POPUP FLASH ***************************/
