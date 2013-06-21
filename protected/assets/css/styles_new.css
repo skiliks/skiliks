@@ -990,3 +990,19 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color: #2d7b91;
 }
 /*  *************************** /POPUP FLASH ***************************/
+/*  *************************** OFORMIT ZAKAZ ***************************/
+.block-order {
+    background-image:url("../img/order-pagebg.gif");
+    background-position: center -40px;
+    background-repeat: no-repeat;
+    padding: 0px 116px 70px;
+}
+.order-header {
+    height: 200px;
+    padding-top: 36px;
+    padding-bottom: 10px;
+}
+.order-content {
+
+}
+/*  *************************** /OFORMIT ZAKAZ ***************************/

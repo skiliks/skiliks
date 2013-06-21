@@ -48,6 +48,13 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
            </ul>
         </div>
     </div>
+
+    <div class="razdelitel"></div>
+
+    <div class="container-border-1 block-border bg-yellow border-primary block-order">
+        <div class="order-header"></div>
+        <div class="order-content">Content</div>
+    </div>
 </div>
 </body>
 </html>
