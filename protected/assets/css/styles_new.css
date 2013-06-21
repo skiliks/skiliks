@@ -1045,4 +1045,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-color: #fdfbc6;
     padding: 7px 6px;
 }
+.table-primary tr:last-child td:first-child {
+    border-radius: 0px 0px 0px 5px;
+}
+.table-primary tr:last-child td:last-child {
+    border-radius: 0px 0px 5px;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
