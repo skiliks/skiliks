@@ -471,7 +471,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .pad30 {
     padding: 30px;
 }
-.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2 {
+.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
     margin-top: -6px;
 }
 /*  *************************** /PADDINGS ****************************/
