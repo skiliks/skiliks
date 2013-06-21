@@ -943,6 +943,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#fff;
 }
 /*  *************************** /SIGN IN ***************************/
+.popup-center {
+    left:50%;
+}
 /*  *************************** POPUP PRIMARY ***************************/
 /* goluboy popup tipa feedback ili prichiny otkaza */
 .popup-primary {
@@ -961,7 +964,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
-    margin-top: -5px;
+    margin-top: -8px;
     padding-bottom: 30px;
     text-align: center;
 }
