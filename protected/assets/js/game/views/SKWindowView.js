@@ -256,10 +256,12 @@ define(["text!game/jst/window.jst"], function (window_template) {
                     $(event.currentTarget).removeClass('volume-on');
                     $(event.currentTarget).addClass('volume-off');
                     SKApp.simulation.isPlayIncomingMailSound = false;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function(){});
                 }else if($(event.currentTarget).hasClass('control-phone')){
                     $(event.currentTarget).removeClass('volume-on');
                     $(event.currentTarget).addClass('volume-off');
                     SKApp.simulation.isPlayIncomingCallSound = false;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function(){});
                 }else{
                     throw new Error("Must be has class control-mail or control-phone");
                 }
@@ -269,10 +271,12 @@ define(["text!game/jst/window.jst"], function (window_template) {
                     $(event.currentTarget).removeClass('volume-off');
                     $(event.currentTarget).addClass('volume-on');
                     SKApp.simulation.isPlayIncomingMailSound = true;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function(){});
                 }else if($(event.currentTarget).hasClass('control-phone')){
                     $(event.currentTarget).removeClass('volume-off');
                     $(event.currentTarget).addClass('volume-on');
                     SKApp.simulation.isPlayIncomingCallSound = true;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function(){});
                 }else{
                     throw new Error("Must be has class control-mail or control-phone");
                 }

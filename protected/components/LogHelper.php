@@ -644,5 +644,17 @@ class LogHelper
         return true;
     }
 
+    public static function soundSwitcher(Simulation $simulation, $is_play, $sound_alias) {
+
+        $log = new LogIncomingCallSoundSwitcher();
+        $log->sim_id = $simulation->id;
+        $log->is_play = $is_play;
+        $log->sound_alias = $sound_alias;
+        $log->game_time = $simulation->getGameTime();
+        if(false === $log->save()){
+            throw new LogicException("No valid data");
+        }
+    }
+
 
 }
