@@ -56,7 +56,7 @@ body {
 
 <div class="razdelitel"></div>
 
-    <div class="popup-primary popup-site popup-center ui-dialog" style="top:400px;width:600px;margin-left: -300px;">
+    <div class="popup-primary popup-site popup-center ui-dialog" style="top:380px;width:600px;margin-left: -300px;">
         <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
             <span class="ui-dialog-title" id="ui-dialog-title-simulation-details-pop-up">&nbsp;</span>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
@@ -69,7 +69,7 @@ body {
 
 <div class="razdelitel"></div>
 
-    <div class="popup-flash popup-site popup-center ui-dialog"  style="top:800px;width:600px;margin-left: -300px;">
+    <div class="popup-flash popup-site popup-center ui-dialog"  style="top:560px;width:600px;margin-left: -300px;">
         <div class="ui-dialog-content ui-widget-content">
             <a class="popupclose"></a>
             <div class="flash-data">Content</div>
