@@ -989,6 +989,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-simple a {
     color: #2d7b91;
 }
+.container-border-1.popup-center {
+    margin-left: -472px;
+}
 /*  *************************** /POPUP FLASH I SMENIT PAROL ***************************/
 /*  *************************** OFORMIT ZAKAZ ***************************/
 .block-order {
