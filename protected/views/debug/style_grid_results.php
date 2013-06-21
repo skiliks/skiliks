@@ -40,7 +40,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
 
 <div class="results-width-block bg-lblue-primary popup-site">
-    <div class="pad20">
+    <div class="ui-widget-content">
         <h2 class="font-dark">Две колонки</h2>
         <div class="container-results-2 thetable">
             <div class="grid1 grid-cell block-border-dark border-large"><div class="pad20">AAA</div></div>

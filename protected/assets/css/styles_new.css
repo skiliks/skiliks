@@ -932,6 +932,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
+.simulation-result-popup .ui-widget-content {
+    padding: 20px;
+}
 /*  *************************** SIGN IN ***************************/
 .sign-block {
     background: #146672;
@@ -962,7 +965,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
 }
-.popup-primary .ui-dialog-titlebar {
+.popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
     padding: 0;
     height: 0;
 }
