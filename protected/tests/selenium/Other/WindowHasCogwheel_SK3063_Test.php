@@ -40,14 +40,14 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
     private function has_settings($window)
     {
         $this->optimal_click($window);
-        $this->assertTrue($this->isVisible(Yii::app()->params['test_mappings']['icons']['settings']));
+        $this->assertTrue($this->verifyVisible(Yii::app()->params['test_mappings']['icons']['settings']));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 
     private function has_not_settings($window)
     {
         $this->optimal_click($window);
-        $this->assertFalse($this->isVisible(Yii::app()->params['test_mappings']['icons']['settings']));
+        $this->assertFalse($this->verifyVisible(Yii::app()->params['test_mappings']['icons']['settings']));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 

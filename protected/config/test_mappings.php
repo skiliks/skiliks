@@ -10,7 +10,7 @@ return [
         'mail' => "id=icons_email",
         'visit' => 'id=icons_visit',
         'documents' => 'id=icons_documents',
-        'settings' => 'css=.btn-set',
+        'settings' => 'css=.btn-window .btn-set',
         'close' => 'css=.btn-cl.win-close'
     ],
 
