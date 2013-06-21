@@ -56,7 +56,7 @@ body {
 
 <div class="razdelitel"></div>
 
-    <div class="popup-primary popup-center ui-dialog" style="top:400px;">
+    <div class="popup-primary popup-center ui-dialog" style="top:400px;width:600px;margin-left: -300px;">
         <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
             <span class="ui-dialog-title" id="ui-dialog-title-simulation-details-pop-up">&nbsp;</span>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
