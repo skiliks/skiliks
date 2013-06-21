@@ -79,7 +79,7 @@ body {
 
 </div>
 
-<div class="results-width-block bg-lblue-primary popup-site popup-center simulation-result-popup ui-dialog ui-widget" style="margin-left:-500px;top:720px;">
+<div class="results-width-block bg-lblue-primary popup-center simulation-result-popup ui-dialog ui-widget" style="margin-left:-500px;top:720px;">
     <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
             <span class="ui-dialog-title" id="ui-dialog-title-simulation-details-pop-up">&nbsp;</span>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
