@@ -15,6 +15,8 @@
  */
 class LogIncomingCallSoundSwitcher extends CActiveRecord
 {
+    const INCOMING_MAIL = 'incoming_mail';
+    const INCOMING_CALL = 'incoming_call';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
