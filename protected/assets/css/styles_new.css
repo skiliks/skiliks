@@ -1060,6 +1060,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {
     background: url("../img/bg-product-section-table-title.png") no-repeat left top;
+    background-size: cover;
+    border:1px solid red;
     height: 134px;
     font: normal 57px "ProximaNova-Regular";
     line-height: 134px;
