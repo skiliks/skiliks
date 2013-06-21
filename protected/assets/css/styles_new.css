@@ -899,8 +899,21 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
     z-index: 10000;
 }
-.ui-dialog-titlebar-close {
+.ui-dialog-titlebar {
+    position: relative;
+}
+.ui-dialog-titlebar-close, .popupclose {
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    cursor: pointer;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    display: block;
+    margin: 0;
     text-indent: -90000px;
+    padding: 0;
 }
 .ui-dialog .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
@@ -916,7 +929,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sign-block .ui-dialog-titlebar {
     padding:20px 20px 10px;
-    position: relative;
 }
 .sign-block .ui-dialog-content {
     padding: 0px 20px 25px;
@@ -927,18 +939,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     font-size:28px;
     line-height: 32px;
 }
-.sign-block .ui-dialog-titlebar-close, .popupclose {
-    background: url("../img/closepopup.png") no-repeat 0 0;
-    cursor: pointer;
-    width: 27px;
-    height: 27px;
-    position: absolute;
-    top: -25px;
-    right: -25px;
-    display: block;
-    margin: 0;
-    padding: 0;
-}
+
 .sign-block .ui-dialog-titlebar-close {
     top: -20px;
     right: -20px;
@@ -955,5 +956,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
-
+.popup-primary .ui-dialog-titlebar {
+    padding: 0;
+    height: 0;
+}
 /*  *************************** /POPUP PRIMARY ***************************/
