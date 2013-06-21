@@ -55,6 +55,85 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         <div class="order-header"></div>
         <div class="order-content"><h3 class="font-brown">Content</h3></div>
     </div>
+
+    <div class="razdelitel"></div>
+
+    <div class="container-border-1 popup-simple popup-site popup-center ui-dialog ui-widget">
+        <div class="ui-dialog-content ui-widget-content">
+            Content for Change Password
+        </div>
+    </div>
+
+    <div class="razdelitel"></div><div class="razdelitel" style="height:80px;"></div>
+
+    <div class="container-borders-3">
+        <div class="block-border bg-rich-blue grid1 border-primary">
+            <div class="pad20 font-white"><h3>Заголовок</h3></div>
+        </div>
+        <div class="block-border grid2 border-primary dashboard">
+            <table class="table-primary">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="razdelitel"></div><div class="razdelitel"></div>
+
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
+        </div>
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="razdelitel"></div><div class="razdelitel"></div>
+
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <div class="highlight-title font-white">Заголовок</div>
+            <div class="pad40">Content</div>
+        </div>
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <div class="highlight-title font-white">Заголовок</div>
+            <div class="pad40">Content</div>
+        </div>
+    </div>
+
+    <div class="razdelitel"></div><div class="razdelitel"></div>
+
+    <div class="container-3 font-xlarge">
+        <div class="grid1 text-center font-white">
+            Вам потребуется не более пяти минут.
+        </div>
+        <div class="grid1 text-center font-white">
+            Кандидату потребуется 2-3 часа.
+        </div>
+        <div class="grid1 text-center font-white">
+            Вы сможете сравнить между собой кандидатов.
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

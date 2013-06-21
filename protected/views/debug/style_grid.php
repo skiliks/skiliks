@@ -51,11 +51,12 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     <div class="razdelitel"></div>
     <h3>Две колонки с бордерами</h3>
 
-    <div class="container-borders-2">
-        <div class="block-border bg-yellow grid2 border-primary">
-            <div class="pad20">AAA</div>
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <div class="pad20">AAA<br>AAA</div>
         </div>
-        <div class="block-border bg-yellow grid2 border-primary">
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="pad20">BBB</div>
         </div>
     </div>
