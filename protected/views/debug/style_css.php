@@ -125,8 +125,8 @@ body {
 <a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
 <div class="razdelitel"></div>
 
-<div class="container-borders-3">
-    <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left grid1">
+<div>
+    <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
         <div class="pad30">
         <h3>Отправить приглашение</h3>
             <form id="invite-form" class="form-simple form-small placehldrs-dark">
