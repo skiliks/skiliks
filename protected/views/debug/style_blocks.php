@@ -19,8 +19,25 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+
+        body {
+            background:#7cb8c2;
+        }
+        .blockfortest, .testblocks div {
+            display: inline-block;
+            height:20px;
+            margin: 0px 20px;
+            width:30px;
+        }
+        .razdelitel {
+            clear:both;
+            height: 30px;
+        }
+    </style>
+
 </head>
-<body>
+<body style="padding: 100px;">
 <div class="container-border-1 block-border bg-yellow border-primary">
     <div class="pad30">
        <h2 class="font-brown">Заголовок</h2>
