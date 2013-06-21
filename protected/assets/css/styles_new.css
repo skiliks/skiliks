@@ -4,7 +4,7 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, 
     padding: 0px;
     border: 0;
     outline: 0;
-    vertical-align: top;
+    vertical-align: baseline;
     font-size: 100%;
     outline: none;
     text-align: left;
@@ -471,6 +471,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .pad30 {
     padding: 30px;
 }
+.pad40 {
+    padding: 40px;
+}
 .pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
     margin-top: -6px;
 }
@@ -496,6 +499,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .grid-cell {
     display: table-cell;
+}
+.grid2.grid-cell, .grid3.grid-cell {
+    float:none;
 }
 /*  *************************** /POZITZIONIROVANIE ****************************/
 
@@ -829,7 +835,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     float:left;
 }
 .container-borders-2 .grid2 {
-    width:459px; /*47% */
+    width:463px; /*47% */
 }
 .container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
     margin-left: 18px;
@@ -882,6 +888,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-results-2 .grid1 {
     width:459px;
+}
+.grid-space {
+    width:26px;
 }
 .container-results-2 .grid-space {
     width:10px;
@@ -977,19 +986,22 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#0e4750;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
-/*  *************************** POPUP FLASH ***************************/
-.popup-flash {
+/*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
+.popup-simple {
     background: #E8F7F7;
     color: #3d4041;
     overflow: visible;
 }
-.popup-flash h3 {
+.popup-simple h3 {
     margin-top:-6px;
 }
-.popup-flash a {
+.popup-simple a {
     color: #2d7b91;
 }
-/*  *************************** /POPUP FLASH ***************************/
+.container-border-1.popup-center {
+    margin-left: -472px;
+}
+/*  *************************** /POPUP FLASH I SMENIT PAROL ***************************/
 /*  *************************** OFORMIT ZAKAZ ***************************/
 .block-order {
     background-image:url("../img/order-pagebg.gif");
@@ -1013,4 +1025,49 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .simulation-result-popup .ui-widget-content {
     padding: 20px;
 }
+.simulation-result-popup h1 {
+    font-size: 30px;
+    padding: 0px 10px 6px 0px;
+}
 /*  *************************** /REZULTATY ***************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary {
+    width:100%;
+}
+.table-primary th {
+    background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
+    border: none;
+    border-bottom: 1px solid #0e4750;
+    color:#fff;
+    font-weight: normal;
+    padding: 7px 6px;
+    text-align: left;
+    vertical-align: middle;
+}
+.table-primary th:first-child {
+    border-radius: 5px 0px 0px;
+}
+.table-primary th:last-child {
+    border-radius: 0px 5px 0px 0px;
+}
+.table-primary td {
+    background-color: #fdfbc6;
+    padding: 7px 6px;
+}
+.table-primary tr:last-child td:first-child {
+    border-radius: 0px 0px 0px 5px;
+}
+.table-primary tr:last-child td:last-child {
+    border-radius: 0px 0px 5px;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
+.highlight-title {
+    background: url("../img/highlight-title-bg.png") no-repeat center top;
+    height: 134px;
+    font: normal 48px "ProximaNova-Regular";
+    line-height: 114px;
+    text-align: center;
+}
+.highlight-title+.pad40 {
+    padding-top: 24px;
+}

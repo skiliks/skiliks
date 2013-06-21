@@ -69,7 +69,7 @@ body {
 
 <div class="razdelitel"></div>
 
-    <div class="popup-flash popup-site popup-center ui-dialog"  style="top:560px;width:600px;margin-left: -300px;">
+    <div class="popup-simple popup-site popup-center ui-dialog"  style="top:560px;width:600px;margin-left: -300px;">
         <div class="ui-dialog-content ui-widget-content">
             <a class="popupclose"></a>
             <h3 class="font-dark text-center">Заголовок</h3>
