@@ -53,7 +53,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <div class="pad20">AAA<br>AAA<br>AAA</div>
+            <div class="pad20">AAA<br>AAA</div>
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
