@@ -90,6 +90,21 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
+    <div class="container-borders-2">
+        <div class="block-border bg-yellow grid2 border-primary">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
+        </div>
+        <div class="block-border bg-yellow grid2 border-primary">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
