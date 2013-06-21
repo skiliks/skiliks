@@ -497,6 +497,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .grid-cell {
     display: table-cell;
 }
+.grid2.grid-cell, .grid3.grid-cell {
+    float:none;
+}
 /*  *************************** /POZITZIONIROVANIE ****************************/
 
 /*  ****************************** SOCIAL ICONS *******************************/
