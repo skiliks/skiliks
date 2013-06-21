@@ -17,7 +17,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->windowMaximize();
         $this->open('http://test.skiliks.com/ru');
 
-        //это линг регистрации в центре на главной
+        //это линк регистрации в центре на главной
         $this->optimal_click("link=Получить бесплатный доступ");
 
         $this->waitForVisible("//div[@class='testtime']");
@@ -83,12 +83,12 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $korp_email .= "@skiliks.com";
 
         $this->type('css=#user-account-corporate-form > div.row > div.field > #UserAccountCorporate_corporate_email', $korp_email);
-        $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
+        $this->optimal_click("css=#user-account-corporate-form > div:nth-child(5) > div:nth-child(1) > input:nth-child(1)");
 
         $this->open(TestUserHelper::getCorporateActivationUrl($korp_email));
         sleep(5);
 
-        $this->assertTrue($this->isVisible("xpath=//body/div[1]/div[1]/section/aside/div[1]/div[1]/form/div[4]/input"));
+        $this->assertTrue($this->isVisible("css=div.buttons:nth-child(5) > input:nth-child(1)"));
         $this->close();
     }
 
@@ -100,7 +100,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->windowMaximize();
         $this->open('http://test.skiliks.com/ru');
 
-        //это линг регистрации в центре на главной
+        //это линк регистрации в центре на главной
         $this->optimal_click("link=Получить бесплатный доступ");
 
         $this->waitForVisible("//div[@class='testtime']");
@@ -148,7 +148,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         //регистрируем корпоративный профиль
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_firstname",'test-name');
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-surname');
-        $this->optimal_click("xpath=//div/section/div[2]/form/div[5]/div/input");
+        $this->optimal_click("css=#user-account-corporate-form > div:nth-child(5) > div:nth-child(1) > input:nth-child(1)");
         //ожидаем появления попапа с оценкой
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
