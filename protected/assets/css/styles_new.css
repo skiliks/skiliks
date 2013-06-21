@@ -885,6 +885,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:240px;
 }
 /*  *************************** /GRID ***************************/
+
+/*  *************************** SIGN IN ***************************/
 .sign-block {
     background: #146672;
     border-radius: 8px;
@@ -921,3 +923,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top: -20px;
     right: -20px;
 }
+.sign-block p, .sign-block div, .sign-block span, .sign-block a, .sign-block label {
+    color:#fff;
+}
+/*  *************************** /SIGN IN ***************************/
