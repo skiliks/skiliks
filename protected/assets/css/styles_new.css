@@ -977,19 +977,19 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#0e4750;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
-/*  *************************** POPUP FLASH ***************************/
-.popup-flash {
+/*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
+.popup-simple {
     background: #E8F7F7;
     color: #3d4041;
     overflow: visible;
 }
-.popup-flash h3 {
+.popup-simple h3 {
     margin-top:-6px;
 }
-.popup-flash a {
+.popup-simple a {
     color: #2d7b91;
 }
-/*  *************************** /POPUP FLASH ***************************/
+/*  *************************** /POPUP FLASH I SMENIT PAROL ***************************/
 /*  *************************** OFORMIT ZAKAZ ***************************/
 .block-order {
     background-image:url("../img/order-pagebg.gif");
@@ -1012,5 +1012,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .simulation-result-popup .ui-widget-content {
     padding: 20px;
+}
+.simulation-result-popup h1 {
+    font-size: 30px;
+    padding: 0px 10px 6px 0px;
 }
 /*  *************************** /REZULTATY ***************************/
