@@ -63,7 +63,7 @@ body {
         </div>
         <div class="ui-dialog-content ui-widget-content">
             <div class="popup-primary-title"></div>
-            <div>Content</div>
+            <p>Content</p>
         </div>
     </div>
 
