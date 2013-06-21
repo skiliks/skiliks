@@ -1029,11 +1029,19 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
+    color:#fff;
+    font-weight: normal;
     padding: 7px 6px;
     text-align: left;
     vertical-align: middle;
 }
+.table-primary th:first-child {
+    border-radius: 5px 0px 0px;
+}
+.table-primary th:last-child {
+    border-radius: 0px 5px 0px 0px;
+}
 .table-primary td {
-    padding: 5px 6px;
+    padding: 7px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
