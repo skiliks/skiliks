@@ -74,19 +74,34 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
             <table class="table-primary">
                 <thead>
                     <tr>
-                        <th>Title 1</th>
-                        <th>Title 2</th>
-                        <th>Title 3</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Content 1</td>
-                        <td>Content 2</td>
-                        <td>Content 3</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="razdelitel"></div>
+
+    <div class="container-borders-2">
+        <div class="block-border bg-yellow grid2 border-primary">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
+        </div>
+        <div class="block-border bg-yellow grid2 border-primary">
+            <div class="pad20">
+                <h2 class="font-brown">Заголовок</h2>
+                <div>Content</div>
+            </div>
         </div>
     </div>
 
