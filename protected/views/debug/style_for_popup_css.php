@@ -46,16 +46,14 @@ body {
 
     <div class="sign-block">
         <div class="ui-dialog-titlebar">
-            <span class="ui-dialog-title">Восстановление пароля!!CC</div>
+            <span class="ui-dialog-title">Восстановление пароля!!</div>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
         </div>
         <div class="ui-dialog-content ui-widget-content"">
-            Content ввв
+            LISTEPO
         </div>
     </div>
-
 </div>
-AABBCC
 Text
 </body>
 
