@@ -68,12 +68,24 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="container-borders-3">
         <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad20 font-white"><h3>Отправить приглашение</h3></div>
+            <div class="pad20 font-white"><h3>Заголовок</h3></div>
         </div>
         <div class="block-border bg-yellow grid2 border-primary dashboard">
-            <table class="items">
-
-
+            <table class="items table-primary">
+                <thead>
+                    <tr>
+                        <td>Title 1</td>
+                        <td>Title 2</td>
+                        <td>Title 3</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Content 1</td>
+                        <td>Content 2</td>
+                        <td>Content 3</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
