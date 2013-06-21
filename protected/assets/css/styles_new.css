@@ -939,7 +939,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     font-size:28px;
     line-height: 32px;
 }
-
 .sign-block .ui-dialog-titlebar-close {
     top: -20px;
     right: -20px;
@@ -955,6 +954,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border: none;
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    padding: 30px;
 }
 .popup-primary .ui-dialog-titlebar {
     padding: 0;
