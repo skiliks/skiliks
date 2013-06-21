@@ -58,7 +58,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="razdelitel"></div>
 
-    <div class="popup-simple popup-site popup-center ui-dialog ui-widget">
+    <div class="container-border-1 popup-simple popup-site popup-center ui-dialog ui-widget">
         <div class="ui-dialog-content ui-widget-content">
             Content for Change Password
         </div>
