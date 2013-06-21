@@ -1068,3 +1068,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     line-height: 110px;
     text-align: center;
 }
+.pad40+.highlight-title {
+    padding-top: 20px;
+}
