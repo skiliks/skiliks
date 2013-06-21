@@ -40,7 +40,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <body style="padding: 100px;">
 <div class="container-border-1 block-border bg-yellow border-primary">
     <div class="pad30">
-       <h2 class="font-brown" style="150px">Тарифные планы доступны корпоративным пользователям </h2>
+       <h2 class="font-brown" style="90px">Индивидуальный профиль </h2>
        <ul class="unstyled font-brown font-xlarge">
            <li>Content</li>
            <li>Content</li>
