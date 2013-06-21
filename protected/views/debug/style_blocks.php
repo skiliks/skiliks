@@ -53,7 +53,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="container-border-1 block-border bg-yellow border-primary block-order">
         <div class="order-header"></div>
-        <div class="order-content">Content</div>
+        <div class="order-content"><h3 class="font-brown">Content</h3></div>
     </div>
 </div>
 </body>
