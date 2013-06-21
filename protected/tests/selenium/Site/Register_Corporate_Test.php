@@ -153,7 +153,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'xpath=//body/div[1]/div[1]/section/aside/div[1]/div[1]/form/div[4]/input')])")) break;
+                if ($this->isVisible("xpath=//body/div[1]/div[1]/section/aside/div[1]/div[1]/form/div[4]/input")) break;
             } catch (Exception $e) {}
             sleep(1);
         }
