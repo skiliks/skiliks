@@ -90,14 +90,15 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="razdelitel"></div>
 
-    <div class="container-borders-2">
-        <div class="block-border bg-yellow grid2 border-primary">
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="pad20">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
             </div>
         </div>
-        <div class="block-border bg-yellow grid2 border-primary">
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="pad20">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
@@ -107,14 +108,15 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 
     <div class="razdelitel"></div>
 
-    <div class="container-borders-2">
-        <div class="block-border bg-yellow grid2 border-primary">
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="pad20">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
             </div>
         </div>
-        <div class="block-border bg-yellow grid2 border-primary">
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="pad20">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
