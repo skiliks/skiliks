@@ -883,10 +883,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-results-2 .grid1 {
     width:459px;
 }
-.container-results-2 .grid-space {
-    width:26px;
-}
-.simulation-result-popup .container-results-2 .grid-space {
+.grid-space {
     width:10px;
 }
 .container-results-4 .grid1 {
