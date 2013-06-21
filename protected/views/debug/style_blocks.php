@@ -64,6 +64,20 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
+    <div class="razdelitel"></div>
+
+    <div class="container-borders-3">
+        <div class="block-border bg-rich-blue grid1 border-primary">
+            <div class="pad20 font-white"><h3>Отправить приглашение</h3></div>
+        </div>
+        <div class="block-border bg-yellow grid2 border-primary dashboard">
+            <table class="items">
+
+
+            </table>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
