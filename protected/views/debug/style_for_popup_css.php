@@ -54,6 +54,8 @@ body {
     </div>
 </div>
 
+
+<div class="ui-widget-overlay"></div>
 </body>
 
 <script type="text/javascript">
