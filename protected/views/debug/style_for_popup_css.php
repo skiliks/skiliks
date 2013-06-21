@@ -72,7 +72,8 @@ body {
     <div class="popup-flash popup-site popup-center ui-dialog"  style="top:560px;width:600px;margin-left: -300px;">
         <div class="ui-dialog-content ui-widget-content">
             <a class="popupclose"></a>
-            <div class="flash-data">Content</div>
+            <h3 class="font-dark text-center">Заголовок</h3>
+            <div class="flash-data">Content <a href="#" class="link-dark">link</a></div>
         </div>
     </div>
 
