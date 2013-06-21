@@ -471,6 +471,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .pad30 {
     padding: 30px;
 }
+.pad40 {
+    padding: 40px;
+}
 .pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
     margin-top: -6px;
 }
@@ -1059,9 +1062,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {
-    background: url("../img/bg-product-section-table-title.png") no-repeat left top;
-    background-size: cover;
-    border:1px solid red;
+    background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
     font: normal 57px "ProximaNova-Regular";
     line-height: 134px;

@@ -111,12 +111,12 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="highlight-title font-white">Заголовок</div>
-            <div>Content</div>
+            <div class="pad40">Content</div>
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="highlight-title font-white">Заголовок</div>
-            <div>Content</div>
+            <div class="pad40">Content</div>
         </div>
     </div>
 
