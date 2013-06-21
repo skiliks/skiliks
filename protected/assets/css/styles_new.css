@@ -902,7 +902,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ui-dialog-titlebar-close {
     text-indent: -90000px;
 }
-.ui-dialog-titlebar-close:hover {
+.ui-dialog .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
@@ -947,3 +947,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#fff;
 }
 /*  *************************** /SIGN IN ***************************/
+/*  *************************** POPUP PRIMARY ***************************/
+/* goluboy popup tipa feedback ili prichiny otkaza */
+.popup-primary {
+    background: url("../img/bg-popuprpt.jpg") repeat left top;
+    border: none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/*  *************************** /POPUP PRIMARY ***************************/
