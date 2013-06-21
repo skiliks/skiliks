@@ -995,7 +995,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-image:url("../img/order-pagebg.gif");
     background-position: center -40px;
     background-repeat: no-repeat;
-    padding: 0px 116px 70px;
 }
 .order-header {
     height: 200px;
