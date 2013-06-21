@@ -67,6 +67,16 @@ body {
         </div>
     </div>
 
+<div class="razdelitel"></div>
+
+    <div class="popup-flash-message popup-center ui-dialog"  style="top:400px;width:600px;margin-left: -300px;">
+        <div class="ui-dialog-content ui-widget-content">
+            <a class="popupclose"></a>
+            <div class="flash-data">Content</div>
+        </div>
+    </div>
+
+
 </div>
 
 <div class="ui-widget-overlay"></div>
