@@ -1059,7 +1059,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {
-    background: url("../img/bg-product-section-table-title.png") no-repeat 0 0;
+    background: url("../img/bg-product-section-table-title.png") no-repeat left top;
     height: 134px;
     font: normal 57px "ProximaNova-Regular";
     line-height: 134px;
