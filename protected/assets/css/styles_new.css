@@ -1058,3 +1058,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border-radius: 0px 0px 5px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+.highlight-title {
+    background: url("../img/bg-product-section-table-title.png") no-repeat 0 0;
+    height: 134px;
+    font: normal 57px "ProximaNova-Regular";
+    line-height: 134px;
+    text-align: center;
+}
