@@ -88,7 +88,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="razdelitel"></div>
+    <div class="razdelitel"></div><div class="razdelitel"></div>
 
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
@@ -106,7 +106,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="razdelitel"></div>
+    <div class="razdelitel"></div><div class="razdelitel"></div>
 
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
@@ -120,7 +120,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="razdelitel"></div>
+    <div class="razdelitel"></div><div class="razdelitel"></div>
 
     <div class="container-3 font-xlarge">
         <div class="grid1 text-center font-white">

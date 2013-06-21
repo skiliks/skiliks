@@ -1064,7 +1064,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
-    font: normal 57px "ProximaNova-Regular";
-    line-height: 134px;
+    font: normal 48px "ProximaNova-Regular";
+    line-height: 110px;
     text-align: center;
 }
