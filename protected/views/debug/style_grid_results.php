@@ -39,7 +39,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 <body style="padding: 100px;">
 
 
-<div class="results-width-block bg-lblue-primary popup-site">
+<div class="results-width-block bg-lblue-primary popup-site simulation-result-popup">
     <div class="ui-widget-content">
         <h2 class="font-dark">Две колонки</h2>
         <div class="container-results-2 thetable">
