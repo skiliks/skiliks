@@ -48,11 +48,22 @@ body {
             <span class="ui-dialog-title">Заголовок</span>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
         </div>
-        <div class="ui-dialog-content ui-widget-content"">
+        <div class="ui-dialog-content ui-widget-content">
             Content
         </div>
     </div>
 </div>
+
+<div class="razdelitel"></div>
+
+<div class="ui-dialog popup-primary">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+        <span class="ui-dialog-title" id="ui-dialog-title-simulation-details-pop-up">&nbsp;</span>
+        <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
+    </div>
+
+</div>
+
 
 
 <div class="ui-widget-overlay"></div>
