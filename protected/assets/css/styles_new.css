@@ -103,6 +103,7 @@ h2 {
     font-size:36px;
     color: #fff;
     line-height:36px;
+    margin-bottom: 10px;
 }
 h3 {
     font-size:28px;
@@ -468,6 +469,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .pad30 {
     padding: 30px;
+}
+.pad20+h1, .pad20+h2, .pad30+h1, .pad30+h2 {
+    margin-top: -6px;
 }
 /*  *************************** /PADDINGS ****************************/
 /*  *************************** POZITZIONIROVANIE ****************************/
