@@ -919,11 +919,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-position: 0 100%;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
+.popup-site {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
 /*  *************************** SIGN IN ***************************/
 .sign-block {
     background: #146672;
-    border-radius: 8px;
-    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     height: 245px;
     overflow: visible;
 }
@@ -950,9 +953,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /* goluboy popup tipa feedback ili prichiny otkaza */
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
 .popup-primary .ui-dialog-titlebar {
     padding: 0;
@@ -972,3 +972,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#0e4750;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
+/*  *************************** POPUP FLASH ***************************/
+.popup-flash {
+    background: #E8F7F7;
+    color: #3d4041;
+    overflow: visible;
+}
+/*  *************************** /POPUP FLASH ***************************/
