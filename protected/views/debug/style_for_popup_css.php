@@ -42,8 +42,7 @@ body {
 
 
 </style>
-<div class="grid-container">
-    <div class="sign-block">
+    <div class="sign-block ui-dialog">
         <div class="ui-dialog-titlebar">
             <span class="ui-dialog-title">Заголовок</span>
             <a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button"><span class="ui-icon ui-icon-closethick">close</span></a>
@@ -52,7 +51,6 @@ body {
             Content
         </div>
     </div>
-</div>
 
 
 <div class="ui-widget-overlay"></div>
