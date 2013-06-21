@@ -242,6 +242,7 @@ body {
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
+        Cufon.replace('li, a, p, label', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
     });
 </script>
