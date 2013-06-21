@@ -1042,6 +1042,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border-radius: 0px 5px 0px 0px;
 }
 .table-primary td {
+    background-color: #fdfbc6;
     padding: 7px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/

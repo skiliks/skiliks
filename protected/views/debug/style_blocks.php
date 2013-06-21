@@ -70,7 +70,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         <div class="block-border bg-rich-blue grid1 border-primary">
             <div class="pad20 font-white"><h3>Заголовок</h3></div>
         </div>
-        <div class="block-border bg-yellow grid2 border-primary dashboard">
+        <div class="block-border grid2 border-primary dashboard">
             <table class="table-primary">
                 <thead>
                     <tr>
