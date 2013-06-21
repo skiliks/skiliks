@@ -64,7 +64,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
-    <div class="razdelitel"></div>
+    <div class="razdelitel"></div><div class="razdelitel" style="height:60px;"></div>
 
     <div class="container-borders-3">
         <div class="block-border bg-rich-blue grid1 border-primary">
