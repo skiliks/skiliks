@@ -1021,3 +1021,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0px 10px 6px 0px;
 }
 /*  *************************** /REZULTATY ***************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary th {
+    background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
+    border: none;
+    border-bottom: 1px solid #0e4750;
+    text-align: left;
+    vertical-align: middle;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
