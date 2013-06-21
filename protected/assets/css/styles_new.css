@@ -906,6 +906,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     font-family:"ProximaNova-Bold";
     font-size:28px;
     line-height: 32px;
+    margin-bottom: 10px;
 }
 .sign-block .ui-dialog-titlebar-close, .popupclose {
     background: url("../img/closepopup.png") no-repeat 0 0;
