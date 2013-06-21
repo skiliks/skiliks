@@ -958,7 +958,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
     height: 0;
 }
-.popup-primary .ui-widget-content {
+.popup-primary .ui-widget-content, .popup-primary .ui-widget-content {
     padding: 30px;
 }
 .popup-primary-title {
