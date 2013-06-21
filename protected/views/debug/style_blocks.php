@@ -105,6 +105,18 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
+    <div class="container-3 font-xlarge">
+        <div class="grid1 text-center font-white">
+            Вам потребуется не более пяти минут.
+        </div>
+        <div class="grid1 text-center font-white">
+            Кандидату потребуется 2-3 часа.
+        </div>
+        <div class="grid1 text-center font-white">
+            Вы сможете сравнить между собой кандидатов.
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
