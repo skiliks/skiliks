@@ -103,7 +103,7 @@ h2 {
     font-size:36px;
     color: #fff;
     line-height:36px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 h3 {
     font-size:28px;
@@ -919,7 +919,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-indent: -90000px;
     padding: 0;
 }
-.ui-dialog .ui-dialog-titlebar-close:hover {
+.ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
     background-position: 0 100%;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
@@ -927,6 +927,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+.popup-site .ui-widget-content {
+    padding: 30px;
 }
 /*  *************************** SIGN IN ***************************/
 .sign-block {
@@ -961,9 +964,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary .ui-dialog-titlebar {
     padding: 0;
     height: 0;
-}
-.popup-primary .ui-widget-content, .popup-primary .ui-widget-content {
-    padding: 30px;
 }
 .popup-primary-title {
     color: #0e4750;
