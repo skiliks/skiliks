@@ -86,6 +86,7 @@ body {
     </div>
     <div class="ui-dialog-content ui-widget-content">
         <h1 class="font-dark">Заголовок</h1>
+        <p>Content</p>
     </div>
 </div>
 
