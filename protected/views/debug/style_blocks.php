@@ -90,6 +90,8 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
         </div>
     </div>
 
+    <div class="razdelitel"></div>
+
     <div class="container-borders-2">
         <div class="block-border bg-yellow grid2 border-primary">
             <div class="pad20">
@@ -104,6 +106,8 @@ $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
             </div>
         </div>
     </div>
+
+    <div class="razdelitel"></div>
 
     <div class="container-3 font-xlarge">
         <div class="grid1 text-center font-white">
