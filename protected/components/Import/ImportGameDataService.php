@@ -292,7 +292,7 @@ class ImportGameDataService
                 $phrase->name = $phraseValue;
                 $phrase->import_id = $this->import_id;
                 $phrase->scenario_id = $this->scenario->primaryKey;
-                echo $phraseValue.' - '.$column_number."\r\n";
+                //echo $phraseValue.' - '.$column_number."\r\n";
                 $phrase->column_number = $column_number;
                 $phrase->save();
                 $importedRows++;
