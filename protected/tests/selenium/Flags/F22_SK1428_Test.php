@@ -35,7 +35,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
         sleep(2);
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
-        $this->verifyTextPresent("Вот, сделал. Смотрите. \nС уваженим, Трутнев С.");
+        $this->verifyTextPresent("Вот, сделал. Смотрите. \nС уважением, Трутнев С.");
         $this->close();
     }
 
