@@ -10,6 +10,7 @@ class CalculateCustomAssessmentsService {
 
     public function run() {
         $this->check_3312();
+        $this->check_341a8();
     }
 
     protected function calcTurnOff($logs) {

@@ -2,7 +2,7 @@
 
 class CalculateCustomAssessmentsServiceUnitTest extends PHPUnit_Framework_TestCase {
 
-    public function test_check_3312()
+    public function test_check_3312_341a8()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -48,10 +48,6 @@ class CalculateCustomAssessmentsServiceUnitTest extends PHPUnit_Framework_TestCa
 
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour_341a8->id]);
         $this->assertEquals($behaviour_341a8->scale, $point->value);
-
-        $this->markTestIncomplete(
-            'Нужно отладить на выходных!'
-        );
     }
 
     public function addSwitchSound(Simulation $simulation, $is_play, $sound_alias, $time) {
