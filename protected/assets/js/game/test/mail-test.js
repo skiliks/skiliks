@@ -494,7 +494,7 @@ define([
                 server.respond();
 
                 // action 5:
-                mailView.$('.win-close button').click();
+                mailView.$('.btn-cl.win-close').click();
                 timers.tick(3 * 1000); // 10 sec
                 simulation.mailClient.message_window.$('.mail-popup-button:eq(0)').click();
                 timers.tick(5 * 1000); // 10 sec
