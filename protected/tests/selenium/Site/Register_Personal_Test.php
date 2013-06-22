@@ -7,9 +7,9 @@
  * Тесты для проверки регистрации персонального профиля без прохождения симуляции, проверкой ошибок ввода на формах,
  * (для SK3056)
  */
-class Register_Personal_Test extends SeleniumTestHelper
+class _Personal_Test extends SeleniumTestHelper
 {
-    public function test_Personal_Corporate_SK3056()
+    public function test_Register_Personal_SK3056()
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
@@ -47,9 +47,15 @@ class Register_Personal_Test extends SeleniumTestHelper
         $this->type("css=#user-account-personal-form > div.row > div.field > #YumProfile_lastname",'test-surname');
 
         $this->optimal_click("xpath=//div/section/div[1]/form/div[5]/div/input");
-        sleep(5);
-//
-        $this->assertTrue($this->isVisible("css=#user-account-personal-form > div:nth-child(5) > div:nth-child(1) > input:nth-child(1)"));
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible("xpath=(//*[contains(text(),'Личный')])")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+
+
         $this->close();
     }
 }
