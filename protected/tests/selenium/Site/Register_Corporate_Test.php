@@ -88,7 +88,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getCorporateActivationUrl($korp_email));
         sleep(5);
 
-        $this->assertTrue($this->isVisible("css=div.buttons:nth-child(5) > input:nth-child(1)"));
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Рабочий')])"));
         $this->close();
     }
 
