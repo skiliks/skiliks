@@ -270,14 +270,18 @@ class ImportGameDataService
             $constructor->import_id = $this->import_id;
             $constructor->scenario_id = $this->scenario->primaryKey;
             $constructor->save();
+            $column_number = 1;
             for ($row = 2; $row < $sheet->getHighestDataRow(); $row++) {
                 $phraseValue = $sheet->getCellByColumnAndRow($col, $row)->getValue();
-                if (empty($phraseValue) || $phraseValue === '****') {
+                if (empty($phraseValue)) {
+                    continue;
+                }
+                if($phraseValue === '****'){
+                    $column_number++;
                     continue;
                 }
 
-                // @todo: use scenario_id!
-                $phrase = MailPhrase::model()->findByAttributes([
+                $phrase = $this->scenario->getMailPhrase([
                     'constructor_id' => $constructor->getPrimaryKey(),
                     'name' => $phraseValue]);
 
@@ -288,6 +292,8 @@ class ImportGameDataService
                 $phrase->name = $phraseValue;
                 $phrase->import_id = $this->import_id;
                 $phrase->scenario_id = $this->scenario->primaryKey;
+                //echo $phraseValue.' - '.$column_number."\r\n";
+                $phrase->column_number = $column_number;
                 $phrase->save();
                 $importedRows++;
             }
@@ -309,8 +315,7 @@ class ImportGameDataService
         $signs = ['.', ',', ':', '"', '-', ';'];
         foreach ($signs as $sign) {
 
-            // @todo: use scenario_id!
-            $phrase = MailPhrase::model()->findByAttributes([
+            $phrase = $this->scenario->getMailPhrase([
                 'constructor_id' => $constructor->getPrimaryKey(),
                 'name' => $sign]);
 

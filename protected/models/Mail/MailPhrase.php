@@ -1,15 +1,5 @@
 <?php
 
-
-
-/**
- * Содержит набор фраз, которые соответствуют конкретному персонажу
- * Также есть связь по коду конструктора писем. Поле code например B1 W1
- * 
- * Связана с моделями: CommunicationTheme.
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
 class MailPhrase extends CActiveRecord
 {
     /**
@@ -37,7 +27,9 @@ class MailPhrase extends CActiveRecord
      * Constructor code, 'B1','R1' ...
      * @var string
      */
-    public $code;    
+    public $code;
+
+    public $column_number;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
