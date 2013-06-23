@@ -45,7 +45,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         sleep(10);
 
         $this->clearEventQueueBeforeEleven('RST1');
-
+        sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
@@ -60,7 +60,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->click("xpath=(//*[contains(text(),'Прочее')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Завершить')])");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
