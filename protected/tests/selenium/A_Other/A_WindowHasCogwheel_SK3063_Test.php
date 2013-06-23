@@ -14,7 +14,10 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->has_not_settings(Yii::app()->params['test_mappings']['icons']['todo']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
+        sleep(2);
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['settings']));
+        $this->click(Yii::app()->params['test_mappings']['icons']['close1']);
 
         $this->has_settings(Yii::app()->params['test_mappings']['icons']['phone']);
 
@@ -42,7 +45,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
         $this->optimal_click($window);
         sleep(2);
         $this->assertTrue($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['settings']));
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+        $this->click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 
     private function has_not_settings($window)
@@ -50,7 +53,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
         $this->optimal_click($window);
         sleep(2);
         $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['settings']));
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+        $this->click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 
 
