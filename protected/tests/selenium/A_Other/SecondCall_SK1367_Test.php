@@ -54,7 +54,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->mouseOver(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         $this->click(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         sleep(2);
-        //$this->assertFalse($this->isElementPresent("xpath=(//*[contains(text(),'Задача отдела логистики: статус')])"));
+        $this->assertFalse($this->isElementPresent("xpath=(//*[contains(text(),'Задача отдела логистики: статус')])"));
 
         $this->mouseOver("xpath=(//*[contains(text(),'Прочее')])");
         $this->click("xpath=(//*[contains(text(),'Прочее')])");
@@ -68,7 +68,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->mouseOver(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         $this->click(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         sleep(2);
-        $this->assertTrue($this->verifyTextPresent("Прочее"));
+        $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Прочее')])"));
 
         $this->close();
     }
