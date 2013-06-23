@@ -11,7 +11,8 @@ return [
         'visit' => 'id=icons_visit',
         'documents' => 'id=icons_documents',
         'settings' => 'css=.btn-window .btn-set',
-        'close' => 'css=.btn-cl.win-close'
+        'close' => 'css=.btn-cl.win-close',
+        'close1' => 'css=.btn-close > button:nth-child(1)'
     ],
 
     'time' => [
