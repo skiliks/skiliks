@@ -41,7 +41,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
     {
         $this->optimal_click($window);
         sleep(2);
-        $this->assertTrue($this->isVisible(Yii::app()->params['test_mappings']['icons']['settings']));
+        $this->assertTrue($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['settings']));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 
@@ -49,7 +49,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
     {
         $this->optimal_click($window);
         sleep(2);
-        $this->assertTrue($this->isNotVisible(Yii::app()->params['test_mappings']['icons']['settings']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['settings']));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
     }
 
