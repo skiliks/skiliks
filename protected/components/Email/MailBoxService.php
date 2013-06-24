@@ -280,7 +280,8 @@ class MailBoxService
 
         $list = [];
         foreach ($phrases as $model) {
-            $list[$model->id] = $model->name;
+            /* @var $model MailPhrase */
+            $list[$model->id] = ['name' => $model->name, 'column_number'=>$model->column_number];
         }
 
         return $list;
@@ -297,7 +298,7 @@ class MailBoxService
 
         $list = [];
         foreach ($phrases as $model) {
-            $list[$model->id] = $model->name;
+            $list[$model->id] = ['name' => $model->name, 'column_number' => $model->column_number];
         }
 
         return $list;
