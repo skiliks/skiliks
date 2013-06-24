@@ -1012,8 +1012,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                     var phrase = new SKMailPhrase();
                     phrase.mySqlId = parseInt(i);
-                    phrase.text = array[i];
-
+                    phrase.text = array[i].name;
+                    phrase.columnNumber = parseInt(array[i].column_number);
+                    console.log(phrase);
                     this.availablePhrases.push(phrase);
                 }
             },
@@ -1028,8 +1029,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 for (var i in array) {
                     var phrase = new SKMailPhrase();
                     phrase.mySqlId = parseInt(i);
-                    phrase.text = array[i];
-
+                    phrase.text = array[i].name;
+                    phrase.columnNumber = parseInt(array[i].column_number);
+                    console.log(phrase);
                     this.availableAdditionalPhrases.push(phrase);
                 }
             },

@@ -98,6 +98,7 @@ define([
                 'click .save-attachment-icon': 'doSaveAttachment',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
+                'click #MailClient_ContentBlock .mail-tags-bl td': 'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
             }, SKWindowView.prototype.events),
 
@@ -1586,26 +1587,48 @@ define([
 
                 //if ('' !== response.phrases.message && undefined === response.phrases.message) {
 
-                var mainPhrasesHtml = '';
+                var mainPhrasesHtml = "<table>";
                 var additionalPhrasesHtml = '';
 
-
+                var row;
+                var rows = [[],[],[],[],[]];
+                //mainPhrasesHtml += '<tr>';
                 phrases.forEach(function (phrase) {
-                    mainPhrasesHtml += _.template(mail_client_phrase_template, {
+                    row = _.template(mail_client_phrase_template, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
                         text: phrase.text
                     });
+                    if(rows[phrase.columnNumber-1] !== undefined) {
+                        rows[phrase.columnNumber-1].push(row);
+                    }
                 });
+
+                var columns = "";
+                var column = "";
+                for(var i = 0; i < 8; i++){
+                    column = '<tr>'
+                    for(var j = 0; j < 5; j++){
+                        if(rows[j][i] === undefined){
+                            column += '<td></td>';
+                        }else{
+                            column += rows[j][i];
+                        }
+                    }
+                    column += '</tr>'
+                    columns += column;
+                }
+
+                mainPhrasesHtml += columns+"</table>";
 
                 addPhrases.forEach(function (phrase) {
-                    additionalPhrasesHtml += _.template(mail_client_phrase_template, {
+                    additionalPhrasesHtml += _.template(phrase_item, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
                         text: phrase.text
                     });
                 });
-
+                mainPhrasesHtml += "</table>";
                 if (phrases.length) {
                     this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
                     this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
@@ -1632,6 +1655,7 @@ define([
                         if (undefined !== phrase) {
                             phraseToAdd.mySqlId = phrase.mySqlId;
                             phraseToAdd.text = phrase.text;
+                            phraseToAdd.columnNumber = phrase.columnNumber;
                             mailClient.newEmailUsedPhrases.push(phraseToAdd);
                             me.renderAddPhraseToEmail(phraseToAdd);
                         }
@@ -1659,6 +1683,7 @@ define([
                 var phraseToAdd = new SKMailPhrase(); // generate unique uid
                 phraseToAdd.mySqlId = phrase.mySqlId;
                 phraseToAdd.text = phrase.text;
+                phraseToAdd.columnNumber = phrase.columnNumber;
                 // simplest way to clone small object in js }
 
                 // ADD:
