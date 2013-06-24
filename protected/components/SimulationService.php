@@ -660,6 +660,9 @@ class SimulationService
 
         DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
+        $custom = new CalculateCustomAssessmentsService($simulation);
+        $custom->run();
+
         $planAnalyzer = new PlanAnalyzer($simulation);
         $planAnalyzer->run();
 
