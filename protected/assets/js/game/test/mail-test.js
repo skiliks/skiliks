@@ -368,7 +368,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length).toBe(3);
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants td').length).toBe(3);
 
                 server.respond();
 
@@ -435,7 +435,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$('#mailEmulatorNewLetterTextVariants li').length)
+                expect(mailView.$('#mailEmulatorNewLetterTextVariants td').length)
                     .toBe(3);
 
                 server.respond();
