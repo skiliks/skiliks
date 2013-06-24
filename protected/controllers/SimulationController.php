@@ -1,14 +1,5 @@
 <?php
-/**
- * Контроллер симуляции
- *
- * PHP Version 5.4
- *
- * @package  None
- * @link     skiliks.com
- * @author   Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- * @license  proprietary http://skiliks.com/
- */
+
 class SimulationController extends AjaxController
 {
     /**
