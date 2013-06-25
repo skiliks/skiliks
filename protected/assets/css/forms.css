@@ -788,6 +788,9 @@ span.required {
     min-width: 500px;
     width: 500px;
 }
+.no-margin-left, .no-margin-left input[type="submit"] {
+    margin-left: 0px;
+}
 /* **************************** NEW INVITAION FORM **************************** */
 
 

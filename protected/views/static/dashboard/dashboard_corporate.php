@@ -42,7 +42,7 @@
             <?php // echo $form->labelEx($invite, 'signature'); ?>
             <?php // echo $form->textField($invite, 'signature'); ?>
             <?php // echo $form->error($invite, 'signature'); ?>
-        <div class="row buttons">
+        <div class="row buttons no-margin-left">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
 
