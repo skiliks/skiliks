@@ -621,15 +621,15 @@ class SimulationService
      * @param Simulation $simulation
      * @param array $logs_src
      */
-    public static function simulationStop($simulation, $logs_src = array())
+    public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
         // Check if simulation was already stopped
-        if ($simulation->end) {
+        if (null !== $simulation->end && false === $manual) {
             return;
         }
 
         $simulation->end = GameTime::setNowDateTime();
-        $simulation->save();
+        $simulation->save(false);
 
         if ($simulation->isDevelopMode() ||
             true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
@@ -847,5 +847,41 @@ class SimulationService
             }
         }
 
+    }
+
+    public static function CalculateTheEstimate($simId, $email) {
+
+        /** @var  $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
+        if(null === $simulation){
+            throw new Exception("Simulation by id = {$simId} not found.");
+        }
+        /* @var $profile YumProfile */
+        $profile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        if(null === $profile){
+            throw new Exception("Profile by email = {$email} not found.");
+        }
+
+        if($profile->user_id !== $simulation->user_id){
+            throw new Exception("This simulation does not belong to this user.");
+        }
+
+        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformancePoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        SimulationService::simulationStop($simulation, [], true);
     }
 }

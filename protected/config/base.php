@@ -278,7 +278,8 @@ return array(
                 'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
                 'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
-
+                'admin_area/invite/action/status' => 'admin_area/AdminPages/InviteActionStatus',
+                'admin_area/invite/calculate/estimate' => 'admin_area/AdminPages/InviteCalculateTheEstimate',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

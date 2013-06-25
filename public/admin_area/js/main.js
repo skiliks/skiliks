@@ -7,4 +7,10 @@ $(document).ready(function(){
         return confirm("Вы точно хотите откатить симуляцию от "+simulationTimeStart+" для "+receiverUserEmail+" за "+simulationTimeEnd+"(дата)");
 
     });
+
+    $(".action-invite-status").click(function() {
+
+        return confirm("Вы точно хотите сменить статус?");
+
+    });
 });
