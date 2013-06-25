@@ -738,14 +738,29 @@ span.required {
     text-indent: 10px;
 }
 /* **************************** /FEEDBACK **************************** */
+.p-bg-borders {
+    background: #fff;
+    border-radius: 3px;
+    padding: 10px;
+}
 .block-form {
     background: #e1f1f4;
     border:1px solid #374f52;
-    border-radius: 5px;
+    border-radius: 3px;
     -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     padding: 20px 10px;
+}
+.block-form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.font-green-bright {
+    color: #146672;
+}
+.font-green-dark {
+    color: #0e4750;
 }
 /* **************************** NEW INVITAION FORM **************************** */
 
