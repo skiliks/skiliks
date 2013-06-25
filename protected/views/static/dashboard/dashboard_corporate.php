@@ -21,6 +21,10 @@
         <?php echo $form->hiddenField($invite, 'email'); ?>
         <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
 
+        <div class="block-form">
+              AAA
+        </div>
+
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
             <?php /* echo $invite->email */ ?>
