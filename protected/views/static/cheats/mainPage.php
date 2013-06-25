@@ -93,7 +93,11 @@
         <br/>
 
     <a href="/debug/styleCss">style css</a>
-    <a href="/debug/styleCss">style popup css</a>
+    <a href="/debug/styleForPopupCss">style popup css</a>
+    <a href="/debug/styleBlocks">style blocks</a>
+    <a href="/debug/styleGrid">style grid</a>
+    <a href="/debug/styleGridResults">style grid results</a>
+
 
     </nav>
 
