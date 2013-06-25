@@ -766,14 +766,16 @@ span.required {
     color: #0e4750;
 }
 #Invite_message {
+    height: 50px;
+    min-width: 490px;
+    width: 490px;
+}
+#Invite_fullname, #Invite_message {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    height: 50px;
     margin: 0px;
-    min-width: 490px;
     padding: 0px;
-    width: 490px;
 }
 /* **************************** NEW INVITAION FORM **************************** */
 
