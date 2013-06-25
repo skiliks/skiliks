@@ -306,7 +306,7 @@ class MailBoxUnitTest extends CDbTestCase
         $data= [];
         
         foreach($mail_phrases as $phrase){
-            $data[$phrase->id] = $phrase->name;
+            $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
         
         $phrases = MailBoxService::getPhrases($theme->id, 0, $simulation);
@@ -357,7 +357,7 @@ class MailBoxUnitTest extends CDbTestCase
         $data= [];
 
         foreach($mail_phrases as $phrase){
-            $data[$phrase->id] = $phrase->name;
+            $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
 
         $phrases = MailBoxService::getPhrases(0, $theme->id, $simulation);

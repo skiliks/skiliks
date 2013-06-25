@@ -1270,6 +1270,38 @@ section.mail.new {
       }
     }
   }
+  table {
+    width: 100%;
+    td {
+      display:inline-block;
+      height:24px;
+      margin:3px 0 0 3px;
+      width: 19%;
+      a {
+        display:block;
+        background:url("../img/mail/bg-items.png") no-repeat 0 -48px;
+        height:24px;
+        font:12px 'orbi_sansregular';
+        color:#000;
+        line-height:22px;
+        text-decoration:none;
+        span {
+          display:block;
+          background:url("../img/mail/bg-items.png") no-repeat right -72px;
+          height:24px;
+          //white-space:nowrap;
+          padding:0 13px;
+        }
+      }
+      a:hover {
+        background-position:0 -96px;
+        span {
+          background-position:right -120px;
+        }
+      }
+    }
+  }
+
 }
 .mail-view-header {
   border-bottom:1px solid #ccc;

@@ -278,7 +278,7 @@ ul li:last-child {
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
-    font-family: "ProximaNova-Bold";
+    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
     font-size: 14px;
     margin: 0px 11.5px;
     padding: 7px 10px 7px 9px;
@@ -407,7 +407,7 @@ input[type="text"], input[type="password"]  {
     color: #fff;
     display: inline-block;
     line-height: 90%;
-    min-width: 60px;
+    min-width: 64px;
     padding-right: 10px;
 }
 .dark-labels label {
@@ -767,23 +767,23 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /REGISTRATION ************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder {
-    width:155px;
+    width:151px;
 }
 #invite-form .btn-primary {
-    margin-left: 70px;
+    margin-left: 75px;
 }
 #invite-people-box h3 {
     padding-bottom: 5px;
     width:190px;
 }
 #Invite_firstname {
-    width: 60px;
+    width: 58px;
 }
 #Invite_lastname {
-    width: 80px;
+    width: 78px;
 }
 #Invite_email {
-    width: 170px;
+    width: 166px;
 }
 #invite-form .btn-add {
     bottom: 1px;
