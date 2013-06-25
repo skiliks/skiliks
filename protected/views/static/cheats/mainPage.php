@@ -12,7 +12,7 @@
 <div class="container container-2">
     <header>
 
-<h2>Skiliks: release 1.2</h2>
+<h2>Skiliks: release 1.3</h2>
 
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
@@ -93,7 +93,11 @@
         <br/>
 
     <a href="/debug/styleCss">style css</a>
-    <a href="/debug/styleCss">style popup css</a>
+    <a href="/debug/styleForPopupCss">style popup css</a>
+    <a href="/debug/styleBlocks">style blocks</a>
+    <a href="/debug/styleGrid">style grid</a>
+    <a href="/debug/styleGridResults">style grid results</a>
+
 
     </nav>
 

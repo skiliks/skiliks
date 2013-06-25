@@ -287,13 +287,23 @@ class LogHelper
     public static function setWindowsLog($simId, $logs)
     {
         if (!is_array($logs)) return false;
-        $errors = '';
-        foreach ($logs as $key =>  $log) {
+        foreach ($logs as $key => $log) {
             assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                if (LogWindow::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
-                    throw(new CException('Previous window is still activated'));
+                $window = LogWindow::model()->findByAttributes([
+                    'end_time' => '00:00:00',
+                    'sim_id' => $simId
+                ]);
+
+                if ($window) {
+                    $window->end_time = gmdate("H:i:s", $log[3]);
+                    $window->save();
+                    Yii::log(sprintf(
+                        'Previous window is still activated. Simulation id %d. Window log id %d',
+                        $simId, $window->id
+                    ), CLogger::LEVEL_WARNING);
                 }
+
                 $log_window = new LogWindow();
                 $log_window->sim_id = $simId;
                 $log_window->window = $log[1]; // this is ID of Window table
@@ -304,32 +314,24 @@ class LogHelper
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
-                if (0 == count($windows)) {
-                    $errors .= 'Can not close window: ' . $key. ' :: ' . implode(',', $log) . "\n";
-                    continue;
-                }
-                if (1 < count($windows)) {
-                    $errors .= "Two or more active windows at one time. Achtung!\n";
-                    continue;
+                $window = LogWindow::model()->findByAttributes([
+                    'end_time' => '00:00:00',
+                    'sim_id' => $simId,
+                    'window_uid' => $log['window_uid']
+                ]);
 
-                }
-                foreach ($windows as $window) {
+                if ($window) {
                     $window->end_time = gmdate("H:i:s", $log[3]);
                     $window->save();
+                } else {
+                    Yii::log(sprintf(
+                        'Can not close window. Simulation id %d. Log: %s',
+                        $simId, serialize($log)
+                    ), CLogger::LEVEL_WARNING);
                 }
-            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
-
-                continue;
-
             } else {
-
                 throw new CException("Ошибка"); //TODO:Описание доделать
             }
-        }
-
-        if ($errors) {
-            throw new CException($errors);
         }
 
         return true;
