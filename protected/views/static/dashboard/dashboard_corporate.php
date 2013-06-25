@@ -24,10 +24,10 @@
         <div class="block-form">
             <p class="p-bg-borders font-green-bright">Приветствуем, <?php echo $form->labelEx($invite, 'To'); ?>!</p>
             <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
-            <p><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
+            <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
             <p class="p-bg-borders font-green-bright"><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?></p>
-            <p>Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.</p>
-            <p>Ваш skiliks</p>
+            <p class="font-green-dark">Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.</p>
+            <p class="font-green-dark">Ваш skiliks</p>
         </div>
 
         <div class="row">
