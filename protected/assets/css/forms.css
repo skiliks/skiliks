@@ -625,7 +625,7 @@ span.required {
     /*max-height: 310px !important;*/
     /*min-height: 310px !important;
     height: 310px !important;*/
-    height: 412px;
+    height: 412px !important;
     max-width: 560px !important;
     min-width: 560px !important;
     width: 560px !important;
