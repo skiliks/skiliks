@@ -765,6 +765,12 @@ span.required {
 .font-green-dark {
     color: #0e4750;
 }
+#Invite_message {
+    height: 50px;
+    margin: 0px;
+    min-width: 490px;
+    width: 490px;
+}
 /* **************************** NEW INVITAION FORM **************************** */
 
 
