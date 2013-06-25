@@ -623,6 +623,20 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array())
     {
+        // Check if simulation was already stopped
+        if ($simulation->end) {
+            return;
+        }
+
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->save();
+
+        if ($simulation->isDevelopMode() ||
+            true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
+        ) {
+            $simulation->checkLogs();
+        }
+
         // If simulation was started by invite, mark it as completed
         if (null !== $simulation->invite) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
@@ -695,12 +709,6 @@ class SimulationService
 
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
-        if ($simulation->isDevelopMode() || true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
-            $simulation->checkLogs();
-        }
-
-        $simulation->end = GameTime::setNowDateTime();
-        $simulation->save();
 
         // @ - for PHPUnit
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
