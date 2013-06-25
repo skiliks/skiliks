@@ -738,11 +738,6 @@ span.required {
     text-indent: 10px;
 }
 /* **************************** /FEEDBACK **************************** */
-.p-bg-borders {
-    background: #fff;
-    border-radius: 3px;
-    padding: 10px;
-}
 .block-form {
     background: #e1f1f4;
     border:1px solid #374f52;
@@ -774,6 +769,9 @@ span.required {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+    color: #146672;
+    border-radius: 4px;
+    padding: 10px;
     margin: 0px;
     padding: 0px;
 }
