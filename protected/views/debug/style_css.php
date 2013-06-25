@@ -95,12 +95,12 @@ body {
 <div class="razdelitel"></div>
 
 <ul id="yw1" class="yiiPager"><li class="first hidden"><a href="/dashboard/corporate">&lt;&lt; начало</a></li>
-    <li class="previous hidden"><a href="/dashboard/corporate">Назад</a></li>
-    <li class="page selected"><a href="/dashboard/corporate">1</a></li>
-    <li class="page"><a href="/dashboard/corporate?page=2">2</a></li>
-    <li class="page"><a href="/dashboard/corporate?page=2">3</a></li>
-    <li class="next"><a href="/dashboard/corporate?page=2">Вперед</a></li>
-    <li class="last"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
+    <li class="previous hidden semi"><a href="/dashboard/corporate">Назад</a></li>
+    <li class="page selected semi"><a href="/dashboard/corporate">1</a></li>
+    <li class="page semi"><a href="/dashboard/corporate?page=2">2</a></li>
+    <li class="page semi"><a href="/dashboard/corporate?page=2">3</a></li>
+    <li class="next semi"><a href="/dashboard/corporate?page=2">Вперед</a></li>
+    <li class="last semi"><a href="/dashboard/corporate?page=2">конец &gt;&gt;</a></li>
 </ul>
 
 
@@ -245,7 +245,7 @@ body {
         Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.yiiPager .previous a, .yiiPager .next a', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
-        Cufon.replace('.semi', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
 </script>
 
