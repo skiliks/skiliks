@@ -751,6 +751,9 @@ span.required {
     font-size: 14px;
     margin-bottom: 20px;
 }
+.block-form p:last-child {
+    margin-bottom: 0px;
+}
 .block-form a {
     color: #2d7b91;
 }
@@ -762,6 +765,10 @@ span.required {
 }
 #Invite_message {
     height: 40px;
+}
+#Invite_fullname {
+    height: 14px;
+    line-height: 14px;
 }
 #Invite_fullname, #Invite_message {
     -moz-box-shadow: none;
