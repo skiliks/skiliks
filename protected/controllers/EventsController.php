@@ -13,6 +13,10 @@ class EventsController extends AjaxController
      */
     public function actionGetState()
     {
+        /*
+        sleep(99);
+        Yii::app()->end();
+*/
         $this->sendJSON(
             EventsManager::getState(
                 $this->getSimulationEntity(),
