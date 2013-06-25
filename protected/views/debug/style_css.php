@@ -242,7 +242,7 @@ body {
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        //Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.yiiPager .previous a, .yiiPager .next a', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
