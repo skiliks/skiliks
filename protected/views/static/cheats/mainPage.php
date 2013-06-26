@@ -98,6 +98,7 @@
     <a href="/debug/styleGrid">style grid</a>
     <a href="/debug/styleGridResults">style grid results</a>
     <a href="/debug/styleEmpty1280">style empty 1280</a>
+    <a href="/debug/styleEmpty1024">style empty 1024</a>
 
     </nav>
 
