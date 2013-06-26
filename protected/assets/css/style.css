@@ -462,6 +462,7 @@ html[lang=ru] .betaflag {
 
 .container>header nav .font-dark-green {
     color:#146672;
+    padding: 0 5px;
 }
 .container>header nav#static-page-links .font-dark-green:hover {
     background: none;
@@ -469,10 +470,10 @@ html[lang=ru] .betaflag {
 .top-profile {
     padding-left: 32px;
 }
-.top-profile-corp {
+.container>header nav#static-page-links .top-profile-corp {
     background:url("../img/iconprof-corpor.png") no-repeat 0px 0px;
 }
-.top-profile-persn {
+.container>header nav#static-page-links .top-profile-persn {
     background:url("../img/iconprof-person.png") no-repeat 0px 0px;
 }
 .log-out-link {
@@ -480,10 +481,10 @@ html[lang=ru] .betaflag {
 }
 .log-out-link:before {
     border-left:1px solid #3a838d;
-    content: ".";
+    content: "";
     display: block;
     height: 17px;
-    left:-10px;
+    left:-8px;
     position: absolute;
     top:4px;
     width:1px;
