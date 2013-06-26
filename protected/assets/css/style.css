@@ -455,7 +455,7 @@ html[lang=ru] .betaflag {
 .container>header nav .active a,
 .container>header nav a:hover,
 #simulation-details label.active,
-#simulation-details label:hover{
+#simulation-details label:hover, .link-block {
 	background:rgba(20,102,114,1);
 }
 

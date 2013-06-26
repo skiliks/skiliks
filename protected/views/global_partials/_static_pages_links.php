@@ -22,7 +22,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => Yii::t('site', 'My office'),
             'url'         => '',
-            'linkOptions' => ['class' => 'font-dark-green'],
+            'linkOptions' => ['class' => 'font-dark-green link-block'],
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
