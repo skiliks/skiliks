@@ -71,6 +71,7 @@ define([
                     me.showDayPlanSlot($(this));
                     
                     var task_id = $(this).attr('data-task-id');
+                    var duration = parseInt($(this).attr('data-task-duration'), 10);
                     
                     var prev_cell = $(this).parents('td');
                     if (prev_cell.length) {
@@ -79,6 +80,13 @@ define([
                     $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
                     $(this).data("startingScrollLeft", $(this).parent().scrollLeft());
+
+                    // crop text length
+                    me.overflowText(
+                        me.$('.ui-draggable-dragging .title'),
+                        me.calculateTaskHeigth(duration),
+                        me.$('.ui-draggable-dragging .title')
+                    );
                 },
                 stop:function () {
                         me.hideDayPlanSlot($(this));
@@ -101,14 +109,6 @@ define([
                     var duration = parseInt($(this).attr('data-task-duration'), 10);
                     var height = me.calculateTaskHeigth(duration);
                     $('.planner-book .ui-draggable-dragging').height(height);
-                    
-                    // crop text length    
-                    me.overflowText(
-                        me.$('.ui-draggable-dragging .title'),
-                        height, 
-                        me.$('.ui-draggable-dragging .title')
-                    );
-                    // set height according duration }
 
                     ui.position.left -= $(this).parent().scrollLeft() - stl;
                 }
