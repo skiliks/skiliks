@@ -459,7 +459,7 @@ html[lang=ru] .betaflag {
 	background:rgba(20,102,114,1);
 }
 
-.font-dark-green {
+.container>header nav .font-dark-green {
     color:#146672;
 }
 
