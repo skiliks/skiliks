@@ -116,9 +116,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 modal: true,
                                 resizable: false,
                                 position: {
-                                    my: "right top",
-                                    at: "right bottom",
-                                    of: $('#top header #static-page-links')
+                                    my: "center top",
+                                    at: "center top",
+                                    of: $('#top header')
                                 },
                                 //title: '',
                                 width: 275,
