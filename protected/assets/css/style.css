@@ -469,7 +469,12 @@ html[lang=ru] .betaflag {
 .top-profile {
     padding-left: 32px;
 }
-
+.top-profile-corp {
+    background:url("../img/iconprof-corpor.png") no-repeat 0px 0px;
+}
+.top-profile-persn {
+    background:url("../img/iconprof-person.png") no-repeat 0px 0px;
+}
 .log-out-link {
     position: relative;
 }
