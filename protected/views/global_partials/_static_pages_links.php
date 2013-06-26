@@ -17,12 +17,13 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site','Help'),
             'url'     => '',
-            //'visible' => false,
+            'visible' => false,
         ],
         [
             'label'       => Yii::t('site', 'My office'),
             'url'         => '',
             'linkOptions' => ['class' => 'link-block'],
+            'visible' => false,
         ],
         [
             'label'       => Yii::t('site', 'User name'),
