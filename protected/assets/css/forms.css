@@ -272,7 +272,7 @@ a.link-xxlarge {
     width: 900px;
 }
 .btn-more, .longercontent .btn-more {
-    font-size:18px;
+    font: 16px "ProximaNova-Bold";
 }
 /* ************************* /REGISTRATION ************************* */
 
