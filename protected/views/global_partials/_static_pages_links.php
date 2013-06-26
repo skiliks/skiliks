@@ -27,7 +27,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => Yii::t('site', 'User name'),
             'url'         => '',
-            'linkOptions' => ['class' => 'font-dark-green top-profile top-profile-persn'],
+            'linkOptions' => ['class' => 'font-dark-green top-profile top-profile-corp'],
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
