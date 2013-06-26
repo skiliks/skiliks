@@ -459,6 +459,10 @@ html[lang=ru] .betaflag {
 	background:rgba(20,102,114,1);
 }
 
+.font-dark-green {
+    color:#146672;
+}
+
 @media screen and (max-width: 1146px){
 	.container>header{
 		width:765px;

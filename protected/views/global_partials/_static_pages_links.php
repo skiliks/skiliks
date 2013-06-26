@@ -22,19 +22,19 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => Yii::t('site', 'My office'),
             'url'         => '',
-            'linkOptions' => ['class' => 'sign-in-link'],
+            'linkOptions' => ['class' => 'font-dark-green'],
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
-            'linkOptions' => ['class' => 'sign-in-link'],
+            'linkOptions' => ['class' => 'font-dark-green'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
         ],
         [
             'label' => Yii::t('site', 'Log out'),
             'url' => ['/static/userAuth/logout'],
             'visible' => !$isGuest,
-            'linkOptions' => ['class' => 'log-out-link']
+            'linkOptions' => ['class' => 'font-dark-green log-out-link']
         ],
     ]
 ));
