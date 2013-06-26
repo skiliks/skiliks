@@ -467,7 +467,11 @@ html[lang=ru] .betaflag {
     background: none;
 }
 .log-out-link:before {
-    border-left:1px solid #146672;
+    border-left:1px solid #3a838d;
+    content: ".";
+    display: block;
+    height: 17px;
+    width:1px;
 }
 @media screen and (max-width: 1146px){
 	.container>header{
