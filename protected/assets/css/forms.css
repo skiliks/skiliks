@@ -176,7 +176,7 @@
     list-style-type: none;
     margin-bottom: 8px;
 }
-.link-xxlarge {
+a.link-xxlarge {
     font-size:1.5em;
 }
 .icon-check {
