@@ -17,7 +17,12 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site','Help'),
             'url'     => '',
-            'visible' => false,
+            //'visible' => false,
+        ],
+        [
+            'label'       => Yii::t('site', 'My office'),
+            'url'         => '',
+            'linkOptions' => ['class' => 'sign-in-link'],
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
