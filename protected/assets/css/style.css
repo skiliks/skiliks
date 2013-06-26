@@ -468,7 +468,7 @@ html[lang=ru] .betaflag {
     background: none;
 }
 .container>header nav#static-page-links .top-profile {
-    padding-left: 42px;
+    padding-left: 41px;
 }
 .container>header nav#static-page-links .top-profile-corp,
 .container>header nav#static-page-links .top-profile-corp:hover {
@@ -486,7 +486,7 @@ html[lang=ru] .betaflag {
     content: "";
     display: block;
     height: 17px;
-    left:-4px;
+    left:-5px;
     position: absolute;
     top:7px;
     width:1px;
