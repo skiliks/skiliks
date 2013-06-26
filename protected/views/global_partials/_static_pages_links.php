@@ -27,7 +27,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
-            'linkOptions' => ['class' => 'font-dark-green'],
+            'linkOptions' => ['class' => 'font-dark-green sing-in-link'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
         ],
         [

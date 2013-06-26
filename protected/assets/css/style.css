@@ -462,7 +462,12 @@ html[lang=ru] .betaflag {
 .container>header nav .font-dark-green {
     color:#146672;
 }
-
+.container>header nav .font-dark-green:hover {
+    background: none;
+}
+.log-out-link {
+    border-left:1px solid #146672;
+}
 @media screen and (max-width: 1146px){
 	.container>header{
 		width:765px;
