@@ -53,5 +53,11 @@ class DebugController extends AjaxController
         $this->layout = false;
         $this->render('style_empty_1280');
     }
+
+    public function actionStyleEmpty1024()
+    {
+        $this->layout = false;
+        $this->render('style_empty_1024');
+    }
 }
 
