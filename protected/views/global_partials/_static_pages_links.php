@@ -16,8 +16,8 @@ $this->widget('zii.widgets.CMenu', array(
         ],
         [
             'label'   => Yii::t('site','Help'),
-            'url'     => ['/user/auth'],
-            'visible' => false,
+            'url'     => '',
+            //'visible' => false,
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
