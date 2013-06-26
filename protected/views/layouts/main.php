@@ -111,7 +111,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             console.log('key: ', key, $(this).find('.flash-data'));
                             $(this).dialog({
                                 closeOnEscape: true,
-                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key,
+                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key+" popup-center",
                                 minHeight: 220,
                                 modal: true,
                                 resizable: false,
