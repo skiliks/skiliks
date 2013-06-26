@@ -472,11 +472,11 @@ html[lang=ru] .betaflag {
 }
 .container>header nav#static-page-links .top-profile-corp,
 .container>header nav#static-page-links .top-profile-corp:hover {
-    background:url("../img/iconprof-corpor.png") no-repeat 0px 0px;
+    background:url("../img/iconprof-corpor.png") no-repeat 10px 0px;
 }
 .container>header nav#static-page-links .top-profile-persn,
 .container>header nav#static-page-links .top-profile-persn:hover {
-    background:url("../img/iconprof-person.png") no-repeat 0px 0px;
+    background:url("../img/iconprof-person.png") no-repeat 10px 0px;
 }
 .log-out-link {
     position: relative;
@@ -486,9 +486,9 @@ html[lang=ru] .betaflag {
     content: "";
     display: block;
     height: 17px;
-    left:-8px;
+    left:-7px;
     position: absolute;
-    top:4px;
+    top:7px;
     width:1px;
 }
 @media screen and (max-width: 1146px){
