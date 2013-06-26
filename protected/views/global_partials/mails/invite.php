@@ -79,9 +79,6 @@
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
                                     </p>
-                                    <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">
-                                        www.skiliks.com
-                                    </a>
                                 </td>
                                 <td bgcolor="f2f2f2" valign="top">
                                     <img src="cid:mail-right-2" style="display:block;">

@@ -39,7 +39,6 @@
     <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=profile/corporate/tariff' ?>">выбрать тариф</a>,</li>
     <li><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"  href="<?= $link.'&redirect=simulations' ?>">пройти симуляцию</a> самостоятельно.</li>
 </ul>
-                                    <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">skiliks</a></p>
                                 </td>
                                 <td width="335"><img src="cid:mail-bottom-angela" style="display:block;" /></td>
                             </tr>
