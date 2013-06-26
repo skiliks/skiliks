@@ -468,15 +468,15 @@ html[lang=ru] .betaflag {
     background: none;
 }
 .container>header nav#static-page-links .top-profile {
-    padding-left: 32px;
+    padding-left: 42px;
 }
 .container>header nav#static-page-links .top-profile-corp,
 .container>header nav#static-page-links .top-profile-corp:hover {
-    background:url("../img/iconprof-corpor.png") no-repeat 10px 0px;
+    background:url("../img/iconprof-corpor.png") no-repeat 10px 3px;
 }
 .container>header nav#static-page-links .top-profile-persn,
 .container>header nav#static-page-links .top-profile-persn:hover {
-    background:url("../img/iconprof-person.png") no-repeat 10px 0px;
+    background:url("../img/iconprof-person.png") no-repeat 10px 3px;
 }
 .log-out-link {
     position: relative;
@@ -486,7 +486,7 @@ html[lang=ru] .betaflag {
     content: "";
     display: block;
     height: 17px;
-    left:-7px;
+    left:-4px;
     position: absolute;
     top:7px;
     width:1px;
