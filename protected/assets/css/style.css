@@ -483,7 +483,9 @@ html[lang=ru] .betaflag {
     content: ".";
     display: block;
     height: 17px;
+    left:-10px;
     position: absolute;
+    top:4px;
     width:1px;
 }
 @media screen and (max-width: 1146px){
