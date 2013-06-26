@@ -911,7 +911,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .ui-dialog {
     position: absolute;
-    z-index: 10000;
+    z-index: 10;
 }
 .ui-dialog-titlebar {
     position: relative;
