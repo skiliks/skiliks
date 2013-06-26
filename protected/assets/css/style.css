@@ -467,13 +467,15 @@ html[lang=ru] .betaflag {
 .container>header nav#static-page-links .font-dark-green:hover {
     background: none;
 }
-.top-profile {
+.container>header nav#static-page-links .top-profile {
     padding-left: 32px;
 }
-.container>header nav#static-page-links .top-profile-corp {
+.container>header nav#static-page-links .top-profile-corp,
+.container>header nav#static-page-links .top-profile-corp:hover {
     background:url("../img/iconprof-corpor.png") no-repeat 0px 0px;
 }
-.container>header nav#static-page-links .top-profile-persn {
+.container>header nav#static-page-links .top-profile-persn,
+.container>header nav#static-page-links .top-profile-persn:hover {
     background:url("../img/iconprof-person.png") no-repeat 0px 0px;
 }
 .log-out-link {
