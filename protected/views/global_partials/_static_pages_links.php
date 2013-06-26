@@ -25,9 +25,14 @@ $this->widget('zii.widgets.CMenu', array(
             'linkOptions' => ['class' => 'link-block'],
         ],
         [
+            'label'       => Yii::t('site', 'User name'),
+            'url'         => '',
+            'linkOptions' => ['class' => 'top-profile top-profile-corp'],
+        ],
+        [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
-            'linkOptions' => ['class' => 'font-dark-green sing-in-link'],
+            'linkOptions' => ['class' => 'font-dark-green sign-in-link'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
         ],
         [

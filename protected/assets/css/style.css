@@ -466,11 +466,19 @@ html[lang=ru] .betaflag {
 .container>header nav#static-page-links .font-dark-green:hover {
     background: none;
 }
+.top-profile {
+    padding-left: 32px;
+}
+
+.log-out-link {
+    position: relative;
+}
 .log-out-link:before {
     border-left:1px solid #3a838d;
     content: ".";
     display: block;
     height: 17px;
+    position: absolute;
     width:1px;
 }
 @media screen and (max-width: 1146px){
