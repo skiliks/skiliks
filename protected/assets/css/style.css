@@ -408,7 +408,8 @@ html[lang=ru] .betaflag {
     font-size:14px;
 }
 .container>header nav#static-page-links a:hover,
-.container>header nav#static-page-links a.active {
+.container>header nav#static-page-links a.active,
+.container>header nav#static-page-links .link-block {
     background: #146672;
     border-radius: 3px;
 }
@@ -462,10 +463,10 @@ html[lang=ru] .betaflag {
 .container>header nav .font-dark-green {
     color:#146672;
 }
-.container>header nav .font-dark-green:hover {
+.container>header nav#static-page-links .font-dark-green:hover {
     background: none;
 }
-.log-out-link {
+.log-out-link:before {
     border-left:1px solid #146672;
 }
 @media screen and (max-width: 1146px){
