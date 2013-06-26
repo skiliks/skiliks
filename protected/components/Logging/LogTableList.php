@@ -47,6 +47,7 @@ namespace application\components\Logging {
                 new AssessmentCalculationTable($simulation->assessment_calculation),
                 new AssessmentResultTable($simulation->assessment_aggregated),
                 new MailLogTable($simulation->log_mail),
+                new MailInboxAggregateTable($simulation->mail_box_inbox),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
                 new ActivityLogTable($simulation->log_activity_actions),
