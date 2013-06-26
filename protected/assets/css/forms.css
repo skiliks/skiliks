@@ -271,7 +271,7 @@ a.link-xxlarge {
     margin: 0 auto;
     width: 900px;
 }
-.btn-more {
+.btn-more, .longercontent .btn-more {
     font-size:16px;
 }
 /* ************************* /REGISTRATION ************************* */
