@@ -62,7 +62,6 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/raven-0.7.1.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
 
-    static-page-links
     <?php if (!YII_DEBUG): ?>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
     <script type="text/javascript">
