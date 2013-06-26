@@ -28,13 +28,13 @@ class MailInboxAggregateTable extends LogTable
      */
     protected function getRow($mail) {
         return [
-            $mail->code,
-            $mail->folder->name,
-            ((int)$mail->readed === 1)?'Да':'Нет',
-            ((int)$mail->plan === 1)?'Да':'Нет',
-            ((int)$mail->reply === 1)?'Да':'Нет',
-            '',
-            ''
+            $mail['code'],
+            $mail['folder'],
+            $mail['readed'],
+            $mail['plan'],
+            $mail['reply'],
+            $mail['task_id'],
+            $mail['mail_task_is_correct']
         ];
     }
 

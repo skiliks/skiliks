@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 05.02.13
- * Time: 12:14
- * To change this template use File | Settings | File Templates.
- */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
