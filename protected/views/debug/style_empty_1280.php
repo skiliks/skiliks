@@ -19,7 +19,17 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
 <!DOCTYPE html>
 <html lang="en">
 <body>
-!!!
+    <div class="site-wrap">
+        <div class="grid-container site-height">
+            <header class="site-header">
+
+            </header>
+            <div class="site-main"></div>
+        </div>
+    </div>
+    <footer class="site-footer">
+
+    </footer>
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){

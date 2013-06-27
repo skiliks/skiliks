@@ -73,6 +73,9 @@ nav ul, nav ul li {
     font-weight: normal;
     font-style: normal;
 }
+html, body {
+    height: 100%;
+}
 body {
     line-height: 1;
     color: #29313d;
@@ -899,6 +902,22 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:240px;
 }
 /*  *************************** /GRID ***************************/
+/*  *************************** SITE MAIN ***************************/
+.site-wrap {
+    min-height: 100%;
+}
+.site-height {
+    overflow:auto;
+    padding-bottom: 150px;
+}
+.site-footer {
+    position: relative;
+    margin-top: -150px; /* negative value of footer height */
+    height: 150px;
+    clear:both;
+    border:1px solid #ff00ff;
+}
+/*  *************************** /SITE MAIN ***************************/
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);
