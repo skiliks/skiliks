@@ -12,8 +12,8 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
+$cs->registerCssFile($assetsUrl . "/css/styles_new_1024.css");
+$cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 ?>
 
 <!DOCTYPE html>
