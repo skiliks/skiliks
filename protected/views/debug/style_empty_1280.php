@@ -42,6 +42,7 @@ body {
             </nav>
         </header>
         <div class="site-main grid-container">
+            <h1 class="page-header">Zagolovok</h1>
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text1</p>
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text2</p>
         </div>
