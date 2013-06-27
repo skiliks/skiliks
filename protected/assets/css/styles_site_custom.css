@@ -47,6 +47,14 @@
 .page-header {
     margin-bottom: 16px;
 }
+html[lang=ru] .betaflag {
+    background: url("../img/betaflag.png") no-repeat 0 0;
+    height: 49px;
+    left: 275px;
+    position: absolute;
+    top: 31px;
+    width: 105px;
+}
 /*  ************************** /HOME **************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
