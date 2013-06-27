@@ -749,8 +749,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     min-height: 100%;
 }
 .site-footer {
-    position: relative;
     clear:both;
+    overflow: visible;
+    position: relative;
 }
 .site-footer .container-3 {
     position: relative;
