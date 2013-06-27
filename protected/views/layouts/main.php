@@ -109,15 +109,23 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 of: $('#top header')
                             };
 
+                            // fix pop-up position for PasswordRecoveryMessage {
+                            var isPasswordRecoveryMessagePresent = false;
+
                             <?php foreach($flashes as $key => $message) : ?>
-                            <?php if ('popup-recovery-view' == $key): ?>
-                            var positionData = {
-                                my: "right top",
-                                at: "right top",
-                                of: $('#top header #static-page-links')
-                            };
-                            <?php endif ?>
+                                <?php if ('popup-recovery-view' == $key): ?>
+                            isPasswordRecoveryMessagePresent = true;
+                                <?php endif ?>
                             <?php endforeach ?>
+
+                            if (isPasswordRecoveryMessagePresent) {
+                                positionData = {
+                                    my: "right top",
+                                    at: "right top",
+                                    of: $('#top header #static-page-links')
+                                };
+                            }
+                            // fix pop-up position for PasswordRecoveryMessage }
 
                             $(this).dialog({
                                 closeOnEscape: true,
