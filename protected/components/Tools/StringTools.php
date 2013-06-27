@@ -45,6 +45,11 @@ class StringTools
 
     public static function getMaxLength($max_length, $string) {
 
+        if(strlen($string) <= $max_length){
+            return $string;
+        }else{
+            return substr($string, 0, $max_length).'...';
+        }
     }
 }
 
