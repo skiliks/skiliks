@@ -69,6 +69,9 @@ class TodoService
             $tasks[] = $item->task_id;
             $taskOrder[$item->task_id] = $order;
             $order++;
+            if (3 == $order) {
+                break;
+            }
         }
         
         if (count($tasks) == 0) {
