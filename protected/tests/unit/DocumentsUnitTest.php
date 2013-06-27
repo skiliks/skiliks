@@ -110,4 +110,14 @@ Server: ZGS";
         $this->assertFileExists($save_file);
     }
 
+    public function testMissedDocuments()
+    {
+        $docPath = realpath(__DIR__ . '/../../../' . Yii::app()->params['zoho']['xlsTemplatesDirPath']);
+        $allDocuments = DocumentTemplate::model()->findAll();
+
+        foreach ($allDocuments as $document) {
+            $this->assertFileExists($docPath . '/' . $document->srcFile);
+        }
+    }
+
 }
