@@ -32,6 +32,7 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                 console.log(text_status);
                 if ('timeout' == text_status) {
                     console.log(xhr, text_status);
+                    SKApp.isInternetConnectionBreakHappent = true;
                     // switch game to pause
                     // recheck is internet came back
                     // if YES:
