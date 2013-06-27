@@ -37,9 +37,7 @@
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
                                         предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию
-                                        <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->vacancy->link ?: '#' ?>">
-                                            <?= $invite->getVacancyLabel() ?>
-                                        </a>.
+                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;") ?>.
                                     </p>
 
                                     <?php if (empty($invite->receiverUser)): ?>
