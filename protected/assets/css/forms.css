@@ -177,7 +177,7 @@
     margin-bottom: 8px;
 }
 .link-xxlarge {
-    font-size:1.5em;
+    font-size:20px;
 }
 .icon-check {
     background:url("../img/icon-checklarge.png") no-repeat top left;
@@ -188,6 +188,7 @@
 .icon-chooce {
     background:url("../img/icon-chooce.png") no-repeat left bottom;
     text-decoration:none;
+    font-weight:bold;
     font-weight:bold;
     text-indent:35px;
     line-height:140px;
@@ -272,7 +273,7 @@
     width: 900px;
 }
 .btn-more, .longercontent .btn-more {
-    font: 18px "ProximaNova-Bold" !important;
+    font-size: 24px !important;
 }
 /* ************************* /REGISTRATION ************************* */
 
