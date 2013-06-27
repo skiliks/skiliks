@@ -38,7 +38,7 @@ class PunctuationMarks_SK1801_Test extends SeleniumTestHelper
         $this->assertTrue($this->mail_comes("Отчет по 3 кварталу"));
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr/td[2]");
         sleep(2);
-        
+
         $this->assertTrue($this->isTextPresent(". , : \" - ;"));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
