@@ -40,11 +40,10 @@ body {
                     <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="/static/team">О продукте</a></li><li class="menu-link-regular"><a href="#">Цены</a></li><li class="menu-link-regular"><a href="#">Цены и тарифы</a></li>
                 </ul>
             </nav>
+            <div class="betaflag"></div>
         </header>
         <div class="site-main grid-container">
             <h1 class="page-header">Zagolovok</h1>
-            <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text1</p>
-            <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text2</p>
         </div>
         <div class="empty-footer"></div>
         <footer class="site-footer">
