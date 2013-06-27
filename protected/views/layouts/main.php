@@ -111,6 +111,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
                             var  widthData = 550;
 
+                            if ($(window).width() < 1281) {
+                                var  widthData = 450
+                            }
+
                             // fix pop-up position for PasswordRecoveryMessage {
                             var isPasswordRecoveryMessagePresent = false;
 
@@ -184,6 +188,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 </nav>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-            <script type="text/javascript"> Cufon.now(); </script>
+            <script type="text/javascript"> Cufon.now();</script>
     </body>
 </html>
