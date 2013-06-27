@@ -65,7 +65,7 @@ body {
                     <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
                     <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
                 </div>
-                <a href="#top" class="to-top">Наверх</a>
+                <a href="#top" class="to-top font-small">Наверх</a>
             </div>
         </footer>
     </div><!-- /site-wrap -->
