@@ -300,6 +300,7 @@ ul li:last-child {
    list-style-type: none;
 }
 .menu-site a {
+    border-radius: 3px;
     color: #fff;
     display: inline-block;
     font-family: "ProximaNova-Regular";
@@ -312,7 +313,6 @@ ul li:last-child {
 }
 .menu-main a {
     background: rgba(20,102,114,0.4);
-    border-radius: 3px;
     font-size: 18px;
 }
 .menu-botm a {
@@ -320,7 +320,6 @@ ul li:last-child {
 }
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
-    border-radius: 3px;
 }
 .menu-top, .menu-main {
     position: absolute;
@@ -779,7 +778,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .to-top {
     position: absolute;
     right:0px;
-    top:30px;
+    top:174px;
 }
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
