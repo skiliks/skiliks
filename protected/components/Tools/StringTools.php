@@ -42,5 +42,9 @@ class StringTools
         Yii::log($e->getMessage());
         Yii::log($e->getTraceAsString());
     }
+
+    public static function getMaxLength($max_length, $string) {
+
+    }
 }
 
