@@ -868,6 +868,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .access-footer {
     bottom: 90px;
     display: inline-block;
+    height:40px;
+    line-height:40px;
     left:280px;
     position: absolute;
 }
