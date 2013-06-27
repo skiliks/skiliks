@@ -870,7 +870,7 @@ class SimulationService
 
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId, 'snapshot_time' => DayPlanLog::ON_18_00]);
         LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
