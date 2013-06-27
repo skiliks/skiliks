@@ -767,11 +767,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-top: 200px;
     position: relative;
 }
-.brand-footer {
-    bottom: 90px;
-    left: 0px;
-    position: absolute;
-}
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
@@ -884,6 +879,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-3 .grid1 {
     width:298px;
+}
+.container-3 .grid2 {
+    width:642px;
+}
+.container-3 .grid1+.grid2 {
+    margin-left: 20px;
 }
 .container-3 .grid1+.grid1 {
     margin-left: 32px;
