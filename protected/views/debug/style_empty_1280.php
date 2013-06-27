@@ -28,20 +28,30 @@ body {
 </head>
 <body>
     <div class="site-wrap">
-        <div class="grid-container site-height">
+        <div class="site-height">
             <header class="site-header">
-
+                <div class="grid-container">
+                    <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+                    <nav class="menu-site menu-top" id="static-page-links">
+                        <ul>
+                            <li><a href="#">English</a></li><li><a href="#">Вход</a></li>
+                        </ul>
+                    </nav>
+                    <nav class="menu-site menu-main">
+                        <ul>
+                            <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="#">Цены</a></li>
+                        </ul>
+                    </nav>
+                </div>
             </header>
             <div class="site-main"></div>
-        </div>
-    </div>
+        </div><!-- /site-height -->
+    </div><!-- /site-wrap -->
     <footer class="site-footer">
         <div class="grid-container">
             <div class="container-3">
                 <div class="grid1">
-                    <a href="/">
-                        <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
-                    </a>
+                    <a href="/" class="brand"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
                 </div>
                 <div class="grid3"></div>
             </div>
