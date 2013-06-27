@@ -19,7 +19,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
 <!DOCTYPE html>
 <html lang="en">
 <body>
-
+!!!
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
