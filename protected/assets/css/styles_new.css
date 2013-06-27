@@ -752,6 +752,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: relative;
     clear:both;
 }
+.site-footer .container-3 {
+    position: relative;
+}
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
