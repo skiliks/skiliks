@@ -743,7 +743,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top:47px;
 }
 .site-wrap {
+    margin: 0 auto;
     min-height: 100%;
+    position: relative;
+}
+.site-main {
     position: relative;
     z-index: 2;
 }

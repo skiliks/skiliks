@@ -28,22 +28,20 @@ body {
 </head>
 <body>
     <div class="site-wrap">
-        <header class="site-header">
-            <div class="grid-container">
-                <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
-                <nav class="menu-site menu-top" id="static-page-links">
-                    <ul>
-                        <li><a href="#">English</a></li><li><a href="#">Вход</a></li>
-                    </ul>
-                </nav>
-                <nav class="menu-site menu-main">
-                    <ul>
-                        <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="#">Цены</a></li>
-                    </ul>
-                </nav>
-            </div>
+        <header class="site-header grid-container">
+            <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+            <nav class="menu-site menu-top" id="static-page-links">
+                <ul>
+                    <li><a href="#">English</a></li><li><a href="#">Вход</a></li>
+                </ul>
+            </nav>
+            <nav class="menu-site menu-main">
+                <ul>
+                    <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="#">Цены</a></li>
+                </ul>
+            </nav>
         </header>
-        <div class="site-main">
+        <div class="site-main grid-container">
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text1</p>
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text2</p>
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text3</p>
