@@ -28,7 +28,6 @@ body {
 </head>
 <body>
     <div class="site-wrap">
-        <div class="site-height">
             <header class="site-header">
                 <div class="grid-container">
                     <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
@@ -51,8 +50,6 @@ body {
                 <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text4</p>
                 <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text5</p>
             </div>
-        </div><!-- /site-height -->
-    </div><!-- /site-wrap -->
     <div class="empty-footer"></div>
     <footer class="site-footer">
         <div class="grid-container">
@@ -64,6 +61,7 @@ body {
             </div>
         </div>
     </footer>
+    </div><!-- /site-wrap -->
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
