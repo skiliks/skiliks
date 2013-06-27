@@ -207,6 +207,14 @@ ul li:last-child {
 .btn-green:hover {
     background-color: #BD2929;
 }
+.btn-white {
+    background-color: #fff;
+    color: #146672;
+}
+.btn-white:hover {
+    background-color: #48b5c6;
+    color: #fff;
+}
 .btn-large { /* large green button */
     background-image: url("../img/btn-circle.png");
     background-position: 20px 50%;
@@ -225,6 +233,12 @@ ul li:last-child {
     font-size: 14px;
     height: 30px;
     line-height: 30px;
+    padding: 0 10px 0 22px;
+}
+.btn-arrow {
+    background-image: url("../img/btn-circle.png");
+    background-position: 20px 50%;
+    background-repeat: no-repeat;
     padding: 0 10px 0 22px;
 }
 .btn-primary:hover {
@@ -776,6 +790,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin-bottom: 13px;
 }
 .to-top {
+    display: inline-block;
     position: absolute;
     right:0px;
     top:174px;
@@ -849,6 +864,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-right: 20px;
     padding-top: 32px;
     width:450px;
+}
+.access-footer {
+    bottom: 90px;
+    display: inline-block;
+    left:280px;
+    position: absolute;
 }
 /*  ************************** /HOME **************************/
 /*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
