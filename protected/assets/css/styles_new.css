@@ -241,6 +241,12 @@ ul li:last-child {
     background-repeat: no-repeat;
     padding: 0 10px 0 22px;
 }
+.btn-arrow {
+    background-image: url("../img/icon-btn-notify.png");
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    padding: 0 10px 0 22px;
+}
 .btn-primary:hover {
     color:#fff;
     background-position: left bottom;
@@ -871,6 +877,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     height:40px;
     line-height:40px;
     left:280px;
+    padding-right: 20px;
     position: absolute;
 }
 /*  ************************** /HOME **************************/
