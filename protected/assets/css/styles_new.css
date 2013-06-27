@@ -315,6 +315,9 @@ ul li:last-child {
     border-radius: 3px;
     font-size: 18px;
 }
+.menu-botm a {
+    background: rgba(20,102,114,0.4);
+}
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
     border-radius: 3px;
@@ -328,6 +331,9 @@ ul li:last-child {
 }
 .menu-top {
     top:10px;
+}
+.menu-botm {
+    float: right;
 }
 .menu-botm a {
     margin-left: 3px;
@@ -764,7 +770,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     z-index: 1;
 }
 .site-footer .grid-container {
-    padding-top: 200px;
+    padding-top: 235px;
     position: relative;
 }
 /*  ************************ /SITE ************************/
