@@ -521,7 +521,8 @@ html[lang=ru] .betaflag {
         top:4px;
         width:1px;
     }
-    .container>header nav#static-page-links .top-profile {
+    .container>header nav#static-page-links .top-profile,
+    .container>header nav#static-page-links .top-profile:hover {
         background-size: 13px;
         min-height: 22px;
     }
