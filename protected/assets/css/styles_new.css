@@ -774,10 +774,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: relative;
 }
 .site-footer .container:first-child {
-    margin-bottom: 20px;
+    margin-bottom: 13px;
 }
 .to-top {
     position: absolute;
+    right:0px;
+    top:30px;
 }
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
