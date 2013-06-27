@@ -16,7 +16,7 @@
     </div>
     <div class="blockseprt"></div>
     <div class="timeblock">
-        <h2 class="resulttitele">Сверхурочное время</h2>
+        <h2 class="resulttitele">Сверхурочное время (минуты)</h2>
         <div class="over-time"></div>
     </div>
 </div>

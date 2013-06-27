@@ -202,6 +202,7 @@ return array(
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
                 '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
+                'dashboard-new/'      => 'static/dashboard/corporateNew',
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
