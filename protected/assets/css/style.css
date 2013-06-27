@@ -522,8 +522,8 @@ html[lang=ru] .betaflag {
         width:1px;
     }
     .container>header nav#static-page-links .top-profile {
-        background-size: 80%;
-        min-height: 18px;
+        background-size: 13px;
+        min-height: 22px;
     }
 }
 /* --------------- /header ---------*/
