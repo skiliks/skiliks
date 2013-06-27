@@ -66,7 +66,7 @@ body {
                     <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
                 </div>
                 <a href="#top" class="to-top font-small">Наверх</a>
-                <a href="#" class="btn btn-white btn-arrow access-footer">Получить бесплатный доступ</a>
+                <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>
             </div>
         </footer>
     </div><!-- /site-wrap -->
