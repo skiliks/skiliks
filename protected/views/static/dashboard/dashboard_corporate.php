@@ -22,53 +22,29 @@
         <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
 
         <div class="block-form">
-            <p class="p-bg-borders font-green-bright">Приветствуем, <?php echo $form->textField($invite, 'fullname'); ?>!</p>
-            <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+            <p><?php echo $form->textField($invite, 'fullname'); ?></p>
+            <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <?= $invite->getVacancyLink('') ?>.</p>
+            <?php if (empty($invite->receiverUser)): ?>
             <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
-            <p class="p-bg-borders font-green-bright"><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?></p>
-            <p class="font-green-dark">Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.</p>
+            <?php endif; ?>
+            <p><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
+            <p class="font-green-dark">
+                <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
+                    Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
+                    Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
+                    <a href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
+                <?php else: ?>
+                    Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> или <a href="<?= $this->createAbsoluteUrl('/user/auth') ?>">войдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                <?php endif; ?>
+            </p>
             <p class="font-green-dark">Ваш skiliks</p>
         </div>
 
-        <div class="row">
-
-            <?php /* echo $invite->email */ ?>
-            <label><?php echo $form->labelEx($invite, 'To'); ?></label>
-            <?php echo $form->textField($invite, 'fullname'); ?>
-        </div>
-        <div class="row">
-            <p>
-                <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.
-            </p>
-            <?php if (empty($invite->receiverUser)): ?>
-            <p>
-                <a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.
-            </p>
-            <?php endif; ?>
-        </div>
-        <div class="row">
-            <?php echo $form->labelEx($invite, 'message text'); ?>
-            <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
-            <?php echo $form->error($invite, 'message'); ?>
-        </div>
-        <div class="row">
-            <p>
-            <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
-                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
-            <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
-                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
-                <a href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
-            <?php else: ?>
-                Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> и в своем кабинете примите приглашение на тестирование для прохождения симуляции.
-            <?php endif; ?>
-            </p>
-        </div>
-        <div class="row">
-            <?php echo $form->labelEx($invite, 'signature'); ?>
-            <?php echo $form->textField($invite, 'signature'); ?>
-            <?php echo $form->error($invite, 'signature'); ?>
-        </div>
-        <div class="row buttons">
+            <?php // echo $form->labelEx($invite, 'signature'); ?>
+            <?php // echo $form->textField($invite, 'signature'); ?>
+            <?php // echo $form->error($invite, 'signature'); ?>
+        <div class="row buttons no-margin-left">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
 

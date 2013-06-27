@@ -39,6 +39,7 @@ namespace application\components\Logging {
         private function getTables()
         {
             $simulation = $this->simulation;
+            $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
             return [
                 new WindowLogTable($simulation->log_windows),
                 new DayPlanLogTable($simulation->log_day_plan),
@@ -47,6 +48,7 @@ namespace application\components\Logging {
                 new AssessmentCalculationTable($simulation->assessment_calculation),
                 new AssessmentResultTable($simulation->assessment_aggregated),
                 new MailLogTable($simulation->log_mail),
+                new MailInboxAggregateTable($mail_inbox_aggregate),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
                 new ActivityLogTable($simulation->log_activity_actions),

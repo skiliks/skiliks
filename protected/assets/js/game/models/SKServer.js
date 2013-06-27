@@ -15,16 +15,32 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
              * @property api_root
              */
             'api_root': '/index.php/',
-            onError: function () {
+
+            onError: function (xhr, ajaxOptions, thrownError) {
                 /**
                  * Сообщение об ошибке
                  *
                  * @event server:error
                  */
+                // console.log(xhr, ajaxOptions, thrownError);
                 if (SKApp.get('isDisplayServer500errors')) {
                     this.trigger('server:error');
                 }
             },
+
+            onComplete: function (xhr, text_status) {
+                console.log(text_status);
+                if ('timeout' == text_status) {
+                    console.log(xhr, text_status);
+                    SKApp.isInternetConnectionBreakHappent = true;
+                    // switch game to pause
+                    // recheck is internet came back
+                    // if YES:
+                    // send any get request again
+                    // unblock dialog replicas
+                }
+            },
+
             'getAjaxParams': function (path, params, callback) {
                 var me = this;
                 var debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/),
@@ -42,6 +58,7 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
+
                 return {
                     data:      params,
                     url:       url,
@@ -50,7 +67,9 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                     xhrFields: {
                         withCredentials: true
                     },
+                    timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
                     'success': callback,
+                    'complete': _.bind(me.onComplete, me),
                     'error': _.bind(me.onError, me)
                 };
             },

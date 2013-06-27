@@ -73,6 +73,9 @@ nav ul, nav ul li {
     font-weight: normal;
     font-style: normal;
 }
+html, body {
+    height: 100%;
+}
 body {
     line-height: 1;
     color: #29313d;
@@ -204,6 +207,14 @@ ul li:last-child {
 .btn-green:hover {
     background-color: #BD2929;
 }
+.btn-white {
+    background-color: #fff;
+    color: #146672;
+}
+.btn-white:hover {
+    background-color: #48b5c6;
+    color: #fff;
+}
 .btn-large { /* large green button */
     background-image: url("../img/btn-circle.png");
     background-position: 20px 50%;
@@ -223,6 +234,18 @@ ul li:last-child {
     height: 30px;
     line-height: 30px;
     padding: 0 10px 0 22px;
+}
+.btn-arrow {
+    background-image: url("../img/btn-circle.png");
+    background-position: 20px 50%;
+    background-repeat: no-repeat;
+    padding: 0 10px 0 22px;
+}
+.btn-arrow-small {
+    background-image: url("../img/icon-btn-notify.png");
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    padding: 0 10px 0 38px;
 }
 .btn-primary:hover {
     color:#fff;
@@ -297,6 +320,7 @@ ul li:last-child {
    list-style-type: none;
 }
 .menu-site a {
+    border-radius: 3px;
     color: #fff;
     display: inline-block;
     font-family: "ProximaNova-Regular";
@@ -304,17 +328,18 @@ ul li:last-child {
     padding: 8px 9px;
     text-decoration: none;
 }
-.menu-top a {
+.menu-top a, .menu-botm a {
     font-size: 14px;
 }
 .menu-main a {
     background: rgba(20,102,114,0.4);
-    border-radius: 3px;
     font-size: 18px;
+}
+.menu-botm a {
+    background: rgba(20,102,114,0.4);
 }
 .menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
-    border-radius: 3px;
 }
 .menu-top, .menu-main {
     position: absolute;
@@ -325,6 +350,12 @@ ul li:last-child {
 }
 .menu-top {
     top:10px;
+}
+.menu-botm {
+    float: right;
+}
+.menu-botm a {
+    margin-left: 3px;
 }
 /*  ************************ /Menu ************************  */
 /*  ************************ Colors and Borders ************************  */
@@ -739,78 +770,39 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
     top:47px;
 }
-/*  ************************ /SITE ************************/
-/*  ************************ REGISTRATION ************************/
-.registrationform input[type=text] {
-    width:223px;
+.site-wrap {
+    margin: 0 auto;
+    min-height: 100%;
+    position: relative;
 }
-.registrationform input[type=password] {
-    width:162px;
+.site-main {
+    position: relative;
+    z-index: 2;
 }
-.registrationform .row {
-    margin-left: 10px;
-    position:relative;
-}
-.registrationform .row:last-child {
-    /*float:right;*/
-}
-.registrationform .row:first-child {
-    margin-left:0px;
-}
-.form-profl-reg label {
-    vertical-align: middle;
-    width:134px;
-}
-.form-profl-reg .sbHolder {
-    width:265px;
-}
-/*  ************************ /REGISTRATION ************************/
-/*  ************************ KABINET ************************/
-#invite-form .sbHolder {
-    width:151px;
-}
-#invite-form .btn-primary {
-    margin-left: 75px;
-}
-#invite-people-box h3 {
-    padding-bottom: 5px;
-    width:190px;
-}
-#Invite_firstname {
-    width: 58px;
-}
-#Invite_lastname {
-    width: 78px;
-}
-#Invite_email {
-    width: 166px;
-}
-#invite-form .btn-add {
-    bottom: 1px;
+.site-footer {
+    bottom: 0px;
+    color:#fff;
+    left:0px;
+    overflow: visible;
     position: absolute;
-    right: 0px;
+    width:100%;
+    z-index: 1;
 }
-/*  ************************ /KABINET ************************/
-/*  ************************** HOME **************************/
-.home-contnt-box li {
-    font-size: 16px;
+.site-footer .grid-container {
+    padding-top: 235px;
+    position: relative;
 }
-.home-contnt-box h2 {
-    margin-bottom: 14px;
+.site-footer .container:first-child {
+    margin-bottom: 13px;
 }
-.home-contnt-box ul+h2 {
-    margin-top:43px;
+.to-top {
+    display: inline-block;
+    position: absolute;
+    right:0px;
+    top:175px;
 }
-.home-contnt-box {
-    width:515px;
-}
-.home-list-box {
-    padding-right: 20px;
-    padding-top: 32px;
-    width:450px;
-}
-/*  ************************** /HOME **************************/
-/*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
+
+/*  ************************ /SITE ************************/
 /*  *************************** GRID ***************************/
 .grid-container {
     margin: 0 auto;
@@ -851,6 +843,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-3 .grid1 {
     width:298px;
+}
+.container-3 .grid2 {
+    width:642px;
+}
+.container-3 .grid1+.grid2 {
+    margin-left: 20px;
 }
 .container-3 .grid1+.grid1 {
     margin-left: 32px;
@@ -911,7 +909,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .ui-dialog {
     position: absolute;
-    z-index: 10000;
+    z-index: 10;
 }
 .ui-dialog-titlebar {
     position: relative;
@@ -941,28 +939,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
-/*  *************************** SIGN IN ***************************/
-.sign-block {
-    background: #146672;
-    height: 245px;
-    overflow: visible;
-}
-.sign-block .ui-dialog-titlebar {
-    padding:20px 20px 10px;
-}
-.sign-block .ui-dialog-content {
-    padding: 0px 20px 25px;
-}
-.sign-block .ui-dialog-title {
-    color:#fff;
-    font-family:"ProximaNova-Bold";
-    font-size:28px;
-    line-height: 32px;
-}
-.sign-block p, .sign-block div, .sign-block span, .sign-block a, .sign-block label {
-    color:#fff;
-}
-/*  *************************** /SIGN IN ***************************/
+
 .popup-center {
     left:50%;
 }

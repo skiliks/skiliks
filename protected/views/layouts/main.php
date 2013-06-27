@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 05.02.13
- * Time: 12:14
- * To change this template use File | Settings | File Templates.
- */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
@@ -109,17 +102,38 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         $('.flash').each(function() {
                             var key = $(this).find('.flash-data').attr('data-key');
                             console.log('key: ', key, $(this).find('.flash-data'));
+
+                            var positionData = {
+                                my: "center top",
+                                at: "center top",
+                                of: $('#top header')
+                            };
+
+                            // fix pop-up position for PasswordRecoveryMessage {
+                            var isPasswordRecoveryMessagePresent = false;
+
+                            <?php foreach($flashes as $key => $message) : ?>
+                                <?php if ('popup-recovery-view' == $key): ?>
+                            isPasswordRecoveryMessagePresent = true;
+                                <?php endif ?>
+                            <?php endforeach ?>
+
+                            if (isPasswordRecoveryMessagePresent) {
+                                positionData = {
+                                    my: "right top",
+                                    at: "right top",
+                                    of: $('#top header #static-page-links')
+                                };
+                            }
+                            // fix pop-up position for PasswordRecoveryMessage }
+
                             $(this).dialog({
                                 closeOnEscape: true,
-                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key,
+                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key+" popup-center",
                                 minHeight: 220,
                                 modal: true,
                                 resizable: false,
-                                position: {
-                                    my: "right top",
-                                    at: "right bottom",
-                                    of: $('#top header #static-page-links')
-                                },
+                                position: positionData,
                                 //title: '',
                                 width: 275,
                                 open: function( event, ui ) { Cufon.refresh(); }

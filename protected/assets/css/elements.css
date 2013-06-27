@@ -274,7 +274,6 @@ section.registration-by-link .form .row.buttons {
 }
 section.registration-by-link .form .row input[type="submit"],
 #change-password-form  input[type="submit"] {
-    background: url("../img/icon-btn-notify.png") no-repeat 17px 13px #146672;
     border: none;
     border-radius: 4px;
     color: #FFFFFF;
@@ -284,6 +283,15 @@ section.registration-by-link .form .row input[type="submit"],
     height: 46px;
     padding: 0 14px 0 48px;
     margin-right:15px;
+}
+section.registration-by-link .form .row input[type="submit"] {
+    background-color: #146672;
+    background-image: url("../img/btn-circle.png");
+    background-position: 20px 50%;
+    background-repeat: no-repeat;
+}
+#change-password-form  input[type="submit"] {
+    background: url("../img/icon-btn-notify.png") no-repeat 17px 13px #146672;
 }
 #change-password-form  input[type="submit"] {
     background-position: 20px 17px;

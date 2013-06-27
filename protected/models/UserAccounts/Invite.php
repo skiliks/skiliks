@@ -720,4 +720,12 @@ class Invite extends CActiveRecord
         $this->simulation_id = null;
         return $result = $this->save(false);
     }
+
+    public function getVacancyLink($style) {
+        if(empty($this->vacancy->link)){
+            return $this->vacancy->label;
+        }else{
+            return "<a style=\"{$style}\" href=\"{$this->vacancy->link}\">{$this->getVacancyLabel()}</a>";
+        }
+    }
 }

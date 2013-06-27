@@ -1635,7 +1635,7 @@ define([
                     this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
-                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                     );
                 } else {
                     this.$('.mail-tags-bl').hide();
@@ -2032,7 +2032,7 @@ define([
                 } else {
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
-                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                     );
                 }
             },

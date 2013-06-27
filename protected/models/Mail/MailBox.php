@@ -19,6 +19,7 @@
  * @property CommunicationTheme subject_obj
  * @property MailAttachment $attachment
  * @property MailBox $parentMail
+ * @property MailFolder $folder
  *
  */
 class MailBox extends CActiveRecord
@@ -264,6 +265,7 @@ class MailBox extends CActiveRecord
             'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),
             'parentMail'    => array(self::BELONGS_TO, 'MailBox', 'message_id'),
+            'folder'        => array(self::BELONGS_TO, 'MailFolder', 'group_id'),
         );
     }
 
