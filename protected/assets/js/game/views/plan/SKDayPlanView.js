@@ -26,7 +26,7 @@ define([
 
         dimensions: {
             maxWidth: 1100,
-            maxHeight: 700
+            maxHeight: 720
         },
 
         'events':_.defaults(
@@ -65,7 +65,7 @@ define([
                 scroll:true,
                 snap:'td.planner-book-timetable-event-fl',
                 snapMode:'inner',
-                snapTolerance:11,
+                snapTolerance:12,
                 stack:".planner-book",
                 start:function () {
                     me.showDayPlanSlot($(this));
@@ -150,12 +150,12 @@ define([
         hideDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
-            prev_cell.height(Math.ceil(duration / 15) * 11);
+            prev_cell.height(Math.ceil(duration / 15) * 12);
             prev_cell.find('.day-plan-td-slot')
                 .hide();
             prev_cell
                 .attr('rowspan', duration/15);
-            prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
+            prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 12);
             var prevRow = task_el.parents('tr');
             for (var j = 0; j < duration - 15; j += 15) {
                 prevRow = prevRow.next();
@@ -174,7 +174,7 @@ define([
         showDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
-            prev_cell.height(11);
+            prev_cell.height(10);
             prev_cell.find('.day-plan-td-slot')
                 .show();
             prev_cell
@@ -248,10 +248,10 @@ define([
          */
         calculateTaskHeigth: function(duration) {
         	if (duration > 30){
-        		return duration / 15 * 11;
+        		return duration / 15 * 12;
         	}
             else{
-            	return (duration / 15 * 11) - 2;
+            	return (duration / 15 * 12) - 2;
             }
         },
 
@@ -276,7 +276,7 @@ define([
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 11.5),
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12),
                         tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
                         task_id = ui.draggable.attr('data-task-id'),
                         prev_cell = ui.draggable.parents('td'),
@@ -319,7 +319,7 @@ define([
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                     // go last tr under dragged task {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 11.5);
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12);
                     var currentRow = $(event.target).find('tr:eq(' + index + ')');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
