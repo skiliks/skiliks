@@ -61,7 +61,7 @@ class SiteController extends AjaxController
             $this->redirect('/dashboard');
         }
 
-        if (isset($invite) && null === $invite->tutorial_displayed_at && null !== $invite->tutorial) {
+        if (isset($invite) && null !== $invite->tutorial) {
             $type = $invite->tutorial->slug;
             $tutorial = true;
             $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
