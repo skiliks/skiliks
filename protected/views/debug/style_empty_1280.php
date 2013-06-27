@@ -51,7 +51,7 @@ body {
         <div class="grid-container">
             <div class="container-3">
                 <div class="grid1">
-                    <a href="/" class="brand"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
+                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
                 </div>
                 <div class="grid3"></div>
             </div>
