@@ -47,7 +47,7 @@
 .page-header {
     margin-bottom: 16px;
 }
-html[lang=ru] .betaflag {
+.betaflag {
     background: url("../img/betaflag.png") no-repeat 0 0;
     height: 49px;
     left: 275px;
