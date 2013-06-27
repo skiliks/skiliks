@@ -730,9 +730,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
-.site-height {
-    overflow:auto;
-}
 .site-header {
     height: 103px;
     margin: 0 auto;
@@ -747,11 +744,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .site-wrap {
     min-height: 100%;
-}
-.empty-footer {
-    clear:both;
-    overflow: visible;
     position: relative;
+}
+.site-footer {
+    bottom: 0px;
+    left:0px;
+    position: absolute;
+    width:100%;
 }
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
