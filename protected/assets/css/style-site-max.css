@@ -1,0 +1,49 @@
+@media screen and (min-width: 1146px) {
+    /* ************************ Buttons ************************ */
+    .btn-large {
+        background-position: 20px 50%;
+        font-size: 18px;
+        height: 54px;
+        line-height: 54px;
+        padding: 0 19px 0 50px;
+    }
+    .btn-primary {
+        font-size: 14px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px 0 22px;
+    }
+    .btn-arrow {
+
+    }
+    /* ************************ /Buttons ************************ */
+    /*  ************************ Menu ************************  */
+    .menu-site a {
+        margin-left: 10px;
+        padding: 8px 9px;
+    }
+    .menu-top a, .menu-botm a {
+        font-size: 14px;
+    }
+    .menu-main a {
+        font-size: 18px;
+    }
+    .menu-main {
+        top:72px;
+    }
+    /*  ************************ /Menu ************************  */
+    /*  ************************ SITE ************************/
+    .empty-footer {
+        height: 300px;
+    }
+    .site-footer {
+        background:url("../img/site-footer.png") no-repeat center bottom;
+        height:381px;
+    }
+    .site-footer .social_networks {
+        margin-left: -165px;
+        top: 166px;
+        width:330px;
+    }
+    /*  ************************ /SITE ************************/
+}

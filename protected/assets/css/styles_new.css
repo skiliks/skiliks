@@ -878,7 +878,16 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-results-4 .grid1 {
     width:240px;
 }
-/*  *************************** /GRID ***************************/
+/*  ****************************************************** /GRID **********************************************************/
+/*  ************************ SITE ************************/
+
+.site-footer .social_networks {
+    color: #29313d;
+    left: 50%;
+    position: absolute;
+}
+/*  ************************ /SITE ************************/
+
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);
@@ -1030,38 +1039,3 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .highlight-title+.pad40 {
     padding-top: 24px;
 }
-@media screen and (min-width: 1146px) {
-    /* ************************ Buttons ************************ */
-    .btn-large {
-        background-position: 20px 50%;
-        font-size: 18px;
-        height: 54px;
-        line-height: 54px;
-        padding: 0 19px 0 50px;
-    }
-    .btn-primary {
-        font-size: 14px;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 10px 0 22px;
-    }
-    .btn-arrow {
-
-    }
-    /* ************************ /Buttons ************************ */
-    /*  ************************ Menu ************************  */
-    .menu-site a {
-        margin-left: 10px;
-        padding: 8px 9px;
-    }
-    .menu-top a, .menu-botm a {
-        font-size: 14px;
-    }
-    .menu-main a {
-        font-size: 18px;
-    }
-    .menu-main {
-        top:72px;
-    }
-    /*  ************************ /Menu ************************  */
-} /* min-width: 1146px */
