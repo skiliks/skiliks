@@ -307,7 +307,7 @@ ul li:last-child {
     padding: 8px 9px;
     text-decoration: none;
 }
-.menu-top a {
+.menu-top a, .menu-botm a {
     font-size: 14px;
 }
 .menu-main a {
@@ -328,6 +328,9 @@ ul li:last-child {
 }
 .menu-top {
     top:10px;
+}
+.menu-botm a {
+    margin-left: 3px;
 }
 /*  ************************ /Menu ************************  */
 /*  ************************ Colors and Borders ************************  */
@@ -753,6 +756,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .site-footer {
     bottom: 0px;
+    color:#fff;
     left:0px;
     overflow: visible;
     position: absolute;
@@ -760,10 +764,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     z-index: 1;
 }
 .site-footer .grid-container {
+    padding-top: 200px;
     position: relative;
-}
-.site-footer .container-3 {
-    margin-top: 200px;
 }
 .brand-footer {
     bottom: 90px;
