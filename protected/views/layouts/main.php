@@ -109,11 +109,13 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 of: $('#top header')
                             };
 
+                            var  widthData = 550;
+
                             // fix pop-up position for PasswordRecoveryMessage {
                             var isPasswordRecoveryMessagePresent = false;
 
                             <?php foreach($flashes as $key => $message) : ?>
-                                <?php if ('popup-recovery-view' == $key): ?>
+                                <?php if ('recovery-popup' == $key): ?>
                             isPasswordRecoveryMessagePresent = true;
                                 <?php endif ?>
                             <?php endforeach ?>
@@ -124,7 +126,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                     at: "right top",
                                     of: $('#top header #static-page-links')
                                 };
+                                widthData = 274;
                             }
+
+                            console.log('widthData: ', widthData);
                             // fix pop-up position for PasswordRecoveryMessage }
 
                             $(this).dialog({
@@ -135,7 +140,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 resizable: false,
                                 position: positionData,
                                 //title: '',
-                                width: 275,
+                                width: widthData,
                                 open: function( event, ui ) { Cufon.refresh(); }
                             });
                         });
