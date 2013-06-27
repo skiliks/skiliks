@@ -872,7 +872,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:450px;
 }
 .access-footer {
-    bottom: 90px;
+    bottom: 45px;
     display: inline-block;
     height:40px;
     line-height:40px;
