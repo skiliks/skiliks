@@ -773,6 +773,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-top: 235px;
     position: relative;
 }
+.site-footer .container:first-child {
+    margin-bottom: 20px;
+}
+.to-top {
+    position: absolute;
+}
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
