@@ -245,7 +245,7 @@ ul li:last-child {
     background-image: url("../img/icon-btn-notify.png");
     background-position: 10px 50%;
     background-repeat: no-repeat;
-    padding: 0 10px 0 22px;
+    padding: 0 10px 0 38px;
 }
 .btn-primary:hover {
     color:#fff;
@@ -876,7 +876,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: inline-block;
     height:40px;
     line-height:40px;
-    left:280px;
+    left:272px;
     padding-right: 20px;
     position: absolute;
 }
