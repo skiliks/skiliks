@@ -132,4 +132,8 @@ class Vacancy extends CActiveRecord
         ));
         return $this;
     }
+
+    public function getMaxLink() {
+        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
+    }
 }

@@ -7,7 +7,7 @@ $isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->accou
 $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
-$profileName = $visibleName?$user->profile->firstname:'';
+$profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
