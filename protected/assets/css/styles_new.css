@@ -730,6 +730,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
+.site-height {
+    overflow:auto;
+}
 .site-header {
     height: 103px;
     margin: 0 auto;
@@ -741,6 +744,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     left: 0px;
     position: absolute;
     top:47px;
+}
+.site-wrap {
+    min-height: 100%;
+}
+.site-footer {
+    position: relative;
+    clear:both;
+    border:1px solid #ff00ff;
 }
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
@@ -902,22 +913,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width:240px;
 }
 /*  *************************** /GRID ***************************/
-/*  *************************** SITE MAIN ***************************/
-.site-wrap {
-    min-height: 100%;
-}
-.site-height {
-    overflow:auto;
-    padding-bottom: 150px;
-}
-.site-footer {
-    position: relative;
-    margin-top: -150px; /* negative value of footer height */
-    height: 150px;
-    clear:both;
-    border:1px solid #ff00ff;
-}
-/*  *************************** /SITE MAIN ***************************/
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);
