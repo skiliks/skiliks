@@ -3,7 +3,8 @@
     padding-bottom: 381px;
 }
 .site-footer {
-    margin-top: -381px; /* negative value of footer height */
+    background:url("../img/site-footer.png") no-repeat center bottom;
     height: 381px;
+    margin-top: -381px; /* negative value of footer height */
 }
 /*  ************************ /SITE ************************/

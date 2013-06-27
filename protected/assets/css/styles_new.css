@@ -751,7 +751,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .site-footer {
     position: relative;
     clear:both;
-    border:1px solid #ff00ff;
 }
 /*  ************************ /SITE ************************/
 /*  ************************ REGISTRATION ************************/
