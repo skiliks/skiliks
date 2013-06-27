@@ -516,14 +516,14 @@ html[lang=ru] .betaflag {
 		line-height:1.571em;
 	}
     .log-out-link:before {
-        height: 10px;
+        height: 14px;
         left:-5px;
-        top:3px;
+        top:4px;
         width:1px;
     }
-    .top-profile {
+    .container>header nav#static-page-links .top-profile {
         background-size: 80%;
-        min-height: 14px;
+        min-height: 18px;
     }
 }
 /* --------------- /header ---------*/
