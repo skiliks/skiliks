@@ -278,7 +278,8 @@ return array(
                 'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
                 'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
-
+                'admin_area/invite/action/status' => 'admin_area/AdminPages/InviteActionStatus',
+                'admin_area/invite/calculate/estimate' => 'admin_area/AdminPages/InviteCalculateTheEstimate',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
@@ -318,6 +319,8 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'userNameInHeaderMaxLength' => 30,
+        'vacancyLinkInProfileMaxLength'=> 50,
         'frontendUrl' => 'http://skiliks.loc/',
         'allowedLanguages' => [
             'en' => [
@@ -337,6 +340,7 @@ return array(
             'afterCallZoomerDuration'         => 2000, // milliseconds
             'isDisplayServer500errors'        => false,
             'isUseStrictAssertsWhenSimStop'   => false,
+            'frontendAjaxTimeout'             => 60000, // 60 sec
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',

@@ -1,0 +1,131 @@
+
+/*  ************************ SITE ************************/
+.empty-footer {
+    height: 300px;
+}
+.site-footer {
+    background:url("../img/site-footer.png") no-repeat center bottom;
+    height:381px;
+}
+.site-footer .social_networks {
+    color: #29313d;
+    left: 50%;
+    margin-left: -165px;
+    position: absolute;
+    top: 166px;
+    width:330px;
+}
+/*  ************************ /SITE ************************/
+
+/*  ************************** HOME **************************/
+.home-contnt-box li {
+    font-size: 16px;
+}
+.home-contnt-box h2 {
+    margin-bottom: 14px;
+}
+.home-contnt-box ul+h2 {
+    margin-top:43px;
+}
+.home-contnt-box {
+    width:515px;
+}
+.home-list-box {
+    padding-right: 20px;
+    padding-top: 32px;
+    width:450px;
+}
+.access-footer {
+    bottom: 45px;
+    display: inline-block;
+    height:40px;
+    line-height:40px;
+    left:276px;
+    padding-right: 20px;
+    position: absolute;
+}
+.page-header {
+    margin-bottom: 16px;
+}
+.betaflag {
+    background: url("../img/betaflag.png") no-repeat 0 0;
+    height: 49px;
+    left: 275px;
+    position: absolute;
+    top: 31px;
+    width: 105px;
+}
+/*  ************************** /HOME **************************/
+/*  ************************ REGISTRATION ************************/
+.registrationform input[type=text] {
+    width:223px;
+}
+.registrationform input[type=password] {
+    width:162px;
+}
+.registrationform .row {
+    margin-left: 10px;
+    position:relative;
+}
+.registrationform .row:last-child {
+    /*float:right;*/
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.form-profl-reg label {
+    vertical-align: middle;
+    width:134px;
+}
+.form-profl-reg .sbHolder {
+    width:265px;
+}
+/*  ************************ /REGISTRATION ************************/
+/*  *************************** SIGN IN ***************************/
+.sign-block {
+    background: #146672;
+    height: 245px;
+    overflow: visible;
+}
+.sign-block .ui-dialog-titlebar {
+    padding:20px 20px 10px;
+}
+.sign-block .ui-dialog-content {
+    padding: 0px 20px 25px;
+}
+.sign-block .ui-dialog-title {
+    color:#fff;
+    font-family:"ProximaNova-Bold";
+    font-size:28px;
+    line-height: 32px;
+}
+.sign-block p, .sign-block div, .sign-block span, .sign-block a, .sign-block label {
+    color:#fff;
+}
+/*  *************************** /SIGN IN ***************************/
+/*  ************************ KABINET ************************/
+#invite-form .sbHolder {
+    width:151px;
+}
+#invite-form .btn-primary {
+    margin-left: 75px;
+}
+#invite-people-box h3 {
+    padding-bottom: 5px;
+    width:190px;
+}
+#Invite_firstname {
+    width: 58px;
+}
+#Invite_lastname {
+    width: 78px;
+}
+#Invite_email {
+    width: 166px;
+}
+#invite-form .btn-add {
+    bottom: 1px;
+    position: absolute;
+    right: 0px;
+}
+/*  ************************ /KABINET ************************/

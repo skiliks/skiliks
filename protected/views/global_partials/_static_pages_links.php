@@ -4,7 +4,10 @@
 $user = Yii::app()->user->data();
 $isGuest = Yii::app()->user->isGuest;
 $isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->account_corporate->is_corporate_email_verified : $user->isCorporate() || $user->isPersonal()) : false;
-
+$visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
+$classForName = '';
+$classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
+$profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -18,6 +21,18 @@ $this->widget('zii.widgets.CMenu', array(
             'label'   => Yii::t('site','Help'),
             'url'     => '',
             'visible' => false,
+        ],
+        [
+            'label'       => Yii::t('site', 'My office'),
+            'url'         => '',
+            'linkOptions' => ['class' => 'link-block'],
+            'visible' => false,
+        ],
+        [
+            'label'       => $profileName,
+            'url'         => '',
+            'linkOptions' => ['class' => 'top-profile '.$classForName],
+            'visible' => $visibleName,
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),

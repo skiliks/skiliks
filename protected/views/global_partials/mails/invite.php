@@ -37,9 +37,7 @@
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
                                         предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию
-                                        <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->vacancy->link ?: '#' ?>">
-                                            <?= $invite->getVacancyLabel() ?>
-                                        </a>.
+                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;") ?>.
                                     </p>
 
                                     <?php if (empty($invite->receiverUser)): ?>
@@ -79,9 +77,6 @@
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
                                     </p>
-                                    <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">
-                                        www.skiliks.com
-                                    </a>
                                 </td>
                                 <td bgcolor="f2f2f2" valign="top">
                                     <img src="cid:mail-right-2" style="display:block;">
@@ -94,6 +89,29 @@
         </td>
         <td valign="top">
             <img src="cid:mail-right-3" style="display:block;" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <table cellpadding="0" cellspacing="0" width="840">
+                <tr>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="fdfbc6">
+                        <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="fdfbc6" width="760">
+                        <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
+                        <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
+                    <td bgcolor="fdfbc6">
+                        <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
