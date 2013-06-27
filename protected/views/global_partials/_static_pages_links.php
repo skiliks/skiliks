@@ -31,20 +31,20 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => $profileName,
             'url'         => '',
-            'linkOptions' => ['class' => 'font-dark-green top-profile '.$classForName],
+            'linkOptions' => ['class' => 'top-profile '.$classForName],
             'visible' => $visibleName,
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
-            'linkOptions' => ['class' => 'font-dark-green sign-in-link'],
+            'linkOptions' => ['class' => 'sign-in-link'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
         ],
         [
             'label' => Yii::t('site', 'Log out'),
             'url' => ['/static/userAuth/logout'],
             'visible' => !$isGuest,
-            'linkOptions' => ['class' => 'font-dark-green log-out-link']
+            'linkOptions' => ['class' => 'log-out-link']
         ],
     ]
 ));
