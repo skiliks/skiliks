@@ -27,7 +27,7 @@ body {
 
 </head>
 <body>
-    <div class="site-wrap">
+    <div class="site-wrap" id="top">
         <header class="site-header grid-container">
             <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
             <nav class="menu-site menu-top" id="static-page-links">
@@ -37,36 +37,35 @@ body {
             </nav>
             <nav class="menu-site menu-main" id="account-links">
                 <ul>
-                    <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="#">Цены</a></li>
+                    <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="/static/team">О продукте</a></li><li class="menu-link-regular"><a href="#">Цены</a></li><li class="menu-link-regular"><a href="#">Цены и тарифы</a></li>
                 </ul>
             </nav>
         </header>
         <div class="site-main grid-container">
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text1</p>
             <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text2</p>
-            <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text3</p>
-            <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text4</p>
-            <p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text</p><p>Text5</p>
         </div>
         <div class="empty-footer"></div>
         <footer class="site-footer">
             <div class="grid-container">
-                <div class="container-3">
+                <div class="container-3 container">
                     <div class="grid1">
                         <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
                     </div>
                     <div class="grid2">
                         <nav class="menu-site menu-botm">
                             <ul>
-                                <li class="menu-link-active"><a href="/"><cufon class="cufon cufon-canvas" alt="Главная" style="width: 69px; height: 18px;"><canvas width="80" height="19" style="width: 80px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Главная</cufontext></cufon></a></li><li class="menu-link-regular"><a href="/static/team"><cufon class="cufon cufon-canvas" alt="О " style="width: 19px; height: 18px;"><canvas width="35" height="19" style="width: 35px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>О </cufontext></cufon><cufon class="cufon cufon-canvas" alt="нас" style="width: 30px; height: 18px;"><canvas width="41" height="19" style="width: 41px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>нас</cufontext></cufon></a></li><li class="menu-link-regular"><a href="#"><cufon class="cufon cufon-canvas" alt="Цены" style="width: 48px; height: 18px;"><canvas width="55" height="19" style="width: 55px; height: 19px; top: -1px; left: -2px;"></canvas><cufontext>Цены</cufontext></cufon></a></li>
+                                <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="/static/team">О продукте</a></li><li class="menu-link-regular"><a href="#">Цены и тарифы</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="container-3">
+                <div class="container-3 container">
                     <div class="grid1">&nbsp;</div>
                     <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
                     <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
+                </div>
+                <a href="#top" class="to-top">Наверх</a>
             </div>
         </footer>
     </div><!-- /site-wrap -->
