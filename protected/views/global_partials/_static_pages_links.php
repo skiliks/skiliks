@@ -4,7 +4,10 @@
 $user = Yii::app()->user->data();
 $isGuest = Yii::app()->user->isGuest;
 $isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->account_corporate->is_corporate_email_verified : $user->isCorporate() || $user->isPersonal()) : false;
-
+$visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
+$classForName = '';
+$classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
+$profileName = $visibleName?$user->profile->firstname:'';
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -26,9 +29,10 @@ $this->widget('zii.widgets.CMenu', array(
             'visible' => false,
         ],
         [
-            'label'       => Yii::t('site', 'User name'),
+            'label'       => $profileName,
             'url'         => '',
-            'linkOptions' => ['class' => 'font-dark-green top-profile top-profile-persn'],
+            'linkOptions' => ['class' => 'font-dark-green top-profile '.$classForName],
+            'visible' => $visibleName,
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
