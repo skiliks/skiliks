@@ -53,6 +53,7 @@ body {
             </div>
         </div><!-- /site-height -->
     </div><!-- /site-wrap -->
+    <div class="empty-footer"></div>
     <footer class="site-footer">
         <div class="grid-container">
             <div class="container-3">

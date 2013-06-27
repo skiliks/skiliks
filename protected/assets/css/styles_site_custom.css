@@ -1,12 +1,19 @@
 /*  ************************ SITE ************************/
 .site-height {
     border:1px solid red;
-    padding-bottom: 400px;
+    padding-bottom: 300px;
+}
+.empty-footer {
+    height: 300px;
+    margin-top: -300px; /* negative value of footer height */
 }
 .site-footer {
     background:url("../img/site-footer.png") no-repeat center bottom;
     border: 1px solid #ffff00;
-    height: 381px;
-    margin-top: -381px; /* negative value of footer height */
+    height:381px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 /*  ************************ /SITE ************************/
