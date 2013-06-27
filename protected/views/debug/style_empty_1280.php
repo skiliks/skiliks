@@ -35,7 +35,7 @@ body {
                     <li><a href="#">English</a></li><li><a href="#">Вход</a></li>
                 </ul>
             </nav>
-            <nav class="menu-site menu-main">
+            <nav class="menu-site menu-main" id="account-links">
                 <ul>
                     <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="#">Цены</a></li>
                 </ul>
@@ -55,8 +55,12 @@ body {
                     <div class="grid1">
                         <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
                     </div>
-                    <div class="grid3"></div>
+                    <div class="grid2">!!!</div>
                 </div>
+                <div class="container-3">
+                    <div class="grid1"></div>
+                    <div class="grid1 text-center">Copyright - Skiliks - 2012</div>
+                    <div class="grid1">Свяжитесь </div>
             </div>
         </footer>
     </div><!-- /site-wrap -->
