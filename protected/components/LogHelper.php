@@ -661,23 +661,25 @@ class LogHelper
 
     public static function getMailBoxAggregated(Simulation $simulation) {
 
-        $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
+       $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
             [
                 'type_my' => 3,
                 'type_m' => 1,
                 'scenario_id' => $simulation->scenario_id
             ]
         );
-        $mail_box = MailBox::model()->findAll("sim_id = :sim_id and type = :type_m or type = :type_my",
+
+        $mail_box = MailBox::model()->findAll("sim_id = :sim_id and (type = :type_m or type = :type_my)",
             [
                 'type_my' => 3,
                 'type_m' => 1,
                 'sim_id' => $simulation->id
             ]
         );
+
         $data = [];
         foreach($mail_box as $mail){
-            /* @var $mail MailBox */
+            // @var $mail MailBox
                 $data[$mail->template_id] = [
                     'code'   => $mail->code,
                     'folder' => $mail->folder->name,
@@ -688,7 +690,7 @@ class LogHelper
                     'type_of_importance'=>$mail->template->type_of_impportance
                 ];
         }
-
+        unset($mail_box);
         foreach($mail_templates as $template) {
 
             if(!isset($data[$template->id])) {
@@ -703,10 +705,12 @@ class LogHelper
                 ];
             }
         }
+        unset($mail_templates);
         // add is right mail_task planned  {
         $plan = Window::model()->findByAttributes(['subtype'=>'mail plan']);
         $logMail = array();
-        foreach (LogMail::model()->findAllByAttributes(['window'=>$plan->id]) as $log) {
+        $logs = LogMail::model()->findAllByAttributes(['sim_id'=>$simulation->id,'window'=>$plan->id]);
+        foreach ($logs as $log) {
             $logMail[$log->mail_id] = $log;
         }
 
