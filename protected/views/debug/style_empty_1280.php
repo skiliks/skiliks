@@ -18,6 +18,14 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<style>
+body {
+    background:#7cb8c2;
+}
+</style>
+
+</head>
 <body>
     <div class="site-wrap">
         <div class="grid-container site-height">

@@ -1,0 +1,9 @@
+/*  ************************ SITE ************************/
+.site-height {
+    padding-bottom: 381px;
+}
+.site-footer {
+    margin-top: -381px; /* negative value of footer height */
+    height: 381px;
+}
+/*  ************************ /SITE ************************/
