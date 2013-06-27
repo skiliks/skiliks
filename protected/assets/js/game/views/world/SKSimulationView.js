@@ -206,6 +206,8 @@ define([
                     buttons: []
                 });
 
+                SKApp.server.api('simulation/MarkTutorialNotStarted', {invite_id:window.gameConfig.invite_id}, function () {});
+
                 setTimeout(function() {
                     me.stopExitProtection();
                     me.simulation.trigger('force-stop');
