@@ -36,7 +36,16 @@ body {
         </div>
     </div>
     <footer class="site-footer">
-
+        <div class="grid-container">
+            <div class="container-3">
+                <div class="grid1">
+                    <a href="/">
+                        <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
+                    </a>
+                </div>
+                <div class="grid3"></div>
+            </div>
+        </div>
     </footer>
 </body>
 <script type="text/javascript">
