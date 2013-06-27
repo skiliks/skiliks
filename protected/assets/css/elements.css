@@ -706,7 +706,7 @@ section.registration-by-link .form .row a.decline-link:hover {
 @media screen and (max-width: 1146px){
     .flash-message-popup {
         margin:0 0 0 -225px;
-        width: 450px !important;
+        /*width: 450px !important;*/
         border-radius: 6px;
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
     }
