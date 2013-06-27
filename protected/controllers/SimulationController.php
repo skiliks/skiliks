@@ -162,5 +162,13 @@ class SimulationController extends AjaxController
             }
         }
     }
+
+    public function actionMarkTutorialNotStarted()
+    {
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+        $invite->tutorial_displayed_at = null;
+        $invite->save(false);
+    }
 }
 
