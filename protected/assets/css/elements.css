@@ -288,6 +288,7 @@ section.registration-by-link .form .row input[type="submit"] {
     background-color: #146672;
     background-image: url("../img/btn-circle.png");
     background-position: 20px 50%;
+    background-repeat: no-repeat;
 }
 #change-password-form  input[type="submit"] {
     background: url("../img/icon-btn-notify.png") no-repeat 17px 13px #146672;
