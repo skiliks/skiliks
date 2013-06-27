@@ -7,6 +7,13 @@
     background:url("../img/site-footer.png") no-repeat center bottom;
     height:381px;
 }
+.site-footer .social_networks {
+    left: 50%;
+    margin-left: -165px;
+    position: absolute;
+    top: 136px;
+    width:330px;
+}
 /*  ************************ /SITE ************************/
 
 /*  ************************** HOME **************************/
