@@ -134,6 +134,8 @@ return array(
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
+                'static/dnd'            => 'static/pages/dnd',
+
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
                 'static/tariffs/' => 'static/pages/tariffs',
