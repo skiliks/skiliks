@@ -47,12 +47,18 @@
         line-height: 54px;
         padding: 0 19px 0 50px;
     }
-    .btn-primary {
-        background-image: url("../img/btn-primry-bg.png");
+    .btn-primary, .btn-site {
         font-size: 14px;
         height: 30px;
         line-height: 30px;
         padding: 0 10px 0 22px;
+    }
+    .btn-primary {
+        background-image: url("../img/btn-primry-bg.png");
+    }
+    .btn-site { /* example -  manage subscription */
+        background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
+        color: #fff;
     }
     .btn-arrow-small {
         background-image: url("../img/icon-btn-notify.png");

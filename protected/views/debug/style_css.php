@@ -39,7 +39,7 @@ body {
 </head>
 <body>
 <header class="site-header">
-<div style="width:1200px;margin: 0 auto">
+<div>
     <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
     <nav class="menu-site menu-top" id="static-page-links">
         <ul>
