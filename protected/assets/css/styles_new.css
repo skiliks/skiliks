@@ -771,12 +771,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
     margin-left: 18px;
 }
-.container-borders-3 .grid1, .sign-block, .standard-left-box {
-    width:300px;
-}
-.container-borders-3 .grid2 {
-    width:608px;
-}
 .container-borders-3 .grid1+.grid2 {
     margin-left: 28px;
 }
