@@ -185,12 +185,10 @@ ul li:last-child {
     color: #fff;
 }
 .btn-large { /* large green button */
-    background-image: url("../img/btn-circle.png");
     background-repeat: no-repeat;
     color: #fff;
 }
 .btn-primary { /* example -  feedback */
-    background-image: url("../img/btn-primry-bg.png");
     background-repeat: no-repeat;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     color: #3c3c32;
