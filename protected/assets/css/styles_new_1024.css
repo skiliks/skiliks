@@ -40,18 +40,20 @@
     }
     /* ************************ /FONTS ************************ */
     /* ************************ Buttons ************************ */
-    .btn-large { /* - */
-        background-position: 20px 50%;
-        font-size: 18px;
-        height: 54px;
-        line-height: 54px;
-        padding: 0 19px 0 50px;
+    .btn-large {
+        background-image: url("../img/btn-circle-min.png");
+        background-position: 16px 50%;
+        font-size: 16px;
+        height: 42px;
+        line-height: 42px;
+        padding: 0 16px 0 40px;
     }
-    .btn-primary {/* - */
-        font-size: 14px;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 10px 0 22px;
+    .btn-primary {
+        background-image: url("../img/btn-primry-min.png");
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 8px 0 18px;
     }
     .btn-arrow-small {
         background-image: url("../img/icon-btn-notify-min.png");

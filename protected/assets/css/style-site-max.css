@@ -40,6 +40,7 @@
     /* ************************ /FONTS ************************ */
     /* ************************ Buttons ************************ */
     .btn-large {
+        background-image: url("../img/btn-circle.png");
         background-position: 20px 50%;
         font-size: 18px;
         height: 54px;
@@ -47,6 +48,7 @@
         padding: 0 19px 0 50px;
     }
     .btn-primary {
+        background-image: url("../img/btn-primry-bg.png");
         font-size: 14px;
         height: 30px;
         line-height: 30px;
