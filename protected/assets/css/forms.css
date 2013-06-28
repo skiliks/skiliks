@@ -874,6 +874,8 @@ span.required {
         left: 156px;
     }
     #Invite_fullname, #Invite_message {
+        max-width:370px;
+        min-width:370px;
         width:370px;
     }
     .block-form {
