@@ -53,7 +53,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
         <div class="grid-container">
             <div class="container-3 container">
                 <div class="grid1">
-                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
+                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/logo-footer-min.png" alt="Skiliks" title="Skiliks"/></a>
                 </div>
                 <div class="grid2">
                     <nav class="menu-site menu-botm">

@@ -35,6 +35,9 @@
     }
     /*  ************************ /Menu ************************  */
     /*  ************************ SITE ************************/
+    .site-footer .grid-container {
+        padding-top: 202px;
+    }
     .empty-footer {
         height: 260px;
     }
@@ -42,9 +45,9 @@
         background:url("../img/bg-footer-min.png") no-repeat center bottom;
         height:310px;
     }
-    .site-footer .social_networks {/* - */
+    .site-footer .social_networks {
         margin-left: -165px;
-        top: 116px;
+        top: 136px;
         width:330px;
     }
     /*  ************************ /SITE ************************/
