@@ -82,11 +82,8 @@
     .container-3 .grid1 {
         width:298px;
     }
-    .container-3 .grid2 {
+    .container-3 .grid2 { /* footer */
         width:642px;
-    }
-    .container-3 .grid1+.grid2 {
-        margin-left: 20px;
     }
     .container-3 .grid1+.grid1 {
         margin-left: 32px;
