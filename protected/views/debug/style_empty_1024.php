@@ -48,7 +48,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
         <div class="betaflag"></div>
     </header>
     <div class="site-main grid-container">
-        <h1 class="page-header">Zagolovok</h1>
+        <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>
     </div>
     <div class="empty-footer"></div>
     <footer class="site-footer">
