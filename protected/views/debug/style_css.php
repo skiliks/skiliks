@@ -14,6 +14,7 @@ $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
 $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
+$cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
 ?>
 
 <!DOCTYPE html>
