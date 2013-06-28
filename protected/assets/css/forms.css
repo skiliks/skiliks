@@ -795,9 +795,9 @@ span.required {
     color: #146672;
     margin: 0px;
     padding: 10px;
-    max-width: 516px;
-    min-width: 516px;
-    width: 516px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
 }
 .no-margin-left, .no-margin-left input[type="submit"] {
     margin-left: 0px;
