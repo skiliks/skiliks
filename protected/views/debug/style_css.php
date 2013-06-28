@@ -41,6 +41,7 @@ body {
 </head>
 <body>
 <header class="site-header">
+<div style="width:1200px;margin: 0 auto">
     <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
     <nav class="menu-site menu-top" id="static-page-links">
         <ul>
@@ -240,11 +241,12 @@ body {
 
 
 </div>
+</div>
 </body>
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, a', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
