@@ -24,7 +24,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 <head>
     <style>
         body {
-            background: url("<?php echo $assetsUrl?>/img/sitebg-chairs.jpg"), url("<?php echo $assetsUrl?>/img/sitebg-rpt.jpg");
+            background: url("<?php echo $assetsUrl?>/img/bg-top-inner.jpg"), url("<?php echo $assetsUrl?>/img/sitebg-rpt.jpg");
             background-repeat: no-repeat, repeat-y;
             background-position: center top;
         }
