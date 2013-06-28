@@ -32,7 +32,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 <body>
 <div class="site-wrap" id="top">
     <header class="site-header grid-container">
-        <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+        <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-header.png" alt="Skiliks"/></a></h1>
         <nav class="menu-site menu-top" id="static-page-links">
             <ul>
                 <li><a href="#">English</a></li><li><a href="#">Вход</a></li>

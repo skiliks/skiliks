@@ -1,4 +1,8 @@
 @media screen and (min-width: 1146px) {
+    body {
+        font-size:14px;
+        line-height: 14px;
+    }
     /* ************************ Buttons ************************ */
     .btn-large {
         background-position: 20px 50%;
