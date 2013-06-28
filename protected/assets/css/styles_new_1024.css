@@ -166,19 +166,19 @@
         padding-top: 32px;
         width:450px;
     }
-    .access-footer {/* - */
+    .access-footer {
         display: inline-block;
         position: absolute;
         bottom: 45px;
         height:32px;
         line-height:32px;
-        left:276px;
-        padding-right: 15px;
+        left:204px;
+        padding-right: 10px;
     }
     .page-header {/* - */
         margin-bottom: 16px;
     }
-    .betaflag {/* - */
+    .betaflag {
         background: url("../img/betaflag.png") no-repeat 0 0;
         background-size: 83px;
         height: 49px;
