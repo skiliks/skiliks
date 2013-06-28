@@ -204,14 +204,7 @@ ul li:last-child {
     color:#fff;
     background-position: left bottom;
 }
-.btn-site { /* example -  manage subscription */
-    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
-    color: #fff;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px 0 22px;
-}
+
 .btn-site:hover {
     background-color:#bf292a;
 }
