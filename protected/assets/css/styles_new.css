@@ -778,7 +778,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: inline-block;
     position: absolute;
     right:0px;
-    top:175px;
 }
 
 /*  ************************ /SITE ************************/
