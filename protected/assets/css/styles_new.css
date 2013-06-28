@@ -80,8 +80,7 @@ body {
     line-height: 1;
     color: #29313d;
     text-align: left;
-    font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
-    line-height: 14px;
+    font-family: "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 }
 a {
     color:#fff;

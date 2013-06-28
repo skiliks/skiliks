@@ -1,5 +1,9 @@
 
 @media screen and (max-width: 1146px) {
+    body {
+        font-size:12px;
+        line-height: 12px;
+    }
     /* ************************ Buttons ************************ */
     .btn-large { /* - */
         background-position: 20px 50%;
@@ -27,7 +31,7 @@
         font-size: 14px;
     }
     .menu-main {
-        top:72px;
+        top:60px;
     }
     /*  ************************ /Menu ************************  */
     /*  ************************ SITE ************************/
