@@ -873,6 +873,12 @@ span.required {
         top: -12px;
         left: 156px;
     }
+    #Invite_fullname, #Invite_message {
+        width:390px;
+    }
+    .block-form {
+        width:400px;
+    }
 }
 
 .profileform input.error{
