@@ -287,8 +287,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
             return false;
         },
         resizeZoho:function(){
-            var width = $(".sim-window.document-window .sim-window-content").width();
-            var height = $(".sim-window.document-window .sim-window-content").height();
+            var width = $(".sim-window.document-window").width();
+            var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
             $(".excel-preload-window").width(width);
             $(".excel-preload-window").height(height);
         }
