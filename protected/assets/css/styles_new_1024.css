@@ -63,7 +63,10 @@
         width:750px;
     }
     .container-borders-2 .grid2 {
-        width:374px; /*47% */
+        width:374px;
+    }
+    .container-borders-3 .grid1, .sign-block, .standard-left-box {
+        width:240px;
     }
     /*  *************************** /GRID ***************************/
     /*  ************************ Menu ************************  */
@@ -81,6 +84,17 @@
         top:60px;
     }
     /*  ************************ /Menu ************************  */
+    /*  ************************ Colors and Borders ************************  */
+    .block-border {
+        border-radius: 6px;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+        margin: 6px;
+    }
+    .block-border-dark {
+        border-radius: 6px;
+        border:6px solid rgba(41, 116, 127, 0.2);
+    }
+    /*  ************************ /Colors and Borders ************************  */
     /*  ************************ SITE ************************/
     .site-header h1 {
         top:42px;

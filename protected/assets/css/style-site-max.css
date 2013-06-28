@@ -67,6 +67,12 @@
     .container-borders-2 .grid2 {
         width:463px; /*47% */
     }
+    .container-borders-3 .grid1, .sign-block, .standard-left-box {
+        width:300px;
+    }
+    .container-borders-3 .grid2 {
+        width:608px;
+    }
     /*  *************************** /GRID ***************************/
     /*  ************************ Menu ************************  */
     .menu-site a {
