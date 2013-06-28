@@ -96,41 +96,8 @@ h1, h2, h3, h4 {
     font-weight: normal;
     vertical-align: top;
 }
-h1 {
-    font-size:44px;
-    color: #fff;
-    line-height:52px;
-}
-h2 {
-    font-size:36px;
-    color: #fff;
-    line-height:36px;
-    margin-bottom: 12px;
-}
-h3 {
-    font-size:28px;
-    color: #fff;
-    line-height:30px;
-    margin-bottom: 12px;
-}
 .proxima-bold {
     font-family:"ProximaNova-Bold";
-}
-.font-small {
-    font-size:12px;
-}
-.font-large {
-    font-size:16px;
-}
-.font-xlarge {
-    font-size:18px;
-    line-height: 120%;
-}
-.font-xxlarge {
-    font-size:20px;
-}
-.font-xxxlarge {
-    font-size:21px;
 }
 .font-24 {
     font-size:24px;

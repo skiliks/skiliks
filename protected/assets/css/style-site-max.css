@@ -3,6 +3,41 @@
         font-size:14px;
         line-height: 14px;
     }
+    /* ************************ FONTS ************************ */
+    h1 {
+        font-size:44px;
+        color: #fff;
+        line-height:52px;
+    }
+    h2 {
+        font-size:36px;
+        color: #fff;
+        line-height:36px;
+        margin-bottom: 12px;
+    }
+    h3 {
+        font-size:28px;
+        color: #fff;
+        line-height:30px;
+        margin-bottom: 12px;
+    }
+    .font-small {
+        font-size:12px;
+    }
+    .font-large {
+        font-size:16px;
+    }
+    .font-xlarge {
+        font-size:18px;
+        line-height: 120%;
+    }
+    .font-xxlarge {
+        font-size:20px;
+    }
+    .font-xxxlarge {
+        font-size:21px;
+    }
+    /* ************************ /FONTS ************************ */
     /* ************************ Buttons ************************ */
     .btn-large {
         background-position: 20px 50%;
