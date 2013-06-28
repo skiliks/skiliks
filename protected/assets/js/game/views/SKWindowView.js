@@ -115,6 +115,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.onResize = function() {
                 me.resize();
                 me.constrain();
+                console.log("resize");
             };
             $(window).on('resize', this.onResize);
 
