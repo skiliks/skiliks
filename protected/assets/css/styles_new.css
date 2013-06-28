@@ -768,30 +768,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     float:left;
 }
 
-.container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
-    margin-left: 18px;
-}
-.container-borders-3 .grid1+.grid2 {
-    margin-left: 28px;
-}
-.container-3 .grid1 {
-    width:298px;
-}
-.container-3 .grid2 {
-    width:642px;
-}
-.container-3 .grid1+.grid2 {
-    margin-left: 20px;
-}
-.container-3 .grid1+.grid1 {
-    margin-left: 32px;
-}
-.container-borders-4 .grid1 {
-    width:216.5px;
-}
-.container-4 .grid1 {
-    width:237px;
-}
 .container-4 .grid1+.grid1 {
     margin-left: 4px;
 }
