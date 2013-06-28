@@ -63,7 +63,7 @@ body {
                         </nav>
                     </div>
                 </div>
-                <div class="container-3 container">
+                <div class="container-3 container proxima-reg">
                     <div class="grid1">&nbsp;</div>
                     <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
                     <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
@@ -85,7 +85,7 @@ body {
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, .proxima-reg', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
