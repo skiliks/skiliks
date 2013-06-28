@@ -784,6 +784,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin: 0 auto;
     width:1000px;
 }
+.container-3 .grid1+.grid2 {
+    margin-left: 20px;
+}
 .container-results-3 .grid1 {
     width:316px;
 }

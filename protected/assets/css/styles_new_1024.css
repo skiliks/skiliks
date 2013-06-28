@@ -77,6 +77,9 @@
     .container-3 .grid1 {
         width:238px;
     }
+    .container-3 .grid2 { /* footer */
+        width:508px;
+    }
     .container-3 .grid1+.grid1 {
         margin-left: 26px;
     }
