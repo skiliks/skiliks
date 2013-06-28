@@ -63,9 +63,9 @@ define([
                 revert: "invalid",
                 scope: "tasks",
                 scroll:true,
-                snap:'td.planner-book-timetable-event-fl',
-                snapMode:'inner',
-                snapTolerance:12,
+                //snap:'td.planner-book-timetable-event-fl',
+                //snapMode:'inner',
+                //snapTolerance:12,
                 stack:".planner-book",
                 start:function () {
                     me.showDayPlanSlot($(this));
