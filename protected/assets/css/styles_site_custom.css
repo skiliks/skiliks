@@ -59,6 +59,9 @@
     .form-profl-reg .sbHolder {
         width:265px;
     }
+    .registrationform .btn-large {
+        margin-top: -3px;
+    }
     /*  ************************ /REGISTRATION ************************/
     /*  *************************** SIGN IN ***************************/
     .sign-block {
