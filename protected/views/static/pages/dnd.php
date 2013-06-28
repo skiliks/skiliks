@@ -37,13 +37,17 @@
         border: 1px solid #333;
         background: #f0f0f0;
         padding: 5px;
-        margin-bottom: 4px;
         font: 18px/150% tahoma, sans-serif;
         overflow: hidden;
+        cursor: move;
+    }
+
+    .source .node {
+        margin-bottom: 4px;
     }
 
     .hidden {
-        background: red;
+        /*display: none;*/
     }
 </style>
 
@@ -178,13 +182,15 @@
     var nodes = document.querySelectorAll('.source .node'),
         cells = document.querySelectorAll('.target td'),
         foreach = Array.prototype.forEach,
-        listeners;
+        listeners,
+        dragging;
 
     listeners = {
         dragstart: function(e) {
             console.log(e.type);
 
             this.classList.add('hidden');
+            dragging = this;
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.outerHTML);
         },
@@ -195,6 +201,8 @@
             if (hidden) {
                 hidden.classList.remove('hidden');
             }
+
+            dragging = null;
         },
         dragenter: function(e) {
             console.log(e.type);
@@ -203,26 +211,37 @@
             e.dataTransfer.dropEffect = 'move';
         },
         dragover: function(e) {
-            //console.log(e.target);
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
         },
         dragleave: function(e) {
             console.log(e.type);
-            console.log(this);
             this.classList.remove('over');
         },
         drop: function(e) {
+            console.log(e.type);
 
+            e.stopPropagation();
+            e.preventDefault();
+
+            this.innerHTML = e.dataTransfer.getData('text/html');
+            this.classList.remove('over');
+
+            if (dragging) {
+                dragging.parentNode.removeChild(dragging);
+            }
         }
     };
 
     foreach.call(nodes, function(node) {
         node.addEventListener('dragstart', listeners['dragstart'], false);
         node.addEventListener('dragend', listeners['dragend'], false);
-        node.addEventListener('drop', listeners['drop'], false);
     });
 
     foreach.call(cells, function(cell) {
         cell.addEventListener('dragenter', listeners['dragenter'], false);
+        cell.addEventListener('dragover', listeners['dragover'], false);
         cell.addEventListener('dragleave', listeners['dragleave'], false);
+        cell.addEventListener('drop', listeners['drop'], false);
     });
 </script>

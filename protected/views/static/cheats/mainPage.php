@@ -105,6 +105,7 @@
         <br/>
 
     <a href="/dashboard-new">dashboard Corporate new</a>
+    <a href="/static/dnd">Drag & Drop prototype</a>
 
     </nav>
 
