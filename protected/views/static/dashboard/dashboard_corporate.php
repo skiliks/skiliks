@@ -23,7 +23,7 @@
 
         <div class="block-form">
             <p><?php echo $form->textField($invite, 'fullname'); ?></p>
-            <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <?= $invite->getVacancyLink('') ?>.</p>
+            <p class="font-green-dark"><?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
             <?php if (empty($invite->receiverUser)): ?>
             <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
             <?php endif; ?>
