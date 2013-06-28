@@ -35,6 +35,9 @@
     }
     /*  ************************ /Menu ************************  */
     /*  ************************ SITE ************************/
+    .site-header h1 {
+        top:42px;
+    }
     .site-footer .grid-container {
         padding-top: 202px;
     }
@@ -83,11 +86,12 @@
     }
     .betaflag {/* - */
         background: url("../img/betaflag.png") no-repeat 0 0;
+        background-size: 83px;
         height: 49px;
-        left: 275px;
+        left: 230px;
         position: absolute;
         top: 31px;
-        width: 105px;
+        width: 83px;
     }
     /*  ************************** /HOME **************************/
     /*  ************************ REGISTRATION ************************/

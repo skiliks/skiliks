@@ -749,7 +749,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .site-header h1 {
     left: 0px;
     position: absolute;
-    top:47px;
 }
 .site-wrap {
     margin: 0 auto;
