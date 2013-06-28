@@ -853,7 +853,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
 }
 /*  ************************ /SITE ************************/
-
+.empty-block {
+    content: " ";
+}
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);
