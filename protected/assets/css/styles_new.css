@@ -770,7 +770,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     z-index: 1;
 }
 .site-footer .grid-container {
-    padding-top: 235px;
     position: relative;
 }
 .site-footer .container:first-child {

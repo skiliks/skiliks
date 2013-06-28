@@ -37,6 +37,9 @@
     }
     /*  ************************ /Menu ************************  */
     /*  ************************ SITE ************************/
+    .site-footer .grid-container {
+        padding-top: 235px;
+    }
     .empty-footer {
         height: 300px;
     }
