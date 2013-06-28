@@ -26,7 +26,7 @@ define([
 
         dimensions: {
             maxWidth: 1100,
-            maxHeight: 720
+            maxHeight: 735
         },
 
         'events':_.defaults(
@@ -282,7 +282,7 @@ define([
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12),
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12.15),
                         tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
                         task_id = ui.draggable.attr('data-task-id'),
                         prev_cell = ui.draggable.parents('td'),
@@ -325,7 +325,7 @@ define([
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                     // go last tr under dragged task {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12);
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12.15);
                     var currentRow = $(event.target).find('tr:eq(' + index + ')');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
