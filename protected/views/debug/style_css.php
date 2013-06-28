@@ -125,7 +125,7 @@ body {
     </div>
 
 <div class="razdelitel"></div>
-<a href="#">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark">Link Dark</a>
+<a href="#" class="proxima-reg">Link</a>&nbsp;&nbsp;&nbsp;<a href="#" class="link-dark proxima-reg">Link Dark</a>
 <div class="razdelitel"></div>
 
 <div>
@@ -246,7 +246,7 @@ body {
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select, a', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, .proxima-reg, .sbHolder a', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
