@@ -8,6 +8,7 @@
         float:left;
     }
     .social_networks>span {
+        font-size: 12px;
         line-height: 26px;
     }
     .social_networks .addthis_toolbox {
