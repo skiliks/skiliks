@@ -4,6 +4,41 @@
         font-size:12px;
         line-height: 12px;
     }
+    /* ************************ FONTS ************************ */
+    h1 {
+        font-size:34px;
+        color: #fff;
+        line-height:42px;
+    }
+    h2 {
+        font-size:30px;
+        color: #fff;
+        line-height:26px;
+        margin-bottom: 12px;
+    }
+    h3 {
+        font-size:20px;
+        color: #fff;
+        line-height:20px;
+        margin-bottom: 12px;
+    }
+    .font-small {
+        font-size:10px;
+    }
+    .font-large {
+        font-size:14px;
+    }
+    .font-xlarge {
+        font-size:16px;
+        line-height: 120%;
+    }
+    .font-xxlarge {
+        font-size:18px;
+    }
+    .font-xxxlarge {
+        font-size:20px;
+    }
+    /* ************************ /FONTS ************************ */
     /* ************************ Buttons ************************ */
     .btn-large { /* - */
         background-position: 20px 50%;
