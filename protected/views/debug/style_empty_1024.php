@@ -66,9 +66,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
                 </div>
             </div>
             <div class="container-3 container proxima-reg">
-                <div class="grid1">&nbsp;</div>
-                <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
-                <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
+                <div class="grid1">&nbsp;</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
             </div>
             <a href="#top" class="to-top font-small">Наверх</a>
             <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>
@@ -87,7 +85,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select, .proxima-reg', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, .proxima-reg, .to-top', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });
