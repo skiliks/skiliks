@@ -813,7 +813,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /SITE ************************/
 .empty-block {
-    content: ".";
     text-indent: -90000px;
 }
 .site-footer .empty-block {
