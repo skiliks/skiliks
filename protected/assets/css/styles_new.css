@@ -201,12 +201,7 @@ ul li:last-child {
     background-repeat: no-repeat;
     padding: 0 10px 0 22px;
 }
-.btn-arrow-small {
-    background-image: url("../img/icon-btn-notify.png");
-    background-position: 10px 50%;
-    background-repeat: no-repeat;
-    padding: 0 10px 0 38px;
-}
+
 .btn-primary:hover {
     color:#fff;
     background-position: left bottom;

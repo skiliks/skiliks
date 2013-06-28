@@ -52,8 +52,11 @@
         line-height: 30px;
         padding: 0 10px 0 22px;
     }
-    .btn-arrow {
-
+    .btn-arrow-small {
+        background-image: url("../img/icon-btn-notify.png");
+        background-position: 10px 50%;
+        background-repeat: no-repeat;
+        padding: 0 10px 0 38px;
     }
     /* ************************ /Buttons ************************ */
     /*  *************************** GRID ***************************/
