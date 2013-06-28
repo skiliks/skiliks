@@ -879,6 +879,10 @@ span.required {
         min-width:394px;
         width:394px;
     }
+    #Invite_message {
+        height: 40px;
+        max-height: 40px;
+    }
     .block-form {
         width:413px;
     }
