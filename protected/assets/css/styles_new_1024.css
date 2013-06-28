@@ -31,16 +31,16 @@
     }
     /*  ************************ /Menu ************************  */
     /*  ************************ SITE ************************/
-    .empty-footer {/* - */
-        height: 300px;
+    .empty-footer {
+        height: 260px;
     }
-    .site-footer {/* - */
-        background:url("../img/site-footer.png") no-repeat center bottom;
-        height:381px;
+    .site-footer {
+        background:url("../img/bg-footer-min.png") no-repeat center bottom;
+        height:310px;
     }
     .site-footer .social_networks {/* - */
         margin-left: -165px;
-        top: 166px;
+        top: 116px;
         width:330px;
     }
     /*  ************************ /SITE ************************/
