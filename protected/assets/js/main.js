@@ -383,11 +383,4 @@ Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .valu
 );
 Cufon.replace('.freeacess', {hover:true});
 Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
-/*
-$(window).resize(function(){
-    "use strict";
-    console.log("resize");
-    $('#excel-preload-98784').height();
-    $('#excel-preload-98784').width();
-});
-*/
+
