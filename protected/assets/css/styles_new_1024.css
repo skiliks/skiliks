@@ -164,8 +164,8 @@
     }
     /*  ************************ /SITE ************************/
     /*  ************************** HOME **************************/
-    .home-contnt-box li {/* - */
-        font-size: 16px;
+    .home-contnt-box li {
+        font-size: 14px;
     }
     .home-contnt-box h2 {/* - */
         margin-bottom: 14px;
