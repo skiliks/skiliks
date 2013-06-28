@@ -96,6 +96,9 @@ h1, h2, h3, h4 {
     font-weight: normal;
     vertical-align: top;
 }
+.proxima-reg {
+    font-family: "ProximaNova-Regular";
+}
 .proxima-bold {
     font-family:"ProximaNova-Bold";
 }
