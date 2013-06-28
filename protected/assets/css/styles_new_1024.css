@@ -38,6 +38,13 @@
     .font-xxxlarge {
         font-size:18px;
     }
+    .list-light li {
+        background-size: 16px;
+        line-height: 17px;
+        margin-bottom: 10px;
+        min-height: 18px;
+        padding-left: 22px;
+    }
     /* ************************ /FONTS ************************ */
     /* ************************ Buttons ************************ */
     .btn-large {
