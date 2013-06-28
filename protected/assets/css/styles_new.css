@@ -857,6 +857,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     content: ".";
     text-indent: -90000px;
 }
+.site-footer .empty-block {
+    padding-right: 100px;
+}
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);
