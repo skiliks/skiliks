@@ -15,6 +15,7 @@ $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
 $cs->registerCssFile($assetsUrl . "/css/styles_new.css");
 $cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
+$cs->registerCssFile($assetsUrl . "/css/style_new_custom.css");
 ?>
 
 <!DOCTYPE html>
