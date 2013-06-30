@@ -33,7 +33,6 @@ class DayPlanController extends AjaxController{
      */
     public function actionDelete()
     {
-        sleep(3000);
         $this->sendJSON
             (DayPlanService::delete(
                 $this->getSimulationEntity(),
@@ -62,7 +61,6 @@ class DayPlanController extends AjaxController{
      */
     public function actionAdd()
     {
-        sleep(3000);
         $this->sendJSON(
             DayPlanService::addToPlan(
                 $this->getSimulationEntity(),
