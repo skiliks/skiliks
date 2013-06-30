@@ -17,20 +17,23 @@ class DayPlanController extends AjaxController{
     
     /** 
      * Copy current plan state to day_plan_log
+     *
+     * Не вижу вызовов этого метода в JS
      */
-    public function actionCopyPlan() {
+    /*public function actionCopyPlan() {
         $minutes = (int)Yii::app()->request->getParam('minutes', false);
         
         DayPlanService::copyPlanToLog($this->getSimulationEntity(), $minutes);
         
         $this->sendJSON([ 'result' => 1 ]);
-    }
+    }*/
     
     /**
      * Удаление задачи из плана дневной
      */
     public function actionDelete()
     {
+        sleep(3000);
         $this->sendJSON
             (DayPlanService::delete(
                 $this->getSimulationEntity(),
@@ -38,27 +41,11 @@ class DayPlanController extends AjaxController{
             )
         );
     }
-       
-    /**
-     * Добавление задачи в план дневной
-     */
-    public function actionAdd()
-    {
-        $this->sendJSON(
-            DayPlanService::addToPlan(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('task_id'),
-                Yii::app()->request->getParam('date'),
-                Yii::app()->request->getParam('day')
-            )
-        );
-            
-    }
 
     /**
-     *
+     * Не вижу вызовов этого метода в JS
      */
-    public function actionUpdate()
+    /*public function actionUpdate()
     {
 
         $this->sendJSON(
@@ -68,6 +55,23 @@ class DayPlanController extends AjaxController{
                 Yii::app()->request->getParam('time')
             )
         );
+    }*/
+       
+    /**
+     * Добавление задачи в план дневной
+     */
+    public function actionAdd()
+    {
+        sleep(3000);
+        $this->sendJSON(
+            DayPlanService::addToPlan(
+                $this->getSimulationEntity(),
+                Yii::app()->request->getParam('task_id'),
+                Yii::app()->request->getParam('date'),
+                Yii::app()->request->getParam('day')
+            )
+        );
+            
     }
 
     public function actionSave()
