@@ -216,6 +216,7 @@ define([
                     // add to plan {
                     SKApp.simulation.todo_tasks.fetch({update: true});
                     // add to plan }
+                    SKApp.simulation.mailClient.setTaskId(addToPlanDialog.selectedMailTask.mySqlId);
 
                     SKApp.simulation.mailClient.setWindowsLog(
                         'mailMain',
