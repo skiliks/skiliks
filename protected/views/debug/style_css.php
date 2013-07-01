@@ -128,7 +128,7 @@ body {
 
 <div>
     <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
-        <div class="pad30">
+        <div class="pad-xsize">
         <h3>Отправить приглашение</h3>
             <form id="invite-form" class="form-simple form-small placehldrs-dark">
                 <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
