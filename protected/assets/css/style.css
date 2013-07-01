@@ -468,6 +468,8 @@ html[lang=ru] .betaflag {
     background: none;
 }
 .container>header nav#static-page-links .top-profile {
+    height: 22px;
+    line-height: 22px;
     padding-left: 41px;
 }
 .container>header nav#static-page-links .top-profile-corp,
