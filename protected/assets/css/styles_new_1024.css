@@ -205,28 +205,7 @@ h3 {
     width: 83px;
 }
 /*  ************************** /HOME **************************/
-/*  ************************ REGISTRATION ************************/
-.registrationform input[type=text] {/* - */
-    width:223px;
-}
-.registrationform input[type=password] {/* - */
-    width:162px;
-}
-.registrationform .row {/* - */
-    margin-left: 10px;
-    position:relative;
-}
-.registrationform .row:first-child {/* - */
-    margin-left:0px;
-}
-.form-profl-reg label {/* - */
-    vertical-align: middle;
-    width:134px;
-}
-.form-profl-reg .sbHolder {/* - */
-    width:265px;
-}
-/*  ************************ /REGISTRATION ************************/
+
 /*  *************************** SIGN IN ***************************/
 .sign-block {/* - */
     background: #146672;
