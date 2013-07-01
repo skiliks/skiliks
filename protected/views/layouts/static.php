@@ -136,7 +136,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
             <?php endif; ?>
 
             <!-- flash-messages } -->
-            <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>
             <?php echo $content; ?>
         </div>
         <div class="empty-footer"></div>
