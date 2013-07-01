@@ -185,11 +185,12 @@ h3 {
 .access-footer {
     display: inline-block;
     position: absolute;
-    bottom: 45px;
+    /*bottom: 45px;*/
     height:32px;
     line-height:32px;
     left:204px;
     padding-right: 10px;
+    top:202px;
 }
 .page-header {/* - */
     margin-bottom: 16px;
