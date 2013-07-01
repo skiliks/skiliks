@@ -101,14 +101,14 @@
     min-width: 54px;
 }
 .form-large input[type=text], .form-large input[type=password] {
-    height:20px;
-    font-size: 14px;
-    padding: 14px 10px 14px 19px;
+    height:18px;
+    font-size: 13px;
+    padding: 11px 8px 11px 12px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
     border:3px solid #24bdd3;
-    padding: 12px 8px 12px 17px;
+    padding: 9px 6px 9px 10px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 6px;
@@ -127,6 +127,37 @@
     font-size:11px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  ************************ REGISTRATION ************************/
+.registrationform input[type=text] {
+    width:178px;
+}
+.registrationform input[type=password] {
+    width:123px;
+}
+.registrationform .row {
+    margin-left: 8px;
+    position:relative;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.registrationform .btn-large {
+    margin-top: -4px;
+}
+.form-profl-reg label {
+    vertical-align: middle;
+    width:120px;
+}
+.form-profl-reg input[type=text] {
+    width:103px;
+}
+.form-profl-reg input.input-long {
+    width:225px;
+}
+.form-profl-reg .sbHolder {
+    width:234px;
+}
+/*  ************************ /REGISTRATION ************************/
 /* ************************ Pager ************************ */
 .yiiPager a {
     font-size: 14px;
