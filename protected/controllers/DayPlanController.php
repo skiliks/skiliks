@@ -17,16 +17,14 @@ class DayPlanController extends AjaxController{
     
     /** 
      * Copy current plan state to day_plan_log
-     *
-     * Не вижу вызовов этого метода в JS
      */
-    /*public function actionCopyPlan() {
+    public function actionCopyPlan() {
         $minutes = (int)Yii::app()->request->getParam('minutes', false);
         
         DayPlanService::copyPlanToLog($this->getSimulationEntity(), $minutes);
         
         $this->sendJSON([ 'result' => 1 ]);
-    }*/
+    }
     
     /**
      * Удаление задачи из плана дневной
