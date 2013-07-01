@@ -1,7 +1,6 @@
-+++
-<section class="dashboard corpdashboard" style="border:1px solid red">
-    <h2 class="thetitle bigtitle">!!!<?php echo Yii::t('site', 'Work dashboard') ?></h2>
-    <aside>
+<div class="container-borders-3">
+    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
+    <div class="grid1">
     <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
             <?php $this->renderPartial('//new/_invite_people_box', [
@@ -90,17 +89,12 @@
         </div>
 
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
-    </aside>
-    <div class="narrow-contnt">
-        <!-- corporate-invitations-list-box -->
-        <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
-            <?php $this->renderPartial('//new/_corporate_invitations_list_box', [
-                'inviteToEdit'    => $inviteToEdit,
-                'vacancies'       => $vacancies,
-            ]) ?>
-        </div>
-
-
     </div>
-
-</section>
+    <div id="corporate-invitations-list-box" class="block-border grid2 border-primary dashboard">
+        <!-- corporate-invitations-list-box -->
+        <?php $this->renderPartial('//new/_corporate_invitations_list_box', [
+            'inviteToEdit'    => $inviteToEdit,
+            'vacancies'       => $vacancies,
+        ]) ?>
+    </div>
+</div>
