@@ -76,7 +76,10 @@
     width:134px;
 }
 .form-profl-reg input[type=text] {
-    width:130px;
+    width:125px;
+}
+.form-profl-reg .input-long {
+    width:300px;
 }
 .form-profl-reg .sbHolder {
     width:300px;
