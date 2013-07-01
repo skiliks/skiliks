@@ -1,7 +1,7 @@
 <h3>Отправить приглашение</h3>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'invite-form', 'class' => 'form-simple form-small placehldrs-dark'
+    'id' => 'invite-form'
 )); ?>
 
 <span class="form-global-errors">
