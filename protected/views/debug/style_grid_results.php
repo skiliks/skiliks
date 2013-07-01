@@ -43,9 +43,9 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <div class="ui-widget-content">
         <h2 class="font-dark">Две колонки</h2>
         <div class="container-results-2 thetable">
-            <div class="grid1 grid-cell block-border-dark border-large"><div class="pad20">AAA</div></div>
+            <div class="grid1 grid-cell block-border-dark border-large"><div class="pad-large">AAA</div></div>
             <div class="grid-cell grid-space"></div>
-            <div class="grid1 grid-cell block-border-dark border-large"><div class="pad20">AAA</div></div>
+            <div class="grid1 grid-cell block-border-dark border-large"><div class="pad-large">AAA</div></div>
         </div>
         <div class="razdelitel"></div>
 
@@ -53,7 +53,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
         <div class="container-results-3">
             <div class="grid1">Следование приоритетам </div>
-            <div class="grid2 bg-blue-block border-primary"><div class="pad16">BBB</div></div>
+            <div class="grid2 bg-blue-block border-primary"><div class="pad-midle">BBB</div></div>
         </div>
         <div class="razdelitel"></div>
 
