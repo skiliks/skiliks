@@ -879,13 +879,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary th:last-child, .items th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-.table-primary td, .items td {
+.table-primary td, .items td, .grid-view table.items td {
     background-color: #fdfbc6;
+    border: none;
 }
 .table-primary .even td, .items .even td, .grid-view table.items tr.even td {
     background: #F8F8F8;
 }
-.table-primary th, .items th, .table-primary td, .items td {
+.table-primary th, .items th, .table-primary td, .items td,
+.grid-view table.items th, .grid-view table.items td {
     padding: 7px 6px;
 }
 .table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
