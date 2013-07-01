@@ -115,6 +115,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.onResize = function() {
                 me.resize();
                 me.constrain();
+                me.resizeZoho();
             };
             $(window).on('resize', this.onResize);
 
@@ -284,6 +285,12 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 throw new Error("Must be has class volume-off or volume-on");
             }
             return false;
+        },
+        resizeZoho:function(){
+            var width = $(".sim-window.document-window").width();
+            var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
+            $(".excel-preload-window").width(width);
+            $(".excel-preload-window").height(height);
         }
     });
     return SKWindowView;

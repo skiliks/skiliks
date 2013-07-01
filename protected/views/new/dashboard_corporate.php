@@ -3,7 +3,7 @@
     <aside>
     <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
-            <?php $this->renderPartial('_invite_people_box', [
+            <?php $this->renderPartial('//new/_invite_people_box', [
                 'invite'    => $invite,
                 'vacancies' => $vacancies,
             ]) ?>
@@ -23,9 +23,9 @@
 
         <div class="block-form">
             <p><?php echo $form->textField($invite, 'fullname'); ?></p>
-            <p class="font-green-dark"><?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест "Базовый менеджмент" для участия в конкурсе на вакансию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+            <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <?= $invite->getVacancyLink('') ?>.</p>
             <?php if (empty($invite->receiverUser)): ?>
-            <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
+            <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
             <?php endif; ?>
             <p><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
             <p class="font-green-dark">
@@ -85,7 +85,7 @@
 
         <!-- simulations-counter-box -->
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
-            <?php $this->renderPartial('_simulations_counter_box', []) ?>
+            <?php $this->renderPartial('//new/_simulations_counter_box', []) ?>
         </div>
 
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
@@ -93,7 +93,7 @@
     <div class="narrow-contnt">
         <!-- corporate-invitations-list-box -->
         <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
-            <?php $this->renderPartial('_corporate_invitations_list_box', [
+            <?php $this->renderPartial('//new/_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies'       => $vacancies,
             ]) ?>

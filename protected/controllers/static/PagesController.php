@@ -216,4 +216,10 @@ class PagesController extends AjaxController
             }
         }
     }
+
+    public function actionDnD()
+    {
+        $this->layout = false;
+        $this->render('dnd');
+    }
 }

@@ -12,9 +12,7 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
-$cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
+$cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +44,7 @@ body {
             <div class="betaflag"></div>
         </header>
         <div class="site-main grid-container">
-            <h1 class="page-header">Zagolovok</h1>
+            <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>
         </div>
         <div class="empty-footer"></div>
         <footer class="site-footer">
@@ -63,10 +61,8 @@ body {
                         </nav>
                     </div>
                 </div>
-                <div class="container-3 container">
-                    <div class="grid1">&nbsp;</div>
-                    <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
-                    <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
+                <div class="container-3 container proxima-reg font-small">
+                    <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
                 </div>
                 <a href="#top" class="to-top font-small">Наверх</a>
                 <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>
@@ -85,7 +81,7 @@ body {
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, .proxima-reg, .to-top', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });

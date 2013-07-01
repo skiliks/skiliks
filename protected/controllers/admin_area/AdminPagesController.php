@@ -74,16 +74,16 @@ class AdminPagesController extends AjaxController {
         $csv .= "Тип (название) основного сценария;";
         $csv .= "Оценка\r\n";
         foreach($models as $model) {
-        $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
-        $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
-        $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
-        $csv .=$model->id.';';
-        $csv .=$model->getStatusText().';';
-        $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
-        $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
-        $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
-        $csv .=$model->getOverall()."\r\n";
-}
+            $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
+            $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
+            $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
+            $csv .=$model->id.';';
+            $csv .=$model->getStatusText().';';
+            $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
+            $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
+            $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
+            $csv .=$model->getOverall()."\r\n";
+        }
         header("Content-type: csv/plain");
         header("Content-Disposition: attachment; filename=invites.csv");
         header("Content-length:".(string)(strlen($csv)));

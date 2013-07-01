@@ -301,7 +301,7 @@ return array(
     'Deals with calls effectively' => 'Эффективное управление звонками',
     'Deals with meetings effectively' => 'Эффективное управление встречами',
     'Time distribution' => 'Распределение времени',
-    'Extra working hours' => 'Сверхурочное время',
+    'Extra working hours' => 'Сверхурочное время (минуты)',
     'Results-orientation' => 'Ориентация на результат',
     'Attentiveness' => 'Внимательность',
     'Responsibility' => 'Ответственность',
