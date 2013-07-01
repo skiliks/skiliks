@@ -50,6 +50,12 @@ li {
     min-height: 18px;
     padding-left: 22px;
 }
+.list-dark li {
+    background-size: 16px;
+    margin-bottom: 10px;
+    min-height: 18px;
+    padding-left: 22px;
+}
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
 .btn-large {
