@@ -115,13 +115,13 @@
 }
 .row {
     position: relative;
-    padding-top: 10px;
+    padding-top: 7px;
 }
 .row.wide {
-    padding-top: 12px;
+    padding-top: 10px;
 }
 .row.buttons, .row.wide+.row.wide {
-    padding-top: 15px;
+    padding-top: 12px;
 }
 .sbHolder {
     font-size:11px;
