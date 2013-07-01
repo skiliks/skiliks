@@ -132,7 +132,7 @@
     font-size: 14px;
 }
 .yiiPager .previous a, .yiiPager .next a {
-    font-size: 14px;
-    padding: 7px 10px 7px 9px;
+    font-size: 12px;
+    padding: 4px 8px 4px 8px;
 }
 /* ************************ /Pager ************************ */
