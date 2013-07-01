@@ -2,9 +2,11 @@
 
     <h2>Отправить приглашение</h2>
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'invite-form'
-    )); ?>
+    <div class="form-simple form-small placehldrs-dark">
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'invite-form'
+        )); ?>
+    </div>
 
     <span class="form-global-errors">
         <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
