@@ -75,8 +75,14 @@
     vertical-align: middle;
     width:134px;
 }
+.form-profl-reg input[type=text] {
+    width:125px;
+}
+.form-profl-reg input.input-long {
+    width:282px;
+}
 .form-profl-reg .sbHolder {
-    width:265px;
+    width:300px;
 }
 .registrationform .btn-large {
     margin-top: -3px;
