@@ -102,7 +102,7 @@
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:20px;
-    font-size: 10px;
+    font-size: 14px;
     padding: 14px 10px 14px 19px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
