@@ -134,6 +134,12 @@
     position: absolute;
     right: 0px;
 }
+.grid-view {
+    padding: 0px;
+}
+.grid-view .summary {
+    margin: 0px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
