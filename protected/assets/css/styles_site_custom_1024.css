@@ -148,8 +148,14 @@
     vertical-align: middle;
     width:120px;
 }
-.form-profl-reg .sbHolder {/* - */
-    width:265px;
+.form-profl-reg input[type=text] {
+    width:95px;
+}
+.form-profl-reg input.input-long {
+    width:282px;
+}
+.form-profl-reg .sbHolder {
+    width:235px;
 }
 /*  ************************ /REGISTRATION ************************/
 /* ************************ Pager ************************ */
