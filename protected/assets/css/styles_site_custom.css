@@ -59,7 +59,7 @@
 /*  ************************** /HOME **************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
-    width:223px;
+    width:203px;
 }
 .registrationform input[type=password] {
     width:162px;
@@ -76,7 +76,7 @@
     width:134px;
 }
 .form-profl-reg .sbHolder {
-    width:265px;
+    width:300px;
 }
 .registrationform .btn-large {
     margin-top: -3px;
