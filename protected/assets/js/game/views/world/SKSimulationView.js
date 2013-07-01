@@ -205,8 +205,9 @@ define([
                     message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
                     buttons: []
                 });
-
-                SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                if(window.gameConfig.invite_id !== null){
+                    SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                }
 
                 setTimeout(function() {
                     me.stopExitProtection();
