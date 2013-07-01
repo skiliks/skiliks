@@ -395,22 +395,22 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /FORM SIMPLE ************************  */
 
 /*  *************************** PADDINGS ****************************/
-.pad10 {
+.pad10, .pad-norm {
     padding: 10px;
 }
-.pad16 {
+.pad16, .pad-midle {
     padding: 16px;
 }
-.pad20 {
+.pad20, .pad-large {
     padding: 20px;
 }
-.pad30 {
+.pad30, .pad-xsize {
     padding: 30px;
 }
-.pad40 {
+.pad40, .pad-xxsize {
     padding: 40px;
 }
-.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
+.pad-large>h1, .pad-large>h2, .pad-xsize>h1, .pad-xsize>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
     margin-top: -6px;
 }
 /*  *************************** /PADDINGS ****************************/
