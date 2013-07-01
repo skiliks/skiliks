@@ -102,7 +102,7 @@
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:20px;
-    font-size: 14px;
+    font-size: 13px;
     padding: 12px 8px 12px 15px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
@@ -129,10 +129,10 @@
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
-    width:190px;
+    width:175px;
 }
 .registrationform input[type=password] {
-    width:132px;
+    width:120px;
 }
 .registrationform .row {
     margin-left: 8px;
