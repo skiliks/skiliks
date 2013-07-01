@@ -78,8 +78,8 @@
 .form-profl-reg input[type=text] {
     width:125px;
 }
-.form-profl-reg .input-long {
-    width:300px;
+.form-profl-reg input.input-long {
+    width:282px;
 }
 .form-profl-reg .sbHolder {
     width:300px;
