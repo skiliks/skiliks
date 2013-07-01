@@ -23,6 +23,10 @@ h3 {
     line-height:20px;
     margin-bottom: 8px;
 }
+li {
+    line-height: 15px;
+    margin-bottom: 7px;
+}
 .font-small {
     font-size:10px;
 }
