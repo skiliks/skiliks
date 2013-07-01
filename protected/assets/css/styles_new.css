@@ -859,10 +859,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /REZULTATY ***************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary {
+.table-primary, .items {
     width:100%;
 }
-.table-primary th {
+.table-primary th, .items th {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
@@ -872,20 +872,20 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-align: left;
     vertical-align: middle;
 }
-.table-primary th:first-child {
+.table-primary th:first-child, .items th:first-child {
     border-radius: 5px 0px 0px;
 }
-.table-primary th:last-child {
+.table-primary th:last-child, .items th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-.table-primary td {
+.table-primary td, .items td {
     background-color: #fdfbc6;
     padding: 7px 6px;
 }
-.table-primary tr:last-child td:first-child {
+.table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
     border-radius: 0px 0px 0px 5px;
 }
-.table-primary tr:last-child td:last-child {
+.table-primary tr:last-child td:last-child, .items tr:last-child td:last-child {
     border-radius: 0px 0px 5px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
