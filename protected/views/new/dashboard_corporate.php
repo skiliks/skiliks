@@ -3,10 +3,10 @@
     <div class="grid1">
     <!-- invite-people-box -->
         <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
-        <?php $this->renderPartial('//new/_invite_people_box', [
-             'invite'    => $invite,
-             'vacancies' => $vacancies,
-        ]) ?>
+            <?php $this->renderPartial('//new/_invite_people_box', [
+                'invite'    => $invite,
+                'vacancies' => $vacancies,
+            ]) ?>
         </div>
 
 <?php if (true === $validPrevalidate): ?>
