@@ -1,0 +1,7 @@
+@import "styles_new.css";
+
+@import url(styles_new_1024.css) screen and (max-width:1146px);
+@import url(styles_site_custom_1024.css) screen and (max-width:1146px);
+
+@import url(style-site-max.css) screen and (min-width:1146px);
+@import url(styles_site_custom.css) screen and (min-width:1146px);

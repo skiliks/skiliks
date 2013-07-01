@@ -80,8 +80,7 @@ body {
     line-height: 1;
     color: #29313d;
     text-align: left;
-    font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
-    line-height: 14px;
+    font-family: "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 }
 a {
     color:#fff;
@@ -97,41 +96,11 @@ h1, h2, h3, h4 {
     font-weight: normal;
     vertical-align: top;
 }
-h1 {
-    font-size:44px;
-    color: #fff;
-    line-height:52px;
-}
-h2 {
-    font-size:36px;
-    color: #fff;
-    line-height:36px;
-    margin-bottom: 12px;
-}
-h3 {
-    font-size:28px;
-    color: #fff;
-    line-height:30px;
-    margin-bottom: 12px;
+.proxima-reg {
+    font-family: "ProximaNova-Regular";
 }
 .proxima-bold {
     font-family:"ProximaNova-Bold";
-}
-.font-small {
-    font-size:12px;
-}
-.font-large {
-    font-size:16px;
-}
-.font-xlarge {
-    font-size:18px;
-    line-height: 120%;
-}
-.font-xxlarge {
-    font-size:20px;
-}
-.font-xxxlarge {
-    font-size:21px;
 }
 .font-24 {
     font-size:24px;
@@ -168,10 +137,6 @@ ul li:last-child {
     background: url("../img/icon-listlight.png") no-repeat 0 0px;
     color: #fff;
     text-shadow: rgba(0,0,0,0.14) 0 0 8px;
-    line-height: 20px;
-    margin-bottom: 13px;
-    min-height: 21px;
-    padding-left: 28px;
 }
 .list-light li:last-child {
     margin-bottom: 0px;
@@ -216,12 +181,10 @@ ul li:last-child {
     color: #fff;
 }
 .btn-large { /* large green button */
-    background-image: url("../img/btn-circle.png");
     background-repeat: no-repeat;
     color: #fff;
 }
 .btn-primary { /* example -  feedback */
-    background-image: url("../img/btn-primry-bg.png");
     background-repeat: no-repeat;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     color: #3c3c32;
@@ -232,24 +195,12 @@ ul li:last-child {
     background-repeat: no-repeat;
     padding: 0 10px 0 22px;
 }
-.btn-arrow-small {
-    background-image: url("../img/icon-btn-notify.png");
-    background-position: 10px 50%;
-    background-repeat: no-repeat;
-    padding: 0 10px 0 38px;
-}
+
 .btn-primary:hover {
     color:#fff;
     background-position: left bottom;
 }
-.btn-site { /* example -  manage subscription */
-    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
-    color: #fff;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px 0 22px;
-}
+
 .btn-site:hover {
     background-color:#bf292a;
 }
@@ -398,24 +349,6 @@ input[type="text"], input[type="password"]  {
     outline:none;
    /*outline: 1px solid rgba(255, 255, 255, 0);*/
 }
-.form-small input[type="text"], .form-small input[type="password"] {
-    height: 26px;
-    line-height: 26px;
-    padding: 3px 9px;
-}
-.form-large input[type=text], .form-large input[type=password] {
-    height:24px;
-    font-size: 16px;
-    padding: 14px 10px 14px 19px;
-}
-.form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
-    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
-    border:3px solid #24bdd3;
-    padding: 12px 8px 12px 17px;
-}
-.form-simple input[type="text"]+input[type="text"] {
-    margin-left: 10px;
-}
 .form-simple label {
     color: #fff;
     display: inline-block;
@@ -426,16 +359,6 @@ input[type="text"], input[type="password"]  {
 .dark-labels label {
     color:#555545;
     font-family: "ProximaNova-Bold";
-}
-.row {
-    position: relative;
-    padding-top: 10px;
-}
-.row.wide {
-    padding-top: 12px;
-}
-.row.buttons, .row.wide+.row.wide {
-    padding-top: 15px;
 }
 .rows-inline .row {
     display: inline-block;
@@ -750,7 +673,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .site-header h1 {
     left: 0px;
     position: absolute;
-    top:47px;
 }
 .site-wrap {
     margin: 0 auto;
@@ -771,7 +693,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     z-index: 1;
 }
 .site-footer .grid-container {
-    padding-top: 235px;
     position: relative;
 }
 .site-footer .container:first-child {
@@ -781,15 +702,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: inline-block;
     position: absolute;
     right:0px;
-    top:175px;
 }
 
 /*  ************************ /SITE ************************/
 /*  *************************** GRID ***************************/
-.grid-container {
-    margin: 0 auto;
-    width:960px;
-}
 .grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after,
 .container-results-3:after {
     visibility: hidden;
@@ -799,48 +715,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     clear: both;
     height: 0;
 }
-.container-border-1 {
-    width:944px;
-}
 .container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
 
 }
 .grid1, .grid2, .grid3, .standard-left-box, .standard-right-box {
     float:left;
 }
-.container-borders-2 .grid2 {
-    width:463px; /*47% */
-}
-.container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
-    margin-left: 18px;
-}
-.container-borders-3 .grid1, .sign-block, .standard-left-box {
-    width:300px;
-}
-.container-borders-3 .grid2 {
-    width:608px;
-}
-.container-borders-3 .grid1+.grid2 {
-    margin-left: 28px;
-}
-.container-3 .grid1 {
-    width:298px;
-}
-.container-3 .grid2 {
-    width:642px;
-}
-.container-3 .grid1+.grid2 {
-    margin-left: 20px;
-}
-.container-3 .grid1+.grid1 {
-    margin-left: 32px;
-}
-.container-borders-4 .grid1 {
-    width:216.5px;
-}
-.container-4 .grid1 {
-    width:237px;
-}
+
 .container-4 .grid1+.grid1 {
     margin-left: 4px;
 }
@@ -856,6 +737,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .results-width-block {
     margin: 0 auto;
     width:1000px;
+}
+.container-3 .grid1+.grid2 {
+    margin-left: 20px;
 }
 .container-results-3 .grid1 {
     width:316px;
@@ -887,7 +771,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
 }
 /*  ************************ /SITE ************************/
-
+.empty-block {
+    text-indent: -90000px;
+}
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
     background: rgba(0, 0, 0, .55);

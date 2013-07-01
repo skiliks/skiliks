@@ -12,9 +12,7 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_new_1024.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
+$cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +20,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 <head>
     <style>
         body {
-            background: url("<?php echo $assetsUrl?>/img/sitebg-chairs.jpg"), url("<?php echo $assetsUrl?>/img/sitebg-rpt.jpg");
+            background: url("<?php echo $assetsUrl?>/img/bg-top-inner.jpg"), url("<?php echo $assetsUrl?>/img/sitebg-rpt.jpg");
             background-repeat: no-repeat, repeat-y;
             background-position: center top;
         }
@@ -32,7 +30,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 <body>
 <div class="site-wrap" id="top">
     <header class="site-header grid-container">
-        <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+        <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-header.png" alt="Skiliks"/></a></h1>
         <nav class="menu-site menu-top" id="static-page-links">
             <ul>
                 <li><a href="#">English</a></li><li><a href="#">Вход</a></li>
@@ -46,14 +44,14 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
         <div class="betaflag"></div>
     </header>
     <div class="site-main grid-container">
-        <h1 class="page-header">Zagolovok</h1>
+        <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>
     </div>
     <div class="empty-footer"></div>
     <footer class="site-footer">
         <div class="grid-container">
             <div class="container-3 container">
                 <div class="grid1">
-                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
+                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/logo-footer-min.png" alt="Skiliks" title="Skiliks"/></a>
                 </div>
                 <div class="grid2">
                     <nav class="menu-site menu-botm">
@@ -63,10 +61,8 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
                     </nav>
                 </div>
             </div>
-            <div class="container-3 container">
-                <div class="grid1">&nbsp;</div>
-                <div class="grid1 text-center">Copyright - Skiliks  - 2012</div>
-                <div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
+            <div class="container-3 container proxima-reg font-small">
+                <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
             </div>
             <a href="#top" class="to-top font-small">Наверх</a>
             <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>
@@ -85,7 +81,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom_1024.css");
 </body>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('li, p, label, input, select, .proxima-reg, .to-top', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
     });

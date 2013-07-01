@@ -787,6 +787,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 SKApp.simulation.windowLog.activate(window);
             },
 
+            setTaskId:function (planId) {
+                var window = SKApp.simulation.window_set.where({name:'mailEmulator', id:'mailPlan'})[0];
+                if( window !== undefined ) {
+                    var params = window.get('params');
+                    params.planId = planId;
+                    window.set('params', params);
+                } else {
+                    throw new Error("mailPlan not found");
+                }
+            },
+
             /**
              * @method
              * @param attachmentId

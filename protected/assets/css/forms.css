@@ -754,6 +754,7 @@ span.required {
     -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     padding: 20px 10px;
+    width: 523px;
 }
 .block-form+.row {
     margin-top:20px;
@@ -779,6 +780,7 @@ span.required {
 }
 #Invite_message {
     height: 46px;
+    max-height: 46px;
 }
 #Invite_fullname {
     height: 12px;
@@ -793,11 +795,17 @@ span.required {
     color: #146672;
     margin: 0px;
     padding: 10px;
-    min-width: 516px;
-    width: 516px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
 }
 .no-margin-left, .no-margin-left input[type="submit"] {
     margin-left: 0px;
+}
+.action-controller-corporate-static-dashboard .simulation-result-popup {
+    /*left:50% !important;
+    margin-left: -302px !important;
+    top:193px !important;*/
 }
 /* **************************** NEW INVITAION FORM **************************** */
 
@@ -864,6 +872,19 @@ span.required {
     .profileform  .blueinputtext .errorMessage {
         top: -12px;
         left: 156px;
+    }
+    #Invite_fullname, #Invite_message {
+        padding: 8px;
+        max-width:394px;
+        min-width:394px;
+        width:394px;
+    }
+    #Invite_message {
+        height: 40px;
+        max-height: 40px;
+    }
+    .block-form {
+        width:413px;
     }
 }
 
