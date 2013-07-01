@@ -155,7 +155,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<div class="block-border bg-yellow border-primary pad20 pull-left">
+<div class="block-border bg-yellow border-primary pad-large pull-left">
     <ul class="list-dark unstyled font-xlarge">
         <li>Полная оценка навыков бесплатно</li>
         <li>Сравнение навыков с другими</li>
