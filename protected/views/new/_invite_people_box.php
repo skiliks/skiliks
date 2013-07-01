@@ -1,15 +1,14 @@
-<div class="form invite-people-form sideform darkblueplacehld">
+<div class="pad-xsize">
 
-    <h2>Отправить приглашение</h2>
+    <h3>Отправить приглашение</h3>
 
     <div class="form-simple form-small placehldrs-dark">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'invite-form'
         )); ?>
-    </div>
 
     <span class="form-global-errors">
-        <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+        <?php echo $form->error($invite, 'invitations'); // You have no available invites! ?>
     </span>
 
     <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>">
@@ -34,10 +33,11 @@
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('?????????', ['name' => 'prevalidate']); ?>
+        <?php echo CHtml::submitButton('Отправить', ['name' => 'prevalidate']); ?>
     </div>
 
     <?php $this->endWidget(); ?>
+    </div>
 </div>
 
 <?php // add_vacancy_form { ?>
