@@ -235,7 +235,9 @@ ul li:last-child {
 .yiiPager .selected a, .pager .yiiPager .selected a {
     color: #146672;
 }
-.yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a {
+.yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
