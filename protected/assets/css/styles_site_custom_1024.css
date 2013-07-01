@@ -77,13 +77,13 @@
     width:170px;
 }
 #Invite_firstname {
-    width: 38px;
+    width: 48px;
 }
 #Invite_lastname {
-    width: 58px;
+    width: 63px;
 }
 #Invite_email {
-    width: 136px;
+    width: 132px;
 }
 #invite-form .btn-add {
     bottom: 1px;
@@ -95,7 +95,7 @@
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 20px;
     line-height: 20px;
-    padding: 2px 4px;
+    padding: 2px 5px;
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:20px;
