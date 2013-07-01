@@ -83,7 +83,7 @@
     width: 58px;
 }
 #Invite_email {
-    width: 146px;
+    width: 136px;
 }
 #invite-form .btn-add {
     bottom: 1px;
@@ -99,7 +99,7 @@
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:20px;
-    font-size: 11px;
+    font-size: 10px;
     padding: 14px 10px 14px 19px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
@@ -119,6 +119,9 @@
 }
 .row.buttons, .row.wide+.row.wide {
     padding-top: 15px;
+}
+.sbHolder {
+    font-size:11px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /* ************************ Pager ************************ */
