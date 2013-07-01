@@ -868,7 +868,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border-bottom: 1px solid #0e4750;
     color:#fff;
     font-weight: normal;
-    padding: 7px 6px;
     text-align: left;
     vertical-align: middle;
 }
@@ -880,6 +879,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .table-primary td, .items td {
     background-color: #fdfbc6;
+}
+.table-primary th, .items th, .table-primary td, .items td {
     padding: 7px 6px;
 }
 .table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
