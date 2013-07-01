@@ -103,12 +103,12 @@
 .form-large input[type=text], .form-large input[type=password] {
     height:18px;
     font-size: 13px;
-    padding: 11px 8px 11px 15px;
+    padding: 11px 8px 11px 12px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
     border:3px solid #24bdd3;
-    padding: 10px 6px 10px 13px;
+    padding: 10px 6px 10px 11px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 6px;
@@ -129,10 +129,10 @@
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
-    width:175px;
+    width:178px;
 }
 .registrationform input[type=password] {
-    width:120px;
+    width:123px;
 }
 .registrationform .row {
     margin-left: 8px;
@@ -140,6 +140,9 @@
 }
 .registrationform .row:first-child {
     margin-left:0px;
+}
+.registrationform .btn-large {
+    margin-top: -2px;
 }
 .form-profl-reg label {
     vertical-align: middle;
