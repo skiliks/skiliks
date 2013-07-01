@@ -245,29 +245,3 @@ h3 {
     color:#fff;
 }
 /*  *************************** /SIGN IN ***************************/
-/*  ************************ KABINET ************************/
-#invite-form .sbHolder {/* - */
-    width:151px;
-}
-#invite-form .btn-primary {/* - */
-    margin-left: 75px;
-}
-#invite-people-box h3 {/* - */
-    padding-bottom: 5px;
-    width:190px;
-}
-#Invite_firstname {/* - */
-    width: 58px;
-}
-#Invite_lastname {/* - */
-    width: 78px;
-}
-#Invite_email {/* - */
-    width: 166px;
-}
-#invite-form .btn-add {/* - */
-    bottom: 1px;
-    position: absolute;
-    right: 0px;
-}
-/*  ************************ /KABINET ************************/
