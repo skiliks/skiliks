@@ -178,7 +178,7 @@ body {
                 </ul>
             </div>
         </div>
-        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
+        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="input-long" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
     </form>
 </div>
 
