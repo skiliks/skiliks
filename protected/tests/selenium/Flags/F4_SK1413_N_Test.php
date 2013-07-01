@@ -68,35 +68,4 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         $this->close();
     }
-
-    /**
-     * testSK1413_N_Case3() тестирует задачу SKILIKS-1413
-     *
-     * 1. Запускаем E1.3
-     * 2. Кликаем по диалогу до фразы "Ладно. Я понял. Сделаю сам..."
-     * 3. Отправляем письмо MS22
-     * 4. Проверяем, что флаг F4 не поменялся
-     * 5. Запускаем ET1.3.3
-     * 6. Переводим время на 10 минут вперед (так как ET1.3.3 происходит с задержкой в 10 минут)
-     * 7. Проверяем, что телефон не звонит (т.к. F4=0)
-     * 8. Заканчиваем симуляцию
-     */
-    public function testSK1413_N_Case3() {
-        //$this->markTestIncomplete();
-        $this->start_simulation();
-        $this->optimal_click('link=F32');
-        sleep(5);
-        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
-
-        $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Ладно. Я понял. Сделаю сам.')])");
-
-        $this->assertTrue($this->verify_flag('F4','0'));
-
-        $this->run_event('ET1.3.3');
-        sleep(5);
-        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
-        $this->close();
-    }
 }
