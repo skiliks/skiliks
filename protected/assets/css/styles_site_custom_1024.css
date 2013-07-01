@@ -127,6 +127,28 @@
     font-size:11px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  ************************ REGISTRATION ************************/
+.registrationform input[type=text] {
+    width:190px;
+}
+.registrationform input[type=password] {
+    width:132px;
+}
+.registrationform .row {
+    margin-left: 8px;
+    position:relative;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.form-profl-reg label {
+    vertical-align: middle;
+    width:120px;
+}
+.form-profl-reg .sbHolder {/* - */
+    width:265px;
+}
+/*  ************************ /REGISTRATION ************************/
 /* ************************ Pager ************************ */
 .yiiPager a {
     font-size: 14px;
