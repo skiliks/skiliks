@@ -85,7 +85,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
 			<!--content-->
 			<div class="content">
-                DDD
                 <!-- flash-messages { -->
                 <?php $flashes = Yii::app()->user->getFlashes(); ?>
                 <?php if (0 < count($flashes)): ?>
