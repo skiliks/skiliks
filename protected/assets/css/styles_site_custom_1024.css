@@ -70,7 +70,7 @@
     width:113px;
 }
 #invite-form .btn-primary {
-    margin-left: 75px;
+    margin-left: 66px;
 }
 #invite-people-box h3 {
     padding-bottom: 5px;
@@ -80,7 +80,7 @@
     width: 50px;
 }
 #Invite_lastname {
-    width: 63px;
+    width: 65px;
 }
 #Invite_email {
     width: 133px;
@@ -111,7 +111,7 @@
     padding: 12px 8px 12px 17px;
 }
 .form-simple input[type="text"]+input[type="text"] {
-    margin-left: 8px;
+    margin-left: 6px;
 }
 .row {
     position: relative;
