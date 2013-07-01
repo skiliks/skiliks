@@ -468,8 +468,6 @@ html[lang=ru] .betaflag {
     background: none;
 }
 .container>header nav#static-page-links .top-profile {
-    height: 28px;
-    line-height: 28px;
     padding-left: 41px;
 }
 .container>header nav#static-page-links .top-profile-corp,
@@ -526,7 +524,8 @@ html[lang=ru] .betaflag {
     .container>header nav#static-page-links .top-profile,
     .container>header nav#static-page-links .top-profile:hover {
         background-size: 13px;
-        min-height: 22px;
+        height: 20px;
+        line-height: 20px;
     }
 }
 /* --------------- /header ---------*/
