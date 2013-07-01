@@ -862,7 +862,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary, .items {
     width:100%;
 }
-.table-primary th, .items th {
+.table-primary th, .items th, .grid-view table.items th {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
@@ -888,6 +888,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .table-primary tr:last-child td:last-child, .items tr:last-child td:last-child {
     border-radius: 0px 0px 5px;
+}
+.items th a, .grid-view table.items th a {
+    background: url("../img/arrow-down.png") no-repeat right 56%;
+    font-weight: normal;
+    display: block;
+    padding-right: 12px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {
