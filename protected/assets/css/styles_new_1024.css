@@ -1,4 +1,7 @@
 body {
+    background: url("../img/bg-top-inner.jpg"), url("../img/sitebg-rpt.jpg");
+    background-repeat: no-repeat, repeat-y;
+    background-position: center top;
     font-size:12px;
     line-height: 12px;
 }

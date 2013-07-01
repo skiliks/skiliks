@@ -1,4 +1,7 @@
 body {
+    background: url("../img/sitebg-chairs.jpg"), url("../img/sitebg-rpt.jpg");
+    background-repeat: no-repeat, repeat-y;
+    background-position: center top;
     font-size:14px;
     line-height: 14px;
 }
