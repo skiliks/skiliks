@@ -212,39 +212,39 @@ ul li:last-child {
 }
 /* ************************ /Buttons ************************ */
 /* ************************ Pager ************************ */
-.yiiPager, .yiiPager li {
+.yiiPager, .yiiPager li, .pager .yiiPager li, .pager .yiiPager {
     margin:0px;
     padding: 0px;
 }
-.yiiPager li {
+.yiiPager li, .pager .yiiPager li {
     list-style-type: none;
 }
-.yiiPager .first, .yiiPager .last {
+.yiiPager .first, .yiiPager .last, .pager .yiiPager .first, .pager .yiiPager .last {
     display: none;
 }
-.yiiPager li, .yiiPager li a {
+.yiiPager li, .yiiPager li a, .pager .yiiPager li, , .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
 }
-.yiiPager a {
+.yiiPager a, .pager .yiiPager a {
     margin: 0px 2px;
     padding: 0px;
     text-align: center;
 }
-.yiiPager .selected a {
+.yiiPager .selected a, .pager .yiiPager .selected a {
     color: #146672;
 }
-.yiiPager .previous a, .yiiPager .next a {
+.yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a {
     background: #6caab3;
     border: none;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
     margin: 0px 11.5px;
 }
-.yiiPager .previous a {
+.yiiPager .previous a, .pager .yiiPager .previous a {
     margin-right: 14px;
 }
-.yiiPager .previous a:hover, .yiiPager .next a:hover {
+.yiiPager .previous a:hover, .yiiPager .next a:hover, .pager .yiiPager .previous a:hover, , .pager .yiiPager .next a:hover {
     background: #146672;
 }
 /* ************************ /Pager ************************ */
