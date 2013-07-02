@@ -140,8 +140,16 @@
 .grid-view .summary {
     margin: 0px;
 }
-span.required, .form-simple span.required {
-    display: none;
+.small-block {
+    border-radius: 3px;
+    display: inline-block;
+    padding: 5px 7px 4px;
+}
+#simulations-counter-box .font-large {
+    font-size: 17px;
+}
+#simulations-counter-box .small-block {
+    font-size: 19px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */

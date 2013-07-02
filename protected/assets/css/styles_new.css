@@ -913,3 +913,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .highlight-title+.pad40 {
     padding-top: 24px;
 }
+span.required, .form-simple span.required {
+    display: none;
+}
