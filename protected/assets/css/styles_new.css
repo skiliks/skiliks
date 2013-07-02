@@ -1043,7 +1043,26 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .grid-view .ratebg {
     width: 81px;
 }
+span.required, .form-simple span.required {
+    display: none;
+}
 /*  *************************** /KABINET ***************************/
+/*  *************************** ERRORS ***************************/
+input.error {
+    border: 2px solid #bd2929;
+}
+.bg-rich-blue .errorMessage {
+    color:#fff;
+}
+.errorMessage.Invite_firstname, .errorMessage.Invite_email {
+    top: -2px;
+    left: 72px;
+}
+.errorMessage.Invite_lastname {
+    top: -2px;
+    left: 162px;
+}
+/*  *************************** /ERRORS ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
@@ -1054,6 +1073,4 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .highlight-title+.pad40 {
     padding-top: 24px;
 }
-span.required, .form-simple span.required {
-    display: none;
-}
+
