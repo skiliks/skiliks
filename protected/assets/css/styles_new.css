@@ -1031,6 +1031,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ratebg {
     background: url("../img/ratestars2.png") no-repeat left top;
 }
+.rating {
+    background: url("../img/ratestars.png") no-repeat 0px -17px;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
