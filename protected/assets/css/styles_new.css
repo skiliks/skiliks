@@ -251,6 +251,12 @@ ul li:last-child {
 .yiiPager a {
     font-size: 16px;
 }
+.yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
+    padding:0px;
+}
+.yiiPager a:hover, .pager .yiiPager a:hover {
+    border:none;
+}
 .yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
 .yiiPager .previous a:visited, .yiiPager .next a:visited {
     font-size: 14px;
