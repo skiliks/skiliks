@@ -163,6 +163,12 @@
 #corporate-invitations-list-box #yw0_c0 {
     width: 25px;
 }
+#corporate-invitations-list-box #yw0_c1 a {
+    margin-left: -20px;
+    position: absolute;
+    top: 12px;
+    width: 142px;
+}
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
     max-width: 135px;

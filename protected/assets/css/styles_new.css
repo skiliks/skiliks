@@ -1010,6 +1010,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-image: none;
     padding-right: 0px;
 }
+#corporate-invitations-list-box #yw0_c1 {
+    position: relative;
+}
 .controller-static-dashboard .grid-view .items td {
     vertical-align: middle;
 }
