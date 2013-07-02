@@ -1,4 +1,4 @@
-/*global Backbone, _ */
+/*global Backbone, _, define */
 
 var SKDialogView;
 define([

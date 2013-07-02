@@ -14,7 +14,7 @@
         <?php endif ?>
         <span <?php echo 'data-simulation="/simulations/details/'.$simulation->id.'"'; ?>
             class="ratingwrap radiusthree <?php if($simulation->end !== null) { echo "view-simulation-details-pop-up";} ?>">
-            <span class="ratebg"><span class="rating" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%"></span></span><span class="prcentval"><!--<sup>-->
+            <span class="ratebg block-stars"><span class="rating block-stars" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%"></span></span><span class="prcentval block-stars">
                 <?= $simulation->getCategoryAssessment() ?>%
             </span><!-- </sup> --></span>
         <?php if ($isDisplayArrow) : ?>

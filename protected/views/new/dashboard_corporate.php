@@ -8,7 +8,7 @@
         'vacancies' => $vacancies,
      ]) ?>
     </div>
-    <div class="block-border bg-light-blue">
+
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Сообщение">
 
@@ -75,7 +75,6 @@
     });
 </script>
 <?php endif; ?>
-</div>
 
 <?php if ($display_results_for): ?>
     <script type="text/javascript">
@@ -86,11 +85,13 @@
 <?php endif; ?>
 
         <!-- simulations-counter-box -->
-        <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
-            <?php $this->renderPartial('//new/_simulations_counter_box', []) ?>
+        <div id="simulations-counter-box" class="block-border bg-light-blue">
+            <div class="pad-large">
+                <?php $this->renderPartial('//new/_simulations_counter_box', []) ?>
+            </div>
         </div>
 
-        <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
+        <a href="#" class="btn btn-primary feedback">Обратная связь</a>
     </div>
     <div id="corporate-invitations-list-box" class="block-border grid2 border-primary dashboard">
         <!-- corporate-invitations-list-box -->
