@@ -85,6 +85,11 @@ define([
             setTimeout(function() {
                 me.displayZohoIframe(doc, el);
             }, 0);
+            var iframeDoc = $(doc.combineIframeId()).contents().get(0);
+            $(iframeDoc).bind('click', function( event ) {
+                console.log("setontop");
+                me.options.model_instance.setOnTop();
+            });
         },
 
         /**

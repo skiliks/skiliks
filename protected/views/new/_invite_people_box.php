@@ -1,33 +1,27 @@
-<div class="form invite-people-form sideform darkblueplacehld">
+<div class="pad-xsize">
 
-    <h2>Отправить приглашение</h2>
+    <h3>Отправить приглашение</h3>
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'invite-form'
-    )); ?>
+    <div class="form-simple form-small placehldrs-dark">
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'invite-form'
+        )); ?>
 
     <span class="form-global-errors">
-        <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+        <?php echo $form->error($invite, 'invitations'); // You have no available invites! ?>
     </span>
 
     <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>">
-        <?php echo $form->labelEx($invite, 'full_name'); ?>
-        <?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?>
-        <?php echo $form->error($invite, 'firstname'); ?>
-        <?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?>
-        <?php echo $form->error($invite, 'lastname'); ?>
+        <?php echo $form->labelEx($invite, 'full_name'); ?><?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?><?php echo $form->error($invite, 'firstname'); ?>
+        <?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?><?php echo $form->error($invite, 'lastname'); ?>
     </div>
 
     <div class="row <?php echo ($form->error($invite, 'email')) ? 'error' : ''; ?>">
-        <?php echo $form->labelEx($invite, 'email'); ?>
-        <?php echo $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?>
-        <?php echo $form->error($invite, 'email'); ?>
+        <?php echo $form->labelEx($invite, 'email'); ?><?php echo $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?><?php echo $form->error($invite, 'email'); ?>
     </div>
 
     <div class="row wide <?php echo (0 == count($vacancies) ? 'no-border' : '') ?> <?php echo ($form->error($invite, 'vacancy_id')) ? 'error' : ''; ?>v">
-        <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
-        <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
-        <?php echo $form->error($invite, 'vacancy_id'); ?>
+        <?php echo $form->labelEx($invite, 'vacancy_id'); ?><?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?><?php echo $form->error($invite, 'vacancy_id'); ?>
         <span id="corporate-dashboard-add-vacancy"></span>
     </div>
 
@@ -36,6 +30,7 @@
     </div>
 
     <?php $this->endWidget(); ?>
+    </div>
 </div>
 
 <?php // add_vacancy_form { ?>

@@ -95,9 +95,10 @@ class SimulationController extends AjaxController
     }
 
     /**
+     * Похоже не используется нигде
      * Get user's score
      */
-    public function actionGetPoint()
+    /*public function actionGetPoint()
     {
         $simulation = $this->getSimulationEntity();
         
@@ -106,7 +107,7 @@ class SimulationController extends AjaxController
         } catch (Exception $e) {
             $this->returnErrorMessage($e->getMessage());
         }
-    }
+    }*/
 
     /**
      * Изменение времени симуляции

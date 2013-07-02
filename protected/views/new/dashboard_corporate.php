@@ -1,14 +1,14 @@
-<section class="dashboard corpdashboard">
-    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
-    <aside>
+<div class="container-borders-3">
+    <h1 class="page-header"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
+    <div class="grid1">
+    <div id="invite-people-box" class="block-border bg-rich-blue border-large">
     <!-- invite-people-box -->
-        <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
-            <?php $this->renderPartial('//new/_invite_people_box', [
-                'invite'    => $invite,
-                'vacancies' => $vacancies,
-            ]) ?>
-        </div>
-
+     <?php $this->renderPartial('//new/_invite_people_box', [
+        'invite'    => $invite,
+        'vacancies' => $vacancies,
+     ]) ?>
+    </div>
+    <div class="block-border bg-light-blue">
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Сообщение">
 
@@ -52,6 +52,7 @@
     </div>
 
 
+
 <script type="text/javascript">
     $(function() {
         // @link: http://jqueryui.com/dialog/
@@ -74,6 +75,7 @@
     });
 </script>
 <?php endif; ?>
+</div>
 
 <?php if ($display_results_for): ?>
     <script type="text/javascript">
@@ -89,17 +91,12 @@
         </div>
 
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
-    </aside>
-    <div class="narrow-contnt">
-        <!-- corporate-invitations-list-box -->
-        <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
-            <?php $this->renderPartial('//new/_corporate_invitations_list_box', [
-                'inviteToEdit'    => $inviteToEdit,
-                'vacancies'       => $vacancies,
-            ]) ?>
-        </div>
-
-
     </div>
-
-</section>
+    <div id="corporate-invitations-list-box" class="block-border grid2 border-primary dashboard">
+        <!-- corporate-invitations-list-box -->
+        <?php $this->renderPartial('//new/_corporate_invitations_list_box', [
+            'inviteToEdit'    => $inviteToEdit,
+            'vacancies'       => $vacancies,
+        ]) ?>
+    </div>
+</div>

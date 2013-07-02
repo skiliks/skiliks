@@ -38,6 +38,21 @@ class DayPlanController extends AjaxController{
             )
         );
     }
+
+    /**
+     * Не вижу вызовов этого метода в JS
+     */
+    /*public function actionUpdate()
+    {
+
+        $this->sendJSON(
+            DayPlanService::update(
+                $this->getSimulationEntity(),
+                Yii::app()->request->getParam('taskId'),
+                Yii::app()->request->getParam('time')
+            )
+        );
+    }*/
        
     /**
      * Добавление задачи в план дневной
@@ -53,21 +68,6 @@ class DayPlanController extends AjaxController{
             )
         );
             
-    }
-
-    /**
-     *
-     */
-    public function actionUpdate()
-    {
-
-        $this->sendJSON(
-            DayPlanService::update(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('taskId'),
-                Yii::app()->request->getParam('time')
-            )
-        );
     }
 
     public function actionSave()

@@ -1,4 +1,4 @@
-/*global _, Backbone, define, $, */
+/*global _, Backbone, define, $, SKApp, console*/
 define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
     "use strict";
     /**
@@ -58,7 +58,7 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
-
+                params.uniqueId = _.uniqueId('request');
                 return {
                     data:      params,
                     url:       url,
