@@ -902,6 +902,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     padding-right: 12px;
 }
+span.required {
+    display: none;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
