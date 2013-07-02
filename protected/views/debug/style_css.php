@@ -215,7 +215,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<section class="bg-lblue-primary home-contnt-box border-large" style="padding:40px 100px;">
+<section class="bg-lblue-primary home-contnt-box border-large pad-xxsize">
     <article>
         <h2 class="font-blue-dark">Самый простой</h2>
         <ul class="unstyled">
