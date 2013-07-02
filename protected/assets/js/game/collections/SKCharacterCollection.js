@@ -1,4 +1,4 @@
-/*global Backbone:false, console, SKApp, session */
+/*global Backbone:false, console, SKApp, session, define */
 
 define(['game/models/SKCharacter'], function (SKCharacter) {
     "use strict";
