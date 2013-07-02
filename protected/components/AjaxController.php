@@ -1,15 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of AjaxController
- *
- * @author dorian
- */
 class AjaxController extends CController
 {
     const STATUS_SUCCESS = 1;
@@ -83,7 +73,17 @@ class AjaxController extends CController
      */
     protected function sendJSON($data, $status = 200)
     {
-        $this->_sendResponse($status, CJSON::encode($data));
+        $uniqueId = Yii::app()->request->getParam('uniqueId', null);
+        if( null !== $uniqueId ) {
+            if(is_array($data)) {
+                $data['uniqueId'] = $uniqueId;
+                $this->_sendResponse($status, CJSON::encode($data));
+            } else {
+                throw new LogicException('$data should be an array');
+            }
+        } else {
+            throw new LogicException("uniqueId not found");
+        }
     }
     
     /**
