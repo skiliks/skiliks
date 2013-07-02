@@ -143,6 +143,7 @@
 .small-block {
     border-radius: 3px;
     display: inline-block;
+    min-width: 18px;
     padding: 5px 7px 4px;
 }
 #simulations-counter-box {
@@ -195,7 +196,8 @@
 .yiiPager a {
     font-size: 16px;
 }
-.yiiPager .previous a, .yiiPager .next a {
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
     font-size: 14px;
     padding: 7px 10px 7px 9px;
 }
