@@ -1028,8 +1028,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     vertical-align: middle;
 }
 .ratebg {
-    background: url("../img/ratestars2.png") no-repeat left top;
+    background: url("../img/ratestars2.png") no-repeat left 1px;
     display: table-cell;
+    padding-right:3px;
 }
 .rating {
     background: url("../img/ratestars2.png") no-repeat 0px -14px;
