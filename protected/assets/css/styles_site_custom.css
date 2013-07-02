@@ -140,7 +140,10 @@
 .grid-view .summary {
     margin: 0px;
 }
-#invite-form .pad-xsize {
+span.required, .form-simple .required {
+    display: none;
+}
+#invite-people-box .pad-xsize {
     padding: 20px;
 }
 /*  ************************ /KABINET ************************/
