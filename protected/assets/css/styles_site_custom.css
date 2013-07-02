@@ -146,7 +146,8 @@
     padding: 5px 7px 4px;
 }
 #simulations-counter-box {
-    margin:28px 0px 32px 0px;
+    margin-bottom:32px;
+    margin-top:28px;
 }
 #simulations-counter-box .font-large {
     font-size: 17px;
