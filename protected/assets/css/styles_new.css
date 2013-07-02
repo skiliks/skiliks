@@ -890,7 +890,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary, .items, .grid-view table.items {
     background: none;
     border: none;
-    font-size: 12px;
     width:100%;
 }
 .table-primary th, .items th, .grid-view table.items th {
@@ -916,9 +915,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: #F8F8F8;
 }
 .table-primary th, .items th, .grid-view table.items th{
+    font-size: 12px;
     padding: 12px 6px;
 }
 .table-primary td, .items td, .grid-view table.items td {
+    font-size: 12px;
     padding: 7px 6px;
 }
 .table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
@@ -957,7 +958,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
     z-index: 100;
 }
-.invites-smallmenu-item a {
+.invites-smallmenu-item .invites-smallmenu-item a {
     color: #fff;
     display: block;
     font-family: "ProximaNova-Regular";
@@ -969,11 +970,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-position: right top;
 }
 .topline {
-    background: #ff0000; /* a5a385 */
+    background: #a5a385; /* a5a385 */
     display: none;
     position: absolute;
     height: 3px;
-    margin: 23px 0px 0px -21px;
+    margin: 24px 0px 0px -21px;
     width: 20px;
     z-index: 25;
 }
