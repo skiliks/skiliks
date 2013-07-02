@@ -222,7 +222,7 @@ ul li:last-child {
 .yiiPager .first, .yiiPager .last, .pager .yiiPager .first, .pager .yiiPager .last {
     display: none;
 }
-.yiiPager li, .yiiPager li a, .pager .yiiPager li, , .pager .yiiPager li a {
+.yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
