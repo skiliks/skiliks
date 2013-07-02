@@ -954,6 +954,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
     z-index: 100;
 }
+.invites-smallmenu-item a {
+    color: #fff;
+    display: block;
+    font-family: "ProximaNova-Regular";
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+    z-index: 10000;
+    width: 150px;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
