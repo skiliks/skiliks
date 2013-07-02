@@ -199,6 +199,28 @@
     padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/* ************************ Pager ************************ */
+.yiiPager .previous a, .yiiPager .next a {
+    margin: 0px 11.5px;
+}
+.yiiPager .previous a, .pager .yiiPager .previous a {
+    margin-right: 14px;
+}
+.yiiPager a, .pager .yiiPager a {
+    font-size: 16px;
+}
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    font-size: 14px;
+    margin: 0px 14.5px;
+}
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
+    font-size: 14px;
+    padding: 7px 10px 7px 9px;
+}
+/* ************************ /Pager ************************ */
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 26px;

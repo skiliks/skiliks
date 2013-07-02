@@ -227,11 +227,21 @@
 }
 /*  ************************ /REGISTRATION ************************/
 /* ************************ Pager ************************ */
-.yiiPager a {
-    font-size: 14px;
-}
-.yiiPager .previous a, .yiiPager .next a {
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
     font-size: 12px;
     padding: 4px 8px 4px 8px;
+}
+.yiiPager .previous a, .pager .yiiPager .previous a {
+    margin-right: 12px;
+}
+.yiiPager a, .pager .yiiPager a {
+    font-size: 14px;
+}
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    font-size: 12px;
+    margin: 0px 11.5px;
 }
 /* ************************ /Pager ************************ */
