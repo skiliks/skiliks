@@ -139,12 +139,6 @@
     position: absolute;
     right: 4px;
 }
-.grid-view {
-    padding: 0px;
-}
-.grid-view .summary {
-    margin: 0px;
-}
 .small-block {
     border-radius: 3px;
     display: inline-block;

@@ -915,7 +915,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: inline-block;
 }
 .grid-view {
+    padding: 0px;
     position: relative;
+}
+.grid-view .summary {
+    margin: 0px;
 }
 .grid-view .pager {
     bottom: -75px;
