@@ -963,6 +963,23 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     z-index: 10000;
     width: 150px;
 }
+.selected-sk .invites-smallmenu-switcher {
+    background-position: right top;
+}
+.grid-view {
+    position: relative;
+}
+.grid-view .pager {
+    bottom: -75px;
+    height: 40px;
+    margin: 0px;
+    text-align: center;
+    padding-top: 25px;
+    position: absolute;
+    width: 598px;
+    width: 100%;
+    z-index: 5;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
