@@ -1006,6 +1006,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
     padding-left: 0px;
 }
+#corporate-invitations-list-box .items th:first-child {
+    background-image: none;
+    padding-right: 0px;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
