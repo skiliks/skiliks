@@ -285,7 +285,20 @@ define([
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
                     var prev_cell = ui.draggable.parents('td');
-                    
+
+//                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12),
+//                        tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
+//                        task_id = ui.draggable.attr('data-task-id'),
+//                        prev_cell = ui.draggable.parents('td'),
+//                        time = tdCell.attr('data-hour') + ':' + tdCell.attr('data-minute'),
+//                        day = $(this).attr('data-day-id'),
+//                        duration = ui.draggable.attr('data-task-duration');
+//
+//                    if (false === SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
+//                        return false;
+//                    }
+
+
                     var oldTask = {};
                     oldTask = ui.draggable.find('.title').text() + '';
                     
@@ -317,7 +330,12 @@ define([
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                     // go last tr under dragged task {
+
                     var currentRow = $(this).parents('tr');
+
+//                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12);
+//                    var currentRow = $(event.target).find('tr:eq(' + index + ')');
+
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
                         currentRow = currentRow.next();
