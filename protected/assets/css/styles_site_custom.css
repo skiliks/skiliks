@@ -192,13 +192,3 @@
     padding-top: 15px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-/* ************************ Pager ************************ */
-.yiiPager a {
-    font-size: 16px;
-}
-.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
-.yiiPager .previous a:visited, .yiiPager .next a:visited {
-    font-size: 14px;
-    padding: 7px 10px 7px 9px;
-}
-/* ************************ /Pager ************************ */

@@ -246,9 +246,18 @@ ul li:last-child {
 .yiiPager .previous a, .pager .yiiPager .previous a {
     margin-right: 14px;
 }
+.yiiPager a {
+    font-size: 16px;
+}
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
+    font-size: 14px;
+    padding: 7px 10px 7px 9px;
+}
 .yiiPager .previous a:hover, .yiiPager .next a:hover, .pager .yiiPager .previous a:hover, , .pager .yiiPager .next a:hover {
     background: #146672;
 }
+
 /* ************************ /Pager ************************ */
 
 /*  ************************ Menu ************************  */
