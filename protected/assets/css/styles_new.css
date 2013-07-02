@@ -958,9 +958,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: absolute;
     z-index: 100;
 }
-.invites-smallmenu-item a.inviteaction {
+.invites-smallmenu-item a {
     color: #fff;
-    display: block;
+    display: block !important;
     font-family: "ProximaNova-Regular";
     padding: 0 0 10px 6px;
     text-decoration: none;
@@ -976,7 +976,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     height: 4px;
     margin: 24px 0px 0px -21px;
     width: 20px;
-    z-index: 25;
+    z-index: 30;
 }
 .selected-sk .topline {
     display: inline-block;
