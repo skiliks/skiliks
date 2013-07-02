@@ -844,14 +844,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary .even td, .items .even td, .grid-view table.items tr.even td {
     background: #fefeec;
 }
-.table-primary th, .items th, .grid-view table.items th{
-    font-size: 12px;
-    padding: 12px 6px;
-}
-.table-primary td, .items td, .grid-view table.items td {
-    font-size: 12px;
-    padding: 5px 6px;
-}
 .table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
     border-radius: 0px 0px 0px 5px;
 }
