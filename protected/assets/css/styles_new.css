@@ -377,7 +377,6 @@ input[type="text"], input[type="password"]  {
     color: #fff;
     display: inline-block;
     line-height: 90%;
-    min-width: 64px;
     padding-right: 10px;
 }
 .dark-labels label {
@@ -1059,11 +1058,11 @@ input.error {
     position: absolute;
 }
 .errorMessage.Invite_firstname, .errorMessage.Invite_email {
-    top: -2px;
+    top: -3px;
     left: 72px;
 }
 .errorMessage.Invite_lastname {
-    top: -2px;
+    top: -3px;
     left: 157px;
 }
 /*  *************************** /ERRORS ***************************/
