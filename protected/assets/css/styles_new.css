@@ -1028,12 +1028,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     vertical-align: middle;
 }
 .ratebg {
-    background: url("../img/ratestars2.png") no-repeat left 1px;
+    background: url("../img/ratestars3.png") no-repeat left 0px;
     display: table-cell;
     padding-right:3px;
 }
 .rating {
-    background: url("../img/ratestars2.png") no-repeat 0px -14px;
+    background: url("../img/ratestars3.png") no-repeat 0px -19px;
     display: inline-block;
 }
 .prcentval {
