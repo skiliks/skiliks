@@ -693,24 +693,27 @@ define([
                 if (me.events_timer) {
                     me._stopTimer();
                 }
+                if (me.events_timer !== undefined || me.events_timer !== null){
+                    me.events_timer = setInterval(function () {
+                        me.getNewEvents();
+                        /**
+                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                         * @event tick
+                         */
+                        me.trigger('tick');
+                    }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                    console.log(me.events_timer);
 
-                me.events_timer = setInterval(function () {
-                    me.getNewEvents();
-                    /**
-                     * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
-                     * @event tick
-                     */
-                    me.trigger('tick');
-                }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
-                console.log(me.events_timer);
-                console.log(SKApp.simulation.events_timer);
-                console.trace();
+                }
             },
 
             _stopTimer: function() {
+                console.log(this.events_timer);
                 if (this.events_timer) {
                     clearInterval(this.events_timer);
+                    console.log(this.events_timer);
                     delete this.events_timer;
+                    console.log(this.events_timer);
                 }
             },
 
