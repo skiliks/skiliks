@@ -233,6 +233,8 @@ ul li:last-child {
     text-align: center;
 }
 .yiiPager .selected a, .pager .yiiPager .selected a {
+    background: none;
+    border:none;
     color: #146672;
 }
 .yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a,
@@ -254,8 +256,10 @@ ul li:last-child {
     font-size: 14px;
     padding: 7px 10px 7px 9px;
 }
-.yiiPager .previous a:hover, .yiiPager .next a:hover, .pager .yiiPager .previous a:hover, , .pager .yiiPager .next a:hover {
+.yiiPager .previous a:hover, .yiiPager .next a:hover,
+.pager .yiiPager .previous a:hover, .pager .yiiPager .next a:hover {
     background: #146672;
+    border:none;
 }
 
 /* ************************ /Pager ************************ */
