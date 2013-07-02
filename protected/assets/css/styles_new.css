@@ -1022,7 +1022,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     vertical-align: middle;
 }
 .block-stars {
-    border:1px solid red;
     display: inline-block;
     font-size: 11px;
     height: 14px;
@@ -1033,6 +1032,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
+}
+.grid-view .ratebg {
+    width: 81px;
 }
 /*  *************************** /KABINET ***************************/
 .highlight-title {
