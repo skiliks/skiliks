@@ -1,5 +1,8 @@
 /*global _, Backbone, define, $, SKApp, console*/
-define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
+define([
+    "jquery/jquery.cookies",
+    "jquery/ajaxq",
+    'game/models/SKRequestsQueue'], function (cookies, ajaxq, SKRequestsQueue) {
     "use strict";
     /**
      * Взаимодействие с сервером через API. Запросы посылаются POST-ом, в каждый добавляется параметр sid
@@ -14,7 +17,9 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
              * @private
              * @property api_root
              */
-            'api_root': '/index.php/',
+            api_root: '/index.php/',
+
+            requests_queue:null,
 
             onError: function (xhr, ajaxOptions, thrownError) {
                 /**
@@ -29,19 +34,15 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
             },
 
             onComplete: function (xhr, text_status) {
-                console.log(text_status);
-                if ('timeout' == text_status) {
+                console.log(xhr.status);
+                if ('timeout' === text_status || xhr.status === 0) {
                     console.log(xhr, text_status);
                     SKApp.isInternetConnectionBreakHappent = true;
-                    // switch game to pause
-                    // recheck is internet came back
-                    // if YES:
-                    // send any get request again
-                    // unblock dialog replicas
+                    SKApp.simulation.startPause(function(){});
                 }
             },
 
-            'getAjaxParams': function (path, params, callback) {
+            getAjaxParams: function (path, params, callback) {
                 var me = this;
                 var debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/),
                     url = this.api_root + path,
@@ -68,9 +69,42 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
                         withCredentials: true
                     },
                     timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
-                    'success': callback,
-                    'complete': _.bind(me.onComplete, me),
-                    'error': _.bind(me.onError, me)
+                    beforeSend: function(jqXHR, settings) {
+                        //console.log(settings);
+                        var uniqueId = SKApp.server.getQueryStringParams(settings.data, 'uniqueId');
+                        if( undefined !== uniqueId ) {
+                            //var model = new SKRequestsQueue();
+                            //model.uniqueId = uniqueId;
+                            //console.log(model);
+                            //console.log(jqXHR);
+                            if($.isEmptyObject(SKApp.server.requests_queue.where({uniqueId:uniqueId}))){
+                                SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:uniqueId, url:url}));
+                            } else {
+                                throw new Error("Duplicate uniqueId - "+uniqueId);
+                            }
+                            //console.log(SKApp.server.requests_queue);
+                        } else {
+                            throw new Error("uniqueId is not found");
+                        }
+                    },
+                    success:  function (data, textStatus, jqXHR) {
+                        if( data.uniqueId !== undefined ) {
+                            var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
+                            if(false === $.isEmptyObject(models)) {
+                                //console.log(SKApp.server.requests_queue);
+                                SKApp.server.requests_queue.remove(models[0]);
+                            } else {
+                                throw new Error("Not found model by - "+uniqueId);
+                            }
+                            if(undefined !== callback){
+                                callback(data, textStatus, jqXHR);
+                            }
+                        } else {
+                            throw new Error("uniqueId is not found");
+                        }
+                    },
+                    complete: _.bind(me.onComplete, me),
+                    error: _.bind(me.onError, me)
                 };
             },
             /**
@@ -84,7 +118,7 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
              * @return {$.xhr}
              * @async
              */
-            'api':function (path, params, callback) {
+            api:function (path, params, callback) {
 
                 var ajaxParams = this.getAjaxParams(path, params, callback);
                 return $.ajax(ajaxParams);
@@ -93,9 +127,21 @@ define(["jquery/jquery.cookies", "jquery/ajaxq"], function () {
              * Отправляет запрос на сервер или ставит его в очередь в случае, если такой запрос уже выполняется
              * @method apiQueue
              */
-            'apiQueue': function (queue, path, params, callback) {
+            apiQueue: function (queue, path, params, callback) {
                 var ajaxParams = this.getAjaxParams(path, params, callback);
                 return $.ajaxq(queue, ajaxParams);
+            },
+            getQueryStringParams: function(sPageURL, sParam) {
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++)
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam)
+                    {
+                        return sParameterName[1];
+                    }
+                }
+                return undefined;
             }
         });
     return SKServer;
