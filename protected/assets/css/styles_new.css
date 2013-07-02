@@ -932,6 +932,29 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-right: 12px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** KABINET ***************************/
+.invites-smallmenu-switcher {
+    background: url("../img/menugear.png") no-repeat left top;
+    color: #232323;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    height: 24px;
+    width: 22px;
+}
+.invites-smallmenu-item {
+    background: #a5a385; /* Old browsers */
+    background: -webkit-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom,  #a5a385 0%,#8a896c 100%); /* W3C */
+    border: 1px solid #717059;
+    border-radius: 0px 7px 7px;
+    display: none;
+    margin: -4px 0 0 0px;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 100;
+}
+/*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
