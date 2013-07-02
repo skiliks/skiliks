@@ -149,6 +149,16 @@
     width: 110px;
 }
 /*  ************************ /KABINET ************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary th, .items th, .grid-view table.items th{
+    font-size: 10px;
+    padding: 5px 3px;
+}
+.table-primary td, .items td, .grid-view table.items td {
+    font-size: 10px;
+    padding: 4px 3px;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 20px;
