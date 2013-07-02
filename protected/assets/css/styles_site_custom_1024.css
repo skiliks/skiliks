@@ -107,7 +107,7 @@
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
     border:3px solid #24bdd3;
-    padding: 9px 6px 9px 6px;
+    padding: 9px 4px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 6px;
@@ -131,7 +131,7 @@
     width:186px;
 }
 .registrationform input[type=password] {
-    width:131px;
+    width:135px;
 }
 .registrationform .row {
     margin-left: 8px;
