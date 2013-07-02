@@ -24,9 +24,7 @@
     </div>
 
     <div class="row buttons">
-        <?php //echo CHtml::submitButton('Отправить', ['name' => 'prevalidate'], ['class' => 'someclass']); ?>
-        <?php echo CHtml::submitButton('Отправить', ['name' => 'prevalidate', 'class' => 'someclass']); ?>
-
+        <?php echo CHtml::submitButton('Отправить', ['name' => 'prevalidate', 'class' => 'btn btn-primary']); ?>
     </div>
 
     <?php $this->endWidget(); ?>
