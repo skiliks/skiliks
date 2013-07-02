@@ -1,13 +1,14 @@
 <div class="container-borders-3">
     <h1 class="page-header"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
-    <div id="invite-people-box" class="grid1 block-border bg-rich-blue border-large">
+    <div class="grid1">
+    <div id="invite-people-box" class="block-border bg-rich-blue border-large">
     <!-- invite-people-box -->
      <?php $this->renderPartial('//new/_invite_people_box', [
         'invite'    => $invite,
         'vacancies' => $vacancies,
      ]) ?>
     </div>
-    <div class="grid1 block-border bg-light-blue">
+    <div class="block-border bg-light-blue">
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Сообщение">
 
@@ -48,6 +49,7 @@
         </div>
 
         <?php $this->endWidget(); ?>
+    </div>
     </div>
 
 
