@@ -145,12 +145,18 @@
     display: inline-block;
     padding: 5px 7px 4px;
 }
+#simulations-counter-box {
+    margin:28px 0px 32px 0px;
+}
 #simulations-counter-box .font-large {
     font-size: 17px;
 }
 #simulations-counter-box .small-block {
     font-size: 19px;
     margin-left: 10px;
+}
+#simulations-counter-box div+div {
+    padding-top: 6px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
