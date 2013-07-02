@@ -1055,7 +1055,8 @@ input.error {
     color:#fff;
 }
 .errorMessage {
-    font: 12px "ProximaNova-Regular";
+    font: 11px "ProximaNova-Regular";
+    position: absolute;
 }
 .errorMessage.Invite_firstname, .errorMessage.Invite_email {
     top: -2px;
