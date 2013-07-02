@@ -38,11 +38,7 @@ define([
                 if ('timeout' == text_status) {
                     console.log(xhr, text_status);
                     SKApp.isInternetConnectionBreakHappent = true;
-                    // switch game to pause
-                    // recheck is internet came back
-                    // if YES:
-                    // send any get request again
-                    // unblock dialog replicas
+                    SKApp.simulation.startPause(function(){});
                 }
             },
 
@@ -100,7 +96,9 @@ define([
                             } else {
                                 throw new Error("Not found model by - "+uniqueId);
                             }
-                            callback(data, textStatus, jqXHR);
+                            if(undefined !== callback){
+                                callback(data, textStatus, jqXHR);
+                            }
                         } else {
                             throw new Error("uniqueId is not found");
                         }
