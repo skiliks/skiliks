@@ -35,7 +35,7 @@ define([
 
             onComplete: function (xhr, text_status) {
                 console.log(xhr.status);
-                if ('timeout' == text_status) {
+                if ('timeout' === text_status || xhr.status === 0) {
                     console.log(xhr, text_status);
                     SKApp.isInternetConnectionBreakHappent = true;
                     SKApp.simulation.startPause(function(){});
