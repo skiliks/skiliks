@@ -111,7 +111,7 @@
 }
 /*  *************************** /SIGN IN ***************************/
 /*  ************************ KABINET ************************/
-#invite-form .sbHolder {
+#invite-form .sbHolder, #invite-form select {
     width:151px;
 }
 #invite-form .btn-primary {
