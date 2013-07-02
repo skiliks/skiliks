@@ -66,7 +66,7 @@
 }
 /*  ****************************** /SOCIAL ICONS *******************************/
 /*  ************************ KABINET ************************/
-#invite-form .sbHolder {
+#invite-form .sbHolder, #invite-form select {
     width:113px;
 }
 #invite-form .btn-primary {
@@ -74,6 +74,9 @@
 }
 #invite-people-box h3 {
     width:170px;
+}
+#invite-form label {
+    width: 45px;
 }
 #Invite_firstname {
     width: 50px;
@@ -93,6 +96,58 @@
     padding: 10px;
 }
 
+
+
+
+.small-block {
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 18px;
+    padding: 5px 4px 4px;
+}
+#simulations-counter-box {
+    margin-bottom:23px;
+    margin-top:26px;
+}
+#simulations-counter-box .font-large {
+    font-size: 14px;
+}
+#simulations-counter-box .small-block {
+    font-size: 16px;
+    margin-left: 4px;
+}
+.invites-limit {
+    padding-bottom: 4px;
+}
+#corporate-invitations-list-box #yw0_c0 {
+    width: 25px;
+}
+#corporate-invitations-list-box #yw0_c1 a { /* */
+    margin-left: -20px;
+    position: absolute;
+    top: 12px;
+    width: 142px;
+}
+#corporate-invitations-list-box #yw0_c1,
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 108px;
+    width: 108px;
+}
+#corporate-invitations-list-box #yw0_c2,
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+    max-width: 65px;
+    width: 65px;
+}
+#corporate-invitations-list-box #yw0_c3 {
+    max-width: 80px;
+    width: 80px;
+}
+#corporate-invitations-list-box #yw0_c4 {
+    width: 110px;
+}
+#corporate-invitations-list-box #yw0_c5 {
+    width: 110px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
