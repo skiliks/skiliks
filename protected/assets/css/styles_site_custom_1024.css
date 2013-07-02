@@ -89,6 +89,10 @@
     position: absolute;
     right: 0px;
 }
+#invite-form .pad-xsize {
+    padding: 10px;
+}
+
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
@@ -102,12 +106,12 @@
 .form-large input[type=text], .form-large input[type=password] {
     height:18px;
     font-size: 13px;
-    padding: 11px 8px 11px 12px;
+    padding: 11px 6px;
 }
 .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
     box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
     border:3px solid #24bdd3;
-    padding: 9px 6px 9px 10px;
+    padding: 9px 4px;
 }
 .form-simple input[type="text"]+input[type="text"] {
     margin-left: 6px;
@@ -128,10 +132,10 @@
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
-    width:178px;
+    width:184px;
 }
 .registrationform input[type=password] {
-    width:123px;
+    width:138px;
 }
 .registrationform .row {
     margin-left: 8px;

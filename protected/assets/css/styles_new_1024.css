@@ -124,6 +124,9 @@ li {
 .container-4 .grid1 {
     width:188.5px;
 }
+.standard-right-box {
+    width:498px;
+}
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
 .menu-site a {
@@ -176,10 +179,10 @@ li {
 /*  ************************ /SITE ************************/
 /*  ************************** HOME **************************/
 .home-contnt-box li {
-    font-size: 14px;
+    font-size: 13px;
 }
-.home-contnt-box h2 {/* - */
-    margin-bottom: 14px;
+.home-contnt-box h2 {
+    margin-bottom: 10px;
 }
 .home-contnt-box ul+h2 {/* - */
     margin-top:43px;

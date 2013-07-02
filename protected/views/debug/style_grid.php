@@ -64,8 +64,10 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <h3>Три колонки с бордерами (1+2)</h3>
     <div class="container-borders-3">
-        <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad-large font-white">AAA</div>
+        <div class="grid1">
+            <div class="block-border bg-rich-blue border-primary">
+                <div class="pad-large font-white">AAA</div>
+            </div>
         </div>
         <div class="block-border bg-yellow grid2 border-primary">
             <div class="pad-large">BBB</div>

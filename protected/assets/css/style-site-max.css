@@ -90,7 +90,10 @@ li {
 .container-borders-2 .grid2 {
     width:463px; /*47% */
 }
-.container-borders-3 .grid1, .sign-block, .standard-left-box {
+.container-borders-3 .grid1 {
+    width:316px;
+}
+.sign-block, .standard-left-box {
     width:300px;
 }
 .container-borders-3 .grid2 {
@@ -107,6 +110,9 @@ li {
 }
 .container-3 .grid2 { /* footer */
     width:642px;
+}
+.standard-right-box {
+    width:629px;
 }
 .container-3 .grid1+.grid1 {
     margin-left: 32px;
