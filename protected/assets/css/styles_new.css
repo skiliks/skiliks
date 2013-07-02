@@ -1010,6 +1010,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-image: none;
     padding-right: 0px;
 }
+.controller-static-dashboard .grid-view .items td {
+    vertical-align: middle;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
