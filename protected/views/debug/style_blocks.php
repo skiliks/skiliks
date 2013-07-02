@@ -40,7 +40,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 <body style="padding: 100px;">
 <div class="grid-container">
     <div class="container-border-1 block-border bg-yellow border-primary">
-        <div class="pad30">
+        <div class="pad-xsize">
            <h2 class="font-brown">Заголовок</h2>
            <ul class="unstyled font-brown font-xlarge">
                <li>Content</li>
@@ -68,7 +68,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <div class="container-borders-3">
         <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad20 font-white"><h3>Заголовок</h3></div>
+            <div class="pad-large font-white"><h3>Заголовок</h3></div>
         </div>
         <div class="block-border grid2 border-primary dashboard">
             <table class="table-primary">
@@ -92,14 +92,14 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <div class="pad20">
+            <div class="pad-large">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
             </div>
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <div class="pad20">
+            <div class="pad-large">
                 <h2 class="font-brown">Заголовок</h2>
                 <div>Content</div>
             </div>
@@ -111,12 +111,12 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="highlight-title font-white">Заголовок</div>
-            <div class="pad40">Content</div>
+            <div class="pad-xxsize">Content</div>
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
             <div class="highlight-title font-white">Заголовок</div>
-            <div class="pad40">Content</div>
+            <div class="pad-xxsize">Content</div>
         </div>
     </div>
 

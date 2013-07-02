@@ -58,15 +58,15 @@ class MailController extends AjaxController
     }
 
     /**
-     * 
+     * Похоже уже не используется
      */
-    public function actionGetMessage()
+    /*public function actionGetMessage()
     {
         $this->sendJSON(array(
             'result' => 1,
             'data'   => MailBoxService::getMessage((int)Yii::app()->request->getParam('emailId', 0)
         )));
-    }
+    }*/
 
     /**
      * 
@@ -153,9 +153,10 @@ class MailController extends AjaxController
 
     /**
      * Возвращает настройки почты
+     * Не используется
      * @return type 
      */
-    public function actionGetSettings()
+    /*public function actionGetSettings()
     {
         $simulation = $this->getSimulationEntity();
         
@@ -169,13 +170,14 @@ class MailController extends AjaxController
                 'data'    =>  $mailClientSettingsEntity->getSettingsArray()
             ));
         }
-    }
+    }*/
 
     /**
      * Сохранение настроек почты
+     * Не используется
      * @return type 
      */
-    public function actionSaveSettings()
+    /*public function actionSaveSettings()
     {
         $simulation = $this->getSimulationEntity();
         
@@ -185,7 +187,7 @@ class MailController extends AjaxController
                 Yii::app()->request->getParam('messageArriveSound', 0)
              )
         ));
-    }
+    }*/
 
     /**
      * Получение тем
@@ -207,10 +209,10 @@ class MailController extends AjaxController
     }
 
     /**
-     * 
+     * Уже не используется. Используется actionMove()
      * @return type
      */
-    public function actionDelete()
+    /*public function actionDelete()
     {
         $simulation = $this->getSimulationEntity();
         $email = MailBox::model()->findByPk(Yii::app()->request->getParam('id'));
@@ -219,7 +221,7 @@ class MailController extends AjaxController
             'result'  => (int)MailBoxService::moveToFolder($email, MailBox::FOLDER_TRASH_ID),
             'folders' => MailBoxService::getFolders($simulation)
         ));
-    }
+    }*/
 
     /**
      * @return type

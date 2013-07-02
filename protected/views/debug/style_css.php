@@ -128,7 +128,7 @@ body {
 
 <div>
     <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
-        <div class="pad30">
+        <div class="pad-xsize">
         <h3>Отправить приглашение</h3>
             <form id="invite-form" class="form-simple form-small placehldrs-dark">
                 <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
@@ -155,7 +155,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<div class="block-border bg-yellow border-primary pad20 pull-left">
+<div class="block-border bg-yellow border-primary pad-large pull-left">
     <ul class="list-dark unstyled font-xlarge">
         <li>Полная оценка навыков бесплатно</li>
         <li>Сравнение навыков с другими</li>
@@ -178,7 +178,7 @@ body {
                 </ul>
             </div>
         </div>
-        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
+        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="input-long" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
     </form>
 </div>
 
@@ -215,7 +215,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<section class="bg-lblue-primary home-contnt-box border-large" style="padding:40px 100px;">
+<section class="bg-lblue-primary home-contnt-box border-large pad-xxsize">
     <article>
         <h2 class="font-blue-dark">Самый простой</h2>
         <ul class="unstyled">

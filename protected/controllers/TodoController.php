@@ -29,6 +29,7 @@ class TodoController extends AjaxController
      */
     public function actionAdd()
     {
+        sleep(30000);
         $simulationId = $this->getSimulationId(); // external for make code clean
         
         $taskId = Yii::app()->request->getParam('taskId', 0);

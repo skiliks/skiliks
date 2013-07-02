@@ -122,10 +122,6 @@ ul, ol {
     padding: 0;
     margin-left:20px;
 }
-li {
-    line-height: 16px;
-    margin-bottom: 10px;
-}
 ul li:last-child {
     margin-bottom: 0px;
 }
@@ -216,42 +212,41 @@ ul li:last-child {
 }
 /* ************************ /Buttons ************************ */
 /* ************************ Pager ************************ */
-.yiiPager, .yiiPager li {
+.yiiPager, .yiiPager li, .pager .yiiPager li, .pager .yiiPager {
     margin:0px;
     padding: 0px;
 }
-.yiiPager li {
+.yiiPager li, .pager .yiiPager li {
     list-style-type: none;
 }
-.yiiPager .first, .yiiPager .last {
+.yiiPager .first, .yiiPager .last, .pager .yiiPager .first, .pager .yiiPager .last {
     display: none;
 }
-.yiiPager li, .yiiPager li a {
+.yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
 }
-.yiiPager a {
-    font-size: 16px;
+.yiiPager a, .pager .yiiPager a {
     margin: 0px 2px;
     padding: 0px;
     text-align: center;
 }
-.yiiPager .selected a {
+.yiiPager .selected a, .pager .yiiPager .selected a {
     color: #146672;
 }
-.yiiPager .previous a, .yiiPager .next a {
+.yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
-    font-size: 14px;
     margin: 0px 11.5px;
-    padding: 7px 10px 7px 9px;
 }
-.yiiPager .previous a {
+.yiiPager .previous a, .pager .yiiPager .previous a {
     margin-right: 14px;
 }
-.yiiPager .previous a:hover, .yiiPager .next a:hover {
+.yiiPager .previous a:hover, .yiiPager .next a:hover, .pager .yiiPager .previous a:hover, , .pager .yiiPager .next a:hover {
     background: #146672;
 }
 /* ************************ /Pager ************************ */
@@ -394,26 +389,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /FORM SIMPLE ************************  */
 
-/*  *************************** PADDINGS ****************************/
-.pad10 {
-    padding: 10px;
-}
-.pad16 {
-    padding: 16px;
-}
-.pad20 {
-    padding: 20px;
-}
-.pad30 {
-    padding: 30px;
-}
-.pad40 {
-    padding: 40px;
-}
-.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
-    margin-top: -6px;
-}
-/*  *************************** /PADDINGS ****************************/
+
 /*  *************************** POZITZIONIROVANIE ****************************/
 .postn-reltv {
     position: relative;
@@ -728,9 +704,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .standard-left-box+.standard-right-box {
     margin-left: 15px;
 }
-.standard-right-box {
-    width:629px;
-}
 .standard-full-width-box {
     width:100%;
 }
@@ -885,34 +858,49 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /REZULTATY ***************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary {
+.table-primary, .items, .grid-view table.items {
+    background: none;
+    border: none;
     width:100%;
 }
-.table-primary th {
+.table-primary th, .items th, .grid-view table.items th {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
     color:#fff;
     font-weight: normal;
-    padding: 7px 6px;
     text-align: left;
     vertical-align: middle;
 }
-.table-primary th:first-child {
+.table-primary th:first-child, .items th:first-child {
     border-radius: 5px 0px 0px;
 }
-.table-primary th:last-child {
+.table-primary th:last-child, .items th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-.table-primary td {
+.table-primary td, .items td, .grid-view table.items td {
     background-color: #fdfbc6;
+    border: none;
+}
+.table-primary .even td, .items .even td, .grid-view table.items tr.even td {
+    background: #F8F8F8;
+}
+.table-primary th, .items th, .table-primary td, .items td,
+.grid-view table.items th, .grid-view table.items td {
     padding: 7px 6px;
 }
-.table-primary tr:last-child td:first-child {
+.table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
     border-radius: 0px 0px 0px 5px;
 }
-.table-primary tr:last-child td:last-child {
+.table-primary tr:last-child td:last-child, .items tr:last-child td:last-child {
     border-radius: 0px 0px 5px;
+}
+.table-primary th a, .items th a, .grid-view table.items th a {
+    background: url("../img/arrow-down.png") no-repeat right 56%;
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+    display: block;
+    padding-right: 12px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 .highlight-title {

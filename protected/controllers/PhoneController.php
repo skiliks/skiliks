@@ -20,11 +20,13 @@ class PhoneController extends AjaxController{
     }
     
     /**
+     * Похоже никогда не вызывается
+     *
      * @return HttpResponce
      * 
      * @throws Exception
      */
-    public function actionIgnore() 
+    /*public function actionIgnore()
     {
         try {     
                 
@@ -46,7 +48,7 @@ class PhoneController extends AjaxController{
             $this->returnErrorMessage($e->getMessage());
         }
         
-    }
+    }*/
     
     /**
      * Вызов телефона
