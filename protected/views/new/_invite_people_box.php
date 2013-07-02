@@ -11,7 +11,8 @@
         <?php echo $form->error($invite, 'invitations'); // You have no available invites! ?>
     </span>
 
-    <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>"><?php echo $form->labelEx($invite, 'full_name'); ?><?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?><?php echo $form->error($invite, 'firstname'); ?><?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?><?php echo $form->error($invite, 'lastname'); ?>
+    <div class="row <?php echo ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>"><?php echo $form->labelEx($invite, 'full_name'); ?>
+        <?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?><?php echo $form->error($invite, 'firstname'); ?><?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?><?php echo $form->error($invite, 'lastname'); ?>
     </div>
 
     <div class="row <?php echo ($form->error($invite, 'email')) ? 'error' : ''; ?>">
