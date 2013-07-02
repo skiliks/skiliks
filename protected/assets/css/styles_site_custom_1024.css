@@ -128,7 +128,7 @@
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
-    width:188px;
+    width:184px;
 }
 .registrationform input[type=password] {
     width:138px;
