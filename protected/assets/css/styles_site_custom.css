@@ -160,6 +160,17 @@
 #simulations-counter-box div+div {
     padding-top: 6px;
 }
+#corporate-invitations-list-box #yw0_c0 {
+    width: 25px;
+}
+#corporate-invitations-list-box #yw0_c1 {
+    max-width: 134px;
+    width: 134px;
+}
+#corporate-invitations-list-box #yw0_c2 {
+    max-width: 76px;
+    width: 76px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
