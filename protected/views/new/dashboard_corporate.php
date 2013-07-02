@@ -50,7 +50,7 @@
 
         <?php $this->endWidget(); ?>
     </div>
-    </div>
+
 
 
 <script type="text/javascript">
@@ -75,6 +75,7 @@
     });
 </script>
 <?php endif; ?>
+</div>
 
 <?php if ($display_results_for): ?>
     <script type="text/javascript">
