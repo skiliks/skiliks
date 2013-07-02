@@ -966,7 +966,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-position: right top;
 }
 .topline {
-    background: #a5a385;
+    background: #ff0000; /* a5a385 */
     display: none;
     position: absolute;
     height: 3px;
@@ -990,6 +990,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width: 598px;
     width: 100%;
     z-index: 5;
+}
+#private-invitations-list-box .grid-view tr td:first-child,
+#private-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(3),
+#corporate-invitations-list-box .grid-view tr td:nth-child(4){
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 /*  *************************** /KABINET ***************************/
 .highlight-title {

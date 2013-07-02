@@ -164,12 +164,22 @@
     width: 25px;
 }
 #corporate-invitations-list-box #yw0_c1 {
-    max-width: 134px;
-    width: 134px;
+    max-width: 135px;
+    width: 135px;
 }
 #corporate-invitations-list-box #yw0_c2 {
-    max-width: 76px;
-    width: 76px;
+    max-width: 77px;
+    width: 77px;
+}
+#corporate-invitations-list-box #yw0_c3 {
+    max-width: 81px;
+    width: 81px;
+}
+#corporate-invitations-list-box #yw0_c4 {
+    width: 117px;
+}
+#corporate-invitations-list-box #yw0_c5 {
+    width: 115px;
 }
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
