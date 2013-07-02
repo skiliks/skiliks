@@ -173,7 +173,7 @@ class AjaxController extends CController
      *          'error_message' => string,  // message that will be displayed for user in error ('result' => 0) case
      *      )
      */
-    public function processRequest()
+    /*public function processRequest()
     {
         try {
             $apiMethod = $this->initApiMethodObject();
@@ -204,14 +204,14 @@ class AjaxController extends CController
                 'result' => self::STATUS_ERROR,
             ));
         }
-    }
+    }*/
     
     /**
      * @return mixed object, instance of one from components/ApiMethods classes
      * 
      * @throws FrontendNotificationException
      */
-    public function initApiMethodObject()
+    /*public function initApiMethodObject()
     {
         $className = sprintf (
             'api%s%s',
@@ -226,9 +226,9 @@ class AjaxController extends CController
                 'Can`t find class %s to init API responce.',
                 $className
             ));
-            throw new FrontendNotificationException('Invalid API method name.');
+            throw new Exception('Invalid API method name.');
         }
-    }
+    }*/
     
     public function getAssetsUrl()
     {
