@@ -1002,6 +1002,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-overflow: clip;
     white-space: nowrap;
 }
+#corporate-invitations-list-box .grid-view .items th:nth-child(2),
+#corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
+    padding-left: 0px;
+}
 /*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
