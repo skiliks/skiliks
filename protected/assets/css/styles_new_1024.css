@@ -96,11 +96,14 @@ h3 {
 .container-borders-3 .grid1, .sign-block, .standard-left-box {
     width:240px;
 }
+.container-borders-3 .grid2 {
+    width:532px;
+}
 .container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
     margin-left: 16px;
 }
 .container-borders-3 .grid1+.grid2 {
-    margin-left: 26px;
+    margin-left: 18px;
 }
 .container-3 .grid1 {
     width:238px;
