@@ -163,10 +163,6 @@
 #corporate-invitations-list-box #yw0_c0 {
     width: 25px;
 }
-#corporate-invitations-list-box .items th:first-child {
-    background-image: none;
-    padding-right: 0px;
-}
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
     max-width: 135px;
