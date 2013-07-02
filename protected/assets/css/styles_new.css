@@ -890,6 +890,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary, .items, .grid-view table.items {
     background: none;
     border: none;
+    font-size: 12px;
     width:100%;
 }
 .table-primary th, .items th, .grid-view table.items th {
