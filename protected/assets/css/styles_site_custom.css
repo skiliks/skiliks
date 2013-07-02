@@ -140,6 +140,9 @@
 .grid-view .summary {
     margin: 0px;
 }
+#invite-form .pad-xsize {
+    padding: 20px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
