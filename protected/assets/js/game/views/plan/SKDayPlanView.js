@@ -71,7 +71,7 @@ define([
                 scroll:true,
                 snap:'td.planner-book-timetable-event-fl',
                 snapMode:'inner',
-                snapTolerance:11,
+                snapTolerance:12,
                 stack:".planner-book",
                 start:function () {
                     me.showDayPlanSlot($(this));
