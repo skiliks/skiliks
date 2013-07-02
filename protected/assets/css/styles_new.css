@@ -1030,7 +1030,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ratebg {
     background: url("../img/ratestars3.png") no-repeat left 0px;
     display: table-cell;
-    padding-right:3px;
+    padding-right:4px;
 }
 .rating {
     background: url("../img/ratestars3.png") no-repeat 0px -19px;

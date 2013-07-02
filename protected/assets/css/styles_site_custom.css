@@ -157,8 +157,8 @@
     font-size: 19px;
     margin-left: 10px;
 }
-#simulations-counter-box div+div {
-    padding-top: 6px;
+.invites-limit {
+    padding-bottom: 6px;
 }
 #corporate-invitations-list-box #yw0_c0 {
     width: 25px;
