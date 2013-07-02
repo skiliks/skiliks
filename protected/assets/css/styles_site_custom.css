@@ -167,7 +167,8 @@
     max-width: 135px;
     width: 135px;
 }
-#corporate-invitations-list-box #yw0_c2 {
+#corporate-invitations-list-box #yw0_c2,
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
     max-width: 77px;
     width: 77px;
 }
