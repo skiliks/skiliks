@@ -1,13 +1,11 @@
 <div class="container-borders-3">
     <h1 class="page-header"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
-    <div class="grid1">
+    <div id="invite-people-box" class="grid1 block-border bg-rich-blue border-large pull-left">
     <!-- invite-people-box -->
-        <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
-            <?php $this->renderPartial('//new/_invite_people_box', [
-                'invite'    => $invite,
-                'vacancies' => $vacancies,
-            ]) ?>
-        </div>
+     <?php $this->renderPartial('//new/_invite_people_box', [
+        'invite'    => $invite,
+        'vacancies' => $vacancies,
+     ]) ?>
 
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Сообщение">
