@@ -143,9 +143,6 @@
 span.required, .form-simple span.required {
     display: none;
 }
-#invite-people-box .pad-xsize {
-    padding: 20px;
-}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {

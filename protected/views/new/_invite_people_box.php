@@ -1,4 +1,4 @@
-<div class="pad-xsize">
+<div class="pad-large">
 
     <h3>Отправить приглашение</h3>
 
@@ -20,7 +20,7 @@
 
     <div class="row wide <?php echo (0 == count($vacancies) ? 'no-border' : '') ?> <?php echo ($form->error($invite, 'vacancy_id')) ? 'error' : ''; ?>v">
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?><?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?><?php echo $form->error($invite, 'vacancy_id'); ?>
-        <span id="corporate-dashboard-add-vacancy"></span>
+        <span id="corporate-dashboard-add-vacancy" class="btn-add"></span>
     </div>
 
     <div class="row buttons">

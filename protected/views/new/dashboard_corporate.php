@@ -87,7 +87,9 @@
 
         <!-- simulations-counter-box -->
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
-            <?php $this->renderPartial('//new/_simulations_counter_box', []) ?>
+            <div class="pad-large">
+                <?php $this->renderPartial('//new/_simulations_counter_box', []) ?>
+            </div>
         </div>
 
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
