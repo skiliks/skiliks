@@ -275,31 +275,23 @@ define([
         setupDroppable:function () {
             var me = this;
             me.shift = 0;
-
-            var td_slot = this.$('.planner-book-today, .planner-book-tomorrow');
+            
+            var td_slot = this.$('.planner-book-today .day-plan-td-slot, .planner-book-tomorrow  .day-plan-td-slot');
             td_slot.droppable("destroy");
             td_slot.droppable({
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 11.5),
-                        tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
-                        task_id = ui.draggable.attr('data-task-id'),
-                        prev_cell = ui.draggable.parents('td'),
-                        time = tdCell.attr('data-hour') + ':' + tdCell.attr('data-minute'),
-                        day = $(this).attr('data-day-id'),
-                        duration = ui.draggable.attr('data-task-duration');
-
-                    if (false === SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
-                        return false;
-                    }
-
+                    // Reverting old element location
+                    var task_id = ui.draggable.attr('data-task-id');
+                    var prev_cell = ui.draggable.parents('td');
+                    
                     var oldTask = {};
                     oldTask = ui.draggable.find('.title').text() + '';
-
+                    
                     if (prev_cell.length) {
                         oldTask = SKApp.simulation.dayplan_tasks.get(task_id).get('title') + '';
-
+                         
                         SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                     }
 
@@ -312,10 +304,10 @@ define([
                     // Appending to new location
                     SKApp.simulation.dayplan_tasks.create({
                         title:    oldTask,
-                        date:     time,
+                        date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
                         task_id:  task_id,
-                        duration: duration,
-                        day:      day
+                        duration: ui.draggable.attr('data-task-duration'),
+                        day:      $(this).parents('div[data-day-id]').attr('data-day-id')
                     });
 
                     // clean up highlighting, it is duplicate but it nessesary to place it here too
@@ -325,8 +317,7 @@ define([
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                     // go last tr under dragged task {
-                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 11.5);
-                    var currentRow = $(event.target).find('tr:eq(' + index + ')');
+                    var currentRow = $(this).parents('tr');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
                         currentRow = currentRow.next();
@@ -340,8 +331,23 @@ define([
                     $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')
                         .removeClass('drop-hover');
 
-                    $(this).find('tr').addClass('drop-hover');
+                    $(this).parent().parent().parent().parent()
+                        .find('tr').addClass('drop-hover');
                     // highlight time pieces }
+                },
+                /**
+                 * Returns true if draggable can be dropped on the element
+                 *
+                 * @param draggable
+                 * @return {Boolean}
+                 */
+                accept:function (draggable) {
+                    var duration = parseInt(draggable.attr('data-task-duration'), 10);
+                    var day = $(this).parents('div[data-day-id]').attr('data-day-id');
+                    var parent = $(this).parent();
+                    var time = parent.attr('data-hour') + ':' + parent.attr('data-minute');
+
+                    return SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }
             });
             var after_vacation_slot = this.$('.planner-book-afterv-table');
