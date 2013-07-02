@@ -974,6 +974,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width: 20px;
     z-index: 30;
 }
+.selected-sk .topline {
+    display: inline-block;
+}
 .grid-view {
     position: relative;
 }
