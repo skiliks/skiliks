@@ -702,6 +702,8 @@ define([
                      */
                     me.trigger('tick');
                 }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                console.log(me.events_timer);
+                console.log(SKApp.simulation.events_timer);
             },
 
             _stopTimer: function() {
