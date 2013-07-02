@@ -1031,7 +1031,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: url("../img/ratestars2.png") no-repeat left top;
 }
 .rating {
-    background: url("../img/ratestars.png") no-repeat 0px -17px;
+    background: url("../img/ratestars2.png") no-repeat 0px -14px;
+}
+.prcentval {
+    margin-top: -3px;
 }
 .grid-view .ratebg {
     width: 81px;
