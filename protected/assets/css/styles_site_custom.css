@@ -111,7 +111,7 @@
 }
 /*  *************************** /SIGN IN ***************************/
 /*  ************************ KABINET ************************/
-#invite-form .sbHolder {
+#invite-form .sbHolder, #invite-form select {
     width:151px;
 }
 #invite-form .btn-primary {
@@ -140,6 +140,55 @@
 .grid-view .summary {
     margin: 0px;
 }
+.small-block {
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 18px;
+    padding: 5px 7px 4px;
+}
+#simulations-counter-box {
+    margin-bottom:33px;
+    margin-top:36px;
+}
+#simulations-counter-box .font-large {
+    font-size: 17px;
+}
+#simulations-counter-box .small-block {
+    font-size: 19px;
+    margin-left: 10px;
+}
+#simulations-counter-box div+div {
+    padding-top: 6px;
+}
+#corporate-invitations-list-box #yw0_c0 {
+    width: 25px;
+}
+#corporate-invitations-list-box #yw0_c1 a {
+    margin-left: -20px;
+    position: absolute;
+    top: 12px;
+    width: 142px;
+}
+#corporate-invitations-list-box #yw0_c1,
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 135px;
+    width: 135px;
+}
+#corporate-invitations-list-box #yw0_c2,
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+    max-width: 77px;
+    width: 77px;
+}
+#corporate-invitations-list-box #yw0_c3 {
+    max-width: 81px;
+    width: 81px;
+}
+#corporate-invitations-list-box #yw0_c4 {
+    width: 117px;
+}
+#corporate-invitations-list-box #yw0_c5 {
+    width: 115px;
+}
 /*  ************************ /KABINET ************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
@@ -149,6 +198,7 @@
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:24px;
+    font-family:"ProximaNova-Regular";
     font-size: 16px;
     padding: 14px 10px 14px 19px;
 }
@@ -171,12 +221,3 @@
     padding-top: 15px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-/* ************************ Pager ************************ */
-.yiiPager a {
-    font-size: 16px;
-}
-.yiiPager .previous a, .yiiPager .next a {
-    font-size: 14px;
-    padding: 7px 10px 7px 9px;
-}
-/* ************************ /Pager ************************ */

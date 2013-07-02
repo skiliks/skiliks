@@ -233,22 +233,51 @@ ul li:last-child {
     text-align: center;
 }
 .yiiPager .selected a, .pager .yiiPager .selected a {
+    background: none;
+    border:none;
     color: #146672;
 }
-.yiiPager .previous a, .yiiPager .next a, .pager .yiiPager .previous a, .pager .yiiPager .next a,
+.yiiPager .previous a, .yiiPager .next a {
+    margin: 0px 11.5px;
+}
+.yiiPager .previous a, .yiiPager .next a,
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
 .pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
 .pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
     font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
-    margin: 0px 11.5px;
 }
 .yiiPager .previous a, .pager .yiiPager .previous a {
     margin-right: 14px;
 }
-.yiiPager .previous a:hover, .yiiPager .next a:hover, .pager .yiiPager .previous a:hover, , .pager .yiiPager .next a:hover {
-    background: #146672;
+.yiiPager a, .pager .yiiPager a {
+    font-size: 16px;
 }
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    font-size: 14px;
+    margin: 0px 14.5px;
+}
+.yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
+    border:none;
+    padding:0px;
+}
+.yiiPager a:hover, .pager .yiiPager a:hover {
+    border:none;
+}
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
+    font-size: 14px;
+    padding: 7px 10px 7px 9px;
+}
+.yiiPager .previous a:hover, .yiiPager .next a:hover,
+.pager .yiiPager .previous a:hover, .pager .yiiPager .next a:hover {
+    background: #146672;
+    border:none;
+}
+
 /* ************************ /Pager ************************ */
 
 /*  ************************ Menu ************************  */
@@ -704,9 +733,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .standard-left-box+.standard-right-box {
     margin-left: 15px;
 }
-.standard-right-box {
-    width:629px;
-}
 .standard-full-width-box {
     width:100%;
 }
@@ -888,8 +914,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary .even td, .items .even td, .grid-view table.items tr.even td {
     background: #F8F8F8;
 }
-.table-primary th, .items th, .table-primary td, .items td,
-.grid-view table.items th, .grid-view table.items td {
+.table-primary th, .items th, .grid-view table.items th{
+    font-size: 12px;
+    padding: 12px 6px;
+}
+.table-primary td, .items td, .grid-view table.items td {
+    font-size: 12px;
     padding: 7px 6px;
 }
 .table-primary tr:last-child td:first-child, .items tr:last-child td:first-child {
@@ -906,6 +936,89 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding-right: 12px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** KABINET ***************************/
+.invites-smallmenu-switcher {
+    background: url("../img/menugear.png") no-repeat left top;
+    color: #232323;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    height: 24px;
+    width: 22px;
+}
+.invites-smallmenu-item {
+    background: #a5a385; /* Old browsers */
+    background: -webkit-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom,  #a5a385 0%,#8a896c 100%); /* W3C */
+    border: 1px solid #717059;
+    border-radius: 0px 7px 7px;
+    display: none;
+    margin: -4px 0 0 0px;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 10;
+}
+.invites-smallmenu-item a {
+    color: #fff;
+    display: block !important;
+    font-family: "ProximaNova-Regular";
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+    z-index: 20;
+}
+.selected-sk .invites-smallmenu-switcher {
+    background-position: right top;
+}
+.topline {
+    background: #a5a385;
+    display: none;
+    position: absolute;
+    height: 4px;
+    margin: 22px 0px 0px -21px;
+    width: 20px;
+    z-index: 30;
+}
+.selected-sk .topline {
+    display: inline-block;
+}
+.grid-view {
+    position: relative;
+}
+.grid-view .pager {
+    bottom: -75px;
+    height: 40px;
+    margin: 0px;
+    text-align: center;
+    padding-top: 25px;
+    position: absolute;
+    width: 598px;
+    width: 100%;
+    z-index: 5;
+}
+#private-invitations-list-box .grid-view tr td:first-child,
+#private-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(3),
+#corporate-invitations-list-box .grid-view tr td:nth-child(4){
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+#corporate-invitations-list-box .grid-view .items th:nth-child(2),
+#corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
+    padding-left: 0px;
+}
+#corporate-invitations-list-box .items th:first-child {
+    background-image: none;
+    padding-right: 0px;
+}
+#corporate-invitations-list-box #yw0_c1 {
+    position: relative;
+}
+.controller-static-dashboard .grid-view .items td {
+    vertical-align: middle;
+}
+/*  *************************** /KABINET ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
@@ -915,4 +1028,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .highlight-title+.pad40 {
     padding-top: 24px;
+}
+span.required, .form-simple span.required {
+    display: none;
 }
