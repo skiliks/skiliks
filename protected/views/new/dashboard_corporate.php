@@ -91,7 +91,7 @@
             </div>
         </div>
 
-        <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
+        <a href="#" class="btn btn-primary feedback">Обратная связь</a>
     </div>
     <div id="corporate-invitations-list-box" class="block-border grid2 border-primary dashboard">
         <!-- corporate-invitations-list-box -->
