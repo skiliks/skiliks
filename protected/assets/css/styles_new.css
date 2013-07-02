@@ -966,6 +966,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-decoration: none;
     z-index: 20;
 }
+.invites-smallmenu-item a:hover {
+    color: #000;
+}
 .selected-sk .invites-smallmenu-switcher {
     background-position: right top;
 }
@@ -976,7 +979,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     height: 4px;
     margin: 22px 0px 0px -21px;
     width: 20px;
-    z-index: 30;
+    z-index: 70;
 }
 .selected-sk .topline {
     display: inline-block;
@@ -1017,6 +1020,16 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .controller-static-dashboard .grid-view .items td {
     vertical-align: middle;
+}
+.block-stars {
+    border:1px solid red;
+    display: inline-block;
+    font-size: 11px;
+    height: 14px;
+    line-height: 14px;
+}
+.ratebg {
+    background: url("../img/ratestars2.png") no-repeat left top;
 }
 /*  *************************** /KABINET ***************************/
 .highlight-title {
