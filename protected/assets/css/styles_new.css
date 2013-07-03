@@ -162,10 +162,10 @@ ul li:last-child {
     text-decoration: none;
     white-space: nowrap;
 }
-.btn-green {
+.btn-green, .add-vacancy-popup input[type="submit"] {
     background-color: #146672;
 }
-.btn-green:hover {
+.btn-green:hover, .add-vacancy-popup input[type="submit"]:hover {
     background-color: #BD2929;
 }
 .btn-white {
@@ -736,7 +736,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
 }
+.popup-primary .ui-icon-closethick {
+    display: none;
+}
 .popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
+    border: none;
     padding: 0;
     height: 0;
 }
@@ -749,6 +753,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .popup-primary label, .popup-primary p {
     color:#0e4750;
+}
+.add-vacancy-popup h1 {
+    font-family: "ProximaNova-Bold";
+    font-size: 28px;
+    text-align: left;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
 /*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
