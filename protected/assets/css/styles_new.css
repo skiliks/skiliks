@@ -708,7 +708,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     width: 27px;
     height: 27px;
     position: absolute;
-    top: -20px;
+    top: -23px;
     right: -20px;
     display: block;
     margin: 0;
@@ -1034,3 +1034,32 @@ input.error {
     padding-top: 24px;
 }
 
+/*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup label {
+    color: #146672;
+    display: table-cell;
+    font-size: 14px;
+    height: 30px;
+    margin: 0px;
+    vertical-align: middle;
+    width: 145px;
+}
+.add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
+    left: 150px;
+    position: absolute;
+    top: 0px;
+}
+.add-vacancy-popup .form-vacancy .sbHolder {
+    top: 5px;
+}
+.add-vacancy-popup .sbHolder {
+    width: 380px;
+}
+.add-vacancy-popup .errorMessage {
+    top: -9px;
+    left: 155px;
+}
+.add-vacancy-popup#Vacancy_label_em_ {
+    top: -13px;
+}
+/*  *************************** /ADD VACANCY POPUP ***************************/
