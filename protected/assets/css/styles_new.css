@@ -1040,7 +1040,7 @@ input.error {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
 }
 .add-vacancy-popup .ui-widget-content {
-    padding-left:0px;
+    padding-left:8px;
 }
 .add-vacancy-popup label {
     color: #146672;
