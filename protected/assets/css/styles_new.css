@@ -1105,6 +1105,16 @@ input.error {
     min-width: 501px;
     width: 501px;
 }
+.block-form {
+    background: #e1f1f4;
+    border: 1px solid #374f52;
+    border-radius: 5px;
+    -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    padding: 20px 10px;
+    width: 523px;
+}
 .block-form p {
     margin-bottom: 20px;
 }
