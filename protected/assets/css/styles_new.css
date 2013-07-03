@@ -1117,6 +1117,9 @@ input.error {
 .block-form p {
     margin-bottom: 20px;
 }
+.block-form p:last-child {
+    margin-bottom: 0px;
+}
 .cabmessage .ui-widget-content {
     float:left;
 }
