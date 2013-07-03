@@ -279,19 +279,4 @@
     font-size: 24px;
     margin-top: 20px;
 }
-.feedback .form-submit-button {
-    /*background-image: url("../img/btn-circle-min.png");
-    background-position: 16px 50%;
-    font-size: 16px;*/
-    height: 44px;
-    line-height: 44px;
-    right:0px;
-    /*margin-top: -60px;
-    padding-left: 34px;
-    right: 17px;*/
-    width: 140px;
-}
-/*.feedback .form-all {
-    width:670px !important;
-}*/
 /*  *************************** /FEEDBACK ***************************/
