@@ -88,7 +88,7 @@
     width: 127px;
 }
 #invite-form .btn-add {
-    bottom: 2px;
+    bottom: 1px;
     position: absolute;
     right: 0px;
 }
@@ -172,6 +172,7 @@
     padding: 2px 5px;
 }
 .form-simple label{
+    font-size: 11px;
     min-width: 35px;
 }
 .form-large input[type=text], .form-large input[type=password] {
