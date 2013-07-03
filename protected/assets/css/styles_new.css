@@ -109,6 +109,9 @@ h1, h2, h3, h4 {
 .font-blue-dark {
     color:#146672;
 }
+.font-green-dark {
+    color: #0e4750;
+}
 .font-brown {
     color:#555545;
 }
@@ -1083,6 +1086,10 @@ input.error {
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.cabmessage {
+    background: url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border: none;
+}
 #Invite_message {
     height: 46px;
     max-height: 46px;
@@ -1115,6 +1122,7 @@ input.error {
     width: 523px;
 }
 .block-form p {
+    font-size: 14px;
     margin-bottom: 20px;
 }
 .block-form p:last-child {
@@ -1122,8 +1130,7 @@ input.error {
 }
 .cabmessage .ui-widget-content {
     float:left;
-}
-.cabmessage .ui-widget-content {
+    padding-bottom: 0px;
     padding-top: 20px;
 }
 .cabmessage input, .cabmessage select,
