@@ -103,7 +103,7 @@
     border-radius: 3px;
     display: inline-block;
     min-width: 18px;
-    padding: 5px 4px 4px;
+    padding: 5px 3px 4px;
 }
 #simulations-counter-box {
     margin-bottom:23px;
@@ -166,7 +166,7 @@
     padding: 2px 5px;
 }
 .form-simple label{
-    min-width: 54px;
+    min-width: 35px;
 }
 .form-large input[type=text], .form-large input[type=password] {
     height:18px;

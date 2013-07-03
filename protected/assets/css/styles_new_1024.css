@@ -126,6 +126,9 @@ h3 {
 .standard-right-box {
     width:498px;
 }
+.container-borders-3 .grid1 .pad-large {
+    padding:10px 8px;
+}
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
 .menu-site a {
