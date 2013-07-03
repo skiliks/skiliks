@@ -752,7 +752,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
     height: 0;
 }
-.popup-primary-title, .popup-primary h1 {
+.popup-primary-title, .popup-primary h1, .feedback-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     margin-top: -8px;
@@ -1143,48 +1143,11 @@ input.error {
 .cabmessage .ui-widget-content {
     height: 426px !important;
     width: 560px !important;
-    /*max-width: 560px !important;
-min-width: 560px !important;*/
 }
-/*
-#send-invite-message-form label {
-    color:#0e4750;
-    display: block;
-    float: left;
-    font: 14px "ProximaNova-Bold";
-    padding: 8px 10px 0px 0px;
-    width:70px;
-}
-.cabmessage input, .cabmessage select,
-.cabmessage textarea, .cabmessage button {
-    font: 14px "ProximaNova-Regular";
-}
-.cabmessage textarea  {
-    height: 120px;
-}
-.cabmessage textarea, #Invite_fullname {
-    margin-top:-5px;
-    max-width: 420px;
-    width:420px;
-}
-.cabmessage .row a, .cabmessage .row a:visited, .cabmessage .row a:link {
-    color: #fff !important;
-}
-#Invite_signature {
-    width:210px;
-}
-.cabmessage .row {
-    padding-bottom: 18px;
-}
-.cabmessage input[type="submit"] {
-    background-image: url("../img/icon-arrow.png");
-    border: none;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
-}
-.cabmessage input[type="submit"] {
-    margin-left: 80px;
-}
-.cabmessage input[type="submit"]:hover {
-    background: url("../img/arrowleft.png") no-repeat 12px 11px #BD2929;
-}*/
 /*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap {
+    background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+}
+
+/*  *************************** /FEEDBACK ***************************/
