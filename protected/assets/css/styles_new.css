@@ -1137,6 +1137,12 @@ input.error {
 .cabmessage textarea, .cabmessage button {
     font: 14px "ProximaNova-Regular";
 }
+.cabmessage .ui-widget-content {
+    height: 408px !important;
+    max-width: 560px !important;
+    min-width: 560px !important;
+    width: 560px !important;
+}
 /*
 #send-invite-message-form label {
     color:#0e4750;
