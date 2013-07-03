@@ -17,7 +17,7 @@ define(['game/models/SKCharacter'], function (SKCharacter) {
         sync: function (method, collection, options) {
             if ('read' === method) {
                 SKApp.server.api('character/list', {}, function (data) {
-                    options.success(data);
+                    options.success(data.data);
                 });
             }
         },
