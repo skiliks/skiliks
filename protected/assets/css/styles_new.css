@@ -1022,7 +1022,7 @@ span.required, .form-simple span.required {
 
 /* ************************ /Pager ************************ */
 /*  *************************** ERRORS ***************************/
-input.error, textarea.error, .error textarea, .feedback .error textarea {
+input.error, textarea.error, .error textarea, .feedback .form-section .error textarea {
     border: 2px solid #bd2929;
 }
 .errorMessage {
