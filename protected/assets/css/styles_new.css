@@ -757,10 +757,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary label, .popup-primary p {
     color:#0e4750;
 }
-.title-bold h1, .cabmessage .ui-dialog-title {
+.title-bold h1, .title-in-ui .ui-dialog-title {
     font-family: "ProximaNova-Bold";
     font-size: 28px;
     text-align: left;
+}
+.title-in-ui .ui-dialog-title {
+    color: #0e4750;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
 /*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
@@ -1118,7 +1121,9 @@ input.error {
 .block-form p {
     margin-bottom: 20px;
 }
-
+.cabmessage .ui-widget-content {
+    float:left;
+}
 
 /*
 #send-invite-message-form label {
