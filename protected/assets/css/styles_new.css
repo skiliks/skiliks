@@ -1156,5 +1156,8 @@ input.error, textarea.error, .error textarea {
 .feedbackwrap {
     background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
 }
-
+.feedback .email-field {
+    font: 16px "ProximaNova-Regular";
+    text-indent: 10px;
+}
 /*  *************************** /FEEDBACK ***************************/
