@@ -85,7 +85,7 @@ h3 {
     background-size: 7px;
     height: 18px;
     line-height: 18px;
-    width: 6px;
+    width: 18px;
 }
 /* ************************ /Buttons ************************ */
 /*  *************************** GRID ***************************/
@@ -187,7 +187,7 @@ h3 {
 /*  ************************ /SITE ************************/
 /*  ************************ SELECT ************************/
 .sbHolder {
-    height: 23px;
+    height: 17px;
     font-size: 14px;
     min-width: 90px;
 }
@@ -197,12 +197,12 @@ h3 {
     text-indent: 4px;
 }
 .sbToggle {
-    background: url("../img/bg-select-toggle.png") no-repeat 0 0;
-    height: 23px;
-    width: 19px;
+    background: url("../img/bg-select-toggle-min.png") no-repeat 0 0;
+    height: 17px;
+    width: 15px;
 }
 .sbToggleOpen {
-    height: 23px;
+    height: 17px;
 }
 .sbOptions .sbSub {
     padding-left: 17px;
