@@ -717,6 +717,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
     background-position: 0 100%;
+    border: none;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
 .popup-site {
@@ -735,6 +736,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /* goluboy popup tipa feedback ili prichiny otkaza */
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
+    overflow: visible;
 }
 .popup-primary .ui-widget-header .ui-icon {
     display: none;
