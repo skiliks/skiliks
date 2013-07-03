@@ -49,8 +49,8 @@ define([
         {
             isDisplaySettingsButton:true,
             dimensions: {
-                maxWidth: 1100,
-                maxHeight: 700
+                /*maxWidth: 1100,
+                maxHeight: 700*/
             },
             mailClient: undefined,
 
