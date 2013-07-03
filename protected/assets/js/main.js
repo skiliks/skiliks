@@ -266,7 +266,7 @@
         $('#corporate-dashboard-add-vacancy').click(function(event) {
             event.preventDefault();
             $(".form-vacancy").dialog({
-                dialogClass: 'add-vacancy-popup popup-primary popup-site title-bold',
+                dialogClass: 'add-vacancy-popup popup-primary popup-site title-bold submit-primry',
                 closeOnEscape: true,
                 minHeight: 350,
                 modal: true,

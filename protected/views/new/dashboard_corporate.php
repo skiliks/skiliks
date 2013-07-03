@@ -70,7 +70,7 @@
             open: function( event, ui ) { Cufon.refresh(); }
         });
 
-        $( ".message_window").parent().addClass('popup-primary popup-site title-bold cabmessage');
+        $( ".message_window").parent().addClass('popup-primary popup-site title-in-ui submit-primry cabmessage');
         $( ".message_window").dialog('open');
     });
 </script>
