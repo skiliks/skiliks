@@ -74,7 +74,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->addTheme("xpath=(//*[contains(text(), 'Квартальный план')])");
-        $this->addAttach("xpath=(//*[contains(text(), 'Квартальный план_4 кв_2013')])");
+        $this->addAttach("Квартальный план_4 кв_2013");
         $this->optimal_click("css=.SEND_EMAIL");
 
         // MS42
@@ -282,7 +282,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->addTheme("xpath=(//*[contains(text(), '$theme')])");
         if ($attachment!="")
         {
-            $this->addAttach("xpath=(//*[contains(text(), '$attachment')])");
+            $this->addAttach($attachment);
         }
         $this->optimal_click("css=.SEND_EMAIL");
     }
