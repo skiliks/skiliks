@@ -1139,9 +1139,9 @@ input.error {
 }
 .cabmessage .ui-widget-content {
     height: 426px !important;
-    max-width: 560px !important;
-    min-width: 560px !important;
     width: 560px !important;
+    /*max-width: 560px !important;
+min-width: 560px !important;*/
 }
 /*
 #send-invite-message-form label {
