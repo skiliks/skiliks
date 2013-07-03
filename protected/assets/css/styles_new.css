@@ -168,7 +168,8 @@ ul li:last-child {
 .btn-green, .add-vacancy-popup input[type="submit"] {
     background-color: #146672;
 }
-.btn-green:hover, .title-in-ui input[type="submit"]:hover {
+.btn-green:hover, .title-in-ui input[type="submit"]:hover,
+.feedback input[type="submit"]:hover {
     background-color: #BD2929;
 }
 .btn-white {
@@ -1159,5 +1160,9 @@ input.error, textarea.error, .error textarea {
 .feedback .email-field {
     font: 16px "ProximaNova-Regular";
     text-indent: 10px;
+}
+.feedback .form-submit-button {
+    right: -16px;
+    width:180px;
 }
 /*  *************************** /FEEDBACK ***************************/
