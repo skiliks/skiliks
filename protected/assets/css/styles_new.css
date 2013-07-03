@@ -764,7 +764,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .title-in-ui .ui-dialog-title {
     color: #0e4750;
-    margin-bottom:30px;
+    margin-top:25px;
     margin-left:30px;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
