@@ -724,6 +724,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    padding:0px;
 }
 .popup-site .ui-widget-content {
     padding: 30px;
@@ -1035,6 +1036,9 @@ input.error {
 }
 
 /*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup {
+    background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+}
 .add-vacancy-popup label {
     color: #146672;
     display: table-cell;
