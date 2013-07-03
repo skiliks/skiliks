@@ -59,17 +59,21 @@
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tag-handler/jquery.taghandler.min.js"></script>
 
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tracekit.js"></script>
-    <?php if (Yii::app()->params['public']['useSentryForJsLog']) : ?>
-        <script type="text/javascript" src="<?= $assetsUrl; ?>/js/raven-0.7.1.js"></script>
-    <?php endif; ?>
+    <?php // track JS in sentry { ?>
+        <script type="text/javascript" src="<?= $assetsUrl; ?>/js/sentry/tracekit.js"></script>
+        <?php if (Yii::app()->params['public']['useSentryForJsLog']) : ?>
+            <script type="text/javascript" src="<?= $assetsUrl; ?>/js/sentry/raven.js"></script>
+        <?php endif; ?>
+    <?php // track JS in sentry { ?>
+
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
 
     <?php if (!YII_DEBUG): ?>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
+        <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
     <?php endif; ?>
+    
     <?php if (YII_DEBUG): ?>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
+        <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php endif ?>
 </head>
 <body class="body loading">
