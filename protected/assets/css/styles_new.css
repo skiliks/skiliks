@@ -757,7 +757,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary label, .popup-primary p {
     color:#0e4750;
 }
-.add-vacancy-popup h1 {
+.title-bold h1 {
     font-family: "ProximaNova-Bold";
     font-size: 28px;
     text-align: left;
