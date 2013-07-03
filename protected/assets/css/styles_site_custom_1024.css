@@ -70,7 +70,7 @@
     width:113px;
 }
 #invite-form .btn-primary {
-    margin-left: 66px;
+    margin-left: 57px;
 }
 #invite-people-box h3 {
     width:170px;
@@ -101,10 +101,6 @@
 #invite-form .sbSelector {
     width: 110px;
 }
-
-
-
-
 .small-block {
     border-radius: 3px;
     display: inline-block;
@@ -153,6 +149,16 @@
 }
 #corporate-invitations-list-box #yw0_c5 {
     width: 110px;
+}
+.ratebg {
+    background: url("../img/ratestarssmall.png") no-repeat left 0px;
+}
+.rating {
+    background: url("../img/ratestarssmall.png") no-repeat 0px -12px;
+    display: inline-block;
+}
+.grid-view .ratebg {
+    width: 68px;
 }
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
