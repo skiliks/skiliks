@@ -50,7 +50,13 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?> site-wrap" id="top">
         <header class="site-header grid-container">
-            <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
+            <h1><a href="./">
+                    <img id="header-main-logo"
+                         src="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
+                         data-src-big="<?php echo $assetsUrl?>/img/logo/logo-header-1024.png"
+                         data-src-small="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
+                         alt="Skiliks"/>
+                </a></h1>
             <nav class="menu-site menu-top" id="static-page-links">
                 <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
             </nav>
@@ -143,7 +149,13 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
             <div class="grid-container">
                 <div class="container-3 container">
                     <div class="grid1">
-                        <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/skiliks-footer.png" alt="Skiliks" title="Skiliks"/></a>
+                        <a href="/" class="brand-footer">
+                            <img id="footer-main-logo"
+                                 src="<?php echo $assetsUrl?>/img/logo/logo-footer.png"
+                                 data-src-big="<?php echo $assetsUrl?>/img/logo/logo-footer-1280.png"
+                                 data-src-small="<?php echo $assetsUrl?>/img/logo/logo-footer-1024.png"
+                                 alt="Skiliks" title="Skiliks"/>
+                        </a>
                     </div>
                     <div class="grid2">
                         <nav class="menu-site menu-botm" id="footer-menu">
@@ -178,7 +190,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         </footer>
     </div><!-- /site-wrap -->
 
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!! ********************************* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! *********************-->
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript"> Cufon.now(); </script>
     </body>

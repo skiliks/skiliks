@@ -14,7 +14,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
     public function actionCorporateNew()
     {
-        $this->layout = 'static';
+        $this->layout = 'site_standard';
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||
