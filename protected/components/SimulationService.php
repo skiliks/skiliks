@@ -581,12 +581,6 @@ class SimulationService
         // скопируем документы
         MyDocumentsService::init($simulation);
 
-        // @todo: increase speed
-        // Установим дефолтовые значения для mail client
-        $mailSettings = new MailSettings();
-        $mailSettings->sim_id = $simulation->id;
-        $mailSettings->insert();
-
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 

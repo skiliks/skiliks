@@ -65,6 +65,7 @@ define([
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
                 params.uniqueId = _.uniqueId('request');
+                params.time = SKApp.simulation.getGameTime();
                 return {
                     data:      params,
                     url:       url,

@@ -9,11 +9,12 @@ class MyDocumentsController extends SimulationBaseController
     public function actionGetList()
     {
         $simulation = $this->getSimulationEntity();
-        
-        $this->sendJSON(array(
-            'result' => 1,
+
+        $json = [
+            'result' => self::STATUS_SUCCESS,
             'data'   => MyDocumentsService::getDocumentsList($simulation),
-        ));
+        ];
+        $this->sendJSON($json);
     }
 
     /**
@@ -25,16 +26,17 @@ class MyDocumentsController extends SimulationBaseController
         
         $fileId = (int) Yii::app()->request->getParam('attachmentId');
         $file   = MyDocument::model()->findByPk($fileId);
-        
-        $this->sendJSON(array(
-            'result' => 1,
+
+        $json = [
+            'result' => self::STATUS_SUCCESS,
             'status' => MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file),
             'file'   => [
-                    'id'   => $file->id,
-                    'name' => $file->fileName,
-                    'mime' => $file->template->getMimeType(),
-                ] 
-        ));
+                'id'   => $file->id,
+                'name' => $file->fileName,
+                'mime' => $file->template->getMimeType(),
+            ]
+        ];
+        $this->sendJSON($json);
     }
 
     /**
@@ -71,18 +73,16 @@ class MyDocumentsController extends SimulationBaseController
             }
         }
 
-        $result = array(
-            'result'           => 1,
+        $result = [
+            'result'           => self::STATUS_SUCCESS,
             'filedId'          => $file->id,
             'excelDocumentUrl' => $zoho->getUrl(),
             'errors'           => $errors,
             'responses'        => $responses,
             'fn1'              => $file->template->srcFile,
             'fn2'              => $file->fileName,
-        );
-        $this->sendJSON(
-            $result
-        );
+        ];
+        $this->sendJSON($result);
     }
 
     /**
@@ -96,13 +96,13 @@ class MyDocumentsController extends SimulationBaseController
         /** @var MyDocument $file */
         $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
-
-        $this->sendJSON([
+        $json = [
             'status' => (int)($zoho->checkIsUserFileExists() && $file->is_was_saved),
             'IsUserFileExists' => $zoho->checkIsUserFileExists(),
             'is_was_saved' => $file->is_was_saved,
             'id' => $id,
             'id_2' => $file->id,
-        ]);
+        ];
+        $this->sendJSON($json);
     }
 }
