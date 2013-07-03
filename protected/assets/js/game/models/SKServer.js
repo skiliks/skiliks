@@ -38,7 +38,7 @@ define([
                 if ('timeout' === text_status || xhr.status === 0) {
                     console.log(xhr, text_status);
                     SKApp.isInternetConnectionBreakHappent = true;
-                    $('.time').addClass('paused');
+                    //$('.time').addClass('paused');
                     SKApp.simulation.startPause();
                 }
             },
