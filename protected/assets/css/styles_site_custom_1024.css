@@ -269,3 +269,17 @@
     margin: 0px 11.5px;
 }
 /* ************************ /Pager ************************ */
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap {
+    background-size: contain;
+    height: 350px !important;
+    width: 570px !important;
+}
+.feedback-dialog-title {
+    font-size: 24px;
+    margin-top: 20px;
+}
+.feedback .form-submit-button {
+    top: 26px;
+}
+/*  *************************** /FEEDBACK ***************************/
