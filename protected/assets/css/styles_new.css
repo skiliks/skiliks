@@ -1125,6 +1125,9 @@ input.error {
     font-size: 14px;
     margin-bottom: 20px;
 }
+.block-form a {
+    color: #2d7b91;
+}
 .block-form p:last-child {
     margin-bottom: 0px;
 }
