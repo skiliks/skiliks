@@ -7,7 +7,9 @@ class DayPlanController extends SimulationBaseController{
      */
     public function actionGet()
     {
-        $this->sendJSON(DayPlanService::get($this->getSimulationEntity()));
+        $result = DayPlanService::get($this->getSimulationEntity());
+        $result['result'] = self::STATUS_SUCCESS;
+        $this->sendJSON($result);
     }
     
     /** 
@@ -17,8 +19,9 @@ class DayPlanController extends SimulationBaseController{
         $minutes = (int)Yii::app()->request->getParam('minutes', false);
         
         DayPlanService::copyPlanToLog($this->getSimulationEntity(), $minutes);
-        
-        $this->sendJSON([ 'result' => 1 ]);
+
+        $result = [ 'result' => self::STATUS_SUCCESS ];
+        $this->sendJSON($result);
     }
     
     /**
@@ -26,50 +29,30 @@ class DayPlanController extends SimulationBaseController{
      */
     public function actionDelete()
     {
-        $this->sendJSON
-            (DayPlanService::delete(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('id')
-            )
-        );
+        $result = DayPlanService::delete($this->getSimulationEntity(), Yii::app()->request->getParam('id'));
+        $result['result'] = self::STATUS_SUCCESS;
+        $this->sendJSON($result);
     }
 
-    /**
-     * Не вижу вызовов этого метода в JS
-     */
-    /*public function actionUpdate()
-    {
-
-        $this->sendJSON(
-            DayPlanService::update(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('taskId'),
-                Yii::app()->request->getParam('time')
-            )
-        );
-    }*/
-       
     /**
      * Добавление задачи в план дневной
      */
     public function actionAdd()
     {
-        $this->sendJSON(
-            DayPlanService::addToPlan(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('task_id'),
-                Yii::app()->request->getParam('date'),
-                Yii::app()->request->getParam('day')
-            )
-        );
+        $result = DayPlanService::addToPlan(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('task_id'),
+                    Yii::app()->request->getParam('date'),
+                    Yii::app()->request->getParam('day')
+                );
+        $this->sendJSON($result);
             
     }
 
     public function actionSave()
     {
-        $this->sendJSON(
-            DayPlanService::saveToXLS($this->getSimulationEntity(), 2)
-        );
+        $result = DayPlanService::saveToXLS($this->getSimulationEntity(), 2);
+        $this->sendJSON($result);
     }
 }
 

@@ -60,7 +60,7 @@
             modal: true,
             resizable: false,
             draggable: false,
-            width: 590,
+            width: 605, /*590 */
             height: 500,
             position: {
                 my: "left top",

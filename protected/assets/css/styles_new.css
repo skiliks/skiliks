@@ -109,6 +109,9 @@ h1, h2, h3, h4 {
 .font-blue-dark {
     color:#146672;
 }
+.font-green-dark {
+    color: #0e4750;
+}
 .font-brown {
     color:#555545;
 }
@@ -165,7 +168,8 @@ ul li:last-child {
 .btn-green, .add-vacancy-popup input[type="submit"] {
     background-color: #146672;
 }
-.btn-green:hover, .title-in-ui input[type="submit"]:hover {
+.btn-green:hover, .title-in-ui input[type="submit"]:hover,
+.feedback input[type="submit"]:hover {
     background-color: #BD2929;
 }
 .btn-white {
@@ -729,6 +733,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px;
+}
 .cabmessage .ui-widget-content {
     padding-bottom: 10px;
 }
@@ -749,12 +757,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
     height: 0;
 }
-.popup-primary-title, .popup-primary h1 {
+.popup-primary-title, .popup-primary h1, .feedback-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     margin-top: -8px;
-    padding-bottom: 30px;
     text-align: center;
+}
+.popup-primary-title, .popup-primary h1 {
+    padding-bottom: 30px;
 }
 .popup-primary label, .popup-primary p {
     color:#0e4750;
@@ -766,7 +776,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .title-in-ui .ui-dialog-title {
     color: #0e4750;
-    margin-top:25px;
+    margin-top:27px;
     margin-left:30px;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
@@ -1012,15 +1022,16 @@ span.required, .form-simple span.required {
 
 /* ************************ /Pager ************************ */
 /*  *************************** ERRORS ***************************/
-input.error {
+input.error, textarea.error, .error textarea, .feedback .error textarea {
     border: 2px solid #bd2929;
+}
+.errorMessage {
+    color: #bd2929;
+    font: 11px "ProximaNova-Regular";
+    position: absolute;
 }
 .bg-rich-blue .errorMessage {
     color:#fff;
-}
-.errorMessage {
-    font: 11px "ProximaNova-Regular";
-    position: absolute;
 }
 .errorMessage.Invite_firstname, .errorMessage.Invite_email {
     top: -3px;
@@ -1083,6 +1094,10 @@ input.error {
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.cabmessage {
+    background: url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border: none;
+}
 #Invite_message {
     height: 46px;
     max-height: 46px;
@@ -1115,60 +1130,39 @@ input.error {
     width: 523px;
 }
 .block-form p {
+    font-size: 14px;
     margin-bottom: 20px;
+}
+.block-form a {
+    color: #2d7b91;
 }
 .block-form p:last-child {
     margin-bottom: 0px;
 }
 .cabmessage .ui-widget-content {
     float:left;
+    padding-bottom: 0px;
+    padding-top: 12px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    padding-top: 20px;
+    height: 426px !important;
+    width: 560px !important;
 }
-.cabmessage input, .cabmessage select,
-.cabmessage textarea, .cabmessage button {
-    font: 14px "ProximaNova-Regular";
-}
-/*
-#send-invite-message-form label {
-    color:#0e4750;
-    display: block;
-    float: left;
-    font: 14px "ProximaNova-Bold";
-    padding: 8px 10px 0px 0px;
-    width:70px;
-}
-.cabmessage input, .cabmessage select,
-.cabmessage textarea, .cabmessage button {
-    font: 14px "ProximaNova-Regular";
-}
-.cabmessage textarea  {
-    height: 120px;
-}
-.cabmessage textarea, #Invite_fullname {
-    margin-top:-5px;
-    max-width: 420px;
-    width:420px;
-}
-.cabmessage .row a, .cabmessage .row a:visited, .cabmessage .row a:link {
-    color: #fff !important;
-}
-#Invite_signature {
-    width:210px;
-}
-.cabmessage .row {
-    padding-bottom: 18px;
-}
-.cabmessage input[type="submit"] {
-    background-image: url("../img/icon-arrow.png");
-    border: none;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
-}
-.cabmessage input[type="submit"] {
-    margin-left: 80px;
-}
-.cabmessage input[type="submit"]:hover {
-    background: url("../img/arrowleft.png") no-repeat 12px 11px #BD2929;
-}*/
 /*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap {
+    background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+}
+.feedback .email-field {
+    font: 16px "ProximaNova-Regular";
+    text-indent: 10px;
+}
+.feedback .form-submit-button {
+    right: -16px;
+    width:180px;
+}
+/*  *************************** /FEEDBACK ***************************/

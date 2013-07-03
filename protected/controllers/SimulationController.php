@@ -40,6 +40,11 @@ class SimulationController extends SimulationBaseController
         // check invite if it setted }
 
         $simulation = SimulationService::simulationStart($invite, $mode, $type);
+        /* @var $log LogServerRequest */
+        $log = LogServerRequest::model()->findByPk($this->request_id);
+        $log->sim_id = $simulation->id;
+        $log->backend_game_time = $simulation->getGameTime();
+        $log->update(['sim_id', 'backend_game_time']);
 
         if (null === $simulation) {
             $this->sendJSON(
