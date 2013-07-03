@@ -1044,6 +1044,14 @@ input.error {
     vertical-align: middle;
     width: 145px;
 }
+.add-vacancy-popup input[type="submit"] {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family:"ProximaNova-Bold";
+    vertical-align: middle;
+}
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
     left: 150px;
     position: absolute;
