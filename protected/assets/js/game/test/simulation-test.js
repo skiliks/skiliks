@@ -73,7 +73,7 @@ var spec = describe('simulation', function (run) {
             it("Can stop correctly from paused state", function () {
                 var log_spy = sinon.spy();
                 SKApp.simulation.start();
-                SKApp.simulation.startPause();
+                SKApp.simulation.startPause(function(){});
                 server.respond();
                 timers.tick(2 * 60 * 60 * 1000);
                 expect(SKApp.simulation.getGameMinutes()).toBe(540);
