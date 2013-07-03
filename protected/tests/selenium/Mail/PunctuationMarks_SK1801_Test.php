@@ -14,7 +14,7 @@ class PunctuationMarks_SK1801_Test extends SeleniumTestHelper
 
     public function test_PunctuationMarks_SK1801()
     {
-        //$this->markTestIncomplete();
+        $this->markTestSkipped();
         $this->start_simulation();
         sleep(2);
         $this->write_email();
