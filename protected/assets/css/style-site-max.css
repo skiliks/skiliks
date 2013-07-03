@@ -74,6 +74,12 @@ h3 {
     background-repeat: no-repeat;
     padding: 0 10px 0 38px;
 }
+.btn-add {
+    height: 22px;
+    line-height: 22px;
+    padding: 0px 6px;
+    width: 10px;
+}
 /* ************************ /Buttons ************************ */
 /*  *************************** GRID ***************************/
 .grid-container {
@@ -158,3 +164,26 @@ h3 {
     top:175px;
 }
 /*  ************************ /SITE ************************/
+/*  ************************ SELECT ************************/
+.sbHolder {
+    height: 23px;
+    font-size: 14px;
+    min-width: 90px;
+}
+.sbSelector {
+    height: 22px;
+    line-height: 22px;
+    text-indent: 9px;
+}
+.sbToggle {
+    background: url("../img/bg-select-toggle.png") no-repeat 0 0;
+    height: 23px;
+    width: 19px;
+}
+.sbToggleOpen {
+    height: 23px;
+}
+.sbOptions .sbSub {
+    padding-left: 17px;
+}
+/*  ************************ /SELECT ************************/
