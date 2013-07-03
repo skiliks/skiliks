@@ -345,6 +345,7 @@ return array(
             'isDisplayServer500errors'        => false,
             'isUseStrictAssertsWhenSimStop'   => false,
             'frontendAjaxTimeout'             => 60000, // 60 sec
+            'useSentryForJsLog'               => false,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',

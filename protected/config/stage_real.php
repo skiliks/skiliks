@@ -32,7 +32,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'frontendUrl' => 'http://front.skiliks.com/',
 
         'public' => [
-
+            'useSentryForJsLog' => true,
         ],
         'zoho' => array(
             'saveUrl'             => 'http://skiliks.com/zoho/saveExcel',
