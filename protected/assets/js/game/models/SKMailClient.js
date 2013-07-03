@@ -390,15 +390,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     email.attachment = attachment;
 
                     var recipiens = emailData.receiver.split(',');
-                    for (var i in recipiens) {
-                        email.addRecipientEmailAndNameStrings(recipiens[i]);
-                    }
+                    $.each(recipiens, function(index){
+                        email.addRecipientEmailAndNameStrings(recipiens[index]);
+                    });
 
                     if (emailData.copy !== undefined) {
                         var copies = emailData.copy.split(',');
-                        for (var i in copies) {
-                            email.addCopyEmailAndNameStrings(copies[i]);
-                        }
+                        $.each(copies, function(index){
+                            email.addCopyEmailAndNameStrings(copies[index]);
+                        });
                     }
 
                     if (undefined !== emailData.reply) {
@@ -524,7 +524,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (responce) {
                         //console.log('responce.messages: ', responce.messages);
                         me.updateInboxFolderEmails(responce.messages);
-                        if (undefined != cb) {
+                        if (undefined !== cb) {
                             cb();
                         }
                     }
@@ -546,7 +546,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (responce) {
                         //console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
-                        if (undefined != cb) {
+                        if (undefined !== cb) {
                             cb();
                         }
                     }
@@ -569,7 +569,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (responce) {
                         //console.log('responce.messages: ', responce.messages);
                         MailClientModel.updateSendedFolderEmails(responce.messages);
-                        if (undefined != cb) {
+                        if (undefined !== cb) {
                             cb();
                         }
                         MailClientModel.trigger('outbox:updated');
@@ -592,7 +592,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     function (responce) {
                         //console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
-                        if (undefined != cb) {
+                        if (undefined !== cb) {
                             cb();
                         }
                     }
@@ -691,12 +691,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param alias
              */
             setActiveFolder:function (alias) {
-                for (var i in this.folders) {
-                    this.folders[i].isActive = false;
+                var me = this;
+                $.each(me.folders, function(i){
+                    me.folders[i].isActive = false;
                     if (alias === i) {
-                        this.folders[i].isActive = true;
+                        me.folders[i].isActive = true;
                     }
-                }
+                });
             },
 
             /**
@@ -1200,7 +1201,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     phrases:    emailToSave.getPhrasesIdsString(),
                     receivers:  emailToSave.getRecipientIdsString(),
                     subject:    emailToSave.subject.characterSubjectId,
-                    time:       SKApp.simulation.getGameTime(),
                     letterType: type
                 };
             },
@@ -1263,7 +1263,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 // validation {
                 // email.recipients
-                if (0 == emailToSave.recipients.length) {
+                if (0 === emailToSave.recipients.length) {
                     mailClient.message_window = new SKDialogView({
                         'message':'Добавьте адресата письма.',
                         'buttons':[

@@ -112,4 +112,34 @@ class SiteBaseController extends CController {
         //Yii::app()->user->setFlash('error', 'Ваш профиль не активирован. Проверьте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
+
+    /**
+     * @method void send JSON Writes JSON to output
+     */
+    protected function sendJSON($data, $status = 200)
+    {
+        $this->_sendResponse($status, CJSON::encode($data));
+    }
+
+    /**
+     *
+     * @param integer $status, 2xx, 3xx, 4xx, 5xx
+     * @param string $body
+     * @param string $content_type
+     */
+    protected function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
+    {
+        if (!$this->is_test) {
+            header("HTTP/1.0 200 OK");
+            if ($status == 500) { header("HTTP/1.0 500 ERROR"); }
+            header('Content-type: ' . $content_type . '; charset=UTF-8');
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Access-Control-Allow-Origin: *");
+        }
+
+        echo $body;
+
+        Yii::app()->end();
+    }
 }

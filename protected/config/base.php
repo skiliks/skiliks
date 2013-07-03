@@ -323,6 +323,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'simulationStartUrl' => '/index.php/simulation/start',
         'userNameInHeaderMaxLength' => 30,
         'vacancyLinkInProfileMaxLength'=> 50,
         'frontendUrl' => 'http://skiliks.loc/',
