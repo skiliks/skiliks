@@ -272,7 +272,7 @@ define([
              */
             doSaveAttachment: function (event) {
                 if("true" !== $(event.currentTarget).attr('data-disabled')) {
-                    console.log("Click once");
+                    //console.log("Click once");
                     $(event.currentTarget).attr('data-disabled', 'true');
                     this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
                 }
@@ -1115,7 +1115,7 @@ define([
              */
             doMoveToTrashActiveEmail: function () {
                 if (undefined === this.mailClient.activeEmail) {
-                    console.log('try to delete non exist email');
+                    //console.log('try to delete non exist email');
                     return;
                 }
 
@@ -1631,7 +1631,7 @@ define([
                 mainPhrasesHtml += "</table>";
                 if (phrases.length) {
                     this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
-                    this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
+                    // this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
                     this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(

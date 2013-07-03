@@ -87,7 +87,7 @@ define([
             }, 0);
             var iframeDoc = $(doc.combineIframeId()).contents().get(0);
             $(iframeDoc).bind('click', function( event ) {
-                console.log("setontop");
+               //console.log("setontop");
                 me.options.model_instance.setOnTop();
             });
         },
