@@ -1061,10 +1061,15 @@ input.error {
     position: absolute;
     top: 0px;
 }
-.add-vacancy-popup .form-vacancy .sbHolder {
-    top: 5px;
+.add-vacancy-popup input[type="text"] {
+    color:#146672;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    width:375px;
 }
 .add-vacancy-popup .sbHolder {
+    top: 5px;
     width: 380px;
 }
 .add-vacancy-popup .errorMessage {
