@@ -1069,11 +1069,11 @@ input.error {
     font-size: 14px;
     height: 24px;
     line-height: 24px;
-    width:380px;
+    width:374px;
 }
 .add-vacancy-popup .sbHolder {
     top: 5px;
-    width: 380px;
+    width: 374px;
 }
 .add-vacancy-popup .errorMessage {
     top: -9px;

@@ -273,7 +273,7 @@
                 resizable: false,
                 draggable: false,
                 title: '',
-                width: 590,
+                width: 584,
                 position: {
                     my: "left top",
                     at: "left top",
