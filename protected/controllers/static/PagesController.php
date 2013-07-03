@@ -1,10 +1,7 @@
 <?php
 
-class PagesController extends AjaxController
+class PagesController extends SiteBaseController
 {
-    public $user;
-    public $signInErrors = [];
-
     public function beforeAction($action)
     {
         $user = Yii::app()->user;

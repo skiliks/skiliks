@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер моих документов
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class MyDocumentsController extends AjaxController
+class MyDocumentsController extends SimulationBaseController
 {
 
     /**

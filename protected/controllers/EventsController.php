@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Движек событий
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class EventsController extends AjaxController
+class EventsController extends SimulationBaseController
 {
 
     /**

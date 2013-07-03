@@ -1,6 +1,6 @@
 <?php
 
-class SimulationController extends AjaxController
+class SimulationController extends SimulationBaseController
 {
     /**
      * Старт симуляции

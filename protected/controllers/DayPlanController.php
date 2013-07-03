@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер дневного плана
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class DayPlanController extends AjaxController{
+class DayPlanController extends SimulationBaseController{
         
     /** 
      * @method actionGet Получить список для плана дневной 

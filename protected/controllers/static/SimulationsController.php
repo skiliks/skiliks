@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 3/21/13
- * Time: 11:33 PM
- * To change this template use File | Settings | File Templates.
- */
 
-class SimulationsController extends AjaxController implements AccountPageControllerInterface
+class SimulationsController extends SiteBaseController implements AccountPageControllerInterface
 {
     /**
      * @return string

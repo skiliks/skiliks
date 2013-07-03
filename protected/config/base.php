@@ -37,6 +37,7 @@ return array(
         'application.components.GameContentAnalyze.*',
         'application.components.ForStaticSite.*',
         'application.components.Exception.*',
+        'application.components.Controllers.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',

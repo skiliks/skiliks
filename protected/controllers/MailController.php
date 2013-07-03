@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер почтовика
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class MailController extends AjaxController
+class MailController extends SimulationBaseController
 {
     /**
      * Возвращает колличество непрочитанных писем во входящих
