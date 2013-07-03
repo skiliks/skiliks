@@ -198,6 +198,9 @@
 .grid-view .ratebg {
     width: 81px;
 }
+.grid1 .feedback {
+    margin-left: 8px;
+}
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
 .table-primary th, .items th, .grid-view table.items th{
