@@ -601,11 +601,13 @@ class MailBoxService
     {
         $model = MailBox::model()->byId($id)->find();
         if (NULL === $model) {
-            return false;
+            return SimulationBaseController::STATUS_ERROR;
         }
 
         $model->readed = 1;
         $model->save();
+
+        return SimulationBaseController::STATUS_SUCCESS;
     }
 
     public static function getFoldersUnreadCount($simulation)
@@ -1045,7 +1047,7 @@ class MailBoxService
 
         MailBoxService::updateMsCoincidence($email->id, $simulation->id);
 
-        return true;
+        return SimulationBaseController::STATUS_SUCCESS;
     }
 
     /**

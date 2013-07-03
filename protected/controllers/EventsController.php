@@ -8,13 +8,12 @@ class EventsController extends SimulationBaseController
      */
     public function actionGetState()
     {
-        $this->sendJSON(
-            EventsManager::getState(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('logs', null),
-                Yii::app()->request->getParam('eventsQueueDepth', 0)
-            )
-        );
+        $result = EventsManager::getState(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('logs', null),
+                    Yii::app()->request->getParam('eventsQueueDepth', 0)
+                  );
+        $this->sendJSON($result);
     }
 
     public function actionSwitchFlag()
@@ -35,16 +34,15 @@ class EventsController extends SimulationBaseController
      */
     public function actionStart()
     {
-        $this->sendJSON(
-            EventsManager::startEvent(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('eventCode'),
-                Yii::app()->request->getParam('clearEvents', false),
-                Yii::app()->request->getParam('clearAssessment', false),
-                Yii::app()->request->getParam('delay', 0),
-                Yii::app()->request->getParam('gameTime', null)
-            )
-        );
+        $result = EventsManager::startEvent(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('eventCode'),
+                    Yii::app()->request->getParam('clearEvents', false),
+                    Yii::app()->request->getParam('clearAssessment', false),
+                    Yii::app()->request->getParam('delay', 0),
+                    Yii::app()->request->getParam('gameTime', null)
+                );
+        $this->sendJSON($result);
     }
 
     /**
@@ -52,13 +50,12 @@ class EventsController extends SimulationBaseController
      */
     public function actionWait()
     {
-        $this->sendJSON(
-            EventsManager::waitEvent(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('eventCode'),
-                Yii::app()->request->getParam('eventTime')
-            )
+        $result = EventsManager::waitEvent(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('eventCode'),
+                    Yii::app()->request->getParam('eventTime')
         );
+        $this->sendJSON($result);
     }
 }
         
