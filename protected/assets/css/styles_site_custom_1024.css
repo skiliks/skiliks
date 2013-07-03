@@ -269,3 +269,19 @@
     margin: 0px 11.5px;
 }
 /* ************************ /Pager ************************ */
+/*  *************************** FEEDBACK ***************************/
+.feedback-dialog-title {
+    font-size: 24px;
+    margin-top: 20px;
+}
+.feedback .form-submit-button {
+    font-size: 16px;
+    /*margin-top: -60px;
+    padding-left: 34px;
+    right: 17px;*/
+    width: 140px;
+}
+/*.feedback .form-all {
+    width:670px !important;
+}*/
+/*  *************************** /FEEDBACK ***************************/
