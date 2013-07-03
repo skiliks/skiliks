@@ -160,6 +160,9 @@
 .grid-view .ratebg {
     width: 68px;
 }
+.prcentval {
+    font-size: 9px;
+}
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
 .table-primary th, .items th, .grid-view table.items th{
