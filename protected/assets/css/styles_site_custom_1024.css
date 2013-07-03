@@ -151,7 +151,10 @@
     width: 110px;
 }
 #corporate-invitations-list-box .items p {
+    height: 14px;
+    line-height: 8px;
     margin: 0px;
+    padding: 0px;
 }
 .ratebg {
     background: url("../img/ratestarssmall2.png") no-repeat left 0px;
