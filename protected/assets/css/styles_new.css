@@ -554,7 +554,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top: 30px;
     width: 100%;
     z-index:1;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .empty-select .sbOptions, .no-border .sbOptions {
