@@ -165,7 +165,7 @@ ul li:last-child {
 .btn-green, .add-vacancy-popup input[type="submit"] {
     background-color: #146672;
 }
-.btn-green:hover, .add-vacancy-popup input[type="submit"]:hover {
+.btn-green:hover, .title-in-ui input[type="submit"]:hover {
     background-color: #BD2929;
 }
 .btn-white {
@@ -729,7 +729,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
-
+.cabmessage .ui-widget-content {
+    padding-bottom: 10px;
+}
 .popup-center {
     left:50%;
 }
@@ -757,10 +759,15 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary label, .popup-primary p {
     color:#0e4750;
 }
-.title-bold h1, .cabmessage .ui-dialog-title {
+.title-bold h1, .title-in-ui .ui-dialog-title {
     font-family: "ProximaNova-Bold";
     font-size: 28px;
     text-align: left;
+}
+.title-in-ui .ui-dialog-title {
+    color: #0e4750;
+    margin-top:25px;
+    margin-left:30px;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
 /*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
@@ -1051,14 +1058,6 @@ input.error {
     vertical-align: middle;
     width: 145px;
 }
-.add-vacancy-popup input[type="submit"] {
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    font-family:"ProximaNova-Bold";
-    vertical-align: middle;
-}
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
     left: 150px;
     position: absolute;
@@ -1118,8 +1117,12 @@ input.error {
 .block-form p {
     margin-bottom: 20px;
 }
-
-
+.cabmessage .ui-widget-content {
+    float:left;
+}
+.cabmessage .ui-widget-content {
+    padding-top: 20px;
+}
 /*
 #send-invite-message-form label {
     color:#0e4750;
