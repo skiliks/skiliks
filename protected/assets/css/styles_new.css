@@ -1123,6 +1123,10 @@ input.error {
 .cabmessage .ui-widget-content {
     padding-top: 20px;
 }
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
 /*
 #send-invite-message-form label {
     color:#0e4750;
