@@ -152,7 +152,7 @@ define([
             },
 
             zohoDocumentSaveCheck: function(iframe, doc_id) {
-                console.log('Check...');
+                //console.log('Check...');
 
                 if (60 === SKApp.simulation.get('ZohoDocumentSaveCheckAttempt')) {
                     SKApp.simulation.set('isZohoDocumentSuccessfullySaved', false);
@@ -162,12 +162,12 @@ define([
 
                 SKApp.server.api('myDocuments/isDocumentSaved', {id: doc_id}, function(result) {
 
-                    console.log('result: ', result);
-                    console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                    //console.log('result: ', result);
+                    //console.log(SKApp.get('isLocalPc'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'), SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
                     if ((true === SKApp.get('isLocalPc') || '1' === result.status.toString()) &&
                         null === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
-                        console.log('saved!');
+                        //console.log('saved!');
                         SKApp.simulation.set('isZohoDocumentSuccessfullySaved', true);
                         SKApp.simulation.tryCloseLoadDocsDialog();
                     }
@@ -195,11 +195,11 @@ define([
                         var docs = SKApp.simulation.documents.where({id:id.toString()});
                         docs[0].set('isInitialized', true);
 
-                        console.log('Document loaded.');
+                        //console.log('Document loaded.');
 
                         // check is user can save excel only once
                         if (false === SKApp.simulation.get('isZohoSavedDocTestRequestSent')) {
-                            console.log('trying to save');
+                            //console.log('trying to save');
                             SKApp.simulation.set('isZohoSavedDocTestRequestSent', true);
 
                             // get iframe {
@@ -215,7 +215,7 @@ define([
                             // check is excel saved
                             setTimeout(function(){
                                 myIframeWin.document.getElementById('save').click();
-                                console.log('save...');
+                                //console.log('save...');
                                 SKApp.simulation.zohoDocumentSaveCheck(myIframeWin, docs[0].get('id'));
                             }, 8000);
                         }
@@ -239,21 +239,21 @@ define([
              * If all documents loaded and user can save excel - hide LoadDocsDialog
              */
             tryCloseLoadDocsDialog: function() {
-                console.log("SKApp.simulation.isAllExcelDocsInitialized()");
-                console.log(SKApp.simulation.isAllExcelDocsInitialized());
-                console.log("SKApp.simulation.get('isZohoDocumentSuccessfullySaved')");
-                console.log(SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
+                //console.log("SKApp.simulation.isAllExcelDocsInitialized()");
+                //console.log(SKApp.simulation.isAllExcelDocsInitialized());
+                //console.log("SKApp.simulation.get('isZohoDocumentSuccessfullySaved')");
+                //console.log(SKApp.simulation.get('isZohoDocumentSuccessfullySaved'));
 
                 if (SKApp.simulation.isAllExcelDocsInitialized() &&
                     true === SKApp.simulation.get('isZohoDocumentSuccessfullySaved')) {
                     if ($('.time').hasClass('paused')) {
-                        console.log("tryCloseLoadDocsDialog if");
+                        //console.log("tryCloseLoadDocsDialog if");
                         SKApp.simulation.stopPause(function(){
                             $('.time').removeClass('paused');
                             SKApp.simulation.closeLoadDocsDialog();
                         });
                     } else {
-                        console.log("tryCloseLoadDocsDialog else");
+                        //console.log("tryCloseLoadDocsDialog else");
                         SKApp.simulation.closeLoadDocsDialog();
                     }
                     return true;
@@ -265,7 +265,7 @@ define([
             closeLoadDocsDialog: function() {
                 var me = this;
                 SKApp.server.api('simulation/markInviteStarted', {}, function(){});
-                console.log('CLOSE WINDOW');
+                //console.log('CLOSE WINDOW');
                 SKApp.simulation.loadDocsDialog.remove();
                 clearTimeout(me.loadDocsTimer);
                 SKApp.simulation.trigger('documents:loaded');
@@ -322,7 +322,7 @@ define([
                 ) {
                     var is_paused;
                     if (!me.get('isZohoSavedDocTestRequestSent')) {
-                        console.log("onAddDocument if");
+                        //console.log("onAddDocument if");
                         is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
@@ -340,7 +340,7 @@ define([
                             }
                         }, 120000);
                     }else{
-                        console.log("onAddDocument else");
+                        //console.log("onAddDocument else");
                         is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
@@ -460,7 +460,7 @@ define([
                     var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model, url)) {
                         me.events.push(event_model);
-                        console.log('event:' + event_model.getTypeSlug());
+                        //console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);
@@ -703,18 +703,18 @@ define([
                          */
                         me.trigger('tick');
                     }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
-                    console.log(me.events_timer);
+                    //console.log(me.events_timer);
 
                 }
             },
 
             _stopTimer: function() {
-                console.log(this.events_timer);
+                //console.log(this.events_timer);
                 if (this.events_timer) {
                     clearInterval(this.events_timer);
-                    console.log(this.events_timer);
+                    //console.log(this.events_timer);
                     delete this.events_timer;
-                    console.log(this.events_timer);
+                    //console.log(this.events_timer);
                 }
             },
 

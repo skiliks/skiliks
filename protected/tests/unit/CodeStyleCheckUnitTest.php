@@ -39,7 +39,7 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
         foreach ($folders as $folder) {
             $dir = Yii::app()->getBasePath().$folder;
             $filesList = [];
-            getFilesList($dir, $filesList, ['yiic.php', 'ImportGameDataService.php', 'AjaxController.php']);
+            getFilesList($dir, $filesList, ['yiic.php', 'ImportGameDataService.php', 'SimulationBaseController.php', 'SiteBaseController.php']);
 
             foreach ($filesList as $filename) {
                 $fileText = file_get_contents($filename);

@@ -1,12 +1,7 @@
 <?php
 
-class CheatsController extends AjaxController
+class CheatsController extends SiteBaseController
 {
-    public $user;
-    public $signInErrors = [];
-
-
-
     /**
      * User private page -> "user cabinet"
      */

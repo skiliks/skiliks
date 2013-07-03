@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер телефона
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class PhoneController extends AjaxController{
+class PhoneController extends SimulationBaseController {
     
     /**
      * Получение списка тем

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 3/21/13
- * Time: 11:05 PM
- * To change this template use File | Settings | File Templates.
- */
 
-class ProfileController extends AjaxController implements AccountPageControllerInterface
+class ProfileController extends SiteBaseController implements AccountPageControllerInterface
 {
     public $getBaseViewPath = 'PersonalData';
 

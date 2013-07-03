@@ -188,6 +188,24 @@
 #corporate-invitations-list-box #yw0_c5 {
     width: 115px;
 }
+#corporate-invitations-list-box .items p {
+    height: 16px;
+    margin: 0px;
+    padding: 0px;
+}
+.ratebg {
+    background: url("../img/ratestars3.png") no-repeat left 0px;
+}
+.rating {
+    background: url("../img/ratestars3.png") no-repeat 0px -19px;
+    display: inline-block;
+}
+.grid-view .ratebg {
+    width: 81px;
+}
+.grid1 .feedback {
+    margin-left: 10px;
+}
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
 .table-primary th, .items th, .grid-view table.items th{
