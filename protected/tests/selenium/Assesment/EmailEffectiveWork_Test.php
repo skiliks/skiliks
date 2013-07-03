@@ -68,10 +68,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M7');
         sleep(3);
         $this->run_event("MS45");
-        sleep(3);
+        sleep(15);
 
         // MS69
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin'],"Квартальный план","Квартальный план_4 кв_2013");
 
         // MS42
@@ -151,9 +151,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M74');
         sleep(3);
         $this->run_event('M66');
-        sleep(3);
+        sleep(15);
 
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->addTaskToPlan("предложения","23");
         $this->addTaskToPlan("график отпусков срочно!","26");
         $this->addTaskToPlan("твои аналитики","19");
@@ -222,9 +222,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M68');
         sleep(3);
         $this->run_event("MS25");
-        sleep(3);
+        sleep(15);
 
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya'],"Сводный бюджет: итоговые корректировки","Сводный бюджет_2014_план");
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['analitics'],"Приглашение: новая система премирования","");
 
@@ -257,8 +257,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M65');
         sleep(3);
         $this->run_event('M69');
-        sleep(3);
-
+        sleep(15);
+        
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->write_reply_email("адрес клиента");
         $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
