@@ -46,8 +46,13 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
 
         $this->clearEventQueueBeforeEleven('RST2');
-        $this->clearEventQueueBeforeEleven('RVT1');
         $this->clearEventQueueBeforeEleven('RST3');
+        $event="RVT1";
+        $this->run_event($event, "css=li.icon-active.door a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
+        $event .= '.1';
+        $this->run_event($event, "css=li.icon-active.door a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска')])");
