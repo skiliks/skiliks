@@ -616,11 +616,12 @@ define([
                 me.paused_time = new Date();
                 me.trigger('pause:start');
 
-                SKApp.server.api('simulation/startPause', {}, function (responce) {
-                    if (typeof callback === 'function') {
+                if (typeof callback === 'function') {
+                    SKApp.server.api('simulation/startPause', {}, function (responce) {
                         callback(responce);
-                    }
-                });
+                    });
+                }
+
             },
 
             /**

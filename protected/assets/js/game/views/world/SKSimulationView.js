@@ -282,7 +282,7 @@ define([
             endWorkday: function() {
                 var me = this;
 
-                me.simulation.startPause();
+                me.simulation.startPause(function(){});
                 me._showPausedScreen();
 
                 var d = new SKDialogView({
@@ -389,7 +389,7 @@ define([
                         ]
                     });
 
-                    SKApp.simulation.startPause();
+                    SKApp.simulation.startPause(function(){});
                 }
 
                 return false;
