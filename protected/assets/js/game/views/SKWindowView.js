@@ -248,7 +248,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
             }else{
                 me.$('.sim-window-settings').css('display', 'none');
             }
-            console.log("Click YES");
+            //console.log("Click YES");
         },
         doVolumeChange:function(event) {
             if($(event.currentTarget).hasClass('volume-on')){
