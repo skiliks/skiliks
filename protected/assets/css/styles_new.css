@@ -1162,7 +1162,7 @@ input.error, textarea.error, .error textarea, .feedback .error textarea {
     text-indent: 10px;
 }
 .feedback .form-all {
-    width:670px;
+    width:670px !important;
 }
 /*.feedback .form-submit-button {
     right: -16px;
