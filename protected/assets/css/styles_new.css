@@ -740,7 +740,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
     height: 0;
 }
-.popup-primary-title {
+.popup-primary-title, .popup-primary h1 {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     margin-top: -8px;
