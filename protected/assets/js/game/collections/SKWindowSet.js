@@ -98,7 +98,7 @@ define([
                         });*/
                         console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
                     } else {
-                        console.log('HAS active mail client view');
+                        // console.log('HAS active mail client view');
                         var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
                         simulation.mailClient.view.setForcedClosing();
 

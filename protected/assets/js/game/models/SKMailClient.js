@@ -522,7 +522,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
-                        console.log('responce.messages: ', responce.messages);
+                        //console.log('responce.messages: ', responce.messages);
                         me.updateInboxFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -544,7 +544,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
-                        console.log('responce.messages: ', responce.messages);
+                        //console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -567,7 +567,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type: 1
                     },
                     function (responce) {
-                        console.log('responce.messages: ', responce.messages);
+                        //console.log('responce.messages: ', responce.messages);
                         MailClientModel.updateSendedFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -590,7 +590,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         order_type:1
                     },
                     function (responce) {
-                        console.log('responce.messages: ', responce.messages);
+                        //console.log('responce.messages: ', responce.messages);
                         SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
@@ -1025,7 +1025,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     phrase.mySqlId = parseInt(i);
                     phrase.text = array[i].name;
                     phrase.columnNumber = parseInt(array[i].column_number);
-                    console.log(phrase);
+                    //console.log(phrase);
                     this.availablePhrases.push(phrase);
                 }
             },
@@ -1042,7 +1042,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     phrase.mySqlId = parseInt(i);
                     phrase.text = array[i].name;
                     phrase.columnNumber = parseInt(array[i].column_number);
-                    console.log(phrase);
+                    //console.log(phrase);
                     this.availableAdditionalPhrases.push(phrase);
                 }
             },
@@ -1280,7 +1280,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                 // email.sunbject
                 if (false === emailToSave.isSubjectValid()) {
-                    console.log('Invalid subject', emailToSave.subject);
+                    //console.log('Invalid subject', emailToSave.subject);
                     mailClient.message_window = new SKDialogView({
                         'message':'Укажите тему письма.',
                         'buttons':[
