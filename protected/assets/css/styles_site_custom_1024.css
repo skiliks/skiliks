@@ -150,11 +150,14 @@
 #corporate-invitations-list-box #yw0_c5 {
     width: 110px;
 }
+#corporate-invitations-list-box .items p {
+    margin: 0px;
+}
 .ratebg {
-    background: url("../img/ratestarssmall.png") no-repeat left 0px;
+    background: url("../img/ratestarssmall2.png") no-repeat left 0px;
 }
 .rating {
-    background: url("../img/ratestarssmall.png") no-repeat 0px -12px;
+    background: url("../img/ratestarssmall2.png") no-repeat 0px -18px;
     display: inline-block;
 }
 .grid-view .ratebg {
