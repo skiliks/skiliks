@@ -125,7 +125,7 @@
         $('a.feedback').on('click', function (e) {
             var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
-                width: 700,
+                width: 706,
                 dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,

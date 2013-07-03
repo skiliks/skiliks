@@ -732,6 +732,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
+.feedbackwrap .ui-widget-content {
+    padding-left: 0px;
+}
 .cabmessage .ui-widget-content {
     padding-bottom: 10px;
 }
@@ -756,8 +759,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     margin-top: -8px;
-    padding-bottom: 30px;
     text-align: center;
+}
+.popup-primary-title, .popup-primary h1 {
+    padding-bottom: 30px;
 }
 .popup-primary label, .popup-primary p {
     color:#0e4750;
