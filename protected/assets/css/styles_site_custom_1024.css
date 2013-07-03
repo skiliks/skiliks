@@ -270,12 +270,22 @@
 }
 /* ************************ /Pager ************************ */
 /*  *************************** FEEDBACK ***************************/
+.feedbackwrap {
+    background-size: contain;
+    height: 350px !important;
+    width: 570px !important;
+}
 .feedback-dialog-title {
     font-size: 24px;
     margin-top: 20px;
 }
 .feedback .form-submit-button {
-    font-size: 16px;
+    /*background-image: url("../img/btn-circle-min.png");
+    background-position: 16px 50%;
+    font-size: 16px;*/
+    height: 44px;
+    line-height: 44px;
+    right:0px;
     /*margin-top: -60px;
     padding-left: 34px;
     right: 17px;*/
