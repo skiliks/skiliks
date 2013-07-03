@@ -1,16 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 3/21/13
- * Time: 10:46 PM
- * To change this template use File | Settings | File Templates.
- */
-
-class DashboardController extends AjaxController implements AccountPageControllerInterface
+class DashboardController extends SiteBaseController implements AccountPageControllerInterface
 {
     public function getBaseViewPath()
     {

@@ -4,7 +4,7 @@
  * Returns Character list for phone, mail and other purposes
  * Class CharacterController
  */
-class CharacterController extends AjaxController
+class CharacterController extends SimulationBaseController
 {
 	public function actionList()
 	{

@@ -1,12 +1,7 @@
 <?php
-/**
- * 
- */
-class ZohoController extends AjaxController
+
+class ZohoController extends SimulationBaseController
 {
-    /**
-     * 
-     */
     public function actionSaveExcel()
     {
         $status = ZohoDocuments::saveFile(

@@ -1,6 +1,6 @@
 <?php
 
-class AdminPagesController extends AjaxController {
+class AdminPagesController extends SiteBaseController {
 
     public function beforeAction($action) {
 
