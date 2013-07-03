@@ -1161,8 +1161,11 @@ input.error, textarea.error, .error textarea, .feedback .error textarea {
     font: 16px "ProximaNova-Regular";
     text-indent: 10px;
 }
-.feedback .form-submit-button {
+.feedback .form-all {
+    width:670px;
+}
+/*.feedback .form-submit-button {
     right: -16px;
     width:180px;
-}
+}*/
 /*  *************************** /FEEDBACK ***************************/
