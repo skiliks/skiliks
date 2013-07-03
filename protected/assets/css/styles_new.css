@@ -702,7 +702,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ui-dialog-titlebar {
     position: relative;
 }
-.ui-dialog-titlebar-close, .popupclose {
+.ui-dialog .ui-dialog-titlebar-close, .popupclose {
     background: url("../img/closepopup.png") no-repeat 0 0;
     cursor: pointer;
     width: 27px;
@@ -736,7 +736,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
 }
-.popup-primary .ui-icon-closethick {
+.popup-primary .ui-widget-header .ui-icon {
     display: none;
 }
 .popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
