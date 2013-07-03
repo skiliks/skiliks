@@ -272,7 +272,7 @@
 /*  *************************** FEEDBACK ***************************/
 .feedbackwrap {
     background-size: contain;
-    height: 350px !important;
+    height: 330px !important;
     width: 570px !important;
 }
 .feedback-dialog-title {
