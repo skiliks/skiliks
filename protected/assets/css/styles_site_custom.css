@@ -270,3 +270,8 @@
     padding-top: 15px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  *************************** FEEDBACK ***************************/
+.feedback .form-all {
+    width:670px !important;
+}
+/*  *************************** /FEEDBACK ***************************/

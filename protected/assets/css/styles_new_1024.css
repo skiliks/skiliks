@@ -54,7 +54,7 @@ h3 {
 }
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
-.btn-large {
+.btn-large, .feedback .form-submit-button {
     background-image: url("../img/btn-circle-min.png");
     background-position: 16px 50%;
     font-size: 16px;
