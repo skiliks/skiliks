@@ -55,7 +55,7 @@ h3 {
     line-height: 54px;
     padding: 0 19px 0 50px;
 }
-.btn-primary, .btn-site, .add-vacancy-popup input[type="submit"] {
+.btn-primary, .btn-site, .submit-primry input[type="submit"] {
     font-size: 14px;
     height: 30px;
     line-height: 30px;
@@ -64,9 +64,17 @@ h3 {
 .btn-primary {
     background-image: url("../img/btn-primry-bg.png");
 }
-.btn-site, .add-vacancy-popup input[type="submit"] { /* example -  manage subscription */
+.btn-site, .submit-primry input[type="submit"] { /* example -  manage subscription */
     background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
     color: #fff;
+}
+.submit-primry input[type="submit"] { /*  klass dlya popupa s submit kak btn-site */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family:"ProximaNova-Bold";
+    vertical-align: middle;
 }
 .btn-arrow-small {
     background-image: url("../img/icon-btn-notify.png");
