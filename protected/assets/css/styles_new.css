@@ -205,10 +205,6 @@ ul li:last-child {
     background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
     cursor: pointer;
     display: inline-block;
-    height: 22px;
-    line-height: 22px;
-    padding: 0px 6px;
-    width: 10px;
 }
 /* ************************ /Buttons ************************ */
 /*  ************************ Menu ************************  */
@@ -487,10 +483,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: linear-gradient(top, #54c4d4, #2ea6b7);
     border: solid 1px #0d5159;
     border-radius:5px;
-    font:14px 'ProximaNova-Regular';
+    font-family: 'ProximaNova-Regular';
     position: relative;
-    height: 23px;
-    min-width: 90px;
     color: #fff;
     vertical-align:middle;
 }
@@ -499,11 +493,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sbSelector{
     display: block;
-    height: 22px;
-    line-height: 22px;
     outline: none;
     overflow: hidden;
-    text-indent: 9px;
     width: 100%;
     position: absolute;
     top: 0;
@@ -515,20 +506,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-decoration: none;
 }
 .sbToggle{
-    background: url("../img/bg-select-toggle.png") no-repeat 0 0;
     display: block;
-    -webkit-border-top-right-radius:5px;
-    -webkit-border-bottom-right-radius:5px;
-    -moz-border-radius-topright:5px;
-    -moz-border-radius-bottomright:5px;
     border-top-right-radius:5px;
     border-bottom-right-radius:5px;
-    height: 23px;
     outline: none;
     position: absolute;
     right: 0px;
     top: 0px;
-    width: 19px;
 }
 .empty-select .sbToggle {
     background-image: url("../img/emp-select-toggle.png");
@@ -538,13 +522,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sbToggleOpen{
     background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
-    height: 23px;
 }
 .sbOptions{
     background: #fff;
     border: solid 1px #000;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
     border-radius:5px;
     list-style: none;
     left: -1px;
@@ -593,9 +574,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     font-weight: bold;
     padding: 7px 0 7px 3px;
-}
-.sbOptions .sbSub{
-    padding-left: 17px;
 }
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
