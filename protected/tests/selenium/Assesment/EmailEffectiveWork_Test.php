@@ -72,7 +72,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         // MS69
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin'],"Квартальный план","Квартальный план_4 кв_2013");
+        $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->addTheme("xpath=(//*[contains(text(), 'Квартальный план')])");
+        $this->addAttach("xpath=(//*[contains(text(), 'Квартальный план_4 кв_2013')])");
+        $this->optimal_click("css=.SEND_EMAIL");
 
         // MS42
         $this->write_forward_email("форма по задаче от логистики, срочно!", Yii::app()->params['test_mappings']['mail_contacts']['trutnev'] );
@@ -258,7 +261,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(3);
         $this->run_event('M69');
         sleep(15);
-        
+
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->write_reply_email("адрес клиента");
         $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
