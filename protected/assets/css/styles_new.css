@@ -769,7 +769,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .title-in-ui .ui-dialog-title {
     color: #0e4750;
-    margin-top:25px;
+    margin-top:27px;
     margin-left:30px;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
@@ -1131,7 +1131,7 @@ input.error {
 .cabmessage .ui-widget-content {
     float:left;
     padding-bottom: 0px;
-    padding-top: 20px;
+    padding-top: 12px;
 }
 .cabmessage input, .cabmessage select,
 .cabmessage textarea, .cabmessage button {
