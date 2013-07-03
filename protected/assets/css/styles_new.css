@@ -729,7 +729,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .popup-site .ui-widget-content {
     padding: 30px;
 }
-
+.cabmessage .ui-widget-content {
+    padding-bottom: 10px;
+}
 .popup-center {
     left:50%;
 }
