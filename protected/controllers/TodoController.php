@@ -9,7 +9,7 @@ class TodoController extends SimulationBaseController
     {
         $simulationId = $this->getSimulationId(); // external for make code clean
 
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
                 'result' => self::STATUS_SUCCESS,
                 'data'   => TodoService::getTodoTasksList($simulationId),
         ));

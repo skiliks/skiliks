@@ -13,6 +13,54 @@ class SimulationBaseController extends CController {
     public $user;
 
     /**
+     * @property $LogServerRequest LogServerRequest
+     */
+    protected $request_id = null;
+
+    protected function beforeAction($action)
+    {
+        $this->saveLogServerRequest();
+
+        return true;
+    }
+
+    protected function saveLogServerRequest() {
+
+        $uid = Yii::app()->request->getParam('uniqueId');
+        if(null === $uid) {
+            throw new Exception("uid is not found");
+        }
+        $time = Yii::app()->request->getParam('time');
+        if(null === $time) {
+            throw new Exception("time is not found");
+        }
+        $data = $_POST;
+        if(empty($data)) {
+            throw new Exception("data is not found or empty");
+        }
+        $url = Yii::app()->request->url;
+        $sim_url = Yii::app()->params['simulationStartUrl'];
+        if($url !== $sim_url) {
+            $log = new LogServerRequest("WithSimulation");
+            $simulation = $this->getSimulationEntity();
+            $log->sim_id = $simulation->id;
+            $log->backend_game_time = $simulation->getGameTime();
+        }else{
+            $log = new LogServerRequest("WithoutSimulation");
+        }
+        $log->request_uid = $uid;
+        $log->request_url = $url;
+        $log->frontend_game_time = $time;
+        $log->real_time = GameTime::setNowDateTime();
+        $log->request_body = CJSON::encode($data);
+
+        if(false === $log->save()){
+            throw new Exception("Post data not save ");
+        }
+        $this->request_id = $log->id;
+    }
+
+    /**
      *
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
      * @param string $body
@@ -40,10 +88,20 @@ class SimulationBaseController extends CController {
     protected function sendJSON($data, $status = 200)
     {
         $uniqueId = Yii::app()->request->getParam('uniqueId', null);
+        $simulation = $this->getSimulationEntity();
         if( null !== $uniqueId ) {
             if(is_array($data)) {
                 $data['uniqueId'] = $uniqueId;
-                $this->_sendResponse($status, CJSON::encode($data));
+                /* @var $log LogServerRequest */
+                $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid' => $uniqueId]);
+                if(null === $log){
+                    throw new LogicException("log is not found by 'sim_id'=>{$simulation->id} and 'request_uid' => {$uniqueId}");
+                }
+                $json = CJSON::encode($data);
+                $log->response_body = $json;
+                $log->is_processed = 1;
+                $log->update(['response_body', 'is_processed']);
+                $this->_sendResponse($status, $json);
             } else {
                 throw new LogicException('$data should be an array');
             }
@@ -79,7 +137,7 @@ class SimulationBaseController extends CController {
      * @param integer $sessionId
      * @return integer || HttpResponse
      */
-    public function getSimulationId($sessionId = null)
+    public function getSimulationId()
     {
         $simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
 
