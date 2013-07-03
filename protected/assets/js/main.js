@@ -126,7 +126,7 @@
             var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
                 width: 700,
-                dialogClass: 'feedbackwrap',
+                dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,
                 draggable: false,
