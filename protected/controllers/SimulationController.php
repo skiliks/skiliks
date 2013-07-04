@@ -73,7 +73,7 @@ class SimulationController extends SimulationBaseController
             $this->getSimulationEntity(),
             Yii::app()->request->getParam('logs', array())
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
 
     }
 
@@ -85,7 +85,7 @@ class SimulationController extends SimulationBaseController
         SimulationService::pause(
             $this->getSimulationEntity()
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     /**
@@ -96,23 +96,24 @@ class SimulationController extends SimulationBaseController
         SimulationService::resume(
             $this->getSimulationEntity()
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     /**
-     * Похоже не используется нигде
-     * Get user's score
+     * Возобновление симуляции
      */
-    /*public function actionGetPoint()
+    public function actionUpdatePause()
     {
-        $simulation = $this->getSimulationEntity();
-        
-        try {
-            $this->sendJSON(SimulationService::getPointsForDebug($simulation));
-        } catch (Exception $e) {
-            $this->returnErrorMessage($e->getMessage());
+        $skipped = Yii::app()->request->getParam("skipped");
+        if(null === $skipped) {
+            throw new Exception("skipped not found");
         }
-    }*/
+        SimulationService::update(
+            $this->getSimulationEntity(),
+            $skipped
+        );
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
 
     /**
      * Изменение времени симуляции
@@ -176,6 +177,11 @@ class SimulationController extends SimulationBaseController
         $invite = Invite::model()->findByPk($invite_id);
         $invite->tutorial_displayed_at = null;
         $invite->save(false);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
+
+    public function actionConnect()
+    {
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 }
