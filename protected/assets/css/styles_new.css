@@ -852,6 +852,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary td, .items td, .grid-view table.items td {
     background-color: #fdfbc6;
     border: none;
+    vertical-align: middle;
 }
 .table-primary .even td, .items .even td, .grid-view table.items tr.even td {
     background: #fefeec;
