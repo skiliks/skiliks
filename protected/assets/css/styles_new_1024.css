@@ -185,6 +185,15 @@ h3 {
     top:147px;
 }
 /*  ************************ /SITE ************************/
+/*  ************************ POPUP SITE ************************/
+.ui-dialog .ui-dialog-titlebar-close, .popupclose {
+    background-image: url("../img/closepopup-min.png");
+    height: 22px;
+    width: 22px;
+    top: -19px;
+    right: -22px;
+}
+/*  ************************ /POPUP SITE ************************/
 /*  ************************ SELECT ************************/
 .sbHolder {
     height: 17px;
