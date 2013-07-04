@@ -279,6 +279,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
     {
         $this->optimal_click("css=.NEW_EMAIL");
         $this->addRecipient($recipient);
+        sleep(2);
         $this->addTheme("xpath=(//*[contains(text(), '$theme')])");
         if ($attachment!="")
         {
