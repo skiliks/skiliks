@@ -299,6 +299,9 @@
     height: 30px;
     width: 145px;
 }
+.add-vacancy-popup .ui-widget-content {
+    padding-left:8px;
+}
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
     left: 150px;
 }
