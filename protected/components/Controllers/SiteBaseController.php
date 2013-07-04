@@ -6,6 +6,7 @@ class SiteBaseController extends CController {
      * @var $user YumUser
      */
     public $user;
+    public $is_test = false;
 
     /**
      * @param CAction $action
