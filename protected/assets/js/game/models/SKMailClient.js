@@ -1670,8 +1670,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             isNotEmptySubject:function(){
                 try {
-                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData !== null &&
-                    $("#MailClient_NewLetterSubject").data('ddslick').selectedData.value !== 0;
+                    return $("#MailClient_NewLetterSubject").data('ddslick').selectedData !== null &&
+                        $("#MailClient_NewLetterSubject").data('ddslick').selectedData.value !== 0;
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
