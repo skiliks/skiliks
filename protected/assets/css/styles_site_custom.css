@@ -293,3 +293,31 @@
     width:670px !important;
 }
 /*  *************************** /FEEDBACK ***************************/
+/*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup label {
+    font-size: 14px;
+    height: 30px;
+    width: 145px;
+}
+.add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
+    left: 150px;
+}
+.add-vacancy-popup input[type="text"] {
+    color:#146672;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    width:374px;
+}
+.add-vacancy-popup .sbHolder {
+    top: 5px;
+    width: 374px;
+}
+.add-vacancy-popup .errorMessage {
+    top: -9px;
+    left: 155px;
+}
+.add-vacancy-popup#Vacancy_label_em_ {
+    top: -13px;
+}
+/*  *************************** /ADD VACANCY POPUP ***************************/
