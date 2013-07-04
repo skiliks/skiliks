@@ -1,6 +1,6 @@
 <h1 class="page-header"><?php echo Yii::t('site', 'Available simulation') ?></h1>
 
-<div class="block-border">
+<div class="block-border table-simultns">
 <?php
 $scoreRender = function(Invite $invite) {
     if ($invite->isComplete()) {
