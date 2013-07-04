@@ -100,13 +100,17 @@ define([
                                 //console.log(SKApp.server.requests_queue);
                                 SKApp.server.requests_queue.remove(models[0]);
                             } else {
-                                throw new Error("Not found model by - "+uniqueId);
+                                if (!window.testMode) {
+                                    throw new Error("Not found model by - " + uniqueId);
+                                }
                             }
                             if(undefined !== callback){
                                 callback(data, textStatus, jqXHR);
                             }
                         } else {
-                            throw new Error("uniqueId is not found");
+                            if (!window.testMode) {
+                                throw new Error("uniqueId is not found");
+                            }
                         }
                     },
                     complete: _.bind(me.onComplete, me),

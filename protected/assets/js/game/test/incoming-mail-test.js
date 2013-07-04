@@ -155,6 +155,7 @@ define(
 
 
                 it('Incoming mail test', function() {
+                    window.testMode = true;
 
                     /* init simulation */
 

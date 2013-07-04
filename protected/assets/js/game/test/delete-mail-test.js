@@ -191,6 +191,8 @@ define([
             });
 
             it("delete mail", function () {
+                window.testMode = true;
+
                 //init simulation
                 var simulation = SKApp.simulation;
                 simulation.start();
