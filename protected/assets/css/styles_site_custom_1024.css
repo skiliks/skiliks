@@ -283,8 +283,8 @@
 .errorMessage.Invite_firstname {
     top: -12px;
 }
-.errorMessage.Invite_lastname {
-    top: -3px;
+.errorMessage.Invite_lastname, .errorMessage.Invite_email {
+    top: -2px;
 }
 .errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
     left:55px;
