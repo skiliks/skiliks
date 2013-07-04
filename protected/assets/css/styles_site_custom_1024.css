@@ -306,19 +306,19 @@
 /*  *************************** /FEEDBACK ***************************/
 /*  *************************** ADD VACANCY POPUP ***************************/
 .add-vacancy-popup label {
-    font-size: 14px;
-    height: 30px;
-    width: 145px;
+    font-size: 11px;
+    height: 22px;
+    width: 115px;
 }
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
-    left: 150px;
+    left: 115px;
 }
 .add-vacancy-popup input[type="text"] {
     color:#146672;
-    font-size: 14px;
-    height: 24px;
-    line-height: 24px;
-    width:374px;
+    font-size: 11px;
+    height: 18px;
+    line-height: 18px;
+    width:252px;
 }
 .add-vacancy-popup .sbHolder {
     top: 5px;
