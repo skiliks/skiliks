@@ -167,6 +167,7 @@ class SimulationController extends SimulationBaseController
                 Yii::app()->user->data()->getAccount()->save(false);
             }
         }
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     public function actionMarkTutorialNotStarted()
@@ -175,6 +176,7 @@ class SimulationController extends SimulationBaseController
         $invite = Invite::model()->findByPk($invite_id);
         $invite->tutorial_displayed_at = null;
         $invite->save(false);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 }
 
