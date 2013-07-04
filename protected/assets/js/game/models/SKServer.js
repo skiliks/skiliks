@@ -94,6 +94,7 @@ define([
                         }
                     },
                     success:  function (data, textStatus, jqXHR) {
+                        console.log(url);
                         if( data.uniqueId !== undefined ) {
                             var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
                             if(false === $.isEmptyObject(models)) {
