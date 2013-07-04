@@ -149,12 +149,17 @@
     margin-bottom:33px;
     margin-top:36px;
 }
+#simulations-counter-box .font-large, #simulations-counter-box .small-block {
+    display: table-cell;
+}
 #simulations-counter-box .font-large {
     font-size: 17px;
+    height: 23px;
+    padding-right: 10px;
+    vertical-align: middle;
 }
 #simulations-counter-box .small-block {
     font-size: 19px;
-    margin-left: 10px;
 }
 .invites-limit {
     padding-bottom: 6px;

@@ -1,6 +1,6 @@
 <?php
 
-class ZohoController extends SimulationBaseController
+class ZohoController extends SiteBaseController
 {
     public function actionSaveExcel()
     {
