@@ -1,5 +1,5 @@
 <div class="container-borders-3">
-    <h1 class="page-header"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
+    <h1 class="page-header margin-less"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
     <div class="grid1">
     <div id="invite-people-box" class="block-border bg-rich-blue border-large">
     <!-- invite-people-box -->
