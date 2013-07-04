@@ -707,13 +707,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: relative;
 }
 .ui-dialog .ui-dialog-titlebar-close, .popupclose {
-    background: url("../img/closepopup.png") no-repeat 0 0;
     cursor: pointer;
-    width: 27px;
-    height: 27px;
     position: absolute;
-    top: -23px;
-    right: -20px;
     display: block;
     margin: 0;
     text-indent: -90000px;
@@ -1059,10 +1054,14 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
 }
 .add-vacancy-popup .row {
     padding-bottom: 12px;
+    padding-top: 0px;
 }
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
     position: absolute;
     top: 0px;
+}
+.add-vacancy-popup .ui-dialog-titlebar-close {
+    top: -20px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
