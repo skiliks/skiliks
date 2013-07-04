@@ -1,5 +1,6 @@
-<h1 class="title"><?php echo Yii::t('site', 'Available simulation') ?></h1>
+<h1 class="page-header"><?php echo Yii::t('site', 'Available simulation') ?></h1>
 
+<div class="block-border">
 <?php
 $scoreRender = function(Invite $invite) {
     if ($invite->isComplete()) {
@@ -44,6 +45,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     ]
 ]);
 ?>
+</div>
 
 <div id="simulation-details-pop-up"></div>
 
