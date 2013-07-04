@@ -21,6 +21,104 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
     /**
      *
      */
+    public function actionIndexNew()
+    {
+        $user = Yii::app()->user;
+        if (null === $user->id) {
+            //Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
+            $this->redirect('/');
+        }
+
+        /**
+         * @var YumUser $user
+         */
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        if (null === Yii::app()->user->data()->getAccount()) {
+            $this->redirect('/registration/choose-account-type');
+        }
+
+        // check and add trial full version {
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
+
+        $notUsedFullSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => Yii::app()->user->data()->id,
+            'scenario_id' => $fullScenario->id,
+            'email'       => Yii::app()->user->data()->profile->email,
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        // I remove more than 1 allowed to start lite sim {
+        if (1 < count($notUsedFullSimulations)) {
+            $i = 0;
+            foreach ($notUsedFullSimulations as $key => $notUsedFullSimulation) {
+
+                if (0 < $i) {
+                    $notUsedFullSimulation->delete();
+                    unset($notUsedFullSimulations[$key]);
+                }
+                $i++;
+            }
+        }
+        // I remove more than 1 allowed to start lite sim }
+
+        if (0 === count($notUsedFullSimulations)) {
+            $newInviteForFullSimulation = new Invite();
+            $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->receiver_id = Yii::app()->user->data()->id;
+            $newInviteForFullSimulation->firstname = Yii::app()->user->data()->profile->firstname;
+            $newInviteForFullSimulation->lastname = Yii::app()->user->data()->profile->lastname;
+            $newInviteForFullSimulation->scenario_id = $fullScenario->id;
+            $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
+            $newInviteForFullSimulation->sent_time = time(); // @fix DB!
+            $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+            $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
+            $newInviteForFullSimulation->save(true, [
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status', 'tutorial_scenario_id',
+                'updated_at',
+            ]);
+
+            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->save(false);
+        }
+        // check and add trial full version }
+
+        // check and add trial lite version {
+        $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $notUsedLiteSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => Yii::app()->user->data()->id,
+            'scenario_id' => $liteScenario->id,
+            'email'       => Yii::app()->user->data()->profile->email,
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        // I remove more than 1 allowed to start lite sim {
+        if (1 < count($notUsedLiteSimulations)) {
+            $i = 0;
+            foreach ($notUsedLiteSimulations as $key => $notUsedLiteSimulation) {
+                if (0 < $i) {
+                    $notUsedLiteSimulation->delete();
+                    unset($notUsedLiteSimulations[$key]);
+                }
+                $i++;
+            }
+        }
+        // I remove more than 1 allowed to start lite sim }
+
+        if (0 === count($notUsedLiteSimulations)) {
+            Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
+        }
+        // check and add trial lite version }
+
+        $this->layout = 'site_standard';
+        $this->render('//new/simulations_corporate_new', []);
+    }
+
+    /**
+     *
+     */
     public function actionPersonal()
     {
         // check and add trial lite version {

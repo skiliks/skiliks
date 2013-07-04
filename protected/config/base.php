@@ -206,6 +206,7 @@ return array(
                 '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new/'      => 'static/dashboard/corporateNew',
+                'simulations-new/'    => 'static/simulations/indexNew',
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
