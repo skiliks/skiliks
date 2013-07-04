@@ -312,7 +312,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
     {
         $this->optimal_click("xpath=(//*[contains(text(), '$theme')])");
         $this->optimal_click("css=.ADD_TO_PLAN");
-        $this->optimal_click("css=.mail-plan-item.mail-task-"+$task_id+"");
+        $this->optimal_click("css=.mail-plan-item.mail-task-'$task_id'");
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close1']);
     }
 
