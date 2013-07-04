@@ -636,6 +636,7 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
+                    console.log(me.paused_time);
                     if( me.paused_time !== undefined )
                     {
                         me._startTimer();
