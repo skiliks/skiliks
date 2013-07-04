@@ -244,23 +244,28 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method initialize
              */
             initialize:function () {
-                this.folders[this.aliasFolderInbox] = new SKMailFolder();
-                this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;
+                try {
+                    this.folders[this.aliasFolderInbox] = new SKMailFolder();
+                    this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;
 
-                this.folders[this.aliasFolderDrafts] = new SKMailFolder();
-                this.folders[this.aliasFolderDrafts].alias = this.aliasFolderDrafts;
+                    this.folders[this.aliasFolderDrafts] = new SKMailFolder();
+                    this.folders[this.aliasFolderDrafts].alias = this.aliasFolderDrafts;
 
-                this.folders[this.aliasFolderSended] = new SKMailFolder();
-                this.folders[this.aliasFolderSended].alias = this.aliasFolderSended;
+                    this.folders[this.aliasFolderSended] = new SKMailFolder();
+                    this.folders[this.aliasFolderSended].alias = this.aliasFolderSended;
 
-                this.folders[this.aliasFolderTrash] = new SKMailFolder();
-                this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
-                this.emailUIDs = {};
-                // init folder names
-                this.getInboxFolder().name  = 'Входящие';
-                this.getDraftsFolder().name = 'Черновики';
-                this.getSendedFolder().name = 'Исходящие';
-                this.getTrashFolder().name  = 'Корзина';
+                    this.folders[this.aliasFolderTrash] = new SKMailFolder();
+                    this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
+                    this.emailUIDs = {};
+                    // init folder names
+                    this.getInboxFolder().name  = 'Входящие';
+                    this.getDraftsFolder().name = 'Черновики';
+                    this.getSendedFolder().name = 'Исходящие';
+                    this.getTrashFolder().name  = 'Корзина';
+                } catch(exception) {
+                    // window.Raven.captureMessage('123'); // + ',' + exception.stack.substring(0, 100));
+                    // window.Raven.captureMessage(exception.message); // + ',' + exception.stack.substring(0, 100));
+                }
             },
 
             /**
