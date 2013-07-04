@@ -95,7 +95,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
     public function test_Register_Corporate_SK3055()
     {
-        $this->markTestSkipped();
+        $this->markTestSkipp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('http://test.skiliks.com/ru');

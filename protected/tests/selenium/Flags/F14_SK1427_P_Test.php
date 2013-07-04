@@ -58,7 +58,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case2() {
 
-        $this->markTestSkipped();
+        $this->markTestSkipp();
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -95,7 +95,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_1() {
 
-        $this->markTestSkipped();
+        $this->markTestSkipp();
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -134,7 +134,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_2() {
 
-        $this->markTestSkipped();
+        $this->markTestSkipp();
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -173,7 +173,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_3() {
 
-        $this->markTestSkipped();
+        $this->markTestSkipp();
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
