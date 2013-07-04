@@ -73,6 +73,7 @@
     margin-left: 57px;
 }
 #invite-people-box h3 {
+    font-size: 21px;
     width:170px;
 }
 #invite-form label {
@@ -190,6 +191,7 @@
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 20px;
+    font-size: 11px;
     line-height: 20px;
     padding: 2px 5px;
 }
