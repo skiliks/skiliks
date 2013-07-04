@@ -111,12 +111,15 @@
     margin-bottom:23px;
     margin-top:26px;
 }
+#simulations-counter-box .font-large, #simulations-counter-box .small-block {
+    display: table-cell;
+}
 #simulations-counter-box .font-large {
     font-size: 14px;
+    padding-right: 4px;
 }
 #simulations-counter-box .small-block {
     font-size: 16px;
-    margin-left: 4px;
 }
 .invites-limit {
     padding-bottom: 4px;
