@@ -104,7 +104,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         // читаем письмо M7
         $this->write_reply_email("пришлите срочно пожелания!");
 
-        $this->addTaskToPlan("пришлите срочно пожелания!","102");
+        $this->addTaskToPlan("обучение регионального аналитика","102");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
