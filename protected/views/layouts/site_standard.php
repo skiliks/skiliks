@@ -193,7 +193,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript">
         Cufon.replace('li, p, label, input, select, .proxima-reg, .sbHolder a', {fontFamily:"ProximaNova-Regular", hover: true});
-        Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
+        Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
 
         Cufon.now();
