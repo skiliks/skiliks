@@ -149,13 +149,16 @@
     margin-bottom:33px;
     margin-top:36px;
 }
-#simulations-counter-box .font-large {
+#simulations-counter-box .font-large, #simulations-counter-box .small-block {
     display: table-cell;
+}
+#simulations-counter-box .font-large {
     font-size: 17px;
-    padding-right: 9px;
+    height: 23px;
+    padding-right: 10px;
+    vertical-align: middle;
 }
 #simulations-counter-box .small-block {
-    display: table-cell;
     font-size: 19px;
 }
 .invites-limit {
