@@ -1057,34 +1057,12 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
 .add-vacancy-popup label {
     color: #146672;
     display: table-cell;
-    font-size: 14px;
-    height: 30px;
     margin: 0px;
     vertical-align: middle;
-    width: 145px;
 }
 .add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
-    left: 150px;
     position: absolute;
     top: 0px;
-}
-.add-vacancy-popup input[type="text"] {
-    color:#146672;
-    font-size: 14px;
-    height: 24px;
-    line-height: 24px;
-    width:374px;
-}
-.add-vacancy-popup .sbHolder {
-    top: 5px;
-    width: 374px;
-}
-.add-vacancy-popup .errorMessage {
-    top: -9px;
-    left: 155px;
-}
-.add-vacancy-popup#Vacancy_label_em_ {
-    top: -13px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
