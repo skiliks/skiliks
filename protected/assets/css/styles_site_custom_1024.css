@@ -347,7 +347,7 @@
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
-.action-controller-corporate-static-dashboard .cabmessage {
+.controller-static-dashboard .cabmessage {
     left: 50% !important;
     margin-left: -240px !important;
     top: 170px !important;
