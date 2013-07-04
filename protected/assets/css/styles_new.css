@@ -1029,7 +1029,7 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     color: #bd2929;
     font-family: "ProximaNova-Regular";
     position: absolute;
-    top:0px;
+    top:-1px;
 }
 .bg-rich-blue .errorMessage {
     color:#fff;
