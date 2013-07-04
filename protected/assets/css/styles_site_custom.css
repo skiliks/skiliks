@@ -221,7 +221,7 @@
     font-size: 12px;
     padding: 12px 6px;
 }
-.dashboard .grid-view table.items td {
+.dashboard .grid-view table.items td, .table-simultns .grid-view table.items td {
     padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
