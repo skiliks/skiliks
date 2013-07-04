@@ -110,7 +110,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->clearEventQueueBeforeEleven('RST4');
         $this->clearEventQueueBeforeEleven('RST5');
-        
+
         $this->run_event('RST6', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'давайте я вам перешлю этот показатель')])");
@@ -303,6 +303,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
     private function write_replyAll_email($theme, $copy_rec)
     {
         $this->optimal_click("xpath=(//*[contains(text(), '$theme')])");
+        $this->optimal_click("css=.REPLY_ALL_EMAIL");
         if ($copy_rec!="")
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_copy_rec']);
@@ -310,7 +311,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
             $this->mouseOver($copy_rec);
             $this->optimal_click($copy_rec);
         }
-        $this->optimal_click("css=.REPLY_ALL_EMAIL");
         $this->optimal_click("css=.SEND_EMAIL");
     }
 
