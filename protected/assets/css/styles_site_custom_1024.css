@@ -305,6 +305,16 @@
 }
 /*  *************************** /FEEDBACK ***************************/
 /*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup {
+    background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+    height: 280px !important;
+    margin-left: -212px !important;
+    padding-bottom: 0px;
+    width: 424px !important;
+}
+.add-vacancy-popup .ui-dialog-content h1 {
+    font-size: 22px;
+}
 .add-vacancy-popup label {
     font-size: 11px;
     height: 22px;
@@ -322,7 +332,7 @@
 }
 .add-vacancy-popup .sbHolder {
     top: 5px;
-    width: 374px;
+    width: 260px;
 }
 .add-vacancy-popup .errorMessage {
     top: -9px;
