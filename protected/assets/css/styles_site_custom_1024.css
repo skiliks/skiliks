@@ -121,7 +121,7 @@
     vertical-align: middle;
 }
 #simulations-counter-box .small-block {
-    font-size: 16px;
+    font-size: 15px;
 }
 .invites-limit {
     padding-bottom: 4px;
@@ -207,7 +207,7 @@
     border:3px solid #24bdd3;
     padding: 9px 4px;
 }
-.form-simple input[type="text"]+input[type="text"] {
+.form-simple input[type="text"]+input[type="text"], #Invite_lastname {
     margin-left: 6px;
 }
 .row {
@@ -276,15 +276,15 @@
 /* ************************ /Pager ************************ */
 /*  *************************** ERRORS ***************************/
 .errorMessage {
-    font-size: 11px;
+    font-size: 9px;
 }
 .errorMessage.Invite_firstname {
-    top: -11px;
+    top: -12px;
 }
 .errorMessage.Invite_lastname {
-    top: 0px;
+    top: -3px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_lastname {
+.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
     left:55px;
 }
 /*  *************************** /ERRORS ***************************/
