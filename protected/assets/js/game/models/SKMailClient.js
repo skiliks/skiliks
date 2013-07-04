@@ -262,9 +262,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     this.getDraftsFolder().name = 'Черновики';
                     this.getSendedFolder().name = 'Исходящие';
                     this.getTrashFolder().name  = 'Корзина';
+                    xxx();
                 } catch(exception) {
                     // window.Raven.captureMessage('123'); // + ',' + exception.stack.substring(0, 100));
-                    // window.Raven.captureMessage(exception.message); // + ',' + exception.stack.substring(0, 100));
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             },
 
