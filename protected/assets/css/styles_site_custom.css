@@ -150,11 +150,13 @@
     margin-top:36px;
 }
 #simulations-counter-box .font-large {
+    display: table-cell;
     font-size: 17px;
+    padding-right: 10px;
 }
 #simulations-counter-box .small-block {
+    display: table-cell;
     font-size: 19px;
-    margin-left: 10px;
 }
 .invites-limit {
     padding-bottom: 6px;
