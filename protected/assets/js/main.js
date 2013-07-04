@@ -1,8 +1,23 @@
+var fixLogotypes = function() {
+    console.log($(window).width());
+    var headerLogo = $("#header-main-logo");
+    var footerLogo = $("#footer-main-logo");
+    // update logo size
+    if ($(window).width() > 1279) {
+        $("#header-main-logo").attr('src', headerLogo.attr('data-src-big'));
+        $("#footer-main-logo").attr('src', footerLogo.attr('data-src-big'));
+    } else {
+        $("#header-main-logo").attr('src', headerLogo.attr('data-src-small'));
+        $("#footer-main-logo").attr('src', footerLogo.attr('data-src-small'));
+    }
+};
 
 /* global $, console, jQuery, Cufon, confirm */
 (function ($) {
     "use strict";
     $(document).ready(function () {
+
+        fixLogotypes();
 
         // fixSimResultsDialog {
         var fixSimResultsDialog = function () {
@@ -226,7 +241,10 @@
         // delete vacancy }
 
         $(window).on('resize', function () {
+            console.log('resize');
             Cufon.refresh();
+
+            fixLogotypes();
         });
 
         // corporate dashboard vacancy {
