@@ -1,3 +1,4 @@
+<!-- standard -->
 <?php
 
 $cs = Yii::app()->clientScript;
