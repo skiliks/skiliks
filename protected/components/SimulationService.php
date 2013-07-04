@@ -723,13 +723,21 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
+    public static function update($simulation, $skipped)
+    {
+        $simulation->skipped = $simulation->skipped + $skipped;
+        $simulation->paused = null;
+        $simulation->save();
+    }
+
+    /**
+     * @param Simulation $simulation
+     */
     public static function resume($simulation)
     {
         if (!empty($simulation->paused)) {
             $skipped = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->paused);
-            $simulation->skipped = $simulation->skipped + $skipped;
-            $simulation->paused = null;
-            $simulation->save();
+            self::update($simulation, $skipped);
         }
     }
 

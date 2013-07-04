@@ -651,6 +651,16 @@ define([
 
                 });
             },
+            updatePause: function(callback) {
+                var me = this;
+                var skipped = (new Date() - me.paused_time) / 1000;
+                SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
+                        if (typeof callback === 'function') {
+                            callback(responce);
+                        }
+
+                });
+            },
 
             /**
              * Начинает блокировать все действия пользователя
