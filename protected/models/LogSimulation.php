@@ -11,7 +11,7 @@
  * @property string $scenario_name
  * @property string $mode
  * @property string $action
- * @property string $read_date
+ * @property string $real_date
  * @property string $game_time_frontend
  * @property string $game_time_backend
  */
@@ -45,10 +45,10 @@ class LogSimulation extends CActiveRecord
 		return array(
 			array('invite_id, sim_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('scenario_name, mode', 'length', 'max'=>20),
-			array('action, read_date, game_time_frontend, game_time_backend', 'safe'),
+			array('action, real_date, game_time_frontend, game_time_backend', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, invite_id, sim_id, user_id, scenario_name, mode, action, read_date, game_time_frontend, game_time_backend', 'safe', 'on'=>'search'),
+			array('id, invite_id, sim_id, user_id, scenario_name, mode, action, real_date, game_time_frontend, game_time_backend', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,6 +60,9 @@ class LogSimulation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'user'       => [self::BELONGS_TO, 'YumUser', 'user_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'simulation_id'],
+            'invite'     => [self::BELONGS_TO, 'Invite', 'invite_id'],
 		);
 	}
 
@@ -76,7 +79,7 @@ class LogSimulation extends CActiveRecord
 			'scenario_name' => 'Scenario Name',
 			'mode' => 'Mode',
 			'action' => 'Action',
-			'read_date' => 'Read Date',
+			'real_date' => 'Read Date',
 			'game_time_frontend' => 'Game Time Frontend',
 			'game_time_backend' => 'Game Time Backend',
 		);
@@ -100,7 +103,7 @@ class LogSimulation extends CActiveRecord
 		$criteria->compare('scenario_name',$this->scenario_name,true);
 		$criteria->compare('mode',$this->mode,true);
 		$criteria->compare('action',$this->action,true);
-		$criteria->compare('read_date',$this->read_date,true);
+		$criteria->compare('real_date',$this->read_date,true);
 		$criteria->compare('game_time_frontend',$this->game_time_frontend,true);
 		$criteria->compare('game_time_backend',$this->game_time_backend,true);
 

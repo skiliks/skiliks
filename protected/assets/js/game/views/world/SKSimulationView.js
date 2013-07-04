@@ -280,6 +280,7 @@ define([
              * @method
              */
             endWorkday: function() {
+                SKApp.server.api('events/userSeeWorkdayEndMessage', {});
                 var me = this;
 
                 me.simulation.startPause(function(){});
