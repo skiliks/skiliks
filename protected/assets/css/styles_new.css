@@ -716,8 +716,11 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
 }
 .ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
-    background-color: none;
     background-position: 0 100%;
+    border: none;
+}
+.ui-dialog .ui-dialog-titlebar-close:hover .ui-icon {
+    background: none;
     border: none;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
