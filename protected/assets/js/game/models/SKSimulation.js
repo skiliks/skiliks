@@ -326,12 +326,14 @@ define([
                         is_paused = $('.time').hasClass('paused');
                         if(!is_paused) {
                             $('.time').addClass('paused');
+                            SKApp.simulation.startPause(function(){
+                                me.loadDocsDialog = new SKDialogView({
+                                    'message': 'Пожалуйста, подождите, идёт загрузка документов',
+                                    'modal': true,
+                                    'buttons': []
+                                });
+                            });
                         }
-                        me.loadDocsDialog = new SKDialogView({
-                            'message': 'Пожалуйста, подождите, идёт загрузка документов',
-                            'modal': true,
-                            'buttons': []
-                        });
                         // if after 60 sec when documents downloading started not all docs loaded
                         // or save wasn`t finished -- throw error
                         me.loadDocsTimer = setTimeout(function() {
