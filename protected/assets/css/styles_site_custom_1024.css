@@ -113,6 +113,8 @@
 }
 #simulations-counter-box .font-large, #simulations-counter-box .small-block {
     display: table-cell;
+    height: 21px;
+    vertical-align: middle;
 }
 #simulations-counter-box .font-large {
     font-size: 14px;
