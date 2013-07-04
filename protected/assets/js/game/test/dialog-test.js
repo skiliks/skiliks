@@ -43,6 +43,8 @@ define([
             });
 
             it("Simple dialog start test", function () {
+                window.testMode = true;
+
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
