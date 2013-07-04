@@ -12,7 +12,7 @@ $scoreRender = function(Invite $invite) {
         ],false);
     } elseif ($invite->isNotStarted()) {
         return sprintf(
-            '<a href="/simulation/promo/%s/%s">Начать</a>',
+            '<a class="btn btn-primary" href="/simulation/promo/%s/%s">Начать</a>',
             $invite->scenario->slug,
             $invite->id
         );
