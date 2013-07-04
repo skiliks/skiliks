@@ -225,6 +225,17 @@
     padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** SIMULATIONS TABLE ***************************/
+.table-simultns #yw0_c0 {
+    width: 24%;
+}
+.table-simultns #yw0_c1, .table-simultns #yw0_c2 {
+    width: 33%;
+}
+.table-simultns #yw0_c3 {
+    width: 10%;
+}
+/*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */
 .yiiPager .previous a, .yiiPager .next a {
     margin: 0px 11.5px;
