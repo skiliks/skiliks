@@ -1103,7 +1103,7 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     padding-bottom: 0px;
     padding-top: 12px;
 }
-.invite-form-block input[type="submit"] {
+.invite-form-block input[type="submit"], .form-invite-message input[type="submit"] {
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
 }
 /*  *************************** /SEND INVITATION POPUP ***************************/
