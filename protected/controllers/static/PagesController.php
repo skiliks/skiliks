@@ -2,6 +2,8 @@
 
 class PagesController extends SiteBaseController
 {
+    public $is_test = false;
+
     public function beforeAction($action)
     {
         $user = Yii::app()->user;
