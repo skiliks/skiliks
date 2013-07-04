@@ -349,7 +349,8 @@ return array(
             'useSentryForJsLog'               => false,
         ],
         'zoho' => array(
-            'apiKey'              => 'c998c211c5404969606b6738c106c183',
+            //'apiKey'              => 'c998c211c5404969606b6738c106c183',
+            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
