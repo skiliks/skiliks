@@ -65,13 +65,13 @@ h3 {
 .btn-primary {
     background-image: url("../img/btn-primry-min.png");
 }
-.btn-primary, .btn-site, .add-vacancy-popup input[type="submit"] {
+.btn-primary, .btn-site, .submit-primry input[type="submit"]  {
     font-size: 12px;
     height: 24px;
     line-height: 24px;
     padding: 0 8px 0 18px;
 }
-.btn-site,.add-vacancy-popup input[type="submit"] { /* example -  manage subscription */
+.btn-site, .submit-primry input[type="submit"] { /* example -  manage subscription */
     background:#146672 url("../img/arrowleft-min.png") no-repeat 8px 50%;
     color: #fff;
 }
