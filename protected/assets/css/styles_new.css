@@ -707,6 +707,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     position: relative;
 }
 .ui-dialog .ui-dialog-titlebar-close, .popupclose {
+    border:none;
     cursor: pointer;
     position: absolute;
     display: block;
@@ -715,6 +716,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     padding: 0;
 }
 .ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
+    background-color: none;
     background-position: 0 100%;
     border: none;
 }
