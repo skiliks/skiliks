@@ -216,12 +216,12 @@
 }
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary th, .items th, .grid-view table.items th{
+.table-primary th, .items th, .grid-view table.items th,
+.table-primary td, .items td, .grid-view .items td {
     font-size: 12px;
     padding: 12px 6px;
 }
-.table-primary td, .items td, .grid-view table.items td {
-    font-size: 12px;
+.dashboard .grid-view table.items td {
     padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
