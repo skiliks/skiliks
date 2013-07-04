@@ -722,6 +722,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ui-dialog .ui-widget-header .ui-icon, .ui-dialog .ui-widget-header .ui-icon:hover  {
     background: none;
     border: none;
+    display: none;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
 .popup-site {
