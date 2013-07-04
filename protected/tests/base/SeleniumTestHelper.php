@@ -680,7 +680,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
-    public function markTestSkipped ()
+    public function markTestSkipp ()
     {
         $this->assertTrue(TRUE, 'This should already work.');
         $this->close();
