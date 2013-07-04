@@ -324,3 +324,35 @@
     top: -13px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+#Invite_message {
+    height: 46px;
+    max-height: 46px;
+}
+#Invite_fullname {
+    height: 12px;
+    line-height: 12px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 10px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
+}
+.block-form {
+    padding: 20px 10px;
+    width: 523px;
+}
+.block-form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    height: 426px !important;
+    width: 560px !important;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/

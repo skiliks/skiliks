@@ -307,7 +307,7 @@
 /*  *************************** ADD VACANCY POPUP ***************************/
 .add-vacancy-popup {
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
-    height: 280px !important;
+    height: 286px !important;
     margin-left: -212px !important;
     padding-bottom: 0px;
     width: 424px !important;
@@ -317,7 +317,6 @@
     padding-top: 24px;
 }
 .add-vacancy-popup .ui-dialog-content h1 {
-    font-size: 22px;
     padding-bottom: 6px;
 }
 .add-vacancy-popup label {
@@ -347,3 +346,39 @@
     top: -13px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+#Invite_message {
+    height: 46px;
+    max-height: 46px;
+}
+#Invite_fullname {
+    height: 12px;
+    line-height: 12px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 10px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
+}
+.block-form {
+    padding: 15px 10px;
+    width: 413px;
+}
+.block-form p {
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    height: 426px !important;
+    width: 560px !important;
+}
+.invite-form-block label, .invite-form-block p,
+.invite-form-block input[type="text"], .invite-form-block textarea {
+    font-size: 11px;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/
