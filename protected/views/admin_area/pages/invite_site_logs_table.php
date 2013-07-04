@@ -1,18 +1,8 @@
 <? $titlesInvite = [
 
 ];
+?>
 
-$titlesSimulation = [
-    'ID',
-    'Invite id',
-    'Тестируемый',
-    'Сценарий',
-    'Режим',
-    'action',
-    'real date',
-    'front gametime',
-    'back gametime',
-]?>
 <div class="row fix-top">
 
     <!-- Invite: -->
@@ -54,6 +44,19 @@ $titlesSimulation = [
 
     <!-- Simulation: -->
 
+<?php $titlesSimulation = [
+    'ID',
+    'Invite id',
+    'Тестируемый',
+    'Сценарий',
+    'Режим',
+    'action',
+    'real date',
+    'front gametime',
+    'back gametime',
+    'комментарий'
+]?>
+
     <h2>... над симуляцией</h2>
     <table class="table table-hover">
         <thead>
@@ -91,6 +94,7 @@ $titlesSimulation = [
                 <td><?= $itemS->real_date ?></td>
                 <td><?= $itemS->game_time_frontend ?></td>
                 <td><?= $itemS->game_time_backend ?></td>
+                <td><?= $itemS->comment ?></td>
             </tr>
         <? endforeach ?>
         </tbody>
