@@ -275,6 +275,19 @@
     padding-top: 15px;
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  *************************** ERRORS ***************************/
+.errorMessage {
+    font-size: 11px;
+}
+.errorMessage.Invite_firstname, .errorMessage.Invite_email {
+    top: -3px;
+    left: 72px;
+}
+.errorMessage.Invite_lastname {
+    top: -3px;
+    left: 160px;
+}
+/*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
 .feedback .form-all {
     width:670px !important;

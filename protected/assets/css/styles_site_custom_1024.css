@@ -274,6 +274,20 @@
     margin: 0px 11.5px;
 }
 /* ************************ /Pager ************************ */
+/*  *************************** ERRORS ***************************/
+.errorMessage {
+    font-size: 11px;
+}
+.errorMessage.Invite_firstname {
+    top: -11px;
+}
+.errorMessage.Invite_lastname {
+    top: 0px;
+}
+.errorMessage.Invite_firstname, .errorMessage.Invite_lastname {
+    left:55px;
+}
+/*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
 .feedbackwrap {
     background-size: contain;

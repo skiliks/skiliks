@@ -1027,20 +1027,14 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
 }
 .errorMessage {
     color: #bd2929;
-    font: 11px "ProximaNova-Regular";
+    font-family: "ProximaNova-Regular";
     position: absolute;
+    top:-1px;
 }
 .bg-rich-blue .errorMessage {
     color:#fff;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_email {
-    top: -3px;
-    left: 72px;
-}
-.errorMessage.Invite_lastname {
-    top: -3px;
-    left: 160px;
-}
+
 /*  *************************** /ERRORS ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
