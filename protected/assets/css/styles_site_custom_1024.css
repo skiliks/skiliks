@@ -83,10 +83,10 @@
     width: 50px;
 }
 #Invite_lastname {
-    width: 55px;
+    width: 66px;
 }
 #Invite_email {
-    width: 125px;
+    width: 135px;
 }
 #invite-form .btn-add {
     bottom: 1px;
@@ -97,7 +97,7 @@
     padding: 10px;
 }
 #invite-form .sbHolder {
-    width: 117px;
+    width: 120px;
 }
 #invite-form .sbSelector {
     width: 110px;
