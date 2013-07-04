@@ -347,19 +347,25 @@
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.action-controller-corporate-static-dashboard .cabmessage {
+    left: 50% !important;
+    margin-left: -240px !important;
+    top: 170px !important;
+    width: 480px !important;
+}
 #Invite_message {
-    height: 46px;
-    max-height: 46px;
+    height: 40px;
+    max-height: 40px;
 }
 #Invite_fullname {
-    height: 12px;
-    line-height: 12px;
+    height: 10px;
+    line-height: 10px;
 }
 #Invite_fullname, #Invite_message {
-    padding: 10px;
-    max-width: 501px;
-    min-width: 501px;
-    width: 501px;
+    padding: 8px;
+    max-width: 394px;
+    min-width: 394px;
+    width: 394px;
 }
 .block-form {
     padding: 15px 10px;
