@@ -194,6 +194,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <script type="text/javascript">
         Cufon.replace('li, p, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td', {fontFamily:"ProximaNova-Bold", hover: true});
+        Cufon.replace('.feedback-dialog-title', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.semi, .yiiPager li, .yiiPager a', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
 
         Cufon.now();
