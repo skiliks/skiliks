@@ -603,10 +603,9 @@ class SimulationService
             }else{
                 $invite->save(false, ['simulation_id']);
             }
-            //$invite->status = Invite::STATUS_STARTED;//TODO:SKILIKS-2515
-
-
         }
+
+        self::LogAboutSim($simulation, 'sim start: finished');
 
         return $simulation;
     }
@@ -617,6 +616,8 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
+        self::LogAboutSim($simulation, 'sim stop: begin');
+
         // Check if simulation was already stopped
         if (null !== $simulation->end && false === $manual) {
             return;
@@ -707,6 +708,8 @@ class SimulationService
         // @ - for PHPUnit
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+
+        self::LogAboutSim($simulation, 'sim stop: assessment calculated');
     }
 
     /**
@@ -785,11 +788,13 @@ class SimulationService
         }
     }
 
+    /**
+     * @param $simulation
+     */
     public static function stressResistance($simulation) {
-
         /*
- * AssessmentAggregated 7141
- */
+         * AssessmentAggregated 7141
+         */
         /* @var $simulation Simulation */
         /* @var $game_type Scenario */
         $game_type = $simulation->game_type;
@@ -851,6 +856,11 @@ class SimulationService
 
     }
 
+    /**
+     * @param $simId
+     * @param $email
+     * @throws Exception
+     */
     public static function CalculateTheEstimate($simId, $email) {
 
         /** @var  $simulation Simulation */
@@ -885,5 +895,71 @@ class SimulationService
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         SimulationService::simulationStop($simulation, [], true);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @param string $action
+     */
+    public static function LogAboutSim(Simulation $simulation, $action) {
+
+        $comment = '';
+        $invite = null;
+
+        $log = new LogSimulation();
+
+        // action
+        $log->action = $action;
+
+        // timing
+        $log->real_date = date('Y-m-d H:i:s');
+        $log->game_time_frontend = Yii::app()->request->getParam('time');
+
+        if (null != $simulation) {
+            // add sim_id
+            $log->sim_id = $simulation->id;
+
+            // add invite {
+            $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simulation->id]);
+
+            if (1 == count($invites)) {
+                $invite = reset($invites);
+
+                $log->invite_id = $invite->id;
+            } else {
+                $comment .= "There are several invites for this simulation!\n";
+                $list = [];
+                foreach ($invites as $invite) {
+                    $list[] = $invite->id;
+                }
+                $comment .= implode($list);
+                unset($list);
+                unset($invite);
+            }
+            // add invite }
+
+            // mode
+            $log->mode = $simulation->getModeLabel();
+
+            // game time by backend version
+            $log->game_time_backend = $simulation->getGameTime();
+        }
+
+        // scenario_name
+        if (null !== $invite) {
+            $log->scenario_name = $invite->scenario->slug;
+        }
+
+        // add user_id {
+        if (null !== Yii::app()->user && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
+            $log->user_id = Yii::app()->user->data()->id;
+        } else {
+            $comment .= "Undefined user_id!\n";
+        }
+        // add user_id }
+
+        $log->comment = $comment;
+
+        $log->save(false);
     }
 }

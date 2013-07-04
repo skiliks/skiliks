@@ -77,6 +77,9 @@
                             </li>
                             <? endif ?>
                         <? endforeach ?>
+                        <li>
+                            <a href="/admin_area/invite/<?= $model->id?>/site-logs">Логи манипуляций на сайте</a>
+                        </li>
                     </ul>
                 </div>
             </td>

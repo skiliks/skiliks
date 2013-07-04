@@ -103,6 +103,13 @@ class MyDocumentsController extends SimulationBaseController
             'id' => $id,
             'id_2' => $file->id,
         ];
+
+        if ($json['is_was_saved']) {
+            SimulationService::LogAboutSim($simulation, 'sim: zoho verification passed');
+        } else {
+            SimulationService::LogAboutSim($simulation, 'sim: zoho verification failed');
+        }
+
         $this->sendJSON($json);
     }
 }
