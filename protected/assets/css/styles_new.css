@@ -65,7 +65,7 @@ nav ul, nav ul li {
     font-style: normal;
 }
 @font-face {
-    font-family: 'Conv_ProximaNova-Semibold';
+    font-family: 'ProximaNova-Semibold';
     src: url('../fonts/ProximaNova-Semibold.eot');
     src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
     url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
