@@ -190,8 +190,11 @@ h3 {
     background-image: url("../img/closepopup-min.png");
     height: 22px;
     width: 22px;
-    top: -19px;
-    right: -22px;
+    top: -15px;
+    right: -15px;
+}
+.ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
+    background-position: 0 -22px;
 }
 /*  ************************ /POPUP SITE ************************/
 /*  ************************ SELECT ************************/
