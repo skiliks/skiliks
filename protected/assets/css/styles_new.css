@@ -1087,6 +1087,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     border: none;
 }
 #Invite_fullname, #Invite_message {
+    background: #fff;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
