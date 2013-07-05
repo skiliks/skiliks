@@ -386,13 +386,13 @@
 }
 #Invite_fullname, #Invite_message {
     padding: 8px;
-    max-width: 410px;
-    min-width: 410px;
-    width: 410px;
+    max-width: 405px;
+    min-width: 405px;
+    width: 405px;
 }
 .block-form {
     padding: 15px 10px;
-    width: 430px;
+    width: 425px;
 }
 .block-form p {
     font-size: 11px;
@@ -403,7 +403,8 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 347px !important;
+    height: 357px !important;
+    padding-top: 10px;
     width: 560px !important;
 }
 .invite-form-block label, .invite-form-block p,
