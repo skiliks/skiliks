@@ -183,11 +183,15 @@
 .table-primary td, .items td, .grid-view table.items td {
     font-size: 10px;
 }
-.table-primary th, .items th, .grid-view table.items th,
-.table-simultns .grid-view table.items td {
+.table-primary th, .items th, .grid-view table.items th {
     padding: 10px 3px;
 }
 .dashboard .items td {
+    padding: 4px 3px;
+}
+.table-simultns .grid-view table.items td  {
+    height: 24px;
+    line-height: 24px;
     padding: 4px 3px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
@@ -198,13 +202,13 @@
     margin: 6px;
 }
 .table-simultns #yw0_c0 {
-    width: 24%;
+    width: 170px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2 {
     width: 240px;
 }
 .table-simultns #yw0_c3 {
-    width: 72px;
+    width: 97px;
 }
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
