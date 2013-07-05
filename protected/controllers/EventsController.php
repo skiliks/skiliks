@@ -57,6 +57,18 @@ class EventsController extends SimulationBaseController
         );
         $this->sendJSON($result);
     }
+
+    /**
+     * System action.
+     * Используестя исключительно в целях логирования что в 18:00
+     * пользователь получил уведомление об окончании рабочего дня
+     */
+    public function actionUserSeeWorkdayEndMessage() {
+        SimulationService::LogAboutSim($this->getSimulationEntity(), 'sim : workday end message displayed : 18-00');
+
+        // use sendJSON, just to send back request id
+        $this->sendJSON([]);
+    }
 }
         
 

@@ -206,6 +206,7 @@ return array(
                 '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new/'      => 'static/dashboard/corporateNew',
+                'simulations-new/'    => 'static/simulations/indexNew',
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
@@ -284,6 +285,7 @@ return array(
                 'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
                 'admin_area/invite/action/status' => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate' => 'admin_area/AdminPages/InviteCalculateTheEstimate',
+                'admin_area/invite/<invite_id:\w+>/site-logs' => 'admin_area/AdminPages/SiteLogs',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

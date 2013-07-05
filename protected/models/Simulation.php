@@ -58,6 +58,10 @@ class Simulation extends CActiveRecord
         return $date . ' | ' . $time;
     }
 
+    public function getModeLabel() {
+        return ($this->mode == self::MODE_PROMO_ID) ? self::MODE_PROMO_LABEL : self::MODE_DEVELOPER_LABEL;
+    }
+
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
