@@ -11,12 +11,7 @@
     <?php if ($isSimComplete): ?>
         <?php if($isDisplayTitle): ?>
             <span class="skillstitle">Базовый менеджмент</span>
-        <?php endif ?>
-        <span <?php echo 'data-simulation="/simulations/details/'.$simulation->id.'"'; ?>
-            class="ratingwrap radiusthree <?php if($simulation->end !== null) { echo "view-simulation-details-pop-up";} ?>">
-            <span class="ratebg block-stars"><span class="rating block-stars" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%"></span></span><span class="prcentval block-stars">
-                <?= $simulation->getCategoryAssessment() ?>%
-            </span><!-- </sup> --></span>
+        <?php endif ?><span <?php echo 'data-simulation="/simulations/details/'.$simulation->id.'"'; ?> class="ratingwrap radiusthree <?php if($simulation->end !== null) { echo "view-simulation-details-pop-up";} ?>"><span class="ratebg block-stars"><span class="rating block-stars" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%"></span></span><span class="prcentval block-stars"><?= $simulation->getCategoryAssessment() ?>%</span><!-- </sup> --></span>
         <?php if ($isDisplayArrow) : ?>
             <a href="#" data-simulation="/simulations/details/<?php echo $simulation->id; ?>" class="link-go view-simulation-details-pop-up"></a>
         <?php endif ?>
