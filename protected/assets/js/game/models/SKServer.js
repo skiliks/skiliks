@@ -69,8 +69,11 @@ define([
                         if( undefined !== uniqueId ) {
 
                             if( url !== me.api_root + me.connectPath ) {
-                                if($.isEmptyObject(SKApp.server.requests_queue.where({uniqueId:uniqueId}))){
-                                    SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:uniqueId, url:url, data:settings.data, callback:callback}));
+                                var models = SKApp.server.requests_queue.where({uniqueId:uniqueId});
+                                if($.isEmptyObject(models)){
+                                    SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:uniqueId, url:url, data:settings.data, callback:callback, is_repeat_request:false}));
+                                }else if(_.first(models).get('is_repeat_request')) {
+                                    console.log("repeat"+_.first(models).get('uniqueId'));
                                 } else {
                                     throw new Error("Duplicate uniqueId - "+uniqueId);
                                 }
@@ -130,7 +133,8 @@ define([
                                         $('.time').removeClass('paused');
                                         SKApp.server.requests_queue.each(function(model) {
                                             //debugger;
-                                            SKApp.server.requests_queue.remove(model);
+                                            model.set('is_repeat_request', true);
+                                            //SKApp.server.requests_queue.remove(model);
                                             SKApp.server.api(model.get('url'), model.get('data'), model.get('callback'));
                                         });
                                     });
