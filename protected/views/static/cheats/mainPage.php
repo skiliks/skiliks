@@ -104,9 +104,26 @@
         <br/>
         <br/>
 
-    <a href="/dashboard-new">dashboard Corporate new</a>
-    <a href="/simulations-new">simulations Corporate new</a>
-    <a href="/static/dnd">Drag & Drop prototype</a>
+    <a href="/dashboard-new" style="background-color: #1D7885">dashboard Corporate new</a>
+    <a href="/simulations-new" style="background-color: #1D7885">simulations Corporate new</a>
+    <a href="/profile-corporate-tariff-new" style="background-color: #1D7885">tariff Corporate new</a>
+    <a href="/profile-corporate-company-info-new" style="background-color: #1D7885">company info Corporate new</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/profile-corporate-user-info-new" style="background-color: #1D7885">user info Corporate new</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/static/drag-and-drop">Drag & Drop prototype</a>
+
+        <br/>
+        <br/>
+        <br/>
 
     </nav>
 

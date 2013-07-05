@@ -499,4 +499,109 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
     }
+
+    // ----- NEW:
+
+    /**
+     * temporary action
+     */
+    public function actionCorporateTariffNew() {
+        $this->checkUser();
+        $this->layout = 'site_standard';
+
+        $this->render('//new/tariff_corporate', []);
+    }
+
+    /**
+     * temporary action
+     */
+    public function actionCorporateCompanyInfoNew()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
+        $account = $this->user->account_corporate;
+
+        if (null !== Yii::app()->request->getParam('save')) {
+            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+            $account->ownership_type       = $UserAccountCorporate['ownership_type'];
+            $account->company_name         = $UserAccountCorporate['company_name'];
+            $account->industry_id          = $UserAccountCorporate['industry_id'];
+            $account->company_size_id      = $UserAccountCorporate['company_size_id'];
+            $account->company_description  = $UserAccountCorporate['company_description'];
+
+            if ($account->validate()) {
+                $account->save();
+            }
+        }
+
+        $industries = [];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = $industry->label;
+        }
+
+        $sizes = [];
+        foreach (CompanySize::model()->findAll() as $size) {
+            $sizes[$size->id] = $size->label;
+        }
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/company_info_corporate', [
+            'account' => $account,
+            'industries' => $industries,
+            'sizes' => $sizes
+        ]);
+    }
+
+    /**
+     * temporary action
+     */
+    public function actionCorporatePersonalDataNew()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
+        if (empty($this->user->account_corporate->is_corporate_email_verified)) {
+            $this->redirect('/');
+        }
+
+        $profile = $this->user->profile;
+        $account = $this->user->account_corporate;
+
+        if (null !== Yii::app()->request->getParam('save')) {
+            $YumProfile = Yii::app()->request->getParam('YumProfile');
+            $profile->firstname = $YumProfile['firstname'];
+            $profile->lastname  = $YumProfile['lastname'];
+
+            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
+
+            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+            $account->position_id = $UserAccountCorporate['position_id'];
+
+            $isAccountValid = $account->validate();
+
+            if ($isProfileValid && $isAccountValid) {
+                $profile->save();
+                $account->save();
+            }
+        }
+
+        $positions = [];
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = $position->label;
+        }
+
+        $this->render('personal_data_corporate', [
+            'profile'   => $profile,
+            'account'   => $account,
+            'positions' => $positions
+        ]);
+    }
 }
