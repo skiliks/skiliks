@@ -2,7 +2,7 @@
 <h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
 
 <div class="container-3 block-border border-primary bg-transparnt">
-<div class="border-primary bg-light-blue standard-left-box"><?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
+<div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
         <div class="row">

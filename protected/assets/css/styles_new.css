@@ -297,8 +297,10 @@ ul li:last-child {
 .bg-yellow-light {/*  example - corporate table lighter rows */
     background-color: #fefeec;
 }
+.bg-yellow a {
+    color: #555742;
+}
 /*  ************************ /Colors and Borders ************************  */
-
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 input[type="text"], input[type="password"]  {
     background: #fff;
@@ -942,7 +944,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3),
-#corporate-invitations-list-box .grid-view tr td:nth-child(4){
+#corporate-invitations-list-box .grid-view tr td:nth-child(4),
+.table-simultns tr td {
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
@@ -1129,3 +1132,16 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .table-simultns {
     position: relative;
 }
+/*  *************************** PROFILE ***************************/
+.side-menu li:first-child, .side-menu li:first-child a {
+    border-radius: 3px 3px 0px 0px;
+}
+.side-menu a {
+    background: url("../img/menuarrows.png") no-repeat 236px -65px;
+    font-size: 18px;
+    padding: 12px 20px 12px 12px;
+
+    display: block;
+    text-decoration: none;
+}
+/*  *************************** /PROFILE ***************************/
