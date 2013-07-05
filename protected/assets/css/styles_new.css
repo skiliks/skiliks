@@ -65,7 +65,7 @@ nav ul, nav ul li {
     font-style: normal;
 }
 @font-face {
-    font-family: 'Conv_ProximaNova-Semibold';
+    font-family: 'ProximaNova-Semibold';
     src: url('../fonts/ProximaNova-Semibold.eot');
     src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
     url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
@@ -164,6 +164,9 @@ ul li:last-child {
     vertical-align: middle;
     text-decoration: none;
     white-space: nowrap;
+}
+.submit-primry input[type="submit"] {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
 }
 .btn-green, .submit-primry input[type="submit"] {
     background-color: #146672;
@@ -719,9 +722,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background-position: 0 100%;
     border: none;
 }
-.ui-dialog .ui-widget-header .ui-icon  {
+.ui-dialog .ui-widget-header .ui-icon, .ui-dialog .ui-widget-header .ui-icon:hover  {
     background: none;
     border: none;
+    display: none;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
 .popup-site {
@@ -848,6 +852,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .table-primary td, .items td, .grid-view table.items td {
     background-color: #fdfbc6;
     border: none;
+    vertical-align: middle;
 }
 .table-primary .even td, .items .even td, .grid-view table.items tr.even td {
     background: #fefeec;
@@ -987,7 +992,7 @@ span.required, .form-simple span.required {
 .yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
+    font-family:"ProximaNova-Semibold", Sans-Serif;
 }
 .yiiPager a, .pager .yiiPager a {
     margin: 0px 2px;
@@ -1005,7 +1010,7 @@ span.required, .form-simple span.required {
 .pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
+    font-family:"ProximaNova-Semibold", Sans-Serif;
 }
 .yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
     border:none;
@@ -1074,14 +1079,6 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     background: url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
 }
-#Invite_message {
-    height: 46px;
-    max-height: 46px;
-}
-#Invite_fullname {
-    height: 12px;
-    line-height: 12px;
-}
 #Invite_fullname, #Invite_message {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
@@ -1090,10 +1087,6 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     border-color: #fff;
     color: #146672;
     margin: 0px;
-    padding: 10px;
-    max-width: 501px;
-    min-width: 501px;
-    width: 501px;
 }
 .block-form {
     background: #e1f1f4;
@@ -1102,12 +1095,6 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
-    padding: 20px 10px;
-    width: 523px;
-}
-.block-form p {
-    font-size: 14px;
-    margin-bottom: 20px;
 }
 .block-form a {
     color: #2d7b91;
@@ -1120,14 +1107,7 @@ input.error, textarea.error, .error textarea, .feedback .form-section .error tex
     padding-bottom: 0px;
     padding-top: 12px;
 }
-.cabmessage input, .cabmessage select,
-.cabmessage textarea, .cabmessage button {
-    font: 14px "ProximaNova-Regular";
-}
-.cabmessage .ui-widget-content {
-    height: 426px !important;
-    width: 560px !important;
-}
+
 /*  *************************** /SEND INVITATION POPUP ***************************/
 /*  *************************** FEEDBACK ***************************/
 .feedbackwrap {

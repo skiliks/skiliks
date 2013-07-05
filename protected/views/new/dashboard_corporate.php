@@ -1,5 +1,5 @@
 <div class="container-borders-3">
-    <h1 class="page-header"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
+    <h1 class="page-header margin-less"><?php echo Yii::t('site', 'Work dashboard') ?></h1>
     <div class="grid1">
     <div id="invite-people-box" class="block-border bg-rich-blue border-large">
     <!-- invite-people-box -->
@@ -21,7 +21,7 @@
         <?php echo $form->hiddenField($invite, 'email'); ?>
         <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
 
-        <div class="block-form">
+        <div class="block-form invite-form-block">
             <p><?php echo $form->textField($invite, 'fullname'); ?></p>
             <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию <?= $invite->getVacancyLink('') ?>.</p>
             <?php if (empty($invite->receiverUser)): ?>

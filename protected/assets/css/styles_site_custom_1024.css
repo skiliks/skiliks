@@ -83,10 +83,10 @@
     width: 50px;
 }
 #Invite_lastname {
-    width: 55px;
+    width: 64px;
 }
 #Invite_email {
-    width: 125px;
+    width: 134px;
 }
 #invite-form .btn-add {
     bottom: 1px;
@@ -97,7 +97,7 @@
     padding: 10px;
 }
 #invite-form .sbHolder {
-    width: 117px;
+    width: 120px;
 }
 #invite-form .sbSelector {
     width: 110px;
@@ -179,15 +179,26 @@
 }
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary th, .items th, .grid-view table.items th{
+.table-primary th, .items th, .grid-view table.items th,
+.table-primary td, .items td, .grid-view table.items td {
     font-size: 10px;
     padding: 10px 3px;
 }
-.table-primary td, .items td, .grid-view table.items td {
-    font-size: 10px;
+.dashboard .items td, .table-simultns .grid-view table.items td {
     padding: 4px 3px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** SIMULATIONS TABLE ***************************/
+.table-simultns #yw0_c0 {
+    width: 24%;
+}
+.table-simultns #yw0_c1, .table-simultns #yw0_c2 {
+    width: 240px;
+}
+.table-simultns #yw0_c3 {
+    width: 72px;
+}
+/*  *************************** /SIMULATIONS TABLE ***************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 .form-small input[type="text"], .form-small input[type="password"] {
     height: 20px;
@@ -307,7 +318,7 @@
 /*  *************************** ADD VACANCY POPUP ***************************/
 .add-vacancy-popup {
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
-    height: 280px !important;
+    height: 286px !important;
     margin-left: -212px !important;
     padding-bottom: 0px;
     width: 424px !important;
@@ -347,3 +358,45 @@
     top: -13px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+.controller-static-dashboard .cabmessage {
+    left: 50% !important;
+    margin-left: -240px !important;
+    top: 170px !important;
+    width: 480px !important;
+}
+#Invite_message {
+    height: 40px;
+    max-height: 40px;
+}
+#Invite_fullname {
+    height: 10px;
+    line-height: 10px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 8px;
+    max-width: 394px;
+    min-width: 394px;
+    width: 394px;
+}
+.block-form {
+    padding: 15px 10px;
+    width: 413px;
+}
+.block-form p {
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    height: 410px !important;
+    width: 560px !important;
+}
+.invite-form-block label, .invite-form-block p,
+.invite-form-block input[type="text"], .invite-form-block textarea {
+    font-size: 11px;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/

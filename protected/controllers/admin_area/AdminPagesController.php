@@ -238,4 +238,17 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    public function actionSiteLogs() {
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+
+        $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $invite->simulation_id]);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/invite_site_logs_table', [
+            'logInvite'     => $logInvite,
+            'logSimulation' => $logSimulation,
+        ]);
+    }
 }

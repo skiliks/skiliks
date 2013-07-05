@@ -48,6 +48,9 @@
     padding-right: 20px;
 }
 .page-header {
+    margin-bottom: 24px;
+}
+.page-header.margin-less {
     margin-bottom: 16px;
 }
 .betaflag {
@@ -213,15 +216,26 @@
 }
 /*  ************************ /KABINET ************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary th, .items th, .grid-view table.items th{
+.table-primary th, .items th, .grid-view table.items th,
+.table-primary td, .items td, .grid-view table.items td {
     font-size: 12px;
     padding: 12px 6px;
 }
-.table-primary td, .items td, .grid-view table.items td {
-    font-size: 12px;
+.dashboard .grid-view table.items td, .table-simultns .grid-view table.items td {
     padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** SIMULATIONS TABLE ***************************/
+.table-simultns #yw0_c0 {
+    width: 24%;
+}
+.table-simultns #yw0_c1, .table-simultns #yw0_c2 {
+    width: 33%;
+}
+.table-simultns #yw0_c3 {
+    width: 10%;
+}
+/*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */
 .yiiPager .previous a, .yiiPager .next a {
     margin: 0px 11.5px;
@@ -324,3 +338,35 @@
     top: -13px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+#Invite_message {
+    height: 46px;
+    max-height: 46px;
+}
+#Invite_fullname {
+    height: 12px;
+    line-height: 12px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 10px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
+}
+.block-form {
+    padding: 20px 10px;
+    width: 523px;
+}
+.block-form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    height: 426px !important;
+    width: 560px !important;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/

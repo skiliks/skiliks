@@ -52,6 +52,9 @@ h3 {
     min-height: 18px;
     padding-left: 22px;
 }
+.ui-dialog .ui-dialog-title {
+    font-size: 22px;
+}
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
 .btn-large {
@@ -100,10 +103,10 @@ h3 {
     width:366px;
 }
 .container-borders-3 .grid1, .sign-block, .standard-left-box {
-    width:222px;
+    width:247px;
 }
 .container-borders-3 .grid2 {
-    width:518px;
+    width:495px;
 }
 .container-3 .grid1+.grid2 {
     margin-left: 16px;
@@ -133,7 +136,7 @@ h3 {
     width:498px;
 }
 .container-borders-3 .grid1 .pad-large {
-    padding:10px 8px;
+    padding:12px 16px;
 }
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
@@ -187,6 +190,7 @@ h3 {
 /*  ************************ /SITE ************************/
 /*  ************************ POPUP SITE ************************/
 .ui-dialog .ui-dialog-titlebar-close, .popupclose {
+    background:none;
     background-image: url("../img/closepopup-min.png");
     height: 22px;
     width: 22px;
@@ -250,8 +254,11 @@ h3 {
     padding-right: 10px;
     top:202px;
 }
-.page-header {/* - */
+.page-header {
     margin-bottom: 16px;
+}
+.page-header.margin-less {
+    margin-bottom: 10px;
 }
 .betaflag {
     background: url("../img/betaflag.png") no-repeat 0 0;
