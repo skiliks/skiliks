@@ -213,6 +213,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
         sleep(10);
 
+        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])", 'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
+        sleep(3);
+
         $this->run_event('M1');
         sleep(3);
         $this->run_event('M10');
@@ -271,7 +275,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->write_reply_email("адрес клиента");
         $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
-
 
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);

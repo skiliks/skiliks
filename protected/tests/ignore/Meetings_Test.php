@@ -11,7 +11,6 @@ class Meetings_Test extends SeleniumTestHelper
 //SK2420_4
     public function test_meetings_management()
     {
-        $this->markTestSkipp();
         $this->start_simulation();
         $this->optimal_click("link=F41");
         $this->run_event('E3.1',"xpath=(//*[contains(text(),'Здравствуйте, Анжела')])", 'click');
