@@ -52,7 +52,19 @@ define([
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
-                params.uniqueId = (params.uniqueId === undefined)?_.uniqueId('request'):params.uniqueId;
+                if(params.is_repeat_request){
+                    params.request = 'repeat';
+                }
+                if(params.uniqueId === undefined) {
+                    params.uniqueId = _.uniqueId('request');
+                }else{
+                    var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId, is_repeat_request:true});
+                    if(!_.isEmpty(models)) {
+                        params.request = 'repeat';
+                    } else {
+                        throw new Error(" uniqueId define but is not repeat request ");
+                    }
+                }
                 params.time = SKApp.simulation.getGameTime();
                 return {
                     data:      params,
@@ -65,17 +77,16 @@ define([
                     timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
                     beforeSend: function(jqXHR, settings) {
                         //console.log(settings);
-                        var uniqueId = SKApp.server.getQueryStringParams(settings.data, 'uniqueId');
-                        if( undefined !== uniqueId ) {
+                        if( undefined !== params.uniqueId ) {
 
                             if( url !== me.api_root + me.connectPath ) {
-                                var models = SKApp.server.requests_queue.where({uniqueId:uniqueId});
+                                var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId});
                                 if($.isEmptyObject(models)){
-                                    SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:uniqueId, url:url, data:settings.data, callback:callback, is_repeat_request:false}));
+                                    SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:params.uniqueId, url:url, data:params, callback:callback, is_repeat_request:false}));
                                 }else if(_.first(models).get('is_repeat_request')) {
                                     console.log("repeat"+_.first(models).get('uniqueId'));
                                 } else {
-                                    throw new Error("Duplicate uniqueId - "+uniqueId);
+                                    throw new Error("Duplicate uniqueId - "+params.uniqueId);
                                 }
                             }
                             //console.log(SKApp.server.requests_queue);
