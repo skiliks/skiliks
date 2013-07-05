@@ -334,8 +334,8 @@
     top: -9px;
     left: 155px;
 }
-.add-vacancy-popup#Vacancy_label_em_ {
-    top: -13px;
+.add-vacancy-popup #Vacancy_label_em_, .add-vacancy-popup #Vacancy_link_em_ {
+    top: -12px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
