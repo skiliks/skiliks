@@ -246,6 +246,11 @@
 .table-simultns #yw0_c3 {
     width: 120px;
 }
+.table-simultns tr .grid-view tr td:first-child {
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */
 .yiiPager .previous a, .yiiPager .next a {
