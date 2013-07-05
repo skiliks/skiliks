@@ -226,6 +226,11 @@
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
+.action-controller-indexNew-static-simulations .grid-view {
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 8px;
+}
 .table-simultns #yw0_c0 {
     width: 220px;
 }
