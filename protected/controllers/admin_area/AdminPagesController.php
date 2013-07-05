@@ -243,12 +243,46 @@ class AdminPagesController extends SiteBaseController {
         $invite = Invite::model()->findByPk($invite_id);
 
         $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
-        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $invite->simulation_id]);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['invite_id' => $invite_id]);
 
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invite_site_logs_table', [
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimSiteLogs() {
+        $simId = Yii::app()->request->getParam('sim_id', null);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $simId]);
+
+        $this->pageTitle = sprintf('Админка: Лог действий с симуляцией %s на сайте', $simId);
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulation_site_logs_table', [
+            'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimulations() {
+        $invitesRawArray = Invite::model()->findAll();
+        $invites = [];
+        foreach ($invitesRawArray as $element) {
+            $invites[$element->simulation_id] = $element->id;
+        }
+
+        $this->pageTitle = 'Админка: Список симуляций в БД';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_table', [
+            'simulations' => Simulation::model()->findAll([
+                    'order' => 'id DESC'
+                ]),
+            'invites'     => $invites,
         ]);
     }
 }

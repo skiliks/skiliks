@@ -182,6 +182,7 @@ class SimulationController extends SimulationBaseController
 
     public function actionConnect()
     {
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 }
