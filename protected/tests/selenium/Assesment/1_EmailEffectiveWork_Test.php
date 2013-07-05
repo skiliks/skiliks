@@ -243,10 +243,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M68');
         sleep(3);
         $this->run_event("MS25");
-        sleep(15);
+        sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        
+
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
         sleep(2);
         $this->addTheme("xpath=(//*[contains(text(), 'Сводный бюджет: итоговые корректировки')])");
