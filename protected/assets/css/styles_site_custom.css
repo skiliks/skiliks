@@ -249,11 +249,6 @@
     text-overflow: clip;
     white-space: nowrap;
 }
-.table-simultns tr .grid-view tr td:first-child {
-    overflow: hidden;
-    text-overflow: clip;
-    white-space: nowrap;
-}
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */
 .yiiPager .previous a, .yiiPager .next a {
