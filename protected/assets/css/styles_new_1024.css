@@ -200,6 +200,9 @@ h3 {
 .ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
     background-position: 0 -22px;
 }
+.popup-site .ui-widget-content {
+    padding: 24px;
+}
 /*  ************************ /POPUP SITE ************************/
 /*  ************************ SELECT ************************/
 .sbHolder {

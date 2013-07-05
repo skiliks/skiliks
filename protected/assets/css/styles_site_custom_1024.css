@@ -326,10 +326,6 @@
     padding-bottom: 0px;
     width: 424px !important;
 }
-.add-vacancy-popup .ui-widget-content {
-    padding-left:2px;
-    padding-top: 24px;
-}
 .add-vacancy-popup .ui-dialog-content h1 {
     font-size: 22px;
     padding-bottom: 6px;

@@ -734,9 +734,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     padding:0px;
 }
-.popup-site .ui-widget-content {
-    padding: 30px;
-}
 .feedbackwrap .ui-widget-content {
     padding-bottom: 0px;
     padding-left: 0px;

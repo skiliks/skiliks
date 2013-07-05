@@ -180,6 +180,9 @@ h3 {
     top: -23px;
     right: -20px;
 }
+.popup-site .ui-widget-content {
+    padding: 30px;
+}
 /*  ************************ /POPUP SITE ************************/
 /*  ************************ SELECT ************************/
 .sbHolder {
