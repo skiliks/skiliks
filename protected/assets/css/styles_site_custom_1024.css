@@ -206,12 +206,15 @@
     margin: 6px;
 }
 .table-simultns #yw0_c0, .table-simultns tr td:first-child  {
+    max-width: 170px;
     width: 170px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 240px;
     width: 240px;
 }
 .table-simultns #yw0_c3 {
+    max-width: 97px;
     width: 97px;
 }
 /*  *************************** /SIMULATIONS TABLE ***************************/
