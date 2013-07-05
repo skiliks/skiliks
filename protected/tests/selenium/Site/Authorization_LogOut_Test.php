@@ -28,3 +28,4 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
 
         $this->close();
     }
+}
