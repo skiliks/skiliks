@@ -260,6 +260,8 @@ class Invite extends CActiveRecord
         $newInvite->email = Yii::app()->user->data()->profile->email;
         $newInvite->save(false);
 
+        InviteService::logAboutInviteStatus($newInvite, 'invite : add fake invite');
+
         return $newInvite;
     }
 
@@ -287,6 +289,7 @@ class Invite extends CActiveRecord
         $user = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
         $user->invites_limit = $user->invites_limit++;
         $user->update();
+        InviteService::logAboutInviteStatus($this, 'invite : expired');
     }
 
     /**
@@ -718,7 +721,10 @@ class Invite extends CActiveRecord
     public function resetInvite() {
         $this->status = Invite::STATUS_ACCEPTED;
         $this->simulation_id = null;
-        return $result = $this->save(false);
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'invite : reset');
+        return $result;
     }
 
     public function getVacancyLink($style) {

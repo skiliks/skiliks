@@ -81,6 +81,8 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
+
+            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 1)');
         }
         // check and add trial full version }
 
@@ -163,6 +165,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
+            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 2)');
         }
         // check and add trial lite version }
 
@@ -217,6 +220,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
             $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
             $newInviteForFullSimulation->save(false);
+            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 3)');
         }
         // check and add trial full version }
 
