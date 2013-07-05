@@ -227,13 +227,13 @@
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
 .table-simultns #yw0_c0 {
-    width: 24%;
+    width: 220px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2 {
-    width: 33%;
+    width: 305px;
 }
 .table-simultns #yw0_c3 {
-    width: 10%;
+    width: 120px;
 }
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */
