@@ -236,9 +236,11 @@
     width: 220px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 305px;
     width: 305px;
 }
 .table-simultns #yw0_c3 {
+    max-width: 120px;
     width: 120px;
 }
 .table-simultns .grid-view table.items td  {
