@@ -373,9 +373,6 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
-    left: 50% !important;
-    margin-left: -240px !important;
-    top: 170px !important;
     width: 480px !important;
 }
 #Invite_message {
