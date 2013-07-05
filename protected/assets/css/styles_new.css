@@ -29,6 +29,9 @@ input[type="checkbox"] {
 input[type="radio"] {
     vertical-align: text-bottom;
 }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+    outline: none;
+}
 sub {
     vertical-align: sub;
     font-size: small;
@@ -294,8 +297,10 @@ ul li:last-child {
 .bg-yellow-light {/*  example - corporate table lighter rows */
     background-color: #fefeec;
 }
+.bg-yellow a {
+    color: #555742;
+}
 /*  ************************ /Colors and Borders ************************  */
-
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 input[type="text"], input[type="password"]  {
     background: #fff;
@@ -939,7 +944,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3),
-#corporate-invitations-list-box .grid-view tr td:nth-child(4){
+#corporate-invitations-list-box .grid-view tr td:nth-child(4),
+.table-simultns tr .grid-view tr td:first-child {
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
@@ -1080,15 +1086,16 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .cabmessage {
-    background: url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    background: url("../img/bg-kniga2.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
 }
 #Invite_fullname, #Invite_message {
+    background: #fff;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
     border-radius: 4px;
-    border-color: #fff;
+    border:1px solid #fff;
     color: #146672;
     margin: 0px;
 }
@@ -1125,3 +1132,16 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .table-simultns {
     position: relative;
 }
+/*  *************************** PROFILE ***************************/
+.side-menu li:first-child, .side-menu li:first-child a {
+    border-radius: 3px 3px 0px 0px;
+}
+.side-menu a {
+    background: url("../img/menuarrows.png") no-repeat 236px -65px;
+    font-size: 18px;
+    padding: 12px 20px 12px 12px;
+
+    display: block;
+    text-decoration: none;
+}
+/*  *************************** /PROFILE ***************************/

@@ -1,10 +1,10 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
 
-<div class="transparent-boder profilewrap">
-<?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?>
+<div class="container-3 block-border border-primary bg-transparnt">
+<div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
 
-    <div class="form profileform tarifform">
+    <div class="border-primary bg-light-blue standard-right-box">
         <div class="row">
             <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                 <label>Тарифный план</label>
