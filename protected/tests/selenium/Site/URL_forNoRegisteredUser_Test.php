@@ -71,6 +71,5 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         sleep(1);
         $this->assertTextPresent("has been already added before!");
         $this->close();
-
     }
 }
