@@ -722,7 +722,7 @@ class MailBoxService
     public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
     {
         $data = array();
-        $addData = array();
+        //$addData = array();
         $message = '';
 
         // for forwarded letters
@@ -732,7 +732,7 @@ class MailBoxService
 
         if ((int)$characterThemeId == 0) {
             $data = self::getMailPhrases($simulation);
-            $addData = self::getSigns($simulation);
+            //$addData = self::getSigns($simulation);
         }
 
         $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
@@ -745,12 +745,12 @@ class MailBoxService
             $message = $mailTemplate->message;
         } else {
             $data = self::getMailPhrases($simulation, $characterThemeId);
-            $addData = self::getSigns($simulation);
+            //$addData = self::getSigns($simulation);
         }
 
         return array(
             'data' => $data,
-            'addData' => $addData,
+            'addData' => [], // addData deprecated
             'message' => $message,
         );
     }

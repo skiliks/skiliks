@@ -1829,7 +1829,7 @@ define([
              * @method
              */
             renderPhrases: function () {
-                try {
+//                try {
                     var me = this,
                         mailClient = this.mailClient,
                         phrases = this.mailClient.availablePhrases,
@@ -1841,13 +1841,14 @@ define([
                     var additionalPhrasesHtml = '';
 
                     var row;
-                    var rows = [[],[],[],[],[]];
+                    var rows = [[],[],[],[],[],[],[]];
                     //mainPhrasesHtml += '<tr>';
                     phrases.forEach(function (phrase) {
                         row = _.template(mail_client_phrase_template, {
                             phraseUid: phrase.uid,
                             phraseId: phrase.mySqlId,
-                            text: phrase.text
+                            text: phrase.text,
+                            className: 'column-' + phrase.columnNumber
                         });
                         if(rows[phrase.columnNumber-1] !== undefined) {
                             rows[phrase.columnNumber-1].push(row);
@@ -1857,10 +1858,10 @@ define([
                     var columns = "";
                     var column = "";
                     for(var i = 0; i < 8; i++){
-                        column = '<tr>'
-                        for(var j = 0; j < 5; j++){
-                            if(rows[j][i] === undefined){
-                                column += '<td></td>';
+                        column = '<tr class="row-' + i + '">';
+                        for(var j = 0; j < 7; j++){
+                            if(rows[j] === undefined || rows[j][i] === undefined){
+                                column += '<td class="column-' + (j+1) + '"></td>';
                             }else{
                                 column += rows[j][i];
                             }
@@ -1915,11 +1916,11 @@ define([
                     this.renderTXT();
 
                     this.delegateEvents();
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
+//                } catch(exception) {
+//                    if (window.Raven) {
+//                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+//                    }
+//                }
             },
 
             /**
