@@ -922,7 +922,7 @@ class SimulationService
             // add invite {
             $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simulation->id]);
 
-            if (1 == count($invites)) {
+            if (1 < count($invites)) {
                 $invite = reset($invites);
 
                 $log->invite_id = $invite->id;
@@ -934,7 +934,7 @@ class SimulationService
                 }
                 $comment .= implode($list);
                 unset($list);
-                unset($invite);
+                $invite = null;
             }
             // add invite }
 
