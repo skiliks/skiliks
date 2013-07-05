@@ -29,6 +29,9 @@ input[type="checkbox"] {
 input[type="radio"] {
     vertical-align: text-bottom;
 }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+    outline: none;
+}
 sub {
     vertical-align: sub;
     font-size: small;
