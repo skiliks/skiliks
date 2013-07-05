@@ -1124,6 +1124,3 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .table-simultns {
     position: relative;
 }
-.table-simultns .pager {
-    margin-top: 38px !important;
-}
