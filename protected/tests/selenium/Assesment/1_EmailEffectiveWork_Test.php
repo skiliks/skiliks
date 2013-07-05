@@ -213,11 +213,13 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
         sleep(10);
 
-        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])", 'click');
+        $this->run_event('ET12.3',"css=li.icon-active.phone a", 'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'аналитик подойти')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
         sleep(3);
 
-        $this->run_event('E12.4',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
+        $this->run_event('ET12.4',"css=li.icon-active.phone a", 'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ваша презентация была не единственным его промахом')])");
