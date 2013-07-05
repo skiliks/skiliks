@@ -280,6 +280,10 @@ class ImportGameDataService
                     $column_number++;
                     continue;
                 }
+                // ##### - constructor terminator
+                if($phraseValue === '#####'){
+                    break;
+                }
 
                 $phrase = $this->scenario->getMailPhrase([
                     'constructor_id' => $constructor->getPrimaryKey(),
