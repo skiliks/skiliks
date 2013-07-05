@@ -538,6 +538,7 @@ class SimulationService
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
             } else {
                     throw new Exception('У вас нет прав для старта этой симуляции');
             }
@@ -600,8 +601,10 @@ class SimulationService
             if($scenario->slug == Scenario::TYPE_LITE) {
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false, ['simulation_id', 'status']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
             }else{
                 $invite->save(false, ['simulation_id']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
             }
         }
 
@@ -636,6 +639,7 @@ class SimulationService
         if (null !== $simulation->invite) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
         }
 
         // Remove pause if it was set

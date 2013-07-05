@@ -163,6 +163,7 @@ class SimulationController extends SimulationBaseController
         if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false);
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
             if (Yii::app()->user->data()->isCorporate()) {
                 Yii::app()->user->data()->getAccount()->invites_limit--;
                 Yii::app()->user->data()->getAccount()->save(false);

@@ -1,5 +1,10 @@
 <? $titlesInvite = [
-
+    'ID инвайта',
+    'статус',
+    'ID симуляции',
+    'action',
+    'Дата и время',
+    'комментарий',
 ];
 ?>
 
@@ -30,7 +35,12 @@
                 <? $i= 0 ?>
             <? endif ?>
             <tr class="invites-row">
-                <td></td>
+                <td><?= $itemI->id ?></td>
+                <td><?= $itemI->status ?></td>
+                <td><?= $itemI->sim_id ?></td>
+                <td><?= $itemI->action ?></td>
+                <td><?= $itemI->real_date ?></td>
+                <td><?= $itemI->comment ?></td>
             </tr>
         <? endforeach ?>
         </tbody>

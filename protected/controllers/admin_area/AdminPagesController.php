@@ -209,23 +209,32 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/orders");
     }
 
+    /**
+     * Chande invite status
+     * @throws Exception
+     */
     public function actionInviteActionStatus() {
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $status = Yii::app()->request->getParam('status', null);
+
         /* @var $model Invite */
-        $model = Invite::model()->findByPk($invite_id);
-        if(null === $model && null === $status){
+        $invite = Invite::model()->findByPk($invite_id);
+
+        if (null === $invite && null === $status) {
             throw new Exception("Invite - {$invite_id} is not found!");
         }
-        if( isset(Invite::$statusText[$status])) {
-            $model->status = $status;
-            if(false === $model->save(false)){
-                throw new Exception("Not save");
+
+        if ( isset(Invite::$statusText[$status])) {
+            $invite->status = $status;
+            if(false === $invite->save(false)){
+                throw new Exception("Not saved");
             }
-        }else{
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : admin');
+        } else {
             throw new Exception("Status not found");
         }
+
         $this->redirect("/admin_area/invites");
     }
 
