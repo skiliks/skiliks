@@ -8,6 +8,10 @@ class EventsController extends SimulationBaseController
      */
     public function actionGetState()
     {
+        $unique = Yii::app()->request->getParam('uniqueId', null);
+        if($unique === 'request142'){
+            throw new Exception("{$unique} уже обработан");
+        }
         $result = EventsManager::getState(
                     $this->getSimulationEntity(),
                     Yii::app()->request->getParam('logs', null),
