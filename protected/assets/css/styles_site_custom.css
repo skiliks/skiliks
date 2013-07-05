@@ -224,11 +224,6 @@
 .dashboard .grid-view table.items td {
     padding: 5px 6px;
 }
-.table-simultns .grid-view table.items td  {
-    height: 30px;
-    line-height: 30px;
-    padding: 5px 6px;
-}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
 .action-controller-indexNew-static-simulations .grid-view {
@@ -245,6 +240,14 @@
 }
 .table-simultns #yw0_c3 {
     width: 120px;
+}
+.table-simultns .grid-view table.items td  {
+    height: 30px;
+    padding: 5px 6px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
 }
 .table-simultns tr .grid-view tr td:first-child {
     overflow: hidden;
