@@ -225,7 +225,9 @@
     padding: 5px 6px;
 }
 .table-simultns .grid-view table.items td  {
-    padding: 12px 6px;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 6px;
 }
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
