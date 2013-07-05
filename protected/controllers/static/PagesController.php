@@ -216,9 +216,9 @@ class PagesController extends SiteBaseController
         }
     }
 
-    public function actionDnD()
+    public function actionDragAndDropPrototype()
     {
         $this->layout = false;
-        $this->render('dnd');
+        $this->render('drag_and_drop_prototype');
     }
 }

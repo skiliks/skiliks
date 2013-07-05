@@ -135,7 +135,7 @@ return array(
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
-                'static/dnd'            => 'static/pages/dnd',
+                'static/drag-and-drop'            => 'static/pages/dragAndDropPrototype',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
@@ -203,10 +203,16 @@ return array(
                 'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-                '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
+                'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
-                'dashboard-new/'      => 'static/dashboard/corporateNew',
-                'simulations-new/'    => 'static/simulations/indexNew',
+                'dashboard-new'                      => 'static/dashboard/corporateNew',
+                'simulations-new'                    => 'static/simulations/indexNew',
+                'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
+                'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
+                'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
+                'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
+                'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
