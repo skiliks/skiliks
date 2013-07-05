@@ -1056,6 +1056,8 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** ADD VACANCY POPUP ***************************/
 .add-vacancy-popup {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+    position: relative;
+    overflow: visible;
 }
 .add-vacancy-popup label {
     color: #146672;
