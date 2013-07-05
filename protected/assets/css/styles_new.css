@@ -1121,3 +1121,6 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     text-indent: 10px;
 }
 /*  *************************** /FEEDBACK ***************************/
+.table-simultns {
+    position: relative;
+}
