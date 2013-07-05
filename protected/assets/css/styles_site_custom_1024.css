@@ -192,8 +192,8 @@
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
 .table-simultns .grid-view table.items td  {
-    height: 24px;
-    padding: 4px 3px;
+    height: 32px;
+    padding: 0px 3px;
     vertical-align: middle;
     overflow: hidden;
     text-overflow: clip;
