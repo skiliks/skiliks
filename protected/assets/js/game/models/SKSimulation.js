@@ -333,7 +333,19 @@ define([
                                     'buttons': []
                                 });
                             });
+
+                            if (SKApp.get('isUseZohoProxy') === false) {
+                                setTimeout(function() {
+                                    $.each(SKDocument._excel_cache, function(id, url) {
+                                        var docs = SKApp.simulation.documents.where({id:id.toString()});
+                                        docs[0].set('isInitialized', true);
+                                    });
+                                    console.log('Documents loaded.');
+                                    SKApp.simulation.closeLoadDocsDialog();
+                                }, 30000);
+                            };
                         }
+
                         // if after 60 sec when documents downloading started not all docs loaded
                         // or save wasn`t finished -- throw error
                         me.loadDocsTimer = setTimeout(function() {

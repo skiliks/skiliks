@@ -349,6 +349,7 @@ return array(
             'isUseStrictAssertsWhenSimStop'   => false,
             'frontendAjaxTimeout'             => 60000, // 60 sec
             'useSentryForJsLog'               => false,
+            'isUseZohoProxy'                  => true,
         ],
         'zoho' => array(
             //'apiKey'              => 'c998c211c5404969606b6738c106c183',
@@ -356,8 +357,8 @@ return array(
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
-            //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
             'extExcel'            => 'xls'
 
         ),

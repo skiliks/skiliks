@@ -134,7 +134,7 @@
     margin-left: -20px;
     position: absolute;
     top: 10px;
-    width: 112px;
+    width: 110px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
@@ -182,6 +182,8 @@
 .table-primary th, .items th, .grid-view table.items th,
 .table-primary td, .items td, .grid-view table.items td {
     font-size: 10px;
+}
+.table-primary th, .items th, .grid-view table.items th {
     padding: 10px 3px;
 }
 .dashboard .items td, .table-simultns .grid-view table.items td {
@@ -291,14 +293,15 @@
 .errorMessage {
     font-size: 9px;
 }
-.errorMessage.Invite_firstname {
-    top: -12px;
-}
-.errorMessage.Invite_lastname, .errorMessage.Invite_email {
+.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
     top: -2px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
+.errorMessage.Invite_firstname, .errorMessage.Invite_email {
     left:55px;
+}
+.errorMessage.Invite_lastname {
+    left: 126px;
+    white-space: nowrap;
 }
 /*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
