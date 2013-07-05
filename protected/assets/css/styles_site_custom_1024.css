@@ -381,6 +381,7 @@
 #Invite_message {
     height: 40px;
     max-height: 40px;
+    min-height: 40px;
 }
 #Invite_fullname {
     height: 10px;
