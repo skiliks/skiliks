@@ -354,11 +354,11 @@
     width: 260px;
 }
 .add-vacancy-popup .errorMessage {
-    top: -9px;
-    left: 155px;
+    top: -7px;
+    left: 115px;
 }
-.add-vacancy-popup#Vacancy_label_em_ {
-    top: -13px;
+.add-vacancy-popup #Vacancy_label_em_, .add-vacancy-popup #Vacancy_link_em_ {
+    top: -11px;
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
