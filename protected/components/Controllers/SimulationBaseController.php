@@ -41,6 +41,10 @@ class SimulationBaseController extends CController {
         if($url !== $sim_url) {
             $simulation = $this->getSimulationEntity();
             if($request === 'repeat'){
+
+                // log to site simulation actions
+                SimulationService::logAboutSim($simulation, 'sim request tepeat');
+
                 $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid'=>$uid, 'is_processed'=>1]);
                 if(null === $log) {
                     /* @var $log LogServerRequest */

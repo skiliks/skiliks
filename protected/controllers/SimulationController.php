@@ -105,6 +105,10 @@ class SimulationController extends SimulationBaseController
     public function actionUpdatePause()
     {
         $skipped = Yii::app()->request->getParam("skipped");
+
+        // log to site simulation actions
+        SimulationService::logAboutSim($this->getSimulationEntity(), sprintf('Pause prolonged on %s min', $skipped));
+
         if(null === $skipped) {
             throw new Exception("skipped not found");
         }
