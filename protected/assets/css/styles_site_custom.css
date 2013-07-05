@@ -303,6 +303,10 @@
 }
 /*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+}
 .feedback .form-all {
     width:670px !important;
 }

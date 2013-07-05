@@ -305,6 +305,10 @@
 }
 /*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+}
 .feedbackwrap {
     background-size: contain;
     height: 330px !important;
