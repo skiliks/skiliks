@@ -373,6 +373,7 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
+    height: 400px !important;
     width: 495px !important;
 }
 #Invite_message {
@@ -403,7 +404,6 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 357px !important;
     padding-top: 10px;
     width: 560px !important;
 }
