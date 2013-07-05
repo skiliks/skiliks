@@ -1076,6 +1076,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .add-vacancy-popup .ui-dialog-titlebar-close {
     top: -20px;
 }
+.add-vacancy-popup .ui-widget-content {
+    overflow: visible;
+}
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .cabmessage {
