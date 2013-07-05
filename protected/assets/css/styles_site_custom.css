@@ -244,8 +244,8 @@
     width: 120px;
 }
 .table-simultns .grid-view table.items td  {
-    height: 30px;
-    padding: 5px 6px;
+    height: 40px;
+    padding: 0px 6px;
     vertical-align: middle;
     overflow: hidden;
     text-overflow: clip;
