@@ -1080,7 +1080,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .cabmessage {
-    background: url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    background: url("../img/bg-kniga2.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border: none;
 }
 #Invite_fullname, #Invite_message {
