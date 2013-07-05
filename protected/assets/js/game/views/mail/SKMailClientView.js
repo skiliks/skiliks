@@ -1829,20 +1829,18 @@ define([
              * @method
              */
             renderPhrases: function () {
-//                try {
+                try {
                     var me = this,
                         mailClient = this.mailClient,
                         phrases = this.mailClient.availablePhrases,
                         addPhrases = this.mailClient.availableAdditionalPhrases;
-
-                    //if ('' !== response.phrases.message && undefined === response.phrases.message) {
 
                     var mainPhrasesHtml = "<table>";
                     var additionalPhrasesHtml = '';
 
                     var row;
                     var rows = [[],[],[],[],[],[],[]];
-                    //mainPhrasesHtml += '<tr>';
+
                     phrases.forEach(function (phrase) {
                         row = _.template(mail_client_phrase_template, {
                             phraseUid: phrase.uid,
@@ -1916,11 +1914,11 @@ define([
                     this.renderTXT();
 
                     this.delegateEvents();
-//                } catch(exception) {
-//                    if (window.Raven) {
-//                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-//                    }
-//                }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
