@@ -1,4 +1,4 @@
-/*global _, Backbone, define, $, SKApp, console*/
+/*global _, Backbone, define, $, SKApp, console, SKDialogView*/
 define([
     "jquery/jquery.cookies",
     "jquery/ajaxq",
@@ -28,6 +28,8 @@ define([
             is_connected:true,
 
             try_connect:false,
+
+            dialog_window:null,
 
             getAjaxParams: function (path, params, callback) {
                 var me = this;
@@ -127,7 +129,15 @@ define([
                             if( url !== me.api_root + me.connectPath && me.try_connect === false) {
                                 if($('.time').hasClass('paused')) {
                                     throw new Error("Симуляция ");
-                                }else{
+                                } else {
+                                    me.dialog_window = new SKDialogView({
+                                        'message': 'Похоже что у вас пропало соединение с интернетом. ' +
+                                            'Симуляция поставлена на паузу. ' +
+                                            'Проверте соединение с интернет. ' +
+                                            'Как только соединение возобновится, мы предложим вам продолжить игру',
+                                        'modal': true,
+                                        'buttons': []
+                                    });
                                     $('.time').addClass('paused');
                                     SKApp.simulation.startPause();
                                 }
@@ -138,18 +148,31 @@ define([
                             if( url === me.api_root + me.connectPath ) {
                                 console.log("Connect");
                                 me.stopTryConnect();
-
-                                SKApp.simulation.updatePause(function(){
-                                    SKApp.simulation.stopPause(function() {
-                                        $('.time').removeClass('paused');
-                                        SKApp.server.requests_queue.each(function(model) {
-                                            //debugger;
-                                            model.set('is_repeat_request', true);
-                                            //SKApp.server.requests_queue.remove(model);
-                                            SKApp.server.api(model.get('url'), model.get('data'), model.get('callback'));
-                                        });
-                                    });
+                                me.dialog_window.remove();
+                                delete me.dialog_window;
+                                me.dialog_window = new SKDialogView({
+                                    'message': 'Соединение с интернет востановлено!',
+                                    'modal': true,
+                                    'buttons': [
+                                        {
+                                            'value': 'Продолжить игру',
+                                            'onclick': function () {
+                                                SKApp.simulation.updatePause(function(){
+                                                    SKApp.simulation.stopPause(function() {
+                                                        $('.time').removeClass('paused');
+                                                        SKApp.server.requests_queue.each(function(request) {
+                                                            request.set('is_repeat_request', true);
+                                                            SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                        });
+                                                        me.dialog_window.remove();
+                                                        delete me.dialog_window;
+                                                    });
+                                                });
+                                            }
+                                        }
+                                    ]
                                 });
+
                             }
                         }
                     },
