@@ -60,7 +60,7 @@ $this->widget('zii.widgets.grid.CGridView', [
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".pager").insertAfter("#yw0").css({"margin-top":"5px","text-align":"center"});
+        $(".pager").insertAfter("#yw0").css({""text-align":"center"});
     });
 </script>
 
