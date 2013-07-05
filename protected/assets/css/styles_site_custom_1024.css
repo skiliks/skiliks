@@ -293,14 +293,15 @@
 .errorMessage {
     font-size: 9px;
 }
-.errorMessage.Invite_firstname {
-    top: -12px;
-}
-.errorMessage.Invite_lastname, .errorMessage.Invite_email {
+.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
     top: -2px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
+.errorMessage.Invite_firstname, .errorMessage.Invite_email {
     left:55px;
+}
+.errorMessage.Invite_lastname {
+    left: 125px;
+    white-space: nowrap;
 }
 /*  *************************** /ERRORS ***************************/
 /*  *************************** FEEDBACK ***************************/
