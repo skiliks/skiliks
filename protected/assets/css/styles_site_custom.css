@@ -236,10 +236,10 @@
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     margin: 8px;
 }
-.table-simultns #yw0_c0 {
+.table-simultns #yw0_c0, .table-simultns tr td:first-child {
     width: 220px;
 }
-.table-simultns #yw0_c1, .table-simultns #yw0_c2 {
+.table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
     width: 305px;
 }
 .table-simultns #yw0_c3 {
