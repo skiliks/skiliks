@@ -12,9 +12,6 @@ class SimulationBaseController extends CController {
      */
     public $user;
 
-    /**
-     * @property $LogServerRequest LogServerRequest
-     */
     protected $request_id = null;
 
     protected function beforeAction($action)
@@ -27,6 +24,7 @@ class SimulationBaseController extends CController {
     protected function saveLogServerRequest() {
 
         $uid = Yii::app()->request->getParam('uniqueId');
+        $request = Yii::app()->request->getParam('request');
         if(null === $uid) {
             throw new Exception("uid is not found");
         }
@@ -41,10 +39,29 @@ class SimulationBaseController extends CController {
         $url = Yii::app()->request->url;
         $sim_url = Yii::app()->params['simulationStartUrl'];
         if($url !== $sim_url) {
-            $log = new LogServerRequest("WithSimulation");
             $simulation = $this->getSimulationEntity();
-            $log->sim_id = $simulation->id;
-            $log->backend_game_time = $simulation->getGameTime();
+            if($request === 'repeat'){
+
+                // log to site simulation actions
+                SimulationService::logAboutSim($simulation, 'sim request tepeat');
+
+                $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid'=>$uid, 'is_processed'=>1]);
+                if(null === $log) {
+                    /* @var $log LogServerRequest */
+                    $log = new LogServerRequest("WithSimulation");
+                    $log->sim_id = $simulation->id;
+                    $log->backend_game_time = $simulation->getGameTime();
+                }else{
+                    $this->_sendResponse(200, $log->response_body);
+                }
+
+            }else{
+                $log = new LogServerRequest("WithSimulation");
+                $log->sim_id = $simulation->id;
+                $log->backend_game_time = $simulation->getGameTime();
+
+            }
+
         }else{
             $log = new LogServerRequest("WithoutSimulation");
         }
@@ -101,6 +118,7 @@ class SimulationBaseController extends CController {
                 $log->response_body = $json;
                 $log->is_processed = 1;
                 $log->update(['response_body', 'is_processed']);
+                //sleep(30);
                 $this->_sendResponse($status, $json);
             } else {
                 throw new LogicException('$data should be an array');

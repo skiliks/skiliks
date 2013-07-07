@@ -209,23 +209,32 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/orders");
     }
 
+    /**
+     * Chande invite status
+     * @throws Exception
+     */
     public function actionInviteActionStatus() {
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $status = Yii::app()->request->getParam('status', null);
+
         /* @var $model Invite */
-        $model = Invite::model()->findByPk($invite_id);
-        if(null === $model && null === $status){
+        $invite = Invite::model()->findByPk($invite_id);
+
+        if (null === $invite && null === $status) {
             throw new Exception("Invite - {$invite_id} is not found!");
         }
-        if( isset(Invite::$statusText[$status])) {
-            $model->status = $status;
-            if(false === $model->save(false)){
-                throw new Exception("Not save");
+
+        if ( isset(Invite::$statusText[$status])) {
+            $invite->status = $status;
+            if(false === $invite->save(false)){
+                throw new Exception("Not saved");
             }
-        }else{
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : admin');
+        } else {
             throw new Exception("Status not found");
         }
+
         $this->redirect("/admin_area/invites");
     }
 
@@ -243,12 +252,46 @@ class AdminPagesController extends SiteBaseController {
         $invite = Invite::model()->findByPk($invite_id);
 
         $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
-        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $invite->simulation_id]);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['invite_id' => $invite_id]);
 
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invite_site_logs_table', [
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimSiteLogs() {
+        $simId = Yii::app()->request->getParam('sim_id', null);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $simId]);
+
+        $this->pageTitle = sprintf('Админка: Лог действий с симуляцией %s на сайте', $simId);
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulation_site_logs_table', [
+            'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimulations() {
+        $invitesRawArray = Invite::model()->findAll();
+        $invites = [];
+        foreach ($invitesRawArray as $element) {
+            $invites[$element->simulation_id] = $element->id;
+        }
+
+        $this->pageTitle = 'Админка: Список симуляций в БД';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_table', [
+            'simulations' => Simulation::model()->findAll([
+                    'order' => 'id DESC'
+                ]),
+            'invites'     => $invites,
         ]);
     }
 }

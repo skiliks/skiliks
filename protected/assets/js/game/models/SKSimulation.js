@@ -572,6 +572,12 @@ define([
                     } else {
                         onDocsLoad.apply(me);
                     }
+                    me.preLoadImages([
+                        '/img/mail/bg-mail-popup-tit.png',
+                        '/img/icon-pause.png',
+                        '/img/main-screen/icon-stop.png',
+                        '/img/mail/type-system-message.png'
+                    ]);
                 });
             },
 
@@ -783,6 +789,13 @@ define([
                     var flagStateView = new SKFlagStateView();
                     window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
                 }
+            },
+
+            preLoadImages: function(images) {
+                $.each(images, function(index, src){
+                    var img = new Image();
+                    img.src = SKApp.get('assetsUrl')+src;
+                });
             }
         });
     return SKSimulation;

@@ -224,11 +224,6 @@
 .dashboard .grid-view table.items td {
     padding: 5px 6px;
 }
-.table-simultns .grid-view table.items td  {
-    height: 30px;
-    line-height: 30px;
-    padding: 5px 6px;
-}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
 .action-controller-indexNew-static-simulations .grid-view {
@@ -237,13 +232,24 @@
     margin: 8px;
 }
 .table-simultns #yw0_c0, .table-simultns tr td:first-child {
+    max-width: 220px;
     width: 220px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 305px;
     width: 305px;
 }
 .table-simultns #yw0_c3 {
+    max-width: 120px;
     width: 120px;
+}
+.table-simultns .grid-view table.items td  {
+    height: 40px;
+    padding: 0px 6px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
 }
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /* ************************ Pager ************************ */

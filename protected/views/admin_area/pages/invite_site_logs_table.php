@@ -1,5 +1,10 @@
 <? $titlesInvite = [
-
+    'ID инвайта',
+    'статус',
+    'ID симуляции',
+    'action',
+    'Дата и время',
+    'комментарий',
 ];
 ?>
 
@@ -30,77 +35,25 @@
                 <? $i= 0 ?>
             <? endif ?>
             <tr class="invites-row">
-                <td></td>
+                <td><?= $itemI->id ?></td>
+                <td><?= $itemI->status ?></td>
+                <td><?= $itemI->sim_id ?></td>
+                <td><?= $itemI->action ?></td>
+                <td><?= $itemI->real_date ?></td>
+                <td><?= $itemI->comment ?></td>
             </tr>
         <? endforeach ?>
         </tbody>
     </table>
 
     <?php if (0 === count($logInvite)): ?>
-        Нет записей.
+        <div style="text-align: center; width: 100%;">Нет записей.</div>
     <?php endif; ?>
 
 <hr/>
 
     <!-- Simulation: -->
 
-<?php $titlesSimulation = [
-    'ID',
-    'Invite id',
-    'Тестируемый',
-    'Сценарий',
-    'Режим',
-    'action',
-    'real date',
-    'front gametime',
-    'back gametime',
-    'комментарий'
-]?>
-
-    <h2>... над симуляцией</h2>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <? foreach($titlesSimulation as $title) :?>
-                <th><?=$title?></th>
-            <? endforeach ?>
-        </tr>
-        </thead>
-        <tbody>
-        <? /* @var $model Invite*/ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($logSimulation as $itemS) : ?>
-            <? $i++ ?>
-            <? if($i === $step) : ?>
-                <tr>
-                    <? foreach($titlesSimulation as $title) :?>
-                        <th><?=$title?></th>
-                    <? endforeach ?>
-                </tr>
-                <? $i= 0 ?>
-            <? endif ?>
-            <tr class="invites-row">
-                <td><?= $itemS->sim_id ?></td>
-
-                <td><?= $itemS->invite_id ?></td>
-
-                <td><?= $itemS->user->profile->email ?>,
-                    <?= $itemS->user->profile->firstname ?>
-                    <?= $itemS->user->profile->lastname ?></td>
-
-                <td><?= $itemS->scenario_name ?></td>
-                <td><?= $itemS->mode ?></td>
-                <td><?= $itemS->action ?></td>
-                <td><?= $itemS->real_date ?></td>
-                <td><?= $itemS->game_time_frontend ?></td>
-                <td><?= $itemS->game_time_backend ?></td>
-                <td><?= $itemS->comment ?></td>
-            </tr>
-        <? endforeach ?>
-        </tbody>
-    </table>
-</div>
-
-<?php if (0 === count($logSimulation)): ?>
-    Нет записей.
-<?php endif; ?>
+    <?php $this->renderPartial('//admin_area/pages/simulation_site_logs_table', [
+        'logSimulation'    => $logSimulation,
+    ]) ?>

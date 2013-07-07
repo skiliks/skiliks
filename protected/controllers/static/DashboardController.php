@@ -95,6 +95,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->save();
+
+                InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
                 $this->sendInviteEmail($invite);
 
                 // decline corporate user invites_limit
@@ -131,7 +133,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
-
+                    InviteService::logAboutInviteStatus($inviteToEdit, 'invite : update (new) : standard');
                 }
             }
         }
@@ -239,6 +241,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->save();
+                InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
 
                 // decline corporate user invites_limit
@@ -275,7 +278,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
-
+                    InviteService::logAboutInviteStatus($inviteToEdit, 'invite : update : standard');
                 }
             }
         }
@@ -538,6 +541,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite->status = Invite::STATUS_ACCEPTED;
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status', 'receiver_id']);
+        InviteService::logAboutInviteStatus($invite, 'invite : updated : accepted');
 
         /* @flash
         Yii::app()->user->setFlash('success', sprintf(
@@ -575,6 +579,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite->status = Invite::STATUS_DECLINED;
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status']);
+
+        InviteService::logAboutInviteStatus($invite, 'invite : updated : remove');
 
         /* @flash
         Yii::app()->user->setFlash('success', sprintf(
@@ -622,6 +628,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
         $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $declineExplanation->invite->update(false, ['status']);
+        InviteService::logAboutInviteStatus($declineExplanation->invite, 'invite : updated : declined');
 
         // for unregistered user - redirect to homepage
         if (null === Yii::app()->user->data()->id) {

@@ -189,26 +189,35 @@
 .dashboard .items td {
     padding: 4px 3px;
 }
-.table-simultns .grid-view table.items td  {
-    height: 24px;
-    line-height: 24px;
-    padding: 4px 3px;
-}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** SIMULATIONS TABLE ***************************/
+.table-simultns .grid-view table.items td  {
+    height: 32px;
+    padding: 0px 3px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
 .action-controller-indexNew-static-simulations .grid-view {
     border-radius: 6px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     margin: 6px;
 }
 .table-simultns #yw0_c0, .table-simultns tr td:first-child  {
+    max-width: 170px;
     width: 170px;
 }
 .table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 240px;
     width: 240px;
 }
 .table-simultns #yw0_c3 {
+    max-width: 97px;
     width: 97px;
+}
+.table-simultns tr td:last-child p {
+    margin-top: 4px;
 }
 /*  *************************** /SIMULATIONS TABLE ***************************/
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
@@ -373,10 +382,8 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
-    left: 50% !important;
-    margin-left: -240px !important;
-    top: 170px !important;
-    width: 480px !important;
+    height: 445px !important;
+    width: 495px !important;
 }
 #Invite_message {
     height: 40px;
@@ -389,13 +396,13 @@
 }
 #Invite_fullname, #Invite_message {
     padding: 8px;
-    max-width: 394px;
-    min-width: 394px;
-    width: 394px;
+    max-width: 405px;
+    min-width: 405px;
+    width: 405px;
 }
 .block-form {
     padding: 15px 10px;
-    width: 413px;
+    width: 425px;
 }
 .block-form p {
     font-size: 11px;
@@ -406,7 +413,7 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 347px !important;
+    padding-top: 10px;
     width: 560px !important;
 }
 .invite-form-block label, .invite-form-block p,

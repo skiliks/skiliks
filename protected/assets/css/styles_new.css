@@ -944,7 +944,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3),
-#corporate-invitations-list-box .grid-view tr td:nth-child(4) {
+#corporate-invitations-list-box .grid-view tr td:nth-child(4),
+.table-simultns tr .grid-view tr td:first-child,
+.table-simultns tr .grid-view tr td:nth-child(2),
+.table-simultns tr .grid-view tr td:nth-child(3){
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;

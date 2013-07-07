@@ -8,6 +8,10 @@ class EventsController extends SimulationBaseController
      */
     public function actionGetState()
     {
+        $unique = Yii::app()->request->getParam('uniqueId', null);
+        if($unique === 'request142'){
+            throw new Exception("{$unique} уже обработан");
+        }
         $result = EventsManager::getState(
                     $this->getSimulationEntity(),
                     Yii::app()->request->getParam('logs', null),
@@ -64,7 +68,7 @@ class EventsController extends SimulationBaseController
      * пользователь получил уведомление об окончании рабочего дня
      */
     public function actionUserSeeWorkdayEndMessage() {
-        SimulationService::LogAboutSim($this->getSimulationEntity(), 'sim : workday end message displayed : 18-00');
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'sim : workday end message displayed : 18-00');
 
         // use sendJSON, just to send back request id
         $this->sendJSON([]);
