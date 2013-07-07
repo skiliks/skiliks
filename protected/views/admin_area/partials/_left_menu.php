@@ -17,6 +17,12 @@
 
             ),
             array(
+                'label' => 'Симуляции',
+                'url'   => ['admin_area/AdminPages/Simulations'],
+                'visible' => true,
+
+            ),
+            array(
                 'label' => 'Заказы',
                 'url'   => ['admin_area/AdminPages/Orders'],
                 'visible' => true,

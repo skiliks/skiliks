@@ -538,6 +538,7 @@ class SimulationService
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
             } else {
                     throw new Exception('У вас нет прав для старта этой симуляции');
             }
@@ -600,12 +601,14 @@ class SimulationService
             if($scenario->slug == Scenario::TYPE_LITE) {
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false, ['simulation_id', 'status']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
             }else{
                 $invite->save(false, ['simulation_id']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
             }
         }
 
-        self::LogAboutSim($simulation, 'sim start: finished');
+        self::logAboutSim($simulation, 'sim start: done');
 
         return $simulation;
     }
@@ -616,7 +619,7 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
-        self::LogAboutSim($simulation, 'sim stop: begin');
+        self::logAboutSim($simulation, 'sim stop: begin');
 
         // Check if simulation was already stopped
         if (null !== $simulation->end && false === $manual) {
@@ -636,6 +639,7 @@ class SimulationService
         if (null !== $simulation->invite) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
         }
 
         // Remove pause if it was set
@@ -709,7 +713,7 @@ class SimulationService
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
 
-        self::LogAboutSim($simulation, 'sim stop: assessment calculated');
+        self::logAboutSim($simulation, 'sim stop: assessment calculated');
     }
 
     /**
@@ -901,7 +905,7 @@ class SimulationService
      * @param Simulation $simulation
      * @param string $action
      */
-    public static function LogAboutSim(Simulation $simulation, $action) {
+    public static function logAboutSim(Simulation $simulation, $action = 'not specified') {
 
         $comment = '';
         $invite = null;
@@ -922,10 +926,12 @@ class SimulationService
             // add invite {
             $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simulation->id]);
 
-            if (1 < count($invites)) {
+            if (1 == count($invites)) {
                 $invite = reset($invites);
 
                 $log->invite_id = $invite->id;
+            } elseif (0 == count($invites)) {
+                $comment .= "There is no invites for this simulation!\n";
             } else {
                 $comment .= "There are several invites for this simulation!\n";
                 $list = [];
@@ -947,7 +953,7 @@ class SimulationService
 
         // scenario_name
         if (null !== $invite) {
-            $log->scenario_name = $invite->scenario->slug;
+            $log->scenario_name = $simulation->game_type->slug;
         }
 
         // add user_id {

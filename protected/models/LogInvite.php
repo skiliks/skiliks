@@ -9,7 +9,8 @@
  * @property string $status
  * @property integer $sim_id
  * @property string $action
- * @property string $read_date
+ * @property string $real_date
+ * @property string $comment
  */
 class LogInvite extends CActiveRecord
 {
@@ -41,10 +42,10 @@ class LogInvite extends CActiveRecord
 		return array(
 			array('invite_id, sim_id', 'numerical', 'integerOnly'=>true),
 			array('status', 'length', 'max'=>40),
-			array('action, read_date', 'safe'),
+			array('action, real_date', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, invite_id, status, sim_id, action, read_date', 'safe', 'on'=>'search'),
+			array('id, invite_id, status, sim_id, action, real_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,7 +71,8 @@ class LogInvite extends CActiveRecord
 			'status' => 'Status',
 			'sim_id' => 'Sim',
 			'action' => 'Action',
-			'read_date' => 'Read Date',
+			'real_date' => 'Read Date',
+			'comment' => 'Comment',
 		);
 	}
 
@@ -90,7 +92,7 @@ class LogInvite extends CActiveRecord
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('action',$this->action,true);
-		$criteria->compare('read_date',$this->read_date,true);
+		$criteria->compare('real_date',$this->real_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
