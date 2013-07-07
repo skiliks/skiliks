@@ -247,7 +247,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->write_replyAll_email("срочно! Отчетность", "");
         $this->write_reply_email("Презентация для ГД_итог");
-        $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['dolgova'],"Данные по распечатке презентаций","");
+        //$this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['dolgova'],"Данные по распечатке презентаций","");
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['krutko'],"Презентация для ГД: распечатать","");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
@@ -255,7 +255,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST9');
         $this->clearEventQueueBeforeEleven('RST10');
 
-        $this->run_event('ET12.3',"css=li.icon-active.phone a", 'click');
+        /*$this->run_event('ET12.3',"css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план')])");
         sleep(3);
@@ -269,7 +269,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
-        sleep(10);
+        sleep(10);*/
 
         $this->run_event('ET15',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
