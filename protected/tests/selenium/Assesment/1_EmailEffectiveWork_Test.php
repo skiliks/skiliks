@@ -213,22 +213,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
         sleep(10);
 
-        $this->run_event('ET12.3',"css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план')])");
-        sleep(3);
-
-        $this->run_event('ET12.4',"css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Ваша презентация была не единственным его промахом')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
-        sleep(10);
-
         $this->run_event('M1');
         sleep(3);
         $this->run_event('M10');
@@ -270,6 +254,22 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->clearEventQueueBeforeEleven('RST9');
         $this->clearEventQueueBeforeEleven('RST10');
+
+        $this->run_event('ET12.3',"css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план')])");
+        sleep(3);
+
+        $this->run_event('ET12.5',"css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Ваша презентация была не единственным его промахом')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
+        sleep(10);
 
         $this->run_event('ET15',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);

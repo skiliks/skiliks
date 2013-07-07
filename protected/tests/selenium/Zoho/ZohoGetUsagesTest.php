@@ -51,7 +51,7 @@ class ZohoGetUsagesTest extends SeleniumTestHelper
         $this->selectFrame("relative=parent");
         sleep(10);
 
-        $today_usages = $this->getText("xpath=//div[1]/div[2]/div[2]/div[1]/div[4]/div/ul/li[8]/span[2]");
+        $today_usages = $this->getText("xpath=//*[@id='left_container']/div/div/div[4]/div/ul/li[8]/span[2]");
         $this->open('http://test.skiliks.com/cheat/zoho/saveUsageValue/'.urlencode($today_usages).'/'.urlencode($date));
     }
 }
