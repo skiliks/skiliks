@@ -7,7 +7,7 @@
  * Тесты для проверки регистрации персонального профиля без прохождения симуляции, проверкой ошибок ввода на формах,
  * (для SK3056)
  */
-class _Personal_Test extends SeleniumTestHelper
+class Register_Personal_Test extends SeleniumTestHelper
 {
     public function test_Register_Personal_SK3056()
     {
