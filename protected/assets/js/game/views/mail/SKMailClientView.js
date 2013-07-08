@@ -307,11 +307,17 @@ define([
              */
             doAddToPlan: function () {
                 try {
-                    if (undefined === this.mailClient.activeEmail) {
+                    var me = this;
+
+                    if (undefined === me.mailClient.activeEmail || me.addToPlanDialog) {
                         return;
                     }
-                    var dialog = new SKMailAddToPlanDialog();
-                    dialog.render();
+
+                    me.addToPlanDialog = new SKMailAddToPlanDialog();
+                    me.addToPlanDialog.render();
+                    me.addToPlanDialog.once('close', function() {
+                        delete me.addToPlanDialog;
+                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

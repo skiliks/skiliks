@@ -59,7 +59,7 @@ define([
                 var me = this;
                 $('.preventOtherClicks').click(function(){
                     if (me.isCloseWhenClickNotOnDialog) {
-                        me.cleanUpDOM();
+                        me.remove();
                         me.trigger('click-prevent-click-element');
                     }
                 });
@@ -152,6 +152,7 @@ define([
         remove: function() {
             try {
                 this.cleanUpDOM();
+                this.trigger('close');
                 return Backbone.View.prototype.remove.call(this);
             } catch(exception) {
                 if (window.Raven) {
