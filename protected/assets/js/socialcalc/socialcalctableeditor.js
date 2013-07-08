@@ -572,6 +572,7 @@ SocialCalc.CreateTableEditor = function(editor, width, height) {
    editor.layouttable = table;
    table.cellSpacing = 0;
    table.cellPadding = 0;
+   table.style.position = "relative";
    AssignID(editor, table, "layouttable");
 
    tbody = document.createElement("tbody");
@@ -4859,21 +4860,23 @@ SocialCalc.ComputeTableControlPositions = function(control) {
 
    var editor = control.editor;
 
+    var offset = SocialCalc.GetElementPosition(control.main, true);
+
    if (!editor.gridposition || !editor.headposition) throw("Can't compute table control positions before editor positions");
 
    if (control.vertical) {
-      control.controlborder = editor.gridposition.left+editor.tablewidth; // border=left position
-      control.endcapstart = editor.gridposition.top; // start=top position
-      control.panesliderstart = editor.firstscrollingrowtop-control.sliderthickness;
-      control.lessbuttonstart = editor.firstscrollingrowtop-1;
-      control.morebuttonstart = editor.gridposition.top+editor.tableheight-control.buttonthickness;
-      control.scrollareastart = editor.firstscrollingrowtop-1+control.buttonthickness;
-      control.scrollareaend = control.morebuttonstart-1;
-      control.scrollareasize = control.scrollareaend-control.scrollareastart+1;
+      control.controlborder = editor.tablewidth; // border=left position
+      control.endcapstart = 0; // start=top position
+      control.panesliderstart = editor.firstscrollingrowtop-control.sliderthickness - offset.top;
+      control.lessbuttonstart = editor.firstscrollingrowtop-1 - offset.top;
+      control.morebuttonstart = editor.gridposition.top+editor.tableheight-control.buttonthickness - offset.top;
+      control.scrollareastart = editor.firstscrollingrowtop-1+control.buttonthickness - offset.top;
+      control.scrollareaend = control.morebuttonstart-1 - offset.top;
+      control.scrollareasize = control.scrollareaend-control.scrollareastart+1 - offset.top;
       }
    else {
-      control.controlborder = editor.gridposition.top+editor.tableheight; // border=top position
-      control.endcapstart = editor.gridposition.left; // start=left position
+      control.controlborder = editor.tableheight; // border=top position
+      control.endcapstart = 0; // start=left position
       control.panesliderstart = editor.firstscrollingcolleft-control.sliderthickness;
       control.lessbuttonstart = editor.firstscrollingcolleft-1;
       control.morebuttonstart = editor.gridposition.left+editor.tablewidth-control.buttonthickness;

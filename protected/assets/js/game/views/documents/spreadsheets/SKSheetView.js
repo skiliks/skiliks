@@ -95,7 +95,7 @@ define([], function () {
                 me.rootView = root;
                 root.appendTo(me.$el);
                 me.setElement(root);
-                root.hide();
+                //root.hide();
 
                 var parts = me.spreadsheet.DecodeSpreadsheetSave(sheet.get('content'));
 
