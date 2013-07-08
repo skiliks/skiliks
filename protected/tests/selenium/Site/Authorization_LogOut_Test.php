@@ -26,6 +26,31 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->assertTextPresent('Введите логин');
         $this->assertTextPresent('Введите пароль');
 
+        $this->type("xpath=//*[@id='YumUserLogin_username']","asdskiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
+        $this->optimal_click("css=.submit>input");
+        $this->assertTextPresent('Email введён неверно');
+
+        $this->type("xpath=//*[@id='YumUserLogin_username']","asd@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_password']","not correct password");
+        $this->optimal_click("css=.submit>input");
+        $this->assertTextPresent('Неверный пароль');
+
+        $this->type("xpath=//*[@id='YumUserLogin_username']","asd111@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
+        $this->optimal_click("css=.submit>input");
+        $this->assertTextPresent('Неверный логин');
+
+        $this->type("xpath=//*[@id='YumUserLogin_username']","asd@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_password']","111");
+        $this->optimal_click("css=.submit>input");
+        $this->assertTextPresent('Неверный пароль');
+
+        $this->type("xpath=//*[@id='YumUserLogin_username']","gty1991@gmail.com");
+        $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
+        $this->optimal_click("css=.submit>input");
+        $this->assertTextPresent('E-mail уже зарегистрирован, но не активирован.');
+
         $this->close();
     }
 }
