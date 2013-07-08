@@ -443,7 +443,7 @@
 .profileform .row {
     height: 40px;
 }
-.profileform label {
+.profilelabel-wrap label {
     padding-right: 10px;
     width: 164px;
 }
