@@ -398,14 +398,13 @@
     padding: 0px 20px;
     text-decoration: none;
 }
-.side-item a:hover, .side-item .active a, .side-item .active a:hover {
+.side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
     background-position: 280px 17px;
 }
 .mnotactive a:hover {
     background-position: 280px -65px;
 }
 .side-menu .active a {
-    background-position: 280px 17px;
     color: #245057;
 }
 .profileform .row {
