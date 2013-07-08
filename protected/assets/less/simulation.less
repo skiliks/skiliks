@@ -16,6 +16,21 @@
   }
 }
 
+@keyframes icon-bouncer {
+  0%, 16%, 33%, 50%, 100% {
+    right: 0;
+  }
+  8% {
+    right: 40px;
+  }
+  25% {
+    right: 20px;
+  }
+  42% {
+    right: 10px;
+  }
+}
+
 body {
   width: 100%;
   height: 100%;
@@ -103,6 +118,48 @@ body {
             right: 0;
           }
         }
+
+        .sim-window-settings{
+          background:url(../img/mail/volswitch-bg.png) no-repeat left top;
+          position: absolute;
+          height:74px;
+          width:188px;
+          z-index: 100;
+          right: 43px;
+          top: 38px;
+          display: none;
+
+          .sim-windw-pad {
+            padding:22px 15px 14px 10px;
+
+            p {
+             color:#838383;
+             float:left;
+             font-family: 'orbi_sansregular';
+             font-size:12px;
+             line-height:100%;
+             text-align:right;
+             width:94px;
+            }
+            .volume-control {
+              background-image:url(../img/mail/sound-switch.png);
+              background-repeat:no-repeat;
+              display:block;
+              height:21px;
+              float:right;
+              margin-top:3px;
+              outline: none;
+              text-indent: -90000px;
+              width:61px;
+            }
+            .volume-on {
+              background-position:left top;
+            }
+            .volume-off {
+              background-position:left bottom;
+            }
+          }
+        }
       }
     }
     .document-window {
@@ -165,6 +222,13 @@ body {
     .only-active.icon-active {
       filter: none;
       -webkit-filter: none;
+    }
+
+    .icon-active {
+      animation: icon-bouncer 2s linear 10;
+      &.icon-active-short {
+        animation-iteration-count: 2;
+      }
     }
   }
 

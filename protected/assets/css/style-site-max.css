@@ -1,0 +1,136 @@
+@media screen and (min-width: 1146px) {
+    body {
+        font-size:14px;
+        line-height: 14px;
+    }
+    /* ************************ FONTS ************************ */
+    h1 {
+        font-size:44px;
+        color: #fff;
+        line-height:52px;
+    }
+    h2 {
+        font-size:36px;
+        color: #fff;
+        line-height:36px;
+        margin-bottom: 12px;
+    }
+    h3 {
+        font-size:28px;
+        color: #fff;
+        line-height:30px;
+        margin-bottom: 12px;
+    }
+    .font-small {
+        font-size:12px;
+    }
+    .font-large {
+        font-size:16px;
+    }
+    .font-xlarge {
+        font-size:18px;
+        line-height: 120%;
+    }
+    .font-xxlarge {
+        font-size:20px;
+    }
+    .font-xxxlarge {
+        font-size:21px;
+    }
+    /* ************************ /FONTS ************************ */
+    /* ************************ Buttons ************************ */
+    .btn-large {
+        background-position: 20px 50%;
+        font-size: 18px;
+        height: 54px;
+        line-height: 54px;
+        padding: 0 19px 0 50px;
+    }
+    .btn-primary {
+        font-size: 14px;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px 0 22px;
+    }
+    .btn-arrow {
+
+    }
+    /* ************************ /Buttons ************************ */
+    /*  *************************** GRID ***************************/
+    .grid-container {
+        margin: 0 auto;
+        width:960px;
+    }
+    .container-border-1 {
+        width:944px;
+    }
+    .container-borders-2 .grid2 {
+        width:463px; /*47% */
+    }
+    .container-borders-3 .grid1, .sign-block, .standard-left-box {
+        width:300px;
+    }
+    .container-borders-3 .grid2 {
+        width:608px;
+    }
+    .container-borders-2 .grid2+.grid2, .container-borders-4 .grid1+.grid1 {
+        margin-left: 18px;
+    }
+    .container-borders-3 .grid1+.grid2 {
+        margin-left: 28px;
+    }
+    .container-3 .grid1 {
+        width:298px;
+    }
+    .container-3 .grid2 { /* footer */
+        width:642px;
+    }
+    .container-3 .grid1+.grid1 {
+        margin-left: 32px;
+    }
+    .container-borders-4 .grid1 {
+        width:216.5px;
+    }
+    .container-4 .grid1 {
+        width:237px;
+    }
+    /*  *************************** /GRID ***************************/
+    /*  ************************ Menu ************************  */
+    .menu-site a {
+        margin-left: 10px;
+        padding: 8px 9px;
+    }
+    .menu-top a, .menu-botm a {
+        font-size: 14px;
+    }
+    .menu-main a {
+        font-size: 18px;
+    }
+    .menu-main {
+        top:72px;
+    }
+    /*  ************************ /Menu ************************  */
+    /*  ************************ SITE ************************/
+    .site-header h1 {
+        top:47px;
+    }
+    .site-footer .grid-container {
+        padding-top: 235px;
+    }
+    .empty-footer {
+        height: 300px;
+    }
+    .site-footer {
+        background:url("../img/site-footer.png") no-repeat center bottom;
+        height:381px;
+    }
+    .site-footer .social_networks {
+        margin-left: -165px;
+        top: 166px;
+        width:330px;
+    }
+    .to-top {
+        top:175px;
+    }
+    /*  ************************ /SITE ************************/
+}

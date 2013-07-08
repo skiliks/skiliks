@@ -1,14 +1,5 @@
 <?php
-/**
- * Контроллер симуляции
- *
- * PHP Version 5.4
- *
- * @package  None
- * @link     skiliks.com
- * @author   Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- * @license  proprietary http://skiliks.com/
- */
+
 class SimulationController extends AjaxController
 {
     /**
@@ -170,6 +161,14 @@ class SimulationController extends AjaxController
                 Yii::app()->user->data()->getAccount()->save(false);
             }
         }
+    }
+
+    public function actionMarkTutorialNotStarted()
+    {
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+        $invite->tutorial_displayed_at = null;
+        $invite->save(false);
     }
 }
 

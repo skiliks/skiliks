@@ -20,6 +20,8 @@ define([
      */
     var SKXLSDisplayView = SKWindowView.extend({
 
+        isDisplaySettingsButton:false,
+
         title:'Мои документы',
         addClass: 'document-window',
 
@@ -27,6 +29,8 @@ define([
         events: _.defaults({
             'click .sheet-tabs li': 'doSelectTab'
         }, SKWindowView.prototype.events),
+
+        isRender: true,
 
         /*
         * Constructor

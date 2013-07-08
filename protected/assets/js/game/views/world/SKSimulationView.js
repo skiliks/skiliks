@@ -192,6 +192,8 @@ define([
                     buttons: []
                 });
 
+                SKApp.server.api('simulation/MarkTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+
                 setTimeout(function() {
                     me.stopExitProtection();
                     me.simulation.trigger('force-stop');
@@ -232,7 +234,7 @@ define([
              * Renders siteheart block
              */
             renderSupportBlock: function renderSupportBlock() {
-                window._shcp = [];
+                /*window._shcp = [];
                 window._shcp.push({link_wrap_off: true, widget_id : 582287, widget : "Chat", side : "bottom", position : "left", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
                 (function() {
                     var hcc = document.createElement("script");
@@ -241,7 +243,7 @@ define([
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null); }
-                )();
+                )();*/
             },
 
             /**

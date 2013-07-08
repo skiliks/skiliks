@@ -12,7 +12,7 @@
 <div class="container container-2">
     <header>
 
-<h2>Skiliks: release 1.2</h2>
+<h2>Skiliks: release 1.3</h2>
 
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
@@ -88,6 +88,25 @@
 
     <a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/debug/styleCss">style css</a>
+    <a href="/debug/styleForPopupCss">style popup css</a>
+    <a href="/debug/styleBlocks">style blocks</a>
+    <a href="/debug/styleGrid">style grid</a>
+    <a href="/debug/styleGridResults">style grid results</a>
+    <a href="/debug/styleEmpty1280">style empty 1280</a>
+    <a href="/debug/styleEmpty1024">style empty 1024</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/dashboard-new">dashboard Corporate new</a>
+    <a href="/static/dnd">Drag & Drop prototype</a>
+
     </nav>
 
 <?php endif ?>
@@ -111,16 +130,6 @@
 <br/>
 
 <div style="float: none; clear: both; height: 100px;"></div>
-
-<br/>
-<br/>
-<br/>
-
-<form action="/zoho/saveExcel" method="post">
-    <input name="content_path" value="1">
-    <input type="submit" value="test" />
-</form>
-
 
 <br/>
 <br/>

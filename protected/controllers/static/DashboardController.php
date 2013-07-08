@@ -22,7 +22,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $this->accountPagesBase();
     }
 
-    public function actionCorporate()
+    public function actionCorporateNew()
+    {
+        $this->layout = 'static';
+        $this->actionCorporate('//new/dashboard_corporate');
+    }
+
+    public function actionCorporate($view = 'dashboard_corporate')
     {
         $this->checkUser();
 
@@ -155,6 +161,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
             );
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
+
+        $this->layout =
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,

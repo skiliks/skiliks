@@ -35,7 +35,7 @@ class UserServiceUnitTest extends CDbTestCase
 
     public function testActivationKey() {
         //$_SERVER['HTTP_HOST'] = 'skiliks.loc';
-        $url = TestUserHelper::getActivationUrl("ivan@skiliks.com");
+        $url = TestUserHelper::getCorporateActivationUrl("ivan@skiliks.com");
         $this->assertNotNull($url);
     }
 }

@@ -368,7 +368,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length).toBe(3);
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants td').length).toBe(40);
 
                 server.respond();
 
@@ -435,8 +435,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$('#mailEmulatorNewLetterTextVariants li').length)
-                    .toBe(3);
+                expect(mailView.$('#mailEmulatorNewLetterTextVariants td').length).toBe(40);
 
                 server.respond();
 
@@ -494,7 +493,7 @@ define([
                 server.respond();
 
                 // action 5:
-                mailView.$('.win-close button').click();
+                mailView.$('.btn-cl.win-close').click();
                 timers.tick(3 * 1000); // 10 sec
                 simulation.mailClient.message_window.$('.mail-popup-button:eq(0)').click();
                 timers.tick(5 * 1000); // 10 sec
