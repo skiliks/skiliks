@@ -1177,6 +1177,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-item a:hover, .side-item .active a, .side-item .active a:hover {
     background-position: 280px 17px;
 }
+.mnotactive a:hover {
+    background-position: 280px -65px;
+}
 .side-item .active a {
     color: #245057;
     font-family: ;
