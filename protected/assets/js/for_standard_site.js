@@ -144,6 +144,11 @@ var fixLogotypes = function() {
                 dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,
+                position: {
+                    my: "left top",
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box')
+                },
                 draggable: false,
                 open: function( event, ui ) {
                     //Cufon.refresh();
