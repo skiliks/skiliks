@@ -345,9 +345,10 @@
 .add-vacancy-popup {
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     height: 286px !important;
-    /*margin-left: -212px !important;*/
-    margin-top: -25px;
+    /*margin-left: -212px !important;
+    margin-top: -10px;*/
     padding-bottom: 0px;
+    top: -630px !important;
     width: 424px !important;
 }
 .add-vacancy-popup .ui-dialog-content h1 {
@@ -383,7 +384,8 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
-    height: 445px !important;
+    height: 455px !important;
+    top: 202px !important;
     width: 495px !important;
 }
 #Invite_message {
@@ -402,6 +404,8 @@
     width: 405px;
 }
 .block-form {
+    height: 302px;
+    overflow: hidden;
     padding: 15px 10px;
     width: 425px;
 }
@@ -447,6 +451,11 @@
 .profilelabel-wrap label {
     font-size: 14px;
     padding-right: 10px;
+    padding-right: 10px;
     width: 164px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 5px;
 }
 /*  *************************** /PROFILE ***************************/

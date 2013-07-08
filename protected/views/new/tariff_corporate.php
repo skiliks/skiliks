@@ -14,7 +14,6 @@
                     <label class="grid-cell font-large">Выбран тарифный план</label>
                     <div class="grid-cell value">
                         <strong class="font-green font-xxlarge"><?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?></strong>
-                        <br/>
                         <small class="font-small font-grey"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
                     </div>
                 <?php endif ?>
@@ -42,7 +41,7 @@
             <div class="row">
                 <label class="grid-cell font-large">Доступно симуляций</label>
                 <div class="grid-cell">
-                    <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></strong><br/>
+                    <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></strong>
                     <small class="font-small font-grey">
 
                         <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
