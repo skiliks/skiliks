@@ -140,13 +140,13 @@ var fixLogotypes = function() {
         $('a.feedback').on('click', function (e) {
             var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
-                width: 716,
+                width: 706,
                 dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,
                 position: {
-                    my: "left top",
-                    at: "left top",
+                    my: "right top",
+                    at: "right top",
                     of: $('#corporate-invitations-list-box')
                 },
                 draggable: false,
