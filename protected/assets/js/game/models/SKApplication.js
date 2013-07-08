@@ -33,6 +33,8 @@ define([
 
                 var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
                 this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
+
+                this.isInternetConnectionBreakHappent = false;
             },
 
             run: function() {

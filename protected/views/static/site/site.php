@@ -42,7 +42,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.cookies.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-skiliks.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.tablesorter.js"></script>
 
     <!-- We need both!!! -->
@@ -71,7 +71,6 @@
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/raven-0.7.1.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
-
 
     <?php if (!YII_DEBUG): ?>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>

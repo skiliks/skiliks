@@ -22,9 +22,11 @@ define([
     SKDayPlanView = SKWindowView.extend({
         'addClass': 'planner-book-main-div',
 
+        isDisplaySettingsButton:false,
+
         dimensions: {
             maxWidth: 1100,
-            maxHeight: 700
+            maxHeight: 735
         },
 
         'events':_.defaults(
@@ -37,7 +39,13 @@ define([
                 'click .todo-revert':                                                'doRestoreTodo',
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
-                'click .save-day-plan':                                              'doSaveTomorrowPlan'
+                'click .save-day-plan':                                              'doSaveTomorrowPlan',
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd'
+                /*
+                 $('.plan-todo').bind('webkitTransitionEnd', function() {
+                    console.log("end");
+                 });
+                 */
             },
             SKWindowView.prototype.events
         ),
@@ -61,14 +69,15 @@ define([
                 revert: "invalid",
                 scope: "tasks",
                 scroll:true,
-                snap:'td.planner-book-timetable-event-fl',
-                snapMode:'inner',
-                snapTolerance:11,
+                //snap:'td.planner-book-timetable-event-fl',
+                //snapMode:'inner',
+                //snapTolerance:12,
                 stack:".planner-book",
                 start:function () {
                     me.showDayPlanSlot($(this));
                     
                     var task_id = $(this).attr('data-task-id');
+                    var duration = parseInt($(this).attr('data-task-duration'), 10);
                     
                     var prev_cell = $(this).parents('td');
                     if (prev_cell.length) {
@@ -77,6 +86,13 @@ define([
                     $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
                     $(this).data("startingScrollLeft", $(this).parent().scrollLeft());
+
+                    // crop text length
+                    me.overflowText(
+                        me.$('.ui-draggable-dragging .title'),
+                        me.calculateTaskHeigth(duration),
+                        me.$('.ui-draggable-dragging .title')
+                    );
                 },
                 stop:function () {
                         me.hideDayPlanSlot($(this));
@@ -99,14 +115,6 @@ define([
                     var duration = parseInt($(this).attr('data-task-duration'), 10);
                     var height = me.calculateTaskHeigth(duration);
                     $('.planner-book .ui-draggable-dragging').height(height);
-                    
-                    // crop text length    
-                    me.overflowText(
-                        me.$('.ui-draggable-dragging .title'),
-                        height, 
-                        me.$('.ui-draggable-dragging .title')
-                    );
-                    // set height according duration }
 
                     ui.position.left -= $(this).parent().scrollLeft() - stl;
                 }
@@ -148,12 +156,12 @@ define([
         hideDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
-            prev_cell.height(Math.ceil(duration / 15) * 11);
+            prev_cell.height(Math.ceil(duration / 15) * 12);
             prev_cell.find('.day-plan-td-slot')
                 .hide();
             prev_cell
                 .attr('rowspan', duration/15);
-            prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
+            prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 12);
             var prevRow = task_el.parents('tr');
             for (var j = 0; j < duration - 15; j += 15) {
                 prevRow = prevRow.next();
@@ -172,7 +180,7 @@ define([
         showDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
-            prev_cell.height(11);
+            prev_cell.height(10);
             prev_cell.find('.day-plan-td-slot')
                 .show();
             prev_cell
@@ -246,10 +254,10 @@ define([
          */
         calculateTaskHeigth: function(duration) {
         	if (duration > 30){
-        		return duration / 15 * 11;
+        		return duration / 15 * 12;
         	}
             else{
-            	return (duration / 15 * 11) - 2;
+            	return (duration / 15 * 12) - 2;
             }
         },
 
@@ -267,23 +275,31 @@ define([
         setupDroppable:function () {
             var me = this;
             me.shift = 0;
-            
-            var td_slot = this.$('.planner-book-today .day-plan-td-slot, .planner-book-tomorrow  .day-plan-td-slot');
+
+            var td_slot = this.$('.planner-book-today, .planner-book-tomorrow');
             td_slot.droppable("destroy");
             td_slot.droppable({
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-                    // Reverting old element location
-                    var task_id = ui.draggable.attr('data-task-id');
-                    var prev_cell = ui.draggable.parents('td');
-                    
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12.15),
+                        tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
+                        task_id = ui.draggable.attr('data-task-id'),
+                        prev_cell = ui.draggable.parents('td'),
+                        time = tdCell.attr('data-hour') + ':' + tdCell.attr('data-minute'),
+                        day = $(this).attr('data-day-id'),
+                        duration = ui.draggable.attr('data-task-duration');
+
+                    if (false === SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
+                        return false;
+                    }
+
                     var oldTask = {};
                     oldTask = ui.draggable.find('.title').text() + '';
-                    
+
                     if (prev_cell.length) {
                         oldTask = SKApp.simulation.dayplan_tasks.get(task_id).get('title') + '';
-                         
+
                         SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                     }
 
@@ -296,10 +312,10 @@ define([
                     // Appending to new location
                     SKApp.simulation.dayplan_tasks.create({
                         title:    oldTask,
-                        date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
+                        date:     time,
                         task_id:  task_id,
-                        duration: ui.draggable.attr('data-task-duration'),
-                        day:      $(this).parents('div[data-day-id]').attr('data-day-id')
+                        duration: duration,
+                        day:      day
                     });
 
                     // clean up highlighting, it is duplicate but it nessesary to place it here too
@@ -309,7 +325,8 @@ define([
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                     // go last tr under dragged task {
-                    var currentRow = $(this).parents('tr');
+                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12.15);
+                    var currentRow = $(event.target).find('tr:eq(' + index + ')');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
                         currentRow = currentRow.next();
@@ -323,23 +340,8 @@ define([
                     $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')
                         .removeClass('drop-hover');
 
-                    $(this).parent().parent().parent().parent()
-                        .find('tr').addClass('drop-hover');
+                    $(this).find('tr').addClass('drop-hover');
                     // highlight time pieces }
-                },
-                /**
-                 * Returns true if draggable can be dropped on the element
-                 *
-                 * @param draggable
-                 * @return {Boolean}
-                 */
-                accept:function (draggable) {
-                    var duration = parseInt(draggable.attr('data-task-duration'), 10);
-                    var day = $(this).parents('div[data-day-id]').attr('data-day-id');
-                    var parent = $(this).parent();
-                    var time = parent.attr('data-hour') + ':' + parent.attr('data-minute');
-
-                    return SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }
             });
             var after_vacation_slot = this.$('.planner-book-afterv-table');
@@ -481,7 +483,7 @@ define([
          */
         renderContent:function (window_el) {
             var me = this;
-            window_el.html(_.template(plan_content_template, {}));
+            window_el.html(_.template(plan_content_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
             this.updateTodos();
             me.listenTo(SKApp.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();
@@ -578,42 +580,24 @@ define([
          * @method
          */
         doMinimizeTodo:function () {
-            var me = this;
-
-            me.$('.plan-todo').removeClass('open middle').addClass('closed');
-            me.$('.planner-book-afterv-table').removeClass('closed half').addClass('full');
-
-            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
-            setTimeout(function() {
-                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
-            }, 1000);
+            this.$('.plan-todo').removeClass('open middle').addClass('closed');
+            this.$('.planner-book-afterv-table').removeClass('closed half').addClass('full');
         },
 
         /**
          * @method
          */
         doMaximizeTodo:function () {
-            var me = this;
-
-            me.$('.plan-todo').removeClass('closed middle').addClass('open');
-            me.$('.planner-book-afterv-table').removeClass('full half').addClass('closed');
-
-            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+            this.$('.plan-todo').removeClass('closed middle').addClass('open');
+            this.$('.planner-book-afterv-table').removeClass('full half').addClass('closed');
         },
 
         /**
          * @method
          */
         doRestoreTodo:function () {
-            var me = this;
-
-            me.$('.plan-todo').removeClass('closed open').addClass('middle');
-            me.$('.planner-book-afterv-table').removeClass('closed full').addClass('half');
-
-            me.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
-            setTimeout(function() {
-                me.$('.planner-book-afterv-table').mCustomScrollbar("update");
-            }, 1000);
+            this.$('.plan-todo').removeClass('closed open').addClass('middle');
+            this.$('.planner-book-afterv-table').removeClass('closed full').addClass('half');
         },
 
         /**
@@ -662,6 +646,11 @@ define([
                     }]
                 });
             });
+        },
+        doTransitionEnd:function() {
+            this.$('.planner-book-afterv-table').mCustomScrollbar("update");
+            this.$('.planner-book-timetable').mCustomScrollbar("update");
+            this.$('.plan-todo-wrap').mCustomScrollbar("update");
         }
     });
 

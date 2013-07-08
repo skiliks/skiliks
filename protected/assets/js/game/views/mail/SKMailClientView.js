@@ -47,11 +47,14 @@ define([
     SKMailClientView = SKWindowView.extend(
         /** @lends SKMailClientView.prototype */
         {
+            isDisplaySettingsButton:true,
             dimensions: {
                 maxWidth: 1100,
                 maxHeight: 700
             },
             mailClient: undefined,
+
+            windowName:'mail',
 
             addClass: 'mail-window',
 
@@ -93,9 +96,9 @@ define([
 
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
-                '#MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
+                'click #MailClient_ContentBlock .mail-tags-bl td': 'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
             }, SKWindowView.prototype.events),
 
@@ -350,7 +353,9 @@ define([
              * @param el
              */
             renderTitle: function (el) {
-                el.html(_.template(mail_client_title_template, {}));
+                el.html(_.template(mail_client_title_template, {
+                    isDisplaySettingsButton:this.isDisplaySettingsButton,
+                    windowName:this.windowName}));
                 this.delegateEvents();
             },
 
@@ -362,7 +367,9 @@ define([
             renderContent: function (el) {
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id: this.mailClientScreenID,
-                    contentBlockId: this.mailClientContentBlockId
+                    contentBlockId: this.mailClientContentBlockId,
+                    isDisplaySettingsButton:this.isDisplaySettingsButton,
+                    windowName:this.windowName
                 });
                 // append to <body>
                 el.html(mailClientWindowBasicHtml);
@@ -1580,33 +1587,55 @@ define([
 
                 //if ('' !== response.phrases.message && undefined === response.phrases.message) {
 
-                var mainPhrasesHtml = '';
+                var mainPhrasesHtml = "<table>";
                 var additionalPhrasesHtml = '';
 
-
+                var row;
+                var rows = [[],[],[],[],[]];
+                //mainPhrasesHtml += '<tr>';
                 phrases.forEach(function (phrase) {
-                    mainPhrasesHtml += _.template(mail_client_phrase_template, {
+                    row = _.template(mail_client_phrase_template, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
                         text: phrase.text
                     });
+                    if(rows[phrase.columnNumber-1] !== undefined) {
+                        rows[phrase.columnNumber-1].push(row);
+                    }
                 });
+
+                var columns = "";
+                var column = "";
+                for(var i = 0; i < 8; i++){
+                    column = '<tr>'
+                    for(var j = 0; j < 5; j++){
+                        if(rows[j][i] === undefined){
+                            column += '<td></td>';
+                        }else{
+                            column += rows[j][i];
+                        }
+                    }
+                    column += '</tr>'
+                    columns += column;
+                }
+
+                mainPhrasesHtml += columns+"</table>";
 
                 addPhrases.forEach(function (phrase) {
-                    additionalPhrasesHtml += _.template(mail_client_phrase_template, {
+                    additionalPhrasesHtml += _.template(phrase_item, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
                         text: phrase.text
                     });
                 });
-
+                mainPhrasesHtml += "</table>";
                 if (phrases.length) {
                     this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
                     this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
                     this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
-                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                     );
                 } else {
                     this.$('.mail-tags-bl').hide();
@@ -1626,6 +1655,7 @@ define([
                         if (undefined !== phrase) {
                             phraseToAdd.mySqlId = phrase.mySqlId;
                             phraseToAdd.text = phrase.text;
+                            phraseToAdd.columnNumber = phrase.columnNumber;
                             mailClient.newEmailUsedPhrases.push(phraseToAdd);
                             me.renderAddPhraseToEmail(phraseToAdd);
                         }
@@ -1653,6 +1683,7 @@ define([
                 var phraseToAdd = new SKMailPhrase(); // generate unique uid
                 phraseToAdd.mySqlId = phrase.mySqlId;
                 phraseToAdd.text = phrase.text;
+                phraseToAdd.columnNumber = phrase.columnNumber;
                 // simplest way to clone small object in js }
 
                 // ADD:
@@ -2001,7 +2032,7 @@ define([
                 } else {
                     this.$('.mail-tags-bl').show();
                     this.$('.mail-text-wrap').height(
-                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                     );
                 }
             },
@@ -2113,6 +2144,7 @@ define([
                         );
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
+
                 }
 
                 // add phrases {
@@ -2156,7 +2188,7 @@ define([
             doUpdateScreenFromForwardEmailData: function (response, draftEmail) {
                 if (1 === parseInt(response.result, 10)) {
 
-                    if (null == response.subjectId) {
+                    if (null === response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
                         return  false;
@@ -2258,12 +2290,37 @@ define([
 
                     // set attachment
                     if (response.attachmentId) {
-                        this.once('attachment:load_completed', function () {
-                            var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
-                                return attachment.fileMySqlId;
-                            }), response.attachmentId
-                            );
-                            me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
+                        this.mailClient.uploadAttachmentsList(function () {
+                            var attachmentsListHtml = [];
+                            $("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
+
+                            var attach = new SKAttachment();
+                            attach.fileMySqlId = response.attachmentId;
+                            attach.label = response.attachmentName;
+
+                            attachmentsListHtml.push({
+                                text: attach.label,
+                                value: attach.fileMySqlId,
+                                selected: 1,
+                                imageSrc: attach.getIconImagePath()
+                            });
+                            me.mailClient.availableAttachments.forEach(function (attachment) {
+                             attachmentsListHtml.push({
+                             text: attachment.label,
+                             value: attachment.fileMySqlId,
+                             imageSrc: attachment.getIconImagePath()
+                             });
+                             });
+                            me.mailClient.availableAttachments.push(attach);
+                            me.$("#MailClient_NewLetterAttachment div.list").ddslick({
+                                data: attachmentsListHtml,
+                                width: '100%',
+                                imagePosition: "left"
+                            });
+                            // add attachments list }
+
+                            me.delegateEvents();
+                            me.trigger('attachment:load_completed');
                         });
                     }
 

@@ -13,6 +13,9 @@ define([], function() {
 
         // @var string, 
         text: undefined,
+
+        // @var string,
+        columnNumber: undefined,
         
         // @var string
         // uniqueId - to identify prases with same text in email, when user want to delete one from such phrases

@@ -58,6 +58,11 @@
                         <li>
                             <a target="_blank" href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">Открыть оценки</a>
                         </li>
+                        <? if(!empty($model->receiverUser->profile)) : ?>
+                            <li>
+                                <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$model->simulation->id?>&email=<?=$model->receiverUser->profile->email?>">Пересчитать оценки</a>
+                            </li>
+                        <? endif ?>
                         <li>
                             <a href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">Скачать "Сводный бюджет"(D1)</a>
                         </li>
@@ -65,6 +70,13 @@
                         <li>
                             <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$model->id?>">Откатить инвайт</a>
                         </li>
+                        <? foreach(Invite::$statusText as $id => $text) : ?>
+                            <? if((string)$id !== $model->status) : ?>
+                            <li>
+                                <a class="action-invite-status" href="/admin_area/invite/action/status?invite_id=<?=$model->id?>&status=<?=$id?>">Сменить на статус <?=$text?></a>
+                            </li>
+                            <? endif ?>
+                        <? endforeach ?>
                     </ul>
                 </div>
             </td>

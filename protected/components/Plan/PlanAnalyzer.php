@@ -130,6 +130,7 @@ class PlanAnalyzer {
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
                 $groupedLog[($i - 1)]['end'] = $logItem->end_time;
+                $log_214d[($i - 1)]['end_time'] = $logItem->end_time;
                 $currentParentCode = $logItem->activityAction->activity->parent;
             }
         }

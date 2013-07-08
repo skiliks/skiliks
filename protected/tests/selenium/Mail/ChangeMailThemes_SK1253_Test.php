@@ -40,9 +40,9 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");

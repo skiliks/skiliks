@@ -46,19 +46,122 @@ nav ul, nav ul li {
 /* --------------- /reset.css --------------- */
 
 /* --------------- main styles ---------*/
-@font-face {font-family: 'ProximaNova-Regular';src: url('../fonts/24F05C_4_0.eot');src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
-@font-face {font-family: 'ProximaNova-Bold';src: url('../fonts/24F05C_5_0.eot');src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
+@font-face {
+    font-family: 'ProximaNova-Regular';
+    src: url('../fonts/24F05C_4_0.eot');
+    src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/24F05C_4_0.woff') format('woff'),
+    url('../fonts/24F05C_4_0.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ProximaNova-Bold';
+    src: url('../fonts/24F05C_5_0.eot');
+    src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/24F05C_5_0.woff') format('woff'),
+    url('../fonts/24F05C_5_0.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Conv_ProximaNova-Semibold';
+    src: url('../fonts/ProximaNova-Semibold.eot');
+    src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
+    url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
+    url('../fonts/ProximaNova-Semibold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body {
+    height: 100%;
+}
 body {
     line-height: 1;
     color: #29313d;
     text-align: left;
-    font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
-    line-height: 14px;
+    font-family: "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 }
 a {
+    color:#fff;
     text-decoration: none;
 }
+.link-dark {
+    color:#2d7b91;
+}
+/* ************************ FONTS ************************ */
+h1, h2, h3, h4 {
+    color:#fff;
+    font-family:"ProximaNova-Bold";
+    font-weight: normal;
+    vertical-align: top;
+}
+.proxima-reg {
+    font-family: "ProximaNova-Regular";
+}
+.proxima-bold {
+    font-family:"ProximaNova-Bold";
+}
+.font-24 {
+    font-size:24px;
+    line-height: 100%;
+}
+.font-blue-dark {
+    color:#146672;
+}
+.font-brown {
+    color:#555545;
+}
+.font-dark {
+    color:#3d4041;
+}
+.font-white {
+    color:#fff;
+}
+ul, ol {
+    padding: 0;
+    margin-left:20px;
+}
+li {
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+ul li:last-child {
+    margin-bottom: 0px;
+}
+.unstyled {
+    list-style: none;
+    margin-left: 0;
+}
+.list-light li {
+    background: url("../img/icon-listlight.png") no-repeat 0 0px;
+    color: #fff;
+    text-shadow: rgba(0,0,0,0.14) 0 0 8px;
+    line-height: 20px;
+    margin-bottom: 13px;
+    min-height: 21px;
+    padding-left: 28px;
+}
+.list-light li:last-child {
+    margin-bottom: 0px;
+}
+.list-dark li {
+    background: url("../img/icon-registration-list.png") no-repeat 0 0px;
+    color: #555545;
+    font-family: "ProximaNova-Bold";
+    min-height: 21px;
+    padding-left: 25px;
+}
+/* ************************ /FONTS ************************ */
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+/* ************************ Buttons ************************ */
 .btn, .btn-large, .btn-primary {
+    border:none;
     border-radius: 4px;
     cursor: pointer;
     display: inline-block;
@@ -67,26 +170,42 @@ a {
     text-decoration: none;
     white-space: nowrap;
 }
-.btn-large { /* large green button */
-    background: #146672 url("../img/btn-circle.png") no-repeat;
-    background-position: 20px 50%;
-    color: #fff;
-    font-size: 18px;
-    height: 54px;
-    line-height: 54px;
-    padding: 0 19px 0 50px;
+.btn-green {
+    background-color: #146672;
 }
-.btn-large:hover {
+.btn-green:hover {
     background-color: #BD2929;
 }
+.btn-white {
+    background-color: #fff;
+    color: #146672;
+}
+.btn-white:hover {
+    background-color: #48b5c6;
+    color: #fff;
+}
+.btn-large { /* large green button */
+    background-image: url("../img/btn-circle.png");
+    background-repeat: no-repeat;
+    color: #fff;
+}
 .btn-primary { /* example -  feedback */
-    background: url("../img/btn-primry-bg.png") no-repeat;
+    background-image: url("../img/btn-primry-bg.png");
+    background-repeat: no-repeat;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     color: #3c3c32;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
+}
+.btn-arrow {
+    background-image: url("../img/btn-circle.png");
+    background-position: 20px 50%;
+    background-repeat: no-repeat;
     padding: 0 10px 0 22px;
+}
+.btn-arrow-small {
+    background-image: url("../img/icon-btn-notify.png");
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    padding: 0 10px 0 38px;
 }
 .btn-primary:hover {
     color:#fff;
@@ -103,7 +222,17 @@ a {
 .btn-site:hover {
     background-color:#bf292a;
 }
-
+.btn-add {
+    border-radius: 4px;
+    background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
+    cursor: pointer;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    padding: 0px 6px;
+    width: 10px;
+}
+/* ************************ /Buttons ************************ */
 /* ************************ Pager ************************ */
 .yiiPager, .yiiPager li {
     margin:0px;
@@ -118,7 +247,7 @@ a {
 .yiiPager li, .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:"ProximaNova-Bold";
+    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
 }
 .yiiPager a {
     font-size: 16px;
@@ -132,6 +261,7 @@ a {
 .yiiPager .previous a, .yiiPager .next a {
     background: #6caab3;
     border: none;
+    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
     font-size: 14px;
     margin: 0px 11.5px;
     padding: 7px 10px 7px 9px;
@@ -143,56 +273,80 @@ a {
     background: #146672;
 }
 /* ************************ /Pager ************************ */
-/* ************************ !!!!!!!!!!! Pager FONT
-CUFON!!!!!!
-!!!!!!!!!!************************ */
-h1, h2, h3, h4 {
-    font-family:"ProximaNova-Bold";
-    font-weight: normal;
-}
-h2 {
-    font-size: 44px;
-    color: #fff;
-    line-height: 52px;
-}
 
 /*  ************************ Menu ************************  */
-.menu-main li {
+.menu-site li, .menu-link-regular, .menu-link-active {
    display: inline;
    list-style-type: none;
 }
-.menu-main a {
-    display: block;
-    background: rgba(20,102,114,0.4);
+.menu-site a {
     border-radius: 3px;
-    font: 18px/28px "ProximaNova-Regular";
     color: #fff;
+    display: inline-block;
+    font-family: "ProximaNova-Regular";
     text-decoration: none;
-    float: left;
-    margin: 0 0 0 10px;
-    padding: 0 9px;
 }
-.menu-main a:hover, .menu-main .active a {
+.menu-main a {
+    background: rgba(20,102,114,0.4);
+}
+.menu-botm a {
+    background: rgba(20,102,114,0.4);
+}
+.menu-site a:hover, .menu-link-active a {
     background:rgba(20,102,114,1);
 }
-
+.menu-top, .menu-main {
+    position: absolute;
+    right:0px;
+}
+.menu-top {
+    top:10px;
+}
+.menu-botm {
+    float: right;
+}
+.menu-botm a {
+    margin-left: 3px;
+}
 /*  ************************ /Menu ************************  */
 /*  ************************ Colors and Borders ************************  */
 .block-border {
     border-radius: 8px;
-    border: 8px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 8px;
+}
+.block-border-dark {
+    border-radius: 8px;
+    /*box-shadow: 0 0 0 8px rgba(41, 116, 127, 0.2);
+    margin: 8px;*/
+    border:8px solid rgba(41, 116, 127, 0.2);
 }
 .border-primary {
     border-radius: 3px;
 }
+.border-large {
+    border-radius: 8px;
+}
+.bg-transparnt {
+    background: rgba(255, 255, 255, 0.2);
+}
 .bg-rich-blue {
     background-color: #146672;
 }
-.bg-light-blue {
-     background-color: #f0fdff;
+.bg-light-blue { /*  example - bg popupa smenit parol */
+     background-color: #f3ffff;
+}
+.bg-lblue-primary {/*  example - bg rezultatov simulyatzii  */
+    background-color: #e8f7f7;
 }
 .bg-blue { /*  example - ostalos simulyatziy v dashboard */
     background-color: #51c1d2;
+}
+.bg-blue-block {/*  example - block v resultatax */
+    background-color: #ddf0f0;
+}
+.bg-blue-bar {/*  example - v resultatax bar neaktivnyi */
+    background-color: #b5d4d7;
 }
 .bg-yellow {/*  example - corporate table darker rows */
     background-color: #fdfbc6;
@@ -203,36 +357,236 @@ h2 {
 /*  ************************ /Colors and Borders ************************  */
 
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-.form-simple input[type="text"] {
+input[type="text"], input[type="password"]  {
     background: #fff;
     border: 1px solid #3e5259;
     border-radius: 5px;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     color: #146672;
     line-height: 1;
-    outline: none;
+    outline:none;
+   /*outline: 1px solid rgba(255, 255, 255, 0);*/
+}
+.form-small input[type="text"], .form-small input[type="password"] {
     height: 26px;
     line-height: 26px;
-    padding: 2px 4px;
+    padding: 3px 9px;
 }
-.form-simple input[type="text"]+.form-simple input[type="text"] {
+.form-large input[type=text], .form-large input[type=password] {
+    height:24px;
+    font-size: 16px;
+    padding: 14px 10px 14px 19px;
+}
+.form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
+    border:3px solid #24bdd3;
+    padding: 12px 8px 12px 17px;
+}
+.form-simple input[type="text"]+input[type="text"] {
     margin-left: 10px;
 }
 .form-simple label {
     color: #fff;
     display: inline-block;
-    min-width: 60px;
+    line-height: 90%;
+    min-width: 64px;
     padding-right: 10px;
 }
-.form-simple .row {
-    position: relative;
-    padding: 10px 0 0 0;
+.dark-labels label {
+    color:#555545;
+    font-family: "ProximaNova-Bold";
 }
-/*  ************************ FORM SIMPLE ************************ /
+.row {
+    position: relative;
+    padding-top: 10px;
+}
+.row.wide {
+    padding-top: 12px;
+}
+.row.buttons, .row.wide+.row.wide {
+    padding-top: 15px;
+}
+.rows-inline .row {
+    display: inline-block;
+    padding-top: 0px;
+}
+input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder {
+    color:#a6bcc0;
+}
+input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder {
+    color:#a6bcc0;
+}
+input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder {
+    color:#a6bcc0;
+}
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
+    color:#a6bcc0;
+}
+.placehldrs-dark input[type="text"]::-webkit-input-placeholder,
+.placehldrs-dark input[type="password"]::-webkit-input-placeholder {
+    color:#146672;
+}
+.placehldrs-dark input[type="text"]::-moz-placeholder,
+.placehldrs-dark input[type="password"]::-moz-placeholder{
+    color:#146672;
+}
+.placehldrs-dark input[type="text"]:-ms-input-placeholder,
+.placehldrs-dark input[type="password"]:-ms-input-placeholder {
+    color:#146672;
+}
+.placehldrs-dark input[type="text"]:-moz-placeholder,
+.placehldrs-dark input[type="password"]:-moz-placeholder{
+    color:#146672;
+}
+/*  ************************ /FORM SIMPLE ************************  */
 
-/*  ************************ Razdelyat pozitzionirovanie i oformlenie !!!************************ /
+/*  *************************** PADDINGS ****************************/
+.pad10 {
+    padding: 10px;
+}
+.pad16 {
+    padding: 16px;
+}
+.pad20 {
+    padding: 20px;
+}
+.pad30 {
+    padding: 30px;
+}
+.pad40 {
+    padding: 40px;
+}
+.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
+    margin-top: -6px;
+}
+/*  *************************** /PADDINGS ****************************/
+/*  *************************** POZITZIONIROVANIE ****************************/
+.postn-reltv {
+    position: relative;
+}
+.postn-absolt {
+    position: absolute;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+.pull-center {
+    margin: 0 auto;
+}
+.thetable {
+    display: table;
+}
+.grid-cell {
+    display: table-cell;
+}
+.grid2.grid-cell, .grid3.grid-cell {
+    float:none;
+}
+/*  *************************** /POZITZIONIROVANIE ****************************/
 
-/* --------------- select ---------*/
+/*  ****************************** SOCIAL ICONS *******************************/
+.social_networks:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.social_networks a, .smallicons a {
+    dispay: block;
+    float: left;
+    overflow: hidden;
+    text-indent: -1000px;
+    padding: 0px;
+}
+.social_networks>span {
+    display: block;
+    float:left;
+    font: 14px "ProximaNova-Bold";
+    line-height: 31px;
+}
+.smallicons>span {
+    line-height: 26px;
+}
+.smallicons .addthis_toolbox {
+    display: block;
+    float:left;
+}
+.social_networks a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+}
+.smallicons a {
+    background:url("../img/social-small.png") -100% -100% no-repeat;
+    width:28px;
+    height:27px;
+}
+.social_networks a, .smallicons a {
+    margin-left:10px;
+}
+.social_networks .addthis_button_vk {
+    background-position: 0px 0px;
+}
+.social_networks .addthis_button_vk:hover {
+    background-position: 0px 100%;
+}
+.social_networks .addthis_button_facebook {
+    background-position: -42px 0px;
+}
+.social_networks .addthis_button_facebook:hover {
+    background-position: -42px 100%;
+}
+.social_networks .addthis_button_twitter {
+    background-position: -83px 0px;
+    width:33px;
+}
+.social_networks .addthis_button_twitter:hover {
+    background-position: -83px 100%;
+}
+.social_networks .addthis_button_google_plusone_share {
+    background-position: -125px 0px;
+}
+.social_networks .addthis_button_google_plusone_share:hover {
+    background-position: -125px 100%;
+}
+.social_networks .addthis_button_linkedin {
+    background-position: -166px 0px;
+}
+.social_networks .addthis_button_linkedin:hover {
+    background-position: -166px 100%;
+}
+.smallicons .addthis_button_facebook {
+    background-position: -36px 0px;
+}
+.smallicons .addthis_button_facebook:hover {
+    background-position: -36px -33px;
+}
+.smallicons .addthis_button_twitter {
+    background-position: -71px 0px;
+    width:29px;
+}
+.smallicons .addthis_button_twitter:hover {
+    background-position: -71px -33px;
+}
+.smallicons .addthis_button_google_plusone_share {
+    background-position: -107px 0px;
+}
+.smallicons .addthis_button_google_plusone_share:hover {
+    background-position: -107px -33px;
+}
+.smallicons .addthis_button_linkedin {
+    background-position: -142px 0px;
+}
+.smallicons .addthis_button_linkedin:hover {
+    background-position: -142px -33px;
+}
+/*  ****************************** /SOCIAL ICONS *******************************/
+/*  ************************ SELECT ************************/
 .sbHolder {
     display:inline-block;
     background: #54c4d4;
@@ -247,6 +601,7 @@ h2 {
     font:14px 'ProximaNova-Regular';
     position: relative;
     height: 23px;
+    min-width: 90px;
     color: #fff;
     vertical-align:middle;
 }
@@ -259,7 +614,7 @@ h2 {
     line-height: 22px;
     outline: none;
     overflow: hidden;
-    text-indent: 5px;
+    text-indent: 9px;
     width: 100%;
     position: absolute;
     top: 0;
@@ -351,4 +706,272 @@ h2 {
 }
 .sbOptions .sbSub{
     padding-left: 17px;
+}
+/*  ************************ /SELECT ************************/
+/*  ************************ SITE ************************/
+.site-header {
+    height: 103px;
+    margin: 0 auto;
+    padding-top: 47px;
+    position: relative;
+    width: 960px;
+}
+.site-header h1 {
+    left: 0px;
+    position: absolute;
+}
+.site-wrap {
+    margin: 0 auto;
+    min-height: 100%;
+    position: relative;
+}
+.site-main {
+    position: relative;
+    z-index: 2;
+}
+.site-footer {
+    bottom: 0px;
+    color:#fff;
+    left:0px;
+    overflow: visible;
+    position: absolute;
+    width:100%;
+    z-index: 1;
+}
+.site-footer .grid-container {
+    position: relative;
+}
+.site-footer .container:first-child {
+    margin-bottom: 13px;
+}
+.to-top {
+    display: inline-block;
+    position: absolute;
+    right:0px;
+}
+
+/*  ************************ /SITE ************************/
+/*  *************************** GRID ***************************/
+.grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after,
+.container-results-3:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.container-borders-2 { /* dlya obramleniya i otstupov blokov s prozrachnym borderom */
+
+}
+.grid1, .grid2, .grid3, .standard-left-box, .standard-right-box {
+    float:left;
+}
+
+.container-4 .grid1+.grid1 {
+    margin-left: 4px;
+}
+.standard-left-box+.standard-right-box {
+    margin-left: 15px;
+}
+.standard-right-box {
+    width:629px;
+}
+.standard-full-width-box {
+    width:100%;
+}
+.results-width-block {
+    margin: 0 auto;
+    width:1000px;
+}
+.container-3 .grid1+.grid2 {
+    margin-left: 20px;
+}
+.container-results-3 .grid1 {
+    width:316px;
+}
+.container-results-3 .grid2 {
+    width:634px;
+}
+.container-results-3 .grid1+.grid2 {
+    margin-left: 10px;
+}
+.container-results-2 .grid1 {
+    width:459px;
+}
+.grid-space {
+    width:26px;
+}
+.container-results-2 .grid-space {
+    width:10px;
+}
+.container-results-4 .grid1 {
+    width:240px;
+}
+/*  ****************************************************** /GRID **********************************************************/
+/*  ************************ SITE ************************/
+
+.site-footer .social_networks {
+    color: #29313d;
+    left: 50%;
+    position: absolute;
+}
+/*  ************************ /SITE ************************/
+.empty-block {
+    content: ".";
+    text-indent: -90000px;
+}
+.site-footer .empty-block {
+    padding-right: 100px;
+}
+/*  *************************** SCRIPT POPUP ***************************/
+.ui-widget-overlay {
+    background: rgba(0, 0, 0, .55);
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.ui-dialog {
+    position: absolute;
+    z-index: 10;
+}
+.ui-dialog-titlebar {
+    position: relative;
+}
+.ui-dialog-titlebar-close, .popupclose {
+    background: url("../img/closepopup.png") no-repeat 0 0;
+    cursor: pointer;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    display: block;
+    margin: 0;
+    text-indent: -90000px;
+    padding: 0;
+}
+.ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
+    background-position: 0 100%;
+}
+/*  *************************** /SCRIPT POPUP ***************************/
+.popup-site {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+.popup-site .ui-widget-content {
+    padding: 30px;
+}
+
+.popup-center {
+    left:50%;
+}
+/*  *************************** POPUP PRIMARY ***************************/
+/* goluboy popup tipa feedback ili prichiny otkaza */
+.popup-primary {
+    background: url("../img/bg-popuprpt.jpg") repeat left top;
+}
+.popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
+    padding: 0;
+    height: 0;
+}
+.popup-primary-title {
+    color: #0e4750;
+    font: 30px "ProximaNova-Regular";
+    margin-top: -8px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+.popup-primary label, .popup-primary p {
+    color:#0e4750;
+}
+/*  *************************** /POPUP PRIMARY ***************************/
+/*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
+.popup-simple {
+    background: #E8F7F7;
+    color: #3d4041;
+    overflow: visible;
+}
+.popup-simple h3 {
+    margin-top:-6px;
+}
+.popup-simple a {
+    color: #2d7b91;
+}
+.container-border-1.popup-center {
+    margin-left: -472px;
+}
+/*  *************************** /POPUP FLASH I SMENIT PAROL ***************************/
+/*  *************************** OFORMIT ZAKAZ ***************************/
+.block-order {
+    background-image:url("../img/order-pagebg.gif");
+    background-position: center -40px;
+    background-repeat: no-repeat;
+}
+.order-header {
+    height: 200px;
+    padding: 36px 116px 10px;
+}
+.order-content {
+    padding: 0px 116px 70px;
+}
+/*  *************************** /OFORMIT ZAKAZ ***************************/
+/*  *************************** REZULTATY ***************************/
+.simulation-result-popup {
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+.simulation-result-popup .ui-widget-content {
+    padding: 20px;
+}
+.simulation-result-popup h1 {
+    font-size: 30px;
+    padding: 0px 10px 6px 0px;
+}
+/*  *************************** /REZULTATY ***************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary {
+    width:100%;
+}
+.table-primary th {
+    background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
+    border: none;
+    border-bottom: 1px solid #0e4750;
+    color:#fff;
+    font-weight: normal;
+    padding: 7px 6px;
+    text-align: left;
+    vertical-align: middle;
+}
+.table-primary th:first-child {
+    border-radius: 5px 0px 0px;
+}
+.table-primary th:last-child {
+    border-radius: 0px 5px 0px 0px;
+}
+.table-primary td {
+    background-color: #fdfbc6;
+    padding: 7px 6px;
+}
+.table-primary tr:last-child td:first-child {
+    border-radius: 0px 0px 0px 5px;
+}
+.table-primary tr:last-child td:last-child {
+    border-radius: 0px 0px 5px;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
+.highlight-title {
+    background: url("../img/highlight-title-bg.png") no-repeat center top;
+    height: 134px;
+    font: normal 48px "ProximaNova-Regular";
+    line-height: 114px;
+    text-align: center;
+}
+.highlight-title+.pad40 {
+    padding-top: 24px;
 }

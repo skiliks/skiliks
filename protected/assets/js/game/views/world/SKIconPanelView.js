@@ -21,12 +21,6 @@ define([
         SKIconPanelView = Backbone.View.extend({
             /** @lends SKIconPanelView.prototype */
 
-            /**
-             * Количество прыганий иконки
-             * @property defaultBouncesNo
-             */
-            defaultBouncesNo: 10, // icon animated 10 times
-
             events: {
                 'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
                 'click .icons-panel .door.icon-active a': 'doDialogStart',
@@ -96,7 +90,9 @@ define([
              */
             onMailEvent: function (event) {
                 this.startAnimation('.mail');
-                this.doSoundIncomeMail();
+                if(SKApp.simulation.isPlayIncomingMailSound){
+                    this.doSoundIncomeMail();
+                }
             },
 
             /**
@@ -178,9 +174,11 @@ define([
                         }
                     };
                 }
-                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
+                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.isShortDuration(data));
 
-                me.doSoundPhoneCallInStart();
+                if(SKApp.simulation.isPlayIncomingCallSound){
+                    me.doSoundPhoneCallInStart();
+                }
                 event.on('complete', function() {
                     me.doSoundPhoneCallInStop();
                 });
@@ -220,7 +218,7 @@ define([
                     }
                 };
 
-                me.startAnimation('.door', callbackFunction, me.getEventBounces(data));
+                me.startAnimation('.door', callbackFunction, me.isShortDuration(data));
 
                 me.doSoundKnockStart();
                 event.on('complete', function() {
@@ -244,12 +242,8 @@ define([
              * @param data
              * @returns {number}
              */
-            getEventBounces: function (data) {
-                if (undefined === data[2]) {
-                    return 2;
-                } else {
-                    return this.defaultBouncesNo;
-                }
+            isShortDuration: function (data) {
+                return undefined === data[2];
             },
 
             /**
@@ -290,18 +284,10 @@ define([
              * @method startAnimation
              * @param {string} selector CSS selector of jQuery li element
              * @optional @param {Function} end_cb called when animation ends
-             * @optional @param bounces
+             * @optional @param shortDuration
              * @async
              */
-            startAnimation: function (selector, end_cb, bounces) {
-                // define bounce_counter
-                var bounce_counter;
-                if (undefined === bounces) {
-                    bounce_counter = this.defaultBouncesNo;
-                } else {
-                    bounce_counter = bounces;
-                }
-
+            startAnimation: function (selector, end_cb, shortDuration) {
                 var me = this;
 
                 if (!(me.icon_lock[selector])) {
@@ -309,34 +295,23 @@ define([
                     var el = me.$(selector);
                     el.addClass('icon-active');
 
-                    // define callback {
-                    var bounce_cb = function () {
-                        if (bounce_counter > 0) {
-                            bounce_counter--;
-                            setTimeout(function () {
-                                if (el.hasClass('icon-active')) {
-                                    el.effect("bounce", {times: 3, direction: 'left'}, 1000, bounce_cb);
-                                } else {
-                                    me.icon_lock[selector] = false;
-                                    if (end_cb !== undefined) {
-                                        end_cb();
-                                    }
-                                }
-                            }, 1000);
-                        } else {
-                            me.icon_lock[selector] = false;
-                            el.removeClass('icon-active');
+                    if (shortDuration) {
+                        el.addClass('icon-active-short');
+                    }
 
-                            if (end_cb !== undefined) {
-                                end_cb();
-                            }
+                    setTimeout(function() {
+                        me.stopAnimation(selector);
+
+                        if (end_cb !== undefined) {
+                            end_cb();
                         }
-                    };
-                    // define callback }
-
-                    // run callback
-                    bounce_cb();
+                    }, shortDuration ? 4000 : 20000);
                 }
+            },
+
+            stopAnimation: function(selector) {
+                this.icon_lock[selector] = false;
+                this.$(selector).removeClass('icon-active icon-active-short');
             },
 
             /**
@@ -365,7 +340,7 @@ define([
             runPhoneTalkStart: function (sim_event_id) {
                 var sim_event = this.sim_events.get(sim_event_id);
                 sim_event.setStatus('in progress');
-                this.$('.phone').removeClass('icon-active');
+                this.stopAnimation('.phone');
             },
 
             /**
@@ -379,7 +354,7 @@ define([
                 e.stopPropagation();
                 var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
                 sim_event.setStatus('in progress');
-                this.$('.door').removeClass('icon-active');
+                this.stopAnimation('.door');
             },
 
             /**
@@ -388,7 +363,7 @@ define([
              */
             doPlanToggle: function (e) {
                 e.preventDefault();
-                this.$('.plan').removeClass('icon-active');
+                this.stopAnimation('.plan');
                 SKApp.simulation.window_set.toggle('plan', 'plan');
             },
 
@@ -507,7 +482,7 @@ define([
                     SKApp.simulation.window_set.toggle('documents', 'documents');
                 }
 
-                this.$('.documents').removeClass('icon-active');
+                this.stopAnimation('.documents');
             },
 
             /**
@@ -532,7 +507,8 @@ define([
                     e.preventDefault();
                 }
 
-                this.$('.mail').removeClass('create-mail icon-active');
+                this.$('.mail').removeClass('create-mail');
+                this.stopAnimation('.mail');
                 if (mailClientView && mailClientView.render_finished) {
                     windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
                     mailClientView.renderWriteCustomNewEmailScreen();
@@ -561,7 +537,7 @@ define([
                     event.preventDefault();
                 }
 
-                this.$('.mail').removeClass('icon-active');
+                this.stopAnimation('.mail');
 
                 // we need getActiveSubscreenName() because mailClient window subname changed dinamically
                 SKApp.simulation.window_set.toggle(

@@ -202,9 +202,15 @@
 .reg-by-link.terms-confirm {
     line-height: 10px;
 }
+.reg-by-link input[type="checkbox"] {
+    margin-right:10px;
+}
 .terms-confirm a {
     color:#0c707f;
     text-decoration: none;
+}
+.action-registration .terms-confirm a {
+    color: #fff;
 }
 .order-result {
     background: #f8f8e4;

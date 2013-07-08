@@ -135,6 +135,8 @@ return array(
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
+                'static/dnd'            => 'static/pages/dnd',
+
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
                 'static/tariffs/' => 'static/pages/tariffs',
@@ -203,6 +205,7 @@ return array(
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
                 '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
 
+                'dashboard-new/'      => 'static/dashboard/corporateNew',
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
@@ -279,7 +282,8 @@ return array(
                 'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
                 'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
-
+                'admin_area/invite/action/status' => 'admin_area/AdminPages/InviteActionStatus',
+                'admin_area/invite/calculate/estimate' => 'admin_area/AdminPages/InviteCalculateTheEstimate',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
@@ -319,6 +323,8 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'userNameInHeaderMaxLength' => 30,
+        'vacancyLinkInProfileMaxLength'=> 50,
         'frontendUrl' => 'http://skiliks.loc/',
         'allowedLanguages' => [
             'en' => [
@@ -338,6 +344,7 @@ return array(
             'afterCallZoomerDuration'         => 2000, // milliseconds
             'isDisplayServer500errors'        => false,
             'isUseStrictAssertsWhenSimStop'   => false,
+            'frontendAjaxTimeout'             => 60000, // 60 sec
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
@@ -358,7 +365,7 @@ return array(
                 /* is_admin = 1 -- user will be admin */
                 ['username' => 'gugu'      , 'email' => 'gugu@skiliks.com'     ,'password' => 'gfhjkm'         ,'is_admin' => 1],
                 ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'   ,'password' => '123123'        ,'is_admin' => 1],
                 ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'vad'       , 'email' => 'vad@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],

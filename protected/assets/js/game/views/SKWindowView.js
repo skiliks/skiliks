@@ -1,4 +1,4 @@
-/*global Backbone, _, SKConfig*/
+/*global Backbone, _, SKConfig, $, define, SKApp, console*/
 /**
  * @class SKWindowView
  *
@@ -16,9 +16,13 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         container: '.windows-container',
 
+        windowName:null,
+
         'events': {
             'click .win-close': 'doWindowClose',
-            'mousedown': 'doActivate'
+            'mousedown': 'doActivate',
+            'click .btn-set':'doSettingsMenu',
+            'click .sim-window-settings .volume-control':'doVolumeChange'
         },
 
         isDisplaySettingsButton: true,
@@ -48,7 +52,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.$el.html(_.template(window_template, {
                 title: this.title,
                 isDisplaySettingsButton: this.isDisplaySettingsButton,
-                isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton
+                isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
+                windowName:this.windowName
             }));
             this.renderTitle(this.$('header'));
             this.$el.draggable({
@@ -110,6 +115,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.onResize = function() {
                 me.resize();
                 me.constrain();
+                me.resizeZoho();
             };
             $(window).on('resize', this.onResize);
 
@@ -234,6 +240,57 @@ define(["text!game/jst/window.jst"], function (window_template) {
             }
 
             return rd;
+        },
+        doSettingsMenu:function(event) {
+            var me = this;
+            if(me.$('.sim-window-settings').css('display') === 'none') {
+                me.$('.sim-window-settings').css('display', 'block');
+            }else{
+                me.$('.sim-window-settings').css('display', 'none');
+            }
+            console.log("Click YES");
+        },
+        doVolumeChange:function(event) {
+            if($(event.currentTarget).hasClass('volume-on')){
+                $(event.currentTarget).text("Выкл.");
+                if($(event.currentTarget).hasClass('control-mail')) {
+                    $(event.currentTarget).removeClass('volume-on');
+                    $(event.currentTarget).addClass('volume-off');
+                    SKApp.simulation.isPlayIncomingMailSound = false;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function(){});
+                }else if($(event.currentTarget).hasClass('control-phone')){
+                    $(event.currentTarget).removeClass('volume-on');
+                    $(event.currentTarget).addClass('volume-off');
+                    SKApp.simulation.isPlayIncomingCallSound = false;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function(){});
+                }else{
+                    throw new Error("Must be has class control-mail or control-phone");
+                }
+            }else if($(event.currentTarget).hasClass('volume-off')) {
+                $(event.currentTarget).text("Вкл.");
+                if($(event.currentTarget).hasClass('control-mail')) {
+                    $(event.currentTarget).removeClass('volume-off');
+                    $(event.currentTarget).addClass('volume-on');
+                    SKApp.simulation.isPlayIncomingMailSound = true;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function(){});
+                }else if($(event.currentTarget).hasClass('control-phone')){
+                    $(event.currentTarget).removeClass('volume-off');
+                    $(event.currentTarget).addClass('volume-on');
+                    SKApp.simulation.isPlayIncomingCallSound = true;
+                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function(){});
+                }else{
+                    throw new Error("Must be has class control-mail or control-phone");
+                }
+            }else{
+                throw new Error("Must be has class volume-off or volume-on");
+            }
+            return false;
+        },
+        resizeZoho:function(){
+            var width = $(".sim-window.document-window").width();
+            var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
+            $(".excel-preload-window").width(width);
+            $(".excel-preload-window").height(height);
         }
     });
     return SKWindowView;

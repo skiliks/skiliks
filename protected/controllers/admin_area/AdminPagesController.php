@@ -74,16 +74,16 @@ class AdminPagesController extends AjaxController {
         $csv .= "Тип (название) основного сценария;";
         $csv .= "Оценка\r\n";
         foreach($models as $model) {
-        $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
-        $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
-        $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
-        $csv .=$model->id.';';
-        $csv .=$model->getStatusText().';';
-        $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
-        $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
-        $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
-        $csv .=$model->getOverall()."\r\n";
-}
+            $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
+            $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
+            $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
+            $csv .=$model->id.';';
+            $csv .=$model->getStatusText().';';
+            $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
+            $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
+            $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
+            $csv .=$model->getOverall()."\r\n";
+        }
         header("Content-type: csv/plain");
         header("Content-Disposition: attachment; filename=invites.csv");
         header("Content-length:".(string)(strlen($csv)));
@@ -207,6 +207,35 @@ class AdminPagesController extends AjaxController {
             throw new Exception("Status not found");
         }
         $this->redirect("/admin_area/orders");
+    }
+
+    public function actionInviteActionStatus() {
+
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $status = Yii::app()->request->getParam('status', null);
+        /* @var $model Invite */
+        $model = Invite::model()->findByPk($invite_id);
+        if(null === $model && null === $status){
+            throw new Exception("Invite - {$invite_id} is not found!");
+        }
+        if( isset(Invite::$statusText[$status])) {
+            $model->status = $status;
+            if(false === $model->save(false)){
+                throw new Exception("Not save");
+            }
+        }else{
+            throw new Exception("Status not found");
+        }
+        $this->redirect("/admin_area/invites");
+    }
+
+    public function actionInviteCalculateTheEstimate() {
+
+        $simId = Yii::app()->request->getParam('sim_id', null);
+        $email = Yii::app()->request->getParam('email', null);
+        SimulationService::CalculateTheEstimate($simId, $email);
+
+        $this->redirect("/admin_area/invites");
     }
 
 }

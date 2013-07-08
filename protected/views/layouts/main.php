@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 05.02.13
- * Time: 12:14
- * To change this template use File | Settings | File Templates.
- */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
@@ -109,19 +102,49 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         $('.flash').each(function() {
                             var key = $(this).find('.flash-data').attr('data-key');
                             console.log('key: ', key, $(this).find('.flash-data'));
+
+                            var positionData = {
+                                my: "center top",
+                                at: "center top",
+                                of: $('#top header')
+                            };
+
+                            var  widthData = 550;
+
+                            if ($(window).width() < 1281) {
+                                var  widthData = 450
+                            }
+
+                            // fix pop-up position for PasswordRecoveryMessage {
+                            var isPasswordRecoveryMessagePresent = false;
+
+                            <?php foreach($flashes as $key => $message) : ?>
+                                <?php if ('recovery-popup' == $key): ?>
+                            isPasswordRecoveryMessagePresent = true;
+                                <?php endif ?>
+                            <?php endforeach ?>
+
+                            if (isPasswordRecoveryMessagePresent) {
+                                positionData = {
+                                    my: "right top",
+                                    at: "right top",
+                                    of: $('#top header #static-page-links')
+                                };
+                                widthData = 274;
+                            }
+
+                            console.log('widthData: ', widthData);
+                            // fix pop-up position for PasswordRecoveryMessage }
+
                             $(this).dialog({
                                 closeOnEscape: true,
-                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key,
+                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key+" popup-center",
                                 minHeight: 220,
                                 modal: true,
                                 resizable: false,
-                                position: {
-                                    my: "right top",
-                                    at: "right bottom",
-                                    of: $('#top header #static-page-links')
-                                },
+                                position: positionData,
                                 //title: '',
-                                width: 275,
+                                width: widthData,
                                 open: function( event, ui ) { Cufon.refresh(); }
                             });
                         });
@@ -165,6 +188,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 </nav>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-            <script type="text/javascript"> Cufon.now(); </script>
+            <script type="text/javascript"> Cufon.now();</script>
     </body>
 </html>
