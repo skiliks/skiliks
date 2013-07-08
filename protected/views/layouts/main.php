@@ -38,7 +38,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <title>Skiliks SC - game the skills</title>
+        <title>Skiliks - game the skills</title>
 
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -49,7 +49,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
-			<!--header-->
+			<!--header SC -->
 			<header>
 				<h1>
                     <a href="/">
