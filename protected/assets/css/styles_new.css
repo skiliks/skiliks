@@ -1182,9 +1182,13 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 }
 .side-item .active a {
     color: #245057;
-    font-family: ;
 }
 .mnotactive a {
     color: #979d98;
+}
+.profileform .grid-cell {
+    border:1px solid red;
+    height: 40px;
+    vertical-align: top;
 }
 /*  *************************** /PROFILE ***************************/
