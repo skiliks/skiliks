@@ -12,6 +12,9 @@ class Ideal_planning_Test extends SeleniumTestHelper
     public function test_214b_214a()
     {
         $this->start_simulation();
+
+        $this->clearEventQueueBeforeEleven('RST1');
+        
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
 
         //сегодня
@@ -37,8 +40,6 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->dragAndDropToObject("//div[@data-task-id='11']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='18' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='13']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='19' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='16']","//div[@id='plannerBookAfterVacation']//div[@class='day-plan-td-slot']");
-
-        $this->assertText("//tr[@class='learning-goal-code-214b ']/td[4]","100.00");
 
         //После отпуска
         $this->dragAndDropToObject("//div[@data-task-id='22']","//td[@data-hour='1' and @data-minute='00']");
