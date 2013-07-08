@@ -1172,6 +1172,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** PROFILE ***************************/
 .side-menu .active {
     background: #fff url("../img/menutopbg.png") repeat-x top;
+    font-family:"ProximaNova-Bold";
     padding-bottom: 1px;
 }
 .side-item {
