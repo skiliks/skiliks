@@ -145,11 +145,6 @@ var fixLogotypes = function() {
                 modal: true,
                 resizable: false,
                 draggable: false,
-                position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $('#corporate-invitations-list-box .items')
-                }
                 open: function( event, ui ) {
                     //Cufon.refresh();
                     console.log();
