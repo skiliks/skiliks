@@ -356,6 +356,9 @@
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.controller-static-dashboard .cabmessage {
+    height: 540px !important;
+}
 #Invite_message {
     height: 46px;
     max-height: 46px;
@@ -372,6 +375,8 @@
     width: 501px;
 }
 .block-form {
+    height: 335px;
+    overflow: hidden;
     padding: 20px 10px;
     width: 523px;
 }
@@ -384,11 +389,12 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 396px !important;
+    /*height: 430px !important;*/
     width: 560px !important;
 }
 /*  *************************** /SEND INVITATION POPUP ***************************/
 /*  *************************** PROFILE ***************************/
+
 .side-menu a {
     background: url("../img/menuarrows.png") no-repeat 280px -65px;
     display: block;
@@ -416,6 +422,11 @@
 .profilelabel-wrap label {
     font-size: 16px;
     padding-right: 10px;
+    padding-top: 8px;
     width: 200px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 5px;
 }
 /*  *************************** /PROFILE ***************************/

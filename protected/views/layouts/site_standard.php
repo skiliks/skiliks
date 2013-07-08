@@ -194,7 +194,8 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript">
         Cufon.replace('.menu-site li, .unstyled li, p, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small', {fontFamily:"ProximaNova-Regular", hover: true});
-        Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td, .add-vacancy-popup h1, .ui-dialog-title', {fontFamily:"ProximaNova-Bold", hover: true});
+        Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td, .add-vacancy-popup h1, .ui-dialog-title, ' +
+            '.side-menu li.active a', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi, .yiiPager', {fontFamily:"ProximaNova-Semibold", hover: true});
         Cufon.replace('.feedback-dialog-title', {fontFamily:"ProximaNova-Regular", hover: true});
 

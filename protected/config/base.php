@@ -382,8 +382,9 @@ return array(
                 /* is_admin = 1 -- user will be admin */
                 ['username' => 'gugu'      , 'email' => 'gugu@skiliks.com'     ,'password' => 'gfhjkm'         ,'is_admin' => 1],
                 ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'   ,'password' => '123123'        ,'is_admin' => 1],
+                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'vad'       , 'email' => 'vad@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'tony'      , 'email' => 'tony@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
