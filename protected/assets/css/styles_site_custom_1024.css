@@ -421,3 +421,30 @@
     font-size: 11px;
 }
 /*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** PROFILE ***************************/
+.side-menu a {
+    background: url("../img/menuarrowsmall.png") no-repeat 228px -45px;
+    display: block;
+    font-size: 14px;
+    height:38px;
+    line-height: 38px;
+    padding: 0px 15px;
+    text-decoration: none;
+}
+.side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
+    background-position: 228px 13px;
+}
+.mnotactive a:hover {
+    background-position: 228px -45px;
+}
+.side-menu .active a {
+    color: #245057;
+}
+.profileform .row {
+    height: 40px;
+}
+.profileform label {
+    padding-right: 10px;
+    width: 164px;
+}
+/*  *************************** /PROFILE ***************************/

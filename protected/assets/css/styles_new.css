@@ -115,6 +115,9 @@ h1, h2, h3, h4 {
 .font-green-dark {
     color: #0e4750;
 }
+.font-green {
+    color: #245057;
+}
 .font-brown {
     color:#555545;
 }
@@ -123,6 +126,9 @@ h1, h2, h3, h4 {
 }
 .font-white {
     color:#fff;
+}
+.font-grey {
+    color:#959595;
 }
 ul, ol {
     padding: 0;
@@ -873,6 +879,14 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     padding-right: 12px;
 }
+#private-invitations-list-box .grid-view .items tr:last-child td[colspan="5"],
+#corporate-invitations-list-box .grid-view .items tr:last-child td[colspan="8"] {
+    border-radius: 0px 0px 5px 5px;
+}
+span.empty {
+    display: block;
+    height: 15px;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** KABINET ***************************/
 .invites-smallmenu-switcher {
@@ -1139,15 +1153,30 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     position: relative;
 }
 /*  *************************** PROFILE ***************************/
+.side-menu .active {
+    background: #fff url("../img/menutopbg.png") repeat-x top;
+    padding-bottom: 1px;
+}
+.side-item {
+    background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
+}
+.side-menu li:first-child {
+    background-image: none;
+}
 .side-menu li:first-child, .side-menu li:first-child a {
     border-radius: 3px 3px 0px 0px;
 }
-.side-menu a {
-    background: url("../img/menuarrows.png") no-repeat 236px -65px;
-    font-size: 18px;
-    padding: 12px 20px 12px 12px;
-
-    display: block;
-    text-decoration: none;
+.side-menu li:last-child, .side-menu li:last-child a {
+    border-radius: 0px 0px 3px 3px;
+}
+.mnotactive a {
+    color: #979d98;
+}
+.profileform .grid-cell {
+    height: 30px;
+    vertical-align: top;
+}
+.profileform .btn-primary {
+    margin-left: 25px;
 }
 /*  *************************** /PROFILE ***************************/
