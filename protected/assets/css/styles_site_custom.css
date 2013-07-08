@@ -403,6 +403,9 @@
     padding: 0px 20px;
     text-decoration: none;
 }
+.side-menu li {
+    list-style-type: none;
+}
 .side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
     background-position: 280px 17px;
 }
