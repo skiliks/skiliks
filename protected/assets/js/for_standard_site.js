@@ -298,8 +298,8 @@ var fixLogotypes = function() {
                 title: '',
                 width: 584,
                 position: {
-                    my: "left top",
-                    at: "left top",
+                    my: "center top",
+                    at: "center bottom",
                     of: $('.page-header')
                 }
             });
