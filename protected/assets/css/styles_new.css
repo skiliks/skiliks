@@ -318,6 +318,9 @@ input[type="text"], input[type="password"], textarea  {
     outline:none;
    /*outline: 1px solid rgba(255, 255, 255, 0);*/
 }
+textarea {
+    padding: 5px;
+}
 .form-simple label {
     color: #fff;
     display: inline-block;
