@@ -8,7 +8,7 @@
         <div class="pad-large profileform">
             <div class="row">
                 <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
-                    <label class="grid-cell font-large font-xxlarge">Тарифный план</label>
+                    <label class="grid-cell font-large">Тарифный план</label>
                     <div class="grid-cell ">не выбран</div>
                 <?php else : ?>
                     <label class="grid-cell font-large">Выбран тарифный план</label>
@@ -25,8 +25,8 @@
                 */ ?>
             </div>
 
-            <div class="row rowpad30">
-                <label class="grid-cell">Действителен до</label>
+            <div class="row">
+                <label class="grid-cell font-large">Действителен до</label>
                 <div class="grid-cell">
                     <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                         не указано
@@ -40,7 +40,7 @@
             </div>
 
             <div class="row">
-                <label class="grid-cell">Доступно симуляций</label>
+                <label class="grid-cell font-large">Доступно симуляций</label>
                 <div class="grid-cell">
                     <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></strong><br/>
                     <small class="font-small font-grey">
