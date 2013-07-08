@@ -335,16 +335,20 @@ textarea {
     display: inline-block;
     padding-top: 0px;
 }
-input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder {
+input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder,
+.profileform input[type=text]::-webkit-input-placeholder {
     color:#a6bcc0;
 }
-input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder {
+input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder,
+.profileform input[type=text]::-moz-placeholder {
     color:#a6bcc0;
 }
-input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder {
+input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder,
+.profileform input[type=text]:-ms-input-placeholder{
     color:#a6bcc0;
 }
-input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder,
+.profileform input[type=text]:-moz-placeholder {
     color:#a6bcc0;
 }
 .placehldrs-dark input[type="text"]::-webkit-input-placeholder,
@@ -1201,11 +1205,10 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     float: left;
 }
 #account-corporate-company-info-form .sbHolder {
-    margin-left: 10px;
     width: 240px;
 }
 #UserAccountCorporate_company_description {
     height: 100px;
-    width: 392px;
+    width: 367px;
 }
 /*  *************************** /PROFILE ***************************/
