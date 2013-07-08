@@ -134,7 +134,7 @@
     margin-left: -20px;
     position: absolute;
     top: 10px;
-    width: 110px;
+    width: 103px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
@@ -423,9 +423,28 @@
 /*  *************************** /SEND INVITATION POPUP ***************************/
 /*  *************************** PROFILE ***************************/
 .side-menu a {
-    font-size: 18px;
-    height:48px;
-    line-height: 48px;
-    padding: 0px 20px;
+    background: url("../img/menuarrowsmall.png") no-repeat 228px -45px;
+    display: block;
+    font-size: 14px;
+    height:38px;
+    line-height: 38px;
+    padding: 0px 15px;
+    text-decoration: none;
+}
+.side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
+    background-position: 228px 13px;
+}
+.mnotactive a:hover {
+    background-position: 228px -45px;
+}
+.side-menu .active a {
+    color: #245057;
+}
+.profileform .row {
+    height: 40px;
+}
+.profilelabel-wrap label {
+    padding-right: 10px;
+    width: 164px;
 }
 /*  *************************** /PROFILE ***************************/

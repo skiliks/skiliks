@@ -390,12 +390,28 @@
 /*  *************************** /SEND INVITATION POPUP ***************************/
 /*  *************************** PROFILE ***************************/
 .side-menu a {
+    background: url("../img/menuarrows.png") no-repeat 280px -65px;
+    display: block;
     font-size: 18px;
     height:48px;
     line-height: 48px;
     padding: 0px 20px;
+    text-decoration: none;
 }
-.profileform label {
-    width: 190px;
+.side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
+    background-position: 280px 17px;
+}
+.mnotactive a:hover {
+    background-position: 280px -65px;
+}
+.side-menu .active a {
+    color: #245057;
+}
+.profileform .row {
+    height: 50px;
+}
+.profilelabel-wrap label {
+    padding-right: 10px;
+    width: 200px;
 }
 /*  *************************** /PROFILE ***************************/

@@ -1,9 +1,11 @@
 
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 
-<div class="transparent-boder profilewrap">
-<?php $this->renderPartial('//new/_menu_corporate', ['active' => ['company-info' => true]]) ?>
-    <div class="form profileform radiusthree">
+<div class="container-3 block-border border-primary bg-transparnt">
+    <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['company-info' => true]]) ?></div>
+
+    <div class="border-primary bg-light-blue standard-right-box">
+        <div class="pad-large profilelabel-wrap">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-company-info-form'
@@ -40,6 +42,7 @@
         </div>
 
         <?php $this->endWidget(); ?>
+        </div>
     </div>
 </div>
 
