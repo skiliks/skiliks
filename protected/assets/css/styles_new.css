@@ -335,20 +335,16 @@ textarea {
     display: inline-block;
     padding-top: 0px;
 }
-input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder,
-.profileform input[type=text]::-webkit-input-placeholder {
+input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder {
     color:#a6bcc0;
 }
-input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder,
-.profileform input[type=text]::-moz-placeholder {
+input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder {
     color:#a6bcc0;
 }
-input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder,
-.profileform input[type=text]:-ms-input-placeholder{
+input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder {
     color:#a6bcc0;
 }
-input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder,
-.profileform input[type=text]:-moz-placeholder {
+input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#a6bcc0;
 }
 .placehldrs-dark input[type="text"]::-webkit-input-placeholder,
@@ -366,6 +362,18 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder,
 .placehldrs-dark input[type="text"]:-moz-placeholder,
 .placehldrs-dark input[type="password"]:-moz-placeholder{
     color:#146672;
+}
+.blueplaceholder input[type=text]::-webkit-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]::-moz-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]:-ms-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]:-moz-placeholder {
+    color:#1d7885;
 }
 /*  ************************ /FORM SIMPLE ************************  */
 
