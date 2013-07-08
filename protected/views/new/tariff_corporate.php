@@ -5,14 +5,14 @@
 <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
-        <div class="pad-large">
+        <div class="pad-large profileform">
             <div class="row">
                 <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
-                    <label class="font-large font-xxlarge">Тарифный план</label>
-                    <div class="value">не выбран</div>
+                    <label class="grid-cell font-large font-xxlarge">Тарифный план</label>
+                    <div class="grid-cell ">не выбран</div>
                 <?php else : ?>
-                    <label class="font-large">Выбран тарифный план</label>
-                    <div class="value">
+                    <label class="grid-cell font-large">Выбран тарифный план</label>
+                    <div class="grid-cell value">
                         <strong class="font-green font-xxlarge"><?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?></strong>
                         <br/>
                         <small class="font-small font-grey"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
@@ -26,24 +26,24 @@
             </div>
 
             <div class="row rowpad30">
-                <label>Действителен до</label>
-                <div class="value">
+                <label class="grid-cell">Действителен до</label>
+                <div class="grid-cell">
                     <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                         не указано
                     <?php else : ?>
-                        <?php echo date('d.m.Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?>
+                    <strong class="font-green font-xxlarge"><?php echo date('d.m.Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?></strong>
                     <?php endif ?>
                 </div>
-                <div class="action">
+                <div class="grid-cell">
                     <a class="btn btn-primary" href="/payment/order/<?= Yii::app()->user->data()->getAccount()->tariff->slug ?>">Продлить</a>
                 </div>
             </div>
 
             <div class="row">
-                <label>Доступно симуляций</label>
-                <div class="value">
-                    <span class="simulations-counter"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></span><br/>
-                    <small class="expire-date">
+                <label class="grid-cell">Доступно симуляций</label>
+                <div class="grid-cell">
+                    <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></strong><br/>
+                    <small class="font-small font-grey">
 
                         <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                             Без ограничения по времени
