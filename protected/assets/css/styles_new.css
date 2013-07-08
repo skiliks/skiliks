@@ -1179,4 +1179,24 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .profile-tarif-form .btn-primary {
     margin-left: 25px;
 }
+
+
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px 4px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 120px;
+}
+#UserAccountCorporate_company_name {
+    width: 250px;
+}
+.profileform label {
+    float: left;
+}
+#account-corporate-company-info-form .sbHolder {
+    width: 240px;
+}
 /*  *************************** /PROFILE ***************************/
