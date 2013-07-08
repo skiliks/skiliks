@@ -68,6 +68,12 @@ class SeleniumTestHelper extends CWebTestCase
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 
+    public function simulation_stop()
+    {
+        $this->optimal_click("css=.btn.btn-simulation-stop");
+        $this->close();
+    }
+
     /**
      * run_event - это метод для запуска события по его event_code.
      */

@@ -31,17 +31,17 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->optimal_click("css=.submit>input");
         $this->assertTextPresent('Email введён неверно');
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","asd@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium@skiliks.com");
         $this->type("xpath=//*[@id='YumUserLogin_password']","not correct password");
         $this->optimal_click("css=.submit>input");
         $this->assertTextPresent('Неверный пароль');
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","asd111@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium111@skiliks.com");
         $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
         $this->optimal_click("css=.submit>input");
         $this->assertTextPresent('Неверный логин');
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","asd@skiliks.com");
+        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium@skiliks.com");
         $this->type("xpath=//*[@id='YumUserLogin_password']","111");
         $this->optimal_click("css=.submit>input");
         $this->assertTextPresent('Неверный пароль');
