@@ -1080,6 +1080,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** ADD VACANCY POPUP ***************************/
 .add-vacancy-popup {
     background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+    margin-top: -30px;
     position: relative;
     overflow: visible;
 }
