@@ -132,10 +132,11 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 this.listenTo(this.options.model_instance, 'change:zindex', function () {
                     me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
                 });
-                me.renderWindow(me.$el);
-                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
 
-                this.resize();
+                me.resize();
+                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                me.renderWindow(me.$el);
+
                 this.onResize = function() {
                     me.resize();
                     me.constrain();
