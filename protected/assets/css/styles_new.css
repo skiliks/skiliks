@@ -1172,14 +1172,11 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .mnotactive a {
     color: #979d98;
 }
-.profileform .grid-cell {
+.profile-tarif-form .grid-cell {
     height: 30px;
     vertical-align: top;
 }
-.profileform .btn-primary {
+.profile-tarif-form .btn-primary {
     margin-left: 25px;
-}
-.profilelabel-wrap label {
-    display: table-cell;
 }
 /*  *************************** /PROFILE ***************************/

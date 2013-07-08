@@ -5,7 +5,7 @@
 <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
-        <div class="pad-large profileform profilelabel-wrap">
+        <div class="pad-large profile-tarif-form profilelabel-wrap">
             <div class="row">
                 <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                     <label class="grid-cell font-large">Тарифный план</label>
