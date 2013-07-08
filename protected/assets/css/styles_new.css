@@ -1147,9 +1147,6 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     position: relative;
 }
 /*  *************************** PROFILE ***************************/
-.side-menu li:first-child, .side-menu li:first-child a {
-    border-radius: 3px 3px 0px 0px;
-}
 .side-menu .active {
     background: #fff url("../img/menutopbg.png") repeat-x top;
     padding-bottom: 1px;
@@ -1157,14 +1154,31 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-item {
     background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
 }
+.side-menu li:first-child {
+    background-image: none;
+}
+.side-menu li:first-child, .side-menu li:first-child a {
+    border-radius: 3px 3px 0px 0px;
+}
+.side-menu li:last-child, .side-menu li:last-child a {
+    border-radius: 0px 0px 3px 3px;
+}
 .side-item a {
-    background: url("../img/menuarrows.png") no-repeat 236px -65px;
+    background: url("../img/menuarrows.png") no-repeat 280px -65px;
     font-size: 18px;
     height:48px;
     line-height: 48px;
     padding: 0px 20px;
-    /*padding: 12px 20px 12px 20px;*/
     display: block;
     text-decoration: none;
+}
+.side-item a:hover, .active a {
+    background-position: 280px 17px;
+}
+.active a {
+    color: #245057;
+}
+.mnotactive a {
+    color: #979d98;
 }
 /*  *************************** /PROFILE ***************************/
