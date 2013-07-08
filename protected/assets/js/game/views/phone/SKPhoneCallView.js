@@ -16,8 +16,10 @@ define([
      * @augments Backbone.View
      */
     SKPhoneCallView = SKWindowView.extend({
-        title: "Телефон",
 
+        isDisplaySettingsButton:true,
+        title: "Телефон",
+        windowName:'phone',
         countMaxView: 1,
         addClass: "phone-call",
         windowClass: "phoneMainDiv",
@@ -57,7 +59,11 @@ define([
             SKApp.simulation.trigger('audio-phone-call-start');
 
             var me = this;
-            window_el.html(_.template(call_template, {call: this.options.event.get('data')}));
+            window_el.html(_.template(call_template, {
+                call: this.options.event.get('data'),
+                isDisplaySettingsButton:this.isDisplaySettingsButton,
+                windowName:this.windowName
+            }));
             var event = this.options.model_instance.get('sim_event');
             var dialogId = event.get('data')[0].id;
 

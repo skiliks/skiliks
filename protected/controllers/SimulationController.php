@@ -1,15 +1,6 @@
 <?php
-/**
- * Контроллер симуляции
- *
- * PHP Version 5.4
- *
- * @package  None
- * @link     skiliks.com
- * @author   Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- * @license  proprietary http://skiliks.com/
- */
-class SimulationController extends AjaxController
+
+class SimulationController extends SimulationBaseController
 {
     /**
      * Старт симуляции
@@ -49,6 +40,11 @@ class SimulationController extends AjaxController
         // check invite if it setted }
 
         $simulation = SimulationService::simulationStart($invite, $mode, $type);
+        /* @var $log LogServerRequest */
+        $log = LogServerRequest::model()->findByPk($this->request_id);
+        $log->sim_id = $simulation->id;
+        $log->backend_game_time = $simulation->getGameTime();
+        $log->update(['sim_id', 'backend_game_time']);
 
         if (null === $simulation) {
             $this->sendJSON(
@@ -77,7 +73,7 @@ class SimulationController extends AjaxController
             $this->getSimulationEntity(),
             Yii::app()->request->getParam('logs', array())
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
 
     }
 
@@ -89,7 +85,7 @@ class SimulationController extends AjaxController
         SimulationService::pause(
             $this->getSimulationEntity()
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     /**
@@ -100,21 +96,27 @@ class SimulationController extends AjaxController
         SimulationService::resume(
             $this->getSimulationEntity()
         );
-        $this->sendJSON(['result' => 1]);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     /**
-     * Get user's score
+     * Возобновление симуляции
      */
-    public function actionGetPoint()
+    public function actionUpdatePause()
     {
-        $simulation = $this->getSimulationEntity();
-        
-        try {
-            $this->sendJSON(SimulationService::getPointsForDebug($simulation));
-        } catch (Exception $e) {
-            $this->returnErrorMessage($e->getMessage());
+        $skipped = Yii::app()->request->getParam("skipped");
+
+        // log to site simulation actions
+        SimulationService::logAboutSim($this->getSimulationEntity(), sprintf('Pause prolonged on %s min', $skipped));
+
+        if(null === $skipped) {
+            throw new Exception("skipped not found");
         }
+        SimulationService::update(
+            $this->getSimulationEntity(),
+            $skipped
+        );
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
     /**
@@ -165,11 +167,28 @@ class SimulationController extends AjaxController
         if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
             $invite->status = Invite::STATUS_STARTED;
             $invite->save(false);
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
             if (Yii::app()->user->data()->isCorporate()) {
                 Yii::app()->user->data()->getAccount()->invites_limit--;
                 Yii::app()->user->data()->getAccount()->save(false);
             }
         }
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
+
+    public function actionMarkTutorialNotStarted()
+    {
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+        $invite->tutorial_displayed_at = null;
+        $invite->save(false);
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
+
+    public function actionConnect()
+    {
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 }
 

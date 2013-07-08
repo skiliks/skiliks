@@ -36,6 +36,7 @@
  * @property SimulationLearningGoal[] $learning_goal
  * @property TimeManagementAggregated[] $time_management_aggregated
  * @property Invite $invite
+ * @property MailBox[] $mail_box_inbox
  *
  */
 class Simulation extends CActiveRecord
@@ -55,6 +56,10 @@ class Simulation extends CActiveRecord
     public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE)
     {
         return $date . ' | ' . $time;
+    }
+
+    public function getModeLabel() {
+        return ($this->mode == self::MODE_PROMO_ID) ? self::MODE_PROMO_LABEL : self::MODE_DEVELOPER_LABEL;
     }
 
 
@@ -165,6 +170,8 @@ class Simulation extends CActiveRecord
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
             'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
+            //'mail_box_inbox'                  => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
+            //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
         ];
     }
 

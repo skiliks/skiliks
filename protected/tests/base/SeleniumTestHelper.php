@@ -21,10 +21,6 @@ class SeleniumTestHelper extends CWebTestCase
             'timeout' => 30000,
         )
     );
-    /**
-     * start_simulation - это метод, который включает стандартные действия при начале симуляции
-     * (начиная с открытия окна браузера до самого входа в dev-режим).
-     */
 
     protected function setUp()
     {
@@ -33,7 +29,10 @@ class SeleniumTestHelper extends CWebTestCase
         parent::setUp();
     }
 
-
+    /**
+     * start_simulation - это метод, который включает стандартные действия при начале симуляции
+     * (начиная с открытия окна браузера до самого входа в dev-режим).
+     */
     public function start_simulation()
     {
         $this->setUp();
@@ -341,7 +340,10 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     *
+     * mail_open - метод для открытия письма (нужное письмо ищет по теме и кликает)
+     * mail_theme - тема письма, которое нужно открыть
+     * возвращает true, если найдено письмо
+     * возвращает false, если не найдено письмо
      */
     public function mail_open ($mail_theme)
     {
@@ -377,24 +379,24 @@ class SeleniumTestHelper extends CWebTestCase
         return $is_here;
     }
 
-    /**
-     *
-     */
-
+    // метод для начала написания письма из чистой симуляции
     public function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
     }
 
+    // метод добавления получателя к письму
     public function addRecipient ($address)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
+        sleep(2);
         $this->waitForVisible($address);
         $this->mouseOver($address);
         $this->optimal_click($address);
     }
 
+    // метод добавления темы к письму
     public function addTheme($theme)
     {
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
@@ -402,6 +404,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click($theme);
     }
 
+    // метод добавления атача к письму
     public function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
@@ -410,6 +413,16 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click("xpath=(//*[contains(text(), '$filename')])");
     }
 
+    // метод для очистки не нужных событий из очереди событий
+    // параметром нужно написать начальный event, например RST1
+    public function clearEventQueueBeforeEleven($event)
+    {
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $event .= '.1';
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+    }
 
     //*****************************************************
     // БЛОК ДЛЯ РАБОТЫ С ЛОГАМИ ПОСЛЕ ОКОНЧАНИЯ СИМУЛЯЦИИ
@@ -621,6 +634,10 @@ class SeleniumTestHelper extends CWebTestCase
         return $i==$match;
     }
 
+    //********************************************
+    // БЛОК ДЛЯ ПРОВЕРКИ ОЦЕНОК ЗА СИМУЛЯЦИЮ
+    //********************************************
+
     public function checkSimPoints ($positive,$negative)
     {
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_positive'],"$positive");
@@ -645,6 +662,9 @@ class SeleniumTestHelper extends CWebTestCase
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
     }
 
+    //********************************************
+    // БЛОК ДЛЯ ПРОВЕРКИ РАБОТЫ САЙТА
+    //********************************************
     public function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
@@ -660,14 +680,12 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
-    public function clearEventQueueBeforeEleven($event)
+    public function markTestSkipp ()
     {
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $event .= '.1';
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $this->assertTrue(TRUE, 'This should already work.');
+        $this->close();
     }
+
 
     /*public function __construct()
     {

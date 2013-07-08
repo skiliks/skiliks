@@ -1,0 +1,401 @@
+/*  *************************** PADDINGS ****************************/
+.pad-norm {
+    padding: 10px;
+}
+.pad-midle {
+    padding: 16px;
+}
+.pad-large {
+    padding: 20px;
+}
+.pad-xsize {
+    padding: 30px;
+}
+.pad-xxsize {
+    padding: 40px;
+}
+.pad-large>h1, .pad-large>h2, .pad-xsize>h1, .pad-xsize>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
+    margin-top: -6px;
+}
+/*  *************************** /PADDINGS ****************************/
+/*  ************************** HOME **************************/
+.home-contnt-box li {
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+.home-contnt-box h2 {
+    margin-bottom: 14px;
+}
+.home-contnt-box ul+h2 {
+    margin-top:43px;
+}
+.home-contnt-box {
+    width:515px;
+}
+.home-list-box {
+    padding-right: 20px;
+    padding-top: 32px;
+    width:450px;
+}
+.access-footer {
+    display: inline-block;
+    position: absolute;
+    top: 235px;
+    height:40px;
+    line-height:40px;
+    left:276px;
+    padding-right: 20px;
+}
+.page-header {
+    margin-bottom: 24px;
+}
+.page-header.margin-less {
+    margin-bottom: 16px;
+}
+.betaflag {
+    background: url("../img/betaflag.png") no-repeat 0 0;
+    height: 49px;
+    left: 275px;
+    position: absolute;
+    top: 31px;
+    width: 105px;
+}
+/*  ************************** /HOME **************************/
+/*  ************************ REGISTRATION ************************/
+.registrationform input[type=text] {
+    width:223px;
+}
+.registrationform input[type=password] {
+    width:162px;
+}
+.registrationform .row {
+    margin-left: 10px;
+    position:relative;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.form-profl-reg label {
+    vertical-align: middle;
+    width:134px;
+}
+.form-profl-reg input[type=text] {
+    width:125px;
+}
+.form-profl-reg input.input-long {
+    width:282px;
+}
+.form-profl-reg .sbHolder {
+    width:300px;
+}
+.registrationform .btn-large {
+    margin-top: -3px;
+}
+/*  ************************ /REGISTRATION ************************/
+/*  *************************** SIGN IN ***************************/
+.sign-block {
+    background: #146672;
+    height: 245px;
+    overflow: visible;
+}
+.sign-block .ui-dialog-titlebar {
+    padding:20px 20px 10px;
+}
+.sign-block .ui-dialog-content {
+    padding: 0px 20px 25px;
+}
+.sign-block .ui-dialog-title {
+    color:#fff;
+    font-family:"ProximaNova-Bold";
+    font-size:28px;
+    line-height: 32px;
+}
+.sign-block p, .sign-block div, .sign-block span, .sign-block a, .sign-block label {
+    color:#fff;
+}
+/*  *************************** /SIGN IN ***************************/
+/*  ************************ KABINET ************************/
+#invite-form .sbHolder, #invite-form select {
+    width:151px;
+}
+#invite-form .btn-primary {
+    margin-left: 71px;
+}
+#invite-form label {
+    width: 60px;
+}
+#invite-people-box h3 {
+    width:190px;
+}
+#Invite_firstname {
+    width: 58px;
+}
+#Invite_lastname {
+    width: 78px;
+}
+#Invite_email {
+    width: 166px;
+}
+#invite-form .btn-add {
+    bottom: 1px;
+    position: absolute;
+    right: 4px;
+}
+.small-block {
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 18px;
+    padding: 5px 7px 4px;
+}
+#simulations-counter-box {
+    margin-bottom:33px;
+    margin-top:36px;
+}
+#simulations-counter-box .font-large, #simulations-counter-box .small-block {
+    display: table-cell;
+}
+#simulations-counter-box .font-large {
+    font-size: 17px;
+    height: 23px;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+#simulations-counter-box .small-block {
+    font-size: 19px;
+}
+.invites-limit {
+    padding-bottom: 6px;
+}
+#corporate-invitations-list-box #yw0_c0 {
+    width: 25px;
+}
+#corporate-invitations-list-box #yw0_c1 a {
+    margin-left: -20px;
+    position: absolute;
+    top: 12px;
+    width: 142px;
+}
+#corporate-invitations-list-box #yw0_c1,
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 135px;
+    width: 135px;
+}
+#corporate-invitations-list-box #yw0_c2,
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+    max-width: 77px;
+    width: 77px;
+}
+#corporate-invitations-list-box #yw0_c3 {
+    max-width: 81px;
+    width: 81px;
+}
+#corporate-invitations-list-box #yw0_c4 {
+    width: 117px;
+}
+#corporate-invitations-list-box #yw0_c5 {
+    width: 115px;
+}
+#corporate-invitations-list-box .items p {
+    height: 16px;
+    margin: 0px;
+    padding: 0px;
+}
+.ratebg {
+    background: url("../img/ratestars3.png") no-repeat left 0px;
+}
+.rating {
+    background: url("../img/ratestars3.png") no-repeat 0px -19px;
+    display: inline-block;
+}
+.grid-view .ratebg {
+    width: 81px;
+}
+.grid1 .feedback {
+    margin-left: 10px;
+}
+/*  ************************ /KABINET ************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary th, .items th, .grid-view table.items th,
+.table-primary td, .items td, .grid-view table.items td {
+    font-size: 12px;
+    padding: 12px 6px;
+}
+.dashboard .grid-view table.items td {
+    padding: 5px 6px;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** SIMULATIONS TABLE ***************************/
+.action-controller-indexNew-static-simulations .grid-view {
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 8px;
+}
+.table-simultns #yw0_c0, .table-simultns tr td:first-child {
+    max-width: 220px;
+    width: 220px;
+}
+.table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 305px;
+    width: 305px;
+}
+.table-simultns #yw0_c3 {
+    max-width: 120px;
+    width: 120px;
+}
+.table-simultns .grid-view table.items td  {
+    height: 40px;
+    padding: 0px 6px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+/*  *************************** /SIMULATIONS TABLE ***************************/
+/* ************************ Pager ************************ */
+.yiiPager .previous a, .yiiPager .next a {
+    margin: 0px 11.5px;
+}
+.yiiPager .previous a, .pager .yiiPager .previous a {
+    margin-right: 14px;
+}
+.yiiPager a, .pager .yiiPager a {
+    font-size: 16px;
+}
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    font-size: 14px;
+    margin: 0px 14.5px;
+}
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
+    font-size: 14px;
+    padding: 7px 10px 7px 9px;
+}
+/* ************************ /Pager ************************ */
+/*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+.form-small input[type="text"], .form-small input[type="password"] {
+    height: 26px;
+    line-height: 26px;
+    padding: 3px 9px;
+}
+.form-large input[type=text], .form-large input[type=password] {
+    height:24px;
+    font-family:"ProximaNova-Regular";
+    font-size: 16px;
+    padding: 14px 10px 14px 19px;
+}
+.form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
+    border:3px solid #24bdd3;
+    padding: 12px 8px 12px 17px;
+}
+.form-simple input[type="text"]+input[type="text"], #Invite_lastname {
+    margin-left: 10px;
+}
+.row {
+    position: relative;
+    padding-top: 10px;
+}
+.row.wide {
+    padding-top: 12px;
+}
+.row.buttons, .row.wide+.row.wide {
+    padding-top: 15px;
+}
+/*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  *************************** ERRORS ***************************/
+.errorMessage {
+    font-size: 11px;
+}
+.errorMessage.Invite_firstname, .errorMessage.Invite_email {
+    top: -3px;
+    left: 72px;
+}
+.errorMessage.Invite_lastname {
+    top: -3px;
+    left: 160px;
+}
+/*  *************************** /ERRORS ***************************/
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+}
+.feedback .form-all {
+    width:670px !important;
+}
+/*  *************************** /FEEDBACK ***************************/
+/*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup label {
+    font-size: 14px;
+    height: 30px;
+    width: 145px;
+}
+.add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
+    left: 150px;
+}
+.add-vacancy-popup input[type="text"] {
+    color:#146672;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    width:374px;
+}
+.add-vacancy-popup .sbHolder {
+    top: 5px;
+    width: 374px;
+}
+.add-vacancy-popup .errorMessage {
+    top: -9px;
+    left: 155px;
+}
+.add-vacancy-popup #Vacancy_label_em_, .add-vacancy-popup #Vacancy_link_em_ {
+    top: -12px;
+}
+/*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+#Invite_message {
+    height: 46px;
+    max-height: 46px;
+    min-height: 46px;
+}
+#Invite_fullname {
+    height: 12px;
+    line-height: 12px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 10px;
+    max-width: 501px;
+    min-width: 501px;
+    width: 501px;
+}
+.block-form {
+    padding: 20px 10px;
+    width: 523px;
+}
+.block-form p {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    height: 396px !important;
+    width: 560px !important;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** PROFILE ***************************/
+.side-menu a {
+    font-size: 18px;
+    height:48px;
+    line-height: 48px;
+    padding: 0px 20px;
+}
+.profileform label {
+    width: 190px;
+}
+/*  *************************** /PROFILE ***************************/

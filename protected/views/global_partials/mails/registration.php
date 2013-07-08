@@ -28,11 +28,33 @@
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
 Благодарим вас за выбор skiliks!</h1>
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $link ?>">активируйте</a> ваш аккаунт.</p>
-                                    <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Ваш <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">skiliks</a></p>
                                 </td>
                                 <td alight="right" width="335"><img src="cid:mail-bottom-angela" style="display:block;" /></td>
                             </tr>
                         </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <table cellpadding="0" cellspacing="0" width="840">
+                <tr>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="fdfbc6">
+                        <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="fdfbc6" width="760">
+                        <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
+                        <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
+                    <td bgcolor="fdfbc6">
+                        <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
+                    </td>
+                    <td bgcolor="f2f2f2">
+                        <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                 </tr>
             </table>

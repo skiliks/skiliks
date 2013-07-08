@@ -48,7 +48,7 @@
     <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
         <ul class="bluelist nobultslist">
             <li><a href="#time-management-detail" data-parent="time-management">Распределение времени</a></li>
-            <li><a href="#time-management">Сверхурочное время </a></li>
+            <li><a href="#time-management">Сверхурочное время (минуты)</a></li>
         </ul>
     </div>
     <div class="widthblock"><h3>ИЗМЕРЯЕМЫЕ ХАРАКТЕРИСТИКИ</h3>

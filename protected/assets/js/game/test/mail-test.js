@@ -229,6 +229,7 @@ define([
             });
 
             it("can display mail client", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -255,6 +256,7 @@ define([
             });
 
             it("has characters", function () {
+                window.testMode = true;
                 var collection = new SKCharacterCollection();
                 collection.fetch();
                 server.respond();
@@ -263,6 +265,7 @@ define([
             });
 
             it("can save draft and send draft", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -327,6 +330,7 @@ define([
             });
 
             it("can create and send new letter (phrases)", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -368,7 +372,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length).toBe(3);
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants td').length).toBe(40);
 
                 server.respond();
 
@@ -394,6 +398,7 @@ define([
             });
 
             it("can create and send new letter with attachment", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -435,8 +440,7 @@ define([
                 server.respond();
 
                 // check than phrases not empty
-                expect(mailView.$('#mailEmulatorNewLetterTextVariants li').length)
-                    .toBe(3);
+                expect(mailView.$('#mailEmulatorNewLetterTextVariants td').length).toBe(40);
 
                 server.respond();
 
@@ -465,6 +469,7 @@ define([
             });
 
             it("Check mail logs", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
 
                 // action 1:
@@ -494,7 +499,7 @@ define([
                 server.respond();
 
                 // action 5:
-                mailView.$('.win-close button').click();
+                mailView.$('.btn-cl.win-close').click();
                 timers.tick(3 * 1000); // 10 sec
                 simulation.mailClient.message_window.$('.mail-popup-button:eq(0)').click();
                 timers.tick(5 * 1000); // 10 sec

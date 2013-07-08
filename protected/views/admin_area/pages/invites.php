@@ -50,20 +50,51 @@
                         Выбрать
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu pull-right">
                         <? if(!empty($model->simulation->id)) : ?>
                         <li>
-                            <a href="/static/admin/saveLog/<?=$model->simulation->id?>">Скачать логи</a>
+                            <a href="/static/admin/saveLog/<?=$model->simulation->id?>">
+                                <i class="icon-download-alt"></i> Скачать лог
+                            </a>
                         </li>
                         <li>
-                            <a target="_blank" href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">Открыть оценки</a>
+                            <a target="_blank" href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">
+                                <i class="icon-star"></i> Открыть оценки
+                            </a>
                         </li>
+                        <? if(!empty($model->receiverUser->profile)) : ?>
+                            <li>
+                                <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$model->simulation->id?>&email=<?=$model->receiverUser->profile->email?>">
+                                    <i class="icon-refresh"></i>Пересчитать оценки
+                                </a>
+                            </li>
+                        <? endif ?>
                         <li>
-                            <a href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">Скачать "Сводный бюджет"(D1)</a>
+                            <a href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">
+                                <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
+                            </a>
                         </li>
                         <? endif ?>
                         <li>
-                            <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$model->id?>">Откатить инвайт</a>
+                            <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$model->id?>">
+                                <i class="icon-fast-backward"></i> Откатить инвайт
+                            </a>
+                        </li>
+                        <li style="padding-right: 15px;">
+                            <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
+                            <? foreach(Invite::$statusText as $id => $text) : ?>
+                                <? if((string)$id !== $model->status) : ?>
+                                    <a class="action-invite-status" style="padding-left: 50px;"
+                                       href="/admin_area/invite/action/status?invite_id=<?=$model->id?>&status=<?=$id?>">
+                                          - <?=$text?>
+                                    </a>
+                                <? endif ?>
+                            <? endforeach ?>
+                        </li>
+                        <li>
+                            <a href="/admin_area/invite/<?= $model->id?>/site-logs">
+                                <i class="icon-list"></i> Смотреть логи сайта
+                            </a>
                         </li>
                     </ul>
                 </div>

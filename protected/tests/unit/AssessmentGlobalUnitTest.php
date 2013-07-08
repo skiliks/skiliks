@@ -20,6 +20,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // ---
+        $this->addAssessmentAggregated($simulation, '3312');
+        $this->addAssessmentAggregated($simulation, '341a8');
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -187,6 +189,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // ---
+        $this->addAssessmentAggregated($simulation, '3312');
+        $this->addAssessmentAggregated($simulation, '341a8');
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -311,11 +315,11 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
         $v = [
             'Следование приоритетам'  => 100,
-            'Управление задачами'     => 56.976746, // 60.909092
+            'Управление задачами'     => 56.547619, // 60.909092
             'Управление людьми'       => 65.000000, // 63.793102
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 71.875000, // 73.913040
+            'Эффективная работа с почтой'      => 73.529411, // 73.913040
             'Эффективное управление звонками'  => 100,
             'Эффективное управление встречами' => 100,
             'Эффективная работа с IM'          => 0,
@@ -343,8 +347,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 70.00, // 74.50
-            'overall'     => 65.77, // 68.02
+            'management'  => 70.25, // 74.50
+            'overall'     => 65.90, // 68.02
             'performance' => 69.24,
             'time'        => 50,
         ];
@@ -376,6 +380,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // ---
+        $this->addAssessmentAggregated($simulation, '3312');
+        $this->addAssessmentAggregated($simulation, '341a8');
 
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
@@ -505,7 +511,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
             'Управление людьми'       => 30, // 27.586206
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 71.875000, // 73.913040
+            'Эффективная работа с почтой'      => 73.529411, // 73.913040
             'Эффективное управление звонками'  => 100,
             'Эффективное управление встречами' => 100,
             'Эффективная работа с IM'          => 0,
@@ -533,8 +539,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 38.50, // 44.97
-            'overall'     => 50.02, // 53.26
+            'management'  => 39.50, // 44.97
+            'overall'     => 50.52, // 53.26
             'performance' => 69.24,
             'time'        => 50,
         ];

@@ -1,5 +1,5 @@
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script>
+    /*
 function autoSave() {
     var button = window.parent.document.getElementById('savefile');
     button.click();
@@ -7,41 +7,44 @@ function autoSave() {
 }
 
 setInterval(autoSave, 5*60*1000);
-
+*/
 //console.log('save file element: ', window.parent.document.getElementById('savefile'));
 
-    (function() {
-        var userAgent = navigator.userAgent;
-        var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
-        var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
+// zoho code {
+(function() {
+    var userAgent = navigator.userAgent;
+    var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
+    var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
+    if(!isOperaBrowser && !isIEBrowser) {
+        document.domain = "skiliks.com"; //NO OUTPUTENCODING
+    }
+    function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
+        document.open();
         if(!isOperaBrowser && !isIEBrowser) {
             document.domain = "skiliks.com"; //NO OUTPUTENCODING
         }
-        function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
-            document.open();
-            if(!isOperaBrowser && !isIEBrowser) {
-                document.domain = "skiliks.com"; //NO OUTPUTENCODING
-            }
-            if(windowArgsInJson)
+        if(windowArgsInJson)
+        {
+            for (var i in windowArgsInJson)
             {
-                for (var i in windowArgsInJson)
-                {
-                    window[i] = windowArgsInJson[i];
-                }
+                window[i] = windowArgsInJson[i];
             }
-            if(documentArgsInJson)
-            {
-                for (var i in documentArgsInJson)
-                {
-                    document[i] = documentArgsInJson[i];
-                }
-            }
-            document.write(content);
-            document.close();
         }
-    })();
-// new code to handle 500 Zoho {
+        if(documentArgsInJson)
+        {
+            for (var i in documentArgsInJson)
+            {
+                document[i] = documentArgsInJson[i];
+            }
+        }
+        document.write(content);
+        document.close();
+    }
+})();
+// zoho code }
 
+// new code to handle 500 Zoho {
+/*
 $(window.parent.window).load(function()
 {
    window.parent.parent.postMessage({type: 'DocumentLoaded', url:window.parent.location.href} , '*');
@@ -59,7 +62,7 @@ $(window.parent.window).load(function()
            _141a();
        }
     };
-
+    */
 //   Code to emulate Zoho 500 error in future
     /*setTimeout(function() {
         window.parent.showBannerMessage(
@@ -68,6 +71,6 @@ $(window.parent.window).load(function()
             },
         25*1000);*/
 
-});
+// });
 // new code }
 </script>
