@@ -1178,7 +1178,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     display: block;
     text-decoration: none;
 }
-.side-item a:hover, .active a {
+.side-item a:hover, .side-item .active a, .side-item .active a:hover {
     background-position: 280px 17px;
 }
 .side-item .active a {
