@@ -8,6 +8,11 @@ define([], function() {
 
     var checkers = {
         browser: function(cfg) {
+
+            if (cfg.isSkipBrowserCheck) {
+                return true;
+            }
+
             var minSupport = {
                 mozilla: 18,
                 webkit: 536.5
