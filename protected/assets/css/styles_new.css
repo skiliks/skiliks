@@ -1169,19 +1169,14 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-menu li:last-child, .side-menu li:last-child a {
     border-radius: 0px 0px 3px 3px;
 }
-.side-item a {
-    background: url("../img/menuarrows.png") no-repeat 280px -65px;
-    display: block;
-    text-decoration: none;
-}
-.side-item a:hover, .side-item .active a, .side-item .active a:hover {
-    background-position: 280px 17px;
-}
-.side-item .active a {
-    color: #245057;
-    font-family: ;
-}
 .mnotactive a {
     color: #979d98;
+}
+.profileform .grid-cell {
+    height: 30px;
+    vertical-align: top;
+}
+.profileform .btn-primary {
+    margin-left: 25px;
 }
 /*  *************************** /PROFILE ***************************/
