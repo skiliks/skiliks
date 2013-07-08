@@ -140,11 +140,16 @@ var fixLogotypes = function() {
         $('a.feedback').on('click', function (e) {
             var selected = $(this).attr('data-selected');
             $('#feedback-dialog').dialog({
-                width: 726,
+                width: 716,
                 dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,
                 draggable: false,
+                position: {
+                    my: "left top",
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box .items')
+                }
                 open: function( event, ui ) {
                     //Cufon.refresh();
                     console.log();
