@@ -53,7 +53,7 @@ class Meetings_Test extends SeleniumTestHelper
         sleep(10);
 
         $this->run_event('ET15',"css=li.icon-active.door a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения')])");
         sleep(15);
 

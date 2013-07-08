@@ -37,7 +37,7 @@ class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
         $this->write_email();
         $this->assertTrue($this->isVisible(Yii::app()->params['test_mappings']['icons']['settings']));
 
-        $this->close();
+        $this->simulation_stop();
     }
 
     private function has_settings($window)

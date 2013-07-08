@@ -70,6 +70,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         sleep(2);
         $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Прочее')])"));
 
-        $this->close();
+        $this->simulation_stop();
     }
 }

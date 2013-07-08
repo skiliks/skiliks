@@ -74,7 +74,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
-        $this->close();
+        $this->simulation_stop();
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

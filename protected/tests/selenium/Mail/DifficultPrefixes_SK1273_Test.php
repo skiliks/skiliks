@@ -23,10 +23,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         //тема
         $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
-
-        $this->optimal_click("css=li.icon-active.mail a");
-
+        sleep(3);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Срочно жду бюджет логистики"));
@@ -94,7 +91,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
-        $this->close();
+        $this->simulation_stop();
     }
 
 
@@ -133,6 +130,6 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: вакцинация!"));
-        $this->close();
+        $this->simulation_stop();
     }
 }
