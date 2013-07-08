@@ -877,6 +877,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 #corporate-invitations-list-box .grid-view .items tr:last-child td[colspan="8"] {
     border-radius: 0px 0px 5px 5px;
 }
+span.empty {
+    display: block;
+    height: 15px;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** KABINET ***************************/
 .invites-smallmenu-switcher {
