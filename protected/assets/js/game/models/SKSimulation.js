@@ -42,6 +42,8 @@ define([
 
             constTutorialScenario: 'tutorial',
 
+            zoho_popup:null,
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -95,7 +97,9 @@ define([
 
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
+                    if(me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                        me.onZohoPopup();
+                    }else if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
                         me.onEndTime();
@@ -791,6 +795,37 @@ define([
                 }
             },
 
+            onZohoPopup: function(){
+                var me = this;
+                if($('.time').hasClass('paused')){
+                    throw new Error("already on pause");
+                } else {
+
+                    me.zoho_popup = new SKDialogView({
+                        'message': "Пожалуйста, убедитесь в том, что вы сохранили правки в сводном бюджете. " +
+                            "Для этого откройте Мои документы, потом 'Сводный бюджет_2013_утв.xls' и нажмите кнопку Save. " +
+                            "(Вверху слева знак в виде дискеты)",
+                        'modal': true,
+                        'buttons': [
+                            {
+                                'value': 'ОК',
+                                'onclick': function () {
+                                        me.stopPause(function() {
+                                            $('.time').removeClass('paused');
+                                            me.zoho_popup.remove();
+                                            delete me.zoho_popup;
+                                        });
+                                }
+                            }
+                        ]
+                    });
+
+                    me.startPause(function(){
+                        $('.time').addClass('paused');
+                    });
+                }
+
+            },
             preLoadImages: function(images) {
                 $.each(images, function(index, src){
                     var img = new Image();

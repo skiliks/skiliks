@@ -144,6 +144,11 @@ var fixLogotypes = function() {
                 dialogClass: 'popup-primary popup-site feedbackwrap',
                 modal: true,
                 resizable: false,
+                position: {
+                    my: "right top",
+                    at: "right top",
+                    of: $('#corporate-invitations-list-box')
+                },
                 draggable: false,
                 open: function( event, ui ) {
                     //Cufon.refresh();
@@ -293,9 +298,9 @@ var fixLogotypes = function() {
                 title: '',
                 width: 584,
                 position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $('#corporate-invitations-list-box .items')
+                    my: "center top",
+                    at: "center bottom",
+                    of: $('.page-header')
                 }
             });
             $(".form-vacancy").dialog('open');
