@@ -1179,4 +1179,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .profileform .btn-primary {
     margin-left: 25px;
 }
+.profilelabel-wrap label {
+    display: table-cell;
+}
 /*  *************************** /PROFILE ***************************/
