@@ -873,6 +873,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     padding-right: 12px;
 }
+#private-invitations-list-box .grid-view .items tr:last-child td[colspan="5"],
+#corporate-invitations-list-box .grid-view .items tr:last-child td[colspan="8"] {
+    border-radius: 0px 0px 5px 5px;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
 /*  *************************** KABINET ***************************/
 .invites-smallmenu-switcher {
