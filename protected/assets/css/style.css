@@ -513,18 +513,19 @@ html[lang=ru] .betaflag {
 	.container>header nav a,
     .container>header nav#static-page-links a {
 		font-size:0.858em;
-		line-height:1.571em;
+		line-height:19px;
 	}
     .log-out-link:before {
-        height: 14px;
+        height: 15px;
         left:-5px;
-        top:4px;
+        top:3px;
         width:1px;
     }
     .container>header nav#static-page-links .top-profile,
     .container>header nav#static-page-links .top-profile:hover {
         background-size: 13px;
-        min-height: 22px;
+        height: 20px;
+        line-height:19px;
     }
 }
 /* --------------- /header ---------*/
@@ -3095,7 +3096,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box  #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
-    top:12px;
+    top:11px;
     width:142px;
 }
 #corporate-invitations-list-box .ratingwrap,

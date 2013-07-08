@@ -33,9 +33,9 @@ class UserService {
     {
         $response = ['result'  => 0];
 
-    if(empty($email)) {
-            $response['message'] =  "Enter your email address";
-    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if(empty($email)) {
+                $response['message'] =  "Enter your email address";
+        }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $response['message'] =  "Email entered incorrectly";
         } elseif (EmailsSub::model()->findByEmail($email)) {
             $response['message'] =  "Email - ${email} has been already added before!";

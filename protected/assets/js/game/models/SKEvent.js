@@ -150,8 +150,7 @@ define([], function () {
          */
         select: function (replica_id, cb) {
             SKApp.server.api('dialog/get', {
-                'dialogId': replica_id,
-                'time':     SKApp.simulation.getGameTime()
+                'dialogId': replica_id
             }, function (data) {
                 if (data.result === 1) {
                     if (cb) {
@@ -206,8 +205,7 @@ define([], function () {
             // @todo: здесь сложно накручено но надо развязать
             // и перенести игнорирование во вьюху SKPhoneCallView
             SKApp.server.api('dialog/get', {
-                'dialogId': dialogId,
-                'time':     SKApp.simulation.getGameTime()
+                'dialogId': dialogId
             }, function (data) {
                 // console.log('ignore: ', data.events);
                 SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
@@ -227,8 +225,7 @@ define([], function () {
         selectReplica: function (replica_id, cb) {
             var me = this;
             SKApp.server.api('dialog/get', {
-                'dialogId': replica_id,
-                'time':     SKApp.simulation.getGameTime()
+                'dialogId': replica_id
             }, function (data) {
                 if (data.result === 1) {
                     console.log('selectReplica: ', data.events);

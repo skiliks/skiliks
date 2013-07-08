@@ -16,7 +16,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
      * (тест того, что мы можем ответить для любого сообщения)
      */
     public function test_DifficultPrefixes_SK1700_Case3() {
-        //$this->markTestIncomplete();
+        //$this->markTestIncomplete('Some delay needs');
         $this->start_simulation();
         sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");

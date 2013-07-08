@@ -191,8 +191,9 @@ define([
                     message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
                     buttons: []
                 });
-
-                SKApp.server.api('simulation/MarkTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                if(window.gameConfig.invite_id !== null){
+                    SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                }
 
                 setTimeout(function() {
                     me.stopExitProtection();
@@ -265,9 +266,10 @@ define([
              * @method
              */
             endWorkday: function() {
+                SKApp.server.api('events/userSeeWorkdayEndMessage', {});
                 var me = this;
 
-                me.simulation.startPause();
+                me.simulation.startPause(function(){});
                 me._showPausedScreen();
 
                 var d = new SKDialogView({
@@ -374,7 +376,7 @@ define([
                         ]
                     });
 
-                    SKApp.simulation.startPause();
+                    SKApp.simulation.startPause(function(){});
                 }
 
                 return false;

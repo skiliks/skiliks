@@ -132,6 +132,8 @@ define([
             });
 
             it("can create and send new letter (text constructor)", function () {
+                window.testMode = true;
+
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();

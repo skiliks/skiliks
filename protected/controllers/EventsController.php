@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Движек событий
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class EventsController extends AjaxController
+class EventsController extends SimulationBaseController
 {
 
     /**
@@ -13,17 +8,13 @@ class EventsController extends AjaxController
      */
     public function actionGetState()
     {
-        /*
-        sleep(99);
-        Yii::app()->end();
-*/
-        $this->sendJSON(
-            EventsManager::getState(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('logs', null),
-                Yii::app()->request->getParam('eventsQueueDepth', 0)
-            )
-        );
+
+        $result = EventsManager::getState(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('logs', null),
+                    Yii::app()->request->getParam('eventsQueueDepth', 0)
+                  );
+        $this->sendJSON($result);
     }
 
     public function actionSwitchFlag()
@@ -44,16 +35,15 @@ class EventsController extends AjaxController
      */
     public function actionStart()
     {
-        $this->sendJSON(
-            EventsManager::startEvent(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('eventCode'),
-                Yii::app()->request->getParam('clearEvents', false),
-                Yii::app()->request->getParam('clearAssessment', false),
-                Yii::app()->request->getParam('delay', 0),
-                Yii::app()->request->getParam('gameTime', null)
-            )
-        );
+        $result = EventsManager::startEvent(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('eventCode'),
+                    Yii::app()->request->getParam('clearEvents', false),
+                    Yii::app()->request->getParam('clearAssessment', false),
+                    Yii::app()->request->getParam('delay', 0),
+                    Yii::app()->request->getParam('gameTime', null)
+                );
+        $this->sendJSON($result);
     }
 
     /**
@@ -61,13 +51,24 @@ class EventsController extends AjaxController
      */
     public function actionWait()
     {
-        $this->sendJSON(
-            EventsManager::waitEvent(
-                $this->getSimulationEntity(),
-                Yii::app()->request->getParam('eventCode'),
-                Yii::app()->request->getParam('eventTime')
-            )
+        $result = EventsManager::waitEvent(
+                    $this->getSimulationEntity(),
+                    Yii::app()->request->getParam('eventCode'),
+                    Yii::app()->request->getParam('eventTime')
         );
+        $this->sendJSON($result);
+    }
+
+    /**
+     * System action.
+     * Используестя исключительно в целях логирования что в 18:00
+     * пользователь получил уведомление об окончании рабочего дня
+     */
+    public function actionUserSeeWorkdayEndMessage() {
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'sim : workday end message displayed : 18-00');
+
+        // use sendJSON, just to send back request id
+        $this->sendJSON([]);
     }
 }
         

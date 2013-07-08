@@ -13,9 +13,7 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
+$cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +45,7 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
     <div class="razdelitel"></div>
     <h3>Одна колонка с бордером</h3>
     <div class="container-border-1 block-border bg-yellow border-primary">
-        <div class="pad20">AAA</div>
+        <div class="pad-large">AAA</div>
     </div>
 
     <div class="razdelitel"></div>
@@ -55,22 +53,24 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
 
     <div class="container-borders-2 thetable">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <div class="pad20">AAA<br>AAA</div>
+            <div class="pad-large">AAA<br>AAA</div>
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <div class="pad20">BBB</div>
+            <div class="pad-large">BBB</div>
         </div>
     </div>
     <div class="razdelitel"></div>
 
     <h3>Три колонки с бордерами (1+2)</h3>
     <div class="container-borders-3">
-        <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad20 font-white">AAA</div>
+        <div class="grid1">
+            <div class="block-border bg-rich-blue border-primary">
+                <div class="pad-large font-white">AAA</div>
+            </div>
         </div>
         <div class="block-border bg-yellow grid2 border-primary">
-            <div class="pad20">BBB</div>
+            <div class="pad-large">BBB</div>
         </div>
     </div>
 
@@ -78,20 +78,20 @@ $cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
     <h3>Три колонки с общим бордером (1+2)</h3>
     <div class="container-3 block-border border-primary bg-transparnt">
         <div class="border-primary bg-light-blue standard-left-box">
-            <div class="pad20">AAA</div>
+            <div class="pad-large">AAA</div>
         </div>
         <div class="border-primary bg-light-blue standard-right-box">
-            <div class="pad20">BBB</div>
+            <div class="pad-large">BBB</div>
         </div>
     </div>
 
     <div class="razdelitel"></div>
     <h3>Четыре колонки с бордерами</h3>
     <div class="container-borders-4">
-        <div class="block-border bg-yellow grid1 border-primary"><div class="pad20">AAA</div></div>
-        <div class="block-border bg-yellow grid1 border-primary"><div class="pad20">BBB</div></div>
-        <div class="block-border bg-yellow grid1 border-primary"><div class="pad20">CCC</div></div>
-        <div class="block-border bg-yellow grid1 border-primary"><div class="pad20">DDD</div></div>
+        <div class="block-border bg-yellow grid1 border-primary"><div class="pad-large">AAA</div></div>
+        <div class="block-border bg-yellow grid1 border-primary"><div class="pad-large">BBB</div></div>
+        <div class="block-border bg-yellow grid1 border-primary"><div class="pad-large">CCC</div></div>
+        <div class="block-border bg-yellow grid1 border-primary"><div class="pad-large">DDD</div></div>
     </div>
 
     <div class="razdelitel"></div>

@@ -1,9 +1,6 @@
 <?php
-class SiteController extends AjaxController
+class SiteController extends SiteBaseController
 {
-    public $user;
-    public $signInErrors;
-
     /**
      * This is defaut Yii action.
      * It never useded in API or frontend static pages.

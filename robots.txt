@@ -1,0 +1,4 @@
+# robots.txt for http://www.skiliks.com/
+
+User-agent: *
+Disallow: /product

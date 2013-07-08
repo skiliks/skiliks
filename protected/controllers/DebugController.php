@@ -1,29 +1,20 @@
 <?php
 
-
-class DebugController extends AjaxController
+class DebugController extends SiteBaseController
 {
-    /**
-     *
-     */
+
     public function actionIndex()
     {
         //TestUserHelper::addUser("personal");
         echo "TEST";
     }
 
-    /**
-     *
-     */
     public function actionStyleCss()
     {
         $this->layout = false;
         $this->render('style_css');
     }
 
-    /**
-     *
-     */
     public function actionStyleForPopupCss()
     {
         $this->layout = false;

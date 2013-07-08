@@ -538,6 +538,7 @@ class SimulationService
 
                 $invite->email = $user->profile->email;
                 $invite->save(false);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
             } else {
                     throw new Exception('У вас нет прав для старта этой симуляции');
             }
@@ -581,12 +582,6 @@ class SimulationService
         // скопируем документы
         MyDocumentsService::init($simulation);
 
-        // @todo: increase speed
-        // Установим дефолтовые значения для mail client
-        $mailSettings = new MailSettings();
-        $mailSettings->sim_id = $simulation->id;
-        $mailSettings->insert();
-
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
@@ -606,13 +601,14 @@ class SimulationService
             if($scenario->slug == Scenario::TYPE_LITE) {
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false, ['simulation_id', 'status']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
             }else{
                 $invite->save(false, ['simulation_id']);
+                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
             }
-            //$invite->status = Invite::STATUS_STARTED;//TODO:SKILIKS-2515
-
-
         }
+
+        self::logAboutSim($simulation, 'sim start: done');
 
         return $simulation;
     }
@@ -623,6 +619,8 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
+        self::logAboutSim($simulation, 'sim stop: begin');
+
         // Check if simulation was already stopped
         if (null !== $simulation->end && false === $manual) {
             return;
@@ -641,6 +639,7 @@ class SimulationService
         if (null !== $simulation->invite) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
         }
 
         // Remove pause if it was set
@@ -713,6 +712,8 @@ class SimulationService
         // @ - for PHPUnit
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+
+        self::logAboutSim($simulation, 'sim stop: assessment calculated');
     }
 
     /**
@@ -729,13 +730,21 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
+    public static function update($simulation, $skipped)
+    {
+        $simulation->skipped = $simulation->skipped + $skipped;
+        $simulation->paused = null;
+        $simulation->save();
+    }
+
+    /**
+     * @param Simulation $simulation
+     */
     public static function resume($simulation)
     {
         if (!empty($simulation->paused)) {
             $skipped = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->paused);
-            $simulation->skipped = $simulation->skipped + $skipped;
-            $simulation->paused = null;
-            $simulation->save();
+            self::update($simulation, $skipped);
         }
     }
 
@@ -783,11 +792,13 @@ class SimulationService
         }
     }
 
+    /**
+     * @param $simulation
+     */
     public static function stressResistance($simulation) {
-
         /*
- * AssessmentAggregated 7141
- */
+         * AssessmentAggregated 7141
+         */
         /* @var $simulation Simulation */
         /* @var $game_type Scenario */
         $game_type = $simulation->game_type;
@@ -849,6 +860,11 @@ class SimulationService
 
     }
 
+    /**
+     * @param $simId
+     * @param $email
+     * @throws Exception
+     */
     public static function CalculateTheEstimate($simId, $email) {
 
         /** @var  $simulation Simulation */
@@ -883,5 +899,73 @@ class SimulationService
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         SimulationService::simulationStop($simulation, [], true);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @param string $action
+     */
+    public static function logAboutSim(Simulation $simulation, $action = 'not specified') {
+
+        $comment = '';
+        $invite = null;
+
+        $log = new LogSimulation();
+
+        // action
+        $log->action = $action;
+
+        // timing
+        $log->real_date = date('Y-m-d H:i:s');
+        $log->game_time_frontend = Yii::app()->request->getParam('time');
+
+        if (null != $simulation) {
+            // add sim_id
+            $log->sim_id = $simulation->id;
+
+            // add invite {
+            $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simulation->id]);
+
+            if (1 == count($invites)) {
+                $invite = reset($invites);
+
+                $log->invite_id = $invite->id;
+            } elseif (0 == count($invites)) {
+                $comment .= "There is no invites for this simulation!\n";
+            } else {
+                $comment .= "There are several invites for this simulation!\n";
+                $list = [];
+                foreach ($invites as $invite) {
+                    $list[] = $invite->id;
+                }
+                $comment .= implode($list);
+                unset($list);
+                $invite = null;
+            }
+            // add invite }
+
+            // mode
+            $log->mode = $simulation->getModeLabel();
+
+            // game time by backend version
+            $log->game_time_backend = $simulation->getGameTime();
+        }
+
+        // scenario_name
+        if (null !== $invite) {
+            $log->scenario_name = $simulation->game_type->slug;
+        }
+
+        // add user_id {
+        if (null !== Yii::app()->user && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
+            $log->user_id = Yii::app()->user->data()->id;
+        } else {
+            $comment .= "Undefined user_id!\n";
+        }
+        // add user_id }
+
+        $log->comment = $comment;
+
+        $log->save(false);
     }
 }

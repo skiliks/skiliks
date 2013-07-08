@@ -37,6 +37,7 @@ return array(
         'application.components.GameContentAnalyze.*',
         'application.components.ForStaticSite.*',
         'application.components.Exception.*',
+        'application.components.Controllers.*',
         'application.components.SocialCalc.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
@@ -135,7 +136,7 @@ return array(
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
-                'static/dnd'            => 'static/pages/dnd',
+                'static/drag-and-drop'            => 'static/pages/dragAndDropPrototype',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
@@ -203,9 +204,17 @@ return array(
                 'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-                '/static/cheats/listOfsubscriptions'   => 'static/cheats/listOfsubscriptions',
+                'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
-                'dashboard-new/'      => 'static/dashboard/corporateNew',
+                'dashboard-new'                      => 'static/dashboard/corporateNew',
+                'simulations-new'                    => 'static/simulations/indexNew',
+                'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
+                'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
+                'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
+                'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
+                'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+                'form-errors-standard'               => 'static/pages/formErrorsStandard',
+
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
@@ -270,20 +279,24 @@ return array(
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
-                'admin_area/invites' => 'admin_area/AdminPages/Invites',
-                'admin_area/dashboard' => 'admin_area/AdminPages/Dashboard',
-                'admin_area/login' => 'admin_area/AdminPages/Login',
-                'admin_area/logout' => 'admin_area/AdminPages/Logout',
+                'admin_area/invites'           => 'admin_area/AdminPages/Invites',
+                'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
+                'admin_area/login'             => 'admin_area/AdminPages/Login',
+                'admin_area/logout'            => 'admin_area/AdminPages/Logout',
                 'admin_area/simulation_detail' => 'admin_area/AdminPages/SimulationDetail',
-                'admin_area/invites/save' => 'admin_area/AdminPages/InvitesSave',
-                'admin_area/budget' => 'admin_area/AdminPages/GetBudget',
-                'admin_area/invite/reset' => 'admin_area/AdminPages/ResetInvite',
-                'admin_area/orders' => 'admin_area/AdminPages/Orders',
-                'admin_area/order/checked' => 'admin_area/AdminPages/OrderChecked',
-                'admin_area/order/unchecked' => 'admin_area/AdminPages/OrderUnchecked',
-                'admin_area/order/action/status' => 'admin_area/AdminPages/OrderActionStatus',
-                'admin_area/invite/action/status' => 'admin_area/AdminPages/InviteActionStatus',
-                'admin_area/invite/calculate/estimate' => 'admin_area/AdminPages/InviteCalculateTheEstimate',
+                'admin_area/invites/save'      => 'admin_area/AdminPages/InvitesSave',
+                'admin_area/budget'            => 'admin_area/AdminPages/GetBudget',
+                'admin_area/invite/reset'      => 'admin_area/AdminPages/ResetInvite',
+                'admin_area/orders'            => 'admin_area/AdminPages/Orders',
+                'admin_area/order/checked'     => 'admin_area/AdminPages/OrderChecked',
+                'admin_area/order/unchecked'   => 'admin_area/AdminPages/OrderUnchecked',
+
+                'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',
+                'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
+                'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
+                'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
+                'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
+                'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
@@ -323,6 +336,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'simulationStartUrl' => '/index.php/simulation/start',
         'userNameInHeaderMaxLength' => 30,
         'vacancyLinkInProfileMaxLength'=> 50,
         'frontendUrl' => 'http://skiliks.loc/',
@@ -345,14 +359,17 @@ return array(
             'isDisplayServer500errors'        => false,
             'isUseStrictAssertsWhenSimStop'   => false,
             'frontendAjaxTimeout'             => 60000, // 60 sec
+            'useSentryForJsLog'               => false,
+            'isUseZohoProxy'                  => true,
         ],
         'zoho' => array(
-            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
+            //'apiKey'              => 'c998c211c5404969606b6738c106c183',
+            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
-            //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
             'extExcel'            => 'xls'
 
         ),

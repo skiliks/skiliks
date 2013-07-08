@@ -1,7 +1,8 @@
 .htaccess
 .idea/
 /assets/
-/documents/zoho
+/documents/zoho/
 /documents/user
-/protected/assets/js/game/node_modules
+/protected/config/main.php
+/protected/runtime/
 /protected/assets/compiled_css

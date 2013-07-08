@@ -1,6 +1,6 @@
 <?php
 use application\components\Logging\LogTableList as LogTableList;
-class AdminController extends AjaxController
+class AdminController extends SiteBaseController
 {
 
     public function actionDisplayLog()

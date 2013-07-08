@@ -256,7 +256,7 @@ define([
                     var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model, url)) {
                         me.events.push(event_model);
-                        console.log('event:' + event_model.getTypeSlug());
+                        //console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);
@@ -348,6 +348,12 @@ define([
 
                     me.documents.fetch();
                     onDocsLoad.apply(me);
+                    me.preLoadImages([
+                        '/img/mail/bg-mail-popup-tit.png',
+                        '/img/icon-pause.png',
+                        '/img/main-screen/icon-stop.png',
+                        '/img/mail/type-system-message.png'
+                    ]);
                 });
             },
 
@@ -406,11 +412,12 @@ define([
                 me.paused_time = new Date();
                 me.trigger('pause:start');
 
-                SKApp.server.api('simulation/startPause', {}, function (responce) {
-                    if (typeof callback === 'function') {
+                if (typeof callback === 'function') {
+                    SKApp.server.api('simulation/startPause', {}, function (responce) {
                         callback(responce);
-                    }
-                });
+                    });
+                }
+
             },
 
             /**
@@ -423,6 +430,7 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
+                    console.log(me.paused_time);
                     if( me.paused_time !== undefined )
                     {
                         me._startTimer();
@@ -434,6 +442,16 @@ define([
                             callback(responce);
                         }
                     }
+
+                });
+            },
+            updatePause: function(callback) {
+                var me = this;
+                var skipped = (new Date() - me.paused_time) / 1000;
+                SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
+                        if (typeof callback === 'function') {
+                            callback(responce);
+                        }
 
                 });
             },
@@ -483,21 +501,27 @@ define([
                 if (me.events_timer) {
                     me._stopTimer();
                 }
+                if (me.events_timer !== undefined || me.events_timer !== null){
+                    me.events_timer = setInterval(function () {
+                        me.getNewEvents();
+                        /**
+                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                         * @event tick
+                         */
+                        me.trigger('tick');
+                    }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                    //console.log(me.events_timer);
 
-                me.events_timer = setInterval(function () {
-                    me.getNewEvents();
-                    /**
-                     * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
-                     * @event tick
-                     */
-                    me.trigger('tick');
-                }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                }
             },
 
             _stopTimer: function() {
+                //console.log(this.events_timer);
                 if (this.events_timer) {
                     clearInterval(this.events_timer);
+                    //console.log(this.events_timer);
                     delete this.events_timer;
+                    //console.log(this.events_timer);
                 }
             },
 
@@ -541,6 +565,13 @@ define([
                     var flagStateView = new SKFlagStateView();
                     window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
                 }
+            },
+
+            preLoadImages: function(images) {
+                $.each(images, function(index, src){
+                    var img = new Image();
+                    img.src = SKApp.get('assetsUrl')+src;
+                });
             }
         });
     return SKSimulation;
