@@ -7,10 +7,10 @@
     <div class="border-primary bg-light-blue standard-right-box">
         <div class="row">
             <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
-                <label>!!Тарифный план</label>
+                <label>Тарифный план</label>
                 <div class="value">не выбран</div>
             <?php else : ?>
-                <label>Выбран тарифный план</label>
+                <label>AAВыбран тарифный план</label>
                 <div class="value">
                     <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
                     <br/>
