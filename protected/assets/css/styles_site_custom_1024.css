@@ -346,7 +346,7 @@
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     height: 286px !important;
     /*margin-left: -212px !important;*/
-    margin-top: -25px;
+    margin-top: -10px;
     padding-bottom: 0px;
     width: 424px !important;
 }
@@ -384,6 +384,7 @@
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
     height: 455px !important;
+    top: 202px !important;
     width: 495px !important;
 }
 #Invite_message {
