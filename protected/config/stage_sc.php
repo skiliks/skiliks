@@ -17,11 +17,11 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'enableProfiling'=>true
         )
     ),
-    'public' => [
-        'useSentryForJsLog' => false,
-    ],
     'params'=>array(
         'frontendUrl' => 'http://socialcalc.skiliks.com/',
         'zoho'        => [],
+        'public' => [
+            'useSentryForJsLog' => false,
+        ],
     )
 ));
