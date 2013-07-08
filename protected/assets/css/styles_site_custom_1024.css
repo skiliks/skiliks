@@ -432,13 +432,13 @@
     text-decoration: none;
 }
 .side-item a:hover, .side-item .active a, .side-item .active a:hover {
-    background-position: 222px 17px;
+    background-position: 228px 14px;
 }
 .mnotactive a:hover {
-    background-position: 222px -41px;
+    background-position: 228px -45px;
 }
 .side-menu .active a {
-    background-position: 222px 17px;
+    background-position: 228px 14px;
     color: #245057;
 }
 .profileform .row {
@@ -446,6 +446,6 @@
 }
 .profileform label {
     padding-right: 10px;
-    width: 155px;
+    width: 165px;
 }
 /*  *************************** /PROFILE ***************************/
