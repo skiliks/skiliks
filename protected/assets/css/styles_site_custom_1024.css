@@ -345,7 +345,8 @@
 .add-vacancy-popup {
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     height: 286px !important;
-    margin-left: -212px !important;
+    /*margin-left: -212px !important;*/
+    margin-top: -25px;
     padding-bottom: 0px;
     width: 424px !important;
 }
