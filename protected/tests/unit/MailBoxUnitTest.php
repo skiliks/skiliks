@@ -652,9 +652,10 @@ class MailBoxUnitTest extends CDbTestCase
 
         /* @var $subject CommunicationTheme */
         $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
+
         $phrases = [];
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'не буду'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'подтверждаю'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'после отпуска'])->id;
 
         $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_2013_утв.xls"]);
 
@@ -687,9 +688,9 @@ class MailBoxUnitTest extends CDbTestCase
         $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
         $phrases = [];
 
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'не буду'])->id;
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'день'])->id;
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name'=>'в отделе аналитики'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name' => 'спасибо'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name' => 'сделаю'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name' => 'хорошо'])->id;
 
         $doc = $simulation->game_type->getDocumentTemplate(['code'=>"D5"]);
         $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'template_id'=>$doc->id]);
@@ -712,7 +713,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertNotEmpty($mail);
 
         $this->assertEquals('Индексация ЗП', $mail['subject']);
-        $this->assertEquals('не буду день в отделе аналитики', $mail['message']);
+        $this->assertEquals('спасибо сделаю хорошо', $mail['message']);
         $this->assertEquals('04.10.2013 10:20', $mail['sentAt']);
         $this->assertEquals("Босс В.С. <boss@skiliks.com>", $mail['receiver']);
         $this->assertEquals('2', $mail['folder']);
