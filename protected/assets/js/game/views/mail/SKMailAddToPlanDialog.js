@@ -304,9 +304,7 @@ define([
          */
         close: function () {
             try {
-                if (undefined !== this.$el) {
-                    this.cleanUpDOM();
-                }
+                this.remove();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
