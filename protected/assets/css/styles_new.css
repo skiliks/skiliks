@@ -115,6 +115,9 @@ h1, h2, h3, h4 {
 .font-green-dark {
     color: #0e4750;
 }
+.font-green {
+    color: #245057;
+}
 .font-brown {
     color:#555545;
 }
@@ -123,6 +126,9 @@ h1, h2, h3, h4 {
 }
 .font-white {
     color:#fff;
+}
+.font-grey {
+    color:#959595;
 }
 ul, ol {
     padding: 0;
@@ -1175,8 +1181,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-item a:hover, .active a {
     background-position: 280px 17px;
 }
-.active a {
+.side-item .active a {
     color: #245057;
+    font-family: ;
 }
 .mnotactive a {
     color: #979d98;
