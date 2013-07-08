@@ -1180,15 +1180,18 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .mnotactive a:hover {
     background-position: 280px -65px;
 }
-.side-item .active a {
+.side-menu .active a {
+    background-position: 280px 17px;
     color: #245057;
 }
 .mnotactive a {
     color: #979d98;
 }
 .profileform .grid-cell {
-    border:1px solid red;
-    height: 40px;
+    height: 30px;
     vertical-align: top;
+}
+.profileform .btn-primary {
+    margin-left: 25px;
 }
 /*  *************************** /PROFILE ***************************/
