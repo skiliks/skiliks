@@ -38,6 +38,8 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->dragAndDropToObject("//div[@data-task-id='13']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='19' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='16']","//div[@id='plannerBookAfterVacation']//div[@class='day-plan-td-slot']");
 
+        $this->assertText("//tr[@class='learning-goal-code-214b ']/td[4]","100.00");
+
         //После отпуска
         $this->dragAndDropToObject("//div[@data-task-id='22']","//td[@data-hour='1' and @data-minute='00']");
         //в 11.00 идет отправка того, что пользователь запланировал. Перематываем на 10:59, ждем
