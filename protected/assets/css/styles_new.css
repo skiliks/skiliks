@@ -1150,11 +1150,11 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-menu li:first-child, .side-menu li:first-child a {
     border-radius: 3px 3px 0px 0px;
 }
-.side-menu li {
-    background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
-}
 .side-menu .active {
     background: #fff url("../img/menutopbg.png") repeat-x top;
+}
+.side-item {
+    background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
 }
 .side-item a {
     background: url("../img/menuarrows.png") no-repeat 236px -65px;

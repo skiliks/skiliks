@@ -5,7 +5,7 @@
     <li class="side-item <?php if (isset($active['vacancies'])){ echo 'active'; }?>"><a href="/profile/corporate/vacancies">Вакансии</a></li>
     <li class="side-item <?php if (isset($active['tariff'])){ echo 'active'; } ?>"><a href="/profile/corporate/tariff">Тариф</a></li>
 
-    <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
+    <li class="side-item mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
         <!--
         <a href="/profile/corporate/payment-method">
            Способ оплаты
