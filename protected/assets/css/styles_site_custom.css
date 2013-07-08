@@ -407,10 +407,14 @@
 .side-menu .active a {
     color: #245057;
 }
-.profileform .row {
+.profile-tarif-form .row {
     height: 50px;
 }
+.profileform .row {
+    padding-top: 20px;
+}
 .profilelabel-wrap label {
+    font-size: 16px;
     padding-right: 10px;
     width: 200px;
 }
