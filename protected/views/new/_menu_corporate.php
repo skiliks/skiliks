@@ -1,4 +1,4 @@
-<ul class="side-menu">
+<ul class="side-menu unstyled">
     <li class="side-item <?php if (isset($active['personal-data'])){ echo 'active proxima-bold'; }?>"><a href="/profile/corporate/personal-data">Личные данные</a></li>
     <li class="side-item <?php if (isset($active['password'])){ echo 'active proxima-bold'; } ?>"><a href="/profile/corporate/password">Пароль</a></li>
     <li class="side-item <?php if (isset($active['company-info'])){ echo 'active proxima-bold'; }?>"><a href="/profile/corporate/company-info">Информация о компании</a></li>
