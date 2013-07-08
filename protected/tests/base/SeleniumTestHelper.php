@@ -345,46 +345,6 @@ class SeleniumTestHelper extends CWebTestCase
         return $same_number;
     }
 
-    /**
-     * mail_open - метод для открытия письма (нужное письмо ищет по теме и кликает)
-     * mail_theme - тема письма, которое нужно открыть
-     * возвращает true, если найдено письмо
-     * возвращает false, если не найдено письмо
-     */
-    public function mail_open ($mail_theme)
-    {
-        $is_here=false;
-        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
-        $b = "]/td[2]";
-        $count = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a;
-            $result .= (string)$count;
-            $result .= $b;
-            if ($this->isVisible($result))
-            {
-                $this->mouseOver($result);
-                if (($this->getText($result))==$mail_theme)
-                {
-                    $is_here = true;
-                    $this->optimal_click($result);
-                    break;
-                }
-                else
-                {
-                    $count++;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $is_here;
-    }
-
     // метод для начала написания письма из чистой симуляции
     public function write_email ()
     {

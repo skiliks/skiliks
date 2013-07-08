@@ -29,7 +29,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         sleep(10);
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'консультанты и новый проект')])"));
 
-        $this->mail_open("консультанты и новый проект");
+        $this->optimal_click("xpath=(//*[contains(text(),'консультанты и новый проект')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
@@ -70,7 +70,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("срочно! Требования клиентов"));
 
-        $this->mail_open("срочно! Требования клиентов");
+        $this->optimal_click("xpath=(//*[contains(text(),'срочно! Требования клиентов')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
@@ -87,7 +87,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
 
-        $this->mail_open("срочно! Требования клиентов");
+        $this->optimal_click("xpath=(//*[contains(text(),'срочно! Требования клиентов')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_all_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_all_email']);

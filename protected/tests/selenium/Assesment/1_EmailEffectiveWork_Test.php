@@ -274,11 +274,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
-        $this->close();
+        $this->simulation_stop();
     }
 
     private function write_new_email($recipient, $theme, $attachment)
