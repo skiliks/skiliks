@@ -411,6 +411,7 @@
     height: 50px;
 }
 .profilelabel-wrap label {
+    font-size: 16px;
     padding-right: 10px;
     width: 200px;
 }

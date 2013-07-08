@@ -38,7 +38,7 @@
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
+            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save', 'class' => 'btn btn-large btn-green']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
