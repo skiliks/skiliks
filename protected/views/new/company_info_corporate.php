@@ -13,10 +13,7 @@
 
         <div class="row blueplaceholder">
             <?php echo $form->labelEx($account, 'Название компании'); ?>
-            <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?>
-            <?php echo $form->error($account, 'ownership_type'); ?>
-            <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
-            <?php echo $form->error($account, 'company_name'); ?>
+            <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?><?php echo $form->error($account, 'ownership_type'); ?><?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?><?php echo $form->error($account, 'company_name'); ?>
         </div>
 
         <div class="row rowindustry">
@@ -26,15 +23,11 @@
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($account     , 'company_size_id'); ?>
-            <?php echo $form->dropDownList($account, 'company_size_id', $sizes, ['prompt' => 'Количество сотрудников']); ?>
-            <?php echo $form->error($account       , 'company_size_id'); ?>
+            <?php echo $form->labelEx($account     , 'company_size_id'); ?><?php echo $form->dropDownList($account, 'company_size_id', $sizes, ['prompt' => 'Количество сотрудников']); ?><?php echo $form->error($account       , 'company_size_id'); ?>
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($account, 'company_description'); ?>
-            <?php echo $form->textArea($account, 'company_description', ['rows' => 5, 'cols' => 50]); ?>
-            <?php echo $form->error($account, 'company_description'); ?>
+            <?php echo $form->labelEx($account, 'company_description'); ?><?php echo $form->textArea($account, 'company_description', ['rows' => 5, 'cols' => 50]); ?><?php echo $form->error($account, 'company_description'); ?>
         </div>
 
         <div class="row buttons">

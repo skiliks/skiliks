@@ -308,7 +308,7 @@ ul li:last-child {
 }
 /*  ************************ /Colors and Borders ************************  */
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-input[type="text"], input[type="password"]  {
+input[type="text"], input[type="password"], textarea  {
     background: #fff;
     border: 1px solid #3e5259;
     border-radius: 5px;
