@@ -1,5 +1,5 @@
 
-<h1 class="page-header">!!<?php echo Yii::t('site', 'Profile') ?></h1>
+<h1 class="page-header">!<?php echo Yii::t('site', 'Profile') ?></h1>
 
 <div class="container-3 block-border border-primary bg-transparnt">
 <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?></div>
@@ -10,7 +10,7 @@
                 <label>Тарифный план</label>
                 <div class="value">не выбран</div>
             <?php else : ?>
-                <label>AAВыбран тарифный план</label>
+                <label>Выбран тарифный план</label>
                 <div class="value">
                     <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
                     <br/>
