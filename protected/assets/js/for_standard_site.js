@@ -300,7 +300,7 @@ var fixLogotypes = function() {
                 position: {
                     my: "left top",
                     at: "left top",
-                    of: $('#corporate-invitations-list-box')
+                    of: $('.page-header')
                 }
             });
             $(".form-vacancy").dialog('open');
