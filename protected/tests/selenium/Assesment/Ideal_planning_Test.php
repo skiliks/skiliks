@@ -14,7 +14,7 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->clearEventQueueBeforeEleven('RST1');
-        
+
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
 
         //сегодня

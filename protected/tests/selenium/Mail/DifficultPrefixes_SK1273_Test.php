@@ -32,7 +32,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Re: Срочно жду бюджет логистики"));
 
-        $this->mail_open("Re: Срочно жду бюджет логистики");
+        $this->optimal_click("xpath=(//*[contains(text(),'Re: Срочно жду бюджет логистики')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
@@ -53,7 +53,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
 
-        $this->mail_open("Re: Re: Re: Срочно жду бюджет логистики");
+        $this->optimal_click("xpath=(//*[contains(text(),'Re: Re: Re: Срочно жду бюджет логистики')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['reply_email']);
@@ -75,7 +75,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
 
-        $this->mail_open("Re: Re: Re: Срочно жду бюджет логистики");
+        $this->optimal_click("xpath=(//*[contains(text(),'Re: Re: Re: Срочно жду бюджет логистики')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
@@ -110,7 +110,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("вакцинация!"));
 
-        $this->mail_open("вакцинация!");
+        $this->optimal_click("xpath=(//*[contains(text(),'вакцинация!')])");
 
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
         $this->click(Yii::app()->params['test_mappings']['mail_main']['forward_email']);

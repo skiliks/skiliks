@@ -13,7 +13,6 @@
  */
 class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 {
-
     public function test_DisplayMailText_SK1370()
     {
         $mail_code = array('MY1','MY1','MY2', 'MY1', 'MS21','MY1','MY1','MS21','MS21','MSY10', 'MS21');
@@ -74,7 +73,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=mail-log");
-        $this->simulation_stop();
+        $this->close();
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)
