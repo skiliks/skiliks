@@ -27,7 +27,11 @@ define([
      * @augments Backbone.View
      */
     SKPhoneView = SKWindowView.extend({
+
+        isDisplaySettingsButton:true,
+
         title: "Телефон",
+        windowName:'phone',
         events:_.defaults({
             'click .phone_get_contacts': 'getContacts',
             'click .phone_get_history':  'getHistory',
@@ -48,7 +52,10 @@ define([
          * @param window_el
          */
         renderContent: function (window_el) {
-            window_el.html(_.template(main_template, SKApp.attributes));
+            window_el.html(_.template(main_template, SKApp.attributes, {
+                isDisplaySettingsButton:this.isDisplaySettingsButton,
+                windowName:this.windowName
+            }));
         },
 
         /**
@@ -133,7 +140,7 @@ define([
             var contactId = $(event.currentTarget).attr('data-contact-id');
             this.options.model_instance.close();
             SKApp.simulation.events.lockEvents('phone/call');
-            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.simulation.getGameTime()}, function (data) {
+            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId}, function (data) {
                 SKApp.simulation.getNewEvents();
                 if(data.params !== 'already_call'){
                     SKApp.simulation.parseNewEvents(data.events, 'phone/call');
@@ -164,7 +171,7 @@ define([
         {
             var dialog_code = $(e.currentTarget).attr('data-dialog-code');
             this.options.model_instance.close();
-            SKApp.server.api('phone/callback', {'dialog_code':dialog_code, 'time':SKApp.simulation.getGameTime()}, function (data) {
+            SKApp.server.api('phone/callback', {'dialog_code':dialog_code}, function (data) {
                 if(data.data === 'ok'){
                     SKApp.simulation.getNewEvents();
                 }else{

@@ -56,7 +56,9 @@ class Vacancy extends CActiveRecord
             array('professional_occupation_id',  'numerical', 'min' => 1, 'message' => '{attribute} cannot be blank.'),
 			array('label', 'length', 'max' => 120),
 			array('import_id', 'length', 'max' => 60),
-			array('link', 'safe'),
+			//array('link', 'safe'),
+            //array('link', 'default', 'setOnEmpty' => null),
+            array('link', 'url', 'defaultScheme' => 'http', 'allowEmpty'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, professional_occupation_id, professional_specialization_id, label, link, import_id', 'safe', 'on'=>'search'),
@@ -129,5 +131,9 @@ class Vacancy extends CActiveRecord
             'params' => ['userId' => $userId]
         ));
         return $this;
+    }
+
+    public function getMaxLink() {
+        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
     }
 }

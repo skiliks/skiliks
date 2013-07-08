@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 05.02.13
- * Time: 12:14
- * To change this template use File | Settings | File Templates.
- */
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
@@ -24,7 +17,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
-$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
+$cs->registerScriptFile($assetsUrl . '/js/ProximaNova_old.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
@@ -109,19 +102,49 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         $('.flash').each(function() {
                             var key = $(this).find('.flash-data').attr('data-key');
                             console.log('key: ', key, $(this).find('.flash-data'));
+
+                            var positionData = {
+                                my: "center top",
+                                at: "center top",
+                                of: $('#top header')
+                            };
+
+                            var  widthData = 550;
+
+                            if ($(window).width() < 1281) {
+                                var  widthData = 450
+                            }
+
+                            // fix pop-up position for PasswordRecoveryMessage {
+                            var isPasswordRecoveryMessagePresent = false;
+
+                            <?php foreach($flashes as $key => $message) : ?>
+                                <?php if ('recovery-popup' == $key): ?>
+                            isPasswordRecoveryMessagePresent = true;
+                                <?php endif ?>
+                            <?php endforeach ?>
+
+                            if (isPasswordRecoveryMessagePresent) {
+                                positionData = {
+                                    my: "right top",
+                                    at: "right top",
+                                    of: $('#top header #static-page-links')
+                                };
+                                widthData = 274;
+                            }
+
+                            console.log('widthData: ', widthData);
+                            // fix pop-up position for PasswordRecoveryMessage }
+
                             $(this).dialog({
                                 closeOnEscape: true,
-                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key,
+                                dialogClass: "flash-message-popup " + "flash-message-popup-" + key+" popup-center",
                                 minHeight: 220,
                                 modal: true,
                                 resizable: false,
-                                position: {
-                                    my: "right top",
-                                    at: "right bottom",
-                                    of: $('#top header #static-page-links')
-                                },
+                                position: positionData,
                                 //title: '',
-                                width: 275,
+                                width: widthData,
                                 open: function( event, ui ) { Cufon.refresh(); }
                             });
                         });
@@ -165,6 +188,52 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 </nav>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-            <script type="text/javascript"> Cufon.now(); </script>
+            <script type="text/javascript">
+                Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
+                    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
+                    '.form-submit-button, .midtitle, .social_networks span, .main-article h3, .registration input[type=submit], ' +
+                    '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
+                    '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
+                    '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
+                    '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
+                    '.vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
+                    '.icon-choose, .testtime, .testtime strong, .benefits, .tarifswrap .text16, .value, .tarifform .value, #simulations-counter-box strong, ' +
+                    '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
+                    '.action-controller-registerByLink-static-userAuth h2.title, #invite-decline-form #form-decline-explanation input[type="submit"], section.registration-by-link .form .row input[type="submit"],' +
+                    '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
+                    '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
+                    '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
+                    '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
+                    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large',
+                    {hover: true}
+                );
+                Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
+                    '.features p.success, .flash-data, .flash-success, .flash-error, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
+                    '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
+                    '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
+                    '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
+                    '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
+                    '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
+                    '.registrationform input[type=password], .registrationform input[type=submit], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
+                    '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
+                    '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
+                    'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
+                    '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
+                    '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
+                    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
+                    '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
+                    '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
+                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a',
+                    {fontFamily:"ProximaNova-Regular", hover:true});
+                Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
+                Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
+                    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
+                    '.tariff-name, .video-caption',
+                    {fontFamily:"ProximaNova-Bold", hover:true}
+                );
+                Cufon.replace('.freeacess', {hover:true});
+                Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
+                Cufon.now();
+            </script>
     </body>
 </html>

@@ -47,14 +47,20 @@ define([], function() {
          * @returns {string}
          */
         getIconImagePath: function() {
-            if (0 < this.label.indexOf('.xls')) {
-                return SKApp.get('assetsUrl') + "/img/documents/xls.png";
-            }
-            if (0 < this.label.indexOf('.doc')) {
-                return SKApp.get('assetsUrl') + "/img/documents/doc.png";
-            }
-            if (0 < this.label.indexOf('.ppt')) {
-                return SKApp.get('assetsUrl') + "/img/documents/ppt.png";
+            try {
+                if (0 < this.label.indexOf('.xls')) {
+                    return SKApp.get('assetsUrl') + "/img/documents/xls.png";
+                }
+                if (0 < this.label.indexOf('.doc')) {
+                    return SKApp.get('assetsUrl') + "/img/documents/doc.png";
+                }
+                if (0 < this.label.indexOf('.ppt')) {
+                    return SKApp.get('assetsUrl') + "/img/documents/ppt.png";
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
             
             return '';

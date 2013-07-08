@@ -46,7 +46,7 @@ define([
             window.AppView = new SKApplicationView();
 
             window.SKApp.simulation.on('start', function() {
-                this.startPause();
+                this.startPause(function(){});
             });
 
             window.SKApp.simulation.start(function() {

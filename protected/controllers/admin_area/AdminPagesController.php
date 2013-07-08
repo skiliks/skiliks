@@ -1,6 +1,6 @@
 <?php
 
-class AdminPagesController extends AjaxController {
+class AdminPagesController extends SiteBaseController {
 
     public function beforeAction($action) {
 
@@ -74,16 +74,16 @@ class AdminPagesController extends AjaxController {
         $csv .= "Тип (название) основного сценария;";
         $csv .= "Оценка\r\n";
         foreach($models as $model) {
-        $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
-        $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
-        $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
-        $csv .=$model->id.';';
-        $csv .=$model->getStatusText().';';
-        $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
-        $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
-        $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
-        $csv .=$model->getOverall()."\r\n";
-}
+            $csv .= (empty($model->simulation->id)?'Не найден':$model->simulation->id).';';
+            $csv .= (empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email.';';
+            $csv .=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email.';';
+            $csv .=$model->id.';';
+            $csv .=$model->getStatusText().';';
+            $csv .=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start).';';
+            $csv .=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end).';';
+            $csv .=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug).';';
+            $csv .=$model->getOverall()."\r\n";
+        }
         header("Content-type: csv/plain");
         header("Content-Disposition: attachment; filename=invites.csv");
         header("Content-length:".(string)(strlen($csv)));
@@ -209,4 +209,89 @@ class AdminPagesController extends AjaxController {
         $this->redirect("/admin_area/orders");
     }
 
+    /**
+     * Chande invite status
+     * @throws Exception
+     */
+    public function actionInviteActionStatus() {
+
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $status = Yii::app()->request->getParam('status', null);
+
+        /* @var $model Invite */
+        $invite = Invite::model()->findByPk($invite_id);
+
+        if (null === $invite && null === $status) {
+            throw new Exception("Invite - {$invite_id} is not found!");
+        }
+
+        if ( isset(Invite::$statusText[$status])) {
+            $invite->status = $status;
+            if(false === $invite->save(false)){
+                throw new Exception("Not saved");
+            }
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : admin');
+        } else {
+            throw new Exception("Status not found");
+        }
+
+        $this->redirect("/admin_area/invites");
+    }
+
+    public function actionInviteCalculateTheEstimate() {
+
+        $simId = Yii::app()->request->getParam('sim_id', null);
+        $email = Yii::app()->request->getParam('email', null);
+        SimulationService::CalculateTheEstimate($simId, $email);
+
+        $this->redirect("/admin_area/invites");
+    }
+
+    public function actionSiteLogs() {
+        $invite_id = Yii::app()->request->getParam('invite_id', null);
+        $invite = Invite::model()->findByPk($invite_id);
+
+        $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['invite_id' => $invite_id]);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/invite_site_logs_table', [
+            'logInvite'     => $logInvite,
+            'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimSiteLogs() {
+        $simId = Yii::app()->request->getParam('sim_id', null);
+        $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $simId]);
+
+        $this->pageTitle = sprintf('Админка: Лог действий с симуляцией %s на сайте', $simId);
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulation_site_logs_table', [
+            'logSimulation' => $logSimulation,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSimulations() {
+        $invitesRawArray = Invite::model()->findAll();
+        $invites = [];
+        foreach ($invitesRawArray as $element) {
+            $invites[$element->simulation_id] = $element->id;
+        }
+
+        $this->pageTitle = 'Админка: Список симуляций в БД';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_table', [
+            'simulations' => Simulation::model()->findAll([
+                    'order' => 'id DESC'
+                ]),
+            'invites'     => $invites,
+        ]);
+    }
 }

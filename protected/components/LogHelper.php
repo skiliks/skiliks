@@ -287,13 +287,23 @@ class LogHelper
     public static function setWindowsLog($simId, $logs)
     {
         if (!is_array($logs)) return false;
-        $errors = '';
-        foreach ($logs as $key =>  $log) {
+        foreach ($logs as $key => $log) {
             assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                if (LogWindow::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
-                    throw(new CException('Previous window is still activated'));
+                $window = LogWindow::model()->findByAttributes([
+                    'end_time' => '00:00:00',
+                    'sim_id' => $simId
+                ]);
+
+                if ($window) {
+                    $window->end_time = gmdate("H:i:s", $log[3]);
+                    $window->save();
+                    Yii::log(sprintf(
+                        'Previous window is still activated. Simulation id %d. Window log id %d',
+                        $simId, $window->id
+                    ), CLogger::LEVEL_WARNING);
                 }
+
                 $log_window = new LogWindow();
                 $log_window->sim_id = $simId;
                 $log_window->window = $log[1]; // this is ID of Window table
@@ -304,32 +314,24 @@ class LogHelper
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
-                if (0 == count($windows)) {
-                    $errors .= 'Can not close window: ' . $key. ' :: ' . implode($log, true) . "\n";
-                    continue;
-                }
-                if (1 < count($windows)) {
-                    $errors .= "Two or more active windows at one time. Achtung!\n";
-                    continue;
+                $window = LogWindow::model()->findByAttributes([
+                    'end_time' => '00:00:00',
+                    'sim_id' => $simId,
+                    'window_uid' => $log['window_uid']
+                ]);
 
-                }
-                foreach ($windows as $window) {
+                if ($window) {
                     $window->end_time = gmdate("H:i:s", $log[3]);
                     $window->save();
+                } else {
+                    Yii::log(sprintf(
+                        'Can not close window. Simulation id %d. Log: %s',
+                        $simId, serialize($log)
+                    ), CLogger::LEVEL_WARNING);
                 }
-            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
-
-                continue;
-
             } else {
-
                 throw new CException("Ошибка"); //TODO:Описание доделать
             }
-        }
-
-        if ($errors) {
-            throw new CException($errors);
         }
 
         return true;
@@ -644,5 +646,95 @@ class LogHelper
         return true;
     }
 
+    public static function soundSwitcher(Simulation $simulation, $is_play, $sound_alias) {
+
+        $log = new LogIncomingCallSoundSwitcher();
+        $log->sim_id = $simulation->id;
+        $log->is_play = $is_play;
+        $log->sound_alias = $sound_alias;
+        $log->game_time = $simulation->getGameTime();
+        if(false === $log->save()){
+            throw new LogicException("No valid data");
+        }
+    }
+
+
+    public static function getMailBoxAggregated(Simulation $simulation) {
+
+       $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
+            [
+                'type_my' => 3,
+                'type_m' => 1,
+                'scenario_id' => $simulation->scenario_id
+            ]
+        );
+
+        $mail_box = MailBox::model()->findAll("sim_id = :sim_id and (type = :type_m or type = :type_my)",
+            [
+                'type_my' => 3,
+                'type_m' => 1,
+                'sim_id' => $simulation->id
+            ]
+        );
+
+        $data = [];
+        foreach($mail_box as $mail){
+            // @var $mail MailBox
+                $data[$mail->template_id] = [
+                    'code'   => $mail->code,
+                    'folder' => $mail->folder->name,
+                    'readed' => ((int)$mail->readed === 1)?'Да':'Нет',
+                    'plan'   => ((int)$mail->plan === 1)?'Да':'Нет',
+                    'reply'  =>((int)$mail->reply === 1)?'Да':'Нет',
+                    'mail_box'=>$mail->id,
+                    'type_of_importance'=>$mail->template->type_of_impportance
+                ];
+        }
+        unset($mail_box);
+        foreach($mail_templates as $template) {
+
+            if(!isset($data[$template->id])) {
+                $data[$template->id] = [
+                    'code' => $template->code,
+                    'folder' => 'не пришло',
+                    'readed' => 'Нет',
+                    'plan'   => 'Нет',
+                    'reply'  => 'Нет',
+                    'mail_box' => 0,
+                    'type_of_importance'=>$template->type_of_impportance
+                ];
+            }
+        }
+        unset($mail_templates);
+        // add is right mail_task planned  {
+        $plan = Window::model()->findByAttributes(['subtype'=>'mail plan']);
+        $logMail = array();
+        $logs = LogMail::model()->findAllByAttributes(['sim_id'=>$simulation->id,'window'=>$plan->id]);
+        foreach ($logs as $log) {
+            $logMail[$log->mail_id] = $log;
+        }
+
+        $mailTask = array();
+        foreach (MailTask::model()->findAll() as $line) {
+            $mailTask[$line->id] = $line;
+        }
+
+        foreach ($data as $key => $value) {
+            $data[$key]['mail_task_is_correct'] = '-';
+            $data[$key]['task_id'] = '-';
+            if ('Да' === $value['plan'] && 'plan' !== $value['type_of_importance']) {
+                $data[$key]['mail_task_is_correct'] = 'W';
+            }
+
+            if (isset($logMail[$value['mail_box']])) {
+                $mailTaskId = $logMail[$value['mail_box']]->mail_task_id;
+                if (null !== $mailTaskId) {
+                    $data[$key]['task_id'] = $mailTaskId;
+                    $data[$key]['mail_task_is_correct'] = $mailTask[$mailTaskId]->wr;
+                }
+            }
+        }
+        return $data;
+    }
 
 }

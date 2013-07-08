@@ -1,12 +1,5 @@
 <?php
 
-
-
-/**
- * Модель папок почтовика
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
 class MailFolder extends CActiveRecord
 {
     /**

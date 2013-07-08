@@ -43,6 +43,7 @@ var spec = describe('simulation', function (run) {
                 timers.restore();
             });
             it("can correct calculate time", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -59,6 +60,7 @@ var spec = describe('simulation', function (run) {
             });
 
             it("stops at 18:00", function () {
+                window.testMode = true;
                 var stop_spy = sinon.spy();
                 SKApp.simulation.start();
                 server.respond();
@@ -71,9 +73,10 @@ var spec = describe('simulation', function (run) {
 
             });
             it("Can stop correctly from paused state", function () {
+                window.testMode = true;
                 var log_spy = sinon.spy();
                 SKApp.simulation.start();
-                SKApp.simulation.startPause();
+                SKApp.simulation.startPause(function(){});
                 server.respond();
                 timers.tick(2 * 60 * 60 * 1000);
                 expect(SKApp.simulation.getGameMinutes()).toBe(540);

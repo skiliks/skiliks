@@ -1,6 +1,6 @@
 <?php
 
-class PaymentController extends AjaxController
+class PaymentController extends SiteBaseController
 {
     public function actionOrder($tariffType = null)
     {

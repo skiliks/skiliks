@@ -59,7 +59,7 @@ class LibSendMs
     public static function sendNotMs($simulation)
     {
         $randomSubjectForCharacter40 = $simulation->game_type->getCommunicationTheme([
-            'character_id' => 32
+            'character_id' => $simulation->game_type->getCharacter(['fio'=>'Мягков Ю.'])->id
         ]);
 
         $sendMailOptions = new SendMailOptions($simulation);

@@ -191,6 +191,9 @@ define([
                     message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
                     buttons: []
                 });
+                if(window.gameConfig.invite_id !== null){
+                    SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                }
 
                 setTimeout(function() {
                     me.stopExitProtection();
@@ -232,7 +235,7 @@ define([
              * Renders siteheart block
              */
             renderSupportBlock: function renderSupportBlock() {
-                window._shcp = [];
+                /*window._shcp = [];
                 window._shcp.push({link_wrap_off: true, widget_id : 582287, widget : "Chat", side : "bottom", position : "left", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
                 (function() {
                     var hcc = document.createElement("script");
@@ -241,7 +244,7 @@ define([
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null); }
-                )();
+                )();*/
             },
 
             /**
@@ -263,9 +266,10 @@ define([
              * @method
              */
             endWorkday: function() {
+                SKApp.server.api('events/userSeeWorkdayEndMessage', {});
                 var me = this;
 
-                me.simulation.startPause();
+                me.simulation.startPause(function(){});
                 me._showPausedScreen();
 
                 var d = new SKDialogView({
@@ -372,7 +376,7 @@ define([
                         ]
                     });
 
-                    SKApp.simulation.startPause();
+                    SKApp.simulation.startPause(function(){});
                 }
 
                 return false;

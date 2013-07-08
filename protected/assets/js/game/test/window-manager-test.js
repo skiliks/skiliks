@@ -39,6 +39,7 @@ var spec = describe('window manager', function (run) {
                 timers.restore();
             });
             it("can set z-index", function () {
+                window.testMode = true;
                 var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
@@ -75,6 +76,7 @@ var spec = describe('window manager', function (run) {
 
             });
             it("can open miltiple windows", function () {
+                window.testMode = true;
                 SKApp.user = {};
                 var simulation = SKApp.simulation;
                 simulation.start();
@@ -93,6 +95,7 @@ var spec = describe('window manager', function (run) {
 
             });
             it("can open miltiple documents", function () {
+                window.testMode = true;
                 SKApp.user = {};
                 var simulation = SKApp.simulation;
                 simulation.start();

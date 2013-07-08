@@ -1,11 +1,12 @@
-/*global Backbone:false*/
+/*global Backbone:false, define */
 var SKApplication;
 
 define([
     "game/models/SKServer",
     "game/models/SKSimulation",
-    "game/models/SKTutorial"
-], function (SKServer, SKSimulation, SKTutorial) {
+    "game/models/SKTutorial",
+    "game/collections/SKRequestsQueueCollection"
+], function (SKServer, SKSimulation, SKTutorial, SKRequestsQueueCollection) {
     "use strict";
     /**
      * Корневой класс нашей игры. Инстанциируется в начале игры и инстанс доступен под именем SKApp
@@ -30,9 +31,12 @@ define([
                  * @type SKServer
                  */
                 this.server = new SKServer();
+                this.server.requests_queue = new SKRequestsQueueCollection();
 
                 var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
                 this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
+
+                this.isInternetConnectionBreakHappent = false;
             },
 
             run: function() {

@@ -141,7 +141,7 @@ class MailBoxUnitTest extends CDbTestCase
 
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
-        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects));
+        $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
         $this->assertTrue(in_array('Прочее', $subjects));
         
         $this->assertNull($id);
@@ -155,7 +155,7 @@ class MailBoxUnitTest extends CDbTestCase
         
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
-        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects2));
+        $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
         $this->assertTrue(in_array('Прочее', $subjects2));
         
         $this->assertNull($id2);
@@ -306,7 +306,7 @@ class MailBoxUnitTest extends CDbTestCase
         $data= [];
         
         foreach($mail_phrases as $phrase){
-            $data[$phrase->id] = $phrase->name;
+            $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
         
         $phrases = MailBoxService::getPhrases($theme->id, 0, $simulation);
@@ -357,7 +357,7 @@ class MailBoxUnitTest extends CDbTestCase
         $data= [];
 
         foreach($mail_phrases as $phrase){
-            $data[$phrase->id] = $phrase->name;
+            $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
 
         $phrases = MailBoxService::getPhrases(0, $theme->id, $simulation);

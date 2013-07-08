@@ -64,7 +64,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
         $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a1']);
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
-        $this->assertEquals('1.00', $point->value);
+        $this->assertEquals(round($behaviour->scale * 33.3/100, 2), $point->value);
 
     }
 
@@ -98,7 +98,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
         $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a1']);
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
-        $this->assertEquals('2.00', $point->value);
+        $this->assertEquals(round($behaviour->scale * 66.7/100, 2), $point->value);
 
     }
 
@@ -131,7 +131,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
         $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214a1']);
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
-        $this->assertEquals('3.00', $point->value);
+        $this->assertEquals($behaviour->scale, $point->value);
 
     }
 

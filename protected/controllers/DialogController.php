@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер диалога для клиентской части
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class DialogController extends AjaxController{
+class DialogController extends SimulationBaseController {
     
     /**
      * Загрузка заданного диалога

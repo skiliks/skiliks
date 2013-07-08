@@ -21,12 +21,6 @@ define([
         SKIconPanelView = Backbone.View.extend({
             /** @lends SKIconPanelView.prototype */
 
-            /**
-             * Количество прыганий иконки
-             * @property defaultBouncesNo
-             */
-            defaultBouncesNo: 10, // icon animated 10 times
-
             events: {
                 'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
                 'click .icons-panel .door.icon-active a': 'doDialogStart',
@@ -44,47 +38,53 @@ define([
              * @method initialize
              */
             initialize: function () {
-                var me = this;
-                me.icon_lock = {};
-                var events = this.sim_events = SKApp.simulation.events;
+                try {
+                    var me = this;
+                    me.icon_lock = {};
+                    var events = this.sim_events = SKApp.simulation.events;
 
-                this.listenTo(events, 'event:mail', this.onMailEvent);
-                this.listenTo(events, 'event:mail-send', this.onMailSendEvent);
-                this.listenTo(events, 'event:document', this.onDocumentEvent);
-                this.listenTo(events, 'event:visit', this.onVisitEvent);
-                this.listenTo(events, 'event:plan', this.onPlanEvent);
+                    this.listenTo(events, 'event:mail', this.onMailEvent);
+                    this.listenTo(events, 'event:mail-send', this.onMailSendEvent);
+                    this.listenTo(events, 'event:document', this.onDocumentEvent);
+                    this.listenTo(events, 'event:visit', this.onVisitEvent);
+                    this.listenTo(events, 'event:plan', this.onPlanEvent);
 
-                this.listenTo(events, 'event:phone', this.onPhoneEvent);
-                this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
-                this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
-                this.listenTo(events, 'mail:counter:update', function (count) {
-                    me.setCounter('.mail', count);
-                });
+                    this.listenTo(events, 'event:phone', this.onPhoneEvent);
+                    this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
+                    this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+                    this.listenTo(events, 'mail:counter:update', function (count) {
+                        me.setCounter('.mail', count);
+                    });
 
-                this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
-                    me.doSoundPhoneCallShortZoomerStart();
-                    setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
-                });
+                    this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
+                        me.doSoundPhoneCallShortZoomerStart();
+                        setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
+                    });
 
-                this.listenTo(
-                    SKApp.simulation,
-                    'audio-phone-small-zoom-stop',
-                    _.bind(me.doSoundPhoneCallShortZoomerStop, me)
-                );
+                    this.listenTo(
+                        SKApp.simulation,
+                        'audio-phone-small-zoom-stop',
+                        _.bind(me.doSoundPhoneCallShortZoomerStop, me)
+                    );
 
-                var todo_tasks = SKApp.simulation.todo_tasks;
-                this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
-                this.listenTo(todo_tasks, 'add', this.doSoundNewTodo);
+                    var todo_tasks = SKApp.simulation.todo_tasks;
+                    this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
+                    this.listenTo(todo_tasks, 'onNewTask', this.doSoundNewTodo);
 
-                var phone_history = SKApp.simulation.phone_history;
+                    var phone_history = SKApp.simulation.phone_history;
 
-                // update counter on any change in calls collection
-                phone_history.on('add change remove reset', function () {
-                    me.setCounter(
-                        '.phone',
-                        phone_history.where({'is_displayed': false}).length);
-                });
-                this.render();
+                    // update counter on any change in calls collection
+                    phone_history.on('add change remove reset', function () {
+                        me.setCounter(
+                            '.phone',
+                            phone_history.where({'is_displayed': false}).length);
+                    });
+                    this.render();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -95,8 +95,16 @@ define([
              * @method onMailEvent
              */
             onMailEvent: function (event) {
-                this.startAnimation('.mail');
-                this.doSoundIncomeMail();
+                try {
+                    this.startAnimation('.mail');
+                    if(SKApp.simulation.isPlayIncomingMailSound){
+                        this.doSoundIncomeMail();
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -107,15 +115,21 @@ define([
              * @method onMailEvent
              */
             onMailSendEvent: function (event) {
-                var me = this,
-                    mailClientView = SKApp.simulation.mailClient.view;
+                try {
+                    var me = this,
+                        mailClientView = SKApp.simulation.mailClient.view;
 
-                if (!event.get('fantastic')) {
-                    if (mailClientView) {
-                        me.doNewMailStart();
-                    } else {
-                        me.$('.mail').addClass('create-mail');
-                        me.startAnimation('.mail');
+                    if (!event.get('fantastic')) {
+                        if (mailClientView) {
+                            me.doNewMailStart();
+                        } else {
+                            me.$('.mail').addClass('create-mail');
+                            me.startAnimation('.mail');
+                        }
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
             },
@@ -129,12 +143,18 @@ define([
              * @method onDocumentEvent
              */
             onDocumentEvent: function (event) {
-                var me = this;
+                try {
+                    var me = this;
 
-                me.documentId = event.get('data').id;
-                me.startAnimation('.documents', function() {
-                    me.documentId = null;
-                });
+                    me.documentId = event.get('data').id;
+                    me.startAnimation('.documents', function() {
+                        me.documentId = null;
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -146,44 +166,52 @@ define([
              * @method onPhoneEvent
              */
             onPhoneEvent: function (event) {
-                var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
-                if(phones.length !== 0){
-                    phones[0].setOnTop();
-                    phones[0].close();
-                    this.runPhoneTalkStart(event.cid);
-                    return;
+                try {
+                    var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
+                    if(phones.length !== 0){
+                        phones[0].setOnTop();
+                        phones[0].close();
+                        this.runPhoneTalkStart(event.cid);
+                        return;
+                    }
+
+                    var me = this;
+                    this.$('.phone').attr('data-event-id', event.cid);
+
+                    var data = event.get('data');
+                    var callbackFunction;
+                    if (undefined === data[2]) {
+                        // user can`t ignore call
+                        callbackFunction = function () {
+                            if (event.getStatus() !== 'in progress') {
+                                event.setStatus('in progress');
+                            }
+                        };
+                    } else {
+                        // user can ignore call
+                        callbackFunction = function () {
+                            if (event.getStatus() === 'waiting' && undefined !== data[2]) {
+                                event.setStatus('completed');
+                                event.ignore(function () {
+                                    var history = SKApp.simulation.phone_history;
+                                    history.fetch();
+                                });
+                            }
+                        };
+                    }
+                    this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.isShortDuration(data));
+
+                    if(SKApp.simulation.isPlayIncomingCallSound){
+                        me.doSoundPhoneCallInStart();
+                    }
+                    event.on('complete', function() {
+                        me.doSoundPhoneCallInStop();
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                var me = this;
-                this.$('.phone').attr('data-event-id', event.cid);
-
-                var data = event.get('data');
-                var callbackFunction;
-                if (undefined === data[2]) {
-                    // user can`t ignore call
-                    callbackFunction = function () {
-                        if (event.getStatus() !== 'in progress') {
-                            event.setStatus('in progress');
-                        }
-                    };
-                } else {
-                    // user can ignore call
-                    callbackFunction = function () {
-                        if (event.getStatus() === 'waiting' && undefined !== data[2]) {
-                            event.setStatus('completed');
-                            event.ignore(function () {
-                                var history = SKApp.simulation.phone_history;
-                                history.fetch();
-                            });
-                        }
-                    };
-                }
-                this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.getEventBounces(data));
-
-                me.doSoundPhoneCallInStart();
-                event.on('complete', function() {
-                    me.doSoundPhoneCallInStop();
-                });
             },
 
             /**
@@ -194,38 +222,44 @@ define([
              * @method onVisitEvent
              */
             onVisitEvent: function (event) {
-                var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
-                if(phones.length !== 0) {
-                    phones[0].setOnTop();
-                    phones[0].close();
-                    //this.runPhoneTalkStart(event.cid);
-                }
-                var me = this;
-
-                me.$('.door').attr('data-event-id', event.cid);
-                me.doBlockingPhoneIcon();
-
-                var data = event.get('data');
-                var callbackFunction = function() {
-                    if (undefined === data[2]) {
-                        // user can`t ignore visit
-                        if (event.getStatus() !== 'in progress') {
-                            event.setStatus('in progress');
-                        }
-                    } else {
-                        // user can ignore visit
-                        if (event.getStatus() === 'waiting') {
-                            event.setStatus('completed');
-                        }
+                try {
+                    var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
+                    if(phones.length !== 0) {
+                        phones[0].setOnTop();
+                        phones[0].close();
+                        //this.runPhoneTalkStart(event.cid);
                     }
-                };
+                    var me = this;
 
-                me.startAnimation('.door', callbackFunction, me.getEventBounces(data));
+                    me.$('.door').attr('data-event-id', event.cid);
+                    me.doBlockingPhoneIcon();
 
-                me.doSoundKnockStart();
-                event.on('complete', function() {
-                    me.doSoundKnockStop();
-                });
+                    var data = event.get('data');
+                    var callbackFunction = function() {
+                        if (undefined === data[2]) {
+                            // user can`t ignore visit
+                            if (event.getStatus() !== 'in progress') {
+                                event.setStatus('in progress');
+                            }
+                        } else {
+                            // user can ignore visit
+                            if (event.getStatus() === 'waiting') {
+                                event.setStatus('completed');
+                            }
+                        }
+                    };
+
+                    me.startAnimation('.door', callbackFunction, me.isShortDuration(data));
+
+                    me.doSoundKnockStart();
+                    event.on('complete', function() {
+                        me.doSoundKnockStop();
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -236,7 +270,13 @@ define([
              * @method onPlanEvent
              */
             onPlanEvent: function(event) {
-                this.startAnimation('.plan');
+                try {
+                    this.startAnimation('.plan');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -244,11 +284,13 @@ define([
              * @param data
              * @returns {number}
              */
-            getEventBounces: function (data) {
-                if (undefined === data[2]) {
-                    return 2;
-                } else {
-                    return this.defaultBouncesNo;
+            isShortDuration: function (data) {
+                try {
+                    return undefined === data[2];
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -259,9 +301,14 @@ define([
              * @method updatePlanCounter
              */
             updatePlanCounter: function () {
-                var me = this;
-                me.setCounter('.plan', SKApp.simulation.todo_tasks.length);
-
+                try {
+                    var me = this;
+                    me.setCounter('.plan', SKApp.simulation.todo_tasks.length);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -273,15 +320,21 @@ define([
              * @method setCounter
              */
             setCounter: function (selector, count) {
-                if (0 === this.$(selector + ' a span').length) {
-                    this.$(selector + ' a').html('<span></span>');
-                }
+                try {
+                    if (0 === this.$(selector + ' a span').length) {
+                        this.$(selector + ' a').html('<span></span>');
+                    }
 
-                if (0 === count) {
-                    this.$(selector + ' a span').remove();
-                }
+                    if (0 === count) {
+                        this.$(selector + ' a span').remove();
+                    }
 
-                this.$(selector + ' a span').html(count);
+                    this.$(selector + ' a span').html(count);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -290,52 +343,45 @@ define([
              * @method startAnimation
              * @param {string} selector CSS selector of jQuery li element
              * @optional @param {Function} end_cb called when animation ends
-             * @optional @param bounces
+             * @optional @param shortDuration
              * @async
              */
-            startAnimation: function (selector, end_cb, bounces) {
-                // define bounce_counter
-                var bounce_counter;
-                if (undefined === bounces) {
-                    bounce_counter = this.defaultBouncesNo;
-                } else {
-                    bounce_counter = bounces;
-                }
+            startAnimation: function (selector, end_cb, shortDuration) {
+                try {
+                    var me = this;
 
-                var me = this;
+                    if (!(me.icon_lock[selector])) {
+                        me.icon_lock[selector] = true;
+                        var el = me.$(selector);
+                        el.addClass('icon-active');
 
-                if (!(me.icon_lock[selector])) {
-                    me.icon_lock[selector] = true;
-                    var el = me.$(selector);
-                    el.addClass('icon-active');
+                        if (shortDuration) {
+                            el.addClass('icon-active-short');
+                        }
 
-                    // define callback {
-                    var bounce_cb = function () {
-                        if (bounce_counter > 0) {
-                            bounce_counter--;
-                            setTimeout(function () {
-                                if (el.hasClass('icon-active')) {
-                                    el.effect("bounce", {times: 3, direction: 'left'}, 1000, bounce_cb);
-                                } else {
-                                    me.icon_lock[selector] = false;
-                                    if (end_cb !== undefined) {
-                                        end_cb();
-                                    }
-                                }
-                            }, 1000);
-                        } else {
-                            me.icon_lock[selector] = false;
-                            el.removeClass('icon-active');
+                        setTimeout(function() {
+                            me.stopAnimation(selector);
 
                             if (end_cb !== undefined) {
                                 end_cb();
                             }
-                        }
-                    };
-                    // define callback }
+                        }, shortDuration ? 4000 : 20000);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
 
-                    // run callback
-                    bounce_cb();
+            stopAnimation: function(selector) {
+                try {
+                    this.icon_lock[selector] = false;
+                    this.$(selector).removeClass('icon-active icon-active-short');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -343,9 +389,15 @@ define([
              * @method
              */
             render: function () {
-                var me = this;
-                this.$el.html(_.template(icon_panel, {}));
-                this.updatePlanCounter();
+                try {
+                    var me = this;
+                    this.$el.html(_.template(icon_panel, {}));
+                    this.updatePlanCounter();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -353,9 +405,15 @@ define([
              * @param e
              */
             doPhoneTalkStart: function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.runPhoneTalkStart($(e.currentTarget).parents('.phone').attr('data-event-id'));
+                try {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.runPhoneTalkStart($(e.currentTarget).parents('.phone').attr('data-event-id'));
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -363,9 +421,15 @@ define([
              * @param sim_event_id
              */
             runPhoneTalkStart: function (sim_event_id) {
-                var sim_event = this.sim_events.get(sim_event_id);
-                sim_event.setStatus('in progress');
-                this.$('.phone').removeClass('icon-active');
+                try {
+                    var sim_event = this.sim_events.get(sim_event_id);
+                    sim_event.setStatus('in progress');
+                    this.stopAnimation('.phone');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -375,11 +439,17 @@ define([
              * @param e
              */
             doDialogStart: function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
-                sim_event.setStatus('in progress');
-                this.$('.door').removeClass('icon-active');
+                try {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
+                    sim_event.setStatus('in progress');
+                    this.stopAnimation('.door');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -387,101 +457,191 @@ define([
              * @param e
              */
             doPlanToggle: function (e) {
-                e.preventDefault();
-                this.$('.plan').removeClass('icon-active');
-                SKApp.simulation.window_set.toggle('plan', 'plan');
+                try {
+                    e.preventDefault();
+                    this.stopAnimation('.plan');
+                    SKApp.simulation.window_set.toggle('plan', 'plan');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallInStop: function() {
-                window.AppView.frame.icon_view._stopSound('audio-phone-call');
+                try {
+                    window.AppView.frame.icon_view._stopSound('audio-phone-call');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallInStart: function() {
-                window.AppView.frame.icon_view._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
+                try {
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallLongZoomerStop: function() {
-                window.AppView.frame.icon_view._stopSound('audio-phone-long-zoom');
+                try {
+                    window.AppView.frame.icon_view._stopSound('audio-phone-long-zoom');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallLongZoomerStart: function() {
-                window.AppView.frame.icon_view._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
+                try {
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallShortZoomerStop: function() {
-                window.AppView.frame.icon_view._stopSound('audio-phone-short-zoom');
+                try {
+                    window.AppView.frame.icon_view._stopSound('audio-phone-short-zoom');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundPhoneCallShortZoomerStart: function() {
-                window.AppView.frame.icon_view._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
+                try {
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundKnockStart: function() {
-                window.AppView.frame.icon_view._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
+                try {
+                    window.AppView.frame.icon_view._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundKnockStop: function() {
-                window.AppView.frame.icon_view._stopSound('audio-door-knock');
+                try {
+                    window.AppView.frame.icon_view._stopSound('audio-door-knock');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundIncomeMail: function() {
-                window.AppView.frame.icon_view._playSound('mail/S1.1.1.ogg');
+                try {
+                    window.AppView.frame.icon_view._playSound('mail/S1.1.1.ogg');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundMailSent: function() {
-                this._playSound('mail/S1.1.2.ogg');
+                try {
+                    this._playSound('mail/S1.1.2.ogg');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundSaveAttachment: function() {
-                window.AppView.frame.icon_view._playSound('mail/S1.1.3.ogg');
+                try {
+                    window.AppView.frame.icon_view._playSound('mail/S1.1.3.ogg');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             doSoundNewTodo: function() {
-                window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
+                try {
+                    window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             _playSound: function(filename, repeat, replay, id) {
-                var me = this,
-                    el;
+                try {
+                    var me = this,
+                        el;
 
-                id = id || 'sound' + Math.floor(Math.random() * 10000);
+                    id = id || 'sound' + Math.floor(Math.random() * 10000);
 
-                if (me.$el.find('#' + id).length && !replay) {
-                    return false;
-                }
+                    if (me.$el.find('#' + id).length && !replay) {
+                        return false;
+                    }
 
-                me._stopSound(id);
+                    me._stopSound(id);
 
-                me.$el.append(_.template(audio, {
-                    id        : id,
-                    repeat    : !!repeat,
-                    audio_src : SKApp.get('storageURL') + '/sounds/' + filename
-                }));
+                    me.$el.append(_.template(audio, {
+                        id        : id,
+                        repeat    : !!repeat,
+                        audio_src : SKApp.get('storageURL') + '/sounds/' + filename
+                    }));
 
-                el = me.$el.find('#' + id)[0];
-                if ('function' === typeof el.play) {
-                    el.play();
-                    if (!repeat) {
-                        $(el).on('ended', function() {
-                            if (this.pause !== undefined) {
-                                this.pause();
-                            }
-                            this.src = '';
-                            $(this).remove();
-                        });
+                    el = me.$el.find('#' + id)[0];
+                    if ('function' === typeof el.play) {
+                        el.play();
+                        if (!repeat) {
+                            $(el).on('ended', function() {
+                                if (this.pause !== undefined) {
+                                    this.pause();
+                                }
+                                this.src = '';
+                                $(this).remove();
+                            });
+                        }
+                    }
+
+                    return id;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
-
-                return id;
             },
 
             _stopSound: function(id) {
-                this.$el.find('#' + id).each(function() {
-                    if (this.pause !== undefined) {
-                        this.pause();
+                try {
+                    this.$el.find('#' + id).each(function() {
+                        if (this.pause !== undefined) {
+                            this.pause();
+                        }
+                        this.src = '';
+                    }).remove();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-                    this.src = '';
-                }).remove();
+                }
             },
 
             /**
@@ -489,8 +649,14 @@ define([
              * @param e
              */
             doPhoneToggle: function (e) {
-                e.preventDefault();
-                SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                try {
+                    e.preventDefault();
+                    SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -498,16 +664,22 @@ define([
              * @param e
              */
             doDocumentsToggle: function (e) {
-                e.preventDefault();
+                try {
+                    e.preventDefault();
 
-                if (this.documentId) {
-                    this.doDocumentViewShow(this.documentId);
-                    this.documentId = null;
-                } else {
-                    SKApp.simulation.window_set.toggle('documents', 'documents');
+                    if (this.documentId) {
+                        this.doDocumentViewShow(this.documentId);
+                        this.documentId = null;
+                    } else {
+                        SKApp.simulation.window_set.toggle('documents', 'documents');
+                    }
+
+                    this.stopAnimation('.documents');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                this.$('.documents').removeClass('icon-active');
             },
 
             /**
@@ -515,7 +687,13 @@ define([
              * @param e
              */
             doNothing: function (e) {
-                e.preventDefault();
+                try {
+                    e.preventDefault();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -523,31 +701,38 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
-                var me = this,
-                    mailClient = SKApp.simulation.mailClient,
-                    mailClientView = mailClient.view,
-                    windowSet = SKApp.simulation.window_set;
+                try {
+                    var me = this,
+                        mailClient = SKApp.simulation.mailClient,
+                        mailClientView = mailClient.view,
+                        windowSet = SKApp.simulation.window_set;
 
-                if (e) {
-                    e.preventDefault();
-                }
+                    if (e) {
+                        e.preventDefault();
+                    }
 
-                this.$('.mail').removeClass('create-mail icon-active');
-                if (mailClientView && mailClientView.render_finished) {
-                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
-                    mailClientView.renderWriteCustomNewEmailScreen();
-                } else if (mailClientView) {
-                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
-                    mailClientView.once('render_folder_finished', function () {
+                    this.$('.mail').removeClass('create-mail');
+                    this.stopAnimation('.mail');
+                    if (mailClientView && mailClientView.render_finished) {
+                        windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
                         mailClientView.renderWriteCustomNewEmailScreen();
-                    });
-                } else {
-                    mailClient.once('init_completed', function () {
-                        this.view.once('render_finished', function () {
-                            this.renderWriteCustomNewEmailScreen();
+                    } else if (mailClientView) {
+                        windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                        mailClientView.once('render_folder_finished', function () {
+                            mailClientView.renderWriteCustomNewEmailScreen();
                         });
-                    });
-                    windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    } else {
+                        mailClient.once('init_completed', function () {
+                            this.view.once('render_finished', function () {
+                                this.renderWriteCustomNewEmailScreen();
+                            });
+                        });
+                        windowSet.open('mailEmulator', mailClient.getActiveSubscreenName());
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -556,18 +741,24 @@ define([
              * @param event
              */
             doMailToggle: function (event) {
-                //console.log('doMailToggle');
-                if (event) {
-                    event.preventDefault();
+                try {
+                    //console.log('doMailToggle');
+                    if (event) {
+                        event.preventDefault();
+                    }
+
+                    this.stopAnimation('.mail');
+
+                    // we need getActiveSubscreenName() because mailClient window subname changed dinamically
+                    SKApp.simulation.window_set.toggle(
+                        'mailEmulator',
+                        SKApp.simulation.mailClient.getActiveSubscreenName()
+                    );
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                this.$('.mail').removeClass('icon-active');
-
-                // we need getActiveSubscreenName() because mailClient window subname changed dinamically
-                SKApp.simulation.window_set.toggle(
-                    'mailEmulator',
-                    SKApp.simulation.mailClient.getActiveSubscreenName()
-                );
             },
 
             /**
@@ -575,17 +766,23 @@ define([
              * @param docId
              */
             doDocumentViewShow: function (docId) {
-                var document = SKApp.simulation.documents.where({id: docId})[0];
-                var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: document.get('id')})[0];
-                if (window !== undefined) {
-                    window.setOnTop();
-                } else {
-                    window = new SKDocumentsWindow({
-                        subname: 'documentsFiles',
-                        document: document,
-                        fileId: document.get('id')
-                    });
-                    window.open();
+                try {
+                    var document = SKApp.simulation.documents.where({id: docId})[0];
+                    var window = SKApp.simulation.window_set.where({subname: 'documentsFiles', fileId: document.get('id')})[0];
+                    if (window !== undefined) {
+                        window.setOnTop();
+                    } else {
+                        window = new SKDocumentsWindow({
+                            subname: 'documentsFiles',
+                            document: document,
+                            fileId: document.get('id')
+                        });
+                        window.open();
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -595,7 +792,13 @@ define([
              * @method doBlockingPhoneIcon
              */
             doBlockingPhoneIcon: function () {
-                this.$('.phone').addClass('icon-button-disabled');
+                try {
+                    this.$('.phone').addClass('icon-button-disabled');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -604,7 +807,13 @@ define([
              * @method doDeblockingPhoneIcon
              */
             doDeblockingPhoneIcon: function () {
-                this.$('.phone').removeClass('icon-button-disabled');
+                try {
+                    this.$('.phone').removeClass('icon-button-disabled');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 
