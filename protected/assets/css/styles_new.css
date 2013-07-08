@@ -1197,6 +1197,11 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     float: left;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 240px;
+    margin-left: 10px;
+    width: 228px;
+}
+#UserAccountCorporate_company_description {
+    height: 100px;
+    width: 392px;
 }
 /*  *************************** /PROFILE ***************************/
