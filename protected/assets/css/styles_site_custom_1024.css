@@ -383,7 +383,7 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
-    height: 445px !important;
+    height: 455px !important;
     width: 495px !important;
 }
 #Invite_message {
@@ -402,6 +402,8 @@
     width: 405px;
 }
 .block-form {
+    height: 302px;
+    overflow: hidden;
     padding: 15px 10px;
     width: 425px;
 }

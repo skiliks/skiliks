@@ -356,6 +356,9 @@
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.controller-static-dashboard .cabmessage {
+    height: 590px !important;
+}
 #Invite_message {
     height: 46px;
     max-height: 46px;
@@ -372,6 +375,8 @@
     width: 501px;
 }
 .block-form {
+    height: 335px;
+    overflow: hidden;
     padding: 20px 10px;
     width: 523px;
 }
@@ -384,7 +389,7 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 396px !important;
+    /*height: 430px !important;*/
     width: 560px !important;
 }
 /*  *************************** /SEND INVITATION POPUP ***************************/

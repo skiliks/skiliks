@@ -1142,6 +1142,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    overflow: hidden;
 }
 .block-form a {
     color: #2d7b91;
