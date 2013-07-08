@@ -413,9 +413,6 @@
 .profileform .row {
     padding-top: 20px;
 }
-.profileform .row:first-child {
-    padding-top: 0px;
-}
 .profilelabel-wrap label {
     font-size: 16px;
     padding-right: 10px;
