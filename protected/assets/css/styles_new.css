@@ -314,6 +314,7 @@ input[type="text"], input[type="password"], textarea  {
     border-radius: 5px;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     color: #146672;
+    font-family: "ProximaNova-Regular";
     line-height: 1;
     outline:none;
    /*outline: 1px solid rgba(255, 255, 255, 0);*/
