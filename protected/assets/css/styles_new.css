@@ -1152,6 +1152,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 }
 .side-menu .active {
     background: #fff url("../img/menutopbg.png") repeat-x top;
+    padding-bottom: 1px;
 }
 .side-item {
     background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
@@ -1159,7 +1160,10 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-item a {
     background: url("../img/menuarrows.png") no-repeat 236px -65px;
     font-size: 18px;
-    padding: 12px 20px 12px 12px;
+    height:48px;
+    line-height: 48px;
+    padding: 0px 20px;
+    /*padding: 12px 20px 12px 20px;*/
     display: block;
     text-decoration: none;
 }
