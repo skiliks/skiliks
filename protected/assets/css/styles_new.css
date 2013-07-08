@@ -1169,21 +1169,6 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .side-menu li:last-child, .side-menu li:last-child a {
     border-radius: 0px 0px 3px 3px;
 }
-.side-item a {
-    background: url("../img/menuarrows.png") no-repeat 280px -65px;
-    display: block;
-    text-decoration: none;
-}
-.side-item a:hover, .side-item .active a, .side-item .active a:hover {
-    background-position: 280px 17px;
-}
-.mnotactive a:hover {
-    background-position: 280px -65px;
-}
-.side-menu .active a {
-    background-position: 280px 17px;
-    color: #245057;
-}
 .mnotactive a {
     color: #979d98;
 }
