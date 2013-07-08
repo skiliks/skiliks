@@ -232,14 +232,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event("MS25");
         sleep(3);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-
-        $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
-        sleep(2);
-        $this->addTheme("xpath=(//*[contains(text(), 'Сводный бюджет: итоговые корректировки')])");
-        $this->addAttach("Сводный бюджет_2014_план");
-        $this->optimal_click("css=.SEND_EMAIL");
-
+        $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya'],"'Сводный бюджет: итоговые корректировки","Сводный бюджет_2014_план");
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['analitics'],"Приглашение: новая система премирования","");
 
         $this->optimal_click("xpath=(//*[contains(text(),'новый бюджет по производству')])");
@@ -247,6 +240,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->write_replyAll_email("срочно! Отчетность", "");
         $this->write_reply_email("Презентация для ГД_итог");
+        
         //$this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['dolgova'],"Данные по распечатке презентаций","");
         //$this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['krutko'],"Презентация для ГД: распечатать","");
 
