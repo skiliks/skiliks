@@ -451,6 +451,11 @@
 .profilelabel-wrap label {
     font-size: 14px;
     padding-right: 10px;
+    padding-right: 10px;
     width: 164px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 6px;
 }
 /*  *************************** /PROFILE ***************************/
