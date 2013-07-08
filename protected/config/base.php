@@ -212,6 +212,7 @@ return array(
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
                 'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
                 'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+                'form-errors-standard'               => 'static/pages/formErrorsStandard',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',

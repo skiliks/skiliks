@@ -35,7 +35,7 @@
                 <? $i= 0 ?>
             <? endif ?>
             <tr class="invites-row">
-                <td><?= $itemI->id ?></td>
+                <td><?= $itemI->invite_id ?></td>
                 <td><?= $itemI->status ?></td>
                 <td><?= $itemI->sim_id ?></td>
                 <td><?= $itemI->action ?></td>

@@ -221,4 +221,37 @@ class PagesController extends SiteBaseController
         $this->layout = false;
         $this->render('drag_and_drop_prototype');
     }
+
+    public function actionFormErrorsStandard()
+    {
+        $invite = new Invite();
+        $passwordForm = new YumUserChangePassword;
+        $passwordForm2 = new YumUserChangePassword;
+
+        $passwordForm->verifyPassword = 1;
+        $passwordForm2->verifyPassword = 2;
+        $passwordForm2->currentPassword = 3;
+        $passwordForm2->password = 1;
+
+        $passwordForm->addError('currentPassword', Yii::t('site', 'Wrong current password'));
+
+        $invite->validate();
+        $passwordForm->validate();
+        $passwordForm2->validate();
+
+        $vacancies = [];
+        $vacancyList = Vacancy::model()->byUser(Yii::app()->user->id)->findAll();
+        foreach ($vacancyList as $vacancy) {
+            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
+        }
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/form_errors_standard', [
+            'invite'        => $invite,
+            'vacancies'     => $vacancies,
+            'passwordForm'  => $passwordForm,
+            'passwordForm2' => $passwordForm2,
+        ]);
+    }
 }

@@ -20,6 +20,8 @@
  */
 class LogServerRequest extends CActiveRecord
 {
+    const IS_PROCESSED_TRUE = 1;
+    const IS_PROCESSED_FALSE = 0;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

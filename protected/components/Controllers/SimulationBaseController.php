@@ -45,7 +45,7 @@ class SimulationBaseController extends CController {
                 // log to site simulation actions
                 SimulationService::logAboutSim($simulation, 'sim request tepeat');
 
-                $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid'=>$uid, 'is_processed'=>1]);
+                $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid'=>$uid, 'is_processed'=>LogServerRequest::IS_PROCESSED_TRUE]);
                 if(null === $log) {
                     /* @var $log LogServerRequest */
                     $log = new LogServerRequest("WithSimulation");
@@ -116,7 +116,7 @@ class SimulationBaseController extends CController {
                 }
                 $json = CJSON::encode($data);
                 $log->response_body = $json;
-                $log->is_processed = 1;
+                $log->is_processed = LogServerRequest::IS_PROCESSED_TRUE;
                 $log->update(['response_body', 'is_processed']);
                 //sleep(30);
                 $this->_sendResponse($status, $json);
