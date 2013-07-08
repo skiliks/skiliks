@@ -13,9 +13,7 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
+$cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +39,7 @@ body {
 </head>
 <body>
 <header class="site-header">
-<div style="width:1200px;margin: 0 auto">
+<div>
     <h1><a href="./"><img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/></a></h1>
     <nav class="menu-site menu-top" id="static-page-links">
         <ul>
@@ -130,7 +128,7 @@ body {
 
 <div>
     <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
-        <div class="pad30">
+        <div class="pad-xsize">
         <h3>Отправить приглашение</h3>
             <form id="invite-form" class="form-simple form-small placehldrs-dark">
                 <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
@@ -157,7 +155,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<div class="block-border bg-yellow border-primary pad20 pull-left">
+<div class="block-border bg-yellow border-primary pad-large pull-left">
     <ul class="list-dark unstyled font-xlarge">
         <li>Полная оценка навыков бесплатно</li>
         <li>Сравнение навыков с другими</li>
@@ -180,7 +178,7 @@ body {
                 </ul>
             </div>
         </div>
-        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
+        <div class="row"><label>Корпоративный email</label><input placeholder="email" class="input-long" name="YumProfile[firstname]" id="YumProfile_firstname" type="text"></div>
     </form>
 </div>
 
@@ -217,7 +215,7 @@ body {
 </div>
 <div class="razdelitel"></div>
 
-<section class="bg-lblue-primary home-contnt-box border-large" style="padding:40px 100px;">
+<section class="bg-lblue-primary home-contnt-box border-large pad-xxsize">
     <article>
         <h2 class="font-blue-dark">Самый простой</h2>
         <ul class="unstyled">
@@ -246,9 +244,9 @@ body {
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select, .proxima-reg, .sbHolder a', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('.menu-site li, .unstyled li, p, label, input, select, .proxima-reg, .sbHolder a', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
-        Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
+        Cufon.replace('.semi, .yiiPager li, .yiiPager a, .yiiPager .next a, .yiiPager .next a', {fontFamily:"ProximaNova-Semibold", hover: true});
     });
 </script>
 

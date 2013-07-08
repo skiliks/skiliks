@@ -51,7 +51,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @param event
          */
         'doLoadDocs': function (event) {
-            SKApp.simulation.startPause();
+            SKApp.simulation.startPause(function(){});
             SKApp.simulation.documents.fetch();
         },
 

@@ -2,7 +2,7 @@
 /*
  * Контроллер статистики для офиса, Zoho, PHPUnit, Selenium
  */
-class StatisticsController extends AjaxController
+class StatisticsController extends SiteBaseController
 {
     /**
      *

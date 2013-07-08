@@ -26,7 +26,13 @@ var SKMailTask;
          * @returns {string}
          */
         getFormatedDuration: function() {
-            return this.duration + ' ' + this.minuteslabel;
+            try {
+                return this.duration + ' ' + this.minuteslabel;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 })();

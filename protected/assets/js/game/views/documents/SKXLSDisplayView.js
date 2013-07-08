@@ -1,4 +1,4 @@
-/*global SocialCalc, _, SKApp
+/*global SKWindow, _, SKDocument,  SKConfig, SKWindowView, SKApp, SKPhoneContactsCollection, SKDialogView, define, console, $
  */
 
 define([

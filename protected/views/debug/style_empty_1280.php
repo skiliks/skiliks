@@ -12,22 +12,12 @@ $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
 $cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
-$cs->registerCssFile($assetsUrl . "/css/styles_new.css");
-$cs->registerCssFile($assetsUrl . "/css/styles_site_custom.css");
-$cs->registerCssFile($assetsUrl . "/css/style-site-max.css");
+$cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-body {
-    background: url("<?php echo $assetsUrl?>/img/sitebg-chairs.jpg"), url("<?php echo $assetsUrl?>/img/sitebg-rpt.jpg");
-    background-repeat: no-repeat, repeat-y;
-    background-position: center top;
-}
-</style>
-
 </head>
 <body>
     <div class="site-wrap" id="top">
@@ -63,8 +53,8 @@ body {
                         </nav>
                     </div>
                 </div>
-                <div class="container-3 container">
-                    <div class="grid1 empty-block">&nbsp;</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
+                <div class="container-3 container proxima-reg font-small">
+                    <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></div>
                 </div>
                 <a href="#top" class="to-top font-small">Наверх</a>
                 <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>

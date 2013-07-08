@@ -29,6 +29,9 @@ input[type="checkbox"] {
 input[type="radio"] {
     vertical-align: text-bottom;
 }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+    outline: none;
+}
 sub {
     vertical-align: sub;
     font-size: small;
@@ -65,7 +68,7 @@ nav ul, nav ul li {
     font-style: normal;
 }
 @font-face {
-    font-family: 'Conv_ProximaNova-Semibold';
+    font-family: 'ProximaNova-Semibold';
     src: url('../fonts/ProximaNova-Semibold.eot');
     src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
     url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
@@ -109,6 +112,12 @@ h1, h2, h3, h4 {
 .font-blue-dark {
     color:#146672;
 }
+.font-green-dark {
+    color: #0e4750;
+}
+.font-green {
+    color: #245057;
+}
 .font-brown {
     color:#555545;
 }
@@ -118,13 +127,12 @@ h1, h2, h3, h4 {
 .font-white {
     color:#fff;
 }
+.font-grey {
+    color:#959595;
+}
 ul, ol {
     padding: 0;
     margin-left:20px;
-}
-li {
-    line-height: 16px;
-    margin-bottom: 10px;
 }
 ul li:last-child {
     margin-bottom: 0px;
@@ -137,10 +145,6 @@ ul li:last-child {
     background: url("../img/icon-listlight.png") no-repeat 0 0px;
     color: #fff;
     text-shadow: rgba(0,0,0,0.14) 0 0 8px;
-    line-height: 20px;
-    margin-bottom: 13px;
-    min-height: 21px;
-    padding-left: 28px;
 }
 .list-light li:last-child {
     margin-bottom: 0px;
@@ -160,7 +164,7 @@ ul li:last-child {
     text-align: right;
 }
 /* ************************ Buttons ************************ */
-.btn, .btn-large, .btn-primary {
+.btn, .btn-large, .btn-primary, .submit-primry input[type="submit"] {
     border:none;
     border-radius: 4px;
     cursor: pointer;
@@ -170,10 +174,14 @@ ul li:last-child {
     text-decoration: none;
     white-space: nowrap;
 }
-.btn-green {
+.submit-primry input[type="submit"] {
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+}
+.btn-green, .submit-primry input[type="submit"] {
     background-color: #146672;
 }
-.btn-green:hover {
+.btn-green:hover, .title-in-ui input[type="submit"]:hover,
+.feedback input[type="submit"]:hover, .submit-primry input[type="submit"]:hover {
     background-color: #BD2929;
 }
 .btn-white {
@@ -185,12 +193,10 @@ ul li:last-child {
     color: #fff;
 }
 .btn-large { /* large green button */
-    background-image: url("../img/btn-circle.png");
     background-repeat: no-repeat;
     color: #fff;
 }
 .btn-primary { /* example -  feedback */
-    background-image: url("../img/btn-primry-bg.png");
     background-repeat: no-repeat;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     color: #3c3c32;
@@ -201,24 +207,12 @@ ul li:last-child {
     background-repeat: no-repeat;
     padding: 0 10px 0 22px;
 }
-.btn-arrow-small {
-    background-image: url("../img/icon-btn-notify.png");
-    background-position: 10px 50%;
-    background-repeat: no-repeat;
-    padding: 0 10px 0 38px;
-}
+
 .btn-primary:hover {
     color:#fff;
     background-position: left bottom;
 }
-.btn-site { /* example -  manage subscription */
-    background:#146672 url("../img/arrowleft.png") no-repeat 10px 50%;
-    color: #fff;
-    font-size: 14px;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px 0 22px;
-}
+
 .btn-site:hover {
     background-color:#bf292a;
 }
@@ -227,53 +221,8 @@ ul li:last-child {
     background: #ddd url("../img/plussmall.png") no-repeat 50% 50%;
     cursor: pointer;
     display: inline-block;
-    height: 22px;
-    line-height: 22px;
-    padding: 0px 6px;
-    width: 10px;
 }
 /* ************************ /Buttons ************************ */
-/* ************************ Pager ************************ */
-.yiiPager, .yiiPager li {
-    margin:0px;
-    padding: 0px;
-}
-.yiiPager li {
-    list-style-type: none;
-}
-.yiiPager .first, .yiiPager .last {
-    display: none;
-}
-.yiiPager li, .yiiPager li a {
-    color: #fff;
-    display: inline-block;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
-}
-.yiiPager a {
-    font-size: 16px;
-    margin: 0px 2px;
-    padding: 0px;
-    text-align: center;
-}
-.yiiPager .selected a {
-    color: #146672;
-}
-.yiiPager .previous a, .yiiPager .next a {
-    background: #6caab3;
-    border: none;
-    font-family:"Conv_ProximaNova-Semibold", Sans-Serif;
-    font-size: 14px;
-    margin: 0px 11.5px;
-    padding: 7px 10px 7px 9px;
-}
-.yiiPager .previous a {
-    margin-right: 14px;
-}
-.yiiPager .previous a:hover, .yiiPager .next a:hover {
-    background: #146672;
-}
-/* ************************ /Pager ************************ */
-
 /*  ************************ Menu ************************  */
 .menu-site li, .menu-link-regular, .menu-link-active {
    display: inline;
@@ -354,8 +303,10 @@ ul li:last-child {
 .bg-yellow-light {/*  example - corporate table lighter rows */
     background-color: #fefeec;
 }
+.bg-yellow a {
+    color: #555742;
+}
 /*  ************************ /Colors and Borders ************************  */
-
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 input[type="text"], input[type="password"]  {
     background: #fff;
@@ -367,44 +318,15 @@ input[type="text"], input[type="password"]  {
     outline:none;
    /*outline: 1px solid rgba(255, 255, 255, 0);*/
 }
-.form-small input[type="text"], .form-small input[type="password"] {
-    height: 26px;
-    line-height: 26px;
-    padding: 3px 9px;
-}
-.form-large input[type=text], .form-large input[type=password] {
-    height:24px;
-    font-size: 16px;
-    padding: 14px 10px 14px 19px;
-}
-.form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
-    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
-    border:3px solid #24bdd3;
-    padding: 12px 8px 12px 17px;
-}
-.form-simple input[type="text"]+input[type="text"] {
-    margin-left: 10px;
-}
 .form-simple label {
     color: #fff;
     display: inline-block;
     line-height: 90%;
-    min-width: 64px;
     padding-right: 10px;
 }
 .dark-labels label {
     color:#555545;
     font-family: "ProximaNova-Bold";
-}
-.row {
-    position: relative;
-    padding-top: 10px;
-}
-.row.wide {
-    padding-top: 12px;
-}
-.row.buttons, .row.wide+.row.wide {
-    padding-top: 15px;
 }
 .rows-inline .row {
     display: inline-block;
@@ -440,26 +362,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /FORM SIMPLE ************************  */
 
-/*  *************************** PADDINGS ****************************/
-.pad10 {
-    padding: 10px;
-}
-.pad16 {
-    padding: 16px;
-}
-.pad20 {
-    padding: 20px;
-}
-.pad30 {
-    padding: 30px;
-}
-.pad40 {
-    padding: 40px;
-}
-.pad20>h1, .pad20>h2, .pad30>h1, .pad30>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
-    margin-top: -6px;
-}
-/*  *************************** /PADDINGS ****************************/
+
 /*  *************************** POZITZIONIROVANIE ****************************/
 .postn-reltv {
     position: relative;
@@ -598,10 +501,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: linear-gradient(top, #54c4d4, #2ea6b7);
     border: solid 1px #0d5159;
     border-radius:5px;
-    font:14px 'ProximaNova-Regular';
+    font-family: 'ProximaNova-Regular';
     position: relative;
-    height: 23px;
-    min-width: 90px;
     color: #fff;
     vertical-align:middle;
 }
@@ -610,11 +511,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sbSelector{
     display: block;
-    height: 22px;
-    line-height: 22px;
     outline: none;
     overflow: hidden;
-    text-indent: 9px;
     width: 100%;
     position: absolute;
     top: 0;
@@ -626,20 +524,13 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     text-decoration: none;
 }
 .sbToggle{
-    background: url("../img/bg-select-toggle.png") no-repeat 0 0;
     display: block;
-    -webkit-border-top-right-radius:5px;
-    -webkit-border-bottom-right-radius:5px;
-    -moz-border-radius-topright:5px;
-    -moz-border-radius-bottomright:5px;
     border-top-right-radius:5px;
     border-bottom-right-radius:5px;
-    height: 23px;
     outline: none;
     position: absolute;
     right: 0px;
     top: 0px;
-    width: 19px;
 }
 .empty-select .sbToggle {
     background-image: url("../img/emp-select-toggle.png");
@@ -649,13 +540,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .sbToggleOpen{
     background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
-    height: 23px;
 }
 .sbOptions{
     background: #fff;
     border: solid 1px #000;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
     border-radius:5px;
     list-style: none;
     left: -1px;
@@ -665,6 +553,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     top: 30px;
     width: 100%;
     z-index:1;
+    overflow-x:hidden;
     overflow-y: auto;
 }
 
@@ -703,9 +592,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     display: block;
     font-weight: bold;
     padding: 7px 0 7px 3px;
-}
-.sbOptions .sbSub{
-    padding-left: 17px;
 }
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
@@ -774,9 +660,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .standard-left-box+.standard-right-box {
     margin-left: 15px;
 }
-.standard-right-box {
-    width:629px;
-}
 .standard-full-width-box {
     width:100%;
 }
@@ -818,11 +701,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  ************************ /SITE ************************/
 .empty-block {
-    content: ".";
     text-indent: -90000px;
-}
-.site-footer .empty-block {
-    padding-right: 100px;
 }
 /*  *************************** SCRIPT POPUP ***************************/
 .ui-widget-overlay {
@@ -841,14 +720,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .ui-dialog-titlebar {
     position: relative;
 }
-.ui-dialog-titlebar-close, .popupclose {
-    background: url("../img/closepopup.png") no-repeat 0 0;
+.ui-dialog .ui-dialog-titlebar-close, .popupclose {
+    border:none;
     cursor: pointer;
-    width: 27px;
-    height: 27px;
     position: absolute;
-    top: -20px;
-    right: -20px;
     display: block;
     margin: 0;
     text-indent: -90000px;
@@ -856,17 +731,27 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .ui-dialog .ui-dialog-titlebar-close:hover, .popupclose:hover {
     background-position: 0 100%;
+    border: none;
+}
+.ui-dialog .ui-widget-header .ui-icon, .ui-dialog .ui-widget-header .ui-icon:hover  {
+    background: none;
+    border: none;
+    display: none;
 }
 /*  *************************** /SCRIPT POPUP ***************************/
 .popup-site {
     border: none;
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    padding:0px;
 }
-.popup-site .ui-widget-content {
-    padding: 30px;
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px;
 }
-
+.cabmessage .ui-widget-content {
+    padding-bottom: 10px;
+}
 .popup-center {
     left:50%;
 }
@@ -874,20 +759,37 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /* goluboy popup tipa feedback ili prichiny otkaza */
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
+    overflow: visible;
+}
+.popup-primary .ui-widget-header .ui-icon {
+    display: none;
 }
 .popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
+    border: none;
     padding: 0;
     height: 0;
 }
-.popup-primary-title {
+.popup-primary-title, .popup-primary h1, .feedback-dialog-title {
     color: #0e4750;
     font: 30px "ProximaNova-Regular";
     margin-top: -8px;
-    padding-bottom: 30px;
     text-align: center;
+}
+.popup-primary-title, .popup-primary h1 {
+    padding-bottom: 30px;
 }
 .popup-primary label, .popup-primary p {
     color:#0e4750;
+}
+.title-bold h1, .title-in-ui .ui-dialog-title {
+    font-family: "ProximaNova-Bold";
+    font-size: 28px;
+    text-align: left;
+}
+.title-in-ui .ui-dialog-title {
+    color: #0e4750;
+    margin-top:27px;
+    margin-left:30px;
 }
 /*  *************************** /POPUP PRIMARY ***************************/
 /*  *************************** POPUP FLASH I SMENIT PAROL ***************************/
@@ -935,36 +837,235 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 /*  *************************** /REZULTATY ***************************/
 /*  *************************** DASHBOARD TABLE ***************************/
-.table-primary {
+.table-primary, .items, .grid-view table.items {
+    background: none;
+    border: none;
     width:100%;
 }
-.table-primary th {
+.table-primary th, .items th, .grid-view table.items th {
     background: #146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border: none;
     border-bottom: 1px solid #0e4750;
     color:#fff;
     font-weight: normal;
-    padding: 7px 6px;
     text-align: left;
     vertical-align: middle;
 }
-.table-primary th:first-child {
+.table-primary th:first-child, .items th:first-child {
     border-radius: 5px 0px 0px;
 }
-.table-primary th:last-child {
+.table-primary th:last-child, .items th:last-child {
     border-radius: 0px 5px 0px 0px;
 }
-.table-primary td {
+.table-primary td, .items td, .grid-view table.items td {
     background-color: #fdfbc6;
-    padding: 7px 6px;
+    border: none;
+    vertical-align: middle;
 }
-.table-primary tr:last-child td:first-child {
+.table-primary .even td, .items .even td, .grid-view table.items tr.even td {
+    background: #fefeec;
+}
+.table-primary tr:last-child td:first-child, .items tr:last-child td:first-child,
+.table-simultns .items tr:last-child td:first-child {
     border-radius: 0px 0px 0px 5px;
 }
-.table-primary tr:last-child td:last-child {
+.table-primary tr:last-child td:last-child, .items tr:last-child td:last-child {
     border-radius: 0px 0px 5px;
 }
+.table-primary th a, .items th a, .grid-view table.items th a {
+    background: url("../img/arrow-down.png") no-repeat right 56%;
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+    display: block;
+    padding-right: 12px;
+}
+#private-invitations-list-box .grid-view .items tr:last-child td[colspan="5"],
+#corporate-invitations-list-box .grid-view .items tr:last-child td[colspan="8"] {
+    border-radius: 0px 0px 5px 5px;
+}
+span.empty {
+    display: block;
+    height: 15px;
+}
 /*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** KABINET ***************************/
+.invites-smallmenu-switcher {
+    background: url("../img/menugear.png") no-repeat left top;
+    color: #232323;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    height: 24px;
+    width: 22px;
+}
+.invites-smallmenu-item {
+    background: #a5a385; /* Old browsers */
+    background: -webkit-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to bottom,  #a5a385 0%,#8a896c 100%); /* W3C */
+    border: 1px solid #717059;
+    border-radius: 0px 7px 7px;
+    display: none;
+    margin: -4px 0 0 0px;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 10;
+}
+.invites-smallmenu-item a {
+    color: #fff;
+    display: block !important;
+    font-family: "ProximaNova-Regular";
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+    z-index: 20;
+}
+.invites-smallmenu-item a:hover {
+    color: #000;
+}
+.selected-sk .invites-smallmenu-switcher {
+    background-position: right top;
+}
+.topline {
+    background: #a5a385;
+    display: none;
+    position: absolute;
+    height: 4px;
+    margin: 22px 0px 0px -21px;
+    width: 20px;
+    z-index: 70;
+}
+.selected-sk .topline {
+    display: inline-block;
+}
+.grid-view {
+    padding: 0px;
+    position: relative;
+}
+.grid-view .summary {
+    margin: 0px;
+}
+.grid-view .pager {
+    bottom: -75px;
+    height: 40px;
+    margin: 0px;
+    text-align: center;
+    padding-top: 25px;
+    position: absolute;
+    width: 598px;
+    width: 100%;
+    z-index: 5;
+}
+#private-invitations-list-box .grid-view tr td:first-child,
+#private-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(2),
+#corporate-invitations-list-box .grid-view tr td:nth-child(3),
+#corporate-invitations-list-box .grid-view tr td:nth-child(4),
+.table-simultns tr .grid-view tr td:first-child,
+.table-simultns tr .grid-view tr td:nth-child(2),
+.table-simultns tr .grid-view tr td:nth-child(3){
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+.table-simultns tr .grid-view tr td:first-child {
+    overflow: hidden;
+    text-overflow: clip;
+}
+#corporate-invitations-list-box .grid-view .items th:nth-child(2),
+#corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
+    padding-left: 0px;
+}
+#corporate-invitations-list-box .items th:first-child {
+    background-image: none;
+    padding-right: 0px;
+}
+#corporate-invitations-list-box #yw0_c1 {
+    position: relative;
+}
+.controller-static-dashboard .grid-view .items td {
+    vertical-align: middle;
+}
+.block-stars {
+    font-size: 10px;
+    height: 14px;
+    line-height: 14px;
+    vertical-align: middle;
+}
+.ratebg {
+    display: table-cell;
+    padding-right:4px;
+}
+.prcentval {
+    display: table-cell;
+    margin-top: -3px;
+}
+span.required, .form-simple span.required {
+    display: none;
+}
+/*  *************************** /KABINET ***************************/
+/* ************************ Pager ************************ */
+.yiiPager, .yiiPager li, .pager .yiiPager li, .pager .yiiPager {
+    margin:0px;
+    padding: 0px;
+}
+.yiiPager li, .pager .yiiPager li {
+    list-style-type: none;
+}
+.yiiPager .first, .yiiPager .last, .pager .yiiPager .first, .pager .yiiPager .last {
+    display: none;
+}
+.yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
+    color: #fff;
+    display: inline-block;
+    font-family:"ProximaNova-Semibold", Sans-Serif;
+}
+.yiiPager a, .pager .yiiPager a {
+    margin: 0px 2px;
+    padding: 0px;
+    text-align: center;
+}
+.yiiPager .selected a, .pager .yiiPager .selected a {
+    background: none;
+    border:none;
+    color: #146672;
+}
+.yiiPager .previous a, .yiiPager .next a,
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    background: #6caab3;
+    border: none;
+    font-family:"ProximaNova-Semibold", Sans-Serif;
+}
+.yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
+    border:none;
+    padding:0px;
+}
+.yiiPager a:hover, .pager .yiiPager a:hover {
+    border:none;
+}
+.yiiPager .previous a:hover, .yiiPager .next a:hover,
+.pager .yiiPager .previous a:hover, .pager .yiiPager .next a:hover {
+    background: #146672;
+    border:none;
+}
+
+/* ************************ /Pager ************************ */
+/*  *************************** ERRORS ***************************/
+input.error, textarea.error, .error textarea, .error input[type="text"], .error input[type="password"],
+.feedback .form-section .error textarea, .feedback .form-line .error input[type="text"]{
+    border: 2px solid #bd2929;
+}
+.errorMessage {
+    color: #bd2929;
+    font-family: "ProximaNova-Regular";
+    position: absolute;
+    top:-1px;
+}
+.bg-rich-blue .errorMessage {
+    color:#fff;
+}
+
+/*  *************************** /ERRORS ***************************/
 .highlight-title {
     background: url("../img/highlight-title-bg.png") no-repeat center top;
     height: 134px;
@@ -975,3 +1076,116 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .highlight-title+.pad40 {
     padding-top: 24px;
 }
+
+/*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup {
+    background: url("../img/vacancybg.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+    position: relative;
+    overflow: visible;
+}
+.add-vacancy-popup label {
+    color: #146672;
+    display: table-cell;
+    margin: 0px;
+    vertical-align: middle;
+}
+.add-vacancy-popup .row {
+    padding-bottom: 12px;
+    padding-top: 0px;
+}
+.add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
+    position: absolute;
+    top: 0px;
+}
+.add-vacancy-popup .ui-dialog-titlebar-close {
+    top: -20px;
+}
+.add-vacancy-popup .ui-widget-content {
+    overflow: visible;
+}
+/*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+.cabmessage {
+    background: url("../img/bg-kniga2.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border: none;
+}
+#Invite_fullname, #Invite_message {
+    background: #fff;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 4px;
+    border:1px solid #fff;
+    color: #146672;
+    margin: 0px;
+}
+.block-form {
+    background: #e1f1f4;
+    border: 1px solid #374f52;
+    border-radius: 5px;
+    -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+}
+.block-form a {
+    color: #2d7b91;
+}
+.block-form p:last-child {
+    margin-bottom: 0px;
+}
+.cabmessage .ui-widget-content {
+    float:left;
+    padding-bottom: 0px;
+    padding-top: 12px;
+}
+
+/*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap {
+    background: url("../img/feedbackbg.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+}
+.feedback .email-field {
+    font: 16px "ProximaNova-Regular";
+    text-indent: 10px;
+}
+/*  *************************** /FEEDBACK ***************************/
+.table-simultns {
+    position: relative;
+}
+/*  *************************** PROFILE ***************************/
+.side-menu .active {
+    background: #fff url("../img/menutopbg.png") repeat-x top;
+    padding-bottom: 1px;
+}
+.side-item {
+    background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
+}
+.side-menu li:first-child {
+    background-image: none;
+}
+.side-menu li:first-child, .side-menu li:first-child a {
+    border-radius: 3px 3px 0px 0px;
+}
+.side-menu li:last-child, .side-menu li:last-child a {
+    border-radius: 0px 0px 3px 3px;
+}
+.side-item a {
+    background: url("../img/menuarrows.png") no-repeat 280px -65px;
+    font-size: 18px;
+    height:48px;
+    line-height: 48px;
+    padding: 0px 20px;
+    display: block;
+    text-decoration: none;
+}
+.side-item a:hover, .side-item .active a, .side-item .active a:hover {
+    background-position: 280px 17px;
+}
+.side-item .active a {
+    color: #245057;
+    font-family: ;
+}
+.mnotactive a {
+    color: #979d98;
+}
+/*  *************************** /PROFILE ***************************/

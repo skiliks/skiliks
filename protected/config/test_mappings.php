@@ -25,6 +25,7 @@ return [
         'to_whom' => "id=MailClient_RecipientsList",
         'add_recipient' => "//input[@type='text']",
         'del_recipient' => "css=li.tagItem",
+        'add_copy_rec' => "xpath=//*[@id='MailClient_CopiesList']/li/input",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])",
         'plan' => "link=запланировать",

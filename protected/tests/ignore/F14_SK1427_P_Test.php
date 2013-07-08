@@ -56,9 +56,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      * 5. Запускаем E12
      * 6. Ожидаем появления фразы "Ваша встреча переносится с 16.00 на 18.00."
      */
-    public function testSK1427_Case2() {
-
-        //$this->markTestIncomplete();
+    public function testSK1427_Case2()
+    {
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -93,9 +92,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      * 7. Проверяем, что через 10 минут звонок ET12.3 (для этого перематываем время на 10 минут вперед)
      * 8. Ожидаем, что появилась фраза "Валерий Семенович сказал, что презентация"
      */
-    public function testSK1427_Case3_1() {
-
-        //$this->markTestIncomplete();
+    public function testSK1427_Case3_1()
+    {
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -132,9 +130,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      * 7. Проверяем, что через 10 минут звонит ET12.3 (для этого перематываем время на 10 минут вперед) и запускается диалог E2
      * 8. Ожидаем, что появилась фраза "Валерий Семенович сказал, что презентация"
      */
-    public function testSK1427_Case3_2() {
-
-        //$this->markTestIncomplete();
+    public function testSK1427_Case3_2()
+    {
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");
@@ -171,9 +168,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      * 7. Проверяем, что через 10 минут звонит телефон (для этого перематываем время на 10 минут вперед) и запускается диалог E2
      * 8. Ожидаем, что появилась фраза "Валерий Семенович сказал, что презентация"
      */
-    public function testSK1427_Case3_3() {
-
-        //$this->markTestIncomplete();
+    public function testSK1427_Case3_3()
+    {
         $this->start_simulation();
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Load docs')])");

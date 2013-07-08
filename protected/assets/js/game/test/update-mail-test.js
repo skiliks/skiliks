@@ -165,6 +165,7 @@ define([
             });
 
             it("update mail", function () {
+                window.testMode = true;s
                 //init simulation
                 var simulation = SKApp.simulation;
                 simulation.start();

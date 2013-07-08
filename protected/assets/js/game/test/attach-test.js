@@ -250,6 +250,8 @@ define([
             });
 
             it("attachment for MY1", function () {
+                window.testMode = true;
+
                 var simulation = SKApp.simulation;
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
