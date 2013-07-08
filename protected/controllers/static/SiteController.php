@@ -95,6 +95,7 @@ class SiteController extends SiteBaseController
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,
+                'zoho_popup'     => Yii::app()->params['saveZohoPopupTime'],
             ]
         );
 
