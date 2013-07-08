@@ -14,8 +14,7 @@ define([], function() {
             }
 
             var minSupport = {
-                // mozilla: 18,
-                mozilla: 50,
+                mozilla: 18,
                 webkit: 536.5
             };
 
