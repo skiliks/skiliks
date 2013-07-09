@@ -66,11 +66,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event("MS45");
         sleep(15);
 
-
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
-        $this->optimal_click("css=.volume-control.control-mail.volume-off");
+        $this->optimal_click("css=.volume-control.control-mail.volume-on");
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
 
         // MS69
