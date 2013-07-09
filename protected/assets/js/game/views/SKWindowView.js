@@ -136,12 +136,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
 
                 this.resize();
-                this.onResize = function() {
-                    me.resize();
-                    me.constrain();
-                    me.resizeZoho();
-                };
-                $(window).on('resize', this.onResize);
+
+                $(window).on('resize', _.bind(this.onResize, me));
 
                 this.center();
             } catch(exception) {
@@ -377,17 +373,9 @@ define(["text!game/jst/window.jst"], function (window_template) {
             }
         },
 
-        resizeZoho: function() {
-            try {
-                var width = $(".sim-window.document-window").width();
-                var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
-                $(".excel-preload-window").width(width);
-                $(".excel-preload-window").height(height);
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
+        onResize : function() {
+            this.resize();
+            this.constrain();
         }
     });
     return SKWindowView;

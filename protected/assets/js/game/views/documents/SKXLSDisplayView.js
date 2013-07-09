@@ -131,6 +131,24 @@ define([
             }
 
             SKWindowView.prototype.remove.call(this);
+        },
+        resizeZoho: function() {
+            try {
+                var width = $(".sim-window.document-window").width();
+                var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
+                $(".excel-preload-window").width(width);
+                $(".excel-preload-window").height(height);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+        onResize : function() {
+
+            window.SKWindowView.prototype.onResize.call(this);
+            this.resizeZoho();
+
         }
     });
 

@@ -1892,11 +1892,15 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').hide();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     }
 
                     // some letter has predefine text, update it
@@ -2368,17 +2372,26 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                         this.$('#mailEmulatorNewLetterText').html(
                             this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                         );
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').show();
                         this.$('.mail-text-wrap').height(
-                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
                         );
+                        console.log("this");
+                        console.log("this.$('.mail-view.new').height() -" + this.$('.mail-view.new').height());
+                        console.log("this.$('.mail-view-header').outerHeight() -" + this.$('.mail-view-header').outerHeight());
+                        console.log("this.$('.mail-tags-bl').outerHeight() -" + this.$('.mail-tags-bl').outerHeight());
+                        console.log(this.$('.mail-text-wrap').height());
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -2514,6 +2527,12 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            messageBodyView:function(){
+                this.$('.mail-text-wrap').height(
+                    this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                );
             },
 
             /**
@@ -3000,6 +3019,12 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+            onResize : function() {
+                window.SKWindowView.prototype.onResize.apply(this);
+                this.$('.mail-text-wrap').height(
+                    this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                );
             }
         });
 
