@@ -8,7 +8,6 @@
  */
 class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
 {
-
     /**
      * testSK1273_Case3() по задаче SKILIKS-1273
      *
@@ -68,7 +67,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
 
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("срочно! Требования клиентов"));
+        $this->assertTrue($this->isTextPresent("срочно! Требования клиентов"));
 
         $this->optimal_click("xpath=(//*[contains(text(),'срочно! Требования клиентов')])");
 
@@ -83,7 +82,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Re: срочно! Требования клиентов"));
+        $this->assertTrue($this->isTextPresent("Re: срочно! Требования клиентов"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
 

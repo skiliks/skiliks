@@ -8,7 +8,6 @@
  */
 class CountOfEmails_SK1471_Test extends SeleniumTestHelper
 {
-
     /**
      * test_SK1471_Case() тестирует задачу SKILIKS-1471
      *
@@ -19,8 +18,8 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
      * 5. Устанавливаем время на 17:50
      * 6. Проверяем, что количество входящих писем на даный момент = 28
      */
-    public function test_CountOfEmails_SK1471() {
-
+    public function test_CountOfEmails_SK1471()
+    {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
@@ -30,13 +29,11 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->incoming_counter(6));
 
-
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "01");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(20);
         $this->assertTrue($this->incoming_counter(19));
-
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "50");

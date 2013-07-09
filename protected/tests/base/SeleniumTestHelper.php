@@ -76,11 +76,11 @@ class SeleniumTestHelper extends CWebTestCase
 
     /**
      * run_event - это метод для запуска события по его event_code.
+     * next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
+     * after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
+     * запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
+     * если еще что-то надо, то можно дописать в switch
      */
-    // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
-    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
-    // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
-    // если еще что-то надо, то можно дописать в switch
     public function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
@@ -200,31 +200,6 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * is_it_done - это метод для проверки выполнения или не выполнения действия (например, для проверки,
-     * что телефон не звонит на протяжении 1 реальной минуты).
-     * locator - локатор элемента, наличие которого мы проверяем.
-     * Возвращаем true, если произошло событие и
-     * возвращаем false, если не произошло.
-     */
-    public function is_it_done ($locator)
-    {
-        $was_done = false;
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
-            try{
-                if (!($this->isVisible($locator)))
-                {
-                    $was_done = true;
-                    break;
-                }
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
-        return $was_done;
-    }
-
-
-    /**
      * verify_flag - это метод для проверки, что значение флага num_flag поменялось
      * и соответсвует значению ver_value.
      * Возвращаем true, если поменялось значение флага и
@@ -254,45 +229,6 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         return $was_changed;
-    }
-
-    /**
-     * mail_comes - это метод для проверки, что необходимое письмо пришло.
-     * mail_theme - тема письма, которое мы ожидаем.
-     * Возвращаем true, если пришло письмо с необходимой темой и
-     * возвращаем false, если не пришло.
-     */
-    public function mail_comes ($mail_theme)
-    {
-        $is_here=false;
-        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
-        $b = "]/td[2]";
-        $count = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a;
-            $result .= (string)$count;
-            $result .= $b;
-            if ($this->isVisible($result))
-            {
-                $this->mouseOver($result);
-                if (($this->getText($result))==$mail_theme)
-                {
-                    $is_here = true;
-                    break;
-                }
-                else
-                {
-                    $count++;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $is_here;
     }
 
     /**
@@ -647,6 +583,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
+    // попытка сделать свой скиппер - пока не удалять
     public function markTestSkipp ()
     {
         $this->assertTrue(TRUE, 'This should already work.');

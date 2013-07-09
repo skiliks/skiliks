@@ -9,7 +9,6 @@
      */
 class RequiredCall_SK1470_Test extends SeleniumTestHelper
 {
-
     public function test_RequiredCall_SK1470_Case1()
     {
         $this->start_simulation();

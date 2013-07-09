@@ -14,7 +14,6 @@
  */
 class SecondCall_SK1367_Test extends SeleniumTestHelper
 {
-
     public function test_SecondCall_SK1367()
     {
         //$this->markTestIncomplete();

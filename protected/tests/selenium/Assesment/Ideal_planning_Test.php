@@ -8,7 +8,6 @@
  */
 class Ideal_planning_Test extends SeleniumTestHelper
 {
-//SK2420_4
     public function test_214b_214a()
     {
         $this->start_simulation();

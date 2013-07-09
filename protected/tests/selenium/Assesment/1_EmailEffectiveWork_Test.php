@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * 100% по Эффективное управлению звонками (Область обучения №6)
+ * 100% по Эффективная работа с почтой (Область обучения №5)
  */
 class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 {
@@ -269,7 +269,12 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(15);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya'],"Сводный бюджет: итоговые корректировки","Сводный бюджет_2014_план");
+
+        $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
+        $this->addTheme("xpath=(//*[contains(text(), 'Сводный бюджет: итоговые корректировки')])");
+        $this->addAttach("Сводный бюджет_2014_план");
+        $this->optimal_click("css=.SEND_EMAIL");
+
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['analitics'],"Приглашение: новая система премирования","");
 
         $this->optimal_click("xpath=(//*[contains(text(),'новый бюджет по производству')])");

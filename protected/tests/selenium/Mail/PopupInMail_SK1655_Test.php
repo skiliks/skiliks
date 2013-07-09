@@ -11,7 +11,6 @@
  */
 class PopupInMailSK1655_Test extends SeleniumTestHelper
 {
-
     public function test_PopupInMail_SK1655() {
         //$this->markTestIncomplete();
         $this->start_simulation();

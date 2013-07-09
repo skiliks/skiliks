@@ -8,7 +8,6 @@
  */
 class Meetings_Test extends SeleniumTestHelper
 {
-//SK2420_4
     public function test_meetings_management()
     {
         $this->start_simulation();
