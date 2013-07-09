@@ -36,10 +36,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю, двух часов тебе хватит. Перед отправкой перешли мне для проверки. ')])");
         sleep(2);
 
-        $this->optimal_click("link=F38_3");
-        $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
-        sleep(2);
-
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет. Сейчас же приступаю к доработке')])");
@@ -98,8 +94,8 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         // читаем и пересылаем M47
         $this->write_forward_email("данные по рынку, срочно", Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
 
-        // читаем и отправляем ответ на M47
-        $this->write_reply_email("данные по рынку, срочно");
+        // отправляем MS79
+        //$this->write_reply_email("данные по рынку, срочно");
 
         // читаем письмо M7
         $this->write_reply_email("пришлите срочно пожелания!");
@@ -110,6 +106,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->clearEventQueueBeforeEleven('RST4');
         $this->clearEventQueueBeforeEleven('RST5');
+
+        $this->optimal_click("link=F38_3");
+        $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
+        sleep(2);
 
         $this->run_event('RST6', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
@@ -159,6 +159,8 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M74');
         sleep(3);
         $this->run_event('M66');
+        sleep(3);
+        $this->run_event("MS45");
         sleep(15);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -171,8 +173,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->write_reply_email("короткая просьба");
         $this->write_reply_email("Презентация для ГД_рабочая версия");
 
-        $this->addTaskToPlan("Презентация для ГД_рабочая версия","41");
+        //$this->addTaskToPlan("Презентация для ГД_рабочая версия","41");
         $this->write_reply_email("отчет срочно!");
+        sleep(1);
         $this->write_forward_email("отчет срочно!",Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
         $this->write_replyAll_email("срочно! Требования клиентов","xpath=(//*[contains(text(), 'Железный')])");
         $this->write_reply_email("запрос Крутько");
@@ -271,6 +274,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->write_reply_email("адрес клиента");
+        sleep(2);
         $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
