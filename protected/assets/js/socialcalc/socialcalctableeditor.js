@@ -2867,7 +2867,7 @@ SocialCalc.CalculateEditorPositions = function(editor) {
 
    var rowpane, colpane, i;
 
-   editor.gridposition = SocialCalc.GetElementPosition(editor.griddiv);
+   editor.gridposition = SocialCalc.GetElementPosition(editor.griddiv, true);
    editor.headposition =
       SocialCalc.GetElementPosition(editor.griddiv.firstChild.lastChild.childNodes[2].childNodes[1]); // 3rd tr 2nd td
 
@@ -3583,9 +3583,9 @@ SocialCalc.ShowInputEcho = function(inputecho, show) {
       editor.cellhandles.ShowCellHandles(false);
       cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
       if (cell) {
-         position = SocialCalc.GetElementPosition(cell.element);
-         inputecho.container.style.left = (position.left-1)+"px";
-         inputecho.container.style.top = (position.top-1)+"px";
+         position = SocialCalc.GetElementPosition(cell.element, true);
+         inputecho.container.style.left = position.left+"px";
+         inputecho.container.style.top = position.top+"px";
          }
       inputecho.container.style.display = "block";
       if (inputecho.interval) window.clearInterval(inputecho.interval); // just in case
@@ -4862,7 +4862,7 @@ SocialCalc.ComputeTableControlPositions = function(control) {
    if (!editor.gridposition || !editor.headposition) throw("Can't compute table control positions before editor positions");
 
    if (control.vertical) {
-      control.controlborder = editor.gridposition.left+editor.tablewidth; // border=left position
+      control.controlborder = editor.tablewidth; // border=left position
       control.endcapstart = editor.gridposition.top; // start=top position
       control.panesliderstart = editor.firstscrollingrowtop-control.sliderthickness;
       control.lessbuttonstart = editor.firstscrollingrowtop-1;
@@ -4872,7 +4872,7 @@ SocialCalc.ComputeTableControlPositions = function(control) {
       control.scrollareasize = control.scrollareaend-control.scrollareastart+1;
       }
    else {
-      control.controlborder = editor.gridposition.top+editor.tableheight; // border=top position
+      control.controlborder = editor.gridposition.top+ + editor.tableheight; // border=top position
       control.endcapstart = editor.gridposition.left; // start=left position
       control.panesliderstart = editor.firstscrollingcolleft-control.sliderthickness;
       control.lessbuttonstart = editor.firstscrollingcolleft-1;
@@ -5326,11 +5326,13 @@ SocialCalc.DragMouseDown = function(event) {
    draginfo.draggingElement = dobj;
 
    var viewportinfo = SocialCalc.GetViewportInfo();
+   var offset = SocialCalc.GetElementPosition(document.getElementById('tableeditor'));
+
    draginfo.horizontalScroll = viewportinfo.horizontalScroll;
    draginfo.verticalScroll = viewportinfo.verticalScroll;
 
-   draginfo.clientX = e.clientX + draginfo.horizontalScroll; // get document-relative coordinates
-   draginfo.clientY = e.clientY + draginfo.verticalScroll;
+   draginfo.clientX = e.clientX + draginfo.horizontalScroll - offset.left; // get document-relative coordinates
+   draginfo.clientY = e.clientY + draginfo.verticalScroll - offset.top;
    draginfo.startX = draginfo.clientX;
    draginfo.startY = draginfo.clientY;
    draginfo.startZ = dobj.element.style.zIndex;
@@ -5370,8 +5372,10 @@ SocialCalc.DragMouseMove = function(event) {
    var e = event || window.event;
 
    var draginfo = SocialCalc.DragInfo;
-   draginfo.clientX = e.clientX + draginfo.horizontalScroll;
-   draginfo.clientY = e.clientY + draginfo.verticalScroll;
+   var offset = SocialCalc.GetElementPosition(document.getElementById('tableeditor'));
+
+   draginfo.clientX = e.clientX + draginfo.horizontalScroll - offset.left;
+   draginfo.clientY = e.clientY + draginfo.verticalScroll - offset.top;
 
    var dobj = draginfo.draggingElement;
 
