@@ -29,13 +29,17 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'public' => [
-        'useSentryForJsLog' => true,
+        'isLocalPc'          => true,
+        'useSentryForJsLog'  => true,
+        'isUseZohoProxy'     => false,
+        'isSkipBrowserCheck' => true,
     ],
     'params'=>array(
         'frontendUrl'=>'http://stage.skiliks.com/',
         'zoho' => array(
-            'apiKey'              => '32498387c50f6db99096ec9e70e4ea2a',
-            'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
+            'apiKey'      => '32498387c50f6db99096ec9e70e4ea2a',
+            'saveUrl'     => 'http://stage.skiliks.com/zoho/saveExcel',
+            'sendFileUrl' => 'http://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
     )
 ));
