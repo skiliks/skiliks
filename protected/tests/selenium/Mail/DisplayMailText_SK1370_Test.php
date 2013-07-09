@@ -15,16 +15,6 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
 {
     public function test_DisplayMailText_SK1370()
     {
-        $mail_code = array('MY1','MY1','MY2', 'MY1', 'MS21','MY1','MY1','MS21','MS21','MSY10', 'MS21');
-        $window = array('mail main','mail main','mail main','mail main','mail new',
-            'mail main','mail main','mail main','mail main','mail main','mail main');
-        $log = array($window, $mail_code);
-
-        $mail_code1 = array('MY2','MY1','MS21','MY1','MY1','MS21','MS21','MS21','MSY10', 'MS21');
-        $window1 = array('mail main','mail main','mail new',
-            'mail main','mail main','mail main','mail main','mail main','mail main');
-        $log1 = array($window1, $mail_code1);
-
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click('link=F32');
@@ -71,9 +61,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForVisible("id=mail-log");
-        $this->close();
+        $this->simulation_stop();
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)
