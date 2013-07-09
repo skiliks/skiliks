@@ -103,7 +103,7 @@ define([], function () {
                     var sheet_data = sheet.get('content').substring(parts.sheet.start, parts.sheet.end);
                     me.spreadsheet.ParseSheetSave(sheet_data);
                 }
-                spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height() - 50, me.$el.width(), 0);
+                spreadsheet.InitializeSpreadsheetControl(root.attr('id'), me.$el.height(), me.$el.width(), 0);
                 if (parts && parts.edit) {
                     me.spreadsheet.editor.LoadEditorSettings(sheet.get('content').substring(parts.edit.start, parts.edit.end));
                 }
