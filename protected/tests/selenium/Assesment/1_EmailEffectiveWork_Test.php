@@ -73,6 +73,8 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->addAttach("Квартальный план_4 кв_2013");
         $this->optimal_click("css=.SEND_EMAIL");
 
+        $this->optimal_click("xpath=(//*[contains(text(),'бюджет логистики')])");
+
         // MS42
         $this->write_forward_email("форма по задаче от логистики, срочно!", Yii::app()->params['test_mappings']['mail_contacts']['trutnev'] );
 
@@ -168,6 +170,8 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->addTaskToPlan("график отпусков срочно!","26");
         $this->addTaskToPlan("твои аналитики","19");
         $this->addTaskToPlan("по вашей заявке","113");
+
+        $this->optimal_click("xpath=(//*[contains(text(),'выгрузка для логистов')])");
 
         $this->write_reply_email("привет");
         $this->write_reply_email("короткая просьба");
