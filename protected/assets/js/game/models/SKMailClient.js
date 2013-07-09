@@ -943,11 +943,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             setTaskId:function (planId) {
                 try {
-                    var window = SKApp.simulation.window_set.where({name:'mailEmulator', id:'mailPlan'})[0];
-                    if( window !== undefined ) {
-                        var params = window.get('params');
+                    var mailWIndow = SKApp.simulation.window_set.where({name:'mailEmulator', id:'mailPlan'})[0];
+                    if( mailWIndow !== undefined ) {
+                        var params = mailWIndow.get('params');
                         params.planId = planId;
-                        window.set('params', params);
+                        mailWIndow.set('params', params);
                     } else {
                         throw new Error("mailPlan not found");
                     }
