@@ -4903,7 +4903,7 @@ SocialCalc.GetElementPosition = function (element, local) {
 
    var offsetLeft = 0;
    var offsetTop = 0;
-   while (element && (!local || (element.id != "tableeditor"))) {
+   while (element && !(local && element.id === "tableeditor")) {
       offsetLeft+=element.offsetLeft;
       offsetTop+=element.offsetTop;
       element=element.offsetParent;

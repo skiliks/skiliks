@@ -296,8 +296,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    var inputbox = new SocialCalc.InputBox(document.getElementById(spreadsheet.idPrefix+'formula_field'), spreadsheet.editor);
 
    // create sheet view and others
-   spreadsheet.nonviewheight = spreadsheet.spreadsheetDiv.firstChild.offsetHeight +
-      spreadsheet.spreadsheetDiv.lastChild.offsetHeight;
+   spreadsheet.nonviewheight = spreadsheet.spreadsheetDiv.firstChild.offsetHeight;
    spreadsheet.viewheight = spreadsheet.height-spreadsheet.nonviewheight;
    spreadsheet.editorDiv=spreadsheet.editor.CreateTableEditor(spreadsheet.width, spreadsheet.viewheight);
 
