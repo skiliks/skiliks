@@ -139,7 +139,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $this->accountPagesBase();
     }
 
-
     /**
      *
      */
@@ -598,10 +597,94 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $positions[$position->id] = $position->label;
         }
 
-        $this->render('personal_data_corporate', [
+        $this->layout = 'site_standard';
+
+        $this->render('//new/personal_data_corporate', [
             'profile'   => $profile,
             'account'   => $account,
             'positions' => $positions
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionCorporatePasswordNew()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
+        $passwordForm = new YumUserChangePassword;
+        $passwordForm->scenario = 'user_request';
+        $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
+        $is_done = false;
+        if (null !== $YumUserChangePassword) {
+            $passwordForm->attributes = $YumUserChangePassword;
+            $passwordForm->validate();
+
+            if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Wrong current password'));
+            }
+
+            if (!$passwordForm->hasErrors()) {
+                $this->user->setPassword($passwordForm->password, $this->user->salt);
+                $is_done = true;
+                //$this->redirect();
+            }
+        }
+        $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/password_corporate', [
+            'passwordForm' => $passwordForm,
+            'is_done' => $is_done,
+            'profile'=>$profile
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionCorporateVacanciesNew()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+        $vacancy = new Vacancy();
+
+        if (null !== Yii::app()->request->getParam('id')) {
+            $vacancy = Vacancy::model()->findByPk(Yii::app()->request->getParam('id'));
+            if (null === $vacancy) {
+                $vacancy = new Vacancy();
+            }
+        }
+        $specializations = StaticSiteTools::formatValuesArrayLite(
+            'ProfessionalSpecialization',
+            'id',
+            'label',
+            "",
+            'Выберите уровень специализации'
+        );
+        $positionLevels = StaticSiteTools::formatValuesArrayLite(
+            'PositionLevel',
+            'slug',
+            'label',
+            '',
+            'Выберите уровень позиции'
+        );
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/vacancies_corporate', [
+            'vacancy'         => $vacancy,
+            'specializations' => $specializations,
+            'positionLevels'  => $positionLevels,
         ]);
     }
 }

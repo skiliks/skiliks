@@ -345,7 +345,10 @@ define([
                                         docs[0].set('isInitialized', true);
                                     });
                                     console.log('Documents loaded.');
-                                    SKApp.simulation.closeLoadDocsDialog();
+                                    SKApp.simulation.stopPause(function(){
+                                        $('.time').removeClass('paused');
+                                        SKApp.simulation.closeLoadDocsDialog();
+                                    });
                                 }, 30000);
                             };
                         }
