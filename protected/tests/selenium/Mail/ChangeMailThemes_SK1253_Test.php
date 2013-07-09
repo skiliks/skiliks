@@ -68,8 +68,3 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->assertTextPresent("Прочее");
     }
 }
-
-
-/**
- * @}
- */
