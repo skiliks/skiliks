@@ -1218,6 +1218,12 @@ define([
                     // declarate action_icon just avoid long strings
                     var action_icon = mail_client_action_template;
 
+                    if (addButtonAddToPlan) {
+                        iconsListHtml += _.template(action_icon, {
+                            iconCssClass: this.mailClient.aliasButtonAddToPlan,
+                            label: 'запланировать'
+                        });
+                    }
                     if (addButtonNewEmail) {
                         iconsListHtml += _.template(action_icon, {
                             iconCssClass: this.mailClient.aliasButtonNewEmail,
@@ -1240,12 +1246,6 @@ define([
                         iconsListHtml += _.template(action_icon, {
                             iconCssClass: this.mailClient.aliasButtonForward,
                             label: 'переслать'
-                        });
-                    }
-                    if (addButtonAddToPlan) {
-                        iconsListHtml += _.template(action_icon, {
-                            iconCssClass: this.mailClient.aliasButtonAddToPlan,
-                            label: 'запланировать'
                         });
                     }
                     if (addButtonSaveDraft) {

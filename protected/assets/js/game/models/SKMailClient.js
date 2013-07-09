@@ -80,19 +80,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // unfortunatey this checnge context inside new Array, so I need to use literals
             iconsForInboxScreenArray:[
+                'ADD_TO_PLAN',
                 'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
-                'ADD_TO_PLAN',
                 'MOVE_TO_TRASH'
             ],
             iconsForTrashScreenArray:[
+                'ADD_TO_PLAN',
                 'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
-                'ADD_TO_PLAN',
                 'RESTORE'
             ],
 
