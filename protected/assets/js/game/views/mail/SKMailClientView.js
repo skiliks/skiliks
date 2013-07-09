@@ -2894,7 +2894,7 @@ define([
                             .animate({
                                 'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
                                 'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
-                            }, 5000, function (){
+                            }, 3400, function (){
 
                                 me.doSendEmail();
 
@@ -2902,7 +2902,7 @@ define([
                                     me.options.model_instance.close();
                                     me.isFantasticSend = false;
                                     me.mailClient.trigger('mail:fantastic-send:complete');
-                                }, 3000);
+                                }, 1000);
                             });
                     },0);
                 } catch(exception) {
