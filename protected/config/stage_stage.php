@@ -28,12 +28,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
     ),
-    'public' => [
-        'isLocalPc'          => true,
-        'useSentryForJsLog'  => true,
-        'isUseZohoProxy'     => false,
-        'isSkipBrowserCheck' => true,
-    ],
     'params'=>array(
         'frontendUrl'=>'http://stage.skiliks.com/',
         'zoho' => array(
@@ -41,6 +35,12 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'saveUrl'     => 'http://stage.skiliks.com/zoho/saveExcel',
             'sendFileUrl' => 'http://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
+        'public' => [
+            'isLocalPc'          => true,
+            'useSentryForJsLog'  => true,
+            'isUseZohoProxy'     => false,
+            'isSkipBrowserCheck' => true,
+        ],
     )
 ));
 
