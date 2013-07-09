@@ -57,7 +57,6 @@ define([], function () {
             var sheet = this.options.sheet;
 
             loadQueue.queue('fx', function () {
-                console.log('sheet init');
                 var editorID = _.uniqueId('tableeditor-');
                 me.spreadsheet = new SocialCalc.SpreadsheetControl(editorID + '-');
                 var spreadsheet = me.spreadsheet;
@@ -114,8 +113,6 @@ define([], function () {
                 me.spreadsheet.ExecuteCommand('redisplay', '');
 
             });
-
-
         }
     }, {});
     return SKSheetView;

@@ -3,12 +3,12 @@
 define([], function () {
     "use strict";
     var SKSheet = Backbone.Model.extend({
-        url: function () { return '/myDocuments/saveSheet/' + this.collection.document.id ; },
         initialize: function () {
             this.on('change:content', function () {
 
             });
         },
+        
         activate: function () {
             var me = this;
             this.collection.each(function (sheet) {
@@ -20,6 +20,14 @@ define([], function () {
                     sheet.trigger('deactivate');
                 }
             });
+        },
+
+        sync: function (method, collection, options) {
+            if ('create' === method) {
+                SKApp.server.api('/myDocuments/saveSheet/' + this.collection.document.id, {}, function (data) {
+                    options.success(data.data);
+                });
+            }
         }
     });
     return SKSheet;
