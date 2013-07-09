@@ -65,7 +65,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case3()
     {
-        //$this->markTestIncomplete();
+        $this->start_simulation();
         sleep(10);
         $this->assertTrue($this->verify_flag('F19','0'));
         $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
@@ -94,6 +94,5 @@ class F19_SK1416_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
         $this->simulation_stop();
-        $this->close();
     }
 }

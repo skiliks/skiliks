@@ -46,8 +46,8 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
-
-        $this->optimal_click("css=li.icon-active.mail a");
+        sleep(10);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
