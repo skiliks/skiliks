@@ -11,7 +11,6 @@
  */
 class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
 {
-
     public function test_ChangeMailThemes_SK1253()
     {
         //$this->markTestIncomplete();

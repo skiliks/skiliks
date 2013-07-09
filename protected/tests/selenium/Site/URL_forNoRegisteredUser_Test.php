@@ -1,19 +1,15 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: tania
- * Date: 4/23/13
- * Time: 12:32 PM
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тесты для тестирования страниц сайта, которые доступны незарегистрированным пользователям
  */
 class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
 {
-    /**
-     * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
-     */
-    public function test_for_no_registered_user() {
-        //$this->markTestIncomplete();
-
+    public function test_for_no_registered_user()
+    {
         $buttons_text = array('Главная','О нас','О продукте','Главная', 'О нас', 'О продукте', 'Вход');
         $text_inside= array('Самый','Познакомьтесь – наша команда','Мы создали онлайн бизнес симуляцию', 'Самый','Познакомьтесь – наша команда','Мы создали онлайн бизнес симуляцию','Запомнить меня');
         $buttons_xpath = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[2]/a");

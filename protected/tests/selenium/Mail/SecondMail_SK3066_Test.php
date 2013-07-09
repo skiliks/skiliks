@@ -8,7 +8,6 @@
  */
 class SecondMail_SK3066_Test extends SeleniumTestHelper
 {
-
     public function test_SecondMail_SK3066()
     {
         //$this->markTestIncomplete();

@@ -42,7 +42,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         sleep(20);
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("Презентация для ГД_итог"));
+        $this->assertTrue($this->isTextPresent("Презентация для ГД_итог"));
         $this->simulation_stop();
     }
 

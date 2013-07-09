@@ -8,7 +8,6 @@
  */
 class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 {
-
     /**
      * testSK1273_Case1() по задаче SKILIKS-1273
      *
@@ -26,11 +25,11 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         sleep(3);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Срочно жду бюджет логистики"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Re: Срочно жду бюджет логистики"));
 
         $this->optimal_click("xpath=(//*[contains(text(),'Re: Срочно жду бюджет логистики')])");
 
@@ -44,14 +43,14 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Re: Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         sleep(10);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Re: Re: Re: Срочно жду бюджет логистики"));
 
         $this->optimal_click("xpath=(//*[contains(text(),'Re: Re: Re: Срочно жду бюджет логистики')])");
 
@@ -65,7 +64,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Re: Re: Re: Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Re: Re: Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
         $this->assertFalse($this->isElementPresent("css=li.icon-active.mail a"));
@@ -73,7 +72,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Re: Re: Re: Срочно жду бюджет логистики"));
 
         $this->optimal_click("xpath=(//*[contains(text(),'Re: Re: Re: Срочно жду бюджет логистики')])");
 
@@ -90,7 +89,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
+        $this->assertTrue($this->isTextPresent("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
         $this->simulation_stop();
     }
 
@@ -108,7 +107,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->run_event('M65', "css=li.icon-active.mail a", 'click');
 
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->assertTrue($this->mail_comes("вакцинация!"));
+        $this->assertTrue($this->isTextPresent("вакцинация!"));
 
         $this->optimal_click("xpath=(//*[contains(text(),'вакцинация!')])");
 
@@ -129,7 +128,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
-        $this->assertTrue($this->mail_comes("Fwd: вакцинация!"));
+        $this->assertTrue($this->isTextPresent("Fwd: вакцинация!"));
         $this->simulation_stop();
     }
 }

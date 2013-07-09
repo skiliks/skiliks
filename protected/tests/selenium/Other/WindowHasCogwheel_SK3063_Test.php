@@ -8,7 +8,6 @@
  */
 class WindowHasCogwheel_SK3063_Test extends SeleniumTestHelper
 {
-
     public function test_WindowHasCogwheel_SK3063 ()
     {
         //$this->markTestIncomplete();
