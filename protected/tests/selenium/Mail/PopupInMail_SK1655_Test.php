@@ -11,7 +11,6 @@
  */
 class PopupInMailSK1655_Test extends SeleniumTestHelper
 {
-
     public function test_PopupInMail_SK1655() {
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -39,7 +38,7 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_cancel']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
-        $this->close();
+        $this->simulation_stop();
     }
 
     protected function checkPopup ($str)

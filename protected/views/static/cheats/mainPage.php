@@ -114,6 +114,8 @@
         <br/>
 
     <a href="/profile-corporate-user-info-new" style="background-color: #1D7885">user info Corporate new</a>
+    <a href="/profile-corporate-password-new" style="background-color: #1D7885">Corporate password new</a>
+    <a href="/profile-corporate-vacancies-new" style="background-color: #1D7885">Corporate vacavcies new</a>
 
         <br/>
         <br/>

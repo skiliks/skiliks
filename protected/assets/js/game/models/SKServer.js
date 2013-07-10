@@ -134,11 +134,9 @@ define([
                                     throw new Error("Симуляция ");
                                 } else {
                                     me.dialog_window = new SKDialogView({
-                                        'message': "Похоже, что у вас пропало соединение с интернетом. " +
-                                            "Симуляция поставлена на паузу. " +
-                                            "Проверьте соединение с интернетом. " +
-                                            "Как только соединение возобновится, " +
-                                            "мы предложим вам продолжить игру",
+                                        'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
+                                        "Пожалуйста, проверьте Интернет соединение.<br>"+
+                                        "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
                                         'modal': true,
                                         'buttons': []
                                     });
@@ -212,18 +210,7 @@ define([
                 var ajaxParams = this.getAjaxParams(path, params, callback);
                 return $.ajaxq(queue, ajaxParams);
             },
-            getQueryStringParams: function(sPageURL, sParam) {
-                var sURLVariables = sPageURL.split('&');
-                for (var i = 0; i < sURLVariables.length; i++)
-                {
-                    var sParameterName = sURLVariables[i].split('=');
-                    if (sParameterName[0] == sParam)
-                    {
-                        return sParameterName[1];
-                    }
-                }
-                return undefined;
-            },
+
             tryConnect: function() {
                 this.try_connect = true;
                 var me = this;

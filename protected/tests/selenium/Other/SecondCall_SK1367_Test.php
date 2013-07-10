@@ -14,7 +14,6 @@
  */
 class SecondCall_SK1367_Test extends SeleniumTestHelper
 {
-
     public function test_SecondCall_SK1367()
     {
         //$this->markTestIncomplete();
@@ -70,6 +69,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         sleep(2);
         $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Прочее')])"));
 
-        $this->close();
+        $this->simulation_stop();
     }
 }

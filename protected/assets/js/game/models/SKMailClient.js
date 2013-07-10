@@ -80,19 +80,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // unfortunatey this checnge context inside new Array, so I need to use literals
             iconsForInboxScreenArray:[
+                'ADD_TO_PLAN',
                 'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
-                'ADD_TO_PLAN',
                 'MOVE_TO_TRASH'
             ],
             iconsForTrashScreenArray:[
+                'ADD_TO_PLAN',
                 'NEW_EMAIL',
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
-                'ADD_TO_PLAN',
                 'RESTORE'
             ],
 
@@ -943,11 +943,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             setTaskId:function (planId) {
                 try {
-                    var window = SKApp.simulation.window_set.where({name:'mailEmulator', id:'mailPlan'})[0];
-                    if( window !== undefined ) {
-                        var params = window.get('params');
+                    var mailWIndow = SKApp.simulation.window_set.where({name:'mailEmulator', id:'mailPlan'})[0];
+                    if( mailWIndow !== undefined ) {
+                        var params = mailWIndow.get('params');
                         params.planId = planId;
-                        window.set('params', params);
+                        mailWIndow.set('params', params);
                     } else {
                         throw new Error("mailPlan not found");
                     }

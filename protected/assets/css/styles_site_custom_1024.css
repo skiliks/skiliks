@@ -345,8 +345,10 @@
 .add-vacancy-popup {
     background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
     height: 286px !important;
-    margin-left: -212px !important;
+    /*margin-left: -212px !important;
+    margin-top: -10px;*/
     padding-bottom: 0px;
+    top: -630px !important;
     width: 424px !important;
 }
 .add-vacancy-popup .ui-dialog-content h1 {
@@ -382,7 +384,8 @@
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
 .controller-static-dashboard .cabmessage {
-    height: 445px !important;
+    height: 455px !important;
+    top: 202px !important;
     width: 495px !important;
 }
 #Invite_message {
@@ -401,6 +404,8 @@
     width: 405px;
 }
 .block-form {
+    height: 302px;
+    overflow: hidden;
     padding: 15px 10px;
     width: 425px;
 }
@@ -440,11 +445,54 @@
 .side-menu .active a {
     color: #245057;
 }
-.profileform .row {
+.profile-min-height {
+    min-height: 340px;
+}
+.profile-tarif-form .row {
     height: 40px;
 }
+.profileform .row {
+    padding-top: 15px;
+}
 .profilelabel-wrap label {
+    font-size: 14px;
     padding-right: 10px;
-    width: 164px;
+    width: 154px;
+}
+.profile-tarif-form label {
+    padding-top: 5px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 4px;
+}
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 90px;
+}
+#UserAccountCorporate_company_name {
+    margin-left: 10px;
+    width: 170px;
+}
+#account-corporate-company-info-form .sbHolder {
+    width: 240px;
+}
+#UserAccountCorporate_company_description {
+    height: 80px;
+    width: 278px;
+}
+.row-inputs label {
+    line-height: 25px;
+}
+.row-selects label {
+    line-height: 17px;
+}
+.profileform .row-textarea label {
+    line-height:88px;
 }
 /*  *************************** /PROFILE ***************************/

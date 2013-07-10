@@ -8,7 +8,6 @@
  */
 class ManagementPeople_Test extends SeleniumTestHelper
 {
-
     public function testManagementPeople_Positive()
     {
         //$this->markTestIncomplete();

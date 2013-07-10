@@ -96,6 +96,9 @@ define(
                 if (index + 1 === this.pages.length) {
                     this.closeBtn.show();
                 }
+                if (index > 0) {
+                    this.$el.find('.warn').hide();
+                }
             },
 
             resize: function() {

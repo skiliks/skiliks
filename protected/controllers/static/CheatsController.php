@@ -232,7 +232,7 @@ class CheatsController extends SiteBaseController
         }
 
         $user = YumUser::model()->findByAttributes([
-            'username' => 'asd'
+            'username' => 'selenium'
         ]);
 
         if (null === $user) {

@@ -307,11 +307,17 @@ define([
              */
             doAddToPlan: function () {
                 try {
-                    if (undefined === this.mailClient.activeEmail) {
+                    var me = this;
+
+                    if (undefined === me.mailClient.activeEmail || me.addToPlanDialog) {
                         return;
                     }
-                    var dialog = new SKMailAddToPlanDialog();
-                    dialog.render();
+
+                    me.addToPlanDialog = new SKMailAddToPlanDialog();
+                    me.addToPlanDialog.render();
+                    me.addToPlanDialog.once('close', function() {
+                        delete me.addToPlanDialog;
+                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1212,6 +1218,12 @@ define([
                     // declarate action_icon just avoid long strings
                     var action_icon = mail_client_action_template;
 
+                    if (addButtonAddToPlan) {
+                        iconsListHtml += _.template(action_icon, {
+                            iconCssClass: this.mailClient.aliasButtonAddToPlan,
+                            label: 'запланировать'
+                        });
+                    }
                     if (addButtonNewEmail) {
                         iconsListHtml += _.template(action_icon, {
                             iconCssClass: this.mailClient.aliasButtonNewEmail,
@@ -1234,12 +1246,6 @@ define([
                         iconsListHtml += _.template(action_icon, {
                             iconCssClass: this.mailClient.aliasButtonForward,
                             label: 'переслать'
-                        });
-                    }
-                    if (addButtonAddToPlan) {
-                        iconsListHtml += _.template(action_icon, {
-                            iconCssClass: this.mailClient.aliasButtonAddToPlan,
-                            label: 'запланировать'
                         });
                     }
                     if (addButtonSaveDraft) {
@@ -1886,11 +1892,15 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').hide();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     }
 
                     // some letter has predefine text, update it
@@ -2362,17 +2372,26 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                         this.$('#mailEmulatorNewLetterText').html(
                             this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                         );
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
+                        console.log("this");
+                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').show();
                         this.$('.mail-text-wrap').height(
-                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
                         );
+                        console.log("this");
+                        console.log("this.$('.mail-view.new').height() -" + this.$('.mail-view.new').height());
+                        console.log("this.$('.mail-view-header').outerHeight() -" + this.$('.mail-view-header').outerHeight());
+                        console.log("this.$('.mail-tags-bl').outerHeight() -" + this.$('.mail-tags-bl').outerHeight());
+                        console.log(this.$('.mail-text-wrap').height());
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -2508,6 +2527,12 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            messageBodyView:function(){
+                this.$('.mail-text-wrap').height(
+                    this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                );
             },
 
             /**
@@ -2994,6 +3019,12 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+            onResize : function() {
+                window.SKWindowView.prototype.onResize.apply(this);
+                this.$('.mail-text-wrap').height(
+                    this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                );
             }
         });
 
