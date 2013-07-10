@@ -464,6 +464,9 @@
     display: block;
     padding-top: 4px;
 }
+.profileform .buttons {
+    padding-top: 24px;
+}
 .profileform input[type=text], .profileform input[type=password] {
     color: #1d7885;
     height: 22px;
