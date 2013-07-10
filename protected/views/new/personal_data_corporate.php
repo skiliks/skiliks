@@ -14,12 +14,12 @@
     }
 </style>
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
-<div class="transparent-boder profilewrap">
+<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
+<div class="container-3 block-border border-primary bg-transparnt">
 
-<?php $this->renderPartial('//new/_menu_corporate', ['active' => ['personal-data' => true]]) ?>
+    <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['personal-data' => true]]) ?></div>
 
-    <div class="form profileform radiusthree">
+    <div class="border-primary bg-light-blue standard-right-box">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-personal-form'
