@@ -5397,8 +5397,10 @@ SocialCalc.DragMouseUp = function(event) {
    var e = event || window.event;
 
    var draginfo = SocialCalc.DragInfo;
-   draginfo.clientX = e.clientX + draginfo.horizontalScroll;
-   draginfo.clientY = e.clientY + draginfo.verticalScroll;
+   var offset = SocialCalc.GetElementPosition(document.getElementById('tableeditor'));
+
+   draginfo.clientX = e.clientX + draginfo.horizontalScroll - offset.left;
+   draginfo.clientY = e.clientY + draginfo.verticalScroll - offset.top;
 
    var dobj = draginfo.draggingElement;
 
