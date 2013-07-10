@@ -46,6 +46,10 @@
     ?>
 </div>
 
+<!-- accept-form { -->
+<?php $this->renderPartial('accept_warning', []) ?>
+<!-- accept-form } -->
+
 <!-- decline-form { -->
 <div id="invite-decline-form"></div>
 <!-- decline-form } -->

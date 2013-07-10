@@ -299,7 +299,7 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'blue-btn\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
+                '<a class=\'blue-btn accept-invite\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
                 $this->id,
                 Yii::t('site', 'Принять')
             );
