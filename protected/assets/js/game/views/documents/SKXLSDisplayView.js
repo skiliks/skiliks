@@ -76,6 +76,11 @@ define([
         doSelectTab: function doSelectTab (event) {
             var doc = this.options.model_instance.get('document');
             doc.get('sheets').where({'name': $(event.target).attr('data-sheet-name')})[0].activate();
+        },
+
+        onResize: function() {
+            this.renderContent(this.$('.sim-window-content'));
+            window.SKWindowView.prototype.onResize.apply(this);
         }
 
     });
