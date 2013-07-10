@@ -33,7 +33,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'zoho' => array(
             'apiKey'      => '32498387c50f6db99096ec9e70e4ea2a',
             'saveUrl'     => 'http://stage.skiliks.com/zoho/saveExcel',
-            'sendFileUrl' => 'http://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl' => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
         'public' => [
             'isLocalPc'          => true,

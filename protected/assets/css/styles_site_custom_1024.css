@@ -246,13 +246,13 @@
 }
 .row {
     position: relative;
-    padding-top: 10px;
+    padding-top: 14px; /* 10 */
 }
 .row.wide {
-    padding-top: 10px;
+    padding-top: 14px;/* 10 */
 }
 .row.buttons, .row.wide+.row.wide {
-    padding-top: 12px;
+    padding-top: 14px;/* 12 */
 }
 .sbHolder {
     font-size:11px;
@@ -312,13 +312,11 @@
 .errorMessage {
     font-size: 9px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_lastname, .errorMessage.Invite_email {
-    top: -2px;
-}
-.errorMessage.Invite_firstname, .errorMessage.Invite_email {
+.form-simple .errorMessage {
     left:55px;
+    top:0px;
 }
-.errorMessage.Invite_lastname {
+.form-simple .errorMessage.Invite_lastname {
     left: 126px;
     white-space: nowrap;
 }
@@ -457,7 +455,7 @@
 .profilelabel-wrap label {
     font-size: 14px;
     padding-right: 10px;
-    width: 154px;
+    width: 175px;
 }
 .profile-tarif-form label {
     padding-top: 5px;
@@ -466,25 +464,31 @@
     display: block;
     padding-top: 4px;
 }
+.profileform .buttons {
+    padding-top: 24px;
+}
 .profileform input[type=text], .profileform input[type=password] {
     color: #1d7885;
     height: 22px;
     line-height: 22px;
     padding: 2px 4px;
 }
+.profileform input[type=password] {
+    width:160px;
+}
 #UserAccountCorporate_ownership_type {
     width: 90px;
 }
 #UserAccountCorporate_company_name {
     margin-left: 10px;
-    width: 170px;
+    width: 155px;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 240px;
+    width: 230px;
 }
 #UserAccountCorporate_company_description {
     height: 80px;
-    width: 278px;
+    width: 263px;
 }
 .row-inputs label {
     line-height: 25px;
@@ -494,5 +498,9 @@
 }
 .profileform .row-textarea label {
     line-height:88px;
+}
+.profileform .errorMessage {
+    left: 186px;
+    top:1px;
 }
 /*  *************************** /PROFILE ***************************/
