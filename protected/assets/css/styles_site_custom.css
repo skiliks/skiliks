@@ -445,4 +445,11 @@
     margin-left: 10px;
     width: 228px;
 }
+#account-corporate-company-info-form .sbHolder {
+    width: 190px;
+}
+#UserAccountCorporate_company_description {
+    height: 100px;
+    width: 367px;
+}
 /*  *************************** /PROFILE ***************************/

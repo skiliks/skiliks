@@ -465,10 +465,17 @@
     padding: 2px 4px;
 }
 #UserAccountCorporate_ownership_type {
-    width: 100px;
+    width: 90px;
 }
 #UserAccountCorporate_company_name {
     margin-left: 10px;
-    width: 180px;
+    width: 170px;
+}
+#account-corporate-company-info-form .sbHolder {
+    width: 240px;
+}
+#UserAccountCorporate_company_description {
+    height: 80px;
+    width: 278px;
 }
 /*  *************************** /PROFILE ***************************/

@@ -1197,20 +1197,10 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .profile-tarif-form .btn-primary {
     margin-left: 25px;
 }
-
-
-
 .profileform .row:first-child, .profile-tarif-form  .row:first-child {
     padding-top: 0px;
 }
 .profileform label {
     float: left;
-}
-#account-corporate-company-info-form .sbHolder {
-    width: 240px;
-}
-#UserAccountCorporate_company_description {
-    height: 100px;
-    width: 367px;
 }
 /*  *************************** /PROFILE ***************************/
