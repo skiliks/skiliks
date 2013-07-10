@@ -1372,7 +1372,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         $ms[] = LibSendMs::sendMs($simulation, 'MS40');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1617,7 +1617,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1689,7 +1689,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1767,7 +1767,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         $ms[] = LibSendMs::sendMs($simulation, 'MS40');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1838,7 +1838,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS48');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
