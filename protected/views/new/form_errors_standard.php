@@ -39,25 +39,25 @@
 
 <div style="clear: both;height:20px;"></div>
 
-<div class="border-primary bg-light-blue standard-right-boxt">
+<div class="border-primary bg-light-blue standard-right-box">
     <div class="pad-large profileform profilelabel-wrap">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-password-form'
         )); ?>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
             <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?>
             <?php echo $form->error($passwordForm, 'currentPassword'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm, 'password'); ?>
             <?php echo $form->passwordField($passwordForm, 'password'); ?>
             <?php echo $form->error($passwordForm, 'password'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
             <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?>
             <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
@@ -75,19 +75,19 @@
             'id' => 'account-corporate-password-form'
         )); ?>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm2, 'currentPassword'); ?>
             <?php echo $form->passwordField($passwordForm2, 'currentPassword'); ?>
             <?php echo $form->error($passwordForm2, 'currentPassword'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm2, 'password'); ?>
             <?php echo $form->passwordField($passwordForm2, 'password'); ?>
             <?php echo $form->error($passwordForm2, 'password'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($passwordForm2, 'verifyPassword'); ?>
             <?php echo $form->passwordField($passwordForm2, 'verifyPassword'); ?>
             <?php echo $form->error($passwordForm2, 'verifyPassword'); ?>

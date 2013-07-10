@@ -469,4 +469,8 @@
 .profileform .row-textarea label {
     line-height: 100px;
 }
+.profileform .errorMessage {
+    left: 210px;
+    top:6px;
+}
 /*  *************************** /PROFILE ***************************/
