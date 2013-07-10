@@ -5,6 +5,6 @@
     <li class="side-item <?php if (isset($active['vacancies'])){ echo 'active proxima-bold'; } else {echo 'proxima-reg'; }?>"><a href="/profile/corporate/vacancies">Вакансии</a></li>
     <li class="side-item <?php if (isset($active['tariff'])){ echo 'active proxima-bold'; } else {echo 'proxima-reg'; } ?>"><a href="/profile/corporate/tariff" class="<?php if (isset($active['tariff'])){ echo 'proxima-bold'; } ?>">Тариф</a></li>
 
-    <li class="side-item mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>"><a href="javascript:void(0);">Способ оплаты</a></li>
+    <li class="side-item mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }  else {echo 'proxima-reg'; }?>"><a href="javascript:void(0);">Способ оплаты</a></li>
     <!--<a href="/profile/corporate/payment-method">Способ оплаты</a> -->
 </ul>

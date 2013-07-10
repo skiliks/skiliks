@@ -137,7 +137,7 @@ ul, ol {
 ul li:last-child {
     margin-bottom: 0px;
 }
-.unstyled {
+.unstyled, .side-menu {
     list-style: none;
     margin-left: 0;
 }
