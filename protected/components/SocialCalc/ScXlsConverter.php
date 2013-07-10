@@ -45,6 +45,9 @@ class ScXlsConverter {
         $excel->removeSheetByIndex(0);
 
         foreach ($sheetsData as $sheetData) {
+            if (NULL === $sheetData['name']) {
+                continue;
+            }
             $sheet = $excel->getSheetByName($sheetData['name']) ?: $excel->createSheet();
             _sheetnode_phpexcel_export_sheet($sheet, $sheetData['name'], socialcalc_parse($sheetData['content']));
         }
