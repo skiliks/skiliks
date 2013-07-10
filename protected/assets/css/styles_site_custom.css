@@ -296,13 +296,13 @@
 }
 .row {
     position: relative;
-    padding-top: 10px;
+    padding-top: 16px; /* 10 */
 }
 .row.wide {
-    padding-top: 12px;
+    padding-top: 16px;/* 12 */
 }
 .row.buttons, .row.wide+.row.wide {
-    padding-top: 15px;
+    padding-top: 16px;/* 15 */
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  *************************** ERRORS ***************************/
