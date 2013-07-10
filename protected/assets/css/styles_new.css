@@ -137,7 +137,7 @@ ul, ol {
 ul li:last-child {
     margin-bottom: 0px;
 }
-.unstyled {
+.unstyled, .side-menu {
     list-style: none;
     margin-left: 0;
 }
@@ -308,15 +308,19 @@ ul li:last-child {
 }
 /*  ************************ /Colors and Borders ************************  */
 /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-input[type="text"], input[type="password"]  {
+input[type="text"], input[type="password"], textarea  {
     background: #fff;
     border: 1px solid #3e5259;
     border-radius: 5px;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     color: #146672;
+    font-family: "ProximaNova-Regular";
     line-height: 1;
     outline:none;
    /*outline: 1px solid rgba(255, 255, 255, 0);*/
+}
+textarea {
+    padding: 5px;
 }
 .form-simple label {
     color: #fff;
@@ -359,6 +363,18 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .placehldrs-dark input[type="text"]:-moz-placeholder,
 .placehldrs-dark input[type="password"]:-moz-placeholder{
     color:#146672;
+}
+.blueplaceholder input[type=text]::-webkit-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]::-moz-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]:-ms-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type=text]:-moz-placeholder {
+    color:#1d7885;
 }
 /*  ************************ /FORM SIMPLE ************************  */
 
@@ -1126,6 +1142,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     -moz-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow: 10px 4px 10px rgba(0,0,0,0.1) inset;
+    overflow: hidden;
 }
 .block-form a {
     color: #2d7b91;
@@ -1155,6 +1172,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /*  *************************** PROFILE ***************************/
 .side-menu .active {
     background: #fff url("../img/menutopbg.png") repeat-x top;
+    font-family:"ProximaNova-Bold";
     padding-bottom: 1px;
 }
 .side-item {
@@ -1172,11 +1190,17 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .mnotactive a {
     color: #979d98;
 }
-.profileform .grid-cell {
+.profile-tarif-form .grid-cell {
     height: 30px;
     vertical-align: top;
 }
-.profileform .btn-primary {
+.profile-tarif-form .btn-primary {
     margin-left: 25px;
+}
+.profileform .row:first-child, .profile-tarif-form  .row:first-child {
+    padding-top: 0px;
+}
+.profileform label {
+    float: left;
 }
 /*  *************************** /PROFILE ***************************/

@@ -110,7 +110,7 @@ define([
         continueRender: function() {
             try {
                 var listHtml = '';
-                var addToPlanDialog = this;
+                var me = this;
 
                 var mailTasks = SKApp.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
@@ -124,13 +124,14 @@ define([
                 // generate mail tasks list }
 
                 if (0 === mailTasks.length) {
-                    addToPlanDialog.message_window = new SKDialogView({
+                    me.message_window = new SKDialogView({
                         'message':'Это письмо уже запланировано.',
                         'buttons':[
                             {
                                 'value':'Ок',
                                 'onclick':function () {
                                     delete SKApp.simulation.mailClient.message_window;
+                                    me.close();
                                     SKApp.simulation.mailClient.setWindowsLog(
                                         'mailMain',
                                         SKApp.simulation.mailClient.getActiveEmailId()
@@ -142,8 +143,6 @@ define([
 
                     return;
                 }
-
-                var me = this;
 
                 // preventOtherClicks
                 me.renderPreventClickElement();
@@ -304,9 +303,7 @@ define([
          */
         close: function () {
             try {
-                if (undefined !== this.$el) {
-                    this.cleanUpDOM();
-                }
+                this.remove();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

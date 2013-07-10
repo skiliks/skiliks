@@ -15,6 +15,7 @@ define([], function () {
          */
         sync: function (method, model, options) {
             if (method === 'create' || method === 'update') {
+                model.set('uniqueId', undefined);
                 SKApp.server.api('todo/add', {taskId:model.id}, function (data) {
                     options.success(data);
                 });

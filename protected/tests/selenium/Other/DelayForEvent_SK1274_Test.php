@@ -4,15 +4,12 @@
  * @{
  */
 /**
- * Тесты (для SK1274)
+ * Тесты на проверку задержки для события, которое было отложено из-за невозможности одновременного запуска(для SK1274)
  */
 class DelayForEvent_SK1274_Test extends SeleniumTestHelper
 {
-    /**
-     * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновременного запуска
-     */
-    public function test_DelayForEvent_SK1274() {
-
+    public function test_DelayForEvent_SK1274()
+    {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
@@ -28,6 +25,6 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->assertTrue($this->isElementPresent("css=li.icon-active.phone a"));
         $this->no_reply_call();
-        $this->close();
+        $this->simulation_stop();
     }
 }

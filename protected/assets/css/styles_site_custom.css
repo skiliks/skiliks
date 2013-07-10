@@ -296,25 +296,24 @@
 }
 .row {
     position: relative;
-    padding-top: 10px;
+    padding-top: 16px; /* 10 */
 }
 .row.wide {
-    padding-top: 12px;
+    padding-top: 16px;/* 12 */
 }
 .row.buttons, .row.wide+.row.wide {
-    padding-top: 15px;
+    padding-top: 16px;/* 15 */
 }
 /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
 /*  *************************** ERRORS ***************************/
 .errorMessage {
     font-size: 11px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_email {
-    top: -3px;
+.form-simple .errorMessage {
+    top: 1px;
     left: 72px;
 }
-.errorMessage.Invite_lastname {
-    top: -3px;
+.form-simple .errorMessage.Invite_lastname {
     left: 160px;
 }
 /*  *************************** /ERRORS ***************************/
@@ -356,6 +355,9 @@
 }
 /*  *************************** /ADD VACANCY POPUP ***************************/
 /*  *************************** SEND INVITATION POPUP ***************************/
+.controller-static-dashboard .cabmessage {
+    height: 540px !important;
+}
 #Invite_message {
     height: 46px;
     max-height: 46px;
@@ -372,6 +374,8 @@
     width: 501px;
 }
 .block-form {
+    height: 335px;
+    overflow: hidden;
     padding: 20px 10px;
     width: 523px;
 }
@@ -384,11 +388,12 @@
     font: 14px "ProximaNova-Regular";
 }
 .cabmessage .ui-widget-content {
-    height: 396px !important;
+    /*height: 430px !important;*/
     width: 560px !important;
 }
 /*  *************************** /SEND INVITATION POPUP ***************************/
 /*  *************************** PROFILE ***************************/
+
 .side-menu a {
     background: url("../img/menuarrows.png") no-repeat 280px -65px;
     display: block;
@@ -407,11 +412,64 @@
 .side-menu .active a {
     color: #245057;
 }
-.profileform .row {
+.profile-min-height {
+    min-height: 440px;
+}
+.profile-tarif-form .row {
     height: 50px;
 }
+.profileform .row {
+    padding-top: 20px;
+}
 .profilelabel-wrap label {
+    font-size: 16px;
     padding-right: 10px;
     width: 200px;
+}
+.profile-tarif-form label {
+    padding-top: 9px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 6px;
+}
+.profileform .buttons {
+    padding-top: 30px;
+}
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px 4px;
+}
+.profileform input[type=password] {
+    width:205px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 120px;
+}
+#UserAccountCorporate_company_name {
+    margin-left: 10px;
+    width: 228px;
+}
+#account-corporate-company-info-form .sbHolder {
+    width: 202px;
+}
+#UserAccountCorporate_company_description {
+    height: 100px;
+    width: 367px;
+}
+.row-inputs label {
+    line-height: 30px;
+}
+.row-selects label {
+    line-height: 22px;
+}
+.profileform .row-textarea label {
+    line-height: 100px;
+}
+.profileform .errorMessage {
+    left: 210px;
+    top:5px;
 }
 /*  *************************** /PROFILE ***************************/
