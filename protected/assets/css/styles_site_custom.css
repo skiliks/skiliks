@@ -309,12 +309,11 @@
 .errorMessage {
     font-size: 11px;
 }
-.errorMessage.Invite_firstname, .errorMessage.Invite_email {
-    top: -3px;
+.form-simple .errorMessage {
+    top: 1px;
     left: 72px;
 }
-.errorMessage.Invite_lastname {
-    top: -3px;
+.form-simple .errorMessage.Invite_lastname {
     left: 160px;
 }
 /*  *************************** /ERRORS ***************************/
