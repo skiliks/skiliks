@@ -475,14 +475,14 @@
 }
 #UserAccountCorporate_company_name {
     margin-left: 10px;
-    width: 170px;
+    width: 155px;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 240px;
+    width: 230px;
 }
 #UserAccountCorporate_company_description {
     height: 80px;
-    width: 278px;
+    width: 263px;
 }
 .row-inputs label {
     line-height: 25px;
