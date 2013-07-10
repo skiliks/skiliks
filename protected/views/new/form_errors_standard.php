@@ -39,7 +39,7 @@
 
 <div style="clear: both;height:20px;"></div>
 
-<div class="container-3 block-border border-primary bg-transparnt">
+<div class="border-primary bg-light-blue standard-right-boxt">
     <div class="pad-large profileform profilelabel-wrap">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-password-form'
@@ -67,9 +67,9 @@
     </div>
 </div>
 
-<div style="clear: both;height:20px;"></div>
+<div style="clear: both;height:25px;"></div>
 
-<div class="container-3 block-border border-primary bg-transparnt">
+<div class="border-primary bg-light-blue standard-right-box">
     <div class="pad-large profileform profilelabel-wrap">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-password-form'
@@ -97,27 +97,6 @@
     </div>
 </div>
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 <br/>
 <br/>
 <br/>
