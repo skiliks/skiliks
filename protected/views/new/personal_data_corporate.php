@@ -23,7 +23,7 @@
         <div class="pad-large profileform profilelabel-wrap profile-min-height">
 
             <?php $form = $this->beginWidget('CActiveForm', array(
-                'id' => 'account-corporate-personal-form', 'class' => 'account-corporate-personal-form'
+                'id' => 'account-corporate-personal-form'
             )); ?>
 
             <div class="row">
