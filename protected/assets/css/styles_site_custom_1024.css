@@ -246,10 +246,10 @@
 }
 .row {
     position: relative;
-    padding-top: 12px; /* 10 */
+    padding-top: 14px; /* 10 */
 }
 .row.wide {
-    padding-top: 12px;/* 10 */
+    padding-top: 14px;/* 10 */
 }
 .row.buttons, .row.wide+.row.wide {
     padding-top: 14px;/* 12 */
@@ -314,7 +314,7 @@
 }
 .form-simple .errorMessage {
     left:55px;
-    top: -2px;
+    top:0px;
 }
 .form-simple .errorMessage.Invite_lastname {
     left: 126px;
@@ -492,5 +492,9 @@
 }
 .profileform .row-textarea label {
     line-height:88px;
+}
+.profileform .errorMessage {
+    left: 186px;
+    top:1px;
 }
 /*  *************************** /PROFILE ***************************/
