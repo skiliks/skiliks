@@ -1643,9 +1643,6 @@ ul.main-screen-stat li img{
 .main-screen-icons ul li.documents{
 	background-image:url("../img/main-screen/icon-documents.png");
 }
-.main-screen-icons ul li.browser{
-	background-image:url("../img/main-screen/icon-browser.png");
-}
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
 }
