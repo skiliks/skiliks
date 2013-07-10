@@ -32,8 +32,10 @@
         </div>
 
         <?php $this->endWidget(); ?>
-        </div>
+    </div>
 </div>
+
+<div style="clear: both;height:20px;"></div>
 
 <div class="form-simple form-large">
     <div class="block-border bg-transparnt rows-inline">
@@ -63,7 +65,9 @@
     </div>
 </div>
 
-<div class="form-simple form-large" style="margin-top: 20px;">
+<div style="clear: both;height:20px;"></div>
+
+<div class="form-simple form-large">
     <div class="block-border bg-transparnt rows-inline">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-password-form'
