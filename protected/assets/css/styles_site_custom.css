@@ -448,6 +448,9 @@
 #UserAccountCorporate_ownership_type {
     width: 120px;
 }
+#profile_firstname, #profile_lastname {
+    width: 158px;
+}
 #UserAccountCorporate_company_name {
     margin-left: 10px;
     width: 228px;
