@@ -432,4 +432,17 @@
 .profileform .buttons {
     padding-top: 28px;
 }
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px 4px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 120px;
+}
+#UserAccountCorporate_company_name {
+    margin-left: 10px;
+    width: 228px;
+}
 /*  *************************** /PROFILE ***************************/

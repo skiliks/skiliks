@@ -1199,21 +1199,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 }
 
 
-.profileform input[type=text], .profileform input[type=password] {
-    color: #1d7885;
-    height: 24px;
-    line-height: 24px;
-    padding: 3px 4px;
-}
+
 .profileform .row:first-child, .profile-tarif-form  .row:first-child {
     padding-top: 0px;
-}
-#UserAccountCorporate_ownership_type {
-    width: 120px;
-}
-#UserAccountCorporate_company_name {
-    margin-left: 10px;
-    width: 228px;
 }
 .profileform label {
     float: left;

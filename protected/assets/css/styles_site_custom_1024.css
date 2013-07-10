@@ -452,10 +452,23 @@
     font-size: 14px;
     padding-right: 10px;
     padding-top: 5px;
-    width: 164px;
+    width: 154px;
 }
 .profilelabel-wrap strong {
     display: block;
     padding-top: 4px;
+}
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 100px;
+}
+#UserAccountCorporate_company_name {
+    margin-left: 10px;
+    width: 180px;
 }
 /*  *************************** /PROFILE ***************************/
