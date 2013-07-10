@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" manifest="/cache.manifest">
 <head>
     <meta charset="utf-8" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
