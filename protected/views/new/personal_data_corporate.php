@@ -20,32 +20,34 @@
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['personal-data' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
+        <div class="pad-large profileform profilelabel-wrap profile-min-height">
 
-        <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'account-corporate-personal-form'
-        )); ?>
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'account-corporate-personal-form'
+            )); ?>
 
-        <div class="row">
-            <?php echo $form->labelEx($profile, 'Имя'); ?>
-            <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?>
-            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
+            <div class="row">
+                <?php echo $form->labelEx($profile, 'Имя'); ?>
+                <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?>
+                <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->labelEx($account  , 'corporate_email'); ?>
+                <span class="value"><?php echo $account->corporate_email; ?></span>
+            </div>
+
+            <div class="row cposwrap">
+                <?php echo $form->labelEx($account     , 'Должность'); ?>
+                <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
+            </div>
+
+            <div class="row buttons">
+                <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
+            </div>
+
+            <?php $this->endWidget(); ?>
         </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-            <span class="value"><?php echo $account->corporate_email; ?></span>
-        </div>
-
-        <div class="row cposwrap">
-            <?php echo $form->labelEx($account     , 'Должность'); ?>
-            <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
-        </div>
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
-        </div>
-
-        <?php $this->endWidget(); ?>
     </div>
 </div>
 <script type="text/javascript">
