@@ -445,8 +445,14 @@
 .side-menu .active a {
     color: #245057;
 }
+.profile-min-height {
+    min-height: 320px;
+}
 .profile-tarif-form .row {
     height: 40px;
+}
+.profileform .row {
+    padding-top: 15px;
 }
 .profilelabel-wrap label {
     font-size: 14px;
@@ -479,5 +485,14 @@
 #UserAccountCorporate_company_description {
     height: 80px;
     width: 278px;
+}
+.row-inputs label {
+    line-height: 28px;
+}
+.row-selects label {
+    line-height: 19px;
+}
+.profileform .row-textarea label {
+    line-height: 90px;
 }
 /*  *************************** /PROFILE ***************************/
