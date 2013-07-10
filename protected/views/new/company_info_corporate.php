@@ -1,5 +1,5 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
 
 <div class="container-3 block-border border-primary bg-transparnt">
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['company-info' => true]]) ?></div>
@@ -11,12 +11,12 @@
             'id' => 'account-corporate-company-info-form'
         )); ?>
 
-        <div class="row blueplaceholder">
+        <div class="row">
             <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?><?php echo $form->error($account, 'ownership_type'); ?><?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?><?php echo $form->error($account, 'company_name'); ?>
         </div>
 
-        <div class="row rowindustry">
+        <div class="row">
             <?php echo $form->labelEx($account     , 'industry_id'); ?>
             <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
             <?php echo $form->error($account       , 'industry_id'); ?>
