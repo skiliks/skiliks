@@ -11,22 +11,22 @@
             'id' => 'account-corporate-company-info-form'
         )); ?>
 
-        <div class="row blueplaceholder">
+        <div class="row blueplaceholder row-inputs">
             <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?><?php echo $form->error($account, 'ownership_type'); ?><?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?><?php echo $form->error($account, 'company_name'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-selects">
             <?php echo $form->labelEx($account     , 'industry_id'); ?>
             <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
             <?php echo $form->error($account       , 'industry_id'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-selects">
             <?php echo $form->labelEx($account     , 'company_size_id'); ?><?php echo $form->dropDownList($account, 'company_size_id', $sizes, ['prompt' => 'Количество сотрудников']); ?><?php echo $form->error($account       , 'company_size_id'); ?>
         </div>
 
-        <div class="row">
+        <div class="row row-textarea">
             <?php echo $form->labelEx($account, 'company_description'); ?><?php echo $form->textArea($account, 'company_description', ['rows' => 5, 'cols' => 50]); ?><?php echo $form->error($account, 'company_description'); ?>
         </div>
 

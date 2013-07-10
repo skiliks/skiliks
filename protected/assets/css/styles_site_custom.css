@@ -452,4 +452,13 @@
     height: 100px;
     width: 367px;
 }
+.row-inputs label {
+    line-height: 30px;
+}
+.row-selects label {
+    line-height: 22px;
+}
+.profileform .row-textarea label {
+    line-height: 100px;
+}
 /*  *************************** /PROFILE ***************************/
