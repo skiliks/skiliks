@@ -429,4 +429,7 @@
     display: block;
     padding-top: 6px;
 }
+.profileform .buttons {
+    padding-top: 28px;
+}
 /*  *************************** /PROFILE ***************************/
