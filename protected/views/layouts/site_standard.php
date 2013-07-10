@@ -199,6 +199,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         Cufon.replace('.semi, .yiiPager', {fontFamily:"ProximaNova-Semibold", hover: true});
         Cufon.replace('.feedback-dialog-title', {fontFamily:"ProximaNova-Regular", hover: true});
 
+        Cufon.replace('.side-menu .active a', {fontFamily:"ProximaNova-Bold", hover: true});
 
         Cufon.now();
     </script>
