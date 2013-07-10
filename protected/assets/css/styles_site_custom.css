@@ -413,6 +413,9 @@
 .side-menu .active a {
     color: #245057;
 }
+.profile-min-height {
+    min-height: 440px;
+}
 .profile-tarif-form .row {
     height: 50px;
 }
@@ -448,7 +451,7 @@
     width: 228px;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 190px;
+    width: 202px;
 }
 #UserAccountCorporate_company_description {
     height: 100px;
