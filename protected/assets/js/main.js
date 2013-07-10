@@ -107,6 +107,24 @@ var fixLogotypes = function() {
             return false;
         });
 
+        $('.accept-invite').click(function(e) {
+            var link = $(this).attr('href');
+
+            $('#invite-accept-form').dialog({
+                dialogClass: 'accept-invite-warning-popup',
+                modal:       true,
+                autoOpen:    true,
+                resizable:   false,
+                draggable:   false,
+                width:       600,
+                open: function( event, ui ) {
+                    $(this).find('.accept-requirements').attr('href', link);
+                }
+            });
+
+            return false;
+        });
+
 
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
