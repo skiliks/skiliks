@@ -1,5 +1,5 @@
 
-<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h12>
+<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
 
 <div class="container-3 block-border border-primary bg-transparnt">
 
