@@ -96,21 +96,30 @@ define([
                 this.set('scenarioName', null);
 
                 this.on('tick', function () {
-                    //noinspection JSUnresolvedVariable
-                    if(me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                    var hours = parseInt(me.getGameMinutes() / 60, 10),
+                        minutes = parseInt(me.getGameMinutes() % 60, 10),
+                        tasks;
+
+                    if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('zoho_popup'))){
                         me.onZohoPopup();
-                    }else if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
+                    } else if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.onFinishTime();
                     } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
                         me.onEndTime();
                     }
 
-                    var hours = parseInt(me.getGameMinutes() / 60, 10);
-                    var minutes = parseInt(me.getGameMinutes() % 60, 10);
-                    if (minutes < 10) {
-                        minutes = '0' + minutes;
+                    me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
+
+                    minutes += 5;
+                    if (minutes >= 60) {
+                        minutes = minutes % 60;
+                        hours += 1;
                     }
-                    me.trigger('time:' + hours + '-' + minutes);
+
+                    tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
+                    if (tasks.length) {
+                        me.showTaskNotification(tasks[0]);
+                    }
                 });
 
                 this.dayplan_tasks = new SKDayTaskCollection();
@@ -178,6 +187,18 @@ define([
                         }
                     });
                 });
+            },
+
+            showTaskNotification: function(task) {
+                var notification = new SKDialogView({
+                    'message': 'Следующая задача: ' + task.get('title'),
+                    'modal': true,
+                    'buttons': []
+                });
+
+                setTimeout(function() {
+                    notification.remove();
+                }, 5000);
             },
 
             /**
