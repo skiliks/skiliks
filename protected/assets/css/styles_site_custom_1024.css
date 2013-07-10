@@ -451,8 +451,10 @@
 .profilelabel-wrap label {
     font-size: 14px;
     padding-right: 10px;
-    padding-top: 5px;
     width: 154px;
+}
+.profile-tarif-form label {
+    padding-top: 5px;
 }
 .profilelabel-wrap strong {
     display: block;

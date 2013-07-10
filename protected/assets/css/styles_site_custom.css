@@ -422,8 +422,10 @@
 .profilelabel-wrap label {
     font-size: 16px;
     padding-right: 10px;
-    padding-top: 9px;
     width: 200px;
+}
+.profile-tarif-form label {
+    padding-top: 9px;
 }
 .profilelabel-wrap strong {
     display: block;
