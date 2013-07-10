@@ -34,7 +34,7 @@
 
             <div class="row">
                 <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-                <strong><?php echo $account->corporate_email; ?></strong>
+                <strong class="font-large"><?php echo $account->corporate_email; ?></strong>
             </div>
 
             <div class="row cposwrap">
