@@ -115,7 +115,7 @@ class SimulationBaseController extends CController {
                     throw new LogicException("log is not found by 'sim_id'=>{$simulation->id} and 'request_uid' => {$uniqueId}");
                 }
                 $json = CJSON::encode($data);
-                $log->response_body = substr($json, 0, 1000);
+                $log->response_body = $json;
                 $log->is_processed = LogServerRequest::IS_PROCESSED_TRUE;
                 $log->update(['response_body', 'is_processed']);
                 //sleep(30);
