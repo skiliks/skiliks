@@ -4,8 +4,8 @@
 <div class="container-3 block-border border-primary bg-transparnt">
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['company-info' => true]]) ?></div>
 
-    <div class="border-primary bg-light-blue standard-right-box profile-min-height">
-        <div class="pad-large profileform profilelabel-wrap">
+    <div class="border-primary bg-light-blue standard-right-box">
+        <div class="pad-large profileform profilelabel-wrap profile-min-height">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-company-info-form'
