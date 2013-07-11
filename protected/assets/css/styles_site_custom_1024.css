@@ -493,7 +493,11 @@
     width: 230px;
 }
 #UserAccountCorporate_company_description {
+    min-height: 80px;
+    max-height: 80px;
     height: 80px;
+    min-width: 263px;
+    max-width: 263px;
     width: 263px;
 }
 .row-inputs label {
