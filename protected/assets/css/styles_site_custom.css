@@ -503,6 +503,9 @@
 .vacancy-list .grid-view tr td:nth-child(3) {
     width:180px;
 }
-
+.vacancy-list .grid-view tr td:nth-child(4),
+.vacancy-list .grid-view tr td:nth-child(5){
+    width:20px;
+}
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
