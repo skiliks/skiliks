@@ -7,8 +7,9 @@ define([
     'game/models/window/SKWindow',
     'game/views/SKDialogView',
     'text!game/jst/intro.jst',
-    'text!game/jst/world/intro_warning.jst'
-], function (SKApplicationView, SKApplication, SKWindow, SKDialogView, template_intro, intro_warning) {
+    'text!game/jst/world/intro_warning.jst',
+    'text!game/jst/world/simulation_warning.jst'
+], function (SKApplicationView, SKApplication, SKWindow, SKDialogView, template_intro, intro_warning, simulation_warning) {
     "use strict";
     /**
      * Загрузка Интромуви
@@ -48,11 +49,16 @@ define([
         },
 
         appLaunch: function() {
-            window.SKApp.simulation.on('start', function() {
+            var app = window.SKApp,
+                appView = window.AppView,
+                content = _.template(simulation_warning),
+                warning, onStart;
+
+            app.simulation.on('start', function() {
                 this.startPause(function(){});
             });
 
-            window.SKApp.simulation.start(function() {
+            onStart = function() {
                 var me = this,
                     wnd = new SKWindow({
                         name: 'mainScreen',
@@ -60,20 +66,36 @@ define([
                         required: true
                     });
 
-                window.AppView.drawDesktop();
+                appView.drawDesktop();
 
-                if (SKApp.isTutorial()) {
+                if (app.isTutorial()) {
                     wnd.on('close', function() {
-                        window.AppView.frame._hidePausedScreen();
-                        window.AppView.frame._toggleClockFreeze(false);
+                        appView.frame._hidePausedScreen();
+                        appView.frame._toggleClockFreeze(false);
                         me.stopPause();
                     });
-                    window.AppView.frame._showPausedScreen();
+                    appView.frame._showPausedScreen();
                     wnd.open();
                 } else {
                     me.stopPause();
                 }
-            });
+            };
+
+            if (!app.isLite() && !app.isTutorial()) {
+                warning = new SKDialogView({
+                    class: 'before-video-warning',
+                    content: content(),
+                    buttons: [{
+                        id: 'ok',
+                        value: 'OK',
+                        onclick: function() {
+                            app.simulation.start(onStart);
+                        }
+                    }]
+                });
+            } else {
+                app.simulation.start(onStart);
+            }
         },
 
         handleClick: function(){
