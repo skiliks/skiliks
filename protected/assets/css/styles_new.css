@@ -1213,7 +1213,8 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .vacancy-list .grid-view tr td:first-child {
     padding-right: 10px;
 }
-.vacancy-list .grid-view tr td:nth-child(2) {
+.vacancy-list .grid-view tr td:nth-child(2),
+.vacancy-list .grid-view tr td:nth-child(3) {
     text-overflow: clip;
     overflow: hidden;
 }
