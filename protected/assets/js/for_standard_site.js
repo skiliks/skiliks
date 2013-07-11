@@ -359,8 +359,96 @@ var fixLogotypes = function() {
         $(".errorMessage").each(function(){
             $(this).addClass($(this).prev("input.error").attr("id"));
         });
+
+        // homepage {
+        var iframesrc = $(".iframe-video iframe").attr("src");
+        var iframesrcautoplay = iframesrc +'?autoplay=1';
+
+        var popupwidth = $("header").width() * 0.9;
+        var video = $(".iframe-video-wrap").html();
+
+
+        $(".video").click(function(){
+            $(video).dialog({
+                modal: true,
+                resizable: false,
+                height: 354,
+                width: popupwidth,
+                dialogClass:"popup-video",
+                position: {
+                    my: "center top",
+                    at: "center bottom",
+                    of: $('header')
+                },
+                show: {
+                    effect: "clip",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "puff",
+                    duration: 500
+                }
+            });
+            $(".popup-video .iframe-video iframe").attr("src",iframesrcautoplay);
+            $('.popup-video .ui-dialog-titlebar').remove();
+            $('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
+            $('.popup-video a.popupclose').click(function() {
+                $('.iframe-video').dialog('close');
+                $('.popup-video a.popupclose').remove();
+                $('.iframe-video').detach();
+            });
+
+        });
+
+        $('#subscribe-form').submit(function(e) {
+            hideError();
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: {'email': $('#user-email-value').val()},
+                success: function(response) {
+                    if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
+                        if (1 === response.result) {
+                            // redirect to success page
+                            $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
+                            //window.location.href = '/static/comingSoonSuccess/en';
+                            $.cookie('_lang', 'en'); //установить значение cookie
+                        } else {
+                            // invalid email
+                            displayError(response.message);
+                        }
+                    } else {
+                        // wrong server response format
+                        displayError("No proper response from server. Please try again later.");
+                    }
+                },
+                error: function() {
+                    // no response from server
+                    displayError("No response from server. Please try again later.");
+                }
+            });
+
+            // prevent default behaviour
+            return true;
+        });
+        // homepage }
     });
 })(jQuery);
+
+displayError = function(msg) {
+    $('#user-email-error-box').text(msg);
+    //$('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
+    $('#user-email-error-box').show();
+    $('#user-email-value').css({"border":"2px solid #BD2929","margin-top":"-2px"});
+}
+
+hideError = function() {
+    $('#user-email-error-box').hide();
+    $('#user-email-error-box').text('');
+    $('#user-email-value').css({"border":"none","margin-top":"0"});
+}
 
 
 
