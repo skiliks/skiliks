@@ -457,12 +457,16 @@
     padding-right: 10px;
     width: 175px;
 }
-.profile-tarif-form label {
-    padding-top: 5px;
-}
 .profilelabel-wrap strong {
     display: block;
     padding-top: 4px;
+}
+.profile-tarif-form strong {
+    padding-top: 4px;
+}
+.profile-tarif-form label {
+    line-height: 16px;
+    padding-top: 5px;
 }
 .profileform .buttons {
     padding-top: 24px;
