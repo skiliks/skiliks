@@ -5,6 +5,7 @@
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['vacancies' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
+        <div class="pad-large profileform accnt-corprt-form profilelabel-wrap profile-min-height">
     <?php // LIST: ?>
     <div class="profileform radiusthree">
         <div class="vacancy-list">
@@ -47,8 +48,9 @@
             ]) ?>
         </div>
     <?php // add_vacancy_form } ?>
+            </div>
+        </div>
     </div>
-</div>
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
