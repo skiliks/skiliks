@@ -445,11 +445,13 @@
 .profileform input[type=password] {
     width:205px;
 }
+.profileform input[type=text]+input[type=text] {
+    margin-left: 10px;
+}
 #UserAccountCorporate_ownership_type {
     width: 120px;
 }
 #UserAccountCorporate_company_name {
-    margin-left: 10px;
     width: 228px;
 }
 #account-corporate-company-info-form .sbHolder {
