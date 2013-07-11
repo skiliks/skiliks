@@ -18,12 +18,15 @@ require([
 
     if (compatibility.check(window.gameConfig)) {
         $(function () {
-           var intro = new SKIntroView();
-           if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
-               intro.show();
-           } else {
-               intro.appLaunch();
-           }
+            window.SKApp = new SKApplication(window.gameConfig);
+            window.AppView = new SKApplicationView();
+
+            var intro = new SKIntroView();
+            if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
+                intro.show();
+            } else {
+                intro.appLaunch();
+            }
         });
     }
 
