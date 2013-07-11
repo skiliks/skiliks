@@ -86,15 +86,6 @@ class PhoneService {
                'sim_id'   => $simulation->id
             ]);
 
-            $replica = LogReplica::model()->findAllByAttributes([
-                'sim_id'     => $simulation->id,
-                'replica_id' => $dialog_code,
-            ]);
-
-            if (null !== $replica) {
-                return 'fail';
-            }
-
             if ($trigger === null) {
                return 'fail '.$event->id;
             } else {
