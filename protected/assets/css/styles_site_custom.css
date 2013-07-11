@@ -477,7 +477,7 @@
 .accnt-corprt-form .sbHolder {
     width:350px;
 }
-#profile_firstname, #profile_lastname {
+.accnt-corprt-form input[type=text] {
     width: 158px;
 }
 .accnt-corprt-form .sbHolder {
