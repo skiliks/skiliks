@@ -475,10 +475,10 @@
 .accnt-corprt-form .sbHolder {
     width:350px;
 }
-.accnt-corprt-form #profile_firstname, .accnt-corprt-form #profile_lastname {
+#profile_firstname, #profile_lastname {
     width: 158px;
 }
 .accnt-corprt-form .sbHolder {
-    width: 350px;
+    width: 363px;
 }
 /*  *************************** /PROFILE ***************************/
