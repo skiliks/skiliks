@@ -35,7 +35,7 @@
                 'Выберите отрасль'
             )
         ); ?>
-        <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?></div><div class="row">
+        <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?></div><div class="row row-selects">
         <?php echo $form->labelEx($vacancy     , 'position_level_slug'); ?>
         <?php echo $form->dropDownList($vacancy, 'position_level_slug', $positionLevels);
         echo $form->error($vacancy       , 'position_level_slug'); ?>
