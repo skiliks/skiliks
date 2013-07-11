@@ -521,4 +521,36 @@
 .accnt-corprt-form strong {
     padding-top: 0px;
 }
+/* ***************** VACANCIES *****************  */
+.vacancy-list .grid-view table.items {
+    width:400px;
+}
+.vacancy-list .grid-view table.items td {
+    color: #3c3c32;
+    font-size: 14px;
+}
+.vacancy-list .grid-view table.items td {
+    padding: 0px 3px 16px 0px;
+}
+.vacancy-list .grid-view tr td:first-child {
+    padding-right: 7px;
+}
+.vacancy-list .grid-view tr td:nth-child(2) {
+    width:190px;
+}
+.vacancy-list .grid-view tr td:nth-child(3) {
+    max-width:146px;
+    width:146px;
+}
+.vacancy-list .grid-view tr td:nth-child(4),
+.vacancy-list .grid-view tr td:nth-child(5){
+    width:16px;
+}
+.form-vacancy input[type="text"] {
+    width: 280px;
+}
+.form-vacancy .sbHolder {
+    width: 280px;
+}
+/* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
