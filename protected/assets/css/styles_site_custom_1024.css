@@ -523,7 +523,7 @@
 }
 /* ***************** VACANCIES *****************  */
 .vacancy-list .grid-view table.items {
-    width:400px;
+    width:440px;
 }
 .vacancy-list .grid-view table.items td {
     color: #3c3c32;
@@ -536,21 +536,21 @@
     padding-right: 7px;
 }
 .vacancy-list .grid-view tr td:nth-child(2) {
-    width:190px;
+    width:216px;
 }
 .vacancy-list .grid-view tr td:nth-child(3) {
-    max-width:146px;
-    width:146px;
+    max-width:162px;
+    width:162px;
 }
 .vacancy-list .grid-view tr td:nth-child(4),
 .vacancy-list .grid-view tr td:nth-child(5){
     width:16px;
 }
 .form-vacancy input[type="text"] {
-    width: 280px;
+    width: 260px;
 }
 .form-vacancy .sbHolder {
-    width: 280px;
+    width: 260px;
 }
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
