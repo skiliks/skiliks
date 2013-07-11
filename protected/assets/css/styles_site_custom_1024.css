@@ -536,7 +536,7 @@
     padding-right: 7px;
 }
 .vacancy-list .grid-view tr td:nth-child(2) {
-    width:216px;
+    width:222px;
 }
 .vacancy-list .grid-view tr td:nth-child(3) {
     max-width:162px;
@@ -544,7 +544,7 @@
 }
 .vacancy-list .grid-view tr td:nth-child(4),
 .vacancy-list .grid-view tr td:nth-child(5){
-    width:16px;
+    width:12px;
 }
 .form-vacancy input[type="text"] {
     width: 252px;
