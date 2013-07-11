@@ -486,4 +486,7 @@
 .accnt-corprt-form .buttons {
     padding-top: 20px;
 }
+.accnt-corprt-form strong {
+    padding-top: 0px;
+}
 /*  *************************** /PROFILE ***************************/
