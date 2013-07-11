@@ -23,10 +23,18 @@ define([], function () {
         },
 
         sync: function (method, collection, options) {
+            var me = this;
             if ('create' === method) {
-                SKApp.server.api('/myDocuments/saveSheet/' + this.collection.document.id, {}, function (data) {
-                    options.success(data.data);
-                });
+                SKApp.server.api(
+                    'myDocuments/saveSheet/' + this.collection.document.id,
+                    {
+                        'model-name': me.get('name'),
+                        'model-content':  me.get('content')
+                    },
+                    function (data) {
+                        options.success(data);
+                    }
+                );
             }
         }
     });
