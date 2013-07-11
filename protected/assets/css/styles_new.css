@@ -1210,6 +1210,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     background: none;
     border: none;
 }
+.vacancy-list .grid-view tr td:first-child {
+    padding-right: 10px;
+}
 .vacancy-list .grid-view tr td:nth-child(2) {
     text-overflow: clip;
     overflow: hidden;
@@ -1217,6 +1220,11 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .vacancy-list .grid-view tr td {
     color: #3c3c32;
     font-family: "ProximaNova-Regular";
+}
+
+.edit-vacancy-link, .delete-vacancy-link {
+    display: block;
+    text-indent: -900000px;
 }
 .edit-vacancy-link {
     background: url("../img/vacancy-edit.png") no-repeat left top;
