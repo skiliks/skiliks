@@ -52,7 +52,7 @@
         <?php echo $form->textField($vacancy, 'link');
         echo $form->error($vacancy    , 'link'); ?>
     </div><div class="row buttons">
-        <?php echo CHtml::submitButton($submitButtonTitle , ['name' => 'add']); ?>
+        <?php echo CHtml::submitButton($submitButtonTitle , ['name' => 'add', 'class' => 'btn btn-large btn-green']); ?>
     </div>
 
     <!-- * Поля обязательные для заполнения-->
