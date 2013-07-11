@@ -9,6 +9,7 @@ class LogServiceController extends SimulationBaseController
             Yii::app()->request->getParam('is_play', null),
             Yii::app()->request->getParam('sound_alias', null)
         );
+        $this->sendJSON(['result'=>self::STATUS_SUCCESS]);
     } 
 }
 
