@@ -585,7 +585,7 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
-        //ZohoDocuments::copyExcelFiles($simulation->id);
+        // ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
@@ -602,9 +602,18 @@ class SimulationService
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false, ['simulation_id', 'status']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
-            }else{
+            } else {
                 $invite->save(false, ['simulation_id']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
+            }
+
+            // снимаем 1 инвайт у работодателя
+            // проверяем что чейчас запушен не туториал и не дев режим
+            if (Scenario::TYPE_TUTORIAL !== $scenarioType &&
+                Simulation::MODE_DEVELOPER_LABEL !== $simulation->mode
+                ) {
+                $invite->ownerUser->account_corporate->invites_limit--;
+                $invite->ownerUser->account_corporate->save(false);
             }
         }
 
