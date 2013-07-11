@@ -25,18 +25,18 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         // log1, 1st priority doc {
-        $doc_d1 = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
 
-        $activity_d1 = $simulation->game_type->getActivity(['code' => 'TRS6']);
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
 
         $activity_action_d1 = $simulation->game_type->getActivityAction([
             'activity_id' => $activity_d1->id,
-            'document_id' => $doc_d1->id
+            'document_id' => $doc_d2->id
         ]);
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
-        $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-        $log->leg_action = 'D1';
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
         $log->activity_action_id = $activity_action_d1->id;
         $log->activityAction = $activity_action_d1;
         $log->category = $activity_d1->category->code;
