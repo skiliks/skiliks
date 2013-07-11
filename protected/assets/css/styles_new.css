@@ -1218,5 +1218,16 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     color: #3c3c32;
     font-family: "ProximaNova-Regular";
 }
+.edit-vacancy-link {
+    background: url("../img/vacancy-edit.png") no-repeat left top;
+    height: 16px;
+    margin-left: 10px;
+    width: 13px;
+}
+.delete-vacancy-link {
+    background: url("../img/vacancy-delete.png") no-repeat left top;
+    height: 12px;
+    width: 12px;
+}
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
