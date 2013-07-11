@@ -490,7 +490,7 @@
     padding-top: 0px;
 }
 /* ***************** VACANCIES *****************  */
-.vacancy-list .items {
+.vacancy-list .grid-view table.items {
     width:510px;
 }
 .vacancy-list .grid-view table.items td {
