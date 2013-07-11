@@ -510,15 +510,14 @@
     width:270px;
 }
 .accnt-corprt-form input[type=text] {
-    width: 130px;
+    width: 120px;
 }
-/*
-.accnt-corprt-form .row {
-    height:30px;
+.accnt-corprt-form .row-inputs {
+    margin-bottom: 6px;
 }
-.accnt-corprt-form .buttons {
-    padding-top: 20px;
-}*/
+.accnt-corprt-form .row-selects {
+    margin-top:10px;
+}
 .accnt-corprt-form strong {
     padding-top: 0px;
 }
