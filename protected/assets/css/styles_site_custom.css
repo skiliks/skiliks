@@ -480,4 +480,7 @@
 .accnt-corprt-form input[type=text] {
     width: 161px;
 }
+.accnt-corprt-form .row {
+    height:50px;
+}
 /*  *************************** /PROFILE ***************************/
