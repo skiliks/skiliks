@@ -510,12 +510,13 @@
 .accnt-corprt-form input[type=text] {
     width: 130px;
 }
+/*
 .accnt-corprt-form .row {
     height:30px;
 }
 .accnt-corprt-form .buttons {
     padding-top: 20px;
-}
+}*/
 .accnt-corprt-form strong {
     padding-top: 0px;
 }
