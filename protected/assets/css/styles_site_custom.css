@@ -480,8 +480,8 @@
 .accnt-corprt-form input[type=text] {
     width: 161px;
 }
-.accnt-corprt-form .row {
-    height:30px;
+.accnt-corprt-form .row-inputs {
+    margin-bottom: 8px;
 }
 .accnt-corprt-form .buttons {
     padding-top: 20px;
