@@ -490,6 +490,9 @@
     padding-top: 0px;
 }
 /* ***************** VACANCIES *****************  */
+.vacancy-list .items {
+    width:510px;
+}
 .vacancy-list .grid-view table.items td {
     color: #3c3c32;
     font-size: 16px;

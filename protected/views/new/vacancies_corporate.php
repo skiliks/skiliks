@@ -36,7 +36,7 @@
 
             <?php $isDisplayForm = (null === $vacancy->id && 0 == count($vacancy->getErrors())) ?>
 
-            <a class="btn btn-large btn-green" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
+            <a class="btn btn-primary" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
             <?php // add_vacancy_form { ?>
                 <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
