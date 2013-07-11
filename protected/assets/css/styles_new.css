@@ -1239,5 +1239,8 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     height: 12px;
     width: 12px;
 }
+.edit-vacancy-link:hover, .delete-vacancy-link:hover {
+    background-position: left bottom;
+}
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
