@@ -304,10 +304,9 @@ class MailController extends SimulationBaseController
 
         if (NULL !== $message) {
             $json = ['result' => self::STATUS_SUCCESS];
-            $this->sendJSON($json);
         } else {
             $json = ['result' => self::STATUS_ERROR];
-            $this->sendJSON($json);
         }
+        $this->sendJSON($json);
     }
 }

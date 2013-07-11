@@ -92,31 +92,4 @@ class MyDocumentsController extends SimulationBaseController
         );
     }
 
-    /**
-     * Is document vas saved by Zoho at list once
-     */
-    public function actionIsDocumentSaved()
-    {
-        $simulation = $this->getSimulationEntity();
-
-        $id = Yii::app()->request->getParam('id', NULL);
-        /** @var MyDocument $file */
-        $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
-        $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile, 'xls', $file->fileName);
-        $json = [
-            'status' => (int)($zoho->checkIsUserFileExists() && $file->is_was_saved),
-            'IsUserFileExists' => $zoho->checkIsUserFileExists(),
-            'is_was_saved' => $file->is_was_saved,
-            'id' => $id,
-            'id_2' => $file->id,
-        ];
-
-        if ($json['is_was_saved']) {
-            SimulationService::logAboutSim($simulation, 'sim: zoho verification passed');
-        } else {
-            SimulationService::logAboutSim($simulation, 'sim: zoho verification failed');
-        }
-
-        $this->sendJSON($json);
-    }
 }
