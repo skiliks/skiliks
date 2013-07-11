@@ -1,9 +1,10 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<h1 class="page-header"><?php echo Yii::t('site', 'Profile') ?></h1>
 
-<div class="transparent-boder profilewrap">
-    <?php $this->renderPartial('//new/_menu_corporate', ['active' => ['vacancies' => true]]) ?>
+<div class="container-3 block-border border-primary bg-transparnt">
+    <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['vacancies' => true]]) ?></div>
 
+    <div class="border-primary bg-light-blue standard-right-box">
     <?php // LIST: ?>
     <div class="profileform radiusthree">
         <div class="vacancy-list">
@@ -46,7 +47,7 @@
             ]) ?>
         </div>
     <?php // add_vacancy_form } ?>
-
+    </div>
 </div>
 </div>
 <script type="text/javascript">
