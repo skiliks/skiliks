@@ -79,7 +79,7 @@ define([
         },
 
         onResize: function() {
-            this.renderContent(this.$('.sim-window-content'));
+            //this.renderContent(this.$('.sim-window-content'));
             window.SKWindowView.prototype.onResize.apply(this);
         }
 
