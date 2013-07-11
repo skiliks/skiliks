@@ -5,7 +5,7 @@
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['vacancies' => true]]) ?></div>
 
     <div class="border-primary bg-light-blue standard-right-box">
-        <div class="pad-large profile-tarif-form profilelabel-wrap profile-min-height">
+        <div class="pad-large profilelabel-wrap profile-min-height">
             <?php // LIST: ?>
                 <div class="vacancy-list">
                 <?php
@@ -36,7 +36,7 @@
 
             <?php $isDisplayForm = (null === $vacancy->id && 0 == count($vacancy->getErrors())) ?>
 
-            <a class="vacancy-add-form-switcher btn btn-large btn-green" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
+            <a class="vacancy-add-form-switcher btn btn-primary" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
             <?php // add_vacancy_form { ?>
                 <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
