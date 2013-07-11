@@ -1224,6 +1224,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 
 .edit-vacancy-link, .delete-vacancy-link {
     display: block;
+    overflow: hidden;
     text-indent: -900000px;
 }
 .edit-vacancy-link {
