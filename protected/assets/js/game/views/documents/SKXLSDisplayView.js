@@ -1,5 +1,5 @@
-/*global SKWindow, _, SKDocument,  SKConfig, SKWindowView, SKApp, SKPhoneContactsCollection, SKDialogView, define, console, $
- */
+/*global SKWindow, _, SKDocument,  SKConfig, SKWindowView, SKApp, SKPhoneContactsCollection, SKDialogView, define, console, $,
+ SocialCalc */
 
 define([
     "text!game/jst/document/document_xls_template.jst",
@@ -31,6 +31,8 @@ define([
         }, SKWindowView.prototype.events),
 
         isRender: true,
+
+        sheets:[],
 
         /*
         * Constructor
@@ -66,7 +68,7 @@ define([
                     'sheet': sheet
                 });
                 sheetView.render();
-
+                me.sheets.push(sheetView);
                 if (i === 0) {
                     sheet.activate();
                 }
@@ -80,7 +82,26 @@ define([
 
         onResize: function() {
             //this.renderContent(this.$('.sim-window-content'));
+            var me = this;
             window.SKWindowView.prototype.onResize.apply(this);
+            console.log(this.sheets);
+            $.each(this.sheets, function(index, sheet){
+                console.log(sheet.el);
+                sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), $(me.el).height() - $(me.el).find('.header-inner').height() - $(me.el).find('.sheet-tabs').height(), $(me.el).width(), 0);
+                //sheet.spreadsheet.editor.LoadEditorSettings(sheet.options.sheet.get('content').substring(sheet.parts.edit.start, sheet.parts.edit.end));
+                sheet.spreadsheet.ExecuteCommand('recalc', '');
+                sheet.spreadsheet.ExecuteCommand('redisplay', '');
+
+            });
+            console.log(this.el);
+            //doc.get('sheets').each(function (sheet, i) {
+            //    sheet.recalcSheet();
+            //});
+        },
+        remove: function () {
+            this.sheets = [];
+            window.SKWindowView.prototype.remove.apply(this);
+
         }
 
     });
