@@ -50,8 +50,9 @@ class MyDocumentsController extends SimulationBaseController
         /** @var MyDocument $file */
         $file   = MyDocument::model()->findByPk($id);
         assert($file->simulation->getPrimaryKey() == $simulation->getPrimaryKey());
-        $content = $clientModel['content'];
-        $name = $clientModel['name'];
+
+        $content = Yii::app()->request->getParam('model-content');
+        $name    = Yii::app()->request->getParam('model-name');
 
         $file->setSheetContent($name, $content);
 
