@@ -502,6 +502,9 @@
 .errorMessage.profile_lastname {
     left:384px;
 }
+.accnt-corprt-form .errorMessage {
+    top:-15px;
+}
 /* ***************** VACANCIES *****************  */
 .vacancy-list .grid-view table.items {
     width:520px;
