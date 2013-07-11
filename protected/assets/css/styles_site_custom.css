@@ -483,8 +483,8 @@
 .accnt-corprt-form .row-inputs {
     margin-bottom: 8px;
 }
-.accnt-corprt-form .buttons {
-    padding-top: 20px;
+.accnt-corprt-form .row-selects {
+    margin-top:12px;
 }
 .accnt-corprt-form strong {
     padding-top: 0px;
