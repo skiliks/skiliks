@@ -26,7 +26,7 @@
                 'id' => 'account-corporate-personal-form'
             )); ?>
 
-            <div class="row row-input">
+            <div class="row row-inputs">
                 <?php echo $form->labelEx($profile, 'Имя'); ?>
                 <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?><?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
             </div>
@@ -36,7 +36,7 @@
                 <strong class="font-large"><?php echo $account->corporate_email; ?></strong>
             </div>
 
-            <div class="row cposwrap">
+            <div class="row row-selects">
                 <?php echo $form->labelEx($account     , 'Должность'); ?>
                 <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
             </div>
