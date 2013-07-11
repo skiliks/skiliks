@@ -437,6 +437,7 @@
     border: 1px solid red;
 }
 .profile-tarif-form label {
+    line-height: 20px;
     /*line-height: 20px;
     padding-top: 6px; /* 8 */
 }
