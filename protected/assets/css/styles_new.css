@@ -1206,13 +1206,17 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 /* ***************** VACANCIES *****************  */
 .vacancy-list .grid-view table.items, .vacancy-list .grid-view table.items tr.odd,
 .vacancy-list .grid-view table.items tr.even,
-.vacancy-list .items tr:nth-child(odd) td, .vacancy-list .items tr:nth-child(even) td    {
+.vacancy-list .items tr:nth-child(odd) td, .vacancy-list .grid-view table.items tr.even td    {
     background: none;
     border: none;
 }
 .vacancy-list .grid-view tr td:nth-child(2) {
     text-overflow: clip;
     overflow: hidden;
+}
+.vacancy-list .grid-view tr td {
+    color: #3c3c32;
+    font-family: "ProximaNova-Regular";
 }
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
