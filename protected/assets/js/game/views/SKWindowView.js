@@ -95,10 +95,11 @@ define(["text!game/jst/window.jst"], function (window_template) {
             throw 'You need to override it';
         },
         remove: function () {
+            var me = this;
             try {
                 this.trigger('close');
                 this.stopListening();
-                $(window).off('resize', this.onResize);
+                $(window).off('resize');
                 Backbone.View.prototype.remove.call(this);
             } catch(exception) {
                 if (window.Raven) {

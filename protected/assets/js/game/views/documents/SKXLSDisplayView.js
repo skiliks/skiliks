@@ -62,12 +62,14 @@ define([
             }) );
 
             SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
+            me.sheets = [];
             doc.get('sheets').each(function (sheet, i) {
                 var sheetView = new SKSheetView({
                     'el': me.$('.table-container'),
                     'sheet': sheet
                 });
                 sheetView.render();
+                //console.log(me, me.sheets, sheetView);
                 me.sheets.push(sheetView);
                 if (i === 0) {
                     sheet.activate();
@@ -81,12 +83,14 @@ define([
         },
 
         onResize: function() {
+            console.log(this.el);
+
             //this.renderContent(this.$('.sim-window-content'));
+            window.SKWindowView.prototype.onResize.call(this);
             var me = this;
-            window.SKWindowView.prototype.onResize.apply(this);
             console.log(this.sheets);
             $.each(this.sheets, function(index, sheet){
-                console.log(sheet.el);
+                //console.log(sheet.el);
                 sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), $(me.el).height() - $(me.el).find('.header-inner').height() - $(me.el).find('.sheet-tabs').height(), $(me.el).width(), 0);
                 //sheet.spreadsheet.editor.LoadEditorSettings(sheet.options.sheet.get('content').substring(sheet.parts.edit.start, sheet.parts.edit.end));
                 sheet.spreadsheet.ExecuteCommand('recalc', '');
