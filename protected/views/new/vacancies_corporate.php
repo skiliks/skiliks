@@ -40,7 +40,7 @@
     <a class="vacancy-add-form-switcher" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
     <?php // add_vacancy_form { ?>
-        <div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
+        <div class="btn btn-primary" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
             <?php $this->renderPartial('//global_partials/_add_vacancy_form', [
                 'vacancy'         => $vacancy,
                 'positionLevels'  => $positionLevels,
