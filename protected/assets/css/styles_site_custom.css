@@ -426,13 +426,19 @@
     padding-right: 10px;
     width: 200px;
 }
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 6px;
+}
+.profile-tarif-form {
+    padding-top: 0px;
+}
+.profile-tarif-form .grid-cell {
+    border: 1px solid red;
+}
 .profile-tarif-form label {
     /*line-height: 20px;
     padding-top: 6px; /* 8 */
-}
-.profilelabel-wrap strong {
-    display: block;
-    /*padding-top: 6px;*/
 }
 .profileform .buttons {
     padding-top: 30px;
