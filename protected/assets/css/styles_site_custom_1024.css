@@ -503,4 +503,20 @@
     left: 186px;
     top:1px;
 }
+
+.accnt-corprt-form .sbHolder {
+    width:270px;
+}
+.accnt-corprt-form input[type=text] {
+    width: 130px;
+}
+.accnt-corprt-form .row {
+    height:30px;
+}
+.accnt-corprt-form .buttons {
+    padding-top: 20px;
+}
+.accnt-corprt-form strong {
+    padding-top: 0px;
+}
 /*  *************************** /PROFILE ***************************/
