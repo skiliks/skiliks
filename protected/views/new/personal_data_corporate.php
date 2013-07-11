@@ -26,7 +26,7 @@
                 'id' => 'account-corporate-personal-form'
             )); ?>
 
-            <div class="row">
+            <div class="row row-input">
                 <?php echo $form->labelEx($profile, 'Имя'); ?>
                 <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?><?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
             </div>
