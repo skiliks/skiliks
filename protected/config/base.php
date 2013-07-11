@@ -213,6 +213,11 @@ return array(
                 'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
                 'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
+                'product-new'                        => 'static/pages/productNew',
+                'team-new'                           => 'static/pages/teamNew',
+                'old-browser-new'                    => 'static/pages/teamNew',
+                'home-new'                           => 'static/pages/homeNew',
+                'old-browser-new'                    => 'static/pages/oldBrowserNew',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
