@@ -514,5 +514,11 @@
 .vacancy-list .grid-view tr td:nth-child(5){
     width:20px;
 }
+.form-vacancy input[type="text"] {
+    width: 352px;
+}
+.form-vacancy .sbHolder {
+    width: 360px;
+}
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
