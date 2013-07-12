@@ -571,7 +571,10 @@
 .browsers .grid1 {
     text-align: center;
     padding-top:100px;
-    width:40px;
+    width:60px;
+}
+.browsers .grid1+.grid2 {
+    margin-left: 0px;
 }
 .browsers .font-xxxlarge {
     font-size: 30px;
