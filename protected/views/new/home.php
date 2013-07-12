@@ -1,5 +1,5 @@
 <section class="home-content">
-    <h1><?php echo Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!') ?></h1>
+    <h1 class="page-header"><?php echo Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!') ?></h1>
     <!--<div class="iframe-video-wrap">
         <div class="iframe-video">
             <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
@@ -17,7 +17,7 @@
         </div>
         <div class="grid1 noleftmargin">
             <div class="video" style="cursor: pointer;">
-                <span class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></span>
+                <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
             <div class="social_networks smallicons">
                 <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
