@@ -64,7 +64,7 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(), 'Вернуться к симуляции')])");
         $time5=$this->how_much_time();
         $this->assertTrue($time3==$time5);
-        
+
         $this->simulation_stop();
     }
 }
