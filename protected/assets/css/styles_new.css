@@ -1231,8 +1231,8 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .edit-vacancy-link {
     background: url("../img/vacancy-edit.png") no-repeat left top;
     height: 16px;
-    margin: 0px 5px 0px 10px;
-    width: 13px;
+    margin-left:10px;
+    width: 12px;
 }
 .delete-vacancy-link {
     background: url("../img/vacancy-delete.png") no-repeat left top;
