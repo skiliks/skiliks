@@ -556,4 +556,13 @@
 .ico-chrome {
     background-position: 0 -40px;
 }
+.ico-firefox {
+    background-position:100% -40px;
+}
+.browsers .container-3 {
+    text-align: center;
+}
+.browsers .font-xxxlarge {
+    font-size: 30px;
+}
 /*  *************************** /OLD BROWSERS ***************************/
