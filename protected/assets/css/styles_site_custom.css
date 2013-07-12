@@ -549,7 +549,7 @@
 /*  *************************** OLD BROWSERS ***************************/
 .ico-browser {
     background: url("../img/browsers.png") no-repeat -100% -100%;
-    margin: 20px auto 0;
+    margin: 20px auto 10px;
     width: 130px;
     height: 130px;
 }
@@ -560,13 +560,17 @@
     background-position:100% -40px;
 }
 .browsers .container-3 {
-    text-align: center;
+    margin: 0 auto;
+    width:740px;
 }
 .browsers .grid2 {
     padding: 30px 40px 0;
+    text-align: center;
     width:270px;
 }
 .browsers .grid1 {
+    text-align: center;
+    padding-top:100px;
     width:40px;
 }
 .browsers .font-xxxlarge {
