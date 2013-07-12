@@ -2,7 +2,7 @@
 
     <h3>Отправить приглашение</h3>
 
-    <div class="form-simple form-small placehldrs-dark">
+    <div class="form-simple form-small">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'invite-form'
         )); ?>

@@ -348,14 +348,6 @@ input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-place
 input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     color:#1d7885;
 }
-/*
-.placehldrs-dark input[type="text"]::-webkit-input-placeholder,
-.placehldrs-dark input[type="password"]::-webkit-input-placeholder {
-    color:#146672;
-}
-.blueplaceholder input[type=text]::-webkit-input-placeholder {
-    color:#1d7885;
-}*/
 /*  ************************ /FORM SIMPLE ************************  */
 
 
