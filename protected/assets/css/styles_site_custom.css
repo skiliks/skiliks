@@ -546,3 +546,14 @@
 }
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
+/*  *************************** OLD BROWSERS ***************************/
+.ico-browser {
+    background: url("../img/browsers.png") no-repeat -100% -100%;
+    margin: 20px auto 0;
+    width: 130px;
+    height: 130px;
+}
+.ico-chrome {
+    background-position: 0 -40px;
+}
+/*  *************************** /OLD BROWSERS ***************************/
