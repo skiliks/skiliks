@@ -1,5 +1,5 @@
 <div class="browsers">
-    <h1 class="page-header text-center">К сожалению, в данный момент мы не поддерживаем ваш браузер</h1>
+    <h1 class="page-header text-center margin-less">К сожалению, в данный момент мы не поддерживаем ваш браузер</h1>
     <p class="font-xxlarge text-center font-white">Предлагаем установить</p>
     <div class="container-3">
         <div class="grid2">
