@@ -569,9 +569,11 @@
     width:260px;
 }
 .browsers .grid1 {
-    text-align: center;
     padding-top:100px;
     width:60px;
+}
+.browsers .grid1, .browsers p {
+    text-align: center;
 }
 .browsers .grid1+.grid2 {
     margin-left: 0px;
