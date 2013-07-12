@@ -10,7 +10,6 @@
  */
 class Dialogs_SimPoints_Test extends SeleniumTestHelper
 {
-
     public function test_Dialogs_for_SK1390()
     {
         //$this->markTestIncomplete();
@@ -31,7 +30,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('6.667','0');
-        $this->checkLearningArea('16.67','0.00','0.00','0.00','0.00','0.00','0.00','0.00');
         $this->close();
     }
 
@@ -61,7 +59,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Simulation points');
         sleep(30);
         $this->checkSimPoints('3','0');
-        $this->checkLearningArea('0.00','0.00','0.00','8.82','5','0.00','20');
         $this->close();
     }
 
@@ -94,8 +91,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('8.5','-7');
-        $this->checkLearningArea('0.00','12.5','0.00','8.82','5','0.00','20');
+        $this->checkSimPoints('8','-7');
         $this->close();
     }
 
@@ -155,7 +151,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('2.5','-34');
-        $this->checkLearningArea('0.00','0.00','4.55','23.3','0.00','4.17','0.00');
         $this->close();
     }
 
@@ -216,7 +211,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('1.5','-31');
-        $this->checkLearningArea('0.00','0.00','4.55','11.23','5','12.5','0.00');
         $this->close();
     }
 
@@ -247,7 +241,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
         $this->checkSimPoints('11.667','-10');
-        $this->checkLearningArea('0.00','0.00','4.55','2.41','15','8.33','10');
         $this->close();
     }
 }

@@ -77,38 +77,38 @@ class PhoneService {
         }
 
         if (!empty($dialog->next_event_code)) {
-           $event = $simulation->game_type->getEventSample([
+            $event = $simulation->game_type->getEventSample([
                'code'=>$dialog->next_event_code
-           ]);
+            ]);
 
-           $trigger = EventTrigger::model()->findByAttributes([
+            $trigger = EventTrigger::model()->findByAttributes([
                'event_id' => $event->id,
                'sim_id'   => $simulation->id
-           ]);
+            ]);
 
-           if ($trigger === null) {
+            if ($trigger === null) {
                return 'fail '.$event->id;
-           } else {
-               EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
+            } else {
+                EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
 
-               /* Рекурсию лучше не применять */
-               $next_code = $this->deleteCancelReplica($simulation, $dialog_code);
-               $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$dialog_code]);
-               if(null !== $call) {
-                   $next_code = $this->deleteCancelReplica($simulation, $next_code);
-                   $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
-                   if(null !== $call) {
-                       $this->deleteCancelReplica($simulation, $next_code);
-                       PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
-                   }
-               }
+                /* Рекурсию лучше не применять */
+                $next_code = $this->deleteCancelReplica($simulation, $dialog_code);
+                $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$dialog_code]);
+                if(null !== $call) {
+                    $next_code = $this->deleteCancelReplica($simulation, $next_code);
+                    $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
+                    if(null !== $call) {
+                        $this->deleteCancelReplica($simulation, $next_code);
+                        PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'dialog_code'=>$next_code]);
+                    }
+                }
 
-           }
+            }
 
-           return 'ok';
-       } else{
-           return 'fail';
-       }
+            return 'ok';
+        } else {
+            return 'fail';
+        }
     }
 
     /**

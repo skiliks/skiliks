@@ -8,7 +8,6 @@
  */
 class Goals_and_Priorities_Test extends SeleniumTestHelper
 {
-
     public function testGoalsAndPriorities_Positive()
     {
         //$this->markTestIncomplete();

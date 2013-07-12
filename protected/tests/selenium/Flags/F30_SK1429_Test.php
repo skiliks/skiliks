@@ -20,19 +20,16 @@ class F30_SK1429_Test extends SeleniumTestHelper
     $this->write_email();
     $this->addRecipient("xpath=(//a[contains(text(),'Трудякин')])");
     $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
-
     $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
     $this->click(Yii::app()->params['test_mappings']['mail']['send']);
-
     $this->assertTrue($this->verify_flag('F30','1'));
     sleep(2);
-
     $this->optimal_click("css=li.icon-active.mail a");
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
     sleep(2);
     $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
     sleep(2);
     $this->verifyTextPresent("Привет, Алексей! Проверяю. Как будет готов - перешлю. \nУдачи, Трудякин");
-    $this->close();
+    $this->simulation_stop();
     }
 }

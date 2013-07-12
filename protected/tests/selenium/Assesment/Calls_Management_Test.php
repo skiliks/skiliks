@@ -10,8 +10,6 @@ class Calls_Management_Test extends SeleniumTestHelper
 {
     public function test_Dialogs_for_SK2420_3()
     {
-        //$this->markTestIncomplete();
-
         $this->start_simulation();
 
         $this->clearEventQueueBeforeEleven('RST1');
@@ -61,12 +59,6 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST4');
 
         $this->clearEventQueueBeforeEleven('RST5');
-
-        $this->run_event('RST6', "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'давайте я вам перешлю этот показатель')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Через пять минут данные будут у вас')])");
-        sleep(5);
 
         $this->clearEventQueueBeforeEleven('RST9');
 

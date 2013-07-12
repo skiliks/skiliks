@@ -7,6 +7,9 @@ define(["game/models/SKTodoTask"], function () {
      * @augments Backbone.Collection
      */
     SKTodoCollection = Backbone.Collection.extend({
+
+        availableTasks:[],
+
         /**
          * @property model
          * @type SKTodoTask
@@ -30,10 +33,21 @@ define(["game/models/SKTodoTask"], function () {
          * @param options
          */
         sync: function (method, collection, options) {
+            var me = this;
             if ('read' === method) {
                 SKApp.server.api('todo/get', {}, function (data) {
                     options.success(data);
                 });
+                var hasNewTask = false;
+                me.each(function(model) {
+                    if(-1 === me.availableTasks.indexOf(model.get('id'))) {
+                        me.availableTasks.push(model.get('id'));
+                        hasNewTask = true;
+                    }
+                });
+                if(hasNewTask) {
+                    me.trigger('onNewTask');
+                }
             }
         }
     });

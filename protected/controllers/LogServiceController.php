@@ -1,6 +1,6 @@
 <?php
 
-class LogServiceController extends AjaxController
+class LogServiceController extends SimulationBaseController
 {
     public function actionSoundSwitcher()
     {
@@ -9,6 +9,7 @@ class LogServiceController extends AjaxController
             Yii::app()->request->getParam('is_play', null),
             Yii::app()->request->getParam('sound_alias', null)
         );
+        $this->sendJSON(['result'=>self::STATUS_SUCCESS]);
     } 
 }
 

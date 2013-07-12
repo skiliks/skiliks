@@ -51,7 +51,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->run_event('MS28');
         sleep(2);
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Приветствую, Егор!  У тебя что-то срочное?')])",'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска. Я перешлю тебе свой квартальный план, а завтра обудим, хорошо?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'начну работу по проекту только после отпуска')])");
         sleep(2);
 
         $this->run_event('MS69');

@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Description of TodoController
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class TodoController extends AjaxController
+class TodoController extends SimulationBaseController
 {
     /**
      * @return HttpResponce
@@ -14,7 +9,7 @@ class TodoController extends AjaxController
     {
         $simulationId = $this->getSimulationId(); // external for make code clean
 
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
                 'result' => self::STATUS_SUCCESS,
                 'data'   => TodoService::getTodoTasksList($simulationId),
         ));
@@ -29,6 +24,7 @@ class TodoController extends AjaxController
      */
     public function actionAdd()
     {
+
         $simulationId = $this->getSimulationId(); // external for make code clean
         
         $taskId = Yii::app()->request->getParam('taskId', 0);

@@ -212,8 +212,7 @@ class DialogService
      */
     public function processNextReplica(Replica $currentReplica, $data, Simulation $simulation, $result, $gameTime)
     {
-
-// смотрим а не является ли следующее событие у нас диалогом
+        // смотрим а не является ли следующее событие у нас диалогом
         // if next event has delay it can`t statr immediatly
         $dialog = $simulation->game_type->getReplica([
             'code' => $currentReplica->next_event_code,

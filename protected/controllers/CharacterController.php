@@ -4,13 +4,14 @@
  * Returns Character list for phone, mail and other purposes
  * Class CharacterController
  */
-class CharacterController extends AjaxController
+class CharacterController extends SimulationBaseController
 {
 	public function actionList()
 	{
         $simulation = $this->getSimulationEntity();
         $characters = $simulation->game_type->getCharacters([]);
-        $characterData = array_map(function (Character $character) { return $character->getAttributes(['id', 'title', 'fio', 'email', 'code', 'phone', 'has_mail_theme', 'has_phone_theme']);}, $characters);
-		$this->sendJSON($characterData);
+        $data['data'] = array_map(function (Character $character) { return $character->getAttributes(['id', 'title', 'fio', 'email', 'code', 'phone', 'has_mail_theme', 'has_phone_theme']);}, $characters);
+        $data['result'] = self::STATUS_SUCCESS;
+        $this->sendJSON($data);
 	}
 }

@@ -8,10 +8,8 @@
  */
 class Meetings_Test extends SeleniumTestHelper
 {
-//SK2420_4
     public function test_meetings_management()
     {
-        //$this->markTestIncomplete();
         $this->start_simulation();
         $this->optimal_click("link=F41");
         $this->run_event('E3.1',"xpath=(//*[contains(text(),'Здравствуйте, Анжела')])", 'click');
@@ -54,9 +52,9 @@ class Meetings_Test extends SeleniumTestHelper
         sleep(10);
 
         $this->run_event('ET15',"css=li.icon-active.door a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
+        sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения')])");
-        sleep(7);
+        sleep(15);
 
         $this->run_event('T6.1',"xpath=(//*[contains(text(),'Валерий Семенович просил')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Среда, 17.00, у вас в коробках, сорок копий')])");

@@ -36,42 +36,53 @@ define(["text!game/jst/window.jst"], function (window_template) {
          * @method initialize
          */
         initialize: function () {
-            //this.preLoadWindow();
-            if (this.options.model_instance === undefined) {
-                throw 'You need to pass model_instance';
+            try {
+                if (this.options.model_instance === undefined) {
+                    throw 'You need to pass model_instance';
+                }
+                var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
+                this.$container = $(this.container);
+                this.$container.append(sim_window);
+                this.setElement(sim_window);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
-            this.$container = $(this.container);
-            this.$container.append(sim_window);
-            this.setElement(sim_window);
         },
 
 
         renderWindow: function () {
-            var me = this;
-            this.$el.html(_.template(window_template, {
-                title: this.title,
-                isDisplaySettingsButton: this.isDisplaySettingsButton,
-                isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
-                windowName:this.windowName
-            }));
-            this.renderTitle(this.$('header'));
-            this.$el.draggable({
-                handle: "header",
-                containment: this.$container,
-                scroll: false,
-                start: function () {
-                    if (typeof(me.doStartDrag) !== "undefined") {
-                        me.doStartDrag();
+            try {
+                var me = this;
+                this.$el.html(_.template(window_template, {
+                    title: this.title,
+                    isDisplaySettingsButton: this.isDisplaySettingsButton,
+                    isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
+                    windowName:this.windowName
+                }));
+                this.renderTitle(this.$('header'));
+                this.$el.draggable({
+                    handle: "header",
+                    containment: this.$container,
+                    scroll: false,
+                    start: function () {
+                        if (typeof(me.doStartDrag) !== "undefined") {
+                            me.doStartDrag();
+                        }
+                    },
+                    stop: function () {
+                        if (typeof(me.doEndDrag) !== "undefined") {
+                            me.doEndDrag($(this));
+                        }
                     }
-                },
-                stop: function () {
-                    if (typeof(me.doEndDrag) !== "undefined") {
-                        me.doEndDrag($(this));
-                    }
+                });
+                this.renderContent(this.$('.sim-window-content'));
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-            });
-            this.renderContent(this.$('.sim-window-content'));
+            }
         },
         /**
          * @abstract
@@ -84,42 +95,56 @@ define(["text!game/jst/window.jst"], function (window_template) {
             throw 'You need to override it';
         },
         remove: function () {
-            this.trigger('close');
-            this.stopListening();
-            $(window).off('resize', this.onResize);
-            Backbone.View.prototype.remove.call(this);
+            try {
+                this.trigger('close');
+                this.stopListening();
+                $(window).off('resize', this.onResize);
+                Backbone.View.prototype.remove.call(this);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         renderTPL: function (element, templateHtml, userData) {
-            var systemData = {assetsUrl: SKApp.get('assetsUrl')};
-            var data = _.defaults(systemData, userData);
-            var html = _.template(templateHtml, data);
-            $(element).html(html);
+            try {
+                var systemData = {assetsUrl: SKApp.get('assetsUrl')};
+                var data = _.defaults(systemData, userData);
+                var html = _.template(templateHtml, data);
+                $(element).html(html);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
         /**
          Creates window
 
          */
         render: function () {
-            var me = this;
-            this.listenTo(this.options.model_instance, 'close', function () {
-                me.remove();
-            });
-            this.listenTo(this.options.model_instance, 'change:zindex', function () {
+            try {
+                var me = this;
+                this.listenTo(this.options.model_instance, 'close', function () {
+                    me.remove();
+                });
+                this.listenTo(this.options.model_instance, 'change:zindex', function () {
+                    me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                });
+                me.renderWindow(me.$el);
                 me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
-            });
-            me.renderWindow(me.$el);
-            me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
 
-            this.resize();
-            this.onResize = function() {
-                me.resize();
-                me.constrain();
-                me.resizeZoho();
-            };
-            $(window).on('resize', this.onResize);
+                this.resize();
 
-            this.center();
+                $(window).on('resize', _.bind(this.onResize, me));
+
+                this.center();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -128,169 +153,229 @@ define(["text!game/jst/window.jst"], function (window_template) {
          * @param height (optional)
          */
         resize: function(width, height) {
-            var dimensions = this._calculateDimensions(width, height);
-            this.$el.css({
-                width: dimensions.width + 'px',
-                height: dimensions.height + 'px'
-            });
+            try {
+                var dimensions = this._calculateDimensions(width, height);
+                this.$el.css({
+                    width: dimensions.width + 'px',
+                    height: dimensions.height + 'px'
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         center: function() {
-            this.$el.css({
-                top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop()) + 'px',
-                left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft()) + 'px'
-            });
+            try {
+                this.$el.css({
+                    top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop()) + 'px',
+                    left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft()) + 'px'
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         constrain: function() {
-            var position = this.$el.position(),
-                dimensions = {
-                    width: this.$el.width(),
-                    height: this.$el.height()
-                },
-                bounds = {
-                    width: this.$container.width(),
-                    height: this.$container.height()
-                };
+            try {
+                var position = this.$el.position(),
+                    dimensions = {
+                        width: this.$el.width(),
+                        height: this.$el.height()
+                    },
+                    bounds = {
+                        width: this.$container.width(),
+                        height: this.$container.height()
+                    };
 
-            if (position.left < 0) {
-                this.$el.css('left', 0);
-            } else if (position.left + dimensions.width > bounds.width) {
-                this.$el.css('left', Math.max(bounds.width - dimensions.width, 0));
-            }
+                if (position.left < 0) {
+                    this.$el.css('left', 0);
+                } else if (position.left + dimensions.width > bounds.width) {
+                    this.$el.css('left', Math.max(bounds.width - dimensions.width, 0));
+                }
 
-            if (position.top < 0) {
-                this.$el.css('top', 0);
-            } else if (position.top + dimensions.height > bounds.height) {
-                this.$el.css('top', Math.max(bounds.height - dimensions.height, 0));
+                if (position.top < 0) {
+                    this.$el.css('top', 0);
+                } else if (position.top + dimensions.height > bounds.height) {
+                    this.$el.css('top', Math.max(bounds.height - dimensions.height, 0));
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
         doWindowClose: function () {
-            this.options.model_instance.close();
+            try {
+                this.options.model_instance.close();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
         doActivate: function () {
-            this.options.model_instance.setOnTop();
+            try {
+                this.options.model_instance.setOnTop();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         block: function() {
-            if (!this.$('.overlay').length) {
-                this.$el.append(this.make('div', {'class': 'overlay hidden'}));
-            }
+            try {
+                if (!this.$('.overlay').length) {
+                    this.$el.append(this.make('div', {'class': 'overlay hidden'}));
+                }
 
-            this.$('.overlay').removeClass('hidden');
+                this.$('.overlay').removeClass('hidden');
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         unBlock: function() {
-            this.$('.overlay').addClass('hidden');
+            try {
+                this.$('.overlay').addClass('hidden');
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        percent2px: function (relation, value) {
+            if (typeof value === 'string' && value.charAt(value.length - 1) === '%') {
+                return relation / 100 * value.slice(0, -1);
+            }
+            return +value;
         },
 
         _calculateDimensions: function(width, height) {
-            var sd = this.dimensions,
-                rd = {},
-                containerWidth = this.$container.width(),
-                containerHeight = this.$container.height(),
-                specifiedWidth = width || sd.width || sd.maxWidth || '100%',
-                specifiedHeight = height || sd.height || sd.maxHeight || '100%',
-                maxWidth, maxHeight, minWidth, minHeight;
+            try {
+                var sd = this.dimensions,
+                    rd = {},
+                    containerWidth = this.$container.width(),
+                    containerHeight = this.$container.height(),
+                    specifiedWidth = width || sd.width || sd.maxWidth || '100%',
+                    specifiedHeight = height || sd.height || sd.maxHeight || '100%',
+                    maxWidth, maxHeight, minWidth, minHeight;
 
-            function percent2px(relation, value) {
-                if (typeof value === 'string' && value.charAt(value.length - 1) === '%') {
-                    return relation / 100 * value.slice(0, -1);
+                if (sd.width) {
+                    sd.minWidth = sd.maxWidth = sd.width;
+                } else if (width) {
+                    sd.minWidth = sd.maxWidth = width;
                 }
-                return +value;
+
+                if (sd.height) {
+                    sd.minHeight = sd.maxHeight = sd.height;
+                } else if (height) {
+                    sd.minHeight = sd.maxHeight = height;
+                }
+
+                rd.width = this.percent2px(containerWidth, specifiedWidth);
+                rd.height = this.percent2px(containerHeight, specifiedHeight);
+
+                rd.width = containerWidth < rd.width ? containerWidth : rd.width;
+                rd.height = containerHeight < rd.height ? containerHeight : rd.height;
+
+                if (sd.maxWidth && sd.maxWidth !== specifiedWidth) {
+                    maxWidth = this.percent2px(containerWidth, sd.maxWidth);
+                    rd.width = rd.width > maxWidth ? maxWidth : rd.width;
+                }
+
+                if (sd.maxHeight && sd.maxHeight !== specifiedHeight) {
+                    maxHeight = this.percent2px(containerHeight, sd.maxHeight);
+                    rd.height = rd.height > maxHeight ? maxHeight : rd.height;
+                }
+
+                if (sd.minWidth) {
+                    minWidth = this.percent2px(containerWidth, sd.minWidth);
+                    rd.width = rd.width < minWidth ? minWidth : rd.width;
+                }
+
+                if (sd.minHeight) {
+                    minHeight = this.percent2px(containerHeight, sd.minHeight);
+                    rd.height = rd.height < minHeight ? minHeight : rd.height;
+                }
+
+                return rd;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-
-            if (sd.width) {
-                sd.minWidth = sd.maxWidth = sd.width;
-            } else if (width) {
-                sd.minWidth = sd.maxWidth = width;
-            }
-
-            if (sd.height) {
-                sd.minHeight = sd.maxHeight = sd.height;
-            } else if (height) {
-                sd.minHeight = sd.maxHeight = height;
-            }
-
-            rd.width = percent2px(containerWidth, specifiedWidth);
-            rd.height = percent2px(containerHeight, specifiedHeight);
-
-            rd.width = containerWidth < rd.width ? containerWidth : rd.width;
-            rd.height = containerHeight < rd.height ? containerHeight : rd.height;
-
-            if (sd.maxWidth && sd.maxWidth !== specifiedWidth) {
-                maxWidth = percent2px(containerWidth, sd.maxWidth);
-                rd.width = rd.width > maxWidth ? maxWidth : rd.width;
-            }
-
-            if (sd.maxHeight && sd.maxHeight !== specifiedHeight) {
-                maxHeight = percent2px(containerHeight, sd.maxHeight);
-                rd.height = rd.height > maxHeight ? maxHeight : rd.height;
-            }
-
-            if (sd.minWidth) {
-                minWidth = percent2px(containerWidth, sd.minWidth);
-                rd.width = rd.width < minWidth ? minWidth : rd.width;
-            }
-
-            if (sd.minHeight) {
-                minHeight = percent2px(containerHeight, sd.minHeight);
-                rd.height = rd.height < minHeight ? minHeight : rd.height;
-            }
-
-            return rd;
         },
+
         doSettingsMenu:function(event) {
-            var me = this;
-            if(me.$('.sim-window-settings').css('display') === 'none') {
-                me.$('.sim-window-settings').css('display', 'block');
-            }else{
-                me.$('.sim-window-settings').css('display', 'none');
+            try {
+                var me = this;
+                if(me.$('.sim-window-settings').css('display') === 'none') {
+                    me.$('.sim-window-settings').css('display', 'block');
+                }else{
+                    me.$('.sim-window-settings').css('display', 'none');
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            console.log("Click YES");
         },
+
         doVolumeChange:function(event) {
-            if($(event.currentTarget).hasClass('volume-on')){
-                $(event.currentTarget).text("Выкл.");
-                if($(event.currentTarget).hasClass('control-mail')) {
-                    $(event.currentTarget).removeClass('volume-on');
-                    $(event.currentTarget).addClass('volume-off');
-                    SKApp.simulation.isPlayIncomingMailSound = false;
-                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function(){});
-                }else if($(event.currentTarget).hasClass('control-phone')){
-                    $(event.currentTarget).removeClass('volume-on');
-                    $(event.currentTarget).addClass('volume-off');
-                    SKApp.simulation.isPlayIncomingCallSound = false;
-                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function(){});
+            try {
+                if($(event.currentTarget).hasClass('volume-on')){
+                    $(event.currentTarget).text("Выкл.");
+                    if($(event.currentTarget).hasClass('control-mail')) {
+                        $(event.currentTarget).removeClass('volume-on');
+                        $(event.currentTarget).addClass('volume-off');
+                        SKApp.simulation.isPlayIncomingMailSound = false;
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function(){});
+                    }else if($(event.currentTarget).hasClass('control-phone')){
+                        $(event.currentTarget).removeClass('volume-on');
+                        $(event.currentTarget).addClass('volume-off');
+                        SKApp.simulation.isPlayIncomingCallSound = false;
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function(){});
+                    }else{
+                        throw new Error("Must be has class control-mail or control-phone");
+                    }
+                }else if($(event.currentTarget).hasClass('volume-off')) {
+                    $(event.currentTarget).text("Вкл.");
+                    if($(event.currentTarget).hasClass('control-mail')) {
+                        $(event.currentTarget).removeClass('volume-off');
+                        $(event.currentTarget).addClass('volume-on');
+                        SKApp.simulation.isPlayIncomingMailSound = true;
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function(){});
+                    }else if($(event.currentTarget).hasClass('control-phone')){
+                        $(event.currentTarget).removeClass('volume-off');
+                        $(event.currentTarget).addClass('volume-on');
+                        SKApp.simulation.isPlayIncomingCallSound = true;
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function(){});
+                    }else{
+                        throw new Error("Must has class 'control-mail' or 'control-phone'");
+                    }
                 }else{
-                    throw new Error("Must be has class control-mail or control-phone");
+                    throw new Error("Must has class 'volume-off' or 'volume-on'");
                 }
-            }else if($(event.currentTarget).hasClass('volume-off')) {
-                $(event.currentTarget).text("Вкл.");
-                if($(event.currentTarget).hasClass('control-mail')) {
-                    $(event.currentTarget).removeClass('volume-off');
-                    $(event.currentTarget).addClass('volume-on');
-                    SKApp.simulation.isPlayIncomingMailSound = true;
-                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function(){});
-                }else if($(event.currentTarget).hasClass('control-phone')){
-                    $(event.currentTarget).removeClass('volume-off');
-                    $(event.currentTarget).addClass('volume-on');
-                    SKApp.simulation.isPlayIncomingCallSound = true;
-                    SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function(){});
-                }else{
-                    throw new Error("Must be has class control-mail or control-phone");
+                return false;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-            }else{
-                throw new Error("Must be has class volume-off or volume-on");
             }
-            return false;
         },
-        resizeZoho:function(){
-            var width = $(".sim-window.document-window").width();
-            var height = $(".sim-window.document-window").height() - $(".sim-window.document-window .header-inner").height();
-            $(".excel-preload-window").width(width);
-            $(".excel-preload-window").height(height);
+
+        onResize : function() {
+            this.resize();
+            this.constrain();
         }
     });
     return SKWindowView;

@@ -1,11 +1,6 @@
 <?php
 
-/**
- * Контроллер почтовика
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
-class MailController extends AjaxController
+class MailController extends SimulationBaseController
 {
     /**
      * Возвращает колличество непрочитанных писем во входящих
@@ -49,23 +44,13 @@ class MailController extends AjaxController
             'uid'        => Yii::app()->user->id,
             'simId'      => $simulation->id
         ));
-        $this->sendJSON(array(
+        $result = [
             'result'   => 1,
             'messages' => $messages,
             'count'    => count($messages),
             'type'     => MailBox::$folderIdToAlias[$folderId]
-        ));
-    }
-
-    /**
-     * 
-     */
-    public function actionGetMessage()
-    {
-        $this->sendJSON(array(
-            'result' => 1,
-            'data'   => MailBoxService::getMessage((int)Yii::app()->request->getParam('emailId', 0)
-        )));
+        ];
+        $this->sendJSON($result);
     }
 
     /**
@@ -77,11 +62,12 @@ class MailController extends AjaxController
         $simulation = $this->getSimulationEntity();
         $characterThemeId = (int) Yii::app()->request->getParam('id', 0);
         $forwardLetterCharacterThemesId = (int) Yii::app()->request->getParam('forwardLetterCharacterThemesId', 0);
-         
-        return $this->sendJSON(array_merge(
-            array('result' => 1), 
+
+        $result = array_merge(
+            ['result' => self::STATUS_SUCCESS],
             MailBoxService::getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
-        ));
+        );
+        $this->sendJSON($result);
     }
 
     /**
@@ -114,13 +100,12 @@ class MailController extends AjaxController
         // key Action
         $message = MailBoxService::sendMessagePro($sendMailOptions);
         
-        if (NULL === $message){
-            $this->sendJSON(array('result' => 0));
+        if (NULL === $message) {
+            $result = ['result' => self::STATUS_ERROR];
+            $this->sendJSON($result);
         } else {
-            $this->sendJSON(array(
-                'result'    => 1,
-                'messageId' => $message->id
-            ));
+            $result = ['result' => self::STATUS_SUCCESS ,'messageId' => $message->id];
+            $this->sendJSON($result);
         }
     }
 
@@ -145,46 +130,8 @@ class MailController extends AjaxController
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 
-        $this->sendJSON(array(
-            'result' => (NULL === $email) ? 0 : 1,
-            'messageId' => $email->id
-        ));
-    }
-
-    /**
-     * Возвращает настройки почты
-     * @return type 
-     */
-    public function actionGetSettings()
-    {
-        $simulation = $this->getSimulationEntity();
-        
-        $mailClientSettingsEntity = MailSettings::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-        
-        if (NULL === $mailClientSettingsEntity){
-            $this->sendJSON(array('result' => 0));
-        } else {
-            $this->sendJSON(array(
-                'result'  => 1,
-                'data'    =>  $mailClientSettingsEntity->getSettingsArray()
-            ));
-        }
-    }
-
-    /**
-     * Сохранение настроек почты
-     * @return type 
-     */
-    public function actionSaveSettings()
-    {
-        $simulation = $this->getSimulationEntity();
-        
-        $this->sendJSON(array(
-            'result' => (int)MailSettings::updateSimulationSettings(
-                $simulation, 
-                Yii::app()->request->getParam('messageArriveSound', 0)
-             )
-        ));
+        $result = ['result' => (NULL === $email) ? self::STATUS_ERROR : self::STATUS_SUCCESS,'messageId' => $email->id];
+        $this->sendJSON($result);
     }
 
     /**
@@ -192,33 +139,15 @@ class MailController extends AjaxController
      */
     public function actionGetThemes()
     {
-        $this->sendJSON(array(
-            'result'           => 1,
+        $result = [
+            'result'           => self::STATUS_SUCCESS,
             'data'             => MailBoxService::getThemes(
                 $this->getSimulationEntity(),
                 Yii::app()->request->getParam('receivers', ''),
                 Yii::app()->request->getParam('parentSubjectId', null)
-            )/*,
-            'characterThemeId' => CommunicationTheme::getCharacterThemeId(
-                Yii::app()->request->getParam('receivers', ''), 
-                Yii::app()->request->getParam('parentSubjectId', 0)
-            ),*/
-        ));
-    }
-
-    /**
-     * 
-     * @return type
-     */
-    public function actionDelete()
-    {
-        $simulation = $this->getSimulationEntity();
-        $email = MailBox::model()->findByPk(Yii::app()->request->getParam('id'));
-
-        return $this->sendJSON(array(
-            'result'  => (int)MailBoxService::moveToFolder($email, MailBox::FOLDER_TRASH_ID),
-            'folders' => MailBoxService::getFolders($simulation)
-        ));
+            )
+        ];
+        $this->sendJSON($result);
     }
 
     /**
@@ -226,9 +155,10 @@ class MailController extends AjaxController
      */
     public function actionMarkRead()
     {
-        return $this->sendJSON(array(
+        $result = array(
             'result'  => (int)MailBoxService::markReaded((int)Yii::app()->request->getParam('id', 0))
-        ));
+        );
+        $this->sendJSON($result);
     }
 
     /**
@@ -240,27 +170,23 @@ class MailController extends AjaxController
     public function actionMove()
     {
         $simulation = $this->getSimulationEntity();
-
-        try {
-            return $this->sendJSON(array(
-                'result'  => MailBoxService::moveToFolder(
-                    MailBox::model()->findByPk((int)Yii::app()->request->getParam('messageId', 0)),
-                    Yii::app()->request->getParam('folderId', NULL)
-                ),
-                'folders' => [
-                    'inbox' => MailBoxService::getMessages([
-                        'folderId'   => MailBox::FOLDER_INBOX_ID,
-                        'simId'     => $simulation->id
-                    ]),
-                    'sended' => MailBoxService::getMessages([
-                        'folderId'   => MailBox::FOLDER_OUTBOX_ID,
-                        'simId'     => $simulation->id
-                    ]),
-                ]
-            ));
-        } catch (Exception $e) {
-            $this->returnErrorMessage($e->getMessage());
-        }
+        $result = [
+            'result'  => MailBoxService::moveToFolder(
+                MailBox::model()->findByPk((int)Yii::app()->request->getParam('messageId', 0)),
+                Yii::app()->request->getParam('folderId', NULL)
+            ),
+            'folders' => [
+                'inbox' => MailBoxService::getMessages([
+                    'folderId'   => MailBox::FOLDER_INBOX_ID,
+                    'simId'     => $simulation->id
+                ]),
+                'sended' => MailBoxService::getMessages([
+                    'folderId'   => MailBox::FOLDER_OUTBOX_ID,
+                    'simId'     => $simulation->id
+                ]),
+            ]
+        ];
+        $this->sendJSON($result);
     }
 
     /**
@@ -270,27 +196,24 @@ class MailController extends AjaxController
     {
         $messageToReply = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $this->sendJSON(
-            MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY)
-        );
+        $result = MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY);
+        $this->sendJSON($result);
     }
 
     public function actionReplyAll()
     {
         $messageToReply = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
+        $result = MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY_ALL);
 
-        $this->sendJSON(
-            MailBoxService::getMessageData($messageToReply, MailBoxService::ACTION_REPLY_ALL)
-        );
+        $this->sendJSON($result);
     }
 
     public function actionEdit()
     {
         $message = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $this->sendJSON(
-            MailBoxService::getMessageData($message, MailBoxService::ACTION_EDIT)
-        );
+        $result = MailBoxService::getMessageData($message, MailBoxService::ACTION_EDIT);
+        $this->sendJSON($result);
     }
 
     /**
@@ -302,11 +225,12 @@ class MailController extends AjaxController
         
         $email = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
-        
-        $this->sendJSON(array(
-            'result' => 1,
+
+        $result = [
+            'result' => self::STATUS_SUCCESS,
             'data'   => MailBoxService::getListTasksAvailableToPlanning($email),
-        ));        
+        ];
+        $this->sendJSON($result);
     }
 
     /**
@@ -325,11 +249,12 @@ class MailController extends AjaxController
         assert($emailTask);
         
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
-        
-        $this->sendJSON(array(
-            'result' => (NULL === $plannerTask) ? 0 : 1,
+
+        $json = [
+            'result' => (NULL === $plannerTask) ? self::STATUS_ERROR : self::STATUS_SUCCESS,
             'taskId' => (NULL === $plannerTask) ? NULL : $plannerTask->id,
-        ));
+        ];
+        $this->sendJSON($json);
     }
 
     /**
@@ -339,14 +264,15 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         $email = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
-        
-        $this->sendJSON(array(
-            'result' => (int)MailBoxService::sendDraft(
+
+        $json = [
+            'result' => MailBoxService::sendDraft(
                 $simulation,
                 $email,
                 Yii::app()->request->getParam('screen', null)
             ),
-        ));
+        ];
+        $this->sendJSON($json);
     }
 
     /**
@@ -357,9 +283,9 @@ class MailController extends AjaxController
     {
         $messageToForward = MailBox::model()->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $this->sendJSON(
-            MailBoxService::getMessageData($messageToForward, MailBoxService::ACTION_FORWARD)
-        );
+        $json = MailBoxService::getMessageData($messageToForward, MailBoxService::ACTION_FORWARD);
+
+        $this->sendJSON($json);
     }
 
     /**
@@ -377,13 +303,11 @@ class MailController extends AjaxController
         $message = LibSendMs::sendMsByCode($simulation, $msCode, $time, $windowId, $subWindowId, $windowUid);
 
         if (NULL !== $message) {
-            $this->sendJSON([
-                'result' => 1
-            ]);
+            $json = ['result' => self::STATUS_SUCCESS];
+            $this->sendJSON($json);
         } else {
-            $this->sendJSON([
-                'result' => 0
-            ]);
+            $json = ['result' => self::STATUS_ERROR];
+            $this->sendJSON($json);
         }
     }
 }

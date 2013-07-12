@@ -659,6 +659,8 @@ define([
 //            });
 
             it("has characters for replyAll", function () {
+                window.testMode = true;
+
                 SKApp.simulation.start();
                 server.respond();
                 var client = new SKMailClient();

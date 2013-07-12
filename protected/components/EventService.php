@@ -20,6 +20,25 @@ class EventService
     {
         if ( ($code == '') || ($code == '-') ) return false;
         if ($code == 'T') return false; // финальная реплика
+
+        // проверяем что по данному диалого залогирована первая реплика
+        // -- значит диалог уже произошел {
+        $dialog = $simulation->game_type->getReplica([
+            'code'           => $code,
+            'step_number'    => 1,
+            'replica_number' => 0,
+        ]);
+        if (null !== $dialog) {
+            $replicas = LogReplica::model()->findAllByAttributes([
+                'sim_id'     => $simulation->id,
+                'replica_id' => $dialog->id,
+            ]);
+
+            if (0 < count($replicas)) {
+                return false;
+            }
+        }
+        // проверяем что по данному диалого залогирована первая реплика }
         
         // проверить есть ли событие по такому коду и если есть то создать его
         $event = $simulation->game_type->getEventSample(['code' => $code]);

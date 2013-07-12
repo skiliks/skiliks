@@ -21,23 +21,13 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        try
-        {
-            sleep(10);
-            $this->assertTrue($this->verify_flag('F19','0'));
-
-            $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
-            $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
-            $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
-
-            $this->assertTrue($this->verify_flag('F19','1'));
-        }
-        catch (Exception $e)
-        {
-            $this->close();
-            $this->fail($e);
-        }
-        $this->close();
+        sleep(10);
+        $this->assertTrue($this->verify_flag('F19','0'));
+        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
+        $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
+        $this->assertTrue($this->verify_flag('F19','1'));
+        $this->simulation_stop();
 
     }
 
@@ -54,24 +44,14 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        try
-        {
-            sleep(10);
-            $this->assertTrue($this->verify_flag('F19','0'));
-
-            $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
-            $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
-            $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
-            $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
-
-            $this->assertTrue($this->verify_flag('F19','1'));
-        }
-        catch (Exception $e)
-        {
-            $this->close();
-            $this->fail($e);
-        }
-        $this->close();
+        sleep(10);
+        $this->assertTrue($this->verify_flag('F19','0'));
+        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
+        $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
+        $this->assertTrue($this->verify_flag('F19','1'));
+        $this->simulation_stop();
     }
 
     /**
@@ -85,26 +65,15 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case3()
     {
-        //$this->markTestIncomplete();
         $this->start_simulation();
-        try
-        {
-            sleep(10);
-            $this->assertTrue($this->verify_flag('F19','0'));
-
-            $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
-            $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
-            $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
-            $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
-
-            $this->assertTrue($this->verify_flag('F19','1'));
-        }
-        catch (Exception $e)
-        {
-            $this->close();
-            $this->fail($e);
-        }
-        $this->close();
+        sleep(10);
+        $this->assertTrue($this->verify_flag('F19','0'));
+        $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
+        $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
+        $this->assertTrue($this->verify_flag('F19','1'));
+        $this->simulation_stop();
     }
 
     /**
@@ -118,22 +87,12 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        try{
-            sleep(5);
-            $this->optimal_click("link=F19");
-
-            $this->assertTrue($this->verify_flag('F19','1'));
-
-            $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
-            sleep(5);
-            $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
-        }
-        catch (Exception $e)
-        {
-            $this->close();
-            $this->fail($e);
-        }
-        $this->close();
-
+        sleep(5);
+        $this->optimal_click("link=F19");
+        $this->assertTrue($this->verify_flag('F19','1'));
+        $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
+        sleep(5);
+        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
+        $this->simulation_stop();
     }
 }
