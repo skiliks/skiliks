@@ -679,6 +679,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .container-results-4 .grid1 {
     width:240px;
 }
+.container-2 .noleftmargin {
+    margin-left: 0px;
+}
 /*  ****************************************************** /GRID **********************************************************/
 /*  ************************ SITE ************************/
 
