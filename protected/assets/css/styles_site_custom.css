@@ -562,6 +562,13 @@
 .browsers .container-3 {
     text-align: center;
 }
+.browsers .grid2 {
+    padding: 30px 40px 0;
+    width:270px;
+}
+.browsers .grid2 {
+    width:40px;
+}
 .browsers .font-xxxlarge {
     font-size: 30px;
 }
