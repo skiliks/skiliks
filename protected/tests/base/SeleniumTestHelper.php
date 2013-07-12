@@ -21,10 +21,6 @@ class SeleniumTestHelper extends CWebTestCase
             'timeout' => 30000,
         )
     );
-    /**
-     * start_simulation - это метод, который включает стандартные действия при начале симуляции
-     * (начиная с открытия окна браузера до самого входа в dev-режим).
-     */
 
     protected function setUp()
     {
@@ -33,7 +29,10 @@ class SeleniumTestHelper extends CWebTestCase
         parent::setUp();
     }
 
-
+    /**
+     * start_simulation - это метод, который включает стандартные действия при начале симуляции
+     * (начиная с открытия окна браузера до самого входа в dev-режим).
+     */
     public function start_simulation()
     {
         $this->setUp();
@@ -69,13 +68,19 @@ class SeleniumTestHelper extends CWebTestCase
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 
+    public function simulation_stop()
+    {
+        $this->optimal_click("css=.btn.btn-simulation-stop");
+        $this->close();
+    }
+
     /**
      * run_event - это метод для запуска события по его event_code.
+     * next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
+     * after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
+     * запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
+     * если еще что-то надо, то можно дописать в switch
      */
-    // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
-    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
-    // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
-    // если еще что-то надо, то можно дописать в switch
     public function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
@@ -195,31 +200,6 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * is_it_done - это метод для проверки выполнения или не выполнения действия (например, для проверки,
-     * что телефон не звонит на протяжении 1 реальной минуты).
-     * locator - локатор элемента, наличие которого мы проверяем.
-     * Возвращаем true, если произошло событие и
-     * возвращаем false, если не произошло.
-     */
-    public function is_it_done ($locator)
-    {
-        $was_done = false;
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
-            try{
-                if (!($this->isVisible($locator)))
-                {
-                    $was_done = true;
-                    break;
-                }
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
-        return $was_done;
-    }
-
-
-    /**
      * verify_flag - это метод для проверки, что значение флага num_flag поменялось
      * и соответсвует значению ver_value.
      * Возвращаем true, если поменялось значение флага и
@@ -249,45 +229,6 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         return $was_changed;
-    }
-
-    /**
-     * mail_comes - это метод для проверки, что необходимое письмо пришло.
-     * mail_theme - тема письма, которое мы ожидаем.
-     * Возвращаем true, если пришло письмо с необходимой темой и
-     * возвращаем false, если не пришло.
-     */
-    public function mail_comes ($mail_theme)
-    {
-        $is_here=false;
-        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
-        $b = "]/td[2]";
-        $count = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a;
-            $result .= (string)$count;
-            $result .= $b;
-            if ($this->isVisible($result))
-            {
-                $this->mouseOver($result);
-                if (($this->getText($result))==$mail_theme)
-                {
-                    $is_here = true;
-                    break;
-                }
-                else
-                {
-                    $count++;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $is_here;
     }
 
     /**
@@ -340,61 +281,24 @@ class SeleniumTestHelper extends CWebTestCase
         return $same_number;
     }
 
-    /**
-     *
-     */
-    public function mail_open ($mail_theme)
-    {
-        $is_here=false;
-        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
-        $b = "]/td[2]";
-        $count = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a;
-            $result .= (string)$count;
-            $result .= $b;
-            if ($this->isVisible($result))
-            {
-                $this->mouseOver($result);
-                if (($this->getText($result))==$mail_theme)
-                {
-                    $is_here = true;
-                    $this->optimal_click($result);
-                    break;
-                }
-                else
-                {
-                    $count++;
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $is_here;
-    }
-
-    /**
-     *
-     */
-
+    // метод для начала написания письма из чистой симуляции
     public function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
     }
 
+    // метод добавления получателя к письму
     public function addRecipient ($address)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
+        sleep(2);
         $this->waitForVisible($address);
         $this->mouseOver($address);
         $this->optimal_click($address);
     }
 
+    // метод добавления темы к письму
     public function addTheme($theme)
     {
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
@@ -402,6 +306,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click($theme);
     }
 
+    // метод добавления атача к письму
     public function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
@@ -410,6 +315,16 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click("xpath=(//*[contains(text(), '$filename')])");
     }
 
+    // метод для очистки не нужных событий из очереди событий
+    // параметром нужно написать начальный event, например RST1
+    public function clearEventQueueBeforeEleven($event)
+    {
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $event .= '.1';
+        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+    }
 
     //*****************************************************
     // БЛОК ДЛЯ РАБОТЫ С ЛОГАМИ ПОСЛЕ ОКОНЧАНИЯ СИМУЛЯЦИИ
@@ -621,12 +536,17 @@ class SeleniumTestHelper extends CWebTestCase
         return $i==$match;
     }
 
+    //********************************************
+    // БЛОК ДЛЯ ПРОВЕРКИ ОЦЕНОК ЗА СИМУЛЯЦИЮ
+    //********************************************
+
     public function checkSimPoints ($positive,$negative)
     {
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_positive'],"$positive");
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_negative'],"$negative");
     }
 
+    // для проверки оценок по Целям обучения (личностные характеристики - пока выпилили - переделываем)
     public function checkLearningArea($personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
     {
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
@@ -645,6 +565,9 @@ class SeleniumTestHelper extends CWebTestCase
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
     }
 
+    //********************************************
+    // БЛОК ДЛЯ ПРОВЕРКИ РАБОТЫ САЙТА
+    //********************************************
     public function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
@@ -660,14 +583,13 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
-    public function clearEventQueueBeforeEleven($event)
+    // попытка сделать свой скиппер - пока не удалять
+    public function markTestSkipp ()
     {
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $event .= '.1';
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $this->assertTrue(TRUE, 'This should already work.');
+        $this->close();
     }
+
 
     /*public function __construct()
     {

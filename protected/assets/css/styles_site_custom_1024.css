@@ -1,79 +1,615 @@
-@media screen and (max-width: 1146px) {
-    /*  ****************************** SOCIAL ICONS *******************************/
-    .social_networks>span {
-        line-height: 26px;
-    }
-    .social_networks .addthis_toolbox {
-        display: block;
-        float:left;
-    }
-    .social_networks>span {
-        font-size: 12px;
-        line-height: 26px;
-    }
-    .social_networks .addthis_toolbox {
-        display: block;
-        float:left;
-    }
-    .social_networks a {
-        background:url("../img/social-small.png") -100% -100% no-repeat;
-        width:28px;
-        height:27px;
-    }
-    .social_networks .addthis_button_facebook {
-        background-position: -36px 0px;
-    }
-    .social_networks .addthis_button_facebook:hover {
-        background-position: -36px -33px;
-    }
-    .social_networks .addthis_button_twitter {
-        background-position: -71px 0px;
-        width:29px;
-    }
-    .social_networks .addthis_button_twitter:hover {
-        background-position: -71px -33px;
-    }
-    .social_networks .addthis_button_google_plusone_share {
-        background-position: -107px 0px;
-    }
-    .social_networks .addthis_button_google_plusone_share:hover {
-        background-position: -107px -33px;
-    }
-    .social_networks .addthis_button_linkedin {
-        background-position: -142px 0px;
-    }
-    .social_networks .addthis_button_linkedin:hover {
-        background-position: -142px -33px;
-    }
-    /*  ****************************** /SOCIAL ICONS *******************************/
-    /*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
-    .form-small input[type="text"], .form-small input[type="password"] {
-        height: 26px;
-        line-height: 26px;
-        padding: 3px 9px;
-    }
-    .form-large input[type=text], .form-large input[type=password] {
-        height:24px;
-        font-size: 16px;
-        padding: 14px 10px 14px 19px;
-    }
-    .form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
-        box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
-        border:3px solid #24bdd3;
-        padding: 12px 8px 12px 17px;
-    }
-    .form-simple input[type="text"]+input[type="text"] {
-        margin-left: 10px;
-    }
-    .row {
-        position: relative;
-        padding-top: 10px;
-    }
-    .row.wide {
-        padding-top: 12px;
-    }
-    .row.buttons, .row.wide+.row.wide {
-        padding-top: 15px;
-    }
-    /*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  *************************** PADDINGS ****************************/
+.pad-norm {
+    padding: 8px;
 }
+.pad-midle {
+    padding: 12px;
+}
+.pad-large {
+    padding: 15px;
+}
+.pad-xsize {
+    padding: 22px;
+}
+.pad-xxsize {
+    padding: 30px;
+}
+.pad-large>h1, .pad-large>h2, .pad-xsize>h1, .pad-xsize>h2, .ui-widget-content>h1, .ui-widget-content>h2 {
+    margin-top: -4px;
+}
+/*  *************************** /PADDINGS ****************************/
+/*  ****************************** SOCIAL ICONS *******************************/
+.social_networks>span {
+    line-height: 26px;
+}
+.social_networks .addthis_toolbox {
+    display: block;
+    float:left;
+}
+.social_networks>span {
+    font-size: 12px;
+    line-height: 26px;
+}
+.social_networks .addthis_toolbox {
+    display: block;
+    float:left;
+}
+.social_networks a {
+    background:url("../img/social-small.png") -100% -100% no-repeat;
+    width:28px;
+    height:27px;
+}
+.social_networks .addthis_button_facebook {
+    background-position: -36px 0px;
+}
+.social_networks .addthis_button_facebook:hover {
+    background-position: -36px -33px;
+}
+.social_networks .addthis_button_twitter {
+    background-position: -71px 0px;
+    width:29px;
+}
+.social_networks .addthis_button_twitter:hover {
+    background-position: -71px -33px;
+}
+.social_networks .addthis_button_google_plusone_share {
+    background-position: -107px 0px;
+}
+.social_networks .addthis_button_google_plusone_share:hover {
+    background-position: -107px -33px;
+}
+.social_networks .addthis_button_linkedin {
+    background-position: -142px 0px;
+}
+.social_networks .addthis_button_linkedin:hover {
+    background-position: -142px -33px;
+}
+/*  ****************************** /SOCIAL ICONS *******************************/
+/*  ************************ KABINET ************************/
+#invite-form .sbHolder, #invite-form select {
+    width:113px;
+}
+#invite-form .btn-primary {
+    margin-left: 57px;
+}
+#invite-people-box h3 {
+    font-size: 21px;
+    width:170px;
+}
+#invite-form label {
+    width: 45px;
+}
+#Invite_firstname {
+    width: 50px;
+}
+#Invite_lastname {
+    width: 64px;
+}
+#Invite_email {
+    width: 134px;
+}
+#invite-form .btn-add {
+    bottom: 1px;
+    position: absolute;
+    right: 0px;
+}
+#invite-form .pad-xsize {
+    padding: 10px;
+}
+#invite-form .sbHolder {
+    width: 120px;
+}
+#invite-form .sbSelector {
+    width: 110px;
+}
+.small-block {
+    border-radius: 3px;
+    display: inline-block;
+    min-width: 18px;
+    padding: 5px 3px 4px;
+}
+#simulations-counter-box {
+    margin-bottom:23px;
+    margin-top:26px;
+}
+#simulations-counter-box .font-large, #simulations-counter-box .small-block {
+    display: table-cell;
+}
+#simulations-counter-box .font-large {
+    height: 21px;
+    font-size: 14px;
+    padding-right: 4px;
+    vertical-align: middle;
+}
+#simulations-counter-box .small-block {
+    font-size: 15px;
+}
+.invites-limit {
+    padding-bottom: 4px;
+}
+#corporate-invitations-list-box #yw0_c0 {
+    width: 25px;
+}
+#corporate-invitations-list-box #yw0_c1 a {
+    margin-left: -20px;
+    position: absolute;
+    top: 10px;
+    width: 103px;
+}
+#corporate-invitations-list-box #yw0_c1,
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 108px;
+    width: 108px;
+}
+#corporate-invitations-list-box #yw0_c2,
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+    max-width: 65px;
+    width: 65px;
+}
+#corporate-invitations-list-box #yw0_c3 {
+    max-width: 80px;
+    width: 80px;
+}
+#corporate-invitations-list-box #yw0_c4 {
+    width: 110px;
+}
+#corporate-invitations-list-box #yw0_c5 {
+    width: 110px;
+}
+#corporate-invitations-list-box .items p {
+    height: 12px;
+    margin: 0px;
+    padding: 0px;
+}
+.ratebg {
+    background: url("../img/ratestarssmall2.png") no-repeat left 0px;
+}
+.rating {
+    background: url("../img/ratestarssmall2.png") no-repeat 0px -18px;
+    display: inline-block;
+}
+.grid-view .ratebg {
+    width: 68px;
+}
+.prcentval {
+    font-size: 9px;
+}
+.grid1 .feedback {
+    margin-left: 6px;
+}
+/*  ************************ /KABINET ************************/
+/*  *************************** DASHBOARD TABLE ***************************/
+.table-primary th, .items th, .grid-view table.items th,
+.table-primary td, .items td, .grid-view table.items td {
+    font-size: 10px;
+}
+.table-primary th, .items th, .grid-view table.items th {
+    padding: 10px 3px;
+}
+.dashboard .items td {
+    padding: 4px 3px;
+}
+/*  *************************** /DASHBOARD TABLE ***************************/
+/*  *************************** SIMULATIONS TABLE ***************************/
+.table-simultns .grid-view table.items td  {
+    height: 32px;
+    padding: 0px 3px;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+}
+.action-controller-indexNew-static-simulations .grid-view {
+    border-radius: 6px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 6px;
+}
+.table-simultns #yw0_c0, .table-simultns tr td:first-child  {
+    max-width: 170px;
+    width: 170px;
+}
+.table-simultns #yw0_c1, .table-simultns #yw0_c2, .table-simultns tr td:nth-child(2), .table-simultns tr td:nth-child(3) {
+    max-width: 240px;
+    width: 240px;
+}
+.table-simultns #yw0_c3 {
+    max-width: 97px;
+    width: 97px;
+}
+.table-simultns tr td:last-child p {
+    margin-top: 4px;
+}
+/*  *************************** /SIMULATIONS TABLE ***************************/
+/*  ************************ FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+.form-small input[type="text"], .form-small input[type="password"] {
+    height: 20px;
+    font-size: 11px;
+    line-height: 20px;
+    padding: 2px 5px;
+}
+.form-simple label{
+    font-size: 11px;
+    min-width: 35px;
+}
+.form-large input[type=text], .form-large input[type=password] {
+    height:18px;
+    font-size: 13px;
+    padding: 11px 6px;
+}
+.form-large input[type="text"]:focus, .form-large input[type="password"]:focus {
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 9px rgba(0, 0, 0, 0.1);
+    border:3px solid #24bdd3;
+    padding: 9px 4px;
+}
+.form-simple input[type="text"]+input[type="text"], #Invite_lastname {
+    margin-left: 6px;
+}
+.row {
+    position: relative;
+    padding-top: 14px; /* 10 */
+}
+.row.wide {
+    padding-top: 14px;/* 10 */
+}
+.row.buttons, .row.wide+.row.wide {
+    padding-top: 14px;/* 12 */
+}
+.sbHolder {
+    font-size:11px;
+}
+/*  ************************ /FORM SIMPLE (example - Otpravit priglashenie) ************************  */
+/*  ************************ REGISTRATION ************************/
+.registrationform input[type=text] {
+    width:182px;
+}
+.registrationform input[type=password] {
+    width:138px;
+}
+.registrationform .row {
+    margin-left: 8px;
+    position:relative;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.registrationform .btn-large {
+    margin-top: -4px;
+}
+.form-profl-reg label {
+    vertical-align: middle;
+    width:120px;
+}
+.form-profl-reg input[type=text] {
+    width:103px;
+}
+.form-profl-reg input.input-long {
+    width:225px;
+}
+.form-profl-reg .sbHolder {
+    width:234px;
+}
+/*  ************************ /REGISTRATION ************************/
+/* ************************ Pager ************************ */
+.yiiPager .previous a, .yiiPager .next a, .yiiPager .previous a:link, .yiiPager .next a:link,
+.yiiPager .previous a:visited, .yiiPager .next a:visited {
+    font-size: 12px;
+    padding: 6px 7px;
+}
+.yiiPager .previous a, .pager .yiiPager .previous a {
+    margin-right: 12px;
+}
+.yiiPager a, .pager .yiiPager a {
+    font-size: 14px;
+}
+.pager .yiiPager .previous a, .pager .yiiPager .next a,
+.pager .yiiPager .previous a:link, .pager .yiiPager .next a:link,
+.pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
+    font-size: 12px;
+    margin: 0px 11.5px;
+}
+/* ************************ /Pager ************************ */
+/*  *************************** ERRORS ***************************/
+.errorMessage {
+    font-size: 9px;
+}
+.form-simple .errorMessage {
+    left:55px;
+    top:0px;
+}
+.form-simple .errorMessage.Invite_lastname {
+    left: 126px;
+    white-space: nowrap;
+}
+/*  *************************** /ERRORS ***************************/
+/*  *************************** FEEDBACK ***************************/
+.feedbackwrap .ui-widget-content {
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+}
+.feedbackwrap {
+    background-size: contain;
+    height: 320px !important;
+    width: 594px !important;
+}
+.feedback-dialog-title {
+    font-size: 24px;
+    margin-top: 20px;
+}
+.feedback .form-submit-button {
+    top: 26px;
+}
+/*  *************************** /FEEDBACK ***************************/
+/*  *************************** ADD VACANCY POPUP ***************************/
+.add-vacancy-popup {
+    background: url("../img/vacancybg-min.jpg") no-repeat right top, url("../img/bg-popuprpt.jpg") repeat left top;
+    height: 286px !important;
+    /*margin-left: -212px !important;
+    margin-top: -10px;*/
+    padding-bottom: 0px;
+    top: -630px !important;
+    width: 424px !important;
+}
+.add-vacancy-popup .ui-dialog-content h1 {
+    font-size: 22px;
+    padding-bottom: 6px;
+}
+.add-vacancy-popup label {
+    font-size: 11px;
+    height: 22px;
+    width: 115px;
+}
+.add-vacancy-popup input[type="text"], .add-vacancy-popup .sbHolder {
+    left: 115px;
+}
+.add-vacancy-popup input[type="text"] {
+    color:#146672;
+    font-size: 11px;
+    height: 18px;
+    line-height: 18px;
+    width:260px;
+}
+.add-vacancy-popup .sbHolder {
+    top: 5px;
+    width: 260px;
+}
+.add-vacancy-popup .errorMessage {
+    top: -7px;
+    left: 115px;
+}
+.add-vacancy-popup #Vacancy_label_em_, .add-vacancy-popup #Vacancy_link_em_ {
+    top: -11px;
+}
+/*  *************************** /ADD VACANCY POPUP ***************************/
+/*  *************************** SEND INVITATION POPUP ***************************/
+.controller-static-dashboard .cabmessage {
+    height: 455px !important;
+    top: 202px !important;
+    width: 495px !important;
+}
+#Invite_message {
+    height: 40px;
+    max-height: 40px;
+    min-height: 40px;
+}
+#Invite_fullname {
+    height: 10px;
+    line-height: 10px;
+}
+#Invite_fullname, #Invite_message {
+    padding: 8px;
+    max-width: 405px;
+    min-width: 405px;
+    width: 405px;
+}
+.block-form {
+    height: 302px;
+    overflow: hidden;
+    padding: 15px 10px;
+    width: 425px;
+}
+.block-form p {
+    font-size: 11px;
+    margin-bottom: 20px;
+}
+.cabmessage input, .cabmessage select,
+.cabmessage textarea, .cabmessage button {
+    font: 14px "ProximaNova-Regular";
+}
+.cabmessage .ui-widget-content {
+    padding-top: 10px;
+    width: 560px !important;
+}
+.invite-form-block label, .invite-form-block p,
+.invite-form-block input[type="text"], .invite-form-block textarea {
+    font-size: 11px;
+}
+/*  *************************** /SEND INVITATION POPUP ***************************/
+/*  *************************** PROFILE ***************************/
+.side-menu a {
+    background: url("../img/menuarrowsmall.png") no-repeat 228px -45px;
+    display: block;
+    font-size: 14px;
+    height:38px;
+    line-height: 38px;
+    padding: 0px 15px;
+    text-decoration: none;
+}
+.side-item a:hover, .side-item .active a, .side-item .active a:hover, .side-menu .active a {
+    background-position: 228px 13px;
+}
+.mnotactive a:hover {
+    background-position: 228px -45px;
+}
+.side-menu .active a {
+    color: #245057;
+}
+.profile-min-height {
+    min-height: 350px;
+}
+.profile-tarif-form .row {
+    height: 40px;
+}
+.profileform .row {
+    padding-top: 15px;
+}
+.profilelabel-wrap label {
+    font-size: 14px;
+    padding-right: 10px;
+    width: 175px;
+}
+.profilelabel-wrap strong {
+    display: block;
+    padding-top: 4px;
+}
+.profile-tarif-form strong {
+    padding-top: 4px;
+}
+.profile-tarif-form label {
+    line-height: 13px;
+    padding-top: 5px;
+}
+.profileform .buttons {
+    padding-top: 24px;
+}
+.profileform input[type=text], .profileform input[type=password] {
+    color: #1d7885;
+    height: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+}
+.profileform input[type=password] {
+    width:158px;
+}
+.profileform input[type=text]+input[type=text], #profile_lastname {
+    margin-left: 10px;
+}
+#UserAccountCorporate_ownership_type {
+    width: 90px;
+}
+#UserAccountCorporate_company_name {
+    margin-left: 10px;
+    width: 155px;
+}
+#account-corporate-company-info-form .sbHolder {
+    width: 158px;
+}
+#UserAccountCorporate_company_description {
+    min-height: 80px;
+    max-height: 80px;
+    height: 80px;
+    min-width: 263px;
+    max-width: 263px;
+    width: 263px;
+}
+.row-inputs label {
+    line-height: 25px;
+}
+.row-selects label {
+    line-height: 17px;
+}
+.profileform .row-textarea label {
+    line-height:88px;
+}
+.profileform .errorMessage {
+    left: 186px;
+    top:1px;
+    white-space: nowrap;
+}
+
+.accnt-corprt-form .sbHolder {
+    width:270px;
+}
+.accnt-corprt-form input[type=text] {
+    width: 120px;
+}
+.accnt-corprt-form .row-inputs {
+    margin-bottom: 6px;
+}
+.accnt-corprt-form .row-selects {
+    margin-top:11px;
+}
+.accnt-corprt-form strong {
+    padding-top: 0px;
+}
+.errorMessage.profile_lastname {
+    left:328px;
+}
+.accnt-corprt-form .errorMessage {
+    top:-13px;
+}
+/* ***************** VACANCIES *****************  */
+.vacancy-list .grid-view table.items {
+    width:410px;
+}
+.vacancy-list .grid-view table.items td {
+    color: #3c3c32;
+    font-size: 14px;
+}
+.vacancy-list .grid-view table.items td {
+    padding: 0px 0px 16px 3px;
+}
+.vacancy-list .grid-view table.items td:first-child {
+    padding-left: 0px;
+}
+.vacancy-list .grid-view tr td:nth-child(2) {
+    max-width:220px;
+    width:220px;
+}
+.vacancy-list .grid-view tr td:nth-child(3) {
+    max-width:132px;
+    width:132px;
+}
+.vacancy-list .grid-view tr td:nth-child(4),
+.vacancy-list .grid-view tr td:nth-child(5){
+    width:12px;
+}
+.form-vacancy input[type="text"] {
+    width: 252px;
+}
+.form-vacancy .sbHolder {
+    width: 260px;
+}
+#Vacancy_professional_occupation_id_em_ {
+    top:-13px;
+}
+.form-vacancy .errorMessage {
+    top:2px;
+}
+/* ***************** /VACANCIES *****************  */
+/*  *************************** /PROFILE ***************************/
+/*  *************************** OLD BROWSERS ***************************/
+.ico-browser {
+    background: url("../img/browsers-min.png") no-repeat -100% -100%;
+    margin: 16px auto 10px;
+    width: 106px;
+    height: 106px;
+}
+.ico-chrome {
+    background-position: 0 0px;
+}
+.ico-firefox {
+    background-position:100% 0px;
+}
+.browsers .container-3 {
+    margin: 0 auto;
+    width:580px;
+}
+.browsers .grid2 {
+    padding: 26px 30px 0;
+    text-align: center;
+    width:207px;
+}
+.browsers .grid1 {
+    padding-top:100px;
+    width:44px;
+}
+.browsers .grid1, .browsers p {
+    text-align: center;
+}
+.browsers .grid1+.grid2 {
+    margin-left: 0px;
+}
+.browsers .font-xxxlarge {
+    font-size: 23px;
+}
+/*  *************************** /OLD BROWSERS ***************************/

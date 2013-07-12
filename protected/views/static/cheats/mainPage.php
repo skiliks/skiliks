@@ -104,8 +104,38 @@
         <br/>
         <br/>
 
-    <a href="/dashboard-new">dashboard Corporate new</a>
-    <a href="/static/dnd">Drag & Drop prototype</a>
+    <a href="/dashboard-new" style="background-color: #1D7885">dashboard Corporate new</a>
+    <a href="/simulations-new" style="background-color: #1D7885">simulations Corporate new</a>
+    <a href="/profile-corporate-tariff-new" style="background-color: #1D7885">tariff Corporate new</a>
+    <a href="/profile-corporate-company-info-new" style="background-color: #1D7885">company info Corporate new</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/profile-corporate-user-info-new" style="background-color: #1D7885">user info Corporate new</a>
+    <a href="/profile-corporate-password-new" style="background-color: #1D7885">Corporate password new</a>
+    <a href="/profile-corporate-vacancies-new" style="background-color: #1D7885">Corporate vacavcies new</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/product-new" style="background-color: #1D7885">Product new</a>
+    <a href="/team-new" style="background-color: #1D7885">Team new</a>
+    <a href="/form-errors-standard" style="background-color: #1D7885">form errors standard</a>
+    <a href="/home-new" style="background-color: #1D7885">home standard</a>
+    <a href="/old-browser-new" style="background-color: #1D7885">old browser standard</a>
+
+        <br/>
+        <br/>
+        <br/>
+
+    <a href="/static/drag-and-drop">Drag & Drop prototype</a>
+
+        <br/>
+        <br/>
+        <br/>
 
     </nav>
 

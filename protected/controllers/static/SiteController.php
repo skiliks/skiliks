@@ -1,9 +1,6 @@
 <?php
-class SiteController extends AjaxController
+class SiteController extends SiteBaseController
 {
-    public $user;
-    public $signInErrors;
-
     /**
      * This is defaut Yii action.
      * It never useded in API or frontend static pages.
@@ -98,6 +95,7 @@ class SiteController extends AjaxController
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,
+                'zoho_popup'     => Yii::app()->params['saveZohoPopupTime'],
             ]
         );
 

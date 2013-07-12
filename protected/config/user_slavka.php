@@ -36,7 +36,10 @@ return CMap::mergeArray(
             'frontendUrl' => 'http://skiliks.loc/',
             'assetsDebug' => true,
             'public' => [
-                'isLocalPc' => true,
+                'isLocalPc'          => true,
+                'isUseZohoProxy'     => false,
+                'useSentryForJsLog'  => true,
+                'isSkipBrowserCheck' => true,
             ]
         )
     )

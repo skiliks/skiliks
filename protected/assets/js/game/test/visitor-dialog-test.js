@@ -154,6 +154,7 @@ define(
                 });
 
                 it('Visitor dialog test', function() {
+                    window.testMode = true;
                     server.responses = _.filter(server.responses, function (response) {return response.method !== 'POST' || response.url !== "/index.php/events/getState";});
                     server.respondWith(
                         "POST",

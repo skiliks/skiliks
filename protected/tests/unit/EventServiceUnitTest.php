@@ -127,5 +127,4 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(null, $res);
     }
-
 }

@@ -27,7 +27,13 @@ define([], function() {
          * @method initialize
          */
         initialize: function() {
-            this.uid = (new Date()).getTime() + '_' + Math.floor(Math.random()*100000);
+            try {
+                this.uid = (new Date()).getTime() + '_' + Math.floor(Math.random()*100000);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
     return window.SKMailPhrase;

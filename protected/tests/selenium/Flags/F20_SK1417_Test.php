@@ -23,13 +23,11 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
-
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),' Вот спасибо! Выручил! Давай до вечера,')])");
-
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->close();
+        $this->simulation_stop();
     }
 
     /**
@@ -47,14 +45,12 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
-
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, об этом я и не подумал. Ладно, ')])");
-
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->close();
+        $this->simulation_stop();
     }
 
     /**
@@ -72,12 +68,10 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
-
         $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
         $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай встретимся вечером,')])");
-
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->close();
+        $this->simulation_stop();
     }
 }

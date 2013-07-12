@@ -33,11 +33,10 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.1');
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->close();
+        $this->simulation_stop();
     }
 
     /**
@@ -67,11 +66,10 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.1');
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->close();
+        $this->simulation_stop();
     }
 
     /**
@@ -99,11 +97,10 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.2');
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->close();
+        $this->simulation_stop();
     }
 
     /**
@@ -133,11 +130,9 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F4','1'));
 
         $this->run_event('ET1.3.2');
-
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->close();
+        $this->simulation_stop();
     }
 }

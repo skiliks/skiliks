@@ -162,6 +162,7 @@ define([
             });
 
             it("day plan", function () {
+                window.testMode = true;
 
                 var simulation = SKApp.simulation;
                 simulation.start();

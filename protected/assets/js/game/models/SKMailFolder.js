@@ -34,14 +34,20 @@ define([], function() {
          * @returns {*}
          */
         getEmailByMySqlId: function(mySqlId) {
-            mySqlId = parseInt(mySqlId, 10);
-            var res_email = [];
-            this.emails.forEach(function (email) {
-                if ('undefined' !== typeof email && parseInt(email.mySqlId, 10) === mySqlId) {
-                    res_email = email;
+            try {
+                mySqlId = parseInt(mySqlId, 10);
+                var res_email = [];
+                this.emails.forEach(function (email) {
+                    if ('undefined' !== typeof email && parseInt(email.mySqlId, 10) === mySqlId) {
+                        res_email = email;
+                    }
+                });
+                return res_email;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-            });
-            return res_email;
+            }
         },
 
         /**
@@ -51,16 +57,22 @@ define([], function() {
          * @returns {boolean}
          */
         updateEmailMySqlId: function(oldId, newId) {
-            var result = false;
-            this.emails.forEach(function (email) {
-                if (parseInt(email.mySqlId, 10) === oldId) {
-                    email.mySqlId = newId;
-                    
-                    result = true;
+            try {
+                var result = false;
+                this.emails.forEach(function (email) {
+                    if (parseInt(email.mySqlId, 10) === oldId) {
+                        email.mySqlId = newId;
+
+                        result = true;
+                    }
+                });
+
+                return result;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-            }); 
-            
-            return result;
+            }
         },
 
         /**
@@ -68,7 +80,13 @@ define([], function() {
          * @returns {*}
          */
         getFirstEmail: function() {
-            return this.emails[0];
+            try {
+                return this.emails[0];
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -76,15 +94,21 @@ define([], function() {
          * @returns {number}
          */
         countUnreaded: function() {
-            var result = 0;
-            
-            for (var i in this.emails) {
-                if (false === this.emails[i].isRead()) {
-                    result++;
+            try {
+                var result = 0;
+
+                for (var i in this.emails) {
+                    if (false === this.emails[i].isRead()) {
+                        result++;
+                    }
+                }
+
+                return result;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
-            
-            return result;
         }
     });
 
