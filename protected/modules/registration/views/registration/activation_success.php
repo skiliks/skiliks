@@ -1,4 +1,4 @@
-<h2 class="thetitle longercontent text-center">Вы можете пройти демо-версию</h2>
+<h2 class="thetitle longercontent text-center">Ваш аккаунт успешно активирован</h2>
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
