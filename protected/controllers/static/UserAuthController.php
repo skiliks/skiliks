@@ -241,7 +241,11 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistrationCorporate()
     {
-        $this->render('afterRegistrationCorporate', ['isGuest' => Yii::app()->user->isGuest]);
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
+
+        $this->render('afterRegistrationCorporate');
     }
 
     /**
@@ -431,7 +435,7 @@ class UserAuthController extends YumController
                     $this->user->refresh();
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
-                        $this->sendCorporationEmailVerification($this->user);
+                        //$this->sendCorporationEmailVerification($this->user);
                         $this->redirect('afterRegistrationCorporate');
                     } else {
                         $this->redirect('/dashboard');
