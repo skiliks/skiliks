@@ -30,12 +30,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><!-- /container  -->
 
 
     <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
-        <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
+        <a href="/registration" class="btn btn-large btn-green"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
 
     <?php elseif ('en' == Yii::app()->getlanguage()): ?>
             <!-- FORM { -->
@@ -60,10 +60,10 @@
 <!--features end-->
 
 <!--main article-->
-<section class="main-article">
+<section class="home-contnt-box">
     <article>
-        <h3><?php echo Yii::t('site', 'Easiest') ?></h3>
-        <ul>
+        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Easiest') ?></h2>
+        <ul class="unstyled">
             <li><?php echo Yii::t('site', 'Saves your time') ?></li>
             <li><?php echo Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world') ?></li>
             <li><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online') ?></li>
@@ -72,8 +72,8 @@
     </article>
 
     <article>
-        <h3><?php echo Yii::t('site', 'Most Reliable') ?></h3>
-        <ul>
+        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Most Reliable') ?></h2>
+        <ul class="unstyled">
             <li><?php echo Yii::t('site', 'Focused on key skills') ?></li>
             <li><?php echo Yii::t('site', 'Based on best working practices') ?></li>
             <li><?php echo Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations') ?></li>
