@@ -625,6 +625,12 @@ html[lang=ru] .betaflag {
 .bigtitle {
     font-size: 3.4em;
 }
+.minititle {
+    font: 1.6em "ProximaNova-Regular";
+    color: #fff;
+    text-align: center;
+    margin-bottom: 15px;
+}
 .thetitle span {
     text-transform: uppercase;
 }
