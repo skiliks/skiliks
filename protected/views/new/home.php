@@ -16,7 +16,7 @@
             </ul>
         </div>
         <div class="grid1">
-            <div class="video" style="cursor: pointer;">
+            <div class="video block-border bg-transparnt">
                 <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
             <div class="social_networks smallicons">

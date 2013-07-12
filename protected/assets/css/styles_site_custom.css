@@ -63,10 +63,11 @@
 
 
 .video {
-    background: url("../img/img-video.png") no-repeat 0 0;
-    height: 211px;
+    background: url("../img/video-home.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 237px;
     text-align: center;
-    width:396px;
+    width:459px;
 }
 .video-caption {
     background-color: #176771;
