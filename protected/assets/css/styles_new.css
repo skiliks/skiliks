@@ -627,7 +627,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /SITE ************************/
 /*  *************************** GRID ***************************/
 .grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after,
-.container-results-3:after {
+.container-results-3:after, .container-2:after {
     visibility: hidden;
     display: block;
     font-size: 0;
