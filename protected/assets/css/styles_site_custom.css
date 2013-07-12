@@ -18,7 +18,7 @@
     margin-top: -6px;
 }
 /*  *************************** /PADDINGS ****************************/
-/*  ************************** HOME **************************/
+/*  *********************************** HOME ***********************************/
 .home-contnt-box li {
     font-size: 16px;
     line-height: 16px;
@@ -35,7 +35,6 @@
 }
 .home-list-box {
     padding-right: 20px;
-    padding-top: 32px;
     width:450px;
 }
 .access-footer {
@@ -56,12 +55,41 @@
 .betaflag {
     background: url("../img/betaflag.png") no-repeat 0 0;
     height: 49px;
-    left: 285px;
+    left: 275px;
     position: absolute;
     top: 31px;
     width: 105px;
 }
-/*  ************************** /HOME **************************/
+
+
+.video {
+    background: url("../img/video-home.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 237px;
+    text-align: center;
+    width:459px;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 135px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
+}
+.home-content .social_networks {
+    margin-top: 10px;
+}
+.home-content .container-2 {
+    width:950px;
+}
+.home-content .container-2 .grid1 {
+    width:475px;
+}
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
+/*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
     width:223px;
