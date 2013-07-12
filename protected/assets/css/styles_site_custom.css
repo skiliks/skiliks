@@ -517,8 +517,8 @@
     padding: 0px 0px 20px 5px;
 }
 .vacancy-list .grid-view tr td:nth-child(2) {
-   max-width:280px;
-   width:280px;
+   max-width:285px;
+   width:285px;
 }
 .vacancy-list .grid-view tr td:nth-child(3) {
     max-width:170px;
