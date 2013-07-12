@@ -2869,7 +2869,7 @@ SocialCalc.CalculateEditorPositions = function(editor) {
 
    editor.gridposition = SocialCalc.GetElementPosition(editor.griddiv, true);
    editor.headposition =
-      SocialCalc.GetElementPosition(editor.griddiv.firstChild.lastChild.childNodes[2].childNodes[1]); // 3rd tr 2nd td
+      SocialCalc.GetElementPosition(editor.griddiv.firstChild.lastChild.childNodes[2].childNodes[1], true); // 3rd tr 2nd td
 
    editor.rowpositions = [];
    for (rowpane=0; rowpane<editor.context.rowpanes.length; rowpane++) {
