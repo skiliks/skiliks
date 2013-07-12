@@ -585,10 +585,10 @@
     height: 106px;
 }
 .ico-chrome {
-    background-position: 0 -10px;
+    background-position: 0 -3px;
 }
 .ico-firefox {
-    background-position:100% -10px;
+    background-position:100% -3px;
 }
 .browsers .container-3 {
     margin: 0 auto;
