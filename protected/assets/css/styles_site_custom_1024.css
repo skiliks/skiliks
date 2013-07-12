@@ -513,6 +513,7 @@
 .profileform .errorMessage {
     left: 186px;
     top:1px;
+    white-space: nowrap;
 }
 
 .accnt-corprt-form .sbHolder {
@@ -572,7 +573,10 @@
     top:-13px;
 }
 .form-vacancy .errorMessage {
-    top:7px;
+    top:2px;
 }
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
+/*  *************************** OLD BROWSERS ***************************/
+
+/*  *************************** /OLD BROWSERS ***************************/

@@ -1,15 +1,15 @@
-<div class="">
-    <h1 class="page-header">К сожалению, в данный момент мы не поддерживаем ваш браузер</h1>
-    <span class="font-xxlarge">Предлагаем установить</span>
-    <div class="container-3-short">
+<div class="browsers">
+    <h1 class="page-header text-center margin-less">К сожалению, в данный момент мы не поддерживаем ваш браузер</h1>
+    <p class="font-xxlarge text-center font-white">Предлагаем установить</p>
+    <div class="container-3">
         <div class="grid2">
-            <h3 class="proxima-reg">Google Chrome 27</h3>
-            <div class="ico-chrome"></div><a class="btn btn-site btn-green" href="http://google.com/chrome" target="_blank">Установить</a>
+            <p class="font-xxxlarge font-white">Google Chrome 27</p>
+            <div class="ico-chrome ico-browser"></div><a class="btn btn-site btn-green" href="http://google.com/chrome" target="_blank">Установить</a>
         </div>
-        <div class="grid1 font-xxlarge">или </span>
+        <div class="grid1"><span class="font-xxlarge font-white">или</span></div>
         <div class="grid2">
-            <h3 class="proxima-reg">Mozilla Firefox 21</h3>
-            <div class="ico-firefox"></div><a class="btn btn-site btn-green" href="http://www.mozilla.org/firefox/new/" target="_blank">Установить</a>
+            <p class="font-xxxlarge font-white">Mozilla Firefox 21</p>
+            <div class="ico-firefox ico-browser"></div><a class="btn btn-site btn-green" href="http://www.mozilla.org/firefox/new/" target="_blank">Установить</a>
         </div>
     </div>
 </div>
