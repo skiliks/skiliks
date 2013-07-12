@@ -51,13 +51,11 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?> site-wrap" id="top">
         <header class="site-header grid-container">
-            <h1><a href="./">
-                    <img id="header-main-logo"
+            <h1><a href="./"><img id="header-main-logo"
                          src="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
                          data-src-big="<?php echo $assetsUrl?>/img/logo/logo-header-1024.png"
                          data-src-small="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
-                         alt="Skiliks"/>
-                </a></h1>
+                         alt="Skiliks"/></a></h1>
             <nav class="menu-site menu-top" id="static-page-links">
                 <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
             </nav>
