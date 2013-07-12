@@ -537,5 +537,11 @@
 .form-vacancy .sbHolder {
     width: 360px;
 }
+#Vacancy_professional_occupation_id_em_ {
+    top:-15px;
+}
+.form-vacancy .errorMessage {
+    top:3px;
+}
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
