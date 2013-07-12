@@ -62,6 +62,23 @@
     width: 105px;
 }
 
+
+.video {
+    background: url("../img/img-video.png") no-repeat 0 0;
+    height: 211px;
+    text-align: center;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 135px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
+}
+.home-content .social_networks {
+    margin-top: 10px;
+}
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {

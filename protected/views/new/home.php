@@ -17,7 +17,7 @@
         </div>
         <div class="grid1 noleftmargin">
             <div class="video" style="cursor: pointer;">
-                <span class="video-caption"><?php echo Yii::t('site', 'Watch the video to learn more') ?></span>
+                <span class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></span>
             </div>
             <div class="social_networks smallicons">
                 <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
