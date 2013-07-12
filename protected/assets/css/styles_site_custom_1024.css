@@ -547,6 +547,9 @@
 .vacancy-list .grid-view table.items td {
     padding: 0px 0px 16px 3px;
 }
+.vacancy-list .grid-view table.items td:first-child {
+    padding-left: 0px;
+}
 .vacancy-list .grid-view tr td:nth-child(2) {
     max-width:220px;
     width:220px;
