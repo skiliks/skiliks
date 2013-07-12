@@ -1,33 +1,37 @@
-<section class="features">
+<section class="home-content">
     <h1><?php echo Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!') ?></h1>
-    <div class="iframe-video-wrap">
+    <!--<div class="iframe-video-wrap">
         <div class="iframe-video">
             <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
         </div>
-    </div>
+    </div>-->
 
-
-    <div class="videosocwrap clearfix">
-        <div class="video" style="cursor: pointer;">
-            <span class="video-caption"><?php echo Yii::t('site', 'Watch the video to learn more') ?></span>
+    <div class="container-2">
+        <div class="grid1">
+            <ul class="list-light unstyled font-xxlarge home-list-box">
+                <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
+                <li><?php echo Yii::t('site', '2-3-hours game') ?></li>
+                <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
+                <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
+            </ul>
         </div>
-        <div class="social_networks smallicons">
-            <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
-            <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
-                <a class="addthis_button_vk"></a>
-                <a class="addthis_button_facebook"></a>
-                <a class="addthis_button_twitter"></a>
-                <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
-                <a class="addthis_button_linkedin"></a>
+        <div class="grid1 noleftmargin">
+            <div class="video" style="cursor: pointer;">
+                <span class="video-caption"><?php echo Yii::t('site', 'Watch the video to learn more') ?></span>
+            </div>
+            <div class="social_networks smallicons">
+                <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
+                <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+                    <a class="addthis_button_vk"></a>
+                    <a class="addthis_button_facebook"></a>
+                    <a class="addthis_button_twitter"></a>
+                    <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
+                    <a class="addthis_button_linkedin"></a>
+                </div>
             </div>
         </div>
     </div>
-    <ul class="list-light unstyled font-xxlarge home-list-box">
-        <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
-        <li><?php echo Yii::t('site', '2-3-hours game') ?></li>
-        <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
-        <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
-    </ul>
+
 
     <?php if ('ru' == Yii::app()->getlanguage()): ?>
 

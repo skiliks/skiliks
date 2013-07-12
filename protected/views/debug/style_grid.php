@@ -95,7 +95,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     </div>
 
     <div class="razdelitel"></div>
-    <h3>Три колонки</h3>
+    <h3>Две колонки</h3>
 
     <div class="container-2 font-xlarge">
         <div class="grid1 text-center font-white">
@@ -105,6 +105,9 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
             Кандидату потребуется 2-3 часа.
         </div>
     </div>
+
+    <div class="razdelitel"></div>
+    <h3>Три колонки</h3>
 
     <div class="container-3 font-xlarge">
         <div class="grid1 text-center font-white">
