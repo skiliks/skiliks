@@ -15,7 +15,7 @@
                 <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
             </ul>
         </div>
-        <div class="grid1 noleftmargin">
+        <div class="grid1">
             <div class="video" style="cursor: pointer;">
                 <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
