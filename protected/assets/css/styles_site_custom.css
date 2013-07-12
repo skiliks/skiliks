@@ -21,7 +21,7 @@
 /*  *********************************** HOME ***********************************/
 .action-homeNew {
     background-color: #e8f7f7;
-    background: url("../img/maintopbg.jpg");
+    background-image: url("../img/maintopbg.jpg");
     background-repeat: no-repeat;
     background-position: center top;
 }
