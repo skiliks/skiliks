@@ -50,9 +50,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event($event, "css=li.icon-active.door a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
-        $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска')])");
-
         $this->run_event('M8');
         sleep(3);
         $this->run_event('M6');
@@ -63,6 +60,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(3);
         $this->run_event('M7');
         sleep(3);
+
+        $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска')])");
+
         $this->run_event("MS45");
         sleep(30);
 
@@ -73,7 +74,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
 
         // MS69
-        $this->optimal_click("css=.NEW_EMAIL");
+        //$this->optimal_click("css=.NEW_EMAIL");
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->addTheme("xpath=(//*[contains(text(), 'Квартальный план')])");
         $this->addAttach("Квартальный план_4 кв_2013");
@@ -167,8 +168,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M74');
         sleep(3);
         $this->run_event('M66');
-        sleep(3);
-        $this->run_event("MS45");
         sleep(15);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
