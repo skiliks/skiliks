@@ -15,6 +15,8 @@
         </div>
     </div>
 </div>
+<h6 class="minititle" id="registration_hint" style="visibility: <?php echo $user->is_check ? 'hidden' : 'visible' ?>"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
+
 <p class="text-center longercontent"> <?php Yum::t('Click {here} to go to the login form', array(
 			'{here}' => CHtml::link(Yum::t('here'), Yum::module()->loginUrl
 				))); ?> </p>

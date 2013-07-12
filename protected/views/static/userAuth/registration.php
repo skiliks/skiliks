@@ -16,6 +16,8 @@
         </div>
     </div>
 
+    <h6 class="minititle" id="registration_hint" style="visibility: hidden"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
+
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id'                   => 'yum-user-registration-form',
 	'enableAjaxValidation' => false,

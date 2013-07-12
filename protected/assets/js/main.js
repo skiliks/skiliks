@@ -135,6 +135,9 @@ var fixLogotypes = function() {
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-next'));
                 }
+                if ($('#registration_hint').length) {
+                    $('#registration_hint').css('visibility', 'visible');
+                }
             } else if ($(this).hasClass('icon-chooce')) {
                 $(this).removeClass('icon-chooce');
                 $(this).addClass('icon-check');
@@ -142,6 +145,9 @@ var fixLogotypes = function() {
                 $("#registration_check span").css('display', 'none');
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-start'));
+                }
+                if ($('#registration_hint').length) {
+                    $('#registration_hint').css('visibility', 'hidden');
                 }
             }
             return false;
