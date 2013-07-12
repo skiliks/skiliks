@@ -483,6 +483,7 @@
 .profileform .errorMessage {
     left: 210px;
     top:5px;
+    white-space: nowrap;
 }
 .accnt-corprt-form .sbHolder {
     width:350px;
