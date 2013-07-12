@@ -67,8 +67,10 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <div class="razdelitel"></div><div class="razdelitel" style="height:80px;"></div>
 
     <div class="container-borders-3">
-        <div class="block-border bg-rich-blue grid1 border-primary">
-            <div class="pad-large font-white"><h3>Заголовок</h3></div>
+        <div class="grid1">
+            <div class="block-border bg-rich-blue border-primary">
+                <div class="pad-large font-white"><h3>Заголовок</h3></div>
+            </div>
         </div>
         <div class="block-border grid2 border-primary dashboard">
             <table class="table-primary">
