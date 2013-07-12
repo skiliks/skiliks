@@ -545,7 +545,7 @@
     font-size: 14px;
 }
 .vacancy-list .grid-view table.items td {
-    padding: 0px 3px 16px 0px;
+    padding: 0px 0px 16px 3px;
 }
 .vacancy-list .grid-view tr td:first-child {
     padding-right: 7px;
