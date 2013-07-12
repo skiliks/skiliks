@@ -14,6 +14,28 @@
                 <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
                 <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
             </ul>
+            <?php if ('ru' == Yii::app()->getlanguage()): ?>
+
+                <a href="/registration" class="btn btn-large btn-green"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
+
+            <?php elseif ('en' == Yii::app()->getlanguage()): ?>
+                <!-- FORM { -->
+                <div id="notify-form">
+                    <form action="static/pages/addUserSubscription" id="subscribe-form">
+                        <div>
+                            <input type="text"
+                                   id = "user-email-value"
+                                   placeholder="{Yii::t('site', 'Enter your email address')}"
+                                />
+                            <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
+                                <?php echo Yii::t('site', 'Please enter a valid email address') ?>
+                            </p>
+                        </div>
+                        <div><input type="submit" value="{Yii::t('site', 'Notify me')}" ?></div>
+                    </form>
+                </div>
+                <!-- FORM } -->
+            <?PHP endif ?>
         </div>
         <div class="grid1">
             <div class="video block-border bg-transparnt">
@@ -31,31 +53,6 @@
             </div>
         </div>
     </div><!-- /container  -->
-
-
-    <?php if ('ru' == Yii::app()->getlanguage()): ?>
-
-        <a href="/registration" class="btn btn-large btn-green"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
-
-    <?php elseif ('en' == Yii::app()->getlanguage()): ?>
-            <!-- FORM { -->
-            <div id="notify-form">
-            <form action="static/pages/addUserSubscription" id="subscribe-form">
-                <div>
-                    <input type="text"
-                           id = "user-email-value"
-                           placeholder="{Yii::t('site', 'Enter your email address')}"
-                           />
-                    <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
-                        <?php echo Yii::t('site', 'Please enter a valid email address') ?>
-                    </p>
-                </div>
-                <div><input type="submit" value="{Yii::t('site', 'Notify me')}" ?></div>
-            </form>
-            </div>
-        <!-- FORM } -->
-    <?PHP endif ?>
-
 </section>
 <!--features end-->
 
@@ -85,7 +82,7 @@
 
 <!--clients-->
 <section class="clients">
-    <h3><?php echo Yii::t('site', 'Our Clients') ?></h3>
+    <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Our Clients') ?></h2>
 
     <ul>
         <li style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></li>

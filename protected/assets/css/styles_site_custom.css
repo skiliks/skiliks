@@ -25,6 +25,9 @@
     background-repeat: no-repeat;
     background-position: center top;
 }
+.action-homeNew .site-wrap {
+    background: url("../img/heros-home.png") no-repeat center 164px;
+}
 .home-contnt-box li {
     font-size: 16px;
     line-height: 16px;
