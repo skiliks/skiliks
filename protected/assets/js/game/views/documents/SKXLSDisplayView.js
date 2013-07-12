@@ -23,7 +23,7 @@ define([
         isDisplaySettingsButton:false,
 
         title:'Мои документы',
-        addClass: 'document-window',
+        addClass: 'document-window document-excel',
 
         dimensions: {},
         events: _.defaults({

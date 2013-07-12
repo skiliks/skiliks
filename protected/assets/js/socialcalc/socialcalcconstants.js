@@ -321,7 +321,7 @@ SocialCalc.Constants = {
 
    //*** SocialCalc.SpreadsheetControl
 
-   SCToolbarbackground: "background-color:#404040;",
+   SCToolbarbackground: "",
    SCTabbackground: "background-color:#CCC;",
    SCTabselectedCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#404040;cursor:default;border-right:1px solid #CCC;",
    SCTabplainCSS: "font-size:small;padding:6px 30px 6px 8px;color:#FFF;background-color:#808080;cursor:default;border-right:1px solid #CCC;",
