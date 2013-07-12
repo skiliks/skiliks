@@ -60,12 +60,6 @@ class Calls_Management_Test extends SeleniumTestHelper
 
         $this->clearEventQueueBeforeEleven('RST5');
 
-        $this->run_event('RST6', "css=li.icon-active.phone a", 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'давайте я вам перешлю этот показатель')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Через пять минут данные будут у вас')])");
-        sleep(5);
-
         $this->clearEventQueueBeforeEleven('RST9');
 
         $this->run_event('ET3.1', "css=li.icon-active.phone a", 'click');
