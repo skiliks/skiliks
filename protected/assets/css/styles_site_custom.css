@@ -85,6 +85,9 @@
 .home-content .container-2 .grid1 {
     width:475px;
 }
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
