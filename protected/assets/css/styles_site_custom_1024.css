@@ -580,7 +580,6 @@
 /*  *************************** OLD BROWSERS ***************************/
 .ico-browser {
     background: url("../img/browsers-min.png") no-repeat -100% -100%;
-    background-size: 106px;
     margin: 16px auto 8px;
     width: 106px;
     height: 106px;
