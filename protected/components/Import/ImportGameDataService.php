@@ -2682,6 +2682,64 @@ class ImportGameDataService
         );
     }
 
+    public function importMeetings()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Meetings');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $meetings = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $code = $this->getCellValue($sheet, 'Meeting_code', $i);
+            $taskCode = $this->getCellValue($sheet, 'Plan_connection', $i);
+
+            $meeting = $this->scenario->getMeeting(['code' => $code]);
+            if (empty($meeting)) {
+                $meeting = new Meeting();
+                $meeting->code = $code;
+            }
+
+            $meeting->name = $this->getCellValue($sheet, 'Meeting_name', $i);
+            $meeting->label = ''; // TODO: Wait for scenario update
+            $meeting->duration = $this->getCellValue($sheet, 'Duration', $i);
+
+            if ($taskCode) {
+                $task = $this->scenario->getTask(['code' => $taskCode]);
+                if ($task) {
+                    $meeting->task_id = $task->id;
+                }
+            }
+
+            $meeting->scenario_id = $this->scenario->primaryKey;
+            $meeting->import_id = $this->import_id;
+
+            $meeting->save();
+            $meetings++;
+        }
+
+        // delete old unused data {
+        Meeting::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'meetings' => $meetings,
+            'errors'    => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2734,6 +2792,7 @@ class ImportGameDataService
         $result['max_rate'] = $this->importMaxRate();
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
+        $result['meetings'] = $this->importMeetings();
         return $result;
     }
 
