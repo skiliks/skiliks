@@ -693,6 +693,7 @@
 }
 .team-list h3 {
     font-size: 24px;
+    margin-top: 28px;
 }
 .maria {
     background-image: url("../img/team-maria.png");
@@ -711,6 +712,7 @@
 }
 .team-values li {
     background: url("../img/bg-team-values-item.png") no-repeat center bottom;
+    line-height: 150%;
     margin-top: 32px;
     padding-bottom: 85px;
 }
