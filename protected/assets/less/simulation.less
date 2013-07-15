@@ -177,6 +177,68 @@ body {
                   background-image: url('../img/window-title-dots.png'), -o-linear-gradient(top, #5e5e5e, #2e2d2d);
                   background-image: url('../img/window-title-dots.png'), -ms-linear-gradient(top, #5e5e5e, #2e2d2d);
                   background-image: url('../img/window-title-dots.png'), linear-gradient(top, #5e5e5e, #2e2d2d);
+                  ul.button_menu{
+                    position: absolute;
+                    float: left;
+                    li {
+                      //position: absolute;
+                      display: inline;
+                      float: left;
+                      height: 10%;
+                      margin-right: 20px;
+                      //padding-right: 20px;
+                      //width: 5%;
+                      img {
+                        position: absolute;
+                        float: left;
+                        margin-left: 13px;
+                        cursor: pointer;
+                      }
+                      img:hover {
+                        border: 3px solid rgba(255, 255, 255, 0.5);
+                        border-radius: 3px;
+                        background: rgba(255, 255, 255, 0.8);
+                      }
+                      a{
+                        text-decoration: none;
+                        span{
+                          //position: absolute;
+                          color: white;
+                        }
+                      }
+                      br{
+                        line-height: 23px;
+                      }
+                    }
+                  }
+                  ul.menu_bar{
+                    position: absolute;
+                    margin-top: 50px;
+                    li {
+                      //position: absolute;
+                      display: inline;
+                      float: left;
+                      margin-right: 12px;
+                      input {
+                        padding: 0px;
+                        padding-left: 3px;
+                      }
+                      input.status{
+                        width: 60px;
+                      }
+                      input.formula{
+                        width: 285%;
+                      }
+                      img {
+                        cursor: pointer;
+                      }
+                      img:hover {
+                        border: 3px solid rgba(255, 255, 255, 0.5);
+                        border-radius: 3px;
+                        background: rgba(255, 255, 255, 0.8);
+                      }
+                    }
+                  }
                 }
               }
           }

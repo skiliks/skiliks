@@ -246,16 +246,16 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       node.removeChild(child);
       }
 
-   html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 12px 10px 10px 4px; height:40px;">' +
-        '<img id="%id.button_undo" src="%img.undo.png" style="">' +
-        '<img id="%id.button_redo" src="%img.redo.png" style="">' +
-        '<img id="%id.button_copy" src="%img.copy.png" style="">' +
-        '<img id="%id.button_paste" src="%img.paste.png" style="">' +
-        '<img id="%id.button_sum" src="%img.auto_sum.png" style="">' +
-        '<img id="%id.button_percent" src="%img.percent.png" alt="%" style="">' +
-        '<span id="%id.statusline" style="width: 40px; line-height: 40px; color: #fff"></span>' +
-        '<img id="%id.button_function" src="%img.function.png" style="">' +
-        '<input id="%id.formula_field" type="text" size="100" value="" />' +
+   html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:75px;">' +
+        '<ul class="button_menu"><li><img id="%id.button_undo" src="%img.undo.png" style=""><br><a><span>отменить</span></a></li>' +
+        '<li><img id="%id.button_redo" src="%img.redo.png" style=""><br><a><span>вернуть</span></a></li>' +
+        '<li><img id="%id.button_copy" src="%img.copy.png" style=""><br><a><span>копировать</span></a></li>' +
+        '<li><img id="%id.button_paste" src="%img.paste.png" style=""><br><a><span>вставить</span></a></li>' +
+        '<li><img id="%id.button_sum" src="%img.auto_sum.png" style=""><br><a><span>сумма</span></a></li>' +
+        '<li><img id="%id.button_percent" src="%img.percent.png" alt="%" style=""><br><a><span>формат</span></a></li></ul>' +
+        '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
+        '<li><img id="%id.button_function" src="%img.function.png" style=""></li>' +
+        '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
     '</div>';
 
    html = html.replace(/\%s\./g, "SocialCalc.");
@@ -282,13 +282,12 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    for (button in spreadsheet.Buttons) {
       bele = document.getElementById(spreadsheet.idPrefix+button);
       if (!bele) {alert("Button "+(spreadsheet.idPrefix+button)+" missing"); continue;}
-      bele.style.border = "1px solid "+scc.ISCButtonBorderNormal;
       bele.setAttribute('data-spreadsheet', spreadsheet.idPrefix);
       SocialCalc.TooltipRegister(bele, SCLoc(spreadsheet.Buttons[button].tooltip), {});
       SocialCalc.ButtonRegister(bele,
-         {normalstyle: "border:1px solid "+scc.ISCButtonBorderNormal+";backgroundColor:"+scc.ISCButtonBorderNormal+";",
-          hoverstyle: "border:1px solid "+scc.ISCButtonBorderHover+";backgroundColor:"+scc.ISCButtonBorderNormal+";",
-          downstyle: "border:1px solid "+scc.ISCButtonBorderDown+";backgroundColor:"+scc.ISCButtonDownBackground+";"}, 
+         {normalstyle: "",
+          hoverstyle: "",
+          downstyle: ""},
          {MouseDown: SocialCalc.DoButtonCmd, command: spreadsheet.Buttons[button].command});
    }
 
@@ -569,7 +568,7 @@ SocialCalc.SpreadsheetControlStatuslineCallback = function(editor, status, arg, 
    var ele = document.getElementById(params.statuslineid);
 
    if (ele) {
-      ele.innerHTML = editor.GetStatuslineString(status, arg, params);
+      ele.value = editor.GetStatuslineString(status, arg, params);
       }
 
    switch (status) {
