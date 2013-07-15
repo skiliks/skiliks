@@ -52,9 +52,17 @@ class Pause_SK3359_Test extends SeleniumTestHelper
             } catch (Exception $e) {}
             usleep(100000);
         }
+
         $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
         $this->open('/simulation/developer/lite');
 
+        for ($second = 0; ; $second++) {
+            if ($second >= 600) $this->fail("timeout");
+            try {
+                if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail'])) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
         $time3=$this->how_much_time();
         $this->optimal_click("css=.pause");
         sleep(10);
