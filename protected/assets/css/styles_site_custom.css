@@ -117,7 +117,7 @@
     height: 500px;
     left: 50%;
     margin-left: -745px;
-    overflow: hidden;
+    overflow-x: hidden;
     position: absolute;
     top:700px;
     width:1490px;
