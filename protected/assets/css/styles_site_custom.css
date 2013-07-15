@@ -29,8 +29,8 @@
     background: url("../img/heros-home.png") no-repeat center 140px;
 }
 .home-contnt-box {
-    margin: 38px 0px 90px 385px;
-    width:515px;
+    margin: 30px 0px 90px 370px;
+    width:540px;
 }
 .home-contnt-box li { /* 07.12 */
     font-size: 16px;
@@ -41,7 +41,7 @@
     margin-bottom: 14px;
 }
 .home-contnt-box ul+h2 {
-    margin-top:43px;
+    margin-top:40px;
 }
 .home-list-box {/* 07.12 */
     margin-bottom: 30px;
@@ -84,12 +84,12 @@
     background-color: #176771;
     border-radius: 4px;
     display: inline-block;
-    margin: 135px auto 0;
+    margin: 153px auto 0;
     opacity: 0.9;
     padding: 7px 15px 11px;
 }
 .home-content .social_networks {
-    margin-top: 10px;
+    margin-top: 18px;
 }
 .home-content .container-2 {
     height:334px;
@@ -101,8 +101,42 @@
 .home-content .grid1+.grid1 {
     margin-left: 0px;
 }
+.home-height {
+    height:945px;
+}
+.clients h2 {
+    margin-bottom: 20px;
+}
 .clients .grid-cell {
+    padding-bottom: 48px;
+    padding-right:40px;
     vertical-align: middle;
+}
+.heroes-comment {
+    font: 12px/22px 'SegoePrint';
+    color: rgba(20,102,114,0.6);
+    width: 190px;
+    position: absolute;
+}
+.heroes-comment.right{
+    -moz-transform:rotate(-27deg);
+    -ms-transform:rotate(-27deg);
+    -webkit-transform:rotate(-27deg);
+    -o-transform:rotate(-27deg);
+    transform:rotate(-27deg);
+    top:648px;
+    left:50%;
+    margin-left:504px;
+}
+.heroes-comment.left{
+    -moz-transform:rotate(30deg);
+    -ms-transform:rotate(30deg);
+    -webkit-transform:rotate(30deg);
+    -o-transform:rotate(30deg);
+    transform:rotate(30deg);
+    top:762px;
+    left:50%;
+    margin-left:-610px;
 }
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/

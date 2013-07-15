@@ -272,6 +272,46 @@ h3 {
     top: 31px;
     width: 83px;
 }
+
+.video {/* 07.12 i vse vniz novye */
+    background: url("../img/video-home.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 237px;
+    text-align: center;
+    width:459px;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 153px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
+}
+.home-content .social_networks {
+    margin-top: 18px;
+}
+.home-content .container-2 {
+    height:334px;
+    width:950px;
+}
+.home-content .container-2 .grid1 {
+    width:475px;
+}
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
+.home-height {
+    height:945px;
+}
+.clients h2 {
+    margin-bottom: 20px;
+}
+.clients .grid-cell {
+    padding-bottom: 48px;
+    padding-right:40px;
+    vertical-align: middle;
+}
 /*  ************************** /HOME **************************/
 
 /*  *************************** SIGN IN ***************************/

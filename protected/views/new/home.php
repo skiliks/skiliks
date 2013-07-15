@@ -55,39 +55,37 @@
     </div><!-- /container  -->
 </section>
 <!--features end-->
+<p class="heroes-comment right">"Оценка навыков поражает<br>&nbsp;своей полнотой и глубиной,<br>&nbsp;&nbsp;&nbsp;теперь я точно знаю,<br>&nbsp;&nbsp;что ожидать от<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;новичков"</p>
+<p class="heroes-comment left">"Это же реальная игра!<br>&nbsp;С вызовом и глубоким<br>&nbsp;&nbsp;&nbsp;&nbsp;погружением – я даже не<br>&nbsp;&nbsp;заметил как пролетело<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;время!"</p>
+<div class="home-height">
+    <!--main article-->
+    <section class="home-contnt-box">
+       <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Easiest') ?></h2>
+            <ul class="unstyled">
+                <li><?php echo Yii::t('site', 'Saves your time') ?></li>
+                <li><?php echo Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world') ?></li>
+                <li><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online') ?></li>
+                <li><?php echo Yii::t('site', 'Results can be obtained and used immediately') ?></li>
+            </ul>
+       <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Most Reliable') ?></h2>
+            <ul class="unstyled">
+                <li><?php echo Yii::t('site', 'Focused on key skills') ?></li>
+                <li><?php echo Yii::t('site', 'Based on best working practices') ?></li>
+                <li><?php echo Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations') ?></li>
+                <li><?php echo Yii::t('site', 'Based on mathematical methods not just feelings') ?></li>
+            </ul>
+    </section>
+    <!--main article end-->
 
-<!--main article-->
-<section class="home-contnt-box">
-    <article>
-        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Easiest') ?></h2>
-        <ul class="unstyled">
-            <li><?php echo Yii::t('site', 'Saves your time') ?></li>
-            <li><?php echo Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world') ?></li>
-            <li><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online') ?></li>
-            <li><?php echo Yii::t('site', 'Results can be obtained and used immediately') ?></li>
-        </ul>
-    </article>
-
-    <article>
-        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Most Reliable') ?></h2>
-        <ul class="unstyled">
-            <li><?php echo Yii::t('site', 'Focused on key skills') ?></li>
-            <li><?php echo Yii::t('site', 'Based on best working practices') ?></li>
-            <li><?php echo Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations') ?></li>
-            <li><?php echo Yii::t('site', 'Based on mathematical methods not just feelings') ?></li>
-        </ul>
-    </article>
-</section>
-<!--main article end-->
-
-<!--clients-->
-<section class="clients">
-    <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Our Clients') ?></h2>
-    <div class="grid-cell" style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></div>
-    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-hipway.jpg") ?></div>
-    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mann.jpg") ?></div>
-    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-wikimart.jpg") ?></div>
-    <div><div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mcg.jpg") ?></div></div>
-</section>
-<!--clients end-->
+    <!--clients-->
+    <section class="clients">
+        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Our Clients') ?></h2>
+        <div class="grid-cell" style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-hipway.jpg") ?></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mann.jpg") ?></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-wikimart.jpg") ?></div>
+        <div><div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mcg.jpg") ?></div></div>
+    </section>
+    <!--clients end-->
+</div>
 
