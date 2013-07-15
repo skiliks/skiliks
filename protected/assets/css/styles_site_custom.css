@@ -109,8 +109,34 @@
 }
 .clients .grid-cell {
     padding-bottom: 48px;
-    padding-right:30px;
+    padding-right:40px;
     vertical-align: middle;
+}
+.heroes-comment {
+    font: 12px/22px 'SegoePrint';
+    color: rgba(20,102,114,0.6);
+    width: 190px;
+    position: absolute;
+}
+.heroes-comment.right{
+    -moz-transform:rotate(-27deg);
+    -ms-transform:rotate(-27deg);
+    -webkit-transform:rotate(-27deg);
+    -o-transform:rotate(-27deg);
+    transform:rotate(-27deg);
+    top:648px;
+    left:50%;
+    margin-left:504px;
+}
+.heroes-comment.left{
+    -moz-transform:rotate(30deg);
+    -ms-transform:rotate(30deg);
+    -webkit-transform:rotate(30deg);
+    -o-transform:rotate(30deg);
+    transform:rotate(30deg);
+    top:762px;
+    left:50%;
+    margin-left:-610px;
 }
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
