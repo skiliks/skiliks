@@ -77,19 +77,19 @@
     overflow: hidden;
 }
 .home-contnt-box {
-    margin: 25px 0px 75px 292px;
+    margin: 20px 0px 75px 292px;
     width:420px;
 }
 .home-contnt-box li {
     font-size: 13px;
     line-height: 15px;
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 }
 .home-contnt-box h2 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 .home-contnt-box ul+h2 {
-    margin-top:35px;
+    margin-top:26px;
 }
 .home-list-box {
     margin-bottom: 25px;
@@ -158,10 +158,11 @@
 }
 .clients .grid-cell {
     padding-bottom: 40px;
-    padding-right:30px;
+    padding-right:20px;
     vertical-align: middle;
 }
 .clients img {
+    height: 80%;
     width:80%;
 }
 .heroes-comment {
