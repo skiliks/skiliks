@@ -91,7 +91,7 @@
     margin-top:43px;
 }
 .home-list-box {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-right: 20px;
     width:350px;
 }
@@ -122,19 +122,19 @@
 }
 
 .video {/* 07.12 i vse vniz novye */
-    background: url("../img/video-home.png") no-repeat 0 0;
+    background: url("../img/img-video-min.png") no-repeat 0 0;
     cursor: pointer;
-    height: 237px;
+    height: 200px;
     text-align: center;
-    width:459px;
+    width:375px;
 }
 .video-caption {
     background-color: #176771;
     border-radius: 4px;
     display: inline-block;
-    margin: 153px auto 0;
+    margin: 120px auto 0;
     opacity: 0.9;
-    padding: 7px 15px 11px;
+    padding: 5px 12px 9px;
 }
 .home-content .social_networks {
     margin-top: 18px;
