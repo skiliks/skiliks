@@ -127,7 +127,7 @@
     background: url("../img/video-home-min.png") no-repeat 0 0;
     cursor: pointer;
     height: 185px;
-    margin-top: 15px;
+    margin-top: 14px;
     text-align: center;
     width:358px;
 }
@@ -141,7 +141,7 @@
 }
 .home-content .social_networks {
     float: right;
-    margin-top: 18px;
+    margin-top: 8px;
     width:310px;
 }
 .addthis_toolbox {
