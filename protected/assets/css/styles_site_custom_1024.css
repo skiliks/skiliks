@@ -154,13 +154,13 @@
     height:945px;
 }
 .clients {
-    width:470px;
+    width:480px;
 }
 .clients h2 {
     margin-bottom: 16px;
 }
 .clients .grid-cell {
-    padding-bottom: 40px;
+    padding-bottom: 35px;
     padding-right:20px;
     vertical-align: middle;
 }
