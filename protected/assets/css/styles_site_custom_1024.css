@@ -153,6 +153,9 @@
 .home-height {
     height:945px;
 }
+.clients {
+    width:470px;
+}
 .clients h2 {
     margin-bottom: 16px;
 }
@@ -162,7 +165,6 @@
     vertical-align: middle;
 }
 .clients img {
-    height: 80%;
     width:80%;
 }
 .heroes-comment {
