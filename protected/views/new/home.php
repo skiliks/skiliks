@@ -83,14 +83,11 @@
 <!--clients-->
 <section class="clients">
     <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Our Clients') ?></h2>
-
-    <ul>
-        <li style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></li>
-        <li><?php echo CHtml::image("$assetsUrl/img/icon-hipway.png") ?></a></li>
-        <li><?php echo CHtml::image("$assetsUrl/img/icon-mif.png") ?></li>
-        <li><?php echo CHtml::image("$assetsUrl/img/icon-wikimart.png") ?></li>
-        <li><?php echo CHtml::image("$assetsUrl/img/icon-mcg.png") ?></li>
-    </ul>
+    <div class="grid-cell" style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></div>
+    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-hipway.jpg") ?></div>
+    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mann.jpg") ?></div>
+    <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-wikimart.jpg") ?></div>
+    <div><div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mcg.jpg") ?></div></div>
 </section>
 <!--clients end-->
 

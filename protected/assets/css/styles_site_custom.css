@@ -101,6 +101,9 @@
 .home-content .grid1+.grid1 {
     margin-left: 0px;
 }
+.clients .grid-cell {
+    vertical-align: middle;
+}
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
