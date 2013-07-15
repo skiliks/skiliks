@@ -677,7 +677,7 @@
     background-position: center 770px, center top, center 300px, center 790px;
 }
 .team {
-    height: 1300px;
+    height: 1550px;
 }
 .text-about {
     line-height: 130%;
@@ -742,6 +742,7 @@
 .team-values li {
     background: url("../img/bg-team-values-item.png") no-repeat center bottom;
     list-style: none;
+    line-height: 130%;
     margin-top: 32px;
     padding-bottom: 85px;
     text-align: center;
