@@ -53,7 +53,7 @@ body {
     </nav>
 </header>
 <div class="grid-container">
-    <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
+    <h1 class="page-header">Самый простой и надёжный способ проверить навыки менеджера</h1>
     <ul class="list-light unstyled font-xxlarge home-list-box">
         <li>Деловая симуляция, позволяющая оценить управленческие навыки</li>
         <li>2-3 часовая игра</li>

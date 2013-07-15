@@ -90,10 +90,10 @@
 .home-contnt-box ul+h2 {/* - */
     margin-top:43px;
 }
-.home-list-box {/* - */
-    margin-bottom: 30px;
+.home-list-box {
+    margin-bottom: 25px;
     padding-right: 20px;
-    width:450px;
+    width:350px;
 }
 .access-footer {
     display: inline-block;
