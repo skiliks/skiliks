@@ -230,7 +230,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    if (typeof node == "string") node = document.getElementById(node);
 
-   if (node == null) {
+   if (node === null) {
       alert("SocialCalc.SpreadsheetControl not given parent node.");
       }
 
@@ -242,19 +242,19 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    spreadsheet.SizeSSDiv(); // calculate and fill in the size values
 
-   for (child=node.firstChild; child!=null; child=node.firstChild) {
+   for (child=node.firstChild; child!==null; child=node.firstChild) {
       node.removeChild(child);
       }
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 12px 10px 10px 4px; height:40px;">' +
-        '<img id="%id.button_undo" src="%img.undo.gif" style="">' +
-        '<img id="%id.button_redo" src="%img.redo.gif" style="">' +
-        '<img id="%id.button_copy" src="%img.copy.gif" style="">' +
-        '<img id="%id.button_paste" src="%img.paste.gif" style="">' +
-        '<img id="%id.button_sum" src="%img.sumdialog.gif" style="">' +
-        '<img id="%id.button_percent" src="%img.formatpercent.gif" alt="%" style="">' +
+        '<img id="%id.button_undo" src="%img.undo.png" style="">' +
+        '<img id="%id.button_redo" src="%img.redo.png" style="">' +
+        '<img id="%id.button_copy" src="%img.copy.png" style="">' +
+        '<img id="%id.button_paste" src="%img.paste.png" style="">' +
+        '<img id="%id.button_sum" src="%img.auto_sum.png" style="">' +
+        '<img id="%id.button_percent" src="%img.percent.png" alt="%" style="">' +
         '<span id="%id.statusline" style="width: 40px; line-height: 40px; color: #fff"></span>' +
-        '<img id="%id.button_function" src="%img.formuladialog.gif" style="">' +
+        '<img id="%id.button_function" src="%img.function.png" style="">' +
         '<input id="%id.formula_field" type="text" size="100" value="" />' +
     '</div>';
 
