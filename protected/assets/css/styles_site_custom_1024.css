@@ -122,11 +122,11 @@
 }
 
 .video {/* 07.12 i vse vniz novye */
-    background: url("../img/img-video-min.png") no-repeat 0 0;
+    background: url("../img/video-home-min.png") no-repeat 0 0;
     cursor: pointer;
-    height: 200px;
+    height: 185px;
     text-align: center;
-    width:375px;
+    width:358px;
 }
 .video-caption {
     background-color: #176771;
