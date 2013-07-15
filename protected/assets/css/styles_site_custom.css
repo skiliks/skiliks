@@ -672,10 +672,12 @@
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
 .text-about {
+    margin: 0 auto;
     width:720px;
 }
 .team-list {
     list-style: none;
+    margin: 0px;
 }
 .team-list li {
     display: inline-block;
@@ -688,5 +690,23 @@
 }
 .team-list h3, .team-list p {
     margin-left: 26px;
+}
+.team-list h3 {
+    font-size: 24px;
+}
+.maria {
+    background-image: url("../img/team-maria.png");
+}
+.alyona {
+    background-image: url("../img/team-alyona.png");
+}
+.tony {
+    background-image: url("../img/team-tony.png");
+}
+.andrii {
+    background-image: url("../img/team-andrey.png");
+}
+.others {
+    background-image: url("../img/team-others.png");
 }
 /*  *************************** /TEAM ***************************/
