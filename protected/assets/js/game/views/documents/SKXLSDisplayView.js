@@ -61,7 +61,7 @@ define([
                 sheets: doc.get('sheets')
             }) );
 
-            SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/js/socialcalc/images/sc-';
+            SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
             me.sheets = [];
             doc.get('sheets').each(function (sheet, i) {
                 var sheetView = new SKSheetView({
