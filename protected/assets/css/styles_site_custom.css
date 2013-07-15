@@ -105,6 +105,9 @@
 .home-height {
     height:945px;
 }
+.clients {
+    width:600px;
+}
 .clients h2 {
     margin-bottom: 20px;
 }
