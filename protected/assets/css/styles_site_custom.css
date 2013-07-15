@@ -670,4 +670,23 @@
     font-size: 30px;
 }
 /*  *************************** /OLD BROWSERS ***************************/
-/*  *************************** /OLD BROWSERS ***************************/
+/*  *************************** TEAM ***************************/
+.text-about {
+    width:720px;
+}
+.team-list {
+    list-style: none;
+}
+.team-list li {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: 0 bottom;
+    width: 474px;
+    height: 181px;
+    text-align: left;
+    vertical-align: top;
+}
+.team-list h3, .team-list p {
+    margin-left: 26px;
+}
+/*  *************************** /TEAM ***************************/
