@@ -24,7 +24,7 @@
 }
 .social_networks .addthis_toolbox {
     display: block;
-    float:left;
+    float:right;
 }
 .social_networks>span {
     font-size: 12px;
@@ -142,7 +142,7 @@
 .home-content .social_networks {
     float: right;
     margin-top: 8px;
-    width:310px;
+    width:290px;
 }
 .addthis_toolbox {
     float: right;
