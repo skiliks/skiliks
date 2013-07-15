@@ -93,6 +93,7 @@
 }
 .home-list-box {
     margin-bottom: 25px;
+    margin-top:4px;
     padding-right: 20px;
     width:350px;
 }
@@ -126,6 +127,7 @@
     background: url("../img/video-home-min.png") no-repeat 0 0;
     cursor: pointer;
     height: 185px;
+    margin-top: 20px;
     text-align: center;
     width:358px;
 }
@@ -138,7 +140,9 @@
     padding: 5px 12px 9px;
 }
 .home-content .social_networks {
+    float: right;
     margin-top: 18px;
+    width:310px;
 }
 .home-content .container-2 {
     height:260px;
