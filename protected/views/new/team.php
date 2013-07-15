@@ -1,15 +1,13 @@
 <section class="team">
-	<article>
-		<h2><?php echo Yii::t('site', 'Meet the Team') ?></h2>
-		<p><?php echo Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
-	</article>
+    <h1 class="page-header text-center"><?php echo Yii::t('site', 'Meet the Team') ?></h1>
+	<p class="font-white text-center"><?php echo Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
 	
 	<ul class="team-list">
 		<li class="maria">
 			<h4><?php echo Yii::t('site', 'Maria Gorina') ?></h4> 
 			<p><?php echo Yii::t('site', 'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br />… simply The Boss &amp; Visionary') ?></p>
 		</li>
-		<li class="alyona">
+		<li class="alyona member-right">
 			<h4><?php echo Yii::t('site', 'Leah Levin') ?></h4> 
 			<p><?php echo Yii::t('site', 'Never gives up in front of any mission<br />Master of social contacts<br />Creativity and visuals pioneer<br />Black belt in continuous improvement') ?></p>
 		</li>
@@ -17,11 +15,11 @@
 			<h4><?php echo Yii::t('site', 'Tony Pryanichnikov') ?></h4> 
 			<p><?php echo Yii::t('site', 'Analytical engine,<br />Master of details and algorithms,<br />So lazy that nothing escapes of<br />being optimised and automated<br />Exceptional in producing managerial kicks') ?></p>
 		</li>
-		<li class="andrii">
+		<li class="andrii member-right">
 			<h4><?php echo Yii::t('site', 'Andrii Kostenko') ?></h4> 
 			<p>#define TECHNOLOGY_KNOWLEDGE "best"<br />#define MIND "beautiful"<br />#define HANDS "magic"<br />#define TRUE FALSE</p>
 		</li>
-		<li class="others">
+		<li class="others member-center">
 			<h4><?php echo Yii::t('site', 'Others') ?></h4> 
 			<p><?php echo Yii::t('site', 'Management, psychology,<br />teaching, assessment experts') ?></p>
 		</li>
