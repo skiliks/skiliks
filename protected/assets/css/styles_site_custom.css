@@ -19,13 +19,20 @@
 }
 /*  *************************** /PADDINGS ****************************/
 /*  *********************************** HOME ***********************************/
-.action-homeNew {
+.action-homeNew {/* 07.12 */
     background-color: #e8f7f7;
-    background: url("../img/maintopbg.jpg");
+    background-image: url("../img/maintopbg.jpg");
     background-repeat: no-repeat;
     background-position: center top;
 }
-.home-contnt-box li {
+.action-homeNew .site-wrap {/* 07.12 */
+    background: url("../img/heros-home.png") no-repeat center 140px;
+}
+.home-contnt-box {
+    margin: 38px 0px 90px 385px;
+    width:515px;
+}
+.home-contnt-box li { /* 07.12 */
     font-size: 16px;
     line-height: 16px;
     margin-bottom: 10px;
@@ -36,10 +43,8 @@
 .home-contnt-box ul+h2 {
     margin-top:43px;
 }
-.home-contnt-box {
-    width:515px;
-}
-.home-list-box {
+.home-list-box {/* 07.12 */
+    margin-bottom: 30px;
     padding-right: 20px;
     width:450px;
 }
@@ -68,7 +73,7 @@
 }
 
 
-.video {
+.video {/* 07.12 i vse vniz novye */
     background: url("../img/video-home.png") no-repeat 0 0;
     cursor: pointer;
     height: 237px;
@@ -87,6 +92,7 @@
     margin-top: 10px;
 }
 .home-content .container-2 {
+    height:334px;
     width:950px;
 }
 .home-content .container-2 .grid1 {
@@ -94,6 +100,9 @@
 }
 .home-content .grid1+.grid1 {
     margin-left: 0px;
+}
+.clients .grid-cell {
+    vertical-align: middle;
 }
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
