@@ -72,11 +72,12 @@
     background-repeat: no-repeat;
     background-position: center top;
 }
-.action-homeNew .site-wrap {/* 07.12 */
-    background:url("../img/heros-home-min.png") no-repeat center 2px;
+.action-homeNew .site-wrap {
+    background:url("../img/heros-home-min.png") no-repeat center 108px;
     overflow: hidden;
 }
-.home-contnt-box {/* - */
+.home-contnt-box {
+    margin: 25px 0px 75px 292px;
     width:515px;
 }
 .home-contnt-box li {
@@ -87,8 +88,8 @@
 .home-contnt-box h2 {
     margin-bottom: 10px;
 }
-.home-contnt-box ul+h2 {/* - */
-    margin-top:43px;
+.home-contnt-box ul+h2 {
+    margin-top:35px;
 }
 .home-list-box {
     margin-bottom: 25px;
