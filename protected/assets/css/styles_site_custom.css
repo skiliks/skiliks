@@ -671,6 +671,11 @@
 }
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
+.action-teamNew {
+    background: url("../img/bgbottom.gif"), url("../img/sitebg-rpt.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
+    background-repeat: no-repeat, no-repeat, repeat-y, no-repeat;
+    background-position: center 750px, center top, center 500px, center 790px;
+}
 .text-about {
     line-height: 130%;
     margin: 0 auto 20px;
@@ -697,6 +702,7 @@
 }
 .team-list h3 {
     font-size: 24px;
+    margin-bottom: 0px;
     margin-top: 28px;
 }
 .maria {
