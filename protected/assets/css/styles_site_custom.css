@@ -683,8 +683,8 @@
     display: inline-block;
     background-repeat: no-repeat;
     background-position: 0 bottom;
-    width: 474px;
-    height: 181px;
+    width: 473px;
+    height: 183px;
     text-align: left;
     vertical-align: top;
 }
@@ -708,5 +708,13 @@
 }
 .others {
     background-image: url("../img/team-others.png");
+}
+.team-values li {
+    background: url("../img/bg-team-values-item.png") no-repeat center bottom;
+    margin-top: 32px;
+    padding-bottom: 85px;
+}
+.team-values li:first-child {
+    margin-top: 0px;
 }
 /*  *************************** /TEAM ***************************/
