@@ -672,7 +672,8 @@
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
 .text-about {
-    margin: 0 auto;
+    line-height: 150%;
+    margin: 0 auto 20px;
     width:720px;
 }
 .team-list {
@@ -680,9 +681,11 @@
     margin: 0px;
 }
 .team-list li {
-    display: inline-block;
     background-repeat: no-repeat;
     background-position: 0 bottom;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 150%;
     width: 473px;
     height: 183px;
     text-align: left;
@@ -712,7 +715,6 @@
 }
 .team-values li {
     background: url("../img/bg-team-values-item.png") no-repeat center bottom;
-    line-height: 150%;
     margin-top: 32px;
     padding-bottom: 85px;
 }
