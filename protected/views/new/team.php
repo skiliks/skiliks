@@ -28,7 +28,7 @@
 	<div class="team-values">
         <h2 class="font-blue-dark text-center"><?php echo Yii::t('site', 'Our Values') ?></h2>
 
-        <ul>
+        <ul class="font-large">
 			<li><?php echo Yii::t('site', 'We love people and we are eager to help them in realising their aims, we are happy to see them doing it in a smart way and with inspiration') ?></li>
 			<li><?php echo Yii::t('site', 'We love creating simple things that solve complicated issues') ?></li>
 			<li><?php echo Yii::t('site', 'We adore good design and facilitating technology') ?></li>
