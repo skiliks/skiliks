@@ -112,10 +112,19 @@
     padding-right:40px;
     vertical-align: middle;
 }
+.comment-wrap {
+    border: 1px solid red;
+    height: 500px;
+    left: 50%;
+    margin-left: -745px;
+    overflow: hidden;
+    position: absolute;
+    top:700px;
+    width:1490px;
+}
 .heroes-comment {
     font: 12px/22px 'SegoePrint';
     color: rgba(20,102,114,0.6);
-    overflow: hidden;
     width: 190px;
     position: absolute;
 }
@@ -126,8 +135,8 @@
     -o-transform:rotate(-27deg);
     transform:rotate(-27deg);
     top:632px;
-    left:50%;
-    margin-left:684px;
+    /*left:50%;
+    margin-left:684px;*/
 }
 .heroes-comment.left{
     -moz-transform:rotate(30deg);
@@ -136,8 +145,8 @@
     -o-transform:rotate(30deg);
     transform:rotate(30deg);
     top:762px;
-    left:50%;
-    margin-left:-610px;
+    /*left:50%;
+    margin-left:-610px;*/
 }
 /*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
