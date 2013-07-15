@@ -29,8 +29,8 @@
     background: url("../img/heros-home.png") no-repeat center 140px;
 }
 .home-contnt-box {
-    margin: 38px 0px 90px 385px;
-    width:515px;
+    margin: 30px 0px 90px 385px;
+    width:540px;
 }
 .home-contnt-box li { /* 07.12 */
     font-size: 16px;
