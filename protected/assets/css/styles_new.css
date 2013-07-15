@@ -76,6 +76,11 @@ nav ul, nav ul li {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'SegoePrint';
+    src: url('../fonts/25D0FC_0_0.eot');
+    src: url('../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/25D0FC_0_0.woff') format('woff'),url('../fonts/25D0FC_0_0.ttf') format('truetype');
+}
 html, body {
     height: 100%;
 }
