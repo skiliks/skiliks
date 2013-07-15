@@ -168,9 +168,9 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right"><?php if ('ru' == Yii::app()->getlanguage()): ?><span class="help-contact-us">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></span><?php endif; ?></div>
                 </div>
                 <a href="#top" class="to-top font-small"><?php echo Yii::t('site', 'Back to top') ?></a>
-                <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                <?php //if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
                     <a href="/registration" class="btn btn-white btn-arrow-small access-footer"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
-                <?php endif ?>
+                <?php //endif ?>
                 <div class="social_networks">
                     <span class="proxima-bold font-dark">Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                         <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y"></span></span></a>

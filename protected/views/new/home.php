@@ -55,10 +55,8 @@
     </div><!-- /container  -->
 </section>
 <!--features end-->
-<div class="comment-wrap">
-    <p class="heroes-comment right">"Оценка навыков поражает<br>&nbsp;своей полнотой и глубиной,<br>&nbsp;&nbsp;&nbsp;теперь я точно знаю,<br>&nbsp;&nbsp;что ожидать от<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;новичков"</p>
-    <p class="heroes-comment left">"Это же реальная игра!<br>&nbsp;С вызовом и глубоким<br>&nbsp;&nbsp;&nbsp;&nbsp;погружением – я даже не<br>&nbsp;&nbsp;заметил как пролетело<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;время!"</p>
-</div>
+<p class="heroes-comment right">"Оценка навыков поражает<br>&nbsp;своей полнотой и глубиной,<br>&nbsp;&nbsp;&nbsp;теперь я точно знаю,<br>&nbsp;&nbsp;что ожидать от<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;новичков"</p>
+<p class="heroes-comment left">"Это же реальная игра!<br>&nbsp;С вызовом и глубоким<br>&nbsp;&nbsp;&nbsp;&nbsp;погружением – я даже не<br>&nbsp;&nbsp;заметил как пролетело<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;время!"</p>
 <div class="home-height">
     <!--main article-->
     <section class="home-contnt-box">

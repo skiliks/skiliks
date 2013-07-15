@@ -113,17 +113,6 @@
     padding-right:40px;
     vertical-align: middle;
 }
-/*
-.comment-wrap {
-    border: 1px solid red;
-    height: 500px;
-    left: 50%;
-    margin-left: -745px;
-    overflow-x: hidden;
-    position: absolute;
-    top:700px;
-    width:1490px;
-}*/
 .heroes-comment {
     font: 12px/22px 'SegoePrint';
     color: rgba(20,102,114,0.6);
