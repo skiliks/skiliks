@@ -68,12 +68,12 @@
 /*  ************************** HOME **************************/
 .action-homeNew {/* 07.12 */
     background-color: #e8f7f7;
-    background-image: url("../img/maintopbg.jpg");
+    background-image: url("../img/bg-top-min.jpg");
     background-repeat: no-repeat;
     background-position: center top;
 }
 .action-homeNew .site-wrap {/* 07.12 */
-    background: url("../img/heros-home.png") no-repeat center 140px;
+    background:url("../img/bg-heroes-min.png") no-repeat center 2px;
     overflow: hidden;
 }
 .home-contnt-box {/* - */
@@ -91,8 +91,8 @@
     margin-top:43px;
 }
 .home-list-box {/* - */
+    margin-bottom: 30px;
     padding-right: 20px;
-    padding-top: 32px;
     width:450px;
 }
 .access-footer {
