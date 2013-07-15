@@ -90,7 +90,9 @@
     padding: 7px 15px 11px;
 }
 .home-content .social_networks {
+    float: right;
     margin-top: 18px;
+    width:330px;
 }
 .home-content .container-2 {
     height:334px;
