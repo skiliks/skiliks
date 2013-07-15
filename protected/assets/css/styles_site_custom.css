@@ -714,8 +714,11 @@
 .others {
     background-image: url("../img/team-others.png");
 }
+.team-list .others {
+    height: 188px;
+}
 .member-right {
-    margin-left: 12px;
+    margin-left: 10px;
 }
 .member-center {
     margin-left: 244px;
