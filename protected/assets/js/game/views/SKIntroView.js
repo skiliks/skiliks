@@ -7,9 +7,8 @@ define([
     'game/models/window/SKWindow',
     'game/views/SKDialogView',
     'text!game/jst/intro.jst',
-    'text!game/jst/world/intro_warning.jst',
     'text!game/jst/world/simulation_warning.jst'
-], function (SKApplicationView, SKApplication, SKWindow, SKDialogView, template_intro, intro_warning, simulation_warning) {
+], function (SKApplicationView, SKApplication, SKWindow, SKDialogView, template_intro, simulation_warning) {
     "use strict";
     /**
      * Загрузка Интромуви
@@ -22,29 +21,21 @@ define([
             'click .pass-video': 'handleClick'
         },
         show: function() {
-            var me = this,
-                content = _.template(intro_warning);
+            var me = this;
+            this.$el.html(_.template(template_intro));
+            this.$el.find('#skiliks_intro').bind('ended', function () {
+                this.pause();
+                this.src = '';
+                me.$el.empty().removeClass('loading').unbind("mousemove");
+                me.appLaunch();
+            });
 
-            var warning = new SKDialogView({
-                class: 'before-video-warning',
-                content: content(),
-                buttons: [{
-                    id: 'ok',
-                    value: 'OK',
-                    onclick: function() {
-                        me.$el.html(_.template(template_intro));
-                        me.$el.find('#skiliks_intro').bind('ended', function () {
-                            this.pause();
-                            this.src = '';
-                            me.$el.empty().removeClass('loading').unbind("mousemove");
-                            me.appLaunch();
-                        });
-
-                        me.$el.mousemove( function(e) {
-                            me.$el.find('.intro-top-icons').toggle(me.$el.outerHeight() / 3 >= e.pageY);
-                        });
-                    }
-                }]
+            this.$el.mousemove( function(e) {
+                if(me.$el.outerHeight() / 3 >= e.pageY){
+                    me.$el.find('.intro-top-icons').css('display', 'block');
+                }else{
+                    me.$el.find('.intro-top-icons').css('display', 'none');
+                }
             });
         },
 
