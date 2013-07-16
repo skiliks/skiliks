@@ -413,19 +413,22 @@
 
   .content.company {
     overflow: hidden;
-    background: url(../img/manual/structurenew.png) 85px 125px no-repeat;
+    background: url(../img/manual/structurenew.png) 35px 125px no-repeat;
 
     .branch {
       float: left;
       overflow: hidden;
       width: 150px;
-      margin-right: 9px;
+      margin-right: 48px;
 
       &:last-child {
         margin-right: 0;
       }
     }
-
+    .branch-special {
+      margin-right: 142px;
+      position: relative;
+    }
     .person-block {
       margin-top: 11.3px;
       width: 148px;
@@ -435,14 +438,14 @@
       background-color: #fcfcee;
       text-align: center;
       font-size: 14px;
-      line-height: 130%;
+      line-height: 110%;
       cursor: pointer;
 
       span {
         display: table-cell;
-        padding: 1px 5px;
+        padding: 1px 3px;
         height: 50px;
-        width: 138px;
+        width: 142px;
 
         vertical-align: middle;
       }
@@ -459,15 +462,22 @@
         border-color: #a3cdaf;
       }
     }
+    .mainheroes {
+      left:-50px;
+      position: absolute;
+      width: 226px;
+    }
 
     @media (max-width: 1280px), (max-height: 750px) {
       background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
 
       .branch {
         width: 120px;
-        margin-right: 6px;
+        margin-right: 40px;
       }
-
+      .branch-special {
+        margin-right: 114px;
+      }
       .person-block {
         width: 118px;
         margin-top: 8px;
