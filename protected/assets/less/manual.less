@@ -1,12 +1,12 @@
 .draw-picture(@index: 0) {
   width: 63px;
   height: 63px;
-  background: url(../img/manual/pictures.png) 0 63px * -@index no-repeat;
+  background: url(../img/manual/tuticons-large.png) 0 63px * -@index no-repeat;
 
   @media (max-width: 1280px), (max-height: 750px) {
     width: 50px;
     height: 50px;
-    background: url(../img/manual/pictures-small.png) 0 50px * -@index no-repeat;
+    background: url(../img/manual/tuticons-small.png) 0 50px * -@index no-repeat;
   }
 }
 
@@ -331,19 +331,19 @@
           .draw-picture;
         }
 
-        &.company a {
+        &.struktura a {
           .draw-picture(0);
         }
-        &.plan a {
+        &.department a {
           .draw-picture(1);
         }
-        &.mail a {
+        &.interfaces a {
           .draw-picture(2);
         }
-        &.documents a {
+        &.next-steps a {
           .draw-picture(3);
         }
-        &.phone a {
+        /*&.phone a {
           .draw-picture(4);
         }
         &.visitors a {
@@ -351,7 +351,7 @@
         }
         &.menu a {
           .draw-picture(6);
-        }
+        }*/
       }
 
       .ref {
