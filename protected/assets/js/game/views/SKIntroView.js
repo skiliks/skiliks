@@ -56,6 +56,7 @@ define([
                         subname: 'manual',
                         required: true
                     });
+                var warning;
 
                 appView.drawDesktop();
 
@@ -67,26 +68,27 @@ define([
                     });
                     appView.frame._showPausedScreen();
                     wnd.open();
-                } else {
+                } else if(!app.isLite()) {
+                    $('.time').addClass("paused");
+                    warning = new SKDialogView({
+                        class: 'before-video-warning',
+                        content: content(),
+                        buttons: [{
+                            id: 'ok',
+                            value: 'OK',
+                            onclick: function() {
+                                warning.remove();
+                                me.stopPause();
+                                $('.time').removeClass("paused");
+                            }
+                        }]
+                    });
+                }else{
                     me.stopPause();
                 }
             };
 
-            if (!app.isLite() && !app.isTutorial()) {
-                warning = new SKDialogView({
-                    class: 'before-video-warning',
-                    content: content(),
-                    buttons: [{
-                        id: 'ok',
-                        value: 'OK',
-                        onclick: function() {
-                            app.simulation.start(onStart);
-                        }
-                    }]
-                });
-            } else {
-                app.simulation.start(onStart);
-            }
+            app.simulation.start(onStart);
         },
 
         handleClick: function(){
