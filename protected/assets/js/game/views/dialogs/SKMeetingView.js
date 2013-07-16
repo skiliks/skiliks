@@ -42,16 +42,26 @@ define([
 
         'leave': function (e) {
             var subjectId = $(e.currentTarget).attr('data-subject-id'),
-                subject = this.subjects.get(subjectId);
+                subject = this.subjects.get(subjectId),
+                simulation = SKApp.simulation;
 
-            SKApp.server.api('meeting/leave', {'id': subjectId});
 
-            new SKDialogView({
-                message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
-                buttons: [{
-                    id: 'ok',
-                    value: 'Продолжить работу'
-                }]
+            simulation.startPause(function() {
+                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
+                simulation.trigger('tick');
+
+                SKApp.server.api('meeting/leave', {'id': subjectId}, function() {
+                    var dialog = new SKDialogView({
+                        message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
+                        buttons: [{
+                            id: 'ok',
+                            value: 'Продолжить работу',
+                            onclick: function() {
+                                simulation.stopPause();
+                            }
+                        }]
+                    });
+                });
             });
 
             this.options.model_instance.close();

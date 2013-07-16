@@ -32,11 +32,16 @@ class MeetingService
             throw new LogicException('Meeting ID was not specified');
         }
 
+        /** @var Meeting $meeting */
         $meeting = Meeting::model()->findByPk($meetingId);
         if (empty($meeting)) {
             throw new LogicException('Meeting was not found');
         }
 
-        return LogHelper::setMeetingLog($meeting, $simulation);
+        LogHelper::setMeetingLog($meeting, $simulation);
+
+        $currentTime = explode(':', $simulation->getGameTime());
+        $shiftedTime = $currentTime[0] * 60 + $currentTime[1] + $meeting->duration + 1; // 1 for skipped seconds
+        SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);
     }
 }
