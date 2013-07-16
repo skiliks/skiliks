@@ -25,6 +25,7 @@ define([], function () {
         'phoneCall':24,
         'visitorEntrance':31,
         'visitorTalk':32,
+        'visitorMeeting':33,
         'documents':41,
         'documentsFiles':42
     };

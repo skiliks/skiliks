@@ -2193,7 +2193,8 @@ class ImportGameDataService
             'System_dial_leg' => 'dialog_id',
             'Inbox_leg'       => 'mail_id',
             'Outbox_leg'      => 'mail_id',
-            'Window'          => 'window_id'
+            'Window'          => 'window_id',
+            'Meeting'         => 'meeting_id'
         );
 
         $sheet = $this->getExcel()->getSheetByName('Leg_actions');
@@ -2302,6 +2303,14 @@ class ImportGameDataService
                     $window = Window::model()->findByAttributes(array('subtype' => $xls_act_value));
                     assert($window);
                     $values = array($window);
+                }
+            } else if ($type === 'meeting_id') {
+                if ($xls_act_value === 'all') {
+                    $values = $this->scenario->getMeetings([]);
+                } else {
+                    $meeting = $this->scenario->getMeeting(array('code' => $xls_act_value));
+                    assert($meeting);
+                    $values = array($meeting);
                 }
             } else {
                 throw new Exception('Can not handle type:' . $type);
@@ -2708,7 +2717,7 @@ class ImportGameDataService
             }
 
             $meeting->name = $this->getCellValue($sheet, 'Meeting_name', $i);
-            $meeting->label = ''; // TODO: Wait for scenario update
+            $meeting->label = $this->getCellValue($sheet, 'Meeting_text', $i);
             $meeting->duration = $this->getCellValue($sheet, 'Duration', $i);
 
             if ($taskCode) {
