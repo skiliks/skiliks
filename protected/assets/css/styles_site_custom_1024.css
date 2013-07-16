@@ -138,6 +138,7 @@
 .home-content .social_networks {
     float: right;
     margin-top: 10px;
+    padding-right: 6px;
     width:340px;
 }
 .addthis_toolbox {
