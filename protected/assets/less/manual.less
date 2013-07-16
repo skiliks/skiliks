@@ -273,7 +273,6 @@
     }
 
     .warning-block {
-      border:1px solid red;
       background: #dfd1b3;
       background: -webkit-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
       background: -moz-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
@@ -299,7 +298,6 @@
       }
       ul {
         margin-left:20px;
-        border:1px solid green;
 
         li {
           font-size: 16px;
@@ -412,14 +410,15 @@
   }
 
   .content.company {
+    height: 500px;
     overflow: hidden;
-    background: url(../img/manual/structurenew.png) 35px 125px no-repeat;
+    background: url(../img/manual/structurenew.png) 40px 125px no-repeat;
 
     .branch {
       float: left;
-      overflow: hidden;
+      /*overflow: hidden;*/
       width: 150px;
-      margin-right: 48px;
+      margin-right: 40px;
 
       &:last-child {
         margin-right: 0;
@@ -446,7 +445,6 @@
         padding: 1px 3px;
         height: 50px;
         width: 142px;
-
         vertical-align: middle;
       }
 
@@ -461,12 +459,22 @@
         background-color: #c1f3d0;
         border-color: #a3cdaf;
       }
+      &.mainheroes {
+        left:-50px;
+        position: absolute;
+        width: 230px;
+
+          span {
+            text-align: left;
+            width: 226px;
+          }
+        }
+      }
     }
-    .mainheroes {
-      left:-50px;
-      position: absolute;
-      width: 226px;
+    .person-block[data-refer-tooltip] {
+      border:1px solid red;
     }
+
 
     @media (max-width: 1280px), (max-height: 750px) {
       background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
