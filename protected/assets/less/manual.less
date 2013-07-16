@@ -13,7 +13,7 @@
 .manual-window {
   position: relative;
   z-index: 50000 !important;
-  font: 18px 'orbi_sansregular';
+  font: 17px 'orbi_sansregular';
   background: url(../img/manual/cover.png) 0 0 no-repeat;
 
   @media (max-width: 1280px), (max-height: 750px) {
@@ -293,6 +293,16 @@
           margin: 0;
         }
       }
+      ul {
+        margin-left:20px;
+
+        li {
+          font-size: 16px;
+          height:auto;
+          list-style-type: circle;
+          padding-left: 20px;
+        }
+      }
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
@@ -313,6 +323,14 @@
           }
           p {
             font-size: 14px;
+          }
+          ul {
+            margin-left:15px;
+
+            li {
+              font-size: 14px;
+              padding-left: 15px;
+            }
           }
         }
       }
@@ -813,27 +831,9 @@
       p {
         font-size: 18px;
       }
-      ul {
-        margin-left:20px;
-
-        li {
-          font-size: 16px;
-          height:auto;
-          list-style-type: circle;
-          padding-left: 20px;
-        }
-      }
 
       @media (max-width: 1280px), (max-height: 750px) {
         width: 360px;
-        ul {
-          margin-left:15px;
-
-          li {
-            font-size: 14px;
-            padding-left: 15px;
-          }
-        }
         p {
           font-size: 16px;
         }
