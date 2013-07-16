@@ -296,6 +296,22 @@ var fixLogotypes = function() {
             $(".sign-in-box").dialog('open');
         });
 
+        $('.start-full-simulation').click(function(event){
+            var href = $(this).attr('href');
+            event.preventDefault();
+            $(".warning-popup").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-before-start-sim',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                open: function( event, ui ) {
+                    $('.start-full-simulation-next').attr('href', href);
+                    Cufon.refresh();
+                }
+            });
+        });
+
         $('.sign-in-link-in-popup').click(function(event){
             event.preventDefault();
             $(".sign-in-box").dialog('open');

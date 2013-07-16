@@ -10,8 +10,9 @@ $scoreRender = function(Invite $invite) {
             'isDisplayScaleIfSimulationNull' => false,
         ],false);
     } elseif ($invite->isNotStarted()) {
+        $class = ($invite->scenario->isFull())?'start-full-simulation':'';
         return sprintf(
-            '<a href="/simulation/promo/%s/%s">Начать</a>',
+            "<a class=\"{$class}\" href=\"/simulation/promo/%s/%s\">Начать</a>",
             $invite->scenario->slug,
             $invite->id
         );
@@ -44,6 +45,8 @@ $this->widget('zii.widgets.grid.CGridView', [
     ]
 ]);
 ?>
+
+<?php $this->renderPartial('partials/warning-popup', []) ?>
 
 <div id="simulation-details-pop-up"></div>
 

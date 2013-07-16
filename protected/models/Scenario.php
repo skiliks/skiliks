@@ -60,6 +60,11 @@ class Scenario extends CActiveRecord
         return $this->slug === self::TYPE_LITE;
     }
 
+    public function isFull()
+    {
+        return $this->slug === self::TYPE_FULL;
+    }
+
     /**
      * @param $attributes
      * @return Dialog
