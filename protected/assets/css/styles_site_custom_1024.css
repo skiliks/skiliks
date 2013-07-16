@@ -30,10 +30,6 @@
     font-size: 12px;
     line-height: 26px;
 }
-.social_networks .addthis_toolbox {
-    display: block;
-    float:left;
-}
 .social_networks a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
     width:28px;
@@ -142,7 +138,7 @@
 .home-content .social_networks {
     float: right;
     margin-top: 10px;
-    width:290px;
+    width:340px;
 }
 .addthis_toolbox {
     float: right;
