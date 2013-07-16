@@ -42,7 +42,6 @@
                 <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
             <div class="social_networks">
-                <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
                 <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                     <a class="addthis_button_vk"></a>
                     <a class="addthis_button_facebook"></a>
@@ -50,6 +49,7 @@
                     <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
                     <a class="addthis_button_linkedin"></a>
                 </div>
+                <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
             </div>
         </div>
     </div><!-- /container  -->
