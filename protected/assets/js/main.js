@@ -297,7 +297,7 @@ var fixLogotypes = function() {
         });
 
         $('.start-full-simulation').click(function(event){
-            var href = $(this).attr('href');
+            var href = $(this).attr('data-href');
             event.preventDefault();
             $(".warning-popup").dialog({
                 closeOnEscape: true,
@@ -306,10 +306,16 @@ var fixLogotypes = function() {
                 modal: true,
                 resizable: false,
                 open: function( event, ui ) {
-                    $('.start-full-simulation-next').attr('href', href);
+                    $('.start-full-simulation-next').attr('data-href', href);
                     Cufon.refresh();
                 }
             });
+        });
+
+        $('.start-full-simulation-now').click(function(event){
+            event.preventDefault();
+            var href = $(this).attr('data-href');
+            location.assign(href);
         });
 
         $('.sign-in-link-in-popup').click(function(event){

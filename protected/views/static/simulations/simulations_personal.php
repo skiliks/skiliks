@@ -12,7 +12,7 @@ $scoreRender = function(Invite $invite) {
     } elseif ($invite->isNotStarted()) {
         $class = ($invite->scenario->isFull())?'start-full-simulation':'';
         return sprintf(
-            "<a class=\"{$class}\" href=\"/simulation/promo/%s/%s\">Начать</a>",
+            "<a class=\"{$class}\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
             $invite->scenario->slug,
             $invite->id
         );
@@ -41,7 +41,7 @@ $this->widget('zii.widgets.grid.CGridView', [
             'header' => Yii::t('site', 'Simulation'),
             'name' => 'sent_time'   ,
             'value' => '$data->getFormattedScenarioSlug()'],
-        ['header' => '', 'value' => $scoreRender , 'type' => 'html'],
+        ['header' => '', 'value' => $scoreRender , 'type' => 'raw'],
     ]
 ]);
 ?>

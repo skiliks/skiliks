@@ -13,5 +13,5 @@
 
     Ваша цель в игре
     Определить и выполнить приоритетные задачи, затратив минимально необходимое количество времени!
-    <a href="#" class="start-full-simulation-next">Далее</a>
+    <a href="#" data-href="#" class="start-full-simulation-next start-full-simulation-now">Далее</a>
 </div>
