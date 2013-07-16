@@ -609,9 +609,7 @@ class SimulationService
 
             // снимаем 1 инвайт у работодателя
             // проверяем что чейчас запушен не туториал и не дев режим
-            if (Scenario::TYPE_TUTORIAL !== $scenarioType &&
-                Simulation::MODE_DEVELOPER_ID !== $simulation->mode
-                ) {
+            if (Scenario::TYPE_FULL === $scenarioType && Simulation::MODE_DEVELOPER_ID !== $simulation->mode) {
                 $invite->ownerUser->account_corporate->invites_limit--;
                 $invite->ownerUser->account_corporate->save(false);
             }
