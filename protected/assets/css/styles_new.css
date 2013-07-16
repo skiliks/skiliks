@@ -405,6 +405,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     font: 14px "ProximaNova-Bold";
     line-height: 31px;
 }
+.site-footer .social_networks>span {
+    float: left;
+}
 .smallicons>span {
     line-height: 26px;
 }
