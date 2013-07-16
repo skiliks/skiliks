@@ -211,10 +211,13 @@
 
     .dual-page {
       box-sizing: border-box;
-      padding: 5px 10px;
+      padding: 5px 70px;
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
+      .dual-page {
+        padding: 5px 60px;
+      }
       .left-page, .right-page {
         float: left;
         padding: 5px 20px 5px 30px;
@@ -270,6 +273,7 @@
     }
 
     .warning-block {
+      border:1px solid red;
       background: #dfd1b3;
       background: -webkit-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
       background: -moz-linear-gradient(top, #dfd1b3 0%, #eadfc8 50%, #f6efe1 100%);
@@ -295,6 +299,7 @@
       }
       ul {
         margin-left:20px;
+        border:1px solid green;
 
         li {
           font-size: 16px;
@@ -408,7 +413,7 @@
 
   .content.company {
     overflow: hidden;
-    background: url(../img/manual/company-structure.png) 85px 125px no-repeat;
+    background: url(../img/manual/structurenew.png) 85px 125px no-repeat;
 
     .branch {
       float: left;
@@ -429,7 +434,7 @@
       border: 1px solid #d5d4c8;
       background-color: #fcfcee;
       text-align: center;
-      font-size: 13px;
+      font-size: 14px;
       line-height: 130%;
       cursor: pointer;
 
@@ -456,7 +461,7 @@
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
-      background: url(../img/manual/company-structure-small.png) 67px 99px no-repeat;
+      background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
 
       .branch {
         width: 120px;
@@ -467,7 +472,7 @@
         width: 118px;
         margin-top: 8px;
         height: 43px;
-        font-size: 11px;
+        font-size: 13px;
         line-height: 100%;
 
         span {
