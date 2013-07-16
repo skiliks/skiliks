@@ -211,12 +211,22 @@
 
     .dual-page {
       box-sizing: border-box;
-      padding: 5px 70px;
+      padding: 5px 0 5px 25px;
+      width: 855px;
     }
 
     @media (max-width: 1280px), (max-height: 750px) {
       .dual-page {
-        padding: 5px 60px;
+        padding: 5px 0 5px 15px;
+        width: 755px;
+
+        &:after {
+          content: ".";
+          display: block;
+          height: 0;
+          clear: both;
+          visibility: hidden;
+        }
       }
       .left-page, .right-page {
         float: left;
@@ -302,7 +312,7 @@
         li {
           font-size: 16px;
           height:auto;
-          list-style-type: circle;
+          list-style-type: disk;
           padding-left: 20px;
         }
       }
@@ -412,7 +422,7 @@
   .content.company {
     height: 500px;
     overflow: hidden;
-    background: url(../img/manual/structurenew.png) 40px 125px no-repeat;
+    background: url(../img/manual/structurenew.png) 52px 122px no-repeat;
 
     .branch {
       float: left;
@@ -445,12 +455,11 @@
         padding: 1px 3px;
         height: 50px;
         width: 142px;
-
         vertical-align: middle;
       }
 
       &.root {
-        margin: -4px auto 4px;
+        margin: -4px auto 29px;
       }
       &.top, &.root {
         background-color: #c1dcf3;
@@ -497,7 +506,7 @@
         }
 
         &.root {
-          margin: -7px auto 4px;
+          margin: -7px auto 20px;
         }
       }
     }
@@ -516,7 +525,7 @@
         text-align: center;
         vertical-align: middle;
         border: 2px solid #555;
-        border-color: #d5d4c8 #70706f;
+        /*border-color: #d5d4c8 #70706f;*/
         background-color: #fcfcee;
 
         &.person {
@@ -529,7 +538,7 @@
             width: 203px;
             padding: 5px 8px;
             border: 2px solid #a3b9cd;
-            border-color: #a3b9cd #b1c9de #ddecf8;
+            /*border-color: #a3b9cd #b1c9de #ddecf8;*/
             background-color: #c1dcf3;
             text-align: left;
 
