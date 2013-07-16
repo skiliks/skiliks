@@ -4468,9 +4468,9 @@ SocialCalc.TableControl = function(editor, vertical, size) {
    this.size = size; // length in pixels
 
    this.main = null; // main element containing all the others
-   this.endcap = null; // the area at the top/left between the end and the pane slider
-   this.paneslider = null; // the slider to adjust the pane split
-   this.lessbutton = null; // the top/left scroll button
+   //this.endcap = null; // the area at the top/left between the end and the pane slider
+   //this.paneslider = null; // the slider to adjust the pane split
+   //this.lessbutton = null; // the top/left scroll button
    this.morebutton = null; // the bottom/right scroll button
    this.scrollarea = null; // the area between the scroll buttons
    this.thumb = null; // the sliding thing in the scrollarea
@@ -4478,9 +4478,9 @@ SocialCalc.TableControl = function(editor, vertical, size) {
    // computed position values:
 
    this.controlborder = null; // left or top screen position for vertical or horizontal control
-   this.endcapstart = null; // top or left screen position for vertical or horizontal control
-   this.panesliderstart = null;
-   this.lessbuttonstart = null;
+   //this.endcapstart = null; // top or left screen position for vertical or horizontal control
+   //this.panesliderstart = null;
+   //this.lessbuttonstart = null;
    this.morebuttonstart = null;
    this.scrollareastart = null;
    this.scrollareaend = null;
@@ -4531,7 +4531,7 @@ SocialCalc.CreateTableControl = function(control) {
 
    control.main.style.display="none"; // wait for layout
 
-   control.endcap = document.createElement("div");
+   /*control.endcap = document.createElement("div");
    s = control.endcap.style;
    s.height = control.controlthickness+"px";
    s.width = control.controlthickness+"px";
@@ -4543,9 +4543,10 @@ SocialCalc.CreateTableControl = function(control) {
    if (scc.TCendcapClass) control.endcap.className = scc.TCendcapClass;
    AssignID(control.editor, control.endcap, "endcap"+vh);
 
-   control.main.appendChild(control.endcap);
 
-   control.paneslider = document.createElement("div");
+   control.main.appendChild(control.endcap);
+*/
+   /*control.paneslider = document.createElement("div");
    s = control.paneslider.style;
    s.height = (control.vertical ? control.sliderthickness : control.controlthickness)+"px";
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
@@ -4569,8 +4570,8 @@ SocialCalc.CreateTableControl = function(control) {
    SocialCalc.DragRegister(control.paneslider, control.vertical, !control.vertical, functions);
 
    control.main.appendChild(control.paneslider);
-
-   control.lessbutton = document.createElement("div");
+*/
+   /*control.lessbutton = document.createElement("div");
    s = control.lessbutton.style;
    s.height = (control.vertical ? control.buttonthickness : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.buttonthickness)+"px";
@@ -4593,8 +4594,8 @@ SocialCalc.CreateTableControl = function(control) {
    SocialCalc.ButtonRegister(control.lessbutton, params, functions);
 
    control.main.appendChild(control.lessbutton);
-
-   control.morebutton = document.createElement("div");
+*/
+   /*control.morebutton = document.createElement("div");
    s = control.morebutton.style;
    s.height = (control.vertical ? control.buttonthickness : control.controlthickness)+"px";
    s.width = (control.vertical ? control.controlthickness : control.buttonthickness)+"px";
@@ -4617,7 +4618,7 @@ SocialCalc.CreateTableControl = function(control) {
    SocialCalc.ButtonRegister(control.morebutton, params, functions);
 
    control.main.appendChild(control.morebutton);
-
+*/
    control.scrollarea = document.createElement("div");
    s = control.scrollarea.style;
    s.height = control.controlthickness+"px";
@@ -4699,14 +4700,14 @@ SocialCalc.PositionTableControlElements = function(control) {
 
    if (control.vertical) {
       border = control.controlborder+"px";
-      control.endcap.style.top = control.endcapstart+"px";
-      control.endcap.style.left = border;
-      control.paneslider.style.top = control.panesliderstart+"px";
-      control.paneslider.style.left = border
-      control.lessbutton.style.top = control.lessbuttonstart+"px";
-      control.lessbutton.style.left = border;
-      control.morebutton.style.top = control.morebuttonstart+"px";
-      control.morebutton.style.left = border;
+      //control.endcap.style.top = control.endcapstart+"px";
+      //control.endcap.style.left = border;
+      //control.paneslider.style.top = control.panesliderstart+"px";
+      //control.paneslider.style.left = border
+      //control.lessbutton.style.top = control.lessbuttonstart+"px";
+      //control.lessbutton.style.left = border;
+      //control.morebutton.style.top = control.morebuttonstart+"px";
+      //control.morebutton.style.left = border;
       control.scrollarea.style.top = control.scrollareastart+"px";
       control.scrollarea.style.left = border;
       control.scrollarea.style.height = control.scrollareasize+"px";
@@ -4719,14 +4720,14 @@ SocialCalc.PositionTableControlElements = function(control) {
       }
    else {
       border = control.controlborder+"px";
-      control.endcap.style.left = control.endcapstart+"px";
-      control.endcap.style.top = border;
-      control.paneslider.style.left = control.panesliderstart+"px";
-      control.paneslider.style.top = border
-      control.lessbutton.style.left = control.lessbuttonstart+"px";
-      control.lessbutton.style.top = border;
-      control.morebutton.style.left = control.morebuttonstart+"px";
-      control.morebutton.style.top = border;
+      //control.endcap.style.left = control.endcapstart+"px";
+      //control.endcap.style.top = border;
+      //control.paneslider.style.left = control.panesliderstart+"px";
+      //control.paneslider.style.top = border
+      //control.lessbutton.style.left = control.lessbuttonstart+"px";
+      //control.lessbutton.style.top = border;
+      //control.morebutton.style.left = control.morebuttonstart+"px";
+      //control.morebutton.style.top = border;
       control.scrollarea.style.left = control.scrollareastart+"px";
       control.scrollarea.style.top = border;
       control.scrollarea.style.width = control.scrollareasize+"px";
@@ -4757,9 +4758,9 @@ SocialCalc.ComputeTableControlPositions = function(control) {
 
    if (control.vertical) {
       control.controlborder = editor.tablewidth; // border=left position
-      control.endcapstart = editor.gridposition.top; // start=top position
-      control.panesliderstart = editor.firstscrollingrowtop-control.sliderthickness;
-      control.lessbuttonstart = editor.firstscrollingrowtop-1;
+      //control.endcapstart = editor.gridposition.top; // start=top position
+      //control.panesliderstart = editor.firstscrollingrowtop-control.sliderthickness;
+      //control.lessbuttonstart = editor.firstscrollingrowtop-1;
       control.morebuttonstart = editor.gridposition.top+editor.tableheight-control.buttonthickness;
       control.scrollareastart = editor.firstscrollingrowtop-1+control.buttonthickness;
       control.scrollareaend = control.morebuttonstart-1;
@@ -4767,9 +4768,9 @@ SocialCalc.ComputeTableControlPositions = function(control) {
       }
    else {
       control.controlborder = editor.gridposition.top+ + editor.tableheight; // border=top position
-      control.endcapstart = editor.gridposition.left; // start=left position
-      control.panesliderstart = editor.firstscrollingcolleft-control.sliderthickness;
-      control.lessbuttonstart = editor.firstscrollingcolleft-1;
+      //control.endcapstart = editor.gridposition.left; // start=left position
+      //control.panesliderstart = editor.firstscrollingcolleft-control.sliderthickness;
+      //control.lessbuttonstart = editor.firstscrollingcolleft-1;
       control.morebuttonstart = editor.gridposition.left+editor.tablewidth-control.buttonthickness;
       control.scrollareastart = editor.firstscrollingcolleft-1+control.buttonthickness;
       control.scrollareaend = control.morebuttonstart-1;
