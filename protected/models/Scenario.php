@@ -366,6 +366,12 @@ class Scenario extends CActiveRecord
         return FlagRunMail::model()->findAllByAttributes($array);
     }
 
+    public function getMeetings($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return Meeting::model()->findAllByAttributes($array);
+    }
+
     // --------------------------------------------------------------------------------------------------------------
 
 	/**

@@ -14,7 +14,7 @@
  * @property integer $scenario_id
  *
  * The followings are the available model relations:
- * @property Tasks $task
+ * @property Task $task
  */
 class Meeting extends CActiveRecord
 {
@@ -64,7 +64,7 @@ class Meeting extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'task' => array(self::BELONGS_TO, 'Tasks', 'task_id'),
+			'task' => array(self::BELONGS_TO, 'Task', 'task_id'),
 		);
 	}
 

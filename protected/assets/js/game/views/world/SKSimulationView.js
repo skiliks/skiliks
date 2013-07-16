@@ -20,6 +20,7 @@ define([
     "game/views/phone/SKPhoneDialogView",
     "game/views/dialogs/SKVisitView",
     "game/views/dialogs/SKImmediateVisitView",
+    "game/views/dialogs/SKMeetingView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/world/SKManualView",
@@ -57,7 +58,8 @@ define([
                 'phone/phoneTalk':         SKPhoneDialogView,
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
-                'visitor/visitorTalk':     SKImmediateVisitView
+                'visitor/visitorTalk':     SKImmediateVisitView,
+                'visitor/visitorMeeting':  SKMeetingView
             },
             /**
              * Массив окон, которые открыты в симуляции

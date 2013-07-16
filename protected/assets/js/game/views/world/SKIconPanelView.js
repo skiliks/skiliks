@@ -24,6 +24,7 @@ define([
             events: {
                 'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
                 'click .icons-panel .door.icon-active a': 'doDialogStart',
+                'click .icons-panel .door:not(.icon-active) a': 'doMeetingToggle',
                 'click .icons-panel .mail.create-mail a': 'doNewMailStart',
                 'click .icons-panel .plan a': 'doPlanToggle',
                 'click .icons-panel .phone:not(.icon-active):not(.icon-button-disabled) a': 'doPhoneToggle',
@@ -461,6 +462,18 @@ define([
                     e.preventDefault();
                     this.stopAnimation('.plan');
                     SKApp.simulation.window_set.toggle('plan', 'plan');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            doMeetingToggle: function(e) {
+                try {
+                    e.preventDefault();
+                    this.stopAnimation('.plan');
+                    SKApp.simulation.window_set.toggle('visitor', 'visitorMeeting');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
