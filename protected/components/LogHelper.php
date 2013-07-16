@@ -280,9 +280,15 @@ class LogHelper
         return true;
     }
 
+    public static function setMeetingLog(Meeting $meeting, Simulation $simulation)
+    {
+        $log = new LogMeeting();
+        $log->sim_id = $simulation->id;
+        $log->meeting_id = $meeting->id;
+        $log->game_time = $simulation->getGameTime();
 
-
-
+        return $log->save();
+    }
 
     public static function setWindowsLog($simId, $logs)
     {

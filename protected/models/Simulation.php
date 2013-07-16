@@ -22,6 +22,7 @@
  * @property LogActivityActionAgregated214d[] $log_activity_actions_aggregated_214d
  * @property LogMail[] $log_mail
  * @property LogDialog[] $log_dialogs
+ * @property LogDialog[] $log_meetings
  * @property AssessmentCalculation[] $assessment_calculation
  * @property AssessmentPoint[] $assessment_points
  * @property LogDocument[] $log_documents
@@ -149,6 +150,7 @@ class Simulation extends CActiveRecord
             'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
             'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
             'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_meetings'                    => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'game_time'],
             'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
             'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],

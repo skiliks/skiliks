@@ -1,4 +1,4 @@
-/* global define, $, _ */
+/* global define, $, _, SKApp */
 
 /**
  * @class SKVisitView
@@ -43,6 +43,8 @@ define([
         'leave': function (e) {
             var subjectId = $(e.currentTarget).attr('data-subject-id'),
                 subject = this.subjects.get(subjectId);
+
+            SKApp.server.api('meeting/leave', {'id': subjectId});
 
             new SKDialogView({
                 message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
