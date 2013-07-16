@@ -485,7 +485,17 @@
       }
     }
     .person-block[data-refer-tooltip] {
-      border:1px solid red;
+      position: relative;
+
+      &:after {
+        background: url(../img/manual/heromore.png) 0 0 no-repeat;
+        content: '';
+        height: 23px;
+        position: absolute;
+        bottom: -2;
+        right: -2px;
+        width: 22px;
+      }
     }
 
 
