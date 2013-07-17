@@ -548,79 +548,76 @@
         border-left: 3px solid #ededed; /*2px solid #555 */
         /*border-color: #d5d4c8 #70706f;*/
         background-color: #fcfcee;
+          &.person {
+            border-top: 2px solid #B0AEA9;
+            border-right: 3px solid #fff;
+            padding: 0px;
 
-        &.person {
-          border-top: 2px solid #FCFCEE;
-          border-right: 3px solid #fff;
-          padding: 0px;
+            .person-wrap {
+              position: relative;
 
-          .person-block {
-            position: relative;
-            overflow: hidden;
-            top: -2px;
-            width: 203px;
-            padding: 5px 8px;
-            border: 2px solid #a3b9cd;
-            /*border-color: #a3b9cd #b1c9de #ddecf8;*/
-            background-color: #c1dcf3;
-            text-align: left;
+              .person-block {
+                height: 80px;
+                position: absolute;
+                overflow: hidden;
+                top: -2px;
+                width: 203px;
+                padding: 5px 8px;
+                border: 2px solid #a3b9cd;
+              /*border-color: #a3b9cd #b1c9de #ddecf8;*/
+                background-color: #c1dcf3;
+                text-align: left;
 
-            .photo {
-              float: left;
-              margin: 0 5px 5px 0;
-              .draw-picture(10);
+                .photo {
+                  float: left;
+                  margin: 0 5px 5px 0;
+                  .draw-picture(10);
 
-              &.federov {
-                .draw-picture(10);
-              }
-              &.krutyko {
-                .draw-picture(11);
-              }
-              &.trutnev {
-                .draw-picture(12);
-              }
-              &.loshadkin {
-                .draw-picture(10);
-              }
-              &.rate90 {
-                .draw-picture(13);
-              }
-              &.rate70 {
-                .draw-picture(14);
-              }
-              &.rate100 {
-                .draw-picture(15);
+                  &.federov {
+                    .draw-picture(10);
+                  }
+                  &.krutyko {
+                    .draw-picture(11);
+                  }
+                  &.trutnev {
+                    .draw-picture(12);
+                  }
+                  &.loshadkin {
+                    .draw-picture(10);
+                  }
+                }
+
+                h3 {
+                  font-size: 14px;
+                  line-height: 22px;
+                  font-weight: bold;
+                  margin: 0;
+                  text-transform: uppercase;
+                }
+                h4 {
+                  font-size: 13px;
+                  font-weight: normal;
+                }
               }
             }
 
-            h3 {
-              font-size: 14px;
-              line-height: 22px;
-              font-weight: bold;
-              margin: 0;
-              text-transform: uppercase;
-            }
-            h4 {
-              font-size: 13px;
-              font-weight: normal;
-            }
-          }
 
-          &:nth-child(3n+1) {
-            /*border-width: 2px 0 0 2px;*/
-            .person-block {
-              border-radius: 10px;
-              left: -5px;
+
+            &:nth-child(3n+1) {
+              /*border-width: 2px 0 0 2px;*/
+              .person-block {
+                border-radius: 10px;
+                left: -5px;
+              }
             }
-          }
-          &:nth-child(3n+2) {
-            /*border-width: 2px 2px 0 0;*/
-            .person-block {
-              border-radius: 10px;
-              left: 4px;
+            &:nth-child(3n+2) {
+              /*border-width: 2px 2px 0 0;*/
+              .person-block {
+                border-radius: 10px;
+                left: 4px;
+              }
             }
           }
-        }
 
         &.subheader {
           border-right: 2px solid #B0AEA9;
@@ -638,6 +635,18 @@
         &.big {
           font-size: 130%;
         }
+
+        .photo {
+          &.rate90 {
+            .draw-picture(13);
+          }
+          &.rate70 {
+            .draw-picture(14);
+          }
+          &.rate100 {
+            .draw-picture(15);
+          }
+        }
       }
       .text-left {
         text-align: left;
@@ -645,6 +654,7 @@
 
         p {
           line-height: 110%;
+          margin-bottom: 6px;
         }
       }
       td[colspan="2"] {
