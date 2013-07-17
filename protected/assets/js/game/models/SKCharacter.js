@@ -42,7 +42,7 @@ define([], function() {
          * @return string
          */
         getFormatedForMailToName: function() {
-            return this.get('fio');
+            return this.get('fio') + ' (' + this.get('title') + ')';
         },
         
         /**
