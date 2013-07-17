@@ -131,6 +131,13 @@
         <br/>
         <br/>
 
+    <a href="/static/tariffs-new" style="background-color: #1D7885">static tariffs-new</a>
+    <a href="/order-new/starter" style="background-color: #1D7885">order "starter" tariff</a>
+
+        <br/>
+        <br/>
+        <br/>
+
     <a href="/static/drag-and-drop">Drag & Drop prototype</a>
 
         <br/>
