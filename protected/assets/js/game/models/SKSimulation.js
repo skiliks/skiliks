@@ -156,6 +156,12 @@ define([
                 });
             },
 
+            onAddDocument:function(){
+                if (window.elfinderInstace !== undefined) {
+                    window.elfinderInstace.exec('reload');
+                }
+            },
+
             timeStringToMinutes: function(str) {
                 if (str === undefined) {
                     throw 'Time string is not defined';
