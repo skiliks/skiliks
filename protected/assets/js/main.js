@@ -310,12 +310,14 @@ var fixLogotypes = function() {
                     Cufon.refresh();
                 }
             });
+            return false;
         });
 
         $('.start-full-simulation-now').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');
             location.assign(href);
+            return false;
         });
 
         $('.sign-in-link-in-popup').click(function(event){
