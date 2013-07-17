@@ -461,7 +461,9 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    SKApp.simulation.window_set.toggle('plan', 'plan');
+                    if(SKApp.simulation.window_set.isNotOpen('plan', 'plan')){
+                        SKApp.simulation.window_set.toggle('plan', 'plan');
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -473,7 +475,10 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    SKApp.simulation.window_set.toggle('visitor', 'visitorMeeting');
+                    if(SKApp.simulation.window_set.isNotOpen('visitor', 'visitorMeeting')){
+                        SKApp.simulation.window_set.toggle('visitor', 'visitorMeeting');
+                    }
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -664,7 +669,9 @@ define([
             doPhoneToggle: function (e) {
                 try {
                     e.preventDefault();
-                    SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                    if(SKApp.simulation.window_set.isNotOpen('phone', 'phoneMain')){
+                        SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -684,7 +691,9 @@ define([
                         this.doDocumentViewShow(this.documentId);
                         this.documentId = null;
                     } else {
-                        SKApp.simulation.window_set.toggle('documents', 'documents');
+                        if(SKApp.simulation.window_set.isNotOpen('documents', 'documents')){
+                            SKApp.simulation.window_set.toggle('documents', 'documents');
+                        }
                     }
 
                     this.stopAnimation('.documents');
@@ -763,10 +772,12 @@ define([
                     this.stopAnimation('.mail');
 
                     // we need getActiveSubscreenName() because mailClient window subname changed dinamically
-                    SKApp.simulation.window_set.toggle(
-                        'mailEmulator',
-                        SKApp.simulation.mailClient.getActiveSubscreenName()
-                    );
+                    if(SKApp.simulation.window_set.isNotOpen('mailEmulator', SKApp.simulation.mailClient.getActiveSubscreenName())){
+                        SKApp.simulation.window_set.toggle(
+                            'mailEmulator',
+                            SKApp.simulation.mailClient.getActiveSubscreenName()
+                        );
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
