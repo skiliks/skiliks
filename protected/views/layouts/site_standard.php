@@ -51,13 +51,11 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?> site-wrap" id="top">
         <header class="site-header grid-container">
-            <h1><a href="./">
-                    <img id="header-main-logo"
+            <h1><a href="./"><img id="header-main-logo"
                          src="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
                          data-src-big="<?php echo $assetsUrl?>/img/logo/logo-header-1024.png"
                          data-src-small="<?php echo $assetsUrl?>/img/logo/logo-header-1280.png"
-                         alt="Skiliks"/>
-                </a></h1>
+                         alt="Skiliks"/></a></h1>
             <nav class="menu-site menu-top" id="static-page-links">
                 <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
             </nav>
@@ -188,11 +186,11 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript">
-        Cufon.replace('.menu-site, .unstyled, p, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('.menu-site, .unstyled, .inner .site-main p, span, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td, .add-vacancy-popup h1, .ui-dialog-title, ' +
             '.side-menu .active a', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi, .yiiPager', {fontFamily:"ProximaNova-Semibold", hover: true});
-        Cufon.replace('.feedback-dialog-title', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('.feedback-dialog-title, .vacancy-list', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.now();
     </script>
     </body>

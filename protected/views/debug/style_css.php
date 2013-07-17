@@ -53,7 +53,7 @@ body {
     </nav>
 </header>
 <div class="grid-container">
-    <h1>Самый простой и надёжный способ проверить навыки менеджера</h1>
+    <h1 class="page-header">Самый простой и надёжный способ проверить навыки менеджера</h1>
     <ul class="list-light unstyled font-xxlarge home-list-box">
         <li>Деловая симуляция, позволяющая оценить управленческие навыки</li>
         <li>2-3 часовая игра</li>
@@ -130,7 +130,7 @@ body {
     <div id="invite-people-box" class="block-border bg-rich-blue border-large pull-left">
         <div class="pad-xsize">
         <h3>Отправить приглашение</h3>
-            <form id="invite-form" class="form-simple form-small placehldrs-dark">
+            <form id="invite-form" class="form-simple form-small">
                 <div class="row "><label for="Invite_full_name">Имя</label><input placeholder="Имя" name="Invite[firstname]" id="Invite_firstname" type="text" maxlength="100"><input placeholder="Фамилия" name="Invite[lastname]" id="Invite_lastname" type="text" maxlength="100"></div>
                 <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
 

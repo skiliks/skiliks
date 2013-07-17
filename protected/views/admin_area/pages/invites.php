@@ -70,7 +70,7 @@
                             </li>
                         <? endif ?>
                         <li>
-                            <a href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">
+                            <a href="/admin_area/budget?sim_id=<?=$model->simulation->id?>">
                                 <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
                             </a>
                         </li>

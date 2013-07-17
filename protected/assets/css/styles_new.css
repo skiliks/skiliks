@@ -76,6 +76,11 @@ nav ul, nav ul li {
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'SegoePrint';
+    src: url('../fonts/25D0FC_0_0.eot');
+    src: url('../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/25D0FC_0_0.woff') format('woff'),url('../fonts/25D0FC_0_0.ttf') format('truetype');
+}
 html, body {
     height: 100%;
 }
@@ -337,43 +342,15 @@ textarea {
     padding-top: 0px;
 }
 input[type="text"]::-webkit-input-placeholder, input[type="password"]::-webkit-input-placeholder {
-    color:#a6bcc0;
+    color:#1d7885;
 }
 input[type="text"]::-moz-placeholder, input[type="password"]::-moz-placeholder {
-    color:#a6bcc0;
+    color:#1d7885;
 }
 input[type="text"]:-ms-input-placeholder, input[type="password"]:-ms-input-placeholder {
-    color:#a6bcc0;
+    color:#1d7885;
 }
 input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
-    color:#a6bcc0;
-}
-.placehldrs-dark input[type="text"]::-webkit-input-placeholder,
-.placehldrs-dark input[type="password"]::-webkit-input-placeholder {
-    color:#146672;
-}
-.placehldrs-dark input[type="text"]::-moz-placeholder,
-.placehldrs-dark input[type="password"]::-moz-placeholder{
-    color:#146672;
-}
-.placehldrs-dark input[type="text"]:-ms-input-placeholder,
-.placehldrs-dark input[type="password"]:-ms-input-placeholder {
-    color:#146672;
-}
-.placehldrs-dark input[type="text"]:-moz-placeholder,
-.placehldrs-dark input[type="password"]:-moz-placeholder{
-    color:#146672;
-}
-.blueplaceholder input[type=text]::-webkit-input-placeholder {
-    color:#1d7885;
-}
-.blueplaceholder input[type=text]::-moz-placeholder {
-    color:#1d7885;
-}
-.blueplaceholder input[type=text]:-ms-input-placeholder {
-    color:#1d7885;
-}
-.blueplaceholder input[type=text]:-moz-placeholder {
     color:#1d7885;
 }
 /*  ************************ /FORM SIMPLE ************************  */
@@ -424,9 +401,12 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .social_networks>span {
     display: block;
-    float:left;
+    float:right;
     font: 14px "ProximaNova-Bold";
     line-height: 31px;
+}
+.site-footer .social_networks>span {
+    float: left;
 }
 .smallicons>span {
     line-height: 26px;
@@ -612,11 +592,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /SELECT ************************/
 /*  ************************ SITE ************************/
 .site-header {
-    height: 103px;
     margin: 0 auto;
-    padding-top: 47px;
     position: relative;
-    width: 960px;
 }
 .site-header h1 {
     left: 0px;
@@ -655,7 +632,7 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /*  ************************ /SITE ************************/
 /*  *************************** GRID ***************************/
 .grid-container:after, .container-borders-2:after, .container-borders-3:after, .container-3:after,
-.container-results-3:after {
+.container-results-3:after, .container-2:after {
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -706,6 +683,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 }
 .container-results-4 .grid1 {
     width:240px;
+}
+.container-2 .noleftmargin {
+    margin-left: 0px;
 }
 /*  ****************************************************** /GRID **********************************************************/
 /*  ************************ SITE ************************/
@@ -1203,4 +1183,45 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .profileform label {
     float: left;
 }
+/* ***************** VACANCIES *****************  */
+.vacancy-list .grid-view table.items, .vacancy-list .grid-view table.items tr.odd,
+.vacancy-list .grid-view table.items tr.even,
+.vacancy-list .items tr:nth-child(odd) td, .vacancy-list .grid-view table.items tr.even td    {
+    background: none;
+    border: none;
+}
+.vacancy-list .grid-view tr td:first-child {
+    padding-right: 10px;
+}
+.vacancy-list .grid-view tr td:nth-child(2),
+.vacancy-list .grid-view tr td:nth-child(3) {
+    text-overflow: clip;
+    overflow: hidden;
+}
+.vacancy-list .grid-view tr td {
+    color: #3c3c32;
+    font-family: "ProximaNova-Regular";
+}
+
+.edit-vacancy-link, .delete-vacancy-link {
+    display: block;
+    overflow: hidden;
+    text-indent: -900000px;
+}
+.edit-vacancy-link {
+    background: url("../img/vacancy-edit.png") no-repeat left top;
+    height: 16px;
+    margin-left:10px;
+    width: 12px;
+}
+.delete-vacancy-link {
+    background: url("../img/vacancy-delete.png") no-repeat left top;
+    height: 12px;
+    width: 12px;
+}
+.edit-vacancy-link:hover, .delete-vacancy-link:hover {
+    background-position: left bottom;
+}
+/* ***************** /VACANCIES *****************  */
+/*  *************************** /PROFILE ***************************/
 /*  *************************** /PROFILE ***************************/

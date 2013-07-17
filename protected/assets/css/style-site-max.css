@@ -115,6 +115,12 @@ h3 {
 .container-borders-3 .grid1+.grid2 {
     margin-left: 28px;
 }
+.container-2 .grid1 {
+    width:470px;
+}
+.container-2 .grid1+.grid1 {
+    margin-left: 20px;
+}
 .container-3 .grid1 {
     width:298px;
 }
@@ -150,6 +156,11 @@ h3 {
 }
 /*  ************************ /Menu ************************  */
 /*  ************************ SITE ************************/
+.site-header {
+    height: 103px;
+    padding-top: 47px;
+    width: 960px;
+}
 .site-header h1 {
     top:47px;
 }

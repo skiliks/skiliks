@@ -26,8 +26,6 @@ class PagesController extends SiteBaseController
 
     public function actionIndex()
     {
-
-        $user = Yii::app()->user->data();
         /* @var $user YumUser */
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
@@ -93,17 +91,6 @@ class PagesController extends SiteBaseController
         $result = UserService::addUserSubscription($email);
 
         $this->sendJSON($result);
-    }
-
-    /**
-     *
-     */
-    public function actionBadBrowser()
-    {
-        $this->render('badBrowser', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => true,
-        ]);
     }
 
     /**
@@ -252,6 +239,47 @@ class PagesController extends SiteBaseController
             'vacancies'     => $vacancies,
             'passwordForm'  => $passwordForm,
             'passwordForm2' => $passwordForm2,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionProductNew()
+    {
+        $this->layout = 'site_standard';
+        $this->render('//new/product');
+    }
+
+
+    /**
+     *
+     */
+    public function actionTeamNew()
+    {
+        $this->layout = 'site_standard';
+        $this->render('//new/team');
+    }
+
+    /**
+     *
+     */
+    public function actionOldBrowserNew()
+    {
+        $this->layout = 'site_standard';
+        $this->render('//new/oldBrowser', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => true,
+        ]);
+    }
+
+    public function actionHomeNew()
+    {
+        $this->layout = 'site_standard';
+        /* @var $user YumUser */
+        $this->render('//new/home', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => false,
         ]);
     }
 }

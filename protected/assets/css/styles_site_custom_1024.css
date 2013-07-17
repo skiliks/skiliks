@@ -24,15 +24,11 @@
 }
 .social_networks .addthis_toolbox {
     display: block;
-    float:left;
+    float:right;
 }
 .social_networks>span {
     font-size: 12px;
     line-height: 26px;
-}
-.social_networks .addthis_toolbox {
-    display: block;
-    float:left;
 }
 .social_networks a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
@@ -65,6 +61,120 @@
     background-position: -142px -33px;
 }
 /*  ****************************** /SOCIAL ICONS *******************************/
+/*  ************************** HOME **************************/
+.action-homeNew {/* 07.12 */
+    background-color: #e8f7f7;
+    background-image: url("../img/bg-top-min.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.action-homeNew .site-wrap {
+    background:url("../img/heros-home-min.png") no-repeat center 108px;
+    overflow: hidden;
+}
+.home-contnt-box {
+    margin: 20px 0px 75px 280px;
+    width:445px;
+}
+.home-contnt-box li {
+    font-size: 13px;
+    line-height: 12px;
+    margin-bottom: 8px;
+}
+.home-contnt-box h2 {
+    margin-bottom: 13px;
+}
+.home-contnt-box ul+h2 {
+    margin-top:40px;
+}
+.home-list-box {
+    margin-bottom: 25px;
+    margin-top:4px;
+    /*padding-right: 20px;*/
+    width:378px;
+}
+.access-footer {
+    display: inline-block;
+    position: absolute;
+    /*bottom: 45px;*/
+    height:32px;
+    line-height:32px;
+    left:204px;
+    padding-right: 10px;
+    top:202px;
+}
+.page-header {
+    margin-bottom: 16px;
+}
+.page-header.margin-less {
+    margin-bottom: 10px;
+}
+.betaflag {
+    background: url("../img/betaflag.png") no-repeat 0 0;
+    background-size: 83px;
+    height: 49px;
+    left: 230px;
+    position: absolute;
+    top: 31px;
+    width: 83px;
+}
+
+.video {/* 07.12 i vse vniz novye */
+    background: url("../img/video-home-min.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 185px;
+    margin-top: 14px;
+    text-align: center;
+    width:358px;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 120px auto 0;
+    opacity: 0.9;
+    padding: 5px 12px 9px;
+}
+.home-content .social_networks {
+    float: right;
+    margin-top: 10px;
+    padding-right: 6px;
+    width:340px;
+}
+.addthis_toolbox {
+    float: right;
+}
+.home-content .container-2 {
+    height:260px;
+    width:760px;
+}
+.home-content .container-2 .grid1 {
+    width:378px;
+}
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
+.home-height {
+    height:730px;
+}
+.clients {
+    width:480px;
+}
+.clients h2 {
+    margin-bottom: 16px;
+}
+.clients .grid-cell {
+    padding-bottom: 35px;
+    padding-right:20px;
+    vertical-align: middle;
+}
+.clients img {
+    width:80%;
+}
+.heroes-comment {
+    display: none;
+}
+/*  ************************** /HOME **************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder, #invite-form select {
     width:113px;
@@ -444,7 +554,7 @@
     color: #245057;
 }
 .profile-min-height {
-    min-height: 340px;
+    min-height: 350px;
 }
 .profile-tarif-form .row {
     height: 40px;
@@ -457,12 +567,16 @@
     padding-right: 10px;
     width: 175px;
 }
-.profile-tarif-form label {
-    padding-top: 5px;
-}
 .profilelabel-wrap strong {
     display: block;
     padding-top: 4px;
+}
+.profile-tarif-form strong {
+    padding-top: 4px;
+}
+.profile-tarif-form label {
+    line-height: 13px;
+    padding-top: 5px;
 }
 .profileform .buttons {
     padding-top: 24px;
@@ -474,7 +588,10 @@
     padding: 2px 4px;
 }
 .profileform input[type=password] {
-    width:160px;
+    width:158px;
+}
+.profileform input[type=text]+input[type=text], #profile_lastname {
+    margin-left: 10px;
 }
 #UserAccountCorporate_ownership_type {
     width: 90px;
@@ -484,10 +601,14 @@
     width: 155px;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 230px;
+    width: 158px;
 }
 #UserAccountCorporate_company_description {
+    min-height: 80px;
+    max-height: 80px;
     height: 80px;
+    min-width: 263px;
+    max-width: 263px;
     width: 263px;
 }
 .row-inputs label {
@@ -502,5 +623,103 @@
 .profileform .errorMessage {
     left: 186px;
     top:1px;
+    white-space: nowrap;
 }
+
+.accnt-corprt-form .sbHolder {
+    width:270px;
+}
+.accnt-corprt-form input[type=text] {
+    width: 120px;
+}
+.accnt-corprt-form .row-inputs {
+    margin-bottom: 6px;
+}
+.accnt-corprt-form .row-selects {
+    margin-top:11px;
+}
+.accnt-corprt-form strong {
+    padding-top: 0px;
+}
+.errorMessage.profile_lastname {
+    left:328px;
+}
+.accnt-corprt-form .errorMessage {
+    top:-13px;
+}
+/* ***************** VACANCIES *****************  */
+.vacancy-list .grid-view table.items {
+    width:410px;
+}
+.vacancy-list .grid-view table.items td {
+    color: #3c3c32;
+    font-size: 14px;
+}
+.vacancy-list .grid-view table.items td {
+    padding: 0px 0px 16px 3px;
+}
+.vacancy-list .grid-view table.items td:first-child {
+    padding-left: 0px;
+}
+.vacancy-list .grid-view tr td:nth-child(2) {
+    max-width:220px;
+    width:220px;
+}
+.vacancy-list .grid-view tr td:nth-child(3) {
+    max-width:132px;
+    width:132px;
+}
+.vacancy-list .grid-view tr td:nth-child(4),
+.vacancy-list .grid-view tr td:nth-child(5){
+    width:12px;
+}
+.form-vacancy input[type="text"] {
+    width: 252px;
+}
+.form-vacancy .sbHolder {
+    width: 260px;
+}
+#Vacancy_professional_occupation_id_em_ {
+    top:-13px;
+}
+.form-vacancy .errorMessage {
+    top:2px;
+}
+/* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
+/*  *************************** OLD BROWSERS ***************************/
+.ico-browser {
+    background: url("../img/browsers-min.png") no-repeat -100% -100%;
+    margin: 16px auto 10px;
+    width: 106px;
+    height: 106px;
+}
+.ico-chrome {
+    background-position: 0 0px;
+}
+.ico-firefox {
+    background-position:100% 0px;
+}
+.browsers .container-3 {
+    margin: 0 auto;
+    width:580px;
+}
+.browsers .grid2 {
+    padding: 26px 30px 0;
+    text-align: center;
+    width:207px;
+}
+.browsers .grid1 {
+    padding-top:100px;
+    width:44px;
+}
+.browsers .grid1, .browsers p {
+    text-align: center;
+}
+.browsers .grid1+.grid2 {
+    margin-left: 0px;
+}
+.browsers .font-xxxlarge {
+    font-size: 23px;
+}
+/*  *************************** /OLD BROWSERS ***************************/

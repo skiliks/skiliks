@@ -91,7 +91,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->waitForVisible("id=simulation-points");
         $this->waitForTextPresent('Simulation points');
-        $this->checkSimPoints('8.5','-7');
+        $this->checkSimPoints('8','-7');
         $this->close();
     }
 
