@@ -978,12 +978,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             if (response.status === true) {
                                 AppView.frame.icon_view.doSoundSaveAttachment();
                             }
-
-                            SKApp.simulation.once('documents:loaded', function() {
-                                if (window.elfinderInstace !== undefined) {
-                                    window.elfinderInstace.exec('reload');
-                                }
-
+                                SKApp.simulation.documents.fetch();
+                                console.log("add");
                                 new SKDialogView({
                                     'message':'Файл был успешно сохранён в папку Мои документы.',
                                     'buttons':[
@@ -994,9 +990,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 });
 
                                 me.trigger('attachment:saved');
-                            });
-
-                            SKApp.simulation.documents.fetch();
                         } else {
                             throw 'Can not add document';
                         }
