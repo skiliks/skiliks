@@ -9,6 +9,17 @@
     background: url(../img/manual/tuticons-small.png) 0 50px * -@index no-repeat;
   }
 }
+.draw-diagram(@index: 0) {
+  width: 72px;
+  height: 72px;
+  background: url(../img/manual/diagram-big.png) 0 72px * -@index no-repeat;
+
+  @media (max-width: 1280px), (max-height: 750px) {
+    width: 59px;
+    height: 59px;
+    background: url(../img/manual/diagram-small.png) 0 59px * -@index no-repeat;
+  }
+}
 
 .manual-window {
   position: relative;
@@ -475,6 +486,7 @@
       &.mainheroes {
         left:-98px;
         position: absolute;
+        text-align: left;
         top:340px;
         width: 230px;
 
@@ -663,13 +675,13 @@
           margin: 0 auto;
 
           &.rate90 {
-            .draw-picture(13);
+            .draw-diagram(0);
           }
           &.rate70 {
-            .draw-picture(14);
+            .draw-diagram(1);
           }
           &.rate100 {
-            .draw-picture(15);
+            .draw-diagram(2);
           }
         }
       }
@@ -722,6 +734,8 @@
 
           &.person {
             .person-wrap {
+              height:56px;
+
               .person-block {
               width: 164px;
               padding: 3px 6px;
@@ -743,6 +757,10 @@
               }
             }
             }
+          }
+
+          h3 {
+            margin-top: 3px;
           }
         }
       }
