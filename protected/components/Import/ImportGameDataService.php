@@ -2749,6 +2749,56 @@ class ImportGameDataService
         );
     }
 
+    public function importFlagTimeSwitch()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Set_flags');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $flagSwitches = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $id = $this->getCellValue($sheet, 'Set_flag_id', $i);
+
+            $flagSwitch = $this->scenario->getFlagSwitchTime(['id' => $id]);
+            if (empty($flagSwitch)) {
+                $flagSwitch = new FlagSwitchTime();
+                $flagSwitch->id = $id;
+            }
+
+            $flagSwitch->flag_code = $this->getCellValue($sheet, 'Flag_code_to_set', $i);
+            $flagSwitch->value = $this->getCellValue($sheet, 'Flag_value_to_set', $i);
+            $flagSwitch->time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Set_flag_value', $i), 'hh:mm:ss') ?: null;
+
+            $flagSwitch->scenario_id = $this->scenario->primaryKey;
+            $flagSwitch->import_id = $this->import_id;
+
+            $flagSwitch->save();
+            $flagSwitches++;
+        }
+
+        // delete old unused data {
+        FlagSwitchTime::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'flag_switches' => $flagSwitches,
+            'errors'    => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2802,6 +2852,7 @@ class ImportGameDataService
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
         $result['meetings'] = $this->importMeetings();
+        $result['flag_time_switch'] = $this->importFlagTimeSwitch();
         return $result;
     }
 
