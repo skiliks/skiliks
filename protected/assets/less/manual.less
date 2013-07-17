@@ -734,7 +734,32 @@
       }
     }
   }
+  .content.next-steps {
+    .next-steps-list, p, div {
+      font-size:20px;
+    }
+    .next-steps-list {
 
+      list-style-type: decimal;
+
+      li {
+        line-height: 120%;
+        margin-bottom: 20px;
+      }
+    }
+    @media (max-width: 1280px), (max-height: 750px) {
+      .next-steps-list, p, div {
+        font-size:18px;
+      }
+
+      .next-steps-list {
+
+        li {
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
   .block-list {
     color: #232323;
 
