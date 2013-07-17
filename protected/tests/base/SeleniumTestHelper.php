@@ -65,6 +65,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
+        $this->optimal_click("css=.mail-popup-button");
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 
