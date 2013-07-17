@@ -498,40 +498,36 @@
       }
     }
 
-    @media (max-width: 1280px), (max-height: 750px) {
-      //background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
-    }
-
   }
 
-  @media (max-width: 1280px), (max-height: 750px) {
-    .content.company {
-      background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
+  .content.company {
+    @media (max-width: 1280px), (max-height: 750px) {
+        background: url(../img/manual/structurenewsmall.png) 67px 99px no-repeat;
 
-      .branch {
-        width: 120px;
-        margin-right: 40px;
-      }
-      .branch-special {
-        margin-right: 114px;
-      }
-      .person-block {
-        width: 118px;
-        margin-top: 8px;
-        height: 43px;
-        font-size: 13px;
-        line-height: 100%;
-
-        span {
-          padding: 1px;
-          height: 40px;
-          width: 116px;
+        .branch {
+          width: 120px;
+          margin-right: 40px;
         }
-
-        &.root {
-          margin: -7px auto 11px;
+        .branch-special {
+          margin-right: 114px;
         }
-      }
+        .person-block {
+          width: 118px;
+          margin-top: 8px;
+          height: 43px;
+          font-size: 13px;
+          line-height: 100%;
+
+          span {
+            padding: 1px;
+            height: 40px;
+            width: 116px;
+          }
+
+          &.root {
+            margin: -7px auto 11px;
+          }
+        }
     }
   }
 
