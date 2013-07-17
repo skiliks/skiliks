@@ -219,6 +219,8 @@ return array(
                 'old-browser-new'                    => 'static/pages/teamNew',
                 'home-new'                           => 'static/pages/homeNew',
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
+                'static/tariffs-new'                 => 'static/pages/tariffsNew',
+                'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
