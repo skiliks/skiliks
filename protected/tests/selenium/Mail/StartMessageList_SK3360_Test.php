@@ -1,0 +1,27 @@
+<?php
+/**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тест для проверки наличия списка всех входящих и исходящих сообщений
+ */
+class StartMessageList_SK3360_Test extends SeleniumTestHelper
+{
+    public function test_StartMessageList_SK3360()
+    {
+        //$this->markTestIncomplete();
+        $this->start_simulation();
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->assertTextPresent("Форма отчетности для производства");
+        $this->assertTextPresent("По ценовой политике");
+        $this->assertTextPresent("Трудовой договор");
+        $this->assertTextPresent("Новая система мотивации");
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
+        $this->assertTextPresent("Отчет для Правления");
+
+        $this->simulation_stop();
+    }
+}

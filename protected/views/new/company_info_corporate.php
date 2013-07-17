@@ -4,14 +4,14 @@
 <div class="container-3 block-border border-primary bg-transparnt">
     <div class="border-primary bg-yellow standard-left-box"><?php $this->renderPartial('//new/_menu_corporate', ['active' => ['company-info' => true]]) ?></div>
 
-    <div class="border-primary bg-light-blue standard-right-box profile-min-height">
-        <div class="pad-large profileform profilelabel-wrap">
+    <div class="border-primary bg-light-blue standard-right-box">
+        <div class="pad-large profileform profilelabel-wrap profile-min-height">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'account-corporate-company-info-form'
         )); ?>
 
-        <div class="row blueplaceholder row-inputs">
+        <div class="row row-inputs">
             <?php echo $form->labelEx($account, 'Название компании'); ?>
             <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?><?php echo $form->error($account, 'ownership_type'); ?><?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?><?php echo $form->error($account, 'company_name'); ?>
         </div>

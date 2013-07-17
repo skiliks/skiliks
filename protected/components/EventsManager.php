@@ -47,9 +47,7 @@ class EventsManager {
         if ($eventsTriggers) {
             $eventsTriggers->trigger_time = $gameTime;
             $eventsTriggers->save(); // обновляем существующее событие в очереди
-        }
-        else {
-
+        } else {
             // Добавляем событие
             $eventsTriggers = new EventTrigger();
             $eventsTriggers->sim_id = $simulation->id;

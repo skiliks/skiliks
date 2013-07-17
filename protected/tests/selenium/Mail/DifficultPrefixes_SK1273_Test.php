@@ -17,9 +17,10 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
     public function test_DifficultPrefixes_SK1273_Case1() {
         //$this->markTestIncomplete();
         $this->start_simulation();
+        sleep(2);
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
-        //тема
+        sleep(1);
         $this->addTheme("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         sleep(3);

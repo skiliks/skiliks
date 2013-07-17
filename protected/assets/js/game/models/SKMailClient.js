@@ -195,8 +195,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             // @var string
             activeScreen:undefined,
 
-            /** @var Array.<SKMailFolder> */
-            folders:[],
+            /** @var List.<SKMailFolder> */
+            folders: {},
 
             // @var array of SkCharacter
             defaultRecipients:[],

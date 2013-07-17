@@ -18,25 +18,37 @@
     margin-top: -6px;
 }
 /*  *************************** /PADDINGS ****************************/
-/*  ************************** HOME **************************/
-.home-contnt-box li {
+/*  *********************************** HOME ***********************************/
+.action-homeNew {/* 07.12 */
+    background-color: #e8f7f7;
+    background-image: url("../img/maintopbg.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.action-homeNew .site-wrap {/* 07.12 */
+    background: url("../img/heros-home.png") no-repeat center 140px;
+    overflow: hidden;
+}
+.home-contnt-box {
+    margin: 30px 0px 90px 370px;
+    width:540px;
+}
+.home-contnt-box li { /* 07.12 */
     font-size: 16px;
     line-height: 16px;
     margin-bottom: 10px;
 }
 .home-contnt-box h2 {
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 .home-contnt-box ul+h2 {
-    margin-top:43px;
+    margin-top:50px;
 }
-.home-contnt-box {
-    width:515px;
-}
-.home-list-box {
+.home-list-box {/* 07.12 */
+    margin-top:4px;
+    margin-bottom: 30px;
     padding-right: 20px;
-    padding-top: 32px;
-    width:450px;
+    width:480px;
 }
 .access-footer {
     display: inline-block;
@@ -61,7 +73,83 @@
     top: 31px;
     width: 105px;
 }
-/*  ************************** /HOME **************************/
+
+
+.video {/* 07.12 i vse vniz novye */
+    background: url("../img/video-home.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 237px;
+    margin-top: 18px;
+    text-align: center;
+    width:459px;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 153px auto 0;
+    opacity: 0.9;
+    padding: 7px 15px 11px;
+}
+.home-content .social_networks {
+    float: right;
+    margin-top: 10px;
+    width:380px;
+}
+.addthis_toolbox {
+    float: right;
+}
+.home-content .container-2 {
+    height:334px;
+    width:950px;
+}
+.home-content .container-2 .grid1 {
+    width:475px;
+}
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
+.home-height {
+    height:945px;
+}
+.clients {
+    width:600px;
+}
+.clients h2 {
+    margin-bottom: 20px;
+}
+.clients .grid-cell {
+    padding-bottom: 48px;
+    padding-right:40px;
+    vertical-align: middle;
+}
+.heroes-comment {
+    font: 12px/22px 'SegoePrint';
+    color: rgba(20,102,114,0.6);
+    width: 190px;
+    position: absolute;
+}
+.heroes-comment.right{
+    -moz-transform:rotate(-27deg);
+    -ms-transform:rotate(-27deg);
+    -webkit-transform:rotate(-27deg);
+    -o-transform:rotate(-27deg);
+    transform:rotate(-27deg);
+    top:632px;
+    left:50%;
+    margin-left:684px;
+}
+.heroes-comment.left{
+    -moz-transform:rotate(30deg);
+    -ms-transform:rotate(30deg);
+    -webkit-transform:rotate(30deg);
+    -o-transform:rotate(30deg);
+    transform:rotate(30deg);
+    top:762px;
+    left:50%;
+    margin-left:-610px;
+}
+/*  *********************************** /HOME ***********************************/
 /*  ************************ REGISTRATION ************************/
 .registrationform input[type=text] {
     width:223px;
@@ -426,12 +514,17 @@
     padding-right: 10px;
     width: 200px;
 }
-.profile-tarif-form label {
-    padding-top: 9px;
-}
 .profilelabel-wrap strong {
     display: block;
     padding-top: 6px;
+}
+.profile-tarif-form strong {
+    padding-top: 5px;
+}
+.profile-tarif-form label {
+    line-height: 21px;
+    padding-top: 4px;
+    /*padding-top: 6px; /* 8 */
 }
 .profileform .buttons {
     padding-top: 30px;
@@ -445,6 +538,9 @@
 .profileform input[type=password] {
     width:205px;
 }
+.profileform input[type=text]+input[type=text], #profile_lastname {
+    margin-left: 10px;
+}
 #UserAccountCorporate_ownership_type {
     width: 120px;
 }
@@ -453,10 +549,14 @@
     width: 228px;
 }
 #account-corporate-company-info-form .sbHolder {
-    width: 202px;
+    width: 203px;
 }
 #UserAccountCorporate_company_description {
+    min-height: 100px;
+    max-height: 100px;
     height: 100px;
+    min-width: 367px;
+    max-width: 367px;
     width: 367px;
 }
 .row-inputs label {
@@ -471,5 +571,183 @@
 .profileform .errorMessage {
     left: 210px;
     top:5px;
+    white-space: nowrap;
 }
+.accnt-corprt-form .sbHolder {
+    width:350px;
+}
+.accnt-corprt-form input[type=text] {
+    width: 161px;
+}
+.accnt-corprt-form .row-inputs {
+    margin-bottom: 8px;
+}
+.accnt-corprt-form .row-selects {
+    margin-top:12px;
+}
+.accnt-corprt-form strong {
+    padding-top: 0px;
+}
+.errorMessage.profile_lastname {
+    left:394px;
+}
+.accnt-corprt-form .errorMessage {
+    top:-14px;
+}
+/* ***************** VACANCIES *****************  */
+.vacancy-list .grid-view table.items {
+    width:520px;
+}
+.vacancy-list .grid-view table.items td {
+    color: #3c3c32;
+    font-size: 16px;
+}
+.vacancy-list .grid-view table.items td {
+    padding: 0px 0px 20px 5px;
+}
+.vacancy-list .grid-view table.items td:first-child {
+    padding-left: 0px;
+}
+.vacancy-list .grid-view tr td:nth-child(2) {
+   max-width:282px;
+   width:282px;
+}
+.vacancy-list .grid-view tr td:nth-child(3) {
+    max-width:170px;
+    width:170px;
+}
+.vacancy-list .grid-view tr td:nth-child(4),
+.vacancy-list .grid-view tr td:nth-child(5){
+    width:12px;
+}
+.form-vacancy input[type="text"] {
+    width: 352px;
+}
+.form-vacancy .sbHolder {
+    width: 360px;
+}
+#Vacancy_professional_occupation_id_em_ {
+    top:-13px;
+}
+.form-vacancy .errorMessage {
+    top:7px;
+}
+/* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
+/*  *************************** OLD BROWSERS ***************************/
+.ico-browser {
+    background: url("../img/browsers.png") no-repeat -100% -100%;
+    margin: 20px auto 10px;
+    width: 130px;
+    height: 130px;
+}
+.ico-chrome {
+    background-position: 0 -40px;
+}
+.ico-firefox {
+    background-position:100% -40px;
+}
+.browsers .container-3 {
+    margin: 0 auto;
+    width:740px;
+}
+.browsers .grid2 {
+    padding: 30px 40px 0;
+    text-align: center;
+    width:260px;
+}
+.browsers .grid1 {
+    padding-top:100px;
+    width:60px;
+}
+.browsers .grid1, .browsers p {
+    text-align: center;
+}
+.browsers .grid1+.grid2 {
+    margin-left: 0px;
+}
+.browsers .font-xxxlarge {
+    font-size: 30px;
+}
+/*  *************************** /OLD BROWSERS ***************************/
+/*  *************************** TEAM ***************************/
+.action-teamNew {
+    background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
+    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+    background-position: center 770px, center top, center 300px, center 790px;
+}
+.team {
+    height: 1550px;
+}
+.text-about {
+    line-height: 130%;
+    margin: 0 auto 20px;
+    width:720px;
+}
+.team-list {
+    list-style: none;
+    margin: 0px;
+}
+.team-list li {
+    background-repeat: no-repeat;
+    background-position: 0 bottom;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 150%;
+    margin-bottom: 12px;
+    width: 473px;
+    height: 183px;
+    text-align: left;
+    vertical-align: top;
+}
+.team-list h3, .team-list p {
+    margin-left: 26px;
+}
+.team-list h3 {
+    font-size: 24px;
+    margin-bottom: 0px;
+    margin-top: 28px;
+}
+.maria {
+    background-image: url("../img/team-maria.png");
+}
+.alyona {
+    background-image: url("../img/team-alyona.png");
+}
+.tony {
+    background-image: url("../img/team-tony.png");
+}
+.andrii {
+    background-image: url("../img/team-andrey.png");
+}
+.others {
+    background-image: url("../img/team-others.png");
+}
+.team-list .others {
+    height: 188px;
+}
+.member-right {
+    margin-left: 10px;
+}
+.member-center {
+    margin-left: 244px;
+}
+.team-values {
+    margin-top: 50px;
+}
+.team-values ul {
+    margin: 0 auto;
+    width:500px;
+}
+.team-values li {
+    background: url("../img/bg-team-values-item.png") no-repeat center bottom;
+    list-style: none;
+    line-height: 130%;
+    margin-top: 32px;
+    padding-bottom: 85px;
+    text-align: center;
+}
+.team-values li:first-child {
+    margin-top: 0px;
+}
+/*  *************************** /TEAM ***************************/

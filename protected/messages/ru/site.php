@@ -169,7 +169,7 @@ return array(
     'Vacancy is required' => 'Выберите вакансию',
     'Theme is required' => 'Выберите тему',
     'Message is required' => 'Введите сообщение',
-    'Add vacancy in your profile' => 'Добавьте вакансиию',
+    'Add vacancy in your profile' => 'Добавьте вакансию',
     'You cannot send invite to yourself' => 'Вы не можете отправить инвайт себе',
     'User with this email does not exist' => 'Отсутствующий email',
     'Enter Email address' => 'Введите e-mail',
@@ -339,7 +339,7 @@ return array(
     'Next' => 'Вперед',
 
     'min' => 'мин.',
-    'Share' => 'Рекомендовать',
+    'Share' => 'Рекомендовать видео',
 
     'Available simulation' => 'Доступные симуляции',
     'You are already logged in (%s), please log out to activate your account %s' => 'Вы авторизованы как %s, пожалуйста, выйдите из данного аккаунта, чтобы активировать аккаунт %s',
