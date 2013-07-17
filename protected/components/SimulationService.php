@@ -854,7 +854,7 @@ class SimulationService
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
-                    && Yii::app()->user->data()->isCorporate()) {
+                    && Yii::app()->user->data()->isCorporate() && (int)$simulation->mode !== Simulation::MODE_DEVELOPER_ID) {
                     Yii::app()->user->data()->getAccount()->invites_limit--;
                     Yii::app()->user->data()->getAccount()->save(false);
                 }
