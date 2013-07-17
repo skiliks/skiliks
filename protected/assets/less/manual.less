@@ -721,6 +721,7 @@
 
     @media (max-width: 1280px), (max-height: 750px) {
       table {
+        margin-left:13px;
         width: 748px;
 
         td {
@@ -737,7 +738,7 @@
               height:56px;
 
               .person-block {
-              width: 164px;
+              width: 166px;
               padding: 3px 6px;
 
               .photo {
@@ -756,6 +757,11 @@
                 font-size: 11px;
               }
             }
+            }
+            &:nth-child(3n+2) {
+              .person-block {
+                left: 4px;
+              }
             }
           }
 
