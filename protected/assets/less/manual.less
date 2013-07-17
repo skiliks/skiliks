@@ -551,15 +551,15 @@
         background-color: #fcfcee;
           &.person {
             border-top: 2px solid #B0AEA9;
-            border-right: 3px solid #fff;
+            /*border-right: 3px solid #fff;*/
+            border-right:none;
             padding: 0px;
 
             .person-wrap {
-              height:60px;
+              height:78px;
               position: relative;
 
               .person-block {
-                height: 80px;
                 position: absolute;
                 overflow: hidden;
                 top: -2px;
@@ -640,6 +640,8 @@
         }
 
         .photo {
+          margin: 0 auto;
+
           &.rate90 {
             .draw-picture(13);
           }
