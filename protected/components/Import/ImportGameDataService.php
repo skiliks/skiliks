@@ -2843,6 +2843,7 @@ class ImportGameDataService
         $result['tasks'] = $this->importTasks();
         $result['mail_tasks'] = $this->importMailTasks();
         $result['event_samples'] = $this->importEventSamples();
+        $result['meetings'] = $this->importMeetings();
         $result['activity'] = $this->importActivity();
         $result['activity_parent_ending'] = $this->importActivityParentEnding();
         $result['flag_rules'] = $this->importFlagsRules();
@@ -2851,7 +2852,6 @@ class ImportGameDataService
         $result['max_rate'] = $this->importMaxRate();
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
-        $result['meetings'] = $this->importMeetings();
         $result['flag_time_switch'] = $this->importFlagTimeSwitch();
         return $result;
     }
