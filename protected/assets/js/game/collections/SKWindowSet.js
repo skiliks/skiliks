@@ -199,6 +199,15 @@ define([
             }
         },
 
+        isNotOpen:function(name, subname) {
+            var windows = this.where({name: name, subname: subname});
+            if (windows.length === 0) {
+                return true;
+            }else{
+                return false;
+            }
+        },
+
         /**doActivate
          * Just opens window or nothing if opened
          *
