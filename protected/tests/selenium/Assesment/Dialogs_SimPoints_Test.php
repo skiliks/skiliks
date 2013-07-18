@@ -82,8 +82,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         sleep(10);
         $this->run_event('MS27');
         sleep(2);
-        $this->run_event('MS48');
-        sleep(2);
         $this->run_event('MS68');
         sleep(2);
         $this->run_event('MS70');
