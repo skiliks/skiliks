@@ -552,16 +552,6 @@
           height: 40px;
           width: 116px;
         }
-
-        &.root {
-          height: 39px;
-          margin: -4px auto 19px 256px;
-          width:144px;
-
-          span {
-            width:144px;
-          }
-        }
         &.mainheroes {
           height:50px;
           left:-88px;
@@ -569,6 +559,17 @@
 
           span {
             height:48px;
+            padding-left: 8px;
+          }
+        }
+        &.root {
+          height: 39px;
+          margin: -4px auto 19px 256px;
+          width:144px;
+
+          span {
+            height: 40px;
+            width:144px;
           }
         }
       }
@@ -623,8 +624,8 @@
                 overflow: hidden;
                 top: -4px;
                 width: 203px;
-                padding: 5px 8px;
-                border: 2px solid #a3b9cd;
+                padding: 8px 8px;
+                border: 2px solid #c1dcf3;
               /*border-color: #a3b9cd #b1c9de #ddecf8;*/
                 background-color: #c1dcf3;
                 text-align: left;
@@ -653,7 +654,7 @@
                   line-height: 100%;
                   font-weight: bold;
                   margin: 0;
-                  margin-top:10px;
+                  margin-top:6px;
                   text-transform: uppercase;
                 }
                 h4 {
@@ -675,14 +676,14 @@
               /*border-width: 2px 0 0 2px;*/
               .person-block {
                 border-radius: 10px;
-                left: -6px;
+                left: -3px;
               }
             }
             &:nth-child(3n+2) {
               /*border-width: 2px 2px 0 0;*/
               .person-block {
                 border-radius: 10px;
-                left: 8px;
+                left: 0px;
               }
             }
           }
@@ -696,7 +697,7 @@
         }
 
         &.fake {
-          width: 1px;
+          width: 9px;
           border: 0 none;
           background-color: transparent;
         }
@@ -723,7 +724,7 @@
         td:first-child {
           .person-block {
             h3 {
-              margin-top: 2px;
+              margin-top: 0px;
             }
           }
         }
@@ -773,25 +774,23 @@
 
           &.person {
             .person-wrap {
-              height:56px;
+              height:65px;
 
               .person-block {
-              width: 166px;
-              padding: 3px 6px;
+                height:50px;
+                width: 158px;
+                padding:8px;
 
-                h3 {
-                  margin-top: 3px;
-                }
                 .photo {
-                  margin: 0 3px 0 0;
+                  margin: 0 6px 0 0;
                 }
 
               h3 {
                 font-size: 12px;
-                line-height: 18px;
+                line-height: 100%;
               }
               h4 {
-                font-size: 11px;
+                font-size: 13px;
                 font-weight: normal;
               }
               h5 {
@@ -801,7 +800,7 @@
             }
             &:nth-child(3n+2) {
               .person-block {
-                left: 4px;
+                left: 3px;
               }
             }
           }
