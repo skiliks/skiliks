@@ -673,8 +673,7 @@
                 content: '';
                 height:10px;
                 position: absolute;
-                top: -2;
-                left: -4px;
+                top: -4px;
                 width: 10px;
               }
             }
@@ -682,17 +681,27 @@
 
 
             &:nth-child(3n+1) {
+              .person-wrap {
               /*border-width: 2px 0 0 2px;*/
-              .person-block {
-                border-radius: 10px;
-                left: -3px;
+                .person-block {
+                  border-radius: 10px;
+                  left: -3px;
+                }
+                &:before {
+                  left: -4px;
+                }
               }
             }
             &:nth-child(3n+2) {
+              .person-wrap {
               /*border-width: 2px 2px 0 0;*/
-              .person-block {
-                border-radius: 10px;
-                left: 0px;
+                .person-block {
+                  border-radius: 10px;
+                  left: 0px;
+                }
+                &:before {
+                  right: -4px;
+                }
               }
             }
           }
