@@ -7,7 +7,8 @@
  * @property integer $id
  * @property integer $sim_id
  * @property integer $meeting_id
- * @property string $game_time
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Meeting $meeting
@@ -25,6 +26,23 @@ class LogMeeting extends CActiveRecord
 		return parent::model($className);
 	}
 
+    protected function afterSave()
+    {
+        /** @var $activityAction ActivityAction */
+        $activityAction = ActivityAction::model()->findByPriority(
+            ['meeting_id' => $this->meeting_id],
+            NULL,
+            $this->simulation
+        );
+
+        if (null !== $activityAction) {
+            // TODO: Temporary disabled. Required investigations
+            //$activityAction->appendLog($this);
+        }
+
+        parent::afterSave();
+    }
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -41,11 +59,11 @@ class LogMeeting extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, meeting_id, game_time', 'required'),
+			array('sim_id, meeting_id, start_time', 'required'),
 			array('sim_id, meeting_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, meeting_id, game_time', 'safe', 'on'=>'search'),
+			array('id, sim_id, meeting_id, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,7 +76,7 @@ class LogMeeting extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'meeting' => array(self::BELONGS_TO, 'Meeting', 'meeting_id'),
-			'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 		);
 	}
 
@@ -71,7 +89,8 @@ class LogMeeting extends CActiveRecord
 			'id' => 'ID',
 			'sim_id' => 'Sim',
 			'meeting_id' => 'Meeting',
-			'game_time' => 'Game Time',
+			'start_time' => 'Start Time',
+			'end_time' => 'End Time',
 		);
 	}
 
@@ -89,7 +108,8 @@ class LogMeeting extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('meeting_id',$this->meeting_id);
-		$criteria->compare('game_time',$this->game_time,true);
+		$criteria->compare('start_time',$this->start_time,true);
+		$criteria->compare('end_time',$this->end_time,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

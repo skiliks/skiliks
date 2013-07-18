@@ -24,7 +24,7 @@ define([
             events: {
                 'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
                 'click .icons-panel .door.icon-active a': 'doDialogStart',
-                'click .icons-panel .door:not(.icon-active) a': 'doMeetingToggle',
+                'click .icons-panel .door:not(.icon-active):not(.icon-button-disabled) a': 'doMeetingToggle',
                 'click .icons-panel .mail.create-mail a': 'doNewMailStart',
                 'click .icons-panel .plan a': 'doPlanToggle',
                 'click .icons-panel .phone:not(.icon-active):not(.icon-button-disabled) a': 'doPhoneToggle',
@@ -51,8 +51,8 @@ define([
                     this.listenTo(events, 'event:plan', this.onPlanEvent);
 
                     this.listenTo(events, 'event:phone', this.onPhoneEvent);
-                    this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
-                    this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+                    this.listenTo(events, 'blocking:start', this.doBlockingActions);
+                    this.listenTo(events, 'blocking:end', this.doDeblockingActions);
                     this.listenTo(events, 'mail:counter:update', function (count) {
                         me.setCounter('.mail', count);
                     });
@@ -233,7 +233,7 @@ define([
                     var me = this;
 
                     me.$('.door').attr('data-event-id', event.cid);
-                    me.doBlockingPhoneIcon();
+                    me.doBlockingPhone();
 
                     var data = event.get('data');
                     var callbackFunction = function() {
@@ -811,11 +811,11 @@ define([
             },
 
             /**
-             * Blocking phone icon when HERO talk by phone or speak with visitor
+             * Blocking only phone icon
              *
-             * @method doBlockingPhoneIcon
+             * @method doBlockingActions
              */
-            doBlockingPhoneIcon: function () {
+            doBlockingPhone: function() {
                 try {
                     this.$('.phone').addClass('icon-button-disabled');
                 } catch(exception) {
@@ -826,13 +826,28 @@ define([
             },
 
             /**
-             * Deblocking phone icon when HERO finished talk by phone or speak with visitor
+             * Blocking icons when HERO talk by phone or speak with visitor
              *
-             * @method doDeblockingPhoneIcon
+             * @method doBlockingActions
              */
-            doDeblockingPhoneIcon: function () {
+            doBlockingActions: function () {
                 try {
-                    this.$('.phone').removeClass('icon-button-disabled');
+                    this.$('.phone, .door').addClass('icon-button-disabled');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            /**
+             * Deblocking icons when HERO finished talk by phone or speak with visitor
+             *
+             * @method doDeblockingActions
+             */
+            doDeblockingActions: function () {
+                try {
+                    this.$('.phone, .door').removeClass('icon-button-disabled');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
