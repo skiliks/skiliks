@@ -1662,11 +1662,12 @@ define([
                 try {
                     var list = [];
                     var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
+                    var fio;
                         $.each(valuesArray, function(index, value){
-                            var character = SKApp.simulation.characters.where({'fio':$(value).text()})[0];
+                            fio = $(value).text().replace(/\s\((.*)\)/g, '');//remove title
+                            var character = _.first(SKApp.simulation.characters.where({'fio': fio}));
                             list.push(character.get('id'));
                         });
-
                     return list;
                 } catch(exception) {
                     if (window.Raven) {
