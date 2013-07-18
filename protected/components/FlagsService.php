@@ -254,14 +254,27 @@ class FlagsService
     }
 
     public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
-
         $queue = new SimulationFlagQueue();
         $queue->sim_id = $simulation->id;
         $queue->flag_code = $flag->code;
         $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify("+{$flag->delay} minutes")->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
         $queue->is_processed = SimulationFlagQueue::NONE;
+        $queue->value = 1;
         $queue->save(false);
+    }
 
+    public static function copyTimeFlagsToQueue(Simulation $simulation) {
+        /** @var FlagSwitchTime[] $timeFlags */
+        $timeFlags = $simulation->game_type->getFlagsSwitchTime([]);
+        foreach ($timeFlags as $timeFlag) {
+            $queue = new SimulationFlagQueue();
+            $queue->sim_id = $simulation->id;
+            $queue->flag_code = $timeFlag->flag_code;
+            $queue->switch_time = $timeFlag->time;
+            $queue->is_processed = SimulationFlagQueue::NONE;
+            $queue->value = $timeFlag->value;
+            $queue->save();
+        }
     }
 
     public static function checkFlagsDelay(Simulation $simulation) {
@@ -271,7 +284,7 @@ class FlagsService
         ]);
         /* @var SimulationFlagQueue $flag */
         foreach($flags as $flag) {
-            FlagsService::setFlag($simulation, $flag->flag_code, 1);
+            FlagsService::setFlag($simulation, $flag->flag_code, $flag->value);
             $flag->is_processed = SimulationFlagQueue::DONE;
             $flag->update();
         }
@@ -290,25 +303,6 @@ class FlagsService
         }
 
         return true;
-    }
-
-    public static function switchFlagByTime(Simulation $simulation)
-    {
-        $time = $simulation->getGameTime();
-        $time = substr($time, 0, strrpos($time, ':'));
-
-        /** @var FlagSwitchTime[] $switches */
-        $switches = $simulation->game_type->getFlagsSwitchTime(['time' => $time]);
-        foreach ($switches as $flagSwitch) {
-            /** @var SimulationFlag $simFlag */
-            $simFlag = SimulationFlag::model()->findByAttributes([
-                'sim_id' => $simulation->id,
-                'flag' => $flagSwitch->flag_code
-            ]);
-
-            $simFlag->value = $flagSwitch->value;
-            $simFlag->save();
-        }
     }
 }
 
