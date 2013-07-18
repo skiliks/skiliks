@@ -592,6 +592,9 @@ class SimulationService
             FlagsService::setFlag($simulation, $flag->code, 0);
         }
 
+        // Put time based flags into queue
+        FlagsService::copyTimeFlagsToQueue($simulation);
+
         // update invite if it set
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {

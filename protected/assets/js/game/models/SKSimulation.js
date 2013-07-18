@@ -42,7 +42,7 @@ define([
 
             constTutorialScenario: 'tutorial',
 
-            zoho_popup:null,
+            popups: {},
 
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
@@ -100,11 +100,15 @@ define([
                         minutes = parseInt(me.getGameMinutes() % 60, 10),
                         tasks;
 
-                    if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
                         me.onZohoPopup();
-                    } else if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
+                    }
+
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.onFinishTime();
-                    } else if (me.getGameMinutes() === me.timeStringToMinutes(SKApp.get('end'))) {
+                    }
+
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
                         me.onEndTime();
                     }
 
@@ -554,12 +558,18 @@ define([
             },
 
             onEndTime: function() {
-                this.trigger('before-end');
-                this.trigger('end');
+                if (!this.popups.end) {
+                    this.popups.end = true;
+                    this.trigger('before-end');
+                    this.trigger('end');
+                }
             },
 
             onFinishTime: function() {
-                this.trigger('stop-time');
+                if (!this.popups.finish) {
+                    this.popups.finish = true;
+                    this.trigger('stop-time');
+                }
             },
 
             /**
@@ -596,12 +606,17 @@ define([
             },
 
             onZohoPopup: function(){
-                var me = this;
+                var me = this,
+                    popup;
+
+                if (me.popups.zoho) {
+                    return;
+                }
+
                 if($('.time').hasClass('paused')){
                     throw new Error("already on pause");
                 } else {
-
-                    me.zoho_popup = new SKDialogView({
+                    popup = new SKDialogView({
                         'message': "Убедитесь, что ваши изменения в файле сводного бюджета сохранены. <br>" +
                             "В папке Мои документы откройте файл  <br>" +
                             "'Сводный бюджет_2014_план.xls' и нажмите кнопку Save.",
@@ -612,19 +627,18 @@ define([
                                 'onclick': function () {
                                         me.stopPause(function() {
                                             $('.time').removeClass('paused');
-                                            me.zoho_popup.remove();
-                                            delete me.zoho_popup;
                                         });
                                 }
                             }
                         ]
                     });
 
+                    me.popups.zoho = true;
+
                     me.startPause(function(){
                         $('.time').addClass('paused');
                     });
                 }
-
             },
             preLoadImages: function(images) {
                 $.each(images, function(index, src){
