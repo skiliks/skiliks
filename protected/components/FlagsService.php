@@ -276,5 +276,39 @@ class FlagsService
             $flag->update();
         }
     }
+
+    public static function isAllowToStartMeeting(Meeting $meeting, Simulation $simulation)
+    {
+        /** @var FlagAllowMeeting[] $rules */
+        $rules = $simulation->game_type->getFlagAllowMeetings(['meeting_id' => $meeting->id]);
+        foreach ($rules as $rule) {
+            /** @var SimulationFlag $simFlag */
+            $simFlag = self::getFlag($simulation, $rule->flag_code);
+            if ($rule->value !== $simFlag->value) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static function switchFlagByTime(Simulation $simulation)
+    {
+        $time = $simulation->getGameTime();
+        $time = substr($time, 0, strrpos($time, ':'));
+
+        /** @var FlagSwitchTime[] $switches */
+        $switches = $simulation->game_type->getFlagsSwitchTime(['time' => $time]);
+        foreach ($switches as $flagSwitch) {
+            /** @var SimulationFlag $simFlag */
+            $simFlag = SimulationFlag::model()->findByAttributes([
+                'sim_id' => $simulation->id,
+                'flag' => $flagSwitch->flag_code
+            ]);
+
+            $simFlag->value = $flagSwitch->value;
+            $simFlag->save();
+        }
+    }
 }
 

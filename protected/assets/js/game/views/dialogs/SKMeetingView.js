@@ -49,19 +49,19 @@ define([
             simulation.startPause(function() {
                 simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
                 simulation.trigger('tick');
+            });
 
-                SKApp.server.api('meeting/leave', {'id': subjectId}, function() {
-                    var dialog = new SKDialogView({
-                        message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
-                        buttons: [{
-                            id: 'ok',
-                            value: 'Продолжить работу',
-                            onclick: function() {
-                                simulation.stopPause();
-                            }
-                        }]
-                    });
-                });
+            SKApp.server.api('meeting/leave', {'id': subjectId});
+
+            var dialog = new SKDialogView({
+                message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
+                buttons: [{
+                    id: 'ok',
+                    value: 'Продолжить работу',
+                    onclick: function() {
+                        simulation.stopPause();
+                    }
+                }]
             });
 
             this.options.model_instance.close();

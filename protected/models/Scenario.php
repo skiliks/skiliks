@@ -371,6 +371,18 @@ class Scenario extends CActiveRecord
         return FlagRunMail::model()->findAllByAttributes($array);
     }
 
+    public function getFlagAllowMeetings($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagAllowMeeting::model()->findAllByAttributes($array);
+    }
+
+    public function getFlagsSwitchTime($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagSwitchTime::model()->findAllByAttributes($array);
+    }
+
     public function getMeetings($data)
     {
         if (is_array($data)) {

@@ -3062,6 +3062,37 @@ class ImportGameDataService
         }
         // for Dialogs }
 
+        $importedFlagAllowMeeting = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('meeting' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            $meeting = $this->scenario->getMeeting(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
+
+            // try to find exists entity {
+            $flagAllowMeeting = $this->scenario->getFlagAllowMeeting([
+                'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
+                'meeting_id' => $meeting->id,
+            ]);
+            // try to find exists entity }
+
+            // create entity if not exists {
+            if (null === $flagAllowMeeting) {
+                $flagAllowMeeting = new FlagAllowMeeting();
+                $flagAllowMeeting->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $flagAllowMeeting->meeting_id = $meeting->id;
+            }
+            // create entity if not exists }
+
+            $flagAllowMeeting->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagAllowMeeting->import_id = $this->import_id;
+            $flagAllowMeeting->scenario_id = $this->scenario->primaryKey;
+
+            $flagAllowMeeting->save();
+            $importedFlagAllowMeeting++;
+        }
+
         // delete old unused data {
         FlagRunMail::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
@@ -3086,6 +3117,11 @@ class ImportGameDataService
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
+
+        FlagAllowMeeting::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
         // delete old unused data }
 
         $this->logEnd();
@@ -3096,6 +3132,7 @@ class ImportGameDataService
             'imported_Flag_block_replica'        => $importedFlagBlockReplica,
             'imported_Flag_block_dialog'         => $importedFlagBlockDialog,
             'imported_Flag_communication_theme'  => $importedCommunicationTheme,
+            'imported_Flag_allow_meeting'        => $importedFlagAllowMeeting,
             'errors'                             => false,
         ];
     }
