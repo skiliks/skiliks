@@ -25,7 +25,7 @@ class MeetingLogTable extends LogTable
     public function getHeaders()
     {
         return [
-            'Code', 'Text', 'Duration', 'Game time'
+            'Code', 'Text', 'Duration', 'Start time', 'End time'
         ];
     }
 
@@ -35,7 +35,8 @@ class MeetingLogTable extends LogTable
             $logMeeting->meeting->code,
             $logMeeting->meeting->label,
             $logMeeting->meeting->duration,
-            $logMeeting->game_time
+            $logMeeting->start_time,
+            $logMeeting->end_time
         ];
     }
 

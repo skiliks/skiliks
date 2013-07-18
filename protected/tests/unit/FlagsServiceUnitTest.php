@@ -436,4 +436,25 @@ class FlagServiceUnitTest extends CDbTestCase
         //var_dump($flag->flag);
         $this->assertEquals('1', $flag->value);
     }
+
+    public function testMeetingFlags()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(2, $meetings);
+
+        FlagsService::setFlag($simulation, 'F47', 1);
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(3, $meetings);
+
+        FlagsService::setFlag($simulation, 'F49', 1);
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(4, $meetings);
+    }
 }

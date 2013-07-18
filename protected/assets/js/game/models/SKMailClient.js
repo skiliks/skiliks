@@ -1113,7 +1113,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     var mailClient = this;
 
                     // display warning only if user add extra recipients
-                    if (0 !== mailClient.availablePhrases.length && recipientIds[0] === mailClient.findRecipientByName($(el_tag).text()) &&  this.isNotEmptySubject()) {
+                    if (0 !== mailClient.availablePhrases.length && _.first(recipientIds) === mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, '')) &&  this.isNotEmptySubject()) {
                         if(action !== 'add_fwd' && action !== 'delete_fwd') {
                         this.message_window = new SKDialogView({
                             'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',

@@ -100,16 +100,16 @@ define([
                         minutes = parseInt(me.getGameMinutes() % 60, 10),
                         tasks;
 
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
-                        me.onZohoPopup();
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
+                        me.onEndTime();
                     }
 
                     if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
                         me.onFinishTime();
                     }
 
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
-                        me.onEndTime();
+                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                        me.onZohoPopup();
                     }
 
                     me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);

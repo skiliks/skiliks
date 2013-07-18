@@ -285,7 +285,8 @@ class LogHelper
         $log = new LogMeeting();
         $log->sim_id = $simulation->id;
         $log->meeting_id = $meeting->id;
-        $log->game_time = $simulation->getGameTime();
+        $log->start_time = $simulation->getGameTime();
+        $log->end_time = gmdate('H:i:s', GameTime::getUnixDateTime($simulation->getGameTime()) + $meeting->duration * 60);
 
         return $log->save();
     }
