@@ -640,7 +640,7 @@ class SimulationService
         }
 
         // If simulation was started by invite, mark it as completed
-        if (null !== $simulation->invite) {
+        if (null !== $simulation->invite && $simulation->isTutorial() === false) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
             InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
@@ -839,6 +839,8 @@ class SimulationService
      */
     public static function simulationIsStarted($simulation, $gameTime)
     {
+
+        if($simulation->isTutorial()){ return; }
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
 
             $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);

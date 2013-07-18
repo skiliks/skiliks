@@ -471,6 +471,12 @@ class Simulation extends CActiveRecord
 
     }
 
+    public function isTutorial() {
+
+        return ($this->game_type->slug === Scenario::TYPE_TUTORIAL)?true:false;
+
+    }
+
     public function getSpeedFactor()
     {
         return Yii::app()->params['public'][
