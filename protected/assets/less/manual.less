@@ -46,7 +46,7 @@
   .tabs {
     position: absolute;
     margin: 0;
-    top: -18px;
+    top: -16px;
     right: 55px;
     width: 240px;
     list-style: none;
@@ -61,7 +61,7 @@
     li {
       position: relative;
       float: left;
-      margin-left: 16px;
+      margin-left: 14px;
       height: 20px;
       padding: 5px 0;
       background: url(../img/manual/tab.png) 0 -60px repeat-x;
@@ -75,16 +75,16 @@
         content: '';
         position: absolute;
         top: 0;
-        left: -10px;
+        left: -8px;
         bottom: 0;
-        width: 10px;
+        width: 8px;
         background: url(../img/manual/tab.png) 0 0 no-repeat;
       }
 
       &:after {
         left: auto;
-        right: -10px;
-        background-position: 0 -30px;
+        right: -8px;
+        background-position: right -30px;
       }
 
       a, a:hover {
@@ -216,8 +216,8 @@
       padding: 5px 25px 5px 45px;
     }
     &:last-child .right-page {
-      width: 420px;
-      padding: 5px 70px 5px 45px;
+      width: 430px;
+      padding: 5px 50px 5px 45px;
     }
 
     .dual-page {
@@ -253,8 +253,8 @@
         padding: 5px 20px 5px 30px;
       }
       &:last-child .right-page {
-        width: 335px;
-        padding: 5px 65px 5px 30px;
+        width: 345px;
+        padding: 5px 50px 5px 30px;
       }
     }
 
@@ -831,10 +831,10 @@
                   font-size: 11px;
                 }
               }
-            }
-            &:nth-child(3n+2) {
-              .person-block {
-                left: 3px;
+              &:nth-child(3n+2) {
+                .person-block {
+                  left: 2px;
+                }
               }
             }
           }
@@ -845,8 +845,12 @@
   .content.next-steps {
 
     .left-page {
-      padding-left: 17px;
-      padding-right: 35px;
+      padding-left: 23px;
+      padding-right: 20px;
+
+      p {
+        margin-left: 4px;
+      }
     }
     .right-page {
       margin-top: -30px;
@@ -874,8 +878,12 @@
 
     @media (max-width: 1280px), (max-height: 750px) {
       .left-page {
-        padding-left: 8px;
-        padding-right: 40px;
+        padding-left: 16px;
+        padding-right: 22px;
+
+        p {
+          margin-left: 4px;
+        }
       }
       .right-page {
         margin-top: -30px;
