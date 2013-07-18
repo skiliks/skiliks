@@ -1551,6 +1551,8 @@ define([
                         afterDelete: function (tag) {
                             var subject = mailClientView.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
                             var curRec = mailClientView.currentRecipients;
+                            console.log(curRec);
+                            console.log(curRec.indexOf(tag));
                             var availablePhrases = SKApp.simulation.mailClient.availablePhrases;
                             if(curRec !== undefined && curRec.indexOf(tag) === 0 && curRec.length === 1 && subject === "") {
                                 SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
