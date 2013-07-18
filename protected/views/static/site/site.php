@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" manifest="/cache.manifest">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -57,7 +57,6 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.9.2.custom.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
@@ -88,5 +87,6 @@
 </head>
 <body class="body loading">
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
+    <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>
 </html>

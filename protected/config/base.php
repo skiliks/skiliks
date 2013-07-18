@@ -305,6 +305,7 @@ return array(
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
+                'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

@@ -48,7 +48,7 @@ define(
                     'required': required
                 }));
 
-                [contents, page2, page4, page6, page8, page10, page12, page14].forEach(function(tpl) {
+                [contents, page2, page4, page6, page8].forEach(function(tpl) {
                     content.find('.flyleaf').append(_.template(tpl));
                 });
 
