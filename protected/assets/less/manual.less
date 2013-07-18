@@ -669,7 +669,6 @@
                 }
               }
               &:before {
-                background: #ff0000;
                 content: '';
                 height:10px;
                 position: absolute;
@@ -679,7 +678,20 @@
             }
 
 
-
+            &:first-child, &:nth-child(4) {
+              .person-wrap {
+                &:before {
+                  background: #fefefe;
+                }
+              }
+            }
+            &:nth-child(2), &:nth-child(3) {
+              .person-wrap {
+                &:before {
+                  background: #d2d2d2;
+                }
+              }
+            }
             &:nth-child(3n+1) {
               .person-wrap {
               /*border-width: 2px 0 0 2px;*/
@@ -697,7 +709,7 @@
               /*border-width: 2px 2px 0 0;*/
                 .person-block {
                   border-radius: 10px;
-                  left: 0px;
+                  left: 2px;
                 }
                 &:before {
                   right: -4px;
