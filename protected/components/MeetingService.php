@@ -14,16 +14,22 @@ class MeetingService
 
         $criteria = new CDbCriteria();
         $criteria->addNotInCondition('id', $usedIds);
+        /** @var Meeting[] $meetings */
         $meetings = $simulation->game_type->getMeetings($criteria);
 
-        return array_map(function(Meeting $meeting) {
-            return [
-                'id' => $meeting->id,
-                'label' => $meeting->task->title,
-                'description' => $meeting->label,
-                'duration' => $meeting->duration
-            ];
-        }, $meetings);
+        $result = [];
+        foreach ($meetings as $meeting) {
+            if (FlagsService::isAllowToStartMeeting($meeting, $simulation)) {
+                $result[] = [
+                    'id' => $meeting->id,
+                    'label' => $meeting->task->title,
+                    'description' => $meeting->label,
+                    'duration' => $meeting->duration
+                ];
+            }
+        }
+
+        return $result;
     }
 
     public static function leave(Simulation $simulation, $meetingId)
@@ -43,5 +49,7 @@ class MeetingService
         $currentTime = explode(':', $simulation->getGameTime());
         $shiftedTime = $currentTime[0] * 60 + $currentTime[1] + $meeting->duration + 1; // 1 for skipped seconds
         SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);
+
+        return floor($shiftedTime / 60) . ':' . ($shiftedTime % 60);
     }
 }

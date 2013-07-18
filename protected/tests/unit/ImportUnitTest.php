@@ -93,7 +93,7 @@ class ImportUnitTest extends CDbTestCase
 
             $this->assertEquals(9, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
             $this->assertEquals(22, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
-            $this->assertEquals(36, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
+            $this->assertEquals(39, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
 
             $this->assertEquals(5, FlagBlockMail::model()->count('scenario_id = '.$fullScenario->id), 'block mail');
 

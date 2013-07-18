@@ -14,13 +14,14 @@ class MeetingController extends SimulationBaseController {
 
     public function actionLeave()
     {
-        MeetingService::leave(
+        $time = MeetingService::leave(
             $this->getSimulationEntity(),
             Yii::app()->request->getParam('id', null)
         );
 
         $this->sendJSON([
-            'result' => self::STATUS_SUCCESS
+            'result' => self::STATUS_SUCCESS,
+            'time' => $time
         ]);
     }
 }

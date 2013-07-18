@@ -98,6 +98,8 @@ class EventsManager {
         $gameTime = $simulation->getGameTime();
 
         FlagsService::checkFlagsDelay($simulation);
+        FlagsService::switchFlagByTime($simulation);
+
         // not handled exception in simulationIsStarted()
         // @todo: handle exception
         SimulationService::simulationIsStarted($simulation, $gameTime);
