@@ -62,8 +62,6 @@ class ManagementPeople_Test extends SeleniumTestHelper
 
         $this->run_event('M65');
         sleep(2);
-        $this->run_event('MS48');
-        sleep(2);
         $this->run_event('MS65');
         sleep(2);
         $this->run_event('MS28');
