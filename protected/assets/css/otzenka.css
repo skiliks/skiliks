@@ -1263,6 +1263,10 @@
     padding-left: 60px;
     padding-right: 60px;
 }
+.popup-before-start-sim .bigbtnsubmt {
+    background-image: url("../img/icon-circlarow.png");
+    padding-left: 51px;
+}
 @media screen and (max-width: 1146px){
 
     .accept-invite-warning-popup, .popup-before-start-sim {
