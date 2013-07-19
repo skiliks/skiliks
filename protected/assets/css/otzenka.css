@@ -1169,11 +1169,13 @@
     text-align: center;
     font-family: "ProximaNova-Bold";
     font-size: 44px;
+    font-weight: normal;
     margin-bottom: 20px;
 }
 .accept-invite-warning-popup h4 {
     font-family: "ProximaNova-Bold";
     font-size: 18px;
+    font-weight: normal;
     margin:20px 0px 8px;
     text-align: center;
 }
