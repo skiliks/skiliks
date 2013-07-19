@@ -16,6 +16,7 @@ class SiteController extends SiteBaseController
      */
     public function actionSimulation($mode, $type = Scenario::TYPE_LITE, $invite_id = null)
     {
+        $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();
         /* @var $user YumUser  */
         if (!$user->isAuth()) {
@@ -58,7 +59,7 @@ class SiteController extends SiteBaseController
             $this->redirect('/dashboard');
         }
 
-        if (isset($invite) && null === $invite->tutorial_displayed_at && null !== $invite->tutorial) {
+        if (isset($invite) && $start !== 'full' && null !== $invite->tutorial && $mode !== 'developer') {
             $type = $invite->tutorial->slug;
             $tutorial = true;
             $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
