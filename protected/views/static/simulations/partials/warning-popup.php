@@ -16,6 +16,6 @@
             <li><h3>Ваша цель в игре</h3>
             <p class="font-xxlarge">Определить и выполнить приоритетные задачи, затратив минимально необходимое количество времени!</p></li>
         </ul>
-        <a href="#" data-href="#" class="bigbtnsubmt">Далее</a>
+        <div class="text-center"><a href="#" data-href="#" class="bigbtnsubmt">Далее</a></div>
     </div>
 </div>
