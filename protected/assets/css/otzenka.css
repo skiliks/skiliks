@@ -1163,7 +1163,8 @@
     padding-left: 40px;
     padding-right: 40px;
 }
-.accept-invite-warning-popup .ui-dialog-titlebar-close {
+.accept-invite-warning-popup .ui-dialog-titlebar-close,
+.popup-before-start-sim .ui-dialog-titlebar-close {
     right: -52px;
 }
 .accept-invite-warning-popup .title, .popup-before-start-sim .title {
@@ -1265,8 +1266,7 @@
     padding-right: 60px;
 }
 .popup-before-start-sim .bigbtnsubmt {
-    background: url("../img/icon-circlarow.png");
-    background-position: 17px 50%;
+    background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
     font:18px/64px "ProximaNova-Bold";
     height: 64px;
     padding-left: 51px;
