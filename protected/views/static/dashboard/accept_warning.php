@@ -1,5 +1,5 @@
 <div id="invite-accept-form" style="display: none;">
-    <h2 class="title proxima-bold"><?= Yii::t('site', 'Simulation rules') ?></h2>
+    <h2 class="title"><?= Yii::t('site', 'Simulation rules') ?></h2>
 
     <ul class="list-ordered">
         <li><strong class="grid-cell">1.</strong><p class="grid-cell">Прохождение симуляции занимает 2 часа.  Всего с учётом подготовки и ознакомления с документами вам может потребоваться до 3 часов.</p></li>
@@ -7,7 +7,7 @@
         <li><strong class="grid-cell">3.</strong><p class="grid-cell">До начала симуляции вам будет дополнительно предоставлено 30 минут для ознакомления с командой, коллегами, поставленными задачами, имеющимися документами, а также интерфейсом игры.</p></li>
         <li><strong class="grid-cell">4.</strong><p class="grid-cell">Не прибегайте к чужой помощи для прохождения симуляции. Это не поможет и сформирует вам соответствующую репутацию у работодателя. </p></li>
     </ul>
-    <h2 class="title proxima-bold"><?= Yii::t('site', 'Preparation for the simulation') ?> </h2>
+    <h2 class="title"><?= Yii::t('site', 'Preparation for the simulation') ?> </h2>
 
     <div class="container-4">
         <div class="grid1"><div class="popup-icons icon-inet"></div><h4>Интернет</h4><p class="line-xheight font-large">Обеспечьте хорошее Интернет соединение. Симуляция не запустится при скорости менее 1Мб в секунду.</p></div>

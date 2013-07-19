@@ -1163,17 +1163,21 @@
 }
 .accept-invite-warning-popup .title {
     color: #3d4041;
-    font: 44px 'ProximaNova-Bold';
+    font: 44px "ProximaNova-Bold";
     margin-bottom: 20px;
     text-align: center;
 }
 .accept-invite-warning-popup h4 {
-    font: 18px 'ProximaNova-Bold';
-    marging:20px 0px 16px;
+    font: 18px "ProximaNova-Bold";
+    margin:20px 0px 16px;
     text-align: center;
 }
 .grid-cell {
     display: table-cell;
+}
+.accept-invite-warning-popup .list-ordered {
+    margin-bottom: 20px;
+    margin-left: 4px;
 }
 .list-ordered {
     font-family: "ProximaNova-Regular";
