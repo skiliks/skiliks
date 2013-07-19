@@ -188,7 +188,14 @@ body {
                       margin-right: 20px;
                       //padding-right: 20px;
                       //width: 5%;
-
+                        a{
+                          text-decoration: none;
+                          span{
+                          //position: absolute;
+                            color: white;
+                            font-size: 12px;
+                          }
+                        }
                       }
                       br{
                         line-height: 23px;
@@ -198,12 +205,20 @@ body {
                   ul.menu_bar{
                     position: absolute;
                     margin-top: 50px;
+
+
                     li {
                       //position: absolute;
-                      display: inline;
-                      float: left;
-                      margin-right: 12px;
+                      /*display: inline;
+                      float: left;*/
+                      display: table-cell;
+                      height:auto;
+                      padding-right: 12px;
+                      border: 1px solid red;
+
                       input {
+                        color:#000;
+                        font-size: 12px;
                         padding: 0px;
                         padding-left: 3px;
                       }
@@ -227,6 +242,15 @@ body {
                         background: rgba(255, 255, 255, 0.8);
                       }
                     }
+                    li:first-child {
+                      width:3%;
+                    }
+                    li:nth-child(2) {
+                      width:1%;
+                    }
+                    li:last-child {
+                      width:96%;
+                    }
                   }
                 .grid-row {
                   display: table-row;
@@ -238,6 +262,7 @@ body {
 
                   .menu-hover {
                     cursor: pointer;
+                    display: table-cell;
                     height: 27px;
                     margin: 0 auto;
                     text-align: center;
@@ -251,15 +276,8 @@ body {
                   img {
                   /*position: absolute;
                   float: left;*/
+
                     cursor: pointer;
-                  }
-                  a{
-                    text-decoration: none;
-                    span{
-                    //position: absolute;
-                      color: white;
-                      font-size: 12px;
-                    }
                   }
                 }
               }
