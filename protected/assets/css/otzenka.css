@@ -1189,6 +1189,12 @@
 .list-ordered .grid-cell {
     vertical-align: middle;
 }
+.list-ordered p {
+    line-height: 120%;
+}
+.line-xheight {
+    line-height: 140%;
+}
 .container-4:after {
     visibility: hidden;
     display: block;
