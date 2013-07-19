@@ -1185,7 +1185,7 @@
     list-style:none;
 }
 .list-ordered li {
-    margin-bottom: 20px;
+    margin-bottom: 42px;
 }
 .list-ordered strong {
     font-family: ProximaNova-Bold;
@@ -1203,6 +1203,9 @@
 }
 .line-xheight {
     line-height: 150%;
+}
+.accept-invite-warning-popup .container-4 {
+    margin-top: 10px;
 }
 .container-4:after {
     visibility: hidden;
