@@ -188,39 +188,7 @@ body {
                       margin-right: 20px;
                       //padding-right: 20px;
                       //width: 5%;
-                      .grid-row {
-                        display: table-row;
-                        text-align: center;
-                      }
-                      .hover-wrap {
-                        width:27px;
-                        margin: 0 auto;
 
-                        .menu-hover {
-                          cursor: pointer;
-                          height: 27px;
-                          margin: 0 auto;
-                          text-align: center;
-                          vertical-align: middle;
-                          width:27px;
-                        }
-                        .menu-hover:hover {
-                          background: rgba(255, 255, 255, 0.5);
-                          border-radius: 5px;
-                        }
-                        img {
-                        /*position: absolute;
-                        float: left;*/
-                          cursor: pointer;
-                        }
-                        a{
-                          text-decoration: none;
-                          span{
-                          //position: absolute;
-                            color: white;
-                            font-size: 12px;
-                          }
-                        }
                       }
                       br{
                         line-height: 23px;
@@ -246,7 +214,8 @@ body {
                         width: 285%;
 
                         &:focus {
-                          box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0px 8px rgba(254, 147, 17, 0.6);
+                          border-color:#cfcece;
+                          box-shadow:  0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0px 8px rgba(254, 147, 17, 0.8);
                         }
                       }
                       img {
@@ -257,6 +226,39 @@ body {
                         border-radius: 3px;
                         background: rgba(255, 255, 255, 0.8);
                       }
+                    }
+                  }
+                .grid-row {
+                  display: table-row;
+                  text-align: center;
+                }
+                .hover-wrap {
+                  width:27px;
+                  margin: 0 auto;
+
+                  .menu-hover {
+                    cursor: pointer;
+                    height: 27px;
+                    margin: 0 auto;
+                    text-align: center;
+                    vertical-align: middle;
+                    width:27px;
+                  }
+                  .menu-hover:hover {
+                    background: rgba(255, 255, 255, 0.5);
+                    border-radius: 5px;
+                  }
+                  img {
+                  /*position: absolute;
+                  float: left;*/
+                    cursor: pointer;
+                  }
+                  a{
+                    text-decoration: none;
+                    span{
+                    //position: absolute;
+                      color: white;
+                      font-size: 12px;
                     }
                   }
                 }
