@@ -1254,9 +1254,12 @@
 @media screen and (max-width: 1146px){
 
     .accept-invite-warning-popup {
-        padding-left: 35px;
-        padding-right: 35px;
-        width:690px !important;
+        padding-left: 25px;
+        padding-right: 25px;
+        width:725px !important;
+    }
+    .accept-invite-warning-popup .ui-dialog-titlebar-close {
+        right: -42px;
     }
     .accept-invite-warning-popup .title {
         font-size: 34px;
@@ -1267,7 +1270,7 @@
         margin:15px 0px 5px;
     }
     .accept-invite-warning-popup .list-ordered {
-        margin-bottom: 15px;
+        margin-bottom: 40px;
         margin-left: 2px;
     }
     .list-ordered {
@@ -1286,7 +1289,7 @@
     }
     .accept-invite-warning-popup .grid1 {
         padding-right: 15px;
-        width: 170px;
+        width: 165px;
     }
     .popup-icons {
         background-size: 75px;
