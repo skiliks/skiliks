@@ -248,7 +248,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:75px;">' +
         '<ul class="button_menu">' +
-       '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_undo" src="%img.undo.png" style=""></div></div></div><a class="grid-row"><span>!отменить</span></a></li>' +
+       '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_undo" src="%img.undo.png" style=""></div></div></div><a class="grid-row"><span>отменить</span></a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_redo" src="%img.redo.png" style=""></div></div></div><a class="grid-row"><span>вернуть</span></a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_copy" src="%img.copy.png" style=""></div></div></div><a class="grid-row"><span>копировать</span></a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_paste" src="%img.paste.png" style=""></div></div></div><a class="grid-row"><span>вставить</span></a></li>' +
