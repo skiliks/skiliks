@@ -1266,6 +1266,9 @@
 }
 .popup-before-start-sim .bigbtnsubmt {
     background-image: url("../img/icon-circlarow.png");
+    display: block;
+    font:18px/54px "ProximaNova-Bold";
+    margin: 0 auto;
     padding-left: 51px;
 }
 @media screen and (max-width: 1146px){
