@@ -1,4 +1,4 @@
-.simulation-result-popup, .terms-page, .accept-invite-warning-popup {
+.simulation-result-popup, .terms-page, .accept-invite-warning-popup, .popup-before-start-sim {
     background: #e8f7f7;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
@@ -685,7 +685,7 @@
     border: none;
 }
 .simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close,
-.accept-invite-warning-popup .ui-dialog-titlebar-close {
+.accept-invite-warning-popup .ui-dialog-titlebar-close, .popup-before-start-sim  .ui-dialog-titlebar-close {
     height: 27px;
     width:27px;
     margin: 0;
@@ -698,12 +698,14 @@
 }
 .simulation-result-popup .ui-dialog-titlebar-close:hover,
 .terms-page .ui-dialog-titlebar-close:hover,
-.accept-invite-warning-popup .ui-dialog-titlebar-close:hover  {
+.accept-invite-warning-popup .ui-dialog-titlebar-close:hover,
+.popup-before-start-sim  .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
     border: none;
 }
 .simulation-result-popup .ui-dialog-titlebar-close span,
-.terms-page .ui-dialog-titlebar-close span, .accept-invite-warning-popup .ui-dialog-titlebar-close span {
+.terms-page .ui-dialog-titlebar-close span, .accept-invite-warning-popup .ui-dialog-titlebar-close span,
+.popup-before-start-sim  .ui-dialog-titlebar-close span {
     display:none;
 }
 /*.simulation-result-popup .ui-widget-header .ui-icon,*/
@@ -1208,6 +1210,9 @@
 .font-large {
     font-size: 16px;
 }
+.font-xxlarge {
+    font-size: 18px;
+}
 .line-xheight {
     line-height: 150%;
 }
@@ -1251,6 +1256,12 @@
 .icon-demo {
     background-image: url("../img/game-demo.png");
 }
+.popup-before-start-sim h3 {
+    font-size: 24px;
+}
+.popup-before-start-sim p {
+
+}
 @media screen and (max-width: 1146px){
 
     .accept-invite-warning-popup {
@@ -1273,7 +1284,7 @@
         margin-bottom: 40px;
         margin-left: 2px;
     }
-    .list-ordered {
+    .list-ordered, .font-xxlarge {
         font-family: "ProximaNova-Regular";
         font-size: 14px;
     }
