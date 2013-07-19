@@ -232,7 +232,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     {fontFamily:"ProximaNova-Bold", hover:true}
                 );
                 Cufon.replace('.freeacess', {hover:true});
-                Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
+                Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
                 Cufon.now();
             </script>
     </body>
