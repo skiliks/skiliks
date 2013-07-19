@@ -67,7 +67,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
@@ -121,7 +121,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         //нажимаем Начать
         $this->optimal_click("xpath=//*[@id='registration_switch']");
         // ожидаем появления иконки телефона
