@@ -37,7 +37,7 @@ class Register_Personal_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
