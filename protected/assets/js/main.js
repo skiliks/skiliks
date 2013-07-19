@@ -116,7 +116,7 @@ var fixLogotypes = function() {
                 autoOpen:    true,
                 resizable:   false,
                 draggable:   false,
-                width:       941,
+                width:       911,
                 open: function( event, ui ) {
                     $(this).find('.accept-requirements').attr('href', link);
                 }
