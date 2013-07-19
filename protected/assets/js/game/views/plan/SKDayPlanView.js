@@ -530,8 +530,20 @@ define([
                 me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
                 me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
             }, 0);
+
+            if ($.fn.tooltip.noConflict) {
+                $.fn.tooltip.noConflict();
+            }
+            this.$el.tooltip({
+                track: true,
+                tooltipClass: 'planner-task-tooltip',
+                content: function() {
+                    return $(this).find('.title').text();
+                }
+            });
             this.setupDroppable();
             Hyphenator.run();
+
         },
 
         /**
@@ -549,6 +561,10 @@ define([
 
             this.$('.day-plan-task-active').removeClass('day-plan-task-active');
             $task.toggleClass('day-plan-task-active', !active);
+
+            if(_.isEmpty($task.attr('data-task-day')) === false){
+                this.$el.tooltip('open');
+            }
         },
 
         /**
