@@ -253,9 +253,9 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_copy" src="%img.copy.png" style=""></div></div></div><a class="grid-row"><span>копировать</span></a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_paste" src="%img.paste.png" style=""></div></div></div><a class="grid-row"><span>вставить</span></a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_sum" src="%img.auto_sum.png" style=""></div></div></div><a class="grid-row"><span>сумма</span></a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_percent" src="%img.percent.png" alt="%" style=""></div></div><a class="grid-row"><span>формат</span></a></li></ul>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_percent" src="%img.percent.png" alt="%" style=""></div></div></div><a class="grid-row"><span>формат</span></a></li></ul>' +
         '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
-        '<li><img id="%id.button_function" src="%img.function.png" style=""></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_function" src="%img.function.png" style=""></div></div></div></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
     '</div>';
 
