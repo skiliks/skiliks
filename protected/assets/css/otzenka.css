@@ -1158,7 +1158,8 @@
 }
 /* *********************************** ACCEPT WARNING POPUP *********************************** */
 .accept-invite-warning-popup {
-    padding-left: 66px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 .accept-invite-warning-popup .title {
     color: #3d4041;
