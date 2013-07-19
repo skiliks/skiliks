@@ -1172,6 +1172,7 @@
     font-family: "ProximaNova-Bold";
     font-size: 44px;
     font-weight: normal;
+    line-height: 100%;
     margin-bottom: 20px;
 }
 .accept-invite-warning-popup h4 {
