@@ -1,5 +1,5 @@
 /*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView,
- SKSimulationView, define, Bot */
+ SKSimulationView, define, Bot, $ */
 
 var SKApplicationView;
 
@@ -36,7 +36,21 @@ define([
 
             SKApp.simulation.on('user-agree-with-sim-stop', function () {
                 delete me.simulation_view;
-                location.assign(SKApp.get('result-url'));
+                if(SKApp.isTutorial()){
+                    console.log("tutorial");
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'text');
+                    input.setAttribute('name', 'start');
+                    input.setAttribute('value', 'full');
+                    var form = document.createElement('form');
+                    form.setAttribute('method', 'post');
+                    form.setAttribute('action', location.href);
+                    form.appendChild(input);
+                    form.submit();
+                    //$.post(SKApp.get('result-url'),{start:'promoFull'});
+                }else{
+                    location.assign(SKApp.get('result-url'));
+                }
             });
             SKApp.simulation.on('force-stop', function () {
                 location.assign('/dashboard');
