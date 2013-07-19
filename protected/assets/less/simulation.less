@@ -203,6 +203,7 @@ body {
                     }
                   }
                   ul.menu_bar{
+                    display: table;
                     position: absolute;
                     margin-top: 50px;
 
@@ -213,8 +214,8 @@ body {
                       float: left;*/
                       display: table-cell;
                       height:auto;
-                      padding-right: 12px;
                       border: 1px solid red;
+                      vertical-align: center;
 
                       input {
                         color:#000;
@@ -226,7 +227,7 @@ body {
                         width: 60px;
                       }
                       input.formula{
-                        width: 285%;
+                        width: 100%;
 
                         &:focus {
                           border-color:#cfcece;
@@ -236,19 +237,17 @@ body {
                       img {
                         cursor: pointer;
                       }
-                      img:hover {
-                        border: 3px solid rgba(255, 255, 255, 0.5);
-                        border-radius: 3px;
-                        background: rgba(255, 255, 255, 0.8);
-                      }
                     }
                     li:first-child {
+                      padding-right: 16px;
                       width:3%;
                     }
                     li:nth-child(2) {
+                      padding-right: 10px;
                       width:1%;
                     }
                     li:last-child {
+                      padding-right: 26px;
                       width:96%;
                     }
                   }
