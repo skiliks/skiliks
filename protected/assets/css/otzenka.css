@@ -684,7 +684,8 @@
 .feedbackwrap .ui-widget-header .ui-state-focus {
     border: none;
 }
-.simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close {
+.simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close,
+.accept-invite-warning-popup .ui-dialog-titlebar-close {
     height: 27px;
     width:27px;
     margin: 0;
@@ -696,12 +697,13 @@
     z-index: 1000;
 }
 .simulation-result-popup .ui-dialog-titlebar-close:hover,
-.terms-page .ui-dialog-titlebar-close:hover {
+.terms-page .ui-dialog-titlebar-close:hover,
+.accept-invite-warning-popup .ui-dialog-titlebar-close:hover  {
     background-position: 0 100%;
     border: none;
 }
 .simulation-result-popup .ui-dialog-titlebar-close span,
-.terms-page .ui-dialog-titlebar-close span {
+.terms-page .ui-dialog-titlebar-close span, .accept-invite-warning-popup .ui-dialog-titlebar-close span {
     display:none;
 }
 /*.simulation-result-popup .ui-widget-header .ui-icon,*/
@@ -1155,7 +1157,11 @@
     /*display: none !important;*/
 }
 /* *********************************** ACCEPT WARNING POPUP *********************************** */
+.accept-invite-warning-popup {
+    width:960px;
+}
 .accept-invite-warning-popup .title {
+    color: #3d4041;
     font: 44px 'ProximaNova-Bold';
     margin-bottom: 20px;
     text-align: center;
