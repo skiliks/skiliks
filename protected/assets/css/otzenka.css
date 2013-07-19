@@ -1,4 +1,4 @@
-.simulation-result-popup, .terms-page {
+.simulation-result-popup, .terms-page, .accept-invite-warning-popup {
     background: #e8f7f7;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
@@ -1154,3 +1154,11 @@
 .bar-charts {
     /*display: none !important;*/
 }
+/* *********************************** ACCEPT WARNING POPUP *********************************** */
+.accept-invite-warning-popup .title {
+    font: 44px 'ProximaNova-Bold';
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* *********************************** /ACCEPT WARNING POPUP *********************************** */

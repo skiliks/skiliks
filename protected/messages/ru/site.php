@@ -393,5 +393,7 @@ return array(
     'Wrong account number' => 'Введите рублёвый счёт',
     'Wrong BIC' => 'Введите верный БИК',
 
+    'Simulation rules' => 'Правила прохождения симуляции',
+
     'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );
