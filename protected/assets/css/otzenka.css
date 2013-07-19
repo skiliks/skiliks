@@ -1202,4 +1202,23 @@
     padding-right: 0px;
     width: 190px;
 }
+.popup-icons {
+   background-repeat: no-repeat;
+   background-position: 0px 0px;
+   height: 94px;
+   margin: 0 auto;
+   width: 94px;
+}
+.icon-inet {
+    background-image: url("../img/icon-inet.png");
+}
+.icon-browser {
+    background-image: url("../img/browser.png");
+}
+.icon-progs {
+    background-image: url("../img/otherprogrms.png");
+}
+.icon-demo {
+    background-image: url("../img/game-demo.png");
+}
 /* *********************************** /ACCEPT WARNING POPUP *********************************** */
