@@ -247,12 +247,12 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       }
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:75px;">' +
-        '<ul class="button_menu"><li><div class="menu-hover"><img id="%id.button_undo" src="%img.undo.png" style=""></div><br><a><span>отменить</span></a></li>' +
-        '<li><img id="%id.button_redo" src="%img.redo.png" style=""><br><a><span>вернуть</span></a></li>' +
-        '<li><img id="%id.button_copy" src="%img.copy.png" style=""><br><a><span>копировать</span></a></li>' +
-        '<li><img id="%id.button_paste" src="%img.paste.png" style=""><br><a><span>вставить</span></a></li>' +
-        '<li><img id="%id.button_sum" src="%img.auto_sum.png" style=""><br><a><span>сумма</span></a></li>' +
-        '<li><img id="%id.button_percent" src="%img.percent.png" alt="%" style=""><br><a><span>формат</span></a></li></ul>' +
+        '<ul class="button_menu"><li><div class="menu-hover"><img id="%id.button_undo" src="%img.undo.png" style=""></div><a><span>отменить</span></a></li>' +
+        '<li><div class="menu-hover"><img id="%id.button_redo" src="%img.redo.png" style=""></div><a><span>вернуть</span></a></li>' +
+        '<li><div class="menu-hover"><img id="%id.button_copy" src="%img.copy.png" style=""></div><a><span>копировать</span></a></li>' +
+        '<li><div class="menu-hover"><img id="%id.button_paste" src="%img.paste.png" style=""></div><a><span>вставить</span></a></li>' +
+        '<li><div class="menu-hover"><img id="%id.button_sum" src="%img.auto_sum.png" style=""></div><a><span>сумма</span></a></li>' +
+        '<li><div class="menu-hover"><img id="%id.button_percent" src="%img.percent.png" alt="%" style=""></div><a><span>формат</span></a></li></ul>' +
         '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
         '<li><img id="%id.button_function" src="%img.function.png" style=""></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
