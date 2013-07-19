@@ -1166,6 +1166,10 @@
     margin-bottom: 20px;
     text-align: center;
 }
+.accept-invite-warning-popup h4 {
+    font: 18px 'ProximaNova-Bold';
+    text-align: center;
+}
 .grid-cell {
     display: table-cell;
 }
@@ -1181,6 +1185,8 @@
     font-family: ProximaNova-Bold;
     font-size: 24px;
     padding-right: 16px;
+}
+.list-ordered .grid-cell {
     vertical-align: middle;
 }
 .container-4:after {
@@ -1195,12 +1201,11 @@
     float:left;
 }
 .accept-invite-warning-popup .grid1 {
-    padding-right: 26px;
-    width: 200px;
+    padding-right: 42px;
+    width: 185px;
 }
 .accept-invite-warning-popup .container-4 .grid1:last-child {
     padding-right: 0px;
-    width: 190px;
 }
 .popup-icons {
    background-repeat: no-repeat;
