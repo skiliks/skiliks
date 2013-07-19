@@ -1170,11 +1170,31 @@
     display: table-cell;
 }
 .list-ordered {
+    font-family: "ProximaNova-Regular";
     font-size: 18px;
     list-style:none;
 }
+.list-ordered li {
+    margin-bottom: 24px;
+}
 .list-ordered strong {
+    font-family: ProximaNova-Bold;
     font-size: 24px;
+    padding-left: 16px;
     vertical-align: middle;
+}
+.container-4:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.grid1 {
+    float:left;
+}
+.container-4 .grid1 {
+    width: 237px;
 }
 /* *********************************** /ACCEPT WARNING POPUP *********************************** */

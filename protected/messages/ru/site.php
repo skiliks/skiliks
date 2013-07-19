@@ -394,6 +394,7 @@ return array(
     'Wrong BIC' => 'Введите верный БИК',
 
     'Simulation rules' => 'Правила прохождения симуляции',
+    'Preparation for the simulation' => 'Подготовка к прохождению симуляции',
 
     'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );
