@@ -1166,12 +1166,14 @@
 }
 .accept-invite-warning-popup .title {
     color: #3d4041;
-    font: 44px "ProximaNova-Bold";
-    margin-bottom: 20px;
     text-align: center;
+    font-family: "ProximaNova-Bold";
+    font-size: 44px;
+    margin-bottom: 20px;
 }
 .accept-invite-warning-popup h4 {
-    font: 18px "ProximaNova-Bold";
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
     margin:20px 0px 8px;
     text-align: center;
 }
@@ -1246,5 +1248,47 @@
 }
 .icon-demo {
     background-image: url("../img/game-demo.png");
+}
+@media screen and (max-width: 1146px){
+
+    .accept-invite-warning-popup {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    .accept-invite-warning-popup .title {
+        font-size: 34px;
+        margin-bottom: 15px;
+    }
+    .accept-invite-warning-popup h4 {
+        font-size: 14px;
+        margin:15px 0px 5px;
+    }
+    .accept-invite-warning-popup .list-ordered {
+        margin-bottom: 15px;
+        margin-left: 2px;
+    }
+    .list-ordered {
+        font-family: "ProximaNova-Regular";
+        font-size: 14px;
+    }
+    .list-ordered li {
+        margin-bottom: 16px;
+    }
+    .list-ordered strong {
+        font-size: 19px;
+        padding-right: 12px;
+    }
+    .font-large {
+        font-size: 13px;
+    }
+    .accept-invite-warning-popup .grid1 {
+        padding-right: 10px;
+        width: 160px;
+    }
+    .popup-icons {
+        background-size: 75px;
+        height: 75px;
+        width: 75px;
+    }
 }
 /* *********************************** /ACCEPT WARNING POPUP *********************************** */
