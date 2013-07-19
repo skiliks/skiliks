@@ -71,6 +71,10 @@ define([
                 sheetView.render();
                 //console.log(me, me.sheets, sheetView);
                 me.sheets.push(sheetView);
+                me.listenTo(sheet, 'activate', function() {
+                    $('.sheet-tabs li').removeClass('active').filter('[data-sheet-name=' + sheet.get('name') + ']').addClass('active');
+                });
+
                 if (i === 0) {
                     sheet.activate();
                 }
