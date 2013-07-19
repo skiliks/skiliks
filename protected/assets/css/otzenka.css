@@ -1161,6 +1161,9 @@
     padding-left: 40px;
     padding-right: 40px;
 }
+.accept-invite-warning-popup .ui-dialog-titlebar-close {
+    right: -52px;
+}
 .accept-invite-warning-popup .title {
     color: #3d4041;
     font: 44px "ProximaNova-Bold";
@@ -1169,7 +1172,7 @@
 }
 .accept-invite-warning-popup h4 {
     font: 18px "ProximaNova-Bold";
-    margin:20px 0px 16px;
+    margin:20px 0px 8px;
     text-align: center;
 }
 .grid-cell {
