@@ -1158,7 +1158,7 @@
 }
 /* *********************************** ACCEPT WARNING POPUP *********************************** */
 .accept-invite-warning-popup {
-    width:960px;
+    padding-left: 66px;
 }
 .accept-invite-warning-popup .title {
     color: #3d4041;
@@ -1168,6 +1168,7 @@
 }
 .accept-invite-warning-popup h4 {
     font: 18px 'ProximaNova-Bold';
+    marging:20px 0px 16px;
     text-align: center;
 }
 .grid-cell {
@@ -1179,7 +1180,7 @@
     list-style:none;
 }
 .list-ordered li {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 .list-ordered strong {
     font-family: ProximaNova-Bold;
@@ -1192,8 +1193,11 @@
 .list-ordered p {
     line-height: 120%;
 }
+.font-large {
+    font-size: 16px;
+}
 .line-xheight {
-    line-height: 140%;
+    line-height: 150%;
 }
 .container-4:after {
     visibility: hidden;
