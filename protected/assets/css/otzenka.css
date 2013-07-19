@@ -1267,8 +1267,9 @@
 }
 .popup-before-start-sim .bigbtnsubmt {
     background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
-    font:18px/64px "ProximaNova-Bold";
+    font:20px/64px "ProximaNova-Bold";
     height: 64px;
+    margin-top: 10px;
     padding-left: 51px;
 }
 @media screen and (max-width: 1146px){
@@ -1278,10 +1279,10 @@
         padding-right: 25px;
         width:725px !important;
     }
-    .accept-invite-warning-popup .ui-dialog-titlebar-close {
+    .accept-invite-warning-popup .ui-dialog-titlebar-close, .popup-before-start-sim .ui-dialog-titlebar-close {
         right: -42px;
     }
-    .accept-invite-warning-popup .title {
+    .accept-invite-warning-popup .title, .popup-before-start-sim .title {
         font-size: 34px;
         margin-bottom: 15px;
     }
@@ -1315,6 +1316,21 @@
         background-size: 75px;
         height: 75px;
         width: 75px;
+    }
+
+    .popup-before-start-sim h3 {
+        font-size: 19px;
+    }
+    .popup-before-start-sim .more-side-pads {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .popup-before-start-sim .bigbtnsubmt {
+        background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
+        font:16px/50px "ProximaNova-Bold";
+        height: 50px;
+        margin-top: 7px;
+        padding-left: 51px;
     }
 }
 /* *********************************** /ACCEPT WARNING POPUP *********************************** */
