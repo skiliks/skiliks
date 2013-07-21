@@ -16,6 +16,6 @@
             <li><h3>Ваша цель в игре</h3>
             <p class="font-xxlarge">Определить и выполнить приоритетные задачи, затратив минимально необходимое количество времени!</p></li>
         </ul>
-        <div class="text-center"><a href="#" data-href="#" class="bigbtnsubmt">Далее</a></div>
+        <div class="text-center"><a href="#" data-href="#" class="bigbtnsubmt start-full-simulation-next start-full-simulation-now">Далее</a></div>
     </div>
 </div>
