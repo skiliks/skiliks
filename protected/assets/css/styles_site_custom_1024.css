@@ -796,4 +796,7 @@
     padding-bottom:80px;
     text-align: center;
 }
+.dots {
+    background-position: left 8px;
+}
 /*  *************************** /TEAM ***************************/
