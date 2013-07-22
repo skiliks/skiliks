@@ -1803,7 +1803,7 @@ html[lang=ru] .product section table th{
 .social_networks {
     color:#333333;
     overflow:hidden;
-    width:330px;
+    width:370px;
 }
 .footer .social_networks {
     position:absolute;
@@ -3049,8 +3049,8 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 64px;
-    width:64px;
+    max-width: 150px;
+    width:90px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
@@ -3101,7 +3101,7 @@ ul.profile-menu li {
     margin-left:-20px;
     position: absolute;
     top:11px;
-    width:72px;
+    width:98px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p, #private-invitations-list-box .ratingwrap {
@@ -3721,8 +3721,8 @@ ul.profile-menu li {
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(2),
     #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-        max-width: 59px;
-        width: 59px;
+        max-width: 120px;
+        width: 74px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
         /*max-width: 65px;
@@ -3733,7 +3733,7 @@ ul.profile-menu li {
         width: 40px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:67px;
+        width:82px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
