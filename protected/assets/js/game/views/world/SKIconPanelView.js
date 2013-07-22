@@ -239,7 +239,7 @@ define([
                     var callbackFunction = function() {
                         if (undefined === data[2]) {
                             // user can`t ignore visit
-                            if (event.getStatus() !== 'in progress') {
+                            if (event.getStatus() !== 'in progress' && event.getStatus() !== 'completed') {
                                 event.setStatus('in progress');
                             }
                         } else {

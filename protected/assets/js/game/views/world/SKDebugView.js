@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp*/
+/*global _, Backbone, SKApp, $*/
 var SKDebugView;
 define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
     "use strict";
@@ -12,7 +12,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             'submit .form-set-time': 'doFormSetTime',
             'submit .trigger-event': 'doEventTrigger',
             'click .btn-load-documents': 'doLoadDocs',
-            'click .btn-simulation-stop-logs': 'doSimStopAndLoadLogs',
+            'click .btn-simulation-stop-logs': 'doSimStopAndLoadLogs'
         },
 
         /**
