@@ -6,9 +6,9 @@
 /**
  * Тест для проверки возможности посчитать сводный бюджет и набрать 55 баллов по результативности (связанной с подсчетом сводного бюджета) (для SK3445))
  */
-class ZIndexOfWindows_SK3361_Test extends SeleniumTestHelper
+class Budget_SK3445_Test extends SeleniumTestHelper
 {
-    public function test_ZIndexOfWindows_SK3361 ()
+    public function test_Budget_SK3445 ()
     {
         $this->start_simulation();
 
