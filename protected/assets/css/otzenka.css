@@ -1265,7 +1265,7 @@
     padding-left: 60px;
     padding-right: 60px;
 }
-.popup-before-start-sim .bigbtnsubmt {
+.popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
     background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
     font:20px/64px "ProximaNova-Bold";
     height: 64px;
@@ -1310,7 +1310,7 @@
     }
     .accept-invite-warning-popup .grid1 {
         padding-right: 10px;
-        width: 165px;
+        width: 160px;
     }
     .popup-icons {
         background-size: 75px;
@@ -1325,7 +1325,7 @@
         padding-left: 50px;
         padding-right: 50px;
     }
-    .popup-before-start-sim .bigbtnsubmt {
+    .popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
         background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
         font:16px/50px "ProximaNova-Bold";
         height: 50px;
