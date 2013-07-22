@@ -2995,8 +2995,7 @@ ul.profile-menu li {
 }
 
 #private-invitations-list-box .grid-view tr td:first-child,
-#private-invitations-list-box .grid-view tr td:nth-child(2),
-#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+#private-invitations-list-box .grid-view tr td:nth-child(2){
     text-overflow:ellipsis !important;
     white-space: nowrap;
     overflow: hidden;
@@ -3049,11 +3048,9 @@ ul.profile-menu li {
     overflow: hidden;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
-#corporate-invitations-list-box .grid-view tr th:nth-child(2),
-#corporate-invitations-list-box .grid-view tr td:nth-child(2),
-#corporate-invitations-list-box .grid-view tr th:nth-child(2){
-    max-width: 134px;
-    width:134px;
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 56px;
+    width:56px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
