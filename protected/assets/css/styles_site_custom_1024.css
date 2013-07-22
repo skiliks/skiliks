@@ -732,7 +732,7 @@
     background-position: center 600px, center top, center 230px, center 600px;
 }
 .team {
-    height: 1550px;
+    height: 1320px;
 }
 .text-about {
     line-height: 130%;
@@ -786,7 +786,7 @@
 }
 .team-values ul {
     margin: 0 auto;
-    width:460px;
+    width:480px;
 }
 .team-values li {
     background: url("../img/cap-small.gif") no-repeat center bottom;
