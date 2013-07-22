@@ -3680,7 +3680,9 @@ SocialCalc.CellHandles = function(editor) {
    this.movedmouse = false; // used to detect no-op
 
    this.draghandle = document.createElement("div");
-   SocialCalc.setStyles(this.draghandle, "display:none;position:absolute;zIndex:8;border:1px solid white;width:4px;height:4px;fontSize:1px;backgroundColor:#0E93D8;cursor:default;");
+   this.draghandle.className = this.draghandle.className + ' draghandle-box';
+   //SocialCalc.setStyles(this.draghandle, "display:none;position:absolute;zIndex:8;border:1px solid white;width:4px;height:4px;fontSize:1px;backgroundColor:#0E93D8;cursor:default;");
+   SocialCalc.setStyles(this.draghandle, "display:none;position:absolute;zIndex:8;border:1px solid white;width:4px;height:4px;fontSize:1px;backgroundColor:#0E93D8;cursor:crosshair;");
    this.draghandle.innerHTML = '&nbsp;';
    editor.toplevel.appendChild(this.draghandle);
    SocialCalc.AssignID(editor, this.draghandle, "draghandle");
@@ -4642,13 +4644,25 @@ SocialCalc.CreateTableControl = function(control) {
 
    control.thumb = document.createElement("div");
    s = control.thumb.style;
-   s.height =  (control.vertical ? control.thumbthickness : control.controlthickness)+"px";
-   s.width = (control.vertical ? control.controlthickness : control.thumbthickness)+"px";
+
+   // scroll-style
+   //s.height =  (control.vertical ? control.thumbthickness : control.controlthickness)+"px";
+   s.height =  "16px";
+
+   // scroll-style
+   //s.width = (control.vertical ? control.controlthickness : control.thumbthickness)+"px";
+   s.width = "16px";
+
    s.zIndex = 2;
    s.overflow = "hidden"; // IE will make the DIV at least font-size height...so use this
    s.position = "absolute";
    setStyles(control.thumb, scc.TCthumbStyle);
-   control.thumb.style.backgroundImage="url("+imageprefix+"thumb-"+vh+"n.gif)";
+
+   // scroll-style
+   // control.thumb.style.backgroundImage="url("+imageprefix+"thumb-"+vh+"n.gif)";
+   control.thumb.style.border="2px solid #999999";
+   control.thumb.style.backgroundColor = "#DDDDDD";
+
    if (scc.TCthumbClass) control.thumb.className = scc.TCthumbClass;
    AssignID(control.editor, control.thumb, "thumb"+vh);
 
@@ -4659,9 +4673,16 @@ SocialCalc.CreateTableControl = function(control) {
    functions.control = control; // make sure this is there
    SocialCalc.DragRegister(control.thumb, control.vertical, !control.vertical, functions);
 
-   params = {normalstyle: "backgroundImage:url("+imageprefix+"thumb-"+vh+"n.gif)", name:"Thumb",
-             downstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"d.gif)",
-             hoverstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"h.gif)"};
+//   params = {normalstyle: "backgroundImage:url("+imageprefix+"thumb-"+vh+"n.gif)", name:"Thumb",
+//             downstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"d.gif)",
+//             hoverstyle:  "backgroundImage:url("+imageprefix+"thumb-"+vh+"h.gif)"};
+
+   params = {
+        normalstyle: "backgroundColor: #DDDDDD",
+        name:"Thumb",
+        downstyle:  "backgroundColor: #FFFFFF",
+        hoverstyle: "backgroundColor: #FFFFFF"
+   };
    SocialCalc.ButtonRegister(control.thumb, params, null); // give it button-like visual behavior
 
    control.main.appendChild(control.thumb);
@@ -4995,18 +5016,38 @@ SocialCalc.TCTDragFunctionStart = function(event, draginfo, dobj) {
 //
 
 SocialCalc.TCTDragFunctionRowSetStatus = function(draginfo, editor, row) {
+    var scc = SocialCalc.Constants;
+    var msg = scc.s_TCTDFthumbstatusPrefixv+row+" ";
 
-   var scc = SocialCalc.Constants;
-   var msg = scc.s_TCTDFthumbstatusPrefixv+row+" ";
+    draginfo.thumbstatus.className = 'thumbstatus-box';
 
-   draginfo.thumbstatus.rowmsgele.innerHTML = msg;
+    draginfo.thumbstatus.rowmsgele.innerHTML = msg;
 
-   draginfo.thumbcontext.rowpanes = [{first: row, last: row}];
-   draginfo.thumbrowshown = row;
+    draginfo.thumbcontext.rowpanes = [{first: row, last: row}];
+    draginfo.thumbrowshown = row;
 
-   var ele = draginfo.thumbcontext.RenderSheet(draginfo.thumbstatus.rowpreviewele.firstChild, {type: "html"});
+    // remove vertical scroll helper table, resize and replase it position {
 
-   }
+    //var ele = draginfo.thumbcontext.RenderSheet(draginfo.thumbstatus.rowpreviewele.firstChild, {type: "html"});
+    var ele = draginfo.thumbcontext.RenderSheet({}, {type: "html"});
+
+
+    $('.thumbstatus-box td:eq(1)').remove();
+    $('.thumbstatus-box td').css('background-color', '#FFF');
+    $('.thumbstatus-box td').css('color', '#555');
+    $('.thumbstatus-box').css('border', '1px solid #AAA');
+    $('.thumbstatus-box table').css('border', '0');
+    $('.thumbstatus-box table tr').css('border', '0');
+    $('.thumbstatus-box table td').css('border', '0');
+    $('.thumbstatus-box').css('width', '70px');
+
+    var left = parseInt($('.thumbstatus-box').css('left').replace('px', ''));
+    if (left < $(window).width()/2) {
+        $('.thumbstatus-box').css('left', parseInt($('.thumbstatus-box').css('left').replace('px', '')) + 625);
+    }
+
+    // remove vertical scroll helper table, resize and replase it position }
+}
 
 
 //
