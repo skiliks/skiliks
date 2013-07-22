@@ -244,26 +244,28 @@
     margin-left: -20px;
     position: absolute;
     top: 10px;
-    width: 103px;
+    width: 67px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 108px;
-    width: 108px;
+    max-width: 59px;
+    width: 59px;
 }
 #corporate-invitations-list-box #yw0_c2,
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-    max-width: 65px;
-    width: 65px;
+    /*max-width: 65px;
+    width: 65px;*/
 }
 #corporate-invitations-list-box #yw0_c3 {
     max-width: 80px;
     width: 80px;
 }
 #corporate-invitations-list-box #yw0_c4 {
-    width: 110px;
+    max-width: 40px;
+    width: 40px;
 }
 #corporate-invitations-list-box #yw0_c5 {
+    max-width: 110px;
     width: 110px;
 }
 #corporate-invitations-list-box .items p {
@@ -723,3 +725,75 @@
     font-size: 23px;
 }
 /*  *************************** /OLD BROWSERS ***************************/
+/*  *************************** TEAM ***************************/
+.action-teamNew {
+    background: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bgtoprepeat-min.jpg"), url("../img/bg-team-container.png");
+    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+    background-position: center 600px, center top, center 230px, center 600px;
+}
+.team {
+    height: 1320px;
+}
+.text-about {
+    line-height: 130%;
+    margin: 0 auto 15px;
+    width:680px;
+}
+.team-list li {
+    font-size: 10px;
+    line-height: 150%;
+    margin-bottom: 8px;
+    width: 368px;
+    height: 143px;
+}
+.team-list h3, .team-list p {
+    margin-left: 16px;
+}
+.team-list h3 {
+    font-size: 20px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+.maria {
+    background-image: url("../img/team-maria-min.png");
+}
+.alyona {
+    background-image: url("../img/team-alyona-min.png");
+}
+.tony {
+    background-image: url("../img/team-tony-min.png");
+}
+.andrii {
+    background-image: url("../img/team-andrey-min.png");
+}
+.others {
+    background-image: url("../img/team-others-min.png");
+}
+.team-list .others {
+    height: 147px;
+}
+.member-right {
+    margin-left: 8px;
+}
+.member-center {
+    margin-left: 190px;
+}
+.team-values {
+    margin-top: 50px;
+}
+.team-values h2 {
+    margin-bottom: 20px;
+}
+.team-values ul {
+    margin: 0 auto;
+    width:480px;
+}
+.team-values li {
+    background: url("../img/cap-small.gif") no-repeat center bottom;
+    list-style: none;
+    line-height: 130%;
+    margin-top: 25px;
+    padding-bottom:80px;
+    text-align: center;
+}
+/*  *************************** /TEAM ***************************/

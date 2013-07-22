@@ -16,7 +16,7 @@
  * The followings are the available model relations:
  * @property Task $task
  */
-class Meeting extends CActiveRecord
+class Meeting extends CActiveRecord implements IGameAction
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -35,6 +35,11 @@ class Meeting extends CActiveRecord
 	{
 		return 'meeting';
 	}
+
+    public function getCode()
+    {
+        return $this->code;
+    }
 
 	/**
 	 * @return array validation rules for model attributes.

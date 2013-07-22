@@ -372,6 +372,12 @@ define([
                                 onclick: function() {
                                     me._hidePausedScreen();
                                     me.stopExitProtection();
+                                    if(!SKApp.isTutorial() && !SKApp.isLite()) {
+                                        var d = new SKDialogView({
+                                            message: 'Данные симуляции сохраняются.',
+                                            buttons: []
+                                        });
+                                    }
                                     me.simulation.stop();
                                 }
                             }
