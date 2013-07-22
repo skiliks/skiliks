@@ -168,7 +168,8 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right"><?php if ('ru' == Yii::app()->getlanguage()): ?><span class="help-contact-us">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></span><?php endif; ?></div>
                 </div>
                 <a href="#top" class="to-top font-small"><?php echo Yii::t('site', 'Back to top') ?></a>
-                <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                <?php $route = Yii::app()->getController()->getRoute(); ?>
+                <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
                     <a href="/registration" class="btn btn-white btn-arrow-small access-footer"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                 <?php endif ?>
                 <div class="social_networks">
