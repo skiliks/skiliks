@@ -1266,11 +1266,14 @@
     padding-right: 60px;
 }
 .popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
-    background: #146672 url("../img/icon-circlarow.png") no-repeat 17px 50%;
+    background: #146672 url("../img/icon-circlarow-hover.png") no-repeat 17px 50%;
     font:20px/64px "ProximaNova-Bold";
     height: 64px;
     margin-top: 10px;
     padding-left: 51px;
+}
+.popup-before-start-sim .bigbtnsubmt:hover, .accept-invite-warning-popup .bigbtnsubmt:hover {
+    background-color: #bd2929;
 }
 @media screen and (max-width: 1146px){
 
