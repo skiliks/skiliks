@@ -725,3 +725,75 @@
     font-size: 23px;
 }
 /*  *************************** /OLD BROWSERS ***************************/
+/*  *************************** TEAM ***************************/
+.action-teamNew {
+    background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
+    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+    background-position: center 770px, center top, center 300px, center 790px;
+}
+.team {
+    height: 1550px;
+}
+.text-about {
+    line-height: 130%;
+    margin: 0 auto 15px;
+    width:660px;
+}
+.team-list li {
+    font-size: 11px;
+    line-height: 150%;
+    margin-bottom: 8px;
+    width: 360px;
+    height: 123px;
+}
+.team-list h3, .team-list p {
+    margin-left: 20px;
+}
+.team-list h3 {
+    font-size: 24px;
+    margin-bottom: 0px;
+    margin-top: 22px;
+}
+.maria {
+    background-image: url("../img/bg-team-maria-min.png");
+}
+.alyona {
+    background-image: url("../img/bg-team-alyona-min.png");
+}
+.tony {
+    background-image: url("../img/bg-team-tony-min.png");
+}
+.andrii {
+    background-image: url("../img/bg-team-andrii-min.png");
+}
+.others {
+    background-image: url("../img/bg-team-others-min.png");
+}
+.team-list .others {
+    height: 188px;
+}
+.member-right {
+    margin-left: 10px;
+}
+.member-center {
+    margin-left: 244px;
+}
+.team-values {
+    margin-top: 50px;
+}
+.team-values h2 {
+    margin-bottom: 20px;
+}
+.team-values ul {
+    margin: 0 auto;
+    width:600px;/* width:500px; */
+}
+.team-values li {
+    background: url("../img/cap-image.gif") no-repeat center bottom;
+    list-style: none;
+    line-height: 130%;
+    margin-top: 32px;
+    padding-bottom: 100px;
+    text-align: center;
+}
+/*  *************************** /TEAM ***************************/

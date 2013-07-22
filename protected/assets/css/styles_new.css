@@ -1222,4 +1222,18 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 }
 /* ***************** /VACANCIES *****************  */
 /*  *************************** /PROFILE ***************************/
-/*  *************************** /PROFILE ***************************/
+/*  *************************** TEAM ***************************/
+.team-list {
+    list-style: none;
+    margin: 0px;
+}
+.team-list li {
+    background-repeat: no-repeat;
+    background-position: 0 bottom;
+    display: inline-block;
+    vertical-align: top;
+}
+.team-values li:first-child {
+    margin-top: 0px;
+}
+/*  *************************** /TEAM ***************************/
