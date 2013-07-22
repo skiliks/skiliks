@@ -606,7 +606,7 @@ define([
             },
 
             onZohoPopup: function(){
-                var me = this,
+                /*var me = this,
                     popup;
 
                 if (me.popups.zoho) {
@@ -638,7 +638,7 @@ define([
                     me.startPause(function(){
                         $('.time').addClass('paused');
                     });
-                }
+                }*/
             },
             preLoadImages: function(images) {
                 $.each(images, function(index, src){

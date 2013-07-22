@@ -646,6 +646,12 @@ class SimulationService
             InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
         }
 
+        if (null !== $simulation->invite && $simulation->isTutorial()) {
+            $simulation->invite->tutorial_finished_at = date('Y-m-d H:i:s');
+            $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : tutorial finished');
+        }
+
         // Remove pause if it was set
         self::resume($simulation);
 

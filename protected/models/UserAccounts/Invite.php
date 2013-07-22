@@ -22,6 +22,7 @@
  * @property integer $scenario_id
  * @property integer $tutorial_scenario_id
  * @property string $tutorial_displayed_at
+ * @property string $tutorial_finished_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser

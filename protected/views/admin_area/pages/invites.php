@@ -5,7 +5,8 @@
     'ID инвайта',
     'Статус инвайта',
     'Время начала симуляции',
-    'Время конца симуляции',
+    'Время окончания симуляции',
+    'Время окончания tutorial',
     'Тип (название) основного сценария',
     'Оценка',
     'Действие'
@@ -42,6 +43,7 @@
             <td><span class="label"><?=$model->getStatusText()?></span></td>
             <td class="simulation_time-start"><?=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start)?></td>
             <td class="simulation_time-end"><?=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end)?></td>
+            <td class="simulation_tutorial_time-end"><?=(empty($model->tutorial_finished_at)?'---- -- -- --':$model->tutorial_finished_at)?></td>
             <td><span class="label label-inverse"><?=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug)?></span></td>
             <td><?=$model->getOverall() ?></td>
             <td class="actions">

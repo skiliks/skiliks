@@ -59,11 +59,16 @@ class SiteController extends SiteBaseController
             $this->redirect('/dashboard');
         }
 
-        if (isset($invite) && $start !== 'full' && null !== $invite->tutorial && $mode !== 'developer') {
+        if ( isset($invite)
+            && $start !== 'full'
+            && null !== $invite->tutorial
+            && $mode !== 'developer'
+            && null === $invite->tutorial_finished_at) {
             $type = $invite->tutorial->slug;
             $tutorial = true;
             $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
             $invite->save(false);
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : tutorial started');
         }
 
         /** @var Scenario $scenario */
