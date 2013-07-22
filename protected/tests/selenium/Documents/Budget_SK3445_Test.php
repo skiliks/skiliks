@@ -12,7 +12,7 @@ class Budget_SK3445_Test extends SeleniumTestHelper
     {
         $this->start_simulation();
 
-        /*$this->clearEventQueueBeforeEleven('RST1');
+        $this->clearEventQueueBeforeEleven('RST1');
 
         $this->run_event('T3.1',"xpath=(//*[contains(text(),'Егор, приветствую')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, но у тебя не больше пяти минут')])");
@@ -44,7 +44,7 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->keyDownNative("16");
         $this->optimal_click("css=#cell_M14");
 
-        $this->optimal_click();
+        /*$this->optimal_click();
 
         $this->doubleClick("xpath=//*[@id='Бюджет логистики_2014_план.xls']/div[2]");
 

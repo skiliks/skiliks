@@ -24,6 +24,13 @@ class ZIndexOfWindows_SK3361_Test extends SeleniumTestHelper
 
         $this->assertTrue($a_index<$b_index);
 
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(5);
+        $this->assertTrue($this->isVisible("css=.phone-menu-btn.phone_get_menu"));
+        $c_index=$this->getEval("window.document.getElementById('phone-window').style.zIndex")+0;
+
+        $this->assertTrue($b_index<$c_index);
+
         $this->simulation_stop();
     }
 }
