@@ -737,7 +737,7 @@
 .text-about {
     line-height: 130%;
     margin: 0 auto 15px;
-    width:660px;
+    width:680px;
 }
 .team-list li {
     font-size: 10px;
@@ -747,12 +747,12 @@
     height: 143px;
 }
 .team-list h3, .team-list p {
-    margin-left: 20px;
+    margin-left: 16px;
 }
 .team-list h3 {
     font-size: 20px;
     margin-bottom: 0px;
-    margin-top: 22px;
+    margin-top: 20px;
 }
 .maria {
     background-image: url("../img/team-maria-min.png");
