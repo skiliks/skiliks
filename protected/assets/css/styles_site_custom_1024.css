@@ -755,22 +755,22 @@
     margin-top: 22px;
 }
 .maria {
-    background-image: url("../img/bg-team-maria-min.png");
+    background-image: url("../img/team-maria-min.png");
 }
 .alyona {
-    background-image: url("../img/bg-team-alyona-min.png");
+    background-image: url("../img/team-alyona-min.png");
 }
 .tony {
-    background-image: url("../img/bg-team-tony-min.png");
+    background-image: url("../img/team-tony-min.png");
 }
 .andrii {
-    background-image: url("../img/bg-team-andrii-min.png");
+    background-image: url("../img/team-andrey-min.png");
 }
 .others {
-    background-image: url("../img/bg-team-others-min.png");
+    background-image: url("../img/team-others-min.png");
 }
 .team-list .others {
-    height: 188px;
+    height: 147px;
 }
 .member-right {
     margin-left: 8px;
