@@ -446,6 +446,10 @@ define([
             },
 
             doStartFullSimulation: function(e) {
+                this.message_window = new SKDialogView({
+                    'message':'Завершение обучающей симуляции.',
+                    'buttons':[]
+                });
                 e.preventDefault();
                 SKApp.simulation.stop();
             }

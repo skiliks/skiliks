@@ -4007,7 +4007,7 @@ SocialCalc.RenderContext = function(sheetobj) {
    this.highlights = {}; // for each cell with special display: coord:highlightType (see this.highlightTypes)
    this.cursorsuffix = ""; // added to highlights[cr]=="cursor" to get type to lookup
 
-   this.highlightTypes = // attributes to change when highlit
+   this.highlightTypes = // attributes to change when highlight
       {
          cursor: {style: scc.defaultHighlightTypeCursorStyle, className: scc.defaultHighlightTypeCursorClass},
          range: {style: scc.defaultHighlightTypeRangeStyle, className: scc.defaultHighlightTypeRangeClass},
