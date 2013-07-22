@@ -248,8 +248,8 @@
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 108px;
-    width: 108px;
+    max-width: 59px;
+    width: 59px;
 }
 #corporate-invitations-list-box #yw0_c2,
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
@@ -261,9 +261,11 @@
     width: 80px;
 }
 #corporate-invitations-list-box #yw0_c4 {
-    width: 110px;
+    max-width: 40px;
+    width: 40px;
 }
 #corporate-invitations-list-box #yw0_c5 {
+    max-width: 110px;
     width: 110px;
 }
 #corporate-invitations-list-box .items p {
