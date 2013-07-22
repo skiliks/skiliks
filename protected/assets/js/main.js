@@ -110,6 +110,9 @@ var fixLogotypes = function() {
         $('.accept-invite').click(function(e) {
             var link = $(this).attr('href');
 
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '600px');
+
             $('#invite-accept-form').dialog({
                 dialogClass: 'accept-invite-warning-popup',
                 modal:       true,
@@ -117,10 +120,21 @@ var fixLogotypes = function() {
                 resizable:   false,
                 draggable:   false,
                 width:       881,
+                maxHeight:   600,
+                position: {
+                    my: "left top",
+                    at: "left bottom",
+                    of: $("header h1")
+                },
                 open: function( event, ui ) {
                     $(this).find('.accept-requirements').attr('href', link);
                 }
             });
+
+            // hack {
+            $('.accept-invite-warning-popup').css('top', '50px');
+            $(window).scrollTop('body');
+            // hack }
 
             return false;
         });
@@ -299,6 +313,10 @@ var fixLogotypes = function() {
         $('.start-full-simulation').click(function(event){
             var href = $(this).attr('data-href');
             event.preventDefault();
+
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '80px');
+
             $(".warning-popup").dialog({
                 closeOnEscape: true,
                 dialogClass: 'popup-before-start-sim',
@@ -311,6 +329,12 @@ var fixLogotypes = function() {
                     Cufon.refresh();
                 }
             });
+
+            // hack {
+            $('.popup-before-start-sim').css('top', '50px');
+            $(window).scrollTop('body');
+            // hack }
+
             return false;
         });
 
