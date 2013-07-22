@@ -37,7 +37,7 @@ class LogMeeting extends CActiveRecord
 
         if (null !== $activityAction) {
             // TODO: Temporary disabled. Required investigations
-            //$activityAction->appendLog($this);
+            $activityAction->appendLog($this);
         }
 
         parent::afterSave();
