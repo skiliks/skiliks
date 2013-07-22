@@ -476,7 +476,7 @@ define([
                     e.preventDefault();
                     this.stopAnimation('.plan');
                     if(SKApp.simulation.window_set.isNotOpen('visitor', 'visitorMeeting')){
-                        SKApp.simulation.window_set.toggle('visitor', 'visitorMeeting');
+                        SKApp.simulation.window_set.toggle('visitor', 'meetingChoice');
                     }
 
                 } catch(exception) {

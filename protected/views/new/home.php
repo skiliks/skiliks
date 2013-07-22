@@ -8,7 +8,7 @@
 
     <div class="container-2">
         <div class="grid1">
-            <ul class="list-light unstyled font-large home-list-box">
+            <ul class="list-light unstyled font-xlarge home-list-box">
                 <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
                 <li><?php echo Yii::t('site', '2-3-hours game') ?></li>
                 <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
@@ -38,7 +38,7 @@
             <?PHP endif ?>
         </div>
         <div class="grid1">
-            <div class="video block-border bg-transparnt">
+            <div class="video">
                 <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
             <div class="social_networks">
