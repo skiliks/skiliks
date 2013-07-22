@@ -1,7 +1,7 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView,
 SKImmediateVisitView, SKPhoneView, SKMailClientView, SKDialogView,
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView,
- SKMailClientView, SKPhoneCallView, SKManualView, define */
+ SKMailClientView, SKPhoneCallView, SKManualView, SKMeetingView, SKMeetingGoneView, define */
 
 var SKSimulationView;
 
@@ -20,7 +20,8 @@ define([
     "game/views/phone/SKPhoneDialogView",
     "game/views/dialogs/SKVisitView",
     "game/views/dialogs/SKImmediateVisitView",
-    "game/views/dialogs/SKMeetingView",
+    "game/views/meetings/SKMeetingView",
+    "game/views/meetings/SKMeetingGoneView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/world/SKManualView",
@@ -59,7 +60,8 @@ define([
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
                 'visitor/visitorTalk':     SKImmediateVisitView,
-                'visitor/visitorMeeting':  SKMeetingView
+                'visitor/meetingChoice':   SKMeetingView,
+                'visitor/meetingGone':     SKMeetingGoneView,
             },
             /**
              * Массив окон, которые открыты в симуляции

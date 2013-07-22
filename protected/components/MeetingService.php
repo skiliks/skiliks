@@ -44,8 +44,6 @@ class MeetingService
             throw new LogicException('Meeting was not found');
         }
 
-        LogHelper::setMeetingLog($meeting, $simulation);
-
         $currentTime = explode(':', $simulation->getGameTime());
         $shiftedTime = $currentTime[0] * 60 + $currentTime[1] + $meeting->duration + 1; // 1 for skipped seconds
         SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);

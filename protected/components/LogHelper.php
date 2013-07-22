@@ -49,6 +49,8 @@ class LogHelper
         24 => 'phone call',
         31 => 'visitor entrance',
         32 => 'visitor talk',
+        33 => 'meeting choice',
+        34 => 'meeting gone',
         41 => 'documents main',
         42 => 'documents files'
     );
@@ -280,16 +282,51 @@ class LogHelper
         return true;
     }
 
-    public static function setMeetingLog(Meeting $meeting, Simulation $simulation)
+    public static function setMeetingLog($simId, $logs)
     {
-        $log = new LogMeeting();
+        /*$log = new LogMeeting();
         $log->sim_id = $simulation->id;
         $log->meeting_id = $meeting->id;
         $log->start_time = $simulation->getGameTime();
         $log->end_time = date('H:i:s', GameTime::getUnixDateTime($simulation->getGameTime()) + $meeting->duration * 60);
         $log->window_uid = mt_rand(0, 1024);
 
-        return $log->save();
+        return $log->save();*/
+
+        if (!is_array($logs)) {
+            return false;
+        }
+
+        foreach ($logs as $log) {
+            if (!isset($log[4]['meetingId'])) {
+                continue;
+            }
+
+            if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
+                $log_obj = new LogMeeting();
+                $log_obj->sim_id = $simId;
+                $log_obj->meeting_id = $log[4]['meetingId'];
+                $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                $log_obj->end_time   = '00:00:00';
+                $log_obj->window_uid = $log['window_uid'];
+                $log_obj->save();
+            } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+                /** @var LogMeeting $log_obj */
+                $log_obj = LogMeeting::model()->findByAttributes(array(
+                    'meeting_id'  => $log[4]['meetingId'],
+                    'end_time' => '00:00:00',
+                    'sim_id'   => $simId
+                ));
+                if (!$log_obj) {
+                    continue;
+                }
+
+                $log_obj->end_time = gmdate("H:i:s", $log[3]);
+                $log_obj->save();
+            }
+        }
+
+        return true;
     }
 
     public static function setWindowsLog($simId, $logs)
