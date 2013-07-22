@@ -3049,8 +3049,8 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 56px;
-    width:56px;
+    max-width: 64px;
+    width:64px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
@@ -3070,8 +3070,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    max-width: 74px;
-    width: 74px;
+    max-width: 115px;
+    width: 115px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
 #corporate-invitations-list-box ..mail-new-textgrid-view tr td:nth-child(7),
@@ -3716,7 +3716,8 @@ ul.profile-menu li {
         top:8px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
-        width: 122px;
+        max-width: 72px;
+        width: 72px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr td:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2) {
         max-width: 108px;
@@ -3727,10 +3728,11 @@ ul.profile-menu li {
         width: 65px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
-        width: 110px;
+        max-width: 40px;
+        width: 40px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:108px;
+        width:72px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
