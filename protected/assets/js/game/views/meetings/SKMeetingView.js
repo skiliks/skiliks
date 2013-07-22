@@ -1,7 +1,7 @@
 /* global define, $, _, SKApp */
 
 /**
- * @class SKVisitView
+ * @class SKMeetingView
  * @augments Backbone.View
  */
 var SKMeetingView;
@@ -45,6 +45,7 @@ define([
                 subject = this.subjects.get(subjectId),
                 simulation = SKApp.simulation;
 
+            this.options.model_instance.close();
 
             simulation.startPause(function() {
                 simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
@@ -52,19 +53,10 @@ define([
             });
 
             SKApp.server.api('meeting/leave', {'id': subjectId});
-
-            var dialog = new SKDialogView({
-                message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
-                buttons: [{
-                    id: 'ok',
-                    value: 'Продолжить работу',
-                    onclick: function() {
-                        simulation.stopPause();
-                    }
-                }]
+            SKApp.simulation.window_set.open('visitor', 'meetingGone', {
+                'subject': subject,
+                'params': {meetingId: subjectId}
             });
-
-            this.options.model_instance.close();
         }
     });
 
