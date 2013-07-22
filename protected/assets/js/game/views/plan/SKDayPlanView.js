@@ -41,11 +41,7 @@ define([
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
                 'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd'
-                /*
-                 $('.plan-todo').bind('webkitTransitionEnd', function() {
-                    console.log("end");
-                 });
-                 */
+
             },
             SKWindowView.prototype.events
         ),
