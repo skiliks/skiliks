@@ -335,7 +335,7 @@ class EventsManager {
 
         LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
         LogHelper::setMailLog($simId, $logs);
-
+        LogHelper::setMeetingLog($simId, $logs);
         LogHelper::setDialogs($simId, $logs);
         // данные для логирования }
 
