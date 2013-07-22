@@ -1236,4 +1236,9 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .team-values li:first-child {
     margin-top: 0px;
 }
+.dots {
+    background: url("../img/dots.png") no-repeat left bottom;
+    display: inline-block;
+    width:8px;
+}
 /*  *************************** /TEAM ***************************/
