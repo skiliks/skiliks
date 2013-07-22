@@ -139,18 +139,23 @@ SocialCalc.Constants = {
    // For each of the following default sheet display values at least one of class and/or style are needed
 
    defaultHighlightTypeCursorClass: "",
-   defaultHighlightTypeCursorStyle: "color:#FFF;backgroundColor:#A6A6A6;",
+   //defaultHighlightTypeCursorStyle: "color:#FFF;backgroundColor:#A6A6A6;",
+   defaultHighlightTypeCursorStyle: "color:#000;backgroundColor:#F4A949;",
    defaultHighlightTypeRangeClass: "",
-   defaultHighlightTypeRangeStyle: "color:#000;backgroundColor:#E5E5E5;",
+   defaultHighlightTypeRangeStyle: "color:#000;backgroundColor:#F4A949;", // #E5E5E5
 
    defaultColnameClass: "", // regular column heading letters, needs a cursor property 
-   defaultColnameStyle: "font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;cursor:e-resize;",
-   defaultSelectedColnameClass: "", // column with selected cell, needs a cursor property 
-   defaultSelectedColnameStyle: "font-size:small;text-align:center;color:#FFFFFF;background-color:#404040;cursor:e-resize;",
+   //defaultColnameStyle: "font-size:small;text-align:center;color:#FFFFFF;background-color:#808080;cursor:e-resize;",
+   defaultColnameStyle: "font-size:small;text-align:center;color:#777;background-color:#D5DCDD;cursor:e-resize;border: 1px solid #777;",
+   defaultSelectedColnameClass: "", // column with selected cell, needs a cursor property
+   //defaultSelectedColnameStyle: "font-size:small;text-align:center;color:#777;background-color:#404040;cursor:e-resize;",
+   defaultSelectedColnameStyle: "font-size:small;text-align:center;color:#777;background-color:#D5DCDD;cursor:e-resize;border: 1px solid #777;",
    defaultRownameClass: "", // regular row heading numbers
-   defaultRownameStyle: "font-size:small;text-align:right;color:#FFFFFF;background-color:#808080;",
-   defaultSelectedRownameClass: "", // column with selected cell, needs a cursor property 
-   defaultSelectedRownameStyle: "font-size:small;text-align:right;color:#FFFFFF;background-color:#404040;",
+   //defaultRownameStyle: "font-size:small;text-align:right;color:#FFFFFF;background-color:#808080;",
+   defaultRownameStyle: "font-size:small;text-align:center;color:#777;background-color:#D5DCDD;border: 1px solid #777;",
+   defaultSelectedRownameClass: "", // column with selected cell, needs a cursor property
+   //defaultSelectedRownameStyle: "font-size:small;text-align:right;color:#FFFFFF;background-color:#404040;",
+   defaultSelectedRownameStyle: "font-size:small;text-align:center;color:#777;background-color:#D5DCDD;border: 1px solid #777;",
    defaultUpperLeftClass: "", // Corner cell in upper left
    defaultUpperLeftStyle: "font-size:small;",
    defaultSkippedCellClass: "", // used if present for spanned cells peeking into a pane (at least one of class/style needed)
@@ -292,10 +297,10 @@ SocialCalc.Constants = {
    TCTDFSthumbstatusrownumStyle: "color:#FFF;background-color:#808080;font-size:small;white-space:nowrap;padding:3px;", // if present, real style
    TCTDFStopOffsetv: 0, // offsets for thumbstatus display while dragging
    TCTDFSleftOffsetv: -80,
-   s_TCTDFthumbstatusPrefixv: "Row ", // Text Control Drag Function text before row number
+   s_TCTDFthumbstatusPrefixv: "Строка ", // Text Control Drag Function text before row number
    TCTDFStopOffseth: -30,
    TCTDFSleftOffseth: 0,
-   s_TCTDFthumbstatusPrefixh: "Col ", // Text Control Drag Function text before col number
+   s_TCTDFthumbstatusPrefixh: "Колонка ", // Text Control Drag Function text before col number
 
    //*** SocialCalc.TooltipInfo
 
