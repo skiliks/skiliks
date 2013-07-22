@@ -32,6 +32,8 @@ define([
 
         title: "Телефон",
         windowName:'phone',
+        addClass: 'phone-window',
+        addId: 'phone-window',
         events:_.defaults({
             'click .phone_get_contacts': 'getContacts',
             'click .phone_get_history':  'getHistory',

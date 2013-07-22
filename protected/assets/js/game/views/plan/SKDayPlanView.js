@@ -20,8 +20,8 @@ define([
      * @augments Backbone.View
      */
     SKDayPlanView = SKWindowView.extend({
-        'addClass': 'planner-book-main-div',
-
+        addClass: 'planner-book-main-div plan-window',
+        addId: 'plan-window',
         isDisplaySettingsButton:false,
 
         dimensions: {

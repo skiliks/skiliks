@@ -40,7 +40,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 if (this.options.model_instance === undefined) {
                     throw 'You need to pass model_instance';
                 }
-                var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
+                var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : ''), "id":(this.addId ? this.addId : '')});
                 this.$container = $(this.container);
                 this.$container.append(sim_window);
                 this.setElement(sim_window);

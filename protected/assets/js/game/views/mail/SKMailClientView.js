@@ -58,6 +58,8 @@ define([
 
             addClass: 'mail-window',
 
+            addId: 'mail-window',
+
             mailClientScreenID: 'mailEmulatorMainScreen',
 
             mailClientFoldersListId: 'MailClient_FolderLabels',

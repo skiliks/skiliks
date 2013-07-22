@@ -92,8 +92,8 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
         {
             isDisplaySettingsButton:false,
             title: 'Мои документы',
-            addClass: 'documents-list',
-
+            addClass: 'documents-list documents-window',
+            addId: 'documents-window',
             dimensions: {
                 width: 800,
                 height: 400
