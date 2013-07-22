@@ -1270,6 +1270,7 @@
     font:20px/64px "ProximaNova-Bold";
     height: 64px;
     margin-top: 10px;
+    outline: none;
     padding-left: 51px;
 }
 .popup-before-start-sim .bigbtnsubmt:hover, .accept-invite-warning-popup .bigbtnsubmt:hover {
