@@ -38,7 +38,8 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         sleep(5);
 
         //начинаем работу с документами
-        $this->doubleClick("xpath=//*[@id='Бюджет логистики_2014_план.xls']/div[2]");
+        $this->doubleClick("xpath=//*[@id='Бюджет производства_2013_утв.xls']/div[1]/div");
+        sleep(5);
         $this->waitForElementPresent("css=#cell_B7");
         $this->optimal_click("css=#cell_B7");
         $this->keyDownNative("16");
