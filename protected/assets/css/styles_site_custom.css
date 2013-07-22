@@ -674,9 +674,9 @@
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
 .action-teamNew {
-    background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
-    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
-    background-position: center 770px, center top, center 300px, center 790px;
+    background: url("../img/bgbottom-mid.gif"), url("../img/sitebg-chairs-mid.jpg"), url("../img/bgtop-mid.jpg"), url("../img/teambg-mid.jpg");
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-position: center 750px, center top, center 460px, center 790px;
 }
 .team {
     height: 1550px;
