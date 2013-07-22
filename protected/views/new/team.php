@@ -1,6 +1,6 @@
 <div class="team">
     <h1 class="page-header text-center"><?php echo Yii::t('site', 'Meet the Team') ?></h1>
-	<p class="font-white text-center font-large text-about"><?php echo Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
+	<p class="font-white text-center font-xlarge text-about"><?php echo Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
 	
 	<ul class="team-list">
 		<li class="maria">

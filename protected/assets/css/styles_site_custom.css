@@ -684,7 +684,7 @@
 .text-about {
     line-height: 130%;
     margin: 0 auto 20px;
-    width:720px;
+    width:860px; /* width:720px; */
 }
 .team-list {
     list-style: none;
@@ -742,14 +742,14 @@
 }
 .team-values ul {
     margin: 0 auto;
-    width:600px;
+    width:600px;/* width:500px; */
 }
 .team-values li {
     background: url("../img/cap-image.gif") no-repeat center bottom;
     list-style: none;
     line-height: 130%;
     margin-top: 32px;
-    padding-bottom: 85px;
+    padding-bottom: 65px;
     text-align: center;
 }
 .team-values li:first-child {
