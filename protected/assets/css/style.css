@@ -3716,8 +3716,8 @@ ul.profile-menu li {
         top:8px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
-        max-width: 72px;
-        width: 72px;
+        max-width: 100px;
+        width: 100px;
     }
     #corporate-invitations-list-box .grid-view tr th:nth-child(2),
     #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
