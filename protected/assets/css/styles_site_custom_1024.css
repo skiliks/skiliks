@@ -727,9 +727,9 @@
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
 .action-teamNew {
-    background: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bgtoprepeat-min.jpg"), url("../img/teambg-min.jpg");
+    background: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bgtoprepeat-min.jpg"), url("../img/bg-team-container.png");
     background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
-    background-position: center 600px, center top, center 230px, center 630px;
+    background-position: center 600px, center top, center 230px, center 600px;
 }
 .team {
     height: 1550px;
@@ -786,14 +786,14 @@
 }
 .team-values ul {
     margin: 0 auto;
-    width:600px;/* width:500px; */
+    width:460px;
 }
 .team-values li {
-    background: url("../img/cap-image.gif") no-repeat center bottom;
+    background: url("../img/cap-small.gif") no-repeat center bottom;
     list-style: none;
     line-height: 130%;
-    margin-top: 32px;
-    padding-bottom: 100px;
+    margin-top: 25px;
+    padding-bottom:80px;
     text-align: center;
 }
 /*  *************************** /TEAM ***************************/
