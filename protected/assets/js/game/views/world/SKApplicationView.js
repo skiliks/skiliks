@@ -38,6 +38,7 @@ define([
                 delete me.simulation_view;
                 if(SKApp.isTutorial()){
                     console.log("tutorial");
+                    /* Создана форма для загрузки конфига full симуляции через отправку формы и post данных */
                     var input = document.createElement('input');
                     input.setAttribute('type', 'text');
                     input.setAttribute('name', 'start');
@@ -46,6 +47,13 @@ define([
                     form.setAttribute('method', 'post');
                     form.setAttribute('action', location.href);
                     form.appendChild(input);
+                    var submit = document.createElement('input');
+                    input.setAttribute('type', 'submit');
+                    input.setAttribute('name', 'btn');
+                    input.setAttribute('value', 'yes');
+                    form.appendChild(submit);
+                    form.style.display = 'none';
+                    document.getElementById("canvas").appendChild(form);
                     form.submit();
                     //$.post(SKApp.get('result-url'),{start:'promoFull'});
                 }else{
