@@ -1237,7 +1237,8 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     margin-top: 0px;
 }
 .dots {
-    background: url("../img/dots.png") no-repeat left bottom;
+    background-image: url("../img/dots.png");
+    background-repeat: no-repeat;
     display: inline-block;
     line-height: 100%;
     padding-left: 10px;
