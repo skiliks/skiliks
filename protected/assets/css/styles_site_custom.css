@@ -262,12 +262,12 @@
     margin-left: -20px;
     position: absolute;
     top: 12px;
-    width: 72px;
+    width: 98px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 64px;
-    width: 64px;
+    max-width: 150px;
+    width: 90px;
 }
 #corporate-invitations-list-box #yw0_c2,
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
