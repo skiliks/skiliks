@@ -168,7 +168,8 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right"><?php if ('ru' == Yii::app()->getlanguage()): ?><span class="help-contact-us">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></span><?php endif; ?></div>
                 </div>
                 <a href="#top" class="to-top font-small"><?php echo Yii::t('site', 'Back to top') ?></a>
-                <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                <?php $route = Yii::app()->getController()->getRoute(); ?>
+                <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
                     <a href="/registration" class="btn btn-white btn-arrow-small access-footer"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                 <?php endif ?>
                 <div class="social_networks">
@@ -186,7 +187,8 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript">
-        Cufon.replace('.menu-site, .unstyled, .inner .site-main p, span, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small', {fontFamily:"ProximaNova-Regular", hover: true});
+        Cufon.replace('.menu-site, .unstyled, .inner .site-main p, span, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small, .team-values, ' +
+            '.action-teamNew p', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, strong, .dark-labels label, .list-dark li, .items th, .items td, .add-vacancy-popup h1, .ui-dialog-title, ' +
             '.side-menu .active a', {fontFamily:"ProximaNova-Bold", hover: true});
         Cufon.replace('.semi, .yiiPager', {fontFamily:"ProximaNova-Semibold", hover: true});

@@ -305,6 +305,7 @@ var fixLogotypes = function() {
                 minHeight: 220,
                 modal: true,
                 resizable: false,
+                width:881,
                 open: function( event, ui ) {
                     $('.start-full-simulation-next').attr('data-href', href);
                     Cufon.refresh();

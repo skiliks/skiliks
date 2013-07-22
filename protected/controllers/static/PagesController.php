@@ -266,4 +266,12 @@ class PagesController extends SiteBaseController
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
         ]);
     }
+
+    public function actionAddUserSubscription()
+    {
+        $email = Yii::app()->request->getParam('email', false);
+        $result = UserService::addUserSubscription($email);
+
+        $this->sendJSON($result);
+    }
 }

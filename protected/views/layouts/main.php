@@ -177,7 +177,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
                         </span>
                     <?php endif; ?>
-                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                    <?php $route = Yii::app()->getController()->getRoute(); ?>
+                    <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav id="footer-menu">
@@ -228,7 +229,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
                 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
                     '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
-                    '.tariff-name, .video-caption',
+                    '.tariff-name, .video-caption, .popup-before-start-sim h3, .popup-before-start-sim .bigbtnsubm, .popup-before-start-sim h2',
                     {fontFamily:"ProximaNova-Bold", hover:true}
                 );
                 Cufon.replace('.freeacess', {hover:true});

@@ -12,6 +12,9 @@ class MeetingController extends SimulationBaseController {
         ]);
     }
 
+    /**
+     * @todo: переименовать в goToMeeting
+     */
     public function actionLeave()
     {
         $time = MeetingService::leave(

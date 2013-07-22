@@ -262,26 +262,28 @@
     margin-left: -20px;
     position: absolute;
     top: 12px;
-    width: 142px;
+    width: 72px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 135px;
-    width: 135px;
+    max-width: 64px;
+    width: 64px;
 }
 #corporate-invitations-list-box #yw0_c2,
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-    max-width: 77px;
-    width: 77px;
+    /*max-width: 77px;
+    width: 77px;*/
 }
 #corporate-invitations-list-box #yw0_c3 {
-    max-width: 81px;
-    width: 81px;
+    max-width: 80px;
+    width: 80px;
 }
 #corporate-invitations-list-box #yw0_c4 {
-    width: 117px;
+    max-width: 50px;
+    width: 50px;
 }
 #corporate-invitations-list-box #yw0_c5 {
+    max-width: 115px;
     width: 115px;
 }
 #corporate-invitations-list-box .items p {
@@ -682,23 +684,14 @@
 .text-about {
     line-height: 130%;
     margin: 0 auto 20px;
-    width:720px;
-}
-.team-list {
-    list-style: none;
-    margin: 0px;
+    width:820px; /* width:720px; */
 }
 .team-list li {
-    background-repeat: no-repeat;
-    background-position: 0 bottom;
-    display: inline-block;
     font-size: 13px;
     line-height: 150%;
     margin-bottom: 12px;
     width: 473px;
     height: 183px;
-    text-align: left;
-    vertical-align: top;
 }
 .team-list h3, .team-list p {
     margin-left: 26px;
@@ -735,19 +728,19 @@
 .team-values {
     margin-top: 50px;
 }
+.team-values h2 {
+    margin-bottom: 20px;
+}
 .team-values ul {
     margin: 0 auto;
-    width:500px;
+    width:600px;/* width:500px; */
 }
 .team-values li {
-    background: url("../img/bg-team-values-item.png") no-repeat center bottom;
+    background: url("../img/cap-image.gif") no-repeat center bottom;
     list-style: none;
     line-height: 130%;
     margin-top: 32px;
-    padding-bottom: 85px;
+    padding-bottom: 100px;
     text-align: center;
-}
-.team-values li:first-child {
-    margin-top: 0px;
 }
 /*  *************************** /TEAM ***************************/

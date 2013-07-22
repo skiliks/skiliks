@@ -95,7 +95,7 @@ define([
             console.log(this.sheets);
             $.each(this.sheets, function(index, sheet){
                 //console.log(sheet.el);
-                sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), $(me.el).height() - $(me.el).find('.header-inner').height() - $(me.el).find('.sheet-tabs').height(), $(me.el).width(), 0);
+                sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), sheet.$el.height(), sheet.$el.width(), 0);
                 //sheet.spreadsheet.editor.LoadEditorSettings(sheet.options.sheet.get('content').substring(sheet.parts.edit.start, sheet.parts.edit.end));
                 sheet.spreadsheet.ExecuteCommand('recalc', '');
                 sheet.spreadsheet.ExecuteCommand('redisplay', '');
