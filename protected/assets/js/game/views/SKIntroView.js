@@ -1,4 +1,4 @@
-/*global define, Backbone, _, $ */
+/*global define, Backbone, _, $, SKApp */
 
 var SKIntroView;
 define([
@@ -45,9 +45,11 @@ define([
                 content = _.template(simulation_warning),
                 warning, onStart;
 
-            app.simulation.on('start', function() {
-                this.startPause(function(){});
-            });
+            if(false === SKApp.simulation.isDebug()){
+                app.simulation.on('start', function() {
+                    this.startPause(function(){});
+                });
+            }
 
             onStart = function() {
                 var me = this,
@@ -69,20 +71,22 @@ define([
                     appView.frame._showPausedScreen();
                     wnd.open();
                 } else if(!app.isLite()) {
-                    $('.time').addClass("paused");
-                    warning = new SKDialogView({
-                        class: 'before-video-warning',
-                        content: content(),
-                        buttons: [{
-                            id: 'ok',
-                            value: 'OK',
-                            onclick: function() {
-                                warning.remove();
-                                me.stopPause();
-                                $('.time').removeClass("paused");
-                            }
-                        }]
-                    });
+                    if(false === SKApp.simulation.isDebug()) {
+                        $('.time').addClass("paused");
+                        warning = new SKDialogView({
+                            class: 'before-video-warning',
+                            content: content(),
+                            buttons: [{
+                                id: 'ok',
+                                value: 'OK',
+                                onclick: function() {
+                                    warning.remove();
+                                    me.stopPause();
+                                    $('.time').removeClass("paused");
+                                }
+                            }]
+                        });
+                    }
                 }else{
                     me.stopPause();
                 }
