@@ -1239,6 +1239,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
 .dots {
     background: url("../img/dots.png") no-repeat left bottom;
     display: inline-block;
+    padding-left: 10px;
     width:8px;
 }
 /*  *************************** /TEAM ***************************/
