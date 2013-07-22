@@ -255,7 +255,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event("MS51");
         sleep(3);
         $this->run_event("MS39");
-        sleep(15);
+        sleep(40);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("css=.NEW_EMAIL");
