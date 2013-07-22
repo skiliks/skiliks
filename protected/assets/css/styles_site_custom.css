@@ -737,12 +737,15 @@
 .team-values {
     margin-top: 50px;
 }
+.team-values h2 {
+    margin-bottom: 20px;
+}
 .team-values ul {
     margin: 0 auto;
-    width:500px;
+    width:600px;
 }
 .team-values li {
-    background: url("../img/bg-team-values-item.png") no-repeat center bottom;
+    background: url("../img/cap-image.gif") no-repeat center bottom;
     list-style: none;
     line-height: 130%;
     margin-top: 32px;
