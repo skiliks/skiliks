@@ -9,14 +9,14 @@
     </ul>
     <h2 class="title"><?= Yii::t('site', 'Preparation for the simulation') ?> </h2>
 
-    <div class="container-4">invite-accept-form
+    <div class="container-4">
         <div class="grid1"><div class="popup-icons icon-inet"></div><h4>Интернет</h4><p class="line-xheight font-large">Обеспечьте хорошее Интернет соединение. Симуляция не запустится при скорости менее 1Мб в секунду.</p></div>
         <div class="grid1"><div class="popup-icons icon-browser"></div><h4>Браузер</h4><p class="line-xheight font-large">Убедитесь, что у вас установлен браузер Firefox (от 18 версии) или Chrome (от 22 версии). При необходимости установите последние версии данных браузеров.</p></div>
         <div class="grid1"><div class="popup-icons icon-progs"></div><h4>Лишние программы</h4><p class="line-xheight font-large">Перед прохождением симуляции мы рекомендуем закрыть все приложения, кроме браузера.</p></div>
         <div class="grid1"><div class="popup-icons icon-demo"></div><h4>Демо</h4><p class="line-xheight font-large">Пройдите демо-версию симуляции. Это позволит вам легче ориентироваться в новом интерфейсе.</p></div>
     </div>
 
-    <p><a class='bigbtnsubmt start-full-simulation-now' href='#'><?= Yii::t('site', 'Продолжить') ?></a></p>
+    <div class="text-center"><a class='bigbtnsubmt start-full-simulation-now' href='#'><?= Yii::t('site', 'Продолжить') ?></a></div>
 </div>
 
 <script type="text/javascript">
