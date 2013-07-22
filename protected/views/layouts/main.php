@@ -177,7 +177,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
                         </span>
                     <?php endif; ?>
-                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                    <?php $route = Yii::app()->getController()->getRoute(); ?>
+                    <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav id="footer-menu">
