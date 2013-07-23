@@ -3,15 +3,17 @@ var SKDayPlanView;
 
 /*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView, $, define, SKDialogView*/
 define([
-    "text!game/jst/phone/todo_task_template.jst",
-    "text!game/jst/phone/plan_title_template.jst",
-    "text!game/jst/phone/plan_content_template.jst",
+    "text!game/jst/plan/todo_task_template.jst",
+    "text!game/jst/plan/plan_title_template.jst",
+    "text!game/jst/plan/plan_content_template.jst",
+    "text!game/jst/plan/plan_hint_template.jst",
 
     "game/views/SKWindowView"
 ], function (
     todo_task_template,
     plan_title_template,
-    plan_content_template
+    plan_content_template,
+    plan_hint_template
 ) {
     "use strict";
 
@@ -40,7 +42,9 @@ define([
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
-                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd'
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd',
+                'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
+                'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint'
 
             },
             SKWindowView.prototype.events
@@ -527,16 +531,6 @@ define([
                 me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
             }, 0);
 
-            if ($.fn.tooltip.noConflict) {
-                $.fn.tooltip.noConflict();
-            }
-            this.$el.tooltip({
-                track: true,
-                tooltipClass: 'planner-task-tooltip',
-                content: function() {
-                    return $(this).find('.title').text();
-                }
-            });
             this.setupDroppable();
             Hyphenator.run();
 
@@ -548,10 +542,10 @@ define([
          */
         onActivateTodo: function(e) {
             var taskId = this.$(e.currentTarget).attr('data-task-id');
-            this.doActivateTodo(taskId);
+            this.doActivateTodo(taskId, e);
         },
 
-        doActivateTodo:function (taskId) {
+        doActivateTodo:function (taskId, e) {
             var $task = this.$('.day-plan-todo-task[data-task-id=' + taskId + ']'),
                 active = $task.hasClass('day-plan-task-active');
 
@@ -559,7 +553,7 @@ define([
             $task.toggleClass('day-plan-task-active', !active);
 
             if(_.isEmpty($task.attr('data-task-day')) === false){
-                this.$el.tooltip('open');
+                this.showHint($task);
             }
         },
 
@@ -687,6 +681,24 @@ define([
             this.$('.planner-book-afterv-table').mCustomScrollbar("update");
             this.$('.planner-book-timetable').mCustomScrollbar("update");
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
+        },
+        showHint:function($task) {
+            var position = $task.position();
+            console.log(position);
+            var title = $task.find('.title').text();
+            if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
+                $('.plan_hint_tooltip').remove();
+            }
+            if($task.hasClass('day-plan-task-active')) {
+                $('.canvas').find('.windows-container').append(_.template(plan_hint_template, {title:title}));
+            }
+            //$('.plan_hint_tooltip').css('top', position.top+'px');
+            //$('.plan_hint_tooltip').css('left', position.left+'px');
+            //this.$el.append(_.template(plan_hint_template, {title:title}));
+            console.log("showHint");
+        },
+        hideHint:function(e) {
+            $('.plan_hint_tooltip').remove();
         }
     });
 
