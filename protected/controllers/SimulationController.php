@@ -21,6 +21,12 @@ class SimulationController extends SimulationBaseController
 
         $scenarioName = null;
 
+        // clean up info bout tutorial to start tutorial
+        if (null !== $invite && Scenario::TYPE_FULL === $type) {
+            $invite->tutorial_finished_at = null;
+            $invite->save(false);
+        }
+
         if (null == $invite) {
             if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
                 $type !== Scenario::TYPE_LITE
