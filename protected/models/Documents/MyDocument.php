@@ -141,7 +141,6 @@ class MyDocument extends CActiveRecord
             $filePath = $this->getFilePath();
             $template = str_replace(['.xls', '.xlsx'], ['.sc'], $this->getTemplateFilePath());
             if (false === is_file($template)) {
-                throw new Exception('AAAA!');
                 $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
                 file_put_contents($template, serialize($scData));
             }
@@ -154,7 +153,6 @@ class MyDocument extends CActiveRecord
         if (is_file($filePath)) {
             $scData = unserialize(file_get_contents($filePath));
         } else {
-            throw new Exception('AAAASSSSS!');
             $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
             file_put_contents($filePath, serialize($scData));
         }
