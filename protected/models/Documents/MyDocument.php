@@ -139,7 +139,7 @@ class MyDocument extends CActiveRecord
     {
         $filePath = $filename ?: $this->getFilePath();
 
-        if (file_exists($filePath)) {
+        if (is_file($filePath)) {
             $scData = unserialize(file_get_contents($filePath));
         } else {
             $scData = ScXlsConverter::xls2sc($this->template->getFilePath());

@@ -1,6 +1,12 @@
 <?php
 
-class ScXlsConverter {
+class ScXlsConverter
+{
+    const TYPE_XLS = 'xls';
+
+    const TYPE_SC = 'sc';
+
+    const TYPE_SERIALIZE = 'serialize';
 
     /**
      * @param PHPExcel|string $xls
@@ -65,5 +71,25 @@ class ScXlsConverter {
         $excel = PHPExcel_IOFactory::load($xlsPath);
 
         return $excel;
+    }
+
+    public static function getType($filePath)
+    {
+        if (is_file($filePath)) {
+            if (PHPExcel_IOFactory::identify($filePath)) {
+                return self::TYPE_XLS;
+            }
+
+            $content = file_get_contents($filePath);
+            if (0 === strpos($content, 'socialcalc:version:1.0')) {
+                return self::TYPE_SC;
+            }
+
+            if (false !== unserialize($content)) {
+                return self::TYPE_SERIALIZE;
+            }
+        }
+
+        return null;
     }
 }
