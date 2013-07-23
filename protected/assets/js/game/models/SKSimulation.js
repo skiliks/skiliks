@@ -177,7 +177,7 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
 
                 $.ctrl('с', function() {
@@ -186,7 +186,7 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
 
                 $.ctrl('C', function() {
@@ -195,15 +195,16 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
+
                 $.ctrl('c', function() {
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
 
                 $.ctrl('V', function() {
@@ -212,7 +213,7 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-paste').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
 
                 $.ctrl('v', function() {
@@ -221,24 +222,25 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-paste').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
 
-                $.ctrl('V', function() {
+                $.ctrl('М', function() {
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
                     var id = $('.button-paste').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
-                $.ctrl('v', function() {
+
+                $.ctrl('м', function() {
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
                     var id = $('.button-paste').attr('id');
                     var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(evt);
+                    buttonElement.dispatchEvent(event);
                 }, []);
             },
 
