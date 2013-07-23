@@ -300,7 +300,18 @@ define([
                                 me._hidePausedScreen();
                                 me.$('.canvas .finish').removeClass('hidden');
 
-                                SKApp.simulation.stopPause();
+                                var notice = new SKDialogView({
+                                    'class': 'how-to-leave',
+                                    'message': 'Вы можете завершить работу в любое время с помощью кнопки',
+                                    'buttons': [{
+                                        value: 'OK',
+                                        onclick: function() {
+                                            SKApp.simulation.stopPause();
+                                        }
+                                    }]
+                                });
+
+
                             }
                         }
                     ]
