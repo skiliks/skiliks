@@ -1,0 +1,16 @@
+<div id="messageSystemMessageDiv" class="<@= cls @>">
+    <div class="mail-popup">
+        <div class="mail-popup-tit">
+            <img src="<@= SKApp.get('assetsUrl') @>/img/#" alt="" />
+            <@ if (addCloseButton) { @>
+                <div class="btn-close dialog-close">
+                    <button></button>
+                </div>
+            <@ } @>
+        </div>
+        <p class="mail-popup-text"><@= title @></p>
+        <@ if (content) { @>
+            <div class="popup-content"><@= content @></div>
+        <@ } @>
+    </div>
+</div>
