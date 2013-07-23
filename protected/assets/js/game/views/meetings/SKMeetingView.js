@@ -11,7 +11,7 @@ define([
     'game/collections/SKMeetingSubjectCollection',
     'game/views/SKDialogView',
 
-    'text!game/jst/visit/meeting.jst'
+    'text!game/jst/meeting/select.jst'
 ], function (
         SKWindowView,
         SKMeetingSubjectCollection,
