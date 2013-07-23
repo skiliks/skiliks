@@ -44,6 +44,13 @@ class MeetingService
             throw new LogicException('Meeting was not found');
         }
 
+        // We need this to prevent choosing same meeting before next getState brings correct logs
+        $log = new LogMeeting();
+        $log->sim_id = $simulation->id;
+        $log->meeting_id = $meeting->id;
+        $log->start_time = $simulation->getGameTime();
+        $log->save();
+
         $currentTime = explode(':', $simulation->getGameTime());
         $shiftedTime = $currentTime[0] * 60 + $currentTime[1] + $meeting->duration + 1; // 1 for skipped seconds
         SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);
