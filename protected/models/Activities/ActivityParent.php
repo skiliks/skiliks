@@ -9,6 +9,7 @@
  * @property string $parent_code
  * @property integer $dialog_id
  * @property integer $mail_id
+ * @property integer $is_keep_last_category
  */
 class ActivityParent extends CActiveRecord
 {
