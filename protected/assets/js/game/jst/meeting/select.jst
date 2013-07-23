@@ -6,7 +6,11 @@
         </header>
         <div class="meeting-content">
             <ul>
-                <li class="meeting-subject">Some text</li>
+                <li class="meeting-subject"><p>Домой</p></li>
+                <li class="meeting-subject"><p>Совещание в 17.00</p></li>
+                <li class="meeting-subject"><p>Обед</p></li>
+                <li class="meeting-subject"><p>Шиномонтаж</p></li>
+                <li class="meeting-subject"><p>Встреча по системе премирования с сотрудниками отдела</p></li>
                 <@ subjects.each(function(subject) { @>
                 <li class="meeting-subject" data-subject-id="<@= subject.get('id') @>"><@= subject.get('label') @></li>
                 <@ }) @>
