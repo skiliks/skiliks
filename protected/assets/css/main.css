@@ -1026,13 +1026,13 @@ section.phone>header .btn-window li button.btn-set{
 section.phone>header .btn-window li button.btn-set:hover{
 	background-position:0 -29px;
 }
-section.phone>header .btn-window li button.btn-cl{
+section.phone>header .btn-window li button.btn-cl, .btn-cl{
 	background:url("../img/phone/icon-close.png") no-repeat 0 0;
 	border:none;
 	width:19px;
 	height:20px;
 }
-section.phone>header .btn-window li button.btn-cl:hover{
+section.phone>header .btn-window li button.btn-cl:hover, .btn-cl:hover{
 	background-position:0 -20px;
 }
 .phone-call header .btn-window li:last-child{
