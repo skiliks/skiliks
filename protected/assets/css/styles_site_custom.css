@@ -676,7 +676,7 @@
 .action-teamNew {
     background: url("../img/bgbottom-mid.gif"), url("../img/sitebg-chairs-mid.jpg"), url("../img/bgtop-mid.jpg"), url("../img/teambg-mid.jpg");
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    background-position: center 790px, center top, center 240px, center 790px;
+    background-position: center 810px, center top, center 260px, center 790px;
 }
 .team {
     height: 1550px;
@@ -733,14 +733,14 @@
 }
 .team-values ul {
     margin: 0 auto;
-    width:600px;/* width:500px; */
+    width:500px;
 }
 .team-values li {
-    background: url("../img/cap-image.gif") no-repeat center bottom;
+    background: url("../img/bg-team-values-item.png") no-repeat center bottom;
     list-style: none;
     line-height: 130%;
-    margin-top: 32px;
-    padding-bottom: 100px;
+    margin-top: 15px;
+    padding-bottom: 84px;
     text-align: center;
 }
 .dots {
