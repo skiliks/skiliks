@@ -284,15 +284,6 @@ class LogHelper
 
     public static function setMeetingLog($simId, $logs)
     {
-        /*$log = new LogMeeting();
-        $log->sim_id = $simulation->id;
-        $log->meeting_id = $meeting->id;
-        $log->start_time = $simulation->getGameTime();
-        $log->end_time = date('H:i:s', GameTime::getUnixDateTime($simulation->getGameTime()) + $meeting->duration * 60);
-        $log->window_uid = mt_rand(0, 1024);
-
-        return $log->save();*/
-
         if (!is_array($logs)) {
             return false;
         }
@@ -303,7 +294,15 @@ class LogHelper
             }
 
             if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
-                $log_obj = new LogMeeting();
+                $log_obj = LogMeeting::model()->findByAttributes([
+                    'sim_id' => $simId,
+                    'meeting_id' => $log[4]['meetingId']
+                ]);
+
+                if (null === $log_obj) {
+                    $log_obj = new LogMeeting();
+                }
+
                 $log_obj->sim_id = $simId;
                 $log_obj->meeting_id = $log[4]['meetingId'];
                 $log_obj->start_time = gmdate("H:i:s", $log[3]);
