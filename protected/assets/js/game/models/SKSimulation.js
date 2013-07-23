@@ -198,7 +198,9 @@ define([
 
             showTaskNotification: function(task) {
                 var notification = new SKDialogView({
-                    'message': 'Следующая задача: ' + task.get('title'),
+                    'class': 'task-notification-dialog',
+                    'message': '<span class="task-time">' + task.get('date') + '</span>' +
+                               '<span class="task-description">' + task.get('title') + '</span>',
                     'modal': true,
                     'buttons': []
                 });
