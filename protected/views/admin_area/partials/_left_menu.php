@@ -28,6 +28,18 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Пользователи',
+                'url'   => ['admin_area/AdminPages/UsersList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Корпоративные аккаунты',
+                'url'   => ['admin_area/AdminPages/CorporateAccountList'],
+                'visible' => true,
+
+            ),
             /*array('label'=>'About', 'url'=>array('/site/page')),
             array('label'=>'Contact', 'url'=>array('/site/contact')),
             array('label'=>'Login', 'url'=>array('/site/login'))*/
