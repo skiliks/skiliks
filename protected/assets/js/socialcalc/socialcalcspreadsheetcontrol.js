@@ -246,7 +246,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
       node.removeChild(child);
       }
 
-   html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:75px;">' +
+   html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:45px;">' +
         '<ul class="button_menu">' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_undo" src="%img.undo.png" style=""></div></div></div><a class="grid-row">отменить</a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_redo" src="%img.redo.png" style=""></div></div></div><a class="grid-row">вернуть</a></li>' +
