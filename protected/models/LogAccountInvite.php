@@ -5,9 +5,10 @@
  *
  * The followings are the available columns in table 'log_account_invite':
  * @property integer $id
- * @property integer $account_id
+ * @property integer $user_id
  * @property string $direction
  * @property integer $amount
+ * @property string $action
  * @property integer $limit_after_transaction
  * @property string $comment
  * @property string $date
@@ -57,6 +58,7 @@ class LogAccountInvite extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'user' => [self::BELONGS_TO, 'YumUser', 'user_id'],
 		);
 	}
 

@@ -35,13 +35,35 @@ class UserAccountCorporate extends CActiveRecord
 
     /**
      * @param Tariff $tariff
+     * @param bool $isSave
      */
-    public function setTariff($tariff)
+    public function setTariff($tariff, $isSave = false)
     {
         $this->tariff_id = $tariff->id;
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
+
+        $initValue = $this->invites_limit;
+
         $this->invites_limit = $tariff->simulations_amount;
+
+        if ($isSave) {
+            $this->save();
+
+            UserService::logCorporateInviteMovementAdd(
+                'Account setTariff and save',
+                $this->user->getAccount(),
+                $initValue
+            );
+        } else {
+            UserService::logCorporateInviteMovementAdd(
+                'Account setTariff but not save (?)',
+                $this->user->getAccount(),
+                $initValue
+            );
+        }
+
+
     }
 
     /**
@@ -186,8 +208,17 @@ class UserAccountCorporate extends CActiveRecord
     public function increaseLimit($invite)
     {
         if (Invite::STATUS_PENDING == $invite->status) {
+
+            $initValue = $this->invites_limit;
+
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
+
+            UserService::logCorporateInviteMovementAdd(
+                'increaseLimit',
+                $this->user->getAccount(),
+                $initValue
+            );
         }
     }
 }

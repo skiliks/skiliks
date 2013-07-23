@@ -99,10 +99,18 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
                 $this->sendInviteEmail($invite);
 
+                $initValue = $this->user->getAccount()->invites_limit;
+
                 // decline corporate user invites_limit
                 $this->user->getAccount()->invites_limit--;
                 $this->user->getAccount()->save();
                 $this->user->refresh();
+
+                UserService::logCorporateInviteMovementAdd(
+                    'send invitation 1',
+                    $this->user->getAccount(),
+                    $initValue
+                );
 
 
                 $this->redirect('/dashboard');
@@ -244,11 +252,18 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
 
+                $initValue = $this->user->getAccount()->invites_limit;
+
                 // decline corporate user invites_limit
                 $this->user->getAccount()->invites_limit--;
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
+                UserService::logCorporateInviteMovementAdd(
+                    'send invitation 2',
+                    $this->user->getAccount(),
+                    $initValue
+                );
 
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
@@ -616,8 +631,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
+        $initValue = $declineExplanation->invite->ownerUser->getAccount()->invites_limit;
+
         $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
         $declineExplanation->invite->ownerUser->getAccount()->save(false);
+
+        UserService::logCorporateInviteMovementAdd(
+            'actionDeclineInvite',
+            $declineExplanation->invite->ownerUser->getAccount(),
+            $initValue
+        );
 
         $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;

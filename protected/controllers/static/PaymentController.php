@@ -130,8 +130,7 @@ class PaymentController extends SiteBaseController
             }
 
             // update account tariff
-            $user->getAccount()->setTariff($tariff);
-            $user->getAccount()->save();
+            $user->getAccount()->setTariff($tariff, true);
 
             if($user->getAccount()->tariff_id == $tariff->id) {
                 $this->redirect('/profile/corporate/tariff');

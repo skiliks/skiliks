@@ -23,12 +23,16 @@ class InviteExpiredCommand extends CConsoleCommand
         }
 
         /* @var $users UserAccountCorporate[] */
-        $users = UserAccountCorporate::model()->findAll("tariff_expired_at <= '".(new DateTime())->format("Y-m-d H:i:s")."'");
-        if(null !== $users){
+        $accounts = UserAccountCorporate::model()->findAll("tariff_expired_at <= '".(new DateTime())->format("Y-m-d H:i:s")."'");
+        if(null !== $accounts){
             /* @var $user UserAccountCorporate */
-            foreach($users as $user){
-                $user->invites_limit = 0;
-                $user->update();
+            foreach($accounts as $account){
+                $initValue = $account->invites_limit;
+
+                $account->invites_limit = 0;
+                $account->update();
+
+                UserService::logCorporateInviteMovementAdd('InviteExpiredCommand', $account, $initValue);
             }
         }
 

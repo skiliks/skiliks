@@ -429,8 +429,7 @@ class UserAuthController extends YumController
                     $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
                     // update account tariff
-                    $accountCorporate->setTariff($tariff);
-                    $accountCorporate->save();
+                    $accountCorporate->setTariff($tariff, true);
 
                     $this->user->refresh();
 
