@@ -24,7 +24,6 @@ class ActivityAggregated214dTable extends LogTable
             'Parent',
             'Grandparent',
             'Category',
-            'Keep last category',
             'Игровое время - start',
             'Игровое время - end',
             'Time diff'
@@ -47,7 +46,6 @@ class ActivityAggregated214dTable extends LogTable
             $row->activityAction->activity->parent,
             $row->activityAction->activity->grandparent,
             $row->activityAction->activity->category->code,
-            $row->is_keep_last_category === '0' ? 'yes' : '',
             $row->start_time,
             $row->end_time,
             $diff

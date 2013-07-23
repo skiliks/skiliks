@@ -7,7 +7,6 @@
  * @property integer $id
  * @property integer $activity_id
  * @property string $leg_type
- * @property integer $is_keep_last_category, 0 OR 1
  * @property integer $dialog_id
  * @property integer $mail_id
  * @property integer $document_id
