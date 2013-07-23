@@ -20,6 +20,8 @@
         <chmod file="./documents/zoho" mode="777" />
         <mkdir dir="./documents/user" />
         <chmod file="./documents/user" mode="777" />
+        <mkdir dir="./documents/socialcal_templates" />
+        <chmod file="./documents/socialcal_templates" mode="777" />
         <mkdir dir="./assets" />
         <chmod file="./assets" mode="777" />
         <mkdir dir="./protected/assets/compiled_css" />
