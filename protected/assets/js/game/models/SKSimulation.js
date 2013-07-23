@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
+/*global SKTodoCollection, SKDialogPanNotificationView, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
 
 var SKSimulation;
 
@@ -15,7 +15,8 @@ define([
     "game/collections/SKDayTaskCollection",
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
-    "game/collections/SKWindowSet"
+    "game/collections/SKWindowSet",
+    "game/views/SKDialogPanNotificationView"
 
 ],function (
     SKMailClient,
@@ -199,17 +200,19 @@ define([
             },
 
             showTaskNotification: function(task) {
-                var notification = new SKDialogView({
+                console.log('show task notification');
+                var notification = new SKDialogPanNotificationView({
                     'class': 'task-notification-dialog',
                     'message': '<span class="task-time">' + task.get('date') + '</span>' +
                                '<span class="task-description">' + task.get('title') + '</span>',
                     'modal': true,
-                    'buttons': []
+                    'buttons': [],
+                     addCloseButton: true
                 });
 
                 setTimeout(function() {
                     notification.remove();
-                }, 50000000);
+                }, 5000);
             },
 
             /**

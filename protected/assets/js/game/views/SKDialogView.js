@@ -24,8 +24,11 @@ define([
         isCloseWhenClickNotOnDialog: false,
 
         'events': {
-            'click .mail-popup-button': 'handleClick'
+            'click .mail-popup-button': 'handleClick',
+            'click .dialog-close': 'doDialogClose'
         },
+
+        addCloseButton: false,
 
         /**
          * Constructor
@@ -37,6 +40,11 @@ define([
                 this.options.buttons.forEach(function (button) {
                     button.id = _.uniqueId('button_');
                 });
+
+                if (undefined !== this.options.addCloseButton) {
+                    this.addCloseButton = this.options.addCloseButton;
+                }
+
                 this.render();
             } catch(exception) {
                 if (window.Raven) {
@@ -86,7 +94,8 @@ define([
                     cls: this.options.class,
                     title: this.options.message,
                     content: this.options.content,
-                    buttons: this.options.buttons
+                    buttons: this.options.buttons,
+                    addCloseButton: me.addCloseButton
                 }));
 
                 this.$el.css({
@@ -159,6 +168,11 @@ define([
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
+        },
+
+        doDialogClose: function() {
+            console.log('doDialogClose');
+            this.remove();
         }
     });
     return SKDialogView;
