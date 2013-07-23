@@ -833,6 +833,11 @@ define([
             doBlockingActions: function () {
                 try {
                     this.$('.phone, .door').addClass('icon-button-disabled');
+
+                    var meetingDoor = SKApp.simulation.window_set.where({subname: "meetingChoice"});
+                    if (meetingDoor.length !== 0) {
+                        meetingDoor[0].close();
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
