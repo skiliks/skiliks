@@ -137,11 +137,24 @@ class MyDocument extends CActiveRecord
      */
     public function getSheetList($filename = null)
     {
-        $filePath = $filename ?: $this->getFilePath();
+        if (null === $filename) {
+            $filePath = $this->getFilePath();
+            $template = str_replace(['.xls', '.xlsx'], ['.sc'], $this->getTemplateFilePath());
+            if (false === is_file($template)) {
+                throw new Exception('AAAA!');
+                $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
+                file_put_contents($template, serialize($scData));
+            }
+
+            file_put_contents($filePath, file_get_contents($template));
+        } else {
+            $filePath = $filename;
+        }
 
         if (is_file($filePath)) {
             $scData = unserialize(file_get_contents($filePath));
         } else {
+            throw new Exception('AAAASSSSS!');
             $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
             file_put_contents($filePath, serialize($scData));
         }
@@ -168,6 +181,14 @@ class MyDocument extends CActiveRecord
     public function getFilePath()
     {
         return __DIR__ . '/../../../documents/user/' . $this->uuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplateFilePath()
+    {
+        return __DIR__ . '/../../../documents/socialcal_templates/' . StringTools::CyToEn($this->fileName);
     }
 
     /**
