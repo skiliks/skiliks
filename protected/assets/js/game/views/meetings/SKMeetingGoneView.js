@@ -7,36 +7,45 @@
 var SKMeetingGoneView;
 
 define([
-    'game/views/SKWindowView'
+    'game/views/SKWindowView',
+
+    'text!game/jst/meeting/gone.jst'
 ], function (
-        SKWindowView
+        SKWindowView,
+
+        meeting_gone_tpl
     ) {
     "use strict";
 
     SKMeetingGoneView = SKWindowView.extend({
 
         'events':_.defaults({
-
+            'click .proceed-btn': 'doProceedWork'
         }, SKWindowView.prototype.events),
 
-        /*
-            We will not use any specific rendering, just instantiate standard dialog
-         */
-        'renderWindow': function (el) {
+        isDisplaySettingsButton: false,
+
+        isDisplayCloseWindowsButton: false,
+
+        title: 'Сообщение',
+
+        dimensions: {
+            width: 600,
+            height: 200
+        },
+
+        renderContent: function ($el) {
             var me = this,
                 subject = me.options.model_instance.get('subject');
 
-            me.dialog = new SKDialogView({
-                message: subject.get('description') + '. Это заняло ' + subject.get('duration') + ' мин',
-                buttons: [{
-                    id: 'ok',
-                    value: 'Продолжить работу',
-                    onclick: function() {
-                        me.options.model_instance.close();
-                        SKApp.simulation.stopPause();
-                    }
-                }]
-            });
+            $el.html(_.template(meeting_gone_tpl, {
+                'subject': subject
+            }));
+        },
+
+        doProceedWork: function() {
+            SKApp.simulation.stopPause();
+            this.options.model_instance.close();
         }
     });
 
