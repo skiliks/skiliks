@@ -15,7 +15,7 @@ class CheckConsolidatedBudgetUnitTest extends CDbTestCase
         /*
          * Проверка оценок по эталону
          */
-        $budgetPath = __DIR__ . '/files/D1.sc';
+        $budgetPath = __DIR__ . '/files/D1';
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
