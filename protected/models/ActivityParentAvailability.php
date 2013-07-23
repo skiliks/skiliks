@@ -10,6 +10,7 @@
  * @property string $category
  * @property string $available_at
  * @property string $import_id
+ * @property integer $is_keep_last_category
  */
 class ActivityParentAvailability extends CActiveRecord
 {

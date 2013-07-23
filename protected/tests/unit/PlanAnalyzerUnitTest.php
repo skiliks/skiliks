@@ -2142,4 +2142,15 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $pn = new PlanAnalyzer($simulation);
         $this->assertEquals([], $pn->logActivityActionsAggregatedGroupByParent);
     }
+
+    public function test214g0() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
+    }
 }

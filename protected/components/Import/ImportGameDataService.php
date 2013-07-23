@@ -570,7 +570,7 @@ class ImportGameDataService
 
         // load sheet {
         $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Parent_availability');
+        $sheet = $excel->getSheetByName('Parent_params');
 
         // load sheet }
         if (!$sheet) {
@@ -593,8 +593,9 @@ class ImportGameDataService
                 $entity->scenario_id = $this->scenario->getPrimaryKey();
             }
 
+            $keep_last_category = $this->getCellValue($sheet, 'Keep last category', $i);
             $entity->category = $this->getCellValue($sheet, 'Категория', $i);
-
+            $entity->is_keep_last_category = ($keep_last_category === 'yes')?1:0;
             $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
             $entity->import_id = $this->import_id;
 
@@ -2715,7 +2716,7 @@ class ImportGameDataService
             }
 
             $meeting->name = $this->getCellValue($sheet, 'Meeting_name', $i);
-            $meeting->label = $this->getCellValue($sheet, 'Meeting_text', $i);
+            $meeting->label = $this->getCellValue($sheet, 'Meeting_popup_text', $i);
             $meeting->duration = $this->getCellValue($sheet, 'Duration', $i);
 
             if ($taskCode) {
