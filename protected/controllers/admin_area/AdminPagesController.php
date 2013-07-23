@@ -278,7 +278,8 @@ class AdminPagesController extends SiteBaseController {
     /**
      *
      */
-    public function actionSimulations() {
+    public function actionSimulations()
+    {
         $invitesRawArray = Invite::model()->findAll();
         $invites = [];
         foreach ($invitesRawArray as $element) {
@@ -292,6 +293,50 @@ class AdminPagesController extends SiteBaseController {
                     'order' => 'id DESC'
                 ]),
             'invites'     => $invites,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionUsersList()
+    {
+        $this->pageTitle = 'Админка: Список пользователей';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/users_table', [
+            'profiles' => YumProfile::model()->findAll(),
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionCorporateAccountList()
+    {
+        $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/corporate_accounts_table', [
+            'accounts' => UserAccountCorporate::model()->findAll(),
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionCorporateAccountInviteLimitLogs()
+    {
+        $id = Yii::app()->request->getParam('id', null);
+
+        $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $id]);
+        $logs = LogAccountInvite::model()->findAllByAttributes([
+            'user_id' => Yii::app()->request->getParam('id', null),
+        ]);
+
+        $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/corporate_account_invite_limit_logs_table', [
+            'logs'    => $logs,
+            'account' => $account,
         ]);
     }
 }

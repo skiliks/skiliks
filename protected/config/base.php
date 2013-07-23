@@ -297,7 +297,9 @@ return array(
                 'admin_area/orders'            => 'admin_area/AdminPages/Orders',
                 'admin_area/order/checked'     => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked'   => 'admin_area/AdminPages/OrderUnchecked',
+                'admin_area/users'             => 'admin_area/AdminPages/UsersList',
 
+                'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
@@ -306,6 +308,8 @@ return array(
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
+
+                'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
