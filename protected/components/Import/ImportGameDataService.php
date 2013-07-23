@@ -2331,8 +2331,6 @@ class ImportGameDataService
                 $activityAction->scenario_id = $this->scenario->primaryKey;
                 $activityAction->activity_id = $activity->id;
                 $activityAction->leg_type = $leg_type;
-                $activityAction->is_keep_last_category =
-                    $sheet->getCellByColumnAndRow($this->columnNoByName['Keep last category'], $i->key())->getValue();
                 $activityAction->$type = ($value !== null ? $value->primaryKey : null);
                 if (!$activityAction->validate()) {
                     $this->errors = $activityAction->getErrors();

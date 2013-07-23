@@ -125,7 +125,6 @@ class PlanAnalyzer {
                     'start_time' => $logItem->start_time,
                     'end_time' => $logItem->end_time,
                     'duration' => $logItem->duration,
-                    'is_keep_last_category' => $logItem->is_keep_last_category,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
@@ -148,7 +147,6 @@ class PlanAnalyzer {
             $var_214d->start_time = $log['start_time'];
             $var_214d->end_time = $log['end_time'];
             $var_214d->duration = $log['duration'];
-            $var_214d->is_keep_last_category = $log['is_keep_last_category'];
             $var_214d->save();
         }
     }

@@ -546,7 +546,6 @@ class LogHelper
                 $aggregatedActivity->activityAction =        $activityAction->activityAction;
                 $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
                 $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
-                $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
                 $aggregatedActivity->start_time =            $activityAction->start_time;
                 $aggregatedActivity->end_time =              $activityAction->end_time;
 
@@ -615,7 +614,6 @@ class LogHelper
                     $aggregatedActivity->activityAction =        $activityAction->activityAction;
                     $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
                     $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
-                    $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
                     $aggregatedActivity->start_time =            $activityAction->start_time;
                     $aggregatedActivity->end_time =              $activityAction->end_time;
                     $aggregatedActivity->duration =              $diff_time;

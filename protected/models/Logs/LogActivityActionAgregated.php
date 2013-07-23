@@ -10,7 +10,6 @@
  * @property string $leg_action
  * @property integer $activity_action_id
  * @property string $category
- * @property integer $is_keep_last_category
  *
  * @property Simulation $simulation
  * @property ActivityAction $activityAction

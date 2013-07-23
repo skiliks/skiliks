@@ -1076,7 +1076,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:45:02';
         $log->end_time              = '09:45:33';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 1 }
 
@@ -1116,7 +1115,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:47:54';
         $log->end_time              = '09:51:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 3 }
 
@@ -1141,7 +1139,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:51:57';
         $log->end_time              = '10:01:27';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 4 }
 
@@ -1164,7 +1161,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:01:28';
         $log->end_time              = '10:03:46';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 5 }
 
@@ -1187,7 +1183,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:09:50';
         $log->end_time              = '10:10:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
 
@@ -1210,7 +1205,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:10:57';
         $log->end_time              = '10:12:28';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 7 }
 
@@ -1233,7 +1227,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:12:28';
         $log->end_time              = '10:14:43';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 8 }
 
@@ -1254,7 +1247,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:14:43';
         $log->end_time              = '10:19:22';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 9 }
 
@@ -1277,7 +1269,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:19:22';
         $log->end_time              = '10:24:44';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 10 }
 
@@ -1300,7 +1291,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:24:44';
         $log->end_time              = '10:27:17';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 11 }
 
@@ -1323,7 +1313,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:27:17';
         $log->end_time              = '10:28:41';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 12 }
 
@@ -1346,7 +1335,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:28:41';
         $log->end_time              = '10:33:54';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 13 }
 
@@ -1367,7 +1355,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:33:54';
         $log->end_time              = '11:33:58';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 14 }
 
@@ -1390,7 +1377,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:33:58';
         $log->end_time              = '11:36:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 15 }
 
@@ -1413,7 +1399,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:36:22';
         $log->end_time              = '11:38:24';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 16 }
 
@@ -1436,7 +1421,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:38:24';
         $log->end_time              = '11:39:47';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 17 }
 
@@ -1459,7 +1443,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:39:48';
         $log->end_time              = '11:45:14';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 18 }
 
@@ -1482,7 +1465,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:45:14';
         $log->end_time              = '11:49:07';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 19 }
 
@@ -1503,7 +1485,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:49:07';
         $log->end_time              = '12:06:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 20 }
 
@@ -1526,7 +1507,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:06:57';
         $log->end_time              = '12:10:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 21 }
 
@@ -1547,7 +1527,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:10:55';
         $log->end_time              = '12:35:25';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 22 }
 
@@ -1569,7 +1548,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:35:25';
         $log->end_time              = '12:36:15';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 23 }
 
@@ -1591,7 +1569,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:36:15';
         $log->end_time              = '12:39:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 24 }
 
@@ -1613,7 +1590,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:39:21';
         $log->end_time              = '12:39:36';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 25 }
 
@@ -1635,7 +1611,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:39:36';
         $log->end_time              = '12:42:40';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 26 }
 
@@ -1657,7 +1632,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:42:40';
         $log->end_time              = '12:43:11';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 27 }
 
@@ -1679,7 +1653,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:43:11';
         $log->end_time              = '12:46:02';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 28 }
 
@@ -1701,7 +1674,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:46:02';
         $log->end_time              = '13:01:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 29 }
 
@@ -1943,7 +1915,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:09:33';
         $log->end_time              = '12:10:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 4 {
@@ -1963,7 +1934,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 6 {
@@ -1983,7 +1953,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:26:15';
         $log->end_time              = '12:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
@@ -2022,7 +1991,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 6 {
@@ -2042,7 +2010,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '15:26:15';
         $log->end_time              = '15:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
@@ -2085,7 +2052,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         //--- mail M8 {
@@ -2105,7 +2071,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:00:15';
         $log->end_time              = '11:02:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         $logMail = new LogMail();
@@ -2134,7 +2099,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:00:15';
         $log->end_time              = '10:02:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
@@ -2172,7 +2136,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:26:15';
         $log->end_time              = '12:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
