@@ -291,7 +291,7 @@ define([
 
                 setTimeout(function() {
                     notification.remove();
-                }, 5000);
+                }, 50000000);
             },
 
             /**
