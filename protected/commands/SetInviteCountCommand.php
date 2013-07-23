@@ -23,9 +23,14 @@ class SetInviteCountCommand extends CConsoleCommand
 
         /** @var UserAccountCorporate $account */
         $account = $profile->user->account_corporate;
+
+        $initValue = $account->invites_limit;
+
         $account->invites_limit += $add;
         $account->invites_limit -= $remove;
         $result = $account->save(false);
+
+        UserService::logCorporateInviteMovementAdd('SetInviteCountCommand', $account, $initValue);
 
         echo $result ? 'Success' : 'Fail';
         return $result === true ? 0 : 1;
