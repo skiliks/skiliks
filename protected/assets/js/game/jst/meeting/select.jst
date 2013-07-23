@@ -2,13 +2,15 @@
     <section class="meeting-list">
         <div class="open-door"></div>
         <header>
-            <div class="btn-window"><button class="btn-cl win-close">&nbsp;</button></div>
+            <ul class="btn-window"><li><button class="btn-cl win-close">&nbsp;</button></li></ul>
         </header>
-        <ul>
-            <li class="meeting-subject">Some text</li>
-            <@ subjects.each(function(subject) { @>
-            <li class="meeting-subject" data-subject-id="<@= subject.get('id') @>"><@= subject.get('label') @></li>
-            <@ }) @>
-        </ul>
+        <div class="meeting-content">
+            <ul>
+                <li class="meeting-subject">Some text</li>
+                <@ subjects.each(function(subject) { @>
+                <li class="meeting-subject" data-subject-id="<@= subject.get('id') @>"><@= subject.get('label') @></li>
+                <@ }) @>
+            </ul>
+        </div>
     </section>
 </div>
