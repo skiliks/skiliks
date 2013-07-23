@@ -685,7 +685,7 @@ define([
         showHint:function($task) {
             var position = $task.position();
             console.log(position);
-            var title = $task.find('.title').text();
+            var title = $task.parent('td').attr('title');
             if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                 $('.plan_hint_tooltip').remove();
             }
