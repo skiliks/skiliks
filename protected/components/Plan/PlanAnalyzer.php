@@ -369,7 +369,9 @@ class PlanAnalyzer {
             }
         }
 
-        if ($todo_count/count($this->tasksOn11) <= 0.15 ) {
+        $total = count($this->tasksOn11);
+        $total = (0 < $total) ? $total : 1;
+        if ($todo_count/$total <= 0.15 ) {
             $value = $behaviour->scale;
         } else {
             $value = 0;
@@ -439,7 +441,9 @@ class PlanAnalyzer {
             }
         }
 
-        if ($todo_count/count($this->tasksOn18) <= 0.15) {
+        $total = count($this->tasksOn18);
+        $total = (0 < $total) ? $total : 1;
+        if ($todo_count/$total <= 0.15) {
             $value = $behaviour->scale;
         } else {
             $value = 0;
