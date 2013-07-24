@@ -27,7 +27,7 @@ define([
 
         isDisplayCloseWindowsButton: false,
 
-        title: 'Сообщение',
+        title: 'Системное сообщение',
 
         dimensions: {
             width: 600,
