@@ -14,6 +14,16 @@ class SiteBaseController extends CController {
      */
     protected function beforeAction($action)
     {
+        if(Yii::app()->params['disableAssets']) {
+            /* @var CAssetManager $manager */
+            $manager = Yii::app()->getAssetManager();
+            $manager->setBasePath('');
+            $manager->setBaseUrl('');
+
+            /* @var CClientScript $script_manager */
+            $script_manager = Yii::app()->getClientScript();
+            $script_manager->setCoreScriptUrl('/framework/web/js/source');
+        }
         $allowed = Yii::app()->params['allowedLanguages'];
         $pageId = $action->getController()->getRoute();
         $request = Yii::app()->request;
@@ -44,14 +54,6 @@ class SiteBaseController extends CController {
     public function getAssetsUrl()
     {
         if(Yii::app()->params['disableAssets']) {
-            /* @var CAssetManager $manager */
-            $manager = Yii::app()->getAssetManager();
-            $manager->setBasePath('');
-            $manager->setBaseUrl('');
-
-            /* @var CClientScript $script_manager */
-            $script_manager = Yii::app()->getClientScript();
-            $script_manager->setCoreScriptUrl('');
             return '/protected/assets';
         } else {
             return Yii::app()->getAssetManager()
