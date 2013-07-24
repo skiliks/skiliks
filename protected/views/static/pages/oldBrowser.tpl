@@ -8,7 +8,7 @@
         </span>
         <span class="or">или </span>
         <span class="firefox">
-            Mozilla Firefox 21
+            Mozilla Firefox 18
             <div class="ico"></div><a href="http://www.mozilla.org/firefox/new/" target="_blank">Установить</a>
         </span>
     </div>
