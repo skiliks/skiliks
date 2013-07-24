@@ -831,6 +831,7 @@ body {
     font-family: "orbi_sansregular";
     font-size:24px;
     line-height: 120%;
+    margin-bottom: 35px;
     padding-left: 85px;
   }
 }
@@ -844,6 +845,17 @@ body {
   line-height:47px;
   text-transform:uppercase;
   text-shadow:rgba(0,0,0,0.35) 1px 1px 0;
-  padding:31px;
+  padding-right:31px;
   cursor:pointer;
+
+  div {
+    background:url("../img/mail/btn-mail.png") no-repeat 0 0;
+    padding-left:31px;
+  }
+  & > div:hover {
+    background-position:right -141px;
+    div {
+      background-position:0 -94px;
+    }
+  }
 }
