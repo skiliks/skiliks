@@ -723,6 +723,8 @@ class SimulationService
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $simulation->id);
 
+        $simulation->saveLogsAsExcel();
+
         self::logAboutSim($simulation, 'sim stop: assessment calculated');
     }
 
@@ -923,6 +925,7 @@ class SimulationService
     }
 
     /**
+     * Лог про действия над симуляцией: типа начата, закончена, показано сообщение в 18-00...
      * @param Simulation $simulation
      * @param string $action
      */

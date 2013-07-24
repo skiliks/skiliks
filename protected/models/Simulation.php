@@ -1,5 +1,7 @@
 <?php
 
+use application\components\Logging\LogTableList as LogTableList;
+
 /**
  * Модель симуляции.
  *
@@ -64,6 +66,24 @@ class Simulation extends CActiveRecord
         return ($this->mode == self::MODE_PROMO_ID) ? self::MODE_PROMO_LABEL : self::MODE_DEVELOPER_LABEL;
     }
 
+    public function saveLogsAsExcel($isConsoleCall = false)
+    {
+        $logTableList = new LogTableList($this);
+        $excelWriter = $logTableList->asExcel();
+        $excelWriter->save($this->getLogFilename($this->id));
+
+        if ($isConsoleCall) {
+            // just console notification
+            echo $this->getFilename($this->id)."- stored \r\n";
+        }
+
+        return true;
+    }
+
+    public function getLogFileName()
+    {
+        return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $this->id);
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
