@@ -12,7 +12,7 @@
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
         <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки <span class="signmore"></span></a></h2></div>
-        <div class="widthblock"><h2><a href="#productivity">Результативность<span class="signmore"></span></h2></a></div>
+        <div class="widthblock widthshort"><h2><a href="#productivity">Результативность<span class="signmore"></span></h2></a></div>
         <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
 </div>
@@ -20,14 +20,11 @@
     <div class="gauge-charts">
 
     </div>
-    <div class="static-bullet-charts"><!-- bullet-charts -->
-
-    </div>
 </div>
 
 <div class="levellabels">
     <div class="widthblock"><h3>Уровень владения навыками </h3></div>
-    <div class="widthblock"><h3>Уровень достижения результатов: количество и значимость выполненных задач</h3></div>
+    <div class="widthblock widthshort"><h3>Уровень достижения результатов: количество и значимость выполненных задач</h3></div>
     <div class="widthblock"><h3>Затраченное время на выполнение задач</h3></div>
 </div>
 <div class="rateslist">
@@ -38,7 +35,7 @@
             <li><a href="#managerial-skills-3-4" data-parent="managerial-skills">Управление коммуникациями</a></li>
         </ol>
     </div>
-    <div class="widthblock"><h3>ПОКАЗАТЕЛИ</h3>
+    <div class="widthblock widthshort"><h3>ПОКАЗАТЕЛИ</h3>
         <ul class="bluelist nobultslist">
             <li><a href="#productivity" data-parent="time-management">Результативность</a></li>
         </ul>
