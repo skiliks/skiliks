@@ -43,12 +43,25 @@ class SiteBaseController extends CController {
 
     public function getAssetsUrl()
     {
-        return Yii::app()->getAssetManager()
-            ->publish(
-                Yii::getPathOfAlias('application.assets'),
-                false,
-                -1
-            );
+        if(Yii::app()->params['disableAssets']) {
+            /* @var CAssetManager $manager */
+            $manager = Yii::app()->getAssetManager();
+            $manager->setBasePath('');
+            $manager->setBaseUrl('');
+
+            /* @var CClientScript $script_manager */
+            $script_manager = Yii::app()->getClientScript();
+            $script_manager->setCoreScriptUrl('');
+            return '/protected/assets';
+        } else {
+            return Yii::app()->getAssetManager()
+                ->publish(
+                    Yii::getPathOfAlias('application.assets'),
+                    false,
+                    -1
+                );
+        }
+
     }
 
     /**
