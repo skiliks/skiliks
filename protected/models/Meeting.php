@@ -7,7 +7,8 @@
  * @property integer $id
  * @property string $code
  * @property string $name
- * @property string $label
+ * @property string $icon_text
+ * @property string $popup_text
  * @property integer $duration
  * @property integer $task_id
  * @property string $import_id
@@ -54,10 +55,10 @@ class Meeting extends CActiveRecord implements IGameAction
 			array('code', 'length', 'max'=>10),
 			array('name', 'length', 'max'=>100),
 			array('import_id', 'length', 'max'=>14),
-			array('label', 'safe'),
+			array('icon_text, popup_text', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, code, name, label, duration, task_id, import_id, scenario_id', 'safe', 'on'=>'search'),
+			array('id, code, name, icon_text, popup_text, duration, task_id, import_id, scenario_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -82,7 +83,8 @@ class Meeting extends CActiveRecord implements IGameAction
 			'id' => 'ID',
 			'code' => 'Code',
 			'name' => 'Name',
-			'label' => 'Label',
+			'icon_text' => 'Icon Text',
+			'popup_text' => 'Popup Text',
 			'duration' => 'Duration',
 			'task_id' => 'Task',
 			'import_id' => 'Import',
@@ -104,7 +106,8 @@ class Meeting extends CActiveRecord implements IGameAction
 		$criteria->compare('id',$this->id);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('icon_text',$this->icon_text,true);
+		$criteria->compare('popup_text',$this->popup_text,true);
 		$criteria->compare('duration',$this->duration);
 		$criteria->compare('task_id',$this->task_id);
 		$criteria->compare('import_id',$this->import_id,true);
