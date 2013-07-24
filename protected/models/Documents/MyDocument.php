@@ -178,7 +178,7 @@ class MyDocument extends CActiveRecord
      */
     public function getFilePath()
     {
-        return __DIR__ . '/../../../documents/user/' . $this->uuid;
+        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn($this->fileName);
     }
 
     /**
