@@ -99,8 +99,7 @@ define([
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
-                'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
-                'click #MailClient_ContentBlock .mail-tags-bl td': 'doAddPhraseToEmail',
+                'click #MailClient_ContentBlock .mail-tags-bl td':    'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
             }, SKWindowView.prototype.events),
 
@@ -1942,7 +1941,15 @@ define([
              */
             doAddPhraseToEmail: function (event) {
                 try {
+                    var me = this;
+
                     event.preventDefault();
+
+                    if (this.blockPhraseMoving) {
+                        return;
+                    }
+
+                    this.blockPhraseMoving = true;
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
 
                     if (undefined === phrase) {
@@ -1961,6 +1968,10 @@ define([
 
                     // render updated state
                     this.renderAddPhraseToEmail(phraseToAdd);
+
+                    setTimeout(function() {
+                        delete me.blockPhraseMoving;
+                    }, 400);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1996,7 +2007,15 @@ define([
              */
             doRemovePhraseFromEmail: function (event) {
                 try {
+                    var me = this;
+
                     event.preventDefault();
+
+                    if (this.blockPhraseMoving) {
+                        return;
+                    }
+
+                    this.blockPhraseMoving = true;
                     var phrase = this.mailClient.getUsedPhraseByUid($(event.currentTarget).data('uid'));
 
                     if (undefined === phrase) {
@@ -2015,6 +2034,10 @@ define([
                             phrases.splice(i, 1);
                         }
                     }
+
+                    setTimeout(function() {
+                        delete me.blockPhraseMoving;
+                    }, 400);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
