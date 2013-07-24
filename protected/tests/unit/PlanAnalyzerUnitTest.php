@@ -2150,7 +2150,110 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214g0']);
 
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals('0', $assessment->value);
+
+        $this->addLog($simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'11:01:48',
+            'end_time'=>'11:22:26'
+        ]);
+        $this->addLog($simulation, [
+            'parent' => 'ARS3',
+            'start_time'=>'11:22:26',
+            'end_time'=>'11:31:37'
+        ]);
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals($behaviour->scale, $assessment->value);
+
+        $this->addLog($simulation, [
+            'parent' => 'ARS3',
+            'start_time'=>'11:31:37',
+            'end_time'=>'11:56:00'
+        ]);
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals((2*$behaviour->scale), $assessment->value);
+        $this->addLog($simulation, [
+            'parent' => 'ARS2',
+            'start_time'=>'11:56:00',
+            'end_time'=>'11:57:26'
+        ]);
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals((2*$behaviour->scale), $assessment->value);
+        $this->addLog($simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'11:57:26',
+            'end_time'=>'12:11:56'
+        ]);
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals((2*$behaviour->scale), $assessment->value);
+        $this->addLog($simulation, [
+            'parent' => 'ARS2',
+            'start_time'=>'12:11:56',
+            'end_time'=>'12:41:00'
+        ]);
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals((3*$behaviour->scale), $assessment->value);
+        $this->addLog($simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'12:41:00',
+            'end_time'=>'12:45:56'
+        ], true);
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals((3*$behaviour->scale), $assessment->value);
+        $this->addLog($simulation, [
+            'parent' => 'ARS3',
+            'start_time'=>'12:45:56',
+            'end_time'=>'14:31:37'
+        ]);
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals(3*$behaviour->scale, $assessment->value);
 
     }
+
+    public function addLog(Simulation $simulation, $log, $is_ending=false) {
+        $parent = $simulation->game_type->getActivityParentAvailability(['code'=>$log['parent']]);
+        $var_214d = new LogActivityActionAgregated214d();
+        $var_214d->sim_id = $simulation->id;
+        $var_214d->leg_type = null;
+        $var_214d->leg_action = null;
+        $var_214d->activity_action_id = null;
+        $var_214d->category = $parent->category;
+        $var_214d->parent = $log['parent'];
+        $var_214d->start_time = $log['start_time'];
+        $var_214d->end_time = $log['end_time'];
+        $var_214d->duration = '00:00:00';
+        $var_214d->save();
+
+        if($is_ending) {
+            $sim_log = new SimulationCompletedParent();
+            $sim_log->sim_id = $simulation->id;
+            $sim_log->parent_code = $log['parent'];
+            $sim_log->end_time = $log['end_time'];
+            $sim_log->save();
+        }
+    }
+
 }

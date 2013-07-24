@@ -397,6 +397,19 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getActivityParentsAvailability($data = [])
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return ActivityParentAvailability::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return ActivityParentAvailability::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
     // --------------------------------------------------------------------------------------------------------------
 
 	/**

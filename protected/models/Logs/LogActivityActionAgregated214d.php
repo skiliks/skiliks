@@ -13,6 +13,7 @@
  * @property string $start_time
  * @property string $end_time
  * @property string $duration
+ * @property string $parent
  *
  * The followings are the available model relations:
  * @property Simulation $simulation

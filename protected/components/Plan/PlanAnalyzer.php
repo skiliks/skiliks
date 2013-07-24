@@ -27,6 +27,12 @@ class PlanAnalyzer {
 
     public $logActivityActionsAggregatedGroupByParent = [];
 
+    public $logAggregated214d = [];
+
+    public $parents_keep_last_category = [];
+
+    public $parents_ending_time = [];
+
     /**
      * @param Simulation $simulation
      */
@@ -121,6 +127,7 @@ class PlanAnalyzer {
                     'leg_type' => $logItem->leg_type,
                     'leg_action' => $logItem->leg_action,
                     'activity_action_id' => $logItem->activity_action_id,
+                    'parent' => $logItem->activityAction->activity->parent,
                     'category' => $logItem->category,
                     'start_time' => $logItem->start_time,
                     'end_time' => $logItem->end_time,
@@ -147,7 +154,24 @@ class PlanAnalyzer {
             $var_214d->start_time = $log['start_time'];
             $var_214d->end_time = $log['end_time'];
             $var_214d->duration = $log['duration'];
+            $var_214d->parent = $log['parent'];
             $var_214d->save();
+        }
+
+        $this->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $parents = $simulation->game_type->getActivityParentsAvailability();
+
+        /* @var $parent ActivityParentAvailability */
+        foreach($parents as $parent){
+            $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?true:false;
+        }
+
+        $parents_ending = SimulationCompletedParent::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+
+        /* @var $sim_log SimulationCompletedParent */
+        foreach($parents_ending as $sim_log) {
+            $this->parents_ending_time[$sim_log->parent_code] = $sim_log->end_time;
         }
     }
 
@@ -278,6 +302,9 @@ class PlanAnalyzer {
         $this->check_214d5_6_8('214d5', 0, [4,5]);
         $this->check_214d5_6_8('214d6', 1, [4,5]);
         $this->check_214d5_6_8('214d8', 2, [4,5]);
+
+        $this->check_214g('214g0', ['0']);
+        $this->check_214g('214g1', ['0', '1']);
     }
 
     /*
@@ -940,5 +967,51 @@ class PlanAnalyzer {
         $assessmentCalculation->point_id = $behaviour->id;
         $assessmentCalculation->value    = $behaviour->scale * count($wrongActions);
         $assessmentCalculation->save();
+    }
+
+    public function check_214g($code, $categories) {
+
+        /* @var $behaviour HeroBehaviour */
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>$code]);
+        $value = 0;
+        if ($behaviour === null) {
+            return;
+        }
+        $in_work = [];
+        /* @var $log LogActivityActionAgregated214d */
+        foreach($this->logAggregated214d as $log) {
+            $parent = $log->parent;
+            if(in_array($log->category, $categories)) {
+
+                if(!in_array($parent, $in_work)){
+                    $in_work[] = $parent;
+                }else{
+                    if(isset($this->parents_ending_time[$parent]) && $this->parents_ending_time[$parent] === $log->end_time){
+                        $key = array_search($parent, $in_work);
+                        unset($in_work[$key]);
+                    }
+                }
+            }else{
+                if(!empty($in_work)) {
+                    if($this->parents_keep_last_category[$parent]) {
+                        if((Yii::app()->params['keep_last_category_time_214g']/60*Yii::app()->params['public']['skiliksSpeedFactor']) <=
+                            ((strtotime($log->end_time) - strtotime($log->start_time))/60)) {
+                            $value += (float)$behaviour->scale;
+                        }
+                    }else{
+                        $value += (float)$behaviour->scale;
+                    }
+                }
+            }
+        }
+
+        $assessment_calculation = AssessmentCalculation::model()->findByAttributes(['sim_id' => $this->simulation->id, 'point_id' => $behaviour->id]);
+        if(null === $assessment_calculation){
+            $assessment_calculation = new AssessmentCalculation();
+            $assessment_calculation->point_id = $behaviour->id;
+            $assessment_calculation->sim_id = $this->simulation->id;
+        }
+        $assessment_calculation->value = $value;
+        $assessment_calculation->save();
     }
 }

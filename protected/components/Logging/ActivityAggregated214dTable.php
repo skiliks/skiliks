@@ -31,7 +31,7 @@ class ActivityAggregated214dTable extends LogTable
     }
 
     /**
-     * @param \LogActivityActionAgregated $row
+     * @param \LogActivityActionAgregated214d $row
      * @return array
      */
     protected function getRow($row)
@@ -43,7 +43,7 @@ class ActivityAggregated214dTable extends LogTable
             $row->leg_type,
             $row->leg_action,
             $row->activityAction->activity->code,
-            $row->activityAction->activity->parent,
+            $row->parent,
             $row->activityAction->activity->grandparent,
             $row->activityAction->activity->category->code,
             $row->start_time,
