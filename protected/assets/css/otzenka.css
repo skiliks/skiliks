@@ -147,7 +147,7 @@
     height:124px;
 }
 .allsummry {
-    background: url("../img/resultlines.png") no-repeat 70px 26px;
+    background: url("../img/resultlines-new.png") no-repeat 70px 26px;
 }
 .allseprtwrap {
     position: relative;
@@ -213,7 +213,7 @@
     display: table-cell;
     margin:0px;
     padding: 0px;
-    width:240px;
+    width:260px;
 }
 .product .widthblock, .product-gauge-charts .chart-gauge {
     width: 237px;
