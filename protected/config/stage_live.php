@@ -4,9 +4,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks_sc',
+            'connectionString' => 'mysql:host=localhost;dbname=skiliks_live',
             'emulatePrepare' => true,
-            'username' => 'skiliks_sc',
+            'username' => 'skiliks_live',
             'password' => 'dep-vep-eb-up-a',
             'charset' => 'utf8',
 
