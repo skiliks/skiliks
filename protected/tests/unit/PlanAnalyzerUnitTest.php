@@ -189,6 +189,8 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             $log->update(false, ['day']);
         }
 
+        $log->update(true, ['day']);
+
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214a3();
 
@@ -309,6 +311,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             $log->day = DayPlanLog::TODAY;
             $log->update(false, ['day']);
         }
+        $log->update(true, ['day']);
 
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214a5();

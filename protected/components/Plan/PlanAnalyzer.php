@@ -369,7 +369,7 @@ class PlanAnalyzer {
             }
         }
 
-        if (0 === $todo_count) {
+        if ($todo_count/count($this->tasksOn11) <= 0.15 ) {
             $value = $behaviour->scale;
         } else {
             $value = 0;
@@ -439,7 +439,7 @@ class PlanAnalyzer {
             }
         }
 
-        if (0 === $todo_count) {
+        if ($todo_count/count($this->tasksOn18) <= 0.15) {
             $value = $behaviour->scale;
         } else {
             $value = 0;
