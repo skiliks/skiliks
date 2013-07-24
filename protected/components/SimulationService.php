@@ -672,7 +672,7 @@ class SimulationService
             }
         }
 
-        // Make agregated activity log 
+        // Make aggregated activity log
         LogHelper::combineLogActivityAgregated($simulation);
 
         // Calculate and save Time Management assessments
@@ -726,6 +726,17 @@ class SimulationService
         $simulation->saveLogsAsExcel();
 
         self::logAboutSim($simulation, 'sim stop: assessment calculated');
+
+        // remove all files except D1 - Сводный бюджет 2013 {
+        $docs = MyDocument::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+        foreach ($docs as $document) {
+            if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
+                unlink($document->getFilePath());
+            }
+        }
+        // remove all files except D1 }
     }
 
     /**
