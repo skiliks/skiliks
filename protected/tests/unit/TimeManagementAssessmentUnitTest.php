@@ -40,9 +40,9 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->activity_action_id = $activity_action_d1->id;
         $log->activityAction = $activity_action_d1;
         $log->category = $activity_d1->category->code;
-        $log->start_time = '09:45:00';
+        $log->start_time = '09:15:00';
         $log->end_time = '10:00:00';
-        $log->duration = '00:15:00';
+        $log->duration = '00:45:00';
         $log->save();
         // log1, 1st priority doc }
 
@@ -323,25 +323,25 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            41.00, // %
+            52.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            30.00, // %
+            24.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            29.00, // %
+            24.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
 
         $this->assertEquals(
-            15, // min
+            45, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
@@ -371,7 +371,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            15, // min
+            45, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
@@ -414,7 +414,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            25.00, // 40.00 * 0.6
+            23.00, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
