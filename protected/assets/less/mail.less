@@ -1106,9 +1106,10 @@ section.mail.new {
   padding:14px 0 0 19px;
 }
 .popup-greybg {
-  background:url("../img/mail/planner_book_gray.png") no-repeat left bottom;
+  background:url("../img/planner/planner_book_gray.png") no-repeat left bottom;
   height:36px;
   line-height: 36px;
+  position: relative;
 }
 .font-xxlarge {
   font-size: 18px;
@@ -1127,6 +1128,14 @@ section.mail.new {
     border-bottom: 1px solid #000;
   }
   h2 {
+  }
+  .task-time {
+    font-size: 18px;
+    padding-right: 8px;
+  }
+  .task-time, .task-description {
+    display:table-cell;
+    vertical-align: middle;
   }
 }
 .tutorial-popup {
