@@ -831,13 +831,16 @@ body {
 
   .gone-clock, .gone-text {
     display:table-cell;
-    min-height: 56px;
     vertical-align: middle;
   }
 
   .gone-clock {
     background: url(../img/main-screen/clock-gone.png) no-repeat left center;
     width:85px;
+
+    div {
+      min-height: 56px;
+    }
   }
   .gone-text {
     font-family: "orbi_sansregular";
