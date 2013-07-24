@@ -246,9 +246,10 @@ class LogHelper
 
                         if ($result['full'] !== null && $result['full'] !== '-') {
                             $template = $simulation->game_type->getMailTemplate(['code' => $result['full']]);
+                            /* @var $parent_action ActivityParent */
                             foreach ($template->termination_parent_actions as $parent_action) {
                                 if (!$parent_action->isTerminatedInSimulation($simulation)) {
-                                    $parent_action->terminateInSimulation($simulation);
+                                    $parent_action->terminateInSimulation($simulation, gmdate("H:i:s", $log[3]));
                                 }
                             };
                         }

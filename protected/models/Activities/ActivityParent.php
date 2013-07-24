@@ -28,11 +28,12 @@ class ActivityParent extends CActiveRecord
      * Terminates parent activity in given simulation
      * @param $simulation Simulation
      */
-    public function terminateInSimulation($simulation)
+    public function terminateInSimulation($simulation, $end_time)
     {
         $simulationCompletedParent = new SimulationCompletedParent();
         $simulationCompletedParent->sim_id = $simulation->primaryKey;
         $simulationCompletedParent->parent_code = $this->parent_code;
+        $simulationCompletedParent->end_time = $end_time;
         $simulationCompletedParent->save();
     }
 

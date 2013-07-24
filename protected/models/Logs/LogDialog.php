@@ -51,7 +51,7 @@ class LogDialog extends CActiveRecord
         if ($this->getLastReplica()) {
             foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
                 if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
-                    $parentAction->terminateInSimulation($this->simulation);
+                    $parentAction->terminateInSimulation($this->simulation, $this->end_time);
                 }
             };
         }
