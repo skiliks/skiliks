@@ -1,4 +1,4 @@
-/* global define, $, _, SKApp */
+/* global define, $, _, SKApp, AppView */
 
 /**
  * @class SKMeetingGoneView
@@ -34,9 +34,16 @@ define([
             height: 200
         },
 
+        initialize: function() {
+            this.listenTo(this.options.model_instance, 'close', function() {
+                AppView.frame._hidePausedScreen();
+            });
+
+            SKWindowView.prototype.initialize.call(this);
+        },
+
         renderContent: function ($el) {
-            var me = this,
-                subject = me.options.model_instance.get('subject'),
+            var subject = this.options.model_instance.get('subject'),
                 time;
 
             time = SKApp.simulation.getGameMinutes() + parseInt(subject.get('duration'), 10);
@@ -46,6 +53,9 @@ define([
                 'subject': subject,
                 'returnTime': time
             }));
+
+            AppView.frame._showPausedScreen();
+            this.$el.topZIndex();
         },
 
         doProceedWork: function(e) {

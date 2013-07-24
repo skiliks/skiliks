@@ -1,4 +1,4 @@
-/* global define, $, _, SKApp */
+/* global define, $, _, SKApp, AppView */
 
 /**
  * @class SKMeetingView
@@ -27,17 +27,28 @@ define([
             'click .meeting-subject': 'leave'
         }, SKWindowView.prototype.events),
 
+        initialize: function() {
+            this.listenTo(this.options.model_instance, 'close', function() {
+                AppView.frame._hidePausedScreen();
+            });
+
+            SKWindowView.prototype.initialize.call(this);
+        },
+
         'renderWindow': function (el) {
             var me = this;
 
-            this.subjects = new SKMeetingSubjectCollection();
-            this.subjects.fetch();
+            me.subjects = new SKMeetingSubjectCollection();
+            me.subjects.fetch();
 
-            this.subjects.on('reset', function () {
+            me.subjects.on('reset', function () {
                 el.html(_.template(meetingChooseTpl, {
                     'subjects': me.subjects
                 }));
             });
+
+            AppView.frame._showPausedScreen();
+            me.$el.topZIndex()
         },
 
         'leave': function (e) {
