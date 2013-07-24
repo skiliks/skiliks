@@ -212,7 +212,7 @@ define([
 
                 setTimeout(function() {
                     notification.remove();
-                }, 500000000);
+                }, 50000);
             },
 
             /**
