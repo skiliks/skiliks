@@ -12,7 +12,7 @@ class Budget_SK3445_Test extends SeleniumTestHelper
     {
         $this->start_simulation();
 
-        /*$this->clearEventQueueBeforeEleven('RST1');
+        $this->clearEventQueueBeforeEleven('RST1');
 
         $this->run_event('T3.1',"xpath=(//*[contains(text(),'Егор, приветствую')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, но у тебя не больше пяти минут')])");
@@ -34,16 +34,48 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(), 'новый бюджет по производству')])");
         $this->optimal_click("css=.save-attachment-icon");
         $this->optimal_click("css=.mail-popup-button");
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['documents']);
-        sleep(5);
+
+        $this->click(Yii::app()->params['test_mappings']['icons']['close']);
 
         //начинаем работу с документами
-        $this->doubleClick("xpath=//*[@id='Бюджет производства_2013_утв.xls']/div[1]/div");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['documents']);
         sleep(5);
-        $this->waitForElementPresent("css=#cell_B7");
-        $this->optimal_click("css=#cell_B7");
-        $this->keyDownNative("16");
-        $this->optimal_click("css=#cell_M14");
+        $this->mouseDown("xpath=//*[@id='Бюджет производства_2013_утв.xls']/div[1]");
+        $this->click("xpath=//*[@id='Бюджет производства_2013_утв.xls']/div[1]");
+        $this->doubleClick("xpath=//*[@id='Бюджет производства_2013_утв.xls']/div[1]");
+        sleep(5);
+        $this->assertTrue($this->isVisible("css=#cell_B7"));
+        $this->mouseMoveAt("css=#cell_B7");
+        $this->mouseDownAt("css=#cell_B7");
+        $this->keyDownNative('16');
+        $this->mouseMoveAt("css=#cell_M14");
+        $this->click("css=#cell_M14");
+        $this->keyUpNative('16');
+
+        $this->mouseMoveAt("xpath=//li[3]/div/div/div/img");
+        $this->click("xpath=//li[3]/div/div/div/img");
+
+        $this->mouseMoveAt(Yii::app()->params['test_mappings']['icons']['close']);
+        $this->click(Yii::app()->params['test_mappings']['icons']['close']);
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['documents']);
+        sleep(5);
+        $this->mouseDown("xpath=//*[@id='Сводный бюджет_2014_план.xls']/div[1]");
+        $this->click("xpath=//*[@id='Сводный бюджет_2014_план.xls']/div[1]");
+        $this->doubleClick("xpath=//*[@id='Сводный бюджет_2014_план.xls']/div[1]");
+        sleep(5);
+
+        $this->assertTrue($this->isVisible("css=#cell_B7"));
+
+        $this->mouseDown("xpath=(//*[contains(text(), 'производство')])");
+        $this->optimal_click("xpath=(//*[contains(text(), 'производство')])");
+
+        $this->mouseMoveAt("css=#cell_B7");
+        $this->mouseDownAt("css=#cell_B7");
+
+        $this->mouseMoveAt("xpath=//li[4]/div/div/div/img");
+        $this->click("xpath=//li[4]/div/div/div/img");
+        sleep(10);
 
         /*$this->optimal_click();
 
