@@ -1,4 +1,4 @@
-/* global define, $, _, SKApp */
+/* global define, $, _, SKApp, AppView */
 
 /**
  * @class SKMeetingGoneView
@@ -27,24 +27,46 @@ define([
 
         isDisplayCloseWindowsButton: false,
 
-        title: 'Сообщение',
+        title: 'Системное сообщение',
 
         dimensions: {
             width: 600,
             height: 200
         },
 
-        renderContent: function ($el) {
-            var me = this,
-                subject = me.options.model_instance.get('subject');
+        initialize: function() {
+            this.listenTo(this.options.model_instance, 'close', function() {
+                AppView.frame._hidePausedScreen();
+            });
 
-            $el.html(_.template(meeting_gone_tpl, {
-                'subject': subject
-            }));
+            SKWindowView.prototype.initialize.call(this);
         },
 
-        doProceedWork: function() {
-            SKApp.simulation.stopPause();
+        renderContent: function ($el) {
+            var subject = this.options.model_instance.get('subject'),
+                time;
+
+            time = SKApp.simulation.getGameMinutes() + parseInt(subject.get('duration'), 10);
+            time = Math.floor(time / 60) + ':' + (time % 60 < 10 ? '0' : '') + time % 60;
+
+            $el.html(_.template(meeting_gone_tpl, {
+                'subject': subject,
+                'returnTime': time
+            }));
+
+            AppView.frame._showPausedScreen();
+            this.$el.topZIndex();
+        },
+
+        doProceedWork: function(e) {
+            var simulation = SKApp.simulation,
+                subject = this.options.model_instance.get('subject');
+
+            simulation.stopPause(function() {
+                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
+                simulation.trigger('tick');
+            });
+
             this.options.model_instance.close();
         }
     });

@@ -1625,8 +1625,11 @@ ul.main-screen-stat li img{
     padding:5px;
     margin-bottom:5px;
 }
+.main-screen-icons ul li.info {
+	background-image:url("../img/main-screen/icon-info.png");
+}
 .main-screen-icons ul li.messenger{
-	background-image:url("../img/main-screen/icon-messanger.png");
+    background-image:url("../img/main-screen/icon-messanger.png");
 }
 .main-screen-icons ul li.plan{
 	background-image:url("../img/main-screen/icon-plan.png");

@@ -2716,7 +2716,8 @@ class ImportGameDataService
             }
 
             $meeting->name = $this->getCellValue($sheet, 'Meeting_name', $i);
-            $meeting->label = $this->getCellValue($sheet, 'Meeting_popup_text', $i);
+            $meeting->icon_text = $this->getCellValue($sheet, 'Meeting_icon_text', $i);
+            $meeting->popup_text = $this->getCellValue($sheet, 'Meeting_popup_text', $i);
             $meeting->duration = $this->getCellValue($sheet, 'Duration', $i);
 
             if ($taskCode) {
