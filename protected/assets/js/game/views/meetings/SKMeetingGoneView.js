@@ -36,15 +36,27 @@ define([
 
         renderContent: function ($el) {
             var me = this,
-                subject = me.options.model_instance.get('subject');
+                subject = me.options.model_instance.get('subject'),
+                time;
+
+            time = SKApp.simulation.getGameMinutes() + parseInt(subject.get('duration'), 10);
+            time = Math.floor(time / 60) + ':' + (time % 60 < 10 ? '0' : '') + time % 60;
 
             $el.html(_.template(meeting_gone_tpl, {
-                'subject': subject
+                'subject': subject,
+                'returnTime': time
             }));
         },
 
-        doProceedWork: function() {
-            SKApp.simulation.stopPause();
+        doProceedWork: function(e) {
+            var simulation = SKApp.simulation,
+                subject = this.options.model_instance.get('subject');
+
+            simulation.stopPause(function() {
+                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
+                simulation.trigger('tick');
+            });
+
             this.options.model_instance.close();
         }
     });

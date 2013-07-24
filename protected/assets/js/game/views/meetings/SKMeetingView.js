@@ -47,12 +47,9 @@ define([
 
             this.options.model_instance.close();
 
-            simulation.startPause(function() {
-                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
-                simulation.trigger('tick');
-            });
-
+            simulation.startPause(function() {});
             SKApp.server.api('meeting/leave', {'id': subjectId});
+
             SKApp.simulation.window_set.open('visitor', 'meetingGone', {
                 'subject': subject,
                 'params': {meetingId: subjectId}
