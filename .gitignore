@@ -2,7 +2,9 @@
 .idea/
 /assets/
 /documents/zoho/
-/documents/user
+/documents/user/
+/documents/socialcal_templates/
+/protected/tests/unit/files/
 /protected/config/main.php
 /protected/runtime/
 /protected/assets/compiled_css/

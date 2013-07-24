@@ -823,3 +823,56 @@ body {
     }
   }
 }
+.meeting-gone-content {
+  background: #fff;
+  border:2px solid #000;
+  border-top:none;
+  padding: 40px 70px;
+
+  .gone-clock, .gone-text {
+    display:table-cell;
+    vertical-align: middle;
+  }
+
+  .gone-clock {
+    background: url(../img/main-screen/clock-gone.png) no-repeat left center;
+    width:85px;
+
+    div {
+      min-height: 56px;
+    }
+  }
+  .gone-text {
+    font-family: "orbi_sansregular";
+    font-size:24px;
+    line-height: 120%;
+  }
+  .text-center {
+    margin-top: 35px;
+  }
+}
+.text-center {
+  text-align: center;
+}
+.popup-sbmt-btn {
+  background:url("../img/mail/btn-mail.png") no-repeat right -47px;
+  border:none;
+  font:14px 'orbi_sansregular';
+  color:#fff;
+  line-height:47px;
+  text-transform:uppercase;
+  text-shadow:rgba(0,0,0,0.35) 1px 1px 0;
+  padding-right:31px;
+  cursor:pointer;
+
+  div {
+    background:url("../img/mail/btn-mail.png") no-repeat 0 0;
+    padding-left:31px;
+  }
+  &:hover {
+    background-position:right -141px;
+    div {
+      background-position:0 -94px;
+    }
+  }
+}

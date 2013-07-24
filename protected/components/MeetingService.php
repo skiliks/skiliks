@@ -22,8 +22,8 @@ class MeetingService
             if (FlagsService::isAllowToStartMeeting($meeting, $simulation)) {
                 $result[] = [
                     'id' => $meeting->id,
-                    'label' => $meeting->task->title,
-                    'description' => $meeting->label,
+                    'label' => $meeting->icon_text,
+                    'description' => $meeting->popup_text,
                     'duration' => $meeting->duration
                 ];
             }
