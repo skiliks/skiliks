@@ -402,7 +402,7 @@
 .labels {
     float: left;
     margin-top: 8px;
-    width: 294px;
+    width: 303px;
 }
 .labels .row {
     margin-top: 45px;
@@ -423,7 +423,7 @@
     background: #ddf0f0;
     float: right;
     padding: 16px;
-    width: 600px;
+    width: 640px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -478,14 +478,14 @@
     margin-left: 4px;
     padding: 0px 10px;
     position: relative;
-    top:-7px;
+    top:-5px;
 }
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
 }
-.blockvalue .value {
+/*.blockvalue .value {
     padding-top: 4px;
-}
+}*/
 .legendwrap {
     background: #e0f1f1;
     -webkit-border-radius: 8px;
@@ -739,7 +739,7 @@
     background: none;
 }
 .extrasidepads, .section {
-    padding: 0px 10px;
+    padding: 0px 0px 0px 10px;
 }
 .timeblock {
     background: #e8f7f7;
@@ -1014,21 +1014,21 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     color: #146672;
     display: inline-block;
-    font: 25px "ProximaNova-Bold";
+    font: 21px "ProximaNova-Bold";
     font-weight: normal;
     height: 72px;
-    line-height: 72px;
+    line-height: 70px;
     margin-right: 16px;
     text-align: center;
     width: 72px;
 }
 .twocharts .chartbar, .twocharts .chartproblem {
     float: left;
-    width: 345px !important;
+    width: 370px;
 }
 .twocharts .chartproblem {
     margin-left: 20px;
-    width:235px !important;
+    width:250px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
@@ -1156,9 +1156,25 @@
     }
     .labels {
        margin-top: 6px;
+        width: 226px;
     }
-    .thelabel {
-        height: 27px;
+    .barswrap {
+        width: 536px;
+    }
+    .barstitle {
+        font-size: 13px;
+    }
+    .twobarstitles .barstitle:first-child {
+        width: 270px;
+    }
+    .twocharts .chartbar {
+        width: 295px;
+    }
+    .twocharts .chartproblem {
+        width: 198px;
+    }
+    .mangrlresults .labels a, .thelabel {
+        font-size: 11px;
     }
     .simulation-result-popup .total {
         font-size: 30px;
