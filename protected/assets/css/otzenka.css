@@ -108,14 +108,14 @@
     background: #bedadc;
     color:#146672;
     display: inline-block;
-    -moz-border-radius: 120px / 70px;
-    -webkit-border-radius: 120px / 70px;
-    border-radius: 120px / 70px;
+    -moz-border-radius: 90px / 45px;
+    -webkit-border-radius: 90px / 45px;
+    border-radius: 90px / 45px;
     font: 16px "ProximaNova-Regular"; /* 18 */
     height: 26px;
     line-height: 26px;
-    padding: 0px 6px;
-    min-width: 42px;
+    padding: 0px 4px;
+    min-width: 40px;
 }
 .product .ratepercnt {
     font-family:"ProximaNova-Bold";
@@ -155,19 +155,20 @@
 }
 .allseprtwrap .ratepercnt {
     position: absolute;
-    top: 30px;
+    top: 34px;
 }
 .uprnavprcnt {
-    left:208px;
+    left:222px;
 }
 .resultprcnt {
     left:464px;
 }
 .timeprcnt {
-    left:718px;
+    left:700px;
 }
-.product .estmtileswrap {
-    margin-top: 8px;
+.estmtileswrap {
+    margin:8px auto 0 auto;
+    width:918px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
     font:24px 'ProximaNova-Bold';
@@ -175,7 +176,12 @@
     line-height: 90%;
     text-decoration: none;
 }
-
+.estmtileswrap h2 {
+    margin: 0 auto;
+}
+.estmtileswrap .widthblock {
+text-align: center;
+}
 .product .bluelist, .product .rateslist h3  {
     /*margin-left: 20px;*/
 }
@@ -208,18 +214,19 @@
     font-weight: normal;
 }
 .levellabels h3 {
+    display:table-cell;
     font:16px "ProximaNova-Bold"; /* 18 */
-    margin:0px 16px;
-    width: 264px;
+    padding:10px 12px 0 23px;
+    width: 268px;
 }
 .widthblock {
     display: table-cell;
     margin:0px;
     padding: 0px;
-    width:360px;
+    width:308px;
 }
 .widthshort {
-    width:345px;
+    width:236px;
 }
 .product .widthblock, .product-gauge-charts .chart-gauge {
     width: 237px;
@@ -227,11 +234,15 @@
 .product-gauge-charts .chart-gauge .pointer {
     left: 25px;
 }
-.product .estmtileswrap .widthblock {
+.estmtileswrap .widthblock {
+    vertical-align: top;
+    width:324px;
+}
+.estmtileswrap .widthblock {
     vertical-align: top;
 }
-.simulation-details .estmtileswrap .widthblock {
-    vertical-align: bottom;
+.estmtileswrap .widthshort {
+    width:242px;
 }
 .gauge-charts, .levellabels {
     margin: 0 auto;
@@ -245,12 +256,6 @@
 .product-gauge-charts .chart-gauge .chart-value {
     color: #fff;
     font-size: 14px;
-}
-.chart-gauge {
-
-}
-.maincharts .chart-gauge.inline {
-    margin: 0px 0px 15px;
 }
 .maincharts .bullet-charts, .maincharts .product-bullet-charts {
     float: right;
@@ -476,9 +481,6 @@
 }
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
-}
-.blockvalue .value {
-    padding-top: 0px;
 }
 .legendwrap {
     background: #e0f1f1;
