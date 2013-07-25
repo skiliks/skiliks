@@ -155,16 +155,16 @@
 }
 .allseprtwrap .ratepercnt {
     position: absolute;
-    top: 34px;
+    top: 24px;
 }
 .uprnavprcnt {
-    left:222px;
+    left:236px;
 }
 .resultprcnt {
     left:464px;
 }
 .timeprcnt {
-    left:700px;
+    left:692px;
 }
 .estmtileswrap {
     margin:8px auto 0 auto;
@@ -179,8 +179,12 @@
 .estmtileswrap h2 {
     margin: 0 auto;
 }
-.estmtileswrap .widthblock {
-text-align: center;
+.estmtileswrap .widthblock, .rateslist .widthblock {
+    vertical-align: top;
+    width:350px;
+}
+.estmtileswrap .widthshort, .rateslist .widthshort {
+    width:264px;
 }
 .product .bluelist, .product .rateslist h3  {
     /*margin-left: 20px;*/
@@ -219,6 +223,10 @@ text-align: center;
     padding:10px 12px 0 23px;
     width: 268px;
 }
+.levellabels h3:first-child {
+    padding-left: 13px;
+    width: 278px;
+}
 .widthblock {
     display: table-cell;
     margin:0px;
@@ -234,16 +242,7 @@ text-align: center;
 .product-gauge-charts .chart-gauge .pointer {
     left: 25px;
 }
-.estmtileswrap .widthblock {
-    vertical-align: top;
-    width:324px;
-}
-.estmtileswrap .widthblock {
-    vertical-align: top;
-}
-.estmtileswrap .widthshort {
-    width:242px;
-}
+
 .gauge-charts, .levellabels {
     margin: 0 auto;
     overflow: visible;
@@ -472,15 +471,15 @@ text-align: center;
     border-radius: 3px;
     color: #fff;
     display: inline-block;
-    height: 28px;
-    line-height: 28px;
     margin-left: 4px;
     padding: 0px 10px;
     position: relative;
-    top:-5px;
+    top:-10px;
 }
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
+    height: 28px;
+    line-height: 28px;
 }
 .legendwrap {
     background: #e0f1f1;
