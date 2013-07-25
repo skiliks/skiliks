@@ -396,17 +396,13 @@ SocialCalc.GetSpreadsheetControlObject = function(id) {
 
 SocialCalc.DoOnResize = function(spreadsheet) {
 
-   var v;
-   var views = spreadsheet.views;
-
    var needresize = spreadsheet.SizeSSDiv();
    if (!needresize) return;
 
-   for (vname in views) {
-      v = views[vname].element;
-      v.style.width = spreadsheet.width + "px";
-      v.style.height = (spreadsheet.height-spreadsheet.nonviewheight) + "px";
-      }
+
+   var view = spreadsheet.editorDiv;
+   view.style.width = spreadsheet.width + "px";
+   view.style.height = (spreadsheet.height-spreadsheet.nonviewheight) + "px";
 
    spreadsheet.editor.ResizeTableEditor(spreadsheet.width, spreadsheet.height-spreadsheet.nonviewheight);
 
@@ -452,22 +448,19 @@ SocialCalc.SizeSSDiv = function(spreadsheet) {
    newval = spreadsheet.requestedHeight ||
             sizes.height - (pos.top + pos.bottom + fudgefactorY) -
                (spreadsheet.requestedSpaceBelow || 0);
-   if (spreadsheet.height != newval) {
-      spreadsheet.height = newval;
-      spreadsheet.spreadsheetDiv.style.height = newval + "px";
-      resized = true;
-      }
+
+   spreadsheet.height = newval;
+   spreadsheet.spreadsheetDiv.style.height = newval + "px";
+
    newval = spreadsheet.requestedWidth ||
             sizes.width - (pos.left + pos.right + fudgefactorX) || 700;
-   if (spreadsheet.width != newval) {
-      spreadsheet.width = newval;
-      spreadsheet.spreadsheetDiv.style.width = newval + "px";
-      resized = true;
-      }
 
-   return resized;
+   spreadsheet.width = newval;
+   spreadsheet.spreadsheetDiv.style.width = newval + "px";
 
-   }
+   return true;
+
+};
 
 
 //
