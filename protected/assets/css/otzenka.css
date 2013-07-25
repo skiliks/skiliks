@@ -478,10 +478,13 @@
     margin-left: 4px;
     padding: 0px 10px;
     position: relative;
-    top:-10px;
+    top:-7px;
 }
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
+}
+.blockvalue .value {
+    padding-top: 4px;
 }
 .legendwrap {
     background: #e0f1f1;
@@ -1088,6 +1091,25 @@
     border-radius: 5px 0px 0px 5px;
 }
 @media screen and (max-width: 1146px){
+    .allsummry {
+        background-position: center 20px;
+        background-size: 65%;
+    }
+    .allseprtwrap .ratepercnt {
+        top:18px;
+    }
+    .uprnavprcnt {
+        left: 180px;
+    }
+    .resultprcnt {
+        left: 256px;
+    }
+    .timeprcnt {
+        left: 542px;
+    }
+    .blockvalue, .blockvalue .value {
+        font-size: 13px;
+    }
     .simulation-result-popup {
         padding-bottom: 18px;
     }
@@ -1095,10 +1117,8 @@
         margin-bottom: 16px;
     }
     #simulation-details-pop-up h1 {
+        font-size: 27px;
         margin-top: -6px;
-    }
-    #simulation-details-pop-up h1 {
-        font-size: 26px;
     }
     .simulation-details .navigation {
         margin-bottom: 18px;
@@ -1117,6 +1137,22 @@
     }
     .thelabel {
         height: 27px;
+    }
+    .simulation-result-popup .total {
+        font-size: 30px;
+    }
+    .estmtileswrap, .rateslist {
+        width:732px;
+    }
+    .estmtileswrap .widthblock, .rateslist .widthblock {
+        vertical-align: top;
+        width:264px;
+    }
+    .estmtileswrap .widthshort, .rateslist .widthshort {
+        width:204px;
+    }
+    .ratepercnt, .product .ratepercnt {
+        font-size: 13px;
     }
 }
 /*
