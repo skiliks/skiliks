@@ -24,18 +24,6 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-            <div class="twocharts followPriorities-3">
-                <div class="chartbar"><div class="chart-bar"><span class="chart-value">30%</span></div></div>
-                <div class="chartproblem"><div class="chart-bar redbar"><span class="chart-value">10%</span></div></div>
-            </div>
-            <div class="twocharts followPriorities-4">
-                <div class="chartbar"><div class="chart-bar"><span class="chart-value">30%</span></div></div>
-                <div class="chartproblem"><div class="chart-bar redbar"><span class="chart-value">10%</span></div></div>
-            </div>
-            <div class="twocharts followPriorities-5">
-                <div class="chartbar"><div class="chart-bar"><span class="chart-value">30%</span></div></div>
-                <div class="chartproblem"><div class="chart-bar redbar"><span class="chart-value">10%</span></div></div>
-            </div>
         </div>
     </div>
 
