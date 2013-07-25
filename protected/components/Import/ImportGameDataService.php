@@ -191,13 +191,36 @@ class ImportGameDataService
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
-
+        //TODO:Поставить задачу Антону обновить сценарий и поле "Импортировать Да/Нет"
+        $kostil = ['1.1', '1.2', '1.3', '1.4', '1.5', '2.1', '2.2', '2.3', '3.1', '3.2', '3.4'];
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
                 continue;
             }
 
+            $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
+
+            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group', $i) ? : null;
+            $learningGoalGroupCode = substr($learningGoalGroupText, 0, 3);
+
+            if(!in_array($learningGoalGroupCode, $kostil)){
+                continue;
+            }
+
+            $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
+                'code'=>$learningGoalGroupCode,
+                'scenario_id' => $this->scenario->primaryKey
+            ]);
+
+            if(null === $learningGoalGroup) {
+                $learningGoalGroup = new LearningGoalGroup();
+                $learningGoalGroup->code = $learningGoalGroupCode;
+            }
+            $learningGoalGroup->title = $learningGoalGroupText;
+            $learningGoalGroup->import_id = $this->import_id;
+            $learningGoalGroup->scenario_id = $this->scenario->primaryKey;
+            $learningGoalGroup->save(false);
             // try to find exists entity
             $learningGoal = LearningGoal::model()->findByAttributes([
                 'code' => $this->getCellValue($sheet, 'Номер цели обучения', $i),
@@ -213,8 +236,7 @@ class ImportGameDataService
 
             // update data {
             $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
-
-            $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
+            $learningGoal->learning_goal_group_id = $learningGoalGroup->id;
             $learningGoal->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->getPrimaryKey() : null;
             $learningGoal->import_id = $this->import_id;
             $learningGoal->scenario_id = $this->scenario->primaryKey;
@@ -228,6 +250,10 @@ class ImportGameDataService
 
         // delete old unused data {
         LearningGoal::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        LearningGoalGroup::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
@@ -355,7 +381,7 @@ class ImportGameDataService
     /**
      *
      */
-    public function     importHeroBehaviours()
+    public function  importHeroBehaviours()
     {
         $this->logStart();
 
@@ -375,13 +401,18 @@ class ImportGameDataService
             $groups[$group->id] = $group->name;
         }
 
-
+        //TODO:Поставить задачу Антону обновить сценарий и поле "Импортировать Да/Нет"
+        $kostil = ['1.1', '1.2', '1.3', '1.4', '1.5', '2.1', '2.2', '2.3', '3.1', '3.2', '3.4'];
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер требуемого поведения', $i)) {
                 continue;
             }
-
+            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group', $i);
+            $learningGoalGroupCode = substr($learningGoalGroupText, 0, 3);
+            if(!in_array($learningGoalGroupCode, $kostil)){
+                continue;
+            }
             // try to find exists entity 
             $charactersPointsTitle = HeroBehaviour::model()
                 ->findByAttributes([
@@ -855,26 +886,30 @@ class ImportGameDataService
             $columnIndex = $START_COL;
             while ($columnIndex < $END_COL) {
                 $value = $sheet->getCellByColumnAndRow($columnIndex, $i->key())->getValue();
-                ;
+
                 if ($value === null || $value === "") {
                     $columnIndex++;
                     continue;
                 }
                 $pointCode = $pointsCodes[$columnIndex];
-                if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
-                $pointId = $pointsInfo[$pointCode];
+                if (isset($pointsInfo[$pointCode])){
+                    $pointId = $pointsInfo[$pointCode];
+                    /** @var MailPoint $pointEntity */
+                    $pointEntity = $this->scenario->getMailPoint(['mail_id' => $emailTemplateEntity->id, 'point_id'  => $pointId]);
+                    if (null === $pointEntity) {
+                        $pointEntity = new MailPoint();
+                    }
+                    $pointEntity->mail_id = $emailTemplateEntity->id;
+                    $pointEntity->point_id = $pointId;
+                    $pointEntity->add_value = $value;
+                    $pointEntity->import_id = $this->import_id;
+                    $pointEntity->scenario_id = $this->scenario->primaryKey;
+                    $pointEntity->save();
 
-                /** @var MailPoint $pointEntity */
-                $pointEntity = $this->scenario->getMailPoint(['mail_id' => $emailTemplateEntity->id, 'point_id'  => $pointId]);
-                if (null === $pointEntity) {
-                    $pointEntity = new MailPoint();
+                }else{
+                    $columnIndex++;
+                    continue;
                 }
-                $pointEntity->mail_id = $emailTemplateEntity->id;
-                $pointEntity->point_id = $pointId;
-                $pointEntity->add_value = $value;
-                $pointEntity->import_id = $this->import_id;
-                $pointEntity->scenario_id = $this->scenario->primaryKey;
-                $pointEntity->save();
 
                 $emailToPointIds[] = $pointEntity->id;
 
