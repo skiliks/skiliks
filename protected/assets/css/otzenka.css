@@ -486,6 +486,9 @@
 /*.blockvalue .value {
     padding-top: 4px;
 }*/
+.allsummry .value {
+    padding-top: 2px;
+}
 .legendwrap {
     background: #e0f1f1;
     -webkit-border-radius: 8px;
@@ -1027,6 +1030,7 @@
     width: 364px;
 }
 .twocharts .chartproblem {
+    float: right;
     margin-left: 20px;
     width:246px;
 }
