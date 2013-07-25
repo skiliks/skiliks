@@ -7,8 +7,6 @@
         <span class="barstitle">Уровень проблем</span>
     </div>
 
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle taskManagement"></span>1. Управление задачами с учётом приоритетов</h3>
-
     <div class="clearfix mangrlresults">
         <div class="labels">
             <p class="labelwrap"><span class="thelabel"><a href="#">1.1 Определение приоритетов</a></span></p>
@@ -27,19 +25,20 @@
                 <div class="chartproblem"></div>
             </div>
             <div class="twocharts followPriorities-3">
-                <div class="chartbar"></div>
-                <div class="chartproblem"></div>
+                <div class="chartbar"><div class="chart-bar" style="width: 100%;"><span class="chart-value" style="width: 10%;">10%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar" style="width: 100%;"><span class="chart-value" style="width: 20%;">20%</span></div></div>
             </div>
             <div class="twocharts followPriorities-4">
-                <div class="chartbar"></div>
-                <div class="chartproblem"></div>
+                <div class="chartbar"><div class="chart-bar" style="width: 100%;"><span class="chart-value" style="width: 15%;">15%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar" style="width: 100%;"><span class="chart-value" style="width: 10%;">10%</span></div></div>
             </div>
             <div class="twocharts followPriorities-5">
-                <div class="chartbar"></div>
-                <div class="chartproblem"></div>
+                <div class="chartbar"><div class="chart-bar" style="width: 100%;"><span class="chart-value" style="width: 30%;">30%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar" style="width: 100%;"><span class="chart-value" style="width: 40%;">40%</span></div></div>
             </div>
         </div>
     </div>
+
     <div class="legendwrap legendmargin lessmargintop">
         <div class="legend">
             <p class="barstitle">Обозначения</p>
