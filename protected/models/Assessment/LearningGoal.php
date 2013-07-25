@@ -6,7 +6,7 @@
  * @property string $title
  * @property string $import_id
  * @property string $learning_area_code
- *
+ * @property integer $learning_goal_group_id
  * @property LearningArea $learningArea
  * @property HeroBehaviour[] $heroBehaviours
  * @property Scenario $scenario_id
