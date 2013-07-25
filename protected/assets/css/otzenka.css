@@ -483,6 +483,10 @@
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
 }
+.blockvalue.managerial-skills {
+    padding-top: 4px;
+    top:-8px;
+}
 .allsummry .value {
     padding-top: 4px;
 }
