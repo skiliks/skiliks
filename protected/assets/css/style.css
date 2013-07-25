@@ -4071,21 +4071,12 @@ ul.profile-menu li {
     .labeltitles h4  {
         font-size: 16px;
     }
-    .mangrlresults .labels a, .thelabel {
-        font-size: 12px;
-    }
-    .labels {
-        width: 258px !important;
-    }
     .legendtitle {
         font-size:12px;
     }
     .legendcolor {
         height: 24px;
         width: 24px;
-    }
-    .barswrap {
-        width: 450px;
     }
     .chart-bar .chart-value, .chartbar .chart-value,
     .emptychart .chart-value,
@@ -4130,20 +4121,8 @@ ul.profile-menu li {
         font-size: 12px;
         line-height: 26px;
     }
-    .twocharts .chartbar, .twocharts .chartproblem {
-        width: 260px !important;
-    }
-    .twocharts .chartproblem {
-        width: 170px !important;
-    }
     .resultlabeltitle {
         padding-left: 300px;
-    }
-    .barstitle {
-        font-size: 15px;
-    }
-    .twobarstitles .barstitle:first-child {
-        width: 270px;
     }
     #password-recovery-form #YumPasswordRecoveryForm_email {
         font-size: 11px;
