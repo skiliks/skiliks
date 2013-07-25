@@ -25,8 +25,8 @@
                 <div class="chartproblem"></div>
             </div>
             <div class="twocharts">
-                <div class="chartbar"><div class="chart-bar" style="width: 100%;"><span class="chart-value">30%</span></div></div>
-                <div class="chartproblem"><div class="chart-bar redbar" style="width: 100%;"><span class="chart-value" style="width: 10%;">10%</span></div></div>
+                <div class="chartbar"><div class="chart-bar"><span class="chart-value">30%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar"><span class="chart-value">10%</span></div></div>
             </div>
         </div>
     </div>
