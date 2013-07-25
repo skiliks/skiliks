@@ -24,9 +24,9 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-            <div class="twocharts">
-                <div class="chartbar1"><div class="chart-bar1"><span class="chart-value1">30%</span></div></div>
-                <div class="chartproblem1"><div class="chart-bar1 redbar1"><span class="chart-value1">10%</span></div></div>
+            <div class="twocharts followPriorities-3">
+                <div class="chartbar"><div class="chart-bar"><span class="chart-value">30%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar"><span class="chart-value">10%</span></div></div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v1 = 15, /* AR.management[1] */
+        var v1 = {positive: 20, negative: 20, total: 5}, /* AR.management[1] */
             v2 = 17; /* AR.management[2] */
 
         drawChartBlock('followPriorities', v1, ['123', '112']);
