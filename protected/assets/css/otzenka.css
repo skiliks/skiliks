@@ -32,7 +32,7 @@
 }
 #simulation-details-pop-up h1 {
     padding: 0px 10px 6px 3px;
-    font: 30px 'ProximaNova-Bold';
+    font: 34px 'ProximaNova-Bold'; /*30 */
 }
 #simulation-details-pop-up .ui-widget-content {
     background: #e8f7f7;
@@ -77,8 +77,9 @@
 .simulation-details .navigation a, .simulation-details .navigation a:visited {
     background-image: none;
     display: block;
-    font: 14px "ProximaNova-Regular";
-    padding:8px 10px;
+    font: 13px "ProximaNova-Regular"; /* 14 */
+    line-height: 28px;
+    padding:0px 10px; /*8px 10px */
 }
 .simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
     color: #fff;
@@ -110,7 +111,7 @@
     -moz-border-radius: 120px / 70px;
     -webkit-border-radius: 120px / 70px;
     border-radius: 120px / 70px;
-    font: 18px "ProximaNova-Regular";
+    font: 16px "ProximaNova-Regular"; /* 18 */
     height: 30px;
     line-height: 30px;
     padding: 0px 6px;
@@ -126,12 +127,12 @@
     text-align: center;
 }
 .allratebg {
-    background: url("../img/starsbig.png") no-repeat left top;
+    background: url("../img/starsbig-new.png") no-repeat left top;
 }
 .allratebg, .allrating {
     display: inline-block;
-    height: 28px;
-    width: 158px;
+    height: 24px;
+    width: 135px;
 }
 .allrating {
     background: url("../img/starsbig.png") no-repeat left bottom;
@@ -147,7 +148,7 @@
     height:124px;
 }
 .allsummry {
-    background: url("../img/resultlines-new.png") no-repeat center 26px;
+    background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
 .allseprtwrap {
     position: relative;
@@ -207,7 +208,7 @@
     font-weight: normal;
 }
 .levellabels h3 {
-    font:18px "ProximaNova-Bold";
+    font:16px "ProximaNova-Bold"; /* 18 */
 }
 .widthblock {
     display: table-cell;
@@ -288,7 +289,7 @@
     margin-top: 16px;
 }
 .rateslist h3 {
-    font-size: 18px;
+    font-size: 17px; /* 18 */
     line-height: 105%;
     margin-bottom: 14px;
     text-transform: uppercase;
@@ -303,10 +304,14 @@
     margin-left: 20px;
     padding-left:0px;
 }
+.rateslist .numlist {
+    width:254px;
+}
 .nobultslist li {
     list-style-type: none;
 }
 .bluelist li {
+    line-height: 120%;
     margin: 0px;
     padding: 0px;
     padding-bottom: 7px;
@@ -314,7 +319,7 @@
 .bluelist li, .bluelist a, .bluelist a:visited {
     color: #2d7b91;
     font-family:"ProximaNova-Regular";
-    font-size: 15px;
+    font-size: 14px;
     /*font-size: 1em;*/
     text-decoration: none;
 }
@@ -461,12 +466,13 @@
     color: #fff;
     display: inline-block;
     margin-left: 4px;
-    padding: 4px 9px;
+    line-height: 28px;
+    padding: 0px 10px;
     position: relative;
     top:-5px;
 }
 .blockvalue, .blockvalue .value {
-    font: 18px "ProximaNova-Regular";
+    font: 16px "ProximaNova-Regular"; /*18 */
 }
 .blockvalue .value {
     padding-top: 0px;
