@@ -18,6 +18,8 @@ define([
         
         // dialog`s root DOM element
         $el: undefined,
+
+        container: '.windows-container',
         
         preventOtherClicksElement: undefined,
         
@@ -44,6 +46,12 @@ define([
                 if (undefined !== this.options.addCloseButton) {
                     this.addCloseButton = this.options.addCloseButton;
                 }
+
+                if (undefined !== this.options.isPutCenter) {
+                    this.isPutCenter = this.options.isPutCenter;
+                }
+
+                this.$container = $(this.container);
 
                 this.render();
             } catch(exception) {
@@ -112,6 +120,11 @@ define([
                 } else {
                     $('body').append(this.$el);
                 }
+
+                if (me.isPutCenter) {
+                    me.center();
+                }
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -173,6 +186,19 @@ define([
         doDialogClose: function() {
             console.log('doDialogClose');
             this.remove();
+        },
+
+        center: function() {
+            try {
+                this.$el.css({
+                    top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop()) + 'px',
+                    left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft()) + 'px'
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
     return SKDialogView;
