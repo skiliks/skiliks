@@ -168,6 +168,8 @@
 }
 .estmtileswrap {
     margin:8px auto 0 auto;
+}
+.estmtileswrap, .rateslist {
     width:918px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
@@ -224,8 +226,8 @@
     width: 268px;
 }
 .levellabels h3:first-child {
-    padding-left: 13px;
-    width: 278px;
+    padding-left: 9px;
+    width: 282px;
 }
 .widthblock {
     display: table-cell;
@@ -292,7 +294,7 @@
     width:200px !important;
 }
 .rateslist {
-    margin-top: 16px;
+    margin: 16px auto 0px;
 }
 .rateslist h3 {
     font-size: 17px; /* 18 */
@@ -471,6 +473,8 @@
     border-radius: 3px;
     color: #fff;
     display: inline-block;
+    height: 28px;
+    line-height: 28px;
     margin-left: 4px;
     padding: 0px 10px;
     position: relative;
@@ -478,8 +482,6 @@
 }
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
-    height: 28px;
-    line-height: 28px;
 }
 .legendwrap {
     background: #e0f1f1;
