@@ -1,5 +1,4 @@
 var fixLogotypes = function() {
-    console.log($(window).width());
     var headerLogo = $("#header-main-logo");
     var footerLogo = $("#footer-main-logo");
     // update logo size
@@ -184,8 +183,6 @@ var fixLogotypes = function() {
                 resizable: false,
                 draggable: false,
                 open: function( event, ui ) {
-                    //Cufon.refresh();
-                    console.log();
                     if(selected !== undefined) {
                         $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
                             var a = $(element).find('a');
@@ -271,7 +268,6 @@ var fixLogotypes = function() {
         $('a.delete-vacancy-link').click(function(event) {
             if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
                 // link go ahead to delete URL
-                console.log('delete');
             } else {
                 event.preventDefault();
             }
@@ -279,7 +275,6 @@ var fixLogotypes = function() {
         // delete vacancy }
 
         $(window).on('resize', function () {
-            console.log('resize');
             Cufon.refresh();
 
             fixLogotypes();

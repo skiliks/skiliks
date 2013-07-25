@@ -37,7 +37,6 @@ define([
             SKApp.simulation.on('user-agree-with-sim-stop', function () {
                 delete me.simulation_view;
                 if(SKApp.isTutorial()){
-                    console.log("tutorial");
                     /* Создана форма для загрузки конфига full симуляции через отправку формы и post данных */
                     var input = document.createElement('input');
                     input.setAttribute('type', 'text');

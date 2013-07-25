@@ -764,7 +764,6 @@ define([
              */
             doMailToggle: function (event) {
                 try {
-                    //console.log('doMailToggle');
                     if (event) {
                         event.preventDefault();
                     }

@@ -124,7 +124,6 @@ define([
                     // init View according model
                     this.listenTo(this.mailClient, 'init_completed', function () {
                         me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
-                        //console.log("trigger('render_finished')");
                         me.trigger('render_finished');
                         me.render_finished = true;
 
@@ -292,7 +291,6 @@ define([
             doSaveAttachment: function (event) {
                 try {
                     if("true" !== $(event.currentTarget).attr('data-disabled')) {
-                        console.log("Click once");
                         $(event.currentTarget).attr('data-disabled', 'true');
                         this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
                     }
@@ -629,7 +627,6 @@ define([
                         );
                     }
 
-                    //console.log("!! trigger('render_folder_finished')");
                     this.trigger('render_folder_finished');
                 } catch(exception) {
                     if (window.Raven) {
@@ -1298,7 +1295,6 @@ define([
             doMoveToTrashActiveEmail: function () {
                 try {
                     if (undefined === this.mailClient.activeEmail) {
-                        //console.log('try to delete non exist email');
                         return;
                     }
 
@@ -1552,8 +1548,6 @@ define([
                         afterDelete: function (tag) {
                             var subject = mailClientView.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
                             var curRec = mailClientView.currentRecipients;
-                            console.log(curRec);
-                            console.log(curRec.indexOf(tag));
                             var availablePhrases = SKApp.simulation.mailClient.availablePhrases;
                             if(curRec !== undefined && curRec.indexOf(tag) === 0 && curRec.length === 1 && subject === "") {
                                 SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
@@ -1896,15 +1890,11 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').hide();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     }
 
                     // some letter has predefine text, update it
@@ -2357,7 +2347,6 @@ define([
                         }
                     });
                     if(index === null){
-                        //console.log("index !== null");
                         return;
                     }
                     var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
@@ -2406,26 +2395,17 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                         this.$('#mailEmulatorNewLetterText').html(
                             this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                         );
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').show();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
                         );
-                        console.log("this");
-                        console.log("this.$('.mail-view.new').height() -" + this.$('.mail-view.new').height());
-                        console.log("this.$('.mail-view-header').outerHeight() -" + this.$('.mail-view-header').outerHeight());
-                        console.log("this.$('.mail-tags-bl').outerHeight() -" + this.$('.mail-tags-bl').outerHeight());
-                        console.log(this.$('.mail-text-wrap').height());
                     }
                 } catch(exception) {
                     if (window.Raven) {

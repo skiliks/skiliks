@@ -81,32 +81,29 @@ define([
                     },
                     timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
                     beforeSend: function(jqXHR, settings) {
-                        //console.log(settings);
                         if( undefined !== params.uniqueId ) {
 
                             if( url !== me.api_root + me.connectPath ) {
                                 var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId});
                                 if($.isEmptyObject(models)){
                                     SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:params.uniqueId, url:url, data:params, callback:callback, is_repeat_request:false}));
-                                }else if(_.first(models).get('is_repeat_request')) {
-                                    console.log("repeat"+_.first(models).get('uniqueId'));
+                                } else if(_.first(models).get('is_repeat_request')) {
+
                                 } else {
                                     throw new Error("Duplicate uniqueId - "+params.uniqueId);
                                 }
                             }
-                            //console.log(SKApp.server.requests_queue);
+
                         } else {
                             throw new Error("uniqueId is not found");
                         }
                     },
                     success:  function (data, textStatus, jqXHR) {
-                        //console.log(url);
                         if( data.uniqueId !== undefined ) {
 
                             if( url !== me.api_root + me.connectPath ) {
                                 var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
                                 if(false === $.isEmptyObject(models)) {
-                                //console.log(SKApp.server.requests_queue);
                                     SKApp.server.requests_queue.remove(_.first(models));
                                 } else {
                                     if (!window.testMode) {
@@ -148,7 +145,6 @@ define([
 
                         } else if( xhr.status === 200 ) {
                             if( url === me.api_root + me.connectPath ) {
-                                console.log("Connect");
                                 me.stopTryConnect();
                                 me.dialog_window.remove();
                                 delete me.dialog_window;

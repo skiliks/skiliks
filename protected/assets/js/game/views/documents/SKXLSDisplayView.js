@@ -69,7 +69,7 @@ define([
                     'sheet': sheet
                 });
                 sheetView.render();
-                //console.log(me, me.sheets, sheetView);
+
                 me.sheets.push(sheetView);
                 me.listenTo(sheet, 'activate', function() {
                     $('.sheet-tabs li').removeClass('active').filter('[data-sheet-name=' + sheet.get('name') + ']').addClass('active');
@@ -87,24 +87,14 @@ define([
         },
 
         onResize: function() {
-            console.log(this.el);
-
-            //this.renderContent(this.$('.sim-window-content'));
             window.SKWindowView.prototype.onResize.call(this);
             var me = this;
-            console.log(this.sheets);
             $.each(this.sheets, function(index, sheet){
-                //console.log(sheet.el);
                 sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), sheet.$el.height(), sheet.$el.width(), 0);
-                //sheet.spreadsheet.editor.LoadEditorSettings(sheet.options.sheet.get('content').substring(sheet.parts.edit.start, sheet.parts.edit.end));
                 sheet.spreadsheet.ExecuteCommand('recalc', '');
                 sheet.spreadsheet.ExecuteCommand('redisplay', '');
 
             });
-            console.log(this.el);
-            //doc.get('sheets').each(function (sheet, i) {
-            //    sheet.recalcSheet();
-            //});
         },
         remove: function () {
             this.sheets = [];
