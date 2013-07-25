@@ -402,7 +402,7 @@
 .labels {
     float: left;
     margin-top: 8px;
-    width: 303px;
+    width: 285px;
 }
 .labels .row {
     margin-top: 45px;
@@ -423,7 +423,7 @@
     background: #ddf0f0;
     float: right;
     padding: 16px;
-    width: 632px;
+    width: 647px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -535,7 +535,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 306px;
+    margin-left: 290px;
 }
 .legendvalue {
     margin-top: 8px;
@@ -549,7 +549,7 @@
     width: 340px;
 }
 .resultslegend .shortlegend {
-    width: 220px;
+    width: 240px;
 }
 .textcener {
     text-align: center;
@@ -958,6 +958,9 @@
     font-size: 13px;
     text-decoration: none;
 }
+.display-ib {
+    display: inline-block;
+}
 .labeltitles {
     float: left;
     width: 300px;
@@ -1027,12 +1030,12 @@
 }
 .twocharts .chartbar {
     float: left;
-    width: 364px;
+    width: 372px;
 }
 .twocharts .chartproblem {
     float: right;
     margin-left: 20px;
-    width:246px;
+    width:250px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
