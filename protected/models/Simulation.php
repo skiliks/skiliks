@@ -15,6 +15,8 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property int skipped
  * @property int scenario_id
  * @property string $uuid
+ * @property string $results_popup_partials_path
+ * @property string $results_popup_cache
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -521,6 +523,12 @@ class Simulation extends CActiveRecord
 
     public function getAssessmentDetails()
     {
+        // use cached results popup data
+        if (null !== $this->results_popup_cache) {
+            return unserialize($this->results_popup_cache);
+        }
+
+        die();
         $result = [];
 
         // Overall results
@@ -582,6 +590,90 @@ class Simulation extends CActiveRecord
                 $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
             }
         }
+
+        // cache results popup data
+        $this->results_popup_cache = serialize($result);
+        $this->save(false);
+
+        return $result;
+    }
+
+    /**
+     * For first version of pop-up
+     * @return array|mixed
+     */
+    public function getAssessmentDetailsV1()
+    {
+        // use cached results popup data
+        if (null !== $this->results_popup_cache) {
+            return unserialize($this->results_popup_cache);
+        }
+
+        $result = [];
+
+        // Overall results
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
+                $result[AssessmentCategory::OVERALL] = $rate->value;
+            } else {
+                $result[$rate->assessment_category_code] = ['total' => $rate->value];
+            }
+        }
+
+        // Management
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code <= 8) {
+                $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+            }
+        }
+        foreach ($this->learning_goal as $row) {
+            if ($row->learningGoal->learningArea->code <= 8) {
+                if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
+                    $behaviourIds = [];
+                    foreach ($row->learningGoal->heroBehaviours as $behaviour) {
+                        $behaviourIds[] = $behaviour->id;
+                    }
+
+                    /** @var AssessmentAggregated[] $values */
+                    $values = AssessmentAggregated::model()->findAllByAttributes([
+                        'sim_id' => $this->id,
+                        'point_id' => $behaviourIds
+                    ]);
+
+                    foreach ($values as $point) {
+                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                        [$row->learningGoal->learningArea->code]
+                        [$point->point->code] = ['+' => substr($point->fixed_value / $point->point->scale * 100, 0, 5), '-' => 0];
+                    }
+                } else {
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                    [$row->learningGoal->learningArea->code]
+                    [$row->learningGoal->code] = ['+' => $row->percent, '-' => $row->problem];
+                }
+            }
+        }
+
+        // Productivity
+        foreach ($this->performance_aggregated as $row) {
+            $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
+        }
+
+        // Time management
+        foreach ($this->time_management_aggregated as $row) {
+            $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
+        }
+
+        // Personal
+        $result[AssessmentCategory::PERSONAL] = [];
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code > 8) {
+                $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+            }
+        }
+
+        // cache results popup data
+        $this->results_popup_cache = serialize($result);
+        $this->save(false);
 
         return $result;
     }
