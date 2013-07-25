@@ -24,6 +24,10 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
+            <div class="twocharts followPriorities-3">
+                <div class="chartbar"><div class="chart-bar" style="width: 100%;"><span class="chart-value">30%</span></div></div>
+                <div class="chartproblem"><div class="chart-bar redbar" style="width: 100%;"><span class="chart-value" style="width: 10%;">10%</span></div></div>
+            </div>
         </div>
     </div>
 
@@ -39,8 +43,8 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v1 = AR.management[1],
-            v2 = AR.management[2];
+        var v1 = 15, /* AR.management[1] */
+            v2 = 17; /* AR.management[2] */
 
         drawChartBlock('followPriorities', v1, ['123', '112']);
         drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
