@@ -31,7 +31,7 @@ define([
 
         dimensions: {
             width: 600,
-            height: 200
+            height: 270
         },
 
         initialize: function() {
