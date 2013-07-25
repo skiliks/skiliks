@@ -56,27 +56,7 @@ class SimulationService
         }
         // 3322_3324 }
 
-        //3325 - read spam {        
-        $b_3325 = $emailAnalyzer->check_3325();
-
-        if (isset($b_3325['obj']) &&
-            isset($b_3325['negative']) &&
-            true === $b_3325['obj'] instanceof HeroBehaviour
-        ) {
-
-            $emailResultsFor_3325 = new AssessmentCalculation();
-            $emailResultsFor_3325->sim_id = $simulation->id;
-            $emailResultsFor_3325->point_id = $b_3325['obj']->id;
-            $emailResultsFor_3325->value = $b_3325['negative'];
-            try {
-                $emailResultsFor_3325->save();
-            } catch (Exception $e) {
-                // @todo: handle exception
-            }
-        }
-        //3325 - read spam }
-
-        //3323 - any action for 2 minutes tasks {        
+        //3323 - any action for 2 minutes tasks {
         $b_3323 = $emailAnalyzer->check_3323();
 
         if (isset($b_3323['obj']) &&

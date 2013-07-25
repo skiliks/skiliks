@@ -260,8 +260,6 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4135'); // 3. "-"
 
         $this->addAssessmentAggregated($simulation, '3324', null, 5); // 5. "-"
-        $this->addAssessmentAggregated($simulation, '3325', null, 7); // 5. "-"
-
 
         $this->addAssessmentAggregated($simulation, '8311', 100);
         $this->addAssessmentAggregated($simulation, '8351', 100);
@@ -454,8 +452,6 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4135', null, 10); // 3. "-"
 
         $this->addAssessmentAggregated($simulation, '3324', null, 5); // 5. "-"
-        $this->addAssessmentAggregated($simulation, '3325', null, 7); // 5. "-"
-
 
         $this->addAssessmentAggregated($simulation, '8311', 100);
         $this->addAssessmentAggregated($simulation, '8351', 100);

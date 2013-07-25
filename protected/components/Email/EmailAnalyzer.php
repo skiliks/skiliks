@@ -330,41 +330,8 @@ class EmailAnalyzer
                 'obj'      => $behave_3324,
             ),
         );
-    }    
-    
-    /**
-     * 3325 - read spam
-     * 
-     * @param integer $delta
-     * 
-     * @return mixed array
-     */
-    public function check_3325()
-    {
-        $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
-
-        if (null === $behave_3325) {
-            return [
-                '3325' => []
-            ];
-        }
-
-        $wrongActions = 0;
-        
-        // inbox + trashCan
-        foreach ($this->userInboxEmails as $emailData) {
-            if (true === $emailData->getIsSpam() && true === $emailData->getIsReaded()) {
-                
-                $wrongActions++;
-            }
-        } 
-
-        return array(
-            'negative' => $behave_3325 ? $wrongActions * $behave_3325->scale : 0,
-            'obj'      => $behave_3325,
-        );
     }
-    
+
     /**
      * 3323 - In 2 real minutes (16 game min) react on issues 
      * 
