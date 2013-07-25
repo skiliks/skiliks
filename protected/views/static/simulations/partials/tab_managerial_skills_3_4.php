@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle peopleManagement"></span>3. Управление людьми</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle peopleManagement"></span>2. Управление людьми</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -9,10 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel">3.1 Использование делегирования для управления объемом задач</span></p>
-            <p class="labelwrap"><span class="thelabel">3.2 Управление ресурсами различной квалификации</span></p>
-            <p class="labelwrap"><span class="thelabel">3.3 Использование обратной связи</span></p>
-            <p class="labelwrap"><span class="thelabel">3.4 Делегирование задачи оптимальному сотруднику</span></p>
+            <p class="labelwrap"><span class="thelabel">2.1 Использование делегирования для управления объемом задач</span></p>
+            <p class="labelwrap"><span class="thelabel">2.2 Управление ресурсами различной квалификации</span></p>
+            <p class="labelwrap"><span class="thelabel">2.3 Использование обратной связи</span></p>
         </div>
         <div class="barswrap">
             <div class="twocharts peopleManagement-1">
@@ -27,14 +26,10 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-            <div class="twocharts peopleManagement-4">
-                <div class="chartbar"></div>
-                <div class="chartproblem"></div>
-            </div>
         </div>
     </div>
 
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle communication"></span>4. Оптимальный выбор каналов коммуникации</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle communication"></span>3. Управление коммуникациями</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -43,9 +38,10 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel">4.1  Оптимальное использование почты</span></p>
-            <p class="labelwrap"><span class="thelabel">4.2 Оптимальное использование звонков</span></p>
-            <p class="labelwrap"><span class="thelabel">4.3 Оптимальное использование встреч</span></p>
+            <p class="labelwrap"><span class="thelabel">3.1 Оптимальное использование каналов коммуникации</span></p>
+            <p class="labelwrap"><span class="thelabel">3.2 Эффективная работа с почтой</span></p>
+            <p class="labelwrap"><span class="thelabel">3.3 Эффективная работа со звонками</span></p>
+            <p class="labelwrap"><span class="thelabel">3.4 Эффективное управление встречами </span></p>
         </div>
         <div class="barswrap">
             <div class="twocharts communication-1">
