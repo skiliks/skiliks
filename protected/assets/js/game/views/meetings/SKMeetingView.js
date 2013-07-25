@@ -27,6 +27,11 @@ define([
             'click .meeting-subject': 'leave'
         }, SKWindowView.prototype.events),
 
+        dimensions: {
+            width: 700,
+            height: 500
+        },
+
         initialize: function() {
             this.listenTo(this.options.model_instance, 'close', function() {
                 AppView.frame._hidePausedScreen();
