@@ -9,10 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">1. Следование приоритетам <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">2. Управление задачами <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel labelhack"><a href="#managerial-skills-3-4">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">1. Управление задачами с учётом приоритетов <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">2. Управление людьми <span class="signmore"></span></a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление коммуникациями <span class="signmore"></span></a></span></p>
         </div>
         <div class="barswrap main-skills">
             <div class="chartbar management-1"></div>
@@ -54,7 +53,7 @@
             r = Math.round,
             renderer = function(v) { return v + '%'; };
 
-        for (var i = 1; i < 2; i++) { //8
+        for (var i = 1; i < 4; i++) { //8
             new charts.Bar(
                 '.management-' + i,
                 r(result[i] && result[i].total ? result[i].total : 0),
