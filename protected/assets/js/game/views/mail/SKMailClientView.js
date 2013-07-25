@@ -1946,6 +1946,12 @@ define([
                     event.preventDefault();
 
                     if (this.blockPhraseMoving) {
+                        console.log('BLOCK!');
+                        return;
+                    }
+
+                    if (undefined === $(event.currentTarget).data('id') ||
+                        null === $(event.currentTarget).data('id')) {
                         return;
                     }
 
