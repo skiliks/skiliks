@@ -33,7 +33,7 @@ class MeetingLogTable extends LogTable
     {
         return [
             $logMeeting->meeting->code,
-            $logMeeting->meeting->label,
+            $logMeeting->meeting->icon_text,
             $logMeeting->meeting->duration,
             $logMeeting->start_time,
             $logMeeting->end_time
