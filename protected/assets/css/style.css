@@ -3907,7 +3907,7 @@ ul.profile-menu li {
         padding: 10px 7px;
         font-size: 1em;
     }
-    .product-gauge-charts, .gauge-charts {
+    .product-gauge-charts {
         width: 570px;
     }
     .chart-gauge .pointer {
@@ -4046,9 +4046,6 @@ ul.profile-menu li {
     }
     .over-time {
         font-size: 30px;
-    }
-    .simulation-details  .blockvalue, .simulation-details  .blockvalue span {
-        font-size: 15px;
     }
     .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2,
     .product .estmtileswrap h2 a{

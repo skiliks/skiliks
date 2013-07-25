@@ -1102,13 +1102,17 @@
         left: 180px;
     }
     .resultprcnt {
-        left: 256px;
+        left: 366px;
     }
     .timeprcnt {
-        left: 542px;
+        left: 548px;
     }
     .blockvalue, .blockvalue .value {
         font-size: 13px;
+    }
+    .blockvalue {
+        height: 24px;
+        line-height: 24px;
     }
     .simulation-result-popup {
         padding-bottom: 18px;
@@ -1122,6 +1126,15 @@
     }
     .simulation-details .navigation {
         margin-bottom: 18px;
+    }
+    .levellabels {
+        width:705px;
+    }
+    .levellabels h3 {
+        width:235px;
+    }
+    .rateslist .numlist {
+        width:180px;
     }
     .legend {
         padding: 8px 20px 16px;
@@ -1153,6 +1166,9 @@
     }
     .ratepercnt, .product .ratepercnt {
         font-size: 13px;
+    }
+    .gauge-charts {
+        width:730px;
     }
 }
 /*
