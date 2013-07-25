@@ -11,7 +11,7 @@
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
-        <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки <span class="signmore"></span></a></h2></div>
+        <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки<span class="signmore"></span></a></h2></div>
         <div class="widthblock widthshort"><h2><a href="#productivity">Результативность<span class="signmore"></span></h2></a></div>
         <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
@@ -23,9 +23,9 @@
 </div>
 
 <div class="levellabels">
-    <div class="widthblock"><h3>Уровень владения навыками </h3></div>
-    <div class="widthblock widthshort"><h3>Уровень достижения результатов: количество и значимость выполненных задач</h3></div>
-    <div class="widthblock"><h3>Затраченное время на выполнение задач</h3></div>
+    <h3>Уровень владения навыками </h3>
+    <h3>Уровень достижения результатов: количество и значимость выполненных задач</h3>
+    <h3>Затраченное время на выполнение задач</h3>
 </div>
 <div class="rateslist">
     <div class="widthblock"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>

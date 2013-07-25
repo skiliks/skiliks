@@ -112,8 +112,8 @@
     -webkit-border-radius: 120px / 70px;
     border-radius: 120px / 70px;
     font: 16px "ProximaNova-Regular"; /* 18 */
-    height: 30px;
-    line-height: 30px;
+    height: 26px;
+    line-height: 26px;
     padding: 0px 6px;
     min-width: 42px;
 }
@@ -135,7 +135,7 @@
     width: 135px;
 }
 .allrating {
-    background: url("../img/starsbig.png") no-repeat left bottom;
+    background: url("../img/starsbig-new.png") no-repeat left bottom;
 }
 .overall {
     text-align: center;
@@ -209,6 +209,8 @@
 }
 .levellabels h3 {
     font:16px "ProximaNova-Bold"; /* 18 */
+    margin:0px 16px;
+    width: 264px;
 }
 .widthblock {
     display: table-cell;
@@ -231,10 +233,10 @@
 .simulation-details .estmtileswrap .widthblock {
     vertical-align: bottom;
 }
-.gauge-charts {
+.gauge-charts, .levellabels {
     margin: 0 auto;
     overflow: visible;
-    width: 926px;
+    width: 888px;
 }
 .product-gauge-charts {
     float: left;
@@ -465,8 +467,9 @@
     border-radius: 3px;
     color: #fff;
     display: inline-block;
-    margin-left: 4px;
+    height: 28px;
     line-height: 28px;
+    margin-left: 4px;
     padding: 0px 10px;
     position: relative;
     top:-5px;
@@ -582,6 +585,7 @@
     background: url(../img/icon-circlearrw.png) no-repeat left bottom;
     display: inline-block;
     height: 21px;
+    margin-left: 10px;
     margin-bottom: -4px;
     width: 21px;
 }
