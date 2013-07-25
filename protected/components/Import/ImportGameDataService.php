@@ -287,7 +287,9 @@ class ImportGameDataService
 
                 $phrase = $this->scenario->getMailPhrase([
                     'constructor_id' => $constructor->getPrimaryKey(),
-                    'name' => $phraseValue]);
+                    'name' => $phraseValue,
+                    'column_number' => $column_number
+                ]);
 
                 if ($phrase === null) {
                     $phrase = new MailPhrase();
