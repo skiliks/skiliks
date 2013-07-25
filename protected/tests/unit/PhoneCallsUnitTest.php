@@ -209,19 +209,15 @@ class PhoneServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $example =  [
-                ['themeId' => 1130, 'themeTitle' => "Динамика производственных затрат"],
-                ['themeId' => 1148, 'themeTitle' => "Просьба"],
-                ['themeId' => 1149, 'themeTitle' => "Деньги на сервер"],
-                ['themeId' => 1231, 'themeTitle' => "Прочее"]
-            ];
+        $example =  ["Динамика производственных затрат","Просьба","Деньги на сервер"];
 
         $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
 
         $data = PhoneService::getThemes($character->code, $simulation);
 
-        $this->assertEquals($example, $data);
-        SimulationService::simulationStop($simulation);
+        foreach ($data as $dat) {
+             $this->assertTrue(in_array($dat["themeTitle"], $example));
+        }
     }
 }
 
