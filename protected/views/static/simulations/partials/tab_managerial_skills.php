@@ -17,6 +17,7 @@
             <div class="chartbar management-1"></div>
             <div class="chartbar management-2"></div>
             <div class="chartbar management-3"></div>
+            <div class="chartbar management-4"></div>
         </div>
     </div>
 
