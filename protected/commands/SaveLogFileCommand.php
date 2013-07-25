@@ -19,7 +19,7 @@ class SaveLogFileCommand extends CConsoleCommand {
                             break;
                         }
                     }
-                    $simulation->saveLogsAsExcel(true);
+                    echo $simulation->saveLogsAsExcel(true);
                     $saves++;
                 } else {
                     if($overwrite) {
@@ -29,7 +29,7 @@ class SaveLogFileCommand extends CConsoleCommand {
                             }
                         }
                         if(unlink($simulation->getLogFilename())){
-                            $simulation->saveLogsAsExcel(true);
+                            echo $simulation->saveLogsAsExcel(true);
                             $saves++;
                         } else {
                             throw new Exception("file not delete - ".$simulation->getLogFilename());
@@ -44,11 +44,11 @@ class SaveLogFileCommand extends CConsoleCommand {
             $simulation = Simulation::model()->findByPk($sim_id);
             if(null !== $simulation) {
                 if(file_exists($simulation->getLogFilename()) === false) {
-                    $simulation->saveLogsAsExcel(true);
+                    echo $simulation->saveLogsAsExcel(true);
                 } else {
                     if($overwrite) {
                         if(unlink($simulation->getLogFilename())){
-                            $simulation->saveLogsAsExcel(true);
+                            echo $simulation->saveLogsAsExcel(true);
                             $saves++;
                         } else {
                             throw new Exception("file not delete - ".$simulation->getLogFilename());

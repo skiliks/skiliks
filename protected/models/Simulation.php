@@ -74,7 +74,7 @@ class Simulation extends CActiveRecord
 
         if ($isConsoleCall) {
             // just console notification
-            echo $this->getFilename($this->id)."- stored \r\n";
+            return $this->getFilename($this->id)."- stored \r\n";
         }
 
         return true;
