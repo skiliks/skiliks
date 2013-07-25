@@ -1179,6 +1179,9 @@
     .gauge-charts {
         width:730px;
     }
+    .resulttitelevalue {
+        margin-top:-30px;
+    }
 }
 /*
 .controller-static-dashboard {
