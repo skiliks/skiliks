@@ -1113,6 +1113,7 @@
     .blockvalue {
         height: 24px;
         line-height: 24px;
+        top:-3px;
     }
     .simulation-result-popup {
         padding-bottom: 18px;
@@ -1124,6 +1125,9 @@
         font-size: 27px;
         margin-top: -6px;
     }
+    .signmore {
+        margin-left: 6px;
+    }
     .simulation-details .navigation {
         margin-bottom: 18px;
     }
@@ -1131,7 +1135,12 @@
         width:705px;
     }
     .levellabels h3 {
+        padding: 5px 12px 0px;
         width:235px;
+    }
+    .levellabels h3:first-child {
+        padding-left: 4px;
+        width: 228px;
     }
     .rateslist .numlist {
         width:180px;
