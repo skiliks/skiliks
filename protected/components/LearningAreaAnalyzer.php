@@ -16,13 +16,13 @@ class LearningAreaAnalyzer {
     {
         // Management skills
         $this->followPriorities();
-        //$this->taskManagement();
+        $this->taskManagement();
         $this->peopleManagement();
         $this->communication();
-        //$this->mailManagement();
-        //$this->phoneManagement();
-        //$this->meetManagement();
-        //$this->imManagement();
+        $this->mailManagement();
+        $this->phoneManagement();
+        $this->meetManagement();
+        $this->imManagement();
 
         // Personal scale
         $this->stressResistance();
