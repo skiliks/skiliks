@@ -483,11 +483,8 @@
 .blockvalue, .blockvalue .value {
     font: 16px "ProximaNova-Regular"; /*18 */
 }
-/*.blockvalue .value {
-    padding-top: 4px;
-}*/
 .allsummry .value {
-    padding-top: 2px;
+    padding-top: 4px;
 }
 .legendwrap {
     background: #e0f1f1;
