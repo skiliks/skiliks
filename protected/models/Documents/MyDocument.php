@@ -186,7 +186,7 @@ class MyDocument extends CActiveRecord
      */
     public function getTemplateFilePath()
     {
-        return __DIR__ . '/../../../documents/socialcal_templates/' . StringTools::CyToEn($this->fileName);
+        return __DIR__ . '/../../../documents/socialcalc_templates/' . StringTools::CyToEn($this->fileName);
     }
 
     /**
