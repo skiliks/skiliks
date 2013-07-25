@@ -86,7 +86,6 @@ define([
                 try {
                     document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
                 } catch(e) {
-                    //console.log('document.domain: ', document.domain);
                     // this to protect against busted-sj test crash
                 }
 
@@ -200,7 +199,6 @@ define([
             },
 
             showTaskNotification: function(task) {
-                console.log('show task notification');
                 var notification = new SKDialogPanNotificationView({
                     'class': 'task-notification-dialog',
                     'message': '<span class="task-time">' + task.get('date') + '</span>' +
@@ -295,7 +293,6 @@ define([
                     var event_model = new SKEvent(event);
                     if (me.events.canAddEvent(event_model, url)) {
                         me.events.push(event_model);
-                        //console.log('event:' + event_model.getTypeSlug());
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);
@@ -469,7 +466,6 @@ define([
                 var me = this;
 
                 SKApp.server.api('simulation/stopPause', {}, function (responce) {
-                    console.log(me.paused_time);
                     if( me.paused_time !== undefined )
                     {
                         me._startTimer();
@@ -549,18 +545,13 @@ define([
                          */
                         me.trigger('tick');
                     }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
-                    //console.log(me.events_timer);
-
                 }
             },
 
             _stopTimer: function() {
-                //console.log(this.events_timer);
                 if (this.events_timer) {
                     clearInterval(this.events_timer);
-                    //console.log(this.events_timer);
                     delete this.events_timer;
-                    //console.log(this.events_timer);
                 }
             },
 

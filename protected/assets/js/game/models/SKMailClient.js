@@ -567,7 +567,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     var onSent = function () {
                         folder_to_load -= 1;
                         if (folder_to_load === 0) {
-                            // console.log('trigger init_completed');
                             me.trigger('init_completed');
                         }
                         return folder_to_load;
@@ -601,7 +600,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            //console.log('responce.messages: ', responce.messages);
                             me.updateInboxFolderEmails(responce.messages);
                             if (undefined !== cb) {
                                 cb();
@@ -629,7 +627,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            //console.log('responce.messages: ', responce.messages);
                             SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
                             if (undefined !== cb) {
                                 cb();
@@ -658,7 +655,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type: 1
                         },
                         function (responce) {
-                            //console.log('responce.messages: ', responce.messages);
                             MailClientModel.updateSendedFolderEmails(responce.messages);
                             if (undefined !== cb) {
                                 cb();
@@ -687,7 +683,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            //console.log('responce.messages: ', responce.messages);
                             SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
                             if (undefined !== cb) {
                                 cb();
@@ -979,7 +974,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 AppView.frame.icon_view.doSoundSaveAttachment();
                             }
                                 SKApp.simulation.documents.fetch();
-                                console.log("add");
                                 new SKDialogView({
                                     'message':'Файл был успешно сохранён в папку Мои документы.',
                                     'buttons':[
@@ -1226,7 +1220,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         phrase.mySqlId = parseInt(i);
                         phrase.text = array[i].name;
                         phrase.columnNumber = parseInt(array[i].column_number);
-                        //console.log(phrase);
                         this.availablePhrases.push(phrase);
                     }
                 } catch(exception) {
@@ -1249,7 +1242,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         phrase.mySqlId = parseInt(i);
                         phrase.text = array[i].name;
                         phrase.columnNumber = parseInt(array[i].column_number);
-                        //console.log(phrase);
                         this.availableAdditionalPhrases.push(phrase);
                     }
                 } catch(exception) {
@@ -1529,7 +1521,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                     // email.sunbject
                     if (false === emailToSave.isSubjectValid()) {
-                        //console.log('Invalid subject', emailToSave.subject);
                         mailClient.message_window = new SKDialogView({
                             'message':'Укажите тему письма.',
                             'buttons':[

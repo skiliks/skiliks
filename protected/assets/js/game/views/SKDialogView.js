@@ -184,7 +184,6 @@ define([
         },
 
         doDialogClose: function() {
-            console.log('doDialogClose');
             this.remove();
         },
 

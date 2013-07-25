@@ -684,7 +684,6 @@ define([
         },
         showHint:function($task) {
             var position = $task.position();
-            console.log(position);
             var title = $task.parent('td').attr('title');
             if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                 $('.plan_hint_tooltip').remove();
@@ -692,10 +691,6 @@ define([
             if($task.hasClass('day-plan-task-active')) {
                 $('.canvas').find('.windows-container').append(_.template(plan_hint_template, {title:title}));
             }
-            //$('.plan_hint_tooltip').css('top', position.top+'px');
-            //$('.plan_hint_tooltip').css('left', position.left+'px');
-            //this.$el.append(_.template(plan_hint_template, {title:title}));
-            console.log("showHint");
         },
         hideHint:function(e) {
             $('.plan_hint_tooltip').remove();

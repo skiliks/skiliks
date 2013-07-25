@@ -156,7 +156,7 @@ define([], function () {
                     if (cb) {
                         cb(data);
                     }
-                    console.log('parseNewEvents: ', data.events);
+                    //console.log('parseNewEvents: ', data.events);
                     SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                 }
             });
@@ -184,7 +184,7 @@ define([], function () {
             this.status = status;
             if (prev_status !== this.status && this.status === 'in progress') {
                 this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
-                console.log('event:' + this.getTypeSlug() + ':in_progress');
+                //console.log('event:' + this.getTypeSlug() + ':in_progress');
                 this.trigger('in progress');
             }
             if (this.status === 'completed') {
@@ -228,7 +228,7 @@ define([], function () {
                 'dialogId': replica_id
             }, function (data) {
                 if (data.result === 1) {
-                    console.log('selectReplica: ', data.events);
+                    //console.log('selectReplica: ', data.events);
                     if (me.getStatus() !== 'completed') {
                         me.complete();
                         cb();
