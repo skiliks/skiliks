@@ -95,16 +95,6 @@ class TimeManagementAnalyzer
 
     public function calculateEfficiency()
     {
-        /*if ($this->GameOverhead < 30) {
-            $k = 1;
-        } elseif ($this->GameOverhead < 60) {
-            $k = 0.6;
-        } else {
-            $k = 0.2;
-        }*/
-
-        //$this->firstPriorityTotal;
-
         if (50 <= $this->firstPriorityTotal) {
             $value = round((1 - $this->GameOverhead/$this->firstPriorityTotal)*100); // значение в процентах
         } else {
