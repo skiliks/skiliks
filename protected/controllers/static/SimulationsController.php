@@ -273,19 +273,18 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
         $this->layout = false;
 
-        $learning_areas = [];
+        $details = $simulation->getAssessmentDetails();
 
-        $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
+        // update sim results popup info:
+        $simulation->results_popup_partials_path = '//static/simulations/partials/';
+        $simulation->save(false);
 
-        $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path)
 
-
-
-        $this->render('simulation_details', [
+        $this->render($baseView, [
             'simulation'     => $simulation,
-            'learning_areas' => $learning_areas,
-            'invite'=>$invite,
-            'user'=>$user
+            'details'        => $details,
+            'user'           => $user
         ]);
     }
 }
