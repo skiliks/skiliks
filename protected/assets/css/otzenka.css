@@ -383,7 +383,7 @@
 
 .resulttitele, .resulttitele a, .resulttitele a:visited {
     color:#3d4041;
-    font:26px 'ProximaNova-Bold';
+    font:24px 'ProximaNova-Bold';
     font-weight: normal;
     text-decoration: none;
 }
@@ -391,7 +391,7 @@
     font-size: 20px;
 }
 .resulttitelevalue {
-    margin-top: -30px;
+    margin-top: -20px;
 }
 .resulttitelevalue+.resultlabeltitle {
     margin-top: -17px;
@@ -436,7 +436,7 @@
 }
 .barstitle {
     color:#3d4041;
-    font:18px 'ProximaNova-Bold';
+    font:16px 'ProximaNova-Bold';
     margin-bottom: 10px;
 }
 .resultlabeltitle {
@@ -520,7 +520,7 @@
 }
 .legendtitle {
     display: table-cell;
-    font:15px "ProximaNova-Regular";
+    font:16px "ProximaNova-Regular";
     height: 28px;
     line-height:108%;
     vertical-align: middle;
