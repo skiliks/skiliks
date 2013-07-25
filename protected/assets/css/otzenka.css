@@ -484,6 +484,8 @@
     font: 16px "ProximaNova-Regular"; /*18 */
 }
 .blockvalue.managerial-skills {
+    height: 25px;
+    line-height: 25px;
     padding-top: 4px;
     top:-8px;
 }
