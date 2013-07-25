@@ -423,7 +423,7 @@
     background: #ddf0f0;
     float: right;
     padding: 16px;
-    width: 640px;
+    width: 632px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -535,7 +535,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 306px;
 }
 .legendvalue {
     margin-top: 8px;
@@ -1022,13 +1022,13 @@
     text-align: center;
     width: 72px;
 }
-.twocharts .chartbar, .twocharts .chartproblem {
+.twocharts .chartbar {
     float: left;
-    width: 370px;
+    width: 364px;
 }
 .twocharts .chartproblem {
     margin-left: 20px;
-    width:250px;
+    width:246px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
@@ -1154,12 +1154,15 @@
     .mangrlresults .chartbar, .mangrlresults .chartproblem {
         margin-bottom: 14px;
     }
+    .extrasidepads, .section {
+        padding: 0;
+    }
     .labels {
        margin-top: 6px;
-        width: 226px;
+        width: 244px;
     }
     .barswrap {
-        width: 536px;
+        width: 495px;
     }
     .barstitle {
         font-size: 13px;
@@ -1168,13 +1171,20 @@
         width: 270px;
     }
     .twocharts .chartbar {
-        width: 295px;
+        width: 285px;
     }
     .twocharts .chartproblem {
-        width: 198px;
+        margin-left:16px;
+        width: 194px;
     }
     .mangrlresults .labels a, .thelabel {
         font-size: 11px;
+    }
+    .thelabel {
+        height:28px;
+    }
+    .resultslegend, .legendmargin {
+        margin-left: 248px;
     }
     .simulation-result-popup .total {
         font-size: 30px;

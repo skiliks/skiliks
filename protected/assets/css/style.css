@@ -4088,9 +4088,6 @@ ul.profile-menu li {
     .resulttitele.smallerfont {
         font-size:16px;
     }
-    .resultslegend, .legendmargin {
-        margin-left: 272px;
-    }
     .timedetail .labels {
         margin-top: 10px;
         width: 100px !important;
