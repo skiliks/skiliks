@@ -3335,7 +3335,7 @@ ul.profile-menu li {
 .chart-gauge {
     position: relative;
     width: 240px; /* 305px */
-    height: 130px; /*  135px */ /*  140px */
+    height: 120px; /*  135px */ /*  140px */
     margin: 0px 28px;
     overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
