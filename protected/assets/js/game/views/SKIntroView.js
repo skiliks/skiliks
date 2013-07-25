@@ -76,9 +76,10 @@ define([
                         warning = new SKDialogView({
                             class: 'before-video-warning',
                             content: content(),
+                            isPutCenter: true,
                             buttons: [{
                                 id: 'ok',
-                                value: 'OK',
+                                value: 'НАЧАТЬ',
                                 onclick: function() {
                                     warning.remove();
                                     me.stopPause();
