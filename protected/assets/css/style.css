@@ -1029,9 +1029,6 @@ html[lang=ru] .product section table th{
     .product h2 {
         font-size: 2.219em;
     }
-    .simulation-result-popup .total {
-        font-size: 2em;
-    }
 	.product h6{
 		font-size:1.333em;
 	}
@@ -3883,9 +3880,6 @@ ul.profile-menu li {
     /*.action-product .content {
         width:948px;
     }*/
-    .allsummry {
-        background-size: 55%;
-    }
     .allratebg, .allrating {
         background-image: url("../img/starsbigsml.png");
         height: 20px;
@@ -3893,24 +3887,6 @@ ul.profile-menu li {
     }
     .estmtresults {
         height: 110px;
-    }
-    .allseprtwrap .ratepercnt {
-        top:18px;
-    }
-    .uprnavprcnt {
-        left: 112px;
-    }
-    .resultprcnt {
-        left: 276px;
-    }
-    .timeprcnt {
-        left: 442px;
-    }
-    .ratepercnt, .product .ratepercnt {
-        font-size: 14px;
-    }
-    .product .estmtileswrap {
-        margin-top: 0px;
     }
     .product .maincharts {
         margin-top: -20px;
@@ -3985,8 +3961,8 @@ ul.profile-menu li {
         height: 106px;
         width:190px !important;
     }
-    .blockvalue, .blockvalue .value {
-        font-size: 13px;
+    .chart-gauge {
+        margin: 0 23px;
     }
     .maincharts .static-bullet-charts {
         height: 77px;
@@ -3999,9 +3975,12 @@ ul.profile-menu li {
         margin-right: 20px;
         width: 170px;
     }
+    /*
     .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
         margin-left: 20px;
     }
+
+
     .widthblock {
         width:190px !important;
     }
@@ -4014,6 +3993,8 @@ ul.profile-menu li {
     .product .rateslist .widthblock:nth-child(2) {
         width:186px !important;
     }
+    */
+
 
     .chart-bullet.small, .maincharts .chart-bullet.small {
         width:170px !important;
@@ -4083,8 +4064,9 @@ ul.profile-menu li {
         font-size: 12px;
     }
     .simulation-details .navigation li a {
-        font-size: 12px;
-        padding: 5px 6px;
+        font-size: 11px;
+        height:24px;
+        line-height:24px;
     }
     .labeltitles h3, .resulttitele, .resulttitele a {
         font-size: 20px;
