@@ -105,7 +105,7 @@ class TimeManagementAnalyzer
 
         //$this->firstPriorityTotal;
 
-        if (0.5 < $this->firstPriorityTotal) {
+        if (50 <= $this->firstPriorityTotal) {
             $value = round((1 - $this->GameOverhead/$this->firstPriorityTotal)*100); // значение в процентах
         } else {
             $value = 0;
