@@ -39,6 +39,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property Scenario $game_type
  * @property SimulationLearningArea[] $learning_area
  * @property SimulationLearningGoal[] $learning_goal
+ * @property SimulationLearningGoalGroup[] $learning_goal_group
  * @property TimeManagementAggregated[] $time_management_aggregated
  * @property Invite $invite
  * @property MailBox[] $mail_box_inbox
@@ -194,6 +195,7 @@ class Simulation extends CActiveRecord
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
             'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
+            'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
             'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
             //'mail_box_inbox'                  => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
@@ -545,30 +547,12 @@ class Simulation extends CActiveRecord
                 $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
             }
         }
-        foreach ($this->learning_goal as $row) {
-            if ($row->learningGoal->learningArea->code <= 3) {
-                if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
-                    $behaviourIds = [];
-                    foreach ($row->learningGoal->heroBehaviours as $behaviour) {
-                        $behaviourIds[] = $behaviour->id;
-                    }
 
-                    /** @var AssessmentAggregated[] $values */
-                    $values = AssessmentAggregated::model()->findAllByAttributes([
-                        'sim_id' => $this->id,
-                        'point_id' => $behaviourIds
-                    ]);
-
-                    foreach ($values as $point) {
-                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                        [$row->learningGoal->learningArea->code]
-                        [$point->point->code] = ['+' => substr($point->fixed_value / $point->point->scale * 100, 0, 5), '-' => 0];
-                    }
-                } else {
+        foreach ($this->learning_goal_group as $row) {
+            if ($row->learningGoalGroup->learning_area_code <= 3) {
                     $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                           [$row->learningGoal->learningArea->code]
-                           [$row->learningGoal->code] = ['+' => $row->percent, '-' => $row->problem];
-                }
+                           [$row->learningGoalGroup->learning_area_code]
+                           [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
             }
         }
 
@@ -621,34 +605,15 @@ class Simulation extends CActiveRecord
 
         // Management
         foreach ($this->learning_area as $row) {
-            if ($row->learningArea->code <= 8) {
+            if ($row->learningArea->code <= 3) {
                 $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
             }
         }
-        foreach ($this->learning_goal as $row) {
-            if ($row->learningGoal->learningArea->code <= 8) {
-                if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
-                    $behaviourIds = [];
-                    foreach ($row->learningGoal->heroBehaviours as $behaviour) {
-                        $behaviourIds[] = $behaviour->id;
-                    }
-
-                    /** @var AssessmentAggregated[] $values */
-                    $values = AssessmentAggregated::model()->findAllByAttributes([
-                        'sim_id' => $this->id,
-                        'point_id' => $behaviourIds
-                    ]);
-
-                    foreach ($values as $point) {
-                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                        [$row->learningGoal->learningArea->code]
-                        [$point->point->code] = ['+' => substr($point->fixed_value / $point->point->scale * 100, 0, 5), '-' => 0];
-                    }
-                } else {
+        foreach ($this->learning_goal_group as $row) {
+            if ($row->learningGoalGroup->learning_area_code <= 3) {
                     $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                    [$row->learningGoal->learningArea->code]
-                    [$row->learningGoal->code] = ['+' => $row->percent, '-' => $row->problem];
-                }
+                    [$row->learningGoalGroup->learning_area_code]
+                    [$row->learningGoalGroup] = ['+' => $row->percent, '-' => $row->problem];
             }
         }
 
