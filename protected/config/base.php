@@ -306,6 +306,7 @@ return array(
                 'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
+                'admin_area/simulations/<page:\d+>'               => 'admin_area/AdminPages/Simulations',
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
 

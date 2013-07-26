@@ -2,6 +2,8 @@
 
 class AdminPagesController extends SiteBaseController {
 
+    public $itemsOnPage = 100;
+
     public function beforeAction($action) {
 
         $public = ['Login'];
@@ -48,13 +50,35 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect('/');
     }
 
-    public function actionInvites() {
+    public function actionInvites()
+    {
+
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
+        $criteria = new CDbCriteria;
+        $totalItems = Invite::model()->count($criteria);
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/AdminPages/Invites';
+        // pager }
 
         $models = Invite::model()->findAll([
             "order" => "updated_at desc"
         ]);
         $this->layout = '//admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/invites', ['models'=>$models]);
+        $this->render('/admin_area/pages/invites', [
+            'models'      => $models,
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage
+        ]);
 
     }
 
@@ -151,13 +175,36 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
-    public function actionOrders() {
+    public function actionOrders()
+    {
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
+        $criteria = new CDbCriteria;
+        $totalItems = Invoice::model()->count($criteria);
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/AdminPages/Orders';
+        // pager }
 
         $models = Invoice::model()->findAll([
             "order" => "updated_at desc"
         ]);
+
         $this->layout = '//admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/orders', ['models'=>$models]);
+
+        $this->render('/admin_area/pages/orders', [
+            'models'      => $models,
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage
+        ]);
 
     }
 
@@ -291,11 +338,35 @@ class AdminPagesController extends SiteBaseController {
 
         $this->pageTitle = 'Админка: Список симуляций в БД';
         $this->layout = '//admin_area/layouts/admin_main';
+
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
+        $criteria = new CDbCriteria;
+        $totalItems = Simulation::model()->count($criteria);
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/AdminPages/Simulations';
+        // pager }
+
+        $simulations = Simulation::model()->findAll([
+            'order' => 'id DESC',
+            'offset' => $page * $this->itemsOnPage,
+            'limit'  => $this->itemsOnPage
+        ]);
+
         $this->render('/admin_area/pages/simulations_table', [
-            'simulations' => Simulation::model()->findAll([
-                    'order' => 'id DESC'
-                ]),
+            'simulations' => $simulations,
             'invites'     => $invites,
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage
         ]);
     }
 
@@ -306,8 +377,28 @@ class AdminPagesController extends SiteBaseController {
     {
         $this->pageTitle = 'Админка: Список пользователей';
         $this->layout = '//admin_area/layouts/admin_main';
+
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
+        $criteria = new CDbCriteria;
+        $totalItems = YumProfile::model()->count($criteria);
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/AdminPages/UsersList';
+        // pager }
+
         $this->render('/admin_area/pages/users_table', [
             'profiles' => YumProfile::model()->findAll(),
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage
         ]);
     }
 
@@ -316,10 +407,29 @@ class AdminPagesController extends SiteBaseController {
      */
     public function actionCorporateAccountList()
     {
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
+        $criteria = new CDbCriteria;
+        $totalItems = UserAccountCorporate::model()->count($criteria);
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/AdminPages/CorporateAccountList ';
+        // pager }
+
         $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/corporate_accounts_table', [
             'accounts' => UserAccountCorporate::model()->findAll(),
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage
         ]);
     }
 

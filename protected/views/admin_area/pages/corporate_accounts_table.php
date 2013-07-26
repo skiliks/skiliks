@@ -13,6 +13,18 @@
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
+
+    <?php $this->widget('CLinkPager',array(
+        'header'         => '',
+        'pages'          => $pager,
+        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+    )); ?>
+
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей на странице из <?= $totalItems ?>)
+
+    <br/>
+    <br/>
+
     <table class="table table-hover">
         <thead>
         <tr>

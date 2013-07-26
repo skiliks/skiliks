@@ -13,6 +13,18 @@
 ] ?>
 <div class="row fix-top">
     <h2>Инвайты</h2>
+
+    <?php $this->widget('CLinkPager',array(
+        'header'         => '',
+        'pages'          => $pager,
+        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+    )); ?>
+
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей на странице из <?= $totalItems ?>)
+
+    <br/>
+    <br/>
+
     <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
     <table class="table table-hover">
         <thead>
