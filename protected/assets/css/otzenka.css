@@ -1232,6 +1232,9 @@
     .labels .labelwrap:first-child {
         margin-top:7px;
     }
+    .high-labels .thelabel {
+        height:38px;
+    }
     .mangrlresults .display-ib {
         width: 175px;
     }
