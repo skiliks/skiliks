@@ -973,6 +973,15 @@
     margin-bottom: 0;
     margin-top: -15px;
 }
+.list-counter, .list-link {
+    display: table-cell;
+}
+.list-counter {
+    width:12px;
+}
+.mangrlresults .list-counter {
+    width:10px;
+}
 .labeltitles {
     float: left;
     width: 300px;
