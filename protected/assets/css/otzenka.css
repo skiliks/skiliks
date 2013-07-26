@@ -1183,6 +1183,9 @@
         /*margin-left: 6px;*/
         padding-left: 6px;
     }
+    .mangrlresults .labelwrap:first-child .list-text {
+        width: 175px;
+    }
     .simulation-details .navigation {
         margin-bottom: 18px;
     }
@@ -1221,9 +1224,6 @@
     }
     .high-labels .thelabel {
         height: 37px;
-    }
-    .managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
-        padding-top: 6px;
     }
     .managerialmain .chartbar, .managerialmain .chartproblem {
         margin-bottom: 25px;
