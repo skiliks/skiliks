@@ -97,7 +97,6 @@ define([
             var activeSheetView = undefined;
 
             $.each(this.sheets, function(index, sheet) {
-                console.log(sheet.options.sheet.get('name') == activeSheet.get('name'));
                 if (sheet.options.sheet.get('name') == activeSheet.get('name')) {
                     activeSheetView = sheet;
                 }
@@ -107,10 +106,8 @@ define([
                 activeSheetView.oldHeidth == activeSheetView.$el.height()) {
                 // нам не надо реперисовывать скролы, если размеры окан не поменялись
                 // перерисовка занимает время - в это время не работают горячие клавиши копирования
-                console.log('no resize');
                 return;
             }
-            console.log('resize!');
 
             activeSheetView.spreadsheet.InitializeSpreadsheetControl($(activeSheetView.el).attr('id'), activeSheetView.$el.height(), activeSheetView.$el.width(), 0);
             activeSheetView.spreadsheet.ExecuteCommand('recalc', '');
