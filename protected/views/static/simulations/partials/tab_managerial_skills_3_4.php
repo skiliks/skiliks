@@ -9,9 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.1</span><span class="list-text">Использование делегирования для управления объемом задач</span></div></span></p>
-            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.2</span><span class="list-text">Управление ресурсами различной квалификации</span></div></span></p>
-            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.3</span><span class="list-text">Использование обратной связи</span></div></span></p>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.1</span><span class="list-text">Использование делегирования для управления объемом задач</span></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.2</span><span class="list-text">Управление ресурсами различной квалификации</span></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.3</span><span class="list-text">Использование обратной связи</span></div></span></div>
         </div>
         <div class="barswrap">
             <div class="twocharts peopleManagement-1">
