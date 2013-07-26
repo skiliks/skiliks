@@ -984,8 +984,12 @@
     vertical-align: top;
     min-width:16px;
 }
-.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
+/*.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
+}*/
+.managerialmain .list-counter, .managerialmain .list-text {
+    padding-top:3px;
+    vertical-align: top;
 }
 .managerialmain {
     min-width:14px;
