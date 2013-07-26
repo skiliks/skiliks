@@ -593,11 +593,11 @@
     color: #fff !important;
 }
 .signmore {
-    background: url(../img/icon-circlearrw.png) no-repeat left bottom;
-    display: inline-block;
+    background: url(../img/icon-circlearrw.png) no-repeat right bottom;
+    display: table-cell;
     height: 21px;
-    margin-left: 10px;
-    margin-bottom: -4px;
+    padding-left: 10px;
+    /*margin-bottom: -4px;*/
     width: 21px;
 }
 .personalbars * {
@@ -1008,7 +1008,7 @@
 }
 .mangrlresultstitle {
     float: left;
-    margin-left:70px;
+    margin-left:20px;
     margin-bottom: 20px;
     padding-top: 11px;
 }
