@@ -194,6 +194,7 @@ class LearningAreaAnalyzer {
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
+            /* @var $area LearningArea */
             foreach ($area->learningGoalGroups as $learningGoalGroup) {
 
                 /** @var SimulationLearningGoalGroup $slg */
