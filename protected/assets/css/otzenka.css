@@ -594,11 +594,15 @@
 }
 .signmore {
     background: url(../img/icon-circlearrw.png) no-repeat right top;
-    display: table-cell;
+    display: inline-block;
     height: 21px;
     padding-left: 10px;
-    /*margin-bottom: -4px;*/
+    margin-bottom: -4px;
     width: 21px;
+}
+.managerialmain .signmore  {
+    display: table-cell;
+    margin-bottom: 0px;
 }
 .personalbars * {
     font-family: "ProximaNova-Regular" !important;
