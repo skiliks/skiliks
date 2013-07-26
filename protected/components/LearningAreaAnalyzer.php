@@ -245,7 +245,7 @@ class LearningAreaAnalyzer {
      */
     public function followPriorities()
     {
-        $value = $this->calcCombinedSkillsByBehaviours([1122, 1232]);
+        $value = $this->calcCombinedSkillsByGoalGroupPriority(1);
         $this->saveLearningArea(1, $value * 100);
     }
 
@@ -254,7 +254,7 @@ class LearningAreaAnalyzer {
      */
     public function taskManagement()
     {
-        $value = $this->calcCombinedSkillsByGoal(2);
+        $value = $this->calcCombinedSkillsByGoalGroup(2);
         $this->saveLearningArea(2, $value * 100);
     }
 
@@ -263,7 +263,7 @@ class LearningAreaAnalyzer {
      */
     public function peopleManagement()
     {
-        $value = $this->calcCombinedSkillsByGoal(3);
+        $value = $this->calcCombinedSkillsByGoalGroup(3);
         $this->saveLearningArea(3, $value * 100);
     }
 
