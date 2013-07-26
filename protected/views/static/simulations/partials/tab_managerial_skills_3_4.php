@@ -9,9 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel">2.1 Использование делегирования для управления объемом задач</span></p>
-            <p class="labelwrap"><span class="thelabel">2.2 Управление ресурсами различной квалификации</span></p>
-            <p class="labelwrap"><span class="thelabel">2.3 Использование обратной связи</span></p>
+            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.1</span><span class="list-text">Использование делегирования для управления объемом задач</span></div></span></p>
+            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.2</span><span class="list-text">Управление ресурсами различной квалификации</span></div></span></p>
+            <p class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.3</span><span class="list-text">Использование обратной связи</span></div></span></p>
         </div>
         <div class="barswrap">
             <div class="twocharts peopleManagement-1">
@@ -38,10 +38,10 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.1</span><span class="list-text">Оптимальное использование каналов коммуникации</span></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.2</span><span class="list-text">Эффективная работа с почтой</span></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.3</span><span class="list-text">Эффективная работа со звонками</span></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.4</span><span class="list-text">Эффективное управление встречами</span></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.1</span><span class="list-text">Оптимальное использование каналов коммуникации</span></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.2</span><span class="list-text">Эффективная работа с почтой</span></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.3</span><span class="list-text">Эффективная работа со звонками</span></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.4</span><span class="list-text">Эффективное управление встречами</span></div></span></div>
         </div>
         <div class="barswrap">
             <div class="twocharts communication-1">
