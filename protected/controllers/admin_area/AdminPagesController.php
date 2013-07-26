@@ -112,13 +112,14 @@ class AdminPagesController extends SiteBaseController {
             throw new Exception("Файл не найден");
         }
 
+        /** @var MyDocument $document */
         $document = MyDocument::model()->findByAttributes([
             'template_id' => $documentTemplate->id,
             'sim_id' => $sim_id
         ]);
 
         $scData = $document->getSheetList();
-        $filePath = $document->getFilePath();
+        $filePath = tempnam('/tmp', 'excel_');
         ScXlsConverter::sc2xls($scData, $filePath);
 
         if (file_exists($filePath)) {
