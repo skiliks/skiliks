@@ -675,11 +675,11 @@
 /*  *************************** TEAM ***************************/
 .action-teamNew {
     background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
-    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
     background-position: center 790px, center top, center 345px, center 790px; /*center 810px, center top, center 260px, center 815px */
 }
 .team {
-    height: 1400px;
+    height: 1550px;
 }
 .text-about {
     line-height: 130%;
