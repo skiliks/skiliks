@@ -1023,7 +1023,7 @@
 .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
-.mangrlresults ol {
+.mangrlresults ol li {
     list-style-type: decimal;
 }
 .labels1 {
