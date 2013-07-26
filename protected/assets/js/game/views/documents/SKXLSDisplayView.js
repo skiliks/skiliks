@@ -3,12 +3,10 @@
 
 define([
     "text!game/jst/document/document_xls_template.jst",
-    "text!game/jst/document/budget.jst",
     "game/views/SKWindowView",
     "game/views/documents/spreadsheets/SKSheetView"
 ],function (
     document_xls_template,
-    budget,
     SKWindowView,
     SKSheetView
 ) {
@@ -58,6 +56,7 @@ define([
             var doc = this.options.model_instance.get('document');
             var spreadsheet;
             el.html( _.template(document_xls_template, {
+                css_id: doc.getCssId(),
                 sheets: doc.get('sheets')
             }) );
 
@@ -65,14 +64,14 @@ define([
             me.sheets = [];
             doc.get('sheets').each(function (sheet, i) {
                 var sheetView = new SKSheetView({
-                    'el': me.$('.table-container'),
-                    'sheet': sheet
+                    'el':     me.$('.table-container'),
+                    'sheet':  sheet
                 });
                 sheetView.render();
 
                 me.sheets.push(sheetView);
                 me.listenTo(sheet, 'activate', function() {
-                    $('.sheet-tabs li').removeClass('active').filter('[data-sheet-name=' + sheet.get('name') + ']').addClass('active');
+                    $('#' + doc.getCssId() + ' .sheet-tabs li').removeClass('active').filter('[data-sheet-name=' + sheet.get('name') + ']').addClass('active');
                 });
 
                 if (i === 0) {
@@ -84,17 +83,35 @@ define([
         doSelectTab: function doSelectTab (event) {
             var doc = this.options.model_instance.get('document');
             doc.get('sheets').where({'name': $(event.target).attr('data-sheet-name')})[0].activate();
+
+            this.resizeActiveTab();
+        },
+
+        resizeActiveTab: function() {
+            var doc = this.options.model_instance.get('document');
+            
+            var activeSheet = doc.get('sheets').where({
+                'name':  $('#' + doc.getCssId() + ' .sheet-tabs li.active').attr('data-sheet-name')
+            })[0];
+
+            var activeSheetView = undefined;
+
+            $.each(this.sheets, function(index, sheet) {
+                console.log(sheet.options.sheet.get('name') == activeSheet.get('name'));
+                if (sheet.options.sheet.get('name') == activeSheet.get('name')) {
+                    activeSheetView = sheet;
+                }
+            });
+
+            activeSheetView.spreadsheet.InitializeSpreadsheetControl($(activeSheetView.el).attr('id'), activeSheetView.$el.height(), activeSheetView.$el.width(), 0);
+            activeSheetView.spreadsheet.ExecuteCommand('recalc', '');
+            activeSheetView.spreadsheet.ExecuteCommand('redisplay', '');
         },
 
         onResize: function() {
             window.SKWindowView.prototype.onResize.call(this);
             var me = this;
-            $.each(this.sheets, function(index, sheet){
-                sheet.spreadsheet.InitializeSpreadsheetControl($(sheet.el).attr('id'), sheet.$el.height(), sheet.$el.width(), 0);
-                sheet.spreadsheet.ExecuteCommand('recalc', '');
-                sheet.spreadsheet.ExecuteCommand('redisplay', '');
-
-            });
+            me.resizeActiveTab();
         },
         remove: function () {
             this.sheets = [];

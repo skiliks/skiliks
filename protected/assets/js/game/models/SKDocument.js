@@ -47,6 +47,10 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
                 me.set('sheets', new SKSheetCollection([], {'document': this}));
                 me.get('sheets').fetch();
             }
+        },
+
+        getCssId: function() {
+            return 'doc-' + this.id;
         }
     },
     {
