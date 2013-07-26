@@ -8,13 +8,13 @@
     </div>
 
     <div class="clearfix mangrlresults">
-        <ol class="labels labels1">
-            <li class="labelwrap"><span class="thelabel"><a href="#">1.1 Определение приоритетов</a></span></li>
-            <li class="labelwrap"><span class="thelabel"><a href="#">1.2 Использование планирования в течение дня</a></span></li>
-            <li class="labelwrap"><span class="thelabel"><a href="#">1.3 Правильное определение приоритетов задач при планировании</a></span></li>
-            <li class="labelwrap"><span class="thelabel"><a href="#">1.4 Выполнение задач в соответствии с приоритетами</a></span></li>
-            <li class="labelwrap"><span class="thelabel"><a href="#">1.5 Завершение начатых задач</a></span></li>
-        </ol>
+        <div class="labels labels1">
+            <p class="labelwrap"><span class="thelabel"><a href="#">1.1 Определение приоритетов</a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#">1.2 Использование планирования в течение дня</a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#">1.3 Правильное определение приоритетов задач при планировании</a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#">1.4 Выполнение задач в соответствии с приоритетами</a></span></p>
+            <p class="labelwrap"><span class="thelabel"><a href="#">1.5 Завершение начатых задач</a></span></p>
+        </div>
         <div class="barswrap">
             <div class="twocharts followPriorities-1">
                 <div class="chartbar"></div>
