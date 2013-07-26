@@ -349,13 +349,14 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'disableAssets' => false,
-        'keep_last_category_time_214g' => 60,
-        'saveZohoPopupTime' => '17:55',
-        'simulationStartUrl' => '/index.php/simulation/start',
-        'userNameInHeaderMaxLength' => 30,
-        'vacancyLinkInProfileMaxLength'=> 50,
-        'frontendUrl' => 'http://skiliks.loc/',
+        'disableAssets'                 => false,
+        'keep_last_category_time_214g'  => 60,
+        'saveZohoPopupTime'             => '17:55',
+        'simulationStartUrl'            => '/index.php/simulation/start',
+        'userNameInHeaderMaxLength'     => 30,
+        'vacancyLinkInProfileMaxLength' => 50,
+        'frontendUrl'                   => 'http://skiliks.loc/',
+        'isUseResultPopUpCache'         => true,
         'allowedLanguages' => [
             'en' => [
                 'static/pages/comingSoonSuccess',
