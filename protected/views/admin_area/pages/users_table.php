@@ -1,4 +1,4 @@
-<? $titles = [
+<?php $titles = [
     'ID профиля',
     'ID юзера',
     'Имя',
@@ -13,24 +13,24 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titles as $title) :?>
+            <?php foreach($titles as $title) :?>
             <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invoice */ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($profiles as $profile) : ?>
-            <? $i++ ?>
-            <? if($i === $step) : ?>
+        <?php /* @var $model Invoice */ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($profiles as $profile) : ?>
+            <?php $i++ ?>
+            <?php if($i === $step) : ?>
                     <tr>
-                        <? foreach($titles as $title) :?>
+                        <?php foreach($titles as $title) :?>
                             <th><?=$title?></th>
-                        <? endforeach ?>
+                        <?php endforeach ?>
                     </tr>
-            <? $i= 0 ?>
-            <? endif ?>
+            <?php $i= 0 ?>
+            <?php endif ?>
             <tr class="orders-row">
                 <td><?= $profile->id ?></td>
                 <td><?= $profile->user->id ?></td>
@@ -41,7 +41,7 @@
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
             </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

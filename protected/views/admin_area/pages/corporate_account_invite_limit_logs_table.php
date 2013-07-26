@@ -1,4 +1,4 @@
-<? $titles = [
+<?php $titles = [
     'Дата',
     'Транзакция',
     'Место спровоцировавцее транзакцию (в коде проекта)',
@@ -21,30 +21,30 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titles as $title) :?>
+            <?php foreach($titles as $title) :?>
             <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invoice */ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($logs as $log) : ?>
-            <? $i++ ?>
-            <? if($i === $step) : ?>
+        <?php /* @var $model Invoice */ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($logs as $log) : ?>
+            <?php $i++ ?>
+            <?php if($i === $step) : ?>
                     <tr>
-                        <? foreach($titles as $title) :?>
+                        <?php foreach($titles as $title) :?>
                             <th><?=$title?></th>
-                        <? endforeach ?>
+                        <?php endforeach ?>
                     </tr>
-            <? $i= 0 ?>
-            <? endif ?>
+            <?php $i= 0 ?>
+            <?php endif ?>
             <tr class="orders-row">
                 <td><?= $log->date ?></td>
                 <td><?= $log->amount ?> <?= $log->direction ?> до <?= $log->limit_after_transaction ?></td>
                 <td><?= $log->action ?></td>
             </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <base href="<? Yii::app()->request->pathInfo ?>">
+    <base href="<?php Yii::app()->request->pathInfo ?>">
     <meta charset="utf-8">
     <title>Template &middot; Bootstrap</title>
     <link href="/public/admin_area/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="brand" href="/">Skiliks</a>
-                <? $this->renderPartial('//admin_area/partials/_top_menu') ?>
+            <?php $this->renderPartial('//admin_area/partials/_top_menu') ?>
         </div>
     </div>
 </div>
@@ -31,20 +31,20 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
-            <? $this->renderPartial('//admin_area/partials/_left_menu', []) ?>
+            <?php $this->renderPartial('//admin_area/partials/_left_menu', []) ?>
         </div>
         <div class="span10">
 
             <br/>
 
-            <? foreach(Yii::app()->user->getFlashes() as $class => $message) : ?>
+            <?php foreach (Yii::app()->user->getFlashes() as $class => $message): ?>
                 <div class="alert alert-<?= $class ?>">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <?= $message ?>
                 </div>
-            <? endforeach ?>
+            <?php endforeach ?>
 
-            <?=$content?>
+            <?= $content?>
         </div>
     </div>
 
