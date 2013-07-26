@@ -12,7 +12,7 @@
 
 /* прячем диалог подтверждения удаления файла - он всё равно не работает*/
 .elfinder-dialog-confirm {
-    display: none;
+    display: none !important;
 }
 
 /* hide elfinder contextmenu */
