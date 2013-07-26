@@ -846,7 +846,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     }
 
     /**
-     *
+     * All 100% - all points collected
      */
     public function testPerformanceAggregation_case_1()
     {
@@ -867,8 +867,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
-        $e = new Evaluation($simulation);
-        $e->checkManagerialProductivity();
+        $evaluationService = new Evaluation($simulation);
+        $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 
@@ -879,6 +879,12 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY][2]));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
+
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][0]);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][1]);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][2]);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['2_min']);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['total']);
 
         $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
     }
@@ -905,8 +911,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
-        $e = new Evaluation($simulation);
-        $e->checkManagerialProductivity();
+        $evaluationService = new Evaluation($simulation);
+        $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 

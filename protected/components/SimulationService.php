@@ -374,6 +374,8 @@ class SimulationService
 
     public static function calculatePerformanceRate(Simulation $simulation)
     {
+        $is40or41ruleUsed = false;
+
         $maxRates = MaxRate::model()->findAllByAttributes(
             [
                 'scenario_id' => $simulation->scenario_id,
@@ -395,6 +397,17 @@ class SimulationService
             if (empty($categories[$rule->category_id])) {
                 $categories[$rule->category_id] = 0;
             }
+
+            // hack for OR condition in 40/41 rules
+
+            if (40 == $rule->code || 41 == $rule->code) {
+                if ($is40or41ruleUsed) {
+                    $rule->value = 0;
+                } else {
+                    $is40or41ruleUsed = true;
+                }
+            }
+
             $categories[$rule->category_id] += $rule->value;
         }
 
