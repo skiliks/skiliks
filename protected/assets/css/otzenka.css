@@ -951,6 +951,9 @@
 .mangrlresults .chartbar, .mangrlresults .chartproblem {
     margin-bottom: 18px;
 }
+.managerialmain .chartbar, .managerialmain .chartproblem {
+    margin-bottom: 40px;
+}
 .mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child > *,
 .barswrap .emptychart:last-child {
     margin-bottom: 0px;
@@ -1203,6 +1206,18 @@
     .labels {
        margin-top: 6px;
         width: 244px;
+    }
+    .mangrlresults .display-ib {
+        width: 175px;
+    }
+    .high-labels .thelabel {
+        height: 37px;
+    }
+    .managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
+        padding-top: 6px;
+    }
+    .managerialmain .chartbar, .managerialmain .chartproblem {
+        margin-bottom: 25px;
     }
     .barswrap {
         width: 495px;
