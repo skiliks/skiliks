@@ -9,6 +9,7 @@ var SKSimulationView;
 define([
     "text!game/jst/world/simulation_template.jst",
     "text!game/jst/world/tutorial.jst",
+    "text!game/jst/dialogs/how_to_leave.jst",
 
     "game/views/mail/SKMailClientView",
     "game/views/documents/SKXLSDisplayView",
@@ -26,7 +27,7 @@ define([
     "game/views/world/SKIconPanelView",
     "game/views/world/SKManualView",
     "game/views/SKDialogView"
-], function (simulation_template, tutorial_template, SKMailClientView, SKXLSDisplayView) {
+], function (simulation_template, tutorial_template, how_to_leave_tpl, SKMailClientView, SKXLSDisplayView) {
     "use strict";
     /**
      * @class SKSimulationView
@@ -302,7 +303,7 @@ define([
 
                                 var notice = new SKDialogView({
                                     'class': 'how-to-leave',
-                                    'message': 'Вы можете завершить работу в любое время с помощью кнопки',
+                                    'message': _.template(how_to_leave_tpl)(),
                                     'buttons': [{
                                         value: 'OK',
                                         onclick: function() {
