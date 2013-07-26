@@ -93,6 +93,7 @@ class PlanAnalyzer {
             if ('plan' == $logItem->leg_action
                 || 'A_wait' == $code
                 || 'A_wrong_call' == $code
+                || 'A_already_used' == $code
                 || '2_min' == $logItem->category
                 || 'D24' === $logItem->leg_action
                 || 'D27' === $logItem->leg_action
