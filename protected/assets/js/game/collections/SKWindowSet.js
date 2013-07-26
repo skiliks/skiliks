@@ -199,13 +199,19 @@ define([
             }
         },
 
-        isNotOpen:function(name, subname) {
+        isOpen:function(name, subname) {
             var windows = this.where({name: name, subname: subname});
             if (windows.length === 0) {
-                return true;
-            }else{
                 return false;
+            }else{
+                return true;
             }
+        },
+
+        isActive:function(name, subname) {
+            var window = this.getActiveWindow();
+
+            return (window.get('name') == name && window.get('subname') == name);
         },
 
         /**doActivate

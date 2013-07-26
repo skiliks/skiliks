@@ -461,7 +461,7 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    if(SKApp.simulation.window_set.isNotOpen('plan', 'plan')){
+                    if(false == SKApp.simulation.window_set.isActive('plan', 'plan')){
                         SKApp.simulation.window_set.toggle('plan', 'plan');
                     }
                 } catch(exception) {
@@ -475,7 +475,7 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    if(SKApp.simulation.window_set.isNotOpen('visitor', 'visitorMeeting')){
+                    if(false == SKApp.simulation.window_set.isActive('visitor', 'visitorMeeting')){
                         SKApp.simulation.window_set.toggle('visitor', 'meetingChoice');
                     }
 
@@ -669,7 +669,7 @@ define([
             doPhoneToggle: function (e) {
                 try {
                     e.preventDefault();
-                    if(SKApp.simulation.window_set.isNotOpen('phone', 'phoneMain')){
+                    if(false == SKApp.simulation.window_set.isActive('phone', 'phoneMain')){
                         SKApp.simulation.window_set.toggle('phone', 'phoneMain');
                     }
                 } catch(exception) {
@@ -691,7 +691,7 @@ define([
                         this.doDocumentViewShow(this.documentId);
                         this.documentId = null;
                     } else {
-                        if(SKApp.simulation.window_set.isNotOpen('documents', 'documents')){
+                        if(false == SKApp.simulation.window_set.isActive('documents', 'documents')){
                             SKApp.simulation.window_set.toggle('documents', 'documents');
                         }
                     }
@@ -771,7 +771,7 @@ define([
                     this.stopAnimation('.mail');
 
                     // we need getActiveSubscreenName() because mailClient window subname changed dinamically
-                    if(SKApp.simulation.window_set.isNotOpen('mailEmulator', SKApp.simulation.mailClient.getActiveSubscreenName())){
+                    if(false == SKApp.simulation.window_set.isActive('mailEmulator', SKApp.simulation.mailClient.getActiveSubscreenName())){
                         SKApp.simulation.window_set.toggle(
                             'mailEmulator',
                             SKApp.simulation.mailClient.getActiveSubscreenName()
