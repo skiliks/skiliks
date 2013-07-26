@@ -999,7 +999,8 @@
 .mangrlresultstitle {
     float: left;
     margin-left:70px;
-    padding-top: 25px;
+    margin-bottom: 20px;
+    padding-top: 11px;
 }
 .labelwrap {
     margin-top:11px;
