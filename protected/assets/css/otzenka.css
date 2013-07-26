@@ -1230,7 +1230,7 @@
         margin-top:14px;
     }
     .labels .labelwrap:first-child {
-        margin-top:7px;
+        margin-top:10px;
     }
     .high-labels .thelabel {
         height:38px;
@@ -1262,6 +1262,7 @@
     }
     .thelabel {
         height:24px;
+        line-height: 110%;
     }
     .resultslegend, .legendmargin {
         margin-left: 248px;
