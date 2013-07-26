@@ -230,6 +230,19 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getLearningGoalGroups($data = [])
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return LearningGoalGroup::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return LearningGoalGroup::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
     public function getLearningAreas($data = [])
     {
         if (is_array($data)) {

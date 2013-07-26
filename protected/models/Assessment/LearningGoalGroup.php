@@ -9,9 +9,12 @@
  * @property string $title
  * @property string $import_id
  * @property integer $scenario_id
+ * @property integer $learning_area_id
+ * @property string $learning_area_code
  *
  * The followings are the available model relations:
  * @property SimulationLearningGoalGroup[] $simulationLearningGoalGroups
+ * @property LearningGoal[] $learningGoals
  */
 class LearningGoalGroup extends CActiveRecord
 {
@@ -61,6 +64,7 @@ class LearningGoalGroup extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'simulationLearningGoalGroups' => array(self::HAS_MANY, 'SimulationLearningGoalGroup', 'learning_goal_group_id'),
+            'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'learning_goal_group_id'),
 		);
 	}
 

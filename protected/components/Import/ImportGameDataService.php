@@ -219,6 +219,8 @@ class ImportGameDataService
                     $learningGoalGroup = new LearningGoalGroup();
                     $learningGoalGroup->code = $learningGoalGroupCode;
                 }
+                $learningGoalGroup->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->code : null;
+                $learningGoalGroup->learning_area_id = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->id : null;
                 $learningGoalGroup->title = $learningGoalGroupText;
                 $learningGoalGroup->import_id = $this->import_id;
                 $learningGoalGroup->scenario_id = $this->scenario->primaryKey;
