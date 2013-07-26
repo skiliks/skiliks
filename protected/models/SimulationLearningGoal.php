@@ -105,14 +105,6 @@ class SimulationLearningGoal extends CActiveRecord
 
     public function getReducingCoefficient()
     {
-        if (0 < $this->problem && $this->problem <= 10) {
-            return 1;
-        } elseif (10 < $this->problem && $this->problem <= 20) {
-            return 0.8;
-        }elseif (20 < $this->problem && $this->problem <= 50) {
-            return 0.5;
-        } else {
-            return 0;
-        }
+        return LearningGoalAnalyzer::getReducingCoefficient($this->problem);
     }
 }
