@@ -128,7 +128,7 @@ class AdminPagesController extends SiteBaseController {
             throw new Exception("Файл не найден");
         }
 
-        $filename = $sim_id . '_' . $documentTemplate->fileName;
+        $filename = $sim_id . '_' . $documentTemplate->fileName . 'xls';
         header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename={$filename}");
         echo $xls;
