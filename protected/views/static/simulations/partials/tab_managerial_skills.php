@@ -9,9 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels high-labels">
-            <p class="labelwrap"><span class="thelabel"><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-link"><span class="display-ib">Управление задачами с учётом приоритетов</span><span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><span class="list-counter">2.</span><a href="#managerial-skills-1-2" class="list-link">Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-link">Управление коммуникациями <span class="signmore"></span></a></span></p>
+            <div class="labelwrap"><p><span class="thelabel"><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-link"><span class="display-ib">Управление задачами с учётом приоритетов</span><span class="signmore"></span></a></span></p></div>
+            <div class="labelwrap"><p><span class="thelabel"><span class="list-counter">2.</span><a href="#managerial-skills-1-2" class="list-link">Управление людьми <span class="signmore"></span></a></span></p></div>
+            <div class="labelwrap"><p><span class="thelabel"><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-link">Управление коммуникациями <span class="signmore"></span></a></span></p></div>
         </div>
         <div class="bars barswrap main-skills">
             <div class="chartbar management-1"></div>
