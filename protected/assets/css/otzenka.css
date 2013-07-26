@@ -1180,7 +1180,8 @@
         margin-top: -6px;
     }
     .signmore {
-        margin-left: 6px;
+        /*margin-left: 6px;*/
+        padding-left: 6px;
     }
     .simulation-details .navigation {
         margin-bottom: 18px;
