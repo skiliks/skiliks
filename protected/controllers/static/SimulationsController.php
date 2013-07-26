@@ -279,7 +279,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         $simulation->results_popup_partials_path = '//static/simulations/partials/';
         $simulation->save(false);
 
-        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path)
+        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path);
 
         $this->render($baseView, [
             'simulation'     => $simulation,
