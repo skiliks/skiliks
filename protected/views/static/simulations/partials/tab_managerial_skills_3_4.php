@@ -38,10 +38,10 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels">
-            <p class="labelwrap"><span class="thelabel">3.1 Оптимальное использование каналов коммуникации</span></p>
-            <p class="labelwrap"><span class="thelabel">3.2 Эффективная работа с почтой</span></p>
-            <p class="labelwrap"><span class="thelabel">3.3 Эффективная работа со звонками</span></p>
-            <p class="labelwrap"><span class="thelabel">3.4 Эффективное управление встречами </span></p>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.1</span><span class="list-text">Оптимальное использование каналов коммуникации</span></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.2</span><span class="list-text">Эффективная работа с почтой</span></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.3</span><span class="list-text">Эффективная работа со звонками</span></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">3.4</span><span class="list-text">Эффективное управление встречами</span></p></span></div>
         </div>
         <div class="barswrap">
             <div class="twocharts communication-1">

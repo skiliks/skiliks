@@ -9,11 +9,11 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels labels1">
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.1 </span><a href="#" class="list-link">Определение приоритетов</a></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.2 </span><a href="#" class="list-link">Использование планирования в течение дня</a></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.3 </span><a href="#" class="list-link">Правильное определение приоритетов задач при планировании</a></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.4 </span><a href="#" class="list-link">Выполнение задач в соответствии с приоритетами</a></p></span></div>
-            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.5 </span><a href="#" class="list-link">Завершение начатых задач</a></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.1 </span><a href="#" class="list-text">Определение приоритетов</a></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.2 </span><a href="#" class="list-text">Использование планирования в течение дня</a></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.3 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.4 </span><a href="#" class="list-text">Выполнение задач в соответствии с приоритетами</a></p></span></div>
+            <div class="labelwrap"><span class="thelabel"><p><span class="list-counter">1.5 </span><a href="#" class="list-text">Завершение начатых задач</a></p></span></div>
         </div>
         <div class="barswrap">
             <div class="twocharts followPriorities-1">

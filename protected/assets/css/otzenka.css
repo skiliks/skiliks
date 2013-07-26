@@ -973,13 +973,16 @@
     margin-bottom: 0;
     margin-top: -15px;
 }
-.list-counter, .list-link {
+.list-counter, .list-text {
     display: table-cell;
 }
 .list-counter {
     padding-right: 2px;
     vertical-align: top;
-    min-width:12px;
+    min-width:16px;
+}
+.mangrlresults .labelwrap:nth-child(2) .list-counter, .mangrlresults .labelwrap:nth-child(3) .list-counter {
+    padding-top: 4px;
 }
 .labeltitles {
     float: left;
