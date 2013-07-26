@@ -193,8 +193,6 @@ class ImportGameDataService
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
-        //TODO:Поставить задачу Антону обновить сценарий и поле "Импортировать Да/Нет"
-        $kostil = ['1.1', '1.2', '1.3', '1.4', '1.5', '2.1', '2.2', '2.3', '3.1', '3.2', '3.4'];
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
@@ -207,11 +205,11 @@ class ImportGameDataService
 
             $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
 
-            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group', $i) ? : null;
-            $learningGoalGroupCode = substr($learningGoalGroupText, 0, 3);
+            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group_text', $i) ? : null;
+            $learningGoalGroupCode = $this->getCellValue($sheet, 'Learning_goal_group_id', $i) ? : null;
 
 
-            if(in_array($learningGoalGroupCode, $kostil)){
+            if(!empty($learningGoalGroupCode) && !empty($learningGoalGroupText)){
                 $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
                     'code'=>$learningGoalGroupCode,
                     'scenario_id' => $this->scenario->primaryKey
