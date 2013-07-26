@@ -117,18 +117,20 @@ class AdminPagesController extends SiteBaseController {
             'sim_id' => $sim_id
         ]);
 
-        $zohoConfigs = Yii::app()->params['zoho'];
-        $D1 = $_SERVER['DOCUMENT_ROOT'].'/'.$zohoConfigs['templatesDirPath'].'/'.$document->uuid.'.xls';
-        if(file_exists($D1)){
-            $xls = file_get_contents($D1);
-        }else{
+        $scData = $document->getSheetList();
+        $filePath = $document->getFilePath();
+        ScXlsConverter::sc2xls($scData, $filePath);
+
+        if (file_exists($filePath)) {
+            $xls = file_get_contents($filePath);
+        } else {
             throw new Exception("Файл не найден");
         }
-        $filename = $sim_id.'_'.$documentTemplate->fileName;
+
+        $filename = $sim_id . '_' . $documentTemplate->fileName;
         header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: attachment; filename={$filename}");
         echo $xls;
-
     }
 
     public function actionResetInvite() {

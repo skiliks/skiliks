@@ -1,4 +1,4 @@
-<? $titles = [
+<?php $titles = [
     'ID-симуляции',
     'Email работодателя',
     'Email соискателя',
@@ -17,24 +17,24 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titles as $title) :?>
+            <?php foreach($titles as $title) :?>
             <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invite*/ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($models as $model) : ?>
-        <? $i++ ?>
-        <? if($i === $step) : ?>
+        <?php /* @var $model Invite*/ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($models as $model) : ?>
+        <?php $i++ ?>
+        <?php if($i === $step) : ?>
                 <tr>
-                    <? foreach($titles as $title) :?>
+                    <?php foreach($titles as $title) :?>
                         <th><?=$title?></th>
-                    <? endforeach ?>
+                    <?php endforeach ?>
                 </tr>
-        <? $i= 0 ?>
-        <? endif ?>
+        <?php $i= 0 ?>
+        <?php endif ?>
         <tr class="invites-row">
             <td><?=(empty($model->simulation->id)?'Не найден':$model->simulation->id)?></td>
             <td class="ownerUser-email"><?=(empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email?></td>
@@ -53,7 +53,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <? if(!empty($model->simulation->id)) : ?>
+                        <?php if(!empty($model->simulation->id)) : ?>
                         <li>
                             <a href="/static/admin/saveLog/<?=$model->simulation->id?>">
                                 <i class="icon-download-alt"></i> Скачать лог
@@ -64,19 +64,19 @@
                                 <i class="icon-star"></i> Открыть оценки
                             </a>
                         </li>
-                        <? if(!empty($model->receiverUser->profile)) : ?>
+                        <?php if(!empty($model->receiverUser->profile)) : ?>
                             <li>
                                 <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$model->simulation->id?>&email=<?=$model->receiverUser->profile->email?>">
                                     <i class="icon-refresh"></i>Пересчитать оценки
                                 </a>
                             </li>
-                        <? endif ?>
+                        <?php endif ?>
                         <li>
                             <a href="/admin_area/budget?sim_id=<?=$model->simulation->id?>">
                                 <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
                             </a>
                         </li>
-                        <? endif ?>
+                        <?php endif ?>
                         <li>
                             <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$model->id?>">
                                 <i class="icon-fast-backward"></i> Откатить инвайт
@@ -84,14 +84,14 @@
                         </li>
                         <li style="padding-right: 15px;">
                             <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
-                            <? foreach(Invite::$statusText as $id => $text) : ?>
-                                <? if((string)$id !== $model->status) : ?>
+                            <?php foreach(Invite::$statusText as $id => $text) : ?>
+                                <?php if((string)$id !== $model->status) : ?>
                                     <a class="action-invite-status" style="padding-left: 50px;"
                                        href="/admin_area/invite/action/status?invite_id=<?=$model->id?>&status=<?=$id?>">
                                           - <?=$text?>
                                     </a>
-                                <? endif ?>
-                            <? endforeach ?>
+                                <?php endif ?>
+                            <?php endforeach ?>
                         </li>
                         <li>
                             <a href="/admin_area/invite/<?= $model->id?>/site-logs">
@@ -102,7 +102,7 @@
                 </div>
             </td>
         </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

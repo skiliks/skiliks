@@ -1,6 +1,6 @@
 <div class="sidebar-nav">
     <br/>
-    <? $this->widget('zii.widgets.CMenu',array(
+    <?php $this->widget('zii.widgets.CMenu',array(
         'activeCssClass' => 'active',
         'activateItems' => true,
         'items'=>array(

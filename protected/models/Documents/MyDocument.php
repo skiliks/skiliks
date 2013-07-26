@@ -137,24 +137,24 @@ class MyDocument extends CActiveRecord
      */
     public function getSheetList($filename = null)
     {
-        if (null === $filename) {
-            $filePath = $this->getFilePath();
-            $template = str_replace(['.xls', '.xlsx'], ['.sc'], $this->getTemplateFilePath());
-            if (false === is_file($template)) {
-                $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
-                file_put_contents($template, serialize($scData));
-            }
+        $filePath = $this->getFilePath();
+        $cachePath = $this->getCacheFilePath();
 
-            file_put_contents($filePath, file_get_contents($template));
-        } else {
-            $filePath = $filename;
-        }
-
-        if (is_file($filePath)) {
-            $scData = unserialize(file_get_contents($filePath));
+        if ($filename && is_file($filename)) {
+            $scData = unserialize(file_get_contents($filename));
+        } elseif (is_file($filePath) || is_file($cachePath)) {
+            $scData = unserialize(file_get_contents(is_file($filePath) ? $filePath : $cachePath));
         } else {
             $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
-            file_put_contents($filePath, serialize($scData));
+        }
+
+        if (null === $filename) {
+            if (!is_file($filePath)) {
+                file_put_contents($filePath, serialize($scData));
+            }
+            if (!is_file($cachePath)) {
+                file_put_contents($cachePath, serialize($scData));
+            }
         }
 
         return array_values($scData);
@@ -178,15 +178,15 @@ class MyDocument extends CActiveRecord
      */
     public function getFilePath()
     {
-        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn($this->fileName);
+        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn(substr($this->fileName, 0, strrpos($this->fileName, '.')));
     }
 
     /**
      * @return string
      */
-    public function getTemplateFilePath()
+    public function getCacheFilePath()
     {
-        return __DIR__ . '/../../../documents/socialcalc_templates/' . StringTools::CyToEn($this->fileName);
+        return __DIR__ . '/../../../documents/socialcalc_templates/' . StringTools::CyToEn(substr($this->fileName, 0, strrpos($this->fileName, '.')) . '.sc');
     }
 
     /**
