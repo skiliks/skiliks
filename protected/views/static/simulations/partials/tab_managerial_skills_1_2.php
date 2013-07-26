@@ -24,6 +24,18 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
+            <div class="twocharts followPriorities-3">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
+            </div>
+            <div class="twocharts followPriorities-4">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
+            </div>
+            <div class="twocharts followPriorities-5">
+                <div class="chartbar"></div>
+                <div class="chartproblem"></div>
+            </div>
         </div>
     </div>
 
@@ -39,13 +51,12 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v1 = {positive: 20, negative: 20, total: 5}, /* AR.management[1] */
-            v2 = 17; /* AR.management[2] */
+        var v1 = AR.management[1];//{positive: 20, negative: 20, total: 0}, /* AR.management[1] */
 
-        drawChartBlock('followPriorities', v1, ['123', '112']);
-        drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
+        drawChartBlock('followPriorities', v1, ['1_1', '1_2', '1_3', '1_4', '1_5']);
+        //drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
 
         $('.valuetitle.followPriorities').html(Math.round(v1 && v1.total || 0) + '%');
-        $('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
+        //$('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
     });
 </script>
