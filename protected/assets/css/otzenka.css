@@ -1023,6 +1023,9 @@
 .labelwrap {
     margin-top:18px; /* 11 */
 }
+.high-labels .labelwrap, .high-labels .labelwrap:first-child {
+    margin-top:11px;
+}
 .labels .labelwrap:first-child {
     margin-top:8px;
 }
