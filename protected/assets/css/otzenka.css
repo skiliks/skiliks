@@ -1023,7 +1023,16 @@
 .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
-
+.mangrlresults ol {
+    list-style-type: decimal;
+}
+.labels1 {
+    counter-reset: list1;
+}
+.labels1 li:before {
+    counter-increment: list1;
+    content: "1." counter(list1);
+}
 .valuetitle {
     background: #ffffff;
     -webkit-border-radius: 40px;

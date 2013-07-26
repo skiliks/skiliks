@@ -8,11 +8,11 @@
     </div>
 
     <div class="clearfix mangrlresults">
-        <div class="labels high-labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2"><span class="display-ib">1. Управление задачами с учётом приоритетов</span><span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">2. Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление коммуникациями <span class="signmore"></span></a></span></p>
-        </div>
+        <ol class="labels high-labels">
+            <li class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2"><span class="display-ib">Управление задачами с учётом приоритетов</span><span class="signmore"></span></a></span></li>
+            <li class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">Управление людьми <span class="signmore"></span></a></span></li>
+            <li class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">Управление коммуникациями <span class="signmore"></span></a></span></li>
+        </ol>
         <div class="bars barswrap main-skills">
             <div class="chartbar management-1"></div>
             <div class="chartbar management-2"></div>
