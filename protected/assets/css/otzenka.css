@@ -981,7 +981,7 @@
     vertical-align: top;
     min-width:16px;
 }
-.mangrlresults .labelwrap:nth-child(2) .list-counter, .mangrlresults .labelwrap:nth-child(3) .list-counter {
+.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
 }
 .labeltitles {
