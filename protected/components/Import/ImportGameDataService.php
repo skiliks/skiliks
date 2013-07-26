@@ -136,7 +136,9 @@ class ImportGameDataService
             if (NULL === $this->getCellValue($sheet, 'Номер области обучения', $i)) {
                 continue;
             }
-
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
             // try to find exists entity
             $learningArea = $this->scenario->getLearningArea([
                 'code' => $this->getCellValue($sheet, 'Номер области обучения', $i)
@@ -199,28 +201,34 @@ class ImportGameDataService
                 continue;
             }
 
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
+
             $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
 
             $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group', $i) ? : null;
             $learningGoalGroupCode = substr($learningGoalGroupText, 0, 3);
 
-            if(!in_array($learningGoalGroupCode, $kostil)){
-                continue;
+
+            if(in_array($learningGoalGroupCode, $kostil)){
+                $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
+                    'code'=>$learningGoalGroupCode,
+                    'scenario_id' => $this->scenario->primaryKey
+                ]);
+
+                if(null === $learningGoalGroup) {
+                    $learningGoalGroup = new LearningGoalGroup();
+                    $learningGoalGroup->code = $learningGoalGroupCode;
+                }
+                $learningGoalGroup->title = $learningGoalGroupText;
+                $learningGoalGroup->import_id = $this->import_id;
+                $learningGoalGroup->scenario_id = $this->scenario->primaryKey;
+                $learningGoalGroup->save(false);
+            } else {
+                $learningGoalGroup = null;
             }
 
-            $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
-                'code'=>$learningGoalGroupCode,
-                'scenario_id' => $this->scenario->primaryKey
-            ]);
-
-            if(null === $learningGoalGroup) {
-                $learningGoalGroup = new LearningGoalGroup();
-                $learningGoalGroup->code = $learningGoalGroupCode;
-            }
-            $learningGoalGroup->title = $learningGoalGroupText;
-            $learningGoalGroup->import_id = $this->import_id;
-            $learningGoalGroup->scenario_id = $this->scenario->primaryKey;
-            $learningGoalGroup->save(false);
             // try to find exists entity
             $learningGoal = LearningGoal::model()->findByAttributes([
                 'code' => $this->getCellValue($sheet, 'Номер цели обучения', $i),
@@ -236,7 +244,7 @@ class ImportGameDataService
 
             // update data {
             $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
-            $learningGoal->learning_goal_group_id = $learningGoalGroup->id;
+            $learningGoal->learning_goal_group_id = ($learningGoalGroup === null)?null:$learningGoalGroup->id;
             $learningGoal->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->getPrimaryKey() : null;
             $learningGoal->import_id = $this->import_id;
             $learningGoal->scenario_id = $this->scenario->primaryKey;
@@ -401,16 +409,12 @@ class ImportGameDataService
             $groups[$group->id] = $group->name;
         }
 
-        //TODO:Поставить задачу Антону обновить сценарий и поле "Импортировать Да/Нет"
-        $kostil = ['1.1', '1.2', '1.3', '1.4', '1.5', '2.1', '2.2', '2.3', '3.1', '3.2', '3.4'];
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер требуемого поведения', $i)) {
                 continue;
             }
-            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group', $i);
-            $learningGoalGroupCode = substr($learningGoalGroupText, 0, 3);
-            if(!in_array($learningGoalGroupCode, $kostil)){
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
                 continue;
             }
             // try to find exists entity 
@@ -480,7 +484,9 @@ class ImportGameDataService
             if (NULL === $this->getCellValue($sheet, 'Assessment group', $i)) {
                 continue;
             }
-
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
             // try to find exists entity
             $assessment_group = $this->scenario
                 ->getAssessmentGroup(['name'=>$this->getCellValue($sheet, 'Assessment group', $i)]);
