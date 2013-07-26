@@ -967,7 +967,7 @@
     display: inline-block;
 }
 .mangrlresults .display-ib  {
-    width:210px;
+    width:205px;
 }
 .mangrlresults .labelwrap:first-child .signmore {
     margin-bottom: 0;
@@ -983,6 +983,9 @@
 }
 .managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
+}
+.managerialmain {
+    min-width:14px;
 }
 .labeltitles {
     float: left;
