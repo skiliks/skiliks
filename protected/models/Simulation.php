@@ -524,11 +524,10 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetails()
     {
         // use cached results popup data
-        if (null !== $this->results_popup_cache) {
+        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
             return unserialize($this->results_popup_cache);
         }
 
-        die();
         $result = [];
 
         // Overall results
