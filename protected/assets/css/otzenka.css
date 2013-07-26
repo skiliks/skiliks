@@ -1024,7 +1024,7 @@
     margin-top:18px; /* 11 */
 }
 .labels .labelwrap:first-child {
-    margin-top:8px;
+    margin-top:7px;
 }
 .high-labels .labelwrap, .high-labels .labelwrap:first-child {
     margin-top:11px;
@@ -1226,11 +1226,14 @@
        margin-top: 6px;
         width: 244px;
     }
+    .labelwrap {
+        margin-top:14px;
+    }
+    .labels .labelwrap:first-child {
+        margin-top:7px;
+    }
     .mangrlresults .display-ib {
         width: 175px;
-    }
-    .high-labels .thelabel {
-        height: 37px;
     }
     .managerialmain .chartbar, .managerialmain .chartproblem {
         margin-bottom: 25px;
@@ -1255,7 +1258,7 @@
         font-size: 11px;
     }
     .thelabel {
-        height:28px;
+        height:24px;
     }
     .resultslegend, .legendmargin {
         margin-left: 248px;
