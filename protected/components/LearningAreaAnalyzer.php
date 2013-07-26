@@ -18,11 +18,6 @@ class LearningAreaAnalyzer {
         $this->followPriorities();
         $this->taskManagement();
         $this->peopleManagement();
-        $this->communication();
-        $this->mailManagement();
-        $this->phoneManagement();
-        $this->meetManagement();
-        $this->imManagement();
 
         // Personal scale
         $this->stressResistance();
@@ -177,6 +172,47 @@ class LearningAreaAnalyzer {
         return $maxRate ? $total / $maxRate : 0;
     }
 
+    protected function calcCombinedSkillsByGoalPriority($learningAreaCode)
+    {
+        $scenario = $this->simulation->game_type;
+
+        $total = 0;
+        $maxRate = 0;
+        $ids = [];
+
+        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
+
+        $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
+        if ($area) {
+            foreach ($area->learningGoals as $learningGoal) {
+                /** @var SimulationLearningGoal $slg */
+                $slg = SimulationLearningGoal::model()->findByAttributes([
+                    'sim_id' => $this->simulation->id,
+                    'learning_goal_id' => $learningGoal->id
+                ]);
+
+                if ($slg) {
+
+                    $total += $slg->value * $slg->getReducingCoefficient();
+                }
+
+                $ids[] = $learningGoal->id;
+            }
+        }
+
+        /** @var HeroBehaviour[] $behaviours */
+        $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
+        foreach ($behaviours as $behaviour) {
+            // TODO: Anton decision
+            // Remove out second condition
+            if ($behaviour->isPositive() && !in_array($behaviour->code, $except)) {
+                $maxRate += $behaviour->scale;
+            }
+        }
+
+        return $maxRate ? $total / $maxRate : 0;
+    }
+
     /*
      * Следование приоритетам
      */
@@ -202,51 +238,6 @@ class LearningAreaAnalyzer {
     {
         $value = $this->calcCombinedSkillsByGoal(3);
         $this->saveLearningArea(3, $value * 100);
-    }
-
-    /*
-     * Оптимальный выбор каналов коммуникации
-     */
-    public function communication()
-    {
-        $value = $this->calcCombinedSkillsByBehaviours([3214, 3216, 3218]);
-        $this->saveLearningArea(4, $value * 100);
-    }
-
-    /*
-     * Эффективная работа с почтой
-     */
-    public function mailManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(5);
-        $this->saveLearningArea(5, $value * 100);
-    }
-
-    /*
-     * Эффективное управление звонками
-     */
-    public function phoneManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(6);
-        $this->saveLearningArea(6, $value * 100);
-    }
-
-    /*
-     * Эффективное управление встречами
-     */
-    public function meetManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(7);
-        $this->saveLearningArea(7, $value * 100);
-    }
-
-    /*
-     * Эффективная работа с IM
-     */
-    public function imManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(8);
-        $this->saveLearningArea(8, $value);
     }
 
     /*

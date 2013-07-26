@@ -546,7 +546,7 @@ class Simulation extends CActiveRecord
             }
         }
         foreach ($this->learning_goal as $row) {
-            if ($row->learningGoal->learningArea->code <= 8) {
+            if ($row->learningGoal->learningArea->code <= 3) {
                 if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
                     $behaviourIds = [];
                     foreach ($row->learningGoal->heroBehaviours as $behaviour) {

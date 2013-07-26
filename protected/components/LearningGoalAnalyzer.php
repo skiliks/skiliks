@@ -31,7 +31,7 @@ class LearningGoalAnalyzer
         }
 
         foreach ($learningGoals as $goal) {
-            if ($goal->learningArea->code > 8) { // Calc only management skills
+            if ($goal->learningArea->code > 3) { // Calc only management skills
                 continue;
             }
 
@@ -71,6 +71,10 @@ class LearningGoalAnalyzer
             $slg->value = $totalPos;
             $slg->percent = $maxPos ? substr(min($totalPos / $maxPos * 100, 100), 0, 5) : 0;
             $slg->problem = $maxCons ? substr(min($totalCons / $maxCons * 100, 100), 0, 5) : 0; // Both $totalCons and $maxCons are negative values!
+            $slg->total_positive = $totalPos;
+            $slg->total_negative = $totalCons;
+            $slg->max_positive = $maxPos;
+            $slg->max_negative = $maxCons;
 
             $slg->save();
         }
