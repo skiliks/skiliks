@@ -440,7 +440,7 @@
     margin-bottom: 10px;
 }
 .resultlabeltitle {
-    padding-left: 374px;
+    padding-left: 318px;
 }
 .total {
     font:38px 'ProximaNova-Bold';/* font-size: 41px; */
@@ -1107,7 +1107,7 @@
     display: inline-block;
 }
 .twobarstitles .barstitle:first-child {
-    width: 350px;
+    width: 385px;
 }
 .timedetail .resulttitele {
     float: left;
@@ -1235,7 +1235,7 @@
         font-size: 13px;
     }
     .twobarstitles .barstitle:first-child {
-        width: 270px;
+        width: 286px;
     }
     .twocharts .chartbar {
         width: 285px;
@@ -1274,6 +1274,9 @@
     }
     .resulttitelevalue {
         margin-top:-30px;
+    }
+    .resultlabeltitle {
+        padding-left: 274px;
     }
 }
 /*
