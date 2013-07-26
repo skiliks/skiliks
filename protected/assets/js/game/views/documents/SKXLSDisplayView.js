@@ -103,9 +103,21 @@ define([
                 }
             });
 
+            if (activeSheetView.oldWidth == activeSheetView.$el.width() &&
+                activeSheetView.oldHeidth == activeSheetView.$el.height()) {
+                // нам не надо реперисовывать скролы, если размеры окан не поменялись
+                // перерисовка занимает время - в это время не работают горячие клавиши копирования
+                console.log('no resize');
+                return;
+            }
+            console.log('resize!');
+
             activeSheetView.spreadsheet.InitializeSpreadsheetControl($(activeSheetView.el).attr('id'), activeSheetView.$el.height(), activeSheetView.$el.width(), 0);
             activeSheetView.spreadsheet.ExecuteCommand('recalc', '');
             activeSheetView.spreadsheet.ExecuteCommand('redisplay', '');
+
+            activeSheetView.oldWidth = activeSheetView.$el.width();
+            activeSheetView.oldHeidth = activeSheetView.$el.height();
         },
 
         onResize: function() {
