@@ -1023,11 +1023,11 @@
 .labelwrap {
     margin-top:18px; /* 11 */
 }
-.high-labels .labelwrap, .high-labels .labelwrap:first-child {
-    margin-top:11px;
-}
 .labels .labelwrap:first-child {
     margin-top:8px;
+}
+.high-labels .labelwrap, .high-labels .labelwrap:first-child {
+    margin-top:11px;
 }
 .timedetail .labelwrap {
     margin-top:12px;
@@ -1037,14 +1037,15 @@
 }
 .thelabel {
     display: table-cell;
-    height: 38px; /* 38 */
+    height: 30px; /* 38 */
     font-size: 13px;
     /*line-height: 107%;*/
     position: relative;
-    vertical-align: top;
+    vertical-align: middle;
 }
 .high-labels .thelabel {
     height: 59px;
+    vertical-align: top;
 }
 .labelhack {
     padding-top:5px;
