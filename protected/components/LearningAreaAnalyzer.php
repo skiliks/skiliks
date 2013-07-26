@@ -132,7 +132,7 @@ class LearningAreaAnalyzer {
         return $maxRate ? $total / $maxRate : 0;
     }
 
-    protected function calcCombinedSkillsByGoal($learningAreaCode)
+    protected function calcCombinedSkillsByGoalGroup($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
 
@@ -144,18 +144,24 @@ class LearningAreaAnalyzer {
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
-            foreach ($area->learningGoals as $learningGoal) {
-                /** @var SimulationLearningGoal $slg */
-                $slg = SimulationLearningGoal::model()->findByAttributes([
+            foreach ($area->learningGoalGroups as $learningGoalGroup) {
+
+
+                /** @var SimulationLearningGoalGroup $slg */
+                $slg = SimulationLearningGoalGroup::model()->findByAttributes([
                     'sim_id' => $this->simulation->id,
-                    'learning_goal_id' => $learningGoal->id
+                    'learning_goal_group_id' => $learningGoalGroup->id
                 ]);
 
                 if ($slg) {
                     $total += $slg->value * $slg->getReducingCoefficient();
                 }
 
-                $ids[] = $learningGoal->id;
+                /* @var $learningGoalGroup LearningGoalGroup */
+                /* @var $goal LearningGoal */
+                foreach($learningGoalGroup->learningGoals as $goal){
+                    $ids[] = $goal->id;
+                }
             }
         }
 
@@ -172,7 +178,7 @@ class LearningAreaAnalyzer {
         return $maxRate ? $total / $maxRate : 0;
     }
 
-    protected function calcCombinedSkillsByGoalPriority($learningAreaCode)
+    protected function calcCombinedSkillsByGoalGroupPriority($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
 
@@ -180,38 +186,59 @@ class LearningAreaAnalyzer {
         $maxRate = 0;
         $ids = [];
 
+        $group_1_4_positive = 0;
+        $group_1_4_negative = 0;
+        $group_1_4_max_negative = 0;
+
         $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
-            foreach ($area->learningGoals as $learningGoal) {
-                /** @var SimulationLearningGoal $slg */
-                $slg = SimulationLearningGoal::model()->findByAttributes([
+            foreach ($area->learningGoalGroups as $learningGoalGroup) {
+
+                /** @var SimulationLearningGoalGroup $slg */
+                $slg = SimulationLearningGoalGroup::model()->findByAttributes([
                     'sim_id' => $this->simulation->id,
-                    'learning_goal_id' => $learningGoal->id
+                    'learning_goal_group_id' => $learningGoalGroup->id
                 ]);
 
+                if($learningGoalGroup->code === '1.4') {
+                    $group_1_4_positive += $slg->total_positive;
+                    $group_1_4_negative += $slg->total_negative;
+                    $group_1_4_max_negative += $slg->max_negative;
+                    continue;
+                }
+                if($learningGoalGroup->code === '1.5') {
+                    $group_1_4_negative += $slg->total_negative;
+                    $group_1_4_max_negative += $slg->max_negative;
+                    continue;
+                }
                 if ($slg) {
-
                     $total += $slg->value * $slg->getReducingCoefficient();
                 }
 
-                $ids[] = $learningGoal->id;
+                /* @var $learningGoalGroup LearningGoalGroup */
+                /* @var $goal LearningGoal */
+                foreach($learningGoalGroup->learningGoals as $goal){
+                    $ids[] = $goal->id;
+                }
             }
         }
 
+        $total += $group_1_4_positive * LearningGoalAnalyzer::getReducingCoefficient(LearningGoalAnalyzer::calculateAssessment($group_1_4_negative, $group_1_4_max_negative));
         /** @var HeroBehaviour[] $behaviours */
         $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
         foreach ($behaviours as $behaviour) {
             // TODO: Anton decision
             // Remove out second condition
-            if ($behaviour->isPositive() && !in_array($behaviour->code, $except)) {
+            if ($behaviour->type_scale == 1 && !in_array($behaviour->code, $except)) {
                 $maxRate += $behaviour->scale;
             }
         }
 
         return $maxRate ? $total / $maxRate : 0;
     }
+
 
     /*
      * Следование приоритетам

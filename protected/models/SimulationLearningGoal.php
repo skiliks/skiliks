@@ -17,7 +17,7 @@
  *
  * The followings are the available model relations:
  * @property LearningGoal $learningGoal
- * @property Simulation $sim
+ * @property Simulation $simulation
  */
 class SimulationLearningGoal extends CActiveRecord
 {
@@ -65,7 +65,7 @@ class SimulationLearningGoal extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'learningGoal' => array(self::BELONGS_TO, 'LearningGoal', 'learning_goal_id'),
-			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 		);
 	}
 
