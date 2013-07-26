@@ -1021,7 +1021,10 @@
     padding-top: 11px;
 }
 .labelwrap {
-    margin-top:11px;
+    margin-top:18px; /* 11 */
+}
+.labels .labelwrap:first-child {
+    margin-top:8px;
 }
 .timedetail .labelwrap {
     margin-top:12px;
@@ -1031,9 +1034,9 @@
 }
 .thelabel {
     display: table-cell;
-    height: 38px;
+    height: 38px; /* 38 */
     font-size: 13px;
-    line-height: 107%;
+    /*line-height: 107%;*/
     position: relative;
     vertical-align: top;
 }
