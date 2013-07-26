@@ -49,14 +49,6 @@
             <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_3_4', []) ?>
         </div>
 
-        <div id="managerial-skills-5-6">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_5_6', []) ?>
-        </div>
-
-        <div id="managerial-skills-7">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_7', []) ?>
-        </div>
-
         <div id="productivity">
             <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_productivity') ?>
         </div>
