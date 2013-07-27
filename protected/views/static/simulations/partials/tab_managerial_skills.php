@@ -13,7 +13,7 @@
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.</span><a href="#managerial-skills-3-4" class="list-text">Управление людьми</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-text">Управление коммуникациями</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
         </div>
-        <div class="bars barswrap main-skills">
+        <div class="barswrap main-skills">
             <div class="chartbar management-1"></div>
             <div class="chartbar management-2"></div>
             <div class="chartbar management-3"></div>
