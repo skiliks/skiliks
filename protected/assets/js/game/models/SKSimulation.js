@@ -317,6 +317,8 @@ define([
                     timeString:       this.getGameMinutes(),
                     eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
+                    console.log('time: ', data.serverGameTime);
+                    console.log('x: ', data.speedFactor);
                     // update flags for dev mode
                     if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                         me.updateFlagsForDev(data.flagsState, data.serverTime);
@@ -477,9 +479,9 @@ define([
                             callback(responce);
                         }
                     }
-
                 });
             },
+
             updatePause: function(callback) {
                 var me = this;
                 var skipped = (new Date() - me.paused_time) / 1000;

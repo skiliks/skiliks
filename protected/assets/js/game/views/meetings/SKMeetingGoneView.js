@@ -64,12 +64,10 @@ define([
                 me = this;
 
             simulation.stopPause(function() {
-                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
+                simulation.skipped_seconds += (subject.get('duration') * 60) / SKApp.get('skiliksSpeedFactor');
                 simulation.trigger('tick');
                 me.options.model_instance.close();
             });
-
-            // this.options.model_instance.close();
         }
     });
 
