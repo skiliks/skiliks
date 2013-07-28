@@ -207,6 +207,9 @@ SocialCalc.TableEditor = function(context) {
 
             // get what to copy to clipboard
             cliptext = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.CreateSheetSave(editor.context.sheetobj, sel), "tab");
+//            console.log('copy!', cliptext);
+//
+//             window.sc_cliptext = cliptext;
 
             if (charname == "[ctrl-c]" || editor.noEdit) { // if copy or cut but in no edit
                cmd = "copy "+sel+" formulas";
@@ -324,7 +327,6 @@ SocialCalc.TableEditor = function(context) {
                         _ObjectReplacementCharacter_
                     );
                  }
-
                  value = ha.innerText.replace(new RegExp(_ObjectReplacementCharacter_, 'g'), '\t');
 
                  ha.innerHTML = '';
@@ -340,6 +342,11 @@ SocialCalc.TableEditor = function(context) {
 
                value = value.replace(/\r\n/g, "\n").replace(/\n?$/, '\n');
                var clipstr = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
+
+//                console.log('paste!', clipstr);
+//
+//                clipstr = window.sc_cliptext;
+
                if (value == clipstr || (value.length-clipstr.length==1 && value.substring(0,value.length-1)==clipstr)) {
                   isPasteSameAsClipboard = true;
                }
