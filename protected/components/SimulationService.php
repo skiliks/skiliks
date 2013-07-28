@@ -756,11 +756,11 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
-    public static function resume($simulation)
+    public static function resume($simulation, $ignoreTimeShift = false)
     {
         if (!empty($simulation->paused)) {
             $skipped = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->paused);
-            self::update($simulation, $skipped);
+            self::update($simulation, $skipped, $ignoreTimeShift);
         }
     }
 
@@ -789,9 +789,11 @@ class SimulationService
         $clockH = $clockH + $start_time[0];
         $clockM = $clockM + $start_time[1];
 
-        $simulation->start = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+        $startTime = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
             - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
+        $simulation->refresh();
+        $simulation->start = $startTime;
         $simulation->save();
     }
 

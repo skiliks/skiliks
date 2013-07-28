@@ -677,6 +677,7 @@ define([
                 });
             });
         },
+
         doTransitionEnd:function() {
             this.$('.planner-book-afterv-table').mCustomScrollbar("update");
             this.$('.planner-book-timetable').mCustomScrollbar("update");

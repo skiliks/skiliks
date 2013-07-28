@@ -3,7 +3,7 @@
 var SKDialogPanNotificationView;
 define([
     "jquery/jquery.topzindex.min",
-    "text!game/jst/world/dialog_paln_notification.jst",
+    "text!game/jst/plan/dialog_paln_notification.jst",
     "game/views/SKDialogView"
 ], function (
         topzindex,

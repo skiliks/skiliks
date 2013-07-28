@@ -25,7 +25,8 @@ define([
 
         dimensions: {},
         events: _.defaults({
-            'click .sheet-tabs li': 'doSelectTab'
+            'click .sheet-tabs li': 'doSelectTab',
+            'click .xls-container': 'doActivateRedirect'
         }, SKWindowView.prototype.events),
 
         isRender: true,
@@ -51,8 +52,9 @@ define([
          * @method
          * @param el
          */
-        renderContent:function (el) {
+        renderContent:function (el, windowObject) {
             var me = this;
+            me.windowObject = windowObject;
             var doc = this.options.model_instance.get('document');
             var spreadsheet;
             el.html( _.template(document_xls_template, {
@@ -122,10 +124,15 @@ define([
             var me = this;
             me.resizeActiveTab();
         },
+
         remove: function () {
             this.sheets = [];
             window.SKWindowView.prototype.remove.apply(this);
 
+        },
+
+        doActivateRedirect: function() {
+            this.windowObject.doActivate();
         }
 
     });
