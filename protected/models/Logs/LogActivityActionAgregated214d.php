@@ -14,6 +14,8 @@
  * @property string $end_time
  * @property string $duration
  * @property string $parent
+ * @property string $keep_last_category_initial
+ * @property string $keep_last_category_after
  *
  * The followings are the available model relations:
  * @property Simulation $simulation
@@ -21,6 +23,8 @@
  */
 class LogActivityActionAgregated214d extends CActiveRecord
 {
+    const KEEP_LAST_CATEGORY_YES = '1';
+    const KEEP_LAST_CATEGORY_NO = '0';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
