@@ -60,14 +60,14 @@ define([
 
         doProceedWork: function(e) {
             var simulation = SKApp.simulation,
-                subject = this.options.model_instance.get('subject');
+                subject = this.options.model_instance.get('subject'),
+                me = this;
 
             simulation.stopPause(function() {
-                simulation.skipped_seconds += subject.get('duration') * 60 / SKApp.get('skiliksSpeedFactor');
+                simulation.skipped_seconds += (subject.get('duration') * 60) / SKApp.get('skiliksSpeedFactor');
                 simulation.trigger('tick');
+                me.options.model_instance.close();
             });
-
-            this.options.model_instance.close();
         }
     });
 

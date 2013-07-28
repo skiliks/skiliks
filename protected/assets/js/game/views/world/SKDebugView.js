@@ -104,6 +104,11 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @method
          */
         doSimStopAndLoadLogs: function () {
+            var dialog = new SKDialogView({
+                'message':'Идёт сохранение результатов игры...',
+                'buttons':[],
+                'modal': true
+            });
             SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
             AppView.frame.stopExitProtection();
             SKApp.simulation.stop();
