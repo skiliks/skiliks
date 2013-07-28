@@ -8,12 +8,15 @@ class EventsController extends SimulationBaseController
      */
     public function actionGetState()
     {
+        $simulation = $this->getSimulationEntity();
 
         $result = EventsManager::getState(
-                    $this->getSimulationEntity(),
+            $simulation,
                     Yii::app()->request->getParam('logs', null),
                     Yii::app()->request->getParam('eventsQueueDepth', 0)
                   );
+        $result['serverGameTime'] = $simulation->getGameTime();
+        $result['speedFactor'] = $simulation->getSpeedFactor();
         $this->sendJSON($result);
     }
 

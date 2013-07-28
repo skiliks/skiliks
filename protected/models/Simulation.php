@@ -144,6 +144,7 @@ class Simulation extends CActiveRecord
 
         $startTime = explode(':', $this->game_type->start_time);
         $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
+
         return gmdate('H:i:s', $unixtime);
     }
 
