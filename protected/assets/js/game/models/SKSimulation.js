@@ -667,8 +667,9 @@ define([
                     var id = $('.button-copy').attr('id');
 
                     // get button for current active window
-                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
+                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
 
+                    var buttonElement = document.getElementById(id);
                     buttonElement.dispatchEvent(event);
                 }, []);
 
