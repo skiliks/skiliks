@@ -5,7 +5,8 @@
  * @augments Backbone.View
  */
 var SKWindowView;
-define(["text!game/jst/window.jst"], function (window_template) {
+define(["text!game/jst/window.jst"],
+    function (window_template) {
     "use strict";
 
     /**
@@ -56,10 +57,11 @@ define(["text!game/jst/window.jst"], function (window_template) {
             try {
                 var me = this;
                 this.$el.html(_.template(window_template, {
-                    title: this.title,
-                    isDisplaySettingsButton: this.isDisplaySettingsButton,
+                    window_uid:                  this.options.model_instance.window_uid,
+                    title:                       this.title,
+                    isDisplaySettingsButton:     this.isDisplaySettingsButton,
                     isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
-                    windowName:this.windowName
+                    windowName:                  this.windowName
                 }));
                 this.renderTitle(this.$('header'));
                 this.$el.draggable({
@@ -77,7 +79,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                         }
                     }
                 });
-                this.renderContent(this.$('.sim-window-content'));
+                this.renderContent(me.$('.sim-window-content'), me);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -659,74 +659,28 @@ define([
                     });
                 };
 
-                $.ctrl('С', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-copy').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
-
-                $.ctrl('с', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-copy').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
-
+                // handle ru and en 'C' and 'c'
                 $.ctrl('C', function() {
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
-                    var buttonElement = document.getElementById(id);
+
+                    // get button for current active window
+                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
+
                     buttonElement.dispatchEvent(event);
                 }, []);
 
-                $.ctrl('c', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-copy').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
-
+                // handle 'V' and 'v', (ru) 'М' and 'м  '
                 $.ctrl('V', function() {
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
-                    var id = $('.button-paste').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
 
-                $.ctrl('v', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-paste').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
+                    // get button for current active window
+                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
 
-                $.ctrl('М', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-paste').attr('id');
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
-
-                $.ctrl('м', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-paste').attr('id');
                     var buttonElement = document.getElementById(id);
                     buttonElement.dispatchEvent(event);
                 }, []);
