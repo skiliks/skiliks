@@ -132,7 +132,6 @@ class PlanAnalyzer {
                     'category' => $logItem->category,
                     'start_time' => $logItem->start_time,
                     'end_time' => $logItem->end_time,
-                    'duration' => $logItem->duration,
                 ];
                 $i++;
             } elseif ($logItem->activityAction->activity->parent == $currentParentCode) {
@@ -143,7 +142,12 @@ class PlanAnalyzer {
         }
 
         $this->logActivityActionsAggregatedGroupByParent = $groupedLog;
+        $parents = $simulation->game_type->getActivityParentsAvailability();
 
+        /* @var $parent ActivityParentAvailability */
+        foreach($parents as $parent){
+            $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
+        }
         /* Log ActivityActionsAggregated214d */
         foreach($log_214d as $log) {
             $var_214d = new LogActivityActionAgregated214d();
@@ -154,26 +158,48 @@ class PlanAnalyzer {
             $var_214d->category = $log['category'];
             $var_214d->start_time = $log['start_time'];
             $var_214d->end_time = $log['end_time'];
-            $var_214d->duration = $log['duration'];
+            $var_214d->duration = date(strtotime($log['end_time'])-strtotime($log['start_time']), 'H:i:s');
+            $var_214d->keep_last_category_initial = $this->parents_keep_last_category[$log['parent']];
+            $var_214d->keep_last_category_after = $this->calcKeepLastCategoryAfter($log['start_time'], $log['end_time'], $var_214d->keep_last_category_initial);
             $var_214d->parent = $log['parent'];
             $var_214d->save();
         }
 
         $this->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
-        $parents = $simulation->game_type->getActivityParentsAvailability();
-
-        /* @var $parent ActivityParentAvailability */
-        foreach($parents as $parent){
-            $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?true:false;
-        }
-
-        $parents_ending = SimulationCompletedParent::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+//        $parents_ending = SimulationCompletedParent::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
         /* @var $sim_log SimulationCompletedParent */
-        foreach($parents_ending as $sim_log) {
-            $this->parents_ending_time[$sim_log->parent_code] = $sim_log->end_time;
+        //foreach($parents_ending as $sim_log) {
+        //    $this->parents_ending_time[$sim_log->parent_code] = $sim_log->end_time;
+        //}
+    }
+
+    public function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial) {
+        if($keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
+            if((Yii::app()->params['keep_last_category_time_214g']/60*Yii::app()->params['public']['skiliksSpeedFactor']) <=
+                ((strtotime($end_time) - strtotime($start_time))/60)){
+                return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
+            }else{
+                return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES;
+            }
+        }else{
+            return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
         }
+    }
+
+    public function isLastParent($parent, $current) {
+
+        foreach($this->logAggregated214d as $find => $log) {
+            /* @var $log LogActivityActionAgregated214d */
+            if($current > $find){
+                if($parent === $log->parent){
+                    return false;
+                }
+            }
+        }
+        return true;
+
     }
 
     public function parentAvailability($parentAvailability, $groupedLog) {
@@ -304,8 +330,8 @@ class PlanAnalyzer {
         $this->check_214d5_6_8('214d6', 1, [4,5]);
         $this->check_214d5_6_8('214d8', 2, [4,5]);
 
-        $this->check_214g('214g0', ['0']);
-        $this->check_214g('214g1', ['0', '1']);
+        $this->check_214g('214g0', '0', []);
+        $this->check_214g('214g1', '1', ['0']);
     }
 
     /*
@@ -974,7 +1000,7 @@ class PlanAnalyzer {
         $assessmentCalculation->save();
     }
 
-    public function check_214g($code, $categories) {
+    public function check_214g($code, $category, $enable_categories) {
 
         /* @var $behaviour HeroBehaviour */
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>$code]);
@@ -984,28 +1010,41 @@ class PlanAnalyzer {
         }
         $in_work = [];
         /* @var $log LogActivityActionAgregated214d */
-        foreach($this->logAggregated214d as $log) {
+        foreach($this->logAggregated214d as $key => $log) {
             $parent = $log->parent;
-            if(in_array($log->category, $categories)) {
+            if(in_array($log->category, $enable_categories)){
+                continue;
+            }
 
-                if(!in_array($parent, $in_work)){
-                    $in_work[] = $parent;
+            if($category === $log->category) {
+
+                if(false === in_array($parent, $in_work)){
+                    if(false === $this->isLastParent($parent, $key)){
+                        $in_work[] = $parent;
+                    }else{
+                        continue;
+                    }
                 }else{
-                    if(isset($this->parents_ending_time[$parent]) && $this->parents_ending_time[$parent] === $log->end_time){
-                        $key = array_search($parent, $in_work);
-                        unset($in_work[$key]);
+                    if($this->isLastParent($parent, $key)){
+                        $key_in_work = array_search($parent, $in_work);
+                        unset($in_work[$key_in_work]);
+                    }else{
+                        continue;
                     }
                 }
             }else{
                 if(!empty($in_work)) {
-                    if($this->parents_keep_last_category[$parent]) {
-                        if((Yii::app()->params['keep_last_category_time_214g']/60*Yii::app()->params['public']['skiliksSpeedFactor']) <=
-                            ((strtotime($log->end_time) - strtotime($log->start_time))/60)) {
+                    if($log->keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
+                        if($log->keep_last_category_after === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO) {
                             $value += (float)$behaviour->scale;
+                        }else{
+                            continue;
                         }
                     }else{
                         $value += (float)$behaviour->scale;
                     }
+                }else{
+                    continue;
                 }
             }
         }

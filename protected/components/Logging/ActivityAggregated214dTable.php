@@ -24,8 +24,11 @@ class ActivityAggregated214dTable extends LogTable
             'Parent',
             'Grandparent',
             'Category',
+            'Keep last category - Initial',
+            'Keep last category - after 60 real sec test',
             'Игровое время - start',
             'Игровое время - end',
+            'Длительность, игровых мин',
             'Time diff'
         ];
     }
@@ -46,8 +49,11 @@ class ActivityAggregated214dTable extends LogTable
             $row->parent,
             $row->activityAction->activity->grandparent,
             $row->activityAction->activity->category->code,
+            ($row->keep_last_category_initial === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'',
+            ($row->keep_last_category_after === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'',
             $row->start_time,
             $row->end_time,
+            $row->duration,
             $diff
         ];
     }
