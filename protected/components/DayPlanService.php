@@ -373,7 +373,7 @@ class DayPlanService
         $timeMap = [];
         foreach ($dayPlans as $plan) {
             $timeMap[$plan->task_id] = [
-                'day' => $plan->day,
+                'day'  => $plan->day,
                 'date' => $plan->date
             ];
         }
@@ -410,11 +410,10 @@ class DayPlanService
         $document->hidden = 0;
         $document->save();
 
-        $zoho = new ZohoDocuments($simulation->id, $document->id, $document->template->srcFile, 'xls', $document->fileName);
-        $zoho->copyUserFileIfNotExists();
-        $filepath = $zoho->getUserFilepath();
+        // Update Plan-template with real data {
+        $filepath = $document->template->getFilePath();
 
-        /** @var PHPExcel_Reader_IReader $reader */
+        // @var PHPExcel_Reader_IReader $reader
         $reader = PHPExcel_IOFactory::createReader('Excel5');
         $excel = $reader->load($filepath);
         $sheet = $excel->getSheetByName('Plan');
@@ -434,11 +433,15 @@ class DayPlanService
         }
 
         $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-        $writer->save($filepath);
+        $writer->save($document->getFilePath().'.xls');
+
+        $scData = ScXlsConverter::xls2sc($excel);
+        file_put_contents($document->getFilePath(), serialize($scData));
+        // Update Plan-template with real data }
 
         return [
-            'result' => 1,
-            'docId' => $document->id
+            'result'   => 1,
+            'docId'    => $document->id
         ];
     }
 }
