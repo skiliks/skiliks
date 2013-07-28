@@ -2241,6 +2241,10 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214g1']);
 
         $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g1', '1', ['0']);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals('0', $assessment->value);
 
         $this->addLog($pa, $simulation, [
             'parent' => 'T3a',
@@ -2271,12 +2275,102 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'start_time'=>'10:22:22',
             'end_time'=>'10:26:41'
         ]);
-
+        $pa = new PlanAnalyzer($simulation);
         $pa->check_214g('214g1', '1', ['0']);
         $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
         $this->assertEquals('0', $assessment->value);
     }
 
+    public function test214g_for_sim_id_267() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $behaviour_214g0 = $simulation->game_type->getHeroBehaviour(['code'=>'214g0']);
+        $behaviour_214g1 = $simulation->game_type->getHeroBehaviour(['code'=>'214g1']);
+        $pa = new PlanAnalyzer($simulation);
 
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'09:54:27',
+            'end_time'=>'09:58:54'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T2',
+            'start_time'=>'09:58:54',
+            'end_time'=>'10:01:18'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'10:01:18',
+            'end_time'=>'10:30:57'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE10',
+            'start_time'=>'10:30:57',
+            'end_time'=>'10:31:44'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'10:31:44',
+            'end_time'=>'10:33:12'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE10',
+            'start_time'=>'10:33:12',
+            'end_time'=>'10:33:46'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'TM8',
+            'start_time'=>'11:15:01',
+            'end_time'=>'11:20:02'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T7a',
+            'start_time'=>'11:23:46',
+            'end_time'=>'11:50:20'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE2a',
+            'start_time'=>'12:26:22',
+            'end_time'=>'12:31:36'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE3',
+            'start_time'=>'13:57:43',
+            'end_time'=>'14:03:03'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'Category_5',
+            'start_time'=>'14:16:22',
+            'end_time'=>'14:18:07'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T7b',
+            'start_time'=>'14:19:27',
+            'end_time'=>'14:20:42'
+        ]);
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', '0', []);
+        $pa->check_214g('214g1', '1', ['0']);
+        $assessment214g0 = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour_214g0->id]);
+        $this->assertEquals('0', $assessment214g0->value);
+        $assessment214g1 = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour_214g1->id]);
+        $this->assertEquals('0', $assessment214g1->value);
+    }
 
 }

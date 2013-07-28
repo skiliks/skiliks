@@ -192,7 +192,7 @@ class PlanAnalyzer {
 
         foreach($this->logAggregated214d as $find => $log) {
             /* @var $log LogActivityActionAgregated214d */
-            if($current > $find){
+            if($current < $find){
                 if($parent === $log->parent){
                     return false;
                 }
