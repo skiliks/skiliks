@@ -121,15 +121,14 @@ define([
                         }
                     },
                     complete: function (xhr, text_status) {
-
+                        console.log(xhr.status);
                         if ('timeout' === text_status || xhr.status === 0) {
+                            console.log(xhr.status);
 
                             SKApp.isInternetConnectionBreakHappent = true;
 
                             if( url !== me.api_root + me.connectPath && me.try_connect === false) {
-                                if($('.time').hasClass('paused')) {
-                                    throw new Error("Симуляция ");
-                                } else {
+
                                     me.dialog_window = new SKDialogView({
                                         'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                         "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -139,7 +138,6 @@ define([
                                     });
                                     $('.time').addClass('paused');
                                     SKApp.simulation.startPause();
-                                }
                                 me.tryConnect();
                             }
 
