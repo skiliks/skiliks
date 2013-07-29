@@ -33,7 +33,7 @@ h4 {
 .font-large {
     font-size:14px;
 }
-.font-xlarge, .font-xslarge {
+.font-xlarge, .font-xslarge, h6 {
     font-size:15px;
     line-height: 120%;
 }
