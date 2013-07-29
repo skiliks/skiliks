@@ -42,7 +42,7 @@
     margin-bottom: 7px; /* 10 */
 }
 .home-contnt-box h2 {
-    margin-bottom: 18px;
+    margin-bottom: 17px;
 }
 .home-contnt-box ul+h2 {
     margin-top:50px;
@@ -148,9 +148,9 @@
     -webkit-transform:rotate(-27deg);
     -o-transform:rotate(-27deg);
     transform:rotate(-27deg);
-    top:632px;
+    top:592px;
     left:50%;
-    margin-left:684px;
+    margin-left:504px;
 }
 .heroes-comment.left{
     -moz-transform:rotate(30deg);
@@ -158,7 +158,7 @@
     -webkit-transform:rotate(30deg);
     -o-transform:rotate(30deg);
     transform:rotate(30deg);
-    top:762px;
+    top:702px;
     left:50%;
     margin-left:-610px;
 }
