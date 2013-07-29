@@ -120,7 +120,7 @@
 }
 
 .video {/* 07.12 i vse vniz novye */
-    background: url("../img/img-video-min.png") no-repeat 0 0;
+    background: url("../img/video-min.png") no-repeat 0 0;
     cursor: pointer;
     height: 187px;
     margin-top: 7px;
@@ -146,10 +146,10 @@
 }
 .home-content .container-2 {
     height:260px;
-    width:760px;
+    width:700px;
 }
 .home-content .container-2 .grid1 {
-    width:378px;
+    width:350px;
 }
 .home-content .grid1+.grid1 {
     margin-left: 0px;
