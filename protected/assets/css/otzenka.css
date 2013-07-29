@@ -1211,6 +1211,9 @@
     .rateslist .numlist {
         width:180px;
     }
+    .timedetail .labels p:first-child {
+        margin-top: 22px;
+    }
     .timedetail .labelwrap {
         margin-top: 13px;
     }
