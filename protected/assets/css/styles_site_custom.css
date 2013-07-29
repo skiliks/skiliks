@@ -34,7 +34,7 @@
 }
 .home-contnt-box {
     margin: 20px 0px 90px 300px; /*30px 0px 90px 370px */
-    width:420px; /* 540px */
+    width:430px; /* 540px */
 }
 .home-contnt-box li {
     /*font-size: 16px;*/
@@ -130,7 +130,7 @@
 }
 .clients .grid-cell {
     padding-bottom: 48px;
-    padding-right:40px;
+    padding-right:30px;
     vertical-align: middle;
 }
 .heroes-comment {

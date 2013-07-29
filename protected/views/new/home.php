@@ -81,10 +81,10 @@
     <section class="clients">
         <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Our Clients') ?></h2>
         <div class="grid-cell" style="display:none;"><?php echo CHtml::image("$assetsUrl/img/skiliks-fb.png") ?></div>
-        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-hipway.jpg") ?></div>
-        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mann.jpg") ?></div>
-        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-wikimart.jpg") ?></div>
-        <div><div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/client-mcg.jpg") ?></div></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/icon-hipway.png") ?></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/icon-mif.png") ?></div>
+        <div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/icon-wikimart.png") ?></div>
+        <div><div class="grid-cell"><?php echo CHtml::image("$assetsUrl/img/icon-mcg.png") ?></div></div>
     </section>
     <!--clients end-->
 </div>
