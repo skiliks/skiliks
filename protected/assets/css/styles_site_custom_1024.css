@@ -73,7 +73,7 @@
     overflow: hidden;
 }
 .home-contnt-box {
-    margin: 20px 0px 75px 280px;
+    margin: 45px 0px 75px 280px;
     width:415px;
 }
 .home-contnt-box li {
@@ -106,9 +106,6 @@
 .page-header {
     margin-bottom: 16px;
 }
-.home-content .page-header {
-    margin-bottom: 20px;
-}
 .page-header.margin-less {
     margin-bottom: 10px;
 }
@@ -126,7 +123,7 @@
     background: url("../img/img-video-min.png") no-repeat 0 0;
     cursor: pointer;
     height: 200px;
-    margin-top: 14px;
+    margin-top: 7px;
     text-align: center;
     width:375px;
 }
@@ -134,7 +131,7 @@
     background-color: #176771;
     border-radius: 4px;
     display: inline-block;
-    margin: 140px auto 0;
+    margin: 150px auto 0;
     opacity: 0.9;
     padding: 5px 12px 9px;
 }
@@ -158,7 +155,7 @@
     margin-left: 0px;
 }
 .home-height {
-    height:730px;
+    height:738px;
 }
 .clients {
     width:480px;
