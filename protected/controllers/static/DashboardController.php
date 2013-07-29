@@ -710,6 +710,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'decline_explanation_form',
             [
                 'declineExplanation' => $declineExplanation,
+                'user' => Yii::app()->user->data(),
                 'reasons'            => StaticSiteTools::formatValuesArrayLite(
                     'DeclineReason',
                     'id',
