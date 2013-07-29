@@ -122,6 +122,12 @@ class PlanAnalyzer {
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
                     'available'   => $this->calculateParentAvailability($parentAvailability, $groupedLog),
+                    'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                        $this->calcKeepLastCategoryAfter(
+                            $logItem->start_time,
+                            $logItem->end_time,
+                            $logItem->keep_last_category_initial
+                        )
                 ];
                 $log_214d[] = [
                     'sim_id' => $logItem->sim_id,
@@ -860,6 +866,7 @@ class PlanAnalyzer {
                             && $taskLogItem['start'] < $taskLogItemToCheck['start']
                             && $taskLogItemToCheck['available'] < $taskLogItem['start']
                             && false == in_array($taskLogItem['parent'], $data)
+                            && false == $taskLogItem['keepLastCategoryAfter60sec']
                             ) {
                             $data[] = $taskLogItem['parent'];
                             break;
