@@ -23,6 +23,9 @@ h3 {
     line-height:23px;
     margin-bottom: 8px;
 }
+h4 {
+    font-size:19px;
+}
 .font-small {
     font-size:10px;
 }
@@ -100,7 +103,7 @@ h3 {
     width:754px;
 }
 .container-borders-2 .grid2 {
-    width:366px;
+    width:363px;
 }
 .container-borders-3 .grid1, .sign-block, .standard-left-box {
     width:247px;
