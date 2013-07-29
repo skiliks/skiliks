@@ -8,7 +8,7 @@
 
     <div class="container-2">
         <div class="grid1">
-            <ul class="list-light unstyled font-large home-list-box">
+            <ul class="list-light unstyled font-xlarge home-list-box">
                 <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
                 <li><?php echo Yii::t('site', '2-3-hours game') ?></li>
                 <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
