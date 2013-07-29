@@ -125,16 +125,16 @@
 .video {/* 07.12 i vse vniz novye */
     background: url("../img/img-video-min.png") no-repeat 0 0;
     cursor: pointer;
-    height: 186px;
+    height: 200px;
     margin-top: 14px;
     text-align: center;
-    width:350px;
+    width:375px;
 }
 .video-caption {
     background-color: #176771;
     border-radius: 4px;
     display: inline-block;
-    margin: 120px auto 0;
+    margin: 140px auto 0;
     opacity: 0.9;
     padding: 5px 12px 9px;
 }
