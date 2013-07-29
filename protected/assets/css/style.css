@@ -1144,6 +1144,7 @@ html[lang=ru] .product section table th{
 }
 .team .team-list li.tony{
 	background-image:url("../img/bg-team-tony.png");
+    margin-top: 6px;
 }
 .team .team-list li.andrii{
 	background-image:url("../img/bg-team-andrii.png");
@@ -1164,7 +1165,7 @@ html[lang=ru] .product section table th{
 .team .team-values{
 	width:500px;
 	text-align:center;
-	margin:57px auto 0;
+	margin:157px auto 0;
 }
 .team .team-values h3{
 	font:2.619em "ProximaNova-Bold";
