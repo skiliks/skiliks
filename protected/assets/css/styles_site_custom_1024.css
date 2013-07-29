@@ -732,7 +732,7 @@
     background-position: center 560px, center top, center 200px, center 560px;
 }
 .team {
-    height: 1200px;
+    height: 1170px;
 }
 .text-about {
     line-height: 130%;
@@ -762,7 +762,7 @@
 }
 .tony {
     background-image: url("../img/team-tony-min.png");
-    margin-top: 6px;
+    margin-top: 4px;
 }
 .andrii {
     background-image: url("../img/team-andrey-min.png");
