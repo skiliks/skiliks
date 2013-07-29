@@ -69,7 +69,9 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         $models = Invite::model()->findAll([
-            "order" => "updated_at desc"
+            "order"  => "updated_at desc",
+            "limit"  => $this->itemsOnPage,
+            "offset" => ($page-1)*$this->itemsOnPage
         ]);
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invites', [
@@ -86,7 +88,9 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = false;
         $models = Invite::model()->findAll([
-            "order" => "updated_at desc"
+            "order" => "updated_at desc",
+            "limit"  => $this->itemsOnPage,
+            "offset" => ($page-1)*$this->itemsOnPage
         ]);
         $csv = "ID-симуляции;";
         $csv .= "Email работодателя;";
@@ -193,7 +197,9 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         $models = Invoice::model()->findAll([
-            "order" => "updated_at desc"
+            "order" => "updated_at desc",
+            "limit"  => $this->itemsOnPage,
+            "offset" => ($page-1)*$this->itemsOnPage
         ]);
 
         $this->layout = '//admin_area/layouts/admin_main';
@@ -394,7 +400,10 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         $this->render('/admin_area/pages/users_table', [
-            'profiles' => YumProfile::model()->findAll(),
+            'profiles' => YumProfile::model()->findAll([
+                "limit"  => $this->itemsOnPage,
+                "offset" => ($page-1)*$this->itemsOnPage
+            ]),
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
@@ -425,7 +434,10 @@ class AdminPagesController extends SiteBaseController {
         $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/corporate_accounts_table', [
-            'accounts' => UserAccountCorporate::model()->findAll(),
+            'accounts' => UserAccountCorporate::model()->findAll([
+                "limit"  => $this->itemsOnPage,
+                "offset" => ($page-1)*$this->itemsOnPage
+            ]),
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
