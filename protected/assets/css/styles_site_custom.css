@@ -50,8 +50,8 @@
     padding-right: 20px;
     width:396px; /* 480 */
 }
-.home-list-box .font-xlarge {
-    font-size: 17px;
+.home-list-box li {
+    background: url("../img/icon-features.png") no-repeat 0 2px;
 }
 .access-footer {
     display: inline-block;
