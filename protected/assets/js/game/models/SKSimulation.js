@@ -666,8 +666,9 @@ define([
                         false, false, false, false, 0, null);
                     var id = $('.button-copy').attr('id');
 
-                    // get button for current active window
-                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
+                    // get button for current active tab in current active window
+                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid
+                        + ' .table-container .table-editor[style$="display: block;"] .button-copy').attr('id');
 
                     var buttonElement = document.getElementById(id);
                     buttonElement.dispatchEvent(event);
@@ -679,8 +680,9 @@ define([
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
 
-                    // get button for current active window
-                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
+                    // get button for current active tab in current active window
+                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid
+                        + ' .table-container .table-editor[style$="display: block;"] .button-paste').attr('id');
 
                     var buttonElement = document.getElementById(id);
                     buttonElement.dispatchEvent(event);
