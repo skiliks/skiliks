@@ -766,5 +766,7 @@
     background: url("../img/icon-product-table-dot.png") no-repeat center top;
     padding-top: 70px;
 }
-
+.product-features h6 {
+    margin-top: 40px;
+}
 /*  *************************** /PRODUCT ***************************/
