@@ -297,7 +297,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionInviteCalculateTheEstimate() {
 
         $simId = Yii::app()->request->getParam('sim_id', null);
-        $email = Yii::app()->request->getParam('email', null);
+        $email = str_replace(' ', '+', Yii::app()->request->getParam('email', null));
         SimulationService::CalculateTheEstimate($simId, $email);
 
         $this->redirect("/admin_area/invites");
