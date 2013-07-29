@@ -1024,7 +1024,7 @@
     margin-top:18px; /* 11 */
 }
 .labels .labelwrap:first-child {
-    margin-top:8px;
+    margin-top:15px;
 }
 .high-labels .labelwrap, .high-labels .labelwrap:first-child {
     margin-top:11px;
@@ -1041,7 +1041,7 @@
     font-size: 13px;
     /*line-height: 107%;*/
     position: relative;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .high-labels .thelabel {
     height: 59px;
@@ -1228,9 +1228,6 @@
     }
     .labelwrap {
         margin-top:14px;
-    }
-    .labels .labelwrap:first-child {
-        margin-top:10px;
     }
     .high-labels .thelabel {
         height:38px;
