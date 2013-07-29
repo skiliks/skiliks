@@ -25,8 +25,8 @@
     background-repeat: no-repeat;
     background-position: center top;
 }
-.action-homeNew .site-wrap {/* 07.12 */
-    background: url("../img/heros-home.png") no-repeat center 140px;
+.action-homeNew .site-wrap {
+    background: url("../img/bg-heroes.png") no-repeat center 12px; /* url("../img/heros-home.png") no-repeat center 140px; */
     overflow: hidden;
 }
 .home-contnt-box {
@@ -36,7 +36,7 @@
 .home-contnt-box li {
     /*font-size: 16px;*/
     line-height: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 7px; /* 10 */
 }
 .home-contnt-box h2 {
     margin-bottom: 18px;
@@ -51,7 +51,7 @@
     width:396px; /* 480 */
 }
 .home-list-box li {
-    background: url("../img/icon-features.png") no-repeat 0 2px;
+    background: url("../img/icon-features.png") no-repeat 0 4px;
 }
 .home-list-box.font-large {
     font-size: 17px;
@@ -85,7 +85,7 @@
     background: url("../img/img-video.png") no-repeat 0 0;
     cursor: pointer;
     height: 211px;
-    margin-top: 18px;
+    margin-top: 8px; /* 18 */
     text-align: center;
     width:396px;
 }
