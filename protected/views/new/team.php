@@ -15,11 +15,7 @@
 			<h3 class="font-blue-dark"><?php echo Yii::t('site', 'Tony Pryanichnikov') ?></h3>
 			<p><?php echo Yii::t('site', 'Analytical engine,<br />Master of details and algorithms,<br />So lazy that nothing escapes of<br />being optimised and automated<br />Exceptional in producing managerial kicks') ?></p>
 		</li>
-		<li class="andrii member-right">
-			<h3 class="font-blue-dark"><?php echo Yii::t('site', 'Andrii Kostenko') ?></h3>
-			<p>#define TECHNOLOGY_KNOWLEDGE "best"<br />#define MIND "beautiful"<br />#define HANDS "magic"<br />#define TRUE FALSE</p>
-		</li>
-		<li class="others member-center">
+		<li class="others">
 			<h3 class="font-blue-dark"><?php echo Yii::t('site', 'Others') ?></h3>
 			<p><?php echo Yii::t('site', 'Management, psychology,<br />teaching, assessment experts') ?></p>
 		</li>
