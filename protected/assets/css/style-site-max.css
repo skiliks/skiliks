@@ -45,6 +45,10 @@ h3 {
     min-height: 21px;
     padding-left: 28px;
 }
+.font-normal{
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+}
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
 .btn-large {
