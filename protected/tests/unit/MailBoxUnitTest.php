@@ -142,7 +142,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
-        $this->assertTrue(in_array('Прочее', $subjects));
+        $this->assertTrue(in_array('Новая тема', $subjects));
         
         $this->assertNull($id);
         
@@ -156,7 +156,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
-        $this->assertTrue(in_array('Прочее', $subjects2));
+        $this->assertTrue(in_array('Новая тема', $subjects2));
         
         $this->assertNull($id2);
     }
