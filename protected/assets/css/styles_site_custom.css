@@ -31,10 +31,10 @@
 }
 .home-contnt-box {
     margin: 30px 0px 90px 370px;
-    width:540px;
+    width:415px; /* 540px */
 }
-.home-contnt-box li { /* 07.12 */
-    font-size: 16px;
+.home-contnt-box li {
+    /*font-size: 16px;*/
     line-height: 16px;
     margin-bottom: 10px;
 }
@@ -52,6 +52,9 @@
 }
 .home-list-box li {
     background: url("../img/icon-features.png") no-repeat 0 2px;
+}
+.home-list-box.font-large {
+    font-size: 17px;
 }
 .access-footer {
     display: inline-block;
