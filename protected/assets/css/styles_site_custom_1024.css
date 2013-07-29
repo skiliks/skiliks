@@ -69,12 +69,12 @@
     background-position: center top;
 }
 .action-homeNew .site-wrap {
-    background:url("../img/heros-home-min.png") no-repeat center 108px;
+    background:url("../img/heros-home-min.png") no-repeat center 120px;
     overflow: hidden;
 }
 .home-contnt-box {
     margin: 20px 0px 75px 280px;
-    width:445px;
+    width:415px;
 }
 .home-contnt-box li {
     font-size: 13px;
@@ -106,6 +106,9 @@
 .page-header {
     margin-bottom: 16px;
 }
+.home-content .page-header {
+    margin-bottom: 20px;
+}
 .page-header.margin-less {
     margin-bottom: 10px;
 }
@@ -120,12 +123,12 @@
 }
 
 .video {/* 07.12 i vse vniz novye */
-    background: url("../img/video-home-min.png") no-repeat 0 0;
+    background: url("../img/img-video-min.png") no-repeat 0 0;
     cursor: pointer;
-    height: 185px;
+    height: 186px;
     margin-top: 14px;
     text-align: center;
-    width:358px;
+    width:350px;
 }
 .video-caption {
     background-color: #176771;
