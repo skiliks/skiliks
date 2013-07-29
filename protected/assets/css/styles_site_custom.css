@@ -26,12 +26,12 @@
     background-position: center top;
 }
 .action-homeNew .site-wrap {
-    background: url("../img/bg-heroes.png") no-repeat center 12px; /* url("../img/heros-home.png") no-repeat center 140px; */
+    background: url("../img/bg-heroes.png") no-repeat center 98px; /* url("../img/heros-home.png") no-repeat center 140px; */
     overflow: hidden;
 }
 .home-contnt-box {
-    margin: 30px 0px 90px 370px;
-    width:415px; /* 540px */
+    margin: 30px 0px 90px 300px; /*30px 0px 90px 370px */
+    width:420px; /* 540px */
 }
 .home-contnt-box li {
     /*font-size: 16px;*/
