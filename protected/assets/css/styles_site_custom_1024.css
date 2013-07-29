@@ -69,7 +69,7 @@
     background-position: center top;
 }
 .action-homeNew .site-wrap {
-    background:url("../img/heros-home-min.png") no-repeat center 120px;
+    background:url("../img/bg-heroes-min.png") no-repeat center 2px; /* heros-home-min.png no-repeat center 120px */
     overflow: hidden;
 }
 .home-contnt-box {
