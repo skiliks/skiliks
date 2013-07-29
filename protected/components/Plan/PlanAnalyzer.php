@@ -121,7 +121,7 @@ class PlanAnalyzer {
                     'category'    => $logItem->category,
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
-                    'available'   => $this->parentAvailability($parentAvailability, $groupedLog),
+                    'available'   => $this->calculateParentAvailability($parentAvailability, $groupedLog),
                 ];
                 $log_214d[] = [
                     'sim_id' => $logItem->sim_id,
@@ -202,7 +202,7 @@ class PlanAnalyzer {
 
     }
 
-    public function parentAvailability($parentAvailability, $groupedLog) {
+    public function calculateParentAvailability($parentAvailability, $groupedLog) {
         if($parentAvailability->code === 'T7b') {
             $max_end_time = 0;
 
@@ -240,7 +240,7 @@ class PlanAnalyzer {
                 $parentTM8activityActionIds[] = $activityAction->id;
             }
 
-            $parentTM8firstLog = LogActivityActionAgregated::model()->find([
+            $parentTM8firstLog = LogActivityAction::model()->find([
                 'condition' => ' `t`.`sim_id` = :sim_id AND `t`.`activity_action_id` IN ('.implode(', ', $parentTM8activityActionIds).')',
                 'params' => [
                     'sim_id' => $this->simulation->id,
