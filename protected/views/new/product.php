@@ -1,20 +1,15 @@
 <!--product-->
 <article class="product">
-    <hgroup>
-        <h2><?php echo Yii::t('site', 'About the Product')  ?></h2>
-        <h6><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h6>
+    <hgroup class="font-white">
+        <h1 class="page-header text-center"><?php echo Yii::t('site', 'About the Product')  ?></h1>
+        <h3 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h3>
     </hgroup>
 
-    <table class="productfeatrs">
-        <col />
-        <col />
-        <col />
-        <tr>
-            <td><?php echo Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')  ?></td>
-            <td><?php echo Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')  ?></td>
-            <td><?php echo Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')  ?></td>
-        </tr>
-    </table>
+        <div class="container-3 font-white">
+            <div class="grid1 text-center"><?php echo Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')  ?></div>
+            <div class="grid1 text-center"><?php echo Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')  ?></div>
+            <div class="grid1 text-center"><?php echo Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')  ?></div>
+        </div>
 
     <!-- NEW CONTENT -->
     <div class="textcener"><h2 class="total"><?php echo Yii::t('site', 'Overall manager’s rating')  ?></h2></div>
