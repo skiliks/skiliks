@@ -767,6 +767,14 @@
     padding-top: 70px;
 }
 .product-features h6 {
+    margin-bottom: 20px;
     margin-top: 40px;
+}
+.product-features h6:first-child {
+    margin-top: 20px;
+}
+.product-features h6, .product-features p {
+    line-height:150%;
+    text-align: center;
 }
 /*  *************************** /PRODUCT ***************************/
