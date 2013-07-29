@@ -158,7 +158,7 @@ class PlanAnalyzer {
             $var_214d->category = $log['category'];
             $var_214d->start_time = $log['start_time'];
             $var_214d->end_time = $log['end_time'];
-            $var_214d->duration = date(strtotime($log['end_time'])-strtotime($log['start_time']), 'H:i:s');
+            $var_214d->duration = gmdate('H:i:s', strtotime($log['end_time'])-strtotime($log['start_time']));
             $var_214d->keep_last_category_initial = $this->parents_keep_last_category[$log['parent']];
             $var_214d->keep_last_category_after = $this->calcKeepLastCategoryAfter($log['start_time'], $log['end_time'], $var_214d->keep_last_category_initial);
             $var_214d->parent = $log['parent'];
@@ -1037,12 +1037,23 @@ class PlanAnalyzer {
                     if($log->keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
                         if($log->keep_last_category_after === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO) {
                             $value += (float)$behaviour->scale;
+                            $log_214g = new LogAssessment214g();
+                            $log_214g->sim_id = $this->simulation->id;
+                            $log_214g->code = $code;
+                            $log_214g->parent = $parent;
+                            $log_214g->start_time = $log->start_time;
+                            $log_214g->save();
                         }else{
                             continue;
                         }
                     }else{
                         $value += (float)$behaviour->scale;
-                    }
+                        $log_214g = new LogAssessment214g();
+                        $log_214g->sim_id = $this->simulation->id;
+                        $log_214g->code = $code;
+                        $log_214g->parent = $parent;
+                        $log_214g->start_time = $log->start_time;
+                        $log_214g->save();                    }
                 }else{
                     continue;
                 }

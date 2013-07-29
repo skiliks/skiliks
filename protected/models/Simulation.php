@@ -44,6 +44,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property Invite $invite
  * @property MailBox[] $mail_box_inbox
  * @property SimulationFlag[] $simFlags
+ * @property LogAssessment214g[] $logAssessment214g
  *
  */
 class Simulation extends CActiveRecord
@@ -199,6 +200,7 @@ class Simulation extends CActiveRecord
             'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
             'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
+            'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
             //'mail_box_inbox'                  => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
             //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
         ];
