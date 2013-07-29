@@ -729,7 +729,7 @@
 .action-teamNew {
     background: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bgtoprepeat-min.jpg"), url("../img/bg-team-container.png");
     background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
-    background-position: center 600px, center top, center 230px, center 600px;
+    background-position: center 560px, center top, center 200px, center 560px;
 }
 .team {
     height: 1200px;
@@ -762,6 +762,7 @@
 }
 .tony {
     background-image: url("../img/team-tony-min.png");
+    margin-top: 6px;
 }
 .andrii {
     background-image: url("../img/team-andrey-min.png");
@@ -779,7 +780,7 @@
     margin-left: 190px;
 }
 .team-values {
-    margin-top: 50px;
+    margin-top: 80px;
 }
 .team-values h2 {
     margin-bottom: 20px;
