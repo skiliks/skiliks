@@ -47,7 +47,7 @@ SocialCalc.Formula = {};
    SocialCalc.Formula.CharClass = {num: 1, numstart: 2, op: 3, eof: 4, alpha: 5, incoord: 6, error: 7, quote: 8, space: 9, specialstart: 10};
  
    SocialCalc.Formula.CharClassTable = {
-      " ": 9, "!": 3, '"': 8, "#": 10, "$":6, "%":3, "&":3, "(": 3, ")": 3, "*": 3, "+": 3, ",": 3, "-": 3, ".": 2, "/": 3,
+      " ": 9, "!": 3, '"': 8, "#": 10, "$":6, "%":3, "&":3, "(": 3, ")": 3, "*": 3, "+": 3, ",": 3, "-": 3, ".": 2, "/": 3, ";": 3,
        "0": 1, "1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1, "7": 1, "8": 1, "9": 1,
        ":": 3, "<": 3, "=": 3, ">": 3,
        "A": 5, "B": 5, "C": 5, "D": 5, "E": 5, "F": 5, "G": 5, "H": 5, "I": 5, "J": 5, "K": 5, "L": 5, "M": 5, "N": 5,
@@ -85,7 +85,7 @@ SocialCalc.Formula = {};
 
    SocialCalc.Formula.TokenPrecedence = {
       "!": 1,
-      ":": 2, ",": 2,
+      ":": 2, ",": 2, ";": 2,
       "M": -3, "P": -3,
       "%": 4,
       "^": 5,
@@ -512,7 +512,7 @@ SocialCalc.Formula.ConvertInfixToPolish = function(parseinfo) {
       else if (ttype == tokentype.space) { // ignore
          continue;
          }
-      else if (ttext == ',') {
+      else if (ttext == ';') {
          while (parsestack.length && parseinfo[parsestack[parsestack.length-1]].text != "(") {
             revpolish.push(parsestack.pop());
             }

@@ -1360,7 +1360,7 @@ SocialCalc.EditorMouseRange = function(editor, coord) {
       case "input":
          inputtext = editor.inputBox.GetText();
          wval = editor.workingvalues;
-         if (("(+-*/,:!&<>=^".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
+         if (("(+-*/,:!&<>=^;".indexOf(inputtext.slice(-1))>=0 && inputtext.slice(0,1)=="=") ||
              (inputtext == "=")) {
             wval.partialexpr = inputtext;
             }
