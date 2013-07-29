@@ -235,7 +235,7 @@
     line-height: 90%;
     margin-left: 0px; /* 5 */
     overflow: hidden;
-    width: 38px;
+    width: 40px;
 }
 .registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
 .darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder,
