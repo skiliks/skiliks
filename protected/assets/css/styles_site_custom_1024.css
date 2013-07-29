@@ -106,6 +106,9 @@
 .page-header {
     margin-bottom: 16px;
 }
+.home-content .page-header {
+    margin-bottom: 22px;
+}
 .page-header.margin-less {
     margin-bottom: 10px;
 }
@@ -119,11 +122,11 @@
     width: 83px;
 }
 
-.video {/* 07.12 i vse vniz novye */
+.video {
     background: url("../img/video-min.png") no-repeat 0 0;
     cursor: pointer;
     height: 187px;
-    margin-top: 7px;
+    margin-top:12px;
     text-align: center;
     width:350px;
 }
@@ -131,7 +134,7 @@
     background-color: #176771;
     border-radius: 4px;
     display: inline-block;
-    margin: 150px auto 0;
+    margin: 138px auto 0;
     opacity: 0.9;
     padding: 5px 12px 9px;
 }
