@@ -2440,4 +2440,10 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('0', $assessment214g1->value);
     }
 
+    //public function testDebug(){
+    //    $simId = '324';
+    //    $email = 'gty1991+8@gmail.com';
+    //    SimulationService::CalculateTheEstimate($simId, $email);
+    //}
+
 }
