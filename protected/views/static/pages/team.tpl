@@ -17,10 +17,6 @@
 			<h4>{Yii::t('site', 'Tony Pryanichnikov')}</h4> 
 			<p>{Yii::t('site', 'Analytical engine,<br />Master of details and algorithms,<br />So lazy that nothing escapes of<br />being optimised and automated<br />Exceptional in producing managerial kicks')}</p>
 		</li>
-		<li class="andrii">
-			<h4>{Yii::t('site', 'Andrii Kostenko')}</h4> 
-			<p>#define TECHNOLOGY_KNOWLEDGE "best"<br />#define MIND "beautiful"<br />#define HANDS "magic"<br />#define TRUE FALSE</p>
-		</li>
 		<li class="others">
 			<h4>{Yii::t('site', 'Others')}</h4> 
 			<p>{Yii::t('site', 'Management, psychology,<br />teaching, assessment experts')}</p>
