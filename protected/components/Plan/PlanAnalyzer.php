@@ -126,7 +126,7 @@ class PlanAnalyzer {
                         $this->calcKeepLastCategoryAfter(
                             $logItem->start_time,
                             $logItem->end_time,
-                            $logItem->keep_last_category_initial
+                            $parentAvailability->is_keep_last_category
                         )
                 ];
                 $log_214d[] = [
@@ -154,6 +154,7 @@ class PlanAnalyzer {
         foreach($parents as $parent){
             $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
         }
+
         /* Log ActivityActionsAggregated214d */
         foreach($log_214d as $log) {
             $var_214d = new LogActivityActionAgregated214d();
@@ -181,7 +182,7 @@ class PlanAnalyzer {
         //}
     }
 
-    public function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial) {
+    public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial) {
         if($keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
             if((Yii::app()->params['keep_last_category_time_214g']/60*Yii::app()->params['public']['skiliksSpeedFactor']) <=
                 ((strtotime($end_time) - strtotime($start_time))/60)){
