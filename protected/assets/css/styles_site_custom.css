@@ -26,7 +26,7 @@
     background-position: center top;*/
     background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x;
-    background-position: center 533px, center top, center 85px;
+    background-position: center 533px, center top, center 65px;
 }
 .action-homeNew .site-wrap {
     background: url("../img/bg-heroes-home.png") no-repeat center 98px; /* url("../img/heros-home.png") no-repeat center 140px; */
@@ -89,7 +89,7 @@
     cursor: pointer;
     height: 211px;
     float: right;
-    margin-top: 8px; /* 18 */
+    margin-top: 16px; /* 18 */
     text-align: center;
     width:396px;
 }
