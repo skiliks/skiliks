@@ -1147,7 +1147,7 @@
 .timedetail .thelabel {
     color: #3d4041;
     font: 14px "ProximaNova-Bold";
-    line-height: 100%;
+    line-height: 90%;
 }
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
