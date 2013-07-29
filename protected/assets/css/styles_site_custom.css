@@ -709,6 +709,7 @@
 }
 .tony {
     background-image: url("../img/team-tony.png");
+    margin-top: 6px;
 }
 .andrii {
     background-image: url("../img/team-andrey.png");
