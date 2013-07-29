@@ -1,8 +1,8 @@
 <!--product-->
 <article class="product">
-    <hgroup class="font-white text-center">
-        <h1 class="page-header"><?php echo Yii::t('site', 'About the Product')  ?></h1>
-        <h4 class="font-normal"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
+    <hgroup class="font-white">
+        <h1 class="page-header text-center"><?php echo Yii::t('site', 'About the Product')  ?></h1>
+        <h4 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
     </hgroup>
 
         <div class="container-3 font-white font-xlarge">
@@ -135,7 +135,7 @@
     </div>
     <!-- /NEW CONTENT -->
     <hgroup class="font-white">
-        <h1 class="page-header text-center"><?php echo Yii::t('site', 'More Information')  ?></h1>
+        <h1 class="page-header text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h1>
         <h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
     </hgroup>
 
