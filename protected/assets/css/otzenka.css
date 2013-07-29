@@ -1030,10 +1030,10 @@
     margin-top:11px;
 }
 .timedetail .labelwrap {
-    margin-top:12px;
+    margin-top:18px;
 }
 .timedetail .labels p:first-child {
-    margin-top:10px;
+    margin-top:13px;
 }
 .thelabel {
     display: table-cell;
@@ -1147,6 +1147,7 @@
 .timedetail .thelabel {
     color: #3d4041;
     font: 14px "ProximaNova-Bold";
+    line-height: 100%;
 }
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
@@ -1209,6 +1210,9 @@
     }
     .rateslist .numlist {
         width:180px;
+    }
+    .timedetail .labelwrap {
+        margin-top: 13px;
     }
     .legend {
         padding: 8px 20px 16px;
