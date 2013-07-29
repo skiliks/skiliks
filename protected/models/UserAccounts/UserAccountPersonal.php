@@ -56,6 +56,7 @@ class UserAccountPersonal extends CActiveRecord
 			array('professional_status_id', 'required', 'message' => Yii::t('site', 'Professional status is required')),
 			array('user_id'                 , 'length'   , 'max'=>10),
 			array('location'                 , 'length'   , 'max'=>255),
+            array('industry_id', 'numerical', 'integerOnly'=>true),
 			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
             array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
 			// The following rule is used by search().
