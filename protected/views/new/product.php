@@ -134,21 +134,14 @@
         </div>
     </div>
     <!-- /NEW CONTENT -->
-    <section>
-        <hgroup>
-            <h3><?php echo Yii::t('site', 'More Information')  ?></h3>
-            <h6><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h6>
+        <hgroup class="font-white">
+            <h1 class="page-header text-center"><?php echo Yii::t('site', 'More Information')  ?></h1>
+            <h3 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h3>
         </hgroup>
 
-        <table>
-            <col />
-            <col />
-            <tr>
-                <th><h5><?php echo Yii::t('site', 'Easiest')  ?></h5></th>
-                <th><h5><?php echo Yii::t('site', 'Most Reliable')  ?></h5></th>
-            </tr>
-            <tr>
-                <td>
+        <div class="container-borders-2 thetable">
+            <div class="block-border bg-yellow grid2 border-primary grid-cell">
+                    <th><h5><?php echo Yii::t('site', 'Easiest')  ?></h5></th>
                     <h6><?php echo Yii::t('site', 'Saves your time')  ?></h6>
                     <p><?php echo Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')  ?></p>
                     <p><?php echo Yii::t('site', 'Two clicks to start the process and get the necessary assessment.')  ?></p>
@@ -160,8 +153,9 @@
                     <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to lease additional office space')  ?></p>
                     <h6><?php echo Yii::t('site', 'Results can be used immediately')  ?></h6>
                     <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!')  ?></p>
-                </td>
-                <td>
+            </div>
+            <div class="block-border bg-yellow grid2 border-primary grid-cell">
+                    <th><h5><?php echo Yii::t('site', 'Most Reliable')  ?></h5></th>
                     <h6><?php echo Yii::t('site', 'Focused on the skills')  ?></h6>
                     <p><?php echo Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')  ?></p>
                     <h6><?php echo Yii::t('site', 'Based on best working practices')  ?></h6>
@@ -173,9 +167,7 @@
                     <p><?php echo Yii::t('site', 'Each skill is assessed in many instances throughout the simulation forming valid outcome. Just imagine how many days you need in order to do it in real life!')  ?></p>
                     <p><?php echo Yii::t('site', 'We collect and analyse the data of hundreds of participants to manage the simulation.')  ?></p>
                     <p><?php echo Yii::t('site', 'We give you the possibility to compare candidates using clear quantitative criteria.')  ?></p>
-                </td>
-            </tr>
-        </table>
-    </section>
+            </div>
+        </div>
 </article>
 <!--product end-->
