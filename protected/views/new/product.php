@@ -141,7 +141,7 @@
 
     <div class="container-borders-2 thetable product-features">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <h5><?php echo Yii::t('site', 'Easiest')  ?></h5>
+            <h5 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Easiest')  ?></h5>
             <div class="pad-xsize font-slarge">
                 <h6><?php echo Yii::t('site', 'Saves your time')  ?></h6>
                 <p><?php echo Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')  ?></p>
@@ -158,7 +158,7 @@
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <h5><?php echo Yii::t('site', 'Most Reliable')  ?></h5>
+            <h5 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Most Reliable')  ?></h5>
             <div class="pad-xsize font-slarge">
                 <h6><?php echo Yii::t('site', 'Focused on the skills')  ?></h6>
                 <p><?php echo Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')  ?></p>
