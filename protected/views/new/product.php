@@ -1,8 +1,8 @@
 <!--product-->
 <article class="product">
-    <hgroup class="font-white">
-        <h1 class="page-header text-center"><?php echo Yii::t('site', 'About the Product')  ?></h1>
-        <h3 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h3>
+    <hgroup class="font-white text-center">
+        <h1 class="page-header"><?php echo Yii::t('site', 'About the Product')  ?></h1>
+        <h4 class="font-normal"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
     </hgroup>
 
         <div class="container-3 font-white font-xlarge">
@@ -134,40 +134,41 @@
         </div>
     </div>
     <!-- /NEW CONTENT -->
-        <hgroup class="font-white">
-            <h1 class="page-header text-center"><?php echo Yii::t('site', 'More Information')  ?></h1>
-            <h3 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h3>
-        </hgroup>
+    <hgroup class="font-white">
+        <h1 class="page-header text-center"><?php echo Yii::t('site', 'More Information')  ?></h1>
+        <h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
+    </hgroup>
 
-        <div class="container-borders-2 thetable">
-            <div class="block-border bg-yellow grid2 border-primary grid-cell">
-                    <th><h5><?php echo Yii::t('site', 'Easiest')  ?></h5></th>
-                    <h6><?php echo Yii::t('site', 'Saves your time')  ?></h6>
-                    <p><?php echo Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')  ?></p>
-                    <p><?php echo Yii::t('site', 'Two clicks to start the process and get the necessary assessment.')  ?></p>
-                    <h6><?php echo Yii::t('site', 'Unlimited number of applicants in any part of the world.')  ?></h6>
-                    <p><?php echo Yii::t('site', 'No limits! Use the simulation for managers from anywhere in the world. Assess as many people as you need.')  ?></p>
-                    <h6><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! Just make  sure you and your managers are on line!')  ?></h6>
-                    <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to  buy computers')  ?></p>
-                    <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to buy/distribute/integrate any soft')  ?></p>
-                    <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to lease additional office space')  ?></p>
-                    <h6><?php echo Yii::t('site', 'Results can be used immediately')  ?></h6>
-                    <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!')  ?></p>
-            </div>
-            <div class="block-border bg-yellow grid2 border-primary grid-cell">
-                    <th><h5><?php echo Yii::t('site', 'Most Reliable')  ?></h5></th>
-                    <h6><?php echo Yii::t('site', 'Focused on the skills')  ?></h6>
-                    <p><?php echo Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')  ?></p>
-                    <h6><?php echo Yii::t('site', 'Based on best working practices')  ?></h6>
-                    <p><?php echo Yii::t('site', 'We developed the assessment based on the selection of crucial practical skills that define manager’s performance with detailed analysis of how these skills become apparent in behaviour')  ?></p>
-                    <p><?php echo Yii::t('site', 'We are continuously up-grading managerial skills profile')  ?></p>
-                    <h6><?php echo Yii::t('site', 'Uses real work environment, tasks and decision making situations')  ?></h6>
-                    <p><?php echo Yii::t('site', 'In the simulation we have replicated the manager’s everyday life - familiar tasks, situations, interfaces and office environment. It helps manager to be himself and demonstrate his best results.')  ?></p>
-                    <h6><?php echo Yii::t('site', 'Based on mathematical methods not just feelings')  ?></h6>
-                    <p><?php echo Yii::t('site', 'Each skill is assessed in many instances throughout the simulation forming valid outcome. Just imagine how many days you need in order to do it in real life!')  ?></p>
-                    <p><?php echo Yii::t('site', 'We collect and analyse the data of hundreds of participants to manage the simulation.')  ?></p>
-                    <p><?php echo Yii::t('site', 'We give you the possibility to compare candidates using clear quantitative criteria.')  ?></p>
-            </div>
+    <div class="container-borders-2 thetable">
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <h5><?php echo Yii::t('site', 'Easiest')  ?></h5>
+            <h6><?php echo Yii::t('site', 'Saves your time')  ?></h6>
+            <p><?php echo Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')  ?></p>
+            <p><?php echo Yii::t('site', 'Two clicks to start the process and get the necessary assessment.')  ?></p>
+            <h6><?php echo Yii::t('site', 'Unlimited number of applicants in any part of the world.')  ?></h6>
+            <p><?php echo Yii::t('site', 'No limits! Use the simulation for managers from anywhere in the world. Assess as many people as you need.')  ?></p>
+            <h6><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! Just make  sure you and your managers are on line!')  ?></h6>
+            <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to  buy computers')  ?></p>
+            <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to buy/distribute/integrate any soft')  ?></p>
+            <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to lease additional office space')  ?></p>
+            <h6><?php echo Yii::t('site', 'Results can be used immediately')  ?></h6>
+            <p><?php echo Yii::t('site', '<strong>NO NEED</strong> to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!')  ?></p>
         </div>
+        <div class="grid-cell grid-space"></div>
+        <div class="block-border bg-yellow grid2 border-primary grid-cell">
+            <h5><?php echo Yii::t('site', 'Most Reliable')  ?></h5>
+            <h6><?php echo Yii::t('site', 'Focused on the skills')  ?></h6>
+            <p><?php echo Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')  ?></p>
+            <h6><?php echo Yii::t('site', 'Based on best working practices')  ?></h6>
+            <p><?php echo Yii::t('site', 'We developed the assessment based on the selection of crucial practical skills that define manager’s performance with detailed analysis of how these skills become apparent in behaviour')  ?></p>
+            <p><?php echo Yii::t('site', 'We are continuously up-grading managerial skills profile')  ?></p>
+            <h6><?php echo Yii::t('site', 'Uses real work environment, tasks and decision making situations')  ?></h6>
+            <p><?php echo Yii::t('site', 'In the simulation we have replicated the manager’s everyday life - familiar tasks, situations, interfaces and office environment. It helps manager to be himself and demonstrate his best results.')  ?></p>
+            <h6><?php echo Yii::t('site', 'Based on mathematical methods not just feelings')  ?></h6>
+            <p><?php echo Yii::t('site', 'Each skill is assessed in many instances throughout the simulation forming valid outcome. Just imagine how many days you need in order to do it in real life!')  ?></p>
+            <p><?php echo Yii::t('site', 'We collect and analyse the data of hundreds of participants to manage the simulation.')  ?></p>
+            <p><?php echo Yii::t('site', 'We give you the possibility to compare candidates using clear quantitative criteria.')  ?></p>
+        </div>
+    </div>
 </article>
 <!--product end-->
