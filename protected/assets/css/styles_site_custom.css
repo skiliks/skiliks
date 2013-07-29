@@ -24,21 +24,21 @@
     /*background-image: url("../img/maintopbg.jpg");
     background-repeat: no-repeat;
     background-position: center top;*/
-    background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg");
+    background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x;
     background-position: center 533px, center top, center 85px;
 }
 .action-homeNew .site-wrap {
-    background: url("../img/bg-heroes.png") no-repeat center 98px; /* url("../img/heros-home.png") no-repeat center 140px; */
+    background: url("../img/bg-heroes-home.png") no-repeat center 98px; /* url("../img/heros-home.png") no-repeat center 140px; */
     overflow: hidden;
 }
 .home-contnt-box {
-    margin: 30px 0px 90px 300px; /*30px 0px 90px 370px */
+    margin: 20px 0px 90px 300px; /*30px 0px 90px 370px */
     width:420px; /* 540px */
 }
 .home-contnt-box li {
     /*font-size: 16px;*/
-    line-height: 16px;
+    line-height: 15px;
     margin-bottom: 7px; /* 10 */
 }
 .home-contnt-box h2 {
@@ -684,7 +684,7 @@
 /*  *************************** /OLD BROWSERS ***************************/
 /*  *************************** TEAM ***************************/
 .action-teamNew {
-    background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
+    background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
     background-position: center 710px, center top, center 265px, center 710px; /*center 810px, center top, center 260px, center 815px */
 }
