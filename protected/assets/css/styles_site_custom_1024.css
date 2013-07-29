@@ -91,7 +91,7 @@
     margin-bottom: 25px;
     margin-top:4px;
     /*padding-right: 20px;*/
-    width:378px;
+    width:330px;
 }
 .access-footer {
     display: inline-block;
@@ -122,10 +122,10 @@
 .video {/* 07.12 i vse vniz novye */
     background: url("../img/img-video-min.png") no-repeat 0 0;
     cursor: pointer;
-    height: 200px;
+    height: 187px;
     margin-top: 7px;
     text-align: center;
-    width:375px;
+    width:350px;
 }
 .video-caption {
     background-color: #176771;
