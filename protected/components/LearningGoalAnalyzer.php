@@ -101,7 +101,7 @@ class LearningGoalAnalyzer
             $simulationGoalGroup->total_negative = $totalConsGroup;
             $simulationGoalGroup->max_positive = $maxPosGroup;
             $simulationGoalGroup->max_negative = $maxConsGroup;
-            $simulationGoalGroup->save();
+            $simulationGoalGroup->save(false);
 
         }
 

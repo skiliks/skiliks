@@ -102,7 +102,7 @@ class LearningAreaAnalyzer {
             $sla->learning_area_id = $learningArea->id;
             $sla->value = substr(max(min($value, 100), 0), 0, 10);
             $sla->sim_id = $this->simulation->id;
-            $sla->save();
+            $sla->save(false);
         }
     }
 
