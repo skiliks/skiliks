@@ -26,7 +26,7 @@
     background-position: center top;*/
     background: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x;
-    background-position: center 710px, center top, center 265px;
+    background-position: center 533px, center top, center 85px;
 }
 .action-homeNew .site-wrap {
     background: url("../img/bg-heroes.png") no-repeat center 98px; /* url("../img/heros-home.png") no-repeat center 140px; */
@@ -51,7 +51,7 @@
     margin-top:4px;
     margin-bottom: 30px;
     padding-right: 20px;
-    width:396px; /* 480 */
+    width:405px; /* 480 */
 }
 .home-list-box li {
     background: url("../img/icon-features.png") no-repeat 0 4px;
@@ -88,6 +88,7 @@
     background: url("../img/img-video.png") no-repeat 0 0;
     cursor: pointer;
     height: 211px;
+    float: right;
     margin-top: 8px; /* 18 */
     text-align: center;
     width:396px;
@@ -113,7 +114,7 @@
     width:950px;
 }
 .home-content .container-2 .grid1 {
-    width:400px;/* 475 */
+    width:405px;/* 475 */
 }
 .home-content .grid1+.grid1 {
     margin-left: 0px;
