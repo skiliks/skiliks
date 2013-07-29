@@ -25,7 +25,7 @@ class SecondMail_SK3066_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->assertFalse($this->isVisible("xpath=(//*[contains(text(),'Сводный бюджет')])"));
-        $this->addTheme("xpath=(//*[contains(text(),'Прочее')])");
+        $this->addTheme("xpath=(//*[contains(text(),'Новая тема')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         //Проверяем, что тема гибких коммуникаций осталась
@@ -33,7 +33,7 @@ class SecondMail_SK3066_Test extends SeleniumTestHelper
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Прочее')])"));
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Новая тема')])"));
 
         $this->simulation_stop();
     }
