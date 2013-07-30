@@ -14,7 +14,7 @@ class AggregationUnitTest extends CDbTestCase
 
         $behaviours   = $scenario->getHeroBehavours(['code' => ['3214', '3216', '3218']]);
         $learningGoal = $scenario->getLearningGoal(['code' => '321']);
-        $learningArea = $scenario->getLearningArea(['code' => '4']);
+        $learningArea = $scenario->getLearningArea(['code' => '3']);
 
         foreach ($behaviours as $behaviour) {
             $behaviourValue = new AssessmentAggregated();
@@ -45,7 +45,7 @@ class AggregationUnitTest extends CDbTestCase
         $this->assertEquals(6  , $learningGoalValue->value, 'value Goal');
         $this->assertEquals(100, $learningGoalValue->percent, 'percent Goal');
 
-        $this->assertEquals(100, $learningAreaValue->value, 'value Area');
+        $this->assertEquals(17.142857, $learningAreaValue->value, 'value Area');
     }
 
     /**
