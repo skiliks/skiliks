@@ -372,7 +372,7 @@ define([
                             el.addClass('icon-active-short');
                         }
 
-                        setTimeout(function() {
+                        me.animationTimer = setTimeout(function() {
                             me.stopAnimation(selector);
 
                             if (end_cb !== undefined) {
@@ -389,6 +389,7 @@ define([
 
             stopAnimation: function(selector) {
                 try {
+                    clearTimeout(this.animationTimer);
                     this.icon_lock[selector] = false;
                     this.$(selector).removeClass('icon-active icon-active-short');
                 } catch(exception) {
@@ -486,7 +487,6 @@ define([
             doMeetingToggle: function(e) {
                 try {
                     e.preventDefault();
-                    this.stopAnimation('.plan');
                     if(false == SKApp.simulation.window_set.isActive('visitor', 'visitorMeeting')){
                         SKApp.simulation.window_set.toggle('visitor', 'meetingChoice');
                     }
