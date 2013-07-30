@@ -8,9 +8,6 @@ $lang = Yii::app()->getLanguage();
 <div class="container-borders-4">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="block-border bg-yellow grid1 border-primary">
-
-
-        <div>
            <header class="tarif-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="price <?= $lang ?>">
@@ -21,7 +18,7 @@ $lang = Yii::app()->getLanguage();
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
            </header>
-            <div>
+           <div class="pad-large">
 
                 <div><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>
 
@@ -47,7 +44,6 @@ $lang = Yii::app()->getLanguage();
                     </div>
                 <?php endif ?>
             </div>
-        </div>
     </div>
 <?php endforeach ?>
 
