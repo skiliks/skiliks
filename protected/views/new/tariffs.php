@@ -11,6 +11,7 @@ $lang = Yii::app()->getLanguage();
 
 
         <div>
+           <header class="tarif-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="price <?= $lang ?>">
                 <p>
@@ -19,6 +20,7 @@ $lang = Yii::app()->getLanguage();
                 <?php endif ?>
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
+           </header>
             <div>
 
                 <div><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>

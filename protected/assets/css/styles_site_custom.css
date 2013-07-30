@@ -781,3 +781,12 @@
     line-height:130%;
 }
 /*  *************************** /PRODUCT ***************************/
+/*  *************************** TARIFF  ***************************/
+.tarif-header {
+    background: #fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
+}
+.tarif-header h5 {
+    border-bottom: 1px solid #69a7b0;
+    padding: 20px 0px 10px;
+}
+/*  *************************** /TARIFF  ***************************/
