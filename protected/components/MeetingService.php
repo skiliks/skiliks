@@ -56,7 +56,7 @@ class MeetingService
 
         //$currentTime = explode(':', $simulation->getGameTime());
         $shiftedTime = $currentTime[0] * 60 + $currentTime[1] + $meeting->duration;
-        SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);
+        //SimulationService::setSimulationClockTime($simulation, floor($shiftedTime / 60), $shiftedTime % 60);
 
         return floor($shiftedTime / 60) . ':' . ($shiftedTime % 60);
     }

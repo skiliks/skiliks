@@ -261,7 +261,8 @@ define([
              * @optional @param {boolean} is_seconds show seconds
              * @return {string}
              */
-            'getGameTime':function (is_seconds) {
+            'getGameTime':function (params) {
+                if(params === undefined) {params = {};}
                     var sh    = this.getGameSeconds();
                     var h   = Math.floor(sh / 3600);
                     var m = Math.floor((sh - (h * 3600)) / 60);
@@ -269,7 +270,7 @@ define([
                     if (h   < 10) {h   = "0"+h;}
                     if (m < 10) {m = "0"+m;}
                     if (s < 10) {s = "0"+s;}
-                return h + ':' + m + (is_seconds ? ':' + s : '');
+                return h + ':' + m + (params.with_seconds === true ? ':' + s : '');
             },
 
             /**
@@ -480,12 +481,14 @@ define([
                 });
             },
 
-            updatePause: function(callback) {
+            updatePause: function(params) {
+                if(params === undefined) {params = {};}
+
                 var me = this;
                 var skipped = (new Date() - me.paused_time) / 1000;
                 SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
-                        if (typeof callback === 'function') {
-                            callback(responce);
+                        if (typeof params.callback === 'function') {
+                            params.callback(responce);
                         }
 
                 });

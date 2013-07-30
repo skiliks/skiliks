@@ -140,13 +140,19 @@ class Simulation extends CActiveRecord
      */
     public function getGameTime()
     {
-        $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
-        $variance = $variance * $this->getSpeedFactor();
+        $time = Yii::app()->request->getParam('time');
+        if(null === $time) {
+            $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
+            $variance = $variance * $this->getSpeedFactor();
 
-        $startTime = explode(':', $this->game_type->start_time);
-        $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
+            $startTime = explode(':', $this->game_type->start_time);
+            $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
 
-        return gmdate('H:i:s', $unixtime);
+            return gmdate('H:i:s', $unixtime);
+        }else{
+            return $time;
+        }
+
     }
 
     public function deleteOldTriggers($newHours, $newMinutes)
