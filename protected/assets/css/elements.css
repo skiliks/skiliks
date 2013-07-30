@@ -190,8 +190,11 @@
     border-radius: 4px;
     color: #FFFFFF;
     font: 20px "ProximaNova-Bold";
-    padding: 15px 25px 15px 50px;
+    padding: 15px 20px 15px 47px;
     text-align: left;
+}
+#invite-decline-form #form-decline-explanation .confirm-decline {
+    float:right;
 }
 #invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
     margin-right:18px;
