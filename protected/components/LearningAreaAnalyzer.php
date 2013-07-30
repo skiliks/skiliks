@@ -16,7 +16,7 @@ class LearningAreaAnalyzer {
     {
         // Management skills
         $this->followPriorities();
-        $this->taskManagement();
+        $this->communicationManagement();
         $this->peopleManagement();
 
         // Personal scale
@@ -253,10 +253,10 @@ class LearningAreaAnalyzer {
     /*
      * Управление задачами
      */
-    public function taskManagement()
+    public function communicationManagement()
     {
-        $value = $this->calcCombinedSkillsByGoalGroup(2);
-        $this->saveLearningArea(2, $value * 100);
+        $value = $this->calcCombinedSkillsByGoalGroup(3);
+        $this->saveLearningArea(3, $value * 100);
     }
 
     /*
@@ -264,8 +264,8 @@ class LearningAreaAnalyzer {
      */
     public function peopleManagement()
     {
-        $value = $this->calcCombinedSkillsByGoalGroup(3);
-        $this->saveLearningArea(3, $value * 100);
+        $value = $this->calcCombinedSkillsByGoalGroup(2);
+        $this->saveLearningArea(2, $value * 100);
     }
 
     /*

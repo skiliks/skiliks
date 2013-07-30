@@ -12,7 +12,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
     public function testAssessment_Goals_Areas_Overals_case1()
     {
-        $this->markTestSkipped(); // wait for new assessment scheme
+        // $this->markTestSkipped(); // wait for new assessment scheme
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -22,47 +22,51 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // ---
-        $this->addAssessmentAggregated($simulation, '3312');
-        $this->addAssessmentAggregated($simulation, '341a8');
-
         $this->addAssessmentAggregated($simulation, '214d0');
         $this->addAssessmentAggregated($simulation, '214d1');
         $this->addAssessmentAggregated($simulation, '214d2');
         $this->addAssessmentAggregated($simulation, '214d3');
         $this->addAssessmentAggregated($simulation, '214d4');
 
-        $this->addAssessmentAggregated($simulation, '341b5');
-        $this->addAssessmentAggregated($simulation, '341b7');
+        $this->addAssessmentAggregated($simulation, '341a8'); // 3)
+        $this->addAssessmentAggregated($simulation, '341b1'); // 3)
+        $this->addAssessmentAggregated($simulation, '341b5'); // 3)
+        $this->addAssessmentAggregated($simulation, '341b7'); // 3)
+
         $this->addAssessmentAggregated($simulation, '4121'); // 8
         $this->addAssessmentAggregated($simulation, '4124'); // 8
-        $this->addAssessmentAggregated($simulation, '3216');
+
         $this->addAssessmentAggregated($simulation, '4122'); // 8
-        $this->addAssessmentAggregated($simulation, '341b1');
         $this->addAssessmentAggregated($simulation, '4125'); // 8
         $this->addAssessmentAggregated($simulation, '4141'); // 8
         $this->addAssessmentAggregated($simulation, '4143'); // 8
         $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
-        $this->addAssessmentAggregated($simulation, '3214');
+
+        $this->addAssessmentAggregated($simulation, '3214'); // 3)
+        $this->addAssessmentAggregated($simulation, '3216'); // 3)
+        $this->addAssessmentAggregated($simulation, '3218'); // 3)
+
         $this->addAssessmentAggregated($simulation, '1122');
         $this->addAssessmentAggregated($simulation, '1232'); // 1
-        $this->addAssessmentAggregated($simulation, '3218'); // 1
-        $this->addAssessmentAggregated($simulation, '351b3');
-        $this->addAssessmentAggregated($simulation, '351b2');
+
+        $this->addAssessmentAggregated($simulation, '351a1');
         $this->addAssessmentAggregated($simulation, '351b1');
+        $this->addAssessmentAggregated($simulation, '351b2');
+        $this->addAssessmentAggregated($simulation, '351b3');
         $this->addAssessmentAggregated($simulation, '351c1');
         $this->addAssessmentAggregated($simulation, '351c2');
         $this->addAssessmentAggregated($simulation, '351c3');
-        $this->addAssessmentAggregated($simulation, '351a1');
-        $this->addAssessmentAggregated($simulation, '351a2');
-        $this->addAssessmentAggregated($simulation, '351a4');
+
+        $this->addAssessmentAggregated($simulation, '3311');
+        $this->addAssessmentAggregated($simulation, '3312');
+        $this->addAssessmentAggregated($simulation, '3313');
         $this->addAssessmentAggregated($simulation, '3322');
         $this->addAssessmentAggregated($simulation, '3323');
-        $this->addAssessmentAggregated($simulation, '3313');
-        $this->addAssessmentAggregated($simulation, '3333');
         $this->addAssessmentAggregated($simulation, '3326');
-        $this->addAssessmentAggregated($simulation, '3311');
         $this->addAssessmentAggregated($simulation, '3332');
+        $this->addAssessmentAggregated($simulation, '3333');
+
         $this->addAssessmentAggregated($simulation, '214a1');
         $this->addAssessmentAggregated($simulation, '214a3');
         $this->addAssessmentAggregated($simulation, '214a4');
@@ -129,22 +133,18 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Следование приоритетам'  => 100,
-            'Управление задачами'     => 100,
-            'Управление людьми'       => 100,
-            'Оптимальный выбор каналов коммуникации' => 100,
+            'Управление задачами с учётом приоритетов' => 100,
+            'Управление людьми'         => 100,
+            'Управление коммуникациями' => 100,
+            // personal (№8):
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 100,
-            'Эффективное управление звонками'  => 100,
-            'Эффективное управление встречами' => 100,
-            'Эффективная работа с IM'          => 0,
-            'Стрессоустойчивость'              => 100,
-            'Ответственность'         => 100,
-            'Принятие решения'        => 100,
-            'Ориентация на результат' => 100,
-            'Конструктивность'        => 100,
-            'Гибкость'                => 100,
-            'Внимательность'          => 100,
+            'Стрессоустойчивость'       => 100,
+            'Ответственность'           => 100,
+            'Принятие решения'          => 100,
+            'Ориентация на результат'   => 100,
+            'Конструктивность'          => 100,
+            'Гибкость'                  => 100,
+            'Внимательность'            => 100,
         ];
 
         foreach ($areas as $listItem) {
@@ -183,8 +183,6 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
     public function testAssessment_Goals_Areas_Overals_case2()
     {
-        $this->markTestSkipped(); // wait for new assessment scheme
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -206,7 +204,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '341b7');
         $this->addAssessmentAggregated($simulation, '4121'); // 8
         $this->addAssessmentAggregated($simulation, '4124'); // 8
-        $this->addAssessmentAggregated($simulation, '3216');
+        $this->addAssessmentAggregated($simulation, '3216'); // 3)
         $this->addAssessmentAggregated($simulation, '4122'); // 8
         $this->addAssessmentAggregated($simulation, '341b1');
         $this->addAssessmentAggregated($simulation, '351b3');
@@ -215,7 +213,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4143'); // 8
         $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
-        $this->addAssessmentAggregated($simulation, '3214');
+        $this->addAssessmentAggregated($simulation, '3214'); // 3)
         $this->addAssessmentAggregated($simulation, '351a2');
         $this->addAssessmentAggregated($simulation, '1122');
         $this->addAssessmentAggregated($simulation, '1232'); // 1
@@ -374,7 +372,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
      */
     public function testAssessment_Goals_Areas_Overals_case3()
     {
-        $this->markTestSkipped(); // wait for new assessment scheme
+        //$this->markTestSkipped(); // wait for new assessment scheme
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -508,42 +506,30 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Следование приоритетам'  => 100,
-            'Управление задачами'     => 0,
-            'Управление людьми'       => 30, // 27.586206
-            'Оптимальный выбор каналов коммуникации' => 100,
-            'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 73.529411, // 73.913040
-            'Эффективное управление звонками'  => 100,
-            'Эффективное управление встречами' => 100,
-            'Эффективная работа с IM'          => 0,
-            'Стрессоустойчивость'              => 100,
-            'Ответственность'         => 100,
-            'Принятие решения'        => 100,
-            'Ориентация на результат' => 100,
-            'Конструктивность'        => 100,
-            'Гибкость'                => 100,
-            'Внимательность'          => 100,
+            'Управление задачами с учётом приоритетов'  => 6.666667,
+            'Управление коммуникациями'                 => 70.285713, // 27.586206
+            'Управление людьми'                         => 30,
         ];
 
-        echo "\n Areas: \n";
         foreach ($areas as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
 //                $listItem->learningArea->title,
 //                $listItem->value
 //            );
-            $this->assertEquals(
-                $v[$listItem->learningArea->title],
-                $listItem->value,
-                'Areas: '.$listItem->learningArea->title
-            );
+            if (isset($v[$listItem->learningArea->title])) {
+                $this->assertEquals(
+                    $v[$listItem->learningArea->title],
+                    $listItem->value,
+                    'Areas: '.$listItem->learningArea->title
+                );
+            }
         }
 
         $v = [
-            'management'  => 39.50, // 44.97
-            'overall'     => 50.52, // 53.26
-            'performance' => 69.24,
+            'management'  => 41.70, // 44.97
+            'overall'     => 52.97, // 53.26
+            'performance' => 70.34,
             'time'        => 50,
         ];
 
@@ -604,7 +590,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
         $v = [ 'Управление людьми' => 30 ]; // 27.586206
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-        echo "\n Areas: \n";
+        //echo "\n Areas: \n";
         foreach ($areas as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
