@@ -194,11 +194,11 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '3312');
         $this->addAssessmentAggregated($simulation, '341a8');
 
-        $this->addAssessmentAggregated($simulation, '214d0');
-        $this->addAssessmentAggregated($simulation, '214d1');
-        $this->addAssessmentAggregated($simulation, '214d2');
-        $this->addAssessmentAggregated($simulation, '214d3');
-        $this->addAssessmentAggregated($simulation, '214d4');
+        $this->addAssessmentAggregated($simulation, '214d0'); // 1)
+        $this->addAssessmentAggregated($simulation, '214d1'); // 1)
+        $this->addAssessmentAggregated($simulation, '214d2'); // 1)
+        $this->addAssessmentAggregated($simulation, '214d3'); // 1)
+        $this->addAssessmentAggregated($simulation, '214d4'); // 1)
 
         $this->addAssessmentAggregated($simulation, '341b5');
         $this->addAssessmentAggregated($simulation, '341b7');
@@ -214,9 +214,10 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4153'); // 8
         $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214'); // 3)
-        $this->addAssessmentAggregated($simulation, '351a2');
-        $this->addAssessmentAggregated($simulation, '1122');
-        $this->addAssessmentAggregated($simulation, '1232'); // 1
+
+        $this->addAssessmentAggregated($simulation, '1232'); // 1)
+        $this->addAssessmentAggregated($simulation, '1122'); // 1
+
         $this->addAssessmentAggregated($simulation, '3218'); // 1
         $this->addAssessmentAggregated($simulation, '351b2');
         $this->addAssessmentAggregated($simulation, '351b1');
@@ -233,31 +234,34 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '3326');
         $this->addAssessmentAggregated($simulation, '3311');
         $this->addAssessmentAggregated($simulation, '3332');
-        $this->addAssessmentAggregated($simulation, '214a1');
-        $this->addAssessmentAggregated($simulation, '214a3');
-        $this->addAssessmentAggregated($simulation, '214a4');
-        $this->addAssessmentAggregated($simulation, '214a5');
-        $this->addAssessmentAggregated($simulation, '214b0');
-        $this->addAssessmentAggregated($simulation, '214b1');
-        $this->addAssessmentAggregated($simulation, '214b2');
-        $this->addAssessmentAggregated($simulation, '214b3');
-        $this->addAssessmentAggregated($simulation, '214b4');
-        $this->addAssessmentAggregated($simulation, '214b9');
+
+        $this->addAssessmentAggregated($simulation, '214a1'); // 1)
+        $this->addAssessmentAggregated($simulation, '214a3'); // 1)
+        $this->addAssessmentAggregated($simulation, '214a4'); // 1)
+        $this->addAssessmentAggregated($simulation, '214a5'); // 1)
+
+        $this->addAssessmentAggregated($simulation, '214b0'); // 1)
+        $this->addAssessmentAggregated($simulation, '214b1'); // 1)
+        $this->addAssessmentAggregated($simulation, '214b2'); // 1)
+        $this->addAssessmentAggregated($simulation, '214b3'); // 1)
+        $this->addAssessmentAggregated($simulation, '214b4'); // 1)
+        $this->addAssessmentAggregated($simulation, '214b9'); // 1)
 
         $this->addAssessmentAggregated($simulation, '214b5');
         $this->addAssessmentAggregated($simulation, '214b6');
 
-        $this->addAssessmentAggregated($simulation, '214d5'); // 2. "-"
-        $this->addAssessmentAggregated($simulation, '214d6'); // 2. "-"
-        $this->addAssessmentAggregated($simulation, '214d8'); // 2. "-"
+        $this->addAssessmentAggregated($simulation, '214d5'); // 1) "-"
+        $this->addAssessmentAggregated($simulation, '214d6'); // 1) "-"
+        $this->addAssessmentAggregated($simulation, '214d8'); // 1) "-"
 
-        $this->addAssessmentAggregated($simulation, '4123'); // 3. "-"
-        $this->addAssessmentAggregated($simulation, '4126'); // 3. "-"
-        $this->addAssessmentAggregated($simulation, '4151'); // 3. "-"
-        $this->addAssessmentAggregated($simulation, '4134'); // 3. "-"
-        $this->addAssessmentAggregated($simulation, '4135'); // 3. "-"
+        $this->addAssessmentAggregated($simulation, '4123'); // 2) "-"
+        $this->addAssessmentAggregated($simulation, '4126'); // 2) "-"
+        $this->addAssessmentAggregated($simulation, '4151'); // 2) "-"
+        //$this->addAssessmentAggregated($simulation, '4134'); // 3. "-"
+        //$this->addAssessmentAggregated($simulation, '4135'); // 3. "-"
 
-        $this->addAssessmentAggregated($simulation, '3324', null, 5); // 5. "-"
+        $this->addAssessmentAggregated($simulation, '3324', null, 5); // 3) "-"
+        $this->addAssessmentAggregated($simulation, '351a2'); // 3) "-"
 
         $this->addAssessmentAggregated($simulation, '8311', 100);
         $this->addAssessmentAggregated($simulation, '8351', 100);
@@ -310,19 +314,35 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
+        $goalGroups = SimulationLearningGoalGroup::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+
+//        foreach ($goalGroups as $goalGroup) {
+//            echo sprintf(
+//                "%s %s | %s %s : %s %s ** %s %s \n",
+//                $goalGroup->learningGoalGroup->title,
+//                $goalGroup->value,
+//                $goalGroup->total_positive,
+//                $goalGroup->max_positive,
+//                $goalGroup->total_negative,
+//                $goalGroup->max_negative,
+//                $goalGroup->problem,
+//                $goalGroup->getReducingCoefficient()
+//            );
+//        }
+//
+//        echo "\n";
+
         $areas   = SimulationLearningArea::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Следование приоритетам'  => 100,
-            'Управление задачами'     => 56.547619, // 60.909092
-            'Управление людьми'       => 65.000000, // 63.793102
+            'Управление задачами с учётом приоритетов' => 75.777779,
+            'Управление людьми'         => 86.000000,
+            'Управление коммуникациями' => 70.285713,
+
             'Оптимальный выбор каналов коммуникации' => 100,
+
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Эффективная работа с почтой'      => 73.529411, // 73.913040
-            'Эффективное управление звонками'  => 100,
-            'Эффективное управление встречами' => 100,
-            'Эффективная работа с IM'          => 0,
             'Стрессоустойчивость'              => 100,
             'Ответственность'         => 100,
             'Принятие решения'        => 100,
@@ -332,7 +352,6 @@ class AssessmentGlobalUnitTest extends CDbTestCase
             'Внимательность'          => 100,
         ];
 
-        echo "\n Areas: \n";
         foreach ($areas as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
@@ -347,9 +366,9 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 70.25, // 74.50
-            'overall'     => 65.90, // 68.02
-            'performance' => 69.24,
+            'management'  => 76.65,
+            'overall'     => 70.44, // 68.02
+            'performance' => 70.34,
             'time'        => 50,
         ];
 

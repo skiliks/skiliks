@@ -186,53 +186,142 @@ class LearningAreaAnalyzer {
         $maxRate = 0;
         $ids = [];
 
-        $group_1_4_positive = 0;
+        $group_1_4_value = 0;
         $group_1_4_negative = 0;
         $group_1_4_max_negative = 0;
 
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
+        //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
             /* @var $area LearningArea */
             foreach ($area->learningGoalGroups as $learningGoalGroup) {
-
                 /** @var SimulationLearningGoalGroup $slg */
                 $slg = SimulationLearningGoalGroup::model()->findByAttributes([
                     'sim_id' => $this->simulation->id,
                     'learning_goal_group_id' => $learningGoalGroup->id
                 ]);
 
-                if($learningGoalGroup->code === '1.4') {
-                    $group_1_4_positive += $slg->total_positive;
-                    $group_1_4_negative += $slg->total_negative;
-                    $group_1_4_max_negative += $slg->max_negative;
-                    continue;
-                }
-                if($learningGoalGroup->code === '1.5') {
-                    $group_1_4_negative += $slg->total_negative;
-                    $group_1_4_max_negative += $slg->max_negative;
-                    continue;
-                }
-                if ($slg) {
-                    $total += $slg->value * $slg->getReducingCoefficient();
-                }
-
                 /* @var $learningGoalGroup LearningGoalGroup */
                 /* @var $goal LearningGoal */
                 foreach($learningGoalGroup->learningGoals as $goal){
                     $ids[] = $goal->id;
                 }
+
+                if($learningGoalGroup->code === '1_4') {
+                    $group_1_4_value += $slg->value;
+
+                    // 214d {
+                    $goal214d = LearningGoal::model()->findByAttributes([
+                        'scenario_id'           => $scenario->id,
+                        'code' => '214d'
+                    ]);
+
+                    $fail214d = maxRate::model()->findByAttributes([
+                        'scenario_id'      => $scenario->id,
+                        'learning_goal_id' => $goal214d->id
+                    ]);
+
+                    $group_1_4_max_negative += $fail214d->rate;
+                    // 214d }
+
+                    // 214d5 {
+                    $behaviour214d5 = $scenario->getHeroBehaviour(['code' => '214d5']);
+
+                    $assessmentAggregated214d5 = AssessmentAggregated::model()->findByAttributes([
+                        'sim_id'   => $this->simulation->id,
+                        'point_id' => $behaviour214d5->id,
+                    ]);
+
+                    $group_1_4_negative += (empty($assessmentAggregated214d5)) ? 0 : $assessmentAggregated214d5->value;
+                    // 214d5 }
+
+                    // 214d6 {
+                    $behaviour214d6 = $scenario->getHeroBehaviour(['code' => '214d6']);
+
+                    $assessmentAggregated214d6 = AssessmentAggregated::model()->findByAttributes([
+                        'sim_id'   => $this->simulation->id,
+                        'point_id' => $behaviour214d6->id,
+                    ]);
+
+                    $group_1_4_negative += (empty($assessmentAggregated214d6)) ? 0 : $assessmentAggregated214d6->value;
+                    // 214d6 }
+
+                    // 214d8 {
+                    $behaviour214d8 = $scenario->getHeroBehaviour(['code' => '214d8']);
+
+                    $assessmentAggregated214d8 = AssessmentAggregated::model()->findByAttributes([
+                        'sim_id'   => $this->simulation->id,
+                        'point_id' => $behaviour214d8->id,
+                    ]);
+
+                    $group_1_4_negative += (empty($assessmentAggregated214d8)) ? 0 : $assessmentAggregated214d8->value;
+                    // 214d8 }
+
+                    continue;
+                }
+                if($learningGoalGroup->code === '1_5') {
+                    $group_1_4_negative += $slg->total_negative;
+
+                    // 214g {
+                    $goal214g = LearningGoal::model()->findByAttributes([
+                        'scenario_id'           => $scenario->id,
+                        'code' => '214g'
+                    ]);
+
+                    $fail214g = maxRate::model()->findByAttributes([
+                        'scenario_id'      => $scenario->id,
+                        'learning_goal_id' => $goal214g->id
+                    ]);
+
+                    $group_1_4_max_negative += $fail214g->rate;
+                    // 214g }
+
+                    // 214g0 {
+                    $behaviour214g0 = $scenario->getHeroBehaviour(['code' => '214g0']);
+
+                    $assessmentAggregated214g0 = AssessmentAggregated::model()->findByAttributes([
+                        'sim_id'   => $this->simulation->id,
+                        'point_id' => $behaviour214g0->id,
+                    ]);
+
+                    $group_1_4_negative += (empty($assessmentAggregated214g0)) ? 0 : $assessmentAggregated214g0->value;
+                    // 214g0 }
+
+                    // 214g1 {
+                    $behaviour214g1 = $scenario->getHeroBehaviour(['code' => '214g1']);
+
+                    $assessmentAggregated214g1 = AssessmentAggregated::model()->findByAttributes([
+                        'sim_id'   => $this->simulation->id,
+                        'point_id' => $behaviour214g1->id,
+                    ]);
+
+                    $group_1_4_negative += (empty($assessmentAggregated214g1)) ? 0 : $assessmentAggregated214g1->value;
+                    // 214g1 }
+
+                    continue;
+                }
+
+                if ($slg) {
+                    $total += $slg->value * $slg->getReducingCoefficient();
+                }
             }
         }
 
-        $total += $group_1_4_positive * LearningGoalAnalyzer::getReducingCoefficient(LearningGoalAnalyzer::calculateAssessment($group_1_4_negative, $group_1_4_max_negative));
+        $total += $group_1_4_value *
+            LearningGoalAnalyzer::getReducingCoefficient(
+                LearningGoalAnalyzer::calculateAssessment(
+                    $group_1_4_negative,
+                    $group_1_4_max_negative
+                )
+            );
         /** @var HeroBehaviour[] $behaviours */
         $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
         foreach ($behaviours as $behaviour) {
             // TODO: Anton decision
             // Remove out second condition
-            if ($behaviour->type_scale == 1 && !in_array($behaviour->code, $except)) {
+
+            if ($behaviour->type_scale == HeroBehaviour::TYPE_ID_POSITIVE/* && !in_array($behaviour->code, $except)*/) {
                 $maxRate += $behaviour->scale;
             }
         }
