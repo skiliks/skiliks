@@ -73,10 +73,10 @@ class MailBoxUnitTest extends CDbTestCase
             'folderId'   => MailBox::FOLDER_TRASH_ID,
             'simId'      => $simulation->id
         ]);
-        // get letters from golders to checl them }
+        // get letters from folders to check them }
 
         $this->assertEquals(5, count($folderInbox));
-        $this->assertEquals(2, count($folderOutbox));
+        $this->assertEquals(3, count($folderOutbox));
         $this->assertEquals(0, count($folderDrafts));
         $this->assertEquals(0, count($folderTrash));
 
@@ -95,7 +95,7 @@ class MailBoxUnitTest extends CDbTestCase
         // find target messages to check by template code }
 
         $this->assertEquals('Отчет для Правления', $sent_letters[0]['subject']);
-        $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
+        $this->assertEquals('Re: срочно! Отчетность', $sent_letters[2]['subject']);
 
         $this->assertEquals('Форма отчетности для производства', $m1['subject']);
         $this->assertEquals('Re: Срочно жду бюджет логистики', $m2['subject']);
@@ -135,6 +135,7 @@ class MailBoxUnitTest extends CDbTestCase
         $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
 
         FlagsService::setFlag($simulation, 'F42', 1);
+        FlagsService::setFlag($simulation, 'F33', 1);
 
         $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
         $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
