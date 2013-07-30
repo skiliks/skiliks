@@ -1,13 +1,15 @@
-<h2 class="thetitle text-center"><?= Yii::t('site', 'Pricing & Plans Monthly Rates') ?></h2>
+<h1 class="page-header text-center"><?= Yii::t('site', 'Pricing & Plans Monthly Rates') ?></h1>
 <?php
 /* @var $tariffs  Tariff[] */
 /* @var $tariff  Tariff */
 /* @var $user  YumUser */
 $lang = Yii::app()->getLanguage();
 ?>
-<div class="tarifswrap">
+<div class="container-borders-4">
 <?php foreach ($tariffs as $tariff): ?>
-    <div class="nice-border onetariff">
+    <div class="block-border bg-yellow grid1 border-primary">
+
+
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price <?= $lang ?>">
@@ -35,13 +37,13 @@ $lang = Yii::app()->getLanguage();
 
                 <?php if ($tariff->isUserCanChooseTariff($user)): ?>
                      <div class="subscribe-ti-tariff">
-                         <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
+                         <a class="btn btn-primary" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
                      </div>
                 <?php else: ?>
                     <div class="subscribe-ti-tariff">
-                        <a class="light-btn" href="/order-new/<?= $tariff->slug ?>">
+                        <a class="btn btn-primary" href="/order-new/<?= $tariff->slug ?>">
                             <?php echo  Yii::t('site', 'Subscribe') ?>
                         </a>
                     </div>
