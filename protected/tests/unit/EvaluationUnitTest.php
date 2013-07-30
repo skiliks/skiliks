@@ -97,7 +97,7 @@ class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
         $simulation->refresh();
 
         $this->assertEquals(
-            15,
+            14,
             $simulation->getCategoryAssessment(AssessmentCategory::OVERALL),
             'overall'
         );
