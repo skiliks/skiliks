@@ -160,7 +160,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     /**
      * Проверяет правильность оценки по 4124
      */
-    public function testCalculateAgregatedPointsFor4124() 
+    public function testCalculateAggregatedPointsFor4124()
     {
         //$this->markTestSkipped();
 
@@ -171,7 +171,6 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
 
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -255,7 +254,7 @@ class SimulationServiceUnitTest extends CDbTestCase
                $is_4124_scored = true;
             } else {
                 // check outer points is 0
-                if (in_array($assessment->point->code, ['4135', '341c1'])) { continue; }
+                if (in_array($assessment->point->code, ['4135', '341c1', '4145'])) { continue; }
                 $this->assertEquals($assessment->value, 0, 'Wrong not acted behaviour value for '.$assessment->point->code);
             }
         }
