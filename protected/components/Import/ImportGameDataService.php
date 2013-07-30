@@ -214,7 +214,7 @@ class ImportGameDataService
                     'code'=>$learningGoalGroupCode,
                     'scenario_id' => $this->scenario->primaryKey
                 ]);
-                var_dump($learningGoalGroupCode);
+
                 if(null === $learningGoalGroup) {
                     $learningGoalGroup = new LearningGoalGroup();
                     $learningGoalGroup->code = $learningGoalGroupCode;
