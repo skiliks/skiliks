@@ -208,7 +208,6 @@ class ImportGameDataService
             $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group_text', $i) ? : null;
             $learningGoalGroupCode = $this->getCellValue($sheet, 'Learning_goal_group_id', $i) ? : null;
 
-
             if(!empty($learningGoalGroupCode) && !empty($learningGoalGroupText)){
                 $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
                     'code'=>$learningGoalGroupCode,
@@ -244,7 +243,7 @@ class ImportGameDataService
 
             // update data {
             $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
-            $learningGoal->learning_goal_group_id = ($learningGoalGroup === null)?null:$learningGoalGroup->id;
+            $learningGoal->learning_goal_group_id = ($learningGoalGroup === null) ? 0 : $learningGoalGroup->id;
             $learningGoal->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->getPrimaryKey() : null;
             $learningGoal->import_id = $this->import_id;
             $learningGoal->scenario_id = $this->scenario->primaryKey;
