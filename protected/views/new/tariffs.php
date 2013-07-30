@@ -10,8 +10,8 @@ $lang = Yii::app()->getLanguage();
     <div class="block-border bg-yellow grid1 border-primary">
 
 
-        <div class="tariff-box radiusthree">
-            <label class="tarifname"><?php echo $tariff->label ?></label>
+        <div>
+            <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="price <?= $lang ?>">
                 <p>
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
@@ -19,30 +19,26 @@ $lang = Yii::app()->getLanguage();
                 <?php endif ?>
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
-            <div class="tarifwrap">
+            <div>
 
-                <div class="brightblock">
-                    <?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?>
-                </div>
+                <div><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>
 
-                <div class="simulations-amount lightblock">
-                    <?php echo $tariff->getFormattedSimulationsAmount() ?>
-                </div>
+                <div><?php echo $tariff->getFormattedSimulationsAmount() ?></div>
 
-                <div class="benefits">
+                <div>
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
                         <p><?php echo Yii::t('site', $benefit)?></p>
                     <?php endforeach ?>
                 </div>
 
                 <?php if ($tariff->isUserCanChooseTariff($user)): ?>
-                     <div class="subscribe-ti-tariff">
+                     <div>
                          <a class="btn btn-primary" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
                      </div>
                 <?php else: ?>
-                    <div class="subscribe-ti-tariff">
+                    <div>
                         <a class="btn btn-primary" href="/order-new/<?= $tariff->slug ?>">
                             <?php echo  Yii::t('site', 'Subscribe') ?>
                         </a>
@@ -53,12 +49,12 @@ $lang = Yii::app()->getLanguage();
     </div>
 <?php endforeach ?>
 
-    <p class="text-right text16">
+    <p>
         <?php if ($lang == 'ru'): ?>
         <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> чтобы приобрести
         <?php endif; ?>
     </p>
-    <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
+    <div><a class="btn btn-primary feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
         <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
     </span>
