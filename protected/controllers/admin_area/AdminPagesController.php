@@ -362,7 +362,7 @@ class AdminPagesController extends SiteBaseController {
 
         $simulations = Simulation::model()->findAll([
             'order' => 'id DESC',
-            'offset' => $page * $this->itemsOnPage,
+            'offset' => ($page-1) * $this->itemsOnPage,
             'limit'  => $this->itemsOnPage
         ]);
 

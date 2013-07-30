@@ -13,8 +13,8 @@ class m130717_111519_flag_allow_meeting extends CDbMigration
             'scenario_id' => 'int not null'
         ]);
 
-        $this->addForeignKey('fk_flag_allow_meeting_flag_code', 'flag_allow_meeting', 'flag_code', 'flag', 'code', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_flag_allow_meeting_meeting_id', 'flag_allow_meeting', 'meeting_id', 'meeting', 'id', 'CASCADE', 'CASCADE');
+        //$this->addForeignKey('fk_flag_allow_meeting_flag_code', 'flag_allow_meeting', 'flag_code', 'flag', 'code', 'CASCADE', 'CASCADE');
+        //$this->addForeignKey('fk_flag_allow_meeting_meeting_id', 'flag_allow_meeting', 'meeting_id', 'meeting', 'id', 'CASCADE', 'CASCADE');
 	}
 
 	public function down()

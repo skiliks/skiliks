@@ -13,8 +13,8 @@ class m130717_075055_flag_switch_time extends CDbMigration
             'import_id' => 'varchar(14) not null'
         ]);
 
-        $this->addForeignKey('fk_flag_switch_time_flag_code', 'flag_switch_time', 'flag_code', 'flag', 'code', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_flag_switch_time_scenario_id', 'flag_switch_time', 'scenario_id', 'scenario', 'id', 'CASCADE', 'CASCADE');
+        //$this->addForeignKey('fk_flag_switch_time_flag_code', 'flag_switch_time', 'flag_code', 'flag', 'code', 'CASCADE', 'CASCADE');
+        //$this->addForeignKey('fk_flag_switch_time_scenario_id', 'flag_switch_time', 'scenario_id', 'scenario', 'id', 'CASCADE', 'CASCADE');
 	}
 
 	public function down()
