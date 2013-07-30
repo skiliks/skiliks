@@ -137,6 +137,7 @@ define([
 
                 this.config = [];
                 this.config.isMuteVideo = false;
+                this.manual_is_first_closed = false;
 
                 this.isPlayIncomingCallSound = true;
                 this.isPlayIncomingMailSound = true;

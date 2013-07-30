@@ -1,4 +1,4 @@
-/*global define, _, $*/
+/*global define, _, SKApp, $*/
 /**
  * @class SKManualView
  *
@@ -37,13 +37,15 @@ define(
                 SKWindowView.prototype.events
             ),
 
+            is_first_closed : false,
+
             renderTitle: function (title) {
                 $(title).hide();
             },
 
             renderContent: function (content) {
                 var required = this.options.model_instance.get('required');
-
+                console.log(this.options.model_instance);
                 content.html(_.template(frame, {
                     'required': required
                 }));
@@ -84,6 +86,9 @@ define(
                         return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
                     }
                 });
+                if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed){
+                    this.$el.css('zIndex', 50000);
+                }
             },
 
             doOpenPage: function(e) {
@@ -108,6 +113,9 @@ define(
                 }
 
                 SKWindowView.prototype.resize.apply(this, dimensions);
+            },
+            onWindowClose: function() {
+                SKApp.simulation.manual_is_first_closed = true;
             }
         });
 
