@@ -685,9 +685,12 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->assertEquals([1, 5, 8], $list);
     }
 
+    /**
+     * Проверяет персональную шкалу
+     */
     public function testAssessmentAggregation()
     {
-        $this->markTestSkipped(); // personal scale
+        $this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -764,7 +767,9 @@ class SimulationServiceUnitTest extends CDbTestCase
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        //$this->assertEquals(10, array_sum($delta)); #personal, no matter
+        var_dump($delta); die;
+
+        $this->assertEquals(10, array_sum($delta)); #personal, no matter
     }
 
     public function testStressRules()
