@@ -193,6 +193,12 @@
     padding: 15px 20px 15px 47px;
     text-align: left;
 }
+#invite-decline-form #form-decline-explanation .chancel-decline {
+    width:309px;
+}
+#invite-decline-form #form-decline-explanation .confirm-decline {
+    width:175px;
+}
 #invite-decline-form #form-decline-explanation .confirm-decline {
     float:right;
 }
