@@ -786,6 +786,20 @@
     font-size: 54px;
     padding-top: 46px;
 }
+.bluelist li {
+    background:url("../img/bullit.png") no-repeat 0px 5px;
+    line-height: 110%;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+.hassubmenu>a {
+    background: url("../img/openclose.png") no-repeat right 2px;
+    display: block;
+    padding-right: 26px;
+}
+.subisopen>a {
+    background-position: right -76px;
+}
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
 .one-tariff {
