@@ -155,6 +155,8 @@ class LearningAreaAnalyzer {
 
                 if ($slg) {
                     $total += $slg->value * $slg->getReducingCoefficient();
+                    $slg->coefficient = $slg->getReducingCoefficient();
+                    $slg->update();
                 }
 
                 /* @var $learningGoalGroup LearningGoalGroup */
@@ -189,7 +191,7 @@ class LearningAreaAnalyzer {
         $group_1_4_value = 0;
         $group_1_4_negative = 0;
         $group_1_4_max_negative = 0;
-
+        $group_1_4 = null;
         //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
@@ -210,7 +212,7 @@ class LearningAreaAnalyzer {
 
                 if($learningGoalGroup->code === '1_4') {
                     $group_1_4_value += $slg->value;
-
+                    $group_1_4 = $slg;
                     // 214d {
                     $goal214d = LearningGoal::model()->findByAttributes([
                         'scenario_id'           => $scenario->id,
@@ -304,17 +306,21 @@ class LearningAreaAnalyzer {
 
                 if ($slg) {
                     $total += $slg->value * $slg->getReducingCoefficient();
+                    $slg->coefficient = $slg->getReducingCoefficient();
+                    $slg->update();
                 }
             }
         }
 
-        $total += $group_1_4_value *
-            LearningGoalAnalyzer::getReducingCoefficient(
-                LearningGoalAnalyzer::calculateAssessment(
-                    $group_1_4_negative,
-                    $group_1_4_max_negative
-                )
-            );
+        $k = LearningGoalAnalyzer::getReducingCoefficient(
+            LearningGoalAnalyzer::calculateAssessment(
+                $group_1_4_negative,
+                $group_1_4_max_negative
+            )
+        );
+        $total += $group_1_4_value * $k;
+        $group_1_4->coefficient = $k;
+        $group_1_4->update();
         /** @var HeroBehaviour[] $behaviours */
         $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
         foreach ($behaviours as $behaviour) {
