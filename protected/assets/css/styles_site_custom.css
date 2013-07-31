@@ -785,11 +785,13 @@
 }
 .tarif-header h5 {
     border-bottom: 1px solid #69a7b0;
+    margin-bottom: 0px;
     padding: 20px 0px 10px;
 }
 .tarifprice {
     border-top: 1px solid #1c5962;
     padding: 15px 0px;
+    text-align: center;
 }
 .tarifprice p {
     display: inline-block;
@@ -797,6 +799,9 @@
     height: 50px;
     line-height: 50px;
     padding: 0px 18px;
+}
+.tarifprice span {
+    font-size: 58px;
 }
 .price.ru p {
     background: url("../img/rublicon.png") no-repeat 5px 5px;
