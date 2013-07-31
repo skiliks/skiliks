@@ -3,9 +3,7 @@
         'static/team/ru', 'static/team/en', 'static/product',
         'static/product/ru', 'static/product/en'];
 ?>
-<?php if($force || in_array(Yii::app()->request->getPathInfo(), $allow)){ ?>
-<!-- AddThis Button BEGIN -->
-<div class="social_networks"><span><?php echo Yii::t('site', "Share");?>:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<?php if($force || in_array(Yii::app()->request->getPathInfo(), $allow)){ ?><div class="social_networks"><span><?php echo Yii::t('site', "Share");?>:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style">
         <a class="addthis_button_vk"></a>
         <a class="addthis_button_facebook"></a>
         <a class="addthis_button_twitter"></a>
