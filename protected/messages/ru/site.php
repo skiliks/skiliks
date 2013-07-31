@@ -290,8 +290,6 @@ return array(
 
     'Sticks to goals and priorities' => 'Следование приоритетам',
     'Manages tasks effectively' => 'Управление задачами',
-    'Wisely uses means of communication' => 'Эффективное использование каналов коммуникации',
-    'Manages people effectively' => 'Эффективное управление ресурсами',
     'Deals with mail effectively' => 'Эффективная работа с почтой',
     'Deals with calls effectively' => 'Эффективное управление звонками',
     'Deals with meetings effectively' => 'Эффективное управление встречами',
@@ -306,7 +304,6 @@ return array(
     'Uses planning during the day' => 'Использование планирования в течение дня',
     'Follows tasks priorities in execution' => 'Выполнение задач в соответствии с приоритетами',
     'Completes tasks in full' => 'Завершение начатых задач',
-    'Wisely uses means of communication' => 'Управление людьми',
     'Manages people effectivelyl' => 'Оптимальный выбор каналов коммуникации',
     'Deals with mail effectively' => 'Эффективная работа с почтой',
     'Deals with calls effectively' => 'Эффективное управление звонками',
