@@ -3953,10 +3953,6 @@ ul.profile-menu li {
     .product .product-gauge-charts {
         height: 100px;
     }
-    .product .rateslist .widthblock:nth-child(3) h3, .product .rateslist .widthblock:nth-child(3) ul,
-    .product .rateslist .widthblock:nth-child(4) h3, .product .rateslist .widthblock:nth-child(4) ul {
-        margin-left: 0px;
-    }
     .product .bluelist li {
         padding-left: 10px;
     }
