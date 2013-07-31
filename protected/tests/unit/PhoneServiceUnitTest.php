@@ -176,11 +176,12 @@ class PhoneServiceUnitTest extends CDbTestCase
 
 
         $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
+        FlagsService::setFlag($simulation, 'F32', 1);
 
         $theme_id = CommunicationTheme::model()
             ->findByAttributes([
                 'scenario_id'  => $simulation->scenario_id,
-                'text' => 'Динамика производственных затрат',
+                'text' => 'Перенос сроков сдачи сводного бюджета',
                 'character_id' => $character->id,
                 'phone' => 1
             ])->id;
@@ -191,10 +192,9 @@ class PhoneServiceUnitTest extends CDbTestCase
         $data = PhoneService::call($simulation, $theme_id, $character->code, '10:10');
 
         $this->assertEquals(
-            "Меня нет на месте. Перезвоните мне в следующий раз",
-            $data['events'][0]["data"][0]["text"]
+            "already_call",
+            $data['params']
         );
-        SimulationService::simulationStop($simulation);
     }
 
     /**
@@ -209,10 +209,10 @@ class PhoneServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $example =  ["Динамика производственных затрат","Просьба","Деньги на сервер"];
+        $example =  ["Перенос сроков сдачи сводного бюджета", "Задержка данных от логистов", "Служебная записка о сервере. Срочно!"];
 
         $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
-
+        FlagsService::setFlag($simulation, 'F32', 1);
         $data = PhoneService::getThemes($character->code, $simulation);
 
         foreach ($data as $dat) {
