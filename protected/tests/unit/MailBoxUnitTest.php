@@ -75,7 +75,7 @@ class MailBoxUnitTest extends CDbTestCase
         ]);
         // get letters from folders to check them }
 
-        $this->assertEquals(5, count($folderInbox));
+        $this->assertEquals(6, count($folderInbox));
         $this->assertEquals(3, count($folderOutbox));
         $this->assertEquals(0, count($folderDrafts));
         $this->assertEquals(0, count($folderTrash));
@@ -649,14 +649,14 @@ class MailBoxUnitTest extends CDbTestCase
         $copies = [];
         $copies[] = $simulation->game_type->getCharacter(['fio'=>'Железный С.'])->id;
 
-        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'text'=>"Деньги на сервер"]);
+        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'letter_number'=>"MS20"]);
 
         /* @var $subject CommunicationTheme */
         $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
 
         $phrases = [];
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'подтверждаю'])->id;
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'после отпуска'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'аналитический отдел'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'ближайшие дни'])->id;
 
         $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_2013_утв.xls"]);
 
