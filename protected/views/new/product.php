@@ -55,7 +55,7 @@
     <div class="rateslist">
         <div class="widthblock"><h3><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h3>
             <ol class="bluelist">
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Sticks to goals and priorities')  ?></a>
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a>
                     <ul class="productsubmenu">
                         <li><a href="#"><?php echo Yii::t('site', 'Sticks to company goals')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Follows personal priorities')  ?></a></li>
