@@ -28,11 +28,26 @@
             <div class="widthblock"><h2>{Yii::t('site', 'Managerial skills')}</h2></div><!--<span class="signmore"></span></a></h2></div> -->
             <div class="widthblock"><h2>{Yii::t('site', 'Productivity')}</h2></div>
             <div class="widthblock"><h2>{Yii::t('site', 'Time management effectiveness')}</h2></div>
+            <div class="widthblock lastwidthblock"><h2>{Yii::t('site', 'Personal skills')}</h2></div>
         </div><!-- /estmtileswrap -->
     </div>
     <div class="clearfix maincharts">
 
         <div class="product-gauge-charts"></div>
+        {literal}
+            <script type="text/javascript">
+                var r = Math.round;
+
+                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+
+                new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
+                new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
+                new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
+
+            </script>
+        {/literal}
     </div>
 
     <div class="levellabels">
@@ -101,18 +116,6 @@
             <ul class="bluelist nobultslist">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Time distribution')}</a></li>
                 <li><a class="productlink" href="#time-management">{Yii::t('site', 'Extra working hours')} </a></li>
-            </ul>
-        </div>
-        <div class="widthblock"><h3>{Yii::t('site', 'Scope of measured qualities')}</h3>
-            <ul class="bluelist nobultslist">
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Results-orientation')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Attentiveness')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Responsibility')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Resistance to manipulation')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Flexibility')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Decision-making')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Speed of work')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Stress-resistance')}</a></li>
             </ul>
         </div>
     </div>
