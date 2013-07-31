@@ -786,6 +786,12 @@
     font-size: 54px;
     padding-top: 46px;
 }
+.widthblock {
+    display: table-cell;
+}
+.product .widthblock {
+    width:320px;
+}
 .bluelist li {
     background:url("../img/bullit.png") no-repeat 0px 5px;
     line-height: 110%;
