@@ -12,7 +12,7 @@
         </div>
 
     <!-- NEW CONTENT -->
-    <div class="textcener"><h2 class="total"><?php echo Yii::t('site', 'Overall manager’s rating')  ?></h2></div>
+    <h1 class="page-header text-center"><?php echo Yii::t('site', 'Overall manager’s rating')  ?></h1>
     <div class="allsummry">
         <div class="estmtresults">
             <div class="overall">
@@ -33,7 +33,6 @@
     <div class="clearfix maincharts">
 
         <div class="product-gauge-charts"></div>
-        {literal}
             <script type="text/javascript">
                 var r = Math.round;
 
@@ -46,7 +45,6 @@
                 new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
 
             </script>
-        {/literal}
     </div>
 
     <div class="levellabels">
