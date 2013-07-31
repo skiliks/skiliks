@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'max_rate':
  * @property integer $id
  * @property string $type
- * @property integer $rate
+ * @property float $rate
  * @property integer $learning_goal_id
  * @property integer $hero_behaviour_id
  * @property string $performance_rule_category_id
@@ -49,7 +49,7 @@ class MaxRate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('rate, learning_goal_id, hero_behaviour_id', 'numerical', 'integerOnly'=>true),
+			array('learning_goal_id, hero_behaviour_id', 'numerical', 'integerOnly'=>true),
 			array('type', 'length', 'max'=>50),
 			array('performance_rule_category_id', 'length', 'max'=>10),
 			// The following rule is used by search().

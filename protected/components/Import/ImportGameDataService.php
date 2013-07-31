@@ -2628,6 +2628,7 @@ class ImportGameDataService
                 $rateEntity->import_id = $this->import_id;
 
                 $rateEntity->save();
+
                 $rates++;
             }
         }
