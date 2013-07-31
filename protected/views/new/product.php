@@ -67,49 +67,17 @@
                 <li class="hassubmenu">
                     <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a>
                     <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Uses planning during the day')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Correctly defines tasks’ priorities while planning')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Follows tasks priorities in execution')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Completes tasks in full')  ?></a></li>
-                    </ul>
-                </li>
-
-
-
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a>
-                    <ul class="productsubmenu">
                         <li><a href="#"><?php echo Yii::t('site', 'Uses delegation to manage scope of work')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Effectively manages resources with different qualification')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Uses feedback')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Delegates tasks to optimal employees')  ?></a></li>
                     </ul>
                 </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Wisely uses means of communication')  ?></a>
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Communicates effectiely')  ?></a>
                     <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Wisely uses emails')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Wisely uses phone calls')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Wisely uses meetings')  ?></a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills"><?php echo Yii::t('site', 'Deals with mail effectively')  ?></a>
-                    <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Manages time spent on emails')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Effectively processes incoming emails')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Creates informative and short messages')  ?></a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills"><?php echo Yii::t('site', 'Deals with calls effectively')  ?></a>
-                    <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Manages time spent on phone calls')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Reasonably answers incoming calls')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Effectively processes incoming calls')  ?></a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-7" data-parent="managerial-skills"><?php echo Yii::t('site', 'Deals with meetings effectively')  ?></a>
-                    <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Manages time spent on meetings')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Reasonably accepts visits')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Effectively processes meeting outcomes')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Wisely uses means of communication')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Deals with mail effectively')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Deals with calls effectively')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Deals with meetings effectively')  ?></a></li>
                     </ul>
                 </li>
             </ol>
