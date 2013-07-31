@@ -111,7 +111,7 @@ class LearningGoalAnalyzer
     public static function getReducingCoefficient($problem)
     {
         if (0 <= $problem && $problem <= 10) {
-            return 1;
+            return (float)1;
         } elseif (10 < $problem && $problem <= 20) {
             return 0.8;
         }elseif (20 < $problem && $problem <= 50) {
