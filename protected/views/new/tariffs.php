@@ -26,7 +26,7 @@ $lang = Yii::app()->getLanguage();
 
                 <div>
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
-                        <strong class="font-xslarge inline-center"><?php echo Yii::t('site', $benefit)?></strong>
+                        <strong class="font-large inline-center"><?php echo Yii::t('site', $benefit)?></strong>
                     <?php endforeach ?>
                 </div>
 
