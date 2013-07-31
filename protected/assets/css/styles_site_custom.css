@@ -842,4 +842,7 @@
 .tariff-contacts .btn-primary, .tariff-contacts .social_networks {
     float: left;
 }
+.tariff-contacts .social_networks>span {
+    display: none;
+}
 /*  *************************** /TARIFF  ***************************/
