@@ -168,6 +168,9 @@ ul li:last-child {
 .text-right {
     text-align: right;
 }
+.lheight-large {
+    line-height: 150%;
+}
 /* ************************ Buttons ************************ */
 .btn, .btn-large, .btn-primary, .submit-primry input[type="submit"] {
     border:none;
