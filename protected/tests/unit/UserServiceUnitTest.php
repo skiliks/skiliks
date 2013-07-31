@@ -37,7 +37,14 @@ class UserServiceUnitTest extends CDbTestCase
      * test that TestUserHelper::getCorporateActivationUrl return string :)
      */
     public function testActivationKey() {
-        $url = TestUserHelper::getCorporateActivationUrl("asd@skiliks.com");
-        $this->assertNotNull($url);
+        /** @var YumProfile $user */
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+
+        if ($profile->user->isCorporate()) {
+            $url = TestUserHelper::getCorporateActivationUrl("asd@skiliks.com");
+            $this->assertNotNull($url);
+        } else {
+            $this->markTestSkipped();
+        }
     }
 }
