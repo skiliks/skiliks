@@ -484,6 +484,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .smallicons .addthis_button_linkedin:hover {
     background-position: -142px -33px;
 }
+.addthis_toolbox.addthis_32x32_style span {
+    background: none;
+}
 /*  ****************************** /SOCIAL ICONS *******************************/
 /*  ************************ SELECT ************************/
 .sbHolder {
