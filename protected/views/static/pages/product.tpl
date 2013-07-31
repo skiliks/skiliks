@@ -21,7 +21,7 @@
     <div class="allsummry">
         <div class="estmtresults">
             <div class="overall">
-                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
+                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value">%</span></span>
             </div>
         </div><!-- /estmtresults -->
         <div class="estmtileswrap">
@@ -84,7 +84,11 @@
                 </li>
             </ol>
         </div>
-        <div class="widthblock"></div>
+        <div class="widthblock"><h3>{Yii::t('site', 'Indicators')}</h3>
+            <ul class="bluelist nobultslist">
+                <li><a class="productlink" href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Productivity')}</a></li>
+            </ul>
+        </div>
         <div class="widthblock"><h3>{Yii::t('site', 'Indicators')}</h3>
             <ul class="bluelist nobultslist">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Time distribution')}</a></li>
