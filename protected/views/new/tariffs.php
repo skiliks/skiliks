@@ -39,7 +39,7 @@ $lang = Yii::app()->getLanguage();
     </div>
 <?php endforeach ?>
 
-    <p>
+    <p class="font-large text-right">
         <?php if ($lang == 'ru'): ?>
         <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> чтобы приобрести
         <?php endif; ?>
