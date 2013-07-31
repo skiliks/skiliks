@@ -281,6 +281,7 @@ return array(
     'Manages task in accordance with priorities' => 'Управление задачами с учётом приоритетов',
     'Manages people effectively' => 'Управление людьми',
     'Communicates effectiely' => 'Управление коммуникациями',
+    'Defines priorities' => 'Определение приоритетов',
 
 
     'Sticks to goals and priorities' => 'Следование приоритетам',
