@@ -85,7 +85,7 @@ class FlagServiceUnitTest extends CDbTestCase
         $M31 = array_values(array_filter($mailList, function ($mailItem) {
             return $mailItem['template'] == 'M31';
         }))[0];
-        $this->assertEquals('04.10.2013 09:46',$M31['sentAt']);
+        $this->assertEquals('04.10.2013 09:45',$M31['sentAt']);
 
     }
 
