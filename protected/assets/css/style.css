@@ -3911,7 +3911,7 @@ ul.profile-menu li {
         font-size: 1em;
     }
     .product-gauge-charts {
-        width: 570px;
+        /*width: 570px;*/
     }
     .chart-gauge .pointer {
         left:1px;
