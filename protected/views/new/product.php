@@ -5,7 +5,7 @@
         <h4 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
     </hgroup>
 
-        <div class="container-3 font-white font-xslarge">
+        <div class="container-3 font-white font-slarge">
             <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')  ?></div>
             <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')  ?></div>
             <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')  ?></div>
@@ -141,7 +141,7 @@
 
     <div class="container-borders-2 thetable product-features">
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <h5 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Easiest')  ?></h5>
+            <header class="features-header"><h2 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Easiest')  ?></h2></header>
             <div class="pad-xsize font-slarge">
                 <h6><?php echo Yii::t('site', 'Saves your time')  ?></h6>
                 <p><?php echo Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')  ?></p>
@@ -158,7 +158,7 @@
         </div>
         <div class="grid-cell grid-space"></div>
         <div class="block-border bg-yellow grid2 border-primary grid-cell">
-            <h5 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Most Reliable')  ?></h5>
+            <header class="features-header"><h2 class="font-normal font-white text-center"><?php echo Yii::t('site', 'Most Reliable')  ?></h2></header>
             <div class="pad-xsize font-slarge">
                 <h6><?php echo Yii::t('site', 'Focused on the skills')  ?></h6>
                 <p><?php echo Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')  ?></p>
