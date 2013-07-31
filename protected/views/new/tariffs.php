@@ -5,12 +5,12 @@
 /* @var $user  YumUser */
 $lang = Yii::app()->getLanguage();
 ?>
-<div class="container-borders-4">
+<div class="container-borders-4 all-tariffs">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="block-border bg-yellow grid1 border-primary">
            <header class="tarif-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
-            <div class="price <?= $lang ?>">
+            <div class="tarifprice <?= $lang ?>">
                 <p>
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
                     <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
@@ -20,9 +20,9 @@ $lang = Yii::app()->getLanguage();
            </header>
            <div class="pad-large">
 
-                <div><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>
+                <div class="border-primary bg-blue font-xslarge font-white pull-center"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>
 
-                <div><?php echo $tariff->getFormattedSimulationsAmount() ?></div>
+                <div class="border-primary pull-center"><?php echo $tariff->getFormattedSimulationsAmount() ?></div>
 
                 <div>
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
