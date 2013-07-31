@@ -496,8 +496,14 @@
     padding-top: 4px;
     top:-6px;
 }
+.product .blockvalue {
+    top:-8px;
+}
 .allsummry .value {
     padding-top: 4px;
+}
+.product .value {
+    padding-top: 14px;
 }
 .legendwrap {
     background: #e0f1f1;
