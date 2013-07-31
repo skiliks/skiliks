@@ -1311,6 +1311,18 @@
     .resultlabeltitle {
         padding-left: 274px;
     }
+    .product-gauge-charts .chart-gauge {
+        margin: 15px 32px 0px;
+    }
+    .product .widthblock {
+        width:255px;
+    }
+    .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
+        margin-left: 20px;
+    }
+    .rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
+        margin-left: 30px;
+    }
 }
 /*
 .controller-static-dashboard {
