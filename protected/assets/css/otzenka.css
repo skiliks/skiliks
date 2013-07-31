@@ -167,9 +167,9 @@
     left:692px;
 }
 .estmtileswrap {
-    margin:8px auto 0 auto;
+    /*margin:8px auto 0 auto;*/
 }
-.estmtileswrap, .rateslist {
+.rateslist {
     width:918px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
@@ -251,8 +251,8 @@
     width: 888px;
 }
 .product-gauge-charts {
-    float: left;
-    width: 711px;
+    /*float: left;
+    width: 711px;*/
 }
 .product-gauge-charts .chart-gauge .chart-value {
     color: #fff;
