@@ -44,7 +44,7 @@ $lang = Yii::app()->getLanguage();
         <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> <strong>чтобы приобрести</strong>
         <?php endif; ?>
     </p>
-    <div><a class="btn btn-primary feedback"><?= Yii::t('site', 'Send feedback') ?></a>
+    <div class="tariff-contacts"><a class="btn btn-primary feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
         <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
     </span>

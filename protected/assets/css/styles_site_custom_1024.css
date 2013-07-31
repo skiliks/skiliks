@@ -807,3 +807,68 @@
     background-position: left 8px;
 }
 /*  *************************** /TEAM ***************************/
+/*  *************************** TARIFF  ***************************/
+.one-tariff {
+    margin-bottom: 36px;
+    padding-bottom: 40px;
+}
+.tariff-header {
+    background: #fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
+    border-radius: 3px 3px 0px 0px;
+    text-align: center;
+}
+.tariff-header h5 {
+    border-bottom: 1px solid #69a7b0;
+    margin-bottom: 0px;
+    padding: 20px 0px 10px;
+}
+.tariff-price {
+    border-top: 1px solid #1c5962;
+    padding: 15px 0px;
+    text-align: center;
+}
+.tariff-price p {
+    display: inline-block;
+    font-size: 46px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 24px;
+}
+.tariff-price span {
+    font-size: 58px;
+}
+.tariff-price.ru p {
+    background: url("../img/rublicon.png") no-repeat 0px 5px;
+}
+.tariff-price.en p {
+    background:url("../img/dollar.png") no-repeat 5px 5px;
+}
+.tariff-header .display-ib {
+    padding: 0px 10px;
+}
+.tariff-save {
+    height: 28px;
+    line-height: 24px;
+}
+.sim-amnt {
+    height: 38px;
+    line-height: 34px;
+    margin-top:10px;
+    padding: 0px 10px;
+}
+.tariff-benefits {
+    height: 70px;
+    padding: 16px 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+.tariff-benefits strong+strong {
+    margin-top: 25px;
+}
+.tariff-contacts {
+    margin-top: 10px;
+}
+.tariff-contacts .btn-primary, .tariff-contacts .social_networks {
+    float: left;
+}
+/*  *************************** /TARIFF  ***************************/
