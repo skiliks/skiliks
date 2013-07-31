@@ -37,7 +37,7 @@ sub {
     font-size: small;
 }
 sup {
-    vertical-align: super;
+    vertical-align: top;
     font-size: small;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
