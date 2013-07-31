@@ -526,7 +526,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
         $v = [
             'Управление задачами с учётом приоритетов'  => 6.666667,
-            'Управление коммуникациями'                 => 70.285713, // 27.586206
+            'Управление коммуникациями'                 => 86.285713, // 27.586206
             'Управление людьми'                         => 30,
         ];
 
@@ -546,8 +546,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 41.70, // 44.97
-            'overall'     => 52.05, // 53.26
+            'management'  => 42.10, // 44.97
+            'overall'     => 52.25, // 53.26
             'performance' => 67.71,
             'time'        => 50,
         ];
