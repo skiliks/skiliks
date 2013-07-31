@@ -20,7 +20,7 @@ $lang = Yii::app()->getLanguage();
             <strong class="border-primary bg-blue font-xslarge font-white inline-center tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
            </header>
 
-           <div class="pad-large text-center">
+           <div class="pad-norm text-center">
 
                 <strong class="border-primary font-4xlarge bg-yellow-light inline-center font-dark sim-amnt"><?php echo $tariff->getFormattedSimulationsAmount() ?></strong>
 
