@@ -226,8 +226,8 @@
     width: 268px;
 }
 .levellabels h3:first-child {
-    padding-left: 9px;
-    width: 282px;
+    /*padding-left: 9px;
+    width: 282px;*/
 }
 .widthblock {
     display: table-cell;
