@@ -810,17 +810,19 @@
 .tariff-price.en p {
     background:url("../img/dollar.png") no-repeat 10px 5px;
 }
-.tariff-save {
+.inline-center {
     display: inline-block;
-    height: 28px;
-    line-height: 24px;
     margin: 0 auto;
+}
+.tariff-header .inline-center {
     padding: 0px 10px;
 }
+.tariff-save {
+    height: 28px;
+    line-height: 24px;
+}
 .sim-amnt {
-    display: inline-block;
     height: 38px;
     line-height: 34px;
-    margin: 0 auto;
 }
 /*  *************************** /TARIFF  ***************************/
