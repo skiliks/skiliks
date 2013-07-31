@@ -838,10 +838,12 @@
     font-size: 42px;
 }
 .tariff-price.ru p {
-    background: url("../img/rublicon.png") no-repeat 0px 5px;
+    background: url("../img/rublicon.png") no-repeat 0px 4px;
+    background-size: 22px;
 }
 .tariff-price.en p {
-    background:url("../img/dollar.png") no-repeat 5px 5px;
+    background:url("../img/dollar.png") no-repeat 2px 4px;
+    background-size: 22px;
 }
 .tariff-header .display-ib {
     padding: 0px 8px;
@@ -861,6 +863,9 @@
     padding: 12px 0px;
     text-align: center;
     vertical-align: middle;
+}
+.tariff-benefits .font-large {
+    font-size: 13px;
 }
 .tariff-benefits strong+strong {
     margin-top: 20px;

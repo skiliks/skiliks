@@ -50,11 +50,8 @@ h5 {
 .font-xxlarge {
     font-size:16px;
 }
-.font-xxxlarge {
+.font-xxxlarge, .font-4xlarge {
     font-size:18px;
-}
-.font-4xlarge {
-    font-size:19px;
 }
 .list-light li {
     background-size: 16px;
