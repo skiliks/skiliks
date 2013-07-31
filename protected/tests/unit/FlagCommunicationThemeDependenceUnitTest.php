@@ -148,15 +148,18 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
         $character = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
 
+        /* @var $mail_theme CommunicationTheme */
+        $mail_theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'letter_number'=>'MS106']);
+
         $themes = MailBoxService::getThemes($simulation, $character->id);
 
-        $this->assertFalse($this->findMailThemeByName($themes, 'Задача отдела логистики: итоговый файл'));
+        $this->assertFalse($this->findMailThemeByName($themes, $mail_theme->text));
 
         FlagsService::setFlag($simulation, 'F38_3', 1);
 
         $themes = MailBoxService::getThemes($simulation, $character->id);
 
-        $this->assertTrue($this->findMailThemeByName($themes, 'Задача отдела логистики: итоговый файл'));
+        $this->assertTrue($this->findMailThemeByName($themes, $mail_theme->text));
     }
 
 
