@@ -282,6 +282,10 @@ return array(
     'Manages people effectively' => 'Управление людьми',
     'Communicates effectiely' => 'Управление коммуникациями',
     'Defines priorities' => 'Определение приоритетов',
+    'Wisely uses means of communication' => 'Оптимальное использование каналов коммуникации',
+    'Deals with mail effectively' => 'Эффективная работа с почтой',
+    'Deals with calls effectively' => 'Эффективная работа со звонками',
+    'Deals with meetings effectively' => 'Эффективное управление встречами',
 
 
     'Sticks to goals and priorities' => 'Следование приоритетам',
