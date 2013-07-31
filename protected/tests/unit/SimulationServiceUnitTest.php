@@ -884,13 +884,11 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
 
-        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][0]);
-        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][1]);
-        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][2]);
-        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['2_min']);
-        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['total']);
-
-        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][0], '0');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][1], '1');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][2], '2');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['2_min'], '2_min');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['total'], 'total');
     }
 
     /**
