@@ -312,8 +312,8 @@
 .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
     margin-left: 10px;
 }
-.rateslist .widthblock:nth-child(4) h3, .rateslist .widthblock:nth-child(4) ul {
-    margin-left: 2px;
+.rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
+    margin-left: 30px;
 }
 .numlist {
     margin-left: 20px;
@@ -497,13 +497,10 @@
     top:-6px;
 }
 .product .blockvalue {
-    top:-8px;
+    top:0px;
 }
 .allsummry .value {
     padding-top: 4px;
-}
-.product .value {
-    padding-top: 14px;
 }
 .legendwrap {
     background: #e0f1f1;
@@ -1296,20 +1293,17 @@
         font-size: 30px;
     }
     .estmtileswrap, .rateslist {
-        width:732px;
+        /*width:732px;*/
     }
     .estmtileswrap .widthblock, .rateslist .widthblock {
         vertical-align: top;
-        width:264px;
+        width:255px;
     }
     .estmtileswrap .widthshort, .rateslist .widthshort {
         width:204px;
     }
     .ratepercnt, .product .ratepercnt {
         font-size: 13px;
-    }
-    .gauge-charts {
-        width:730px;
     }
     .resulttitelevalue {
         margin-top:-30px;
