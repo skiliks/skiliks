@@ -28,34 +28,17 @@
             <div class="widthblock"><h2>{Yii::t('site', 'Managerial skills')}</h2></div><!--<span class="signmore"></span></a></h2></div> -->
             <div class="widthblock"><h2>{Yii::t('site', 'Productivity')}</h2></div>
             <div class="widthblock"><h2>{Yii::t('site', 'Time management effectiveness')}</h2></div>
-            <div class="widthblock lastwidthblock"><h2>{Yii::t('site', 'Personal skills')}</h2></div>
         </div><!-- /estmtileswrap -->
     </div>
     <div class="clearfix maincharts">
 
         <div class="product-gauge-charts"></div>
-        <div class="static-bullet-charts"></div><!-- product-bullet-charts -->
-        {literal}
-            <script type="text/javascript">
-                var r = Math.round;
-
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-
-                new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
-                new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
-                new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
-
-            </script>
-        {/literal}
     </div>
 
     <div class="levellabels">
         <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
         <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
         <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
-        <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
     </div>
     <div class="rateslist">
         <div class="widthblock"><h3>{Yii::t('site', 'Scope of assessed skills')}</h3>
