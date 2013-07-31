@@ -836,4 +836,10 @@
 .tariff-benefits strong+strong {
     margin-top: 25px;
 }
+.tariff-contacts {
+    margin-top: 10px;
+}
+.tariff-contacts .btn-primary, .tariff-contacts .social_networks {
+    float: left;
+}
 /*  *************************** /TARIFF  ***************************/
