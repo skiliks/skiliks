@@ -1213,8 +1213,8 @@
         width:235px;
     }
     .levellabels h3:first-child {
-        padding-left: 4px;
-        width: 228px;
+        /*padding-left: 4px;
+        width: 228px;*/
     }
     .labels .row {
         height:24px;
