@@ -828,11 +828,8 @@
 .tariff-benefits {
     height: 70px;
     padding: 20px 0px;
-    vertical-align: middle;
-}
-.tariff-benefits strong {
-    display: inline-block;
     text-align: center;
+    vertical-align: middle;
 }
 .tariff-benefits strong+strong {
     margin-top: 30px;
