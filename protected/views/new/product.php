@@ -57,12 +57,15 @@
             <ol class="bluelist">
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a>
                     <ul class="productsubmenu">
-                        <li><a href="#"><?php echo Yii::t('site', 'Sticks to company goals')  ?></a></li>
-                        <li><a href="#"><?php echo Yii::t('site', 'Follows personal priorities')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Defines priorities')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Uses planning during the day')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Correctly defines tasks’ priorities while planning')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Follows tasks priorities in execution')  ?></a></li>
+                        <li><a href="#"><?php echo Yii::t('site', 'Completes tasks in full')  ?></a></li>
                     </ul>
                 </li>
                 <li class="hassubmenu">
-                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages tasks effectively')  ?></a>
+                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a>
                     <ul class="productsubmenu">
                         <li><a href="#"><?php echo Yii::t('site', 'Uses planning during the day')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Correctly defines tasks’ priorities while planning')  ?></a></li>
@@ -70,6 +73,9 @@
                         <li><a href="#"><?php echo Yii::t('site', 'Completes tasks in full')  ?></a></li>
                     </ul>
                 </li>
+
+
+
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a>
                     <ul class="productsubmenu">
                         <li><a href="#"><?php echo Yii::t('site', 'Uses delegation to manage scope of work')  ?></a></li>

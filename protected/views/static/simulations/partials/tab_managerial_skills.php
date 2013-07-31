@@ -9,9 +9,9 @@
 
     <div class="clearfix mangrlresults">
         <div class="labels high-labels">
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-text"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a><a href="#managerial-skills-1-2" class="signmore"></a></div></span></div>
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.</span><a href="#managerial-skills-3-4" class="list-text"><?php echo Yii::t('site', 'Manages people effectively')  ?></a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-text"><?php echo Yii::t('site', 'Communicates effectiely')  ?></a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-text">Управление задачами с учётом приоритетов</a><a href="#managerial-skills-1-2" class="signmore"></a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.</span><a href="#managerial-skills-3-4" class="list-text">Управление людьми</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-text">Управление коммуникациями</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
         </div>
         <div class="barswrap main-skills">
             <div class="chartbar management-1"></div>
