@@ -422,7 +422,7 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('0', $flag->value);
         $flag = FlagsService::getFlag($simulation, "F38_3");
         $this->assertEquals('0', $flag->value);
-        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_3'])->id;
+        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F38_3', 'flag_to_switch_2'=> 'F22'])->id;
         $dialog->getDialog($simulation->id, $id, '9:45');
         $flag = FlagsService::getFlag($simulation, "F22");
         $this->assertEquals('1', $flag->value);
@@ -446,6 +446,8 @@ class FlagServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
+        FlagsService::setFlag($simulation, 'F52', 1);
+        FlagsService::setFlag($simulation, 'F51', 1);
         $meetings = MeetingService::getList($simulation);
         $this->assertCount(2, $meetings);
 
