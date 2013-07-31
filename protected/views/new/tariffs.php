@@ -5,7 +5,7 @@
 /* @var $user  YumUser */
 $lang = Yii::app()->getLanguage();
 ?>
-<div class="container-borders-4 all-tariffs">
+<div class="container-borders-4">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="block-border bg-yellow grid1 border-primary one-tariff">
            <header class="tariff-header font-white">
