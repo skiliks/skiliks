@@ -82,7 +82,11 @@
                 </li>
             </ol>
         </div>
-        <div class="widthblock"></div>
+        <div class="widthblock"><h3><?php echo Yii::t('site', 'Indicators')  ?></h3>
+            <ul class="bluelist nobultslist">
+                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Productivity')  ?></a></li>
+            </ul>
+        </div>
         <div class="widthblock"><h3><?php echo Yii::t('site', 'Indicators')  ?></h3>
             <ul class="bluelist nobultslist">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Time distribution')  ?></a></li>
