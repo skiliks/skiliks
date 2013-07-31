@@ -1209,8 +1209,8 @@
         width:705px;
     }
     .levellabels h3 {
-        padding: 5px 12px 0px;
-        width:235px;
+        padding: 5px 5px 0px;
+        /*width:235px;*/
     }
     .levellabels h3:first-child {
         /*padding-left: 4px;
@@ -1314,7 +1314,7 @@
     .product .widthblock {
         width:255px;
     }
-    .rateslist .widthblock:nth-child(1) h3, .rateslist .widthblock:nth-child(1) ul{
+    .rateslist .widthblock:nth-child(1) h3, .rateslist .widthblock:nth-child(1) ol{
         margin-left: 10px;
     }
     .rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
