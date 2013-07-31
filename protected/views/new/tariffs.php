@@ -17,16 +17,16 @@ $lang = Yii::app()->getLanguage();
                 <?php endif ?>
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
-            <strong class="border-primary bg-blue font-xslarge font-white tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
+            <strong class="border-primary bg-blue font-xslarge font-white inline-center tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
            </header>
 
            <div class="pad-large text-center">
 
-                <strong class="border-primary font-4xlarge bg-yellow-light sim-amnt"><?php echo $tariff->getFormattedSimulationsAmount() ?></strong>
+                <strong class="border-primary font-4xlarge bg-yellow-light inline-center font-dark sim-amnt"><?php echo $tariff->getFormattedSimulationsAmount() ?></strong>
 
                 <div>
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
-                        <p><?php echo Yii::t('site', $benefit)?></p>
+                        <strong class="font-xslarge inline-center"><?php echo Yii::t('site', $benefit)?></strong>
                     <?php endforeach ?>
                 </div>
 
