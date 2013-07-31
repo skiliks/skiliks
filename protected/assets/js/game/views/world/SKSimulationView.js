@@ -453,7 +453,7 @@ define([
 
             doStartFullSimulation: function(e) {
                 this.message_window = new SKDialogView({
-                    'message':'Завершение обучающей симуляции.',
+                    'message':'Завершение ознакомительной симуляции.',
                     'buttons':[]
                 });
                 e.preventDefault();

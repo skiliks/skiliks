@@ -1749,3 +1749,7 @@ tr.email-list-separator {
 .canvas .elfinder-cwd-filename {
     white-space: normal;
 }
+
+.mailclient-autocomplite {
+    width: auto !important;
+}
