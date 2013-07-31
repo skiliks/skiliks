@@ -880,7 +880,7 @@
 .tariff-contacts .btn-primary, .tariff-contacts .social_networks {
     float: left;
 }
-.tariff-contacts .social_networks>span {
+.tariff-contacts .social_networks>span, .action-tariffsNew .site-footer .social_networks {
     display: none;
 }
 /*  *************************** /TARIFF  ***************************/
