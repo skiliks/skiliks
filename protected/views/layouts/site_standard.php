@@ -188,7 +188,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <script type="text/javascript">
         Cufon.replace('.menu-site, .unstyled, .inner .site-main p, span, label, input, select, .proxima-reg, .sbHolder a, .errorMessage, .feedback-dialog-title, .to-top, small, .team-values, ' +
-            '.action-productNew p, ' +
+            '.action-productNew p, .action-tariffsNew p' +
             '.action-teamNew p', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, h6, strong, .dark-labels label, .list-dark li, .items th, .items td, .add-vacancy-popup h1, .ui-dialog-title, ' +
             '.side-menu .active a', {fontFamily:"ProximaNova-Bold", hover: true});
