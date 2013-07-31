@@ -145,7 +145,7 @@
     text-align: left;
 }
 .estmtresults {
-    height:124px;
+    height:130px;
 }
 .allsummry {
     background: url("../img/resultsline-new.png") no-repeat center 26px;
@@ -239,10 +239,10 @@
     width:236px;
 }
 .product .widthblock {
-    width: 320px;
+    width: 316px;
 }
 .product-gauge-charts .chart-gauge {
-    margin:0px 40px;
+    margin:20px 38px 0px;
     width: 240px;
 }
 .product-gauge-charts .chart-gauge .pointer {
@@ -253,6 +253,9 @@
     margin: 0 auto;
     overflow: visible;
     width: 888px;
+}
+.product .levellabels {
+    width:auto;
 }
 .product-gauge-charts {
     /*float: left;
