@@ -198,6 +198,9 @@ define([
             },
 
             showTaskNotification: function(task) {
+                if (SKApp.isTutorial()) {
+                    return;
+                }
                 var notification = new SKDialogPanNotificationView({
                     'class': 'task-notification-dialog',
                     'message': '<span class="task-time">' + task.get('date') + '</span>' +
