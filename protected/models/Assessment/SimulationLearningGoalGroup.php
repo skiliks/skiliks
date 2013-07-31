@@ -14,6 +14,7 @@
  * @property string $total_negative
  * @property string $max_positive
  * @property string $max_negative
+ * @property string $coefficient
  *
  * The followings are the available model relations:
  * @property LearningGoalGroup $learningGoalGroup
