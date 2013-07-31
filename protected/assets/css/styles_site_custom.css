@@ -777,6 +777,14 @@
     margin-top: 20px;
     line-height:130%;
 }
+.features-header {
+    background: url("../img/table-plashka.png") no-repeat center top;
+    border-radius: 3px 3px 0px;
+    height:152px;
+}
+.features-header h2 {
+    font-size: 54px;
+}
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
 .one-tariff {
