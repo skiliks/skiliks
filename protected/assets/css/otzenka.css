@@ -238,8 +238,11 @@
 .widthshort {
     width:236px;
 }
-.product .widthblock, .product-gauge-charts .chart-gauge {
+.product .widthblock {
     width: 320px;
+}
+.product-gauge-charts .chart-gauge {
+    width: 240px;
 }
 .product-gauge-charts .chart-gauge .pointer {
     left: 25px;
