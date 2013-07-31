@@ -7,7 +7,7 @@ $lang = Yii::app()->getLanguage();
 ?>
 <div class="container-borders-4 all-tariffs">
 <?php foreach ($tariffs as $tariff): ?>
-    <div class="block-border bg-yellow grid1 border-primary">
+    <div class="block-border bg-yellow grid1 border-primary one-tariff">
            <header class="tariff-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="tariff-price <?= $lang ?>">
@@ -20,9 +20,9 @@ $lang = Yii::app()->getLanguage();
             <strong class="border-primary bg-blue font-xslarge font-white tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
            </header>
 
-           <div class="pad-large">
+           <div class="pad-large text-center">
 
-                <div class="border-primary pull-center"><?php echo $tariff->getFormattedSimulationsAmount() ?></div>
+                <strong class="border-primary font-4xlarge bg-yellow-light sim-amnt"><?php echo $tariff->getFormattedSimulationsAmount() ?></strong>
 
                 <div>
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
@@ -31,17 +31,9 @@ $lang = Yii::app()->getLanguage();
                 </div>
 
                 <?php if ($tariff->isUserCanChooseTariff($user)): ?>
-                     <div>
-                         <a class="btn btn-primary" href="/tariffs/<?php echo $tariff->slug ?>">
-                             <?php echo $tariff->getFormattedLinkLabel($user) ?>
-                         </a>
-                     </div>
+                     <div><a class="btn btn-primary" href="/tariffs/<?php echo $tariff->slug ?>"><?php echo $tariff->getFormattedLinkLabel($user) ?></a></div>
                 <?php else: ?>
-                    <div>
-                        <a class="btn btn-primary" href="/order-new/<?= $tariff->slug ?>">
-                            <?php echo  Yii::t('site', 'Subscribe') ?>
-                        </a>
-                    </div>
+                    <div><a class="btn btn-primary" href="/order-new/<?= $tariff->slug ?>"><?php echo  Yii::t('site', 'Subscribe') ?></a></div>
                 <?php endif ?>
             </div>
     </div>
