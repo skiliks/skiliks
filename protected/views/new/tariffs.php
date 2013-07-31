@@ -17,10 +17,10 @@ $lang = Yii::app()->getLanguage();
                 <?php endif ?>
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
+            <strong class="border-primary bg-blue font-xslarge font-white pull-center display-ib"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
            </header>
-           <div class="pad-large">
 
-                <div class="border-primary bg-blue font-xslarge font-white pull-center"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></div>
+           <div class="pad-large">
 
                 <div class="border-primary pull-center"><?php echo $tariff->getFormattedSimulationsAmount() ?></div>
 
