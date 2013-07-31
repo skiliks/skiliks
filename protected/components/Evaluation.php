@@ -94,6 +94,7 @@ class Evaluation {
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::PRODUCTIVITY;
         $result->sim_id = $this->simulation->id;
+        $value = ($value > 100)?round($value):$value;
         $result->value = substr($value, 0, 10);
 
         $result->save();
