@@ -775,7 +775,7 @@
 }
 .product-features p {
     margin-top: 20px;
-    line-height:130%;
+    line-height:140%;
 }
 .features-header {
     background: url("../img/table-plashka.png") no-repeat center top;
@@ -784,7 +784,7 @@
 }
 .features-header h2 {
     font-size: 54px;
-    margin-top: 46px;
+    padding-top: 46px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
