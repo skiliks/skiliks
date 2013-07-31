@@ -852,6 +852,9 @@
     height: 24px;
     line-height: 22px;
 }
+.one-tariff .pad-norm {
+    padding: 8px 6px;
+}
 .sim-amnt {
     height: 28px;
     line-height: 24px;
