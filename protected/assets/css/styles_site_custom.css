@@ -792,6 +792,7 @@
 .tariff-price {
     border-top: 1px solid #1c5962;
     padding: 15px 0px;
+    text-align: center;
 }
 .tariff-price p {
     display: inline-block;
@@ -812,9 +813,14 @@
 .tariff-save {
     display: inline-block;
     height: 28px;
-    line-height: 28px;
+    line-height: 24px;
     margin: 0 auto;
-    padding: 0px 20px;
-;
+    padding: 0px 10px;
+}
+.sim-amnt {
+    display: inline-block;
+    height: 38px;
+    line-height: 34px;
+    margin: 0 auto;
 }
 /*  *************************** /TARIFF  ***************************/
