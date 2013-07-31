@@ -34,7 +34,9 @@
 
     <div class="sections">
         <div id="main">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_main') ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_main', [
+                'data' => $details['additional_data']
+            ]) ?>
         </div>
 
         <div id="managerial-skills">

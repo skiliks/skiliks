@@ -535,9 +535,9 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetails()
     {
         // use cached results popup data
-        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
-            return unserialize($this->results_popup_cache);
-        }
+//        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
+//            return unserialize($this->results_popup_cache);
+//        }
 
         $result = [];
 
@@ -582,6 +582,24 @@ class Simulation extends CActiveRecord
                 $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
             }
         }
+
+        // get weight, just to use them like labels {
+        $id = $this->game_type->id;
+        if (Scenario::TYPE_LITE == $this->game_type->slug ) {
+            $id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL])->id;
+        }
+
+        $weights = Weight::model()->findAllByAttributes([
+            'scenario_id' => $id,
+            'rule_id'     => 1
+        ]);
+
+        foreach ($weights as $weight) {
+            $result['additional_data'][$weight->assessment_category_code] = $weight->value;
+        }
+        // get weight, just to use them like labels }
+
+
 
         // cache results popup data
         $this->results_popup_cache = serialize($result);
