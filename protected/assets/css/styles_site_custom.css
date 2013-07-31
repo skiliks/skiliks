@@ -779,6 +779,9 @@
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
+.one-tariff {
+    padding-bottom: 40px;
+}
 .tariff-header {
     background: #fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     border-radius: 3px 3px 0px 0px;
@@ -826,5 +829,11 @@
     height: 70px;
     padding: 20px 0px;
     vertical-align: middle;
+}
+.tariff-benefits strong {
+    text-align: center;
+}
+.tariff-benefits strong+strong {
+    margin-top: 30px;
 }
 /*  *************************** /TARIFF  ***************************/
