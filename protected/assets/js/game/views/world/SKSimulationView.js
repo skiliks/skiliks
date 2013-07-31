@@ -48,7 +48,6 @@ define([
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
                 'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
                 'click .fullscreen': 'doToggleFullscreen',
-                'click .manual-toggle': 'doToggleManual',
                 'click .start': 'doStartFullSimulation'
             },
             'window_views':    {
@@ -450,11 +449,6 @@ define([
                 } else {
                     $('body').addClass("simulation-full-screen-mode");
                 }
-            },
-
-            doToggleManual: function(e) {
-                e.preventDefault();
-                SKApp.simulation.window_set.toggle('mainScreen', 'manual');
             },
 
             doStartFullSimulation: function(e) {

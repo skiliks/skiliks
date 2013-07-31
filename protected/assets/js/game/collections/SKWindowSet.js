@@ -211,7 +211,7 @@ define([
         isActive:function(name, subname) {
             var window = this.getActiveWindow();
 
-            return (window.get('name') == name && window.get('subname') == name);
+            return (window.get('name') === name && window.get('subname') === subname);
         },
 
         /**doActivate

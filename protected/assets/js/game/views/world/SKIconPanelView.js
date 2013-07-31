@@ -33,14 +33,7 @@ define([
                 'click .icons-panel .documents a':              'doDocumentsToggle',
                 'click .icons-panel .plan a':                   'doPlanToggle',
 
-                // костыль :( даблклик по сути является тройным кликом: 2click и 1dblclick - тройной Toggle {
-                'dblclick .icons-panel .door:not(.icon-active):not(.icon-button-disabled) a':  'doMeetingToggle',
-                'dblclick .icons-panel .phone:not(.icon-active):not(.icon-button-disabled) a': 'doPhoneToggle',
-                'dblclick .icons-panel .mail:not(.create-mail) a': 'doMailToggle',
-                'dblclick .icons-panel .documents a':              'doDocumentsToggle',
-                'dblclick .icons-panel .plan a':                   'doPlanToggle',
-                // костыль :( даблклик по сути является тройным кликом: 2click и 1dblclick - тройной Toggle }
-
+                'click .icons-panel .info a':                   'doToggleManual',
 
                 'click .icons-panel .icon-button-disabled a':          'doNothing',
                 'click .icons-panel .only-active:not(.icon-active) a': 'doNothing'
@@ -492,6 +485,19 @@ define([
                     }
 
                 } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            doToggleManual: function(e) {
+                try {
+                    e.preventDefault();
+                    if (false === SKApp.simulation.window_set.isActive('mainScreen', 'manual')){
+                        SKApp.simulation.window_set.toggle('mainScreen', 'manual');
+                    }
+                } catch (exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
