@@ -121,8 +121,9 @@ define([
                     }
 
                     tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
-                    if (tasks.length) {
+                    if (tasks.length && true !== tasks[0].get('isDisplayed')) {
                         me.showTaskNotification(tasks[0]);
+                        tasks[0].set('isDisplayed', true);
                     }
                 });
 
