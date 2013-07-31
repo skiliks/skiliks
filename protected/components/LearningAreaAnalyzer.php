@@ -319,8 +319,12 @@ class LearningAreaAnalyzer {
             )
         );
         $total += $group_1_4_value * $k;
-        $group_1_4->coefficient = $k;
-        $group_1_4->update();
+
+        if (isset($group_1_4)) {
+            $group_1_4->coefficient = $k;
+            $group_1_4->update();
+        }
+
         /** @var HeroBehaviour[] $behaviours */
         $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
         foreach ($behaviours as $behaviour) {
