@@ -101,10 +101,10 @@ class PlanAnalyzer {
                 || 'D20' === $logItem->leg_action
                 || 'D13' === $logItem->leg_action
                 || 'MSY10' === $logItem->leg_action
+                || 'MSY1' === $logItem->leg_action
                 || 'D9' === $logItem->leg_action
                 || 'D2' === $logItem->leg_action
                 || 'D25' === $logItem->leg_action
-                || 'D26' === $logItem->leg_action
             ) {
                 continue;
             }
