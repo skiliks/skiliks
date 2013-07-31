@@ -831,6 +831,7 @@
     vertical-align: middle;
 }
 .tariff-benefits strong {
+    display: inline-block;
     text-align: center;
 }
 .tariff-benefits strong+strong {
