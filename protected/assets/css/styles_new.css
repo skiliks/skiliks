@@ -381,6 +381,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .grid2.grid-cell, .grid3.grid-cell {
     float:none;
 }
+.display-ib {
+    display: inline-block;
+}
 /*  *************************** /POZITZIONIROVANIE ****************************/
 
 /*  ****************************** SOCIAL ICONS *******************************/
