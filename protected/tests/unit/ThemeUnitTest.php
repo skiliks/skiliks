@@ -79,7 +79,7 @@ class ThemeUnitTest extends CDbTestCase
         $themes = PhoneService::getThemes($character->code, $simulation);
         $this->assertFalse($this->findPhoneThemeByName($themes, $theme->text));
 
-        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'phone_dialog_number'=>'AUTO', 'text'=>'Просьба']);
+        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'phone_dialog_number'=>'AUTO', 'text'=>'Служебная записка о сервере. Срочно!']);
 
         $log_theme = LogCommunicationThemeUsage::model()->findByAttributes(['communication_theme_id'=>$theme->id, 'sim_id'=>$simulation->id]);
         $this->assertNull($log_theme);
