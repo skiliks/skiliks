@@ -278,6 +278,11 @@ return array(
     'Speed of getting results' => 'Скорость достижения результатов',
     'Personal qualities demonstrated along the simulation' => 'Личностные качества, проявленные в симуляции',
     'SCOPE OF ASSESSED SKILLS' => 'ОЦЕНИВАЕМЫЕ НАВЫКИ',
+    'Manages task in accordance with priorities' => 'Управление задачами с учётом приоритетов',
+    'Manages people effectively' => 'Управление людьми',
+    'Communicates effectiely' => 'Управление коммуникациями',
+
+
     'Sticks to goals and priorities' => 'Следование приоритетам',
     'Manages tasks effectively' => 'Управление задачами',
     'Wisely uses means of communication' => 'Эффективное использование каналов коммуникации',
