@@ -1440,13 +1440,13 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
 
         // init MS emails:
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1454,7 +1454,16 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
-
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
         // set-up logs {
         $logs = [];
         $i = 1;
@@ -1511,12 +1520,11 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        // init MS emails:
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
@@ -1526,10 +1534,25 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
 
-        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS58');
+        //Wrong
+        $ms[] = LibSendMs::sendMs($simulation, 'MS91');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS86');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS87');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS88');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS89');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS92');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS93');
 
         // set-up logs {
         $logs = [];
@@ -1589,20 +1612,33 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // init MS emails:
 
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         $ms[] = LibSendMs::sendMs($simulation, 'MS40');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
         $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
+
+        $ms[] = LibSendMs::sendMs($simulation, 'MS91');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS86');
 
         // set-up logs {
         $logs = [];
