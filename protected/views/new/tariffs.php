@@ -8,16 +8,16 @@ $lang = Yii::app()->getLanguage();
 <div class="container-borders-4 all-tariffs">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="block-border bg-yellow grid1 border-primary">
-           <header class="tarif-header font-white">
+           <header class="tariff-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
-            <div class="tarifprice <?= $lang ?>">
+            <div class="tariff-price <?= $lang ?>">
                 <p>
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
                     <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
                 <?php endif ?>
                 <?php echo $tariff->getPrice() % 1000 ?></p>
             </div>
-            <strong class="border-primary bg-blue font-xslarge font-white pull-center display-ib"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
+            <strong class="border-primary bg-blue font-xslarge font-white tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
            </header>
 
            <div class="pad-large">
