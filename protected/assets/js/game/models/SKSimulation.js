@@ -160,7 +160,8 @@ define([
                     }
                 });
 
-                this.initSocialcalcHotkeys();
+                // расскоментировать когда подчиним копирование.
+                //this.initSocialcalcHotkeys();
             },
 
             onAddDocument:function(){
