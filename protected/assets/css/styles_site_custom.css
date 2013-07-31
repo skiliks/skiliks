@@ -782,6 +782,7 @@
 .tariff-header {
     background: #fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     border-radius: 3px 3px 0px 0px;
+    text-align: center;
 }
 .tariff-header h5 {
     border-bottom: 1px solid #69a7b0;
@@ -791,7 +792,6 @@
 .tariffprice {
     border-top: 1px solid #1c5962;
     padding: 15px 0px;
-    text-align: center;
 }
 .tariff-price p {
     display: inline-block;
@@ -811,8 +811,10 @@
 }
 .tariff-save {
     display: inline-block;
-    height: 44px;
-    line-height: 44px;
+    height: 34px;
+    line-height: 34px;
     margin: 0 auto;
+    padding: 0px 20px;
+;
 }
 /*  *************************** /TARIFF  ***************************/
