@@ -242,6 +242,7 @@
     width: 320px;
 }
 .product-gauge-charts .chart-gauge {
+    margin:0px 40px;
     width: 240px;
 }
 .product-gauge-charts .chart-gauge .pointer {
