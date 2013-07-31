@@ -95,7 +95,7 @@
     <!-- /NEW CONTENT -->
     <section>
         <hgroup>
-            <h3>{Yii::t('site', 'More Information')}</h3>
+            <h2>{Yii::t('site', 'More Information')}</h2>
             <h6>{Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')}</h6>
         </hgroup>
 
