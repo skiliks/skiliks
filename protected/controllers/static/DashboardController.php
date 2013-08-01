@@ -697,7 +697,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // no object - no validation -> this is request to render form at first
         if (null !== Yii::app()->request->getParam('DeclineExplanation')) {
             // fill 'description' from 'reason->label' {
-            if (null !== $reasonOther) {
+            if (null !== $reasonOther && !empty($declineExplanation->reason_id)) {
                 if ($declineExplanation->reason_id != $reasonOther->id) {
                     $declineExplanation->description = $reasonOther->label;
                 }
