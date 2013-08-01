@@ -203,7 +203,7 @@ ul li:last-child {
     background-color: #48b5c6;
     color: #fff;
 }
-.btn-large { /* large green button */
+.btn-large, .btn-large-wrap input { /* large green button */
     background-repeat: no-repeat;
     color: #fff;
 }
