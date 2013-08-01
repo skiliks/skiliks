@@ -31,7 +31,7 @@
     </div>
     <div class="widthwrap product-rates">
         <div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h5>
-            <ol class="bluelist unstyled">
+            <ol class="bluelist unstyled font-large">
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a><ul class="unstyled">
                         <li><a href="#"><?php echo Yii::t('site', 'Defines priorities')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Uses planning during the day')  ?></a></li>
@@ -55,13 +55,13 @@
                     </ul>
                 </li>
             </ol>
-        </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Productivity')  ?></a></li></ul>
-        </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Time distribution')  ?></a></li><li><a class="productlink" href="#time-management"><?php echo Yii::t('site', 'Extra working hours') ?></a></li></ul>
+        </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled font-large"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Productivity')  ?></a></li></ul>
+        </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled font-large"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Time distribution')  ?></a></li><li><a class="productlink" href="#time-management"><?php echo Yii::t('site', 'Extra working hours') ?></a></li></ul>
         </div>
     </div>
     <!-- /NEW CONTENT -->
     <hgroup class="font-white">
-        <h1 class="page-header text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h1>
+        <h2 class="text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h2>
         <h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
     </hgroup>
 
