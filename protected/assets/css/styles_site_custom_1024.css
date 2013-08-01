@@ -896,15 +896,17 @@
     background-size: contain;
 }
 .chart-gauge {
-    -moz-transform: scale(0.8) !important;
-    -o-transform: scale(0.8) !important;
-    -webkit-transform: scale(0.8) !important;
-    transform: scale(0.8) !important;
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+}
+.product-gauge-charts .chart-value {
+    text-indent: 10px;
 }
 .product-gauge-charts .chart-gauge {
     margin: -10px 8px 10px;
 }
-
 .allsummry {
     background-position: center 26px;
     background-size: 65%;
