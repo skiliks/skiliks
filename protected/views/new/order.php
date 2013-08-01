@@ -5,9 +5,9 @@
  * @var Tariff $tariff
  */
 ?>
-<h2 class="thetitle"><?= Yii::t('site', 'Оформление заказа') ?></h2>
+<h1 class="page-header text-center"><?= Yii::t('site', 'Оформление заказа') ?></h1>
 
-<div class="order-page">
+<div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
         <div class="order-item">
             <h3>Ваш заказ</h3>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="form-footer">
-                <div class="submit">
+                <div class="btn btn-large btn-green">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
                 <div class="terms-confirm">
