@@ -837,6 +837,7 @@
     display: block;
     height: 14px;
     left:0px;
+    position: absolute;
     text-indent:0px;
     top:0px;
     width:14px;
