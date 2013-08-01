@@ -21,7 +21,6 @@ class AggregationUnitTest extends CDbTestCase
             $behaviourValue->sim_id = $simulation->id;
             $behaviourValue->point_id = $behaviour->id;
             $behaviourValue->value = $behaviour->scale;
-            $behaviourValue->fixed_value = $behaviour->scale;
 
             $behaviourValue->save();
         }
@@ -93,15 +92,14 @@ class AggregationUnitTest extends CDbTestCase
         }
 
         SimulationService::saveAggregatedPoints($simulation->id);
-        SimulationService::applyReductionFactors($simulation);
 
         $this->assertGreaterThan(0, count($behaviours), 'Too few behaviours!');
 
         foreach ($simulation->assessment_aggregated as $mark) {
             if ($mark->point->isPositive()) {
-                $this->assertEquals($mark->fixed_value, $mark->point->scale/2, $mark->point->code);
+                $this->assertEquals($mark->value, $mark->point->scale/2, $mark->point->code);
             } elseif ($mark->point->isNegative()) {
-                $this->assertEquals($mark->fixed_value, $mark->point->scale*2, $mark->point->code);
+                $this->assertEquals($mark->value, $mark->point->scale*2, $mark->point->code);
             } else {
                 throw new InvalidArgumentException('Matrix behaviour produce assessment on personal scale!', 10);
             }
