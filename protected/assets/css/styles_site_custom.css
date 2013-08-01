@@ -953,6 +953,8 @@
 }
 .widthblock {
     display: table-cell;
+    margin: 0px;
+    padding: 0px;
 }
 .product .widthblock {
     width:320px;
@@ -973,14 +975,6 @@
 }
 .subisopen>a {
     background-position: right -76px;
-}
-.widthblock {
-    display: table-cell;
-    margin: 0px;
-    padding: 0px;
-}
-.product .widthblock {
-    width: 320px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
