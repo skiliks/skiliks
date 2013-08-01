@@ -44,7 +44,9 @@
 
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
     <a style="background-color: #2d7b91" href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
-
+    <?php if(Yii::app()->user->data()->isAdmin()) : ?>
+        <a href="/admin_area/dashboard">Admin Area</a>
+    <?php endif ?>
         <br>
         <br>
         <br>

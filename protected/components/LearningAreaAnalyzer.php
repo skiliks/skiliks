@@ -106,6 +106,20 @@ class LearningAreaAnalyzer {
         }
     }
 
+    protected function saveLearningAreaByGoal($code, $params)
+    {
+        $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);
+        $value = ($params['maxRate'] ? $params['total'] / $params['maxRate'] : 0)*100;
+        if ($learningArea) {
+            $sla = new SimulationLearningArea();
+            $sla->learning_area_id = $learningArea->id;
+            $sla->value = substr(max(min($value, 100), 0), 0, 10);
+            $sla->score = $params['total'];
+            $sla->sim_id = $this->simulation->id;
+            $sla->save(false);
+        }
+    }
+
     protected function calcCombinedSkillsByBehaviours(array $behaviourCodes)
     {
         $scenario = $this->simulation->game_type;
@@ -177,7 +191,7 @@ class LearningAreaAnalyzer {
             }
         }
 
-        return $maxRate ? $total / $maxRate : 0;
+        return ['maxRate'=>$maxRate, 'total'=>$total]; //$maxRate ? $total / $maxRate : 0;
     }
 
     protected function calcCombinedSkillsByGoalGroupPriority($learningAreaCode)
@@ -213,93 +227,14 @@ class LearningAreaAnalyzer {
                 if($learningGoalGroup->code === '1_4') {
                     $group_1_4_value += $slg->value;
                     $group_1_4 = $slg;
-                    // 214d {
-                    $goal214d = LearningGoal::model()->findByAttributes([
-                        'scenario_id'           => $scenario->id,
-                        'code' => '214d'
-                    ]);
 
-                    $fail214d = maxRate::model()->findByAttributes([
-                        'scenario_id'      => $scenario->id,
-                        'learning_goal_id' => $goal214d->id
-                    ]);
-
-                    $group_1_4_max_negative += $fail214d->rate;
-                    // 214d }
-
-                    // 214d5 {
-                    $behaviour214d5 = $scenario->getHeroBehaviour(['code' => '214d5']);
-
-                    $assessmentAggregated214d5 = AssessmentAggregated::model()->findByAttributes([
-                        'sim_id'   => $this->simulation->id,
-                        'point_id' => $behaviour214d5->id,
-                    ]);
-
-                    $group_1_4_negative += (empty($assessmentAggregated214d5)) ? 0 : $assessmentAggregated214d5->value;
-                    // 214d5 }
-
-                    // 214d6 {
-                    $behaviour214d6 = $scenario->getHeroBehaviour(['code' => '214d6']);
-
-                    $assessmentAggregated214d6 = AssessmentAggregated::model()->findByAttributes([
-                        'sim_id'   => $this->simulation->id,
-                        'point_id' => $behaviour214d6->id,
-                    ]);
-
-                    $group_1_4_negative += (empty($assessmentAggregated214d6)) ? 0 : $assessmentAggregated214d6->value;
-                    // 214d6 }
-
-                    // 214d8 {
-                    $behaviour214d8 = $scenario->getHeroBehaviour(['code' => '214d8']);
-
-                    $assessmentAggregated214d8 = AssessmentAggregated::model()->findByAttributes([
-                        'sim_id'   => $this->simulation->id,
-                        'point_id' => $behaviour214d8->id,
-                    ]);
-
-                    $group_1_4_negative += (empty($assessmentAggregated214d8)) ? 0 : $assessmentAggregated214d8->value;
-                    // 214d8 }
-
+                    $group_1_4_negative += $slg->total_negative;
+                    $group_1_4_max_negative += $slg->max_negative;
                     continue;
                 }
                 if($learningGoalGroup->code === '1_5') {
                     $group_1_4_negative += $slg->total_negative;
-
-                    // 214g {
-                    $goal214g = LearningGoal::model()->findByAttributes([
-                        'scenario_id'           => $scenario->id,
-                        'code' => '214g'
-                    ]);
-
-                    $fail214g = maxRate::model()->findByAttributes([
-                        'scenario_id'      => $scenario->id,
-                        'learning_goal_id' => $goal214g->id
-                    ]);
-
-                    $group_1_4_max_negative += $fail214g->rate;
-                    // 214g }
-
-                    // 214g0 {
-                    $behaviour214g0 = $scenario->getHeroBehaviour(['code' => '214g0']);
-
-                    $assessmentAggregated214g0 = AssessmentAggregated::model()->findByAttributes([
-                        'sim_id'   => $this->simulation->id,
-                        'point_id' => $behaviour214g0->id,
-                    ]);
-
-                    $group_1_4_negative += (empty($assessmentAggregated214g0)) ? 0 : $assessmentAggregated214g0->value;
-                    // 214g0 }
-
-                    // 214g1 {
-                    $behaviour214g1 = $scenario->getHeroBehaviour(['code' => '214g1']);
-
-                    $assessmentAggregated214g1 = AssessmentAggregated::model()->findByAttributes([
-                        'sim_id'   => $this->simulation->id,
-                        'point_id' => $behaviour214g1->id,
-                    ]);
-
-                    $group_1_4_negative += (empty($assessmentAggregated214g1)) ? 0 : $assessmentAggregated214g1->value;
-                    // 214g1 }
+                    $group_1_4_max_negative += $slg->max_negative;
 
                     continue;
                 }
@@ -336,7 +271,7 @@ class LearningAreaAnalyzer {
             }
         }
 
-        return $maxRate ? $total / $maxRate : 0;
+        return ['maxRate'=>$maxRate, 'total'=>$total];//$maxRate ? $total / $maxRate : 0;
     }
 
 
@@ -346,7 +281,7 @@ class LearningAreaAnalyzer {
     public function followPriorities()
     {
         $value = $this->calcCombinedSkillsByGoalGroupPriority(1);
-        $this->saveLearningArea(1, $value * 100);
+        $this->saveLearningAreaByGoal(1, $value);
     }
 
     /*
@@ -355,7 +290,7 @@ class LearningAreaAnalyzer {
     public function communicationManagement()
     {
         $value = $this->calcCombinedSkillsByGoalGroup(3);
-        $this->saveLearningArea(3, $value * 100);
+        $this->saveLearningAreaByGoal(3, $value);
     }
 
     /*
@@ -364,7 +299,7 @@ class LearningAreaAnalyzer {
     public function peopleManagement()
     {
         $value = $this->calcCombinedSkillsByGoalGroup(2);
-        $this->saveLearningArea(2, $value * 100);
+        $this->saveLearningAreaByGoal(2, $value);
     }
 
     /*

@@ -45,31 +45,31 @@ class Evaluation {
 
     public function checkManagerialSkills()
     {
-        $scenario = $this->simulation->game_type;
 
-        $total = 0;
-        $maxRate = 0;
-
-        foreach ($this->simulation->learning_goal as $goalPoint) {
-            if ($goalPoint->learningGoal->learningArea->code <= 8) {
-                $total += $goalPoint->value * $goalPoint->getReducingCoefficient();
-            }
+        $followPriorities = $this->simulation->game_type->getLearningArea(['code' => 1]);
+        /* @var $simFollowPriorities SimulationLearningArea */
+        $simFollowPriorities = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$followPriorities->id]);
+        if(null === $simFollowPriorities) {
+            return;
         }
 
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
-
-        /** @var HeroBehaviour[] $behaviours */
-        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1]);
-        foreach ($behaviours as $behaviour) {
-            if (false == in_array($behaviour->code, $except)) {
-                $maxRate += $behaviour->scale;
-            }
+        $communicationManagement = $this->simulation->game_type->getLearningArea(['code' => 3]);
+        /* @var $simCommunicationManagement SimulationLearningArea */
+        $simCommunicationManagement = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$communicationManagement->id]);
+        if(null === $simCommunicationManagement) {
+            return;
+        }
+        $peopleManagement = $this->simulation->game_type->getLearningArea(['code' => 2]);
+        /* @var $simPeopleManagement SimulationLearningArea */
+        $simPeopleManagement = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$peopleManagement->id]);
+        if(null === $simPeopleManagement) {
+            return;
         }
 
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::MANAGEMENT_SKILLS;
         $result->sim_id = $this->simulation->id;
-        $result->value = substr(($maxRate ? $total / $maxRate * 100 : 0), 0, 10);
+        $result->value = LearningGoalAnalyzer::calculateAssessment($simCommunicationManagement->score+$simFollowPriorities->score+$simPeopleManagement->score, 100);
 
         $result->save();
     }
