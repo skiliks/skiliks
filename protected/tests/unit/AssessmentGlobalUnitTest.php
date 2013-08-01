@@ -366,8 +366,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 77.05,
-            'overall'     => 69.72, // 68.02
+            'management'  => 81.50,
+            'overall'     => 71.95, // 68.02
             'performance' => 67.71,
             'time'        => 50,
         ];
@@ -546,8 +546,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 42.10, // 44.97
-            'overall'     => 52.25, // 53.26
+            'management'  => 39.20, // 44.97
+            'overall'     => 50.80, // 53.26
             'performance' => 67.71,
             'time'        => 50,
         ];
