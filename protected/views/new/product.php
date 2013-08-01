@@ -46,9 +46,9 @@
     </div>
 
     <div class="levellabels">
-        <div class="widthblock"><h3><?php echo Yii::t('site', 'Level of skills maturity')  ?></h3></div>
-        <div class="widthblock"><h3><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h3></div>
-        <div class="widthblock"><h3><?php echo Yii::t('site', 'Speed of getting results')  ?></h3></div>
+        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div>
+        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div>
+        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
     </div>
     <div class="rateslist">
         <div class="widthblock"><h3><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h3>

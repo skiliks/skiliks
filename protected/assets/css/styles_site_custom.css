@@ -809,7 +809,7 @@
     display: block;
     font:17px "ProximaNova-Regular";
     left: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     height: 30px;
     background-color: #146672;
     text-align: center;
