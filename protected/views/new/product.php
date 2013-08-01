@@ -12,7 +12,7 @@
     <h1 class="page-header text-center"><?php echo Yii::t('site', 'Overall manager’s rating')  ?></h1>
     <div class="allsummry">
         <div class="estmtresults">
-            <div class="overall">
+            <div class="text-center">
                 <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value">%</span></span>
             </div></div><div class="widthwrap"><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Productivity')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
         </div></div><div class="product-gauge-charts widthwrap"></div><script type="text/javascript">

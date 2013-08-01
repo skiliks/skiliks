@@ -887,3 +887,136 @@
     display: none;
 }
 /*  *************************** /TARIFF  ***************************/
+/*  *************************** OTZENKA ***************************/
+.chart-gauge {
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+}
+.product-gauge-charts .chart-gauge {
+    margin: -10px 28px 10px;
+}
+
+.allsummry {
+    background-position: center 26px;
+    background-size: 65%;
+}
+.estmtresults {
+    height: 110px;
+}
+.allratebg {
+    background: url("../img/starsbigsml.png") no-repeat left top;
+}
+.allrating {
+    background: url("../img/starsbigsml.png") no-repeat left bottom;
+}
+.allratebg, .allrating {
+    display: inline-block;
+    height: 20px;
+    width: 113px;
+}
+.blockvalue {
+    background: #146672;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 4px;
+    padding: 0px 8px;
+    position: relative;
+    top: -3px;
+}
+/*  *************************** /OTZENKA ***************************/
+/*  *************************** PRODUCT ***************************/
+.top-dot-bg {
+    background: url("../img/icon-product-table-dot.png") no-repeat center top;
+    padding-top: 70px;
+}
+.product-features h6 {
+    line-height:110%;
+    margin-top: 40px;
+}
+.product-features h6:first-child {
+    margin-top: 5px;
+}
+.product-features h6, .product-features p {
+    text-align: center;
+}
+.product-features p {
+    margin-top: 20px;
+    line-height:140%;
+}
+.features-header {
+    background: url("../img/table-plashka.png") no-repeat center top;
+    border-radius: 3px 3px 0px;
+    height:152px;
+}
+.features-header h2 {
+    font-size: 54px;
+    padding-top: 46px;
+}
+.widthblock {
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
+}
+.product .widthwrap {
+    margin: 0 auto;
+    width:915px;
+}
+.product .widthblock {
+    width:305px;
+}
+.bluelist li {
+    background:url("../img/bullit.png") no-repeat 0px 5px;
+    line-height: 110%;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+.bluelist li:last-child {
+    padding-bottom: 5px;
+}
+.product .bluelist a {
+    min-height: 18px;
+}
+.product .bluelist ul {
+    display: none;
+}
+.product .font-5xlarge {
+    line-height: 100%;
+}
+.hassubmenu>a {
+    background: url("../img/openclose.png") no-repeat right 2px;
+    display: block;
+    padding-right: 26px;
+}
+.subisopen>a {
+    background-position: right -76px;
+}
+.subisopen, .bluelist .subisopen {
+    background: #5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
+    border-radius: 4px;
+    padding-top: 3px;
+    margin-bottom: 4px;
+    margin-top:0px;
+}
+.product .bluelist .subisopen ul {
+    display: block;
+    margin-top: 8px;
+}
+.product-labels .widthblock:last-child h6 {
+    margin: 0 auto;
+    width:210px;
+}
+.product-rates .widthblock:first-child ol {
+    width:290px;
+}
+.product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
+    margin-left:45px;
+}
+.product-rates .widthblock:nth-child(3) h5, .product-rates .widthblock:nth-child(3) ul  {
+    margin-left:8px;
+}
+/*  *************************** /PRODUCT ***************************/
