@@ -838,6 +838,7 @@
     content: '%';
     display: block;
     height: 14px;
+    text-indent:0px;
     top: 0px;
     width:14px;
     border: 1px solid red;
