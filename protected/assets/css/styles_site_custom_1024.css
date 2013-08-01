@@ -931,8 +931,8 @@
 /*  *************************** /OTZENKA ***************************/
 /*  *************************** PRODUCT ***************************/
 .top-dot-bg {
-    background: url("../img/icon-product-table-dot.png") no-repeat center top;
-    padding-top: 70px;
+    background: url("../img/icon-product-table-dot-min.png") no-repeat center top;
+    padding-top: 50px;
 }
 .product-features h6 {
     line-height:110%;
@@ -957,17 +957,12 @@
     font-size: 54px;
     padding-top: 46px;
 }
-.widthblock {
-    display: table-cell;
-    margin: 0px;
-    padding: 0px;
-}
 .product .widthwrap {
     margin: 0 auto;
-    width:915px;
+    width:705px;
 }
 .product .widthblock {
-    width:305px;
+    width:235px;
 }
 .bluelist li {
     background:url("../img/bullit.png") no-repeat 0px 5px;
@@ -980,12 +975,6 @@
 }
 .product .bluelist a {
     min-height: 18px;
-}
-.product .bluelist ul {
-    display: none;
-}
-.product .font-5xlarge {
-    line-height: 100%;
 }
 .hassubmenu>a {
     background: url("../img/openclose.png") no-repeat right 2px;
