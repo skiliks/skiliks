@@ -744,6 +744,13 @@ section.registration-by-link .form .row a.decline-link:hover {
         font: 14px/18px "ProximaNova-Regular";
         margin: 0 0 10px 0;
     }
+    #invite-decline-form #form-decline-explanation .chancel-decline {
+        width:255px;
+    }
+    #invite-decline-form #form-decline-explanation .confirm-decline {
+        margin-right: 10px;
+        width: 165px;
+    }
 }
 /* popup video */
 .popup-video {
