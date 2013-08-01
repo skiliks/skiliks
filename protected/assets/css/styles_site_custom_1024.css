@@ -954,11 +954,12 @@
     text-align: center;
 }
 .product-features p {
-    margin-top: 20px;
+    margin-top: 16px;
     line-height:140%;
 }
 .features-header {
-    background: url("../img/bg-product-section-table-title-min.png") no-repeat center top;
+    background: url("../img/table-plashka.png") no-repeat center top;
+    background-size: 363px;
     border-radius: 3px 3px 0px;
     height:98px;
 }
