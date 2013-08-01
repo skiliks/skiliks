@@ -32,7 +32,7 @@
     <div class="widthwrap product-rates">
         <div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h5>
             <ol class="bluelist unstyled font-large">
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a><ul class="unstyled">
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a><ul class="unstyled font-normal">
                         <li><a href="#"><?php echo Yii::t('site', 'Defines priorities')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Uses planning during the day')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Correctly defines tasks’ priorities while planning')  ?></a></li>
@@ -41,13 +41,13 @@
                     </ul>
                 </li>
                 <li class="hassubmenu">
-                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a><ul class="unstyled">
+                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages people effectively')  ?></a><ul class="unstyled font-normal">
                         <li><a href="#"><?php echo Yii::t('site', 'Uses delegation to manage scope of work')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Effectively manages resources with different qualification')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Uses feedback')  ?></a></li>
                     </ul>
                 </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Communicates effectiely')  ?></a><ul class="unstyled">
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills"><?php echo Yii::t('site', 'Communicates effectiely')  ?></a><ul class="unstyled font-normal">
                         <li><a href="#"><?php echo Yii::t('site', 'Wisely uses means of communication')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Deals with mail effectively')  ?></a></li>
                         <li><a href="#"><?php echo Yii::t('site', 'Deals with calls effectively')  ?></a></li>
