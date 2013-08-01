@@ -66,6 +66,9 @@ h6 {
 .font-5xlarge {
     font-size:24px;
 }
+.font-6xlarge {
+    font-size:26px;
+}
 .list-light li {
     line-height: 20px;
     margin-bottom: 13px;
