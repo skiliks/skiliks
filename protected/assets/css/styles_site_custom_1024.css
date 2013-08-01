@@ -974,6 +974,9 @@
 .product .widthblock {
     width:235px;
 }
+.product h4 {
+    font-size: 18px;
+}
 .bluelist li {
     background:url("../img/bullit.png") no-repeat 0px 5px;
     line-height: 110%;
