@@ -962,6 +962,7 @@
 }
 .order-item {
     background: #fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
-    height: 136px;
+    height: 132px;
+    width:132px;
 }
 /*  *************************** /ORDER  ***************************/

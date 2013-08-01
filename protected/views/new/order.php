@@ -9,7 +9,7 @@
 
 <div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
-        <div class="order-item bg-yellow border-primary text-center pull-right font-brown">
+        <div class="order-item bg-yellow border-primary text-center pull-right font-brown pad-large">
             <div class="font-white font-xxlarge">Ваш заказ</div>
 
             <label class="font-4xlarge proxima-bold"><?= $tariff->label ?></label>
