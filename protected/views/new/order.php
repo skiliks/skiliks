@@ -128,7 +128,7 @@
             </div>
 
             <div class="form-footer">
-                <div class="btn btn-large btn-green">
+                <div class="btn-wrap btn-large-wrap btn-green-wrap">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
                 <div class="terms-confirm">

@@ -81,7 +81,7 @@ hgroup {
 }
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
-.btn-large {
+.btn-large, .btn-large-wrap input {
     background-image: url("../img/btn-circle.png");
     background-position: 20px 50%;
     font-size: 18px;
