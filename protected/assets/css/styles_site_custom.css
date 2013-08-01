@@ -758,62 +758,17 @@
     background-position: left 10px;
 }
 /*  *************************** /TEAM ***************************/
-/*  *************************** PRODUCT ***************************/
-.top-dot-bg {
-    background: url("../img/icon-product-table-dot.png") no-repeat center top;
-    padding-top: 70px;
-}
-.product-features h6 {
-    line-height:110%;
-    margin-top: 40px;
-}
-.product-features h6:first-child {
-    margin-top: 5px;
-}
-.product-features h6, .product-features p {
-    text-align: center;
-}
-.product-features p {
-    margin-top: 20px;
-    line-height:140%;
-}
-.features-header {
-    background: url("../img/table-plashka.png") no-repeat center top;
-    border-radius: 3px 3px 0px;
-    height:152px;
-}
-.features-header h2 {
-    font-size: 54px;
-    padding-top: 46px;
-}
-.widthblock {
-    display: table-cell;
-}
-.product .widthblock {
-    width:320px;
-}
-.bluelist li {
-    background:url("../img/bullit.png") no-repeat 0px 5px;
-    line-height: 110%;
-    padding-bottom: 10px;
-    padding-left: 12px;
-}
-.hassubmenu>a {
-    background: url("../img/openclose.png") no-repeat right 2px;
-    display: block;
-    padding-right: 26px;
-}
-.subisopen>a {
-    background-position: right -76px;
-}
-/*  *************************** /PRODUCT ***************************/
 /*  *************************** OTZENKA ***************************/
 .chart-gauge {
+    float: left;
     position: relative;
     width: 240px;
     height: 120px;
     overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
+}
+.product-gauge-charts .chart-gauge {
+    margin: 20px 38px 0px;
 }
 .chart-gauge:after {
     content: '';
@@ -854,7 +809,7 @@
     display: block;
     font:17px "ProximaNova-Regular";
     left: 0;
-    /*overflow: hidden;*/
+    overflow: hidden;
     height: 30px;
     background-color: #146672;
     text-align: center;
@@ -967,6 +922,55 @@
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
 }
 /*  *************************** /OTZENKA ***************************/
+/*  *************************** PRODUCT ***************************/
+.top-dot-bg {
+    background: url("../img/icon-product-table-dot.png") no-repeat center top;
+    padding-top: 70px;
+}
+.product-features h6 {
+    line-height:110%;
+    margin-top: 40px;
+}
+.product-features h6:first-child {
+    margin-top: 5px;
+}
+.product-features h6, .product-features p {
+    text-align: center;
+}
+.product-features p {
+    margin-top: 20px;
+    line-height:140%;
+}
+.features-header {
+    background: url("../img/table-plashka.png") no-repeat center top;
+    border-radius: 3px 3px 0px;
+    height:152px;
+}
+.features-header h2 {
+    font-size: 54px;
+    padding-top: 46px;
+}
+.widthblock {
+    display: table-cell;
+}
+.product .widthblock {
+    width:320px;
+}
+.bluelist li {
+    background:url("../img/bullit.png") no-repeat 0px 5px;
+    line-height: 110%;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+.hassubmenu>a {
+    background: url("../img/openclose.png") no-repeat right 2px;
+    display: block;
+    padding-right: 26px;
+}
+.subisopen>a {
+    background-position: right -76px;
+}
+/*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
 .one-tariff {
     margin-bottom: 36px;
