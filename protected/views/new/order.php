@@ -9,8 +9,8 @@
 
 <div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
-        <div class="order-item">
-            <h3>Ваш заказ</h3>
+        <div class="order-item bg-yellow border-primary text-center">
+            <div class="font-white font-xxlarge">Ваш заказ</div>
 
             <label class="tariff-name"><?= $tariff->label ?></label>
             <div class="period">1 Месяц</div>
