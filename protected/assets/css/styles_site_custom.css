@@ -1032,13 +1032,13 @@
     width:210px;
 }
 .product-rates .widthblock:first-child ol {
-    width:290px;
+    width:260px;
 }
 .product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
-margin-left:20px;
+    margin-left:43px;
 }
 .product-rates .widthblock:nth-child(3) h5, .product-rates .widthblock:nth-child(3) ul  {
-    margin-left:10px;
+    margin-left:8px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
