@@ -144,9 +144,8 @@ var fixLogotypes = function() {
                 modal: true,
                 resizable: false,
                 position: {
-                    my: "right top",
-                    at: "right top",
-                    of: $('#corporate-invitations-list-box')
+                    my: "center center",
+                    at: "center center"
                 },
                 draggable: false,
                 open: function( event, ui ) {
