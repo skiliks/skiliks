@@ -347,7 +347,8 @@ return array(
     'Next' => 'Вперед',
 
     'min' => 'мин.',
-    'Share' => 'Рекомендовать видео',
+    'Share' => 'Рекомендовать',
+    'Share video' => 'Рекомендовать видео',
 
     'Available simulation' => 'Доступные симуляции',
     'You are already logged in (%s), please log out to activate your account %s' => 'Вы авторизованы как %s, пожалуйста, выйдите из данного аккаунта, чтобы активировать аккаунт %s',
