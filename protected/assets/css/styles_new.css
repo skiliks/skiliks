@@ -1418,7 +1418,7 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     right: 0;
     bottom: 0;
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
-
+}
 .allsummry {
     background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
