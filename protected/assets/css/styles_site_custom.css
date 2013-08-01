@@ -953,3 +953,12 @@
     display: none;
 }
 /*  *************************** /TARIFF  ***************************/
+/*  *************************** ORDER  ***************************/
+.order-page {
+    background-image: url("../img/order-pagebg.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center top;
+}
+
+/*  *************************** /ORDER  ***************************/
