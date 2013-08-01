@@ -6,9 +6,7 @@
     </hgroup>
 
         <div class="container-3 font-white font-slarge lheight-large">
-            <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')  ?></div>
-            <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')  ?></div>
-            <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')  ?></div>
+            <div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')  ?></div><div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')  ?></div><div class="grid1 text-center top-dot-bg"><?php echo Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')  ?></div>
         </div>
 
     <!-- NEW CONTENT -->
