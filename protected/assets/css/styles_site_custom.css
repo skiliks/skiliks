@@ -1022,11 +1022,15 @@
 .subisopen>a {
     background-position: right -76px;
 }
-.subisopen {
+.subisopen, .bluelist .subisopen {
     background: #5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
     border-radius: 4px;
     padding-top: 3px;
     margin-bottom: 4px;
+}
+.subisopen ul {
+    display: block;
+    margin-top: 8px;
 }
 .product-labels .widthblock:last-child h6 {
     margin: 0 auto;
