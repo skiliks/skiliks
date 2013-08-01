@@ -120,32 +120,6 @@ class LearningAreaAnalyzer {
         }
     }
 
-    protected function calcCombinedSkillsByBehaviours(array $behaviourCodes)
-    {
-        $scenario = $this->simulation->game_type;
-
-        $ids = [];
-        $maxRate = 0;
-        $total = 0;
-
-        $behaviours = $scenario->getHeroBehavours(['code' => $behaviourCodes]);
-        foreach ($behaviours as $behaviour) {
-            $ids[] = $behaviour->id;
-            $maxRate += $behaviour->scale;
-        }
-
-        $aggregated = AssessmentAggregated::model()->findAllByAttributes([
-            'sim_id' => $this->simulation->id,
-            'point_id' => $ids
-        ]);
-
-        foreach ($aggregated as $item) {
-            $total += $item->fixed_value;
-        }
-
-        return $maxRate ? $total / $maxRate : 0;
-    }
-
     protected function calcCombinedSkillsByGoalGroup($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;

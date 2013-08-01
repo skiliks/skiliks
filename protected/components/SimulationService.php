@@ -697,8 +697,6 @@ class SimulationService
         // write all mail outbox/inbox scores to AssessmentAggregate directly
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-        self::applyReductionFactors($simulation);
-
         $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
         $learningGoalAnalyzer->run();
 
@@ -799,19 +797,6 @@ class SimulationService
         $simulation->refresh();
         $simulation->start = $startTime;
         $simulation->save();
-    }
-
-    /**
-     * @wiki: https://maprofi.atlassian.net/wiki/pages/editpage.action?pageId=11174012
-     * @param Simulation $simulation
-     */
-    public static function applyReductionFactors(Simulation $simulation)
-    {
-        foreach ($simulation->assessment_aggregated as $assessment) {
-            $assessment->coefficient_for_fixed_value = 1;
-            $assessment->fixed_value = $assessment->value;
-            $assessment->save();
-        }
     }
 
     /**

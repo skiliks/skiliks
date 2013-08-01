@@ -1,8 +1,6 @@
 <?php
 /**
  *
- * @property float coefficient_for_fixed_value
- * @property float fixed_value
  * @property float value
  * @property int point_id
  * @property int id

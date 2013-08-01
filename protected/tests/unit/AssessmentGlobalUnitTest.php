@@ -749,7 +749,6 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $item->sim_id      = $simulation->id;
         $item->point_id    = $behaviour->id;
         $item->value       = $k * $value;
-        $item->fixed_value = $k * $value;
         $item->save();
 
         return $item;

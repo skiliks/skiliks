@@ -138,9 +138,6 @@ class AssessmentPointsUnitTest extends CDbTestCase
             $sum[$heroBehaviour->learning_goal_id] += $assessmentAggregated->value;
         }
 
-        // RUN REAL CODE!!! :)
-        SimulationService::applyReductionFactors($simulation);
-
         // get data for asserts:
         $realAssessments = AssessmentAggregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
@@ -149,15 +146,5 @@ class AssessmentPointsUnitTest extends CDbTestCase
         // asserts:
 
         $this->assertNotEmpty($realAssessments);
-        foreach ($realAssessments as $realAssessment) {
-            $learningGoalId = $realAssessment->point->learning_goal_id;
-            if ($realAssessment->point->isPositive()) {
-                $this->assertEquals(
-                    abs(1 - $learningGoalCoefficient[$learningGoalId]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
-                    $realAssessment->coefficient_for_fixed_value,
-                    'Error in '.$realAssessment->point->code
-                );
-            }
-        }
     }
 }
