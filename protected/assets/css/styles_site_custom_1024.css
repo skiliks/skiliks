@@ -889,6 +889,10 @@
 /*  *************************** /TARIFF  ***************************/
 /*  *************************** OTZENKA ***************************/
 .chart-gauge {
+    height: 120px;
+    width: 240px;
+}
+.chart-gauge {
     -moz-transform: scale(0.8);
     -o-transform: scale(0.8);
     -webkit-transform: scale(0.8);
