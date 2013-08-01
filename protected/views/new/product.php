@@ -17,11 +17,11 @@
                 <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
             </div>
         </div><!-- /estmtresults -->
-        <div class="estmtileswrap">
+        <div class="widthwrap">
             <div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Productivity')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
         </div><!-- /estmtileswrap -->
     </div>
-    <div class="clearfix maincharts">
+    <div class="widthwrap">
 
         <div class="product-gauge-charts"></div>
             <script type="text/javascript">
@@ -38,10 +38,10 @@
             </script>
     </div>
 
-    <div>
+    <div class="widthwrap">
         <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
     </div>
-    <div class="rateslist">
+    <div class="widthwrap">
         <div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h5>
             <ol class="bluelist unstyled">
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a>
