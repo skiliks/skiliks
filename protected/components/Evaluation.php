@@ -45,31 +45,49 @@ class Evaluation {
 
     public function checkManagerialSkills()
     {
-
         $followPriorities = $this->simulation->game_type->getLearningArea(['code' => 1]);
         /* @var $simFollowPriorities SimulationLearningArea */
-        $simFollowPriorities = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$followPriorities->id]);
+        $simFollowPriorities = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($followPriorities)) ? null : $followPriorities->id
+        ]);
         if(null === $simFollowPriorities) {
-            return;
+            $simFollowPrioritiesValue = 0;
+        } else {
+            $simFollowPrioritiesValue = $simFollowPriorities->score;
         }
 
         $communicationManagement = $this->simulation->game_type->getLearningArea(['code' => 3]);
         /* @var $simCommunicationManagement SimulationLearningArea */
-        $simCommunicationManagement = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$communicationManagement->id]);
+        $simCommunicationManagement = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($communicationManagement)) ? null : $communicationManagement->id
+        ]);
         if(null === $simCommunicationManagement) {
-            return;
+            $simCommunicationManagementValue = 0;
+        } else {
+            $simCommunicationManagementValue = $simCommunicationManagement->score;
         }
+
         $peopleManagement = $this->simulation->game_type->getLearningArea(['code' => 2]);
         /* @var $simPeopleManagement SimulationLearningArea */
-        $simPeopleManagement = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'learning_area_id'=>$peopleManagement->id]);
+        $simPeopleManagement = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($peopleManagement)) ? null : $peopleManagement->id
+        ]);
         if(null === $simPeopleManagement) {
-            return;
+            $simPeopleManagementValue = 0;
+        } else {
+            $simPeopleManagementValue = $simPeopleManagement->score;
         }
 
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::MANAGEMENT_SKILLS;
         $result->sim_id = $this->simulation->id;
-        $result->value = LearningGoalAnalyzer::calculateAssessment($simCommunicationManagement->score+$simFollowPriorities->score+$simPeopleManagement->score, 100);
+        $result->value = LearningGoalAnalyzer::calculateAssessment(
+            $simPeopleManagementValue + $simFollowPrioritiesValue + $simCommunicationManagementValue,
+            100
+        );
 
         $result->save();
     }
