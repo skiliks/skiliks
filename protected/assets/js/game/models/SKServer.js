@@ -67,7 +67,9 @@ define([
                     if(!_.isEmpty(models)) {
                         params.request = 'repeat';
                     } else {
-                        throw new Error(" uniqueId define but is not repeat request ");
+                        if (SKApp.get('isDisplayServer500errors')) {
+                            throw new Error(" uniqueId define but is not repeat request ");
+                        }
                     }
                 }
                 params.time = SKApp.simulation.getGameTime({with_seconds:true});
