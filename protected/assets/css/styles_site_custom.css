@@ -809,9 +809,7 @@
     display: block;
     font:17px "ProximaNova-Regular";
     left: 0;
-    /*overflow: hidden;*/
     height: 30px;
-    background-color: #146672;
     text-align: center;
     color: white;
     font:18px "ProximaNova-Regular";
@@ -831,6 +829,11 @@
     z-index: 1000;
 }
 .product .chart-value {
+    display: block;
+    position: relative;
+    text-indent: -90000px;
+}
+.product .chart-value:after {
     color: #fff8cb;
     content: '%';
     height: 14px;
@@ -942,6 +945,18 @@
     height: 24px;
     width: 135px;
 }
+.blockvalue {
+    background: #146672;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 4px;
+    padding: 0px 10px;
+    position: relative;
+    top: -5px;
+}
 /*  *************************** /OTZENKA ***************************/
 /*  *************************** PRODUCT ***************************/
 .top-dot-bg {
@@ -988,7 +1003,10 @@
 .product .bluelist a {
     min-height: 18px;
 }
-.product h5 {
+.product .bluelist ul {
+    display: none;
+}
+.product .font-5xlarge {
     line-height: 100%;
 }
 .hassubmenu>a {
@@ -998,6 +1016,12 @@
 }
 .subisopen>a {
     background-position: right -76px;
+}
+.subisopen {
+    background: #5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
+    border-radius: 4px;
+    padding-top: 3px;
+    margin-bottom: 4px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
