@@ -53,6 +53,9 @@ h5 {
 .font-xxxlarge, .font-4xlarge {
     font-size:18px;
 }
+.font-5xlarge {
+    font-size:19px;
+}
 .list-light li {
     background-size: 16px;
     line-height: 17px;

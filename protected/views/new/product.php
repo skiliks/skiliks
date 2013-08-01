@@ -23,9 +23,9 @@
             </div>
         </div><!-- /estmtresults -->
         <div class="estmtileswrap">
-            <div class="widthblock"><h2><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><!--<span class="signmore"></span></a></h2></div> -->
-            <div class="widthblock"><h2><?php echo Yii::t('site', 'Productivity')  ?></h2></div>
-            <div class="widthblock"><h2><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
+            <div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><!--<span class="signmore"></span></a></h2></div> -->
+            <div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Productivity')  ?></h2></div>
+            <div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
         </div><!-- /estmtileswrap -->
     </div>
     <div class="clearfix maincharts">
@@ -46,9 +46,9 @@
     </div>
 
     <div class="levellabels">
-        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div>
-        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div>
-        <div class="widthblock"><h6 class="text-center"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
+        <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div>
+        <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div>
+        <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
     </div>
     <div class="rateslist">
         <div class="widthblock"><h3><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h3>

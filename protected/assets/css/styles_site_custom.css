@@ -835,7 +835,8 @@
     content: '%';
     height: 14px;
     top: 0px;
-    text-indent: 0px;
+    text-indent: -90000px;
+    width:14px;
 }
 .redbar .chart-value{
     background-color: #e11a1a;
@@ -962,6 +963,9 @@
     padding-bottom: 10px;
     padding-left: 12px;
 }
+.product .bluelist a {
+    min-height: 18px;
+}
 .hassubmenu>a {
     background: url("../img/openclose.png") no-repeat right 2px;
     display: block;
@@ -969,6 +973,14 @@
 }
 .subisopen>a {
     background-position: right -76px;
+}
+.widthblock {
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
+}
+.product .widthblock {
+    width: 320px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/

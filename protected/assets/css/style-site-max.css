@@ -58,7 +58,10 @@ h6 {
     font-size:21px;
 }
 .font-4xlarge {
-    font-size:21px;
+    font-size:22px;
+}
+.font-5xlarge {
+    font-size:24px;
 }
 .list-light li {
     line-height: 20px;
