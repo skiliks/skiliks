@@ -1260,8 +1260,6 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     position: relative;
     overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
-    height: 120px;
-    width: 240px;
 }
 .chart-gauge:after {
     content: '';
