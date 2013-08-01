@@ -768,7 +768,7 @@
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .product-gauge-charts .chart-gauge {
-    margin: 20px 32px 10px;
+    margin: 0px 32px 10px;
 }
 .chart-gauge:after {
     content: '';
@@ -1030,6 +1030,15 @@
 .product-labels .widthblock:last-child h6 {
     margin: 0 auto;
     width:210px;
+}
+.product-rates .widthblock:first-child ol {
+    width:290px;
+}
+.product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
+margin-left:20px;
+}
+.product-rates .widthblock:nth-child(3) h5, .product-rates .widthblock:nth-child(3) ul  {
+    margin-left:10px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
