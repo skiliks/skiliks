@@ -192,7 +192,7 @@ ul li:last-child {
     background-color: #146672;
 }
 .btn-green:hover, .title-in-ui input[type="submit"]:hover,
-.feedback input[type="submit"]:hover, .submit-primry input[type="submit"]:hover {
+.feedback input[type="submit"]:hover, .submit-primry input[type="submit"]:hover, .btn-green-wrap input:hover {
     background-color: #BD2929;
 }
 .btn-white {
