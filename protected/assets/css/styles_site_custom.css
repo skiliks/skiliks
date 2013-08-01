@@ -850,12 +850,11 @@
 }
 .chart-value {
     color:#3d4041;
-
     bottom: 0;
     display: block;
     font:17px "ProximaNova-Regular";
     left: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     height: 30px;
     background-color: #146672;
     text-align: center;
@@ -875,6 +874,13 @@
     -ms-user-select: none;
     user-select: none;
     z-index: 1000;
+}
+.product .chart-value:after {
+    color: #fff8cb;
+    content: '%';
+    height: 14px;
+    top: 0px;
+    text-indent: 0px;
 }
 .redbar .chart-value{
     background-color: #e11a1a;
