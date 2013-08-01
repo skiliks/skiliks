@@ -176,6 +176,9 @@ hgroup {
 .container-borders-2.thetable {
     margin-left: 8px;
 }
+.grid-space {
+    width:26px;
+}
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
 .menu-site a {
