@@ -892,14 +892,14 @@
     height: 120px;
     width: 240px;
 }
-.chart-gauge {
+.product .chart-gauge {
     -moz-transform: scale(0.8);
     -o-transform: scale(0.8);
     -webkit-transform: scale(0.8);
     transform: scale(0.8);
 }
 .product-gauge-charts .chart-gauge {
-    margin: -10px 28px 10px;
+    margin: -10px 8px 10px;
 }
 
 .allsummry {
