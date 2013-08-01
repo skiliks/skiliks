@@ -121,9 +121,9 @@ define([
                         }
                     },
                     complete: function (xhr, text_status) {
-                        console.log(xhr.status);
+                        //console.log(xhr.status);
                         if ('timeout' === text_status || xhr.status === 0) {
-                            console.log(xhr.status);
+                            //console.log(xhr.status);
 
                             SKApp.isInternetConnectionBreakHappent = true;
 

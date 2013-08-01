@@ -684,13 +684,20 @@ define([
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
         },
         showHint:function($task) {
-            var position = $task.position();
+            var position = $task.parent().offset();
+            var width = $task.parent().width();
+            var height = $task.height();
+            console.log(position);
             var title = $task.parent('td').attr('title');
             if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                 $('.plan_hint_tooltip').remove();
             }
             if($task.hasClass('day-plan-task-active')) {
                 $('.canvas').find('.windows-container').append(_.template(plan_hint_template, {title:title}));
+                $('.plan_hint_tooltip').css('width', (width-6)+'px');
+                var height_tooltip = $('.plan_hint_tooltip').height();
+                $('.plan_hint_tooltip').css('top', (position.top - height_tooltip -50)+'px');
+                $('.plan_hint_tooltip').css('left', (position.left-10)+'px');
             }
         },
         hideHint:function(e) {
