@@ -1423,3 +1423,16 @@ input.error, textarea.error, .error textarea, .error input[type="text"], .error 
     background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
 /*  *************************** /OTZENKA ***************************/
+/*  *************************** PRODUCT ***************************/
+.widthblock {
+    display: table-cell;
+    margin: 0px;
+    padding: 0px;
+}
+.product .bluelist ul {
+    display: none;
+}
+.product .font-5xlarge {
+    line-height: 100%;
+}
+/*  *************************** /PRODUCT ***************************/
