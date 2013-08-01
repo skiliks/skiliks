@@ -15,11 +15,6 @@
         <div class="estmtresults">
             <div class="overall">
                 <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
-                <div class="allseprtwrap">
-                    <div class="ratepercnt uprnavprcnt">50%</div>
-                    <div class="ratepercnt resultprcnt">30%</div>
-                    <div class="ratepercnt timeprcnt">20%</div>
-                </div>
             </div>
         </div><!-- /estmtresults -->
         <div class="estmtileswrap">
@@ -43,11 +38,11 @@
             </script>
     </div>
 
-    <div class="levellabels">
+    <div>
         <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
     </div>
     <div class="rateslist">
-        <div class="widthblock"><h3><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h3>
+        <div class="widthblock"><h5 class="text-up"><?php echo Yii::t('site', 'Scope of assessed skills')  ?></h5>
             <ol class="bluelist unstyled">
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills"><?php echo Yii::t('site', 'Manages task in accordance with priorities')  ?></a>
                     <ul class="unstyled">
@@ -75,11 +70,11 @@
                     </ul>
                 </li>
             </ol>
-        </div><div class="widthblock"><h3><?php echo Yii::t('site', 'Indicators')  ?></h3>
+        </div><div class="widthblock"><h5 class="text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5>
             <ul class="bluelist unstyled">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Productivity')  ?></a></li>
             </ul>
-        </div><div class="widthblock"><h3><?php echo Yii::t('site', 'Indicators')  ?></h3>
+        </div><div class="widthblock"><h5 class="text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5>
             <ul class="bluelist unstyled">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Time distribution')  ?></a></li>
                 <li><a class="productlink" href="#time-management"><?php echo Yii::t('site', 'Extra working hours') ?></a></li>
