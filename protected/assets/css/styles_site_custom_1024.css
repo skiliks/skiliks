@@ -958,14 +958,14 @@
     line-height:140%;
 }
 .features-header {
-    background: url("../img/table-plashka.png") no-repeat center top;
-    background-size: 363px;
+    background: url("../img/table-plashka.png") no-repeat center -20px;
+    background-size: 370px;
     border-radius: 3px 3px 0px;
-    height:98px;
+    height:100px;
 }
 .features-header h2 {
     font-size: 42px;
-    padding-top: 34px;
+    padding-top: 30px;
 }
 .product .widthwrap {
     margin: 0 auto;
