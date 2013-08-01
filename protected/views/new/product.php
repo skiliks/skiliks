@@ -57,9 +57,7 @@
         </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled font-large"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Productivity')  ?></a></li></ul>
         </div><div class="widthblock"><h5 class="font-white text-up"><?php echo Yii::t('site', 'Indicators')  ?></h5><ul class="bluelist unstyled font-large"><li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?php echo Yii::t('site', 'Time distribution')  ?></a></li><li><a class="productlink" href="#time-management"><?php echo Yii::t('site', 'Extra working hours') ?></a></li></ul>
         </div>
-    </div>
-    <!-- /NEW CONTENT -->
-    <hgroup class="font-white">
+    </div><hgroup class="font-white">
         <h2 class="text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h2><h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
     </hgroup>
 

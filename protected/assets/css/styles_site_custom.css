@@ -863,6 +863,9 @@
     margin: 0 auto;
     width:210px;
 }
+.product-rates {
+    margin-bottom: 30px;
+}
 .product-rates .widthblock:first-child ol {
     width:290px;
 }
