@@ -14,7 +14,7 @@
     <div class="allsummry">
         <div class="estmtresults">
             <div class="overall">
-                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
+                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value">%</span></span>
             </div></div><div class="widthwrap"><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Productivity')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
         </div></div><div class="product-gauge-charts widthwrap"></div><script type="text/javascript">
       var r = Math.round;
