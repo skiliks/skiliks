@@ -358,6 +358,11 @@ return array(
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks.loc/',
         'isUseResultPopUpCache'         => true,
+        'emails' => [
+            'isDisplayStandartdInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
+            'defaultMessageText' => '', // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
+            'inviteEmailTemplate' => '//global_partials/mails/invite_eksmo', // '//global_partials/mails/invite_default'
+        ],
         'allowedLanguages' => [
             'en' => [
                 'static/pages/comingSoonSuccess',

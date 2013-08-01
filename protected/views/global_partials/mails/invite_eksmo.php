@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Ruseller Email Newsletter</title>
+    <title>Skiliks</title>
 </head>
 <body>
 
@@ -35,22 +35,27 @@
                                     </h1>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        <?= $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
+                                        <?php /* echo $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
                                         предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию
-                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;") ?>.
+                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;")*/ ?>.
+                                        Поздравляем вас! Вы зачислены в лонг-лист кадрового резерва Системы Дистрибуции Эксмо!
+                                        Следующий шаг - составить индивидуальные планы развития для каждого из вас.
+                                        Для этого нужно оценить ваш управленческий потенциал. И у нас есть уникальная возможность одними из первых сделать это в новом формате -  деловой симуляции в виде онлайн игры.
+                                        Такую возможность нам предоставляет наш партнёр - компания "Скиликс".
+
                                     </p>
 
-                                    <?php if (empty($invite->receiverUser)): ?>
+                                    <?php /*if (empty($invite->receiverUser)): ?>
                                         <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                             <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">
                                                 «Базовый менеджмент»
                                             </a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме
                                             увлекательной игры.
                                         </p>
-                                    <?php endif; ?>
+                                    <?php endif;*/ ?>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        <?= $invite->message ?>
+                                        <? //= $invite->message ?>
                                     </p>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">

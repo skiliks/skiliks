@@ -210,7 +210,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
 
             $invite->message = sprintf(
-                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
+                Yii::app()->params['emails']['defaultMessageText'],
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
@@ -358,7 +358,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $body = $this->renderPartial('//global_partials/mails/invite', [
+        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+
+        $body = $this->renderPartial($inviteEmailTemplate, [
             'invite' => $invite
         ], true);
 
