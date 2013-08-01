@@ -11,7 +11,7 @@ $lang = Yii::app()->getLanguage();
            <header class="tariff-header font-white">
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="tariff-price <?= $lang ?>">
-                <p>
+                <p class="proxima-reg">
                 <?php if (floor($tariff->getPrice() / 1000)): ?>
                     <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
                 <?php endif ?>
