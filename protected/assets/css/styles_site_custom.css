@@ -991,8 +991,12 @@
     margin: 0px;
     padding: 0px;
 }
+.product .widthwrap {
+    margin: 0 auto;
+    width:915px;
+}
 .product .widthblock {
-    width:320px;
+    width:305px;
 }
 .bluelist li {
     background:url("../img/bullit.png") no-repeat 0px 5px;
