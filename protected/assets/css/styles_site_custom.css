@@ -836,9 +836,11 @@
 .product .chart-value:after {
     color: #fff8cb;
     content: '%';
+    display: block;
     height: 14px;
     top: 0px;
     width:14px;
+    border: 1px solid red;
 }
 .redbar .chart-value{
     background-color: #e11a1a;
@@ -1034,7 +1036,7 @@
     width:260px;
 }
 .product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
-    margin-left:43px;
+    margin-left:45px;
 }
 .product-rates .widthblock:nth-child(3) h5, .product-rates .widthblock:nth-child(3) ul  {
     margin-left:8px;
