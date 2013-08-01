@@ -27,6 +27,9 @@
         <mkdir dir="./protected/assets/compiled_css" />
         <chmod file="./protected/assets/compiled_css" mode="777" />
         <exec command="r.js -o protected/assets/js/build.js" />
+        <delete includeemptydirs="true" description="Clear artifacts dir">
+            <fileset dir="${basedir}/../documents/socialcalc_templates" includes="**/*.sc" />
+        </delete>
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
