@@ -1027,9 +1027,9 @@
     padding-top: 3px;
     margin-bottom: 4px;
 }
-.product-labels .widthblock h6:last-child {
+.product-labels .widthblock:last-child h6 {
     margin: 0 auto;
-    width:200px;
+    width:210px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
