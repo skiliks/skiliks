@@ -1,8 +1,7 @@
 <!--product-->
 <article class="product">
     <hgroup class="font-white">
-        <h1 class="page-header text-center"><?php echo Yii::t('site', 'About the Product')  ?></h1>
-        <h4 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
+        <h1 class="page-header text-center"><?php echo Yii::t('site', 'About the Product')  ?></h1><h4 class="font-normal text-center"><?php echo Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')  ?></h4>
     </hgroup>
 
         <div class="container-3 font-white font-slarge lheight-large">
