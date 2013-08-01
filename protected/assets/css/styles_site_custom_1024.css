@@ -890,7 +890,7 @@
 /*  *************************** OTZENKA ***************************/
 .chart-gauge {
     height: 120px;
-    width: 240px;
+    width: 235px;
 }
 .chart-gauge {
     background-size: contain;
@@ -901,11 +901,11 @@
     -webkit-transform: scale(0.8);
     transform: scale(0.8);
 }
-.product-gauge-charts .chart-value {
+.product .chart-value:after {
     text-indent: 10px;
 }
 .product-gauge-charts .chart-gauge {
-    margin: -10px 8px 10px;
+    margin: -10px 0px 0px;
 }
 .allsummry {
     background-position: center 26px;
@@ -958,13 +958,13 @@
     line-height:140%;
 }
 .features-header {
-    background: url("../img/table-plashka.png") no-repeat center top;
+    background: url("../img/bg-product-section-table-title-min.png") no-repeat center top;
     border-radius: 3px 3px 0px;
-    height:152px;
+    height:98px;
 }
 .features-header h2 {
-    font-size: 54px;
-    padding-top: 46px;
+    font-size: 42px;
+    padding-top: 34px;
 }
 .product .widthwrap {
     margin: 0 auto;
@@ -1009,7 +1009,7 @@
     width:210px;
 }
 .product-rates .widthblock:first-child ol {
-    width:290px;
+    width:255px;
 }
 .product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
     margin-left:45px;
