@@ -686,7 +686,7 @@
 .action-teamNew {
     background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg"), url("../img/teambg.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
-    background-position: center 710px, center top, center 265px, center 710px; /*center 810px, center top, center 260px, center 815px */
+    background-position: center 710px, center top, center 245px, center 710px; /*center 810px, center top, center 260px, center 815px */
 }
 .team {
     height: 1480px;
@@ -794,6 +794,11 @@
 }
 /*  *************************** /OTZENKA ***************************/
 /*  *************************** PRODUCT ***************************/
+.action-productNew {
+    background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bgtoprepeat.jpg");
+    background-repeat: no-repeat, no-repeat, repeat-x;
+    background-position: center 910px, center top, center 295px;
+}
 .top-dot-bg {
     background: url("../img/icon-product-table-dot.png") no-repeat center top;
     padding-top: 70px;
