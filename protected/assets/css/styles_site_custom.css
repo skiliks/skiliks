@@ -768,7 +768,7 @@
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
 .product-gauge-charts .chart-gauge {
-    margin: 20px 38px 0px;
+    margin: 20px 38px 10px;
 }
 .chart-gauge:after {
     content: '';
@@ -922,6 +922,26 @@
     bottom: 0;
     background: url(../img/charts/pie-glance.png) no-repeat 50% 25%;
 }
+.allsummry {
+    background: url("../img/resultsline-new.png") no-repeat center 26px;
+}
+.estmtresults {
+    height: 130px;
+}
+.overall {
+    text-align: center;
+}
+.allratebg {
+    background: url("../img/starsbig-new.png") no-repeat left top;
+}
+.allrating {
+    background: url("../img/starsbig-new.png") no-repeat left bottom;
+}
+.allratebg, .allrating {
+    display: inline-block;
+    height: 24px;
+    width: 135px;
+}
 /*  *************************** /OTZENKA ***************************/
 /*  *************************** PRODUCT ***************************/
 .top-dot-bg {
@@ -967,6 +987,9 @@
 }
 .product .bluelist a {
     min-height: 18px;
+}
+.product h5 {
+    line-height: 100%;
 }
 .hassubmenu>a {
     background: url("../img/openclose.png") no-repeat right 2px;

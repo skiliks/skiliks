@@ -168,6 +168,9 @@ ul li:last-child {
 .text-right {
     text-align: right;
 }
+.text-up {
+    text-transform: uppercase;
+}
 .lheight-large {
     line-height: 150%;
 }
