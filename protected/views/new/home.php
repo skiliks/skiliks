@@ -49,7 +49,7 @@
                     <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
                     <a class="addthis_button_linkedin"></a>
                 </div>
-                <span class="proxima-bold"><?php echo Yii::t('site', 'Share') ?>:</span>
+                <span class="proxima-bold"><?php echo Yii::t('site', 'Share video') ?>:</span>
             </div>
         </div>
     </div><!-- /container  -->
