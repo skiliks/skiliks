@@ -67,9 +67,7 @@ define([
                     if(!_.isEmpty(models)) {
                         params.request = 'repeat';
                     } else {
-                        if (SKApp.get('isDisplayServer500errors')) {
-                            throw new Error(" uniqueId define but is not repeat request ");
-                        }
+                        throw new Error(" uniqueId define but is not repeat request ");
                     }
                 }
                 params.time = SKApp.simulation.getGameTime({with_seconds:true});
@@ -194,9 +192,14 @@ define([
              * @async
              */
             api:function (path, params, callback) {
-
-                var ajaxParams = this.getAjaxParams(path, params, callback);
-                return $.ajax(ajaxParams);
+                try {
+                    var ajaxParams = this.getAjaxParams(path, params, callback);
+                    return $.ajax(ajaxParams);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
             /**
              * Отправляет запрос на сервер или ставит его в очередь в случае, если такой запрос уже выполняется
