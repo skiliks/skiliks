@@ -553,7 +553,8 @@ define([
             $task.toggleClass('day-plan-task-active', !active);
 
             if(_.isEmpty($task.attr('data-task-day')) === false){
-                this.showHint($task);
+                // SKILIKS-3628
+                // this.showHint($task);
             }
         },
 
