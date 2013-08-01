@@ -830,7 +830,7 @@
     user-select: none;
     z-index: 1000;
 }
-.product .chart-value:after {
+.product .chart-value {
     color: #fff8cb;
     content: '%';
     height: 14px;
