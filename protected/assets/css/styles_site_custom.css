@@ -1005,11 +1005,14 @@
     padding-bottom: 10px;
     padding-left: 12px;
 }
+.bluelist li:last-child {
+    padding-bottom: 5px;
+}
 .product .bluelist a {
     min-height: 18px;
 }
 .product .bluelist ul {
-    /*display: none;*/
+    display: none;
 }
 .product .font-5xlarge {
     line-height: 100%;
