@@ -20,24 +20,18 @@
         <div class="widthwrap">
             <div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Managerial skills')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Productivity')  ?></h2></div><div class="widthblock"><h2 class="font-5xlarge text-center"><?php echo Yii::t('site', 'Time management effectiveness')  ?></h2></div>
         </div><!-- /estmtileswrap -->
-    </div>
-    <div class="widthwrap">
+    </div><div class="product-gauge-charts widthwrap"></div>
+     <script type="text/javascript">
+      var r = Math.round;
 
-        <div class="product-gauge-charts"></div>
-            <script type="text/javascript">
-                var r = Math.round;
+      new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+      new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
+      new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
 
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-                new charts.Gauge('.product-gauge-charts', r(80), {class: 'inline'});
-
-                new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
-                new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
-                new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
-
-            </script>
-    </div>
-
+      new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
+      new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
+      new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
+    </script>
     <div class="widthwrap">
         <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Speed of getting results')  ?></h6></div>
     </div>
