@@ -39,7 +39,7 @@ $lang = Yii::app()->getLanguage();
     </div>
 <?php endforeach ?>
 
-    <p class="font-large text-right">
+    <p class="font-large text-right proxima-bold">
         <?php if ($lang == 'ru'): ?>
         <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback proxima-bold"><strong class="proxima-bold">Свяжитесь с нами,</strong></a> <strong>чтобы приобрести</strong>
         <?php endif; ?>
