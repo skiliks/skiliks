@@ -276,6 +276,7 @@ return array(
     'Level of skills maturity' => 'Уровень владения навыками',
     'Achievement of results: number and value of tasks completed' => 'Уровень достижения результатов: количество и значимость выполненных задач',
     'Speed of getting results' => 'Скорость достижения результатов',
+    'Time spent on tasks' => 'Время, затраченное на выполнение задач',
     'Personal qualities demonstrated along the simulation' => 'Личностные качества, проявленные в симуляции',
     'SCOPE OF ASSESSED SKILLS' => 'ОЦЕНИВАЕМЫЕ НАВЫКИ',
     'Manages task in accordance with priorities' => 'Управление задачами с учётом приоритетов',

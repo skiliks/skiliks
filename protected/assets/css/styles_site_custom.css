@@ -929,7 +929,7 @@
     background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
 .estmtresults {
-    height: 130px;
+    height: 120px;
 }
 .overall {
     text-align: center;
@@ -1026,6 +1026,10 @@
     border-radius: 4px;
     padding-top: 3px;
     margin-bottom: 4px;
+}
+.product-labels .widthblock h6:last-child {
+    margin: 0 auto;
+    width:200px;
 }
 /*  *************************** /PRODUCT ***************************/
 /*  *************************** TARIFF  ***************************/
