@@ -798,7 +798,7 @@
     background-color: #e8f8f7;
     background-image: url("../img/bgbottom.gif"), url("../img/sitebg-chairs.jpg"), url("../img/bglongrept.jpg");
     background-repeat: no-repeat, no-repeat, repeat-x;
-    background-position: center 1380px, center top, center 535px;
+    background-position: center 1380px, center top, center 530px;
 }
 .top-dot-bg {
     background: url("../img/icon-product-table-dot.png") no-repeat center top;
