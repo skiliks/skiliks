@@ -805,10 +805,10 @@
 }
 .chart-value {
     color:#3d4041;
-    bottom: 0;
+    bottom: 0px;
     display: block;
     font:17px "ProximaNova-Regular";
-    left: 0;
+    left: 0px;
     height: 30px;
     text-align: center;
     color: white;
@@ -829,8 +829,6 @@
     z-index: 1000;
 }
 .product .chart-value {
-    display: block;
-    position: relative;
     text-indent: -90000px;
 }
 .product .chart-value:after {
@@ -838,10 +836,10 @@
     content: '%';
     display: block;
     height: 14px;
+    left:0px;
     text-indent:0px;
-    top: 0px;
+    top:0px;
     width:14px;
-    border: 1px solid red;
 }
 .redbar .chart-value{
     background-color: #e11a1a;
@@ -931,7 +929,7 @@
     background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
 .estmtresults {
-    height: 120px;
+    height: 130px;
 }
 .overall {
     text-align: center;
