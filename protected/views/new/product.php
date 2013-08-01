@@ -61,8 +61,7 @@
     </div>
     <!-- /NEW CONTENT -->
     <hgroup class="font-white">
-        <h2 class="text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h2>
-        <h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
+        <h2 class="text-center margin-less"><?php echo Yii::t('site', 'More Information')  ?></h2><h4 class="font-normal text-center"><?php echo Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')  ?></h4>
     </hgroup>
 
     <div class="container-borders-2 thetable product-features">
