@@ -960,5 +960,8 @@
     background-size: contain;
     background-position: center top;
 }
-
+.order-item {
+    background: #fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
+    height: 136px;
+}
 /*  *************************** /ORDER  ***************************/

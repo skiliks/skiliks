@@ -9,13 +9,13 @@
 
 <div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
-        <div class="order-item bg-yellow border-primary text-center">
+        <div class="order-item bg-yellow border-primary text-center pull-right font-brown">
             <div class="font-white font-xxlarge">Ваш заказ</div>
 
-            <label class="tariff-name"><?= $tariff->label ?></label>
-            <div class="period">1 Месяц</div>
+            <label class="font-4xlarge"><?= $tariff->label ?></label>
+            <div class="font-slarge">1 Месяц</div>
 
-            <div class="item-price">
+            <div class="item-price font-6xlarge">
                 <?= $tariff->getFormattedPrice() ?>
                 <span><?= $tariff->getFormattedCyName() ?></span>
             </div>
