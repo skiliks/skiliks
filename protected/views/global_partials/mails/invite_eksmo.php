@@ -37,12 +37,7 @@
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?php /* echo $invite->ownerUser->account_corporate->company_name ?: 'Компания' ?>
                                         предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на вакансию
-                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;")*/ ?>.
-                                        Поздравляем вас! Вы зачислены в лонг-лист кадрового резерва Системы Дистрибуции Эксмо!
-                                        Следующий шаг - составить индивидуальные планы развития для каждого из вас.
-                                        Для этого нужно оценить ваш управленческий потенциал. И у нас есть уникальная возможность одними из первых сделать это в новом формате -  деловой симуляции в виде онлайн игры.
-                                        Такую возможность нам предоставляет наш партнёр - компания "Скиликс".
-
+                                            <?= $invite->getVacancyLink("text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;")*/ ?><? //= '.'?>
                                     </p>
 
                                     <?php /*if (empty($invite->receiverUser)): ?>
@@ -55,7 +50,7 @@
                                     <?php endif;*/ ?>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        <? //= $invite->message ?>
+                                        <?= $invite->message ?>
                                     </p>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
