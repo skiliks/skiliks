@@ -1030,6 +1030,7 @@
     border-radius: 4px;
     padding-top: 3px;
     margin-bottom: 4px;
+    margin-top: -2px;
 }
 .product .bluelist .subisopen ul {
     display: block;
