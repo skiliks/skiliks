@@ -299,7 +299,7 @@ function _sheetnode_phpexcel_import_cell($workbook, $sheet, $cell, &$sc, &$style
     break;
   case PHPExcel_Cell_DataType::TYPE_FORMULA:
     $c['datatype'] = 'f';
-    $c['formula'] = ltrim($cell->getValue(), '=');
+    $c['formula'] = str_replace(',', ';', ltrim($cell->getValue(), '='));
     try {
       $c['datavalue'] = $cell->getCalculatedValue();
     }
