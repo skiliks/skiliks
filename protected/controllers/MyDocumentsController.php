@@ -73,9 +73,6 @@ class MyDocumentsController extends SimulationBaseController
      */
     public function actionGetExcel()
     {
-        error_reporting(E_ALL);
-        ini_set('display_errors', '1');
-
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);

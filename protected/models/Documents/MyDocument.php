@@ -178,7 +178,9 @@ class MyDocument extends CActiveRecord
      */
     public function getFilePath()
     {
-        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn(substr($this->fileName, 0, strrpos($this->fileName, '.')));
+        $filename = substr($this->fileName, 0, strrpos($this->fileName, '.'));
+        $filename = str_replace(' ', '_', $filename);
+        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn($filename);
     }
 
     /**
@@ -186,7 +188,7 @@ class MyDocument extends CActiveRecord
      */
     public function getCacheFilePath()
     {
-        return __DIR__ . '/../../../documents/socialcalc_templates/' . StringTools::CyToEn(substr($this->fileName, 0, strrpos($this->fileName, '.')) . '.sc');
+        return $this->template->getCacheFilePath();
     }
 
     /**
