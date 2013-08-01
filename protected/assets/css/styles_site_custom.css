@@ -962,7 +962,20 @@
 }
 .order-item {
     background: #fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
-    height: 132px;
-    width:132px;
+    height: 112px;
+    width:112px;
+}
+.item-price {
+    margin-top: 10px;
+    position: relative;
+}
+.item-price span {
+    margin-left: 8px;
+    position: absolute;
+    bottom: 5px;
+}
+.order-item h6 {
+    margin-top: 5px;
+    padding-bottom: 26px;
 }
 /*  *************************** /ORDER  ***************************/
