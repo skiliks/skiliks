@@ -1090,7 +1090,8 @@
     color: #3d4041;
     margin-bottom: 20px;
 }
-.terms-page  p {
+.terms-page .ui-dialog-content p {
+    font-family: "ProximaNova-Regular";
     line-height: 140%;
     margin-bottom: 20px;
 }
