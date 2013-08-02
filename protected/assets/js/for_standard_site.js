@@ -81,7 +81,7 @@ var fixLogotypes = function() {
             $('body').append($('<div id="terms-pop-up"></div>'));
             $('#terms-pop-up').dialog({
                 //minHeight:   400,
-                dialogClass: 'terms-page',
+                dialogClass: 'terms-page popup-site bg-white popup-no-title',
                 modal:       true,
                 width:       980,
                 height:      dHeight,

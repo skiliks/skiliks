@@ -116,7 +116,7 @@
             </div>
 
             <div class="btn-wrap btn-large-wrap btn-green-wrap text-center margin-vert"><?= CHtml::submitButton('Оплатить'); ?></div>
-            <div class="font-small text-center">
+            <div class="font-small text-center terms-confirm">
                 <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
                 <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms font-blue-dark">Условия</a>']); ?>
                 <?= $form->error($invoice, 'agreeWithTerms'); ?>

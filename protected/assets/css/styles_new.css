@@ -305,6 +305,9 @@ ul li:last-child {
 .bg-transparnt {
     background: rgba(255, 255, 255, 0.2);
 }
+.bg-white {
+    background-color: #fff;
+}
 .bg-rich-blue {
     background-color: #146672;
 }
@@ -782,10 +785,10 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
     overflow: visible;
 }
-.popup-primary .ui-widget-header .ui-icon {
+.popup-primary .ui-widget-header .ui-icon, .popup-no-title .ui-widget-header .ui-icon {
     display: none;
 }
-.popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar {
+.popup-primary .ui-dialog-titlebar, .simulation-result-popup .ui-dialog-titlebar, .popup-no-title .ui-dialog-titlebar {
     border: none;
     padding: 0;
     height: 0;
