@@ -116,8 +116,8 @@
                 </div>
             </div>
 
-            <div class="form-footer text-center">
-                <div class="btn-wrap btn-large-wrap btn-green-wrap">
+            <div class="form-footer">
+                <div class="btn-wrap btn-large-wrap btn-green-wrap text-center">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
                 <div class="font-small text-center">

@@ -954,24 +954,19 @@
 }
 /*  *************************** /TARIFF  ***************************/
 /*  *************************** ORDER  ***************************/
-.block-order {
-    background-color: #fdfcc6;
-    background-image:url("../img/order-pagebg.gif");
-    background-position: center -40px;
+.order-page {
+    background-color:#fdfcc6;
+    background-image: url("../img/order-pagebg.gif");
     background-repeat: no-repeat;
+    background-size: 944px;
+    background-position: center top;
+    padding: 0px 116px 70px;
 }
 .order-header {
     height: 200px;
     padding: 28px 0px 10px;
 }
 .order-content {
-    padding: 0px 116px 70px;
-}
-.order-page {
-    background-image: url("../img/order-pagebg.gif");
-    background-repeat: no-repeat;
-    background-size: 944px;
-    background-position: center top;
     padding: 0px 116px 70px;
 }
 .order-item {
