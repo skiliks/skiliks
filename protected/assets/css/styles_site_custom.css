@@ -981,6 +981,9 @@
     margin-top: 3px;
     padding-bottom: 32px;
 }
+.order-item h4 {
+    margin-bottom: 2px;
+}
 .item-price {
     margin-top: 12px;
     position: relative;
