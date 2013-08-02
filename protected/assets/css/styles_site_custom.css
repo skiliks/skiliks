@@ -1077,6 +1077,12 @@
 }
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
+.terms-page h1 {
+    text-align: center;
+}
+.terms-page h3 {
+    font-size:18px;
+}
 .terms-page h1, .terms-page h2, .terms-page h3 {
     color: #3d4041;
     margin-bottom: 20px;
