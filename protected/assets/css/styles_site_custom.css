@@ -954,6 +954,18 @@
 }
 /*  *************************** /TARIFF  ***************************/
 /*  *************************** ORDER  ***************************/
+.block-order {
+    background-image:url("../img/order-pagebg.gif");
+    background-position: center -40px;
+    background-repeat: no-repeat;
+}
+.order-header {
+    height: 200px;
+    padding: 28px 116px 10px;
+}
+.order-content {
+    padding: 0px 116px 70px;
+}
 .order-page {
     background-image: url("../img/order-pagebg.gif");
     background-repeat: no-repeat;
@@ -964,6 +976,10 @@
     background: #fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
     height: 152px;
     width:152px;
+}
+.order-item header {
+    margin-top: 5px;
+    padding-bottom: 26px;
 }
 .item-price {
     margin-top: 10px;
