@@ -27,14 +27,13 @@ define([], function() {
                             location.href = cfg.oldBrowserUrl;
                         }
                     }
-                } else {
-                    location.href = cfg.oldBrowserUrl;
                 }
             }
 
-            location.href = cfg.badBrowserUrl;
+            location.href = cfg.oldBrowserUrl;
             return false;
         },
+        
         speed: function(cfg) {
             var start = new Date(),
                 callback = function() {
