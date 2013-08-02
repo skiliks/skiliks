@@ -27,6 +27,8 @@ define([], function() {
                             location.href = cfg.oldBrowserUrl;
                         }
                     }
+                } else {
+                    location.href = cfg.oldBrowserUrl;
                 }
             }
 
