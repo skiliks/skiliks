@@ -39,7 +39,6 @@
         </div>
     </div>
 
-    <div class="order-methods">
         <?php
         /** @var CActiveForm $form */
         $form = $this->beginWidget('CActiveForm', array(
@@ -124,5 +123,4 @@
             </div>
 
         <?php $this->endWidget(); ?>
-    </div>
 </div>

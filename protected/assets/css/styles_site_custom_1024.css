@@ -1028,3 +1028,132 @@
     margin-left:20px;
 }
 /*  *************************** /PRODUCT ***************************/
+/*  *************************** ORDER  ***************************/
+.order-page {
+    background-color:#fdfcc6;
+    background-image: url("../img/order-pagebg.gif");
+    background-repeat: no-repeat;
+    background-size: 944px;
+    background-position: center -40px;
+    padding: 0px 92px 50px;
+}
+.order-header {
+    height: 186px;
+    padding: 25px 0px 10px;
+}
+.order-content {
+    padding: 0px 116px 70px;
+}
+.order-item {
+    background: #fdfcc6 url("../img/your-order.gif") no-repeat center -14px;
+    height: 122px;
+    width:122px;
+}
+.order-item header {
+    margin-top: 3px;
+    padding-bottom: 25px;
+}
+.order-item h4 {
+    margin-bottom: 2px;
+}
+.item-price {
+    margin-top: 8px;
+    position: relative;
+}
+.item-price span {
+    position: absolute;
+    bottom: 3px;
+}
+
+
+
+
+.order-item h6 {
+    margin-top: 5px;
+    padding-bottom: 26px;
+}
+.order-status {
+    float: left;
+}
+.order-status .row {
+    height:70px;
+    padding-top: 0px;
+}
+.order-status label {
+    padding-top: 4px;
+    padding-right: 18px;
+    width: 244px;
+}
+.order-status .sbHolder {
+    min-width: 50px;
+    width: 50px;
+}
+.order-status small {
+    display: block;
+    margin-top: 5px;
+}
+.order-method input[type="radio"] {
+    margin-left: -18px;
+}
+.payment-invoice {
+    padding-right: 94px;
+}
+.payment-invoice .row:first-child {
+    padding-top: 0px;
+}
+.payment-invoice label {
+    color: #3c3c32;
+    display: inline-block;
+    padding-right: 10px;
+    width: 132px;
+}
+.payment-invoice input[type="text"] {
+    border: 1px solid #6b6a54;
+    height: 22px;
+    font-size: 12px;
+    padding: 0px 4px;
+}
+
+
+#Invoice_inn {
+    width: 70px;
+}
+#Invoice_cpp {
+    width: 60px;
+}
+#Invoice_account {
+    width: 150px;
+}
+#Invoice_bic {
+    width: 60px;
+}
+.cardsbg {
+    background: url("../img/visa-mastercard.gif") no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 19px;
+    margin-right: 11px;
+    width: 52px;
+}
+.payment-invoice label {
+    color: #3c3c32;
+}
+.font-lightbrown label, .font-lightbrown span {
+    color: #b5b490;
+}
+.method-description {
+    padding-top: 3px;
+    width: 280px;
+}
+.method-checked label {
+    font-size: 14px;
+}
+.nocommision {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 128px;
+}
+.margin-vert {
+    margin: 16px 0px;
+}
+/*  *************************** /ORDER  ***************************/
