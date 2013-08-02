@@ -1057,8 +1057,13 @@
     margin-right: 14px;
     width: 67px;
 }
-.method-checked label {
+.payment-invoice label {
+    color: #3c3c32;
+}
+.payment-card label {
     color: #b5b490;
+}
+.method-checked label {
     font-size: 16px;
 }
 /*  *************************** /ORDER  ***************************/
