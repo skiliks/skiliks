@@ -464,4 +464,17 @@ class AdminPagesController extends SiteBaseController {
             'account' => $account,
         ]);
     }
+
+    /**
+     * @param $userId
+     */
+    public function actionUpdatePassword($userId)
+    {
+        $siteUser = YumUser::model()->findByPk($userId);
+
+        if (null === $siteUser) {
+            Yii::app()->user->setFash('Такого пользователя для сайта не существеут.');
+            $this->redirect('/admin_area/users');
+        }
+    }
 }
