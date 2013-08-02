@@ -14,7 +14,7 @@
                 <header class="font-white font-xxlarge text-center">Ваш заказ</header>
 
                 <h4 class="font-4xlarge proxima-bold text-center font-brown"><?= $tariff->label ?></h4>
-                <p class="font-slarge text-center">1 Месяц</p>
+                <div class="font-slarge text-center proxima-reg">1 Месяц</div>
 
                 <div class="item-price font-6xlarge proxima-bold text-center">
                     <?= $tariff->getFormattedPrice() ?>
