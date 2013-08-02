@@ -1060,7 +1060,7 @@
 .payment-invoice label {
     color: #3c3c32;
 }
-.payment-disabled label {
+.font-lightbrown label, .font-lightbrown span {
     color: #b5b490;
 }
 .method-checked label {
