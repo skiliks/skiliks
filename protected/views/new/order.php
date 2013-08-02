@@ -70,7 +70,7 @@
                         ]
                     ) ?>
                     <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту', 'for' => 'payment_invoice']) ?>
-                    <div class="method-description font-small font-lighterbrown">Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</div>
+                    <div class="method-description font-small font-lighterbrown proxima-reg">Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</div>
                 </div>
 
                 <div class="row">
