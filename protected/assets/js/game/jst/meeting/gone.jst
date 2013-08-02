@@ -1,5 +1,15 @@
 <div class="meeting-gone-content">
-    <div class="gone-clock"><div></div></div><div class="gone-text"><@= subject.get('description') @>. Вернусь в <@= returnTime @> </div>
+    <div class="gone-clock"><div></div></div><div class="gone-text"><@= subject.get('description') @>.
+        <@ if (0 < returnTime) { @>
+            Вернусь в <@= returnTime @>
+        <@ } @>
+    </div>
 
-    <div class="text-center"><button class="popup-sbmt-btn proceed-btn"><div>Продолжить работу</div></button></div>
+    <div class="text-center">
+        <button class="popup-sbmt-btn proceed-btn">
+            <div>
+                <@= buttonLabel @>
+            </div>
+        </button>
+    </div>
 </div>

@@ -298,7 +298,9 @@ define([
                             value: 'Продолжить работу',
                             onclick: function() {
                                 me._hidePausedScreen();
-                                me.$('.canvas .finish').removeClass('hidden');
+
+                                // кнопка заменена на дверь
+                                //me.$('.canvas .finish').removeClass('hidden');
 
                                 var notice = new SKDialogView({
                                     'class': 'how-to-leave',
