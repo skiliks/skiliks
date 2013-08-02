@@ -101,6 +101,11 @@ class TimeManagementAnalyzer
             $value = 0;
         }
 
+        // Hot fix!
+        if (0 < $value) {
+            $value = 0;
+        }
+
         $assessment = new TimeManagementAggregated();
         $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;
         $assessment->sim_id = $this->simulation->id;
