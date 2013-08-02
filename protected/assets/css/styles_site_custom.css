@@ -978,4 +978,11 @@
     margin-top: 5px;
     padding-bottom: 26px;
 }
+.order-status {
+    float: left;
+}
+.order-status label {
+    padding-top: 4px;
+    width: 244px;
+}
 /*  *************************** /ORDER  ***************************/

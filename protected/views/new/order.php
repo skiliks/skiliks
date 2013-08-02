@@ -24,15 +24,15 @@
         </div>
 
         <div class="order-status">
-            <div class="row">
-                <label>Выбран тарифный план</label>
-                <div class="value"><?= strtolower($account->getTariffLabel()) ?>
+            <div class="row font-white">
+                <label class="grid-cell font-xslarge">Выбран тарифный план</label>
+                <div class="value PsiElement(CSS_CLASS)"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong>
                     <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> в месяц</small>
                 </div>
             </div>
-            <div class="row">
-                <label>Выбрано количество месяцев</label>
-                <div class="value">
+            <div class="row font-white">
+                <label class="grid-cell font-xslarge">Выбрано количество месяцев</label>
+                <div class="value PsiElement(CSS_CLASS)">
                     <select>
                         <option value="1">1</option>
                     </select>
