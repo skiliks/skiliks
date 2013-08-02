@@ -7,6 +7,7 @@
     'Корпоративный email',
     'Дата регистрации',
     'Дата последнего посещения',
+    'Действия',
 ] ?>
 <div class="row fix-top">
     <h2>Пользователи</h2>
@@ -52,6 +53,7 @@
                 <td><?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
+                <td><a href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">Обновить пароль</a></td>
             </tr>
         <?php endforeach ?>
         </tbody>

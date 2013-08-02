@@ -86,6 +86,12 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionInvitesSave() {
 
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            $page = 1;
+        }
+
         $this->layout = false;
         $models = Invite::model()->findAll([
             "order" => "updated_at desc",
@@ -473,8 +479,27 @@ class AdminPagesController extends SiteBaseController {
         $siteUser = YumUser::model()->findByPk($userId);
 
         if (null === $siteUser) {
-            Yii::app()->user->setFash('Такого пользователя для сайта не существеут.');
+            Yii::app()->user->setFlash('error', 'Такого пользователя для сайта не существеут.');
             $this->redirect('/admin_area/users');
         }
+
+        // update password {
+        $newPassword = Yii::app()->request->getParam('new_password');
+
+        if (null !== $newPassword) {
+            if ($siteUser->setPassword($newPassword, YumEncrypt::generateSalt())) {
+                Yii::app()->user->setFlash('success', 'Пароль обновлён.');
+            } else {
+                var_dump($siteUser->getErrors()); die;
+                Yii::app()->user->setFlash('error', 'Пароль не обновлён.');
+            }
+        }
+        // update password }
+
+        $this->pageTitle = 'Админка: смена пароля для '.$siteUser->profile->firstname.' '.$siteUser->profile->lastname;
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/change_site_user_password', [
+            'siteUser' => $siteUser,
+        ]);
     }
 }
