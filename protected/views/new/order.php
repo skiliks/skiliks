@@ -9,15 +9,17 @@
 
 <div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
-        <div class="order-item bg-yellow border-primary text-center pull-right font-brown pad-large block-borde">
-            <h6 class="font-white font-xxlarge proxima-reg">Ваш заказ</h6>
+        <div class="order-item bg-yellow border-primary text-center pull-right font-brown block-border">
+            <div class="pad-norm">
+                <p class="font-white font-xxlarge">Ваш заказ</p>
 
-            <label class="font-4xlarge proxima-bold"><?= $tariff->label ?></label>
-            <div class="font-slarge PsiElement(CSS_CLASS)">1 Месяц</div>
+                <label class="font-4xlarge proxima-bold"><?= $tariff->label ?></label>
+                <div class="font-slarge text-center">1 Месяц</div>
 
-            <div class="item-price font-6xlarge proxima-bold PsiElement(CSS_CLASS)">
-                <?= $tariff->getFormattedPrice() ?>
-                <span class="font-large"><?= $tariff->getFormattedCyName() ?></span>
+                <div class="item-price font-6xlarge proxima-bold text-center">
+                    <?= $tariff->getFormattedPrice() ?>
+                    <span class="font-large"><?= $tariff->getFormattedCyName() ?></span>
+                </div>
             </div>
         </div>
 
