@@ -985,11 +985,10 @@
     margin-bottom: 2px;
 }
 .item-price {
-    margin-top: 12px;
+    margin-top: 14px;
     position: relative;
 }
 .item-price span {
-    margin-left: 8px;
     position: absolute;
     bottom: 5px;
 }
