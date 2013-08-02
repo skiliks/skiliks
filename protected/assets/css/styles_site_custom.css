@@ -1080,6 +1080,9 @@
 .terms-page h1 {
     text-align: center;
 }
+.terms-page h2 {
+    font: 21px "ProximaNova-Regular";
+}
 .terms-page h3 {
     font-size:18px;
 }
