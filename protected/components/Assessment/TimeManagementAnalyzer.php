@@ -71,8 +71,8 @@ class TimeManagementAnalyzer
         if (null == $endLog) {
             $GameOverhead = 0;
         } else {
-            list($startHours, $startMinutes) = explode(':', $this->simulation->game_type->end_time);
-            list($endHours, $endMinutes) = explode(':', $endLog->end_time);
+            list($startHours, $startMinutes, $startSeconds) = explode(':', $this->simulation->game_type->end_time);
+            list($endHours, $endMinutes, $endSeconds) = explode(':', $endLog->end_time);
 
             $GameOverhead = ($endHours*60 + $endMinutes
                 - $startHours*60 - $startMinutes);
@@ -96,7 +96,7 @@ class TimeManagementAnalyzer
     public function calculateEfficiency()
     {
         if (50 <= $this->firstPriorityTotal) {
-            $value = round((1 - $this->GameOverhead/$this->firstPriorityTotal)*100); // значение в процентах
+            $value = round((1 - $this->GameOverhead/120)*100); // значение в процентах
         } else {
             $value = 0;
         }
