@@ -112,17 +112,17 @@
                         ]
                     ) ?>
                     <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
-                    <div class="method-description font-small font-lightestbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ</div>
+                    <div class="method-description font-small font-lightestbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/><span>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ</span></div>
                 </div>
             </div>
 
-            <div class="form-footer">
+            <div class="form-footer text-center">
                 <div class="btn-wrap btn-large-wrap btn-green-wrap">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
-                <div class="terms-confirm">
+                <div class="font-small text-center">
                     <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-                    <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms">Условия</a>']); ?>
+                    <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms font-blue-dark">Условия</a>']); ?>
                     <?= $form->error($invoice, 'agreeWithTerms'); ?>
                 </div>
             </div>
