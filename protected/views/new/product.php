@@ -25,7 +25,7 @@
       new charts.Bullet('.product-bullet-charts', 50, {class: 'small'});
       new charts.Bullet('.product-bullet-charts', 70, {class: 'small'});
       new charts.Bullet('.product-bullet-charts', 40, {class: 'small'});
-    </script><div class="widthwrap product-labels">
+    </script><div class="widthwrap product-labels clear">
         <div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Level of skills maturity')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Achievement of results: number and value of tasks completed')  ?></h6></div><div class="widthblock"><h6 class="text-center font-white"><?php echo Yii::t('site', 'Time spent on tasks')  ?></h6></div>
     </div>
     <div class="widthwrap product-rates">
