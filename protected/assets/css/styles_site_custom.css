@@ -1066,4 +1066,9 @@
 .method-checked label {
     font-size: 16px;
 }
+.nocommision {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 128px;
+}
 /*  *************************** /ORDER  ***************************/
