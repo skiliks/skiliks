@@ -77,6 +77,7 @@ define([
                 var duration = subject.get('duration');
 
                 if ('Пойти домой' == subject.get('label')) {
+                    duration = 0;
                     window.AppView.frame.stopSimulation();
                 }
 
