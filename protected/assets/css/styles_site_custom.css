@@ -1001,12 +1001,15 @@
 }
 .order-status .row {
     height:70px;
+    padding-top: 0px;
 }
 .order-status label {
     padding-top: 4px;
+    padding-right: 18px;
     width: 244px;
 }
 .order-status .sbHolder {
+    min-width: 50px;
     width: 50px;
 }
 /*  *************************** /ORDER  ***************************/

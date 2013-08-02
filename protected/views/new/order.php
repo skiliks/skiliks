@@ -26,7 +26,7 @@
         <div class="order-status">
             <div class="row font-white">
                 <label class="grid-cell font-xslarge">Выбран тарифный план</label>
-                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><br/><small class="font-smallest font-grey"><?= $account->tariff->getFormattedPrice() ?> в месяц</small>
+                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><br/><small class="font-small font-lightgrey"><?= $account->tariff->getFormattedPrice() ?> в месяц</small>
                 </div>
             </div>
             <div class="row font-white">
@@ -36,7 +36,7 @@
                         <option value="1">1</option>
                     </select>
                     <br/>
-                    <small class="font-smallest font-grey">
+                    <small class="font-small font-lightgrey">
                         Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
                     </small>
                 </div>
