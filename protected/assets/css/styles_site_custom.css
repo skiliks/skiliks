@@ -955,6 +955,7 @@
 /*  *************************** /TARIFF  ***************************/
 /*  *************************** ORDER  ***************************/
 .block-order {
+    background-color: #fdfcc6;
     background-image:url("../img/order-pagebg.gif");
     background-position: center -40px;
     background-repeat: no-repeat;
