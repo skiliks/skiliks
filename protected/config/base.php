@@ -298,6 +298,9 @@ return array(
                 'admin_area/order/checked'     => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked'   => 'admin_area/AdminPages/OrderUnchecked',
                 'admin_area/users'             => 'admin_area/AdminPages/UsersList',
+                'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
+                'admin_area/statistics/testAuth'        => 'admin_area/AdminPages/TestAuth',
+                'admin_area/statistics/free-disk-space'        => 'admin_area/AdminPages/StatisticFreeDiskSpace',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',

@@ -40,6 +40,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Статистика',
+                'url'   => ['admin_area/AdminPages/Statistics'],
+                'visible' => true,
+
+            ),
             /*array('label'=>'About', 'url'=>array('/site/page')),
             array('label'=>'Contact', 'url'=>array('/site/contact')),
             array('label'=>'Login', 'url'=>array('/site/login'))*/

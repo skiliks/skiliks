@@ -502,4 +502,30 @@ class AdminPagesController extends SiteBaseController {
             'siteUser' => $siteUser,
         ]);
     }
+
+    public function actionStatistics()
+    {
+        $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # ';
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/statistics', []);
+    }
+
+    public function actionTestAuth()
+    {
+        $this->layout = false;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://ci.dev.skiliks.com' . $_GET['params']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic aW5kaWNhdG9yOmluZGljYXRvcg==']);
+        curl_exec($ch);
+    }
+
+    public function actionStatisticFreeDiskSpace(){
+        $this->layout = false;
+        $bytes = disk_free_space($_SERVER['DOCUMENT_ROOT']);
+        $res = [
+            'data'=>round($bytes/1024/1024/1024).' Gb',
+            'status'=>'success'
+        ];
+        echo json_encode($res);
+    }
 }
