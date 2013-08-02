@@ -116,15 +116,11 @@
                 </div>
             </div>
 
-            <div class="form-footer">
-                <div class="btn-wrap btn-large-wrap btn-green-wrap text-center">
-                    <?= CHtml::submitButton('Оплатить'); ?>
-                </div>
-                <div class="font-small text-center">
-                    <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-                    <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms font-blue-dark">Условия</a>']); ?>
-                    <?= $form->error($invoice, 'agreeWithTerms'); ?>
-                </div>
+            <div class="btn-wrap btn-large-wrap btn-green-wrap text-center margin-vert"><?= CHtml::submitButton('Оплатить'); ?></div>
+            <div class="font-small text-center">
+                <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+                <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="font-blue-dark">Условия</a>']); ?>
+                <?= $form->error($invoice, 'agreeWithTerms'); ?>
             </div>
 
         <?php $this->endWidget(); ?>
