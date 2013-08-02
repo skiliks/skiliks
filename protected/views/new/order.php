@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="order-method payment-card grid-cell">
+            <div class="order-method font-lightbrown grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
