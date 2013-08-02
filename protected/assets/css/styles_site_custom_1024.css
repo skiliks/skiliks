@@ -1076,21 +1076,21 @@
     float: left;
 }
 .order-status .row {
-    height:70px;
+    height:62px;
     padding-top: 0px;
 }
 .order-status label {
     padding-top: 4px;
-    padding-right: 18px;
-    width: 244px;
+    padding-right: 12px;
+    width: 102px;
 }
 .order-status .sbHolder {
-    min-width: 50px;
-    width: 50px;
+    min-width: 40px;
+    width: 40px;
 }
 .order-status small {
     display: block;
-    margin-top: 5px;
+    margin-top: 3px;
 }
 .order-method input[type="radio"] {
     margin-left: -18px;
