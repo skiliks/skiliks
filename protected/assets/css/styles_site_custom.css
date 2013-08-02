@@ -1017,6 +1017,9 @@
     display: block;
     margin-top: 5px;
 }
+.order-method input[type="radio"] {
+    margin-left: -18px;
+}
 .payment-invoice {
     padding-right: 94px;
 }
@@ -1046,5 +1049,16 @@
 }
 #Invoice_bic {
     width: 64px;
+}
+.cardsbg {
+    background: url("../img/visa-mastercard.gif") no-repeat;
+    display: inline-block;
+    height: 23px;
+    margin-right: 14px;
+    width: 67px;
+}
+.method-checked label {
+    color: #b5b490;
+    font-size: 16px;
 }
 /*  *************************** /ORDER  ***************************/
