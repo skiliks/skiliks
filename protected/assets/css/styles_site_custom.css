@@ -1022,4 +1022,28 @@
 .payment-invoice .row:first-child {
     padding-top: 0px;
 }
+.payment-invoice label {
+    color: #3c3c32;
+    display: inline-block;
+    padding-right: 10px;
+    width: 132px;
+}
+.payment-invoice input[type="text"] {
+    border: 1px solid #6b6a54;
+    height: 22px;
+    font-size: 12px;
+    padding: 0px 4px;
+}
+#Invoice_inn {
+    width: 74px;
+}
+#Invoice_cpp {
+    width: 64px;
+}
+#Invoice_account {
+    width: 154px;
+}
+#Invoice_bic {
+    width: 64px;
+}
 /*  *************************** /ORDER  ***************************/
