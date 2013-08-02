@@ -311,6 +311,7 @@ return array(
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
 
                 'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',
+                'admin_area/site-user/<userId:\w+>/update-password'           => 'admin_area/AdminPages/UpdatePassword',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
