@@ -381,6 +381,9 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 .pull-center {
     margin: 0 auto;
 }
+.clear {
+    clear:both;
+}
 .thetable {
     display: table;
 }
