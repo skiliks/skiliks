@@ -58,7 +58,7 @@
 
         ?>
 
-            <div class="order-method grid-cell">
+            <div class="payment-invoice grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <div class="order-method grid-cell">
+            <div class="payment-card grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
