@@ -656,29 +656,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $declineExplanation->invite->update(false, ['status']);
         InviteService::logAboutInviteStatus($declineExplanation->invite, 'invite : updated : declined');
 
-        // for unregistered user - redirect to homepage
-        if (null === Yii::app()->user->data()->id) {
-            $this->redirect('/');
-        }
-
-        /* @var $user YumUser */
         $user = Yii::app()->user->data();
 
-        if($user->isAuth()) {
-            $this->redirect('/dashboard');
-        } elseif($user->isPersonal()) {
-            Yii::app()->user->setFlash('success', sprintf(
-                'Вы всегда можете <a href="/registration">зарегистрироваться</a> снова на главной странице и начать использовать наш продукт.
-                Мы верим, что он обязательно Вам понравится и окажется полезным.'
-            ));
+        if (!$user->isAuth()) {
+            Yii::app()->user->setFlash('success', $this->renderPartial('_thank_you_form', [], true));
             $this->redirect('/');
-            /*
-            Yii::app()->user->setFlash('success', sprintf(
-                'Приглашение от %s %s отклонено.',
-                $declineExplanation->invite->getCompanyOwnershipType(),
-                ($declineExplanation->invite->getCompanyName() === null)?"компании":$declineExplanation->invite->getCompanyName()
-            ));
-            */
+        } elseif ($user->isPersonal()) {
+            $this->redirect('/dashboard');
         }
     }
 
