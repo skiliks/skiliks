@@ -1012,4 +1012,7 @@
     min-width: 50px;
     width: 50px;
 }
+.order-status small {
+    margin-top: 4px;
+}
 /*  *************************** /ORDER  ***************************/
