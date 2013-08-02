@@ -7,7 +7,7 @@
 ?>
 <h1 class="page-header"><?= Yii::t('site', 'Оформление заказа') ?></h1>
 
-<div class="block-border bg-yellow border-primary order-page">
+<div class="block-border border-primary order-page">
     <div class="order-header">
         <div class="order-item bg-yellow border-primary pull-right font-brown block-border">
             <div class="pad-norm">
