@@ -1014,6 +1014,7 @@
     margin-top: 5px;
 }
 .order-method input[type="radio"] {
+    margin-bottom: 1px;
     margin-left: -18px;
 }
 .payment-invoice {
