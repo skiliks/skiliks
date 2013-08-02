@@ -78,7 +78,7 @@ var fixLogotypes = function() {
         $('.terms').click(function() {
             var dHeight = $("html").height() * 0.85;
 
-            $('.container').append($('<div id="terms-pop-up"></div>'));
+            $('body').append($('<div id="terms-pop-up"></div>'));
             $('#terms-pop-up').dialog({
                 //minHeight:   400,
                 dialogClass: 'terms-page',
