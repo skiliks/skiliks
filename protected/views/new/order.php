@@ -58,7 +58,7 @@
 
         ?>
 
-            <div class="payment-invoice grid-cell">
+            <div class="order-method payment-invoice grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
@@ -71,9 +71,7 @@
                         ]
                     ) ?>
                     <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту', 'for' => 'payment_invoice']) ?>
-                    <div class="method-description">
-                        <small>Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</small>
-                    </div>
+                    <div class="method-description font-small font-lighterbrown">Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</div>
                 </div>
 
                 <div class="row">
@@ -101,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="payment-card grid-cell">
+            <div class="order-method payment-card grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
