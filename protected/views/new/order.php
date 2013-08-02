@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="order-method font-lighterbrown grid-cell">
+            <div class="order-method font-lightestbrown grid-cell">
                 <div class="row method-checked">
                     <?= $form->radioButton(
                         $account,
@@ -112,7 +112,7 @@
                         ]
                     ) ?>
                     <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
-                    <div class="method-description font-small font-lighterbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ</div>
+                    <div class="method-description font-small font-lightestbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ</div>
                 </div>
             </div>
 
