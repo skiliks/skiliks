@@ -1013,6 +1013,7 @@
     width: 50px;
 }
 .order-status small {
-    margin-top: 4px;
+    display: block;
+    margin-top: 5px;
 }
 /*  *************************** /ORDER  ***************************/
