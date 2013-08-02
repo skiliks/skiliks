@@ -817,20 +817,6 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
     margin-left: -472px;
 }
 /*  *************************** /POPUP FLASH I SMENIT PAROL ***************************/
-/*  *************************** OFORMIT ZAKAZ ***************************/
-.block-order {
-    background-image:url("../img/order-pagebg.gif");
-    background-position: center -40px;
-    background-repeat: no-repeat;
-}
-.order-header {
-    height: 200px;
-    padding: 36px 116px 10px;
-}
-.order-content {
-    padding: 0px 116px 70px;
-}
-/*  *************************** /OFORMIT ZAKAZ ***************************/
 /*  *************************** REZULTATY ***************************/
 .simulation-result-popup {
     border: none;

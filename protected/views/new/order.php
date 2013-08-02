@@ -5,15 +5,15 @@
  * @var Tariff $tariff
  */
 ?>
-<h1 class="page-header text-center"><?= Yii::t('site', 'Оформление заказа') ?></h1>
+<h1 class="page-header"><?= Yii::t('site', 'Оформление заказа') ?></h1>
 
 <div class="block-border bg-yellow border-primary order-page">
     <div class="order-header">
-        <div class="order-item bg-yellow border-primary text-center pull-right font-brown block-border">
+        <div class="order-item bg-yellow border-primary pull-right font-brown block-border">
             <div class="pad-norm">
-                <p class="font-white font-xxlarge">Ваш заказ</p>
+                <header class="font-white font-xxlarge text-center">Ваш заказ</header>
 
-                <label class="font-4xlarge proxima-bold"><?= $tariff->label ?></label>
+                <label class="font-4xlarge proxima-bold text-center"><?= $tariff->label ?></label>
                 <div class="font-slarge text-center">1 Месяц</div>
 
                 <div class="item-price font-6xlarge proxima-bold text-center">
@@ -26,13 +26,13 @@
         <div class="order-status">
             <div class="row font-white">
                 <label class="grid-cell font-xslarge">Выбран тарифный план</label>
-                <div class="value PsiElement(CSS_CLASS)"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong>
+                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong>
                     <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> в месяц</small>
                 </div>
             </div>
             <div class="row font-white">
                 <label class="grid-cell font-xslarge">Выбрано количество месяцев</label>
-                <div class="value PsiElement(CSS_CLASS)">
+                <div class="value grid-cell">
                     <select>
                         <option value="1">1</option>
                     </select>
