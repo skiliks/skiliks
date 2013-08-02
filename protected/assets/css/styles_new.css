@@ -783,6 +783,8 @@ input[type="text"]:-moz-placeholder, input[type="password"]:-moz-placeholder {
 /* goluboy popup tipa feedback ili prichiny otkaza */
 .popup-primary {
     background: url("../img/bg-popuprpt.jpg") repeat left top;
+}
+.popup-primary, .popup-no-title {
     overflow: visible;
 }
 .popup-primary .ui-widget-header .ui-icon, .popup-no-title .ui-widget-header .ui-icon {
