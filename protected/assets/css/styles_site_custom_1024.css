@@ -1158,3 +1158,29 @@
     margin: 16px 0px;
 }
 /*  *************************** /ORDER  ***************************/
+/*  ***************************  TERMS  ***************************/
+.terms-page {
+    left: 50%;
+    margin-left: -340px;
+    width: 660px !important;
+}
+.terms-page h1 {
+    font-size:30px;
+    text-align: center;
+}
+.terms-page h2 {
+    font: 18px "ProximaNova-Regular";
+}
+.terms-page h3 {
+    font-size:14px;
+}
+.terms-page h1, .terms-page h2, .terms-page h3 {
+    color: #3d4041;
+    margin-bottom: 16px;
+}
+.terms-page .ui-dialog-content p {
+    font-family: "ProximaNova-Regular";
+    line-height: 140%;
+    margin-bottom: 16px;
+}
+/*  ***************************  /TERMS  ***************************/
