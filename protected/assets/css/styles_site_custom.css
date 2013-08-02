@@ -969,7 +969,7 @@
 .order-page {
     background-image: url("../img/order-pagebg.gif");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: 944px;
     background-position: center top;
 }
 .order-item {
@@ -999,8 +999,14 @@
 .order-status {
     float: left;
 }
+.order-status .row {
+    height:70px;
+}
 .order-status label {
     padding-top: 4px;
     width: 244px;
+}
+.order-status .sbHolder {
+    width: 50px;
 }
 /*  *************************** /ORDER  ***************************/

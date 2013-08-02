@@ -31,7 +31,7 @@ h5 {
     font-size:15px;
     margin-bottom: 8px;
 }
-.font-small {
+.font-small, .font-smallest {
     font-size:10px;
 }
 .font-slarge {
