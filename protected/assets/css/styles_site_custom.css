@@ -1016,4 +1016,10 @@
     display: block;
     margin-top: 5px;
 }
+.payment-invoice {
+    padding-right: 94px;
+}
+.payment-invoice .row:first-child {
+    padding-top: 0px;
+}
 /*  *************************** /ORDER  ***************************/
