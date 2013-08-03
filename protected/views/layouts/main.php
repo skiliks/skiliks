@@ -8,6 +8,7 @@ $cs->scriptMap=array(
     'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
 );
 $cs->registerCoreScript('jquery');
+$cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
 $cs->registerCoreScript('jquery.yiiactiveform.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
