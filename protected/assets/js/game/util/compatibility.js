@@ -3,7 +3,7 @@
  *
  * TODO: Add depending on jQuery
  */
-define([], function() {
+define(["jquery/jquery.browser"], function() {
     "use strict";
 
     var checkers = {
@@ -15,7 +15,7 @@ define([], function() {
 
             var minSupport = {
                 mozilla: 18,
-                webkit: 536.5
+                chrome: 27
             };
 
             for (var name in minSupport) {
