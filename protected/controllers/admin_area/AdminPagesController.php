@@ -490,7 +490,6 @@ class AdminPagesController extends SiteBaseController {
             if ($siteUser->setPassword($newPassword, YumEncrypt::generateSalt())) {
                 Yii::app()->user->setFlash('success', 'Пароль обновлён.');
             } else {
-                var_dump($siteUser->getErrors()); die;
                 Yii::app()->user->setFlash('error', 'Пароль не обновлён.');
             }
         }
