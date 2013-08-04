@@ -102,7 +102,7 @@ class TimeManagementAnalyzer
         }
 
         // Hot fix!
-        if (0 < $value) {
+        if ($value < 0) {
             $value = 0;
         }
 
