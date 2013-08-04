@@ -45,7 +45,10 @@
                 <td class="simulation_time-start"><?= (empty($simulation->start) ? '---- -- -- --' : $simulation->start) ?></td>
                 <td class="simulation_time-end"><?= (empty($simulation->end) ? '---- -- -- --' : $simulation->end) ?></td>
                 <td><?= (isset($invites[$simulation->id])) ? $invites[$simulation->id] : 'Не найдено' ?></td>
-                <td><a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Логи сайта</a></td>
+                <td>
+                    <a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Логи сайта</a><br/>
+                    <a href="/admin_area/simulation/<?= $simulation->id?>/requests">Запросы</a>
+                </td>
             </tr>
         <?php endforeach ?>
         </tbody>
