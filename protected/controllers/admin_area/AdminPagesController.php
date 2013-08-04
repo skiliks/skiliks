@@ -502,6 +502,28 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    /**
+     * @param $userId
+     */
+    public function actionSimulationRequests($simId)
+    {
+        $simulation = Simulation::model()->findByPk($simId);
+
+        if (null === $simulation) {
+            Yii::app()->user->setFlash('error', 'Такой симцляции не существеут.');
+            $this->redirect('/admin_area/users');
+        }
+
+        $simulationLogs = LogServerRequest::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+
+        $this->pageTitle = 'Админка: логи запросов для симуляции '.$simulation->id;
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulation_requests', [
+            'simulation'     => $simulation,
+            'simulationLogs' => $simulationLogs,
+        ]);
+    }
+
     public function actionStatistics()
     {
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # ';
