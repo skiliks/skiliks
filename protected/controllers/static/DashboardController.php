@@ -547,7 +547,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->checkUser();
 
-        if (Yii::app()->user->data()->profile->email !== $invite->email) {
+        if (strtolower(Yii::app()->user->data()->profile->email) !== strtolower($invite->email)) {
             Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляцию.');
             $this->redirect('/profile');
         }
