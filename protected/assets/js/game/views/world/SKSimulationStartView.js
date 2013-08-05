@@ -28,12 +28,18 @@ define([
          * @method
          */
         'render': function () {
-            var code = _.template(start_simulation_menu);
+            try {
+                var code = _.template(start_simulation_menu);
 
-            this.$el.html(code);
+                this.$el.html(code);
 
-            if (undefined != window.mode) {
-                this.doSimulationStart({});
+                if (undefined !== window.mode) {
+                    this.doSimulationStart({});
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 

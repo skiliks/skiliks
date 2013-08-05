@@ -32,8 +32,14 @@ define([
              * @method initialize
              */
             'initialize':function () {
-                var me = this;
-                SKWindowView.prototype.initialize.call(this);
+                try {
+                    var me = this;
+                    SKWindowView.prototype.initialize.call(this);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -41,19 +47,25 @@ define([
              * @param el
              */
             'renderWindow':function (el) {
-                var me = this,
-                    event = this.options.model_instance.get('sim_event');
+                try {
+                    var me = this,
+                        event = this.options.model_instance.get('sim_event');
 
-                el.html(_.template(visitDoorTpl, {
-                    'visit' :                     event.get('data'),
-                    isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
-                }));
+                    el.html(_.template(visitDoorTpl, {
+                        'visit' :                     event.get('data'),
+                        isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
+                    }));
 
-                if ('undefined' === typeof event.get('data')[2]) {
-                    me.timer = setTimeout(function() {
-                        me.$('.visitor-allow').click();
-                        me.timer = null;
-                    }, 5000);
+                    if ('undefined' === typeof event.get('data')[2]) {
+                        me.timer = setTimeout(function() {
+                            me.$('.visitor-allow').click();
+                            me.timer = null;
+                        }, 5000);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -62,15 +74,21 @@ define([
              * @param e
              */
             'allow':function (e) {
-                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                try {
+                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
 
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                    this.timer = null;
+                    if (this.timer) {
+                        clearTimeout(this.timer);
+                        this.timer = null;
+                    }
+
+                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
+                    this.options.model_instance.close();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
-                this.options.model_instance.close();
             },
 
             /**
@@ -78,11 +96,17 @@ define([
              * @param e
              */
             'deny':function (e) {
-                var dialogId = $(e.currentTarget).attr('data-dialog-id');
-                SKApp.simulation.trigger('audio-door-knock-stop');
-                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
-                });
-                this.options.model_instance.close();
+                try {
+                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                    SKApp.simulation.trigger('audio-door-knock-stop');
+                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                    });
+                    this.options.model_instance.close();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
     return SKVisitView;

@@ -25,8 +25,14 @@ define([
          * @method
          */
         'render': function () {
-            var login_html = _.template(login_template, {});
-            this.$el.html(login_html);
+            try {
+                var login_html = _.template(login_template, {});
+                this.$el.html(login_html);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -34,8 +40,14 @@ define([
          * @param event
          */
         'doSubmit': function (event) {
-            event.preventDefault();
-            SKApp.session.login($('#email').val(), $('#pass').val());
+            try {
+                event.preventDefault();
+                SKApp.session.login($('#email').val(), $('#pass').val());
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 
