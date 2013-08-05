@@ -1083,10 +1083,9 @@
     position: relative;
 }
 .terms-confirm .errorMessage {
-    left: 50%;
-    margin-left: -105px;
-    margin-top: 3px;
-    top: 4px;
+    text-align: center;
+    top: -12px;
+    width: 100%;
 }
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
