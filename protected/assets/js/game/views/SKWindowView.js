@@ -383,8 +383,14 @@ define(["text!game/jst/window.jst"],
         },
 
         onResize : function() {
-            this.resize();
-            this.constrain();
+            try {
+                this.resize();
+                this.constrain();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         onWindowClose: function() {

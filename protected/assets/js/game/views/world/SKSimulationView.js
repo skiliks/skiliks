@@ -75,38 +75,62 @@ define([
              * @method initialize
              */
             'initialize':      function () {
-                var me = this;
-                var simulation = this.simulation = SKApp.simulation;
-                this.listenTo(simulation, 'tick', this.updateTime);
-                this.listenTo(simulation, 'end', this.endWorkday);
-                this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
-                this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
-                this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
-                this.listenTo(simulation, 'start', this.startExitProtection);
-                this.listenTo(simulation, 'start', this.startObservFullScreenMode);
-                this.listenTo(simulation, 'before-stop', this.stopExitProtection);
-                this.listenTo(simulation, 'stop-time', this.stopSimulation);
-                this.listenTo(simulation, 'documents:error', this.documentsLoadError);
+                try {
+                    var me = this;
+                    var simulation = this.simulation = SKApp.simulation;
+                    this.listenTo(simulation, 'tick', this.updateTime);
+                    this.listenTo(simulation, 'end', this.endWorkday);
+                    this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
+                    this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
+                    this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
+                    this.listenTo(simulation, 'start', this.startExitProtection);
+                    this.listenTo(simulation, 'start', this.startObservFullScreenMode);
+                    this.listenTo(simulation, 'before-stop', this.stopExitProtection);
+                    this.listenTo(simulation, 'stop-time', this.stopSimulation);
+                    this.listenTo(simulation, 'documents:error', this.documentsLoadError);
 
-                this.listenTo(simulation, 'start', function () {
-                    $('#sim-id').text(simulation.id);
-                });
+                    this.listenTo(simulation, 'start', function () {
+                        $('#sim-id').text(simulation.id);
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             startExitProtection: function () {
-                $(window).on('beforeunload', function () {
-                    return "Вы действительно хотите прервать симуляцию? Вы не получите оценку и запуск симуляции будет израсходован";
-                });
+                try {
+                    $(window).on('beforeunload', function () {
+                        return "Вы действительно хотите прервать симуляцию? Вы не получите оценку и запуск симуляции будет израсходован";
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             stopExitProtection: function () {
-                $(window).off('beforeunload');
+                try {
+                    $(window).off('beforeunload');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             startObservFullScreenMode: function() {
+                try {
                 $(document).on('fullscreenchange mozfullscreenchange webkitfullscreenchange', function() {
                     $('.fullscreen').toggleClass('enabled');
                 });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -114,34 +138,46 @@ define([
              * @param window
              */
             setupWindowEvents: function (window) {
-                var window_full_name = (window.get('name') + '/' + window.get('subname'));
-                if (this.window_views[window_full_name]) {
-                    var WindowClass = this.window_views[window_full_name];
-                    var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
-                    view.render();
-                    this.windows[window_full_name] = view;
-                }
-                if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    var file = window.get('document').get('name');
-                    var document_view;
-                    if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
-                        document_view = new SKXLSDisplayView({model_instance: window});
-                    } else {
-                        document_view = new SKPDFDisplayView({model_instance: window});
+                try {
+                    var window_full_name = (window.get('name') + '/' + window.get('subname'));
+                    if (this.window_views[window_full_name]) {
+                        var WindowClass = this.window_views[window_full_name];
+                        var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
+                        view.render();
+                        this.windows[window_full_name] = view;
                     }
+                    if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
+                        var file = window.get('document').get('name');
+                        var document_view;
+                        if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
+                            document_view = new SKXLSDisplayView({model_instance: window});
+                        } else {
+                            document_view = new SKPDFDisplayView({model_instance: window});
+                        }
 
-                    if (false === document_view.isRender) {
-                        SKApp.simulation.window_set.remove(
-                            SKApp.simulation.window_set.where({subname: 'documentsFiles'})
-                        );
-                    } else {
-                        document_view.render();
+                        if (false === document_view.isRender) {
+                            SKApp.simulation.window_set.remove(
+                                SKApp.simulation.window_set.where({subname: 'documentsFiles'})
+                            );
+                        } else {
+                            document_view.render();
+                        }
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
             },
 
             getOpenedWindowView: function(name) {
-                return this.windows[name];
+                try {
+                    return this.windows[name];
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -168,71 +204,89 @@ define([
             },
 
             _appendZohoIframe: function(doc) {
-                var iframe = $('#' + 'excel-preload-' + doc.id),
-                    $body = $('body');
+                try {
+                    var iframe = $('#' + 'excel-preload-' + doc.id),
+                        $body = $('body');
 
-                if (iframe.length) {
-                    iframe.attr('src', doc.get('excel_url'));
-                } else {
-                    $body.append($('<iframe />', {
-                        src: doc.get('excel_url'),
-                        id:  'excel-preload-' + doc.id,
-                        class: 'excel-preload-window'
-                    }).css({
-                        'position': 'absolute',
-                        'left':     '-10000px',
-                        'top':      0,
-                        'width':    $body.width(),
-                        'height':   $body.height() - 4
-                    }));
+                    if (iframe.length) {
+                        iframe.attr('src', doc.get('excel_url'));
+                    } else {
+                        $body.append($('<iframe />', {
+                            src: doc.get('excel_url'),
+                            id:  'excel-preload-' + doc.id,
+                            class: 'excel-preload-window'
+                        }).css({
+                            'position': 'absolute',
+                            'left':     '-10000px',
+                            'top':      0,
+                            'width':    $body.width(),
+                            'height':   $body.height() - 4
+                        }));
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             documentsLoadError: function() {
-                var me = this;
+                try {
+                    var me = this;
 
-                new SKDialogView({
-                    message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
-                    buttons: []
-                });
-                if(window.gameConfig.invite_id !== null){
-                    SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                    new SKDialogView({
+                        message: 'Сервер перегружен. Нам очень жаль... Попробуйте пожалуйста позже.',
+                        buttons: []
+                    });
+                    if(window.gameConfig.invite_id !== null){
+                        SKApp.server.api('simulation/markTutorialNotStarted', {invite_id:window.gameConfig.invite_id, location:window.location.href}, function () {});
+                    }
+
+                    setTimeout(function() {
+                        me.stopExitProtection();
+                        me.simulation.trigger('force-stop');
+                    }, 3000);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                setTimeout(function() {
-                    me.stopExitProtection();
-                    me.simulation.trigger('force-stop');
-                }, 3000);
             },
 
             /**
              * @method
              */
-            'render':          function () {
-                var login_html = _.template(simulation_template, {
-                    showPause: SKApp.isLite(),
-                    showStart: SKApp.isTutorial()
-                });
+            'render':  function () {
+                try {
+                    var login_html = _.template(simulation_template, {
+                        showPause: SKApp.isLite(),
+                        showStart: SKApp.isTutorial()
+                    });
 
-                this.$el.html(login_html).appendTo('body');
-                this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
-                if (this.simulation.isDebug()) {
-                    this.debug_view = new SKDebugView({'el': this.$('.debug-panel')});
-                    this.doToggleDialogSound();
-                }
-                var canvas = this.$('.canvas');
-                this.updateTime();
-                this.undelegateEvents();
-                this.delegateEvents();
+                    this.$el.html(login_html).appendTo('body');
+                    this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
+                    if (this.simulation.isDebug()) {
+                        this.debug_view = new SKDebugView({'el': this.$('.debug-panel')});
+                        this.doToggleDialogSound();
+                    }
+                    var canvas = this.$('.canvas');
+                    this.updateTime();
+                    this.undelegateEvents();
+                    this.delegateEvents();
 
-                if (undefined !== SKApp.simulation) {
-                    this.$('#sim-id').text(SKApp.simulation.get('id'));
-                }
+                    if (undefined !== SKApp.simulation) {
+                        this.$('#sim-id').text(SKApp.simulation.get('id'));
+                    }
 
-                if (undefined !== SKApp.get('skiliksSpeedFactor')) {
-                    this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
+                    if (undefined !== SKApp.get('skiliksSpeedFactor')) {
+                        this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
+                    }
+                    this.renderSupportBlock();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-                this.renderSupportBlock();
             },
 
             /**
@@ -255,14 +309,20 @@ define([
              * @method
              */
             'updateTime':      function () {
-                var parts = this.simulation.getGameTime().split(':');
-                this.$('.time .hour').text(parts[0]);
-                this.$('.time .minute').text(parts[1]);
+                try {
+                    var parts = this.simulation.getGameTime().split(':');
+                    this.$('.time .hour').text(parts[0]);
+                    this.$('.time .minute').text(parts[1]);
 
-                if (this.$('.tutorial-mode').length) {
-                    parts = this.simulation.getTutorialTime().split(':');
-                    this.$('.tutorial-mode .minutes').text(parts[0]);
-                    this.$('.tutorial-mode .seconds').text(parts[1]);
+                    if (this.$('.tutorial-mode').length) {
+                        parts = this.simulation.getTutorialTime().split(':');
+                        this.$('.tutorial-mode .minutes').text(parts[0]);
+                        this.$('.tutorial-mode .seconds').text(parts[1]);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -270,161 +330,215 @@ define([
              * @method
              */
             endWorkday: function() {
-                SKApp.server.api('events/userSeeWorkdayEndMessage', {});
-                var me = this;
+                try {
+                    SKApp.server.api('events/userSeeWorkdayEndMessage', {});
+                    var me = this;
 
-                me.simulation.startPause(function(){});
-                me._showPausedScreen();
+                    me.simulation.startPause(function(){});
+                    me._showPausedScreen();
 
-                var d = new SKDialogView({
-                    message: 'Рабочий день закончен',
-                    buttons: [
-                        {
-                            value: 'Завершить работу',
-                            onclick: function() {
-                                // me._hidePausedScreen();
-                                me.stopExitProtection();
-                                SKApp.simulation.stopPause(
-                                    me.simulation.stop()
-                                );
+                    var d = new SKDialogView({
+                        message: 'Рабочий день закончен',
+                        buttons: [
+                            {
+                                value: 'Завершить работу',
+                                onclick: function() {
+                                    // me._hidePausedScreen();
+                                    me.stopExitProtection();
+                                    SKApp.simulation.stopPause(
+                                        me.simulation.stop()
+                                    );
 
-                                var d = new SKDialogView({
-                                    message: 'Данные симуляции сохраняются.',
-                                    buttons: []
-                                });
+                                    var d = new SKDialogView({
+                                        message: 'Данные симуляции сохраняются.',
+                                        buttons: []
+                                    });
+                                }
+                            },
+                            {
+                                value: 'Продолжить работу',
+                                onclick: function() {
+                                    me._hidePausedScreen();
+
+                                    // кнопка заменена на дверь
+                                    //me.$('.canvas .finish').removeClass('hidden');
+
+                                    var notice = new SKDialogView({
+                                        'class': 'how-to-leave',
+                                        'message': _.template(how_to_leave_tpl)(),
+                                        'buttons': [{
+                                            value: 'OK',
+                                            onclick: function() {
+                                                SKApp.simulation.stopPause();
+                                            }
+                                        }]
+                                    });
+
+
+                                }
                             }
-                        },
-                        {
-                            value: 'Продолжить работу',
-                            onclick: function() {
-                                me._hidePausedScreen();
-
-                                // кнопка заменена на дверь
-                                //me.$('.canvas .finish').removeClass('hidden');
-
-                                var notice = new SKDialogView({
-                                    'class': 'how-to-leave',
-                                    'message': _.template(how_to_leave_tpl)(),
-                                    'buttons': [{
-                                        value: 'OK',
-                                        onclick: function() {
-                                            SKApp.simulation.stopPause();
-                                        }
-                                    }]
-                                });
-
-
-                            }
-                        }
-                    ]
-                });
+                        ]
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             stopSimulation: function() {
-                var me = this;
-                me.simulation.stop();
+                try {
+                    var me = this;
+                    me.simulation.stop();
 
-                me._showPausedScreen();
-                var d = new SKDialogView({
-                    message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
-                    buttons: [
-                        {
-                            value: 'Перейти к результатам',
-                            onclick: function() {
-                                me.simulation.trigger('user-agree-with-sim-stop');
+                    me._showPausedScreen();
+                    var d = new SKDialogView({
+                        message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
+                        buttons: [
+                            {
+                                value: 'Перейти к результатам',
+                                onclick: function() {
+                                    me.simulation.trigger('user-agree-with-sim-stop');
+                                }
                             }
-                        }
-                    ]
-                });
-                $('.mail-popup-button').hide();
+                        ]
+                    });
+                    $('.mail-popup-button').hide();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
              * @method
              */
             'doSimulationStop':  function () {
-                SKApp.simulation.stop();
+                try {
+                    SKApp.simulation.stop();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
              * @method
              */
             doToggleDialogSound: function () {
-                if (SKApp.simulation.config.isMuteVideo === false) {
-                    SKApp.simulation.config.isMuteVideo = true;
-                    this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
-                    this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-off');
-                } else {
-                    SKApp.simulation.config.isMuteVideo = false;
-                    this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
-                    this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
+                try {
+                    if (SKApp.simulation.config.isMuteVideo === false) {
+                        SKApp.simulation.config.isMuteVideo = true;
+                        this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
+                        this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-off');
+                    } else {
+                        SKApp.simulation.config.isMuteVideo = false;
+                        this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
+                        this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             doTogglePause: function() {
-                var me = this,
-                    paused = me.$('.time').hasClass('paused');
+                try {
+                    var me = this,
+                        paused = me.$('.time').hasClass('paused');
 
-                if (paused) {
-                    me._hidePausedScreen();
-                    me.pausedDialog.remove();
-                    SKApp.simulation.stopPause();
-                } else {
-                    me._showPausedScreen(true);
-                    me.pausedDialog = new SKDialogView({
-                        modal: false,
-                        message: 'Симуляция остановлена',
-                        buttons: [
-                            {
-                                value: 'Вернуться к симуляции',
-                                onclick: function() {
-                                    me._hidePausedScreen();
-                                    me.simulation.stopPause();
-                                }
-                            },
-                            {
-                                value: 'Перейти к результатам',
-                                onclick: function() {
-                                    me._hidePausedScreen();
-                                    me.stopExitProtection();
-                                    if(!SKApp.isTutorial() && !SKApp.isLite()) {
-                                        var d = new SKDialogView({
-                                            message: 'Данные симуляции сохраняются.',
-                                            buttons: []
-                                        });
+                    if (paused) {
+                        me._hidePausedScreen();
+                        me.pausedDialog.remove();
+                        SKApp.simulation.stopPause();
+                    } else {
+                        me._showPausedScreen(true);
+                        me.pausedDialog = new SKDialogView({
+                            modal: false,
+                            message: 'Симуляция остановлена',
+                            buttons: [
+                                {
+                                    value: 'Вернуться к симуляции',
+                                    onclick: function() {
+                                        me._hidePausedScreen();
+                                        me.simulation.stopPause();
                                     }
-                                    me.simulation.stop();
+                                },
+                                {
+                                    value: 'Перейти к результатам',
+                                    onclick: function() {
+                                        me._hidePausedScreen();
+                                        me.stopExitProtection();
+                                        if(!SKApp.isTutorial() && !SKApp.isLite()) {
+                                            var d = new SKDialogView({
+                                                message: 'Данные симуляции сохраняются.',
+                                                buttons: []
+                                            });
+                                        }
+                                        me.simulation.stop();
+                                    }
                                 }
-                            }
-                        ]
-                    });
+                            ]
+                        });
 
-                    SKApp.simulation.startPause(function(){});
+                        SKApp.simulation.startPause(function(){});
+                    }
+
+                    return false;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                return false;
             },
 
             doStartInputLock: function () {
-                this.locking_element = this.make('div',{'class': 'display-lock'});
-                this.$el.append(this.locking_element);
+                try {
+                    this.locking_element = this.make('div',{'class': 'display-lock'});
+                    this.$el.append(this.locking_element);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
             doStopInputLock: function () {
-                $(this.locking_element).remove();
+                try {
+                    $(this.locking_element).remove();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             _showPausedScreen: function(showTopIcons) {
-                this._toggleClockFreeze(false);
-                this.$('.canvas .paused-screen')
-                    .removeClass('hidden')
-                    .find('.top-icons')
-                    .toggleClass('hidden', !showTopIcons);
+                try {
+                    this._toggleClockFreeze(false);
+                    this.$('.canvas .paused-screen')
+                        .removeClass('hidden')
+                        .find('.top-icons')
+                        .toggleClass('hidden', !showTopIcons);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             _hidePausedScreen: function() {
-                this._toggleClockFreeze(true);
-                this.$('.canvas .paused-screen')
-                    .addClass('hidden');
+                try {
+                    this._toggleClockFreeze(true);
+                    this.$('.canvas .paused-screen')
+                        .addClass('hidden');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             _toggleClockFreeze: function(run) {
@@ -432,34 +546,46 @@ define([
             },
 
             doToggleFullscreen: function(e) {
-                e.preventDefault();
-                var enabled = $(e.target).hasClass('enabled'),
-                    canvas = $('body')[0],
-                    onMethods = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'],
-                    offMethods = ['cancelFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];
+                try {
+                    e.preventDefault();
+                    var enabled = $(e.target).hasClass('enabled'),
+                        canvas = $('body')[0],
+                        onMethods = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'],
+                        offMethods = ['cancelFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];
 
-                _.each(enabled ? offMethods : onMethods, function(methodName) {
-                    var context = enabled ? document : canvas;
-                    if (typeof context[methodName] === 'function') {
-                        context[methodName]();
+                    _.each(enabled ? offMethods : onMethods, function(methodName) {
+                        var context = enabled ? document : canvas;
+                        if (typeof context[methodName] === 'function') {
+                            context[methodName]();
+                        }
+                    });
+
+                    // switch body class
+                    if ($('body').hasClass("simulation-full-screen-mode")) {
+                        $('body').removeClass("simulation-full-screen-mode");
+                    } else {
+                        $('body').addClass("simulation-full-screen-mode");
                     }
-                });
-
-                // switch body class
-                if ($('body').hasClass("simulation-full-screen-mode")) {
-                    $('body').removeClass("simulation-full-screen-mode");
-                } else {
-                    $('body').addClass("simulation-full-screen-mode");
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             doStartFullSimulation: function(e) {
-                this.message_window = new SKDialogView({
-                    'message':'Завершение ознакомительной симуляции.',
-                    'buttons':[]
-                });
-                e.preventDefault();
-                SKApp.simulation.stop();
+                try {
+                    this.message_window = new SKDialogView({
+                        'message':'Завершение ознакомительной симуляции.',
+                        'buttons':[]
+                    });
+                    e.preventDefault();
+                    SKApp.simulation.stop();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 
