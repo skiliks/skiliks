@@ -22,25 +22,37 @@ define([
              * @return void
              */
             'initialize':function () {
-                if ('developer' === this.get('mode')) {
-                    this.set('skiliksSpeedFactor', this.get('skiliksDeveloperModeSpeedFactor'));
+                try {
+                    if ('developer' === this.get('mode')) {
+                        this.set('skiliksSpeedFactor', this.get('skiliksDeveloperModeSpeedFactor'));
+                    }
+                    /**
+                     * Ссылка на API-сервер
+                     * @attribute server
+                     * @type SKServer
+                     */
+                    this.server = new SKServer();
+                    this.server.requests_queue = new SKRequestsQueueCollection();
+
+                    var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
+                    this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
+
+                    this.isInternetConnectionBreakHappent = false;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-                /**
-                 * Ссылка на API-сервер
-                 * @attribute server
-                 * @type SKServer
-                 */
-                this.server = new SKServer();
-                this.server.requests_queue = new SKRequestsQueueCollection();
-
-                var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
-                this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
-
-                this.isInternetConnectionBreakHappent = false;
             },
 
             run: function() {
-                this.simulation.start();
+                try {
+                    this.simulation.start();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -49,16 +61,34 @@ define([
              * @return void
              */
             'clearUser':function () {
-                this.user.logout();
-                delete this.user;
+                try {
+                    this.user.logout();
+                    delete this.user;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             isLite: function() {
-                return this.get('type') === 'lite';
+                try {
+                    return this.get('type') === 'lite';
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             isTutorial: function() {
-                return this.get('type') === 'tutorial';
+                try {
+                    return this.get('type') === 'tutorial';
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 

@@ -16,8 +16,14 @@ define(["game/models/window/SKWindow"],function () {
          * @param mailId
          */
         'initialize':function (subname, mailId) {
-            window.SKWindow.prototype.initialize.call(this, 'mailEmulator', subname);
-            this.set('params', {'mailId':mailId});
+            try {
+                window.SKWindow.prototype.initialize.call(this, 'mailEmulator', subname);
+                this.set('params', {'mailId':mailId});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -26,9 +32,15 @@ define(["game/models/window/SKWindow"],function () {
          * @param mailId int message identifier
          */
         'switchMessage':function (mailId) {
-            this.deactivate({silent:true});
-            this.set('params', {'mailId':mailId});
-            this.activate({silent:true});
+            try {
+                this.deactivate({silent:true});
+                this.set('params', {'mailId':mailId});
+                this.activate({silent:true});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -38,9 +50,15 @@ define(["game/models/window/SKWindow"],function () {
          * @param planId
          */
         'setPlan': function (planId) {
-            var params = this.get('params') || {};
-            params.planId = planId;
-            this.set('params', params);
+            try {
+                var params = this.get('params') || {};
+                params.planId = planId;
+                this.set('params', params);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -48,10 +66,16 @@ define(["game/models/window/SKWindow"],function () {
          * @param mailId
          */
         'setMessage':function (mailId) {
-            if (this.get('params') && this.get('params').mailId) {
-                throw 'You can not set param mailId on this window, use switchMessage method';
+            try {
+                if (this.get('params') && this.get('params').mailId) {
+                    throw 'You can not set param mailId on this window, use switchMessage method';
+                }
+                this.set('params', {'mailId':mailId});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.set('params', {'mailId':mailId});
         }
     });
 })();

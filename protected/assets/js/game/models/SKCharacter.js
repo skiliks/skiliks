@@ -42,7 +42,13 @@ define([], function() {
          * @return string
          */
         getFormatedForMailToName: function() {
-            return this.get('fio') + ' (' + this.get('title') + ')';
+            try {
+                return this.get('fio') + ' (' + this.get('title') + ')';
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
         
         /**
@@ -50,7 +56,13 @@ define([], function() {
          * @return string
          */
         getFormattedRecipientLabel: function() {
-            return this.get('fio') + ' <' + this.get('email') + '>, ';
+            try {
+                return this.get('fio') + ' <' + this.get('email') + '>, ';
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
     return window.SKCharacter;

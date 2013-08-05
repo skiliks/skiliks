@@ -14,16 +14,22 @@ define([], function () {
          * @param options
          */
         sync: function (method, model, options) {
-            if (method === 'create' || method === 'update') {
-                if (method === 'create') {
-                    this.set('isDisplayed', false);
+            try {
+                if (method === 'create' || method === 'update') {
+                    if (method === 'create') {
+                        this.set('isDisplayed', false);
+                    }
+                    model.set('uniqueId', undefined);
+                    SKApp.server.api('todo/add', {taskId:model.id}, function (data) {
+                        options.success(data);
+                    });
+                } else if (method !== 'delete') {
+                    Backbone.Model.prototype.sync.apply(this, arguments);
                 }
-                model.set('uniqueId', undefined);
-                SKApp.server.api('todo/add', {taskId:model.id}, function (data) {
-                    options.success(data);
-                });
-            } else if (method !== 'delete') {
-                Backbone.Model.prototype.sync.apply(this, arguments);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });
