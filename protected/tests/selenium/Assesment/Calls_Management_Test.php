@@ -90,8 +90,8 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю')])");
 
         $this->simulation_showLogs();
-        //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['calls6'],"75");
-        //$this->assertText(Yii::app()->params['test_mappings']['log']['calls6'],"75");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_3']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_3'],"100.00");
         $this->close();
     }
 }

@@ -107,29 +107,29 @@ return [
         'learn-goal-123' => "//tr[contains(@class, 'learning-goal-code-123')]/td[4]",
 
         //Определение приоритетов
-        'group_1_1' => "//tr[@class='learning-goal-code-group-1_1']/td[4]",
+        'group_1_1' => "//tr[@class='learning-goal-code-group-1_1 ']/td[4]",
         //Использование планирования в течение дня
-        'group_1_2' => "//tr[@class='learning-goal-code-group-1_2']/td[4]",
+        'group_1_2' => "//tr[@class='learning-goal-code-group-1_2 ']/td[4]",
         //Правильное определение приоритетов задач при планировании
-        'group_1_3' => "//tr[@class='learning-goal-code-group-1_3']/td[4]",
+        'group_1_3' => "//tr[@class='learning-goal-code-group-1_3 ']/td[4]",
         //Выполнение задач в соответствии с приоритетами
-        'group_1_4' => "//tr[@class='learning-goal-code-group-1_4']/td[4]",
+        'group_1_4' => "//tr[@class='learning-goal-code-group-1_4 ']/td[4]",
         //Завершение начатых задач
-        'group_1_5' => "//tr[@class='learning-goal-code-group-1_5']/td[4]",
+        'group_1_5' => "//tr[@class='learning-goal-code-group-1_5 ']/td[4]",
         //Использование делегирования для управления объемом
-        'group_2_1' => "//tr[@class='learning-goal-code-group-2_1']/td[4]",
+        'group_2_1' => "//tr[@class='learning-goal-code-group-2_1 ']/td[4]",
         //Управление ресурсами различной квалификации
-        'group_2_2' => "//tr[@class='learning-goal-code-group-2_2']/td[4]",
+        'group_2_2' => "//tr[@class='learning-goal-code-group-2_2 ']/td[4]",
         //Использование обратной связи
-        'group_2_3' => "//tr[@class='learning-goal-code-group-2_3']/td[4]",
+        'group_2_3' => "//tr[@class='learning-goal-code-group-2_3 ']/td[4]",
         //Оптимальное использование каналов коммуникации
-        'group_3_1' => "//tr[@class='learning-goal-code-group-3_1']/td[4]",
+        'group_3_1' => "//tr[@class='learning-goal-code-group-3_1 ']/td[4]",
         //Эффективная работа с почтой
-        'group_3_2' => "//tr[@class='learning-goal-code-group-3_2']/td[4]",
+        'group_3_2' => "//tr[@class='learning-goal-code-group-3_2 ']/td[4]",
         //Эффективная работа со звонками
-        'group_3_3' => "//tr[@class='learning-goal-code-group-3_3']/td[4]",
+        'group_3_3' => "//tr[@class='learning-goal-code-group-3_3 ']/td[4]",
         //Эффективное управление встречами
-        'group_3_4' => "//tr[@class='learning-goal-code-group-3_4']/td[4]",
+        'group_3_4' => "//tr[@class='learning-goal-code-group-3_4 ']/td[4]",
 
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
