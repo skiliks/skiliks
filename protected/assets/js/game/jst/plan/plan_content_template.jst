@@ -16,7 +16,7 @@
         </div>
         <div id="plannerBook" class="planner-book">
             <div class="plannerBookDayPlan">
-            <div id="plannerBookToday" class="planner-book-today" data-day-id="1">
+            <div id="plannerBookToday" class="planner-book-today" data-day-id="day-1">
                 <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
@@ -34,7 +34,7 @@
                     </table>
                 </div>
             </div>
-            <div id="plannerBookTomorrow" class="planner-book-tomorrow"  data-day-id="2">
+            <div id="plannerBookTomorrow" class="planner-book-tomorrow"  data-day-id="day-2">
                 <div id="plannerBookTomorrowTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
@@ -51,7 +51,7 @@
                     </table>
                 </div>
             </div>
-            <div id="plannerBookAfterVacation" class="planner-book-after-vacation"  data-day-id="3">
+            <div id="plannerBookAfterVacation" class="planner-book-after-vacation"  data-day-id="after-vacation">
                 <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table half">
                     <table class="planner-book-timetable-table">
                         <@ _.range(0,96).forEach(function(hour) { @>

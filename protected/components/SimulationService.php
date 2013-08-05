@@ -267,9 +267,8 @@ class SimulationService
      */
     public static function fillTodo(Simulation $simulation)
     {
-        // add P17 - презентация ген. директору
-        /** @var $tasks Task[] */
-        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start', "is_cant_be_moved" => 1]);
+        /** @var Task[] $tasks  */
+        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start']);
         foreach ($tasks as $task) {
             $dayplanFixed = new DayPlan();
             $dayplanFixed->date = $task->start_time;

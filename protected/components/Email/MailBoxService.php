@@ -1018,9 +1018,9 @@ class MailBoxService
         $task->import_id = '';
         $task->save();
 
-        $task->id = $task->id;
+        $task->refresh();
 
-        TodoService::add($simulation, $task);
+        DayPlanService::addTask($simulation, $task->id, DayPlan::DAY_TODO);
 
         $email->plan = 1;
         $email->save();

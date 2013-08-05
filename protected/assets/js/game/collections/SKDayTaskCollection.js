@@ -40,6 +40,7 @@ define(["game/models/SKDayTask"], function () {
          * @param duration
          */
         isTimeSlotFree: function (time, day, duration) {
+
             try {
                 var result = true;
                 var start_hour = time.split(':')[0];

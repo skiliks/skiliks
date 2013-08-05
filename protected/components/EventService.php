@@ -204,8 +204,8 @@ class EventService
             // if (!$task) return false;
             // Example of how to do:
             assert($task);
-            
-            TodoService::add($simulation, $task);
+
+            DayPlanService::addTask($simulation, $task->id, DayPlan::DAY_TODO);
             
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
         } else if ($type == 'T') {

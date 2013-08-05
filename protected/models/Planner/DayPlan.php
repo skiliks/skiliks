@@ -7,56 +7,21 @@
  * @property integer $id
  * @property integer $sim_id
  * @property string $date
- * @property integer $day
+ * @property string $day
  * @property integer $task_id
  *
  * The followings are the available model relations:
- * @property Simulations $sim
- * @property Tasks $task
+ * @property Simulation $sim
+ * @property Task $task
  */
 class DayPlan extends CActiveRecord
 {
-    /**
-     * Выбрать по диапазону дат от и до
-     * @param int $from
-     * @param int $to
-     * @return DayPlan
-     */
-    public function byDate($from, $to)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "date >= $from and date <= $to"
-        ));
-        return $this;
-    }
+    const DAY_1              = 'day-1';
+    const DAY_2              = 'day-2';
+    const DAY_AFTER_VACATION = 'after-vacation';
+    const DAY_TODO           = 'todo';
 
-    /**
-     * Выбрать по заданной задачи
-     * @param int $taskId
-     * @return DayPlan
-     */
-    public function byTask($taskId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "task_id={$taskId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать ближайшую запись по дате от и до
-     * @param int $from
-     * @param int $to
-     * @return DayPlan
-     */
-    public function nearest($from, $to)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "date > '{$from}' and date < '{$to}'"
-        ));
-        return $this;
-    }
-    // -------------------------------------------------------------------------------
+    protected static $allowedDays = ['day-1', 'day-2', 'after-vacation', 'todo'];
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -85,8 +50,9 @@ class DayPlan extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('sim_id, day, task_id', 'required'),
-			array('sim_id, day, task_id', 'numerical', 'integerOnly'=>true),
+			array('sim_id, task_id', 'numerical', 'integerOnly'=>true),
 			array('date', 'safe'),
+			array('day', 'isDayAllowed'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, sim_id, date, day, task_id', 'safe', 'on'=>'search'),
@@ -101,8 +67,8 @@ class DayPlan extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
-			'task' => array(self::BELONGS_TO, 'Tasks', 'task_id'),
+			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'task' => array(self::BELONGS_TO, 'Task', 'task_id'),
 		);
 	}
 
@@ -134,11 +100,22 @@ class DayPlan extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('date',$this->date);
-		$criteria->compare('day',$this->day);
+		$criteria->compare('position',$this->position);
 		$criteria->compare('task_id',$this->task_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * @param string $day
+     * @return bool
+     */
+    public function isDayAllowed($day)
+    {
+        if (!in_array($this->day, self::$allowedDays)) {
+            $this->addError('day', Yii::t('site', 'Неверный день'));
+        }
+    }
 }
