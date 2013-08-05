@@ -48,11 +48,6 @@ return [
         'trash' => "xpath=//*[@id='FOLDER_TRASH']/label",
     ],
 
-    'todo' => [
-        '' => '',
-    ],
-
-
     'phone' => [
         'contacts_list' => "//*[@id='phoneMainScreen']/ul/li[1]",
         'missed_calls' => "//*[@id='phoneMainScreen']/ul/li[2]",
@@ -95,12 +90,6 @@ return [
         'deny' => "//a[@class='visitor-deny']"
     ],
 
-
-    'documents' => [
-        '' => '',
-    ],
-
-
     'dev' => [
         'event_input' => "id=addTriggerSelect",
         'event_create' => "//div[@class='controls']//input[@value='Создать']",
@@ -117,29 +106,38 @@ return [
         'learn-goal-112' => "//tr[contains(@class, 'learning-goal-code-112')]/td[4]",
         'learn-goal-123' => "//tr[contains(@class, 'learning-goal-code-123')]/td[4]",
 
+        //Определение приоритетов
+        'group_1_1' => "//tr[@class='learning-goal-code-group-1_1']/td[4]",
+        //Использование планирования в течение дня
+        'group_1_2' => "//tr[@class='learning-goal-code-group-1_2']/td[4]",
+        //Правильное определение приоритетов задач при планировании
+        'group_1_3' => "//tr[@class='learning-goal-code-group-1_3']/td[4]",
+        //Выполнение задач в соответствии с приоритетами
+        'group_1_4' => "//tr[@class='learning-goal-code-group-1_4']/td[4]",
+        //Завершение начатых задач
+        'group_1_5' => "//tr[@class='learning-goal-code-group-1_5']/td[4]",
+        //Использование делегирования для управления объемом
+        'group_2_1' => "//tr[@class='learning-goal-code-group-2_1']/td[4]",
+        //Управление ресурсами различной квалификации
+        'group_2_2' => "//tr[@class='learning-goal-code-group-2_2']/td[4]",
+        //Использование обратной связи
+        'group_2_3' => "//tr[@class='learning-goal-code-group-2_3']/td[4]",
+        //Оптимальное использование каналов коммуникации
+        'group_3_1' => "//tr[@class='learning-goal-code-group-3_1']/td[4]",
+        //Эффективная работа с почтой
+        'group_3_2' => "//tr[@class='learning-goal-code-group-3_2']/td[4]",
+        //Эффективная работа со звонками
+        'group_3_3' => "//tr[@class='learning-goal-code-group-3_3']/td[4]",
+        //Эффективное управление встречами
+        'group_3_4' => "//tr[@class='learning-goal-code-group-3_4']/td[4]",
+
         'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
         'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
         'admm_personal' => "//tr[@class='matrix-points-sum-scale-type-personal']/td[2]",
 
-        'goals' => "//tr[contains(@class, 'learning-area-code-1')]/td[3]",
-        'tasks2'=> "//tr[contains(@class, 'learning-area-code-2')]/td[3]",
-        'management3' => "//tr[contains(@class, 'learning-area-code-3')]/td[3]",
-        'communication4' => "//tr[contains(@class, 'learning-area-code-4')]/td[3]",
-        'calls6' => "//tr[contains(@class, 'learning-area-code-6')]/td[3]",
-        'meetings7' => "//tr[contains(@class, 'learning-area-code-7')]/td[3]",
-        'personal9' => "//tr[contains(@class, 'learning-area-code-9')]/td[3]",
-        'personal10' => "//tr[contains(@class, 'learning-area-code-10')]/td[3]",
-        'personal11' => "//tr[contains(@class, 'learning-area-code-11')]/td[3]",
-        'personal12' => "//tr[contains(@class, 'learning-area-code-12')]/td[3]",
-        'personal13' => "//tr[contains(@class, 'learning-area-code-13')]/td[3]",
-        'personal14' => "//tr[contains(@class, 'learning-area-code-14')]/td[3]",
-        'personal15' => "//tr[contains(@class, 'learning-area-code-15')]/td[3]",
-        'personal16' => "//tr[contains(@class, 'learning-area-code-16')]/td[3]",
-    ],
-
-
-    'other' => [
-        '' => '',
+        'learning_area_1' => "//tr[contains(@class, 'learning-area-code-1')]/td[3]",
+        'learning_area_2'=> "//tr[contains(@class, 'learning-area-code-2')]/td[3]",
+        'learning_area_3' => "//tr[contains(@class, 'learning-area-code-3')]/td[3]",
     ],
 
     //работает только для первого адресата
@@ -216,6 +214,4 @@ return [
         'FCS1' => "css=.FCS1-value",
         'FNA' => "css=.FNA-value"
     ],
-
-
 ];
