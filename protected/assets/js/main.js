@@ -304,14 +304,7 @@ var fixLogotypes = function() {
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
-
-        $('.start-full-simulation').click(function(event){
-            var href = $(this).attr('data-href');
-            event.preventDefault();
-
-            // удлиннить окно чтоб футер был ниже нижнего края попапа
-            $('.content').css('margin-bottom', '80px');
-
+        function warningPopup(href){
             $(".warning-popup").dialog({
                 closeOnEscape: true,
                 dialogClass: 'popup-before-start-sim',
@@ -324,12 +317,56 @@ var fixLogotypes = function() {
                     Cufon.refresh();
                 }
             });
+        }
+        $('.start-full-simulation').click(function(event){
+            var href = $(this).attr('data-href');
+            event.preventDefault();
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '80px');
 
+            $.ajax({
+                 url:'/simulationIsStarted',
+                 dataType:  "json",
+                 success:function(data) {
+                     console.log(data.simulation_start);
+                    if(data.simulation_start) {
+                        warningPopup(href);
+                    }else{
+                        $(".pre-start-popup").dialog({
+                            closeOnEscape: true,
+                            dialogClass: 'popup-before-start-sim',
+                            minHeight: 220,
+                            modal: true,
+                            resizable: false,
+                            width:881,
+                            open: function( event, ui ) {
+                                $('.start-full-simulation-next').attr('data-href', href);
+                                Cufon.refresh();
+                            }
+                        });
+                    }
+                }
+            });
             // hack {
             $('.popup-before-start-sim').css('top', '50px');
             $(window).scrollTop('body');
             // hack }
 
+            return false;
+        });
+
+        $('.start-full-simulation-passed').click(function(event){
+            event.preventDefault();
+            $.ajax({url:'/userStartSecondSimulation'});
+            var href = $(this).attr('data-href');
+            $(".pre-start-popup").dialog('close');
+            warningPopup(href);
+            return false;
+        });
+        $('.start-full-simulation-close').click(function(event){
+            event.preventDefault();
+            $.ajax({url:'/userRejectStartSecondSimulation'});
+            $(".pre-start-popup").dialog('close');
             return false;
         });
 

@@ -188,7 +188,9 @@ return array(
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
                 'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
-
+                'simulationIsStarted' => 'static/site/IsStarted',
+                'userStartSecondSimulation' => 'static/site/UserStartSecondSimulation',
+                'userRejectStartSecondSimulation' => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                          =>'static/userAuth/LogoutAndRegistration',
 
                 'recovery'                  => 'static/userAuth/recovery',

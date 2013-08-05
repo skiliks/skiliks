@@ -149,6 +149,29 @@ class SiteController extends SiteBaseController
             $this->render('error404');
         }
     }
+
+    public function actionIsStarted()
+    {
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        /* @var YumUser $user */
+        $user = Yii::app()->user->data();
+        $not_end_simulations = (int)Simulation::model()->countByAttributes(['user_id'=>$user->id,'scenario_id'=>$scenario->id, 'end'=>null]);
+        if($not_end_simulations === 0) {
+            $result['simulation_start'] = true;
+        }else{
+            SimulationService::logAboutSim(null, 'try to start simulation when full sim already started');
+            $result['simulation_start'] = false;
+        }
+        $this->sendJSON($result);
+    }
+
+    public function actionUserStartSecondSimulation() {
+        SimulationService::logAboutSim(null, 'user start second simulation');
+    }
+
+    public function actionUserRejectStartSecondSimulation() {
+        SimulationService::logAboutSim(null, 'user reject start second simulation');
+    }
 }
 
 
