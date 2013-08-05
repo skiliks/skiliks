@@ -1159,7 +1159,7 @@
 }
 .payment-invoice .errorMessage {
     left: 120px;
-    top:2px;
+    top:1px;
 }
 .terms-confirm {
     position: relative;
