@@ -1,5 +1,5 @@
 /* global $ */
-var prefix = '/statistics/SeleniumTestsAuth?params=';
+var prefix = '/admin_area/statistics/testAuth?params=';
 function ci_call(url, result) {
     $.ajax({
         url:prefix + url,
@@ -66,6 +66,16 @@ function update_tc(selector, xml){
         });
     });
 
+}
+
+function runStat() {
+    update_tc('.statistic-php-unit', '/httpAuth/app/rest/buildTypes/id:bt3/builds/');
+    update_tc('.statistic-selenium-site', '/httpAuth/app/rest/buildTypes/id:bt6/builds/');
+    update_tc('.statistic-selenium-assessment', '/httpAuth/app/rest/buildTypes/id:bt4/builds/');
+    update_stat('.statistic-free-disk-space', '/admin_area/statistics/free-disk-space');
+    update_stat('.statistic-order-count', '/admin_area/statistics/statistic-order-count');
+    update_stat('.statistic-feedback-count', '/admin_area/statistics/statistic-feedback-count');
+    update_stat('.statistic-crash-simulation', '/admin_area/statistics/statistic-crash-simulation');
 }
 $(document).ready(function(){
     $(".reset-invite").click(function() {

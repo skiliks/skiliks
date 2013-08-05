@@ -302,6 +302,9 @@ return array(
                 'admin_area/users'             => 'admin_area/AdminPages/UsersList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/statistics/testAuth'        => 'admin_area/AdminPages/TestAuth',
+                'admin_area/statistics/statistic-order-count'        => 'admin_area/AdminPages/StatisticOrderCount',
+                'admin_area/statistics/statistic-feedback-count'        => 'admin_area/AdminPages/StatisticFeedbackCount',
+                'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
                 'admin_area/statistics/free-disk-space'        => 'admin_area/AdminPages/StatisticFreeDiskSpace',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
