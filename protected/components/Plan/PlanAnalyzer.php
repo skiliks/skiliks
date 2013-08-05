@@ -209,7 +209,12 @@ class PlanAnalyzer {
 
     }
 
-    public function calculateParentAvailability($parentAvailability, $groupedLog) {
+    public function calculateParentAvailability($parentAvailability, $groupedLog)
+    {
+        if (null === $parentAvailability) {
+            return null;
+        }
+
         if($parentAvailability->code === 'T7b') {
             $max_end_time = 0;
 
