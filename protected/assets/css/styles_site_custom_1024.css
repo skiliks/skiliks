@@ -1164,6 +1164,11 @@
 .terms-confirm {
     position: relative;
 }
+.terms-confirm .errorMessage {
+    text-align: center;
+    top: -9px;
+    width: 100%;
+}
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
 .terms-page {
