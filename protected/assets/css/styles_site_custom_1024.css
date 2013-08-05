@@ -1106,7 +1106,7 @@
     color: #3c3c32;
     display: inline-block;
     padding-right: 4px;
-    width: 112px;
+    width: 111px;
 }
 .payment-invoice input[type="text"] {
     border: 1px solid #6b6a54;
@@ -1156,6 +1156,13 @@
 }
 .margin-vert {
     margin: 16px 0px;
+}
+.payment-form .errorMessage {
+    left: 120px;
+    top:2px;
+}
+.terms-confirm {
+    position: relative;
 }
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/

@@ -1076,7 +1076,11 @@
     margin: 20px 0px;
 }
 .payment-form .errorMessage {
-    left: 148px;
+    left: 146px;
+    top:2px;
+}
+.terms-confirm {
+    position: relative;
 }
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
