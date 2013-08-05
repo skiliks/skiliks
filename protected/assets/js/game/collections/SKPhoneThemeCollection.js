@@ -48,16 +48,21 @@ define(["game/models/SKPhoneTheme"], function (SKPhoneTheme) {
          * @param options
          */
         sync: function (method, collection, options) {
-            var phoneCollection = this;
+            try {
+                var phoneCollection = this;
 
-            if ('read' === method) {
-                SKApp.server.api(
-                    'phone/getThemes',
-                    {id: phoneCollection.characterId }
-                    , function (data) {
-                        options.success(data);
-                    }
-                );
+                if ('read' === method) {
+                    SKApp.server.api(
+                        'phone/getThemes',
+                        {id: phoneCollection.characterId }, function (data) {
+                            options.success(data);
+                        }
+                    );
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });

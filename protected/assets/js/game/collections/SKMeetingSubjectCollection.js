@@ -20,12 +20,18 @@ define(["game/models/SKMeetingSubject"], function (SKMeetingSubject) {
          * @param options
          */
         sync: function (method, collection, options) {
-            var me = this;
+            try {
+                var me = this;
 
-            if ('read' === method) {
-                SKApp.server.api('meeting/getSubjects', {}, function (data) {
-                    options.success(data);
-                });
+                if ('read' === method) {
+                    SKApp.server.api('meeting/getSubjects', {}, function (data) {
+                        options.success(data);
+                    });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });

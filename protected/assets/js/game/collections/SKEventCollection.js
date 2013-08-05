@@ -53,9 +53,15 @@ define(["game/models/SKEvent"], function () {
              * @method initialize
              */
             'initialize': function () {
-                var me = this;
-                // Block phone when visit/call going
-                this.on('event:phone event:immediate-phone event:visit event:immediate-visit', this.handleBlocking);
+                try {
+                    var me = this;
+                    // Block phone when visit/call going
+                    this.on('event:phone event:immediate-phone event:visit event:immediate-visit', this.handleBlocking);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -64,25 +70,31 @@ define(["game/models/SKEvent"], function () {
              * @method handleBlocking
              */
             handleBlocking: function (event) {
-                /**
-                 * Начало блокировки новых событий
-                 * @event blocking:start
-                 */
-                if ('in progress' === event.getStatus()) {
-                    this.trigger('blocking:start');
-                } else {
-                    event.on('in progress', function () {
-                        this.trigger('blocking:start');
-                    }, this);
-                }
-
-                event.on('complete', function () {
+                try {
                     /**
-                     * Конец блокировки новых событий
-                     * @event blocking:end
+                     * Начало блокировки новых событий
+                     * @event blocking:start
                      */
-                    this.trigger('blocking:end');
-                }, this);
+                    if ('in progress' === event.getStatus()) {
+                        this.trigger('blocking:start');
+                    } else {
+                        event.on('in progress', function () {
+                            this.trigger('blocking:start');
+                        }, this);
+                    }
+
+                    event.on('complete', function () {
+                        /**
+                         * Конец блокировки новых событий
+                         * @event blocking:end
+                         */
+                        this.trigger('blocking:end');
+                    }, this);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -91,17 +103,23 @@ define(["game/models/SKEvent"], function () {
              * @param cb
              */
             'getUnreadMailCount': function (cb) {
-                var me = this;
-                SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
-                    if (parseInt(data.result, 10) === 1) {
-                        var counter = parseInt(data.unreaded, 10);
-                        me.unread_mail_count = counter;
-                        me.trigger('mail:counter:update', me.unread_mail_count);
-                        if (cb !== undefined) {
-                            cb(counter);
+                try {
+                    var me = this;
+                    SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
+                        if (parseInt(data.result, 10) === 1) {
+                            var counter = parseInt(data.unreaded, 10);
+                            me.unread_mail_count = counter;
+                            me.trigger('mail:counter:update', me.unread_mail_count);
+                            if (cb !== undefined) {
+                                cb(counter);
+                            }
                         }
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-                });
+                }
             },
 
             /**
@@ -112,23 +130,28 @@ define(["game/models/SKEvent"], function () {
              * @method canAddEvent
              */
             canAddEvent: function (event, url) {
-
-                if(this.isLock && this.unLockUrl !== url) {
-                    return false;
-                }
-
-                if (!event.getTypeSlug().match(/(phone|visit)$/)) {
-                    return true;
-                }
-                var res = true;
-                this.each(function (ev) {
-                    if (ev.getTypeSlug().match(/(phone|visit)$/) &&
-                        (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
-                        ev.get('data')[0].code !== event.get('data')[0].code) {
-                        res = false;
+                try {
+                    if(this.isLock && this.unLockUrl !== url) {
+                        return false;
                     }
-                });
-                return res;
+
+                    if (!event.getTypeSlug().match(/(phone|visit)$/)) {
+                        return true;
+                    }
+                    var res = true;
+                    this.each(function (ev) {
+                        if (ev.getTypeSlug().match(/(phone|visit)$/) &&
+                            (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
+                            ev.get('data')[0].code !== event.get('data')[0].code) {
+                            res = false;
+                        }
+                    });
+                    return res;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -141,19 +164,25 @@ define(["game/models/SKEvent"], function () {
              * @method triggerEvent
              */
             'triggerEvent': function (code, delay, clear_events, clear_assessment) {
-                var callback;
-                if (arguments.length > 4) {
-                    callback = arguments[4];
-                } else {
-                    callback = undefined;
+                try {
+                    var callback;
+                    if (arguments.length > 4) {
+                        callback = arguments[4];
+                    } else {
+                        callback = undefined;
+                    }
+                    SKApp.server.api('events/start', {
+                        eventCode: code,
+                        delay: delay,
+                        clearEvents: clear_events,
+                        clearAssessment: clear_assessment,
+                        gameTime: SKApp.simulation.getGameSeconds()
+                    }, callback);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-                SKApp.server.api('events/start', {
-                    eventCode: code,
-                    delay: delay,
-                    clearEvents: clear_events,
-                    clearAssessment: clear_assessment,
-                    gameTime: SKApp.simulation.getGameSeconds()
-                }, callback);
             },
 
             /**
@@ -164,10 +193,16 @@ define(["game/models/SKEvent"], function () {
              * @method wait
              */
             'wait': function (code, originalTime) {
-                SKApp.server.api('events/wait', {
-                    eventCode: code,
-                    eventTime: originalTime
-                });
+                try {
+                    SKApp.server.api('events/wait', {
+                        eventCode: code,
+                        eventTime: originalTime
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
             'unlockEvents' : function() {
                 this.isLock = false;

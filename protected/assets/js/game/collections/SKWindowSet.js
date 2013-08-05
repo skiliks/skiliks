@@ -40,102 +40,103 @@ define([
          * @throw Exception
          */
         'initialize': function (models, options) {
-            if (options.events === undefined) {
-                throw 'SKWindowSet requires events';
-            }
-            options.events.on('event:phone:in_progress', function (event) {
-                this.toggle('phone', 'phoneCall', {sim_event: event});
-            }, this);
-            options.events.on('event:visit:in_progress', function (event) {
-                this.toggle('visitor', 'visitorEntrance', {sim_event: event});
-            }, this);
-            options.events.on('event:immediate-visit', function (event) {
-                this.open('visitor', 'visitorTalk', {sim_event: event});
-                event.setStatus('in progress');
-            }, this);
-            options.events.on('event:immediate-phone', function (event) {
-                this.open('phone', 'phoneTalk', {sim_event: event});
-                event.setStatus('in progress');
-            }, this);
-            options.events.on('event:mail-send', function (event) {
-                if (event.get('fantastic')) {
-                    var simulation = SKApp.simulation;
-                    simulation.startInputLock();
+            try {
+                if (options.events === undefined) {
+                    throw new Error('SKWindowSet requires events');
+                }
+                options.events.on('event:phone:in_progress', function (event) {
+                    this.toggle('phone', 'phoneCall', {sim_event: event});
+                }, this);
+                options.events.on('event:visit:in_progress', function (event) {
+                    this.toggle('visitor', 'visitorEntrance', {sim_event: event});
+                }, this);
+                options.events.on('event:immediate-visit', function (event) {
+                    this.open('visitor', 'visitorTalk', {sim_event: event});
+                    event.setStatus('in progress');
+                }, this);
+                options.events.on('event:immediate-phone', function (event) {
+                    this.open('phone', 'phoneTalk', {sim_event: event});
+                    event.setStatus('in progress');
+                }, this);
+                options.events.on('event:mail-send', function (event) {
+                    if (event.get('fantastic')) {
+                        var simulation = SKApp.simulation;
+                        simulation.startInputLock();
 
-                    if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+                        if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+                            simulation.window_set.open(
+                                'mailEmulator',
+                                simulation.mailClient.getActiveSubscreenName()
+                            );
+                            simulation.mailClient.view.on('render_finished', function () {
+                                SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
+                            });
+                        } else {
+                            var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                            windows[0].setOnTop();
+                            SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
+                        }
+                        simulation.mailClient.on('mail:fantastic-send:complete', function () {
+                            SKApp.simulation.stopInputLock();
+                        });
+
+
+                    }
+                });
+                options.events.on('event:mail', function (event) {
+                    options.events.getUnreadMailCount();
+                    if (event.get('fantastic')) {
+                        var simulation = SKApp.simulation;
+                        simulation.startInputLock();
+
+                        if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+
+                            console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
+                        } else {
+                            // console.log('HAS active mail client view');
+                            var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
+                            simulation.mailClient.view.setForcedClosing();
+
+                            windows[0].setOnTop();
+                            windows[0].close(
+                                'mailEmulator',
+                                simulation.mailClient.getActiveSubscreenName()
+                            );
+                        }
+
                         simulation.window_set.open(
                             'mailEmulator',
                             simulation.mailClient.getActiveSubscreenName()
                         );
                         simulation.mailClient.view.on('render_finished', function () {
-                            SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
-                        });
-                    } else {
-                        var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
-                        windows[0].setOnTop();
-                        SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
-                    }
-                    simulation.mailClient.on('mail:fantastic-send:complete', function () {
-                        SKApp.simulation.stopInputLock();
-                    });
 
+                            var email_row = simulation.mailClient.view.$('.email-list-line[data-email-id=' + event.get('id') + ']');
+                            if (!email_row.hasClass('active')) {
+                                email_row.click();
+                            }
 
-                }
-            });
-            options.events.on('event:mail', function (event) {
-                options.events.getUnreadMailCount();
-                if (event.get('fantastic')) {
-                    var simulation = SKApp.simulation;
-                    simulation.startInputLock();
-
-                    if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-                        /*simulation.window_set.open(
-                            'mailEmulator',
-                            simulation.mailClient.getActiveSubscreenName()
-                        );
-                        simulation.mailClient.view.on('render_finished', function () {
                             SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
-                        });*/
-                        console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
-                    } else {
-                        // console.log('HAS active mail client view');
-                        var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
-                        simulation.mailClient.view.setForcedClosing();
+                        });
 
-                        windows[0].setOnTop();
-                        windows[0].close(
-                            'mailEmulator',
-                            simulation.mailClient.getActiveSubscreenName()
-                        );
+                        simulation.mailClient.on('mail:fantastic-open:complete', function () {
+                            SKApp.simulation.stopInputLock();
+                        });
                     }
-
-                    simulation.window_set.open(
-                        'mailEmulator',
-                        simulation.mailClient.getActiveSubscreenName()
-                    );
-                    simulation.mailClient.view.on('render_finished', function () {
-
-                        var email_row = simulation.mailClient.view.$('.email-list-line[data-email-id=' + event.get('id') + ']');
-                        if (!email_row.hasClass('active')) {
-                            email_row.click();
-                        }
-
-                        SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
-                    });
-
-                    simulation.mailClient.on('mail:fantastic-open:complete', function () {
-                        SKApp.simulation.stopInputLock();
-                    });
-                }
-            });
-            this.on('add', function (win) {
-                var zIndex = -1;
-                this.each(function (window) {
-                    zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
                 });
-                win.set('zindex', zIndex + 1);
+                this.on('add', function (win) {
+                    var zIndex = -1;
+                    this.each(function (window) {
+                        zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
+                    });
+                    win.set('zindex', zIndex + 1);
 
-            }, this);
+                }, this);
+
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
 
         },
 
@@ -157,17 +158,23 @@ define([
          * @return void
          */
         'showWindow': function (win) {
-            if (win.single === true && this.get(win)) {
-                throw 'Window already displayed';
+            try {
+                if (win.single === true && this.get(win)) {
+                    throw 'Window already displayed';
+                }
+                if (this.length) {
+                    this.at(this.length - 1).deactivate();
+                }
+                if (this.get(win.id)) {
+                    throw 'Trying to add window with same ID';
+                }
+                this.add(win);
+                win.activate();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            if (this.length) {
-                this.at(this.length - 1).deactivate();
-            }
-            if (this.get(win.id)) {
-                throw 'Trying to add window with same ID';
-            }
-            this.add(win);
-            win.activate();
         },
 
         /**
@@ -178,40 +185,58 @@ define([
          * @return void
          */
         toggle: function (name, subname, params) {
-            // protect against 2 open phone windows at the same time
-            if (name === 'phone') {
-                this.closeAllPhoneInstances(name, subname);
-            }
-
-            var windows = this.where({name: name, subname: subname});
-
-            if (windows.length !== 0) {
-                if ((this.at(this.length - 1).id === subname)) { // If this is top window
-                    windows[0].close();
-                } else {
-                    windows[0].setOnTop();
-                    windows[0].trigger('refresh');
+            try {
+                // protect against 2 open phone windows at the same time
+                if (name === 'phone') {
+                    this.closeAllPhoneInstances(name, subname);
                 }
-            } else {
-                var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
-                var win = new WindowType(_.extend({name: name, subname: subname}, params));
-                win.open();
+
+                var windows = this.where({name: name, subname: subname});
+
+                if (windows.length !== 0) {
+                    if ((this.at(this.length - 1).id === subname)) { // If this is top window
+                        windows[0].close();
+                    } else {
+                        windows[0].setOnTop();
+                        windows[0].trigger('refresh');
+                    }
+                } else {
+                    var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                    var win = new WindowType(_.extend({name: name, subname: subname}, params));
+                    win.open();
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
         isOpen:function(name, subname) {
-            var windows = this.where({name: name, subname: subname});
-            if (windows.length === 0) {
-                return false;
-            }else{
-                return true;
+            try {
+                var windows = this.where({name: name, subname: subname});
+                if (windows.length === 0) {
+                    return false;
+                }else{
+                    return true;
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
         isActive:function(name, subname) {
-            var window = this.getActiveWindow();
+            try {
+                var window = this.getActiveWindow();
 
-            return (window.get('name') === name && window.get('subname') === subname);
+                return (window.get('name') === name && window.get('subname') === subname);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**doActivate
@@ -224,24 +249,30 @@ define([
          * @return SKWindow
          */
         open: function (name, subname, params) {
-            var windows = this.where({name: name, subname: subname});
+            try {
+                var windows = this.where({name: name, subname: subname});
 
-            if (windows.length !== 0) {
-                if (this.at(this.length - 1).id !== subname) { // If this is top window
-                    windows[0].setOnTop();
+                if (windows.length !== 0) {
+                    if (this.at(this.length - 1).id !== subname) { // If this is top window
+                        windows[0].setOnTop();
+                    }
+                    if (params !== undefined) {
+                        _.each(_.pairs(params), function (i) {
+                            windows[0].set(i[0], i[1]);
+                        });
+                    }
+                    windows[0].trigger('refresh');
+                    return windows[0];
+                } else {
+                    var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                    var win = new WindowType(_.extend({name: name, subname: subname}, params));
+                    win.open();
+                    return win;
                 }
-                if (params !== undefined) {
-                    _.each(_.pairs(params), function (i) {
-                        windows[0].set(i[0], i[1]);
-                    });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-                windows[0].trigger('refresh');
-                return windows[0];
-            } else {
-                var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
-                var win = new WindowType(_.extend({name: name, subname: subname}, params));
-                win.open();
-                return win;
             }
         },
 
@@ -251,10 +282,16 @@ define([
          * @return void
          */
         'hideWindow': function (win) {
-            this.remove(win);
-            win.deactivate();
-            if (this.length) {
-                this.at(this.length - 1).activate();
+            try {
+                this.remove(win);
+                win.deactivate();
+                if (this.length) {
+                    this.at(this.length - 1).activate();
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
@@ -263,31 +300,49 @@ define([
          * @return void
          */
         'closeAll':   function () {
-            var name;
-            if (arguments.length === 1) {
-                name = arguments[0];
-            }
-            var reverse_list = this.models.slice();
-            reverse_list.forEach(function (win) {
-                if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
-                    // we can`t close already closed windows
-                    if (true === win.is_opened) {
-                        win.close();
-                    }
+            try {
+                var name;
+                if (arguments.length === 1) {
+                    name = arguments[0];
                 }
-            });
+                var reverse_list = this.models.slice();
+                reverse_list.forEach(function (win) {
+                    if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
+                        // we can`t close already closed windows
+                        if (true === win.is_opened) {
+                            win.close();
+                        }
+                    }
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
-        'deactivateActiveWindow': function () {
-            this.getActiveWindow().deactivate();
+        deactivateActiveWindow: function () {
+            try {
+                this.getActiveWindow().deactivate();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
-        'getActiveWindow': function () {
-            var count = this.models.length;
-            if (count > 0) {
-                return this.models[count - 1];
-            } else {
-                throw new Error("No active windows!!");
+        getActiveWindow: function () {
+            try {
+                var count = this.models.length;
+                if (count > 0) {
+                    return this.models[count - 1];
+                } else {
+                    throw new Error("No active windows!!");
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
@@ -300,11 +355,17 @@ define([
          * @returns void
          */
         closeAllPhoneInstances: function (name, subname) {
-            SKApp.simulation.window_set.each(function (window) {
-                if ('phone' === window.get('name') && 'phone' === name && window.get('subname') !== subname){
-                    window.close();
+            try {
+                SKApp.simulation.window_set.each(function (window) {
+                    if ('phone' === window.get('name') && 'phone' === name && window.get('subname') !== subname){
+                        window.close();
+                    }
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-            });
+            }
         }
 
     });
