@@ -543,10 +543,62 @@ class AdminPagesController extends SiteBaseController {
     public function actionStatisticFreeDiskSpace(){
         $this->layout = false;
         $bytes = disk_free_space($_SERVER['DOCUMENT_ROOT']);
-        $res = [
-            'data'=>round($bytes/1024/1024/1024).' Gb',
-            'status'=>'success'
-        ];
+        $free = round($bytes/1024/1024/1024);
+        if($free <= 5) {
+            $res['status'] = 'failure';
+        } else {
+            $res['status'] = 'success';
+        }
+        $res['data'] = " {$free} Gb";
+        echo json_encode($res);
+    }
+
+    public function actionStatisticOrderCount()
+    {
+        $this->layout = false;
+        $all = Invoice::model()->count();
+        $today = (int)Invoice::model()->count('created_at > CURDATE()');
+        if($today !== 0) {
+            $res['status'] = 'failure';
+        } else {
+            $res['status'] = 'success';
+        }
+        $res['data'] = " {$today}/{$all}";
+        echo json_encode($res);
+    }
+
+    public function actionStatisticFeedbackCount()
+    {
+        $all = (int)Feedback::model()->count();
+        $today = (int)Feedback::model()->count(" addition >= :addition", ['addition'=>(new DateTime())->format("Y-m-d")]);
+        if($today !== 0) {
+            $res['status'] = 'failure';
+        } else {
+            $res['status'] = 'success';
+        }
+        $res['data'] = " {$today}/{$all}";
+        echo json_encode($res);
+    }
+
+    public function actionStatisticCrashSimulation()
+    {
+        $full = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        $lite = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_LITE]);
+        $full_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
+            'start'=>date('Y-m-d H:i:s', strtotime('-3 hours')),
+            'scenario_id'=>$full->id
+        ]);
+        $lite_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
+            'start'=>date('Y-m-d H:i:s', strtotime('-1 hours')),
+            'scenario_id'=>$lite->id
+        ]);
+        $total = $full_crash + $lite_crash;
+        if($total !== 0) {
+            $res['status'] = 'failure';
+        } else {
+            $res['status'] = 'success';
+        }
+        $res['data'] = " {$total} ";
         echo json_encode($res);
     }
 }
