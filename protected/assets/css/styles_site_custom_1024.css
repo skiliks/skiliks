@@ -1157,7 +1157,7 @@
 .margin-vert {
     margin: 16px 0px;
 }
-.payment-form .errorMessage {
+.payment-invoice .errorMessage {
     left: 120px;
     top:2px;
 }
