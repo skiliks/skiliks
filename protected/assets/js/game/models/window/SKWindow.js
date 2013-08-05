@@ -53,24 +53,30 @@ define([], function () {
          * @constructs
          */
         initialize: function () {
-            var window_id = this.get('name') + "/" + this.get('subname');
-            if (window_id in SKApp.simulation.window_set) {
-                throw "Window " + window_id + " already exists";
-            }
-            if (! (this.get('name') in screens)) {
-                throw 'Unknown screen';
-            }
-            if (! (this.get('subname') in screensSub)) {
-                throw 'Unknown subscreen';
-            }
-            if (!this.has('id')) {
-                this.set('id', this.get('subname'));
-            }
+            try {
+                var window_id = this.get('name') + "/" + this.get('subname');
+                if (window_id in SKApp.simulation.window_set) {
+                    throw "Window " + window_id + " already exists";
+                }
+                if (! (this.get('name') in screens)) {
+                    throw 'Unknown screen';
+                }
+                if (! (this.get('subname') in screensSub)) {
+                    throw 'Unknown subscreen';
+                }
+                if (!this.has('id')) {
+                    this.set('id', this.get('subname'));
+                }
 
-            this.updateUid();
+                this.updateUid();
 
-            this.is_opened = false;
-            this.simulation = SKApp.simulation;
+                this.is_opened = false;
+                this.simulation = SKApp.simulation;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -78,7 +84,13 @@ define([], function () {
          * @returns {*}
          */
         'getWindowId': function () {
-            return screens[this.get('name')];
+            try {
+                return screens[this.get('name')];
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -86,14 +98,26 @@ define([], function () {
          * @returns {*}
          */
         'getSubwindowId': function () {
-            return screensSub[this.get('subname')];
+            try {
+                return screensSub[this.get('subname')];
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
          * @method
          */
         'updateUid': function() {
-            this.window_uid = _.uniqueId();
+            try {
+                this.window_uid = _.uniqueId();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -101,55 +125,73 @@ define([], function () {
          * @method open
          */
         open: function() {
-            if (this.is_opened) {
-                throw "Window is already opened";
+            try {
+                if (this.is_opened) {
+                    throw "Window is already opened";
+                }
+                this.is_opened = true;
+                this.simulation.window_set.showWindow(this);
+                /**
+                 * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
+                 * @event open
+                 */
+                this.trigger('open', this.get('name'), this.get('subname'));
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.is_opened = true;
-            this.simulation.window_set.showWindow(this);
-            /**
-             * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
-             * @event open
-             */
-            this.trigger('open', this.get('name'), this.get('subname'));
         },
 
         /**
          * @method
          */
         close: function() {
-            if (!this.is_opened) {
-                throw "Window is already closed";
+            try {
+                if (!this.is_opened) {
+                    throw "Window is already closed";
+                }
+                this.trigger('pre_close');
+                if (this.prevent_close === true) {
+                    delete this.prevent_close;
+                    return;
+                }
+                this.is_opened = false;
+                SKApp.simulation.window_set.hideWindow(this);
+                this.trigger('close');
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.trigger('pre_close');
-            if (this.prevent_close === true) {
-                delete this.prevent_close;
-                return;
-            }
-            this.is_opened = false;
-            SKApp.simulation.window_set.hideWindow(this);
-            this.trigger('close');
         },
 
         /**
          * @method
          */
         setOnTop:function () {
-            var me = this;
-            var window_set = SKApp.simulation.window_set;
-            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
-                return;
+            try {
+                var me = this;
+                var window_set = SKApp.simulation.window_set;
+                if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
+                    return;
+                }
+                window_set.at(window_set.length - 1).deactivate();
+                window_set.remove(me, {silent:true});
+                var zIndex = 0;
+                window_set.each(function (window) {
+                    window.set('zindex', zIndex);
+                    zIndex += 1;
+                });
+                me.set('zindex', zIndex);
+                window_set.add(me, {silent:true});
+                window_set.sort();
+                me.activate();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            window_set.at(window_set.length - 1).deactivate();
-            window_set.remove(me, {silent:true});
-            var zIndex = 0;
-            window_set.each(function (window) {
-                window.set('zindex', zIndex);
-                zIndex += 1;
-            });
-            me.set('zindex', zIndex);
-            window_set.add(me, {silent:true});
-            window_set.sort();
-            me.activate();
         },
 
         /**
@@ -158,12 +200,18 @@ define([], function () {
          * @method deactivate
          */
         deactivate: function (params) {
-            params = params || {};
+            try {
+                params = params || {};
 
-            if (!params.silent) {
-                this.trigger('deactivate');
+                if (!params.silent) {
+                    this.trigger('deactivate');
+                }
+                this.simulation.windowLog.deactivate(this);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.simulation.windowLog.deactivate(this);
         },
 
         /**
@@ -173,12 +221,18 @@ define([], function () {
          * @method activate
          */
         activate: function (params) {
-            params = params || {};
+            try {
+                params = params || {};
 
-            if (!params.silent) {
-                this.trigger('activate');
+                if (!params.silent) {
+                    this.trigger('activate');
+                }
+                this.simulation.windowLog.activate(this);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.simulation.windowLog.activate(this);
         }
     });
 

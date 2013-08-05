@@ -54,166 +54,196 @@ define([
              * @method initialize
              */
             'initialize':function () {
-                var me = this;
-
-                /**
-                 * Список событий в данной симуляции. Правила, по которым работают события смотрим в документации по
-                 * SKEventCollection
-                 *
-                 * @property events
-                 * @type {SKEventCollection}
-                 */
-                this.events = new SKEventCollection();
-
-                /**
-                 * Список задач в To Do
-                 *
-                 * @property todo_tasks
-                 * @type {SKTodoCollection}
-                 */
-                this.todo_tasks = new SKTodoCollection();
-
-                /**
-                 * Список звонков
-                 * @type {SKPhoneHistoryCollection}
-                 * @property phone_history
-                 */
-                this.phone_history = new SKPhoneHistoryCollection();
-                this.handleEvents();
-
-                this.loadDocsDialog = null;
-
                 try {
-                    document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
-                } catch(e) {
-                    // this to protect against busted-sj test crash
-                }
+                    var me = this;
 
-                this.set('isZohoDocumentSuccessfullySaved', null);
-                this.set('isZohoSavedDocTestRequestSent', false);
+                    /**
+                     * Список событий в данной симуляции. Правила, по которым работают события смотрим в документации по
+                     * SKEventCollection
+                     *
+                     * @property events
+                     * @type {SKEventCollection}
+                     */
+                    this.events = new SKEventCollection();
 
-                this.set('ZohoDocumentSaveCheckAttempt', 1);
-                this.set('scenarioName', null);
+                    /**
+                     * Список задач в To Do
+                     *
+                     * @property todo_tasks
+                     * @type {SKTodoCollection}
+                     */
+                    this.todo_tasks = new SKTodoCollection();
 
-                this.on('tick', function () {
-                    var hours = parseInt(me.getGameMinutes() / 60, 10),
-                        minutes = parseInt(me.getGameMinutes() % 60, 10),
-                        tasks;
+                    /**
+                     * Список звонков
+                     * @type {SKPhoneHistoryCollection}
+                     * @property phone_history
+                     */
+                    this.phone_history = new SKPhoneHistoryCollection();
+                    this.handleEvents();
 
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
-                        me.onEndTime();
+                    this.loadDocsDialog = null;
+
+                    try {
+                        document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
+                    } catch(e) {
+                        // this to protect against busted-sj test crash
                     }
 
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
-                        me.onFinishTime();
-                    }
+                    this.set('isZohoDocumentSuccessfullySaved', null);
+                    this.set('isZohoSavedDocTestRequestSent', false);
 
-                    if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
-                        me.onZohoPopup();
-                    }
+                    this.set('ZohoDocumentSaveCheckAttempt', 1);
+                    this.set('scenarioName', null);
 
-                    me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
+                    this.on('tick', function () {
+                        var hours = parseInt(me.getGameMinutes() / 60, 10),
+                            minutes = parseInt(me.getGameMinutes() % 60, 10),
+                            tasks;
 
-                    minutes += 5;
-                    if (minutes >= 60) {
-                        minutes = minutes % 60;
-                        hours += 1;
-                    }
-
-                    tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
-                    if (tasks.length && true !== tasks[0].get('isDisplayed')) {
-                        me.showTaskNotification(tasks[0]);
-                        tasks[0].set('isDisplayed', true);
-                    }
-                });
-
-                this.dayplan_tasks = new SKDayTaskCollection();
-                this.documents = new SKDocumentCollection();
-                this.documents.bind('afterReset', this.onAddDocument, this);
-                this.windowLog = new SKWindowLog();
-                this.skipped_seconds = 0;
-                this.mailClient = new SKMailClient();
-                this.window_set = new SKWindowSet([], {events:this.events});
-                this.characters = new SKCharacterCollection();
-
-                this.config = [];
-                this.config.isMuteVideo = false;
-                this.manual_is_first_closed = false;
-
-                this.isPlayIncomingCallSound = true;
-                this.isPlayIncomingMailSound = true;
-
-                this.once('time:11-00', function () {
-                    SKApp.server.api('dayPlan/CopyPlan', {
-                        minutes:me.getGameMinutes()
-                    }, function () {
-                    });
-                });
-
-                $(window).on('message', function(event) {
-                    event = event.originalEvent;
-                    if (event.data) {
-                        if ('DocumentLoaded' === event.data.type) {
-                            me.onDocumentLoaded(event);
-                        } else if ('Zoho_500' === event.data.type) {
-                            me.onZoho500(event);
+                        if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
+                            me.onEndTime();
                         }
-                    }
-                });
 
-                // расскоментировать когда подчиним копирование.
-                //this.initSocialcalcHotkeys();
+                        if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
+                            me.onFinishTime();
+                        }
+
+                        if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                            me.onZohoPopup();
+                        }
+
+                        me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
+
+                        minutes += 5;
+                        if (minutes >= 60) {
+                            minutes = minutes % 60;
+                            hours += 1;
+                        }
+
+                        tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
+                        if (tasks.length && true !== tasks[0].get('isDisplayed')) {
+                            me.showTaskNotification(tasks[0]);
+                            tasks[0].set('isDisplayed', true);
+                        }
+                    });
+
+                    this.dayplan_tasks = new SKDayTaskCollection();
+                    this.documents = new SKDocumentCollection();
+                    this.documents.bind('afterReset', this.onAddDocument, this);
+                    this.windowLog = new SKWindowLog();
+                    this.skipped_seconds = 0;
+                    this.mailClient = new SKMailClient();
+                    this.window_set = new SKWindowSet([], {events:this.events});
+                    this.characters = new SKCharacterCollection();
+
+                    this.config = [];
+                    this.config.isMuteVideo = false;
+                    this.manual_is_first_closed = false;
+
+                    this.isPlayIncomingCallSound = true;
+                    this.isPlayIncomingMailSound = true;
+
+                    this.once('time:11-00', function () {
+                        SKApp.server.api('dayPlan/CopyPlan', {
+                            minutes:me.getGameMinutes()
+                        }, function () {
+                        });
+                    });
+
+                    $(window).on('message', function(event) {
+                        event = event.originalEvent;
+                        if (event.data) {
+                            if ('DocumentLoaded' === event.data.type) {
+                                me.onDocumentLoaded(event);
+                            } else if ('Zoho_500' === event.data.type) {
+                                me.onZoho500(event);
+                            }
+                        }
+                    });
+
+                    // расскоментировать когда подчиним копирование.
+                    //this.initSocialcalcHotkeys();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
-            onAddDocument:function(){
-                if (window.elfinderInstace !== undefined) {
-                    window.elfinderInstace.exec('reload');
+            onAddDocument:function() {
+                try {
+                    if (window.elfinderInstace !== undefined) {
+                        window.elfinderInstace.exec('reload');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             timeStringToMinutes: function(str) {
-                if (str === undefined) {
-                    throw 'Time string is not defined';
+                try {
+                    if (str === undefined) {
+                        throw 'Time string is not defined';
+                    }
+                    var parts = str.split(':');
+                    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-                var parts = str.split(':');
-                return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
             },
 
             savePlan: function(callback) {
-                var me = this,
-                    doc;
+                try {
+                    var me = this,
+                        doc;
 
-                if (me.dayPlanDocId) {
-                    doc = me.documents.where({id: me.dayPlanDocId})[0];
-                    delete SKDocument._excel_cache[me.dayPlanDocId];
-                    me.documents.remove(doc);
-                }
-
-                SKApp.server.api('dayPlan/save', {}, function(response) {
-                    me.documents.fetch();
-
-                    if (typeof callback === 'function') {
-                        callback(response);
+                    if (me.dayPlanDocId) {
+                        doc = me.documents.where({id: me.dayPlanDocId})[0];
+                        delete SKDocument._excel_cache[me.dayPlanDocId];
+                        me.documents.remove(doc);
                     }
-                });
+
+                    SKApp.server.api('dayPlan/save', {}, function(response) {
+                        me.documents.fetch();
+
+                        if (typeof callback === 'function') {
+                            callback(response);
+                        }
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             showTaskNotification: function(task) {
-                if (SKApp.isTutorial()) {
-                    return;
-                }
-                var notification = new SKDialogPanNotificationView({
-                    'class': 'task-notification-dialog',
-                    'message': '<span class="task-time">' + task.get('date') + '</span>' +
-                               '<span class="task-description">' + task.get('title') + '</span>',
-                    'modal': true,
-                    'buttons': [],
-                     addCloseButton: true
-                });
+                try {
+                    if (SKApp.isTutorial()) {
+                        return;
+                    }
+                    var notification = new SKDialogPanNotificationView({
+                        'class': 'task-notification-dialog',
+                        'message': '<span class="task-time">' + task.get('date') + '</span>' +
+                                   '<span class="task-description">' + task.get('title') + '</span>',
+                        'modal': true,
+                        'buttons': [],
+                         addCloseButton: true
+                    });
 
-                setTimeout(function() {
-                    notification.remove();
-                }, 5000);
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 5000);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -222,7 +252,13 @@ define([
              * @method getGameMinutes
              */
             'getGameMinutes':function () {
-                return Math.floor(this.getGameSeconds()/60);
+                try {
+                    return Math.floor(this.getGameSeconds()/60);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -234,13 +270,19 @@ define([
              * @method handleEvents
              */
             handleEvents: function () {
-                var me = this;
-                this.events.on('event:plan', function (event) {
-                    me.todo_tasks.fetch({update: true});
-                });
-                this.events.on('event:mail', function () {
-                    me.getNewEvents();
-                });
+                try {
+                    var me = this;
+                    this.events.on('event:plan', function (event) {
+                        me.todo_tasks.fetch({update: true});
+                    });
+                    this.events.on('event:mail', function () {
+                        me.getNewEvents();
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -250,13 +292,19 @@ define([
              * @return {Number}
              */
             'getGameSeconds':function () {
-                var me = this;
-                var current_time_string = me.paused_time || new Date();
-                var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
-                return game_start_time + (me.start_time ?
-                    Math.floor(
-                        ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
-                    ) : 0);
+                try {
+                    var me = this;
+                    var current_time_string = me.paused_time || new Date();
+                    var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
+                    return game_start_time + (me.start_time ?
+                        Math.floor(
+                            ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
+                        ) : 0);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -267,15 +315,21 @@ define([
              * @return {string}
              */
             'getGameTime':function (params) {
-                if(params === undefined) {params = {};}
-                    var sh    = this.getGameSeconds();
-                    var h   = Math.floor(sh / 3600);
-                    var m = Math.floor((sh - (h * 3600)) / 60);
-                    var s = sh - (h * 3600) - (m * 60);
-                    if (h   < 10) {h   = "0"+h;}
-                    if (m < 10) {m = "0"+m;}
-                    if (s < 10) {s = "0"+s;}
-                return h + ':' + m + (params.with_seconds === true ? ':' + s : '');
+                try {
+                    if(params === undefined) {params = {};}
+                        var sh    = this.getGameSeconds();
+                        var h   = Math.floor(sh / 3600);
+                        var m = Math.floor((sh - (h * 3600)) / 60);
+                        var s = sh - (h * 3600) - (m * 60);
+                        if (h   < 10) {h   = "0"+h;}
+                        if (m < 10) {m = "0"+m;}
+                        if (s < 10) {s = "0"+s;}
+                    return h + ':' + m + (params.with_seconds === true ? ':' + s : '');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -285,23 +339,29 @@ define([
              * @param events
              */
             parseNewEvents:function (events, url) {
-                var me = this;
-                events.forEach(function (event) {
-                    if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
-                        // Crutch, sometimes server returns empty events
-                        me.events.trigger('dialog:end');
-                        return;
+                try {
+                    var me = this;
+                    events.forEach(function (event) {
+                        if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
+                            // Crutch, sometimes server returns empty events
+                            me.events.trigger('dialog:end');
+                            return;
+                        }
+                        event.type = event.eventType;
+                        delete event.result;
+                        var event_model = new SKEvent(event);
+                        if (me.events.canAddEvent(event_model, url)) {
+                            me.events.push(event_model);
+                            me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
+                        } else if (event.data[0].code !== 'None' && event.eventTime) {
+                            me.events.wait(event.data[0].code, event.eventTime);
+                        }
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-                    event.type = event.eventType;
-                    delete event.result;
-                    var event_model = new SKEvent(event);
-                    if (me.events.canAddEvent(event_model, url)) {
-                        me.events.push(event_model);
-                        me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
-                    } else if (event.data[0].code !== 'None' && event.eventTime) {
-                        me.events.wait(event.data[0].code, event.eventTime);
-                    }
-                });
+                }
             },
 
             /**
@@ -311,31 +371,37 @@ define([
              * @method getNewEvents
              */
             'getNewEvents':function (cb) {
-                var nowDate = new Date();
-                localStorage.setItem('lastGetState', nowDate.getTime());
-                var me = this;
-                var logs = this.windowLog.getAndClear();
+                try {
+                    var nowDate = new Date();
+                    localStorage.setItem('lastGetState', nowDate.getTime());
+                    var me = this;
+                    var logs = this.windowLog.getAndClear();
 
-                SKApp.server.apiQueue('events', 'events/getState', {
-                    logs:             logs,
-                    timeString:       this.getGameMinutes(),
-                    eventsQueueDepth: $("#events-queue-depth").val()
-                }, function (data) {
-                    //console.log('time: ', data.serverGameTime);
-                    //console.log('x: ', data.speedFactor);
-                    // update flags for dev mode
-                    if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
-                        me.updateFlagsForDev(data.flagsState, data.serverTime);
-                        me.updateEventsListTableForDev(data.eventsQueue);
-                    }
+                    SKApp.server.apiQueue('events', 'events/getState', {
+                        logs:             logs,
+                        timeString:       this.getGameMinutes(),
+                        eventsQueueDepth: $("#events-queue-depth").val()
+                    }, function (data) {
+                        //console.log('time: ', data.serverGameTime);
+                        //console.log('x: ', data.speedFactor);
+                        // update flags for dev mode
+                        if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
+                            me.updateFlagsForDev(data.flagsState, data.serverTime);
+                            me.updateEventsListTableForDev(data.eventsQueue);
+                        }
 
-                    if (null !== data && data.result === 1 && data.events !== undefined) {
-                        me.parseNewEvents(data.events, 'events/getState');
+                        if (null !== data && data.result === 1 && data.events !== undefined) {
+                            me.parseNewEvents(data.events, 'events/getState');
+                        }
+                        if (cb !== undefined) {
+                            cb();
+                        }
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-                    if (cb !== undefined) {
-                        cb();
-                    }
-                });
+                }
             },
 
             /**
@@ -349,54 +415,54 @@ define([
              * @async
              */
             'start':function (onDocsLoad) {
-                var me = this;
+                try {
+                    var me = this;
 
-                SKApp.server.api('simulation/start', {
-                    'mode':this.get('mode'),
-                    'type':this.get('type'),
-                    'invite_id': SKApp.get('invite_id')
-                }, function (data) {
-                    var nowDate = new Date(),
-                        win;
+                    SKApp.server.api('simulation/start', {
+                        'mode':this.get('mode'),
+                        'type':this.get('type'),
+                        'invite_id': SKApp.get('invite_id')
+                    }, function (data) {
+                        var nowDate = new Date(),
+                            win;
 
-                    if (me.start_time !== undefined) {
-                        throw 'Simulation already started';
+                        if (me.start_time !== undefined) {
+                            throw 'Simulation already started';
+                        }
+
+                        me.start_time = new Date();
+                        localStorage.setItem('lastGetState', nowDate.getTime());
+
+                        win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        win.open();
+
+                        me.todo_tasks.fetch();
+                        me.dayplan_tasks.fetch();
+                        me.characters.fetch();
+                        me.events.getUnreadMailCount();
+
+                        me.getNewEvents();
+                        me._startTimer();
+                        me.trigger('start');
+
+                        if (data.result === 0) {
+                            window.location = '/';
+                        }
+
+                        if ('undefined' !== typeof data.simId) {
+                            me.id = data.simId;
+                        }
+
+                        me.set('scenarioName', data.scenarioName);
+
+                        me.documents.fetch();
+                        onDocsLoad.apply(me);
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-
-                    me.start_time = new Date();
-                    localStorage.setItem('lastGetState', nowDate.getTime());
-
-                    win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                    win.open();
-
-                    me.todo_tasks.fetch();
-                    me.dayplan_tasks.fetch();
-                    me.characters.fetch();
-                    me.events.getUnreadMailCount();
-
-                    me.getNewEvents();
-                    me._startTimer();
-                    me.trigger('start');
-
-                    if (data.result === 0) {
-                        window.location = '/';
-                    }
-                    
-                    if ('undefined' !== typeof data.simId) {
-                        me.id = data.simId;
-                    }
-
-                    me.set('scenarioName', data.scenarioName);
-
-                    me.documents.fetch();
-                    onDocsLoad.apply(me);
-                    me.preLoadImages([
-                        '/img/mail/bg-mail-popup-tit.png',
-                        '/img/icon-pause.png',
-                        '/img/main-screen/icon-stop.png',
-                        '/img/mail/type-system-message.png'
-                    ]);
-                });
+                }
             },
 
             /**
@@ -409,36 +475,42 @@ define([
              * @async
              */
             'stop':function () {
-                var me = this;
-                me._stopTimer();
+                try {
+                    var me = this;
+                    me._stopTimer();
 
-                this.window_set.deactivateActiveWindow();
+                    this.window_set.deactivateActiveWindow();
 
-                var logs = this.windowLog.getAndClear();
+                    var logs = this.windowLog.getAndClear();
 
-                SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
-                    /**
-                     * Симуляция уже остановлена
-                     * @event stop
-                     */
-                    if(SKApp.get('result-url') === undefined){
-                        SKApp.set('result-url', '/dashboard');
-                        document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
-                    }
+                    SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
+                        /**
+                         * Симуляция уже остановлена
+                         * @event stop
+                         */
+                        if(SKApp.get('result-url') === undefined){
+                            SKApp.set('result-url', '/dashboard');
+                            document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
+                        }
 
-                    $.each(SKDocument._excel_cache, function(id, url){
-                        // @todo: ruge - but efficient. We didn`t care about
-                        $('#excel-preload-' + id).remove();
+                        $.each(SKDocument._excel_cache, function(id, url){
+                            // @todo: ruge - but efficient. We didn`t care about
+                            $('#excel-preload-' + id).remove();
 
+                        });
+                        me.trigger('before-stop');
+                        me.trigger('stop');
+
+                        // trick for sim-stop at 20:00
+                        // see SKSimulationView.stopSimulation();
+                        $('.mail-popup-button').show();
+                        localStorage.removeItem('lastGetState');
                     });
-                    me.trigger('before-stop');
-                    me.trigger('stop');
-
-                    // trick for sim-stop at 20:00
-                    // see SKSimulationView.stopSimulation();
-                    $('.mail-popup-button').show();
-                    localStorage.removeItem('lastGetState');
-                });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -448,16 +520,22 @@ define([
              * @async
              */
             startPause: function(callback) {
-                var me = this;
+                try {
+                    var me = this;
 
-                me._stopTimer();
-                me.paused_time = new Date();
-                me.trigger('pause:start');
+                    me._stopTimer();
+                    me.paused_time = new Date();
+                    me.trigger('pause:start');
 
-                if (typeof callback === 'function') {
-                    SKApp.server.api('simulation/startPause', {}, function (responce) {
-                        callback(responce);
-                    });
+                    if (typeof callback === 'function') {
+                        SKApp.server.api('simulation/startPause', {}, function (responce) {
+                            callback(responce);
+                        });
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
 
             },
@@ -469,48 +547,72 @@ define([
              * @async
              */
             stopPause: function(callback) {
-                var me = this;
+                try {
+                    var me = this;
 
-                SKApp.server.api('simulation/stopPause', {}, function (responce) {
-                    if( me.paused_time !== undefined )
-                    {
-                        me._startTimer();
-                        me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
-                        delete me.paused_time;
-                        me.trigger('pause:stop');
+                    SKApp.server.api('simulation/stopPause', {}, function (responce) {
+                        if( me.paused_time !== undefined )
+                        {
+                            me._startTimer();
+                            me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                            delete me.paused_time;
+                            me.trigger('pause:stop');
 
-                        if (typeof callback === 'function') {
-                            callback(responce);
+                            if (typeof callback === 'function') {
+                                callback(responce);
+                            }
                         }
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
-                });
+                }
             },
 
             updatePause: function(params) {
-                if(params === undefined) {params = {};}
+                try {
+                    if(params === undefined) {params = {};}
 
-                var me = this;
-                var skipped = (new Date() - me.paused_time) / 1000;
-                SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
-                        if (typeof params.callback === 'function') {
-                            params.callback(responce);
-                        }
+                    var me = this;
+                    var skipped = (new Date() - me.paused_time) / 1000;
+                    SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
+                            if (typeof params.callback === 'function') {
+                                params.callback(responce);
+                            }
 
-                });
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
              * Начинает блокировать все действия пользователя
              */
             startInputLock: function () {
-                this.trigger('input-lock:start');
+                try {
+                    this.trigger('input-lock:start');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
              * Прекращает блокировать все действия пользователя
              */
             stopInputLock: function () {
-                this.trigger('input-lock:stop');
+                try {
+                    this.trigger('input-lock:stop');
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -522,16 +624,22 @@ define([
              * @async
              */
             'setTime':function (hour, minute) {
-                var me = this;
-                SKApp.server.api('simulation/changeTime', {
-                    'hour':hour,
-                    'min':minute
-                }, function () {
-                    me.skipped_seconds +=
-                        (parseInt(hour, 10) * 3600 + parseInt(minute, 10) * 60 - me.getGameSeconds()) /
-                        me.get('app').get('skiliksSpeedFactor');
-                    me.trigger('tick');
-                });
+                try {
+                    var me = this;
+                    SKApp.server.api('simulation/changeTime', {
+                        'hour':hour,
+                        'min':minute
+                    }, function () {
+                        me.skipped_seconds +=
+                            (parseInt(hour, 10) * 3600 + parseInt(minute, 10) * 60 - me.getGameSeconds()) /
+                            me.get('app').get('skiliksSpeedFactor');
+                        me.trigger('tick');
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -539,42 +647,66 @@ define([
              * @protected
              */
             _startTimer: function() {
-                var me = this;
+                try {
+                    var me = this;
 
-                if (me.events_timer) {
-                    me._stopTimer();
-                }
-                if (me.events_timer !== undefined || me.events_timer !== null){
-                    me.events_timer = setInterval(function () {
-                        me.getNewEvents();
-                        /**
-                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
-                         * @event tick
-                         */
-                        me.trigger('tick');
-                    }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                    if (me.events_timer) {
+                        me._stopTimer();
+                    }
+                    if (me.events_timer !== undefined || me.events_timer !== null){
+                        me.events_timer = setInterval(function () {
+                            me.getNewEvents();
+                            /**
+                             * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                             * @event tick
+                             */
+                            me.trigger('tick');
+                        }, me.timerSpeed / me.get('app').get('skiliksSpeedFactor'));
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             _stopTimer: function() {
-                if (this.events_timer) {
-                    clearInterval(this.events_timer);
-                    delete this.events_timer;
+                try {
+                    if (this.events_timer) {
+                        clearInterval(this.events_timer);
+                        delete this.events_timer;
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             onEndTime: function() {
-                if (!this.popups.end) {
-                    this.popups.end = true;
-                    this.trigger('before-end');
-                    this.trigger('end');
+                try {
+                    if (!this.popups.end) {
+                        this.popups.end = true;
+                        this.trigger('before-end');
+                        this.trigger('end');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
             onFinishTime: function() {
-                if (!this.popups.finish) {
-                    this.popups.finish = true;
-                    this.trigger('stop-time');
+                try {
+                    if (!this.popups.finish) {
+                        this.popups.finish = true;
+                        this.trigger('stop-time');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -583,7 +715,13 @@ define([
              * @returns {boolean}
              */
             'isDebug':function () {
-                return this.get('mode') === 'developer';
+                try {
+                    return this.get('mode') === 'developer';
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
@@ -594,10 +732,16 @@ define([
              * @param serverTime
              */
             updateFlagsForDev:function (flagsState, serverTime) {
-                // Please, don't do that
-                if (this.isDebug()) {
-                    var flagStateView = new SKFlagStateView();
-                    flagStateView.updateValues(flagsState, serverTime);
+                try {
+                    // Please, don't do that
+                    if (this.isDebug()) {
+                        var flagStateView = new SKFlagStateView();
+                        flagStateView.updateValues(flagsState, serverTime);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -605,9 +749,15 @@ define([
              *
              */
             updateEventsListTableForDev:function (eventsQueue) {
-                if (this.isDebug()) {
-                    var flagStateView = new SKFlagStateView();
-                    window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
+                try {
+                    if (this.isDebug()) {
+                        var flagStateView = new SKFlagStateView();
+                        window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -647,50 +797,50 @@ define([
                 }*/
             },
 
-            preLoadImages: function(images) {
-                $.each(images, function(index, src){
-                    var img = new Image();
-                    img.src = SKApp.get('assetsUrl')+src;
-                });
-            },
 
             initSocialcalcHotkeys: function() {
-                $.ctrl = function(key, callback, args) {
-                    $(document).keydown(function(e) {
-                        if(!args) args=[]; // IE barks when args is null
-                        if(e.keyCode == key.charCodeAt(0) && e.ctrlKey) {
-                            callback.apply(this, args);
-                            return false;
-                        }
-                    });
-                };
+                    try {
+                    $.ctrl = function(key, callback, args) {
+                        $(document).keydown(function(e) {
+                            if(!args) args=[]; // IE barks when args is null
+                            if(e.keyCode == key.charCodeAt(0) && e.ctrlKey) {
+                                callback.apply(this, args);
+                                return false;
+                            }
+                        });
+                    };
 
-                // handle ru and en 'C' and 'c'
-                $.ctrl('C', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
-                    var id = $('.button-copy').attr('id');
+                    // handle ru and en 'C' and 'c'
+                    $.ctrl('C', function() {
+                        var event = document.createEvent("MouseEvents");
+                        event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                            false, false, false, false, 0, null);
+                        var id = $('.button-copy').attr('id');
 
-                    // get button for current active window
-                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
+                        // get button for current active window
+                        var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
 
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
+                        var buttonElement = document.getElementById(id);
+                        buttonElement.dispatchEvent(event);
+                    }, []);
 
-                // handle 'V' and 'v', (ru) 'М' and 'м  '
-                $.ctrl('V', function() {
-                    var event = document.createEvent("MouseEvents");
-                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                        false, false, false, false, 0, null);
+                    // handle 'V' and 'v', (ru) 'М' and 'м  '
+                    $.ctrl('V', function() {
+                        var event = document.createEvent("MouseEvents");
+                        event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                            false, false, false, false, 0, null);
 
-                    // get button for current active window
-                    var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
+                        // get button for current active window
+                        var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
 
-                    var buttonElement = document.getElementById(id);
-                    buttonElement.dispatchEvent(event);
-                }, []);
+                        var buttonElement = document.getElementById(id);
+                        buttonElement.dispatchEvent(event);
+                    }, []);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
     return SKSimulation;

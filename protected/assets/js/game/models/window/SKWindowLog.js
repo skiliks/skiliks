@@ -20,21 +20,27 @@ define([],function () {
          * @param window
          */
         'activate': function (window) {
-            var time = SKApp.simulation.getGameSeconds();
-            if (isNaN(window.window_uid)) {
-                throw 'window.window_uid is NaN!';
+            try {
+                var time = SKApp.simulation.getGameSeconds();
+                if (isNaN(window.window_uid)) {
+                    throw 'window.window_uid is NaN!';
+                }
+
+                var log_raw_data = {
+                    0:            window.getWindowId(),
+                    1:            window.getSubwindowId(),
+                    2:            'activated',
+                    3:            time,
+                    4:            window.get('params'),
+                    'window_uid': window.window_uid
+                };
+
+                this.log.push(log_raw_data);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-
-            var log_raw_data = {
-                0:            window.getWindowId(),
-                1:            window.getSubwindowId(),
-                2:            'activated',
-                3:            time,
-                4:            window.get('params'),
-                'window_uid': window.window_uid
-            };
-
-            this.log.push(log_raw_data);
         },
 
         /**
@@ -42,22 +48,28 @@ define([],function () {
          * @param window
          */
         'deactivate': function (window) {
-            var time = SKApp.simulation.getGameSeconds();
+            try {
+                var time = SKApp.simulation.getGameSeconds();
 
-            if (isNaN(window.window_uid)) {
-                throw 'window.window_uid is NAN!';
+                if (isNaN(window.window_uid)) {
+                    throw 'window.window_uid is NAN!';
+                }
+
+                var log_raw_data = {
+                    0:            window.getWindowId(),
+                    1:            window.getSubwindowId(),
+                    2:            'deactivated',
+                    3:            time,
+                    4:            window.get('params'),
+                    'window_uid': window.window_uid
+                };
+
+                this.log.push(log_raw_data);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-
-            var log_raw_data = {
-                0:            window.getWindowId(),
-                1:            window.getSubwindowId(),
-                2:            'deactivated',
-                3:            time,
-                4:            window.get('params'),
-                'window_uid': window.window_uid
-            };
-
-            this.log.push(log_raw_data);
         },
 
         /**

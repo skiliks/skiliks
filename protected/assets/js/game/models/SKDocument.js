@@ -42,10 +42,16 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
          * @return void
          */
         initialize: function () {
-            var me = this;
-            if (this.get('mime') === 'application/vnd.ms-excel') {
-                me.set('sheets', new SKSheetCollection([], {'document': this}));
-                me.get('sheets').fetch();
+            try {
+                var me = this;
+                if (this.get('mime') === 'application/vnd.ms-excel') {
+                    me.set('sheets', new SKSheetCollection([], {'document': this}));
+                    me.get('sheets').fetch();
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
