@@ -431,4 +431,18 @@ class LearningAreaAnalyzer {
 
         $this->saveLearningArea(11, $learningArea);
     }
+
+    protected function saveLearningAreaByGoal($code, $params)
+    {
+        $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);
+        $value = ($params['maxRate'] ? $params['total'] / $params['maxRate'] : 0)*100;
+        if ($learningArea) {
+            $sla = new SimulationLearningArea();
+            $sla->learning_area_id = $learningArea->id;
+            $sla->value = substr(max(min($value, 100), 0), 0, 10);
+            $sla->score = $params['total'];
+            $sla->sim_id = $this->simulation->id;
+            $sla->save(false);
+        }
+    }
 }
