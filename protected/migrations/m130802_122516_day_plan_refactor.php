@@ -26,7 +26,7 @@ class m130802_122516_day_plan_refactor extends CDbMigration
             $this->insert('day_plan', [
                 'sim_id' => $todoRecord['sim_id'],
                 'day' => DayPlan::DAY_TODO,
-                'task_id' => $afterVacationRecord['task_id']
+                'task_id' => $todoRecord['task_id']
             ]);
         }
 
