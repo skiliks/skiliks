@@ -53,7 +53,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         //генерируем каждый раз новый персональный e-mail для пользователя
         $new_email = "gty1991_1+";
-        $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
+        $new_email .= (string)rand(1, 10000)+(string)rand(1,500)+(string)rand(1,200);
         $new_email .= "@mail.ru";
 
         $this->type('id=YumProfile_email',$new_email);
