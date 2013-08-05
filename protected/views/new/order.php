@@ -17,7 +17,7 @@
                 <div class="font-slarge text-center proxima-reg">1 Месяц</div>
 
                 <div class="item-price font-6xlarge proxima-bold text-center">
-                    <?= $tariff->getFormattedPrice() ?>
+                    <?= $account->tariff->getFormattedPrice() ?>
                     <span class="font-large"><?= $tariff->getFormattedCyName() ?></span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         <div class="order-status">
             <div class="row font-white">
                 <label class="grid-cell font-xslarge">Выбран тарифный план</label>
-                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><small class="font-small font-lightgrey"><?= $tariff->getFormattedPrice() ?> р. в месяц</small>
+                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><small class="font-small font-lightgrey"><?= $account->tariff->getFormattedPrice() ?>р. в месяц</small>
                 </div>
             </div>
             <div class="row font-white">
