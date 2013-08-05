@@ -529,7 +529,7 @@ class SimulationService
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
 
-                $invite->email = $user->profile->email;
+                $invite->email = strtolower($user->profile->email);
                 $invite->save(false);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
             } else {

@@ -158,7 +158,7 @@ class UserAuthController extends YumController
             $profile->attributes = $YumProfile;
             $account->attributes = $UserAccount;
 
-            $profile->email = $invite->email;
+            $profile->email = strtolower($invite->email);
             $this->user->setUserNameFromEmail($profile->email);
 
             // Protect from "Wrong username" message - we need "Wrong email", from Profile form
