@@ -19,10 +19,8 @@
  *
  * The followings are the available model relations:
  * @property DayPlan[] $dayPlans
- * @property DayPlanAfterVacation[] $dayPlanAfterVacations
  * @property DayPlanLog[] $dayPlanLogs
  * @property Simulation $sim
- * @property Todo[] $todos
  */
 class Task extends CActiveRecord
 {
@@ -55,14 +53,14 @@ class Task extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			//array('title, duration, is_cant_be_moved, import_id', 'required'), TODO:Нужно посмотреть почему валиться
-			array('duration, is_cant_be_moved, sim_id, category', 'numerical', 'integerOnly' => true),
+			array('duration, is_cant_be_moved, category', 'numerical', 'integerOnly' => true),
 			array('title', 'length', 'max'=>200),
 			array('code, start_type', 'length', 'max'=>5),
 			array('import_id', 'length', 'max'=>14),
 			array('start_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, start_time, duration, is_cant_be_moved, sim_id, code, start_type, category, import_id', 'safe', 'on'=>'search'),
+			array('id, title, start_time, duration, is_cant_be_moved, code, start_type, category, import_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,10 +73,7 @@ class Task extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'dayPlans' => array(self::HAS_MANY, 'DayPlan', 'task_id'),
-			'dayPlanAfterVacations' => array(self::HAS_MANY, 'DayPlanAfterVacation', 'task_id'),
 			'dayPlanLogs' => array(self::HAS_MANY, 'DayPlanLog', 'task_id'),
-			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
-			'todo' => array(self::HAS_MANY, 'Todo', 'task_id'),
 		);
 	}
 
@@ -93,7 +88,6 @@ class Task extends CActiveRecord
 			'start_time' => 'Start Time',
 			'duration' => 'Duration',
 			'is_cant_be_moved' => 'Type',
-			'sim_id' => 'Sim',
 			'code' => 'Code',
 			'start_type' => 'Start Type',
 			'category' => 'Category',
@@ -117,7 +111,6 @@ class Task extends CActiveRecord
 		$criteria->compare('start_time',$this->start_time);
 		$criteria->compare('duration',$this->duration);
 		$criteria->compare('is_cant_be_moved',$this->is_cant_be_moved);
-		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('code',$this->code);
 		$criteria->compare('start_type',$this->start_type);
 		$criteria->compare('category',$this->category);
@@ -155,35 +148,6 @@ class Task extends CActiveRecord
 
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id in ({$ids})"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать конкретную задачу
-     * @deprecated
-     * @param $simId
-     * @return Tasks
-     */
-    public function bySimId($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать конкретную задачу
-     * @param $simId
-     * @internal param int $id
-     * @deprecated
-     * @return Tasks
-     */
-    public function bySimIdOrNull($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " (sim_id = {$simId} OR sim_id IS NULL) "
         ));
         return $this;
     }
