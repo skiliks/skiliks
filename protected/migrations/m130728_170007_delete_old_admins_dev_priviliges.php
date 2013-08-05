@@ -14,11 +14,14 @@ class m130728_170007_delete_old_admins_dev_priviliges extends CDbMigration
             $user = YumUser::model()->findByAttributes([
                 'username' => $username
             ]);
-            YumPermission::model()->deleteAllByAttributes([
-                'subordinate_id' => $user->id,
-                'type'           => 'user',
-                'action'         => $action->id
-            ]);
+            if (null!==$user)
+            {
+                YumPermission::model()->deleteAllByAttributes([
+                    'subordinate_id' => $user->id,
+                    'type'           => 'user',
+                    'action'         => $action->id
+                ]);
+            }
         }
 	}
 
