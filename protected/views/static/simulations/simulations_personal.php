@@ -47,6 +47,7 @@ $this->widget('zii.widgets.grid.CGridView', [
 ?>
 
 <?php $this->renderPartial('partials/warning-popup', []) ?>
+<?php $this->renderPartial('partials/pre-start-popup', []) ?>
 
 <div id="simulation-details-pop-up"></div>
 
