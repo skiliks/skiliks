@@ -294,6 +294,7 @@ class CheatsController extends SiteBaseController
      */
     public function actionGetZohoUsageStatus()
     {
+        return;
         @$file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'r');
         if (null !== $file) {
             $data = fread($file, 200);
