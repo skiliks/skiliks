@@ -1,8 +1,8 @@
 <script>
-    update_tc('.statistic-php-unit', '/httpAuth/app/rest/buildTypes/id:bt3/builds/');
-    update_tc('.statistic-selenium-site', '/httpAuth/app/rest/buildTypes/id:bt6/builds/');
-    update_tc('.statistic-selenium-assessment', '/httpAuth/app/rest/buildTypes/id:bt4/builds/');
-    update_stat('.statistic-free-disk-space', '/admin_area/statistics/free-disk-space');
+    runStat();
+    setInterval(function(){
+        runStat();
+    }, 9000000);
 </script>
 
 <div class="row-fluid">
@@ -32,12 +32,24 @@
        </td>
    </tr>
    <tr>
-       <td>5</td>
-       <td>6</td>
+       <td class="td-statistic statistic-order-count">
+           <div>Orders count</div>
+           <div class="status"></div>
+           <div class="author"></div>
+       </td>
+       <td class="td-statistic statistic-feedback-count">
+           <div>Feedback count</div>
+           <div class="status"></div>
+           <div class="author"></div>
+       </td>
    </tr>
     <tr>
-        <td>7</td>
-        <td>8</td>
+        <td class="td-statistic statistic-crash-simulation">
+            <div>Crash simulations</div>
+            <div class="status"></div>
+            <div class="author"></div>
+        </td>
+        <td></td>
     </tr>
 </table>
 </div>
