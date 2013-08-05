@@ -1062,7 +1062,7 @@ span.required, .form-simple span.required {
 /* ************************ /Pager ************************ */
 /*  *************************** ERRORS ***************************/
 input.error, textarea.error, .error textarea, .error input[type="text"], .error input[type="password"],
-.feedback .form-section .error textarea, .feedback .form-line .error input[type="text"]{
+.feedback .form-section .error textarea, .feedback .form-line .error input[type="text"], .payment-invoice .error input[type="text"] {
     border: 2px solid #bd2929;
 }
 .errorMessage {
