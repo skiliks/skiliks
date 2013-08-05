@@ -42,7 +42,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А мы в двадцать минут впишемся?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, пойдем, но у меня только двадцать минут.')])");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
         $this->close();
@@ -90,7 +90,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Да я не отказываюсь с вами встречаться, хочу')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я вас понял. Давайте сегодня после 18.00! ')])");
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
         $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-112'],"0.00");
         $this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-123'],"0.00");

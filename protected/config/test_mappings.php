@@ -113,7 +113,6 @@ return [
         'mail_log' => "xpath=//div[1]/div[1]/div/ul/li[7]/a",
         'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[10]/a",
         'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[11]/a',
-        'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
 
         'learn-goal-112' => "//tr[contains(@class, 'learning-goal-code-112')]/td[4]",
         'learn-goal-123' => "//tr[contains(@class, 'learning-goal-code-123')]/td[4]",

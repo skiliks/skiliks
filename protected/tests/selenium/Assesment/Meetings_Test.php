@@ -74,7 +74,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->run_event('MS55');
         sleep(2);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
         $this->close();

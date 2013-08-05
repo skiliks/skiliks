@@ -75,6 +75,14 @@ class SeleniumTestHelper extends CWebTestCase
         $this->close();
     }
 
+    public function simulation_showLogs()
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        //sleep(90);
+        $this->waitForVisible("id=universal-log");
+        $this->waitForVisible("id=simulation-points");
+    }
+
     /**
      * run_event - это метод для запуска события по его event_code.
      * next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
