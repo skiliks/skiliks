@@ -258,7 +258,7 @@ class Invite extends CActiveRecord
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
         ]);
 
-        $newInvite->email = Yii::app()->user->data()->profile->email;
+        $newInvite->email = strtolower(Yii::app()->user->data()->profile->email);
         $newInvite->save(false);
 
         InviteService::logAboutInviteStatus($newInvite, 'invite : add fake invite');

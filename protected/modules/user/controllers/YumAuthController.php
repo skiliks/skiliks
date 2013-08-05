@@ -91,7 +91,7 @@ class YumAuthController extends YumController {
 						$profile = new YumProfile;
 						$profile->user_id = $user->id;
 						$profile->facebook_id = $fb_user['id'];
-						$profile->email = $fb_user['email'];
+						$profile->email = strtolower($fb_user['email']);
 						$profile->save(false);
 					}
 				} else {
