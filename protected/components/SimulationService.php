@@ -713,8 +713,10 @@ class SimulationService
         $evaluation->run();
 
         // @ - for PHPUnit
-        @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-            new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
+            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+        }
 
         $simulation->saveLogsAsExcel();
 
