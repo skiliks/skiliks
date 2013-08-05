@@ -26,7 +26,7 @@
         <div class="order-status">
             <div class="row font-white">
                 <label class="grid-cell font-xslarge">Выбран тарифный план</label>
-                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><small class="font-small font-lightgrey"><?= //$account->tariff->getFormattedPrice() ?><?= $tariff->getFormattedPrice() ?>р. в месяц</small>
+                <div class="value grid-cell"><strong class="font-xslarge"><?= strtolower($account->getTariffLabel()) ?></strong><small class="font-small font-lightgrey"><?= $account->tariff->getFormattedPrice() ?>р. в месяц</small>
                 </div>
             </div>
             <div class="row font-white">
