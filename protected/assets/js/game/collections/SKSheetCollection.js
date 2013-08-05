@@ -7,10 +7,16 @@ define(["game/models/documents/SKSheet"], function (SKSheet) {
             this.document = options.document;
         },
         sync: function (method, collection, options) {
-            if ('read' === method) {
-                SKApp.server.api('myDocuments/getExcel', {'id': this.document.get('id')}, function (data) {
-                    options.success(data.data);
-                });
+            try {
+                if ('read' === method) {
+                    SKApp.server.api('myDocuments/getExcel', {'id': this.document.get('id')}, function (data) {
+                        options.success(data.data);
+                    });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });
