@@ -1075,12 +1075,18 @@
 .margin-vert {
     margin: 20px 0px;
 }
-.payment-form .errorMessage {
+.payment-invoice .errorMessage {
     left: 146px;
     top:2px;
 }
 .terms-confirm {
     position: relative;
+}
+.terms-confirm .errorMessage {
+    left: 50%;
+    margin-left: -105px;
+    margin-top: 3px;
+    top: 4px;
 }
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
