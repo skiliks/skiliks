@@ -21,13 +21,13 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
-        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[3]/td[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['trash']);
         sleep(5);
-        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
+        $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
@@ -43,7 +43,6 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         //аттач 'Сводный бюджет',
         $this->addAttach('Сводный бюджет_2014_план');
 
-        //КОПИЯ - не достучался
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['save']);
         sleep(2);
         $this->optimal_click("css=label.icon_DRAFTS");
