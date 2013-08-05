@@ -15,7 +15,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
 
