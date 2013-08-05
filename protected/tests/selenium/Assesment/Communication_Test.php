@@ -38,9 +38,7 @@ class Communication_Test extends SeleniumTestHelper
         $this->run_event('MS52');
         sleep(2);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForVisible("id=simulation-points");
-        $this->waitForTextPresent('Simulation points');
+        $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['communication4'],"100");
         $this->assertText(Yii::app()->params['test_mappings']['log']['communication4'],"100");
         $this->close();

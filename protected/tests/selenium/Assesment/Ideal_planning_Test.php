@@ -48,7 +48,7 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(45);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->simulation_showLogs();
         /*$this->waitForVisible("//tr[@class='learning-goal-code-214a ']/td[4]");
         $this->assertText("//tr[@class='learning-goal-code-214a ']/td[4]","100.00");
         $this->waitForVisible("//tr[@class='learning-goal-code-214b ']/td[4]");
