@@ -1075,6 +1075,9 @@
 .margin-vert {
     margin: 20px 0px;
 }
+.payment-form .errorMessage {
+    left: 148px;
+}
 /*  *************************** /ORDER  ***************************/
 /*  ***************************  TERMS  ***************************/
 .terms-page h1 {
