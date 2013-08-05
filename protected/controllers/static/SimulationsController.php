@@ -262,7 +262,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         $simulation = Simulation::model()->findByPk($id);
         /* @var $user YumUser */
         $user = Yii::app()->user->data();
-        if( false === $user->isAdmin() ){
+        if( false === $user->isAdmin() /*&& null !== $simulation->invite*/){
             if ($user->id !== $simulation->invite->owner_id &&
                 $user->id !== $simulation->invite->receiver_id) {
                 //echo 'Вы не можете просматривать результаты чужих симуляций.';
