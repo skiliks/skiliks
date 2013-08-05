@@ -62,7 +62,6 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
     private function checkThemes()
     {
         $this->assertTextPresent("Срочно жду бюджет логистики");
-        $this->assertTextPresent("Обсуждение сроков отчетности");
         $this->assertTextPresent("Беседа с консультантами");
         $this->assertTextPresent("Новая тема");
     }

@@ -21,7 +21,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
-        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[2]/td[2]");
+        $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[3]/td[2]");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
