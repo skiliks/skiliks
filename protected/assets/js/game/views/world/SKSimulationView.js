@@ -26,7 +26,8 @@ define([
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
     "game/views/world/SKManualView",
-    "game/views/SKDialogView"
+    "game/views/SKDialogView",
+    "game/views/SKCrashOptionsPanelView"
 ], function (simulation_template, tutorial_template, how_to_leave_tpl, SKMailClientView, SKXLSDisplayView) {
     "use strict";
     /**
