@@ -723,7 +723,6 @@ class MailBoxService
     {
         $data = array();
         $message = '';
-        throw new Exception('SSS');
 
         // for forwarded letters
         if ((int)$characterThemeId == 0 && (int)$forwardLetterCharacterThemesId != 0) {
