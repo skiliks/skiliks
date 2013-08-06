@@ -312,6 +312,7 @@ return array(
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
                 'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
+                'admin/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
                 'admin_area/simulations/<page:\d+>'               => 'admin_area/AdminPages/Simulations',
