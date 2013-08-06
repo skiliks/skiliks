@@ -601,4 +601,21 @@ class AdminPagesController extends SiteBaseController {
         $res['data'] = " {$total} ";
         echo json_encode($res);
     }
+
+    /**
+     * @param $inviteId
+     */
+    public function actionInviteSwitchCanBeReloaded($inviteId) {
+        $invite = Invite::model()->findByPk($inviteId);
+
+        if (null === $invite) {
+            return;
+        }
+
+        $invite->can_be_reloaded = ($invite->can_be_reloaded) ? 0 : 1;
+
+        $invite->save(false);
+
+        $this->redirect('/admin_area/invites');
+    }
 }
