@@ -13,6 +13,7 @@ class DeleteDataForDeletedSimulationsCommand extends CConsoleCommand {
             echo "Только проверка! \n";
         }
 
+
         // we does`n use group by
         // @link: http://blog.mclaughlinsoftware.com/2010/03/10/mysql-standard-group-by/
         // ERROR 1055 (42000): 'mail_box.id' isn't in GROUP BY
@@ -24,6 +25,7 @@ class DeleteDataForDeletedSimulationsCommand extends CConsoleCommand {
          // @var Simulation $sim
         foreach ($emails as $email) {
             echo '.';
+
 
             if (isset($sims)) {
                 continue;
