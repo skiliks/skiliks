@@ -135,6 +135,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(2);
 
         $this->simulation_showLogs();
+        sleep(5);
         /*$this->waitForVisible("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]","31%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","80%");
