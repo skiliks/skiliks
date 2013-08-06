@@ -46,6 +46,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, пойдем, но у меня только двадцать минут.')])");
 
         $this->simulation_showLogs();
+        sleep(5);
         //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
         //$this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
     }
@@ -62,6 +63,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->run_event('ET8',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
+        $this->clearEventQueueBeforeEleven('RST1');
         $this->clearEventQueueBeforeEleven('RST7');
 
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, доброе утро! Как дела? Ты про нашу встречу')])",'click');
@@ -79,6 +81,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->run_event('E12',"xpath=(//*[contains(text(),'Хорошо, сейчас внесу в план новое время.')])",'click');
+        sleep(5);
 
         $this->run_event('E15',"xpath=(//*[contains(text(),'Это то, что нам надо, Раиса Романовна!')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Раз пять минимум, я уже не говорю про продажи.')])");
@@ -90,7 +93,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Сколько именно времени  вам нужно и для чего?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да я не отказываюсь с вами встречаться, хочу')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я вас понял. Давайте сегодня после 18.00! ')])");
-
+        sleep(5);
         $this->simulation_showLogs();
         //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
         //$this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-112'],"0.00");
