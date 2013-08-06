@@ -29,7 +29,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('7','0');
-        $this->close();
     }
 
     public function test_Dialogs_for_SK1395()
@@ -37,7 +36,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
-        $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])", 'click');
+        $this->run_event('E1',"xpath=(//*[contains(text(),' я как раз собираюсь подключить нашего лучшего аналитика')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
         sleep(2);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "E8.3");
@@ -56,7 +55,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('3','0');
-        $this->close();
     }
 
     public function test_Dialogs_for_SK910()
@@ -86,7 +84,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('8','-7');
-        $this->close();
     }
 
     public function test_Dialogs_for_SK1790()
@@ -144,7 +141,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('2.5','-36.5');
-        $this->close();
     }
 
     public function test_Dialogs_for_SK1791()
@@ -203,7 +199,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('1.5','-31');
-        $this->close();
     }
 
     public function test_Dialogs_for_SK1792()
@@ -232,6 +227,5 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('11.667','-10');
-        $this->close();
     }
 }

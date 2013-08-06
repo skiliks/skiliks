@@ -66,6 +66,5 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
         sleep(1);
         $this->assertTextPresent("has been already added before!");
-        $this->close();
     }
 }

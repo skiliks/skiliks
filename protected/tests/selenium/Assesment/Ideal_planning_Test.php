@@ -56,6 +56,5 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['tasks2'],"41.67");
         $this->assertText(Yii::app()->params['test_mappings']['log']['tasks2'],"41.67");
         */
-        $this->close();
     }
 }

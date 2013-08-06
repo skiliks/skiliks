@@ -88,7 +88,6 @@ class Register_Corporate_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Рабочий')])"));
-        $this->close();
     }
 
 
@@ -158,6 +157,5 @@ class Register_Corporate_Test extends SeleniumTestHelper
         }
         //проверяем, что оценка за демо-симуляцию не посчитана
         $this->waitForVisible("xpath=//div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div/span[2]/span","0");
-        $this->close();
     }
 }

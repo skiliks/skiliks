@@ -92,6 +92,5 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_3']);
         $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_3'],"100.00");
-        $this->close();
     }
 }

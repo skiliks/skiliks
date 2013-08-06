@@ -49,6 +49,5 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
         $this->optimal_click("css=.submit>input");
         $this->assertTextPresent('E-mail уже зарегистрирован, но не активирован.');
-        $this->close();
     }
 }

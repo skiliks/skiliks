@@ -279,7 +279,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(5);
         $this->simulation_showLogs();
         //assertions
-        $this->close();
 
     }
 
