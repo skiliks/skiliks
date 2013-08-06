@@ -18,6 +18,7 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
         $this->optimal_click("css=.volume-control.control-phone.volume-on");
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
