@@ -1,4 +1,4 @@
-/*global Backbone, _, define, $ */
+/*global Backbone, _, define, $, SKApp */
 
 var SKCrashOptionsPanelView;
 define([
