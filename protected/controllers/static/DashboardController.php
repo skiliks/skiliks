@@ -225,6 +225,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->code = uniqid(md5(mt_rand()));
             $invite->owner_id = $this->user->id;
+            $invite->can_be_reloaded = true;
 
             // What happens if user is registered, but not activated??
             $profile = YumProfile::model()->findByAttributes([

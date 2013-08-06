@@ -59,6 +59,15 @@ class SiteController extends SiteBaseController
             $this->redirect('/dashboard');
         }
 
+        if (isset($invite) && false == $invite->can_be_reloaded) {
+            Yii::app()->user->setFlash('error',
+                'Прохождение симуляции было прервано. <br/> Свяжитесь с работодателем ' .
+                'чтобы он выслал вам новое приглашение или со службой тех.поддержки ' .
+                'чтобы восстановить доступ к прохождению симуляции.'
+            );
+            $this->redirect('/simulations');
+        }
+
         if ( isset($invite)
             && $start !== 'full'
             && null !== $invite->tutorial
