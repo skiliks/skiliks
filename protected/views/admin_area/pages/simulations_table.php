@@ -3,6 +3,8 @@
     'Email соискателя, игрока',
     'Время начала симуляции',
     'Время конца симуляции',
+    'Тип симуляции',
+    'Оценка',
     'ID-инвайта',
 ] ?>
 <div class="row fix-top">
@@ -44,6 +46,8 @@
                 <td class="ownerUser-email"><?= (empty($simulation->user->profile->email)) ? 'Не найден':$simulation->user->profile->email ?></td>
                 <td class="simulation_time-start"><?= (empty($simulation->start) ? '---- -- -- --' : $simulation->start) ?></td>
                 <td class="simulation_time-end"><?= (empty($simulation->end) ? '---- -- -- --' : $simulation->end) ?></td>
+                <td><span class="label label-inverse"><?= $simulation->game_type->slug?></span></td>
+                <td><?= (null!== $simulation->invite) ? $simulation->invite->getOverall() : '-'?></td>
                 <td><?= (isset($invites[$simulation->id])) ? $invites[$simulation->id] : 'Не найдено' ?></td>
                 <td>
                     <a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Логи сайта</a><br/>
