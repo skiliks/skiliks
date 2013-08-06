@@ -573,7 +573,7 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
-        // ZohoDocuments::copyExcelFiles($simulation->id);
+        // ZohoDocuments::copyExcelFiles($simId);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
@@ -678,7 +678,6 @@ class SimulationService
 
             // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
             // see Assessment scheme_v5.pdf
-
             $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
             $CheckConsolidatedBudget->calcPoints();
 
