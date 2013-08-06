@@ -205,5 +205,14 @@ class SimulationController extends SimulationBaseController
         SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
+
+    public function actionLogCrashAction()
+    {
+        $action = Yii::app()->request->getParam('action');
+
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'crash action: '.$action);
+
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
 }
 
