@@ -23,6 +23,7 @@
  * @property integer $tutorial_scenario_id
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
+ * @property integer $can_be_reloaded
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
