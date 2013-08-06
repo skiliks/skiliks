@@ -18,6 +18,7 @@ define([
             'click .crash.close-plan': 'doClosePlan',
             'click .crash.close-my_documents': 'doCloseMyDocuments',
             'click .crash.close-documents': 'doCloseDocuments',
+            'click .crash.close-visit': 'doCloseVisit',
             'click .mail-popup-button': 'handleClick',
             'click .dialog-close': 'doDialogClose'
         },
@@ -63,6 +64,18 @@ define([
                 }
             }
         },
+        remove: function() {
+            try {
+                this.cleanUpDOM();
+                this.trigger('close');
+                SKApp.simulation.system_options = null;
+                return Backbone.View.prototype.remove.call(this);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
         doCloseMail:function(e){
             console.log("close");
             var mailEmulators = SKApp.simulation.window_set.where({name: "mailEmulator"});
@@ -70,6 +83,7 @@ define([
                 mail.setOnTop();
                 mail.close();
             });
+            this.remove();
             return false;
         },
         doClosePhone:function(e){
@@ -78,6 +92,8 @@ define([
                 phone.setOnTop();
                 phone.close();
             });
+            this.remove();
+            $('.phone, .door').removeClass('icon-button-disabled');
             return false;
         },
         doClosePlan:function(e){
@@ -86,6 +102,7 @@ define([
                 plan.setOnTop();
                 plan.close();
             });
+            this.remove();
             return false;
         },
         doCloseMyDocuments:function(e){
@@ -94,6 +111,7 @@ define([
                 folder.setOnTop();
                 folder.close();
             });
+            this.remove();
             return false;
         },
         doCloseDocuments:function(e){
@@ -104,6 +122,17 @@ define([
                     document.close();
                 }
             });
+            this.remove();
+            return false;
+        },
+        doCloseVisit:function(e){
+            var visitors = SKApp.simulation.window_set.where({name: "visitor"});
+            $.each(visitors, function(index, visit) {
+                    visit.setOnTop();
+                    visit.close();
+            });
+            this.remove();
+            $('.phone, .door').removeClass('icon-button-disabled');
             return false;
         }
     });

@@ -48,6 +48,8 @@ define([
 
             popups: {},
 
+            system_options:null,
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -164,11 +166,11 @@ define([
                             }
                         }
                     });
-                    this.system_options = null;
+
                     $(window).bind('keydown', 'ctrl+o', function() {
                         if(me.system_options === null){
                             me.system_options = new SKCrashOptionsPanelView({
-                                'message':'<a href="#">Dell</a>',
+                                'message':'',
                                 'buttons':[]
                             });
                         }else{
