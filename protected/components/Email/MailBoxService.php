@@ -1229,7 +1229,11 @@ class MailBoxService
         ]);
 
         foreach ($mailFlags as $mailFlag) {
-            EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
+            try {
+                EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
+            } catch (Exception $e) {
+                Yii::log($e->getMessage(), CLogger::LEVEL_WARNING);
+            }
         }
     }
 
