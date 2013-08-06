@@ -209,7 +209,6 @@ define([
             this.remove();
             return false;
         }
-
     });
     return SKCrashOptionsPanelView; //SKDialogView;
 });

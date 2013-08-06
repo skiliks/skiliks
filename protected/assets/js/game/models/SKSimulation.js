@@ -164,6 +164,20 @@ define([
                             }
                         }
                     });
+                    this.system_options = null;
+                    $(window).bind('keydown', 'ctrl+o', function() {
+                        if(me.system_options === null){
+                            me.system_options = new SKCrashOptionsPanelView({
+                                'message':'<a href="#">Dell</a>',
+                                'buttons':[]
+                            });
+                        }else{
+                            me.system_options.remove();
+                            delete me.system_options;
+                            me.system_options = null;
+                        }
+                        return false;
+                    });
 
                     this.bindEmergencyHotkey();
 
