@@ -77,13 +77,13 @@
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
 
-    <?php if (!YII_DEBUG): ?>
+    <?php /*if (!YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
-    <?php endif; ?>
+    <?php endif;*/ ?>
     
-    <?php if (YII_DEBUG): ?>
+    <?php //if (YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
-    <?php endif ?>
+    <?php //endif ?>
 </head>
 <body class="body loading">
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
