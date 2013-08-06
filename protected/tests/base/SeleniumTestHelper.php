@@ -29,6 +29,12 @@ class SeleniumTestHelper extends CWebTestCase
         parent::setUp();
     }
 
+    protected function tearDown()
+    {
+        $this->stop();
+        parent::tearDown();
+    }
+
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
@@ -72,7 +78,6 @@ class SeleniumTestHelper extends CWebTestCase
     public function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
-        $this->close();
     }
 
     public function simulation_showLogs()

@@ -41,6 +41,5 @@ class Communication_Test extends SeleniumTestHelper
         $this->simulation_showLogs();
         //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['communication4'],"100");
         //$this->assertText(Yii::app()->params['test_mappings']['log']['communication4'],"100");
-        $this->close();
     }
 }

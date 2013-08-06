@@ -140,6 +140,5 @@ class Productivity_points_Test extends SeleniumTestHelper
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","80%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2')]/td[3]","100%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2_min')]/td[3]","100%");*/
-        $this->close();
     }
 }

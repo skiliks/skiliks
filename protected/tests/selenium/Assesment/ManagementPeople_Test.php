@@ -141,6 +141,5 @@ class ManagementPeople_Test extends SeleniumTestHelper
         $this->assertText(Yii::app()->params['test_mappings']['log']['group_2_2'],"100.00");
         $this->assertText(Yii::app()->params['test_mappings']['log']['group_2_3'],"100.00");
         $this->assertText(Yii::app()->params['test_mappings']['log']['learning_area_2'],"100");
-        $this->close();
     }
 }

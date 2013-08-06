@@ -60,8 +60,5 @@ class Register_Personal_Test extends SeleniumTestHelper
             } catch (Exception $e) {}
             sleep(1);
         }
-
-
-        $this->close();
     }
 }

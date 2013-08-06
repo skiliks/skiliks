@@ -15,7 +15,7 @@ class StartMessageList_SK3360_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(5);
-        $this->assertTextPresent("Вниманию руокводителей");
+        $this->assertTextPresent("Вниманию руководителей");
         $this->assertTextPresent("Форма отчетности для производства");
         $this->assertTextPresent("По ценовой политике");
         $this->assertTextPresent("Трудовой договор");
