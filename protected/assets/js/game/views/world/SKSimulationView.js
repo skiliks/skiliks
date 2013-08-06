@@ -93,6 +93,7 @@ define([
                     this.listenTo(simulation, 'start', function () {
                         $('#sim-id').text(simulation.id);
                     });
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

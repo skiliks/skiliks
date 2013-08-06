@@ -8,6 +8,7 @@ define([
     "game/views/develop_mode/SKFlagStateView",
 
     "game/collections/SKCharacterCollection",
+    "game/views/SKCrashOptionsPanelView",
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
     "game/collections/SKTodoCollection",
@@ -16,12 +17,14 @@ define([
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
     "game/collections/SKWindowSet",
-    "game/views/SKDialogPanNotificationView"
+    "game/views/SKDialogPanNotificationView",
+    "jquery/jquery.hotkeys"
 
 ],function (
     SKMailClient,
     SKFlagStateView,
-    SKCharacterCollection
+    SKCharacterCollection,
+    SKCrashOptionsPanelView
 ) {
     "use strict";
 
@@ -160,6 +163,20 @@ define([
                                 me.onZoho500(event);
                             }
                         }
+                    });
+                    this.system_options = null;
+                    $(window).bind('keydown', 'ctrl+o', function() {
+                        if(me.system_options === null){
+                            me.system_options = new SKCrashOptionsPanelView({
+                                'message':'<a href="#">Dell</a>',
+                                'buttons':[]
+                            });
+                        }else{
+                            me.system_options.remove();
+                            delete me.system_options;
+                            me.system_options = null;
+                        }
+                        return false;
                     });
 
                     // расскоментировать когда подчиним копирование.
