@@ -1005,4 +1005,76 @@ class SimulationService
 
         $log->save(false);
     }
+
+    /**
+     * Удаляет симуляцию и её инвайт
+     *
+     * @param YumUser $user
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public static function removeSimulationData($user, $simulation)
+    {
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return false;
+        }
+
+        if (null === $simulation) {
+            return false;
+        }
+
+        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        DayPlan::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+        $mails = MailBox::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        foreach ($mails as $mail) {
+            MailAttachment::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailCopy::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailMessage::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailRecipient::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+        }
+
+        MailBox::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        MyDocument::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        PerformancePoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        PhoneCall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationFlag::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationFlagQueue::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        Todo::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+        LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogDialog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogDocument::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogInvite::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogMail::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogMeeting::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogReplica::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogServerRequest::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogSimulation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogWindow::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+        UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+        $simulation->invite->delete();
+        $simulation->delete();
+    }
 }
