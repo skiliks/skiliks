@@ -77,6 +77,7 @@ define([
             }
         },
         doCloseMail:function(e){
+            this.logAction($(e.currentTarget).text());
             console.log("close");
             var mailEmulators = SKApp.simulation.window_set.where({name: "mailEmulator"});
             $.each(mailEmulators, function(index, mail){
@@ -87,6 +88,7 @@ define([
             return false;
         },
         doClosePhone:function(e){
+            this.logAction($(e.currentTarget).text());
             var phones = SKApp.simulation.window_set.where({name: "phone"});
             $.each(phones, function(index, phone){
                 phone.setOnTop();
@@ -97,6 +99,7 @@ define([
             return false;
         },
         doClosePlan:function(e){
+            this.logAction($(e.currentTarget).text());
             var planners = SKApp.simulation.window_set.where({name: "plan"});
             $.each(planners, function(index, plan){
                 plan.setOnTop();
@@ -106,6 +109,7 @@ define([
             return false;
         },
         doCloseMyDocuments:function(e){
+            this.logAction($(e.currentTarget).text());
             var my_documents = SKApp.simulation.window_set.where({subname: "documents"});
             $.each(my_documents, function(index, folder){
                 folder.setOnTop();
@@ -115,6 +119,7 @@ define([
             return false;
         },
         doCloseDocuments:function(e){
+            this.logAction($(e.currentTarget).text());
             var documents = SKApp.simulation.window_set.where({name: "documents"});
             $.each(documents, function(index, document) {
                 if(document.get('subname') !== 'documents') {
@@ -126,6 +131,7 @@ define([
             return false;
         },
         doCloseVisit:function(e){
+            this.logAction($(e.currentTarget).text());
             var visitors = SKApp.simulation.window_set.where({name: "visitor"});
             $.each(visitors, function(index, visit) {
                     visit.setOnTop();
@@ -134,6 +140,9 @@ define([
             this.remove();
             $('.phone, .door').removeClass('icon-button-disabled');
             return false;
+        },
+        logAction:function(action) {
+            SKApp.server.api('simulation/logCrashAction', {action:action}, function () {});
         }
     });
     return SKCrashOptionsPanelView; //SKDialogView;
