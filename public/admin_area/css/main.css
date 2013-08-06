@@ -48,10 +48,10 @@ ul.yiiPager {
     border: 3px solid #0e0e0e;
 }
 .td-statistic.success{
-    background-color: #418000;
+    background-color: #66FF7F;
 }
 .td-statistic.failure{
-    background-color: red;
+    background-color: #FFCC66;
 }
 .td-statistic {
     font-size: 25px;
