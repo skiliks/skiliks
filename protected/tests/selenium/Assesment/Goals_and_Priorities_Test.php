@@ -12,6 +12,9 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
+
+        $this->clearEventQueueBeforeEleven('RST1');
+
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Спасибо тебе, значит, через две')])");
 
@@ -59,8 +62,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->run_event('ET8',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
-        $this->run_event('RST7',"css=li.icon-active.phone a",'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $this->clearEventQueueBeforeEleven('RST7');
 
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, доброе утро! Как дела? Ты про нашу встречу')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Давай встретимся вечером, после 18.00 ')])");
