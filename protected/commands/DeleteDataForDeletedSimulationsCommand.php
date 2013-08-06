@@ -16,7 +16,8 @@ class DeleteDataForDeletedSimulationsCommand extends CConsoleCommand {
         // we does`n use group by
         // @link: http://blog.mclaughlinsoftware.com/2010/03/10/mysql-standard-group-by/
         // ERROR 1055 (42000): 'mail_box.id' isn't in GROUP BY
-        $emails = MailBox::model()->findAll();
+        // $emails = MailBox::model()->findAll();
+        $emails = AssessmentPoint::model()->findAll();
 
         $sims = [];
 
