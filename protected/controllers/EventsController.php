@@ -38,14 +38,19 @@ class EventsController extends SimulationBaseController
      */
     public function actionStart()
     {
-        $result = EventsManager::startEvent(
-                    $this->getSimulationEntity(),
-                    Yii::app()->request->getParam('eventCode'),
-                    Yii::app()->request->getParam('clearEvents', false),
-                    Yii::app()->request->getParam('clearAssessment', false),
-                    Yii::app()->request->getParam('delay', 0),
-                    Yii::app()->request->getParam('gameTime', null)
-                );
+        try {
+            $result = EventsManager::startEvent(
+                $this->getSimulationEntity(),
+                Yii::app()->request->getParam('eventCode'),
+                Yii::app()->request->getParam('clearEvents', false),
+                Yii::app()->request->getParam('clearAssessment', false),
+                Yii::app()->request->getParam('delay', 0),
+                Yii::app()->request->getParam('gameTime', null)
+            );
+        } catch (Exception $e) {
+            Yii::log($e->getMessage(), CLogger::LEVEL_WARNING);
+            $result = ['error' => $e->getMessage()];
+        }
         $this->sendJSON($result);
     }
 
