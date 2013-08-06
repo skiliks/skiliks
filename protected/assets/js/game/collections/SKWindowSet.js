@@ -179,7 +179,7 @@ define([
 
         getWindow: function(name, subname) {
             try {
-                var windows = this.where({name: name, subname: subname});
+                var windows = this.where(subname ? {name: name, subname: subname} : {name: name});
 
                 return windows.length ? windows[0] : null;
             } catch(exception) {
@@ -226,7 +226,7 @@ define([
 
         isOpen:function(name, subname) {
             try {
-                var windows = this.where({name: name, subname: subname});
+                var windows = this.where(subname ? {name: name, subname: subname} : {name: name});
                 if (windows.length === 0) {
                     return false;
                 }else{

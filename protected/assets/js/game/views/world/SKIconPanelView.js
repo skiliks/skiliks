@@ -481,8 +481,8 @@ define([
                 try {
                     e.preventDefault();
                     if ($(e.target).parents('.icon-button-disabled').length) {
-                        if (SKApp.simulation.window_set.isOpen('visitor', 'visitorEntrance')) {
-                            SKApp.simulation.window_set.getWindow('visitor', 'visitorEntrance').setOnTop();
+                        if (SKApp.simulation.window_set.isOpen('visitor')) {
+                            SKApp.simulation.window_set.getWindow('visitor').setOnTop();
                         }
                     } else {
                         SKApp.simulation.window_set.open('visitor', 'meetingChoice');
@@ -691,8 +691,8 @@ define([
                 try {
                     e.preventDefault();
                     if ($(e.target).parents('.icon-button-disabled').length) {
-                        if (SKApp.simulation.window_set.isOpen('phone', 'phoneTalk')) {
-                            SKApp.simulation.window_set.getWindow('phone', 'phoneTalk').setOnTop();
+                        if (SKApp.simulation.window_set.isOpen('phone')) {
+                            SKApp.simulation.window_set.getWindow('phone').setOnTop();
                         }
                     } else {
                         SKApp.simulation.window_set.open('phone', 'phoneMain');
