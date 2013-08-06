@@ -82,6 +82,15 @@ define([
                     };
                     setTimeout(callback, 2000);
                 }
+                var noReply = function(cid){
+                    console.log(me.cid);
+                    console.log(cid);
+                    if(me.cid === cid){
+                        me.$('#phone_no_reply').click();
+                    }
+                };
+                console.log(this.cid);
+                setTimeout(noReply, 20000, this.cid);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
