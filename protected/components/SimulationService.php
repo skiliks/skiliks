@@ -938,7 +938,7 @@ class SimulationService
      * @param Simulation $simulation
      * @param string $action
      */
-    public static function logAboutSim($simulation, $action = 'not specified') {
+    public static function logAboutSim(Simulation $simulation, $action = 'not specified') {
 
         $comment = '';
         $invite = null;

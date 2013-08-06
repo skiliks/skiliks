@@ -159,18 +159,32 @@ class SiteController extends SiteBaseController
         if($not_end_simulations === 0) {
             $result['simulation_start'] = true;
         }else{
-            SimulationService::logAboutSim(null, 'try to start simulation when full sim already started');
+            $invite_id = Yii::app()->request->getParam('invite_id');
+            if(null!==$invite_id){
+                $invite = Invite::model()->findByPk($invite_id);
+                InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+            }
+
             $result['simulation_start'] = false;
         }
         $this->sendJSON($result);
     }
 
     public function actionUserStartSecondSimulation() {
-        SimulationService::logAboutSim(null, 'user start second simulation');
+
+        $invite_id = Yii::app()->request->getParam('invite_id');
+        if(null!==$invite_id){
+            $invite = Invite::model()->findByPk($invite_id);
+            InviteService::logAboutInviteStatus($invite, 'user start second simulation');
+        }
     }
 
     public function actionUserRejectStartSecondSimulation() {
-        SimulationService::logAboutSim(null, 'user reject start second simulation');
+        $invite_id = Yii::app()->request->getParam('invite_id');
+        if(null!==$invite_id){
+            $invite = Invite::model()->findByPk($invite_id);
+            InviteService::logAboutInviteStatus($invite, 'user reject start second simulation');
+        }
     }
 }
 
