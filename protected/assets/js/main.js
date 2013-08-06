@@ -318,6 +318,10 @@ var fixLogotypes = function() {
                 }
             });
         }
+
+        function getInviteId(url){
+            return parseInt(url.replace('/simulation/promo/full/', ''), 0);
+        }
         $('.start-full-simulation').click(function(event){
             var href = $(this).attr('data-href');
             event.preventDefault();
@@ -327,6 +331,7 @@ var fixLogotypes = function() {
             $.ajax({
                  url:'/simulationIsStarted',
                  dataType:  "json",
+                 data:{invite_id:getInviteId(href)},
                  success:function(data) {
                      console.log(data.simulation_start);
                     if(data.simulation_start) {
@@ -357,15 +362,16 @@ var fixLogotypes = function() {
 
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
-            $.ajax({url:'/userStartSecondSimulation'});
             var href = $(this).attr('data-href');
+            $.ajax({url:'/userStartSecondSimulation', data:{invite_id:getInviteId(href)}});
             $(".pre-start-popup").dialog('close');
             warningPopup(href);
             return false;
         });
         $('.start-full-simulation-close').click(function(event){
             event.preventDefault();
-            $.ajax({url:'/userRejectStartSecondSimulation'});
+            var href = $(this).attr('data-href');
+            $.ajax({url:'/userRejectStartSecondSimulation', data:{invite_id:getInviteId(href)}});
             $(".pre-start-popup").dialog('close');
             return false;
         });
