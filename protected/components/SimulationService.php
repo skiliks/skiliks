@@ -29,7 +29,7 @@ class SimulationService
             true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3322 = new AssessmentCalculation();
-            $emailResultsFor_3322->sim_id = $simulation->id;
+            $emailResultsFor_3322->sim_id = $simId;
             $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
             try {
@@ -45,7 +45,7 @@ class SimulationService
             true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3324 = new AssessmentCalculation();
-            $emailResultsFor_3324->sim_id = $simulation->id;
+            $emailResultsFor_3324->sim_id = $simId;
             $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
             try {
@@ -64,7 +64,7 @@ class SimulationService
             true === $b_3323['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3323 = new AssessmentCalculation();
-            $emailResultsFor_3323->sim_id = $simulation->id;
+            $emailResultsFor_3323->sim_id = $simId;
             $emailResultsFor_3323->point_id = $b_3323['obj']->id;
             $emailResultsFor_3323->value = $b_3323['positive'];
             try {
@@ -83,7 +83,7 @@ class SimulationService
             true === $b_3313['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3313 = new AssessmentCalculation();
-            $emailResultsFor_3313->sim_id = $simulation->id;
+            $emailResultsFor_3313->sim_id = $simId;
             $emailResultsFor_3313->point_id = $b_3313['obj']->id;
             $emailResultsFor_3313->value = $b_3313['positive'];
             try {
@@ -100,7 +100,7 @@ class SimulationService
             true === $b_3333['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3333 = new AssessmentCalculation();
-            $emailResultsFor_3333->sim_id = $simulation->id;
+            $emailResultsFor_3333->sim_id = $simId;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
             $emailResultsFor_3333->value = $b_3333['positive'];
             try {
@@ -117,7 +117,7 @@ class SimulationService
             true === $b_3326['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3326 = new AssessmentCalculation();
-            $emailResultsFor_3326->sim_id = $simulation->id;
+            $emailResultsFor_3326->sim_id = $simId;
             $emailResultsFor_3326->point_id = $b_3326['obj']->id;
             $emailResultsFor_3326->value = $b_3326['positive'];
             try {
@@ -136,7 +136,7 @@ class SimulationService
             true === $b_3311['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3311 = new AssessmentCalculation();
-            $emailResultsFor_3311->sim_id = $simulation->id;
+            $emailResultsFor_3311->sim_id = $simId;
             $emailResultsFor_3311->point_id = $b_3311['obj']->id;
             $emailResultsFor_3311->value = $b_3311['positive'];
             try {
@@ -155,7 +155,7 @@ class SimulationService
             true === $b_3332['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3332 = new AssessmentCalculation();
-            $emailResultsFor_3332->sim_id = $simulation->id;
+            $emailResultsFor_3332->sim_id = $simId;
             $emailResultsFor_3332->point_id = $b_3332['obj']->id;
             $emailResultsFor_3332->value = $b_3332['positive'];
             try {
@@ -288,7 +288,7 @@ class SimulationService
             foreach ($tasks as $task) {
                 if ($task->code === 'P017')
                     continue;
-                $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
+                $sql .= $add . "({$simId}, NOW(), {$task->id})";
                 $add = ',';
             }
             $sql .= ";";
@@ -324,20 +324,20 @@ class SimulationService
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
                     $satisfies = LogDialog::model()
-                        ->bySimulationId($simulation->id)
+                        ->bySimulationId($simId)
                         ->byLastReplicaId($replica->excel_id)
                         ->exists();
 
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
-                        'sim_id' => $simulation->id,
+                        'sim_id' => $simId,
                         'template_id' => $condition->mail_id
                     ]);
 
                     $satisfies = $mail ?
                         LogMail::model()
-                            ->bySimId($simulation->id)
+                            ->bySimId($simId)
                             ->byMailBoxId($mail->id)
                             ->exists() :
                         false;
@@ -346,7 +346,7 @@ class SimulationService
                     $satisfies = SimulationExcelPoint::model()->exists(
                         ' sim_id = :sim_id AND formula_id = :formula_id AND value != 0 ',
                         [
-                            'sim_id' => $simulation->id,
+                            'sim_id' => $simId,
                             'formula_id' => $condition->excel_formula_id
                         ]
                     );
@@ -363,7 +363,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new PerformancePoint();
-                $point->sim_id = $simulation->id;
+                $point->sim_id = $simId;
                 $point->performance_rule_id = $rule->id;
                 $point->save();
 
@@ -413,7 +413,7 @@ class SimulationService
 
         foreach ($categories as $cid => $value) {
             $row = new PerformanceAggregated();
-            $row->sim_id = $simulation->id;
+            $row->sim_id = $simId;
             $row->category_id = $cid;
             $row->value = $value;
             $row->percent = round($value / $categoryRates[$cid] * 100);
@@ -440,20 +440,20 @@ class SimulationService
             $satisfies = false;
             if ($rule->replica_id) {
                 $satisfies = !!LogReplica::model()->findByAttributes([
-                    'sim_id' => $simulation->id,
+                    'sim_id' => $simId,
                     'replica_id' => $rule->replica_id
                 ]);
 
             } elseif ($rule->mail_id) {
                 /** @var MailBox $mail */
                 $mail = MailBox::model()->findByAttributes([
-                    'sim_id' => $simulation->id,
+                    'sim_id' => $simId,
                     'template_id' => $rule->mail_id
                 ]);
 
                 $satisfies = $mail ?
                     LogMail::model()
-                        ->bySimId($simulation->id)
+                        ->bySimId($simId)
                         ->byMailBoxId($mail->id)
                         ->exists() :
                     false;
@@ -461,7 +461,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new StressPoint();
-                $point->sim_id = $simulation->id;
+                $point->sim_id = $simId;
                 $point->stress_rule_id = $rule->id;
                 $point->save();
 
@@ -489,7 +489,7 @@ class SimulationService
             $sql = [];
             foreach ($events as $event) {
                 $eventTime = $event->trigger_time ?: '00:00:00';
-                $sql[] = "({$simulation->id}, {$event->id}, '$eventTime')";
+                $sql[] = "({$simId}, {$event->id}, '$eventTime')";
             }
 
             $sql = sprintf(
@@ -502,7 +502,7 @@ class SimulationService
             $command->execute();
         }
 
-        return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        return EventTrigger::model()->findAllByAttributes(['sim_id' => $simId]);
     }
 
     /**
@@ -564,7 +564,7 @@ class SimulationService
         $simulation->save();
 
         // save simulation ID to user session
-        Yii::app()->session['simulation'] = $simulation->id;
+        Yii::app()->session['simulation'] = $simId;
 
         //@todo: increase speed
         SimulationService::initEventTriggers($simulation);
@@ -576,9 +576,9 @@ class SimulationService
         MyDocumentsService::init($simulation);
 
         // Copy email templates
-        MailBoxService::initMailBoxEmails($simulation->id);
+        MailBoxService::initMailBoxEmails($simId);
 
-        // ZohoDocuments::copyExcelFiles($simulation->id);
+        // ZohoDocuments::copyExcelFiles($simId);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
@@ -591,7 +591,7 @@ class SimulationService
         // update invite if it set
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
-            $invite->simulation_id = $simulation->id;
+            $invite->simulation_id = $simId;
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
             if($scenario->slug == Scenario::TYPE_LITE) {
@@ -685,7 +685,7 @@ class SimulationService
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
 
-        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simId);
         $CheckConsolidatedBudget->calcPoints();
 
         SimulationService::setFinishedPerformanceRules($simulation);
@@ -695,11 +695,11 @@ class SimulationService
 
         SimulationService::setGainedStressRules($simulation);
         SimulationService::stressResistance($simulation);
-        SimulationService::saveAggregatedPoints($simulation->id);
+        SimulationService::saveAggregatedPoints($simId);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simId);
 
         self::applyReductionFactors($simulation);
 
@@ -715,7 +715,7 @@ class SimulationService
         // @ - for PHPUnit
         if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
             @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+                new CHttpCookie('display_result_for_simulation_id', $simId);
         }
 
         $simulation->saveLogsAsExcel();
@@ -728,7 +728,7 @@ class SimulationService
 
         // remove all files except D1 - Сводный бюджет 2013 {
         $docs = MyDocument::model()->findAllByAttributes([
-            'sim_id' => $simulation->id
+            'sim_id' => $simId
         ]);
         foreach ($docs as $document) {
             if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
@@ -832,7 +832,7 @@ class SimulationService
         }
 
         /* @var $stress StressPoint[] */
-        $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$simId]);
 
         if(null !== $stress) {
             $value = 0;
@@ -845,7 +845,7 @@ class SimulationService
 
         $assessment = new AssessmentCalculation();
         $assessment->point_id = $point->id;
-        $assessment->sim_id = $simulation->id;
+        $assessment->sim_id = $simId;
         $assessment->value = round($value, 2);
         $assessment->save();
 
@@ -863,7 +863,7 @@ class SimulationService
         if($simulation->isTutorial()){ return; }
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
 
-            $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+            $invite = Invite::model()->findByAttributes(['simulation_id'=>$simId]);
 
             if (null === $invite) {
                 if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
@@ -958,10 +958,10 @@ class SimulationService
 
         if (null != $simulation) {
             // add sim_id
-            $log->sim_id = $simulation->id;
+            $log->sim_id = $simId;
 
             // add invite {
-            $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simulation->id]);
+            $invites = Invite::model()->findAllByAttributes(['simulation_id' => $simId]);
 
             if (1 == count($invites)) {
                 $invite = reset($invites);
@@ -1013,27 +1013,31 @@ class SimulationService
      * @param Simulation $simulation
      * @return bool
      */
-    public static function removeSimulationData($user, $simulation)
+    public static function removeSimulationData($user, $simulation, $simId)
     {
         if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
             return false;
         }
 
-        if (null === $simulation) {
+        if (null === $simulation && null === $simId) {
             return false;
         }
 
-        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        DayPlan::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        if (null !== $simulation) {
+            $simId = $simulation->id;
+        }
 
-        $mails = MailBox::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlan::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        $mails = MailBox::model()->findAllByAttributes(['sim_id' => $simId]);
         foreach ($mails as $mail) {
             MailAttachment::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
             MailCopy::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
@@ -1041,38 +1045,38 @@ class SimulationService
             MailRecipient::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
         }
 
-        MailBox::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        MyDocument::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PerformancePoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        PhoneCall::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationFlag::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationFlagQueue::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        Todo::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        MailBox::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        MyDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformancePoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PhoneCall::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationFlag::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationFlagQueue::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        Todo::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
-        LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogDialog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogDocument::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogInvite::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogMail::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogMeeting::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogReplica::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogServerRequest::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogSimulation::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-        LogWindow::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogInvite::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogMail::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogMeeting::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogReplica::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogServerRequest::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogSimulation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogWindow::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
-        UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+        UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         $simulation->invite->delete();
         $simulation->delete();
