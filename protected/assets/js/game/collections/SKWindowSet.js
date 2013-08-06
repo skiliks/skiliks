@@ -177,6 +177,18 @@ define([
             }
         },
 
+        getWindow: function(name, subname) {
+            try {
+                var windows = this.where({name: name, subname: subname});
+
+                return windows.length ? windows[0] : null;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
         /**
          * @method toggle
          * @param name

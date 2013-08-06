@@ -26,8 +26,8 @@ define([
                 'click .icons-panel .door.icon-active a':  'doDialogStart',
                 'click .icons-panel .mail.create-mail a':  'doNewMailStart',
 
-                'click .icons-panel .door:not(.icon-active):not(.icon-button-disabled) a':  'doMeetingToggle',
-                'click .icons-panel .phone:not(.icon-active):not(.icon-button-disabled) a': 'doPhoneToggle',
+                'click .icons-panel .door:not(.icon-active) a':  'doMeetingToggle',
+                'click .icons-panel .phone:not(.icon-active) a': 'doPhoneToggle',
 
                 'click .icons-panel .mail:not(.create-mail) a': 'doMailToggle',
                 'click .icons-panel .documents a':              'doDocumentsToggle',
@@ -480,10 +480,13 @@ define([
             doMeetingToggle: function(e) {
                 try {
                     e.preventDefault();
-                    if(false == SKApp.simulation.window_set.isActive('visitor', 'visitorMeeting')){
-                        SKApp.simulation.window_set.toggle('visitor', 'meetingChoice');
+                    if ($(e.target).parents('.icon-button-disabled').length) {
+                        if (SKApp.simulation.window_set.isOpen('visitor', 'visitorEntrance')) {
+                            SKApp.simulation.window_set.getWindow('visitor', 'visitorEntrance').setOnTop();
+                        }
+                    } else {
+                        SKApp.simulation.window_set.open('visitor', 'meetingChoice');
                     }
-
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -687,8 +690,12 @@ define([
             doPhoneToggle: function (e) {
                 try {
                     e.preventDefault();
-                    if(false == SKApp.simulation.window_set.isActive('phone', 'phoneMain')){
-                        SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                    if ($(e.target).parents('.icon-button-disabled').length) {
+                        if (SKApp.simulation.window_set.isOpen('phone', 'phoneTalk')) {
+                            SKApp.simulation.window_set.getWindow('phone', 'phoneTalk').setOnTop();
+                        }
+                    } else {
+                        SKApp.simulation.window_set.open('phone', 'phoneMain');
                     }
                 } catch(exception) {
                     if (window.Raven) {
