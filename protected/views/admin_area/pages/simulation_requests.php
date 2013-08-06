@@ -15,7 +15,7 @@
 <br/>
 <br/>
 
-<table class="table table-bordered">
+<table class="table table-bordered" border="3px">
     <thead>
         <tr>
             <th>Реальное время (UID) <strong>Игровое время</strong> , URL</th>
@@ -32,13 +32,13 @@
                 </br>
                 <?= str_replace('/index.php/', '', $simulationLog->request_url) ?>
             </td>
-            <td style="overflow: scroll;">
-                <div style="width: 500px; height: 120px;">
+            <td style="padding: 5px;">
+                <div style="width: 500px; height: 120px; overflow: auto;">
                     <?= str_replace(',', ', ', $simulationLog->request_body) ?>
                 </div>
             </td>
-            <td style="overflow: scroll;">
-                <div style="width: 500px; height: 120px;">
+            <td style="padding: 5px;">
+                <div style="width: 500px; height: 120px; overflow: auto;">
                     <?= str_replace(',', ', ', $simulationLog->response_body) ?>
                 </div>
             </td>
