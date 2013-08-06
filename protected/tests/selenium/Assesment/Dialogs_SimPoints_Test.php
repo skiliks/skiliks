@@ -29,6 +29,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('7','0');
+        sleep(2);
     }
 
     public function test_Dialogs_for_SK1395()
@@ -55,6 +56,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('3','0');
+        sleep(2);
     }
 
     public function test_Dialogs_for_SK910()
@@ -84,6 +86,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('8','-7');
+        sleep(2);
     }
 
     public function test_Dialogs_for_SK1790()
@@ -141,6 +144,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('2.5','-36.5');
+        sleep(2);
     }
 
     public function test_Dialogs_for_SK1791()
@@ -199,6 +203,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('1.5','-31');
+        sleep(2);
     }
 
     public function test_Dialogs_for_SK1792()
@@ -227,5 +232,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         $this->checkSimPoints('11.667','-10');
+        sleep(2);
     }
 }

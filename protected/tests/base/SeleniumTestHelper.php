@@ -65,7 +65,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/simulation/developer/full'); // для full simulation*/
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 60) $this->fail("Timeout. Not found id=addTriggerSelect");
             try {
                 if ($this->isVisible("id=addTriggerSelect")) break;
             } catch (Exception $e) {}
@@ -101,7 +101,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
+            if ($second >= 600) $this->fail("Timeout. Not found"+$next_event);
             try{
                 if ($this->isVisible($next_event))
                 {
