@@ -38,7 +38,7 @@ class MakeStartedSimulationsCompleteCommand extends CConsoleCommand {
                 @$simulation->id
             );
 
-            $simulation->end = '0000-00-00 00:00:00';
+            $simulation->end = '0001-01-01 01:01:01';
             $simulation->save(false);
         }
 
