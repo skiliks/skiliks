@@ -573,7 +573,7 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
-        // ZohoDocuments::copyExcelFiles($simId);
+        // ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
@@ -703,11 +703,11 @@ class SimulationService
             $evaluation = new Evaluation($simulation);
             $evaluation->run();
 
-            // @ - for PHPUnit
-            if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
-                @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-                    new CHttpCookie('display_result_for_simulation_id', $simulation->id);
-            }
+        // @ - for PHPUnit
+        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
+            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+        }
 
             $simulation->saveLogsAsExcel();
 
