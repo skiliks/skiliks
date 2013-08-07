@@ -67,7 +67,7 @@ class AdminPagesController extends SiteBaseController {
         $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
         $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
         if (false == empty($receiverEmailForFiltration)) {
-            $condition = " email = '".mysql_real_escape_string($receiverEmailForFiltration)."' ";
+            $condition = " email = '".mysql_escape_string($receiverEmailForFiltration)."' ";
             $criteria->addCondition($condition);
         } else {
             if ($exceptDevelopersFiltration) {
@@ -424,7 +424,7 @@ class AdminPagesController extends SiteBaseController {
             $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
 
             // for page results
-            $condition = " profile.email = '".mysql_real_escape_string($emailForFiltration)."' ";
+            $condition = " profile.email = '".mysql_escape_string($emailForFiltration)."' ";
 
             $criteria->addCondition($condition);
         } else {
@@ -468,22 +468,14 @@ class AdminPagesController extends SiteBaseController {
         $pager->route = 'admin_area/AdminPages/Simulations';
         // pager }
 
-        if (null === $condition) {
-            $simulations = Simulation::model()->findAll([
+        $simulations = Simulation::model()
+            ->with('user', 'user.profile')
+            ->findAll([
+                'condition' => $condition,
                 'order' => 't.id DESC',
                 'offset' => ($page-1) * $this->itemsOnPage,
                 'limit'  => $this->itemsOnPage
             ]);
-        } else {
-            $simulations = Simulation::model()
-                ->with('user', 'user.profile')
-                ->findAll([
-                    'condition' => $condition,
-                    'order' => 't.id DESC',
-                    'offset' => ($page-1) * $this->itemsOnPage,
-                    'limit'  => $this->itemsOnPage
-                ]);
-        }
 
 
         $this->render('/admin_area/pages/simulations_table', [
