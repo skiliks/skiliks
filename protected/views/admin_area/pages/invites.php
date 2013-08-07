@@ -57,7 +57,7 @@ $titles = [
 
         <?php if (0 == count($invites)): ?>
             <tr>
-                <td>Нет результатов.</td>
+                <td colspan="<?= count($titles) ?>">Нет результатов.</td>
             </tr>
         <?php endif; ?>
 

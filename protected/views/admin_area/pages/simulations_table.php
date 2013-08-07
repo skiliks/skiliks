@@ -43,6 +43,13 @@
         </tr>
         </thead>
         <tbody>
+
+        <?php if (0 == count($simulations)): ?>
+            <tr>
+                <td colspan="<?= count($titles) ?>">Нет результатов.</td>
+            </tr>
+        <?php endif; ?>
+
         <?php /* @var $model Invite*/ ?>
         <?php $step = 12; $i = 0; ?>
         <?php foreach($simulations as $simulation) : ?>
