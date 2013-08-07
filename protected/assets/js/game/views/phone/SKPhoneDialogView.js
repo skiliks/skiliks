@@ -130,17 +130,19 @@ define([
                 });
 
                 if ('slow' == window.netSpeedVerbose) {
-                    if (my_replicas.length === 0) {
-                        event.selectReplica(remote_replica.id, function () {
-                            me.options.model_instance.setLastDialog(remote_replica.id);
-                            if (remote_replica.is_final_replica === "1") {
-                                me.options.model_instance.setOnTop();
-                                me.options.model_instance.close();
-                            }
-                        });
-                    }  else if (!SKApp.simulation.isDebug()) {
-                        window_el.find('.phone-reply-h').removeClass('hidden');
-                    }
+                    setTimeout(function(){
+                        if (my_replicas.length === 0) {
+                            event.selectReplica(remote_replica.id, function () {
+                                me.options.model_instance.setLastDialog(remote_replica.id);
+                                if (remote_replica.is_final_replica === "1") {
+                                    me.options.model_instance.setOnTop();
+                                    me.options.model_instance.close();
+                                }
+                            });
+                        }  else if (!SKApp.simulation.isDebug()) {
+                            window_el.find('.phone-reply-h').removeClass('hidden');
+                        }
+                    }, 5000);
                 }
 
                 if (0 === this.$('audio').length) {

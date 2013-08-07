@@ -124,15 +124,17 @@ define([
                         });
 
                         if ('slow' == window.netSpeedVerbose) {
-                            me.$('video').css('zIndex', 0);
-                            if (my_replicas.length === 0) {
-                                event.complete();
-                                me.options.model_instance.close();
-                                me.remove();
-                            } else if (!SKApp.simulation.isDebug()) {
-                                el.find('.char-reply').removeClass('hidden');
-                                el.find('.visitor-reply').removeClass('hidden');
-                            }
+                            setTimeout(function(){
+                                me.$('video').css('zIndex', 0);
+                                if (my_replicas.length === 0) {
+                                    event.complete();
+                                    me.options.model_instance.close();
+                                    me.remove();
+                                } else if (!SKApp.simulation.isDebug()) {
+                                    el.find('.char-reply').removeClass('hidden');
+                                    el.find('.visitor-reply').removeClass('hidden');
+                                }
+                            }, 5000);
                         }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
