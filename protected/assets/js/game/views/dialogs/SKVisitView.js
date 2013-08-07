@@ -21,6 +21,8 @@ define([
         /** @lends SKVisitView.prototype */
         {
             isDisplayCloseWindowsButton: false,
+
+            deny_timeout_id:null,
             
             'events':_.defaults({
                     "click .visitor-allow":'allow',
@@ -31,7 +33,7 @@ define([
              * Constructor
              * @method initialize
              */
-            'initialize':function () {
+            initialize:function () {
                 try {
                     var me = this;
                     SKWindowView.prototype.initialize.call(this);
@@ -46,7 +48,7 @@ define([
              * @method
              * @param el
              */
-            'renderWindow':function (el) {
+            renderWindow:function (el) {
                 try {
                     var me = this,
                         event = this.options.model_instance.get('sim_event');
@@ -62,15 +64,14 @@ define([
                             me.timer = null;
                         }, 5000);
                     }
-                    var noReply = function(cid){
-                        console.log(me.cid);
-                        console.log(cid);
-                        if(me.cid === cid){
-                            me.$('.visitor-deny').click();
-                        }
+                    var noReply = function(){
+                        me.doActivate();
+                        me.$('.visitor-deny').click();
                     };
-                    console.log(this.cid);
-                    setTimeout(noReply, 20000, this.cid);
+                    this.deny_timeout_id = setTimeout(noReply, 20000);
+                    this.listenTo(this.options.model_instance, 'close', function () {
+                        clearTimeout(me.deny_timeout_id);
+                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -82,7 +83,7 @@ define([
              * @method
              * @param e
              */
-            'allow':function (e) {
+            allow:function (e) {
                 try {
                     var dialogId = $(e.currentTarget).attr('data-dialog-id');
 
@@ -104,7 +105,7 @@ define([
              *
              * @param e
              */
-            'deny':function (e) {
+            deny:function (e) {
                 try {
                     var dialogId = $(e.currentTarget).attr('data-dialog-id');
                     SKApp.simulation.trigger('audio-door-knock-stop');

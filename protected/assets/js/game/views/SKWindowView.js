@@ -219,6 +219,7 @@ define(["text!game/jst/window.jst"],
 
         doWindowClose: function () {
             try {
+                console.log('close');
                 this.onWindowClose();
                 this.options.model_instance.close();
             } catch(exception) {
@@ -394,7 +395,7 @@ define(["text!game/jst/window.jst"],
         },
 
         onWindowClose: function() {
-
+            console.log('parent');
         }
 
     });
