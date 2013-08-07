@@ -50,6 +50,8 @@ define([
 
             system_options:null,
 
+            is_paused:false,
+
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -545,7 +547,7 @@ define([
                     me._stopTimer();
                     me.paused_time = new Date();
                     me.trigger('pause:start');
-
+                    me.is_paused = true;
                     if (typeof callback === 'function') {
                         SKApp.server.api('simulation/startPause', {}, function (responce) {
                             callback(responce);
@@ -568,7 +570,7 @@ define([
             stopPause: function(callback) {
                 try {
                     var me = this;
-
+                    me.is_paused = false;
                     SKApp.server.api('simulation/stopPause', {}, function (responce) {
                         if( me.paused_time !== undefined )
                         {
@@ -606,6 +608,10 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            isPaused:function() {
+              return this.is_paused;
             },
 
             /**

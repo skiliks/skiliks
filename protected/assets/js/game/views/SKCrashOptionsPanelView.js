@@ -19,6 +19,8 @@ define([
             'click .crash.close-my_documents': 'doCloseMyDocuments',
             'click .crash.close-documents': 'doCloseDocuments',
             'click .crash.close-visit': 'doCloseVisit',
+            'click .crash.stop-sim': 'doStopSimulation',
+            'click .crash.restore-events': 'doRestoreEvents',
             'click .mail-popup-button': 'handleClick',
             'click .dialog-close': 'doDialogClose'
         },
@@ -94,6 +96,12 @@ define([
                 phone.setOnTop();
                 phone.close();
             });
+            $.each(SKApp.simulation.events.models, function(index, event) {
+                console.log(event.status === 'in progress');
+                if(event.status === 'in progress') {
+                    event.setStatus('completed');
+                }
+            });
             this.remove();
             $('.phone, .door').removeClass('icon-button-disabled');
             return false;
@@ -137,13 +145,46 @@ define([
                     visit.setOnTop();
                     visit.close();
             });
+            if(SKApp.simulation.isPaused()){
+                SKApp.simulation.stopPause(function(){});
+            }
+            $.each(SKApp.simulation.events.models, function(index, event) {
+                console.log(event.status === 'in progress');
+                if(event.status === 'in progress') {
+                    event.setStatus('completed');
+                }
+            });
             this.remove();
             $('.phone, .door').removeClass('icon-button-disabled');
             return false;
         },
         logAction:function(action) {
             SKApp.server.api('simulation/logCrashAction', {action:action}, function () {});
+        },
+        doStopSimulation:function(e) {
+            this.logAction($(e.currentTarget).text());
+            var dialog = new SKDialogView({
+                message:'Экстренная остановка симуляции',
+                buttons:[]
+            });
+            SKApp.simulation.stop(function(){
+                dialog.remove();
+            });
+            this.remove();
+            return false;
+        },
+        doRestoreEvents:function(e) {
+            this.logAction($(e.currentTarget).text());
+            $.each(SKApp.simulation.events.models, function(index, event) {
+                console.log(event.status === 'in progress');
+                if(event.status === 'in progress') {
+                    event.setStatus('completed');
+                }
+            });
+            this.remove();
+            return false;
         }
+
     });
     return SKCrashOptionsPanelView; //SKDialogView;
 });
