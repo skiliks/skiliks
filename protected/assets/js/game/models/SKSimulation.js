@@ -169,7 +169,7 @@ define([
                         }
                     });
 
-                    $(window).bind('keydown', 'ctrl+o', function() {
+                    $(window).bind('keydown', 'ctrl+k', function() {
                         if(me.system_options === null){
                             me.system_options = new SKCrashOptionsPanelView({
                                 'message':'',
