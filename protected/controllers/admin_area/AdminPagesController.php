@@ -23,7 +23,7 @@ class AdminPagesController extends SiteBaseController {
         "'N_ninok1985@mail.ru'",
         "'tony.pryanichnikov@gmail.com'",
         "'svetaswork@gmail.com'",
-        NULL,
+        "NULL",
     ];
 
     public function beforeAction($action) {
