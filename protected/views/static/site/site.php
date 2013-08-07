@@ -11,6 +11,7 @@
             baseUrl: "<?= $assetsUrl; ?>/js",
             waitSeconds: 15
         };
+        window.inviteId = <?= $inviteId ?>;
     </script>
 
     <title>Skiliks</title>
