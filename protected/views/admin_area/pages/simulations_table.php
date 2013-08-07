@@ -6,7 +6,8 @@
     'Тип симуляции',
     'Оценка',
     'ID-инвайта',
-] ?>
+];
+?>
 <div class="row fix-top">
     <h2>Симуляции</h2>
 
@@ -16,10 +17,23 @@
         'maxButtonCount' => 5, // максимальное вол-ко кнопок
     )); ?>
 
-    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей на странице из <?= $totalItems ?>)
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
 
     <br/>
     <br/>
+
+    <form action="" method="post" style="display: inline-block;">
+        <i class="icon-filter"></i> &nbsp; email соискателя:
+        <input name="email-for-filtration" value="<?= $emailForFiltration ?>"/>
+        <input type="submit" value="фильтровать" class="btn btn-warning"/>
+    </form>
+
+    <form action="" method="post" style="display: inline-block;">
+        <input type="submit" value="Сбросить фильтр" class="btn btn-warning"/>
+    </form>
+
+    <br/>
+
     <table class="table table-hover">
         <thead>
         <tr>

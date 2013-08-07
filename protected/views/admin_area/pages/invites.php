@@ -18,18 +18,31 @@ $titles = [
 <div class="row fix-top">
     <h2>Инвайты</h2>
 
+    <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
+
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,
         'maxButtonCount' => 5, // максимальное вол-ко кнопок
     )); ?>
 
-    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей на странице из <?= $totalItems ?>)
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
 
     <br/>
     <br/>
 
-    <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
+    <form action="" method="post" style="display: inline-block;">
+        <i class="icon-filter"></i> &nbsp; email соискателя:
+        <input name="receiver-email-for-filtration" value="<?= $receiverEmailForFiltration ?>"/>
+        <input type="submit" value="фильтровать" class="btn btn-warning"/>
+    </form>
+
+    <form action="" method="post" style="display: inline-block;">
+        <input type="submit" value="Сбросить фильтр" class="btn btn-warning"/>
+    </form>
+
+    <br/>
+
     <table class="table table-hover">
         <thead>
         <tr>
@@ -41,6 +54,13 @@ $titles = [
         <tbody>
         <?php /* @var $invite Invite*/ ?>
         <?php $step = 12; $i = 0; ?>
+
+        <?php if (0 == count($invites)): ?>
+            <tr>
+                <td>Нет результатов.</td>
+            </tr>
+        <?php endif; ?>
+
         <?php foreach($invites as $invite) : ?>
         <?php $i++ ?>
         <?php if($i === $step) : ?>

@@ -61,25 +61,80 @@ class AdminPagesController extends SiteBaseController {
         }
 
         $criteria = new CDbCriteria;
+
+        $params = [];
+
+        $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
+        $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+        if (false == empty($receiverEmailForFiltration)) {
+            $condition = " email = '".mysql_real_escape_string($receiverEmailForFiltration)."' ";
+            $criteria->addCondition($condition);
+        } else {
+            if ($exceptDevelopersFiltration) {
+                // for page results
+                $developersEmails = [
+                    "'r.kilimov@gmail.com'",
+                    "'andrey@kostenko.name'",
+                    "'personal@kostenko.name'",
+                    "'a.levina@gmail.com'",
+                    "'gorina.mv@gmail.com'",
+                    "'v.logunov@yahoo.com'",
+                    "'nikoolin@ukr.net'",
+                    "'leah.levina@gmail.com'",
+                    "'lea.skiliks@gmail.com'",
+                    "'andrey3@kostenko.name'",
+                    "'skiltests@yandex.ru'",
+                    "'didmytime@bk.ru'",
+                    "'gva08@yandex.ru'",
+                    "'tony_acm@ukr.net'",
+                    "'tony_perfectus@mail.ru'",
+                    "'N_ninok1985@mail.ru'",
+                ];
+                $condition = " email NOT LIKE '%gty1991%' ".
+                    " AND email NOT LIKE '%@skiliks.com' ".
+                    " AND email NOT LIKE '%@rmqkr.net' ".
+                    " AND sent_time > '2013-06-01 00:00:00' ".
+                    " AND email NOT IN (".implode(',', $developersEmails).") ";
+
+                $criteria->addCondition($condition);
+            }
+        }
+
         $totalItems = Invite::model()->count($criteria);
+
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
         $pager->route = 'admin_area/AdminPages/Invites';
         // pager }
 
+        //$models = Invite::model()->findAll([
         $models = Invite::model()->findAll([
-            "order"  => "updated_at desc",
-            "limit"  => $this->itemsOnPage,
-            "offset" => ($page-1)*$this->itemsOnPage
+            'condition' => $condition,
+            'order'  => "updated_at desc",
+            'limit'  => $this->itemsOnPage,
+            'offset' => ($page-1)*$this->itemsOnPage
         ]);
+
+        if (0 == count($models)) {
+            $page = 1; // если результатов фильтрации мало
+
+            $models = Invite::model()->findAll([
+                'condition' => $condition,
+                'order'  => "updated_at desc",
+                'limit'  => $this->itemsOnPage,
+                'offset' => ($page-1)*$this->itemsOnPage
+            ]);
+        }
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invites', [
             'models'      => $models,
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage
+            'itemsOnPage' => $this->itemsOnPage,
+            'receiverEmailForFiltration' => $receiverEmailForFiltration,
         ]);
 
     }
@@ -358,7 +413,54 @@ class AdminPagesController extends SiteBaseController {
             $page = 1;
         }
 
-        $criteria = new CDbCriteria;
+        $condition = null;
+
+        $criteria = new CDbCriteria();
+
+        $emailForFiltration = trim(Yii::app()->request->getParam('email-for-filtration'));
+        $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+        if (false == empty($emailForFiltration)) {
+            // for pager counter
+            $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+
+            // for page results
+            $condition = " profile.email = '".mysql_real_escape_string($emailForFiltration)."' ";
+
+            $criteria->addCondition($condition);
+        } else {
+            if ($exceptDevelopersFiltration) {
+                // for pager counter
+                $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+
+                // for page results
+                $developersEmails = [
+                    "'r.kilimov@gmail.com'",
+                    "'andrey@kostenko.name'",
+                    "'personal@kostenko.name'",
+                    "'a.levina@gmail.com'",
+                    "'gorina.mv@gmail.com'",
+                    "'v.logunov@yahoo.com'",
+                    "'nikoolin@ukr.net'",
+                    "'leah.levina@gmail.com'",
+                    "'lea.skiliks@gmail.com'",
+                    "'andrey3@kostenko.name'",
+                    "'skiltests@yandex.ru'",
+                    "'didmytime@bk.ru'",
+                    "'gva08@yandex.ru'",
+                    "'tony_acm@ukr.net'",
+                    "'tony_perfectus@mail.ru'",
+                    "'N_ninok1985@mail.ru'",
+                ];
+                $condition = " profile.email NOT LIKE '%gty1991%' ".
+                    " AND profile.email NOT LIKE '%@skiliks.com' ".
+                    " AND profile.email NOT LIKE '%@rmqkr.net' ".
+                    " AND t.start > '2013-06-01 00:00:00' ".
+                    " AND profile.email NOT IN (".implode(',', $developersEmails).") ";
+
+                $criteria->addCondition($condition);
+            }
+        }
+
         $totalItems = Simulation::model()->count($criteria);
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
@@ -366,11 +468,23 @@ class AdminPagesController extends SiteBaseController {
         $pager->route = 'admin_area/AdminPages/Simulations';
         // pager }
 
-        $simulations = Simulation::model()->findAll([
-            'order' => 'id DESC',
-            'offset' => ($page-1) * $this->itemsOnPage,
-            'limit'  => $this->itemsOnPage
-        ]);
+        if (null === $condition) {
+            $simulations = Simulation::model()->findAll([
+                'order' => 't.id DESC',
+                'offset' => ($page-1) * $this->itemsOnPage,
+                'limit'  => $this->itemsOnPage
+            ]);
+        } else {
+            $simulations = Simulation::model()
+                ->with('user', 'user.profile')
+                ->findAll([
+                    'condition' => $condition,
+                    'order' => 't.id DESC',
+                    'offset' => ($page-1) * $this->itemsOnPage,
+                    'limit'  => $this->itemsOnPage
+                ]);
+        }
+
 
         $this->render('/admin_area/pages/simulations_table', [
             'simulations' => $simulations,
@@ -378,7 +492,8 @@ class AdminPagesController extends SiteBaseController {
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage
+            'itemsOnPage' => $this->itemsOnPage,
+            'emailForFiltration' => $emailForFiltration,
         ]);
     }
 
