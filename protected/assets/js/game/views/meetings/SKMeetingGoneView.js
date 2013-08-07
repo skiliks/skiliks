@@ -64,6 +64,10 @@ define([
                 time = SKApp.simulation.getGameMinutes() + parseInt(duration, 10);
                 time = Math.floor(time / 60) + ':' + (time % 60 < 10 ? '0' : '') + time % 60;
 
+                if ('Пойти домой' == subject.get('label')) {
+                    time = '';
+                }
+
                 $el.html(_.template(meeting_gone_tpl, {
                     'subject': subject,
                     'returnTime': time,

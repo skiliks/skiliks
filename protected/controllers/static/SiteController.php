@@ -160,7 +160,7 @@ class SiteController extends SiteBaseController
         $this->render('site', [
             'config'    => CJSON::encode($config),
             'assetsUrl' => $assetsUrl,
-            'inviteId'  => $invite_id
+            'inviteId'  => (null === $invite_id) ? 'null' : $invite_id,
         ]);
     }
 
