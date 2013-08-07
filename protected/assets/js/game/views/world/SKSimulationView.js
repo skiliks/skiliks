@@ -481,7 +481,7 @@ define([
                                             });
                                         } else {
                                             var d = new SKDialogView({
-                                                message: 'Завернение симуляции.',
+                                                message: 'Завершение симуляции.',
                                                 buttons: []
                                             });
                                         }
