@@ -497,11 +497,7 @@ class Simulation extends CActiveRecord
     }
 
     public function isFull() {
-
-        $scenario = $this->game_type->findByAttributes(['id' => $this->scenario_id]);
-        /* @var $scenario Scenario */
-        return ($scenario->slug === Scenario::TYPE_FULL)?true:false;
-
+        return ($this->game_type->slug === Scenario::TYPE_FULL) ? true : false;
     }
 
     public function isTutorial() {
