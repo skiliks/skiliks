@@ -112,10 +112,9 @@ define([
                         }
 
                         me.$('video').on('ended', me.displayReplicas());
-                        me.$('video').on('error', me.displayReplicas());
-                        me.$('video').on('abort', me.displayReplicas());
-                        me.$('video').on('stalled', me.displayReplicas());
-                        me.$('video').on('suspend', me.displayReplicas());
+                        if ('slow' == window.netSpeedVerbose) {
+                            setTimeout(me.displayReplicas(), 5000);
+                        }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {

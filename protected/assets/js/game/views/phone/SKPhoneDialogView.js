@@ -117,10 +117,9 @@ define([
 
                 // @link: http://www.w3schools.com/tags/ref_av_dom.asp
                 this.$('audio').on('ended', me.displayReplicas());
-                this.$('audio').on('error', me.displayReplicas());
-                this.$('audio').on('abort', me.displayReplicas());
-                this.$('audio').on('stalled', me.displayReplicas());
-                this.$('audio').on('suspend', me.displayReplicas());
+                if ('slow' == window.netSpeedVerbose) {
+                    setTimeout(me.displayReplicas(), 5000);
+                }
 
                 if (0 === this.$('audio').length) {
                     window_el.find('.phone-reply-h').removeClass('hidden');
