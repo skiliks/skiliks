@@ -23,6 +23,7 @@ define([
         countMaxView: 1,
         addClass: "phone-call",
         windowClass: "phoneMainDiv",
+        deny_timeout_id:null,
 
         windowID: '',
 
@@ -82,15 +83,16 @@ define([
                     };
                     setTimeout(callback, 2000);
                 }
-                var noReply = function(cid){
-                    console.log(me.cid);
-                    console.log(cid);
-                    if(me.cid === cid){
-                        me.$('#phone_no_reply').click();
-                    }
+                var noReply = function(){
+                    me.doActivate();
+                    me.$('#phone_no_reply').click();
+                    console.log('no_reply');
                 };
-                console.log(this.cid);
-                setTimeout(noReply, 20000, this.cid);
+                this.deny_timeout_id = setTimeout(noReply, 20000);
+                console.log("init: "+this.deny_timeout_id);
+                this.listenTo(this.options.model_instance, 'close', function () {
+                    clearTimeout(me.deny_timeout_id);
+                });
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
