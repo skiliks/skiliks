@@ -5,7 +5,7 @@ $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
     'jquery.js'        => $assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
     'jquery.min.js'    => $assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
-    'jquery.ba-bbq.js' => $assetsUrl . '/js/jquery/jquery.ba-bbq.js',
+    //'jquery.ba-bbq.js' => $assetsUrl . '/js/jquery/jquery.ba-bbq.js',
 );
 
 $cs->registerCoreScript('jquery');

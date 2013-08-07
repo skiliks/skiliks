@@ -532,4 +532,19 @@ class Scenario extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    public function getSlugCss()
+    {
+        $arr = [
+            self::TYPE_FULL => 'label-inverse',
+            self::TYPE_LITE => 'label-info',
+            self::TYPE_TUTORIAL => 'label-default',
+        ];
+
+        if (isset($arr[$this->slug])) {
+            return $arr[$this->slug];
+        }
+
+        return '';
+    }
 }

@@ -21,11 +21,15 @@ define([
             'click .crash.close-visit': 'doCloseVisit',
             'click .crash.stop-sim': 'doStopSimulation',
             'click .crash.restore-events': 'doRestoreEvents',
+            'click .crash.show-replicas': 'doShowReplicas',
             'click .mail-popup-button': 'handleClick',
             'click .dialog-close': 'doDialogClose'
         },
+
         render: function () {
             try {
+                this.logAction('Open crash options dialog');
+
                 var me = this;
 
                 if (this.options.modal !== false) {
@@ -66,6 +70,7 @@ define([
                 }
             }
         },
+
         remove: function() {
             try {
                 this.cleanUpDOM();
@@ -78,6 +83,7 @@ define([
                 }
             }
         },
+
         doCloseMail:function(e){
             this.logAction($(e.currentTarget).text());
             console.log("close");
@@ -89,6 +95,7 @@ define([
             this.remove();
             return false;
         },
+
         doClosePhone:function(e){
             this.logAction($(e.currentTarget).text());
             var phones = SKApp.simulation.window_set.where({name: "phone"});
@@ -106,6 +113,7 @@ define([
             $('.phone, .door').removeClass('icon-button-disabled');
             return false;
         },
+
         doClosePlan:function(e){
             this.logAction($(e.currentTarget).text());
             var planners = SKApp.simulation.window_set.where({name: "plan"});
@@ -116,6 +124,7 @@ define([
             this.remove();
             return false;
         },
+
         doCloseMyDocuments:function(e){
             this.logAction($(e.currentTarget).text());
             var my_documents = SKApp.simulation.window_set.where({subname: "documents"});
@@ -126,6 +135,7 @@ define([
             this.remove();
             return false;
         },
+
         doCloseDocuments:function(e){
             this.logAction($(e.currentTarget).text());
             var documents = SKApp.simulation.window_set.where({name: "documents"});
@@ -138,6 +148,7 @@ define([
             this.remove();
             return false;
         },
+
         doCloseVisit:function(e){
             this.logAction($(e.currentTarget).text());
             var visitors = SKApp.simulation.window_set.where({name: "visitor"});
@@ -158,9 +169,11 @@ define([
             $('.phone, .door').removeClass('icon-button-disabled');
             return false;
         },
+
         logAction:function(action) {
             SKApp.server.api('simulation/logCrashAction', {action:action}, function () {});
         },
+
         doStopSimulation:function(e) {
             this.logAction($(e.currentTarget).text());
             var dialog = new SKDialogView({
@@ -173,6 +186,7 @@ define([
             this.remove();
             return false;
         },
+
         doRestoreEvents:function(e) {
             this.logAction($(e.currentTarget).text());
             $.each(SKApp.simulation.events.models, function(index, event) {
@@ -181,6 +195,17 @@ define([
                     event.setStatus('completed');
                 }
             });
+            this.remove();
+            return false;
+        },
+
+        doShowReplicas: function(e) {
+            this.logAction($(e.currentTarget).text());
+
+            $('.visitor-reply').removeClass('hidden');
+            $('.char-reply').removeClass('hidden');
+            $('.phone-reply-h').removeClass('hidden');
+
             this.remove();
             return false;
         }

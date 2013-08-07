@@ -316,6 +316,7 @@ return array(
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
                 'admin_area/simulations/<page:\d+>'               => 'admin_area/AdminPages/Simulations',
+                'admin_area/simulation/<simId:\w+>/fixEndTime'   => 'admin_area/AdminPages/SimulationFixEndTime',
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
