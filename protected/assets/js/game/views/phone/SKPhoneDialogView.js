@@ -121,7 +121,6 @@ define([
                 this.$('audio').on('abort', me.displayReplicas());
                 this.$('audio').on('stalled', me.displayReplicas());
                 this.$('audio').on('suspend', me.displayReplicas());
-                this.$('audio').on('suspend', me.displayReplicas());
 
                 if (0 === this.$('audio').length) {
                     window_el.find('.phone-reply-h').removeClass('hidden');

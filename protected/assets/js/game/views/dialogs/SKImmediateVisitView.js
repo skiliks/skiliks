@@ -111,17 +111,12 @@ define([
                             me.$('video').attr('muted', 'muted');
                         }
 
-                        me.$('video').on('ended', function () {
-                            me.$('video').css('zIndex', 0);
-                            if (my_replicas.length === 0) {
-                                event.complete();
-                                me.options.model_instance.close();
-                                me.remove();
-                            } else if (!SKApp.simulation.isDebug()) {
-                                el.find('.char-reply').removeClass('hidden');
-                                el.find('.visitor-reply').removeClass('hidden');
-                            }
-                        });
+                        me.$('video').on('ended', me.displayReplicas());
+                        me.$('video').on('error', me.displayReplicas());
+                        me.$('video').on('abort', me.displayReplicas());
+                        me.$('video').on('stalled', me.displayReplicas());
+                        me.$('video').on('suspend', me.displayReplicas());
+
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
                             this.play();
@@ -140,6 +135,19 @@ define([
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
                         }
                     }
+                }
+            },
+
+            displayReplicas: function() {
+                var me = this;
+                me.$('video').css('zIndex', 0);
+                if (my_replicas.length === 0) {
+                    event.complete();
+                    me.options.model_instance.close();
+                    me.remove();
+                } else if (!SKApp.simulation.isDebug()) {
+                    el.find('.char-reply').removeClass('hidden');
+                    el.find('.visitor-reply').removeClass('hidden');
                 }
             },
 
