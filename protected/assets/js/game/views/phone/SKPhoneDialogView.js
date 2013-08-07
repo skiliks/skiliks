@@ -118,7 +118,7 @@ define([
                 // @link: http://www.w3schools.com/tags/ref_av_dom.asp
                 this.$('audio').on('ended', me.displayReplicas());
                 if ('slow' == window.netSpeedVerbose) {
-                    setTimeout(me.displayReplicas(), 5000);
+                    setTimeout(me.displayReplicas(event, remote_replica, window_el, my_replicas), 5000);
                 }
 
                 if (0 === this.$('audio').length) {
@@ -131,7 +131,7 @@ define([
             }
         },
 
-        displayReplicas: function() {
+        displayReplicas: function(event, remote_replica, window_el, my_replicas) {
             try {
                 var me = this;
                 if (my_replicas.length === 0) {

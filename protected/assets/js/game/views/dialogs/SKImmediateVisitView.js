@@ -95,7 +95,7 @@ define([
                 }
 
                 function renderFn() {
-                        try {
+                    try {
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
 
@@ -113,7 +113,7 @@ define([
 
                         me.$('video').on('ended', me.displayReplicas());
                         if ('slow' == window.netSpeedVerbose) {
-                            setTimeout(me.displayReplicas(), 5000);
+                            setTimeout(me.displayReplicas(my_replicas, el, event), 5000);
                         }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
@@ -137,7 +137,7 @@ define([
                 }
             },
 
-            displayReplicas: function() {
+            displayReplicas: function(my_replicas, el, event) {
                 var me = this;
                 me.$('video').css('zIndex', 0);
                 if (my_replicas.length === 0) {
