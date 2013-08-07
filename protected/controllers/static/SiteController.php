@@ -75,7 +75,7 @@ class SiteController extends SiteBaseController
         ]);
 
         if (0 < count($startedInvites) &&
-            false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            Simulation::MODE_DEVELOPER_LABEL != $mode) {
             Yii::app()->user->setFlash('error',
                 'В данный момент у вас уже есть начатая симуляция. <br/>'.
                 'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
@@ -85,10 +85,13 @@ class SiteController extends SiteBaseController
             $this->redirect('/simulations');
         }
 
-        $startedSimulations = Simulation::model()->findAllByAttributes([], 'start IS NOT NULL AND end IS NULL');
+        $startedSimulations = Simulation::model()->findAll(
+            'user_id = :userId AND start IS NOT NULL AND end IS NULL',
+            ['userId' => $user->id]
+        );
 
         if (0 < count($startedSimulations) &&
-            false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            Simulation::MODE_DEVELOPER_LABEL != $mode) {
             Yii::app()->user->setFlash('error',
                 'В данный момент у вас уже есть начатая симуляция. <br/>'.
                 'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
