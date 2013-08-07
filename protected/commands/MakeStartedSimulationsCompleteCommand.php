@@ -27,7 +27,7 @@ class MakeStartedSimulationsCompleteCommand extends CConsoleCommand {
             $invite->save(false);
         }
 
-        $startedSimulations = Simulation::model()->findAllByAttributes([], 'start IS NOT NULL AND end IS NULL');
+        $startedSimulations = Simulation::model()->findAll('start IS NOT NULL AND end IS NULL');
 
         // @var Simulation $sim
         foreach ($startedSimulations as $simulation) {
