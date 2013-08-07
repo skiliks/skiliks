@@ -618,4 +618,15 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect('/admin_area/invites');
     }
+
+    public function actionSimulationFixEndTime($simId) {
+        $simulation = Simulation::model()->findByPk($simId);
+
+        if (null !== $simulation && null === $simulation->end && null!== $simulation->start) {
+            $simulation->end = '0001-01-01 01:01:01';
+            $simulation->save(false);
+        }
+
+        $this->redirect('/admin_area/simulations');
+    }
 }

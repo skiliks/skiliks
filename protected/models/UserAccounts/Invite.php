@@ -223,6 +223,27 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getStatusCssClass()
+    {
+        $arr = [
+            self::STATUS_PENDING => 'label-default',
+            self::STATUS_ACCEPTED => 'label-warning',
+            self::STATUS_COMPLETED => 'label-success',
+            self::STATUS_DECLINED => 'label-danger',
+            self::STATUS_EXPIRED => 'label-danger',
+            self::STATUS_STARTED => 'label-info',
+        ];
+
+        if (isset($arr[$this->status])) {
+            return $arr[$this->status];
+        }
+
+        return '';
+    }
+
+    /**
      * @return DateTime
      */
     public function getSentTime()

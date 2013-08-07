@@ -41,12 +41,30 @@
                 </tr>
                 <?php $i= 0 ?>
             <?php endif ?>
-            <tr class="invites-row">
+            <?php
+                $isSimulationBroken = (false === empty($simulation->start) && empty($simulation->end));
+
+                $bgColor = '#ffffff';
+                if ($isSimulationBroken) {
+                    $bgColor = '#FFFF66';
+                }
+            ?>
+            <tr class="invites-row" style="background-color: <?= $bgColor ?>">
                 <td><?= (empty($simulation->id) ? 'Не найден' : $simulation->id)?></td>
                 <td class="ownerUser-email"><?= (empty($simulation->user->profile->email)) ? 'Не найден':$simulation->user->profile->email ?></td>
                 <td class="simulation_time-start"><?= (empty($simulation->start) ? '---- -- -- --' : $simulation->start) ?></td>
-                <td class="simulation_time-end"><?= (empty($simulation->end) ? '---- -- -- --' : $simulation->end) ?></td>
-                <td><span class="label label-inverse"><?= $simulation->game_type->slug?></span></td>
+                <td class="simulation_time-end" style="text-align: center;">
+                    <?php if ($isSimulationBroken) : ?>
+                        <a href="/admin_area/simulation/<?= $simulation->id ?>/fixEndTime"
+                           class="btn btn-success">
+                            <i class="icon-ok icon-white"></i> &nbsp; set(0001-01-01 01:01:01)
+                        </a>
+                    <?php else: ?>
+                        <?= (empty($simulation->end) ? '--' : $simulation->end) ?>
+                    <?php endif ?>
+
+                </td>
+                <td><span class="label <?= $simulation->game_type->getSlugCss() ?>"><?= $simulation->game_type->slug?></span></td>
                 <td><?= (null!== $simulation->invite) ? $simulation->invite->getOverall() : '-'?></td>
                 <td><?= (isset($invites[$simulation->id])) ? $invites[$simulation->id] : 'Не найдено' ?></td>
                 <td>

@@ -62,11 +62,13 @@ $titles = [
             <td class="ownerUser-email"><?=(empty($invite->ownerUser->profile->email))?'Не найден':$invite->ownerUser->profile->email?></td>
             <td class="receiverUser-email"><?=(empty($invite->receiverUser->profile->email))?'Не найден':$invite->receiverUser->profile->email?></td>
             <td><?=$invite->id?></td>
-            <td><span class="label"><?=$invite->getStatusText()?></span></td>
+            <td><span class="label <?= $invite->getStatusCssClass() ?>"><?= $invite->getStatusText() ?></span></td>
             <td class="simulation_time-start"><?=(empty($invite->simulation->start)?'---- -- -- --':$invite->simulation->start)?></td>
             <td class="simulation_time-end"><?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?></td>
             <td class="simulation_tutorial_time-end"><?=(empty($invite->tutorial_finished_at)?'---- -- -- --':$invite->tutorial_finished_at)?></td>
-            <td><span class="label label-inverse"><?=(empty($invite->scenario->slug)?'Нет данных':$invite->scenario->slug)?></span></td>
+            <td><span class="label <?= $invite->scenario->getSlugCss() ?>">
+                    <?=(empty($invite->scenario->slug)?'Нет данных':$invite->scenario->slug)?></span>
+            </td>
             <td><?=$invite->getOverall() ?></td>
             <td>
                 <?php
