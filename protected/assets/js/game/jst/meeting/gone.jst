@@ -1,6 +1,6 @@
 <div class="meeting-gone-content">
     <div class="gone-clock"><div></div></div><div class="gone-text"><@= subject.get('description') @>.
-        <@ if (0 < returnTime) { @>
+        <@ if ('' != returnTime) { @>
             Вернусь в <@= returnTime @>
         <@ } @>
     </div>
