@@ -60,8 +60,16 @@ class DialogService
         // Calculate character behavior points
         $replicaPoints = $simulation->game_type->getReplicaPoints(['dialog_id' => $dialogId]);
         /** @var ReplicaPoint[] $replicaPoints */
-        foreach ($replicaPoints as $point) {
-            LogHelper::setDialogPoint($dialogId, $simId, $point);
+        try {
+            foreach ($replicaPoints as $point) {
+                LogHelper::setDialogPoint($dialogId, $simId, $point);
+            }
+        } catch (Exception $e) {
+            Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
+            return [
+                'result' => 0,
+                'events' => []
+            ];
         }
 
         // Тут логируем только выбранную реплику героя
