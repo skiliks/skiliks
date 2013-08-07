@@ -152,7 +152,7 @@ class SiteController extends SiteBaseController
             $config['result-url'] = $this->createUrl('static/site/simulation', [
                 'mode' => $mode,
                 'type' => isset($invite) ? Scenario::model()->findByPk($invite->scenario_id)->slug : Scenario::TYPE_FULL,
-                'invite_id' => $invite_id
+                'invite_id' => $invite_id,
             ]);
         }
 
@@ -160,6 +160,7 @@ class SiteController extends SiteBaseController
         $this->render('site', [
             'config'    => CJSON::encode($config),
             'assetsUrl' => $assetsUrl,
+            'inviteId'  => $invite->id
         ]);
     }
 
