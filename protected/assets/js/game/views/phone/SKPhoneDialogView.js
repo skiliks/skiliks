@@ -115,34 +115,35 @@ define([
 
                 window_el.html(callInHtml);
 
-                // @link: http://www.w3schools.com/tags/ref_av_dom.asp
-                this.$('audio').on('ended', me.displayReplicas());
+                this.$('audio').on('ended', function(){
+                    if (my_replicas.length === 0) {
+                        event.selectReplica(remote_replica.id, function () {
+                            me.options.model_instance.setLastDialog(remote_replica.id);
+                            if (remote_replica.is_final_replica === "1") {
+                                me.options.model_instance.setOnTop();
+                                me.options.model_instance.close();
+                            }
+                        });
+                    }  else if (!SKApp.simulation.isDebug()) {
+                        window_el.find('.phone-reply-h').removeClass('hidden');
+                    }
+                });
+
                 if ('slow' == window.netSpeedVerbose) {
-                    setTimeout(me.displayReplicas(event, remote_replica, window_el, my_replicas), 5000);
+                    if (my_replicas.length === 0) {
+                        event.selectReplica(remote_replica.id, function () {
+                            me.options.model_instance.setLastDialog(remote_replica.id);
+                            if (remote_replica.is_final_replica === "1") {
+                                me.options.model_instance.setOnTop();
+                                me.options.model_instance.close();
+                            }
+                        });
+                    }  else if (!SKApp.simulation.isDebug()) {
+                        window_el.find('.phone-reply-h').removeClass('hidden');
+                    }
                 }
 
                 if (0 === this.$('audio').length) {
-                    window_el.find('.phone-reply-h').removeClass('hidden');
-                }
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
-        displayReplicas: function(event, remote_replica, window_el, my_replicas) {
-            try {
-                var me = this;
-                if (my_replicas.length === 0) {
-                    event.selectReplica(remote_replica.id, function () {
-                        me.options.model_instance.setLastDialog(remote_replica.id);
-                        if (remote_replica.is_final_replica === "1") {
-                            me.options.model_instance.setOnTop();
-                            me.options.model_instance.close();
-                        }
-                    });
-                }  else if (!SKApp.simulation.isDebug()) {
                     window_el.find('.phone-reply-h').removeClass('hidden');
                 }
             } catch(exception) {
