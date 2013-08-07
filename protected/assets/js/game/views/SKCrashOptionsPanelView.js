@@ -177,7 +177,7 @@ define([
         doStopSimulation:function(e) {
             this.logAction($(e.currentTarget).text());
             var dialog = new SKDialogView({
-                message:'Экстренная остановка симуляции',
+                message:'Экстренное завершение симуляции.<br/> Идёт расчёт оценки за стмуляцию.<br/>Дождитесь окончания расчёта.',
                 buttons:[]
             });
             SKApp.simulation.stop(function(){

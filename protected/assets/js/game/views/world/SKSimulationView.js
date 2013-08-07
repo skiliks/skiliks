@@ -479,6 +479,11 @@ define([
                                                 message: 'Данные симуляции сохраняются.',
                                                 buttons: []
                                             });
+                                        } else {
+                                            var d = new SKDialogView({
+                                                message: 'Завернение симуляции.',
+                                                buttons: []
+                                            });
                                         }
                                         me.simulation.stop();
                                     }
