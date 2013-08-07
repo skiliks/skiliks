@@ -61,15 +61,12 @@ class DialogService
         $replicaPoints = $simulation->game_type->getReplicaPoints(['dialog_id' => $dialogId]);
         /** @var ReplicaPoint[] $replicaPoints */
         try {
+            throw new CDbException('cdb;');
             foreach ($replicaPoints as $point) {
                 LogHelper::setDialogPoint($dialogId, $simId, $point);
             }
         } catch (Exception $e) {
             Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
-            return [
-                'result' => 0,
-                'events' => []
-            ];
         }
 
         // Тут логируем только выбранную реплику героя
