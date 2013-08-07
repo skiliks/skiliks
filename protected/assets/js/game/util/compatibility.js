@@ -39,8 +39,8 @@ try {
                 var start = new Date(),
                     callback = function() {
                         // TODO: Make translation
+                        window.netSpeedVerbose = 'slow';
                         if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы') === false) {
-                            window.netSpeedVerbose = 'slow';
                             history.back();
                         }
                     };
