@@ -115,21 +115,36 @@ define([
 
                 window_el.html(callInHtml);
 
-                this.$('audio').on('ended', function(){
-                    if (my_replicas.length === 0) {
-                        event.selectReplica(remote_replica.id, function () {
-                            me.options.model_instance.setLastDialog(remote_replica.id);
-                            if (remote_replica.is_final_replica === "1") {
-                                me.options.model_instance.setOnTop();
-                                me.options.model_instance.close();
-                            }
-                        });
-                    }  else if (!SKApp.simulation.isDebug()) {
-                        window_el.find('.phone-reply-h').removeClass('hidden');
-                    }
-                });
+                // @link: http://www.w3schools.com/tags/ref_av_dom.asp
+                this.$('audio').on('ended', me.displayReplicas());
+                this.$('audio').on('error', me.displayReplicas());
+                this.$('audio').on('abort', me.displayReplicas());
+                this.$('audio').on('stalled', me.displayReplicas());
+                this.$('audio').on('suspend', me.displayReplicas());
+                this.$('audio').on('suspend', me.displayReplicas());
 
                 if (0 === this.$('audio').length) {
+                    window_el.find('.phone-reply-h').removeClass('hidden');
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        displayReplicas: function() {
+            try {
+                var me = this;
+                if (my_replicas.length === 0) {
+                    event.selectReplica(remote_replica.id, function () {
+                        me.options.model_instance.setLastDialog(remote_replica.id);
+                        if (remote_replica.is_final_replica === "1") {
+                            me.options.model_instance.setOnTop();
+                            me.options.model_instance.close();
+                        }
+                    });
+                }  else if (!SKApp.simulation.isDebug()) {
                     window_el.find('.phone-reply-h').removeClass('hidden');
                 }
             } catch(exception) {
