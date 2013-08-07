@@ -111,9 +111,28 @@ define([
                             me.$('video').attr('muted', 'muted');
                         }
 
-                        me.$('video').on('ended', me.displayReplicas());
+                        me.$('video').on('ended', function () {
+                            me.$('video').css('zIndex', 0);
+                            if (my_replicas.length === 0) {
+                                event.complete();
+                                me.options.model_instance.close();
+                                me.remove();
+                            } else if (!SKApp.simulation.isDebug()) {
+                                el.find('.char-reply').removeClass('hidden');
+                                el.find('.visitor-reply').removeClass('hidden');
+                            }
+                        });
+
                         if ('slow' == window.netSpeedVerbose) {
-                            setTimeout(me.displayReplicas(my_replicas, el, event), 5000);
+                            me.$('video').css('zIndex', 0);
+                            if (my_replicas.length === 0) {
+                                event.complete();
+                                me.options.model_instance.close();
+                                me.remove();
+                            } else if (!SKApp.simulation.isDebug()) {
+                                el.find('.char-reply').removeClass('hidden');
+                                el.find('.visitor-reply').removeClass('hidden');
+                            }
                         }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
@@ -134,19 +153,6 @@ define([
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
                         }
                     }
-                }
-            },
-
-            displayReplicas: function(my_replicas, el, event) {
-                var me = this;
-                me.$('video').css('zIndex', 0);
-                if (my_replicas.length === 0) {
-                    event.complete();
-                    me.options.model_instance.close();
-                    me.remove();
-                } else if (!SKApp.simulation.isDebug()) {
-                    el.find('.char-reply').removeClass('hidden');
-                    el.find('.visitor-reply').removeClass('hidden');
                 }
             },
 
