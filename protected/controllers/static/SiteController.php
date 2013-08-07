@@ -68,6 +68,37 @@ class SiteController extends SiteBaseController
             $this->redirect('/simulations');
         }
 
+        // check for un complete simulations {
+        $startedInvites = Invite::model()->findAllByAttributes([
+            'receiver_id' => $user->id,
+            'status'      => Invite::STATUS_STARTED
+        ]);
+
+        if (0 < count($startedInvites) &&
+            false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            Yii::app()->user->setFlash('error',
+                'В данный момент у вас уже есть начатая симуляция. <br/>'.
+                'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
+                'Если активной симуляции в соседних вкладках браузера нет - '.
+                'свяжитесь со службой технической поддержки для устранения проблемы.'
+            );
+            $this->redirect('/simulations');
+        }
+
+        $startedSimulations = Simulation::model()->findAllByAttributes([], 'start IS NOT NULL AND end IS NULL');
+
+        if (0 < count($startedSimulations) &&
+            false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            Yii::app()->user->setFlash('error',
+                'В данный момент у вас уже есть начатая симуляция. <br/>'.
+                'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
+                'Если активной симуляции в соседних вкладках браузера нет - '.
+                'свяжитесь со службой технической поддержки для устранения проблемы.'
+            );
+            $this->redirect('/simulations');
+        }
+        // check for un complete simulations }
+
         if ( isset($invite)
             && $start !== 'full'
             && null !== $invite->tutorial
