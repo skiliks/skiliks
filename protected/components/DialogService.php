@@ -61,7 +61,6 @@ class DialogService
         $replicaPoints = $simulation->game_type->getReplicaPoints(['dialog_id' => $dialogId]);
         /** @var ReplicaPoint[] $replicaPoints */
         try {
-            throw new CDbException('cdb;');
             foreach ($replicaPoints as $point) {
                 LogHelper::setDialogPoint($dialogId, $simId, $point);
             }
