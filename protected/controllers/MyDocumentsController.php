@@ -45,7 +45,6 @@ class MyDocumentsController extends SimulationBaseController
     public function actionSaveSheet($id)
     {
         $simulation = $this->getSimulationEntity();
-        $clientModel = CJSON::decode(Yii::app()->request->getParam('model'));
 
         /** @var MyDocument $file */
         $file   = MyDocument::model()->findByPk($id);
