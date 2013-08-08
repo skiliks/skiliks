@@ -102,7 +102,7 @@ define(["text!game/jst/window.jst"],
             try {
                 this.trigger('close');
                 this.stopListening();
-                $(window).off('resize');
+                $(window).off('resize', this.onResize);
                 Backbone.View.prototype.remove.call(this);
             } catch(exception) {
                 if (window.Raven) {
@@ -145,7 +145,8 @@ define(["text!game/jst/window.jst"],
 
                 this.resize();
 
-                $(window).on('resize', _.bind(this.onResize, me));
+                this.onResize = _.bind(this.onResize, me);
+                $(window).on('resize', this.onResize);
 
                 this.center();
             } catch(exception) {
