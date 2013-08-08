@@ -300,6 +300,7 @@ return array(
                 'admin_area/order/checked'     => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked'   => 'admin_area/AdminPages/OrderUnchecked',
                 'admin_area/users'             => 'admin_area/AdminPages/UsersList',
+                'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/statistics/testAuth'        => 'admin_area/AdminPages/TestAuth',
                 'admin_area/statistics/statistic-order-count'        => 'admin_area/AdminPages/StatisticOrderCount',
