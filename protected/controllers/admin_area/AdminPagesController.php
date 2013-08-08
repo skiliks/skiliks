@@ -721,4 +721,16 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect('/admin_area/simulations');
     }
+
+    public function actionFeedBacksList()
+    {
+        $this->pageTitle = 'Админка: Список отзывов';
+        $this->layout = '//admin_area/layouts/admin_main';
+
+        $this->render('/admin_area/pages/feedbacks_table', [
+            'feedbacks' => Feedback::model()->findAll([
+                "order" => 'id DESC',
+            ]),
+        ]);
+    }
 }
