@@ -669,6 +669,11 @@ class Simulation extends CActiveRecord
 
         return $result;
     }
+
+    public function isCalculateTheAssessment() {
+        /* todo: костыль до правки сценария */
+        return $this->isFull();
+    }
 }
 
 

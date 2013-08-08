@@ -618,15 +618,6 @@ class SimulationService
             return;
         }
 
-        $simulation->end = GameTime::setNowDateTime();
-        $simulation->save(false);
-
-        if ($simulation->isDevelopMode() ||
-            true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
-        ) {
-            $simulation->checkLogs();
-        }
-
         // If simulation was started by invite, mark it as completed
         if (null !== $simulation->invite && $simulation->isTutorial() === false) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
@@ -643,77 +634,86 @@ class SimulationService
         // Remove pause if it was set
         self::resume($simulation);
 
-        // @todo: find reason after release
-        // we close last Activation log
-        if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
-            $extra_log    = $logs_src[count($logs_src)-1];
-            $extra_log[2] = 'deactivated';
-            $logs_src[] = $extra_log;
-        }
+        if($simulation->isCalculateTheAssessment()) {
 
-        // данные для логирования
-        try {
-            EventsManager::processLogs($simulation, $logs_src);
-        } catch (Exception $e) {
-            if ($simulation->isDevelopMode()) {
-                throw $e;
+            if ($simulation->isDevelopMode() ||
+                true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
+            ) {
+                $simulation->checkLogs();
             }
+
+            // @todo: find reason after release
+            // we close last Activation log
+            if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
+                $extra_log    = $logs_src[count($logs_src)-1];
+                $extra_log[2] = 'deactivated';
+                $logs_src[] = $extra_log;
+            }
+
+            // данные для логирования
+            try {
+                EventsManager::processLogs($simulation, $logs_src);
+            } catch (Exception $e) {
+                if ($simulation->isDevelopMode()) {
+                    throw $e;
+                }
+            }
+
+            // Make aggregated activity log
+            LogHelper::combineLogActivityAgregated($simulation);
+
+            // Calculate and save Time Management assessments
+            (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
+
+            // make attestation 'work with emails'
+            SimulationService::saveEmailsAnalyze($simulation);
+
+            DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
+
+            $custom = new CalculateCustomAssessmentsService($simulation);
+            $custom->run();
+
+            $planAnalyzer = new PlanAnalyzer($simulation);
+            $planAnalyzer->run();
+
+            // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+            // see Assessment scheme_v5.pdf
+
+            $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+            $CheckConsolidatedBudget->calcPoints();
+
+            SimulationService::setFinishedPerformanceRules($simulation);
+
+            // результативность
+            SimulationService::calculatePerformanceRate($simulation);
+
+            SimulationService::setGainedStressRules($simulation);
+            SimulationService::stressResistance($simulation);
+            SimulationService::saveAggregatedPoints($simulation->id);
+
+            // @todo: this is trick
+            // write all mail outbox/inbox scores to AssessmentAggregate directly
+            SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+            $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+            $learningGoalAnalyzer->run();
+
+            $learning_area = new LearningAreaAnalyzer($simulation);
+            $learning_area->run();
+
+            $evaluation = new Evaluation($simulation);
+            $evaluation->run();
+
+            // @ - for PHPUnit
+            if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
+                @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                    new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+            }
+
+            $simulation->saveLogsAsExcel();
+
+            self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
-
-        // Make aggregated activity log
-        LogHelper::combineLogActivityAgregated($simulation);
-
-        // Calculate and save Time Management assessments
-        (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
-
-        // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalyze($simulation);
-
-        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
-
-        $custom = new CalculateCustomAssessmentsService($simulation);
-        $custom->run();
-
-        $planAnalyzer = new PlanAnalyzer($simulation);
-        $planAnalyzer->run();
-
-        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
-        // see Assessment scheme_v5.pdf
-
-        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints();
-
-        SimulationService::setFinishedPerformanceRules($simulation);
-
-        // результативность
-        SimulationService::calculatePerformanceRate($simulation);
-
-        SimulationService::setGainedStressRules($simulation);
-        SimulationService::stressResistance($simulation);
-        SimulationService::saveAggregatedPoints($simulation->id);
-
-        // @todo: this is trick
-        // write all mail outbox/inbox scores to AssessmentAggregate directly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
-
-        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
-        $learningGoalAnalyzer->run();
-
-        $learning_area = new LearningAreaAnalyzer($simulation);
-        $learning_area->run();
-
-        $evaluation = new Evaluation($simulation);
-        $evaluation->run();
-
-        // @ - for PHPUnit
-        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
-            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
-        }
-
-        $simulation->saveLogsAsExcel();
-
-        self::logAboutSim($simulation, 'sim stop: assessment calculated');
 
         if ($simulation->isFull()) {
             $simulation->invite->can_be_reloaded = false;
@@ -729,8 +729,12 @@ class SimulationService
             if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
                 unlink($document->getFilePath());
             }
+
+            // remove all files except D1 }
+
         }
-        // remove all files except D1 }
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->save(false);
     }
 
     /**
