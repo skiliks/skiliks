@@ -28,10 +28,10 @@ class ScXlsConverter
 
         $result = [];
         foreach ($excel->getAllSheets() as $sheet) {
-            $result[$sheet->getTitle()] = [
+            $result[$sheet->getTitle()] = array (
                 'name' => $sheet->getTitle(),
                 'content' => _sheetnode_phpexcel_import_do($excel, $sheet)
-            ];
+            );
         }
 
         return $result;
@@ -54,6 +54,7 @@ class ScXlsConverter
             if (NULL === $sheetData['name']) {
                 continue;
             }
+
             $sheet = $excel->getSheetByName($sheetData['name']) ?: $excel->createSheet();
             _sheetnode_phpexcel_export_sheet($sheet, $sheetData['name'], socialcalc_parse($sheetData['content']));
         }

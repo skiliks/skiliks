@@ -50,5 +50,13 @@ class DebugController extends SiteBaseController
         $this->layout = false;
         $this->render('style_empty_1024');
     }
+
+    public function actionXxx()
+    {
+        $doc = MyDocument::model()->findByPk(119571);
+
+        // var MyDocument $doc
+        $doc->getSheetList();
+    }
 }
 
