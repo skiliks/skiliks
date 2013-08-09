@@ -141,16 +141,16 @@ class MyDocument extends CActiveRecord
         $cachePath = $this->getCacheFilePath();
 
         if ($filename && is_file($filename)) {
-            $scData = json_decode(file_get_contents($filename));
+             $scData = json_decode(file_get_contents($filename), true);
 
         } elseif (is_file($filePath) || is_file($cachePath)) {
-            $scData = (array)json_decode(file_get_contents(is_file($filePath) ? $filePath : $cachePath));
-
-            foreach ($scData as $key => $value) {
-                $scData[$key] = (array)$value;
-            }
+            $scData = json_decode(file_get_contents(is_file($filePath) ? $filePath : $cachePath), true);
         } else {
             $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
+        }
+
+        if (null === $scData) {
+            $scData = [];
         }
 
         if (null === $filename) {
@@ -168,11 +168,7 @@ class MyDocument extends CActiveRecord
     public function setSheetContent($name, $sheetContent, $filename = null)
     {
         $filePath = $filename ?: $this->getFilePath();
-        $scData = file_exists($filePath) ? (array)json_decode(file_get_contents($filePath)) : [];
-
-        foreach ($scData as $key => $value) {
-            $scData[$key] = (array)$value;
-        }
+        $scData = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : [];
 
         $scData[$name] = [
             'name' => $name,
