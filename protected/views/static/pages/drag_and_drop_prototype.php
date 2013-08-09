@@ -192,27 +192,18 @@
 
     listeners = {
         dragstart: function(e) {
-            console.log(e.type);
-
             this.classList.add('hidden');
             dragging = this;
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.innerHTML);
         },
         dragend: function(e) {
-            console.log(e.type);
-
             var hidden = document.querySelector('.node.hidden');
             if (hidden) {
                 hidden.classList.remove('hidden');
             }
-
-            //dragging = null;
         },
         dragenter: function(e) {
-            console.log(e.type);
-            console.log(this);
-
             e.dataTransfer.dropEffect = 'move';
             if (this.tagName == 'TD' && isAcceptable(this, +dragging.getAttribute('data-span') || 1)) {
                 this.classList.add('over');
@@ -223,12 +214,9 @@
             e.dataTransfer.dropEffect = 'move';
         },
         dragleave: function(e) {
-            console.log(e.type);
             this.classList.remove('over');
         },
         drop: function(e) {
-            console.log(e.type);
-
             e.stopPropagation();
             e.preventDefault();
 
