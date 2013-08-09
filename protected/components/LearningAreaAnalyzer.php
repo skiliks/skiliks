@@ -35,10 +35,6 @@ class LearningAreaAnalyzer {
         $scenario = $this->simulation->game_type;
         $point = $scenario->getHeroBehaviour(['code' => $code]);
 
-        if (null === $point) {
-            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
-        }
-
         $aggregated = AssessmentAggregated::model()->findByAttributes([
             'sim_id' => $this->simulation->id,
             'point_id' => $point->id
@@ -81,14 +77,8 @@ class LearningAreaAnalyzer {
         $scenario = $this->simulation->game_type;
 
         $point = $scenario->getHeroBehaviour(['code' => $code]);
-        if (null === $point) {
-            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
-        }
 
         $weight = $scenario->getWeight(['hero_behaviour_id' => $point->id]);
-        if (null === $weight) {
-            throw new HeroBehaviourIsNullException(" Not Found {$code} ");
-        }
 
         return $weight->value * $value;
     }
@@ -281,14 +271,8 @@ class LearningAreaAnalyzer {
      */
     public function stressResistance()
     {
-        try {
-            $assessment = $this->calcLearningArea(7141);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code'=>7141], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(7141);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code'=>7141], $assessment);
 
         $this->saveLearningArea(9, $learningArea);
     }
@@ -298,14 +282,8 @@ class LearningAreaAnalyzer {
      */
     public function stability()
     {
-        try {
-            $assessment = $this->calcLearningArea(7211);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 7211], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(7211);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 7211], $assessment);
 
         $this->saveLearningArea(10, $learningArea);
     }
@@ -315,15 +293,9 @@ class LearningAreaAnalyzer {
      */
     public function responsibility()
     {
-        try {
-            $assessment_8212 = $this->calcLearningArea(8212);
-            $assessment_8213 = $this->calcLearningArea(8213);
-            $learningArea = $this->calcMaxRate(['learning_goal_code' => 821], $assessment_8212 + $assessment_8213);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment_8212 = $this->calcLearningArea(8212);
+        $assessment_8213 = $this->calcLearningArea(8213);
+        $learningArea = $this->calcMaxRate(['learning_goal_code' => 821], $assessment_8212 + $assessment_8213);
 
         $this->saveLearningArea(12, $learningArea);
     }
@@ -333,14 +305,8 @@ class LearningAreaAnalyzer {
      */
     public function resultOrientation()
     {
-        try {
-            $assessment = $this->calcLearningArea(8371);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8371], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(8371);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8371], $assessment);
 
         $this->saveLearningArea(14, $learningArea);
     }
@@ -350,14 +316,8 @@ class LearningAreaAnalyzer {
      */
     public function constructibility()
     {
-        try {
-            $assessment = $this->calcLearningArea(8381);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8381], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(8381);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8381], $assessment);
 
         $this->saveLearningArea(15, $learningArea);
     }
@@ -367,14 +327,8 @@ class LearningAreaAnalyzer {
      */
     public function flexibility()
     {
-        try {
-            $assessment = $this->calcLearningArea(8391);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8391], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(8391);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8391], $assessment);
 
         $this->saveLearningArea(16, $learningArea);
     }
@@ -384,7 +338,6 @@ class LearningAreaAnalyzer {
      */
     public function adoptionOfDecisions()
     {
-        try {
             $assessment_8311 = $this->calcLearningArea(8311);
             $assessment_8321 = $this->calcLearningArea(8321);
 
@@ -406,11 +359,6 @@ class LearningAreaAnalyzer {
             $assessment_8361 = $this->calcLearningArea(8361);
             $area_8361 = $this->calcMaxRate(['hero_behaviour_code' => 8361], $assessment_8361);
             $weight_8361 = $this->calcWeight(8361, $area_8361);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
 
         $this->saveLearningArea(13, $weight_8311 + $weight_8331 + $weight_8341 + $weight_8351 + $weight_8361);
     }
@@ -420,14 +368,8 @@ class LearningAreaAnalyzer {
      */
     public function attentiveness()
     {
-        try {
-            $assessment = $this->calcLearningArea(8111);
-            $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8111], $assessment);
-        } catch (HeroBehaviourIsNullException $e) {
-            return;
-        } catch (LearningGoalIsNullException $e) {
-            return;
-        }
+        $assessment = $this->calcLearningArea(8111);
+        $learningArea = $this->calcMaxRate(['hero_behaviour_code' => 8111], $assessment);
 
         $this->saveLearningArea(11, $learningArea);
     }
