@@ -102,15 +102,17 @@ class MyDocumentsService
             'request_url'=>'/index.php/myDocuments/saveSheet/'.$document->id
         ]);
 
-        $scData = unserialize(file_get_contents($document->getCacheFilePath()));
+        $scData = (array)json_decode(file_get_contents($document->getCacheFilePath()));
+
+        foreach ($scData as $key => $value) {
+            $scData[$key] = (array)$value;
+        }
 
         /* @var $log LogServerRequest */
         foreach($logs as $log) {
             $data = json_decode($log->request_body, true);
-            //var_dump($data['model-name']);
-            //var_dump($data['model-content']);
             $scData[$data['model-name']] = [
-                'name' => $data['model-name'],
+                'name'    => $data['model-name'],
                 'content' => $data['model-content']
             ];
         }

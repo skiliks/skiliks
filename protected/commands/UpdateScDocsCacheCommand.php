@@ -20,7 +20,8 @@ class UpdateScDocsCacheCommand extends CConsoleCommand {
                 echo "удалён, ";
 
                 $scData = ScXlsConverter::xls2sc($template->getFilePath());
-                file_put_contents($template->getCacheFilePath(), serialize($scData));
+
+                file_put_contents($template->getCacheFilePath(), json_encode($scData));
                 echo "cache обновлён. \n\n";
             }
         }
