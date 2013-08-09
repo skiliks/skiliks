@@ -90,7 +90,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                 <script type="text/javascript">
                     $('.flash').each(function() {
                         var key = $(this).find('.flash-data').attr('data-key');
-                        console.log('key: ', key, $(this).find('.flash-data'));
 
                         var positionData = {
                             my: "center top",
@@ -129,12 +128,9 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                         });
                     });
                     $('.flash-message-popup .ui-dialog-titlebar').remove();
-                    //$('.flash-pop-up').addClass('transparent-boder errorblock');
-                    //$('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
                     $('.sing-in-pop-up').dialog('open');
 
                     $('.flash-message-popup .popupclose').click(function() {
-                        console.log('click');
                         $('.flash').dialog('close');
                     });
                 </script>

@@ -56,11 +56,9 @@
 
     $('.chancel-decline').click(function(event){
         event.preventDefault();
-        //$('#invite-decline-form').dialog('close');
     });
 
     $('.form-decline-explanation-reason-row input').click(function(){
-        console.log($(this).val(), '<?php echo $reasonOtherId ?>');
         if ($(this).val() == '<?php echo $reasonOtherId ?>') {
             $('.form-decline-explanation-description-row').show();
             var errors = $(".errorMessage");

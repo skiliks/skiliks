@@ -333,7 +333,6 @@ var fixLogotypes = function() {
                  dataType:  "json",
                  data:{invite_id:getInviteId(href)},
                  success:function(data) {
-                     console.log(data.simulation_start);
                     if(data.simulation_start) {
                         warningPopup(href);
                     }else{

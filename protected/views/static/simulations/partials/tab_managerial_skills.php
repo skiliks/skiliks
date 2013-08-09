@@ -35,7 +35,6 @@
             renderer = function(v) { return v + '%'; };
 
         for (var i = 1; i < 4; i++) { //8
-            console.log(result[i]);
             new charts.Bar(
                 '.management-' + i,
                 r(result[i] && result[i].total ? result[i].total : 0),

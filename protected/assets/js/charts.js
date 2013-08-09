@@ -47,10 +47,7 @@
                 duration: me.options.duration || 5000,
                 step: function(now) {
                     $(this).css('transform', 'rotate(' + now + 'deg)');
-                    if (me.el.chart.hasClass('test')) {
-                        console.log(now);
-                    }
-                },
+                    },
                 complete: function() {
                     me.el.value.text(value + '%').css({
                         left: left + 'px',
