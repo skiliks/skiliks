@@ -352,13 +352,13 @@ class CheckConsolidatedBudget
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated']);
         // get workSheets }
 
+        if (null === $path && (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated)) {
+            $document->backupFile();
+            MyDocumentsService::restoreSCByLog($simulation->id, $document->template->code);
+            SimulationService::logAboutSim($simulation, 'D1 was generated from requests log');
 
-        if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
-            throw new Exception("Sheet error");
-            $this->resetUserPoints();
-            $this->savePoints();
-            Yii::log('no sheet', 'warning');
-            return false;
+            // try again
+            return $this->calcPoints($document->getFilePath());
         }
         
         // start analyze {
