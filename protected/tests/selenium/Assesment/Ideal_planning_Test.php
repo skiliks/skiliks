@@ -17,7 +17,7 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
 
         //сегодня
-        $this->dragAndDropToObject("//div[@data-task-id='19']","//div[@id='plannerBookToday']//td[@data-hour='10' and @data-minute='15']");
+        $this->dragAndDropToObject("//div[@data-task-id='19']","//div[@id='plannerBookToday']//td[@data-hour='10' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='17']","//div[@id='plannerBookToday']//td[@data-hour='13' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='20']","//div[@id='plannerBookToday']//td[@data-hour='15' and @data-minute='30']");
         $this->dragAndDropToObject("//div[@data-task-id='24']","//div[@id='plannerBookToday']//td[@data-hour='16' and @data-minute='30']");
@@ -49,12 +49,9 @@ class Ideal_planning_Test extends SeleniumTestHelper
         sleep(45);
 
         $this->simulation_showLogs();
-        /*$this->waitForVisible("//tr[@class='learning-goal-code-214a ']/td[4]");
-        $this->assertText("//tr[@class='learning-goal-code-214a ']/td[4]","100.00");
-        $this->waitForVisible("//tr[@class='learning-goal-code-214b ']/td[4]");
-        $this->assertText("//tr[@class='learning-goal-code-214b ']/td[4]","100.00");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['tasks2'],"41.67");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['tasks2'],"41.67");
-        */
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_2']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_2'],"100.00");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_3']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_3'],"100.00");
     }
 }
