@@ -211,7 +211,13 @@ class AdminPagesController extends SiteBaseController {
         ]);
 
         $scData = $document->getSheetList();
+
+        if (null === $scData) {
+            return 'Файл пуст или ошибка конвертации файла.';
+        }
+
         $filePath = tempnam('/tmp', 'excel_');
+
         ScXlsConverter::sc2xls($scData, $filePath);
 
         if (file_exists($filePath)) {

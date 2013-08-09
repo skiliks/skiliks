@@ -102,7 +102,7 @@ class MyDocumentsService
             'request_url'=>'/index.php/myDocuments/saveSheet/'.$document->id
         ]);
 
-        $scData = (array)json_decode(file_get_contents($document->getCacheFilePath()));
+        $scData = json_decode(file_get_contents($document->getCacheFilePath()), true);
 
         foreach ($scData as $key => $value) {
             $scData[$key] = (array)$value;
@@ -118,7 +118,6 @@ class MyDocumentsService
         }
 
         file_put_contents($document->getFilePath(), serialize($scData));
-
     }
 }
 
