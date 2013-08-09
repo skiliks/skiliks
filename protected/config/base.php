@@ -370,7 +370,7 @@ return array(
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
         'vacancyLinkInProfileMaxLength' => 50,
-        'frontendUrl'                   => 'http://skiliks.loc/',
+        'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
         'emails' => [
             'isDisplayStandartdInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'

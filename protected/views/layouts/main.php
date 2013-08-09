@@ -182,6 +182,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         'isDisplayAccountLinks' => false
                     ]) ?>
                 </nav>
+                <?php $this->renderPartial('//global_partials/_google_analytics') ?>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
             <script type="text/javascript">
