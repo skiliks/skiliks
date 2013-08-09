@@ -39,9 +39,6 @@ class CalculateCustomAssessmentsService {
 
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'3312']);
 
-        if ($behaviour === null) {
-            return;
-        }
         $logs = LogIncomingCallSoundSwitcher::model()->findAllByAttributes([
             'sim_id'=>$this->simulation->id,
             'sound_alias'=>LogIncomingCallSoundSwitcher::INCOMING_MAIL
@@ -64,9 +61,6 @@ class CalculateCustomAssessmentsService {
 
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'341a8']);
 
-        if ($behaviour === null) {
-            return;
-        }
         $logs = LogIncomingCallSoundSwitcher::model()->findAllByAttributes([
             'sim_id'=>$this->simulation->id,
             'sound_alias'=>LogIncomingCallSoundSwitcher::INCOMING_CALL

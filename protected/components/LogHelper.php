@@ -622,9 +622,9 @@ class LogHelper
             }
         }
 
-        if (NULL !== $aggregatedActivity) {
+        //if (NULL !== $aggregatedActivity) {
             $aggregatedActivity->save();
-        }
+        //}
     }
 
     /**

@@ -355,10 +355,6 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a1']);
 
-        if ($behaviour === null) {
-            return;
-        }
-
         $duration = 0;
         foreach ($this->tasksOn11 as $plan){
             if ((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK &&
@@ -397,10 +393,6 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a3']);
 
-        if ($behaviour === null) {
-            return;
-        }
-
         $todo_count = 0;
         foreach ($this->tasksOn11 as $plan) {
             if (DayPlanLog::TODO == $plan->day) {
@@ -431,10 +423,6 @@ class PlanAnalyzer {
     public function check_214a4()
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a4']);
-
-        if ($behaviour === null) {
-            return;
-        }
 
         $duration = 0;
         foreach ($this->tasksOn18 as $plan) {
@@ -469,10 +457,6 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a5']);
 
-        if ($behaviour === null) {
-            return;
-        }
-
         $todo_count = 0;
         foreach ($this->tasksOn18 as $plan) {
             if (DayPlanLog::TODO == $plan->day) {
@@ -502,10 +486,6 @@ class PlanAnalyzer {
     public function check_214a8()
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'214a8']);
-
-        if ($behaviour === null) {
-            return;
-        }
 
         $count = 0;
         foreach($this->tasksOn11 as $plan){
@@ -542,10 +522,6 @@ class PlanAnalyzer {
     public function check_214b0_214b4($code, $category)
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
-
-        if ($behaviour === null) {
-            return;
-        }
 
         $wrongActions = [];
         $rightActions = [];
@@ -619,10 +595,6 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
 
-        if ($behaviour === null) {
-            return;
-        }
-
         $wrongActions = [];
 
         $isStartAssessment = false;
@@ -673,10 +645,6 @@ class PlanAnalyzer {
     public function check_214b9()
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => '214b9']);
-
-        if ($behaviour === null) {
-            return;
-        }
 
         $wrongActions = [];
         $rightActions = [];
@@ -835,10 +803,6 @@ class PlanAnalyzer {
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
 
-        if ($behaviour === null) {
-            return;
-        }
-
         $wrongActions = [];
         $rightActions = [];
 
@@ -924,9 +888,6 @@ class PlanAnalyzer {
             $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
         }
 
-        if ($behaviour === null) {
-            return;
-        }
 
         $value = $behaviour->scale * $rate;
 
@@ -945,10 +906,6 @@ class PlanAnalyzer {
     public function check_214d5_6_8($code, $category = 0, $wrongCategoryIds = [4,5])
     {
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
-
-        if ($behaviour === null) {
-            return;
-        }
 
         $wrongActions = [];
 
@@ -1018,9 +975,7 @@ class PlanAnalyzer {
         /* @var $behaviour HeroBehaviour */
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>$code]);
         $value = 0;
-        if ($behaviour === null) {
-            return;
-        }
+
         $in_work = [];
         /* @var $log LogActivityActionAgregated214d */
         foreach($this->logAggregated214d as $key => $log) {

@@ -813,9 +813,6 @@ class SimulationService
         /* @var $game_type Scenario */
         $game_type = $simulation->game_type;
         $point = $game_type->getHeroBehaviour(['code' => 7141]);
-        if (null === $point) {
-            return;
-        }
 
         /* @var $stress StressPoint[] */
         $stress = StressPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
