@@ -164,20 +164,6 @@ define([
                             }
                         }
                     });
-                    this.system_options = null;
-                    $(window).bind('keydown', 'ctrl+o', function() {
-                        if(me.system_options === null){
-                            me.system_options = new SKCrashOptionsPanelView({
-                                'message':'<a href="#">Dell</a>',
-                                'buttons':[]
-                            });
-                        }else{
-                            me.system_options.remove();
-                            delete me.system_options;
-                            me.system_options = null;
-                        }
-                        return false;
-                    });
 
                     this.bindEmergencyHotkey();
 
@@ -859,6 +845,31 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            bindEmergencyHotkey: function() {
+                var me = this;
+
+                $(window).bind('keydown', 'ctrl+k', function() {
+                    if (me.system_options === null) {
+                        SKApp.server.api('simulation/isEmergencyAllowed', {}, function (data) {
+                            if (data.result) {
+                                me.system_options = new SKCrashOptionsPanelView({
+                                    'message':'',
+                                    'buttons':[]
+                                });
+
+                                me.system_options.on('close', function() {
+                                    me.system_options = null;
+                                });
+                            }
+                        });
+                    } else {
+                        me.system_options.remove();
+                    }
+
+                    return false;
+                });
             }
         });
     return SKSimulation;
