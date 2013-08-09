@@ -6,7 +6,7 @@
 <?php } ?>
 <div class="simulation-details">
     <script type="text/javascript">
-        var AR = <?= json_encode($details); ?>;
+        var AR = <?= $details; ?>;
 
         function drawChartBlock(classPrefix, data, codes) {
             var i, k;
@@ -35,7 +35,7 @@
     <div class="sections">
         <div id="main">
             <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_main', [
-                'data' => $details['additional_data']
+                'data' => json_decode($details, true)['additional_data']
             ]) ?>
         </div>
 
