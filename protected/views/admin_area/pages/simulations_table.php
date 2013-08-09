@@ -6,6 +6,8 @@
     'Тип симуляции',
     'Оценка',
     'ID-инвайта',
+    '',
+    'Аварийная панель',
 ];
 ?>
 <div class="row fix-top">
@@ -51,6 +53,7 @@
         <?php endif; ?>
 
         <?php /* @var $model Invite*/ ?>
+        <?php /* @var Simulation[] $simulations*/ ?>
         <?php $step = 12; $i = 0; ?>
         <?php foreach($simulations as $simulation) : ?>
             <?php $i++ ?>
@@ -91,6 +94,9 @@
                 <td>
                     <a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Логи сайта</a><br/>
                     <a href="/admin_area/simulation/<?= $simulation->id?>/requests">Запросы</a>
+                </td>
+                <td>
+                    <a href="/admin_area/simulation/set-emergency/<?= $simulation->id ?>"><?= $simulation->is_emergency_panel_allowed ? 'true' : 'false' ?></a>
                 </td>
             </tr>
         <?php endforeach ?>

@@ -214,5 +214,28 @@ class SimulationController extends SimulationBaseController
 
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
+
+    public function actionIsEmergencyAllowed()
+    {
+        $simulation = $this->getSimulationEntity();
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'Check emergency allowed state: ' . $simulation->is_emergency_panel_allowed);
+
+        $this->sendJSON([
+            'result' => (int)$simulation->is_emergency_panel_allowed
+        ]);
+    }
+
+    public function actionEmergencyClosed()
+    {
+        $simulation = $this->getSimulationEntity();
+        $simulation->is_emergency_panel_allowed = false;
+        $simulation->save();
+
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'Emergency allowed set to false');
+
+        $this->sendJSON([
+            'result' => self::STATUS_SUCCESS
+        ]);
+    }
 }
 

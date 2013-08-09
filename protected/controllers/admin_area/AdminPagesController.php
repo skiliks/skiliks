@@ -395,6 +395,17 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    public function actionSimulationSetEmergency($simId)
+    {
+        /** @var Simulation $simulation */
+        $simulation = Simulation::model()->findByPk($simId);
+        $simulation->is_emergency_panel_allowed = !$simulation->is_emergency_panel_allowed;
+        $simulation->save();
+
+        SimulationService::logAboutSim($simulation, 'Simulation emergency allowed set to ' . $simulation->is_emergency_panel_allowed);
+        $this->redirect('/admin_area/simulations');
+    }
+
     /**
      *
      */

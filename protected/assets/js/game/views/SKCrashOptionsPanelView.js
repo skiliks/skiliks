@@ -73,10 +73,8 @@ define([
 
         remove: function() {
             try {
-                this.cleanUpDOM();
-                this.trigger('close');
-                SKApp.simulation.system_options = null;
-                return Backbone.View.prototype.remove.call(this);
+                SKApp.server.api('simulation/emergencyClosed', {}, function () {});
+                SKDialogView.prototype.remove.apply(this, arguments);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
