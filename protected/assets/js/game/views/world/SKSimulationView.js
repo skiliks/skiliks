@@ -90,9 +90,7 @@ define([
                     this.listenTo(simulation, 'stop-time', this.stopSimulation);
                     this.listenTo(simulation, 'documents:error', this.documentsLoadError);
 
-                    this.listenTo(simulation, 'start', function () {
-                        $('#sim-id').text(simulation.id);
-                    });
+                    $('#sim-id').text(SKApp.simulation.id);
 
                 } catch(exception) {
                     if (window.Raven) {
