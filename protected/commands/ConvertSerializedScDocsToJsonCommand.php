@@ -6,7 +6,7 @@ class ConvertSerializedScDocsToJsonCommand extends CConsoleCommand {
 
     public function actionIndex()
     {
-        echo "Начинаем кеширование: \n";
+        echo "Начинаем конвертирование: \n";
 
         $docs = MyDocument::model()->findAll();
         foreach ($docs as $doc) {
@@ -24,7 +24,7 @@ class ConvertSerializedScDocsToJsonCommand extends CConsoleCommand {
 
                 echo "{$doc->getFilePath()} \n";
 
-                file_put_contents($doc->template->getCacheFilePath(), json_encode($scData));
+                file_put_contents($doc->getFilePath(), json_encode($scData));
             }
         }
 
