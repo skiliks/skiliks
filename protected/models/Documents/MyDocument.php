@@ -191,6 +191,17 @@ class MyDocument extends CActiveRecord
         return $this->template->getCacheFilePath();
     }
 
+    public function backupFile($extension = 'broken')
+    {
+        $filepath = $this->getFilePath() . '.' . $extension;
+        if (is_file($this->getFilePath())) {
+            copy($this->getFilePath(), $filepath);
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Creates UUID to every document
      * @return bool
