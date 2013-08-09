@@ -47,8 +47,8 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         sleep(5);
-        //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals'],"100");
-        //$this->assertText(Yii::app()->params['test_mappings']['log']['goals'],"100");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_1']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_1'],"100.00");
     }
 
 
@@ -95,9 +95,9 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Я вас понял. Давайте сегодня после 18.00! ')])");
         sleep(5);
         $this->simulation_showLogs();
-        //$this->waitForVisible(Yii::app()->params['test_mappings']['log']['goals']);
-        //$this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-112'],"0.00");
-        //$this->assertText(Yii::app()->params['test_mappings']['log']['learn-goal-123'],"0.00");
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_1']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_1'],"0.00");
     }
 
 }
