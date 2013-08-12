@@ -8,7 +8,13 @@
             <form class="simulation-buttons">
                 <input class="btn btn-simulation-stop" type="button" value="SIM стоп" />
             </form>
-
+            <button class="btn btn-toggle-dialods-sound" type="button" value=""
+                    title="Убрать звук в диалогах/вернуть звук в диалогах">
+                <i class="icon-volume-off"></i>
+            </button>
+            <button class="btn btn-load-documents" type="button">
+                Load docs
+            </button>
             <input class="btn btn-simulation-stop-logs" type="button" value="SIM стоп &amp; open logs" style="margin-top: 12px;" />
 
             <br/><br/>
@@ -39,6 +45,18 @@
                         <input name="delay" type="number" id="addTriggerDelay" required="required" class="span1"
                                value="0">
                         <input type="submit" value="Создать" class="btn btn-primary">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <label for="addTriggerClearEvents" class="checkbox">
+                            <input name="clear_events" value="0" id="addTriggerClearEvents" type="checkbox"/>
+                            Очистить очередь событий
+                        </label>
+                        <label for="addTriggerClearAssessment" class="checkbox">
+                            <input name="clear_assessment" value="0" id="addTriggerClearAssessment" type="checkbox"/>
+                            Очистить очередь оценки
+                        </label>
                     </div>
                 </div>
             </fieldset>
