@@ -12,6 +12,8 @@ class Calls_Management_Test extends SeleniumTestHelper
     {
         $this->start_simulation();
 
+        $this->assertTrue(false);
+
         $this->clearEventQueueBeforeEleven('RST1');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
