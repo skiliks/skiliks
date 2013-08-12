@@ -13,9 +13,9 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->start_simulation();
 
         $this->clearEventQueueBeforeEleven('RST1');
-
+        sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
-
+        sleep(2);
         //сегодня
         $this->dragAndDropToObject("//div[@data-task-id='19']","//div[@id='plannerBookToday']//td[@data-hour='10' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='17']","//div[@id='plannerBookToday']//td[@data-hour='13' and @data-minute='00']");

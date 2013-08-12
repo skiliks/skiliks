@@ -24,17 +24,17 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет. Сейчас же приступаю к доработке')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
-
+        sleep(2);
         $this->run_event('ET2.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, у меня в графике уже выделено время на проверку')])");
-
+        sleep(2);
         $this->run_event('ET3.3', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Здравствуйте. Любопытно')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Извините, давайте созвонимся после отпуска, я сейчас очень занят')])");
-
+        sleep(2);
         $this->run_event('ET9', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем?')])");
@@ -43,31 +43,31 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, прошу прощения, вы к чему все это рассказываете?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Та-а-ак, и что же в вашем бюджете изменилось?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Принимаю, что же с вами делать. Сейчас посмотрю и внесу изменения. ')])");
-
+        sleep(2);
         $this->run_event('ET10', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас найду и перешлю')])");
-
+        sleep(2);
         $this->run_event('ET11', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
-
+        sleep(2);
         $this->run_event('TT7.1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, я понял')])");
-
+        sleep(2);
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Приветствую, Егор!  У тебя что-то срочное?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска')])");
-
+        sleep(2);
         $this->clearEventQueueBeforeEleven('RST3');
-
+        sleep(2);
         $this->clearEventQueueBeforeEleven('RST4');
-
+        sleep(2);
         $this->clearEventQueueBeforeEleven('RST5');
-
+        sleep(2);
         $this->clearEventQueueBeforeEleven('RST9');
-
+        sleep(2);
         $this->run_event('RST8', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Добрый день, а вы по какому вопросу?')])");
@@ -76,20 +76,19 @@ class Calls_Management_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давайте на цифрах посмотрим, серьезно ли расходится')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я попробую. Поговорю с вашим руководителем.')])");
         sleep(5);
-
         $this->run_event('RST10',"css=li.icon-active.phone a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Привет, Петр. У тебя что-то срочное?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, понял тебя, спасибо! Значит, с работы выходить')])");
-
+        sleep(2);
         $this->run_event('ET3.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, Иван')])");
-
+        sleep(2);
         $this->run_event('ET12.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю')])");
-
+        sleep(2);
         $this->simulation_showLogs();
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_3']);
         $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_3'],"100.00");
