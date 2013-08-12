@@ -113,8 +113,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 SKApp.simulation.events.triggerEvent(
                     target.elements.code.value,
                     target.elements.delay.value,
-                    target.elements.clear_events.value,
-                    target.elements.clear_assessment.value,
+                    false,
+                    false,
                     function (data) {
                         if (data.result) {
                             // window.scrollTo(0, 0);
