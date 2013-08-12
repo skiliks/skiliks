@@ -404,7 +404,7 @@ return array(
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
-            'isIncludeGoogleAnalyticsJavaScript' => true,
+            'isIncludeGoogleAnalyticsJavaScript' => false,
         ],
         'zoho' => array(
             //'apiKey'              => 'c998c211c5404969606b6738c106c183',
