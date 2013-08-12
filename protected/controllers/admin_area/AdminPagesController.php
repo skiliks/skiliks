@@ -393,11 +393,12 @@ class AdminPagesController extends SiteBaseController {
     public function actionSimSiteLogs() {
         $simId = Yii::app()->request->getParam('sim_id', null);
         $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $simId]);
-
+        $simulation = Simulation::model()->findByPk($simId);
         $this->pageTitle = sprintf('Админка: Лог действий с симуляцией %s на сайте', $simId);
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/simulation_site_logs_table', [
             'logSimulation' => $logSimulation,
+            'simulation' => $simulation
         ]);
     }
 
