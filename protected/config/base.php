@@ -394,16 +394,17 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor'              => 5,
-            'skiliksDeveloperModeSpeedFactor' => 8,
-            'storageURL'                      => 'http://storage.skiliks.com/v1',
-            'afterCallZoomerDuration'         => 2000, // milliseconds
-            'isDisplayServer500errors'        => false,
-            'isUseStrictAssertsWhenSimStop'   => false,
-            'frontendAjaxTimeout'             => 60000, // 60 sec
-            'useSentryForJsLog'               => false,
-            'isUseZohoProxy'                  => true,
-            'isSkipBrowserCheck'              => false,
+            'skiliksSpeedFactor'                 => 5,
+            'skiliksDeveloperModeSpeedFactor'    => 8,
+            'storageURL'                         => 'http://storage.skiliks.com/v1',
+            'afterCallZoomerDuration'            => 2000, // milliseconds
+            'isDisplayServer500errors'           => false,
+            'isUseStrictAssertsWhenSimStop'      => false,
+            'frontendAjaxTimeout'                => 60000, // 60 sec
+            'useSentryForJsLog'                  => false,
+            'isUseZohoProxy'                     => true,
+            'isSkipBrowserCheck'                 => false,
+            'isIncludeGoogleAnalyticsJavaScript' => true,
         ],
         'zoho' => array(
             //'apiKey'              => 'c998c211c5404969606b6738c106c183',

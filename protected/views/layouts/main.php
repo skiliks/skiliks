@@ -182,7 +182,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         'isDisplayAccountLinks' => false
                     ]) ?>
                 </nav>
-                <?php $this->renderPartial('//global_partials/_google_analytics') ?>
             </div>
             <?php $this->renderPartial('//global_partials/_feedback', []) ?>
             <script type="text/javascript">
@@ -233,5 +232,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
                 Cufon.now();
             </script>
+        <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>
