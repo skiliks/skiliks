@@ -18,6 +18,10 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $results_popup_partials_path
  * @property string $results_popup_cache
  * @property int $is_emergency_panel_allowed
+ * @property string $screen_resolution
+ * @property string $window_resolution
+ * @property string $user_agent
+ * @property string $ipv4
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated

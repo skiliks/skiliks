@@ -12,6 +12,8 @@ class SimulationController extends SimulationBaseController
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
+        $screen_resolution = Yii::app()->request->getParam('screen_resolution');
+        $window_resolution = Yii::app()->request->getParam('window_resolution');
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
@@ -46,6 +48,11 @@ class SimulationController extends SimulationBaseController
         // check invite if it setted }
 
         $simulation = SimulationService::simulationStart($invite, $mode, $type);
+        $simulation->screen_resolution = $screen_resolution;
+        $simulation->window_resolution = $window_resolution;
+        $simulation->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $simulation->ipv4 = $_SERVER["REMOTE_ADDR"];
+        $simulation->update();
         /* @var $log LogServerRequest */
         $log = LogServerRequest::model()->findByPk($this->request_id);
         $log->sim_id = $simulation->id;
