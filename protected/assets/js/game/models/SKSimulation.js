@@ -428,9 +428,11 @@ define([
                     var me = this;
 
                     SKApp.server.api('simulation/start', {
-                        'mode':this.get('mode'),
-                        'type':this.get('type'),
-                        'invite_id': SKApp.get('invite_id')
+                        mode:this.get('mode'),
+                        type:this.get('type'),
+                        invite_id: SKApp.get('invite_id'),
+                        screen_resolution:window.screen.availWidth+'x'+window.screen.availHeight,
+                        window_resolution:window.screen.width+'x'+window.screen.height
                     }, function (data) {
                         var nowDate = new Date(),
                             win;
