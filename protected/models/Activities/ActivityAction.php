@@ -36,6 +36,9 @@ class ActivityAction extends CActiveRecord
         return (null === $this->document_id && null === $this->mail_id && null === $this->dialog_id);
     }
 
+    /**
+     * @param $log LogDialog|LogDocument|LogMail|LogMeeting|LogWindow
+     */
     public function appendLog($log)
     {
         // get log_action {
