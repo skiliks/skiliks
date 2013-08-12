@@ -467,7 +467,7 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    if(false == SKApp.simulation.window_set.isActive('plan', 'plan')){
+                    if(false === SKApp.simulation.window_set.isActive('plan', 'plan')){
                         SKApp.simulation.window_set.toggle('plan', 'plan');
                     }
                 } catch(exception) {

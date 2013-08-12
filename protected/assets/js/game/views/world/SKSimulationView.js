@@ -62,7 +62,7 @@ define([
                 'visitor/visitorEntrance': SKVisitView,
                 'visitor/visitorTalk':     SKImmediateVisitView,
                 'visitor/meetingChoice':   SKMeetingView,
-                'visitor/meetingGone':     SKMeetingGoneView,
+                'visitor/meetingGone':     SKMeetingGoneView
             },
             /**
              * Массив окон, которые открыты в симуляции

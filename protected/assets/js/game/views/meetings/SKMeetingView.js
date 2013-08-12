@@ -57,15 +57,21 @@ define([
                     el.html(_.template(meetingChooseTpl, {
                         'subjects': me.subjects
                     }));
+                    AppView.frame._showPausedScreen();
+                    me.$el.topZIndex();
+                    //var zIndex = me.$el.css('zIndex');
+                    //console.log(zIndex);
+                    //$('.paused-screen').css('zIndex', zIndex-1);
                 });
-
-                AppView.frame._showPausedScreen();
-                me.$el.topZIndex();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
+        },
+
+        doActivate: function () {
+            //console.log('active');
         },
 
         'leave': function (e) {
