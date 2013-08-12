@@ -18,7 +18,8 @@ class SeleniumTestHelper extends CWebTestCase
             'browser' => '*firefox',
             'host'    => 'localhost',
             'port'    => 4444,
-            'timeout' => 30000,
+            //'timeout' => 30000,
+            'timeout' => 30,
         )
     );
 
@@ -31,8 +32,8 @@ class SeleniumTestHelper extends CWebTestCase
 
     protected function tearDown()
     {
-        $this->stop();
         parent::tearDown();
+        //$this->stop();
     }
 
     /**
