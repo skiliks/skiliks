@@ -85,6 +85,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->addAttach("Квартальный план_4 кв_2013");
         $this->optimal_click("css=.SEND_EMAIL");
 
+        sleep(5);
         $this->optimal_click("xpath=(//*[contains(text(),'бюджет логистики')])");
 
         // MS42
