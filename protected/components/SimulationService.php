@@ -282,20 +282,26 @@ class SimulationService
         // прочие задачи
         $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
         if ($tasks) {
-            $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
+            //$sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
 
-            $add = '';
+            //$add = '';
             foreach ($tasks as $task) {
-                if ($task->code === 'P017')
+                if ($task->code === 'P017') {
                     continue;
-                $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
-                $add = ',';
+                }
+                $todo = new Todo();
+                $todo->sim_id = $simulation->id;
+                $todo->adding_date = date('Y-m-d H:i:s');
+                $todo->task_id = $task->id;
+                $todo->save();
+                //$sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
+                //$add = ',';
             }
-            $sql .= ";";
+            //$sql .= ";";
 
-            $connection = Yii::app()->db;
-            $command = $connection->createCommand($sql);
-            $command->execute();
+            //$connection = Yii::app()->db;
+            //$command = $connection->createCommand($sql);
+            //$command->execute();
         }
     }
 
