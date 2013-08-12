@@ -931,7 +931,7 @@ class SimulationService
         SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
-
+        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationService::simulationStop($simulation, [], true);
     }
 
