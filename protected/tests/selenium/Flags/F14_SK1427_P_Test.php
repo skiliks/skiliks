@@ -29,7 +29,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше')])");
-
+        sleep(2);
         $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "15");

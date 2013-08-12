@@ -26,6 +26,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click("css=li.phone_get_history > p");
         $this->optimal_click("//ul[@class='phone-contact-list history']//a[@class='phone_call_back phone-call-btn']");
+        sleep(5);
         $this->optimal_click("xpath=(//*[contains(text(),'Сейчас же приступаю к доработке')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
         sleep(1);
