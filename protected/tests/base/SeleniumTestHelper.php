@@ -65,11 +65,11 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/simulation/developer/full'); // для full simulation*/
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("Timeout. Not found id=addTriggerSelect");
+            if ($second >= 600) $this->fail("Timeout. Not found id=addTriggerSelect");
             try {
                 if ($this->isVisible("id=addTriggerSelect")) break;
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
         //$this->optimal_click("css=.mail-popup-button");
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
@@ -83,8 +83,13 @@ class SeleniumTestHelper extends CWebTestCase
     public function simulation_showLogs()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        //sleep(90);
-        $this->waitForVisible("id=universal-log");
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("Timeout. Not found id=universal-log");
+            try {
+                if ($this->isVisible("id=universal-log")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
         $this->waitForVisible("id=simulation-points");
     }
 
