@@ -9,14 +9,14 @@ class EventsManager {
     /**
      * @param \Simulation $simulation
      * @param $eventCode
-     * @param bool $clearEvents
+     * @param bool $clearEvents, depraceted
      * @param bool $clearAssessment
      * @param int $delay
      * @param null $gameTime
      * @throws Exception
      * @return array
      */
-    public static function startEvent(Simulation $simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0, $gameTime = null)
+    public static function startEvent(Simulation $simulation, $eventCode, $delay=0, $gameTime = null)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
             $window = LogWindow::model()->findByAttributes([
@@ -30,16 +30,6 @@ class EventsManager {
 
         $event = $simulation->game_type->getEventSample(['code' => $eventCode]);
         if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
-
-        // если надо очищаем очерель событий для текущей симуляции
-        if ($clearEvents) {
-            EventTrigger::model()->deleteAll("sim_id={$simulation->id}");
-        }
-
-        // если надо очищаем оценки  для текущей симуляции
-        if ($clearAssessment) {
-            AssessmentPoint::model()->deleteAll("sim_id={$simulation->id}");
-        }
 
         $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);
 

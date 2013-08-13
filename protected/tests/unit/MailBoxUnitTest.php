@@ -50,7 +50,7 @@ class MailBoxUnitTest extends CDbTestCase
 
         FlagsService::setFlag($simulation, 'F30', 1);
 
-        EventsManager::startEvent($simulation,'M31', false, false,0);
+        EventsManager::startEvent($simulation,'M31');
         EventsManager::getState($simulation, []);
 
         // get letters from golders to checl them {
@@ -196,7 +196,7 @@ class MailBoxUnitTest extends CDbTestCase
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
-        EventsManager::startEvent($simulation, 'M31', false, false,0);
+        EventsManager::startEvent($simulation, 'M31');
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
