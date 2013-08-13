@@ -87,6 +87,7 @@ define([
                         sheet.activate();
                     }
                 });
+                this.$('.header-inner').click();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
