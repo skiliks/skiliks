@@ -116,10 +116,6 @@ define([
                             me.onFinishTime();
                         }
 
-                        if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
-                            me.onZohoPopup();
-                        }
-
                         me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
 
                         minutes += 5;
@@ -172,7 +168,7 @@ define([
                     this.bindEmergencyHotkey();
 
                     // расскоментировать когда подчиним копирование.
-                    //this.initSocialcalcHotkeys();
+                    this.initSocialcalcHotkeys();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -776,81 +772,36 @@ define([
                 }
             },
 
-            onZohoPopup: function(){
-                /*var me = this,
-                    popup;
-
-                if (me.popups.zoho) {
-                    return;
-                }
-
-                if($('.time').hasClass('paused')){
-                    throw new Error("already on pause");
-                } else {
-                    popup = new SKDialogView({
-                        'message': "Убедитесь, что ваши изменения в файле сводного бюджета сохранены. <br>" +
-                            "В папке Мои документы откройте файл  <br>" +
-                            "'Сводный бюджет_2014_план.xls' и нажмите кнопку Save.",
-                        'modal': true,
-                        'buttons': [
-                            {
-                                'value': 'ОК',
-                                'onclick': function () {
-                                        me.stopPause(function() {
-                                            $('.time').removeClass('paused');
-                                        });
-                                }
-                            }
-                        ]
-                    });
-
-                    me.popups.zoho = true;
-
-                    me.startPause(function(){
-                        $('.time').addClass('paused');
-                    });
-                }*/
-            },
-
-
             initSocialcalcHotkeys: function() {
-                    try {
-                    $.ctrl = function(key, callback, args) {
-                        $(document).keydown(function(e) {
-                            if(!args) args=[]; // IE barks when args is null
-                            if(e.keyCode == key.charCodeAt(0) && e.ctrlKey) {
-                                callback.apply(this, args);
-                                return false;
-                            }
+                try{
+                        $(window).bind('keydown', 'ctrl+c', function() {
+                            var event = document.createEvent("MouseEvents");
+                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                                false, false, false, false, 0, null);
+
+                            // get button for current active window
+                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
+
+                            var buttonElement = document.getElementById(id);
+                            buttonElement.dispatchEvent(event);
+
+                            return false;
                         });
-                    };
 
-                    // handle ru and en 'C' and 'c'
-                    $.ctrl('C', function() {
-                        var event = document.createEvent("MouseEvents");
-                        event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                            false, false, false, false, 0, null);
-                        var id = $('.button-copy').attr('id');
+                        $(window).bind('keydown', 'ctrl+v', function() {
+                            var event = document.createEvent("MouseEvents");
+                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                                false, false, false, false, 0, null);
 
-                        // get button for current active window
-                        var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
+                            // get button for current active window
+                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
 
-                        var buttonElement = document.getElementById(id);
-                        buttonElement.dispatchEvent(event);
-                    }, []);
+                            var buttonElement = document.getElementById(id);
+                            buttonElement.dispatchEvent(event);
 
-                    // handle 'V' and 'v', (ru) 'М' and 'м  '
-                    $.ctrl('V', function() {
-                        var event = document.createEvent("MouseEvents");
-                        event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                            false, false, false, false, 0, null);
+                            return false;
+                        });
 
-                        // get button for current active window
-                        var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
-
-                        var buttonElement = document.getElementById(id);
-                        buttonElement.dispatchEvent(event);
-                    }, []);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

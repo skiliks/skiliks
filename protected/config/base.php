@@ -366,7 +366,6 @@ return array(
     'params' => array(
         'disableAssets'                 => false,
         'keep_last_category_time_214g'  => 60,
-        'saveZohoPopupTime'             => '17:55',
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
         'vacancyLinkInProfileMaxLength' => 50,

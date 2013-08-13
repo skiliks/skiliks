@@ -87,7 +87,7 @@ class PhoneServiceUnitTest extends CDbTestCase
             ]);
 
             $eventsManager = new EventsManager();
-            EventsManager::startEvent($simulation, $dialogCode[$i], 0, 0, 0); // init call from friend
+            EventsManager::startEvent($simulation, $dialogCode[$i]); // init call from friend
 
             $dialogService = new DialogService();
             $dialogService->getDialog($simulation->id, $replicas[$i]->id, $time[$i]); // init ignore call fron friend
