@@ -146,6 +146,18 @@ class YumUser extends YumActiveRecord
         return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
     }
 
+    public function getAccountName() {
+        if($this->isPersonal()){
+            return 'персональный';
+        }elseif($this->isCorporate()){
+            return 'корпоративный';
+        }elseif($this->isAnonymous()){
+            return 'не выбран';
+        }else{
+            throw new Exception("status error");
+        }
+    }
+
     public function isAdmin() {
         return $this->is_admin === self::IS_ADMIN?true:false;
     }
