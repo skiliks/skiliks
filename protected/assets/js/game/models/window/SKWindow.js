@@ -112,7 +112,9 @@ define([], function () {
          */
         'updateUid': function() {
             try {
+                console.log('old mail uid '+this.window_uid);
                 this.window_uid = _.uniqueId();
+                console.log('new mail uid '+this.window_uid);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

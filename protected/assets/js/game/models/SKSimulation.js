@@ -169,6 +169,7 @@ define([
 
                     // расскоментировать когда подчиним копирование.
                     this.initSocialcalcHotkeys();
+                    this.initSystemHotkeys();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -816,6 +817,33 @@ define([
                     var id = data_editor_id+selector;//'-button_paste';
                     var buttonElement = document.getElementById(id);
                     buttonElement.dispatchEvent(event);
+                }
+            },
+            initSystemHotkeys: function() {
+                try {
+                    var me = this;
+                    $(window).bind('keydown', 'esc', function() {
+                        console.log('esc');
+                        var sim_window = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid);
+                        if(sim_window.length === 0) {
+                            throw new Error("Window not found!");
+                        }
+                        var win_close = sim_window.find('.win-close');
+                        console.log(win_close);
+                        if(win_close.length !== 0){
+                            win_close.click();
+                        }
+                        return false;
+                    });
+                    /*$(window).bind('keydown', 'esc', function() {
+                        console.log('esc');
+
+                        return false;
+                    });*/
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             }
         });
