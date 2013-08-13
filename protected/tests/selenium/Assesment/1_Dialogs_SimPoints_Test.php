@@ -12,7 +12,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 {
     public function test_Dialogs_for_SK1390()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
