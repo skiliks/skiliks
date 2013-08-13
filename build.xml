@@ -27,7 +27,7 @@
         <mkdir dir="./protected/assets/compiled_css" />
         <chmod file="./protected/assets/compiled_css" mode="777" />
         <exec command="r.js -o protected/assets/js/build.js" />
-        <exec command="./yiic updatescdocscache" />
+        <!--exec command="./yiic updatescdocscache" /-->
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
