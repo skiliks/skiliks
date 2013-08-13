@@ -56,7 +56,7 @@
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
                 <td><?= $profile->user->getAccountName() ?></td>
-                <td><?= $profile->user->activationKey ?></td>
+                <td><?= ($profile->user->activationKey === '1')?'Ключ использован':$profile->user->activationKey ?></td>
                 <td><a href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">Обновить пароль</a></td>
             </tr>
         <?php endforeach ?>
