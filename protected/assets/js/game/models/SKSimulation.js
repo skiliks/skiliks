@@ -775,11 +775,13 @@ define([
             initSocialcalcHotkeys: function() {
                     try {
                         $(window).bind('keydown', 'ctrl+c', function() {
+                            console.log('ctrl+c');
                             this.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
+                            console.log('ctrl+v');
                             this.clickSCButton('-button_paste');
                             return false;
                         });
@@ -791,6 +793,7 @@ define([
             },
             clickSCButton:function(selector){
                 if(SKApp.simulation.window_set.hasActiveXLSWindow()){
+                    console.log(selector);
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
