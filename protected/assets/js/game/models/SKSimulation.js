@@ -773,65 +773,34 @@ define([
             },
 
             initSocialcalcHotkeys: function() {
-                try{
+                    try {
                         $(window).bind('keydown', 'ctrl+c', function() {
-                            var event = document.createEvent("MouseEvents");
-                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                                false, false, false, false, 0, null);
-
-                            // get button for current active window
-                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
-
-                            var buttonElement = document.getElementById(id);
-                            buttonElement.dispatchEvent(event);
-
+                            this.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
-                            var event = document.createEvent("MouseEvents");
-                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                                false, false, false, false, 0, null);
-
-                            // get button for current active window
-                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
-
-                            var buttonElement = document.getElementById(id);
-                            buttonElement.dispatchEvent(event);
-
+                            this.clickSCButton('-button_paste');
                             return false;
                         });
-
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
             },
+            clickSCButton:function(selector){
+                if(SKApp.simulation.window_set.hasActiveXLSWindow()){
+                    var event = document.createEvent("MouseEvents");
+                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                        false, false, false, false, 0, null);
 
-            bindEmergencyHotkey: function() {
-                var me = this;
-
-                $(window).bind('keydown', 'ctrl+k', function() {
-                    if (me.system_options === null) {
-                        SKApp.server.api('simulation/isEmergencyAllowed', {}, function (data) {
-                            if (data.result) {
-                                me.system_options = new SKCrashOptionsPanelView({
-                                    'message':'',
-                                    'buttons':[]
-                                });
-
-                                me.system_options.on('close', function() {
-                                    me.system_options = null;
-                                });
-                            }
-                        });
-                    } else {
-                        me.system_options.remove();
-                    }
-
-                    return false;
-                });
+                    // get button for current active window
+                    var data_editor_id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active").attr('data-editor-id');
+                    var id = data_editor_id+selector;//'-button_paste';
+                    var buttonElement = document.getElementById(id);
+                    buttonElement.dispatchEvent(event);
+                }
             }
         });
     return SKSimulation;

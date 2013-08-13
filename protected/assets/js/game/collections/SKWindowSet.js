@@ -358,6 +358,23 @@ define([
             }
         },
 
+        hasActiveXLSWindow: function () {
+            try {
+                var count = this.models.length;
+                if (count > 0) {
+                    var model = this.models[count - 1];
+                    return (model.get('document') !== undefined) && (model.get('document').get('mime') === 'application/vnd.ms-excel');
+                } else {
+                    throw new Error("No active windows!!");
+                }
+
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
         /**
          * We need it to protect against two opened phone windows in same time
          *

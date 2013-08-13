@@ -8,6 +8,7 @@ define([], function () {
                 this.on('change:content', function () {
 
                 });
+                this.set('editor_id', _.uniqueId('tableeditor-'));
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
