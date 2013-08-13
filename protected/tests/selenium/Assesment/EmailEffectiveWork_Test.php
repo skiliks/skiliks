@@ -10,7 +10,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 {
     public function test_EmailEffectiveWork_SK2557()
     {
-        //$this->markTestSkipp();
         $this->start_simulation();
         $this->clearEventQueueBeforeEleven('RST1');
 
