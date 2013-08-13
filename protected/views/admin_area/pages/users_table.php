@@ -52,6 +52,17 @@
                 if (false === $isRegistered) {
                     $rowBGcolor = '#FFCC66';
                 }
+
+                $accountTypeIcon = 'icon-ban-circle icon-white';
+                $accountTypeLabelType = 'label label-inverse';
+
+                if ($profile->user->isPersonal()){
+                    $accountTypeIcon = 'icon-user icon-white';
+                    $accountTypeLabelType = 'label label-warning';
+                } elseif ($profile->user->isCorporate()){
+                    $accountTypeIcon = 'icon-briefcase icon-white';
+                    $accountTypeLabelType = 'label label-info';
+                };
             ?>
             <tr class="orders-row" style="background-color: <?= $rowBGcolor ?>">
                 <td><?= $profile->id ?></td>
@@ -74,7 +85,11 @@
                 <td><?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
-                <td><?= $profile->user->getAccountName() ?></td>
+                <td style="text-align: center;">
+                    <div class="<?= $accountTypeLabelType ?>" style="padding: 5px;">
+                        <i class="<?= $accountTypeIcon ?>"></i> <?= $profile->user->getAccountName() ?>
+                    </div>
+                </td>
                 <td>
                     <div style="max-width: 200px; overflow: auto;">
                         <?= ($isRegistered) ? 'Ключ использован' : $profile->user->activationKey ?>
