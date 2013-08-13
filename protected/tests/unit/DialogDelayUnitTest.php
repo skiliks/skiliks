@@ -30,7 +30,7 @@ class DialogDelayUnitTest extends CDbTestCase
 
             //Запуск T7.1
             $this->setTime($simulation, 11, 12);
-            EventsManager::startEvent($simulation, 'T7.1', false, false, 0);
+            EventsManager::startEvent($simulation, 'T7.1', 0);
             for ($i = 0; $i < 10; $i++) {
                 $json = EventsManager::getState($simulation, false);
                 if (!empty($json['events'][0]['eventType']) && $json['events'][0]['eventType'] == 1) {
@@ -41,8 +41,8 @@ class DialogDelayUnitTest extends CDbTestCase
                 $this->assertEquals('T7.1', $json['events'][0]['data'][0]['code']);
             }
 
-            EventsManager::startEvent($simulation, 'RST2', false, false, 5);
-            EventsManager::startEvent($simulation, 'RST2', false, false, 5);
+            EventsManager::startEvent($simulation, 'RST2', 5);
+            EventsManager::startEvent($simulation, 'RST2', 5);
 
             //Запуск RST2
             $this->setTime($simulation, 11, 22, false);
@@ -57,7 +57,7 @@ class DialogDelayUnitTest extends CDbTestCase
             if(!empty($json['events'][0]['data'][0]['code'])){
                 $this->assertEquals('RST2', $json['events'][0]['data'][0]['code']);
             }
-            EventsManager::startEvent($simulation, 'S1.2', false, false, 2);
+            EventsManager::startEvent($simulation, 'S1.2', 2);
 
             $this->setTime($simulation, 11, 24, false);
 

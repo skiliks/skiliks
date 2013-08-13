@@ -164,7 +164,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         // case 1
 
-        EventsManager::startEvent($simulation, 'S2', false, false, 0);
+        EventsManager::startEvent($simulation, 'S2');
 
         $data = [];
         //case 1
@@ -179,7 +179,7 @@ class FlagServiceUnitTest extends CDbTestCase
         // case 2
         FlagsService::setFlag($simulation, 'F1', 1);
 
-        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2');
 
         $result = EventsManager::getState($simulation, []);
         foreach ($result['events'][0]['data'] as $replica) {
@@ -194,7 +194,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F12', 1);
         FlagsService::setFlag($simulation, 'F1', 0);
 
-        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2');
         $result = EventsManager::getState($simulation, []);
 
         foreach ($result['events'][0]['data'] as $replica) {
@@ -223,7 +223,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F4', 0);
 
         // Case 1: block event
-        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1');
 
         $result = EventsManager::getState($simulation, []);
 
@@ -232,7 +232,7 @@ class FlagServiceUnitTest extends CDbTestCase
         // Case 2: run event
         FlagsService::setFlag($simulation, 'F4', 1);
 
-        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1');
 
         $result2 = EventsManager::getState($simulation, []);
 
@@ -258,7 +258,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F14', 0);
 
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'ET12.3', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET12.3');
 
         EventsManager::getState($simulation, []);
 
@@ -285,7 +285,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         // Case 1: block event
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1');
 
         $result = EventsManager::getState($simulation, []);
 
@@ -295,7 +295,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F3', 1);
 
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1');
 
         $result2 = EventsManager::getState($simulation, []);
 
@@ -379,7 +379,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         FlagsService::setFlag($simulation, 'F14', 1);
 
-        EventsManager::startEvent($simulation, 'ET12.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET12.1');
 
         $result = EventsManager::getState($simulation, []);
 
