@@ -160,8 +160,10 @@
 <?php endforeach; ?>
 <br>
 
-    </header>
-    </div>
+Yii version: <?= Yii::getVersion(); ?>
+
+</header>
+</div>
 
 <br/>
 <br/>
