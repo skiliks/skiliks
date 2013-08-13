@@ -12,11 +12,10 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
 {
     public function test_Dialogs_for_SK1390()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Не вижу сводного бюджета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна,  я как раз собираюсь')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я пока не знаю, сколько времени мне потребуется')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Понял, открываю файл')])");
