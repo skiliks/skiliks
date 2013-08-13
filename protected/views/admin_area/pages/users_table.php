@@ -46,17 +46,55 @@
                     </tr>
             <?php $i= 0 ?>
             <?php endif ?>
-            <tr class="orders-row">
+            <?php
+                $isRegistered = ($profile->user->activationKey === '1');
+                $rowBGcolor = '#ffffff';
+                if (false === $isRegistered) {
+                    $rowBGcolor = '#FFCC66';
+                }
+
+                $accountTypeIcon = 'icon-ban-circle icon-white';
+                $accountTypeLabelType = 'label label-inverse';
+
+                if ($profile->user->isPersonal()){
+                    $accountTypeIcon = 'icon-user icon-white';
+                    $accountTypeLabelType = 'label label-warning';
+                } elseif ($profile->user->isCorporate()){
+                    $accountTypeIcon = 'icon-briefcase icon-white';
+                    $accountTypeLabelType = 'label label-info';
+                };
+            ?>
+            <tr class="orders-row" style="background-color: <?= $rowBGcolor ?>">
                 <td><?= $profile->id ?></td>
                 <td><?= $profile->user->id ?></td>
-                <td><?= $profile->firstname ?></td>
-                <td><?= $profile->lastname ?></td>
-                <td><?= $profile->email ?></td>
+                <td>
+                    <div style="max-width: 200px; overflow: auto;">
+                        <?= $profile->firstname ?>
+                    </div>
+                </td>
+                <td>
+                    <div style="max-width: 200px; overflow: auto;">
+                        <?= $profile->lastname ?>
+                    </div>
+                </td>
+                <td>
+                    <div style="max-width: 250px; overflow: auto;">
+                        <?= $profile->email ?>
+                    </div>
+                </td>
                 <td><?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
                 <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
-                <td><?= $profile->user->getAccountName() ?></td>
-                <td><?= ($profile->user->activationKey === '1')?'Ключ использован':$profile->user->activationKey ?></td>
+                <td style="text-align: center;">
+                    <div class="<?= $accountTypeLabelType ?>" style="padding: 5px;">
+                        <i class="<?= $accountTypeIcon ?>"></i> <?= $profile->user->getAccountName() ?>
+                    </div>
+                </td>
+                <td>
+                    <div style="max-width: 200px; overflow: auto;">
+                        <?= ($isRegistered) ? 'Ключ использован' : $profile->user->activationKey ?>
+                    </div>
+                </td>
                 <td><a href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">Обновить пароль</a></td>
             </tr>
         <?php endforeach ?>
