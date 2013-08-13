@@ -120,42 +120,52 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(5);
         // 24
         $this->run_event('M47');
+        sleep(1);
         $this->run_event('MS46');
         sleep(2);
         // 16
         $this->run_event('M72');
+        sleep(1);
         $this->run_event('MS67');
         sleep(2);
         // 22
         $this->run_event('M1');
+        sleep(1);
         $this->run_event('MS40');
         sleep(2);
         // 23
         $this->run_event('M2');
+        sleep(1);
         $this->run_event('MS52');
         sleep(2);
         // 30
         $this->run_event('M76');
+        sleep(1);
         $this->run_event('MS61');
         sleep(2);
         // 26
         $this->run_event('M71');
+        sleep(1);
         $this->run_event('MS63');
         sleep(2);
         // 27
         $this->run_event('M73');
+        sleep(1);
         $this->run_event('MS62');
         sleep(2);
         // 28
         $this->run_event('M74');
+        sleep(1);
         $this->run_event('MS64');
         sleep(2);
         // 29
         $this->run_event('M75');
+        sleep(1);
         $this->run_event('MS60');
         sleep(2);
         // 25
         $this->run_event('M65');
+        sleep(1);
         $this->run_event('MS65');
         sleep(2);
         // 20
@@ -164,10 +174,10 @@ class Productivity_points_Test extends SeleniumTestHelper
 
         $this->simulation_showLogs();
         sleep(5);
-        /*$this->waitForVisible("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]");
+        $this->waitForVisible("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-0')]/td[3]","31%");
-        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","80%");
+        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-1')]/td[3]","100%");
         $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2')]/td[3]","100%");
-        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2_min')]/td[3]","100%");*/
+        $this->assertText("xpath=//tr[contains(@class, 'performance-aggregated-2_min')]/td[3]","100%");
     }
 }
