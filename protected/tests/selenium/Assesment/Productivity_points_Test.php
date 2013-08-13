@@ -76,7 +76,7 @@ class Productivity_points_Test extends SeleniumTestHelper
         sleep(5);
 
         // formula 5
-        $this->run_event('M10');
+        $this->run_event('MS10');
         sleep(20);
         $this->run_event('MS83');
         sleep(5);

@@ -67,6 +67,8 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
         $this->run_event('RVT1.1',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
+        $this->run_event('RVT1.2',"css=li.icon-active.door a",'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         sleep(2);
         $this->run_event('MS65');
@@ -75,7 +77,7 @@ class Meetings_Test extends SeleniumTestHelper
         sleep(2);
 
         $this->simulation_showLogs();
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_3']);
-        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_3'],"100.00");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_4']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_4'],"100.00");
     }
 }
