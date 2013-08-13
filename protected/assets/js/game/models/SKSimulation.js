@@ -116,6 +116,10 @@ define([
                             me.onFinishTime();
                         }
 
+                        if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('zoho_popup'))){
+                            me.onZohoPopup();
+                        }
+
                         me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
 
                         minutes += 5;

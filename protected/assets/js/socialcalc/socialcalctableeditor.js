@@ -185,20 +185,191 @@ SocialCalc.TableEditor = function(context) {
    this.ctrlkeyFunction = function(editor, charname) {
 
       var ta, ha, cell, position, cmd, sel, cliptext;
-      var spreedsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
 
       switch (charname) {
-          case "[ctrl-x]":
-              spreedsheet.ExecuteCommand('cut %C all', '');
-              break;
-
-          case "[ctrl-c]":
-              spreedsheet.ExecuteCommand('copy %C all', '');
-              break;
-
-          case "[ctrl-v]":
-              spreedsheet.ExecuteCommand('paste %C all', '');
-              break;
+//         case "[ctrl-c]":
+//         case "[ctrl-x]":
+//            ta = editor.pasteTextarea;
+//            ta.value = "";
+//            cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
+//            if (cell) {
+//               position = SocialCalc.GetElementPosition(cell.element);
+//               ta.style.left = (position.left-1)+"px";
+//               ta.style.top = (position.top-1)+"px";
+//               }
+//            if (editor.range.hasrange) {
+//               sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
+//                  ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
+//               }
+//            else {
+//               sel = editor.ecell.coord;
+//               }
+//
+//            // get what to copy to clipboard
+//            cliptext = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.CreateSheetSave(editor.context.sheetobj, sel), "tab");
+////            console.log('copy!', cliptext);
+////
+////             window.sc_cliptext = cliptext;
+//
+//            if (charname == "[ctrl-c]" || editor.noEdit) { // if copy or cut but in no edit
+//               cmd = "copy "+sel+" formulas";
+//               }
+//            else { // [ctrl-x]
+//               cmd = "cut "+sel+" formulas";
+//               }
+//            editor.EditorScheduleSheetCommands(cmd, true, false); // queue up command to put on SocialCalc clipboard
+//
+//            /* Copy as HTML: This fails rather badly as it won't paste into Notepad as tab-delimited text. Oh well.
+//
+//                ha = editor.pasteHTMLarea;
+//                if (editor.range.hasrange) {
+//                    cell = SocialCalc.GetEditorCellElement(editor, editor.range.top, editor.range.left);
+//                }
+//                else {
+//                    cell = SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
+//                }
+//                if (cell) position = SocialCalc.GetElementPosition(cell.element);
+//
+//                if (ha) {
+//                    if (position) {
+//                        ha.style.left = (position.left-1)+"px";
+//                        ha.style.top = (position.top-1)+"px";
+//                    }
+//                    ha.style.visibility="visible";
+//                    cliptext = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.CreateSheetSave(editor.context.sheetobj, sel), "html");
+//                    ha.innerHTML = cliptext.replace(/<tr\b[^>]*>[\d\D]*?<\/tr\b[^>]*>/i, '');
+//                    ha.focus();
+//
+//                    var range = document.body.createControlRange();
+//                    range.addElement(ha.childNodes[0]);
+//                    range.select();
+//                }
+//            */
+//            ta.style.display = "block";
+//            ta.value = cliptext; // must follow "block" setting for Webkit
+//            ta.focus();
+//            ta.select();
+//            window.setTimeout(function() {
+//               if (!SocialCalc.GetSpreadsheetControlObject) return; // in case not loaded
+//               var s = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
+//               if (!s) return;
+//               /*
+//               var ha = editor.pasteHTMLarea;
+//               if (ha) {
+//                 ha.blur();
+//                 ha.innerHTML = '';
+//                 ha.style.visibility = 'hidden';
+//               }
+//               */
+//               var ta = editor.pasteTextarea;
+//               ta.blur();
+//               ta.style.display = "none";
+//               SocialCalc.KeyboardFocus();
+//               }, 200);
+//
+//            return true;
+//
+//         case "[ctrl-v]":
+//            if (editor.noEdit) return true; // not if no edit
+//
+//            var showPasteTextArea = function() {
+//                ta = editor.pasteTextarea;
+//                ta.value = "";
+//
+//                cell=SocialCalc.GetEditorCellElement(editor, editor.ecell.row, editor.ecell.col);
+//                if (cell) {
+//                    position = SocialCalc.GetElementPosition(cell.element);
+//                    ta.style.left = (position.left-1)+"px";
+//                    ta.style.top = (position.top-1)+"px";
+//                }
+//                ta.style.display = "block";
+//                ta.value = "";  // must follow "block" setting for Webkit
+//                ta.focus();
+//            };
+//
+//            ha = editor.pasteHTMLarea;
+//            if (ha) {
+//                /* Pasting via HTML - Currently IE only */
+//                ha.style.visibility = "visible";
+//                ha.focus();
+//            }
+//            else {
+//                showPasteTextArea();
+//            }
+//            window.setTimeout(function() {
+//               if (!SocialCalc.GetSpreadsheetControlObject) return;
+//               var s = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
+//               if (!s) return;
+//               var value = null;
+//               var isPasteSameAsClipboard = false;
+//
+//               ha = editor.pasteHTMLarea;
+//               if (ha) {
+//                 /* IE: We append a U+FFFC to every TD that's not the last of its row,
+//                  *     then we obtain innerText, then turn U+FFFC back to \t,
+//                  *     thereby preserving the cell separations (which gets discarded
+//                  *     if we simply paste via textarea.
+//                  */
+//                 var _ObjectReplacementCharacter_ = String.fromCharCode(0xFFFC);
+//                 var html = ha.innerHTML;
+//
+//                 if (html.search(/<(?![Bb][Rr])[A-Za-z]/) >= 0) {
+//                    /* HTML Paste: Mark TDs with U+FFFC accordingly.. */
+//                    ha.innerHTML = html.replace(
+//                        /(?:<\/[Tt][Dd]>)/g,
+//                        _ObjectReplacementCharacter_
+//                    );
+//                }
+//                else {
+//                    /* Text Paste: In IE, \t is transformed into &nbsp;, so replace them with U+FFFC. */
+//                    ha.innerHTML = html.replace(
+//                        /&[Nn][Bb][Ss][Pp];/g,
+//                        _ObjectReplacementCharacter_
+//                    );
+//                 }
+//                 value = ha.innerText.replace(new RegExp(_ObjectReplacementCharacter_, 'g'), '\t');
+//
+//                 ha.innerHTML = '';
+//                 ha.blur();
+//                 ha.style.visibility = "hidden";
+//               }
+//               else {
+//                 var ta = editor.pasteTextarea;
+//                 value = ta.value;
+//                 ta.blur();
+//                 ta.style.display = "none";
+//               }
+//
+//               value = value.replace(/\r\n/g, "\n").replace(/\n?$/, '\n');
+//               var clipstr = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
+//
+////                console.log('paste!', clipstr);
+////
+////                clipstr = window.sc_cliptext;
+//
+//               if (value == clipstr || (value.length-clipstr.length==1 && value.substring(0,value.length-1)==clipstr)) {
+//                  isPasteSameAsClipboard = true;
+//               }
+//
+//               var cmd = "";
+//               // pastes SocialCalc clipboard if did a Ctrl-C and contents still the same
+//               // Webkit adds an extra blank line, so need to allow for that
+//               if (!isPasteSameAsClipboard) {
+//                  cmd = "loadclipboard "+
+//                  SocialCalc.encodeForSave(SocialCalc.ConvertOtherFormatToSave(value, "tab")) + "\n";
+//                  }
+//               var cr;
+//               if (editor.range.hasrange) {
+//                  cr = SocialCalc.crToCoord(editor.range.left, editor.range.top);
+//                  }
+//               else {
+//                  cr = editor.ecell.coord;
+//                  }
+//               cmd += "paste "+cr+" formulas";
+//               editor.EditorScheduleSheetCommands(cmd, true, false);
+//               SocialCalc.KeyboardFocus();
+//               }, 200);
+//            return true;
 
          case "[ctrl-z]":
             editor.EditorScheduleSheetCommands("undo", true, false);
