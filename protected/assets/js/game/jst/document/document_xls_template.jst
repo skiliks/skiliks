@@ -2,7 +2,7 @@
     <div class="table-container" id="tableeditor"></div>
     <ul class="sheet-tabs">
         <@ sheets.forEach(function (sheet) { @>
-        <li data-sheet-name="<@= sheet.get('name') @>"><@= sheet.get('name') @></li>
+        <li data-editor-id="<@= sheet.get('editor_id') @>" data-sheet-name="<@= sheet.get('name') @>"><@= sheet.get('name') @></li>
         <@ }) @>
     </ul>
 </div>
