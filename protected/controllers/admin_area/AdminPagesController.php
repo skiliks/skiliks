@@ -88,7 +88,7 @@ class AdminPagesController extends SiteBaseController {
         $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
         $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
         if (false == empty($receiverEmailForFiltration)) {
-            $condition = " email = '".$receiverEmailForFiltration."' ";
+            $condition = " email LIKE '%".$receiverEmailForFiltration."%' ";
             $criteria->addCondition($condition);
         } else {
             if ($exceptDevelopersFiltration) {
@@ -445,7 +445,7 @@ class AdminPagesController extends SiteBaseController {
             $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
 
             // for page results
-            $condition = " profile.email = '".$emailForFiltration."' ";
+            $condition = " profile.email LIKE '%".$emailForFiltration."%' ";
 
             $criteria->addCondition($condition);
         } else {
