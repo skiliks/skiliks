@@ -198,6 +198,8 @@ define([
         },
 
         doShowReplicas: function(e) {
+            window.netSpeedVerbose = 'slow';
+
             this.logAction($(e.currentTarget).text());
 
             $('.visitor-reply').removeClass('hidden');
