@@ -774,15 +774,16 @@ define([
 
             initSocialcalcHotkeys: function() {
                     try {
+                        var me = this;
                         $(window).bind('keydown', 'ctrl+c', function() {
                             console.log('ctrl+c');
-                            this.clickSCButton('-button_copy');
+                            me.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
                             console.log('ctrl+v');
-                            this.clickSCButton('-button_paste');
+                            me.clickSCButton('-button_paste');
                             return false;
                         });
                 } catch(exception) {
