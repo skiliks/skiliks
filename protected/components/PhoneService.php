@@ -90,7 +90,7 @@ class PhoneService {
                return 'fail '.$event->id;
             } else {
                 try {
-                    EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
+                    EventsManager::startEvent($simulation, $dialog->next_event_code);
                 } catch (Exception $e) {
                     Yii::log($e->getMessage(), CLogger::LEVEL_WARNING);
                 }
