@@ -786,6 +786,18 @@ define([
                             me.clickSCButton('-button_paste');
                             return false;
                         });
+
+                        $(window).bind('keydown', 'ctrl+z', function() {
+                            console.log('ctrl+z');
+                            me.clickSCButton('-button_undo');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'ctrl+y', function() {
+                            console.log('ctrl+y');
+                            me.clickSCButton('-button_redo');
+                            return false;
+                        });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
