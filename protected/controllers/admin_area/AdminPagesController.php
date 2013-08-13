@@ -518,7 +518,8 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/users_table', [
             'profiles' => YumProfile::model()->findAll([
                 "limit"  => $this->itemsOnPage,
-                "offset" => ($page-1)*$this->itemsOnPage
+                "offset" => ($page-1)*$this->itemsOnPage,
+                "order" => 'id DESC',
             ]),
             'page'        => $page,
             'pager'       => $pager,
