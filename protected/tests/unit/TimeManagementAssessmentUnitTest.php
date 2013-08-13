@@ -14,7 +14,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * Каждого типа лога по 1 штуке
      */
-    public function testimeManagementAssessment_case1()
+    public function testTimeManagementAssessment_case1()
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -414,7 +414,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            23.00, // 40.00 * 0.6
+            67.00, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
