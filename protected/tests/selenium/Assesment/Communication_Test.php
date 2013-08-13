@@ -42,7 +42,7 @@ class Communication_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->simulation_showLogs();
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_1'],"100");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_1'],"100");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_1'],"100.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_1'],"100.00");
     }
 }
