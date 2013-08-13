@@ -52,7 +52,7 @@ class CheckConsolidatedBudgetUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1.sc');
+        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1_new');
 
         $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $this->assertNotNull($points);
