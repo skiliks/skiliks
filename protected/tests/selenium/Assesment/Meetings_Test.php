@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * 100% по Эффективное управление встречами (Область обучения №7)
+ * 100% по Learning Goal Group 3_4 Эффективное управление встречами
  */
 class Meetings_Test extends SeleniumTestHelper
 {
