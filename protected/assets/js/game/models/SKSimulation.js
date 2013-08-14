@@ -169,7 +169,7 @@ define([
 
                     // расскоментировать когда подчиним копирование.
                     this.initSocialcalcHotkeys();
-                    this.initSystemHotkeys();
+                    //this.initSystemHotkeys();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
