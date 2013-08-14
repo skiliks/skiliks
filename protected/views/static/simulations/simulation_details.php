@@ -2,11 +2,11 @@
 <?php if($user->isPersonal()) { ?>
 <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
 <?php } else { ?>
-<h1><?php echo $invite->firstname ?> <?php echo $invite->lastname ?></h1>
+<h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
 <?php } ?>
 <div class="simulation-details">
     <script type="text/javascript">
-        var AR = <?= json_encode($simulation->getAssessmentDetails()); ?>;
+        var AR = <?= json_encode($details); ?>;
 
         function drawChartBlock(classPrefix, data, codes) {
             var i, k;
@@ -34,45 +34,34 @@
 
     <div class="sections">
         <div id="main">
-            <?php $this->renderPartial('partials/tab_main') ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_main', [
+                'data' => $details['additional_data']
+            ]) ?>
         </div>
 
         <div id="managerial-skills">
-            <?php $this->renderPartial('partials/tab_managerial_skills', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills', []) ?>
         </div>
 
         <div id="managerial-skills-1-2">
-            <?php $this->renderPartial('partials/tab_managerial_skills_1_2', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_1_2', []) ?>
         </div>
 
         <div id="managerial-skills-3-4">
-            <?php $this->renderPartial('partials/tab_managerial_skills_3_4', []) ?>
-        </div>
-
-        <div id="managerial-skills-5-6">
-            <?php $this->renderPartial('partials/tab_managerial_skills_5_6', []) ?>
-        </div>
-
-        <div id="managerial-skills-7">
-            <?php $this->renderPartial('partials/tab_managerial_skills_7', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_3_4', []) ?>
         </div>
 
         <div id="productivity">
-            <?php $this->renderPartial('partials/tab_productivity') ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_productivity') ?>
         </div>
 
         <div id="time-management">
-            <?php $this->renderPartial('partials/tab_time_management', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_time_management', []) ?>
         </div>
 
         <div id="time-management-detail">
-            <?php $this->renderPartial('partials/tab_time_management_detail', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_time_management_detail', []) ?>
         </div>
-<?php /* not in release 1.2
-        <div id="personal-qualities">
-            <?php $this->renderPartial('partials/tab_personal_skills', ['simulation' => $simulation, 'learning_areas'=>$learning_areas]) ?>
-        </div>
-    */ ?>
     </div>
 
     <div class="estmfooter">

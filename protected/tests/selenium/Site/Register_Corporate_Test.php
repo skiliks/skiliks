@@ -53,7 +53,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         //генерируем каждый раз новый персональный e-mail для пользователя
         $new_email = "gty1991_1+";
-        $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
+        $new_email .= (string)rand(1, 10000)+(string)rand(1,500)+(string)rand(1,200);
         $new_email .= "@mail.ru";
 
         $this->type('id=YumProfile_email',$new_email);
@@ -67,7 +67,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
@@ -88,7 +88,6 @@ class Register_Corporate_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Рабочий')])"));
-        $this->close();
     }
 
 
@@ -121,7 +120,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         //нажимаем Начать
         $this->optimal_click("xpath=//*[@id='registration_switch']");
         // ожидаем появления иконки телефона
@@ -158,6 +157,5 @@ class Register_Corporate_Test extends SeleniumTestHelper
         }
         //проверяем, что оценка за демо-симуляцию не посчитана
         $this->waitForVisible("xpath=//div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div/span[2]/span","0");
-        $this->close();
     }
 }

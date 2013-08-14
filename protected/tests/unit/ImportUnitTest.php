@@ -32,42 +32,42 @@ class ImportUnitTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(443, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(538, CommunicationTheme::model()->countByAttributes([
                 'character_id' => null,
                 'scenario_id' => $fullScenario->id,
             ]), 'Character');
 
-            $this->assertEquals(67, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(41, CommunicationTheme::model()->countByAttributes([
                 'phone' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Phones');
 
-            $this->assertEquals(11017, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(13287, CommunicationTheme::model()->countByAttributes([
                 'mail' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Mail');
 
-            $this->assertEquals(257, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(301, CommunicationTheme::model()->countByAttributes([
                 'text' => '!проблема с сервером!',
                 'scenario_id' => $fullScenario->id,
             ]));
 
-            $this->assertEquals(217, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(611, CommunicationTheme::model()->countByAttributes([
                 'mail_prefix' => 'fwdfwd',
                 'scenario_id' => $fullScenario->id,
             ]), 'fwdfwd');
 
-            $this->assertEquals(86, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(215, CommunicationTheme::model()->countByAttributes([
                 'mail_prefix' => 'fwdrere',
                 'scenario_id' => $fullScenario->id,
             ]), 'fwdrere');
 
-            $this->assertEquals(86, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(129, CommunicationTheme::model()->countByAttributes([
                 'mail_prefix' => 'fwdrerere',
                 'scenario_id' => $fullScenario->id,
             ]), 'fwdrerere');
 
-            $this->assertEquals(84, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(126, CommunicationTheme::model()->countByAttributes([
                 'mail_prefix' => 'rererere',
                 'scenario_id' => $fullScenario->id,
             ]), 'rererere');
@@ -91,11 +91,11 @@ class ImportUnitTest extends CDbTestCase
 
             $this->assertGreaterThan(0, FlagRunMail::model()->count('scenario_id = '.$fullScenario->id));
 
-            $this->assertEquals(9, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
-            $this->assertEquals(22, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
-            $this->assertEquals(36, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
+            $this->assertEquals(10, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
+            $this->assertEquals(23, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
+            $this->assertEquals(73, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
 
-            $this->assertEquals(5, FlagBlockMail::model()->count('scenario_id = '.$fullScenario->id), 'block mail');
+            $this->assertEquals(28, FlagBlockMail::model()->count('scenario_id = '.$fullScenario->id), 'block mail');
 
             // end.
             $transaction->rollback();

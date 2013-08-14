@@ -18,7 +18,7 @@
 
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Invite::model()->searchByInvitedUserEmail(
-            Yii::app()->user->data()->profile->email,
+            strtolower(Yii::app()->user->data()->profile->email),
             [Invite::STATUS_PENDING, Invite::STATUS_COMPLETED]
         ),
         'summaryText' => '',
@@ -45,6 +45,10 @@
     ]);
     ?>
 </div>
+
+<!-- accept-form { -->
+<?php $this->renderPartial('accept_warning', []) ?>
+<!-- accept-form } -->
 
 <!-- decline-form { -->
 <div id="invite-decline-form"></div>

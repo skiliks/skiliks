@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" manifest="/cache.manifest">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -11,6 +11,7 @@
             baseUrl: "<?= $assetsUrl; ?>/js",
             waitSeconds: 15
         };
+        window.inviteId = <?= $inviteId ?>;
     </script>
 
     <title>Skiliks</title>
@@ -48,6 +49,15 @@
     <!-- We need both!!! -->
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+    
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formatnumber2.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formula1.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
@@ -68,15 +78,16 @@
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/backbone.js"></script>
 
-    <?php if (!YII_DEBUG): ?>
+    <?php /*if (!YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
-    <?php endif; ?>
+    <?php endif;*/ ?>
     
-    <?php if (YII_DEBUG): ?>
+    <?php //if (YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
-    <?php endif ?>
+    <?php //endif ?>
 </head>
 <body class="body loading">
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
+    <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>
 </html>

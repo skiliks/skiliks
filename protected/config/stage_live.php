@@ -31,9 +31,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'frontendUrl'=>'http://live.skiliks.com/',
         'public' => [
-            'storageURL'     => 'http://storage.dev.skiliks.com/v1',
-            'isLocalPc'      => true,
-            'isUseZohoProxy' => false,
+            'storageURL'        => 'http://storage.dev.skiliks.com/v1',
+            'isLocalPc'         => true,
+            'isUseZohoProxy'    => false,
+            'useSentryForJsLog' => true,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',

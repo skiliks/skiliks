@@ -14,22 +14,46 @@
 .elfinder-cwd-icon-vnd-ms-powerpoint, .elfinder-cwd-icon-vnd-oasis-opendocument-presentation {
   background-position: 0 -1450px !important;
 }
+.document-window {
+  height: 100%;
+  .sim-window-container {
+    height: 100%;
+    .sim-window-content {
+      height: ~"-webkit-calc(100% - 48px)";
+      height: ~"-moz-calc(100% - 48px)";
+      height: ~"-o-calc(100% - 48px)";
+      height: ~"calc(100% - 48px)";
+      .xls-container {
+        background-color: white;
+        height: 100%;
+        .table-container {
+          position: relative;
+          height: ~"-webkit-calc(100% - 28px)";
+          height: ~"-moz-calc(100% - 28px)";
+          height: ~"-o-calc(100% - 28px)";
+          .table-editor {
+            height: 100%;
+            overflow: hidden;
+          }
+        }
 
-.xls-container {
-  .loader {
-    text-align: center;
-    background-color: #ffffff;
-    font-size: 36px;
-    height: 400px;
-  }
-}
-.pdf-container {
-  width: 850px;
-  height: 600px;
-  overflow: scroll;
-  background-color: #ddd;
-  .pdfpage {
-    margin: auto;
-    background-color: white;
+        .loader {
+          text-align: center;
+          background-color: #ffffff;
+          font-size: 36px;
+          height: 100%;
+        }
+      }
+      .pdf-container {
+        width: 850px;
+        height: 600px;
+        overflow: scroll;
+        background-color: #ddd;
+        .pdfpage {
+          margin: auto;
+          background-color: white;
+        }
+      }
+    }
   }
 }

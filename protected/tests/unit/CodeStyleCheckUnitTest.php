@@ -58,7 +58,7 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
 
 function getFilesList($dir, &$results, $excludeFiles = ['yiic.php'],
     $filesToIgnore = ['.', '..', 'lib'], $extensionsToUse = ['php'],
-    $excludeFolders = ['yii-sentry-log'] )
+    $excludeFolders = ['.', '..', 'yii-sentry-log'] )
 {
     if (is_dir($dir)) {
         if ($dh = opendir($dir)) {

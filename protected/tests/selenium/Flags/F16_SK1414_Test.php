@@ -39,8 +39,8 @@ class F16_SK1414_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         // downloading all messages
-        sleep(20);
-        $this->optimal_click("css=li.icon-active.mail a");
+        sleep(30);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->isTextPresent("Презентация для ГД_рабочая версия"));
         $this->simulation_stop();

@@ -16,8 +16,12 @@
         <echo msg="Copying config for user ${env.USER}..."/>
         <echo msg="${user.name}"/>
         <mkdir dir="./protected/runtime" mode="777" />
-        <mkdir dir="./documents/zoho" />
-        <chmod file="./documents/zoho" mode="777" />
+        <mkdir dir="./documents/user" />
+        <chmod file="./documents/user" mode="777" />
+        <mkdir dir="./documents/socialcalc_templates" />
+        <chmod file="./documents/socialcalc_templates" mode="777" />
+        <mkdir dir="./protected/logs" />
+        <chmod file="./protected/logs" mode="777" />
         <mkdir dir="./assets" />
         <chmod file="./assets" mode="777" />
         <mkdir dir="./protected/assets/compiled_css" />

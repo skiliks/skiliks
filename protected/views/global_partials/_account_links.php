@@ -13,8 +13,8 @@ if ($isPersonal) {
     $count = Invite::model()->countByAttributes([],
         ' email = :email AND status = :status AND owner_id != :id ',
     [
-        'id' => $user->id,
-        'email' => $user->profile->email,
+        'id'     => $user->id,
+        'email'  => strtolower($user->profile->email),
         'status' => Invite::STATUS_ACCEPTED,
     ]);
 } else {

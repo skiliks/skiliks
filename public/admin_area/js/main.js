@@ -1,3 +1,82 @@
+/* global $ */
+var prefix = '/admin_area/statistics/testAuth?params=';
+function ci_call(url, result) {
+    $.ajax({
+        url:prefix + url,
+        success: result
+    });
+
+}
+function update_stat(selector, path) {
+    selector = '.table-statistics '+selector;
+    $.ajax({
+        url:path,
+        success: function(data){
+            console.log(data)
+            $(selector).find('.status').html(data.data);
+            $(selector).removeClass('success');
+            $(selector).removeClass('failure');
+            $(selector).addClass(data.status);
+        },
+        dataType:  "json"
+    });
+}
+function update_tc(selector, xml){
+    selector = '.table-statistics '+selector;
+    ci_call(xml, function (data) {
+        var first_failure;
+        var build = $(data).find('build:eq(0)');
+        if ((build.attr('status') == 'FAILURE') || (build.attr('status') == 'ERROR')) {
+            $(selector).removeClass('success');
+            $(selector).addClass('failure');
+            first_failure = $(data).find('build[status=SUCCESS]:eq(0)').prev().attr('href');
+            ci_call(first_failure, function(data) {
+                var changes_url = $(data).find('changes').attr('href');
+                ci_call(changes_url, function(data) {
+                    var usernames = {};
+                    $(data).find('change').each(function() {
+                        ci_call($(this).attr('href'), function(data) {
+                            usernames[$(data).find('change').attr('username')] = true;
+                            $(selector).find('.author').html(Object.keys(usernames).join(' or '));
+                        });
+                    });
+                });
+            });
+        } else {
+            $(selector).removeClass('failure');
+            $(selector).addClass('success');
+            first_failure = $(data).find('build[status!=SUCCESS]:eq(0)').prev().attr('href');
+            ci_call(first_failure, function(data) {
+                var changes_url = $(data).find('changes').attr('href');
+                ci_call(changes_url, function(data) {
+                    $(data).find('change').each(function() {
+                        ci_call($(this).attr('href'), function(data) {
+                            if ($(data).find('change').attr('username') !== undefined) {
+                                $(selector).find('.author').html('Fixed by ' + $(data).find('change').attr('username'));
+                            } else {
+                                $(selector).find('.author').html('');
+                            }
+                        });
+                    });
+                });
+            });
+        }
+        ci_call(build.attr('href'), function(data) {
+            $(selector).find('.status').html($(data).find('statusText').text());
+        });
+    });
+
+}
+
+function runStat() {
+    update_tc('.statistic-php-unit', '/httpAuth/app/rest/buildTypes/id:bt3/builds/');
+    update_tc('.statistic-selenium-site', '/httpAuth/app/rest/buildTypes/id:bt6/builds/');
+    update_tc('.statistic-selenium-assessment', '/httpAuth/app/rest/buildTypes/id:bt4/builds/');
+    update_stat('.statistic-free-disk-space', '/admin_area/statistics/free-disk-space');
+    update_stat('.statistic-order-count', '/admin_area/statistics/statistic-order-count');
+    update_stat('.statistic-feedback-count', '/admin_area/statistics/statistic-feedback-count');
+    update_stat('.statistic-crash-simulation', '/admin_area/statistics/statistic-crash-simulation');
+}
 $(document).ready(function(){
     $(".reset-invite").click(function() {
 
@@ -13,4 +92,7 @@ $(document).ready(function(){
         return confirm("Вы точно хотите сменить статус?");
 
     });
+
+
+
 });

@@ -37,12 +37,18 @@ class Register_Personal_Test extends SeleniumTestHelper
         $this->open(TestUserHelper::getActivationUrl($new_email));
 
         sleep(5);
-        $this->assertTrue($this->isTextPresent('можете'));
+        $this->assertTrue($this->isTextPresent('активирован'));
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь,')])");
+
+        $this->optimal_click("xpath=//div/section/div[1]/form/div[5]/div/input");
+        sleep(2);
+        $this->assertTextPresent('Введите имя');
+        $this->assertTextPresent('Введите фамилию');
+
         $this->type("css=#user-account-personal-form > div.row > div.field > #YumProfile_firstname",'test-name');
         $this->type("css=#user-account-personal-form > div.row > div.field > #YumProfile_lastname",'test-surname');
 
@@ -54,8 +60,5 @@ class Register_Personal_Test extends SeleniumTestHelper
             } catch (Exception $e) {}
             sleep(1);
         }
-
-
-        $this->close();
     }
 }

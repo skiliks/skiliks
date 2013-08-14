@@ -28,12 +28,18 @@ define([
          * @method
          */
         'render': function () {
-            var code = _.template(start_simulation_menu);
+            try {
+                var code = _.template(start_simulation_menu);
 
-            this.$el.html(code);
+                this.$el.html(code);
 
-            if (undefined != window.mode) {
-                this.doSimulationStart({});
+                if (undefined !== window.mode) {
+                    this.doSimulationStart({});
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
@@ -42,40 +48,58 @@ define([
          * @param event
          */
         'doSimulationStart': function (event) {
-            var me = this;
+            try {
+                var me = this;
 
-            var mode = $(event.target).attr('data-sim-id');
-            if (undefined != window.mode) {
-                if ('developer' == window.mode) {
-                    mode = 2;
+                var mode = $(event.target).attr('data-sim-id');
+                if (undefined !== window.mode) {
+                    if ('developer' == window.mode) {
+                        mode = 2;
+                    }
+                    if ('promo' == window.mode) {
+                        mode = 1;
+                    }
                 }
-                if ('promo' == window.mode) {
-                    mode = 1;
+
+                var simulation = SKApp.user.startSimulation(mode);
+                var simulation_view = this.simulation_view = new SKSimulationView();
+                simulation.on('start', function () {
+                    simulation_view.render();
+                });
+                this.listenTo(simulation, 'stop', function () {
+
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
-
-            var simulation = SKApp.user.startSimulation(mode);
-            var simulation_view = this.simulation_view = new SKSimulationView();
-            simulation.on('start', function () {
-                simulation_view.render();
-            });
-            this.listenTo(simulation, 'stop', function () {
-
-            });
         },
 
         /**
          * @method
          */
         'doSettings': function () {
-            var view = new SKSettingsView({'el': this.$el});
+            try {
+                var view = new SKSettingsView({'el': this.$el});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
          * @method
          */
         'doLogout': function () {
-            SKApp.user.logout();
+            try {
+                SKApp.user.logout();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 

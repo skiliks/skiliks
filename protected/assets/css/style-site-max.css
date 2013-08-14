@@ -23,11 +23,35 @@ h3 {
     line-height:30px;
     margin-bottom: 12px;
 }
+h4 {
+    font-size:23px;
+    margin-bottom: 12px;
+}
+h5 {
+    font-size:20px;
+    margin-bottom: 12px;
+}
+h6 {
+    font-size:18px;
+}
+.font-smallest {
+    font-size:11px;
+}
 .font-small {
     font-size:12px;
 }
+.font-slarge {
+    font-size:15px;
+}
+.font-site {
+    font-size:14px;
+}
 .font-large {
     font-size:16px;
+}
+.font-xslarge {
+    font-size:17px;
+    line-height: 130%;
 }
 .font-xlarge {
     font-size:18px;
@@ -39,15 +63,31 @@ h3 {
 .font-xxxlarge {
     font-size:21px;
 }
+.font-4xlarge {
+    font-size:22px;
+}
+.font-5xlarge {
+    font-size:24px;
+}
+.font-6xlarge {
+    font-size:26px;
+}
 .list-light li {
     line-height: 20px;
     margin-bottom: 13px;
     min-height: 21px;
     padding-left: 28px;
 }
+.font-normal{
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+}
+hgroup {
+    margin-bottom: 30px;
+}
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
-.btn-large {
+.btn-large, .btn-large-wrap input {
     background-image: url("../img/btn-circle.png");
     background-position: 20px 50%;
     font-size: 18px;
@@ -98,7 +138,7 @@ h3 {
     width:944px;
 }
 .container-borders-2 .grid2 {
-    width:463px; /*47% */
+    width:459px; /*47% */
 }
 .container-borders-3 .grid1 {
     width:316px;
@@ -139,6 +179,12 @@ h3 {
 .container-4 .grid1 {
     width:237px;
 }
+.container-borders-2.thetable {
+    margin-left: 8px;
+}
+.grid-space {
+    width:26px;
+}
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
 .menu-site a {
@@ -156,6 +202,11 @@ h3 {
 }
 /*  ************************ /Menu ************************  */
 /*  ************************ SITE ************************/
+.site-header {
+    height: 103px;
+    padding-top: 47px;
+    width: 960px;
+}
 .site-header h1 {
     top:47px;
 }
@@ -172,7 +223,7 @@ h3 {
 .site-footer .social_networks {
     margin-left: -165px;
     top: 166px;
-    width:330px;
+    width:335px;
 }
 .to-top {
     top:175px;

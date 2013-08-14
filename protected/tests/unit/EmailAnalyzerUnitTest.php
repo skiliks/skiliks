@@ -511,70 +511,6 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
 
 }
-    /*
-     * Не читает спам
-     */
-    public function test_3325_true() {
-
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-
-        EventsManager::startEvent($simulation, 'M60');
-        EventsManager::getState($simulation, []);
-
-        $point = HeroBehaviour::model()->findByAttributes([
-            'scenario_id' => $simulation->scenario_id,
-            'code' => '3325',
-        ]);
-
-        SimulationService::saveEmailsAnalyze($simulation);
-
-        $result = AssessmentCalculation::model()->findByAttributes([
-            'sim_id'   => $simulation->id,
-            'point_id' => $point->id,
-        ]);
-
-        $this->assertEquals('0.00', $result->value);
-    }
-
-    /*
-     * Читает спам
-     */
-    public function test_3325_false()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        EventsManager::startEvent($simulation, 'M60');
-        $mail_event = EventsManager::getState($simulation, []);
-
-        $spam = MailBox::model()->findByAttributes(['sim_id'=>$simulation->id, 'id'=>$mail_event['events'][0]['id']]);
-        $spam->readed = 1;
-        $spam->update();
-
-        $point = HeroBehaviour::model()->findByAttributes([
-            'scenario_id' => $simulation->scenario_id,
-            'code' => '3325',
-        ]);
-
-        SimulationService::saveEmailsAnalyze($simulation);
-
-        $result = AssessmentCalculation::model()->findByAttributes([
-            'sim_id'   => $simulation->id,
-            'point_id' => $point->id,
-        ]);
-
-        $this->assertEquals('-0.20', $result->value);
-    }
 
     /**
      * 3311, Пользователь не читал и не писал писем
@@ -657,7 +593,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     }
 
     /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал спочтой дольше 90 мин
+     * 3311, Пользователь прочёл и написал достаточно писем, но работал спочтой дольше 180 мин
      */
     public function test_3311_case2()
     {
@@ -694,9 +630,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
-        $log->end_time = '11:00:20';
+        $log->end_time = '14:06:00';
 
-        $log->duration = '00:33:00';
+        $log->duration = '03:06:00';
         $log->save();
         // лог }
 
@@ -708,113 +644,6 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         $this->assertEquals(0, $result['positive']);
         $this->assertEquals(2, $result['case']); // 'case' - option for test reasons only
-    }
-
-    /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал с почтой 1 раз, и правильное количество минут - 60 мин
-     */
-    public function test_3311_case3()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
-        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
-        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
-            'mail_id'     =>  $MY1_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
-            'activity_id' => $MY1_activity->id,
-        ])->getPrimaryKey();
-
-        // лог {
-        // 2 лога - чтобы проверить что их длительность просуммируется
-        $log = new LogActivityActionAgregated();
-        $log->sim_id = $simulation->id;
-        $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-        $log->leg_action = 'MY1';
-        $log->activity_action_id = $MY1_activityAction_id;
-        $log->start_time = '11:00:00';
-        $log->end_time = '11:11:00';
-        $log->duration = '01:00:00';
-        $log->save();
-        // лог }
-
-        $this->setEmailFor3311Tests($simulation);
-
-        $emailAnalyzer = new EmailAnalyzer($simulation);
-
-        $result = $emailAnalyzer->check_3311();
-
-        $this->assertEquals($result['obj']->scale/2, $result['positive']);
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-    }
-
-    /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, но работал с почтой много (6) раз, и правильное количество минут - 60 мин
-     */
-    public function test_3311_case4()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
-        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
-        $D2_activityAction_id = $simulation->game_type->getActivityAction([
-            'document_id' => $D2_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
-            'activity_id' => $D2_activity->id,
-        ])->getPrimaryKey();
-
-        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
-        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
-        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
-            'mail_id'     => $MY1_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
-            'activity_id' => $MY1_activity->id,
-        ])->getPrimaryKey();
-
-        // лог {
-        // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 5; $i++) {
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'MY1';
-            $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = '11:00:00';
-            $log->end_time = '11:11:00';
-            $log->duration = '00:15:00';
-            $log->save();
-
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-            $log->leg_action = 'AD2';
-            $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = '11:00:00';
-            $log->end_time = '11:11:00';
-            $log->duration = '00:10:00';
-            $log->save();
-        }
-        // лог }
-
-        $this->setEmailFor3311Tests($simulation);
-
-        $emailAnalyzer = new EmailAnalyzer($simulation);
-
-        $result = $emailAnalyzer->check_3311();
-
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-        $this->assertEquals($result['obj']->scale/3, $result['positive']);
-
     }
 
     /**
@@ -882,8 +711,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     }
 
     /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
-     * и правильное количество минут - 75 мин
+     * 3311, Пользователь прочёл и написал достаточно писем,
+     * и правильное количество минут - 150 мин
      */
     public function test_3311_case6()
     {
@@ -912,7 +741,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
@@ -946,8 +775,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     }
 
     /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
-     * и правильное количество минут - 90 мин
+     * 3311, Пользователь прочёл и написал достаточно писем, ,
+     * и правильное количество минут - 180 мин
      */
     public function test_3311_case7()
     {
@@ -976,7 +805,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $log = new LogActivityActionAgregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
@@ -1611,13 +1440,13 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
 
         // init MS emails:
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
@@ -1625,7 +1454,16 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
-
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
         // set-up logs {
         $logs = [];
         $i = 1;
@@ -1682,12 +1520,11 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        // init MS emails:
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS40');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
@@ -1697,10 +1534,25 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
 
-        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS54');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS58');
+        //Wrong
+        $ms[] = LibSendMs::sendMs($simulation, 'MS91');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS86');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS87');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS88');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS89');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS92');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS93');
 
         // set-up logs {
         $logs = [];
@@ -1760,20 +1612,33 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // init MS emails:
 
-        $ms[] = LibSendMs::sendMs($simulation, 'MS20');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS28');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
         $ms[] = LibSendMs::sendMs($simulation, 'MS40');
-        $ms[] = LibSendMs::sendMs($simulation, 'MS49');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS42');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS45');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS52');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS37');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS39');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS49');
         $ms[] = LibSendMs::sendMs($simulation, 'MS51');
         $ms[] = LibSendMs::sendMs($simulation, 'MS53');
         $ms[] = LibSendMs::sendMs($simulation, 'MS55');
         $ms[] = LibSendMs::sendMs($simulation, 'MS57');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS60');
         $ms[] = LibSendMs::sendMs($simulation, 'MS61');
         $ms[] = LibSendMs::sendMs($simulation, 'MS69');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS76');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS77');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS85');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS98');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS100');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS103');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS106');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS107');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS111');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS127');
+
+        $ms[] = LibSendMs::sendMs($simulation, 'MS91');
+        //$ms[] = LibSendMs::sendMs($simulation, 'MS86');
 
         // set-up logs {
         $logs = [];

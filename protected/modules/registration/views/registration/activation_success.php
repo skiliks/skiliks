@@ -1,4 +1,4 @@
-<h2 class="thetitle longercontent text-center">Вы можете пройти демо-версию</h2>
+<h2 class="thetitle longercontent text-center">Ваш аккаунт успешно активирован</h2>
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
@@ -15,6 +15,8 @@
         </div>
     </div>
 </div>
+<h6 class="minititle" id="registration_hint" style="visibility: <?php echo $user->is_check ? 'hidden' : 'visible' ?>"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
+
 <p class="text-center longercontent"> <?php Yum::t('Click {here} to go to the login form', array(
 			'{here}' => CHtml::link(Yum::t('here'), Yum::module()->loginUrl
 				))); ?> </p>

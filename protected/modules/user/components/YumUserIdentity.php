@@ -82,7 +82,7 @@ class YumUserIdentity extends CUserIdentity {
 								$profile->privacy = 'protected';
 								if ($settings->ldap_transfer_attr == 1)
 								{
-									$profile->email = $result[0]['mail'][0];
+									$profile->email = strtolower($result[0]['mail'][0]);
 									$profile->lastname = $result[0]['sn'][0];
 									$profile->firstname = $result[0]['givenname'][0];
 									$profile->street = $result[0]['postaladdress'][0];

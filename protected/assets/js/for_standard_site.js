@@ -1,5 +1,4 @@
 var fixLogotypes = function() {
-    console.log($(window).width());
     var headerLogo = $("#header-main-logo");
     var footerLogo = $("#footer-main-logo");
     // update logo size
@@ -79,10 +78,10 @@ var fixLogotypes = function() {
         $('.terms').click(function() {
             var dHeight = $("html").height() * 0.85;
 
-            $('.container').append($('<div id="terms-pop-up"></div>'));
+            $('body').append($('<div id="terms-pop-up"></div>'));
             $('#terms-pop-up').dialog({
                 //minHeight:   400,
-                dialogClass: 'terms-page',
+                dialogClass: 'terms-page popup-site bg-white popup-no-title',
                 modal:       true,
                 width:       980,
                 height:      dHeight,
@@ -145,14 +144,11 @@ var fixLogotypes = function() {
                 modal: true,
                 resizable: false,
                 position: {
-                    my: "right top",
-                    at: "right top",
-                    of: $('#corporate-invitations-list-box')
+                    my: "center center",
+                    at: "center center"
                 },
                 draggable: false,
                 open: function( event, ui ) {
-                    //Cufon.refresh();
-                    console.log();
                     if(selected !== undefined) {
                         $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
                             var a = $(element).find('a');
@@ -238,7 +234,6 @@ var fixLogotypes = function() {
         $('a.delete-vacancy-link').click(function(event) {
             if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
                 // link go ahead to delete URL
-                console.log('delete');
             } else {
                 event.preventDefault();
             }
@@ -246,7 +241,6 @@ var fixLogotypes = function() {
         // delete vacancy }
 
         $(window).on('resize', function () {
-            console.log('resize');
             Cufon.refresh();
 
             fixLogotypes();

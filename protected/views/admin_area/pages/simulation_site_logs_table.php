@@ -11,28 +11,34 @@
     'комментарий'
 ]?>
 
+    <?php
+        if (null !== $simulation) {
+            $this->renderPartial('//admin_area/partials/_user_info', ['simulation' => $simulation]);
+        }
+    ?>
     <h2>Логи действий над симуляцией</h2>
+
     <table class="table table-hover table-bordered">
         <thead>
         <tr style="background-color: #EEE">
-            <? foreach($titlesSimulation as $title) :?>
-                <th><?=$title?></th>
-            <? endforeach ?>
+            <?php foreach($titlesSimulation as $title) :?>
+                <th><?= $title ?></th>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invite*/ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($logSimulation as $itemS) : ?>
-            <? $i++ ?>
-            <? if($i === $step) : ?>
+        <?php /* @var $model Invite*/ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($logSimulation as $itemS) : ?>
+            <?php $i++ ?>
+            <?php if($i === $step) : ?>
                 <tr style="background-color: #EEE">
-                    <? foreach($titlesSimulation as $title) :?>
+                    <?php foreach($titlesSimulation as $title) :?>
                         <th><?=$title?></th>
-                    <? endforeach ?>
+                    <?php endforeach ?>
                 </tr>
-                <? $i= 0 ?>
-            <? endif ?>
+                <?php $i= 0 ?>
+            <?php endif ?>
             <tr class="invites-row">
                 <td><?= $itemS->sim_id ?></td>
 
@@ -50,7 +56,7 @@
                 <td><?= $itemS->game_time_backend ?></td>
                 <td><?= $itemS->comment ?></td>
             </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

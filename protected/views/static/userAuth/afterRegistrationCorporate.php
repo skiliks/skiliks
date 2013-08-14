@@ -13,6 +13,4 @@
         </div>
     </div>
 </div>
-<?php if (!empty($isGuest)): ?>
-<p class="text-center"><a href="/registration/" class="whitelink nodecorlink">Повторить регистрацию корпоративного профиля</a></p>
-<?php endif; ?>
+<p class="text-center"><a href="/registration" class="whitelink nodecorlink">Повторить регистрацию корпоративного профиля</a></p>

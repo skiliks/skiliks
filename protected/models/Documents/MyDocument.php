@@ -126,8 +126,85 @@ class MyDocument extends CActiveRecord
     public function relations()
     {
         return [
-           'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id']
+            'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id'],
         ];
+    }
+
+    /**
+     * Returns sheet list
+     * @return array
+     */
+    public function getSheetList($filename = null)
+    {
+        $filePath = $this->getFilePath();
+        $cachePath = $this->getCacheFilePath();
+
+        if ($filename && is_file($filename)) {
+             $scData = json_decode(file_get_contents($filename), true);
+
+        } elseif (is_file($filePath) || is_file($cachePath)) {
+            $scData = json_decode(file_get_contents(is_file($filePath) ? $filePath : $cachePath), true);
+        } else {
+            $scData = ScXlsConverter::xls2sc($this->template->getFilePath());
+        }
+
+        if (null === $scData) {
+            $scData = [];
+        }
+
+        if (null === $filename) {
+            if (!is_file($filePath)) {
+                file_put_contents($filePath, json_encode($scData));
+            }
+            if (!is_file($cachePath)) {
+                file_put_contents($cachePath, json_encode($scData));
+            }
+        }
+
+        return array_values($scData);
+    }
+
+    public function setSheetContent($name, $sheetContent, $filename = null)
+    {
+        $filePath = $filename ?: $this->getFilePath();
+        $scData = file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : [];
+
+        $scData[$name] = [
+            'name' => $name,
+            'content' => $sheetContent
+        ];
+
+        file_put_contents($filePath, json_encode($scData));
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath()
+    {
+        $filename = substr($this->fileName, 0, strrpos($this->fileName, '.'));
+        $filename = str_replace(' ', '_', $filename);
+        return __DIR__ . '/../../../documents/user/' . $this->sim_id . '_' . StringTools::CyToEn($filename);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheFilePath()
+    {
+        return $this->template->getCacheFilePath();
+    }
+
+    public function backupFile($extension = 'broken')
+    {
+        $filepath = $this->getFilePath() . '.' . $extension;
+        if (is_file($this->getFilePath())) {
+            copy($this->getFilePath(), $filepath);
+            return true;
+        }
+
+        return false;
     }
 
     /**

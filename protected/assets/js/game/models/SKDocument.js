@@ -1,7 +1,7 @@
 /*global Backbone:false, console, SKApp, session */
 
 var SKDocument;
-define([], function () {
+define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
     "use strict";
 
     /**
@@ -42,34 +42,21 @@ define([], function () {
          * @return void
          */
         initialize: function () {
-            var me = this;
-
-            if (this.get('mime') === "application/vnd.ms-excel") {
-                if (_excel_cache[this.get('id')] === undefined) {
-                    SKApp.server.api('myDocuments/getExcel', {
-                        'id': decodeURIComponent(this.get('id'))
-                    }, function (data) {
-                        me.set('excel_url', data.excelDocumentUrl.replace('\r', ''));
-
-                        //me.set('isInitialized', true);
-
-                        me.trigger('document:excel_uploaded');
-                        _excel_cache[me.get('id')] = data.excelDocumentUrl.replace('\r', '');
-                    });
-                } else {
-                    me.set('excel_url', _excel_cache[this.get('id')]);
+            try {
+                var me = this;
+                if (this.get('mime') === 'application/vnd.ms-excel') {
+                    me.set('sheets', new SKSheetCollection([], {'document': this}));
+                    me.get('sheets').fetch();
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
-
-            //me.set('isInitialized', true);
         },
 
-        /**
-         * @method combineIframeId
-         * @return {string}
-         */
-        combineIframeId: function () {
-            return '#excel-preload-' + this.id;
+        getCssId: function() {
+            return 'doc-' + this.id;
         }
     },
     {

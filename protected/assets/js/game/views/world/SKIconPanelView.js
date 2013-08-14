@@ -23,13 +23,19 @@ define([
 
             events: {
                 'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
-                'click .icons-panel .door.icon-active a': 'doDialogStart',
-                'click .icons-panel .mail.create-mail a': 'doNewMailStart',
-                'click .icons-panel .plan a': 'doPlanToggle',
-                'click .icons-panel .phone:not(.icon-active):not(.icon-button-disabled) a': 'doPhoneToggle',
+                'click .icons-panel .door.icon-active a':  'doDialogStart',
+                'click .icons-panel .mail.create-mail a':  'doNewMailStart',
+
+                'click .icons-panel .door:not(.icon-active) a':  'doMeetingToggle',
+                'click .icons-panel .phone:not(.icon-active) a': 'doPhoneToggle',
+
                 'click .icons-panel .mail:not(.create-mail) a': 'doMailToggle',
-                'click .icons-panel .documents a': 'doDocumentsToggle',
-                'click .icons-panel .icon-button-disabled a': 'doNothing',
+                'click .icons-panel .documents a':              'doDocumentsToggle',
+                'click .icons-panel .plan a':                   'doPlanToggle',
+
+                'click .icons-panel .info a':                   'doToggleManual',
+
+                'click .icons-panel .icon-button-disabled a':          'doNothing',
                 'click .icons-panel .only-active:not(.icon-active) a': 'doNothing'
             },
 
@@ -50,8 +56,8 @@ define([
                     this.listenTo(events, 'event:plan', this.onPlanEvent);
 
                     this.listenTo(events, 'event:phone', this.onPhoneEvent);
-                    this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
-                    this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
+                    this.listenTo(events, 'blocking:start', this.doBlockingActions);
+                    this.listenTo(events, 'blocking:end', this.doDeblockingActions);
                     this.listenTo(events, 'mail:counter:update', function (count) {
                         me.setCounter('.mail', count);
                     });
@@ -183,7 +189,7 @@ define([
                     if (undefined === data[2]) {
                         // user can`t ignore call
                         callbackFunction = function () {
-                            if (event.getStatus() !== 'in progress') {
+                            if (event.getStatus() !== 'in progress' && event.getStatus() !== 'completed') {
                                 event.setStatus('in progress');
                             }
                         };
@@ -232,13 +238,13 @@ define([
                     var me = this;
 
                     me.$('.door').attr('data-event-id', event.cid);
-                    me.doBlockingPhoneIcon();
+                    me.doBlockingPhone();
 
                     var data = event.get('data');
                     var callbackFunction = function() {
                         if (undefined === data[2]) {
                             // user can`t ignore visit
-                            if (event.getStatus() !== 'in progress') {
+                            if (event.getStatus() !== 'in progress' && event.getStatus() !== 'completed') {
                                 event.setStatus('in progress');
                             }
                         } else {
@@ -359,7 +365,7 @@ define([
                             el.addClass('icon-active-short');
                         }
 
-                        setTimeout(function() {
+                        me.animationTimer = setTimeout(function() {
                             me.stopAnimation(selector);
 
                             if (end_cb !== undefined) {
@@ -376,6 +382,7 @@ define([
 
             stopAnimation: function(selector) {
                 try {
+                    clearTimeout(this.animationTimer);
                     this.icon_lock[selector] = false;
                     this.$(selector).removeClass('icon-active icon-active-short');
                 } catch(exception) {
@@ -460,8 +467,40 @@ define([
                 try {
                     e.preventDefault();
                     this.stopAnimation('.plan');
-                    SKApp.simulation.window_set.toggle('plan', 'plan');
+                    if(false === SKApp.simulation.window_set.isActive('plan', 'plan')){
+                        SKApp.simulation.window_set.toggle('plan', 'plan');
+                    }
                 } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            doMeetingToggle: function(e) {
+                try {
+                    e.preventDefault();
+                    if ($(e.target).parents('.icon-button-disabled').length) {
+                        if (SKApp.simulation.window_set.isOpen('visitor')) {
+                            SKApp.simulation.window_set.getWindow('visitor').setOnTop();
+                        }
+                    } else {
+                        SKApp.simulation.window_set.open('visitor', 'meetingChoice');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            doToggleManual: function(e) {
+                try {
+                    e.preventDefault();
+                    if (false === SKApp.simulation.window_set.isActive('mainScreen', 'manual')){
+                        SKApp.simulation.window_set.toggle('mainScreen', 'manual');
+                    }
+                } catch (exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
@@ -651,7 +690,13 @@ define([
             doPhoneToggle: function (e) {
                 try {
                     e.preventDefault();
-                    SKApp.simulation.window_set.toggle('phone', 'phoneMain');
+                    if ($(e.target).parents('.icon-button-disabled').length) {
+                        if (SKApp.simulation.window_set.isOpen('phone')) {
+                            SKApp.simulation.window_set.getWindow('phone').setOnTop();
+                        }
+                    } else {
+                        SKApp.simulation.window_set.open('phone', 'phoneMain');
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -671,7 +716,9 @@ define([
                         this.doDocumentViewShow(this.documentId);
                         this.documentId = null;
                     } else {
-                        SKApp.simulation.window_set.toggle('documents', 'documents');
+                        if(false == SKApp.simulation.window_set.isActive('documents', 'documents')){
+                            SKApp.simulation.window_set.toggle('documents', 'documents');
+                        }
                     }
 
                     this.stopAnimation('.documents');
@@ -742,7 +789,6 @@ define([
              */
             doMailToggle: function (event) {
                 try {
-                    //console.log('doMailToggle');
                     if (event) {
                         event.preventDefault();
                     }
@@ -750,10 +796,12 @@ define([
                     this.stopAnimation('.mail');
 
                     // we need getActiveSubscreenName() because mailClient window subname changed dinamically
-                    SKApp.simulation.window_set.toggle(
-                        'mailEmulator',
-                        SKApp.simulation.mailClient.getActiveSubscreenName()
-                    );
+                    if(false == SKApp.simulation.window_set.isActive('mailEmulator', SKApp.simulation.mailClient.getActiveSubscreenName())){
+                        SKApp.simulation.window_set.toggle(
+                            'mailEmulator',
+                            SKApp.simulation.mailClient.getActiveSubscreenName()
+                        );
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -787,11 +835,11 @@ define([
             },
 
             /**
-             * Blocking phone icon when HERO talk by phone or speak with visitor
+             * Blocking only phone icon
              *
-             * @method doBlockingPhoneIcon
+             * @method doBlockingActions
              */
-            doBlockingPhoneIcon: function () {
+            doBlockingPhone: function() {
                 try {
                     this.$('.phone').addClass('icon-button-disabled');
                 } catch(exception) {
@@ -802,13 +850,33 @@ define([
             },
 
             /**
-             * Deblocking phone icon when HERO finished talk by phone or speak with visitor
+             * Blocking icons when HERO talk by phone or speak with visitor
              *
-             * @method doDeblockingPhoneIcon
+             * @method doBlockingActions
              */
-            doDeblockingPhoneIcon: function () {
+            doBlockingActions: function () {
                 try {
-                    this.$('.phone').removeClass('icon-button-disabled');
+                    this.$('.phone, .door').addClass('icon-button-disabled');
+
+                    var meetingDoor = SKApp.simulation.window_set.where({subname: "meetingChoice"});
+                    if (meetingDoor.length !== 0) {
+                        meetingDoor[0].close();
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            /**
+             * Deblocking icons when HERO finished talk by phone or speak with visitor
+             *
+             * @method doDeblockingActions
+             */
+            doDeblockingActions: function () {
+                try {
+                    this.$('.phone, .door').removeClass('icon-button-disabled');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

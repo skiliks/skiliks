@@ -1,4 +1,4 @@
-.simulation-result-popup, .terms-page {
+.simulation-result-popup, .terms-page, .accept-invite-warning-popup, .popup-before-start-sim {
     background: #e8f7f7;
     border: none;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
@@ -32,7 +32,7 @@
 }
 #simulation-details-pop-up h1 {
     padding: 0px 10px 6px 3px;
-    font: 30px 'ProximaNova-Bold';
+    font: 34px 'ProximaNova-Bold'; /*30 */
 }
 #simulation-details-pop-up .ui-widget-content {
     background: #e8f7f7;
@@ -77,8 +77,9 @@
 .simulation-details .navigation a, .simulation-details .navigation a:visited {
     background-image: none;
     display: block;
-    font: 14px "ProximaNova-Regular";
-    padding:8px 10px;
+    font: 13px "ProximaNova-Regular"; /* 14 */
+    line-height: 28px;
+    padding:0px 10px; /*8px 10px */
 }
 .simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
     color: #fff;
@@ -107,14 +108,14 @@
     background: #bedadc;
     color:#146672;
     display: inline-block;
-    -moz-border-radius: 120px / 70px;
-    -webkit-border-radius: 120px / 70px;
-    border-radius: 120px / 70px;
-    font: 18px "ProximaNova-Regular";
-    height: 30px;
-    line-height: 30px;
-    padding: 0px 6px;
-    min-width: 42px;
+    -moz-border-radius: 90px / 45px;
+    -webkit-border-radius: 90px / 45px;
+    border-radius: 90px / 45px;
+    font: 16px "ProximaNova-Regular"; /* 18 */
+    height: 26px;
+    line-height: 26px;
+    padding: 0px 4px;
+    min-width: 40px;
 }
 .product .ratepercnt {
     font-family:"ProximaNova-Bold";
@@ -126,15 +127,15 @@
     text-align: center;
 }
 .allratebg {
-    background: url("../img/starsbig.png") no-repeat left top;
+    background: url("../img/starsbig-new.png") no-repeat left top;
 }
 .allratebg, .allrating {
     display: inline-block;
-    height: 28px;
-    width: 158px;
+    height: 24px;
+    width: 135px;
 }
 .allrating {
-    background: url("../img/starsbig.png") no-repeat left bottom;
+    background: url("../img/starsbig-new.png") no-repeat left bottom;
 }
 .overall {
     text-align: center;
@@ -144,29 +145,32 @@
     text-align: left;
 }
 .estmtresults {
-    height:124px;
+    height:130px;
 }
 .allsummry {
-    background: url("../img/resultlines.png") no-repeat 70px 26px;
+    background: url("../img/resultsline-new.png") no-repeat center 26px;
 }
 .allseprtwrap {
     position: relative;
 }
 .allseprtwrap .ratepercnt {
     position: absolute;
-    top: 25px;
+    top: 24px;
 }
 .uprnavprcnt {
-    left:150px;
+    left:236px;
 }
 .resultprcnt {
-    left:340px;
+    left:464px;
 }
 .timeprcnt {
-    left:552px;
+    left:692px;
 }
-.product .estmtileswrap {
-    margin-top: 8px;
+.estmtileswrap {
+    /*margin:8px auto 0 auto;*/
+}
+.rateslist {
+    width:918px;
 }
 .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
     font:24px 'ProximaNova-Bold';
@@ -174,7 +178,16 @@
     line-height: 90%;
     text-decoration: none;
 }
-
+.estmtileswrap h2 {
+    margin: 0 auto;
+}
+.estmtileswrap .widthblock, .rateslist .widthblock {
+    vertical-align: top;
+    width:350px;
+}
+.estmtileswrap .widthshort, .rateslist .widthshort {
+    width:264px;
+}
 .product .bluelist, .product .rateslist h3  {
     /*margin-left: 20px;*/
 }
@@ -207,44 +220,50 @@
     font-weight: normal;
 }
 .levellabels h3 {
-    font:18px "ProximaNova-Bold";
+    display:table-cell;
+    font:16px "ProximaNova-Bold"; /* 18 */
+    padding:10px 12px 0 23px;
+    width: 268px;
+}
+.levellabels h3:first-child {
+    /*padding-left: 9px;
+    width: 282px;*/
 }
 .widthblock {
     display: table-cell;
     margin:0px;
     padding: 0px;
-    width:240px;
+    width:308px;
 }
-.product .widthblock, .product-gauge-charts .chart-gauge {
-    width: 237px;
+.widthshort {
+    width:236px;
+}
+.product .widthblock {
+    width: 316px;
+}
+.product-gauge-charts .chart-gauge {
+    margin:20px 38px 0px;
+    width: 240px;
 }
 .product-gauge-charts .chart-gauge .pointer {
     left: 25px;
 }
-.product .estmtileswrap .widthblock {
-    vertical-align: top;
-}
-.simulation-details .estmtileswrap .widthblock {
-    vertical-align: bottom;
-}
-.gauge-charts {
-    float: left;
+
+.gauge-charts, .levellabels {
+    margin: 0 auto;
     overflow: visible;
-    width: 730px;
+    width: 888px;
+}
+.product .levellabels {
+    width:auto;
 }
 .product-gauge-charts {
-    float: left;
-    width: 711px;
+    /*float: left;
+    width: 711px;*/
 }
 .product-gauge-charts .chart-gauge .chart-value {
     color: #fff;
     font-size: 14px;
-}
-.chart-gauge {
-
-}
-.maincharts .chart-gauge.inline {
-    margin: 0px 0px 15px;
 }
 .maincharts .bullet-charts, .maincharts .product-bullet-charts {
     float: right;
@@ -282,10 +301,10 @@
     width:200px !important;
 }
 .rateslist {
-    margin-top: 16px;
+    margin: 16px auto 20px;
 }
 .rateslist h3 {
-    font-size: 18px;
+    font-size: 17px; /* 18 */
     line-height: 105%;
     margin-bottom: 14px;
     text-transform: uppercase;
@@ -293,17 +312,21 @@
 .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
     margin-left: 10px;
 }
-.rateslist .widthblock:nth-child(4) h3, .rateslist .widthblock:nth-child(4) ul {
-    margin-left: 2px;
+.rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
+    margin-left: 40px;
 }
 .numlist {
     margin-left: 20px;
     padding-left:0px;
 }
+.rateslist .numlist {
+    width:254px;
+}
 .nobultslist li {
     list-style-type: none;
 }
 .bluelist li {
+    line-height: 120%;
     margin: 0px;
     padding: 0px;
     padding-bottom: 7px;
@@ -311,7 +334,7 @@
 .bluelist li, .bluelist a, .bluelist a:visited {
     color: #2d7b91;
     font-family:"ProximaNova-Regular";
-    font-size: 15px;
+    font-size: 14px;
     /*font-size: 1em;*/
     text-decoration: none;
 }
@@ -367,7 +390,7 @@
 
 .resulttitele, .resulttitele a, .resulttitele a:visited {
     color:#3d4041;
-    font:26px 'ProximaNova-Bold';
+    font:24px 'ProximaNova-Bold';
     font-weight: normal;
     text-decoration: none;
 }
@@ -375,7 +398,7 @@
     font-size: 20px;
 }
 .resulttitelevalue {
-    margin-top: -30px;
+    margin-top: -20px;
 }
 .resulttitelevalue+.resultlabeltitle {
     margin-top: -17px;
@@ -386,13 +409,14 @@
 .labels {
     float: left;
     margin-top: 8px;
-    width: 294px;
+    width: 285px;
 }
 .labels .row {
-    margin-top: 45px;
+    height:30px;
+    margin-top: 40px;
 }
 .labels .row:first-child {
-    margin-top: 8px;
+    margin-top: 7px;
 }
 .bars .chart-bar:first-child  {
     margin-top: 0px;
@@ -407,7 +431,7 @@
     background: #ddf0f0;
     float: right;
     padding: 16px;
-    width: 600px;
+    width: 647px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -420,11 +444,11 @@
 }
 .barstitle {
     color:#3d4041;
-    font:18px 'ProximaNova-Bold';
+    font:16px 'ProximaNova-Bold';
     margin-bottom: 10px;
 }
 .resultlabeltitle {
-    padding-left: 374px;
+    padding-left: 318px;
 }
 .total {
     font:38px 'ProximaNova-Bold';/* font-size: 41px; */
@@ -457,16 +481,23 @@
     border-radius: 3px;
     color: #fff;
     display: inline-block;
+    height: 28px;
+    line-height: 28px;
     margin-left: 4px;
-    padding: 4px 9px;
+    padding: 0px 10px;
     position: relative;
     top:-5px;
 }
 .blockvalue, .blockvalue .value {
-    font: 18px "ProximaNova-Regular";
+    font: 16px "ProximaNova-Regular"; /*18 */
 }
-.blockvalue .value {
-    padding-top: 0px;
+.blockvalue.managerial-skills, .blockvalue.productivity-total, .blockvalue.time-total {
+    height: 25px;
+    padding-top: 4px;
+    top:-6px;
+}
+.allsummry .value {
+    padding-top: 4px;
 }
 .legendwrap {
     background: #e0f1f1;
@@ -502,7 +533,7 @@
 }
 .legendtitle {
     display: table-cell;
-    font:15px "ProximaNova-Regular";
+    font:16px "ProximaNova-Regular";
     height: 28px;
     line-height:108%;
     vertical-align: middle;
@@ -517,7 +548,7 @@
     background: #e11a1a;
 }
 .resultslegend, .legendmargin {
-    margin-left: 328px;
+    margin-left: 290px;
 }
 .legendvalue {
     margin-top: 8px;
@@ -531,7 +562,7 @@
     width: 340px;
 }
 .resultslegend .shortlegend {
-    width: 220px;
+    width: 240px;
 }
 .textcener {
     text-align: center;
@@ -570,11 +601,16 @@
     color: #fff !important;
 }
 .signmore {
-    background: url(../img/icon-circlearrw.png) no-repeat left bottom;
+    background: url(../img/icon-circlearrw.png) no-repeat right top;
     display: inline-block;
     height: 21px;
+    padding-left: 10px;
     margin-bottom: -4px;
     width: 21px;
+}
+.managerialmain .signmore  {
+    display: table-cell;
+    margin-bottom: 0px;
 }
 .personalbars * {
     font-family: "ProximaNova-Regular" !important;
@@ -684,7 +720,8 @@
 .feedbackwrap .ui-widget-header .ui-state-focus {
     border: none;
 }
-.simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close {
+.simulation-result-popup .ui-dialog-titlebar-close, .terms-page .ui-dialog-titlebar-close,
+.accept-invite-warning-popup .ui-dialog-titlebar-close, .popup-before-start-sim  .ui-dialog-titlebar-close {
     height: 27px;
     width:27px;
     margin: 0;
@@ -696,12 +733,15 @@
     z-index: 1000;
 }
 .simulation-result-popup .ui-dialog-titlebar-close:hover,
-.terms-page .ui-dialog-titlebar-close:hover {
+.terms-page .ui-dialog-titlebar-close:hover,
+.accept-invite-warning-popup .ui-dialog-titlebar-close:hover,
+.popup-before-start-sim  .ui-dialog-titlebar-close:hover {
     background-position: 0 100%;
     border: none;
 }
 .simulation-result-popup .ui-dialog-titlebar-close span,
-.terms-page .ui-dialog-titlebar-close span {
+.terms-page .ui-dialog-titlebar-close span, .accept-invite-warning-popup .ui-dialog-titlebar-close span,
+.popup-before-start-sim  .ui-dialog-titlebar-close span {
     display:none;
 }
 /*.simulation-result-popup .ui-widget-header .ui-icon,*/
@@ -716,7 +756,7 @@
     background: none;
 }
 .extrasidepads, .section {
-    padding: 0px 10px;
+    padding: 0px 0px 0px 10px;
 }
 .timeblock {
     background: #e8f7f7;
@@ -923,6 +963,9 @@
 .mangrlresults .chartbar, .mangrlresults .chartproblem {
     margin-bottom: 18px;
 }
+.managerialmain .chartbar, .managerialmain .chartproblem {
+    margin-bottom: 40px;
+}
 .mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child > *,
 .barswrap .emptychart:last-child {
     margin-bottom: 0px;
@@ -932,8 +975,36 @@
 }
 .mangrlresults .labels a {
     color: #3d4041;
-    font-size: 14px;
+    font-size: 13px;
     text-decoration: none;
+}
+.display-ib {
+    display: inline-block;
+}
+.mangrlresults .labelwrap:first-child .list-text  {
+    width:205px;
+}
+/*.mangrlresults .labelwrap:first-child .signmore {
+    margin-bottom: 0;
+    margin-top: -15px;
+}*/
+.list-counter, .list-text {
+    display: table-cell;
+}
+.list-counter {
+    padding-right: 2px;
+    vertical-align: top;
+    min-width:16px;
+}
+/*.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
+    padding-top: 4px;
+}*/
+.managerialmain .list-counter, .managerialmain .list-text {
+    padding-top:3px;
+    vertical-align: top;
+}
+.managerialmain {
+    min-width:14px;
 }
 .labeltitles {
     float: left;
@@ -953,24 +1024,35 @@
 }
 .mangrlresultstitle {
     float: left;
-    margin-left:70px;
-    padding-top: 25px;
+    margin-left:20px;
+    margin-bottom: 20px;
+    padding-top: 11px;
 }
 .labelwrap {
+    margin-top:18px; /* 11 */
+}
+.labels .labelwrap:first-child {
+    margin-top:15px;
+}
+.high-labels .labelwrap, .high-labels .labelwrap:first-child {
     margin-top:11px;
 }
 .timedetail .labelwrap {
-    margin-top:12px;
+    margin-top:18px;
 }
 .timedetail .labels p:first-child {
-    margin-top:10px;
+    margin-top:14px;
 }
 .thelabel {
     display: table-cell;
-    height: 37px;
-    font-size: 14px;
-    line-height: 107%;
+    height: 30px; /* 38 */
+    font-size: 13px;
+    /*line-height: 107%;*/
     position: relative;
+    vertical-align: top;
+}
+.high-labels .thelabel {
+    height: 59px;
     vertical-align: top;
 }
 .labelhack {
@@ -982,7 +1064,16 @@
 .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
-
+.mangrlresults ol li {
+    list-style-type: decimal;
+}
+.labels1 {
+    counter-reset: list1;
+}
+.labels1 li:before {
+    counter-increment: list1;
+    content: "1." counter(list1);
+}
 .valuetitle {
     background: #ffffff;
     -webkit-border-radius: 40px;
@@ -991,21 +1082,22 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     color: #146672;
     display: inline-block;
-    font: 25px "ProximaNova-Bold";
+    font: 21px "ProximaNova-Bold";
     font-weight: normal;
     height: 72px;
-    line-height: 72px;
+    line-height: 70px;
     margin-right: 16px;
     text-align: center;
     width: 72px;
 }
-.twocharts .chartbar, .twocharts .chartproblem {
+.twocharts .chartbar {
     float: left;
-    width: 345px !important;
+    width: 372px;
 }
 .twocharts .chartproblem {
+    float: right;
     margin-left: 20px;
-    width:235px !important;
+    width:250px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
@@ -1030,7 +1122,7 @@
     display: inline-block;
 }
 .twobarstitles .barstitle:first-child {
-    width: 350px;
+    width: 385px;
 }
 .timedetail .resulttitele {
     float: left;
@@ -1063,11 +1155,36 @@
 .timedetail .thelabel {
     color: #3d4041;
     font: 14px "ProximaNova-Bold";
+    line-height: 90%;
 }
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
 }
 @media screen and (max-width: 1146px){
+    .allsummry {
+        background-position: center 26px;
+        background-size: 65%;
+    }
+    .allseprtwrap .ratepercnt {
+        top:18px;
+    }
+    .uprnavprcnt {
+        left: 180px;
+    }
+    .resultprcnt {
+        left: 366px;
+    }
+    .timeprcnt {
+        left: 548px;
+    }
+    .blockvalue, .blockvalue .value {
+        font-size: 13px;
+    }
+    .blockvalue {
+        height: 24px;
+        line-height: 24px;
+        top:-3px;
+    }
     .simulation-result-popup {
         padding-bottom: 18px;
     }
@@ -1075,13 +1192,45 @@
         margin-bottom: 16px;
     }
     #simulation-details-pop-up h1 {
+        font-size: 27px;
         margin-top: -6px;
     }
-    #simulation-details-pop-up h1 {
-        font-size: 26px;
+    .signmore {
+        /*margin-left: 6px;*/
+        padding-left: 6px;
+    }
+    .mangrlresults .labelwrap:first-child .list-text {
+        width: 175px;
     }
     .simulation-details .navigation {
         margin-bottom: 18px;
+    }
+    .levellabels {
+        width:705px;
+    }
+    .levellabels h3 {
+        padding: 5px 5px 0px;
+        /*width:235px;*/
+    }
+    .levellabels h3:first-child {
+        /*padding-left: 4px;
+        width: 228px;*/
+    }
+    .labels .row {
+        height:24px;
+        margin-top: 40px;
+    }
+    .labels .row:first-child {
+        margin-top: 8px;
+    }
+    .rateslist .numlist {
+        width:180px;
+    }
+    .timedetail .labels p:first-child {
+        margin-top: 22px;
+    }
+    .timedetail .labelwrap {
+        margin-top: 13px;
     }
     .legend {
         padding: 8px 20px 16px;
@@ -1092,11 +1241,87 @@
     .mangrlresults .chartbar, .mangrlresults .chartproblem {
         margin-bottom: 14px;
     }
+    .extrasidepads, .section {
+        padding: 0;
+    }
     .labels {
        margin-top: 6px;
+        width: 244px;
+    }
+    .labelwrap {
+        margin-top:14px;
+    }
+    .high-labels .thelabel {
+        height:38px;
+    }
+    .mangrlresults .display-ib {
+        width: 175px;
+    }
+    .managerialmain .chartbar, .managerialmain .chartproblem {
+        margin-bottom: 25px;
+    }
+    .barswrap {
+        width: 495px;
+    }
+    .barstitle {
+        font-size: 13px;
+    }
+    .twobarstitles .barstitle:first-child {
+        width: 286px;
+    }
+    .twocharts .chartbar {
+        width: 285px;
+    }
+    .twocharts .chartproblem {
+        margin-left:16px;
+        width: 194px;
+    }
+    .mangrlresults .labels a, .thelabel {
+        font-size: 11px;
     }
     .thelabel {
-        height: 27px;
+        height:24px;
+        line-height: 110%;
+    }
+    .resultslegend, .legendmargin {
+        margin-left: 248px;
+    }
+    .simulation-result-popup .total {
+        font-size: 30px;
+    }
+    .estmtileswrap, .rateslist {
+        /*width:732px;*/
+    }
+    .estmtileswrap .widthblock, .rateslist .widthblock {
+        vertical-align: top;
+        width:255px;
+    }
+    .estmtileswrap .widthshort, .rateslist .widthshort {
+        width:204px;
+    }
+    .ratepercnt, .product .ratepercnt {
+        font-size: 13px;
+    }
+    .resulttitelevalue {
+        margin-top:-30px;
+    }
+    .resultlabeltitle {
+        padding-left: 274px;
+    }
+    .product-gauge-charts .chart-gauge {
+        margin: 15px 32px 0px;
+    }
+    .product .widthblock {
+        width:255px;
+    }
+    .rateslist .widthblock:nth-child(1) h3, .rateslist .widthblock:nth-child(1) ol{
+        margin-left: 10px;
+    }
+    .rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
+        margin-left: 40px;
+    }
+    .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
+        margin-left: 20px;
     }
 }
 /*
@@ -1154,3 +1379,183 @@
 .bar-charts {
     /*display: none !important;*/
 }
+/* *********************************** ACCEPT WARNING POPUP *********************************** */
+.accept-invite-warning-popup, .popup-before-start-sim {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.accept-invite-warning-popup .ui-dialog-titlebar-close,
+.popup-before-start-sim .ui-dialog-titlebar-close {
+    right: -52px;
+}
+.accept-invite-warning-popup .title, .popup-before-start-sim .title {
+    color: #3d4041;
+    text-align: center;
+    font-family: "ProximaNova-Bold";
+    font-size: 44px;
+    font-weight: normal;
+    line-height: 100%;
+    margin-bottom: 20px;
+}
+.accept-invite-warning-popup h4 {
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
+    font-weight: normal;
+    margin:20px 0px 8px;
+    text-align: center;
+}
+.grid-cell {
+    display: table-cell;
+}
+.accept-invite-warning-popup .list-ordered {
+    margin-bottom: 20px;
+    margin-left: 4px;
+}
+.list-ordered {
+    font-family: "ProximaNova-Regular";
+    font-size: 18px;
+    list-style:none;
+}
+.list-ordered li {
+    margin-bottom: 22px;
+}
+.list-ordered strong {
+    font-family: ProximaNova-Bold;
+    font-size: 24px;
+    padding-right: 16px;
+}
+.list-ordered .grid-cell {
+    vertical-align: middle;
+}
+.list-ordered p {
+    line-height: 120%;
+}
+.font-large {
+    font-size: 16px;
+}
+.font-xxlarge {
+    font-size: 18px;
+}
+.line-xheight {
+    line-height: 150%;
+}
+.accept-invite-warning-popup .container-4 {
+    margin-top: 10px;
+}
+.container-4:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.grid1 {
+    float:left;
+}
+.accept-invite-warning-popup .grid1 {
+    padding-right: 16px;
+    width: 200px;
+}
+.accept-invite-warning-popup .container-4 .grid1:last-child {
+    padding-right: 0px;
+}
+.popup-icons {
+   background-repeat: no-repeat;
+   background-position: 0px 0px;
+   height: 94px;
+   margin: 0 auto;
+   width: 94px;
+}
+.icon-inet {
+    background-image: url("../img/icon-inet.png");
+}
+.icon-browser {
+    background-image: url("../img/browser.png");
+}
+.icon-progs {
+    background-image: url("../img/otherprogrms.png");
+}
+.icon-demo {
+    background-image: url("../img/game-demo.png");
+}
+.popup-before-start-sim h3 {
+    font-size: 24px;
+}
+.popup-before-start-sim .more-side-pads {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+.popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
+    background: #146672 url("../img/icon-circlarow-hover.png") no-repeat 17px 50%;
+    font:20px/64px "ProximaNova-Bold";
+    height: 64px;
+    margin-top: 10px;
+    outline: none;
+    padding-left: 51px;
+}
+.popup-before-start-sim .bigbtnsubmt:hover, .accept-invite-warning-popup .bigbtnsubmt:hover {
+    background-color: #bd2929;
+}
+@media screen and (max-width: 1146px){
+
+    .accept-invite-warning-popup, .popup-before-start-sim {
+        padding-left: 25px;
+        padding-right: 25px;
+        width:725px !important;
+    }
+    .accept-invite-warning-popup .ui-dialog-titlebar-close, .popup-before-start-sim .ui-dialog-titlebar-close {
+        right: -42px;
+    }
+    .accept-invite-warning-popup .title, .popup-before-start-sim .title {
+        font-size: 34px;
+        margin-bottom: 15px;
+    }
+    .accept-invite-warning-popup h4 {
+        font-size: 14px;
+        margin:15px 0px 5px;
+    }
+    .accept-invite-warning-popup .list-ordered {
+        margin-bottom: 40px;
+        margin-left: 2px;
+    }
+    .list-ordered, .font-xxlarge {
+        font-family: "ProximaNova-Regular";
+        font-size: 14px;
+    }
+    .list-ordered li {
+        margin-bottom: 16px;
+    }
+    .list-ordered strong {
+        font-size: 19px;
+        padding-right: 12px;
+    }
+    .font-large {
+        font-size: 13px;
+    }
+    .accept-invite-warning-popup .grid1 {
+        padding-right: 10px;
+        width: 160px;
+    }
+    .popup-icons {
+        background-size: 75px;
+        height: 75px;
+        width: 75px;
+    }
+
+    .popup-before-start-sim h3 {
+        font-size: 19px;
+    }
+    .popup-before-start-sim .more-side-pads {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
+        background: #146672 url("../img/icon-circlarow-hover.png") no-repeat 17px 50%;
+        font:16px/50px "ProximaNova-Bold";
+        height: 50px;
+        margin-top: 7px;
+        padding-left: 51px;
+    }
+}
+/* *********************************** /ACCEPT WARNING POPUP *********************************** */

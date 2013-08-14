@@ -51,6 +51,7 @@ namespace application\components\Logging {
                 new MailInboxAggregateTable($mail_inbox_aggregate),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
+                new MeetingLogTable($simulation->log_meetings),
                 new ActivityLogTable($simulation->log_activity_actions),
                 new ActivityAggregated214dTable($simulation->log_activity_actions_aggregated_214d),
                 new ActivityAggregatedTable($simulation->log_activity_actions_aggregated),
@@ -62,6 +63,8 @@ namespace application\components\Logging {
                 new LearningGoalTable($simulation->learning_goal),
                 new LearningAreaTable($simulation->learning_area),
                 new TimeManagementTable($simulation->time_management_aggregated),
+                new LogAssessment214gTable($simulation->logAssessment214g),
+                new LearningGoalGroupTable($simulation->learning_goal_group)
             ];
         }
 

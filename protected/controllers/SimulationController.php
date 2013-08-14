@@ -12,6 +12,8 @@ class SimulationController extends SimulationBaseController
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
+        $screen_resolution = Yii::app()->request->getParam('screen_resolution');
+        $window_resolution = Yii::app()->request->getParam('window_resolution');
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
@@ -20,6 +22,12 @@ class SimulationController extends SimulationBaseController
         $invite = Invite::model()->findByPk($invite_id);
 
         $scenarioName = null;
+
+        // clean up info bout tutorial to start tutorial
+        if (null !== $invite && Scenario::TYPE_FULL === $type) {
+            $invite->tutorial_finished_at = null;
+            $invite->save(false);
+        }
 
         if (null == $invite) {
             if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
@@ -40,6 +48,11 @@ class SimulationController extends SimulationBaseController
         // check invite if it setted }
 
         $simulation = SimulationService::simulationStart($invite, $mode, $type);
+        $simulation->screen_resolution = $screen_resolution;
+        $simulation->window_resolution = $window_resolution;
+        $simulation->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $simulation->ipv4 = $_SERVER["REMOTE_ADDR"];
+        $simulation->update();
         /* @var $log LogServerRequest */
         $log = LogServerRequest::model()->findByPk($this->request_id);
         $log->sim_id = $simulation->id;
@@ -169,8 +182,17 @@ class SimulationController extends SimulationBaseController
             $invite->save(false);
             InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
             if (Yii::app()->user->data()->isCorporate()) {
+
+                $initValue = Yii::app()->user->data()->getAccount()->invites_limit;
+
                 Yii::app()->user->data()->getAccount()->invites_limit--;
                 Yii::app()->user->data()->getAccount()->save(false);
+
+                UserService::logCorporateInviteMovementAdd(
+                    'actionMarkInviteStarted',
+                    Yii::app()->user->data()->getAccount(),
+                    $initValue
+                );
             }
         }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
@@ -189,6 +211,38 @@ class SimulationController extends SimulationBaseController
     {
         SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
+
+    public function actionLogCrashAction()
+    {
+        $action = Yii::app()->request->getParam('action');
+
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'crash action: '.$action);
+
+        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+    }
+
+    public function actionIsEmergencyAllowed()
+    {
+        $simulation = $this->getSimulationEntity();
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'Check emergency allowed state: ' . $simulation->is_emergency_panel_allowed);
+
+        $this->sendJSON([
+            'result' => (int)$simulation->is_emergency_panel_allowed
+        ]);
+    }
+
+    public function actionEmergencyClosed()
+    {
+        $simulation = $this->getSimulationEntity();
+        $simulation->is_emergency_panel_allowed = false;
+        $simulation->save();
+
+        SimulationService::logAboutSim($this->getSimulationEntity(), 'Emergency allowed set to false');
+
+        $this->sendJSON([
+            'result' => self::STATUS_SUCCESS
+        ]);
     }
 }
 

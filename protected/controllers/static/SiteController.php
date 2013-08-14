@@ -16,6 +16,7 @@ class SiteController extends SiteBaseController
      */
     public function actionSimulation($mode, $type = Scenario::TYPE_LITE, $invite_id = null)
     {
+        $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();
         /* @var $user YumUser  */
         if (!$user->isAuth()) {
@@ -58,11 +59,59 @@ class SiteController extends SiteBaseController
             $this->redirect('/dashboard');
         }
 
-        if (isset($invite) && null === $invite->tutorial_displayed_at && null !== $invite->tutorial) {
+        if (isset($invite) && false == $invite->can_be_reloaded) {
+            Yii::app()->user->setFlash('error',
+                'Прохождение симуляции было прервано. <br/> Свяжитесь с работодателем ' .
+                'чтобы он выслал вам новое приглашение или со службой тех.поддержки ' .
+                'чтобы восстановить доступ к прохождению симуляции.'
+            );
+            $this->redirect('/simulations');
+        }
+
+        // check for un complete simulations {
+        $startedInvites = Invite::model()->findAllByAttributes([
+            'receiver_id' => $user->id,
+            'status'      => Invite::STATUS_STARTED
+        ]);
+
+        if (0 < count($startedInvites) &&
+            Simulation::MODE_DEVELOPER_LABEL != $mode) {
+            Yii::app()->user->setFlash('error',
+                'В данный момент у вас уже есть начатая симуляция. <br/>'.
+                'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
+                'Если активной симуляции в соседних вкладках браузера нет - '.
+                'свяжитесь со службой технической поддержки для устранения проблемы.'
+            );
+            $this->redirect('/simulations');
+        }
+
+        $startedSimulations = Simulation::model()->findAll(
+            'user_id = :userId AND start IS NOT NULL AND end IS NULL',
+            ['userId' => $user->id]
+        );
+
+        if (0 < count($startedSimulations) &&
+            Simulation::MODE_DEVELOPER_LABEL != $mode) {
+            Yii::app()->user->setFlash('error',
+                'В данный момент у вас уже есть начатая симуляция. <br/>'.
+                'Вероятно она открыта в соседней вкладке браузера. Завершите её. <br/>'.
+                'Если активной симуляции в соседних вкладках браузера нет - '.
+                'свяжитесь со службой технической поддержки для устранения проблемы.'
+            );
+            $this->redirect('/simulations');
+        }
+        // check for un complete simulations }
+
+        if ( isset($invite)
+            && $start !== 'full'
+            && null !== $invite->tutorial
+            && $mode !== 'developer'
+            && null === $invite->tutorial_finished_at) {
             $type = $invite->tutorial->slug;
             $tutorial = true;
             $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
             $invite->save(false);
+            InviteService::logAboutInviteStatus($invite, 'invite : updated : tutorial started');
         }
 
         /** @var Scenario $scenario */
@@ -94,8 +143,7 @@ class SiteController extends SiteBaseController
                 'badBrowserUrl' => '/old-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
-                'invite_id'     => $invite_id,
-                'zoho_popup'     => Yii::app()->params['saveZohoPopupTime'],
+                'invite_id'     => $invite_id
             ]
         );
 
@@ -103,7 +151,7 @@ class SiteController extends SiteBaseController
             $config['result-url'] = $this->createUrl('static/site/simulation', [
                 'mode' => $mode,
                 'type' => isset($invite) ? Scenario::model()->findByPk($invite->scenario_id)->slug : Scenario::TYPE_FULL,
-                'invite_id' => $invite_id
+                'invite_id' => $invite_id,
             ]);
         }
 
@@ -111,6 +159,7 @@ class SiteController extends SiteBaseController
         $this->render('site', [
             'config'    => CJSON::encode($config),
             'assetsUrl' => $assetsUrl,
+            'inviteId'  => (null === $invite_id) ? 'null' : $invite_id,
         ]);
     }
 
@@ -141,6 +190,43 @@ class SiteController extends SiteBaseController
         if( $error )
         {
             $this->render('error404');
+        }
+    }
+
+    public function actionIsStarted()
+    {
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        /* @var YumUser $user */
+        $user = Yii::app()->user->data();
+        $not_end_simulations = (int)Simulation::model()->countByAttributes(['user_id'=>$user->id,'scenario_id'=>$scenario->id, 'end'=>null]);
+        if($not_end_simulations === 0) {
+            $result['simulation_start'] = true;
+        }else{
+            $invite_id = Yii::app()->request->getParam('invite_id');
+            if(null!==$invite_id){
+                $invite = Invite::model()->findByPk($invite_id);
+                InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+            }
+
+            $result['simulation_start'] = false;
+        }
+        $this->sendJSON($result);
+    }
+
+    public function actionUserStartSecondSimulation() {
+
+        $invite_id = Yii::app()->request->getParam('invite_id');
+        if(null!==$invite_id){
+            $invite = Invite::model()->findByPk($invite_id);
+            InviteService::logAboutInviteStatus($invite, 'user start second simulation');
+        }
+    }
+
+    public function actionUserRejectStartSecondSimulation() {
+        $invite_id = Yii::app()->request->getParam('invite_id');
+        if(null!==$invite_id){
+            $invite = Invite::model()->findByPk($invite_id);
+            InviteService::logAboutInviteStatus($invite, 'user reject start second simulation');
         }
     }
 }

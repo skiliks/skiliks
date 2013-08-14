@@ -10,8 +10,9 @@ $scoreRender = function(Invite $invite) {
             'isDisplayScaleIfSimulationNull' => false,
         ],false);
     } elseif ($invite->isNotStarted()) {
+        $class = ($invite->scenario->isFull())?'start-full-simulation':'start-full-simulation-now';
         return sprintf(
-            '<a href="/simulation/promo/%s/%s">Начать</a>',
+            "<a class=\"{$class}\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
             $invite->scenario->slug,
             $invite->id
         );
@@ -23,7 +24,7 @@ $scoreRender = function(Invite $invite) {
 
 $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Invite::model()->searchByInvitedUserEmailForOwner(
-        Yii::app()->user->data()->profile->email
+        strtolower(Yii::app()->user->data()->profile->email)
     ),
     'summaryText' => '',
     'pager' => [
@@ -40,10 +41,13 @@ $this->widget('zii.widgets.grid.CGridView', [
             'header' => Yii::t('site', 'Simulation'),
             'name' => 'sent_time'   ,
             'value' => '$data->getFormattedScenarioSlug()'],
-        ['header' => '', 'value' => $scoreRender  , 'type' => 'html'],
+        ['header' => '', 'value' => $scoreRender  , 'type' => 'raw'],
     ]
 ]);
 ?>
+
+<?php $this->renderPartial('partials/warning-popup', []) ?>
+<?php $this->renderPartial('partials/pre-start-popup', []) ?>
 
 <div id="simulation-details-pop-up"></div>
 

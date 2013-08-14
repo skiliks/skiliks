@@ -1,49 +1,107 @@
-<? $titles = [
+<?php
+$invites = $models;
+
+$titles = [
     'ID-симуляции',
     'Email работодателя',
     'Email соискателя',
     'ID инвайта',
     'Статус инвайта',
     'Время начала симуляции',
-    'Время конца симуляции',
+    'Время окончания симуляции',
+    'Время окончания tutorial',
     'Тип (название) основного сценария',
     'Оценка',
+    'Можно заново стартовать приглашение?',
     'Действие'
 ] ?>
 <div class="row fix-top">
     <h2>Инвайты</h2>
+
     <a class="btn btn-primary pull-right" href="/admin_area/invites/save">Экспорт списка</a>
+
+    <?php $this->widget('CLinkPager',array(
+        'header'         => '',
+        'pages'          => $pager,
+        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+    )); ?>
+
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
+
+    <br/>
+    <br/>
+
+    <form action="" method="post" style="display: inline-block;">
+        <i class="icon-filter"></i> &nbsp; email соискателя:
+        <input name="receiver-email-for-filtration" value="<?= $receiverEmailForFiltration ?>"/>
+        <input type="submit" value="фильтровать" class="btn btn-warning"/>
+    </form>
+
+    <form action="" method="post" style="display: inline-block;">
+        <input type="submit" value="Сбросить фильтр" class="btn btn-warning"/>
+    </form>
+
+    <br/>
+
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titles as $title) :?>
+            <?php foreach($titles as $title) :?>
             <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invite*/ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($models as $model) : ?>
-        <? $i++ ?>
-        <? if($i === $step) : ?>
+        <?php /* @var $invite Invite*/ ?>
+        <?php $step = 12; $i = 0; ?>
+
+        <?php if (0 == count($invites)): ?>
+            <tr>
+                <td colspan="<?= count($titles) ?>">Нет результатов.</td>
+            </tr>
+        <?php endif; ?>
+
+        <?php foreach($invites as $invite) : ?>
+        <?php $i++ ?>
+        <?php if($i === $step) : ?>
                 <tr>
-                    <? foreach($titles as $title) :?>
+                    <?php foreach($titles as $title) :?>
                         <th><?=$title?></th>
-                    <? endforeach ?>
+                    <?php endforeach ?>
                 </tr>
-        <? $i= 0 ?>
-        <? endif ?>
-        <tr class="invites-row">
-            <td><?=(empty($model->simulation->id)?'Не найден':$model->simulation->id)?></td>
-            <td class="ownerUser-email"><?=(empty($model->ownerUser->profile->email))?'Не найден':$model->ownerUser->profile->email?></td>
-            <td class="receiverUser-email"><?=(empty($model->receiverUser->profile->email))?'Не найден':$model->receiverUser->profile->email?></td>
-            <td><?=$model->id?></td>
-            <td><span class="label"><?=$model->getStatusText()?></span></td>
-            <td class="simulation_time-start"><?=(empty($model->simulation->start)?'---- -- -- --':$model->simulation->start)?></td>
-            <td class="simulation_time-end"><?=(empty($model->simulation->end)?'---- -- -- --':$model->simulation->end)?></td>
-            <td><span class="label label-inverse"><?=(empty($model->scenario->slug)?'Нет данных':$model->scenario->slug)?></span></td>
-            <td><?=$model->getOverall() ?></td>
+        <?php $i= 0 ?>
+        <?php endif ?>
+            <?php
+                $bgColor = '#ffffff';
+                if (false == $invite->can_be_reloaded) {
+                    $bgColor = '#FFCC66';
+                }
+            ?>
+        <tr class="invites-row" style="background-color: <?= $bgColor ?>">
+            <td><?=(empty($invite->simulation->id)?'Не найден':$invite->simulation->id)?></td>
+            <td class="ownerUser-email"><?=(empty($invite->ownerUser->profile->email))?'Не найден':$invite->ownerUser->profile->email?></td>
+            <td class="receiverUser-email"><?=(empty($invite->receiverUser->profile->email))?'Не найден':$invite->receiverUser->profile->email?></td>
+            <td><?=$invite->id?></td>
+            <td><span class="label <?= $invite->getStatusCssClass() ?>"><?= $invite->getStatusText() ?></span></td>
+            <td class="simulation_time-start"><?=(empty($invite->simulation->start)?'---- -- -- --':$invite->simulation->start)?></td>
+            <td class="simulation_time-end"><?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?></td>
+            <td class="simulation_tutorial_time-end"><?=(empty($invite->tutorial_finished_at)?'---- -- -- --':$invite->tutorial_finished_at)?></td>
+            <td><span class="label <?= $invite->scenario->getSlugCss() ?>">
+                    <?=(empty($invite->scenario->slug)?'Нет данных':$invite->scenario->slug)?></span>
+            </td>
+            <td><?=$invite->getOverall() ?></td>
+            <td>
+                <?php
+                    $class = 'btn-success';
+                    if (false == $invite->can_be_reloaded) {
+                        $class = 'btn-warning';
+                    }
+                ?>
+                <a class="btn <?= $class ?>" href="/admin/invite/<?= $invite->id ?>/switch-can-be-reloaded">
+                    <i class="icon-refresh"></i>
+                    <?= (true == $invite->can_be_reloaded) ? 'yes' : 'no' ?>
+                </a>
+            </td>
             <td class="actions">
                 <div class="btn-group">
                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -51,48 +109,48 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <? if(!empty($model->simulation->id)) : ?>
+                        <?php if(!empty($invite->simulation->id)) : ?>
                         <li>
-                            <a href="/static/admin/saveLog/<?=$model->simulation->id?>">
+                            <a href="/static/admin/saveLog/<?=$invite->simulation->id?>">
                                 <i class="icon-download-alt"></i> Скачать лог
                             </a>
                         </li>
                         <li>
-                            <a target="_blank" href="/admin_area/simulation_detail?sim_id=<?=$model->simulation->id?>">
+                            <a target="_blank" href="/admin_area/simulation_detail?sim_id=<?=$invite->simulation->id?>">
                                 <i class="icon-star"></i> Открыть оценки
                             </a>
                         </li>
-                        <? if(!empty($model->receiverUser->profile)) : ?>
+                        <?php if(!empty($invite->receiverUser->profile)) : ?>
                             <li>
-                                <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$model->simulation->id?>&email=<?=$model->receiverUser->profile->email?>">
+                                <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$invite->simulation->id?>&email=<?=$invite->receiverUser->profile->email?>">
                                     <i class="icon-refresh"></i>Пересчитать оценки
                                 </a>
                             </li>
-                        <? endif ?>
+                        <?php endif ?>
                         <li>
-                            <a href="/admin_area/budget?sim_id=<?=$model->simulation->id?>">
+                            <a href="/admin_area/budget?sim_id=<?=$invite->simulation->id?>">
                                 <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
                             </a>
                         </li>
-                        <? endif ?>
+                        <?php endif ?>
                         <li>
-                            <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$model->id?>">
+                            <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$invite->id?>">
                                 <i class="icon-fast-backward"></i> Откатить инвайт
                             </a>
                         </li>
                         <li style="padding-right: 15px;">
                             <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
-                            <? foreach(Invite::$statusText as $id => $text) : ?>
-                                <? if((string)$id !== $model->status) : ?>
+                            <?php foreach(Invite::$statusText as $id => $text) : ?>
+                                <?php if((string)$id !== $invite->status) : ?>
                                     <a class="action-invite-status" style="padding-left: 50px;"
-                                       href="/admin_area/invite/action/status?invite_id=<?=$model->id?>&status=<?=$id?>">
+                                       href="/admin_area/invite/action/status?invite_id=<?=$invite->id?>&status=<?=$id?>">
                                           - <?=$text?>
                                     </a>
-                                <? endif ?>
-                            <? endforeach ?>
+                                <?php endif ?>
+                            <?php endforeach ?>
                         </li>
                         <li>
-                            <a href="/admin_area/invite/<?= $model->id?>/site-logs">
+                            <a href="/admin_area/invite/<?= $invite->id?>/site-logs">
                                 <i class="icon-list"></i> Смотреть логи сайта
                             </a>
                         </li>
@@ -100,7 +158,7 @@
                 </div>
             </td>
         </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

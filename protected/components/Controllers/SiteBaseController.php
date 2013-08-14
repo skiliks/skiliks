@@ -14,6 +14,16 @@ class SiteBaseController extends CController {
      */
     protected function beforeAction($action)
     {
+        if(Yii::app()->params['disableAssets']) {
+            /* @var CAssetManager $manager */
+            $manager = Yii::app()->getAssetManager();
+            $manager->setBasePath('');
+            $manager->setBaseUrl('');
+
+            /* @var CClientScript $script_manager */
+            $script_manager = Yii::app()->getClientScript();
+            $script_manager->setCoreScriptUrl('/framework/web/js/source');
+        }
         $allowed = Yii::app()->params['allowedLanguages'];
         $pageId = $action->getController()->getRoute();
         $request = Yii::app()->request;
@@ -43,12 +53,17 @@ class SiteBaseController extends CController {
 
     public function getAssetsUrl()
     {
-        return Yii::app()->getAssetManager()
-            ->publish(
-                Yii::getPathOfAlias('application.assets'),
-                false,
-                -1
-            );
+        if(Yii::app()->params['disableAssets']) {
+            return '/protected/assets';
+        } else {
+            return Yii::app()->getAssetManager()
+                ->publish(
+                    Yii::getPathOfAlias('application.assets'),
+                    true, // check assets folder modifiedAs when generate assets folder hash
+                    -1
+                );
+        }
+
     }
 
     /**

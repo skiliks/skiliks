@@ -22,6 +22,8 @@
  * @property integer $scenario_id
  * @property integer $tutorial_scenario_id
  * @property string $tutorial_displayed_at
+ * @property string $tutorial_finished_at
+ * @property integer $can_be_reloaded
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -221,6 +223,27 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public function getStatusCssClass()
+    {
+        $arr = [
+            self::STATUS_PENDING => 'label-default',
+            self::STATUS_ACCEPTED => 'label-warning',
+            self::STATUS_COMPLETED => 'label-success',
+            self::STATUS_DECLINED => 'label-danger',
+            self::STATUS_EXPIRED => 'label-danger',
+            self::STATUS_STARTED => 'label-info',
+        ];
+
+        if (isset($arr[$this->status])) {
+            return $arr[$this->status];
+        }
+
+        return '';
+    }
+
+    /**
      * @return DateTime
      */
     public function getSentTime()
@@ -257,7 +280,7 @@ class Invite extends CActiveRecord
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
         ]);
 
-        $newInvite->email = Yii::app()->user->data()->profile->email;
+        $newInvite->email = strtolower(Yii::app()->user->data()->profile->email);
         $newInvite->save(false);
 
         InviteService::logAboutInviteStatus($newInvite, 'invite : add fake invite');
@@ -286,9 +309,19 @@ class Invite extends CActiveRecord
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
-        $user = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
-        $user->invites_limit = $user->invites_limit++;
-        $user->update();
+        $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
+
+        $initValue = $account->invites_limit;
+
+        $account->invites_limit = $account->invites_limit++;
+        $account->update();
+
+        UserService::logCorporateInviteMovementAdd(
+            'Invite->inviteExpired()',
+            $this->user->getAccount(),
+            $initValue
+        );
+
         InviteService::logAboutInviteStatus($this, 'invite : expired');
     }
 
@@ -299,7 +332,7 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'blue-btn\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
+                '<a class=\'blue-btn accept-invite\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
                 $this->id,
                 Yii::t('site', 'Принять')
             );

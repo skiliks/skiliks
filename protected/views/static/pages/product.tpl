@@ -21,25 +21,18 @@
     <div class="allsummry">
         <div class="estmtresults">
             <div class="overall">
-                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
-                <div class="allseprtwrap">
-                    <div class="ratepercnt uprnavprcnt">50%</div>
-                    <div class="ratepercnt resultprcnt">30%</div>
-                    <div class="ratepercnt timeprcnt">20%</div>
-                </div>
+                <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value">%</span></span>
             </div>
         </div><!-- /estmtresults -->
         <div class="estmtileswrap">
             <div class="widthblock"><h2>{Yii::t('site', 'Managerial skills')}</h2></div><!--<span class="signmore"></span></a></h2></div> -->
             <div class="widthblock"><h2>{Yii::t('site', 'Productivity')}</h2></div>
             <div class="widthblock"><h2>{Yii::t('site', 'Time management effectiveness')}</h2></div>
-            <div class="widthblock lastwidthblock"><h2>{Yii::t('site', 'Personal skills')}</h2></div>
         </div><!-- /estmtileswrap -->
     </div>
     <div class="clearfix maincharts">
 
         <div class="product-gauge-charts"></div>
-        <div class="static-bullet-charts"></div><!-- product-bullet-charts -->
         {literal}
             <script type="text/javascript">
                 var r = Math.round;
@@ -60,88 +53,53 @@
         <div class="widthblock"><h3>{Yii::t('site', 'Level of skills maturity')}</h3></div>
         <div class="widthblock"><h3>{Yii::t('site', 'Achievement of results: number and value of tasks completed')}</h3></div>
         <div class="widthblock"><h3>{Yii::t('site', 'Speed of getting results')}</h3></div>
-        <div class="widthblock lastwidthblock"><h3>{Yii::t('site', 'Personal qualities demonstrated along the simulation')}</h3></div>
     </div>
     <div class="rateslist">
         <div class="widthblock"><h3>{Yii::t('site', 'Scope of assessed skills')}</h3>
             <ol class="bluelist">
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Sticks to goals and priorities')}</a>
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages task in accordance with priorities')}</a>
                     <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Sticks to company goals')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Follows personal priorities')}</a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu">
-                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages tasks effectively')}</a>
-                    <ul class="productsubmenu">
+                        <li><a href="#">{Yii::t('site', 'Defines priorities')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Uses planning during the day')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Correctly defines tasks’ priorities while planning')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Follows tasks priorities in execution')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Completes tasks in full')}</a></li>
                     </ul>
                 </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Manages people effectively')}</a>
+                <li class="hassubmenu">
+                    <a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages people effectively')}</a>
                     <ul class="productsubmenu">
                         <li><a href="#">{Yii::t('site', 'Uses delegation to manage scope of work')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Effectively manages resources with different qualification')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Uses feedback')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Delegates tasks to optimal employees')}</a></li>
                     </ul>
                 </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Wisely uses means of communication')}</a>
+                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-3-4" data-parent="managerial-skills">{Yii::t('site', 'Communicates effectiely')}</a>
                     <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Wisely uses emails')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Wisely uses phone calls')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Wisely uses meetings')}</a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with mail effectively')}</a>
-                    <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Manages time spent on emails')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Effectively processes incoming emails')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Creates informative and short messages')}</a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-5-6" data-parent="managerial-skills">{Yii::t('site', 'Deals with calls effectively')}</a>
-                    <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Manages time spent on phone calls')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Reasonably answers incoming calls')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Effectively processes incoming calls')}</a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-7" data-parent="managerial-skills">{Yii::t('site', 'Deals with meetings effectively')}</a>
-                    <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Manages time spent on meetings')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Reasonably accepts visits')}</a></li>
-                        <li><a href="#">{Yii::t('site', 'Effectively processes meeting outcomes')}</a></li>
+                        <li><a href="#">{Yii::t('site', 'Wisely uses means of communication')}</a></li>
+                        <li><a href="#">{Yii::t('site', 'Deals with mail effectively')}</a></li>
+                        <li><a href="#">{Yii::t('site', 'Deals with calls effectively')}</a></li>
+                        <li><a href="#">{Yii::t('site', 'Deals with meetings effectively')}</a></li>
                     </ul>
                 </li>
             </ol>
         </div>
-        <div class="widthblock"></div>
+        <div class="widthblock"><h3>{Yii::t('site', 'Indicators')}</h3>
+            <ul class="bluelist nobultslist">
+                <li><a class="productlink" href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Productivity')}</a></li>
+            </ul>
+        </div>
         <div class="widthblock"><h3>{Yii::t('site', 'Indicators')}</h3>
             <ul class="bluelist nobultslist">
                 <li><a class="productlink" href="#time-management-detail" data-parent="time-management">{Yii::t('site', 'Time distribution')}</a></li>
                 <li><a class="productlink" href="#time-management">{Yii::t('site', 'Extra working hours')} </a></li>
             </ul>
         </div>
-        <div class="widthblock"><h3>{Yii::t('site', 'Scope of measured qualities')}</h3>
-            <ul class="bluelist nobultslist">
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Results-orientation')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Attentiveness')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Responsibility')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Resistance to manipulation')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Flexibility')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Decision-making')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Speed of work')}</a></li>
-                <li><a class="productlink" href="#personal-qualities">{Yii::t('site', 'Stress-resistance')}</a></li>
-            </ul>
-        </div>
     </div>
     <!-- /NEW CONTENT -->
     <section>
         <hgroup>
-            <h3>{Yii::t('site', 'More Information')}</h3>
+            <h2>{Yii::t('site', 'More Information')}</h2>
             <h6>{Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')}</h6>
         </hgroup>
 

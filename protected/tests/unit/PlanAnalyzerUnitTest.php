@@ -9,6 +9,31 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $task = $simulation->game_type->getTask(['code'=>$code]);
         DayPlanService::addToPlan($simulation, $task->id, $time, $day);
     }
+
+    protected function addLog(PlanAnalyzer $pa, Simulation $simulation, $log, $is_ending = false) {
+        $parent = $simulation->game_type->getActivityParentAvailability(['code'=>$log['parent']]);
+        $var_214d = new LogActivityActionAgregated214d();
+        $var_214d->sim_id = $simulation->id;
+        $var_214d->leg_type = null;
+        $var_214d->leg_action = null;
+        $var_214d->activity_action_id = null;
+        $var_214d->category = $parent->category;
+        $var_214d->parent = $log['parent'];
+        $var_214d->start_time = $log['start_time'];
+        $var_214d->end_time = $log['end_time'];
+        $var_214d->keep_last_category_initial = $pa->parents_keep_last_category[$log['parent']];
+        $var_214d->keep_last_category_after = $pa->calcKeepLastCategoryAfter($log['start_time'], $log['end_time'], $var_214d->keep_last_category_initial);
+        $var_214d->duration = '00:00:00';
+        $var_214d->save();
+
+        if($is_ending) {
+            $sim_log = new SimulationCompletedParent();
+            $sim_log->sim_id = $simulation->id;
+            $sim_log->parent_code = $log['parent'];
+            $sim_log->end_time = $log['end_time'];
+            $sim_log->save();
+        }
+    }
     /*
      * 214а1 "Составляет план на сегодня до 11 утра.
      * Заполнил задачами все слоты на сегодня и сохранил время на незапланированные дела"
@@ -189,6 +214,8 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             $log->update(false, ['day']);
         }
 
+        $log->update(true, ['day']);
+
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214a3();
 
@@ -309,6 +336,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             $log->day = DayPlanLog::TODAY;
             $log->update(false, ['day']);
         }
+        $log->update(true, ['day']);
 
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214a5();
@@ -1076,7 +1104,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:45:02';
         $log->end_time              = '09:45:33';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 1 }
 
@@ -1116,7 +1143,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:47:54';
         $log->end_time              = '09:51:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 3 }
 
@@ -1141,7 +1167,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '09:51:57';
         $log->end_time              = '10:01:27';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 4 }
 
@@ -1164,7 +1189,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:01:28';
         $log->end_time              = '10:03:46';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 5 }
 
@@ -1187,7 +1211,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:09:50';
         $log->end_time              = '10:10:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
 
@@ -1210,7 +1233,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:10:57';
         $log->end_time              = '10:12:28';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 7 }
 
@@ -1233,7 +1255,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:12:28';
         $log->end_time              = '10:14:43';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 8 }
 
@@ -1254,7 +1275,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:14:43';
         $log->end_time              = '10:19:22';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 9 }
 
@@ -1277,7 +1297,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:19:22';
         $log->end_time              = '10:24:44';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 10 }
 
@@ -1300,7 +1319,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:24:44';
         $log->end_time              = '10:27:17';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 11 }
 
@@ -1323,7 +1341,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:27:17';
         $log->end_time              = '10:28:41';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 12 }
 
@@ -1346,7 +1363,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:28:41';
         $log->end_time              = '10:33:54';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 13 }
 
@@ -1367,7 +1383,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:33:54';
         $log->end_time              = '11:33:58';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 14 }
 
@@ -1390,7 +1405,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:33:58';
         $log->end_time              = '11:36:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 15 }
 
@@ -1413,7 +1427,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:36:22';
         $log->end_time              = '11:38:24';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 16 }
 
@@ -1436,7 +1449,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:38:24';
         $log->end_time              = '11:39:47';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 17 }
 
@@ -1459,7 +1471,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:39:48';
         $log->end_time              = '11:45:14';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 18 }
 
@@ -1482,7 +1493,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:45:14';
         $log->end_time              = '11:49:07';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 19 }
 
@@ -1503,7 +1513,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:49:07';
         $log->end_time              = '12:06:57';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 20 }
 
@@ -1526,7 +1535,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:06:57';
         $log->end_time              = '12:10:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 21 }
 
@@ -1547,7 +1555,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:10:55';
         $log->end_time              = '12:35:25';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 22 }
 
@@ -1569,7 +1576,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:35:25';
         $log->end_time              = '12:36:15';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 23 }
 
@@ -1591,7 +1597,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:36:15';
         $log->end_time              = '12:39:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 24 }
 
@@ -1613,7 +1618,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:39:21';
         $log->end_time              = '12:39:36';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 25 }
 
@@ -1635,7 +1639,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:39:36';
         $log->end_time              = '12:42:40';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 26 }
 
@@ -1657,7 +1660,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:42:40';
         $log->end_time              = '12:43:11';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 27 }
 
@@ -1679,7 +1681,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:43:11';
         $log->end_time              = '12:46:02';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 28 }
 
@@ -1701,7 +1702,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:46:02';
         $log->end_time              = '13:01:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 29 }
 
@@ -1943,7 +1943,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:09:33';
         $log->end_time              = '12:10:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 4 {
@@ -1963,7 +1962,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 6 {
@@ -1983,7 +1981,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:26:15';
         $log->end_time              = '12:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
@@ -2022,7 +2019,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         // log 6 {
@@ -2042,7 +2038,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '15:26:15';
         $log->end_time              = '15:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
@@ -2085,7 +2080,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:12:55';
         $log->end_time              = '12:23:55';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         //--- mail M8 {
@@ -2105,7 +2099,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '11:00:15';
         $log->end_time              = '11:02:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
 
         $logMail = new LogMail();
@@ -2134,7 +2127,14 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '10:00:15';
         $log->end_time              = '10:02:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
+        $log->save();
+
+        $log = new LogActivityAction();
+        $log->sim_id                = $simulation->id;
+        $log->activity_action_id    = (int)$activityAction->id;
+        $log->activityAction        = $activityAction;
+        $log->start_time            = '10:00:15';
+        $log->end_time              = '10:02:21';
         $log->save();
         // log 6 }
         unset($log);
@@ -2142,8 +2142,10 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $pn = new PlanAnalyzer($simulation);
 
         $log = $pn->logActivityActionsAggregatedGroupByParent[0];
+
         $this->assertEquals('10:00:15', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
+
         $this->assertEquals('11:45:00', $log['available']);
 
     }
@@ -2172,11 +2174,278 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log->start_time            = '12:26:15';
         $log->end_time              = '12:27:21';
         $log->duration              = 0;
-        $log->is_keep_last_category = null;
         $log->save();
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
         $this->assertEquals([], $pn->logActivityActionsAggregatedGroupByParent);
+    }
+
+    public function test214g0() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214g0']);
+
+        /* AE1 - category 0, ARS2 - keep last category, ARS3 - no priority */
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', '0', []);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals('0', $assessment->value);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'11:01:48',
+            'end_time'=>'11:22:26'
+        ]); //no last
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS3',
+            'start_time'=>'11:22:26',
+            'end_time'=>'11:31:37'
+        ]); //no priority ====> fail
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS2',
+            'start_time'=>'11:56:00',
+            'end_time'=>'11:57:26'
+        ]); // keep last
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'11:57:26',
+            'end_time'=>'12:11:56'
+        ]); // no last
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS2',
+            'start_time'=>'12:11:56',
+            'end_time'=>'12:41:00'
+        ]); // keep last more 60 sec (real) ====> fail
+        $this->addLog($pa, $simulation, [
+            'parent' => 'AE1',
+            'start_time'=>'12:41:00',
+            'end_time'=>'12:45:56'
+        ], true); // last
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS3',
+            'start_time'=>'12:45:56',
+            'end_time'=>'14:31:37'
+        ]); //
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g0', '0', []);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals(2*$behaviour->scale, $assessment->value);
+
+    }
+
+    public function test214g1() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214g1']);
+
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g1', '1', ['0']);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals('0', $assessment->value);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'09:57:39',
+            'end_time'=>'10:03:54'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS1',
+            'start_time'=>'10:03:54',
+            'end_time'=>'10:05:31'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'10:05:31',
+            'end_time'=>'10:08:18'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'ARS7',
+            'start_time'=>'10:10:45',
+            'end_time'=>'10:19:56'
+        ]);
+
+        $this->addLog($pa, $simulation, [
+            'parent' => 'T2',
+            'start_time'=>'10:22:22',
+            'end_time'=>'10:26:41'
+        ]);
+        $pa = new PlanAnalyzer($simulation);
+        $pa->check_214g('214g1', '1', ['0']);
+        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+        $this->assertEquals('0', $assessment->value);
+    }
+
+    public function test214g_for_sim_id_267()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $behaviour_214g0 = $simulation->game_type->getHeroBehaviour(['code'=>'214g0']);
+        $behaviour_214g1 = $simulation->game_type->getHeroBehaviour(['code'=>'214g1']);
+        $analyzer = new PlanAnalyzer($simulation);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'09:54:27',
+            'end_time'=>'09:58:54'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T2',
+            'start_time'=>'09:58:54',
+            'end_time'=>'10:01:18'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'10:01:18',
+            'end_time'=>'10:30:57'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'AE10',
+            'start_time'=>'10:30:57',
+            'end_time'=>'10:31:44'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T3a',
+            'start_time'=>'10:31:44',
+            'end_time'=>'10:33:12'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'AE10',
+            'start_time'=>'10:33:12',
+            'end_time'=>'10:33:46'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'TM8',
+            'start_time'=>'11:15:01',
+            'end_time'=>'11:20:02'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T7a',
+            'start_time'=>'11:23:46',
+            'end_time'=>'11:50:20'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'AE2a',
+            'start_time'=>'12:26:22',
+            'end_time'=>'12:31:36'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'AE3',
+            'start_time'=>'13:57:43',
+            'end_time'=>'14:03:03'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'Category_5',
+            'start_time'=>'14:16:22',
+            'end_time'=>'14:18:07'
+        ]);
+
+        $this->addLog($analyzer, $simulation, [
+            'parent' => 'T7b',
+            'start_time'=>'14:19:27',
+            'end_time'=>'14:20:42'
+        ]);
+
+        $simulation->refresh();
+
+        $analyzer = new PlanAnalyzer($simulation);
+
+        $analyzer->check_214g('214g0', '0', []);
+        $analyzer->check_214g('214g1', '1', ['0']);
+
+        $_214gLogs = LogActivityActionAgregated214d::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $groupedLog = [];
+
+        foreach($_214gLogs as $_214gLog) {
+            $parentAvailability = $simulation->game_type->getActivityParentAvailability([
+                'code' => $_214gLog->parent
+            ]);
+
+            $groupedLog[] = [
+                'parent'      => $_214gLog->parent,
+                'grandparent' => $_214gLog->parent,
+                'category'    => $_214gLog->category,
+                'start'       => $_214gLog->start_time,
+                'end'         => $_214gLog->end_time,
+                'available'   => $analyzer->calculateParentAvailability($parentAvailability, $groupedLog),
+                'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                    $analyzer->calcKeepLastCategoryAfter(
+                        $_214gLog->start_time,
+                        $_214gLog->end_time,
+                        $parentAvailability->is_keep_last_category
+                    )
+            ];
+        }
+
+        $analyzer->logActivityActionsAggregatedGroupByParent = $groupedLog;
+
+        $analyzer->check_214d0_214d4('214d1', 1);
+
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code' => '214d1']);
+
+        $logs = AssessmentPlaningPoint::model()->findAllByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id
+        ]);
+
+        $etalon = [
+            'T2'   => 1,
+            'T7a'  => 1,
+            'AE2a' => 1,
+            'T7b'  => 0
+        ];
+
+        // test 214d1
+        foreach ($logs as $log) {
+            $this->assertEquals($etalon[$log->activity_parent_code], $log->value);
+        }
+
+        $assessment214g0 = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour_214g0->id]);
+        $this->assertEquals('0', $assessment214g0->value);
+
+        $assessment214g1 = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour_214g1->id]);
+        $this->assertEquals('0', $assessment214g1->value);
+    }
+
+    public function testDebug() {
+
+        /*MyDocumentsService::restoreSCByLog('5144', 'D1');
+        $simId = '5144';
+        $email = 'fofanova.yp@rnd.eksmo.ru';
+        SimulationService::CalculateTheEstimate($simId, $email);
+        */
     }
 }

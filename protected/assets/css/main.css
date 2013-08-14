@@ -1026,13 +1026,13 @@ section.phone>header .btn-window li button.btn-set{
 section.phone>header .btn-window li button.btn-set:hover{
 	background-position:0 -29px;
 }
-section.phone>header .btn-window li button.btn-cl{
+section.phone>header .btn-window li button.btn-cl, .btn-cl{
 	background:url("../img/phone/icon-close.png") no-repeat 0 0;
 	border:none;
 	width:19px;
 	height:20px;
 }
-section.phone>header .btn-window li button.btn-cl:hover{
+section.phone>header .btn-window li button.btn-cl:hover, .btn-cl:hover{
 	background-position:0 -20px;
 }
 .phone-call header .btn-window li:last-child{
@@ -1625,8 +1625,11 @@ ul.main-screen-stat li img{
     padding:5px;
     margin-bottom:5px;
 }
+.main-screen-icons ul li.info {
+	background-image:url("../img/main-screen/icon-info.png");
+}
 .main-screen-icons ul li.messenger{
-	background-image:url("../img/main-screen/icon-messanger.png");
+    background-image:url("../img/main-screen/icon-messanger.png");
 }
 .main-screen-icons ul li.plan{
 	background-image:url("../img/main-screen/icon-plan.png");
@@ -1743,70 +1746,10 @@ tr.email-list-separator {
     line-height:26px;
 }
 
-.windows-die-blue-screen {
-    background-image: url('../img/errors/blue-screen.png');
-    background-repeat: no-repeat;
-    background-size: auto auto;
-    background-color: #0001BA;
-    height: 100%;
-    position: absolute;
-    width: 100%;
-}
-
-.matrix-has-you {
-    background-image: url('../img/errors/matrix.png');
-    background-repeat: no-repeat;
-    background-size: auto auto;
-    background-color: black;
-    height: 100%;
-    position: absolute;
-    width: 100%;
-}
-
-
-.browser-screen {
-    background-color: #fff;
-    border: 2px solid #000;
-    border-width: 0 2px 2px 2px;
-    width: 996px;
-}
-
-#browser-content {
-    background-color: #fff;
-    border: 0;
-    height: 500px;
-    margin: 5px 10px 0 10px;
-    width: 980px;
-}
-
-.browser-links {
-    background-color: #bbb;
-    padding: 0 10px;
-    width: 976px;
-}
-
-.browser-links li {
-    color: blue;
-    display: inline-block;
-    padding: 3px 10px;
-    text-decoration: underline;
-}
-
-.clippy {
-    background: url('../img/clippy.gif');
-    float: left;
-    height: 155px;
-    margin-top: 300px;
-    margin-left: 50px;
-    width: 207px;
-}
-
-.clippy span {
-    margin: 10px 15px;
-    display: inline-block;
-}
-
 .canvas .elfinder-cwd-filename {
     white-space: normal;
 }
 
+.mailclient-autocomplite {
+    width: auto !important;
+}

@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * 100% по Эффективное управление встречами (Область обучения №7)
+ * 100% по Learning Goal Group 3_4 Эффективное управление встречами
  */
 class Meetings_Test extends SeleniumTestHelper
 {
@@ -16,7 +16,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Благодарю, польщен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Сколько именно времени  вам нужно и для чего')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А давайте я позвоню вам в первый же день после отпуска')])");
-
+        sleep(2);
         $this->run_event('ET3.2',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Да возимся еще, надеюсь, к обеду будет')])");
@@ -27,18 +27,18 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Наверное, ты прав')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Иван,  наши сорок минут прошли')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо. Прямо сейчас в план поставлю и пришлю')])");
-
+        sleep(2);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "08");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
+        sleep(2);
         $this->run_event('E12.7',"xpath=(//*[contains(text(),'Кхе-кхе…')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ваша презентация была не единственным его промахом')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Правильно я понял, в презентации оставляем все как есть')])");
-
+        sleep(2);
         $this->run_event('ET13',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, могу я чем-то помочь')])");
@@ -58,7 +58,7 @@ class Meetings_Test extends SeleniumTestHelper
 
         $this->run_event('T6.1',"xpath=(//*[contains(text(),'Валерий Семенович просил')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Среда, 17.00, у вас в коробках, сорок копий')])");
-
+        sleep(2);
 
         $this->run_event('RS8.1',"xpath=(//*[contains(text(),'Добрый день! Федоров. У меня есть к вам важный вопрос по теме бюджета')])", 'click');
         sleep(7);
@@ -67,6 +67,8 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
         $this->run_event('RVT1.1',"css=li.icon-active.door a",'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
+        $this->run_event('RVT1.2',"css=li.icon-active.door a",'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         sleep(2);
         $this->run_event('MS65');
@@ -74,9 +76,8 @@ class Meetings_Test extends SeleniumTestHelper
         $this->run_event('MS55');
         sleep(2);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['meetings7'],"100");
-        $this->close();
+        $this->simulation_showLogs();
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_3_4']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_3_4'],"100.00");
     }
 }

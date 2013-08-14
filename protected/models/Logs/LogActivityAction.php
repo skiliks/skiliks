@@ -18,6 +18,7 @@
  * @property ActivityAction $activityAction
  * @property mixed mail_id, MailBox id
  * @property mixed document_id, MyDocument id
+ * @property int $meeting_id
  */
 class LogActivityAction extends CActiveRecord
 {

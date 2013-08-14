@@ -38,6 +38,7 @@ return array(
         'application.components.ForStaticSite.*',
         'application.components.Exception.*',
         'application.components.Controllers.*',
+        'application.components.SocialCalc.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
@@ -187,7 +188,9 @@ return array(
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
                 'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
-
+                'simulationIsStarted' => 'static/site/IsStarted',
+                'userStartSecondSimulation' => 'static/site/UserStartSecondSimulation',
+                'userRejectStartSecondSimulation' => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                          =>'static/userAuth/LogoutAndRegistration',
 
                 'recovery'                  => 'static/userAuth/recovery',
@@ -218,6 +221,8 @@ return array(
                 'old-browser-new'                    => 'static/pages/teamNew',
                 'home-new'                           => 'static/pages/homeNew',
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
+                'static/tariffs-new'                 => 'static/pages/tariffsNew',
+                'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
@@ -294,14 +299,32 @@ return array(
                 'admin_area/orders'            => 'admin_area/AdminPages/Orders',
                 'admin_area/order/checked'     => 'admin_area/AdminPages/OrderChecked',
                 'admin_area/order/unchecked'   => 'admin_area/AdminPages/OrderUnchecked',
+                'admin_area/users'             => 'admin_area/AdminPages/UsersList',
+                'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
+                'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
+                'admin_area/statistics/testAuth'        => 'admin_area/AdminPages/TestAuth',
+                'admin_area/statistics/statistic-order-count'        => 'admin_area/AdminPages/StatisticOrderCount',
+                'admin_area/statistics/statistic-feedback-count'        => 'admin_area/AdminPages/StatisticFeedbackCount',
+                'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
+                'admin_area/statistics/free-disk-space'        => 'admin_area/AdminPages/StatisticFreeDiskSpace',
 
+                'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
                 'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
+                'admin/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
+                'admin_area/simulation/set-emergency/<simId:\d+>' => 'admin_area/AdminPages/SimulationSetEmergency',
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
+                'admin_area/simulations/<page:\d+>'               => 'admin_area/AdminPages/Simulations',
+                'admin_area/simulation/<simId:\w+>/fixEndTime'    => 'admin_area/AdminPages/SimulationFixEndTime',
+                'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
+                'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
+
+                'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',
+                'admin_area/site-user/<userId:\w+>/update-password'           => 'admin_area/AdminPages/UpdatePassword',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
@@ -341,11 +364,23 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'saveZohoPopupTime' => '17:55',
-        'simulationStartUrl' => '/index.php/simulation/start',
-        'userNameInHeaderMaxLength' => 30,
-        'vacancyLinkInProfileMaxLength'=> 50,
-        'frontendUrl' => 'http://skiliks.loc/',
+        'disableAssets'                 => false,
+        'keep_last_category_time_214g'  => 60,
+        'simulationStartUrl'            => '/index.php/simulation/start',
+        'userNameInHeaderMaxLength'     => 30,
+        'vacancyLinkInProfileMaxLength' => 50,
+        'frontendUrl'                   => 'http://skiliks:8080/',
+        'isUseResultPopUpCache'         => true,
+        'emails' => [
+            'isDisplayStandartdInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
+            'defaultMessageText' => 'Поздравляем вас! '
+                                    .'Вы зачислены в лонг-лист кадрового резерва Системы Дистрибуции Эксмо! '
+                                    .'Следующий шаг - составить индивидуальные планы развития для каждого из вас. '
+                                    .'Для этого нужно оценить ваш управленческий потенциал. '
+                                    .'И у нас есть уникальная возможность одними из первых сделать это в новом формате -  деловой симуляции в виде онлайн игры. '
+                                    .'Такую возможность нам предоставляет наш партнёр - компания "Скиликс".', // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
+            'inviteEmailTemplate' => '//global_partials/mails/invite_eksmo', // '//global_partials/mails/invite_default'
+        ],
         'allowedLanguages' => [
             'en' => [
                 'static/pages/comingSoonSuccess',
@@ -358,16 +393,17 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
-            'skiliksSpeedFactor'              => 5,
-            'skiliksDeveloperModeSpeedFactor' => 8,
-            'storageURL'                      => 'http://storage.skiliks.com/v1',
-            'afterCallZoomerDuration'         => 2000, // milliseconds
-            'isDisplayServer500errors'        => false,
-            'isUseStrictAssertsWhenSimStop'   => false,
-            'frontendAjaxTimeout'             => 60000, // 60 sec
-            'useSentryForJsLog'               => false,
-            'isUseZohoProxy'                  => true,
-            'isSkipBrowserCheck'              => false,
+            'skiliksSpeedFactor'                 => 5,
+            'skiliksDeveloperModeSpeedFactor'    => 8,
+            'storageURL'                         => 'http://storage.skiliks.com/v1',
+            'afterCallZoomerDuration'            => 2000, // milliseconds
+            'isDisplayServer500errors'           => false,
+            'isUseStrictAssertsWhenSimStop'      => false,
+            'frontendAjaxTimeout'                => 60000, // 60 sec
+            'useSentryForJsLog'                  => false,
+            'isUseZohoProxy'                     => true,
+            'isSkipBrowserCheck'                 => false,
+            'isIncludeGoogleAnalyticsJavaScript' => false,
         ],
         'zoho' => array(
             //'apiKey'              => 'c998c211c5404969606b6738c106c183',
@@ -387,21 +423,16 @@ return array(
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
-                ['username' => 'gugu'      , 'email' => 'gugu@skiliks.com'     ,'password' => 'gfhjkm'         ,'is_admin' => 1],
                 ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'vad'       , 'email' => 'vad@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'tony'      , 'email' => 'tony@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'leah'      , 'email' => 'leah@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'pernifin'  , 'email' => 'pernifin@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'kirill'    , 'email' => 'kirill@skiliks.com'   ,'password' => 'wu-wod-bo-slyub','is_admin' => 1],
                 ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'ahmed'     , 'email' => 'ahmed@zoho.com'       ,'password' => 'zohozoho'       ,'is_admin' => 1],
-                ['username' => 'rkilimov'  , 'email' => 'r.kilimov@gmail.com'  ,'password' => 'r.kilimov'      ,'is_admin' => 1],
                 ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
             ]
         ],

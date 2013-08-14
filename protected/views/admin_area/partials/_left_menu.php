@@ -1,6 +1,6 @@
 <div class="sidebar-nav">
     <br/>
-    <? $this->widget('zii.widgets.CMenu',array(
+    <?php $this->widget('zii.widgets.CMenu',array(
         'activeCssClass' => 'active',
         'activateItems' => true,
         'items'=>array(
@@ -25,6 +25,30 @@
             array(
                 'label' => 'Заказы',
                 'url'   => ['admin_area/AdminPages/Orders'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Пользователи',
+                'url'   => ['admin_area/AdminPages/UsersList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Корпоративные аккаунты',
+                'url'   => ['admin_area/AdminPages/CorporateAccountList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Статистика',
+                'url'   => ['admin_area/AdminPages/Statistics'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Отзывы',
+                'url'   => ['admin_area/AdminPages/FeedBacksList'],
                 'visible' => true,
 
             ),

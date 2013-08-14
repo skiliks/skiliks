@@ -1,4 +1,4 @@
-<? $titles = [
+<?php $titles = [
     'Email работодателя',
     'Имя работодателя',
     'Название компании',
@@ -16,27 +16,38 @@
 ] ?>
 <div class="row fix-top">
     <h2>Заказы</h2>
+
+    <?php $this->widget('CLinkPager',array(
+        'header'         => '',
+        'pages'          => $pager,
+        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+    )); ?>
+
+    Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей на странице из <?= $totalItems ?>)
+
+    <br/>
+    <br/>
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titles as $title) :?>
+            <?php foreach($titles as $title) :?>
             <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invoice */ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($models as $model) : ?>
-        <? $i++ ?>
-        <? if($i === $step) : ?>
+        <?php /* @var $model Invoice */ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($models as $model) : ?>
+        <?php $i++ ?>
+        <?php if($i === $step) : ?>
                 <tr>
-                    <? foreach($titles as $title) :?>
+                    <?php foreach($titles as $title) :?>
                         <th><?=$title?></th>
-                    <? endforeach ?>
+                    <?php endforeach ?>
                 </tr>
-        <? $i= 0 ?>
-        <? endif ?>
+        <?php $i= 0 ?>
+        <?php endif ?>
         <tr class="orders-row">
             <td><?=(empty($model->user->profile->email))?'Не найден':$model->user->profile->email?></td>
             <td><?=(empty($model->user->profile->firstname) || empty($model->user->profile->lastname))?'Не найден':$model->user->profile->firstname." ".$model->user->profile->lastname?></td>
@@ -53,7 +64,7 @@
             <td><a href="<?=$model->getValidationAction()?>" class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
             <td><a href="<?=$model->getStatusAction()?>" class="btn <?=$model->getStatusBtn()?>"><?=$model->getStatusBtnText()?></a></td>
         </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 </div>

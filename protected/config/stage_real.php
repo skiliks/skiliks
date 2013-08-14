@@ -1,5 +1,5 @@
 <?php
-
+define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
@@ -35,6 +35,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'useSentryForJsLog'  => true,
             'isUseZohoProxy'     => false,
             'isSkipBrowserCheck' => true,
+
+            'isIncludeGoogleAnalyticsJavaScript' => true,
         ],
         'zoho' => array(
             'saveUrl'     => 'http://skiliks.com/zoho/saveExcel',

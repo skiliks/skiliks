@@ -4,7 +4,7 @@
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
-                <a class="regicon icon-check" id="registration_check" href="/simulation/promo/2"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
+                <a class="regicon icon-check" id="registration_check" href="#"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
                 <h3>Демо-версия</h3>
                 <div class="testtime"><strong>15</strong> Минут</div>
                 <ul>
@@ -15,6 +15,8 @@
             </div>
         </div>
     </div>
+
+    <h6 class="minititle" id="registration_hint" style="visibility: hidden"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id'                   => 'yum-user-registration-form',
@@ -43,7 +45,7 @@
         <div class="row" style="display: none">
             <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
         </div><div class="row">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Начать')); ?>
+            <?php echo CHtml::submitButton(Yii::t('site', 'Начать'), ['id'=>'registration_switch', 'data-next'=>Yii::t('site', 'Далее'), 'data-start'=>Yii::t('site', 'Начать')]); ?>
         </div></div><div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
         <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
     </div>

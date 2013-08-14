@@ -32,8 +32,8 @@
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Отменить', ['name' => 'return', 'class' => 'chancel-decline']); ?>
-        <?php echo CHtml::submitButton('Отказаться от симуляции', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
+        <?php echo CHtml::submitButton($user->isAuth() ? 'Вернуться к приглашению' : 'Вернуться к регистрации', ['name' => 'return', 'class' => 'chancel-decline']); ?>
+        <?php echo CHtml::submitButton('Отказаться', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
     </div>
 
     <!--
@@ -56,11 +56,9 @@
 
     $('.chancel-decline').click(function(event){
         event.preventDefault();
-        //$('#invite-decline-form').dialog('close');
     });
 
     $('.form-decline-explanation-reason-row input').click(function(){
-        console.log($(this).val(), '<?php echo $reasonOtherId ?>');
         if ($(this).val() == '<?php echo $reasonOtherId ?>') {
             $('.form-decline-explanation-description-row').show();
             var errors = $(".errorMessage");

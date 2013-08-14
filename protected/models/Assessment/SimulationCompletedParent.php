@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $sim_id
  * @property string $parent_code
+ * @property string $end_time
  */
 class SimulationCompletedParent extends CActiveRecord
 {

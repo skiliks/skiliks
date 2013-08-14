@@ -93,7 +93,7 @@ return array(
     'Meet the Team' => 'Познакомьтесь – наша команда',
     'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.' => 'Будучи менеджерами мы хорошо понимаем, как сложно найти и воспитать профессионала. Будучи консультантами по управлению и практиками в области постоянного совершенствования мы знаем, как решить эту проблему. Наши знания и успешный опыт легли в основу продукта, который помогает любому менеджеру создавать свою команду с большей уверенностью и меньшими затратами.',
     'Maria Gorina' => 'Мария Горина',
-    'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br />… simply The Boss &amp; Visionary' => 'Железная леди<br />Чемпион по эффективности<br />Наставник для каждого, кто есть рядом<br />Маг структурирования<br />… просто Босс и Визионер',
+    'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>' => 'Железная леди<br />Чемпион по эффективности<br />Наставник для каждого, кто есть рядом<br />Маг структурирования<br /><span class=dots>просто Босс и Визионер</span>',
     'Leah Levin' => 'Лея Левин',
     'Never gives up in front of any mission<br />Master of social contacts<br />Creativity and visuals pioneer<br />Black belt in continuous improvement' => 'Никогда не сдается, любая миссия по плечу<br />Мастер коммуникаций<br />Пионер креатива и визуализации<br />Черный пояс в борьбе за<br />непрерывные улучшения',
     'Tony Pryanichnikov' => 'Антон Пряничников',
@@ -178,6 +178,7 @@ return array(
     'Status' => 'Статус',
     'Score' => 'Рейтинг',
     'Date / time' => 'Дата',
+    'Date' => 'Дата',
     'You has no available invites!' => '<h3 class="midtitle">У вас не осталось доступных симуляций для отправки приглашений</h3><p><a href="/profile/corporate/tariff/">Оформите подписку</a>, чтобы получить возможность отправлять приглашения</p>',
     'Message' => 'Сообщение',
     'Message text' => 'Текст',
@@ -275,12 +276,21 @@ return array(
     'Level of skills maturity' => 'Уровень владения навыками',
     'Achievement of results: number and value of tasks completed' => 'Уровень достижения результатов: количество и значимость выполненных задач',
     'Speed of getting results' => 'Скорость достижения результатов',
+    'Time spent on tasks' => 'Время, затраченное на выполнение задач',
     'Personal qualities demonstrated along the simulation' => 'Личностные качества, проявленные в симуляции',
     'SCOPE OF ASSESSED SKILLS' => 'ОЦЕНИВАЕМЫЕ НАВЫКИ',
+    'Manages task in accordance with priorities' => 'Управление задачами с учётом приоритетов',
+    'Manages people effectively' => 'Управление людьми',
+    'Communicates effectiely' => 'Управление коммуникациями',
+    'Defines priorities' => 'Определение приоритетов',
+    'Wisely uses means of communication' => 'Оптимальное использование каналов коммуникации',
+    'Deals with mail effectively' => 'Эффективная работа с почтой',
+    'Deals with calls effectively' => 'Эффективная работа со звонками',
+    'Deals with meetings effectively' => 'Эффективное управление встречами',
+
+
     'Sticks to goals and priorities' => 'Следование приоритетам',
     'Manages tasks effectively' => 'Управление задачами',
-    'Wisely uses means of communication' => 'Эффективное использование каналов коммуникации',
-    'Manages people effectively' => 'Эффективное управление ресурсами',
     'Deals with mail effectively' => 'Эффективная работа с почтой',
     'Deals with calls effectively' => 'Эффективное управление звонками',
     'Deals with meetings effectively' => 'Эффективное управление встречами',
@@ -295,7 +305,6 @@ return array(
     'Uses planning during the day' => 'Использование планирования в течение дня',
     'Follows tasks priorities in execution' => 'Выполнение задач в соответствии с приоритетами',
     'Completes tasks in full' => 'Завершение начатых задач',
-    'Wisely uses means of communication' => 'Управление людьми',
     'Manages people effectivelyl' => 'Оптимальный выбор каналов коммуникации',
     'Deals with mail effectively' => 'Эффективная работа с почтой',
     'Deals with calls effectively' => 'Эффективное управление звонками',
@@ -340,6 +349,7 @@ return array(
 
     'min' => 'мин.',
     'Share' => 'Рекомендовать',
+    'Share video' => 'Рекомендовать видео',
 
     'Available simulation' => 'Доступные симуляции',
     'You are already logged in (%s), please log out to activate your account %s' => 'Вы авторизованы как %s, пожалуйста, выйдите из данного аккаунта, чтобы активировать аккаунт %s',
@@ -392,6 +402,9 @@ return array(
     'Wrong CPP' => 'Введите верный КПП',
     'Wrong account number' => 'Введите рублёвый счёт',
     'Wrong BIC' => 'Введите верный БИК',
+
+    'Simulation rules' => 'Правила прохождения симуляции',
+    'Preparation for the simulation' => 'Подготовка к прохождению симуляции',
 
     'Watch the video to learn more' => 'Смотреть видео и узнать больше'
 );

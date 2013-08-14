@@ -254,14 +254,27 @@ class FlagsService
     }
 
     public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
-
         $queue = new SimulationFlagQueue();
         $queue->sim_id = $simulation->id;
         $queue->flag_code = $flag->code;
         $queue->switch_time = (new DateTime($simulation->getGameTime()))->modify("+{$flag->delay} minutes")->format('H:i:s');//setTimestamp(strtotime($simulation->getGameTime().' + 30 minutes'))->format('H:i:s');
         $queue->is_processed = SimulationFlagQueue::NONE;
+        $queue->value = 1;
         $queue->save(false);
+    }
 
+    public static function copyTimeFlagsToQueue(Simulation $simulation) {
+        /** @var FlagSwitchTime[] $timeFlags */
+        $timeFlags = $simulation->game_type->getFlagsSwitchTime([]);
+        foreach ($timeFlags as $timeFlag) {
+            $queue = new SimulationFlagQueue();
+            $queue->sim_id = $simulation->id;
+            $queue->flag_code = $timeFlag->flag_code;
+            $queue->switch_time = $timeFlag->time;
+            $queue->is_processed = SimulationFlagQueue::NONE;
+            $queue->value = $timeFlag->value;
+            $queue->save();
+        }
     }
 
     public static function checkFlagsDelay(Simulation $simulation) {
@@ -271,10 +284,25 @@ class FlagsService
         ]);
         /* @var SimulationFlagQueue $flag */
         foreach($flags as $flag) {
-            FlagsService::setFlag($simulation, $flag->flag_code, 1);
+            FlagsService::setFlag($simulation, $flag->flag_code, $flag->value);
             $flag->is_processed = SimulationFlagQueue::DONE;
             $flag->update();
         }
+    }
+
+    public static function isAllowToStartMeeting(Meeting $meeting, Simulation $simulation)
+    {
+        /** @var FlagAllowMeeting[] $rules */
+        $rules = $simulation->game_type->getFlagAllowMeetings(['meeting_id' => $meeting->id]);
+        foreach ($rules as $rule) {
+            /** @var SimulationFlag $simFlag */
+            $simFlag = self::getFlag($simulation, $rule->flag_code);
+            if ($rule->value !== $simFlag->value) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

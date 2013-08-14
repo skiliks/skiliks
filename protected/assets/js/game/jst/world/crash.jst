@@ -1,0 +1,36 @@
+<div id="messageSystemMessageDiv" class="<@= cls @>">
+    <div class="mail-popup">
+        <div class="mail-popup-tit">
+            <div class="btn-close dialog-close" style="float: right;position: static;margin-right: 15px;">
+                <button></button>
+            </div>
+        </div>
+        <p class="mail-popup-text">
+            <a class="crash close-mail" href="#">Закрыть окно почтовика</a><br>
+            <a class="crash close-phone" href="#">Закрыть окно телефона</a><br>
+            <a class="crash close-plan" href="#">Закрыть окно Планировщика</a><br>
+            <a class="crash close-my_documents" href="#">Закрыть окно Мои документы</a><br>
+            <a class="crash close-documents" href="#">Закрыть все Документы</a><br>
+            <a class="crash close-visit" href="#">Закрыть все Визиты</a><br>
+            <a class="crash stop-sim" href="#">Закончить симуляцию</a><br>
+            <a class="crash restore-events" href="#">Восстановить события</a><br>
+            <a class="crash show-replicas" href="#">Показать реплики</a><br>
+        </p>
+        <@ if (content) { @>
+        <div class="popup-content"><@= content @></div>
+        <@ } @>
+        <table class="mail-popup-btn">
+            <tbody>
+            <tr>
+                <@ buttons.forEach(function (button) { @>
+                <td>
+                    <div class="mail-popup-button" data-button-id="<@= button.id @>">
+                        <div><@= button.value @></div>
+                    </div>
+                </td>
+                <@ }) @>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

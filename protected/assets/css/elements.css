@@ -190,8 +190,18 @@
     border-radius: 4px;
     color: #FFFFFF;
     font: 20px "ProximaNova-Bold";
-    padding: 15px 25px 15px 50px;
+    padding: 15px 20px 15px 47px;
     text-align: left;
+}
+#invite-decline-form #form-decline-explanation .chancel-decline {
+    width:318px;
+}
+#invite-decline-form #form-decline-explanation .confirm-decline {
+    margin-right:5px;
+    width:177px;
+}
+#invite-decline-form #form-decline-explanation .confirm-decline {
+    float:right;
 }
 #invite-decline-form #form-decline-explanation input[type="submit"]:first-child {
     margin-right:18px;
@@ -733,6 +743,13 @@ section.registration-by-link .form .row a.decline-link:hover {
     .flash-message-popup .flash p {
         font: 14px/18px "ProximaNova-Regular";
         margin: 0 0 10px 0;
+    }
+    #invite-decline-form #form-decline-explanation .chancel-decline {
+        width:255px;
+    }
+    #invite-decline-form #form-decline-explanation .confirm-decline {
+        margin-right: 10px;
+        width: 165px;
     }
 }
 /* popup video */

@@ -158,7 +158,7 @@ class UserAuthController extends YumController
             $profile->attributes = $YumProfile;
             $account->attributes = $UserAccount;
 
-            $profile->email = $invite->email;
+            $profile->email = strtolower($invite->email);
             $this->user->setUserNameFromEmail($profile->email);
 
             // Protect from "Wrong username" message - we need "Wrong email", from Profile form
@@ -241,7 +241,11 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistrationCorporate()
     {
-        $this->render('afterRegistrationCorporate', ['isGuest' => Yii::app()->user->isGuest]);
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
+
+        $this->render('afterRegistrationCorporate');
     }
 
     /**
@@ -425,13 +429,12 @@ class UserAuthController extends YumController
                     $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
                     // update account tariff
-                    $accountCorporate->setTariff($tariff);
-                    $accountCorporate->save();
+                    $accountCorporate->setTariff($tariff, true);
 
                     $this->user->refresh();
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
-                        $this->sendCorporationEmailVerification($this->user);
+                        //$this->sendCorporationEmailVerification($this->user);
                         $this->redirect('afterRegistrationCorporate');
                     } else {
                         $this->redirect('/dashboard');

@@ -52,15 +52,6 @@ class PagesController extends SiteBaseController
     /**
      *
      */
-    public function actionContacts()
-    {
-        $this->render('contacts');
-    }
-
-
-    /**
-     *
-     */
     public function actionTariffs()
     {
         $user = Yii::app()->user;
@@ -69,28 +60,6 @@ class PagesController extends SiteBaseController
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
         ]);
-    }
-
-    /**
-     *
-     */
-    public function actionComingSoonSuccess()
-    {
-        $this->render('home', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => true,
-        ]);
-    }
-
-    /**
-     *
-     */
-    public function actionAddUserSubscription()
-    {
-        $email = Yii::app()->request->getParam('email', false);
-        $result = UserService::addUserSubscription($email);
-
-        $this->sendJSON($result);
     }
 
     /**
@@ -281,5 +250,28 @@ class PagesController extends SiteBaseController
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => false,
         ]);
+    }
+
+    /**
+     *
+     */
+    public function actionTariffsNew()
+    {
+        $user = Yii::app()->user;
+        $user = $user->data();
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/tariffs', [
+            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
+        ]);
+    }
+
+    public function actionAddUserSubscription()
+    {
+        $email = Yii::app()->request->getParam('email', false);
+        $result = UserService::addUserSubscription($email);
+
+        $this->sendJSON($result);
     }
 }

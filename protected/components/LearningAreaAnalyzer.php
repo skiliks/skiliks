@@ -16,13 +16,8 @@ class LearningAreaAnalyzer {
     {
         // Management skills
         $this->followPriorities();
-        $this->taskManagement();
+        $this->communicationManagement();
         $this->peopleManagement();
-        $this->communication();
-        $this->mailManagement();
-        $this->phoneManagement();
-        $this->meetManagement();
-        $this->imManagement();
 
         // Personal scale
         $this->stressResistance();
@@ -107,7 +102,21 @@ class LearningAreaAnalyzer {
             $sla->learning_area_id = $learningArea->id;
             $sla->value = substr(max(min($value, 100), 0), 0, 10);
             $sla->sim_id = $this->simulation->id;
-            $sla->save();
+            $sla->save(false);
+        }
+    }
+
+    protected function saveLearningAreaByGoal($code, $params)
+    {
+        $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);
+        $value = ($params['maxRate'] ? $params['total'] / $params['maxRate'] : 0)*100;
+        if ($learningArea) {
+            $sla = new SimulationLearningArea();
+            $sla->learning_area_id = $learningArea->id;
+            $sla->value = substr(max(min($value, 100), 0), 0, 10);
+            $sla->score = $params['total'];
+            $sla->sim_id = $this->simulation->id;
+            $sla->save(false);
         }
     }
 
@@ -137,7 +146,7 @@ class LearningAreaAnalyzer {
         return $maxRate ? $total / $maxRate : 0;
     }
 
-    protected function calcCombinedSkillsByGoal($learningAreaCode)
+    protected function calcCombinedSkillsByGoalGroup($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
 
@@ -149,18 +158,26 @@ class LearningAreaAnalyzer {
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
-            foreach ($area->learningGoals as $learningGoal) {
-                /** @var SimulationLearningGoal $slg */
-                $slg = SimulationLearningGoal::model()->findByAttributes([
+            foreach ($area->learningGoalGroups as $learningGoalGroup) {
+
+
+                /** @var SimulationLearningGoalGroup $slg */
+                $slg = SimulationLearningGoalGroup::model()->findByAttributes([
                     'sim_id' => $this->simulation->id,
-                    'learning_goal_id' => $learningGoal->id
+                    'learning_goal_group_id' => $learningGoalGroup->id
                 ]);
 
                 if ($slg) {
                     $total += $slg->value * $slg->getReducingCoefficient();
+                    $slg->coefficient = $slg->getReducingCoefficient();
+                    $slg->update();
                 }
 
-                $ids[] = $learningGoal->id;
+                /* @var $learningGoalGroup LearningGoalGroup */
+                /* @var $goal LearningGoal */
+                foreach($learningGoalGroup->learningGoals as $goal){
+                    $ids[] = $goal->id;
+                }
             }
         }
 
@@ -174,25 +191,106 @@ class LearningAreaAnalyzer {
             }
         }
 
-        return $maxRate ? $total / $maxRate : 0;
+        return ['maxRate'=>$maxRate, 'total'=>$total]; //$maxRate ? $total / $maxRate : 0;
     }
+
+    protected function calcCombinedSkillsByGoalGroupPriority($learningAreaCode)
+    {
+        $scenario = $this->simulation->game_type;
+
+        $total = 0;
+        $maxRate = 0;
+        $ids = [];
+
+        $group_1_4_value = 0;
+        $group_1_4_negative = 0;
+        $group_1_4_max_negative = 0;
+        $group_1_4 = null;
+        //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
+
+        $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
+        if ($area) {
+            /* @var $area LearningArea */
+            foreach ($area->learningGoalGroups as $learningGoalGroup) {
+                /** @var SimulationLearningGoalGroup $slg */
+                $slg = SimulationLearningGoalGroup::model()->findByAttributes([
+                    'sim_id' => $this->simulation->id,
+                    'learning_goal_group_id' => $learningGoalGroup->id
+                ]);
+
+                /* @var $learningGoalGroup LearningGoalGroup */
+                /* @var $goal LearningGoal */
+                foreach($learningGoalGroup->learningGoals as $goal){
+                    $ids[] = $goal->id;
+                }
+
+                if($learningGoalGroup->code === '1_4') {
+                    $group_1_4_value += $slg->value;
+                    $group_1_4 = $slg;
+
+                    $group_1_4_negative += $slg->total_negative;
+                    $group_1_4_max_negative += $slg->max_negative;
+                    continue;
+                }
+                if($learningGoalGroup->code === '1_5') {
+                    $group_1_4_negative += $slg->total_negative;
+                    $group_1_4_max_negative += $slg->max_negative;
+
+                    continue;
+                }
+
+                if ($slg) {
+                    $total += $slg->value * $slg->getReducingCoefficient();
+                    $slg->coefficient = $slg->getReducingCoefficient();
+                    $slg->update();
+                }
+            }
+        }
+
+        $k = LearningGoalAnalyzer::getReducingCoefficient(
+            LearningGoalAnalyzer::calculateAssessment(
+                $group_1_4_negative,
+                $group_1_4_max_negative
+            )
+        );
+        $total += $group_1_4_value * $k;
+
+        if (isset($group_1_4)) {
+            $group_1_4->coefficient = $k;
+            $group_1_4->update();
+        }
+
+        /** @var HeroBehaviour[] $behaviours */
+        $behaviours = $scenario->getHeroBehavours(['learning_goal_id' => $ids]);
+        foreach ($behaviours as $behaviour) {
+            // TODO: Anton decision
+            // Remove out second condition
+
+            if ($behaviour->type_scale == HeroBehaviour::TYPE_ID_POSITIVE/* && !in_array($behaviour->code, $except)*/) {
+                $maxRate += $behaviour->scale;
+            }
+        }
+
+        return ['maxRate'=>$maxRate, 'total'=>$total];//$maxRate ? $total / $maxRate : 0;
+    }
+
 
     /*
      * Следование приоритетам
      */
     public function followPriorities()
     {
-        $value = $this->calcCombinedSkillsByBehaviours([1122, 1232]);
-        $this->saveLearningArea(1, $value * 100);
+        $value = $this->calcCombinedSkillsByGoalGroupPriority(1);
+        $this->saveLearningAreaByGoal(1, $value);
     }
 
     /*
      * Управление задачами
      */
-    public function taskManagement()
+    public function communicationManagement()
     {
-        $value = $this->calcCombinedSkillsByGoal(2);
-        $this->saveLearningArea(2, $value * 100);
+        $value = $this->calcCombinedSkillsByGoalGroup(3);
+        $this->saveLearningAreaByGoal(3, $value);
     }
 
     /*
@@ -200,53 +298,8 @@ class LearningAreaAnalyzer {
      */
     public function peopleManagement()
     {
-        $value = $this->calcCombinedSkillsByGoal(3);
-        $this->saveLearningArea(3, $value * 100);
-    }
-
-    /*
-     * Оптимальный выбор каналов коммуникации
-     */
-    public function communication()
-    {
-        $value = $this->calcCombinedSkillsByBehaviours([3214, 3216, 3218]);
-        $this->saveLearningArea(4, $value * 100);
-    }
-
-    /*
-     * Эффективная работа с почтой
-     */
-    public function mailManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(5);
-        $this->saveLearningArea(5, $value * 100);
-    }
-
-    /*
-     * Эффективное управление звонками
-     */
-    public function phoneManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(6);
-        $this->saveLearningArea(6, $value * 100);
-    }
-
-    /*
-     * Эффективное управление встречами
-     */
-    public function meetManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(7);
-        $this->saveLearningArea(7, $value * 100);
-    }
-
-    /*
-     * Эффективная работа с IM
-     */
-    public function imManagement()
-    {
-        $value = $this->calcCombinedSkillsByGoal(8);
-        $this->saveLearningArea(8, $value);
+        $value = $this->calcCombinedSkillsByGoalGroup(2);
+        $this->saveLearningAreaByGoal(2, $value);
     }
 
     /*

@@ -59,7 +59,21 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
     ];
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
+    /**
+     * @return string
+     */
+    public function getCacheFilePath()
+    {
+        $filename = substr($this->fileName, 0, strrpos($this->fileName, '.'));
+        $filename = str_replace(' ', '_', $filename);
+
+        return __DIR__ . '/../../../documents/socialcalc_templates/' .
+            StringTools::CyToEn( $filename. '.sc');
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+
     /**
      *
      * @param type $className
@@ -126,7 +140,7 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         return $mime;
     }
 
-    private function getFilePath()
+    public function getFilePath()
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 

@@ -16,11 +16,17 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
          * @return void
          */
         'initialize': function () {
-            window.SKWindow.prototype.initialize.call(this);
-            this.set('code', this.get('sim_event').get('data')[0].code);
-            this.set('params', {
-                'dialogId': this.get('sim_event').get('data')[0].id,
-                'lastDialogId': this.get('sim_event').get('data')[0].id});
+            try {
+                window.SKWindow.prototype.initialize.call(this);
+                this.set('code', this.get('sim_event').get('data')[0].code);
+                this.set('params', {
+                    'dialogId': this.get('sim_event').get('data')[0].id,
+                    'lastDialogId': this.get('sim_event').get('data')[0].id});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -31,12 +37,18 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
          * @return void
          */
         'switchDialog': function (dialogId) {
-            if (!this.is_opened) {
-                throw "Window is already closed";
+            try {
+                if (!this.is_opened) {
+                    throw "Window is already closed";
+                }
+                this.deactivate({silent: true});
+                this.set('params', {'dialogId': dialogId});
+                this.activate({silent: true});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.deactivate({silent: true});
-            this.set('params', {'dialogId': dialogId});
-            this.activate({silent: true});
         },
 
         /**
@@ -45,10 +57,16 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
          * @return void
          */
         'setDialog': function (dialogId) {
-            if (this.get('params') && this.get('params').dialogId) {
-                throw 'You can not set param dialogId on this window, use switchMessage method';
+            try {
+                if (this.get('params') && this.get('params').dialogId) {
+                    throw 'You can not set param dialogId on this window, use switchMessage method';
+                }
+                this.set('params', {'dialogId': dialogId});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.set('params', {'dialogId': dialogId});
         },
 
         /**
@@ -57,7 +75,13 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
          * @return void
          */
         'setLastDialog': function (dialogId) {
-            this.get('params').lastDialogId = dialogId;
+            try {
+                this.get('params').lastDialogId = dialogId;
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
     return window.SKDialogWindow;

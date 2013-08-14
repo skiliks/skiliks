@@ -84,7 +84,7 @@ body.inner-registration,
 body.action-error404,
 body.action-badBrowser,
 body.action-oldBrowser{
-    background: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
+    background-image: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
 }
@@ -102,7 +102,7 @@ body.inner-registration {
 	}
 	body.inner,
     body.inner-registration {
-		background: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
+		background-image: url("../img/bg-top-inner-min.jpg"), url("../img/background.jpg");
         background-repeat:  no-repeat, repeat-y;
         background-position: 50% 0, 50% 0;
 	}
@@ -625,6 +625,12 @@ html[lang=ru] .betaflag {
 .bigtitle {
     font-size: 3.4em;
 }
+.minititle {
+    font: 1.6em "ProximaNova-Regular";
+    color: #fff;
+    text-align: center;
+    margin-bottom: 15px;
+}
 .thetitle span {
     text-transform: uppercase;
 }
@@ -1023,9 +1029,6 @@ html[lang=ru] .product section table th{
     .product h2 {
         font-size: 2.219em;
     }
-    .simulation-result-popup .total {
-        font-size: 2em;
-    }
 	.product h6{
 		font-size:1.333em;
 	}
@@ -1096,7 +1099,10 @@ html[lang=ru] .product section table th{
 }
 .team-page .content{
 	width:980px;
-	height:1335px;
+	/*height:1435px;*/
+}
+.inner-team .content{
+    height:1330px;
 }
 .team{
 	width:980px;
@@ -1161,7 +1167,7 @@ html[lang=ru] .product section table th{
 .team .team-values{
 	width:500px;
 	text-align:center;
-	margin:57px auto 0;
+	margin:157px auto 0;
 }
 .team .team-values h3{
 	font:2.619em "ProximaNova-Bold";
@@ -1238,7 +1244,7 @@ html[lang=ru] .product section table th{
 	.team .team-values{
 		width:395px;
 		text-align:center;
-		margin:48px auto 0;
+		margin:98px auto 0;
 	}
 	.team .team-values h3{
 		font-size:2.095em;
@@ -1797,7 +1803,7 @@ html[lang=ru] .product section table th{
 .social_networks {
     color:#333333;
     overflow:hidden;
-    width:330px;
+    width:370px;
 }
 .footer .social_networks {
     position:absolute;
@@ -1878,7 +1884,7 @@ html[lang="en"] .footer .social_networks {
 .smallicons>span {
     display: inline-block;
     text-align: right;
-    width: 115px;
+    width: 155px;
 }
 .smallicons a.addthis_button_facebook {
     background-position: -36px 0px;
@@ -1910,7 +1916,7 @@ html[lang="en"] .footer .social_networks {
     margin-top:10px;
 }
 .smallicons {
-    width:300px;
+    width:340px;
 }
 .smallicons .addthis_toolbox {
     float: right;
@@ -2989,8 +2995,7 @@ ul.profile-menu li {
 }
 
 #private-invitations-list-box .grid-view tr td:first-child,
-#private-invitations-list-box .grid-view tr td:nth-child(2),
-#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+#private-invitations-list-box .grid-view tr td:nth-child(2){
     text-overflow:ellipsis !important;
     white-space: nowrap;
     overflow: hidden;
@@ -3043,16 +3048,14 @@ ul.profile-menu li {
     overflow: hidden;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
-#corporate-invitations-list-box .grid-view tr th:nth-child(2),
-#corporate-invitations-list-box .grid-view tr td:nth-child(2),
-#corporate-invitations-list-box .grid-view tr th:nth-child(2){
-    max-width: 134px;
-    width:134px;
+#corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+    max-width: 150px;
+    width:90px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(3),
 #corporate-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 76px;
-    width:76px;
+    /*max-width: 76px;
+    width:76px;*/
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(4),
 #corporate-invitations-list-box .grid-view tr td:nth-child(4){
@@ -3061,16 +3064,17 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(5),
 #corporate-invitations-list-box .grid-view tr td:nth-child(5){
-    width:116px;
+    width:50px;
 }
 #corporate-invitations-list-box .grid-view tr th:last-child,
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    width: 114px;
+    max-width: 115px;
+    width: 115px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
-#corporate-invitations-list-box ..mail-new-textgrid-view tr td:nth-child(7),
+#corporate-invitations-list-box .mail-new-textgrid-view tr td:nth-child(7),
 #corporate-invitations-list-box .grid-view tr th:nth-child(8),
 #corporate-invitations-list-box .grid-view tr td:nth-child(8) {
     display: none;
@@ -3090,14 +3094,14 @@ ul.profile-menu li {
 .selected-sk .invites-smallmenu-switcher {
    background-position: right top;
 }
-#corporate-invitations-list-box  #yw0_c1 {
+#corporate-invitations-list-box #yw0_c1 {
     position: relative;
 }
-#corporate-invitations-list-box  #yw0_c1 a {
+#corporate-invitations-list-box #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
     top:11px;
-    width:142px;
+    width:98px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p, #private-invitations-list-box .ratingwrap {
@@ -3331,7 +3335,8 @@ ul.profile-menu li {
 .chart-gauge {
     position: relative;
     width: 240px; /* 305px */
-    height: 130px; /*  135px */ /*  140px */
+    height: 120px; /*  135px */ /*  140px */
+    margin: 0px 28px;
     overflow: visible;
     background: url(../img/charts/gauge.png) no-repeat center bottom;
 }
@@ -3712,21 +3717,24 @@ ul.profile-menu li {
         top:8px;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
-        width: 122px;
-    }
-    #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2), #corporate-invitations-list-box .grid-view tr td:nth-child(2), #corporate-invitations-list-box .grid-view tr th:nth-child(2) {
-        max-width: 108px;
-        width: 108px;
-    }
-    #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 65px;
-        width: 65px;
-    }
-    #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
+        max-width: 110px;
         width: 110px;
     }
+    #corporate-invitations-list-box .grid-view tr th:nth-child(2),
+    #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
+        max-width: 120px;
+        width: 74px;
+    }
+    #corporate-invitations-list-box .grid-view tr th:nth-child(3), #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+        /*max-width: 65px;
+        width: 65px;*/
+    }
+    #corporate-invitations-list-box .grid-view tr th:nth-child(5), #corporate-invitations-list-box .grid-view tr td:nth-child(5) {
+        max-width: 40px;
+        width: 40px;
+    }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:108px;
+        width:82px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3875,9 +3883,6 @@ ul.profile-menu li {
     /*.action-product .content {
         width:948px;
     }*/
-    .allsummry {
-        background-size: 55%;
-    }
     .allratebg, .allrating {
         background-image: url("../img/starsbigsml.png");
         height: 20px;
@@ -3885,27 +3890,6 @@ ul.profile-menu li {
     }
     .estmtresults {
         height: 110px;
-    }
-    .allseprtwrap .ratepercnt {
-        top:18px;
-    }
-    .uprnavprcnt {
-        left: 112px;
-    }
-    .resultprcnt {
-        left: 276px;
-    }
-    .timeprcnt {
-        left: 442px;
-    }
-    .ratepercnt, .product .ratepercnt {
-        font-size: 14px;
-    }
-    .product .estmtileswrap {
-        margin-top: 0px;
-    }
-    .product .maincharts {
-        margin-top: -20px;
     }
     .inner .thetitle, .action-controller-corporate-static-simulations h1.title,
     .action-controller-personal-static-simulations h1.title, .inner-registration .thetitle,
@@ -3923,8 +3907,8 @@ ul.profile-menu li {
         padding: 10px 7px;
         font-size: 1em;
     }
-    .product-gauge-charts, .gauge-charts {
-        width: 570px;
+    .product-gauge-charts {
+        /*width: 570px;*/
     }
     .chart-gauge .pointer {
         left:1px;
@@ -3966,10 +3950,6 @@ ul.profile-menu li {
     .product .product-gauge-charts {
         height: 100px;
     }
-    .product .rateslist .widthblock:nth-child(3) h3, .product .rateslist .widthblock:nth-child(3) ul,
-    .product .rateslist .widthblock:nth-child(4) h3, .product .rateslist .widthblock:nth-child(4) ul {
-        margin-left: 0px;
-    }
     .product .bluelist li {
         padding-left: 10px;
     }
@@ -3977,8 +3957,8 @@ ul.profile-menu li {
         height: 106px;
         width:190px !important;
     }
-    .blockvalue, .blockvalue .value {
-        font-size: 13px;
+    .chart-gauge {
+        margin: 0 23px;
     }
     .maincharts .static-bullet-charts {
         height: 77px;
@@ -3991,9 +3971,12 @@ ul.profile-menu li {
         margin-right: 20px;
         width: 170px;
     }
+    /*
     .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
         margin-left: 20px;
     }
+
+
     .widthblock {
         width:190px !important;
     }
@@ -4006,6 +3989,8 @@ ul.profile-menu li {
     .product .rateslist .widthblock:nth-child(2) {
         width:186px !important;
     }
+    */
+
 
     .chart-bullet.small, .maincharts .chart-bullet.small {
         width:170px !important;
@@ -4058,9 +4043,6 @@ ul.profile-menu li {
     .over-time {
         font-size: 30px;
     }
-    .simulation-details  .blockvalue, .simulation-details  .blockvalue span {
-        font-size: 15px;
-    }
     .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2,
     .product .estmtileswrap h2 a{
         font-size:18px !important;
@@ -4075,8 +4057,9 @@ ul.profile-menu li {
         font-size: 12px;
     }
     .simulation-details .navigation li a {
-        font-size: 12px;
-        padding: 5px 6px;
+        font-size: 11px;
+        height:24px;
+        line-height:24px;
     }
     .labeltitles h3, .resulttitele, .resulttitele a {
         font-size: 20px;
@@ -4084,21 +4067,12 @@ ul.profile-menu li {
     .labeltitles h4  {
         font-size: 16px;
     }
-    .mangrlresults .labels a, .thelabel {
-        font-size: 12px;
-    }
-    .labels {
-        width: 258px !important;
-    }
     .legendtitle {
         font-size:12px;
     }
     .legendcolor {
         height: 24px;
         width: 24px;
-    }
-    .barswrap {
-        width: 450px;
     }
     .chart-bar .chart-value, .chartbar .chart-value,
     .emptychart .chart-value,
@@ -4109,9 +4083,6 @@ ul.profile-menu li {
     }
     .resulttitele.smallerfont {
         font-size:16px;
-    }
-    .resultslegend, .legendmargin {
-        margin-left: 272px;
     }
     .timedetail .labels {
         margin-top: 10px;
@@ -4142,21 +4113,6 @@ ul.profile-menu li {
     .estmfooter a {
         font-size: 12px;
         line-height: 26px;
-    }
-    .twocharts .chartbar, .twocharts .chartproblem {
-        width: 260px !important;
-    }
-    .twocharts .chartproblem {
-        width: 170px !important;
-    }
-    .resultlabeltitle {
-        padding-left: 300px;
-    }
-    .barstitle {
-        font-size: 15px;
-    }
-    .twobarstitles .barstitle:first-child {
-        width: 270px;
     }
     #password-recovery-form #YumPasswordRecoveryForm_email {
         font-size: 11px;

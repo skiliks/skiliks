@@ -1,4 +1,5 @@
-<?/* @var $user YumUser */
+<?php
+    /* @var $user YumUser */
     $user = Yii::app()->user->data();
 ?>
 
@@ -8,7 +9,7 @@
         <?= $user->profile->lastname ?>
         <a href="/admin_area/logout" class="navbar-link">Выйти</a>
     </p>
-    <? $this->widget('zii.widgets.CMenu',array(
+    <?php $this->widget('zii.widgets.CMenu',array(
         'activeCssClass' => 'active',
         'activateItems' => true,
         'items' => array(

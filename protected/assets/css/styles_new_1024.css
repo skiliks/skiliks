@@ -23,21 +23,44 @@ h3 {
     line-height:23px;
     margin-bottom: 8px;
 }
-.font-small {
+h4 {
+    font-size:19px;
+    margin-bottom: 8px;
+}
+h5 {
+    font-size:15px;
+    margin-bottom: 8px;
+}
+.font-small, .font-smallest {
     font-size:10px;
+}
+.font-slarge {
+    font-size:13px;
+}
+.font-site {
+    font-size:12px;
 }
 .font-large {
     font-size:14px;
 }
-.font-xlarge {
+.font-xlarge, .font-xslarge, h6 {
     font-size:15px;
     line-height: 120%;
+}
+.font-xlarge {
+    line-height: 130%;
 }
 .font-xxlarge {
     font-size:16px;
 }
-.font-xxxlarge {
+.font-xxxlarge, .font-4xlarge {
     font-size:18px;
+}
+.font-5xlarge {
+    font-size:19px;
+}
+.font-6xlarge {
+    font-size:20px;
 }
 .list-light li {
     background-size: 16px;
@@ -57,7 +80,7 @@ h3 {
 }
 /* ************************ /FONTS ************************ */
 /* ************************ Buttons ************************ */
-.btn-large {
+.btn-large, .btn-large-wrap input {
     background-image: url("../img/btn-circle-min.png");
     background-position: 16px 50%;
     font-size: 16px;
@@ -100,7 +123,7 @@ h3 {
     width:754px;
 }
 .container-borders-2 .grid2 {
-    width:366px;
+    width:370px;
 }
 .container-borders-3 .grid1, .sign-block, .standard-left-box {
     width:247px;
@@ -138,6 +161,9 @@ h3 {
 .container-borders-3 .grid1 .pad-large {
     padding:12px 16px;
 }
+.grid-space {
+    width:20px;
+}
 /*  *************************** /GRID ***************************/
 /*  ************************ Menu ************************  */
 .menu-site a {
@@ -166,6 +192,11 @@ h3 {
 }
 /*  ************************ /Colors and Borders ************************  */
 /*  ************************ SITE ************************/
+.site-header {
+    height: 82px;
+    padding-top: 40px;
+    width: 766px;
+}
 .site-header h1 {
     top:42px;
 }
@@ -227,53 +258,6 @@ h3 {
     padding-left: 17px;
 }
 /*  ************************ /SELECT ************************/
-/*  ************************** HOME **************************/
-.home-contnt-box li {
-    font-size: 13px;
-    line-height: 15px;
-    margin-bottom: 7px;
-}
-.home-contnt-box h2 {
-    margin-bottom: 10px;
-}
-.home-contnt-box ul+h2 {/* - */
-    margin-top:43px;
-}
-.home-contnt-box {/* - */
-    width:515px;
-}
-.home-list-box {/* - */
-    padding-right: 20px;
-    padding-top: 32px;
-    width:450px;
-}
-.access-footer {
-    display: inline-block;
-    position: absolute;
-    /*bottom: 45px;*/
-    height:32px;
-    line-height:32px;
-    left:204px;
-    padding-right: 10px;
-    top:202px;
-}
-.page-header {
-    margin-bottom: 16px;
-}
-.page-header.margin-less {
-    margin-bottom: 10px;
-}
-.betaflag {
-    background: url("../img/betaflag.png") no-repeat 0 0;
-    background-size: 83px;
-    height: 49px;
-    left: 230px;
-    position: absolute;
-    top: 31px;
-    width: 83px;
-}
-/*  ************************** /HOME **************************/
-
 /*  *************************** SIGN IN ***************************/
 .sign-block {/* - */
     background: #146672;

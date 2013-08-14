@@ -20,10 +20,16 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
          * @return void
          */
         'initialize':function () {
-            this.set('name', 'documents');
-            this.set('id', this.get('subname') + ':' + this.get('fileId'));
-            SKWindow.prototype.initialize.call(this, {name:'documents', subname:this.get('subname')});
-            this.set('params', {'fileId':this.get('fileId')});
+            try {
+                this.set('name', 'documents');
+                this.set('id', this.get('subname') + ':' + this.get('fileId'));
+                SKWindow.prototype.initialize.call(this, {name:'documents', subname:this.get('subname')});
+                this.set('params', {'fileId':this.get('fileId')});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
         /**
          * Deactivates old window and activates new
@@ -33,9 +39,15 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
          * @return void
          */
         'switchFile':function (fileId) {
-            this.deactivate({silent:true});
-            this.set('params', {'fileId':fileId});
-            this.activate({silent:true});
+            try {
+                this.deactivate({silent:true});
+                this.set('params', {'fileId':fileId});
+                this.activate({silent:true});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -44,10 +56,16 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
          * @return void
          */
         'setFile':function (fileId) {
-            if (this.get('params') && this.get('params').fileId) {
-                throw 'You can not set param fileId on this window, use switchMessage method';
+            try {
+                if (this.get('params') && this.get('params').fileId) {
+                    throw 'You can not set param fileId on this window, use switchMessage method';
+                }
+                this.set('params', {'fileId':fileId});
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            this.set('params', {'fileId':fileId});
         }
     });
     return window.SKDocumentsWindow;

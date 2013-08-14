@@ -56,27 +56,7 @@ class SimulationService
         }
         // 3322_3324 }
 
-        //3325 - read spam {        
-        $b_3325 = $emailAnalyzer->check_3325();
-
-        if (isset($b_3325['obj']) &&
-            isset($b_3325['negative']) &&
-            true === $b_3325['obj'] instanceof HeroBehaviour
-        ) {
-
-            $emailResultsFor_3325 = new AssessmentCalculation();
-            $emailResultsFor_3325->sim_id = $simulation->id;
-            $emailResultsFor_3325->point_id = $b_3325['obj']->id;
-            $emailResultsFor_3325->value = $b_3325['negative'];
-            try {
-                $emailResultsFor_3325->save();
-            } catch (Exception $e) {
-                // @todo: handle exception
-            }
-        }
-        //3325 - read spam }
-
-        //3323 - any action for 2 minutes tasks {        
+        //3323 - any action for 2 minutes tasks {
         $b_3323 = $emailAnalyzer->check_3323();
 
         if (isset($b_3323['obj']) &&
@@ -302,20 +282,16 @@ class SimulationService
         // прочие задачи
         $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
         if ($tasks) {
-            $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
-
-            $add = '';
             foreach ($tasks as $task) {
-                if ($task->code === 'P017')
+                if ($task->code === 'P017') {
                     continue;
-                $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
-                $add = ',';
+                }
+                $todo = new Todo();
+                $todo->sim_id = $simulation->id;
+                $todo->adding_date = date('Y-m-d H:i:s');
+                $todo->task_id = $task->id;
+                $todo->save();
             }
-            $sql .= ";";
-
-            $connection = Yii::app()->db;
-            $command = $connection->createCommand($sql);
-            $command->execute();
         }
     }
 
@@ -394,6 +370,8 @@ class SimulationService
 
     public static function calculatePerformanceRate(Simulation $simulation)
     {
+        $is40or41ruleUsed = false;
+
         $maxRates = MaxRate::model()->findAllByAttributes(
             [
                 'scenario_id' => $simulation->scenario_id,
@@ -415,6 +393,17 @@ class SimulationService
             if (empty($categories[$rule->category_id])) {
                 $categories[$rule->category_id] = 0;
             }
+
+            // hack for OR condition in 40/41 rules
+
+            if (40 == $rule->code || 41 == $rule->code) {
+                if ($is40or41ruleUsed) {
+                    $rule->value = 0;
+                } else {
+                    $is40or41ruleUsed = true;
+                }
+            }
+
             $categories[$rule->category_id] += $rule->value;
         }
 
@@ -536,7 +525,7 @@ class SimulationService
                     'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
                 ]);
 
-                $invite->email = $user->profile->email;
+                $invite->email = strtolower($user->profile->email);
                 $invite->save(false);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
             } else {
@@ -585,12 +574,15 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
-        ZohoDocuments::copyExcelFiles($simulation->id);
+        // ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
             FlagsService::setFlag($simulation, $flag->code, 0);
         }
+
+        // Put time based flags into queue
+        FlagsService::copyTimeFlagsToQueue($simulation);
 
         // update invite if it set
         // in cheat mode invite has no ID
@@ -602,10 +594,11 @@ class SimulationService
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false, ['simulation_id', 'status']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
-            }else{
+            } else {
                 $invite->save(false, ['simulation_id']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
             }
+
         }
 
         self::logAboutSim($simulation, 'sim start: done');
@@ -636,10 +629,16 @@ class SimulationService
         }
 
         // If simulation was started by invite, mark it as completed
-        if (null !== $simulation->invite) {
+        if (null !== $simulation->invite && $simulation->isTutorial() === false) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
             InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
+        }
+
+        if (null !== $simulation->invite && $simulation->isTutorial()) {
+            $simulation->invite->tutorial_finished_at = date('Y-m-d H:i:s');
+            $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : tutorial finished');
         }
 
         // Remove pause if it was set
@@ -662,7 +661,7 @@ class SimulationService
             }
         }
 
-        // Make agregated activity log 
+        // Make aggregated activity log
         LogHelper::combineLogActivityAgregated($simulation);
 
         // Calculate and save Time Management assessments
@@ -710,10 +709,31 @@ class SimulationService
         $evaluation->run();
 
         // @ - for PHPUnit
-        @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-            new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug) {
+            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+        }
+
+        $simulation->saveLogsAsExcel();
 
         self::logAboutSim($simulation, 'sim stop: assessment calculated');
+
+        if ($simulation->isFull()) {
+            $simulation->invite->can_be_reloaded = false;
+            $simulation->invite->save(false);
+            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : can be reloaded set to false');
+        }
+
+        // remove all files except D1 - Сводный бюджет 2013 {
+        $docs = MyDocument::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+        foreach ($docs as $document) {
+            if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
+                unlink($document->getFilePath());
+            }
+        }
+        // remove all files except D1 }
     }
 
     /**
@@ -740,11 +760,11 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
-    public static function resume($simulation)
+    public static function resume($simulation, $ignoreTimeShift = false)
     {
         if (!empty($simulation->paused)) {
             $skipped = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->paused);
-            self::update($simulation, $skipped);
+            self::update($simulation, $skipped, $ignoreTimeShift);
         }
     }
 
@@ -773,9 +793,11 @@ class SimulationService
         $clockH = $clockH + $start_time[0];
         $clockM = $clockM + $start_time[1];
 
-        $simulation->start = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+        $startTime = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
             - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
+        $simulation->refresh();
+        $simulation->start = $startTime;
         $simulation->save();
     }
 
@@ -808,7 +830,7 @@ class SimulationService
         }
 
         /* @var $stress StressPoint[] */
-        $stress = StressPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $stress = StressPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         if(null !== $stress) {
             $value = 0;
@@ -835,9 +857,11 @@ class SimulationService
      */
     public static function simulationIsStarted($simulation, $gameTime)
     {
+
+        if($simulation->isTutorial()){ return; }
         if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
 
-            $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+            $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
 
             if (null === $invite) {
                 if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
@@ -847,9 +871,18 @@ class SimulationService
                 $invite->status = Invite::STATUS_STARTED;
                 $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
-                    && Yii::app()->user->data()->isCorporate()) {
+                    && Yii::app()->user->data()->isCorporate() && (int)$simulation->mode !== Simulation::MODE_DEVELOPER_ID) {
+
+                    $initValue = Yii::app()->user->data()->getAccount()->invites_limit;
+
                     Yii::app()->user->data()->getAccount()->invites_limit--;
                     Yii::app()->user->data()->getAccount()->save(false);
+
+                    UserService::logCorporateInviteMovementAdd(
+                        'simulationIsStarted',
+                        Yii::app()->user->data()->getAccount(),
+                        $initValue
+                    );
                 }
             } else if((int)$invite->status === Invite::STATUS_STARTED) {
                 return;
@@ -896,12 +929,14 @@ class SimulationService
         AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
-
+        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
         SimulationService::simulationStop($simulation, [], true);
     }
 
     /**
+     * Лог про действия над симуляцией: типа начата, закончена, показано сообщение в 18-00...
      * @param Simulation $simulation
      * @param string $action
      */
@@ -967,5 +1002,81 @@ class SimulationService
         $log->comment = $comment;
 
         $log->save(false);
+    }
+
+    /**
+     * Удаляет симуляцию и её инвайт
+     *
+     * @param YumUser $user
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public static function removeSimulationData($user, $simulation, $simId = null)
+    {
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return false;
+        }
+
+        if (null === $simulation && null === $simId) {
+            return false;
+        }
+
+        if (null !== $simulation) {
+            $simId = $simulation->id;
+        }
+
+        AssessmentAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlan::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        $mails = MailBox::model()->findAllByAttributes(['sim_id' => $simId]);
+        foreach ($mails as $mail) {
+            MailAttachment::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailCopy::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailMessage::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+            MailRecipient::model()->deleteAllByAttributes(['mail_id' => $mail->id]);
+        }
+
+        MailBox::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        MyDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformanceAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PerformancePoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        PhoneCall::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationExcelPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationFlag::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationFlagQueue::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningArea::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoal::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        StressPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        Todo::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogInvite::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogMail::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogMeeting::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogReplica::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogServerRequest::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogSimulation::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogWindow::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        $simulation->invite->delete();
+        $simulation->delete();
     }
 }

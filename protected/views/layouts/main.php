@@ -8,6 +8,7 @@ $cs->scriptMap=array(
     'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
 );
 $cs->registerCoreScript('jquery');
+$cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
 $cs->registerCoreScript('jquery.yiiactiveform.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
@@ -21,7 +22,6 @@ $cs->registerScriptFile($assetsUrl . '/js/ProximaNova_old.font.js');
 $cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.9.2.custom.js', CClientScript::POS_BEGIN);
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
@@ -49,7 +49,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
-			<!--header-->
+			<!--header SC -->
 			<header>
 				<h1>
                     <a href="/">
@@ -101,7 +101,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <script type="text/javascript">
                         $('.flash').each(function() {
                             var key = $(this).find('.flash-data').attr('data-key');
-                            console.log('key: ', key, $(this).find('.flash-data'));
 
                             var positionData = {
                                 my: "center top",
@@ -133,7 +132,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 widthData = 274;
                             }
 
-                            console.log('widthData: ', widthData);
                             // fix pop-up position for PasswordRecoveryMessage }
 
                             $(this).dialog({
@@ -149,12 +147,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             });
                         });
                         $('.flash-message-popup .ui-dialog-titlebar').remove();
-                        //$('.flash-pop-up').addClass('transparent-boder errorblock');
-                        //$('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
                         $('.sing-in-pop-up').dialog('open');
 
                         $('.flash-message-popup .popupclose').click(function() {
-                            console.log('click');
                             $('.flash').dialog('close');
                         });
                     </script>
@@ -178,7 +173,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
                         </span>
                     <?php endif; ?>
-                    <?php if (Yii::app()->getController()->getRoute() == 'static/pages/index' && 'ru' == Yii::app()->getlanguage()): ?>
+                    <?php $route = Yii::app()->getController()->getRoute(); ?>
+                    <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav id="footer-menu">
@@ -204,7 +200,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
                     '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
                     '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
-                    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large',
+                    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large, .accept-invite-warning-popup h2, ' +
+                    '.list-ordered strong, .accept-invite-warning-popup h4',
                     {hover: true}
                 );
                 Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
@@ -223,17 +220,18 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
                     '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
                     '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a',
+                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p',
                     {fontFamily:"ProximaNova-Regular", hover:true});
                 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
                 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
                     '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
-                    '.tariff-name, .video-caption',
+                    '.tariff-name, .video-caption, .popup-before-start-sim h3, .popup-before-start-sim .bigbtnsubm, .popup-before-start-sim h2',
                     {fontFamily:"ProximaNova-Bold", hover:true}
                 );
                 Cufon.replace('.freeacess', {hover:true});
-                Cufon.replace('.browsers span a', {fontFamily:"ProximaNova-Bold", hover: true});
+                Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
                 Cufon.now();
             </script>
+        <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>

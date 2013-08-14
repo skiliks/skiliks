@@ -17,17 +17,23 @@ define([], function () {
          * @param {Object} options
          */
         sync: function (method, model, options) {
-            if ('update' === method) {
-                model.set('uniqueId', undefined);
-                SKApp.server.api('dayPlan/add', model.toJSON(), function (data) {
-                    options.success(data);
-                });
-            }
-            if ('delete' === method) {
-                model.set('uniqueId', undefined);
-                SKApp.server.api('dayPlan/delete', model.toJSON(), function (data) {
-                    options.success(data);
-                });
+            try {
+                if ('update' === method) {
+                    model.set('uniqueId', undefined);
+                    SKApp.server.api('dayPlan/add', model.toJSON(), function (data) {
+                        options.success(data);
+                    });
+                }
+                if ('delete' === method) {
+                    model.set('uniqueId', undefined);
+                    SKApp.server.api('dayPlan/delete', model.toJSON(), function (data) {
+                        options.success(data);
+                    });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });
