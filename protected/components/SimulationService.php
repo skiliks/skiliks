@@ -715,11 +715,9 @@ class SimulationService
             self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
 
-        if ($simulation->isFull()) {
-            $simulation->invite->can_be_reloaded = false;
-            $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : can be reloaded set to false');
-        }
+        $simulation->invite->can_be_reloaded = false;
+        $simulation->invite->save(false);
+        InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : can be reloaded set to false');
 
         // remove all files except D1 - Сводный бюджет 2013 {
         $docs = MyDocument::model()->findAllByAttributes([
