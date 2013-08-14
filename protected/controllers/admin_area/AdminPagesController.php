@@ -384,6 +384,7 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/invite_site_logs_table', [
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
+            'simulation'    => $invite->simulation,
         ]);
     }
 
@@ -398,7 +399,7 @@ class AdminPagesController extends SiteBaseController {
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/simulation_site_logs_table', [
             'logSimulation' => $logSimulation,
-            'simulation' => $simulation
+            'simulation'    => $simulation
         ]);
     }
 

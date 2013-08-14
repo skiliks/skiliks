@@ -11,14 +11,18 @@
     'комментарий'
 ]?>
 
-    <?php $this->renderPartial('//admin_area/partials/_user_info', ['simulation'=>$simulation]) ?>
+    <?php
+        if (null !== $simulation) {
+            $this->renderPartial('//admin_area/partials/_user_info', ['simulation' => $simulation]);
+        }
+    ?>
     <h2>Логи действий над симуляцией</h2>
 
     <table class="table table-hover table-bordered">
         <thead>
         <tr style="background-color: #EEE">
             <?php foreach($titlesSimulation as $title) :?>
-                <th><?=$title?></th>
+                <th><?= $title ?></th>
             <?php endforeach ?>
         </tr>
         </thead>
