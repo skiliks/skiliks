@@ -829,11 +829,38 @@ class SimulationServiceUnitTest extends CDbTestCase
     public function testSimulation_SimStopWithOpenLog()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $vacancy = Vacancy::model()->find();
+        $positionLevel = PositionLevel::model()->find();
+        $professionalOccupation = ProfessionalOccupation::model()->find();
+        $professionalSpecialization = ProfessionalSpecialization::model()->find();
+
+        if (null === $vacancy) {
+            $vacancy = new Vacancy();
+            $vacancy->label = 'test';
+            $vacancy->professional_occupation_id = $professionalOccupation->id;
+            $vacancy->professional_specialization_id = $professionalSpecialization->id;
+            $vacancy->position_level_slug = $positionLevel->slug;
+            $vacancy->save();
+        }
+
         $invite = new Invite();
+        $invite->firstname = 'test';
+        $invite->lastname = 'test';
+        $invite->email = 'test@mail.ru';
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
+        $invite->receiver_id = $user->id;
+        $invite->ownerUser = $user;
+        $invite->owner_id = $user->id;
         $invite->scenario->slug = Scenario::TYPE_FULL;
+        $invite->scenario_id = $scenario->id;
+        $invite->vacancy_id = $vacancy->id;
+        $invite->save();
+
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation->invite = $invite;
+        $simulation->save();
 
         $logs = [];
         $logs[0][0]	= 1;
@@ -841,8 +868,6 @@ class SimulationServiceUnitTest extends CDbTestCase
         $logs[0][2]	= 'activated';
         $logs[0][3]	= 65115;
         $logs[0]['window_uid'] = 24;
-
-        //EventsManager::processLogs($simulation, $logs);
 
         SimulationService::simulationStop($simulation, $logs);
 
