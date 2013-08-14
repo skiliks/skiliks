@@ -2861,6 +2861,53 @@ class ImportGameDataService
         return $result;
     }
 
+    public function importScenarioConfig()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Scenario_configs');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $items = 0;
+
+        $scenarioConfig = ScenarioConfig::model()->findByAttributes(['scenario_id'=>$this->scenario->id]);
+        if (empty($scenarioConfig)) {
+            $scenarioConfig = new ScenarioConfig();
+        }
+
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $name = $this->getCellValue($sheet, 'Name', $i);
+            $value = $this->getCellValue($sheet, 'Value', $i);
+            $scenarioConfig->{$name} = $value;
+            $scenarioConfig->scenario_id = $this->scenario->primaryKey;
+            $scenarioConfig->import_id = $this->import_id;
+
+            $scenarioConfig->save();
+            $items++;
+        }
+
+        // delete old unused data {
+        ScenarioConfig::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'items' => $items,
+            'errors'    => false,
+        );
+    }
+
     /**
      * @param $result
      * @return mixed
