@@ -56,4 +56,5 @@
 
     <?php $this->renderPartial('//admin_area/pages/simulation_site_logs_table', [
         'logSimulation'    => $logSimulation,
+        'simulation'       => $simulation
     ]) ?>
