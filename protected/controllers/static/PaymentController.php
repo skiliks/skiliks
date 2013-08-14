@@ -130,8 +130,7 @@ class PaymentController extends SiteBaseController
             }
 
             // update account tariff
-            $user->getAccount()->setTariff($tariff);
-            $user->getAccount()->save();
+            $user->getAccount()->setTariff($tariff, true);
 
             if($user->getAccount()->tariff_id == $tariff->id) {
                 $this->redirect('/profile/corporate/tariff');
@@ -145,5 +144,41 @@ class PaymentController extends SiteBaseController
             "Ошибка системы. Обратитесь в владельцам сайта для уточнения причины."
         ));
         $this->redirect('/static/tariff');
+    }
+
+    // -----------
+
+    public function actionOrderNew($tariffType = null)
+    {
+        /** @var YumUser $user */
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        $tariff = null === $tariffType ?
+            $user->account_corporate->tariff :
+            Tariff::model()->findByAttributes(['slug' => $tariffType]);
+
+        if (null === $tariff) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+            ));
+            $this->redirect('/');
+        }
+
+        $invoice = new Invoice();
+
+        $this->layout = 'site_standard';
+
+        $this->render('//new/order', [
+            'account' => $user->account_corporate,
+            'invoice' => $invoice,
+            'tariff' => $tariff
+        ]);
     }
 }

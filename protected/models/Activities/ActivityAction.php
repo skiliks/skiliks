@@ -7,10 +7,10 @@
  * @property integer $id
  * @property integer $activity_id
  * @property string $leg_type
- * @property integer $is_keep_last_category, 0 OR 1
  * @property integer $dialog_id
  * @property integer $mail_id
  * @property integer $document_id
+ * @property integer $meeting_id
  *
  * The followings are the available model relations:
  * @property Activity $activity
@@ -19,6 +19,7 @@
  * @property DocumentTemplate $document
  * @property string $import_id
  * @property Window $window
+ * @property Meeting $meeting
  */
 class ActivityAction extends CActiveRecord
 {
@@ -28,12 +29,16 @@ class ActivityAction extends CActiveRecord
     const LEG_TYPE_DOCUMENTS = 'Documents_leg';
     const LEG_TYPE_MANUAL_DIAL = 'Manual_dial_leg';
     const LEG_TYPE_SYSTEM_DIAL = 'System_dial_leg';
+    const LEG_TYPE_MEETING = 'Meeting';
 
     public function isPlan()
     {
         return (null === $this->document_id && null === $this->mail_id && null === $this->dialog_id);
     }
 
+    /**
+     * @param $log LogDialog|LogDocument|LogMail|LogMeeting|LogWindow
+     */
     public function appendLog($log)
     {
         // get log_action {
@@ -92,6 +97,9 @@ class ActivityAction extends CActiveRecord
         if (isset($log->mail_id)) {
             $log_action->mail_id = $log->mail_id;
         }
+        if (isset($log->meeting_id)) {
+            $log_action->meeting_id = $log->meeting_id;
+        }
         if ($log->end_time!==null && $log->end_time !== '00:00:00') {
             $log_action->end_time = $log->end_time;
         }
@@ -127,6 +135,8 @@ class ActivityAction extends CActiveRecord
             return $this->dialog;
         } else if ($this->document !== null) {
             return $this->document;
+        } else if ($this->meeting !== null) {
+            return $this->meeting;
         } else {
             # Special case activities
             return null;
@@ -239,6 +249,7 @@ class ActivityAction extends CActiveRecord
             'dialog'   => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
             'mail'     => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
             'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
+            'meeting'  => array(self::BELONGS_TO, 'Meeting', 'meeting_id'),
             'window'   => array(self::BELONGS_TO, 'Window', 'window_id'),
         );
     }
@@ -254,6 +265,7 @@ class ActivityAction extends CActiveRecord
             'dialog_id'   => 'Replica',
             'mail_id'     => 'Mail',
             'document_id' => 'Document',
+            'meeting_id'  => 'Meeting',
             'window_id'   => 'Window'
         );
     }
@@ -273,6 +285,7 @@ class ActivityAction extends CActiveRecord
         $criteria->compare('activity_id', $this->activity_id);
         $criteria->compare('dialog_id', $this->dialog_id);
         $criteria->compare('mail_id', $this->mail_id);
+        $criteria->compare('meeting_id', $this->meeting_id);
         $criteria->compare('document_id', $this->document_id);
 
         return new CActiveDataProvider($this, array(

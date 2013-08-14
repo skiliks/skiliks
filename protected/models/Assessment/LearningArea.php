@@ -63,6 +63,7 @@ class LearningArea extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'learning_area_code'),
+            'learningGoalGroups' => array(self::HAS_MANY, 'LearningGoalGroup', 'learning_area_id'),
 		);
 	}
 

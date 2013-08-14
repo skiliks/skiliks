@@ -1,6 +1,6 @@
 <div class="extrasidepads">
     <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle followPriorities"></span>1. Следование приоритетам</h3>
+    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle followPriorities"></span>1. Управление задачами с учётом приоритетов</h3>
 
     <div class="twobarstitles resultlabeltitle">
         <span class="barstitle">Уровень владения навыком</span>
@@ -8,9 +8,12 @@
     </div>
 
     <div class="clearfix mangrlresults">
-        <div class="labels">
-            <p class="labelwrap"><span class="thelabel">1.1 Следование целям подразделения</span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#">1.2 Следование личным приоритетам</a></span></p>
+        <div class="labels labels1">
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.1 </span><a href="#" class="list-text">Определение приоритетов</a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Использование планирования в течение дня</a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.4 </span><a href="#" class="list-text">Выполнение задач в соответствии с приоритетами</a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.5 </span><a href="#" class="list-text">Завершение начатых задач</a></div></span></div>
         </div>
         <div class="barswrap">
             <div class="twocharts followPriorities-1">
@@ -21,37 +24,15 @@
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-        </div>
-    </div>
-
-    <h3 class="resulttitele resulttitelevalue"><span class="valuetitle taskManagement"></span>2. Управление задачами</h3>
-
-    <div class="twobarstitles resultlabeltitle">
-        <span class="barstitle">Уровень владения навыком</span>
-        <span class="barstitle">Уровень проблем</span>
-    </div>
-
-    <div class="clearfix mangrlresults">
-        <div class="labels">
-            <p class="labelwrap"><span class="thelabel">2.1 Использование планирования в течение дня</span></p>
-            <p class="labelwrap"><span class="thelabel">2.2 Правильное определение приоритетов задач при планировании</span></p>
-            <p class="labelwrap"><span class="thelabel">2.3 Выполнение задач в соответствии с приоритетами</span></p>
-            <p class="labelwrap"><span class="thelabel">2.4 Завершение начатых задач <span class="helpbuble">Описание навыка</span></span></p>
-        </div>
-        <div class="barswrap">
-            <div class="twocharts taskManagement-1">
+            <div class="twocharts followPriorities-3">
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-            <div class="twocharts taskManagement-2">
+            <div class="twocharts followPriorities-4">
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
-            <div class="twocharts taskManagement-3">
-                <div class="chartbar"></div>
-                <div class="chartproblem"></div>
-            </div>
-            <div class="twocharts taskManagement-4">
+            <div class="twocharts followPriorities-5">
                 <div class="chartbar"></div>
                 <div class="chartproblem"></div>
             </div>
@@ -70,13 +51,12 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v1 = AR.management[1],
-            v2 = AR.management[2];
+        var v1 = AR.management[1];//{positive: 20, negative: 20, total: 0}, /* AR.management[1] */
 
-        drawChartBlock('followPriorities', v1, ['123', '112']);
-        drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
+        drawChartBlock('followPriorities', v1, ['1_1', '1_2', '1_3', '1_4', '1_5']);
+        //drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
 
         $('.valuetitle.followPriorities').html(Math.round(v1 && v1.total || 0) + '%');
-        $('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
+        //$('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
     });
 </script>

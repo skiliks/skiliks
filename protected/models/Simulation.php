@@ -1,5 +1,7 @@
 <?php
 
+use application\components\Logging\LogTableList as LogTableList;
+
 /**
  * Модель симуляции.
  *
@@ -13,6 +15,13 @@
  * @property int skipped
  * @property int scenario_id
  * @property string $uuid
+ * @property string $results_popup_partials_path
+ * @property string $results_popup_cache
+ * @property int $is_emergency_panel_allowed
+ * @property string $screen_resolution
+ * @property string $window_resolution
+ * @property string $user_agent
+ * @property string $ipv4
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -22,6 +31,7 @@
  * @property LogActivityActionAgregated214d[] $log_activity_actions_aggregated_214d
  * @property LogMail[] $log_mail
  * @property LogDialog[] $log_dialogs
+ * @property LogDialog[] $log_meetings
  * @property AssessmentCalculation[] $assessment_calculation
  * @property AssessmentPoint[] $assessment_points
  * @property LogDocument[] $log_documents
@@ -34,9 +44,12 @@
  * @property Scenario $game_type
  * @property SimulationLearningArea[] $learning_area
  * @property SimulationLearningGoal[] $learning_goal
+ * @property SimulationLearningGoalGroup[] $learning_goal_group
  * @property TimeManagementAggregated[] $time_management_aggregated
  * @property Invite $invite
  * @property MailBox[] $mail_box_inbox
+ * @property SimulationFlag[] $simFlags
+ * @property LogAssessment214g[] $logAssessment214g
  *
  */
 class Simulation extends CActiveRecord
@@ -62,6 +75,24 @@ class Simulation extends CActiveRecord
         return ($this->mode == self::MODE_PROMO_ID) ? self::MODE_PROMO_LABEL : self::MODE_DEVELOPER_LABEL;
     }
 
+    public function saveLogsAsExcel($isConsoleCall = false)
+    {
+        $logTableList = new LogTableList($this);
+        $excelWriter = $logTableList->asExcel();
+        $excelWriter->save($this->getLogFilename($this->id));
+
+        if ($isConsoleCall) {
+            // just console notification
+            return $this->getFilename($this->id)."- stored \r\n";
+        }
+
+        return true;
+    }
+
+    public function getLogFileName()
+    {
+        return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $this->id);
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -114,12 +145,19 @@ class Simulation extends CActiveRecord
      */
     public function getGameTime()
     {
-        $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
-        $variance = $variance * $this->getSpeedFactor();
+        $time = Yii::app()->request->getParam('time');
+        if(null === $time) {
+            $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
+            $variance = $variance * $this->getSpeedFactor();
 
-        $startTime = explode(':', $this->game_type->start_time);
-        $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
-        return gmdate('H:i:s', $unixtime);
+            $startTime = explode(':', $this->game_type->start_time);
+            $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
+
+            return gmdate('H:i:s', $unixtime);
+        }else{
+            return $time;
+        }
+
     }
 
     public function deleteOldTriggers($newHours, $newMinutes)
@@ -149,6 +187,7 @@ class Simulation extends CActiveRecord
             'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
             'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
             'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_meetings'                    => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'start_time, end_time'],
             'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
             'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
@@ -169,7 +208,10 @@ class Simulation extends CActiveRecord
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
             'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
+            'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
+            'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
+            'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
             //'mail_box_inbox'                  => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
             //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
         ];
@@ -460,10 +502,12 @@ class Simulation extends CActiveRecord
     }
 
     public function isFull() {
+        return ($this->game_type->slug === Scenario::TYPE_FULL) ? true : false;
+    }
 
-        $scenario = $this->game_type->findByAttributes(['id' => $this->scenario_id]);
-        /* @var $scenario Scenario */
-        return ($scenario->slug === Scenario::TYPE_FULL)?true:false;
+    public function isTutorial() {
+
+        return ($this->game_type->slug === Scenario::TYPE_TUTORIAL)?true:false;
 
     }
 
@@ -491,6 +535,11 @@ class Simulation extends CActiveRecord
 
     public function getAssessmentDetails()
     {
+        // use cached results popup data
+//        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
+//            return unserialize($this->results_popup_cache);
+//        }
+
         $result = [];
 
         // Overall results
@@ -508,30 +557,12 @@ class Simulation extends CActiveRecord
                 $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
             }
         }
-        foreach ($this->learning_goal as $row) {
-            if ($row->learningGoal->learningArea->code <= 8) {
-                if ($row->learningGoal->code == 321) { // Specific case for 4th learning area
-                    $behaviourIds = [];
-                    foreach ($row->learningGoal->heroBehaviours as $behaviour) {
-                        $behaviourIds[] = $behaviour->id;
-                    }
 
-                    /** @var AssessmentAggregated[] $values */
-                    $values = AssessmentAggregated::model()->findAllByAttributes([
-                        'sim_id' => $this->id,
-                        'point_id' => $behaviourIds
-                    ]);
-
-                    foreach ($values as $point) {
-                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                        [$row->learningGoal->learningArea->code]
-                        [$point->point->code] = ['+' => substr($point->fixed_value / $point->point->scale * 100, 0, 5), '-' => 0];
-                    }
-                } else {
+        foreach ($this->learning_goal_group as $row) {
+            if ($row->learningGoalGroup->learning_area_code <= 3) {
                     $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                           [$row->learningGoal->learningArea->code]
-                           [$row->learningGoal->code] = ['+' => $row->percent, '-' => $row->problem];
-                }
+                           [$row->learningGoalGroup->learning_area_code]
+                           [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
             }
         }
 
@@ -552,6 +583,89 @@ class Simulation extends CActiveRecord
                 $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
             }
         }
+
+        // get weight, just to use them like labels {
+        $id = $this->game_type->id;
+        if (Scenario::TYPE_LITE == $this->game_type->slug ) {
+            $id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL])->id;
+        }
+
+        $weights = Weight::model()->findAllByAttributes([
+            'scenario_id' => $id,
+            'rule_id'     => 1
+        ]);
+
+        foreach ($weights as $weight) {
+            $result['additional_data'][$weight->assessment_category_code] = $weight->value;
+        }
+        // get weight, just to use them like labels }
+
+
+
+        // cache results popup data
+        $this->results_popup_cache = serialize($result);
+        $this->save(false);
+
+        return $result;
+    }
+
+    /**
+     * For first version of pop-up
+     * @return array|mixed
+     */
+    public function getAssessmentDetailsV1()
+    {
+        // use cached results popup data
+        if (null !== $this->results_popup_cache) {
+            return unserialize($this->results_popup_cache);
+        }
+
+        $result = [];
+
+        // Overall results
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
+                $result[AssessmentCategory::OVERALL] = $rate->value;
+            } else {
+                $result[$rate->assessment_category_code] = ['total' => $rate->value];
+            }
+        }
+
+        // Management
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code <= 3) {
+                $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+            }
+        }
+        foreach ($this->learning_goal_group as $row) {
+            if ($row->learningGoalGroup->learning_area_code <= 3) {
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                    [$row->learningGoalGroup->learning_area_code]
+                    [$row->learningGoalGroup] = ['+' => $row->percent, '-' => $row->problem];
+            }
+        }
+
+        // Productivity
+        foreach ($this->performance_aggregated as $row) {
+            $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
+        }
+
+        // Time management
+        foreach ($this->time_management_aggregated as $row) {
+            $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
+        }
+
+        // Personal
+        $result[AssessmentCategory::PERSONAL] = [];
+        foreach ($this->learning_area as $row) {
+            if ($row->learningArea->code > 8) {
+                $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+            }
+        }
+
+        // cache results popup data
+        $this->results_popup_cache = serialize($result);
+        $this->save(false);
 
         return $result;
     }

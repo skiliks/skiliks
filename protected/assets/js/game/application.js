@@ -11,19 +11,28 @@ require([
     'game/models/SKApplication'
 ], function(backbone, compatibility,SKIntroView, SKApplicationView, SKApplication) {
     "use strict";
+    try {
+        _.templateSettings.interpolate = /<@=(.+?)@>/g;
+        _.templateSettings.evaluate = /<@(.+?)@>/g;
+        Backbone.emulateJSON = true;
 
-    _.templateSettings.interpolate = /<@=(.+?)@>/g;
-    _.templateSettings.evaluate = /<@(.+?)@>/g;
+        if (compatibility.check(window.gameConfig)) {
+            $(function () {
+                window.SKApp = new SKApplication(window.gameConfig);
+                window.AppView = new SKApplicationView();
 
-    if (compatibility.check(window.gameConfig)) {
-        $(function () {
-           var intro = new SKIntroView();
-           if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
-               intro.show();
-           } else {
-               intro.appLaunch();
-           }
-        });
+                var intro = new SKIntroView();
+                if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
+                    intro.show();
+                } else {
+                    intro.appLaunch();
+                }
+            });
+        }
+    } catch(exception) {
+        if (window.Raven) {
+            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+        }
     }
 
 });

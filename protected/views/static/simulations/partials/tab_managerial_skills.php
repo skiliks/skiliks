@@ -3,40 +3,20 @@
     <div class="clearfix">
         <div class="labeltitles">
             <h3>По группам навыков</h3>
-            <h4>Критичные навыки</h4>
         </div>
         <p class="barstitle mangrlresultstitle">Уровень владения навыком</p>
     </div>
 
     <div class="clearfix mangrlresults">
-        <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">1. Следование приоритетам <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-1-2">2. Управление задачами <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-3-4">3. Управление людьми <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel labelhack"><a href="#managerial-skills-3-4">4. Оптимальный выбор каналов коммуникации <span class="signmore"></span></a></span></p>
+        <div class="labels high-labels">
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-text">Управление задачами с учётом приоритетов</a><a href="#managerial-skills-1-2" class="signmore"></a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.</span><a href="#managerial-skills-3-4" class="list-text">Управление людьми</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">3.</span><a href="#managerial-skills-3-4" class="list-text">Управление коммуникациями</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>
         </div>
         <div class="barswrap main-skills">
             <div class="chartbar management-1"></div>
             <div class="chartbar management-2"></div>
             <div class="chartbar management-3"></div>
-            <div class="chartbar management-4"></div>
-        </div>
-    </div>
-    <div class="clearfix">
-        <div class="labeltitles toplabelmargin">
-            <h4>Другие важные навыки</h4>
-        </div>
-    </div>
-    <div class="clearfix mangrlresults">
-        <div class="labels">
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-5-6">5. Эффективная работа с почтой <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-5-6">6. Эффективное управление звонками <span class="signmore"></span></a></span></p>
-            <p class="labelwrap"><span class="thelabel"><a href="#managerial-skills-7">7. Эффективное управление встречами <span class="signmore"></span></a></span></p>
-        </div>
-        <div class="barswrap otherskills">
-            <div class="chartbar management-5"></div>
-            <div class="chartbar management-6"></div>
-            <div class="chartbar management-7"></div>
         </div>
     </div>
 
@@ -54,7 +34,7 @@
             r = Math.round,
             renderer = function(v) { return v + '%'; };
 
-        for (var i = 1; i < 8; i++) {
+        for (var i = 1; i < 4; i++) { //8
             new charts.Bar(
                 '.management-' + i,
                 r(result[i] && result[i].total ? result[i].total : 0),

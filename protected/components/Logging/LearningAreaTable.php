@@ -26,6 +26,7 @@ class LearningAreaTable extends LogTable
             'Код',
             'Наименование области обучения',
             'Оценка (0-100%)',
+            'Score',
         ];
         //return ['Point Code', 'Point Description', 'Type Scale', 'Scale', 'Value', 'Replica ID', 'Dialog Code', 'Replica Step', 'Replica Number', 'Outbox mail'];
     }
@@ -42,7 +43,8 @@ class LearningAreaTable extends LogTable
         $result = [
             $row->learningArea->code,
             $row->learningArea->title,
-            $value
+            $value,
+            round($row->score, 2)
         ];
 
         return $result;

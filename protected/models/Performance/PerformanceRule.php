@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'performance_rule':
  * @property integer $id
  * @property string $activity_id
+ * @property string $code
  * @property string $operation
  * @property integer $value
  * @property integer $category_id

@@ -21,25 +21,31 @@ define(["game/models/SKDocument"], function () {
          * @param options
          */
         sync: function (method, collection, options) {
-            var me = this;
+            try {
+                var me = this;
 
-            if ('read' === method) {
-                SKApp.server.api('myDocuments/getList', {}, function (data) {
-                    var cache = me.clone();
-                    options.success(data.data);
-                    me.each(function(model) {
-                       var found = cache.where({'id': model.get('id')});
-                       if(1 === found.length){
-                          var isInitialized = found[0].get('isInitialized');
-                          if(true === isInitialized) {
-                              model.set('isInitialized', true);
-                          }else{
-                              model.set('isInitialized', false);
-                          }
-                       }
+                if ('read' === method) {
+                    SKApp.server.api('myDocuments/getList', {}, function (data) {
+                        var cache = me.clone();
+                        options.success(data.data);
+                        me.each(function(model) {
+                           var found = cache.where({'id': model.get('id')});
+                           if(1 === found.length){
+                              var isInitialized = found[0].get('isInitialized');
+                              if(true === isInitialized) {
+                                  model.set('isInitialized', true);
+                              }else{
+                                  model.set('isInitialized', false);
+                              }
+                           }
+                        });
+                        me.trigger('afterReset');
                     });
-                    me.trigger('afterReset');
-                });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         }
     });

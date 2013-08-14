@@ -10,10 +10,14 @@
  * @property float $percent
  * @property float $value
  * @property float $problem
+ * @property string $total_positive
+ * @property string $total_negative
+ * @property string $max_positive
+ * @property string $max_negative
  *
  * The followings are the available model relations:
  * @property LearningGoal $learningGoal
- * @property Simulation $sim
+ * @property Simulation $simulation
  */
 class SimulationLearningGoal extends CActiveRecord
 {
@@ -61,7 +65,7 @@ class SimulationLearningGoal extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'learningGoal' => array(self::BELONGS_TO, 'LearningGoal', 'learning_goal_id'),
-			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 		);
 	}
 
@@ -101,12 +105,6 @@ class SimulationLearningGoal extends CActiveRecord
 
     public function getReducingCoefficient()
     {
-        if ($this->problem <= 10) {
-            return 1;
-        } elseif ($this->problem <= 50) {
-            return 0.5;
-        } else {
-            return 0;
-        }
+        return LearningGoalAnalyzer::getReducingCoefficient($this->problem);
     }
 }

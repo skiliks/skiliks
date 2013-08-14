@@ -30,9 +30,9 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => 'Yii::t("site", $data->getVacancyLabel())'],
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         [
-            'header' => Yii::t('site', 'Date / time'),
+            'header' => Yii::t('site', 'Date'),
             'name' => 'sent_time'   ,
-            'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y") . " <time>" .$data->getUpdatedTime()->format('G\h i\m'). "</time>";},
+            'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
             'type' => 'raw'
         ],
         ['header' => Yii::t('site', 'Score')                                , 'value' => $scoreRender, 'type' => 'raw'],

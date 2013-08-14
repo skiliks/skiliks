@@ -1,0 +1,16 @@
+<div id="messageSystemMessageDiv" class="<@= cls @>">
+    <div class="mail-popup reminder-popup">
+        <div class="popup-greybg">
+            <h2 class="font-xxlarge font-white">Напоминание </h2>
+            <@ if (addCloseButton) { @>
+                <div class="btn-close dialog-close">
+                    <button></button>
+                </div>
+            <@ } @>
+        </div>
+        <p class="reminder-popup-text"><@= title @></p>
+        <@ if (content) { @>
+            <div class="popup-content"><@= content @></div>
+        <@ } @>
+    </div>
+</div>

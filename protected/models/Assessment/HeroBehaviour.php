@@ -28,9 +28,9 @@ class HeroBehaviour extends CActiveRecord
      */
     public static function getExcludedFromAssessmentBehavioursCodes()
     {
-        return ['214g1', '214g2', '214g3', '214g4', '32110', '32112', '32113',
+        return [/*'214g2', '214g3', '214g4', '32110', '32112', '32113',
             '32114', '3335', '341a1', '341c1', '341c2', '371a1',
-            '371a2', '371a3', '371a4', '371a5', '371b1', '371b2', '371b3', '8211'];
+            '371a2', '371a3', '371a4', '371a5', '371b1', '371b2', '371b3', '8211'*/];
     }
 
     /**

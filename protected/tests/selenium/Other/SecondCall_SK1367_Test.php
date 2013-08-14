@@ -26,6 +26,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click("css=li.phone_get_history > p");
         $this->optimal_click("//ul[@class='phone-contact-list history']//a[@class='phone_call_back phone-call-btn']");
+        sleep(5);
         $this->optimal_click("xpath=(//*[contains(text(),'Сейчас же приступаю к доработке')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
         sleep(1);
@@ -55,8 +56,8 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         sleep(2);
         $this->assertFalse($this->isElementPresent("xpath=(//*[contains(text(),'Задача отдела логистики: статус')])"));
 
-        $this->mouseOver("xpath=(//*[contains(text(),'Прочее')])");
-        $this->click("xpath=(//*[contains(text(),'Прочее')])");
+        $this->mouseOver("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
+        $this->click("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Завершить')])");
 
         //$this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
@@ -67,7 +68,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         $this->mouseOver(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         $this->click(Yii::app()->params['test_mappings']['phone_contacts']['trutnev']);
         sleep(2);
-        $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Прочее')])"));
+        $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])"));
 
         $this->simulation_stop();
     }

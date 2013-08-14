@@ -158,7 +158,7 @@
     border-radius: 3px;
 }
 .registrationform .transparent-boder:first-child {
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 .registrationform h3 {
     color: #555545;
@@ -224,9 +224,9 @@
     font-family: "ProximaNova-Bold";
     height: 56px; /* height: 82px; */
     margin:-54px 20px 0px 0px;
-    padding: 17px 16px 10px;
+    padding: 17px 4px 10px 8px;
     text-align: center;
-    width:50px;
+    width:70px;
 }
 .testtime strong {
     color: #146672;
@@ -235,7 +235,7 @@
     line-height: 90%;
     margin-left: 0px; /* 5 */
     overflow: hidden;
-    width: 38px;
+    /*width: 40px;*/
 }
 .registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
 .darkblueplacehld input[type="text"]::-webkit-input-placeholder, #password-recovery-form input[type="text"]::-webkit-input-placeholder,

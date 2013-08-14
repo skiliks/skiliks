@@ -164,7 +164,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         // case 1
 
-        EventsManager::startEvent($simulation, 'S2', false, false, 0);
+        EventsManager::startEvent($simulation, 'S2');
 
         $data = [];
         //case 1
@@ -179,7 +179,7 @@ class FlagServiceUnitTest extends CDbTestCase
         // case 2
         FlagsService::setFlag($simulation, 'F1', 1);
 
-        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2');
 
         $result = EventsManager::getState($simulation, []);
         foreach ($result['events'][0]['data'] as $replica) {
@@ -194,7 +194,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F12', 1);
         FlagsService::setFlag($simulation, 'F1', 0);
 
-        EventsManager::startEvent($simulation, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2');
         $result = EventsManager::getState($simulation, []);
 
         foreach ($result['events'][0]['data'] as $replica) {
@@ -223,7 +223,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F4', 0);
 
         // Case 1: block event
-        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1');
 
         $result = EventsManager::getState($simulation, []);
 
@@ -232,7 +232,7 @@ class FlagServiceUnitTest extends CDbTestCase
         // Case 2: run event
         FlagsService::setFlag($simulation, 'F4', 1);
 
-        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1');
 
         $result2 = EventsManager::getState($simulation, []);
 
@@ -258,7 +258,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F14', 0);
 
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'ET12.3', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET12.3');
 
         EventsManager::getState($simulation, []);
 
@@ -285,7 +285,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         // Case 1: block event
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1');
 
         $result = EventsManager::getState($simulation, []);
 
@@ -295,7 +295,7 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F3', 1);
 
         $e = new EventsManager();
-        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1');
 
         $result2 = EventsManager::getState($simulation, []);
 
@@ -379,7 +379,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         FlagsService::setFlag($simulation, 'F14', 1);
 
-        EventsManager::startEvent($simulation, 'ET12.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET12.1');
 
         $result = EventsManager::getState($simulation, []);
 
@@ -422,7 +422,7 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('0', $flag->value);
         $flag = FlagsService::getFlag($simulation, "F38_3");
         $this->assertEquals('0', $flag->value);
-        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F22', 'flag_to_switch_2'=> 'F38_3'])->id;
+        $id = Replica::model()->findByAttributes(['code'=>'T7.3', 'flag_to_switch'=> 'F38_3', 'flag_to_switch_2'=> 'F22'])->id;
         $dialog->getDialog($simulation->id, $id, '9:45');
         $flag = FlagsService::getFlag($simulation, "F22");
         $this->assertEquals('1', $flag->value);
@@ -435,5 +435,28 @@ class FlagServiceUnitTest extends CDbTestCase
         $flag = FlagsService::getFlag($simulation, "F38_3");
         //var_dump($flag->flag);
         $this->assertEquals('1', $flag->value);
+    }
+
+    public function testMeetingFlags()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        FlagsService::setFlag($simulation, 'F52', 1);
+        FlagsService::setFlag($simulation, 'F51', 1);
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(2, $meetings);
+
+        FlagsService::setFlag($simulation, 'F47', 1);
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(3, $meetings);
+
+        FlagsService::setFlag($simulation, 'F49', 1);
+        $meetings = MeetingService::getList($simulation);
+        $this->assertCount(4, $meetings);
     }
 }

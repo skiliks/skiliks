@@ -80,5 +80,44 @@ class MyDocumentsService
 
         return $status;
     }
+
+    /**
+     * Востановление документов sc по логам
+     */
+    public static function restoreSCByLog($sim_id, $document) {
+
+        $simulation = Simulation::model()->findByPk($sim_id);
+        $documentTemplate = $simulation->game_type->getDocumentTemplate([
+            'code' => $document
+        ]);
+
+        /** @var MyDocument $document */
+        $document = MyDocument::model()->findByAttributes([
+            'template_id' => $documentTemplate->id,
+            'sim_id' => $sim_id
+        ]);
+
+        $logs = LogServerRequest::model()->findAllByAttributes([
+            'sim_id'=>(int)$sim_id,
+            'request_url'=>'/index.php/myDocuments/saveSheet/'.$document->id
+        ]);
+
+        $scData = json_decode(file_get_contents($document->getCacheFilePath()), true);
+
+        foreach ($scData as $key => $value) {
+            $scData[$key] = (array)$value;
+        }
+
+        /* @var $log LogServerRequest */
+        foreach($logs as $log) {
+            $data = json_decode($log->request_body, true);
+            $scData[$data['model-name']] = [
+                'name'    => $data['model-name'],
+                'content' => $data['model-content']
+            ];
+        }
+
+        file_put_contents($document->getFilePath(), json_encode($scData));
+    }
 }
 

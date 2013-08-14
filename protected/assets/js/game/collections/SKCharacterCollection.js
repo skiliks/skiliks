@@ -15,16 +15,28 @@ define(['game/models/SKCharacter'], function (SKCharacter) {
          */
         model: SKCharacter,
         sync: function (method, collection, options) {
-            if ('read' === method) {
-                SKApp.server.api('character/list', {}, function (data) {
-                    options.success(data.data);
-                });
+            try {
+                if ('read' === method) {
+                    SKApp.server.api('character/list', {}, function (data) {
+                        options.success(data.data);
+                    });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
         withoutHero: function () {
-            return this.filter(function (model) {
-                return model.get('code') !== "1";
-            });
+            try {
+                return this.filter(function (model) {
+                    return model.get('code') !== "1";
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
     return SKCharacterCollection;

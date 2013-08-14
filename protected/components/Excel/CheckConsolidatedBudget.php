@@ -325,7 +325,7 @@ class CheckConsolidatedBudget
         if ($documentTemplate === null) {
             return $documentTemplate;
         }
-
+        /** @var MyDocument $document */
         $document = MyDocument::model()->findByAttributes([
             'template_id' => $documentTemplate->id,
             'sim_id' => $this->simId
@@ -335,20 +335,6 @@ class CheckConsolidatedBudget
             throw new Exception("Template not found by template_id {$documentTemplate->id}");
             return false;
         }
-
-        $zohoDoc = new ZohoDocuments($this->simId, $document->id, null); // template name isn`t so important here
-
-        //$documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
-        $documentPath = $zohoDoc->getUserFilepath();
-        
-        if (null === $documentPath) {
-            throw new Exception("Document not found by path {$documentPath}");
-            return false;
-        }
-
-        if($path !== null) {
-            $documentPath = $path;
-        }
         // check document }
         
         // init configs {
@@ -356,34 +342,27 @@ class CheckConsolidatedBudget
         $this->configs = $params['excel']['consolidatedBudget']; // We don`t sure is PHP 5.3 used on server.
         $worksheetNames = $this->configs['worksheetNames'];
         // init configs }
-        
-        // get workSheets {
-        $objPHPExcel = null;
-        PHPExcel_Calculation::getInstance()->clearCalculationCache();
-        try {
-            $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
-        } catch (Exception $e) {
-            $this->resetUserPoints();
-            $this->savePoints();
-            throw new Exception("Error objPHPExcel");
-            return false;
-        }        
+
+        $scData = $document->getSheetList($path);
+        $objPHPExcel = ScXlsConverter::sc2xls($scData);
+
         // 'wh' - worksheet
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated']);
         // get workSheets }
 
+        if (null === $path && (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated)) {
+            $document->backupFile();
+            MyDocumentsService::restoreSCByLog($simulation->id, $document->template->code);
+            SimulationService::logAboutSim($simulation, 'D1 was generated from requests log');
 
-        if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
-            throw new Exception("Sheet error");
-            $this->resetUserPoints();
-            $this->savePoints();
-            Yii::log('no sheet', 'warning');
-            return false;
+            // try again
+            return $this->calcPoints($document->getFilePath());
         }
         
         // start analyze {
+        PHPExcel_Calculation::getInstance()->clearCalculationCache();
         $this->resetUserPoints();
         
         $this->checkNo1($whLogistic)

@@ -60,6 +60,11 @@ class Scenario extends CActiveRecord
         return $this->slug === self::TYPE_LITE;
     }
 
+    public function isFull()
+    {
+        return $this->slug === self::TYPE_FULL;
+    }
+
     /**
      * @param $attributes
      * @return Dialog
@@ -225,6 +230,19 @@ class Scenario extends CActiveRecord
         }
     }
 
+    public function getLearningGoalGroups($data = [])
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return LearningGoalGroup::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return LearningGoalGroup::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
     public function getLearningAreas($data = [])
     {
         if (is_array($data)) {
@@ -366,6 +384,45 @@ class Scenario extends CActiveRecord
         return FlagRunMail::model()->findAllByAttributes($array);
     }
 
+    public function getFlagAllowMeetings($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagAllowMeeting::model()->findAllByAttributes($array);
+    }
+
+    public function getFlagsSwitchTime($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagSwitchTime::model()->findAllByAttributes($array);
+    }
+
+    public function getMeetings($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return Meeting::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return Meeting::model()->findAll($data);
+        } else {
+            assert(false);
+            return [];
+        }
+    }
+
+    public function getActivityParentsAvailability($data = [])
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return ActivityParentAvailability::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return ActivityParentAvailability::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
     // --------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -474,5 +531,20 @@ class Scenario extends CActiveRecord
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
+    }
+
+    public function getSlugCss()
+    {
+        $arr = [
+            self::TYPE_FULL => 'label-inverse',
+            self::TYPE_LITE => 'label-info',
+            self::TYPE_TUTORIAL => 'label-default',
+        ];
+
+        if (isset($arr[$this->slug])) {
+            return $arr[$this->slug];
+        }
+
+        return '';
     }
 }

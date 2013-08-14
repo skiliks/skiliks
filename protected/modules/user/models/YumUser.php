@@ -43,6 +43,8 @@ class YumUser extends YumActiveRecord
     const ACCOUNT_TYPE_CORPORATE = 'Corporate';
     const AGREEMENT_MADE = 'yes';
 
+    const IS_ADMIN = '1';
+
     public $username;
     public $password;
     public $password_again; // for registration form only
@@ -142,6 +144,22 @@ class YumUser extends YumActiveRecord
      */
     public function isCorporate() {
         return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
+    }
+
+    public function getAccountName() {
+        if($this->isPersonal()){
+            return 'персональный';
+        }elseif($this->isCorporate()){
+            return 'корпоративный';
+        }elseif($this->isAnonymous()){
+            return 'не выбран';
+        }else{
+            throw new Exception("status error");
+        }
+    }
+
+    public function isAdmin() {
+        return $this->is_admin === self::IS_ADMIN?true:false;
     }
 
     /**
@@ -1013,11 +1031,4 @@ class YumUser extends YumActiveRecord
         //Yii::app()->session['uid'] = $this->id;
     }
 
-    public function isAdmin() {
-        if((int)$this->is_admin === 1){
-            return true;
-        }else{
-            return false;
-        }
-    }
 }

@@ -85,8 +85,16 @@ class CheatsController extends SiteBaseController
             $this->redirect('/');
         }
 
+        $initValue = $user->getAccount()->invites_limit;
+
         $user->getAccount()->invites_limit += 10;
         $user->getAccount()->save();
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: actionIncreaseInvites',
+            $user->getAccount(),
+            $initValue
+        );
 
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 
@@ -163,20 +171,36 @@ class CheatsController extends SiteBaseController
 
         if (null == $tariff) {
 
+            $initValue = 0;
+
             $user->getAccount()->tariff_id = null;
             $user->getAccount()->tariff_activated_at = null;
             $user->getAccount()->tariff_expired_at = null;
             $user->getAccount()->invites_limit = 0;
             $user->getAccount()->save();
 
+            UserService::logCorporateInviteMovementAdd(
+                'Cheats: actionChooseTariff, NULL tariff',
+                $user->getAccount(),
+                $initValue
+            );
+
             $this->redirect('/profile/corporate/tariff');
         }
+
+        $initValue = $user->getAccount()->invites_limit;
 
         $user->getAccount()->tariff_id = $tariff->id;
         $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
         $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
         $user->getAccount()->invites_limit = $tariff->simulations_amount;
         $user->getAccount()->save();
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: actionChooseTariff, tariff not null',
+            $user->getAccount(),
+            $initValue
+        );
 
         Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
 
@@ -270,6 +294,7 @@ class CheatsController extends SiteBaseController
      */
     public function actionGetZohoUsageStatus()
     {
+        return;
         @$file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'r');
         if (null !== $file) {
             $data = fread($file, 200);

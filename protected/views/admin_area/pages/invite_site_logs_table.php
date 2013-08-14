@@ -1,4 +1,4 @@
-<? $titlesInvite = [
+<?php $titlesInvite = [
     'ID инвайта',
     'статус',
     'ID симуляции',
@@ -16,24 +16,24 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <? foreach($titlesInvite as $title) :?>
+            <?php foreach($titlesInvite as $title) :?>
                 <th><?=$title?></th>
-            <? endforeach ?>
+            <?php endforeach ?>
         </tr>
         </thead>
         <tbody>
-        <? /* @var $model Invite*/ ?>
-        <? $step = 12; $i = 0; ?>
-        <? foreach($logInvite as $itemI) : ?>
-            <? $i++ ?>
-            <? if($i === $step) : ?>
+        <?php /* @var $model Invite*/ ?>
+        <?php $step = 12; $i = 0; ?>
+        <?php foreach($logInvite as $itemI) : ?>
+            <?php $i++ ?>
+            <?php if($i === $step) : ?>
                 <tr>
-                    <? foreach($titlesInvite as $title) :?>
+                    <?php foreach($titlesInvite as $title) :?>
                         <th><?=$title?></th>
-                    <? endforeach ?>
+                    <?php endforeach ?>
                 </tr>
-                <? $i= 0 ?>
-            <? endif ?>
+                <?php $i= 0 ?>
+            <?php endif ?>
             <tr class="invites-row">
                 <td><?= $itemI->invite_id ?></td>
                 <td><?= $itemI->status ?></td>
@@ -42,7 +42,7 @@
                 <td><?= $itemI->real_date ?></td>
                 <td><?= $itemI->comment ?></td>
             </tr>
-        <? endforeach ?>
+        <?php endforeach ?>
         </tbody>
     </table>
 
@@ -56,4 +56,5 @@
 
     <?php $this->renderPartial('//admin_area/pages/simulation_site_logs_table', [
         'logSimulation'    => $logSimulation,
+        'simulation'       => $simulation
     ]) ?>

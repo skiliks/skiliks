@@ -58,6 +58,8 @@ define([
 
             addClass: 'mail-window',
 
+            addId: 'mail-window',
+
             mailClientScreenID: 'mailEmulatorMainScreen',
 
             mailClientFoldersListId: 'MailClient_FolderLabels',
@@ -97,8 +99,7 @@ define([
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
-                'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
-                'click #MailClient_ContentBlock .mail-tags-bl td': 'doAddPhraseToEmail',
+                'click #MailClient_ContentBlock .mail-tags-bl td':    'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
             }, SKWindowView.prototype.events),
 
@@ -123,7 +124,6 @@ define([
                     // init View according model
                     this.listenTo(this.mailClient, 'init_completed', function () {
                         me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
-                        //console.log("trigger('render_finished')");
                         me.trigger('render_finished');
                         me.render_finished = true;
 
@@ -291,7 +291,6 @@ define([
             doSaveAttachment: function (event) {
                 try {
                     if("true" !== $(event.currentTarget).attr('data-disabled')) {
-                        //console.log("Click once");
                         $(event.currentTarget).attr('data-disabled', 'true');
                         this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
                     }
@@ -628,7 +627,6 @@ define([
                         );
                     }
 
-                    //console.log("!! trigger('render_folder_finished')");
                     this.trigger('render_folder_finished');
                 } catch(exception) {
                     if (window.Raven) {
@@ -1297,7 +1295,6 @@ define([
             doMoveToTrashActiveEmail: function () {
                 try {
                     if (undefined === this.mailClient.activeEmail) {
-                        //console.log('try to delete non exist email');
                         return;
                     }
 
@@ -1662,11 +1659,12 @@ define([
                 try {
                     var list = [];
                     var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
+                    var fio;
                         $.each(valuesArray, function(index, value){
-                            var character = SKApp.simulation.characters.where({'fio':$(value).text()})[0];
+                            fio = $(value).text().replace(/\s\((.*)\)/g, '');//remove title
+                            var character = _.first(SKApp.simulation.characters.where({'fio': fio}));
                             list.push(character.get('id'));
                         });
-
                     return list;
                 } catch(exception) {
                     if (window.Raven) {
@@ -1892,15 +1890,11 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').hide();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     }
 
                     // some letter has predefine text, update it
@@ -1937,7 +1931,21 @@ define([
              */
             doAddPhraseToEmail: function (event) {
                 try {
+                    var me = this;
+
                     event.preventDefault();
+
+                    if (this.blockPhraseMoving) {
+                        console.log('BLOCK!');
+                        return;
+                    }
+
+                    if (undefined === $(event.currentTarget).data('id') ||
+                        null === $(event.currentTarget).data('id')) {
+                        return;
+                    }
+
+                    this.blockPhraseMoving = true;
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
 
                     if (undefined === phrase) {
@@ -1956,6 +1964,10 @@ define([
 
                     // render updated state
                     this.renderAddPhraseToEmail(phraseToAdd);
+
+                    setTimeout(function() {
+                        delete me.blockPhraseMoving;
+                    }, 400);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1991,7 +2003,15 @@ define([
              */
             doRemovePhraseFromEmail: function (event) {
                 try {
+                    var me = this;
+
                     event.preventDefault();
+
+                    if (this.blockPhraseMoving) {
+                        return;
+                    }
+
+                    this.blockPhraseMoving = true;
                     var phrase = this.mailClient.getUsedPhraseByUid($(event.currentTarget).data('uid'));
 
                     if (undefined === phrase) {
@@ -2010,6 +2030,10 @@ define([
                             phrases.splice(i, 1);
                         }
                     }
+
+                    setTimeout(function() {
+                        delete me.blockPhraseMoving;
+                    }, 400);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2323,7 +2347,6 @@ define([
                         }
                     });
                     if(index === null){
-                        //console.log("index !== null");
                         return;
                     }
                     var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
@@ -2372,26 +2395,17 @@ define([
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                         this.$('#mailEmulatorNewLetterText').html(
                             this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g")
                         );
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight()
                         );
-                        console.log("this");
-                        console.log(this.$('.mail-text-wrap').height());
                     } else {
                         this.$('.mail-tags-bl').show();
                         this.$('.mail-text-wrap').height(
                             this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
                         );
-                        console.log("this");
-                        console.log("this.$('.mail-view.new').height() -" + this.$('.mail-view.new').height());
-                        console.log("this.$('.mail-view-header').outerHeight() -" + this.$('.mail-view-header').outerHeight());
-                        console.log("this.$('.mail-tags-bl').outerHeight() -" + this.$('.mail-tags-bl').outerHeight());
-                        console.log(this.$('.mail-text-wrap').height());
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -2919,7 +2933,7 @@ define([
                             .animate({
                                 'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
                                 'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
-                            }, 5000, function (){
+                            }, 3400, function (){
 
                                 me.doSendEmail();
 
@@ -2927,7 +2941,7 @@ define([
                                     me.options.model_instance.close();
                                     me.isFantasticSend = false;
                                     me.mailClient.trigger('mail:fantastic-send:complete');
-                                }, 3000);
+                                }, 1000);
                             });
                     },0);
                 } catch(exception) {

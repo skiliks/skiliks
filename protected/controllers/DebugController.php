@@ -50,5 +50,33 @@ class DebugController extends SiteBaseController
         $this->layout = false;
         $this->render('style_empty_1024');
     }
+
+    public function actionXxx()
+    {
+        $doc = new MyDocument();
+        $doc->fileName = 'Сводный бюджет_2014_план.xls';
+        $doc->sim_id = 714;
+        $doc->template_id = 20;
+        $doc->save(false);
+        $doc->refresh();
+
+        // var MyDocument $doc
+        $scData = $doc->getSheetList();
+
+        $filePath = tempnam('/tmp', 'excel_');
+
+        ScXlsConverter::sc2xls($scData, $filePath);
+
+        if (file_exists($filePath)) {
+            $xls = file_get_contents($filePath);
+        } else {
+            throw new Exception("Файл не найден");
+        }
+
+        $filename = $doc->sim_id . '_' . $doc->template->fileName;
+        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        echo $xls;
+    }
 }
 

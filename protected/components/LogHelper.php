@@ -49,6 +49,8 @@ class LogHelper
         24 => 'phone call',
         31 => 'visitor entrance',
         32 => 'visitor talk',
+        33 => 'meeting choice',
+        34 => 'meeting gone',
         41 => 'documents main',
         42 => 'documents files'
     );
@@ -244,9 +246,10 @@ class LogHelper
 
                         if ($result['full'] !== null && $result['full'] !== '-') {
                             $template = $simulation->game_type->getMailTemplate(['code' => $result['full']]);
+                            /* @var $parent_action ActivityParent */
                             foreach ($template->termination_parent_actions as $parent_action) {
                                 if (!$parent_action->isTerminatedInSimulation($simulation)) {
-                                    $parent_action->terminateInSimulation($simulation);
+                                    $parent_action->terminateInSimulation($simulation, gmdate("H:i:s", $log[3]));
                                 }
                             };
                         }
@@ -280,9 +283,51 @@ class LogHelper
         return true;
     }
 
+    public static function setMeetingLog($simId, $logs)
+    {
+        if (!is_array($logs)) {
+            return false;
+        }
 
+        foreach ($logs as $log) {
+            if (!isset($log[4]['meetingId'])) {
+                continue;
+            }
 
+            if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
+                $log_obj = LogMeeting::model()->findByAttributes([
+                    'sim_id' => $simId,
+                    'meeting_id' => $log[4]['meetingId']
+                ]);
 
+                if (null === $log_obj) {
+                    $log_obj = new LogMeeting();
+                }
+
+                $log_obj->sim_id = $simId;
+                $log_obj->meeting_id = $log[4]['meetingId'];
+                $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                $log_obj->end_time   = '00:00:00';
+                $log_obj->window_uid = $log['window_uid'];
+                $log_obj->save();
+            } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+                /** @var LogMeeting $log_obj */
+                $log_obj = LogMeeting::model()->findByAttributes(array(
+                    'meeting_id'  => $log[4]['meetingId'],
+                    'end_time' => '00:00:00',
+                    'sim_id'   => $simId
+                ));
+                if (!$log_obj) {
+                    continue;
+                }
+
+                $log_obj->end_time = gmdate("H:i:s", $log[3]);
+                $log_obj->save();
+            }
+        }
+
+        return true;
+    }
 
     public static function setWindowsLog($simId, $logs)
     {
@@ -502,7 +547,6 @@ class LogHelper
                 $aggregatedActivity->activityAction =        $activityAction->activityAction;
                 $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
                 $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
-                $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
                 $aggregatedActivity->start_time =            $activityAction->start_time;
                 $aggregatedActivity->end_time =              $activityAction->end_time;
 
@@ -571,7 +615,6 @@ class LogHelper
                     $aggregatedActivity->activityAction =        $activityAction->activityAction;
                     $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
                     $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
-                    $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
                     $aggregatedActivity->start_time =            $activityAction->start_time;
                     $aggregatedActivity->end_time =              $activityAction->end_time;
                     $aggregatedActivity->duration =              $diff_time;

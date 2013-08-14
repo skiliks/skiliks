@@ -5,6 +5,10 @@
     overflow: hidden;
     height:100%;
   }
+  .btn-close {
+    top:-75px;
+    right:7px;
+  }
   header {
     background: url("../img/planner/bg-planner-header-right.png") no-repeat right top;
     height: auto;
@@ -140,21 +144,7 @@
       padding-left: 25px;
       height: 100%;
       position: relative;
-      .btn-close{
-        position:absolute;
-        top:-75px;
-        right:7px;
-        button{
-          background:url("../img/planner/icon-close.png") no-repeat 0 0;
-          border:none;
-          width:20px;
-          height:20px;
-          cursor:pointer;
-          &:hover{
-            background-position:0 -20px;
-          }
-        }
-      }
+
       .btn-save {
         position:absolute;
         top:-74px;
@@ -996,6 +986,30 @@
           }
         }
       }
+    }
+  }
+}
+.plan_hint_tooltip{
+  position: relative;
+  z-index: 50;
+  min-height: 10px;
+  background-color: #000000;
+  color: white;
+  padding: 3px;
+  border-radius: 2px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+.btn-close{
+  position:absolute;
+  button{
+    background:url("../img/planner/icon-close.png") no-repeat 0 0;
+    border:none;
+    width:20px;
+    height:20px;
+    cursor:pointer;
+    &:hover{
+      background-position:0 -20px;
     }
   }
 }

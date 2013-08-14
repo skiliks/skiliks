@@ -79,7 +79,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
                 'updated_at',
             ]);
 
-            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
             $newInviteForFullSimulation->save(false);
 
             InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 1)');
@@ -158,12 +158,11 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
-            $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
             ]);
 
-            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
             $newInviteForFullSimulation->save(false);
             InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 2)');
         }
@@ -218,7 +217,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
                 'updated_at',
             ]);
 
-            $newInviteForFullSimulation->email = Yii::app()->user->data()->profile->email;
+            $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
             $newInviteForFullSimulation->save(false);
             InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 3)');
         }
@@ -263,7 +262,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         $simulation = Simulation::model()->findByPk($id);
         /* @var $user YumUser */
         $user = Yii::app()->user->data();
-        if( false === $user->isAdmin() ){
+        if( false === $user->isAdmin() && null !== $simulation->invite){
             if ($user->id !== $simulation->invite->owner_id &&
                 $user->id !== $simulation->invite->receiver_id) {
                 //echo 'Вы не можете просматривать результаты чужих симуляций.';
@@ -274,19 +273,18 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
         $this->layout = false;
 
-        $learning_areas = [];
+        $details = $simulation->getAssessmentDetails();
 
-        $learning_areas['resultOrientation'] = SimulationLearningArea::model()->findByAttributes(['sim_id'=>$simulation->id]);
+        // update sim results popup info:
+        $simulation->results_popup_partials_path = '//static/simulations/partials/';
+        $simulation->save(false);
 
-        $invite = Invite::model()->findByAttributes(['simulation_id'=>$simulation->id]);
+        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path);
 
-
-
-        $this->render('simulation_details', [
+        $this->render($baseView, [
             'simulation'     => $simulation,
-            'learning_areas' => $learning_areas,
-            'invite'=>$invite,
-            'user'=>$user
+            'details'        => $details,
+            'user'           => $user
         ]);
     }
 }

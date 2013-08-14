@@ -7,19 +7,19 @@
 
     <?= CHtml::activeTextField($model,'username', ['class'=>'input-block-level']); ?>
 
-    <? if(null !== $model->getError('username')) : ?>
+    <?php if(null !== $model->getError('username')) : ?>
         <div class="alert alert-error">
             <?=$model->getError('username')?>
         </div>
-    <? endif ?>
+    <?php endif ?>
 
     <?= CHtml::activePasswordField($model,'password',['class'=>'input-block-level']); ?>
 
-    <? if(null !== $model->getError('password')) : ?>
+    <?php if(null !== $model->getError('password')) : ?>
         <div class="alert alert-error">
             <?=$model->getError('password')?>
         </div>
-    <? endif ?>
+    <?php endif ?>
 
     <label class="checkbox">
         <input type="checkbox" value="remember-me"> Запомнить меня

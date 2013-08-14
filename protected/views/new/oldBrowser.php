@@ -8,7 +8,7 @@
         </div>
         <div class="grid1"><span class="font-xxlarge font-white">или</span></div>
         <div class="grid2">
-            <p class="font-xxxlarge font-white">Mozilla Firefox 21</p>
+            <p class="font-xxxlarge font-white">Mozilla Firefox 18</p>
             <div class="ico-firefox ico-browser"></div><a class="btn btn-site btn-green" href="http://www.mozilla.org/firefox/new/" target="_blank">Установить</a>
         </div>
     </div>

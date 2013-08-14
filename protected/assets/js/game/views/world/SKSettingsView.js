@@ -37,17 +37,23 @@ define([
          * @param event
          */
         'doSubmit': function (event) {
-            event.preventDefault();
-            var pass1 = event.target.elements.pass1;
-            var pass2 = event.target.elements.pass2;
-            if(pass1==='' || pass2===''){
-                var message = 'Заполните все поля';
-                var lang_alert_title = 'Изменение пароля';
-                var lang_confirmed = 'Ок';
-                messages.dw_alert(message, lang_alert_title, lang_confirmed, 'alert-error');
-                return;
+            try {
+                event.preventDefault();
+                var pass1 = event.target.elements.pass1;
+                var pass2 = event.target.elements.pass2;
+                if(pass1==='' || pass2===''){
+                    var message = 'Заполните все поля';
+                    var lang_alert_title = 'Изменение пароля';
+                    var lang_confirmed = 'Ок';
+                    messages.dw_alert(message, lang_alert_title, lang_confirmed, 'alert-error');
+                    return;
+                }
+                sender.userAccountChangePassword(curUserPass1, curUserPass2);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
-            sender.userAccountChangePassword(curUserPass1, curUserPass2);
         }
     });
 

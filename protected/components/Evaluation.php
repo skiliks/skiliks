@@ -45,31 +45,49 @@ class Evaluation {
 
     public function checkManagerialSkills()
     {
-        $scenario = $this->simulation->game_type;
-
-        $total = 0;
-        $maxRate = 0;
-
-        foreach ($this->simulation->learning_goal as $goalPoint) {
-            if ($goalPoint->learningGoal->learningArea->code <= 8) {
-                $total += $goalPoint->value * $goalPoint->getReducingCoefficient();
-            }
+        $followPriorities = $this->simulation->game_type->getLearningArea(['code' => 1]);
+        /* @var $simFollowPriorities SimulationLearningArea */
+        $simFollowPriorities = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($followPriorities)) ? null : $followPriorities->id
+        ]);
+        if(null === $simFollowPriorities) {
+            $simFollowPrioritiesValue = 0;
+        } else {
+            $simFollowPrioritiesValue = $simFollowPriorities->score;
         }
 
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
+        $communicationManagement = $this->simulation->game_type->getLearningArea(['code' => 3]);
+        /* @var $simCommunicationManagement SimulationLearningArea */
+        $simCommunicationManagement = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($communicationManagement)) ? null : $communicationManagement->id
+        ]);
+        if(null === $simCommunicationManagement) {
+            $simCommunicationManagementValue = 0;
+        } else {
+            $simCommunicationManagementValue = $simCommunicationManagement->score;
+        }
 
-        /** @var HeroBehaviour[] $behaviours */
-        $behaviours = $scenario->getHeroBehavours(['type_scale' => 1]);
-        foreach ($behaviours as $behaviour) {
-            if (false == in_array($behaviour->code, $except)) {
-                $maxRate += $behaviour->scale;
-            }
+        $peopleManagement = $this->simulation->game_type->getLearningArea(['code' => 2]);
+        /* @var $simPeopleManagement SimulationLearningArea */
+        $simPeopleManagement = SimulationLearningArea::model()->findByAttributes([
+            'sim_id'           => $this->simulation->id,
+            'learning_area_id' => (empty($peopleManagement)) ? null : $peopleManagement->id
+        ]);
+        if(null === $simPeopleManagement) {
+            $simPeopleManagementValue = 0;
+        } else {
+            $simPeopleManagementValue = $simPeopleManagement->score;
         }
 
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::MANAGEMENT_SKILLS;
         $result->sim_id = $this->simulation->id;
-        $result->value = substr(($maxRate ? $total / $maxRate * 100 : 0), 0, 10);
+        $result->value = LearningGoalAnalyzer::calculateAssessment(
+            $simPeopleManagementValue + $simFollowPrioritiesValue + $simCommunicationManagementValue,
+            100
+        );
 
         $result->save();
     }
@@ -94,6 +112,7 @@ class Evaluation {
         $result = new AssessmentOverall();
         $result->assessment_category_code = AssessmentCategory::PRODUCTIVITY;
         $result->sim_id = $this->simulation->id;
+        $value = ($value > 100)?round($value):$value;
         $result->value = substr($value, 0, 10);
 
         $result->save();

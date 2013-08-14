@@ -9,4 +9,11 @@ class ApplicationCacheController extends SiteBaseController{
 
     }
 
+    public function actionPageForCache() {
+
+        $this->layout = false;
+        $this->render('//static/applicationcache/page_for_cache');
+
+    }
+
 }

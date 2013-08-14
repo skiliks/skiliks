@@ -46,23 +46,21 @@ class ManagementPeople_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да у Денежной снега зимой не выпросишь, а тут деньги вне бюджета! Что же делать?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я все понял. Запланирую подготовку служебки сегодня-завтра. Спасибо!')])");
-
+        sleep(2);
         $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
-
+        sleep(2);
         $this->run_event('T7.1',"xpath=(//*[contains(text(),'Я по поводу задания от логистов по выгрузке данных. Трудякин просил сегодня! Ты его сделал?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'В таких случаях надо сразу же спрашивать у меня или у заказчика. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы же говорили, что в письмах людям выше тебя статусом я должен стоять в копии! ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо,  сейчас поговорю с ним и уточню задание! Но впредь учти – детализация задачи – часть твоей работы!')])");
-
+        sleep(2);
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Какой план? Я бюджетом занят!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, Егор! До отпуска времени у меня нет. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сегодня вечером, после шести!')])");
-
-        $this->run_event('M65');
         sleep(2);
-        $this->run_event('MS48');
+        $this->run_event('M65');
         sleep(2);
         $this->run_event('MS65');
         sleep(2);
@@ -71,7 +69,7 @@ class ManagementPeople_Test extends SeleniumTestHelper
 
         $this->run_event('E2',"xpath=(//*[contains(text(),'Конечно, Валерий Семенович! Буду у Вас в 16.00 с готовой презентаций.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Да, у меня в графике уже выделено время на проверку')])");
-
+        sleep(2);
         $this->optimal_click("link=F38_1");
         $this->optimal_click("link=F38_2");
 
@@ -79,7 +77,7 @@ class ManagementPeople_Test extends SeleniumTestHelper
         sleep(5);
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю,')])");
-
+        sleep(2);
         $this->run_event('E12.4',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Добрый день, Валерий Семенович!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
@@ -87,10 +85,10 @@ class ManagementPeople_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления,')])");
-
+        sleep(2);
         // Feedback
         $this->run_event('E2.10',"xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени хватит – продолжай работать. Полагаюсь на тебя, жду презентацию вовремя.')])",'click');
-
+        sleep(2);
         $this->run_event('E13',"xpath=(//*[contains(text(),'Марина, могу я чем-то помочь?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А что именно должно поменяться и почему?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что же именно привело тебя к такому решению?')])");
@@ -121,24 +119,27 @@ class ManagementPeople_Test extends SeleniumTestHelper
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией для Генерального? ')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
-
+        sleep(2);
         //$this->optimal_click("link=F35");
         //sleep(5);
         $this->run_event('T5.2',"xpath=(//*[contains(text(),'Марина, я по поводу презентации. Спасибо, что прислала вовремя, как договаривались. Работа полностью соответствует требованиям. Мне и корректировать нечего.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Я дам тебе знать, что думает Босс, после встречи с ним. ')])");
-
+        sleep(2);
         $this->run_event('T6.2',"xpath=(//*[contains(text(),'Марина, запиши, пожалуйста, важную информацию по презентации.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Нет-нет. Ее надо распечатать. Запиши, пожалуйста.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Главное, чтобы хватило. Сорок копий.')])");
-
+        sleep(2);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "12");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "38");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
+        sleep(2);
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['management3'],"100");
-        $this->close();
+        sleep(2);
+        $this->simulation_showLogs();
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_2_1']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_2_1'],"100.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_2_2'],"100.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_2_3'],"100.00");
+        $this->assertText(Yii::app()->params['test_mappings']['log']['learning_area_2'],"100");
     }
 }

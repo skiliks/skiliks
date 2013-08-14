@@ -136,7 +136,9 @@ class ImportGameDataService
             if (NULL === $this->getCellValue($sheet, 'Номер области обучения', $i)) {
                 continue;
             }
-
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
             // try to find exists entity
             $learningArea = $this->scenario->getLearningArea([
                 'code' => $this->getCellValue($sheet, 'Номер области обучения', $i)
@@ -191,11 +193,39 @@ class ImportGameDataService
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
-
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
                 continue;
+            }
+
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
+
+            $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
+
+            $learningGoalGroupText = $this->getCellValue($sheet, 'Learning_goal_group_text', $i) ? : null;
+            $learningGoalGroupCode = $this->getCellValue($sheet, 'Learning_goal_group_id', $i) ? : null;
+
+            if(!empty($learningGoalGroupCode) && !empty($learningGoalGroupText)){
+                $learningGoalGroup = LearningGoalGroup::model()->findByAttributes([
+                    'code'=>$learningGoalGroupCode,
+                    'scenario_id' => $this->scenario->primaryKey
+                ]);
+
+                if(null === $learningGoalGroup) {
+                    $learningGoalGroup = new LearningGoalGroup();
+                    $learningGoalGroup->code = $learningGoalGroupCode;
+                }
+                $learningGoalGroup->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->code : null;
+                $learningGoalGroup->learning_area_id = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->id : null;
+                $learningGoalGroup->title = $learningGoalGroupText;
+                $learningGoalGroup->import_id = $this->import_id;
+                $learningGoalGroup->scenario_id = $this->scenario->primaryKey;
+                $learningGoalGroup->save(false);
+            } else {
+                $learningGoalGroup = null;
             }
 
             // try to find exists entity
@@ -213,8 +243,7 @@ class ImportGameDataService
 
             // update data {
             $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
-
-            $learningAreaCode = $this->getCellValue($sheet, 'Номер области обучения', $i) ? : null;
+            $learningGoal->learning_goal_group_id = ($learningGoalGroup === null) ? 0 : $learningGoalGroup->id;
             $learningGoal->learning_area_code = $learningAreaCode ? $this->scenario->getLearningArea(['code' => $learningAreaCode])->getPrimaryKey() : null;
             $learningGoal->import_id = $this->import_id;
             $learningGoal->scenario_id = $this->scenario->primaryKey;
@@ -228,6 +257,10 @@ class ImportGameDataService
 
         // delete old unused data {
         LearningGoal::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        LearningGoalGroup::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
@@ -287,7 +320,9 @@ class ImportGameDataService
 
                 $phrase = $this->scenario->getMailPhrase([
                     'constructor_id' => $constructor->getPrimaryKey(),
-                    'name' => $phraseValue]);
+                    'name' => $phraseValue,
+                    'column_number' => $column_number
+                ]);
 
                 if ($phrase === null) {
                     $phrase = new MailPhrase();
@@ -353,7 +388,7 @@ class ImportGameDataService
     /**
      *
      */
-    public function     importHeroBehaviours()
+    public function  importHeroBehaviours()
     {
         $this->logStart();
 
@@ -373,13 +408,14 @@ class ImportGameDataService
             $groups[$group->id] = $group->name;
         }
 
-
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер требуемого поведения', $i)) {
                 continue;
             }
-
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
             // try to find exists entity 
             $charactersPointsTitle = HeroBehaviour::model()
                 ->findByAttributes([
@@ -447,7 +483,9 @@ class ImportGameDataService
             if (NULL === $this->getCellValue($sheet, 'Assessment group', $i)) {
                 continue;
             }
-
+            if("нет" === $this->getCellValue($sheet, 'Оценивается в Релиз 1 (да/нет)', $i)){
+                continue;
+            }
             // try to find exists entity
             $assessment_group = $this->scenario
                 ->getAssessmentGroup(['name'=>$this->getCellValue($sheet, 'Assessment group', $i)]);
@@ -570,7 +608,7 @@ class ImportGameDataService
 
         // load sheet {
         $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Parent_availability');
+        $sheet = $excel->getSheetByName('Parent_params');
 
         // load sheet }
         if (!$sheet) {
@@ -593,8 +631,9 @@ class ImportGameDataService
                 $entity->scenario_id = $this->scenario->getPrimaryKey();
             }
 
+            $keep_last_category = $this->getCellValue($sheet, 'Keep last category', $i);
             $entity->category = $this->getCellValue($sheet, 'Категория', $i);
-
+            $entity->is_keep_last_category = ($keep_last_category === 'yes')?1:0;
             $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
             $entity->import_id = $this->import_id;
 
@@ -852,26 +891,30 @@ class ImportGameDataService
             $columnIndex = $START_COL;
             while ($columnIndex < $END_COL) {
                 $value = $sheet->getCellByColumnAndRow($columnIndex, $i->key())->getValue();
-                ;
+
                 if ($value === null || $value === "") {
                     $columnIndex++;
                     continue;
                 }
                 $pointCode = $pointsCodes[$columnIndex];
-                if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
-                $pointId = $pointsInfo[$pointCode];
+                if (isset($pointsInfo[$pointCode])){
+                    $pointId = $pointsInfo[$pointCode];
+                    /** @var MailPoint $pointEntity */
+                    $pointEntity = $this->scenario->getMailPoint(['mail_id' => $emailTemplateEntity->id, 'point_id'  => $pointId]);
+                    if (null === $pointEntity) {
+                        $pointEntity = new MailPoint();
+                    }
+                    $pointEntity->mail_id = $emailTemplateEntity->id;
+                    $pointEntity->point_id = $pointId;
+                    $pointEntity->add_value = $value;
+                    $pointEntity->import_id = $this->import_id;
+                    $pointEntity->scenario_id = $this->scenario->primaryKey;
+                    $pointEntity->save();
 
-                /** @var MailPoint $pointEntity */
-                $pointEntity = $this->scenario->getMailPoint(['mail_id' => $emailTemplateEntity->id, 'point_id'  => $pointId]);
-                if (null === $pointEntity) {
-                    $pointEntity = new MailPoint();
+                }else{
+                    $columnIndex++;
+                    continue;
                 }
-                $pointEntity->mail_id = $emailTemplateEntity->id;
-                $pointEntity->point_id = $pointId;
-                $pointEntity->add_value = $value;
-                $pointEntity->import_id = $this->import_id;
-                $pointEntity->scenario_id = $this->scenario->primaryKey;
-                $pointEntity->save();
 
                 $emailToPointIds[] = $pointEntity->id;
 
@@ -2193,7 +2236,8 @@ class ImportGameDataService
             'System_dial_leg' => 'dialog_id',
             'Inbox_leg'       => 'mail_id',
             'Outbox_leg'      => 'mail_id',
-            'Window'          => 'window_id'
+            'Window'          => 'window_id',
+            'Meeting'         => 'meeting_id'
         );
 
         $sheet = $this->getExcel()->getSheetByName('Leg_actions');
@@ -2303,6 +2347,14 @@ class ImportGameDataService
                     assert($window);
                     $values = array($window);
                 }
+            } else if ($type === 'meeting_id') {
+                if ($xls_act_value === 'all') {
+                    $values = $this->scenario->getMeetings([]);
+                } else {
+                    $meeting = $this->scenario->getMeeting(array('code' => $xls_act_value));
+                    assert($meeting);
+                    $values = array($meeting);
+                }
             } else {
                 throw new Exception('Can not handle type:' . $type);
             }
@@ -2322,8 +2374,6 @@ class ImportGameDataService
                 $activityAction->scenario_id = $this->scenario->primaryKey;
                 $activityAction->activity_id = $activity->id;
                 $activityAction->leg_type = $leg_type;
-                $activityAction->is_keep_last_category =
-                    $sheet->getCellByColumnAndRow($this->columnNoByName['Keep last category'], $i->key())->getValue();
                 $activityAction->$type = ($value !== null ? $value->primaryKey : null);
                 if (!$activityAction->validate()) {
                     $this->errors = $activityAction->getErrors();
@@ -2578,6 +2628,7 @@ class ImportGameDataService
                 $rateEntity->import_id = $this->import_id;
 
                 $rateEntity->save();
+
                 $rates++;
             }
         }
@@ -2682,6 +2733,115 @@ class ImportGameDataService
         );
     }
 
+    public function importMeetings()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Meetings');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $meetings = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $code = $this->getCellValue($sheet, 'Meeting_code', $i);
+            $taskCode = $this->getCellValue($sheet, 'Plan_connection', $i);
+
+            $meeting = $this->scenario->getMeeting(['code' => $code]);
+            if (empty($meeting)) {
+                $meeting = new Meeting();
+                $meeting->code = $code;
+            }
+
+            $meeting->name = $this->getCellValue($sheet, 'Meeting_name', $i);
+            $meeting->icon_text = $this->getCellValue($sheet, 'Meeting_icon_text', $i);
+            $meeting->popup_text = $this->getCellValue($sheet, 'Meeting_popup_text', $i);
+            $meeting->duration = $this->getCellValue($sheet, 'Duration', $i);
+
+            if ($taskCode) {
+                $task = $this->scenario->getTask(['code' => $taskCode]);
+                if ($task) {
+                    $meeting->task_id = $task->id;
+                }
+            }
+
+            $meeting->scenario_id = $this->scenario->primaryKey;
+            $meeting->import_id = $this->import_id;
+
+            $meeting->save();
+            $meetings++;
+        }
+
+        // delete old unused data {
+        Meeting::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'meetings' => $meetings,
+            'errors'    => false,
+        );
+    }
+
+    public function importFlagTimeSwitch()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Set_flags');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $flagSwitches = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $id = $this->getCellValue($sheet, 'Set_flag_id', $i);
+
+            $flagSwitch = $this->scenario->getFlagSwitchTime(['id' => $id]);
+            if (empty($flagSwitch)) {
+                $flagSwitch = new FlagSwitchTime();
+                $flagSwitch->id = $id;
+            }
+
+            $flagSwitch->flag_code = $this->getCellValue($sheet, 'Flag_code_to_set', $i);
+            $flagSwitch->value = $this->getCellValue($sheet, 'Flag_value_to_set', $i);
+            $flagSwitch->time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Set_flag_value', $i), 'hh:mm:ss') ?: null;
+
+            $flagSwitch->scenario_id = $this->scenario->primaryKey;
+            $flagSwitch->import_id = $this->import_id;
+
+            $flagSwitch->save();
+            $flagSwitches++;
+        }
+
+        // delete old unused data {
+        FlagSwitchTime::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'flag_switches' => $flagSwitches,
+            'errors'    => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2726,6 +2886,7 @@ class ImportGameDataService
         $result['tasks'] = $this->importTasks();
         $result['mail_tasks'] = $this->importMailTasks();
         $result['event_samples'] = $this->importEventSamples();
+        $result['meetings'] = $this->importMeetings();
         $result['activity'] = $this->importActivity();
         $result['activity_parent_ending'] = $this->importActivityParentEnding();
         $result['flag_rules'] = $this->importFlagsRules();
@@ -2734,6 +2895,7 @@ class ImportGameDataService
         $result['max_rate'] = $this->importMaxRate();
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
+        $result['flag_time_switch'] = $this->importFlagTimeSwitch();
         return $result;
     }
 
@@ -2943,6 +3105,37 @@ class ImportGameDataService
         }
         // for Dialogs }
 
+        $importedFlagAllowMeeting = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('meeting' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            $meeting = $this->scenario->getMeeting(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
+
+            // try to find exists entity {
+            $flagAllowMeeting = $this->scenario->getFlagAllowMeeting([
+                'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
+                'meeting_id' => $meeting->id,
+            ]);
+            // try to find exists entity }
+
+            // create entity if not exists {
+            if (null === $flagAllowMeeting) {
+                $flagAllowMeeting = new FlagAllowMeeting();
+                $flagAllowMeeting->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $flagAllowMeeting->meeting_id = $meeting->id;
+            }
+            // create entity if not exists }
+
+            $flagAllowMeeting->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagAllowMeeting->import_id = $this->import_id;
+            $flagAllowMeeting->scenario_id = $this->scenario->primaryKey;
+
+            $flagAllowMeeting->save();
+            $importedFlagAllowMeeting++;
+        }
+
         // delete old unused data {
         FlagRunMail::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
@@ -2967,6 +3160,11 @@ class ImportGameDataService
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
+
+        FlagAllowMeeting::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
         // delete old unused data }
 
         $this->logEnd();
@@ -2977,6 +3175,7 @@ class ImportGameDataService
             'imported_Flag_block_replica'        => $importedFlagBlockReplica,
             'imported_Flag_block_dialog'         => $importedFlagBlockDialog,
             'imported_Flag_communication_theme'  => $importedCommunicationTheme,
+            'imported_Flag_allow_meeting'        => $importedFlagAllowMeeting,
             'errors'                             => false,
         ];
     }

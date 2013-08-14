@@ -1,0 +1,15 @@
+<div id="choose-meeting-box" class="mail-emulator-main-div">
+    <section class="meeting-list">
+        <div class="open-door"></div>
+        <button class="btn-cl win-close">&nbsp;</button>
+        <div class="meeting-content-wrap">
+            <div class="meeting-content">
+                <ul>
+                    <@ subjects.each(function(subject) { @>
+                    <li class="meeting-subject" data-subject-id="<@= subject.get('id') @>"><@= subject.get('label') @></li>
+                    <@ }) @>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>

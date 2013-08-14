@@ -65,6 +65,37 @@ class UserService {
             return true;
         }
     }
+
+    /**
+     * Добавляет лог о состоянии баланса инвайтов по сккаунту
+     *
+     * @param string, $action
+     * @param UserAccountCorporate $account
+     * @param $amountBeforeTransaction
+     * @param $isAdd
+     * @param null $comment
+     */
+    public static function logCorporateInviteMovementAdd($action, $account, $amountBeforeTransaction, $comment = null )
+    {
+        if (null == $account) {
+            return false;
+        }
+
+        if (false === $account instanceof UserAccountCorporate) {
+            return false;
+        }
+
+        $log = new LogAccountInvite();
+        $log->action = $action;
+        $log->user_id = $account->user_id;
+        $log->direction = ($account->invites_limit > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
+        $log->limit_after_transaction = $account->invites_limit;
+        $log->amount = $amountBeforeTransaction;
+        $log->date = date('Y-m-d H:i:s');
+        $log->comment = $comment;
+
+        $log->save(false);
+    }
 }
 
 

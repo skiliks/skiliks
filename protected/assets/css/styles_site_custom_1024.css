@@ -24,15 +24,11 @@
 }
 .social_networks .addthis_toolbox {
     display: block;
-    float:left;
+    float:right;
 }
 .social_networks>span {
     font-size: 12px;
     line-height: 26px;
-}
-.social_networks .addthis_toolbox {
-    display: block;
-    float:left;
 }
 .social_networks a {
     background:url("../img/social-small.png") -100% -100% no-repeat;
@@ -65,6 +61,123 @@
     background-position: -142px -33px;
 }
 /*  ****************************** /SOCIAL ICONS *******************************/
+/*  ************************** HOME **************************/
+.action-homeNew {/* 07.12 */
+    background-color: #e8f7f7;
+    background-image: url("../img/bg-top-min.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+.action-homeNew .site-wrap {
+    background:url("../img/heros-home-min.png") no-repeat center 120px; /* heros-home-min.png no-repeat center 120px */
+    overflow: hidden;
+}
+.home-contnt-box {
+    margin: 45px 0px 75px 234px;
+    width:415px;
+}
+.home-contnt-box li {
+    font-size: 13px;
+    line-height: 12px;
+    margin-bottom: 8px;
+}
+.home-contnt-box h2 {
+    margin-bottom: 13px;
+}
+.home-contnt-box ul+h2 {
+    margin-top:40px;
+}
+.home-list-box {
+    margin-bottom: 25px;
+    margin-top:4px;
+    /*padding-right: 20px;*/
+    width:330px;
+}
+.access-footer {
+    display: inline-block;
+    position: absolute;
+    /*bottom: 45px;*/
+    height:32px;
+    line-height:32px;
+    left:204px;
+    padding-right: 10px;
+    top:202px;
+}
+.page-header {
+    margin-bottom: 16px;
+}
+.home-content .page-header {
+    margin-bottom: 22px;
+}
+.page-header.margin-less {
+    margin-bottom: 10px;
+}
+.betaflag {
+    background: url("../img/betaflag.png") no-repeat 0 0;
+    background-size: 83px;
+    height: 49px;
+    left: 230px;
+    position: absolute;
+    top: 31px;
+    width: 83px;
+}
+
+.video {
+    background: url("../img/video-min.png") no-repeat 0 0;
+    cursor: pointer;
+    height: 187px;
+    margin-top:12px;
+    text-align: center;
+    width:350px;
+}
+.video-caption {
+    background-color: #176771;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 138px auto 0;
+    opacity: 0.9;
+    padding: 5px 12px 9px;
+}
+.home-content .social_networks {
+    float: right;
+    margin-top: 10px;
+    padding-right: 6px;
+    width:340px;
+}
+.addthis_toolbox {
+    float: right;
+}
+.home-content .container-2 {
+    height:260px;
+    width:700px;
+}
+.home-content .container-2 .grid1 {
+    width:350px;
+}
+.home-content .grid1+.grid1 {
+    margin-left: 0px;
+}
+.home-height {
+    height:738px;
+}
+.clients {
+    width:480px;
+}
+.clients h2 {
+    margin-bottom: 16px;
+}
+.clients .grid-cell {
+    padding-bottom: 35px;
+    padding-right:20px;
+    vertical-align: middle;
+}
+.clients img {
+    width:80%;
+}
+.heroes-comment {
+    display: none;
+}
+/*  ************************** /HOME **************************/
 /*  ************************ KABINET ************************/
 #invite-form .sbHolder, #invite-form select {
     width:113px;
@@ -134,26 +247,28 @@
     margin-left: -20px;
     position: absolute;
     top: 10px;
-    width: 103px;
+    width:82px;
 }
 #corporate-invitations-list-box #yw0_c1,
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
-    max-width: 108px;
-    width: 108px;
+    max-width: 120px;
+    width: 74px;
 }
 #corporate-invitations-list-box #yw0_c2,
 #corporate-invitations-list-box .grid-view tr td:nth-child(3) {
-    max-width: 65px;
-    width: 65px;
+    /*max-width: 65px;
+    width: 65px;*/
 }
 #corporate-invitations-list-box #yw0_c3 {
     max-width: 80px;
     width: 80px;
 }
 #corporate-invitations-list-box #yw0_c4 {
-    width: 110px;
+    max-width: 40px;
+    width: 40px;
 }
 #corporate-invitations-list-box #yw0_c5 {
+    max-width: 110px;
     width: 110px;
 }
 #corporate-invitations-list-box .items p {
@@ -613,3 +728,471 @@
     font-size: 23px;
 }
 /*  *************************** /OLD BROWSERS ***************************/
+/*  *************************** TEAM ***************************/
+.action-teamNew {
+    background: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bgtoprepeat-min.jpg"), url("../img/bg-team-container.png");
+    background-repeat: no-repeat, no-repeat, repeat-x, no-repeat;
+    background-position: center 560px, center top, center 200px, center 560px;
+}
+.team {
+    height: 1170px;
+}
+.text-about {
+    line-height: 130%;
+    margin: 0 auto 15px;
+    width:670px;
+}
+.team-list li {
+    font-size: 10px;
+    line-height: 150%;
+    margin-bottom: 8px;
+    width: 368px;
+    height: 143px;
+}
+.team-list h3, .team-list p {
+    margin-left: 12px;
+}
+.team-list h3 {
+    font-size: 20px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+.maria {
+    background-image: url("../img/team-maria-min.png");
+}
+.alyona {
+    background-image: url("../img/team-alyona-min.png");
+}
+.tony {
+    background-image: url("../img/team-tony-min.png");
+    margin-top: 4px;
+}
+.andrii {
+    background-image: url("../img/team-andrey-min.png");
+}
+.others {
+    background-image: url("../img/team-others-min.png");
+}
+.team-list .others {
+    height: 147px;
+}
+.member-right {
+    margin-left: 8px;
+}
+.member-center {
+    margin-left: 190px;
+}
+.team-values {
+    margin-top: 80px;
+}
+.team-values h2 {
+    margin-bottom: 20px;
+}
+.team-values ul {
+    margin: 0 auto;
+    width:480px;
+}
+.team-values li {
+    background: url("../img/cap-small.gif") no-repeat center bottom;
+    list-style: none;
+    line-height: 130%;
+    margin-top: 25px;
+    padding-bottom:80px;
+    text-align: center;
+}
+.team-values li:last-child {
+    background: none;
+}
+.dots {
+    background-position: left 8px;
+}
+/*  *************************** /TEAM ***************************/
+/*  *************************** TARIFF  ***************************/
+.one-tariff {
+    margin-bottom: 24px;
+    padding-bottom: 30px;
+}
+.tariff-header {
+    background: #fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
+    background-size: 198px;
+    border-radius: 3px 3px 0px 0px;
+    text-align: center;
+}
+.tariff-header h5 {
+    border-bottom: 1px solid #69a7b0;
+    margin-bottom: 0px;
+    padding: 17px 0px 8px;
+}
+.tariff-price {
+    border-top: 1px solid #1c5962;
+    padding: 10px 0px 14px;
+    text-align: center;
+}
+.tariff-price p {
+    display: inline-block;
+    font-size: 36px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0px 8px;
+}
+.tariff-price span {
+    font-size: 42px;
+}
+.tariff-price.ru p {
+    background: url("../img/rublicon.png") no-repeat 0px 4px;
+    background-size: 20px;
+}
+.tariff-price.en p {
+    background:url("../img/dollar.png") no-repeat 2px 4px;
+    background-size: 20px;
+}
+.tariff-header .display-ib {
+    padding: 0px 8px;
+}
+.tariff-save {
+    height: 24px;
+    line-height: 22px;
+}
+.one-tariff .pad-norm {
+    padding: 8px 6px;
+}
+.sim-amnt {
+    height: 28px;
+    line-height: 24px;
+    margin-top:6px;
+    padding: 0px 8px;
+}
+.tariff-benefits {
+    height: 50px;
+    padding: 12px 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+.tariff-benefits .font-large {
+    font-size: 13px;
+}
+.tariff-benefits strong+strong {
+    margin-top: 20px;
+}
+.tariff-contacts {
+    margin-top: 8px;
+}
+.tariff-contacts .btn-primary, .tariff-contacts .social_networks {
+    float: left;
+}
+.tariff-contacts .btn-primary {
+    margin-right: 15px;
+}
+.tariff-contacts .social_networks>span, .action-tariffsNew .site-footer .social_networks {
+    display: none;
+}
+/*  *************************** /TARIFF  ***************************/
+/*  *************************** OTZENKA ***************************/
+.chart-gauge {
+    height: 120px;
+    width: 235px;
+}
+.chart-gauge {
+    background-size: contain;
+}
+.chart-gauge {
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+}
+.product .chart-value:after {
+    text-indent: 10px;
+}
+.product-gauge-charts .chart-gauge {
+    margin: -10px 0px 0px;
+}
+.allsummry {
+    background-position: center 26px;
+    background-size: 65%;
+}
+.estmtresults {
+    height: 110px;
+}
+.allratebg {
+    background: url("../img/starsbigsml.png") no-repeat left top;
+}
+.allrating {
+    background: url("../img/starsbigsml.png") no-repeat left bottom;
+}
+.allratebg, .allrating {
+    display: inline-block;
+    height: 20px;
+    width: 113px;
+}
+.blockvalue {
+    background: #146672;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-left: 4px;
+    padding: 0px 8px;
+    position: relative;
+    top: -3px;
+}
+/*  *************************** /OTZENKA ***************************/
+/*  *************************** PRODUCT ***************************/
+/*.action-productNew {
+    background-color: #e8f8f7;
+    background-image: url("../img/bgbottom-min.gif"), url("../img/sitebg-chairs-min.jpg"), url("../img/bglongrept.jpg");
+    background-repeat: no-repeat, no-repeat, repeat-x;
+    background-position: center 1110px, center top, center 285px;
+}*/
+.top-dot-bg {
+    background: url("../img/icon-product-table-dot-min.png") no-repeat center top;
+    padding-top: 60px;
+}
+.product-features h6 {
+    line-height:110%;
+    margin-top: 40px;
+}
+.product-features h6:first-child {
+    margin-top: 5px;
+}
+.product-features h6, .product-features p {
+    text-align: center;
+}
+.product-features p {
+    margin-top: 16px;
+    line-height:140%;
+}
+.features-header {
+    background: url("../img/table-plashka.png") no-repeat center -20px;
+    background-size: 370px;
+    border-radius: 3px 3px 0px;
+    height:100px;
+}
+.features-header h2 {
+    font-size: 42px;
+    padding-top: 30px;
+}
+.product .widthwrap {
+    margin: 0 auto;
+    width:705px;
+}
+.product .widthblock {
+    width:235px;
+}
+.product h4 {
+    font-size: 18px;
+}
+.bluelist li {
+    background:url("../img/bullit.png") no-repeat 0px 5px;
+    line-height: 110%;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+.bluelist li:last-child {
+    padding-bottom: 5px;
+}
+.product .bluelist a {
+    min-height: 18px;
+}
+.hassubmenu>a {
+    background: url("../img/openclose.png") no-repeat right 2px;
+    display: block;
+    padding-right: 26px;
+}
+.subisopen>a {
+    background-position: right -76px;
+}
+.subisopen, .bluelist .subisopen {
+    background: #5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
+    border-radius: 4px;
+    padding-top: 3px;
+    margin-bottom: 4px;
+    margin-top:0px;
+}
+.product .bluelist .subisopen ul {
+    display: block;
+    margin-top: 8px;
+}
+.product-labels .widthblock:last-child h6 {
+    margin: 0 auto;
+    width:210px;
+}
+.product-rates {
+    padding-bottom: 20px;
+}
+.product-rates .widthblock:first-child ol {
+    width:255px;
+}
+.product-rates .widthblock:nth-child(2) h5, .product-rates .widthblock:nth-child(2) ul  {
+    margin-left:20px;
+}
+/*  *************************** /PRODUCT ***************************/
+/*  *************************** ORDER  ***************************/
+.order-page {
+    background-color:#fdfcc6;
+    background-image: url("../img/order-pagebg.gif");
+    background-repeat: no-repeat;
+    background-size: 944px;
+    background-position: center -40px;
+    padding: 0px 92px 50px;
+}
+.order-header {
+    height: 186px;
+    padding: 25px 0px 10px;
+}
+.order-content {
+    padding: 0px 116px 70px;
+}
+.order-item {
+    background: #fdfcc6 url("../img/your-order.gif") no-repeat center -14px;
+    height: 122px;
+    width:122px;
+}
+.order-item header {
+    margin-top: 5px;
+    padding-bottom: 28px;
+}
+.order-item h4 {
+    margin-bottom: 2px;
+}
+.item-price {
+    margin-top: 8px;
+    position: relative;
+}
+.item-price span {
+    position: absolute;
+    bottom: 3px;
+}
+
+
+
+
+.order-item h6 {
+    margin-top: 5px;
+    padding-bottom: 26px;
+}
+.order-status {
+    float: left;
+}
+.order-status .row {
+    height:62px;
+    padding-top: 0px;
+}
+.order-status label {
+    padding-top: 4px;
+    padding-right: 12px;
+    width: 220px;
+}
+.order-status .sbHolder {
+    min-width: 40px;
+    width: 40px;
+}
+.order-status small {
+    display: block;
+    margin-top: 3px;
+}
+.order-method input[type="radio"] {
+    margin-bottom: 1px;
+    margin-left: -18px;
+}
+.payment-invoice {
+    padding-right: 60px;
+}
+.payment-invoice .row:first-child {
+    padding-top: 0px;
+}
+.payment-invoice label {
+    color: #3c3c32;
+    display: inline-block;
+    padding-right: 4px;
+    width: 111px;
+}
+.payment-invoice input[type="text"] {
+    border: 1px solid #6b6a54;
+    height: 22px;
+    font-size: 12px;
+    padding: 0px 4px;
+}
+
+
+#Invoice_inn {
+    width: 70px;
+}
+#Invoice_cpp {
+    width: 60px;
+}
+#Invoice_account {
+    width: 150px;
+}
+#Invoice_bic {
+    width: 60px;
+}
+.cardsbg {
+    background: url("../img/visa-mastercard.gif") no-repeat;
+    background-size: contain;
+    display: inline-block;
+    height: 19px;
+    margin-right: 11px;
+    width: 52px;
+}
+.payment-invoice label {
+    color: #3c3c32;
+}
+.font-lightbrown label, .font-lightbrown span {
+    color: #b5b490;
+}
+.method-description {
+    padding-top: 3px;
+    width: 280px;
+}
+.method-checked label {
+    font-size: 14px;
+}
+.nocommision {
+    display: inline-block;
+    margin-bottom: 8px;
+    width: 128px;
+}
+.margin-vert {
+    margin: 16px 0px;
+}
+.payment-invoice .errorMessage {
+    left: 120px;
+    top:1px;
+}
+.terms-confirm {
+    position: relative;
+}
+.terms-confirm .errorMessage {
+    text-align: center;
+    top: -12px;
+    width: 100%;
+}
+/*  *************************** /ORDER  ***************************/
+/*  ***************************  TERMS  ***************************/
+.terms-page {
+    left: 50%;
+    margin-left: -340px;
+    width: 660px !important;
+}
+.terms-page h1 {
+    font-size:30px;
+    text-align: center;
+}
+.terms-page h2 {
+    font: 18px "ProximaNova-Regular";
+}
+.terms-page h3 {
+    font-size:14px;
+}
+.terms-page h1, .terms-page h2, .terms-page h3 {
+    color: #3d4041;
+    margin-bottom: 16px;
+}
+.terms-page .ui-dialog-content p {
+    font-family: "ProximaNova-Regular";
+    line-height: 140%;
+    margin-bottom: 16px;
+}
+/*  ***************************  /TERMS  ***************************/

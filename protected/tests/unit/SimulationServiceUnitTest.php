@@ -160,7 +160,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     /**
      * Проверяет правильность оценки по 4124
      */
-    public function testCalculateAgregatedPointsFor4124() 
+    public function testCalculateAggregatedPointsFor4124()
     {
         //$this->markTestSkipped();
 
@@ -171,7 +171,6 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
 
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -255,7 +254,7 @@ class SimulationServiceUnitTest extends CDbTestCase
                $is_4124_scored = true;
             } else {
                 // check outer points is 0
-                if (in_array($assessment->point->code, ['4135', '341c1'])) { continue; }
+                if (in_array($assessment->point->code, ['4135', '341c1', '4145'])) { continue; }
                 $this->assertEquals($assessment->value, 0, 'Wrong not acted behaviour value for '.$assessment->point->code);
             }
         }
@@ -686,9 +685,12 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->assertEquals([1, 5, 8], $list);
     }
 
+    /**
+     * Проверяет персональную шкалу
+     */
     public function testAssessmentAggregation()
     {
-        $this->markTestSkipped(); // personal scale
+        $this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -765,7 +767,9 @@ class SimulationServiceUnitTest extends CDbTestCase
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        //$this->assertEquals(10, array_sum($delta)); #personal, no matter
+        var_dump($delta); die;
+
+        $this->assertEquals(10, array_sum($delta)); #personal, no matter
     }
 
     public function testStressRules()
@@ -825,11 +829,38 @@ class SimulationServiceUnitTest extends CDbTestCase
     public function testSimulation_SimStopWithOpenLog()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $vacancy = Vacancy::model()->find();
+        $positionLevel = PositionLevel::model()->find();
+        $professionalOccupation = ProfessionalOccupation::model()->find();
+        $professionalSpecialization = ProfessionalSpecialization::model()->find();
+
+        if (null === $vacancy) {
+            $vacancy = new Vacancy();
+            $vacancy->label = 'test';
+            $vacancy->professional_occupation_id = $professionalOccupation->id;
+            $vacancy->professional_specialization_id = $professionalSpecialization->id;
+            $vacancy->position_level_slug = $positionLevel->slug;
+            $vacancy->save();
+        }
+
         $invite = new Invite();
+        $invite->firstname = 'test';
+        $invite->lastname = 'test';
+        $invite->email = 'test@mail.ru';
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
+        $invite->receiver_id = $user->id;
+        $invite->ownerUser = $user;
+        $invite->owner_id = $user->id;
         $invite->scenario->slug = Scenario::TYPE_FULL;
+        $invite->scenario_id = $scenario->id;
+        $invite->vacancy_id = $vacancy->id;
+        $invite->save();
+
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation->invite = $invite;
+        $simulation->save();
 
         $logs = [];
         $logs[0][0]	= 1;
@@ -838,15 +869,13 @@ class SimulationServiceUnitTest extends CDbTestCase
         $logs[0][3]	= 65115;
         $logs[0]['window_uid'] = 24;
 
-        //EventsManager::processLogs($simulation, $logs);
-
         SimulationService::simulationStop($simulation, $logs);
 
         $this->assertEquals(true, true, 'SimStopWithOpenLog handled well!');
     }
 
     /**
-     *
+     * All 100% - all points collected
      */
     public function testPerformanceAggregation_case_1()
     {
@@ -867,8 +896,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
-        $e = new Evaluation($simulation);
-        $e->checkManagerialProductivity();
+        $evaluationService = new Evaluation($simulation);
+        $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 
@@ -880,7 +909,11 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['2_min']));
         $this->assertTrue(isset($ad[AssessmentCategory::PRODUCTIVITY]['total']));
 
-        $this->assertNotNull($ad[AssessmentCategory::PRODUCTIVITY]['total']);
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][0], '0');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][1], '1');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY][2], '2');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['2_min'], '2_min');
+        $this->assertEquals(100, $ad[AssessmentCategory::PRODUCTIVITY]['total'], 'total');
     }
 
     /**
@@ -905,8 +938,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         }
 
         SimulationService::calculatePerformanceRate($simulation);
-        $e = new Evaluation($simulation);
-        $e->checkManagerialProductivity();
+        $evaluationService = new Evaluation($simulation);
+        $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
 

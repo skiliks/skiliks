@@ -722,7 +722,6 @@ class MailBoxService
     public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
     {
         $data = array();
-        //$addData = array();
         $message = '';
 
         // for forwarded letters
@@ -732,7 +731,6 @@ class MailBoxService
 
         if ((int)$characterThemeId == 0) {
             $data = self::getMailPhrases($simulation);
-            //$addData = self::getSigns($simulation);
         }
 
         $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
@@ -740,12 +738,16 @@ class MailBoxService
         if (NULL !== $characterTheme &&
             'TXT' === $characterTheme->constructor_number
         ) {
-            // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
+            // MailTemplate indexed by MySQL id instead of out code, so $characterTheme->letter relation doesn`t work
             $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
-            $message = $mailTemplate->message;
+            if (null === $mailTemplate) {
+                Yii::log('mailTemplate NULL for code '.$characterTheme->letter_number, CLogger::LEVEL_WARNING);
+                $message = '';
+            } else {
+                $message = $mailTemplate->message;
+            }
         } else {
             $data = self::getMailPhrases($simulation, $characterThemeId);
-            //$addData = self::getSigns($simulation);
         }
 
         return array(
@@ -1227,7 +1229,11 @@ class MailBoxService
         ]);
 
         foreach ($mailFlags as $mailFlag) {
-            EventsManager::startEvent($simulation, $mailFlag->mail_code, false, false, 0);
+            try {
+                EventsManager::startEvent($simulation, $mailFlag->mail_code);
+            } catch (Exception $e) {
+                Yii::log($e->getMessage(), CLogger::LEVEL_WARNING);
+            }
         }
     }
 

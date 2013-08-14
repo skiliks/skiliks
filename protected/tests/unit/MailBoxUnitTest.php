@@ -50,7 +50,7 @@ class MailBoxUnitTest extends CDbTestCase
 
         FlagsService::setFlag($simulation, 'F30', 1);
 
-        EventsManager::startEvent($simulation,'M31', false, false,0);
+        EventsManager::startEvent($simulation,'M31');
         EventsManager::getState($simulation, []);
 
         // get letters from golders to checl them {
@@ -73,10 +73,10 @@ class MailBoxUnitTest extends CDbTestCase
             'folderId'   => MailBox::FOLDER_TRASH_ID,
             'simId'      => $simulation->id
         ]);
-        // get letters from golders to checl them }
+        // get letters from folders to check them }
 
-        $this->assertEquals(5, count($folderInbox));
-        $this->assertEquals(2, count($folderOutbox));
+        $this->assertEquals(6, count($folderInbox));
+        $this->assertEquals(3, count($folderOutbox));
         $this->assertEquals(0, count($folderDrafts));
         $this->assertEquals(0, count($folderTrash));
 
@@ -95,7 +95,7 @@ class MailBoxUnitTest extends CDbTestCase
         // find target messages to check by template code }
 
         $this->assertEquals('Отчет для Правления', $sent_letters[0]['subject']);
-        $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
+        $this->assertEquals('Re: срочно! Отчетность', $sent_letters[2]['subject']);
 
         $this->assertEquals('Форма отчетности для производства', $m1['subject']);
         $this->assertEquals('Re: Срочно жду бюджет логистики', $m2['subject']);
@@ -135,6 +135,7 @@ class MailBoxUnitTest extends CDbTestCase
         $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
 
         FlagsService::setFlag($simulation, 'F42', 1);
+        FlagsService::setFlag($simulation, 'F33', 1);
 
         $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
         $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
@@ -142,7 +143,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
-        $this->assertTrue(in_array('Прочее', $subjects));
+        $this->assertTrue(in_array('Новая тема', $subjects));
         
         $this->assertNull($id);
         
@@ -156,7 +157,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
-        $this->assertTrue(in_array('Прочее', $subjects2));
+        $this->assertTrue(in_array('Новая тема', $subjects2));
         
         $this->assertNull($id2);
     }
@@ -195,7 +196,7 @@ class MailBoxUnitTest extends CDbTestCase
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
-        EventsManager::startEvent($simulation, 'M31', false, false,0);
+        EventsManager::startEvent($simulation, 'M31');
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
@@ -648,14 +649,14 @@ class MailBoxUnitTest extends CDbTestCase
         $copies = [];
         $copies[] = $simulation->game_type->getCharacter(['fio'=>'Железный С.'])->id;
 
-        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'text'=>"Деньги на сервер"]);
+        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'letter_number'=>"MS20"]);
 
         /* @var $subject CommunicationTheme */
         $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
 
         $phrases = [];
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'подтверждаю'])->id;
-        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'после отпуска'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'аналитический отдел'])->id;
+        $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'ближайшие дни'])->id;
 
         $attach = MyDocument::model()->findByAttributes(['sim_id'=>$simulation->id, 'fileName'=>"Бюджет производства_2013_утв.xls"]);
 

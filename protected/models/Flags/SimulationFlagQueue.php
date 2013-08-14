@@ -9,6 +9,7 @@
  * @property string $flag_code
  * @property string $switch_time
  * @property integer $is_processed
+ * @property integer $value
  *
  * The followings are the available model relations:
  * @property Flag $flagCode
@@ -45,11 +46,11 @@ class SimulationFlagQueue extends CActiveRecord
         // will receive user inputs.
         return array(
             array('sim_id, flag_code', 'required'),
-            array('sim_id, status', 'numerical', 'integerOnly'=>true),
+            array('sim_id, is_processed, value', 'numerical', 'integerOnly'=>true),
             array('flag_code', 'length', 'max'=>10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, sim_id, flag_code, status', 'safe', 'on'=>'search'),
+            array('id, sim_id, flag_code, is_processed', 'safe', 'on'=>'search'),
         );
     }
 
@@ -76,7 +77,7 @@ class SimulationFlagQueue extends CActiveRecord
             'sim_id' => 'Sim',
             'flag_code' => 'Flag Code',
             'switch_time' => 'Switch Time',
-            'status' => 'Status',
+            'is_processed' => 'Processed',
         );
     }
 
@@ -95,7 +96,7 @@ class SimulationFlagQueue extends CActiveRecord
         $criteria->compare('sim_id',$this->sim_id);
         $criteria->compare('flag_code',$this->flag_code,true);
         $criteria->compare('switch_time',$this->switch_time);
-        $criteria->compare('status',$this->status);
+        $criteria->compare('is_processed',$this->is_processed);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

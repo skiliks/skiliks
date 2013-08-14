@@ -3,6 +3,9 @@
 class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
 
 
+    /**
+     * @todo: описать что проверяет тест, улучшить тест
+     */
     public function testBadEvaluation() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -50,7 +53,7 @@ class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
         $simulation->refresh();
 
         $this->assertEquals(
-            13,
+            0,
             $simulation->getCategoryAssessment( AssessmentCategory::MANAGEMENT_SKILLS),
             AssessmentCategory::MANAGEMENT_SKILLS
         );
@@ -97,7 +100,7 @@ class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
         $simulation->refresh();
 
         $this->assertEquals(
-            15,
+            7,
             $simulation->getCategoryAssessment(AssessmentCategory::OVERALL),
             'overall'
         );

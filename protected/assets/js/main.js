@@ -1,5 +1,4 @@
 var fixLogotypes = function() {
-    console.log($(window).width());
     var headerLogo = $("#header-main-logo");
     var footerLogo = $("#footer-main-logo");
     // update logo size
@@ -107,6 +106,38 @@ var fixLogotypes = function() {
             return false;
         });
 
+        $('.accept-invite').click(function(e) {
+            var link = $(this).attr('href');
+
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '600px');
+
+            $('#invite-accept-form').dialog({
+                dialogClass: 'accept-invite-warning-popup',
+                modal:       true,
+                autoOpen:    true,
+                resizable:   false,
+                draggable:   false,
+                width:       881,
+                maxHeight:   600,
+                position: {
+                    my: "left top",
+                    at: "left bottom",
+                    of: $("header h1")
+                },
+                open: function( event, ui ) {
+                    $(this).find('.accept-requirements').attr('href', link);
+                }
+            });
+
+            // hack {
+            $('.accept-invite-warning-popup').css('top', '50px');
+            $(window).scrollTop('body');
+            // hack }
+
+            return false;
+        });
+
 
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
@@ -117,6 +148,9 @@ var fixLogotypes = function() {
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-next'));
                 }
+                if ($('#registration_hint').length) {
+                    $('#registration_hint').css('visibility', 'visible');
+                }
             } else if ($(this).hasClass('icon-chooce')) {
                 $(this).removeClass('icon-chooce');
                 $(this).addClass('icon-check');
@@ -124,6 +158,9 @@ var fixLogotypes = function() {
                 $("#registration_check span").css('display', 'none');
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-start'));
+                }
+                if ($('#registration_hint').length) {
+                    $('#registration_hint').css('visibility', 'hidden');
                 }
             }
             return false;
@@ -146,8 +183,6 @@ var fixLogotypes = function() {
                 resizable: false,
                 draggable: false,
                 open: function( event, ui ) {
-                    //Cufon.refresh();
-                    console.log();
                     if(selected !== undefined) {
                         $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
                             var a = $(element).find('a');
@@ -233,7 +268,6 @@ var fixLogotypes = function() {
         $('a.delete-vacancy-link').click(function(event) {
             if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
                 // link go ahead to delete URL
-                console.log('delete');
             } else {
                 event.preventDefault();
             }
@@ -241,7 +275,6 @@ var fixLogotypes = function() {
         // delete vacancy }
 
         $(window).on('resize', function () {
-            console.log('resize');
             Cufon.refresh();
 
             fixLogotypes();
@@ -270,6 +303,83 @@ var fixLogotypes = function() {
         $('.sign-in-link').click(function(event){
             event.preventDefault();
             $(".sign-in-box").dialog('open');
+        });
+        function warningPopup(href){
+            $(".warning-popup").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-before-start-sim',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                width:881,
+                open: function( event, ui ) {
+                    $('.start-full-simulation-next').attr('data-href', href);
+                    Cufon.refresh();
+                }
+            });
+        }
+
+        function getInviteId(url){
+            return parseInt(url.replace('/simulation/promo/full/', ''), 0);
+        }
+        $('.start-full-simulation').click(function(event){
+            var href = $(this).attr('data-href');
+            event.preventDefault();
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '80px');
+
+            $.ajax({
+                 url:'/simulationIsStarted',
+                 dataType:  "json",
+                 data:{invite_id:getInviteId(href)},
+                 success:function(data) {
+                    if(data.simulation_start) {
+                        warningPopup(href);
+                    }else{
+                        $(".pre-start-popup").dialog({
+                            closeOnEscape: true,
+                            dialogClass: 'popup-before-start-sim',
+                            minHeight: 220,
+                            modal: true,
+                            resizable: false,
+                            width:881,
+                            open: function( event, ui ) {
+                                $('.start-full-simulation-next').attr('data-href', href);
+                                Cufon.refresh();
+                            }
+                        });
+                    }
+                }
+            });
+            // hack {
+            $('.popup-before-start-sim').css('top', '50px');
+            $(window).scrollTop('body');
+            // hack }
+
+            return false;
+        });
+
+        $('.start-full-simulation-passed').click(function(event){
+            event.preventDefault();
+            var href = $(this).attr('data-href');
+            $.ajax({url:'/userStartSecondSimulation', data:{invite_id:getInviteId(href)}});
+            $(".pre-start-popup").dialog('close');
+            warningPopup(href);
+            return false;
+        });
+        $('.start-full-simulation-close').click(function(event){
+            event.preventDefault();
+            var href = $(this).attr('data-href');
+            $.ajax({url:'/userRejectStartSecondSimulation', data:{invite_id:getInviteId(href)}});
+            $(".pre-start-popup").dialog('close');
+            return false;
+        });
+
+        $('.start-full-simulation-now').click(function(event){
+            event.preventDefault();
+            var href = $(this).attr('data-href');
+            location.assign(href);
+            return false;
         });
 
         $('.sign-in-link-in-popup').click(function(event){

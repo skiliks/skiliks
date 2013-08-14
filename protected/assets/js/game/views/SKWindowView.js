@@ -5,7 +5,8 @@
  * @augments Backbone.View
  */
 var SKWindowView;
-define(["text!game/jst/window.jst"], function (window_template) {
+define(["text!game/jst/window.jst"],
+    function (window_template) {
     "use strict";
 
     /**
@@ -31,6 +32,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         dimensions: {},
 
+
         /**
          * Constructor
          * @method initialize
@@ -40,7 +42,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 if (this.options.model_instance === undefined) {
                     throw 'You need to pass model_instance';
                 }
-                var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
+                var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : ''), "id":(this.addId ? this.addId : '')});
                 this.$container = $(this.container);
                 this.$container.append(sim_window);
                 this.setElement(sim_window);
@@ -56,10 +58,11 @@ define(["text!game/jst/window.jst"], function (window_template) {
             try {
                 var me = this;
                 this.$el.html(_.template(window_template, {
-                    title: this.title,
-                    isDisplaySettingsButton: this.isDisplaySettingsButton,
+                    window_uid:                  this.options.model_instance.window_uid,
+                    title:                       this.title,
+                    isDisplaySettingsButton:     this.isDisplaySettingsButton,
                     isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton,
-                    windowName:this.windowName
+                    windowName:                  this.windowName
                 }));
                 this.renderTitle(this.$('header'));
                 this.$el.draggable({
@@ -77,7 +80,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
                         }
                     }
                 });
-                this.renderContent(this.$('.sim-window-content'));
+                this.renderContent(me.$('.sim-window-content'), me);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -95,10 +98,11 @@ define(["text!game/jst/window.jst"], function (window_template) {
             throw 'You need to override it';
         },
         remove: function () {
+            var me = this;
             try {
                 this.trigger('close');
                 this.stopListening();
-                $(window).off('resize', this.onResize);
+                $(window).off('resize');
                 Backbone.View.prototype.remove.call(this);
             } catch(exception) {
                 if (window.Raven) {
@@ -130,10 +134,14 @@ define(["text!game/jst/window.jst"], function (window_template) {
                     me.remove();
                 });
                 this.listenTo(this.options.model_instance, 'change:zindex', function () {
+                    console.log(me.options.model_instance);
                     me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
                 });
-                me.renderWindow(me.$el);
+
+                console.log(me.options.model_instance);
+                me.resize();
                 me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                me.renderWindow(me.$el);
 
                 this.resize();
 
@@ -211,6 +219,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         doWindowClose: function () {
             try {
+                console.log('close');
+                this.onWindowClose();
                 this.options.model_instance.close();
             } catch(exception) {
                 if (window.Raven) {
@@ -374,9 +384,20 @@ define(["text!game/jst/window.jst"], function (window_template) {
         },
 
         onResize : function() {
-            this.resize();
-            this.constrain();
+            try {
+                this.resize();
+                this.constrain();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        onWindowClose: function() {
+            console.log('parent');
         }
+
     });
     return SKWindowView;
 });

@@ -21,6 +21,8 @@ define([
         /** @lends SKVisitView.prototype */
         {
             isDisplayCloseWindowsButton: false,
+
+            deny_timeout_id:null,
             
             'events':_.defaults({
                     "click .visitor-allow":'allow',
@@ -31,29 +33,49 @@ define([
              * Constructor
              * @method initialize
              */
-            'initialize':function () {
-                var me = this;
-                SKWindowView.prototype.initialize.call(this);
+            initialize:function () {
+                try {
+                    var me = this;
+                    SKWindowView.prototype.initialize.call(this);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
 
             /**
              * @method
              * @param el
              */
-            'renderWindow':function (el) {
-                var me = this,
-                    event = this.options.model_instance.get('sim_event');
+            renderWindow:function (el) {
+                try {
+                    var me = this,
+                        event = this.options.model_instance.get('sim_event');
 
-                el.html(_.template(visitDoorTpl, {
-                    'visit' :                     event.get('data'),
-                    isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
-                }));
+                    el.html(_.template(visitDoorTpl, {
+                        'visit' :                     event.get('data'),
+                        isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
+                    }));
 
-                if ('undefined' === typeof event.get('data')[2]) {
-                    me.timer = setTimeout(function() {
-                        me.$('.visitor-allow').click();
-                        me.timer = null;
-                    }, 5000);
+                    if ('undefined' === typeof event.get('data')[2]) {
+                        me.timer = setTimeout(function() {
+                            me.$('.visitor-allow').click();
+                            me.timer = null;
+                        }, 5000);
+                    }
+                    var noReply = function(){
+                        me.doActivate();
+                        me.$('.visitor-deny').click();
+                    };
+                    this.deny_timeout_id = setTimeout(noReply, 20000);
+                    this.listenTo(this.options.model_instance, 'close', function () {
+                        clearTimeout(me.deny_timeout_id);
+                    });
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
@@ -61,28 +83,40 @@ define([
              * @method
              * @param e
              */
-            'allow':function (e) {
-                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+            allow:function (e) {
+                try {
+                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
 
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                    this.timer = null;
+                    if (this.timer) {
+                        clearTimeout(this.timer);
+                        this.timer = null;
+                    }
+
+                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
+                    this.options.model_instance.close();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
-
-                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
-                this.options.model_instance.close();
             },
 
             /**
              *
              * @param e
              */
-            'deny':function (e) {
-                var dialogId = $(e.currentTarget).attr('data-dialog-id');
-                SKApp.simulation.trigger('audio-door-knock-stop');
-                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
-                });
-                this.options.model_instance.close();
+            deny:function (e) {
+                try {
+                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                    SKApp.simulation.trigger('audio-door-knock-stop');
+                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                    });
+                    this.options.model_instance.close();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
     return SKVisitView;

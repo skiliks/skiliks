@@ -29,6 +29,12 @@ class SeleniumTestHelper extends CWebTestCase
         parent::setUp();
     }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
+        //$this->stop();
+    }
+
     /**
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
@@ -59,19 +65,32 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/simulation/developer/full'); // для full simulation*/
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 600) $this->fail("Timeout. Not found id=addTriggerSelect");
             try {
                 if ($this->isVisible("id=addTriggerSelect")) break;
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
+        //$this->optimal_click("css=.mail-popup-button");
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
     }
 
     public function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
-        $this->close();
+    }
+
+    public function simulation_showLogs()
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("Timeout. Not found id=universal-log");
+            try {
+                if ($this->isVisible("id=universal-log")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
+        $this->waitForVisible("id=simulation-points");
     }
 
     /**
@@ -87,7 +106,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
+            if ($second >= 600) $this->fail($next_event);
             try{
                 if ($this->isVisible($next_event))
                 {

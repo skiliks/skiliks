@@ -13,13 +13,13 @@ class SaveLogFileCommand extends CConsoleCommand {
 
             foreach($simulations as $simulation) {
 
-                if(file_exists($this->getFilename($simulation->id)) === false) {
+                if(file_exists($simulation->getLogFilename()) === false) {
                     if($limit !== null){
                         if($saves >= (int)$limit) {
                             break;
                         }
                     }
-                    $this->saveFile($simulation);
+                    echo $simulation->saveLogsAsExcel(true);
                     $saves++;
                 } else {
                     if($overwrite) {
@@ -28,14 +28,14 @@ class SaveLogFileCommand extends CConsoleCommand {
                                 break;
                             }
                         }
-                        if(unlink($this->getFilename($simulation->id))){
-                            $this->saveFile($simulation);
+                        if(unlink($simulation->getLogFilename())){
+                            echo $simulation->saveLogsAsExcel(true);
                             $saves++;
                         } else {
-                            throw new Exception("file not delete - ".$this->getFilename($simulation->id));
+                            throw new Exception("file not delete - ".$simulation->getLogFilename());
                         }
                     }else{
-                        echo $this->getFilename($simulation->id)." - already stored \r\n";
+                        echo $simulation->getLogFilename()." - already stored \r\n";
                     }
                 }
             }
@@ -43,18 +43,18 @@ class SaveLogFileCommand extends CConsoleCommand {
             /** @var $simulation Simulation */
             $simulation = Simulation::model()->findByPk($sim_id);
             if(null !== $simulation) {
-                if(file_exists($this->getFilename($simulation->id)) === false) {
-                    $this->saveFile($simulation);
+                if(file_exists($simulation->getLogFilename()) === false) {
+                    echo $simulation->saveLogsAsExcel(true);
                 } else {
                     if($overwrite) {
-                        if(unlink($this->getFilename($simulation->id))){
-                            $this->saveFile($simulation);
+                        if(unlink($simulation->getLogFilename())){
+                            echo $simulation->saveLogsAsExcel(true);
                             $saves++;
                         } else {
-                            throw new Exception("file not delete - ".$this->getFilename($simulation->id));
+                            throw new Exception("file not delete - ".$simulation->getLogFilename());
                         }
                     } else {
-                        throw new Exception("File is exists on ".$this->getFilename($simulation->id));
+                        throw new Exception("File is exists on ".$simulation->getLogFilename());
                     }
                 }
             } else {
@@ -63,17 +63,4 @@ class SaveLogFileCommand extends CConsoleCommand {
         }
         echo " {$saves} files stored!\r\n";
     }
-
-    private function getFilename($sim_id) {
-        return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $sim_id);
-    }
-
-    private function saveFile(Simulation $simulation) {
-        $logTableList = new LogTableList($simulation);
-        $excelWriter = $logTableList->asExcel();
-        $excelWriter->save($this->getFilename($simulation->id));
-        echo $this->getFilename($simulation->id)."- stored \r\n";
-        return true;
-    }
-
 }

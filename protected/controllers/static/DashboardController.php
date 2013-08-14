@@ -99,10 +99,18 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
                 $this->sendInviteEmail($invite);
 
+                $initValue = $this->user->getAccount()->invites_limit;
+
                 // decline corporate user invites_limit
                 $this->user->getAccount()->invites_limit--;
                 $this->user->getAccount()->save();
                 $this->user->refresh();
+
+                UserService::logCorporateInviteMovementAdd(
+                    'send invitation 1',
+                    $this->user->getAccount(),
+                    $initValue
+                );
 
 
                 $this->redirect('/dashboard');
@@ -202,7 +210,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
 
             $invite->message = sprintf(
-                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
+                Yii::app()->params['emails']['defaultMessageText'],
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
@@ -217,6 +225,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->code = uniqid(md5(mt_rand()));
             $invite->owner_id = $this->user->id;
+            $invite->can_be_reloaded = true;
 
             // What happens if user is registered, but not activated??
             $profile = YumProfile::model()->findByAttributes([
@@ -244,11 +253,18 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
 
+                $initValue = $this->user->getAccount()->invites_limit;
+
                 // decline corporate user invites_limit
                 $this->user->getAccount()->invites_limit--;
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
+                UserService::logCorporateInviteMovementAdd(
+                    'send invitation 2',
+                    $this->user->getAccount(),
+                    $initValue
+                );
 
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
@@ -343,7 +359,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $body = $this->renderPartial('//global_partials/mails/invite', [
+        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+
+        $body = $this->renderPartial($inviteEmailTemplate, [
             'invite' => $invite
         ], true);
 
@@ -530,7 +548,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->checkUser();
 
-        if (Yii::app()->user->data()->profile->email !== $invite->email) {
+        if (strtolower(Yii::app()->user->data()->profile->email) !== strtolower($invite->email)) {
             Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляцию.');
             $this->redirect('/profile');
         }
@@ -616,8 +634,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
+        $initValue = $declineExplanation->invite->ownerUser->getAccount()->invites_limit;
+
         $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
         $declineExplanation->invite->ownerUser->getAccount()->save(false);
+
+        UserService::logCorporateInviteMovementAdd(
+            'actionDeclineInvite',
+            $declineExplanation->invite->ownerUser->getAccount(),
+            $initValue
+        );
 
         $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
@@ -687,6 +713,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'decline_explanation_form',
             [
                 'declineExplanation' => $declineExplanation,
+                'user' => Yii::app()->user->data(),
                 'reasons'            => StaticSiteTools::formatValuesArrayLite(
                     'DeclineReason',
                     'id',

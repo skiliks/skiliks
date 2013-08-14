@@ -330,41 +330,8 @@ class EmailAnalyzer
                 'obj'      => $behave_3324,
             ),
         );
-    }    
-    
-    /**
-     * 3325 - read spam
-     * 
-     * @param integer $delta
-     * 
-     * @return mixed array
-     */
-    public function check_3325()
-    {
-        $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
-
-        if (null === $behave_3325) {
-            return [
-                '3325' => []
-            ];
-        }
-
-        $wrongActions = 0;
-        
-        // inbox + trashCan
-        foreach ($this->userInboxEmails as $emailData) {
-            if (true === $emailData->getIsSpam() && true === $emailData->getIsReaded()) {
-                
-                $wrongActions++;
-            }
-        } 
-
-        return array(
-            'negative' => $behave_3325 ? $wrongActions * $behave_3325->scale : 0,
-            'obj'      => $behave_3325,
-        );
     }
-    
+
     /**
      * 3323 - In 2 real minutes (16 game min) react on issues 
      * 
@@ -611,87 +578,35 @@ class EmailAnalyzer
         }
 
         $workWithMailTotalDuration = 0; // seconds
-        $mailSessionsTotalAmount = 0;
-        $mailSessionsIsOpen = false;
-        $currentSessionLegAction = false;
-
-        $notMailLegType = [
-            ActivityAction::LEG_TYPE_DOCUMENTS,
-            ActivityAction::LEG_TYPE_MANUAL_DIAL,
-            ActivityAction::LEG_TYPE_SYSTEM_DIAL,
-        ];
 
         // обработка LogActivityActionAggregated
         foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
-                if ($logItem->isMail()) {
-                    $workWithMailTotalDuration += TimeTools::timeToSeconds($logItem->duration);
-                }
-                // check sessions from 11:00
-                list($hours) = explode(':', $logItem->start_time);
-                if ($hours < 11) {
-                    continue;
-                }
-
-                if (false == $mailSessionsIsOpen &&
-                    $logItem->isMail() &&
-                    false === in_array($logItem->activityAction->activity->category_id, [0,1,2])) {
-                    $mailSessionsIsOpen = true;
-                    $mailSessionsTotalAmount++;
-                }
-
-                if (true === $mailSessionsIsOpen &&
-                    in_array($logItem->leg_type, $notMailLegType)) {
-                    $mailSessionsIsOpen = false;
-                }
+            if ($logItem->isMail()) {
+                $workWithMailTotalDuration += TimeTools::timeToSeconds($logItem->duration);
+            }
         }
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
-        if (90*60 < $workWithMailTotalDuration) {
+        if (180*60 < $workWithMailTotalDuration) {
             return array(
                 $behave_3311->getTypeScaleSlug() => 0,
                 'obj'                            => $behave_3311,
                 'case'                           => 2, // 'case' - option for test reasons only
             );
-        }
+        } else {
 
-        // редко читает почту
-        if (0 == $mailSessionsTotalAmount) {
-            return array(
-                $behave_3311->getTypeScaleSlug() => 0,
-                'obj'                            => $behave_3311,
-                'case'                           => 3, // 'case' - option for test reasons only
-            );
-        }
-
-        // часто читает почту
-        if (4 < $mailSessionsTotalAmount) {
-            return array(
-                $behave_3311->getTypeScaleSlug() => 0,
-                'obj'                            => $behave_3311,
-                'case'                           => 4, // 'case' - option for test reasons only
-            );
-        }
-
-        // немного часто читает почту
-        $k = 1;
-        if (1 == $mailSessionsTotalAmount || 4 == $mailSessionsTotalAmount) {
-            $k = 0.5;
-        }
-
-        // правильно читает почту
-        if (0 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 5) {
             $value = 0;
 
-            if ($workWithMailTotalDuration <= 60*60) {
-                $value = $behave_3311->scale * $k;
+            if ($workWithMailTotalDuration <= 120*60) {
+                $value = $behave_3311->scale;
             }
 
-            if (60*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 75*60) {
-                $value = $behave_3311->scale * (2/3) * $k;
+            if (120*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 150*60) {
+                $value = $behave_3311->scale * (2/3);
             }
 
-            if (75*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 90*60) {
-                $value = $behave_3311->scale * (1/3) * $k;
+            if (150*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 180*60) {
+                $value = $behave_3311->scale * (1/3);
             }
 
             return array(

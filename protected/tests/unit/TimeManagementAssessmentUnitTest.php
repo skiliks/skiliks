@@ -14,7 +14,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * Каждого типа лога по 1 штуке
      */
-    public function testimeManagementAssessment_case1()
+    public function testTimeManagementAssessment_case1()
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -25,24 +25,24 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         // log1, 1st priority doc {
-        $doc_d1 = $simulation->game_type->getDocumentTemplate(['code' => 'D1']);
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
 
-        $activity_d1 = $simulation->game_type->getActivity(['code' => 'TRS6']);
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
 
         $activity_action_d1 = $simulation->game_type->getActivityAction([
             'activity_id' => $activity_d1->id,
-            'document_id' => $doc_d1->id
+            'document_id' => $doc_d2->id
         ]);
         $log = new LogActivityActionAgregated();
         $log->sim_id = $simulation->id;
-        $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-        $log->leg_action = 'D1';
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
         $log->activity_action_id = $activity_action_d1->id;
         $log->activityAction = $activity_action_d1;
         $log->category = $activity_d1->category->code;
-        $log->start_time = '09:45:00';
+        $log->start_time = '09:15:00';
         $log->end_time = '10:00:00';
-        $log->duration = '00:15:00';
+        $log->duration = '00:45:00';
         $log->save();
         // log1, 1st priority doc }
 
@@ -323,25 +323,25 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            41.00, // %
+            52.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            30.00, // %
+            24.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            29.00, // %
+            24.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
 
         $this->assertEquals(
-            15, // min
+            45, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
@@ -371,7 +371,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            15, // min
+            45, // min
             $values['1st_priority_documents'],
             '1st_priority_documents'
         );
@@ -414,7 +414,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            25.00, // 40.00 * 0.6
+            67.00, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
@@ -533,6 +533,35 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             0, // 0.00 * 1.0
             $values['efficiency'],
             'efficiency'
+        );
+    }
+
+    public function testimeManagementAssessment_case2_for_lite()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_LITE;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            0, // %
+            $values['time_spend_for_inactivity'],
+            'time_spend_for_inactivity'
         );
     }
 

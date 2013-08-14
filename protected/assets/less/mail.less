@@ -189,6 +189,7 @@ a.dd-selected {
   height: 17px;
   margin: -5px 0 0;
   width: 20px;
+  cursor: pointer;
 }
 .mail-emulator-settings {
   border-left: 1px solid black;
@@ -749,9 +750,9 @@ section.mail.new {
     }
     li {
       font:13px 'orbi_sansregular';
-      line-height:26px;
-      height:26px;
-      padding:0 10px;
+      line-height: 18px;
+      height: auto;
+      padding:0 10px 10px 10px;
       cursor:pointer;
     }
     .themes_close {
@@ -1103,6 +1104,55 @@ section.mail.new {
   width:569px;
   height:34px;
   padding:14px 0 0 19px;
+}
+.popup-greybg {
+  background:url("../img/planner/planner_book_gray.png") no-repeat left bottom;
+  height:36px;
+  line-height: 36px;
+  position: relative;
+}
+.font-xxlarge {
+  font-size: 18px;
+}
+.font-white {
+  color:#fff;
+}
+.reminder-popup {
+  background: #fefefe;
+  border: 1px solid #c5c5c3;
+  border-radius: 5px;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.75);
+  width: 260px;
+
+  .popup-greybg {
+    border-radius: 5px 5px 0px 0px;
+  }
+  .btn-close {
+    right:9px;
+    top:-1px;
+  }
+  h2 {
+    font-weight: normal;
+    text-align: center;
+    text-shadow:rgba(0,0,0,0.6) 1px 1px 1px;
+  }
+  .reminder-popup-text {
+    font-family: "orbi_sansregular";
+    padding: 18px 10px;
+  }
+  .task-time {
+    font-size: 18px;
+    padding-right: 6px;
+    width:36px;
+  }
+  .task-time, .task-description {
+    display:table-cell;
+    vertical-align: middle;
+  }
+  .task-description {
+    font-size: 14px;
+    line-height: 100%;
+  }
 }
 .tutorial-popup {
     height:80%;

@@ -30,10 +30,16 @@ define(["game/models/SKPhoneHistory"], function () {
          * @param options
          */
         sync: function (method, collection, options) {
-            if ('read' === method) {
-                SKApp.server.api('phone/getlist', {}, function (data) {
-                    options.success(data);
-                });
+            try {
+                if ('read' === method) {
+                    SKApp.server.api('phone/getlist', {}, function (data) {
+                        options.success(data);
+                    });
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
             }
         },
 
@@ -41,9 +47,15 @@ define(["game/models/SKPhoneHistory"], function () {
          * @method readHistory
          */
         readHistory: function () {
-            this.each(function (model) {
-                model.set('is_displayed', true);
-            });
+            try {
+                this.each(function (model) {
+                    model.set('is_displayed', true);
+                });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 

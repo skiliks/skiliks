@@ -13,7 +13,9 @@
  * @property string $start_time
  * @property string $end_time
  * @property string $duration
- * @property integer $is_keep_last_category
+ * @property string $parent
+ * @property string $keep_last_category_initial
+ * @property string $keep_last_category_after
  *
  * The followings are the available model relations:
  * @property Simulation $simulation
@@ -21,6 +23,8 @@
  */
 class LogActivityActionAgregated214d extends CActiveRecord
 {
+    const KEEP_LAST_CATEGORY_YES = '1';
+    const KEEP_LAST_CATEGORY_NO = '0';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -48,11 +52,11 @@ class LogActivityActionAgregated214d extends CActiveRecord
         // will receive user inputs.
         return array(
             array('sim_id, start_time, end_time, duration', 'required'),
-            array('sim_id, activity_action_id, is_keep_last_category', 'numerical', 'integerOnly'=>true),
+            array('sim_id, activity_action_id', 'numerical', 'integerOnly'=>true),
             array('leg_type, leg_action, category', 'length', 'max'=>30),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, sim_id, leg_type, leg_action, activity_action_id, category, start_time, end_time, duration, is_keep_last_category', 'safe', 'on'=>'search'),
+            array('id, sim_id, leg_type, leg_action, activity_action_id, category, start_time, end_time, duration', 'safe', 'on'=>'search'),
         );
     }
 
@@ -83,8 +87,7 @@ class LogActivityActionAgregated214d extends CActiveRecord
             'category' => 'Category',
             'start_time' => 'Start Time',
             'end_time' => 'End Time',
-            'duration' => 'Duration',
-            'is_keep_last_category' => 'Is Keep Last Category',
+            'duration' => 'Duration'
         );
     }
 
@@ -108,7 +111,6 @@ class LogActivityActionAgregated214d extends CActiveRecord
         $criteria->compare('start_time',$this->start_time,true);
         $criteria->compare('end_time',$this->end_time,true);
         $criteria->compare('duration',$this->duration,true);
-        $criteria->compare('is_keep_last_category',$this->is_keep_last_category);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

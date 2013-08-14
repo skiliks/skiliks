@@ -89,7 +89,11 @@ class PhoneService {
             if ($trigger === null) {
                return 'fail '.$event->id;
             } else {
-                EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
+                try {
+                    EventsManager::startEvent($simulation, $dialog->next_event_code);
+                } catch (Exception $e) {
+                    Yii::log($e->getMessage(), CLogger::LEVEL_WARNING);
+                }
 
                 /* Рекурсию лучше не применять */
                 $next_code = $this->deleteCancelReplica($simulation, $dialog_code);

@@ -15,7 +15,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
 
@@ -62,8 +62,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
     private function checkThemes()
     {
         $this->assertTextPresent("Срочно жду бюджет логистики");
-        $this->assertTextPresent("Обсуждение сроков отчетности");
         $this->assertTextPresent("Беседа с консультантами");
-        $this->assertTextPresent("Прочее");
+        $this->assertTextPresent("Новая тема");
     }
 }

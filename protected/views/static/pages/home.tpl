@@ -54,7 +54,7 @@
                             <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
                         </div>
                         <div class="social_networks smallicons">
-                            <span>{Yii::t('site', 'Share')}:</span>
+                            <span>{Yii::t('site', 'Share video')}:</span>
                             <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                                 <a class="addthis_button_vk"></a>
                                 <a class="addthis_button_facebook"></a>

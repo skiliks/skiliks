@@ -12,7 +12,7 @@
 <div class="container container-2">
     <header>
 
-<h2>Skiliks: release 1.3</h2>
+<h2>Skiliks: release 1.4</h2>
 
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
@@ -44,8 +44,9 @@
 
     <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">Developer (lite)</a>
     <a style="background-color: #2d7b91" href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">Developer (full)</a>
-    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_TUTORIAL ?>">Developer (tutorial)</a>
-
+    <?php if(Yii::app()->user->data()->isAdmin()) : ?>
+        <a href="/admin_area/dashboard">Admin Area</a>
+    <?php endif ?>
         <br>
         <br>
         <br>
@@ -131,6 +132,13 @@
         <br/>
         <br/>
 
+    <a href="/static/tariffs-new" style="background-color: #1D7885">static tariffs-new</a>
+    <a href="/order-new/starter" style="background-color: #1D7885">order "starter" tariff</a>
+
+        <br/>
+        <br/>
+        <br/>
+
     <a href="/static/drag-and-drop">Drag & Drop prototype</a>
 
         <br/>
@@ -152,8 +160,10 @@
 <?php endforeach; ?>
 <br>
 
-    </header>
-    </div>
+Yii version: <?= Yii::getVersion(); ?>
+
+</header>
+</div>
 
 <br/>
 <br/>
