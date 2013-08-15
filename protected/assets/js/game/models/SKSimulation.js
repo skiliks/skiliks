@@ -62,6 +62,7 @@ define([
              */
             'initialize':function () {
                 try {
+                    console.log('1');
                     var me = this;
 
                     /**
