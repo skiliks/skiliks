@@ -803,26 +803,26 @@ define([
                         // PC }
 
                         // Mac {
-                        $(window).bind('keydown', 'command+c', function() {
-                            console.log('command+c');
+                        $(window).bind('keydown', 'meta+c', function() {
+                            console.log('meta+c');
                             me.clickSCButton('-button_copy');
                             return false;
                         });
 
-                        $(window).bind('keydown', 'command+v', function() {
-                            console.log('command+v');
+                        $(window).bind('keydown', 'meta+v', function() {
+                            console.log('meta+v');
                             me.clickSCButton('-button_paste');
                             return false;
                         });
 
-                        $(window).bind('keydown', 'command+z', function() {
-                            console.log('command+z');
+                        $(window).bind('keydown', 'meta+z', function() {
+                            console.log('v+z');
                             me.clickSCButton('-button_undo');
                             return false;
                         });
 
-                        $(window).bind('keydown', 'command+y', function() {
-                            console.log('command+y');
+                        $(window).bind('keydown', 'meta+y', function() {
+                            console.log('meta+y');
                             me.clickSCButton('-button_redo');
                             return false;
                         });
