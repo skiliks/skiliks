@@ -107,11 +107,11 @@ class SiteController extends SiteBaseController
             && null !== $invite->tutorial
             && $mode !== 'developer'
             && null === $invite->tutorial_finished_at) {
-            $type = $invite->tutorial->slug;
-            $tutorial = true;
-            $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
-            $invite->save(false);
-            InviteService::logAboutInviteStatus($invite, 'invite : updated : tutorial started');
+                $type = $invite->tutorial->slug;
+                $tutorial = true;
+                $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
+                $invite->save(false);
+                InviteService::logAboutInviteStatus($invite, 'invite : updated : tutorial started');
         }
 
         /** @var Scenario $scenario */
@@ -157,9 +157,10 @@ class SiteController extends SiteBaseController
 
         $this->layout = false;
         $this->render('site', [
-            'config'    => CJSON::encode($config),
-            'assetsUrl' => $assetsUrl,
-            'inviteId'  => (null === $invite_id) ? 'null' : $invite_id,
+            'config'        => CJSON::encode($config),
+            'assetsUrl'     => $assetsUrl,
+            'inviteId'      => (null === $invite_id) ? 'null' : $invite_id,
+            'httpUserAgent' => str_replace(['(',')'], '', $_SERVER['HTTP_USER_AGENT']),
         ]);
     }
 
