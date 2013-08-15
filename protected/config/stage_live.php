@@ -27,6 +27,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
                 ),
             ),
         ),
+        'assetManager' => [
+            'forceCopy'  => true,
+        ],
     ),
     'params'=>array(
         'frontendUrl'=>'http://live.skiliks.com/',
