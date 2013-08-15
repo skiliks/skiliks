@@ -2885,9 +2885,9 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $name = $this->getCellValue($sheet, 'Name', $i);
             $value = $this->getCellValue($sheet, 'Value', $i);
-            if(empty($value)){
-                throw new Exception("empty");
-            }
+            //if(empty($value)){
+            //    throw new Exception("empty");
+            //}
             $scenarioConfig->{$name} = $value;
             $scenarioConfig->scenario_id = $this->scenario->primaryKey;
             $scenarioConfig->import_id = $this->import_id;
