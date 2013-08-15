@@ -484,6 +484,7 @@ define([
             'stop':function () {
                 try {
                     var me = this;
+                    SKApp.set('frontendAjaxTimeout', 180*1000); // 180sec
                     me._stopTimer();
 
                     this.window_set.deactivateActiveWindow();
