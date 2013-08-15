@@ -775,6 +775,8 @@ define([
             initSocialcalcHotkeys: function() {
                     try {
                         var me = this;
+
+                        // PC {
                         $(window).bind('keydown', 'ctrl+c', function() {
                             console.log('ctrl+c');
                             me.clickSCButton('-button_copy');
@@ -798,6 +800,33 @@ define([
                             me.clickSCButton('-button_redo');
                             return false;
                         });
+                        // PC }
+
+                        // Mac {
+                        $(window).bind('keydown', 'command+c', function() {
+                            console.log('command+c');
+                            me.clickSCButton('-button_copy');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'command+v', function() {
+                            console.log('command+v');
+                            me.clickSCButton('-button_paste');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'command+z', function() {
+                            console.log('command+z');
+                            me.clickSCButton('-button_undo');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'command+y', function() {
+                            console.log('command+y');
+                            me.clickSCButton('-button_redo');
+                            return false;
+                        });
+                        // Mac }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
