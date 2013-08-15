@@ -69,16 +69,18 @@ class LogWindow extends CActiveRecord
 
     protected function afterSave()
     {
-        /**
-         * @var ActivityAction $activityAction
-         */
-        $activityAction = ActivityAction::model()->findByPriority(
-            ['window_id' => $this->window],
-            null,
-            $this->simulation
-        );
-        if ($activityAction !== null) {
-            $activityAction->appendLog($this);
+        if(false === Yii::app()->params['disableOldLogging']) {
+            /**
+             * @var ActivityAction $activityAction
+             */
+            $activityAction = ActivityAction::model()->findByPriority(
+                ['window_id' => $this->window],
+                null,
+                $this->simulation
+            );
+            if ($activityAction !== null) {
+                $activityAction->appendLog($this);
+            }
         }
         parent::afterSave();
     }

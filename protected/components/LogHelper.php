@@ -622,9 +622,9 @@ class LogHelper
             }
         }
 
-        //if (NULL !== $aggregatedActivity) {
+        if (NULL !== $aggregatedActivity) {
             $aggregatedActivity->save();
-        //}
+        }
     }
 
     /**
@@ -655,12 +655,13 @@ class LogHelper
                 $universal_log->window_id = $log[1];
                 $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                 $universal_log->file_id = empty($log[4]['fileId']) ? null : $log[4]['fileId'];
-                $universal_log->dialog_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
+                $universal_log->replica_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
                 $universal_log->start_time = date("H:i:s", $log[3]);
                 $universal_log->save();
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+                /* @var  $universal_logs []UniversalLog */
                 $universal_logs = UniversalLog::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id));
                 if (0 === count($universal_logs)) {
                     throw(new CException('No active windows. Achtung!' . $simulation->id));
@@ -668,6 +669,7 @@ class LogHelper
                 if (1 < count($universal_logs)) {
                     throw(new CException('Two or more active windows at one time. Achtung!'));
                 }
+                /* @var  $universal_log UniversalLog */
                 foreach ($universal_logs as $universal_log) {
                     if (!empty($log['lastDialogId'])) {
                         $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);

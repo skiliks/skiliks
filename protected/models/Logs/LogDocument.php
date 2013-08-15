@@ -77,18 +77,20 @@ class LogDocument extends CActiveRecord
 
     protected function afterSave()
     {
-        $activityAction = ActivityAction::model()->findByPriority(
-            ['document_id' => $this->file->template_id],
-            null,
-            $this->simulation
-        );
+        if(false === Yii::app()->params['disableOldLogging']) {
 
-        if ($activityAction !== null) {
-            $activityAction->appendLog($this);
-        } else {
-            //throw new CException("The document must have id"); TODO:Костыль, для лайт это 500-ая, нужно исправить в релизе 2
+            $activityAction = ActivityAction::model()->findByPriority(
+                ['document_id' => $this->file->template_id],
+                null,
+                $this->simulation
+            );
+
+            if ($activityAction !== null) {
+                $activityAction->appendLog($this);
+            } else {
+                //throw new CException("The document must have id"); TODO:Костыль, для лайт это 500-ая, нужно исправить в релизе 2
+            }
         }
-
         parent::afterSave();
     }
 
