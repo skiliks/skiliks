@@ -268,7 +268,7 @@ class DayPlanService
         $writer->save($document->getFilePath().'.xls');
 
         $scData = ScXlsConverter::xls2sc($excel);
-        file_put_contents($document->getFilePath(), serialize($scData));
+        file_put_contents($document->getFilePath(), json_encode($scData));
         // Update Plan-template with real data }
 
         return [

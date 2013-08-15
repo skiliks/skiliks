@@ -267,30 +267,21 @@ class SimulationService
      */
     public static function fillTodo(Simulation $simulation)
     {
-        /** @var Task[] $tasks  */
+        /** @var Task[] $tasks */
         $tasks = $simulation->game_type->getTasks(['start_type'=> 'start']);
         foreach ($tasks as $task) {
-            $dayplanFixed = new DayPlan();
-            $dayplanFixed->date = $task->start_time;
-            $dayplanFixed->task_id = $task->getPrimaryKey();
-            $dayplanFixed->sim_id = $simulation->getPrimaryKey();
-            $dayplanFixed->day = 1; # FIXME hardcode
-            $dayplanFixed->save();
-        }
+            $dayPlan = new DayPlan();
+            $dayPlan->task_id = $task->getPrimaryKey();
+            $dayPlan->sim_id = $simulation->getPrimaryKey();
 
-        // прочие задачи
-        $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
-        if ($tasks) {
-            foreach ($tasks as $task) {
-                if ($task->code === 'P017') {
-                    continue;
-                }
-                $todo = new Todo();
-                $todo->sim_id = $simulation->id;
-                $todo->adding_date = date('Y-m-d H:i:s');
-                $todo->task_id = $task->id;
-                $todo->save();
+            if ($task->is_cant_be_moved) {
+                $dayPlan->day = DayPlan::DAY_1;
+                $dayPlan->date = $task->start_time;
+            } else {
+                $dayPlan->day = DayPlan::DAY_TODO;
             }
+
+            $dayPlan->save();
         }
     }
 
