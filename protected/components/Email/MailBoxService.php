@@ -403,7 +403,7 @@ class MailBoxService
     /**
      * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
      * @param Simulation $simulation
-     * @param type $code
+     * @param string $code
      * @return bool|\CActiveRecord
      */
     public static function copyMessageFromTemplateByCode($simulation, $code)

@@ -28,15 +28,17 @@ class LogMeeting extends CActiveRecord
 
     protected function afterSave()
     {
-        /** @var $activityAction ActivityAction */
-        $activityAction = ActivityAction::model()->findByPriority(
-            ['meeting_id' => $this->meeting_id],
-            NULL,
-            $this->simulation
-        );
+        if(false === Yii::app()->params['disableOldLogging']) {
+            /** @var $activityAction ActivityAction */
+            $activityAction = ActivityAction::model()->findByPriority(
+                ['meeting_id' => $this->meeting_id],
+                NULL,
+                $this->simulation
+            );
 
-        if (null !== $activityAction && null !== $this->window_uid) {
-            $activityAction->appendLog($this);
+            if (null !== $activityAction && null !== $this->window_uid) {
+                $activityAction->appendLog($this);
+            }
         }
 
         parent::afterSave();
