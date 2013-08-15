@@ -28,6 +28,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
         'assetManager' => [
+            'linkAssets' => false,
             'forceCopy'  => true,
         ],
     ),
