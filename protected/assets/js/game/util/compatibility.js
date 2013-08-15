@@ -18,6 +18,11 @@ try {
                     chrome: 27
                 };
 
+                if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+                    location.href = cfg.oldBrowserUrl;
+                    return false;
+                }
+
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
@@ -25,6 +30,7 @@ try {
                                 return true;
                             } else {
                                 location.href = cfg.oldBrowserUrl;
+                                return false;
                             }
                         }
                     }

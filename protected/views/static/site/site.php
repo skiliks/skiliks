@@ -12,6 +12,7 @@
             waitSeconds: 15
         };
         window.inviteId = <?= $inviteId ?>;
+        window.httpUserAgent = '<?= $httpUserAgent ?>';
     </script>
 
     <title>Skiliks</title>
