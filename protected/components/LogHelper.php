@@ -782,4 +782,11 @@ class LogHelper
         return $data;
     }
 
+    public static function updateUniversalLog(Simulation $simulation) {
+        $universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        foreach($universal_log as $log){
+
+        }
+    }
+
 }
