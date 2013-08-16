@@ -30,6 +30,8 @@ define(["text!game/jst/window.jst"],
 
         isDisplayCloseWindowsButton: true,
 
+        isDragable: false,
+
         dimensions: {},
 
 
@@ -65,21 +67,25 @@ define(["text!game/jst/window.jst"],
                     windowName:                  this.windowName
                 }));
                 this.renderTitle(this.$('header'));
-                this.$el.draggable({
-                    handle: "header",
-                    containment: this.$container,
-                    scroll: false,
-                    start: function () {
-                        if (typeof(me.doStartDrag) !== "undefined") {
-                            me.doStartDrag();
+
+                if (me.isDragable) {
+                    this.$el.draggable({
+                        handle: "header",
+                        containment: this.$container,
+                        scroll: false,
+                        start: function () {
+                            if (typeof(me.doStartDrag) !== "undefined") {
+                                me.doStartDrag();
+                            }
+                        },
+                        stop: function () {
+                            if (typeof(me.doEndDrag) !== "undefined") {
+                                me.doEndDrag($(this));
+                            }
                         }
-                    },
-                    stop: function () {
-                        if (typeof(me.doEndDrag) !== "undefined") {
-                            me.doEndDrag($(this));
-                        }
-                    }
-                });
+                    });
+                }
+
                 this.renderContent(me.$('.sim-window-content'), me);
             } catch(exception) {
                 if (window.Raven) {
