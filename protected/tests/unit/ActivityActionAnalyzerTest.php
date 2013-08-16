@@ -32,7 +32,7 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
         $log->save();
 
         $analyzer = new ActivityActionAnalyzer($simulation);
-        $analyzer->findActivityActionByLog($log);
+        $analyzer->run();
     }
 }
  

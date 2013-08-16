@@ -50,6 +50,9 @@ class LogDialog extends CActiveRecord
                 $activityAction->appendLog($this);
             }
 
+
+        }
+
             if ($this->getLastReplica()) {
                 foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
                     if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
@@ -57,7 +60,6 @@ class LogDialog extends CActiveRecord
                     }
                 };
             }
-        }
 
         parent::afterSave();
     }
