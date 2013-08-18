@@ -9,6 +9,8 @@ class ActivityActionAnalyzer {
     public $activities;
     public $activity_categories;
     public $parent_ending;
+    public $mail_box;
+    public $activity_action;
     public function __construct(Simulation $simulation) {
         $this->simulation = $simulation;
         $this->universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
@@ -23,6 +25,29 @@ class ActivityActionAnalyzer {
         foreach(SimulationCompletedParent::model()->findAllByAttributes(['sim_id'=>$simulation->id]) as $parent) {
             $this->parent_ending[$parent->parent_code] = $parent->end_time;
         }
+        /* @var $mail MailBox */
+        foreach(MailBox::model()->findAllByAttributes(['sim_id'=>$simulation->id]) as $mail) {
+            $this->mail_box[$mail->id] = $mail;
+        }
+        /* @var $activity_action ActivityAction */
+        foreach(ActivityAction::model()->findAllByAttributes(['scenario'=>$simulation->game_type->id]) as $activity_action) {
+
+            if(null !== $activity_action->mail_id) {
+                $this->activity_action['mail_id'][$activity_action->mail_id][] = $activity_action;
+            } elseif(null !== $activity_action->document_id) {
+                $this->activity_action['document_id'][$activity_action->document_id][] = $activity_action;
+            } elseif(null !== $activity_action->dialog_id) {
+                $this->activity_action['dialog_id'][$activity_action->dialog_id][] = $activity_action;
+            } elseif(null !== $activity_action->meeting_id) {
+                $this->activity_action['meeting_id'][$activity_action->meeting_id][] = $activity_action;
+            } elseif(null !== $activity_action->window_id) {
+                $this->activity_action['window_id'][$activity_action->window_id][] = $activity_action;
+            } else {
+
+            }
+
+        }
+
     }
 
     public function run() {
@@ -36,21 +61,16 @@ class ActivityActionAnalyzer {
 
     public function findActivityActionByLog(UniversalLog $log) {
         if(null !== $log->mail_id) {
-            return ActivityAction::model()->findAllByAttributes(
-                ['scenario_id'=>$this->simulation->game_type->id, 'mail_id'=>$log->mail_id]);
-        }elseif(null !== $log->file_id) {
-            return ActivityAction::model()->findAllByAttributes(
-                ['scenario_id'=>$this->simulation->game_type->id, 'document_id'=>$log->file_id]);
-        }elseif(null !== $log->replica_id){
-            return ActivityAction::model()->findAllByAttributes(
-                ['scenario_id'=>$this->simulation->game_type->id, 'dialog_id'=>$log->replica_id]);
-        }elseif(null !== $log->meeting_id){
-            return ActivityAction::model()->findAllByAttributes(
-                ['scenario_id'=>$this->simulation->game_type->id, 'meeting_id'=>$log->meeting_id]);
-        }elseif(null !== $log->window_id){
-            return ActivityAction::model()->findAllByAttributes(
-                ['scenario_id'=>$this->simulation->game_type->id, 'window_id'=>$log->window_id]);
-        }else{
+            return $this->activity_action['mail_id'][$log->mail_id];
+        } elseif(null !== $log->file_id) {
+            return $this->activity_action['document_id'][$log->file_id];
+        } elseif(null !== $log->replica_id) {
+            return $this->activity_action['dialog_id'][$log->replica_id];
+        } elseif(null !== $log->meeting_id) {
+            return $this->activity_action['meeting_id'][$log->meeting_id];
+        } elseif(null !== $log->window_id) {
+            return $this->activity_action['window_id'][$log->window_id];
+        } else {
             throw new Exception("empty log");
         }
     }

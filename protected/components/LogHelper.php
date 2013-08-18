@@ -783,9 +783,26 @@ class LogHelper
     }
 
     public static function updateUniversalLog(Simulation $simulation) {
-        $universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $window = Window::model()->findByAttributes(['subtype'=>'mail new']);
+        $universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id, 'window_id'=>$window->id]);
+        $partial_logs = [];
+        $full_logs = [];
+        /* @var $log UniversalLog */
         foreach($universal_log as $log){
+            if(null === $log->mail_id){
+                $partial_logs[$log->window_uid][] = $log;
+            } else {
+                $full_logs[$log->window_uid] = $log;
+            }
+        }
 
+        foreach($partial_logs as $window_uid => $logs){
+            if(isset($full_logs[$window_uid])){
+                foreach($logs as $log){
+                    $log->mail_id = $full_logs[$window_uid]->mail_id;
+                    $log->update();
+                }
+            }
         }
     }
 
