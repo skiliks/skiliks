@@ -131,6 +131,7 @@ define(["game/models/SKEvent"], function () {
              */
             canAddEvent: function (event, url) {
                 try {
+                    console.log('canAddEvent');
                     if(this.isLock && this.unLockUrl !== url) {
                         return false;
                     }
@@ -194,6 +195,7 @@ define(["game/models/SKEvent"], function () {
              */
             'wait': function (code, originalTime) {
                 try {
+                    console.log('wait');
                     SKApp.server.api('events/wait', {
                         eventCode: code,
                         eventTime: originalTime
@@ -205,10 +207,12 @@ define(["game/models/SKEvent"], function () {
                 }
             },
             'unlockEvents' : function() {
+                console.log('events unlocked');
                 this.isLock = false;
                 this.unLockUrl = '';
             },
             'lockEvents' : function(url) {
+                console.log('events locked');
                 this.unLockUrl = url;
                 this.isLock = true;
             }
