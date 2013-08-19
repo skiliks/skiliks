@@ -34,5 +34,29 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
         $analyzer = new ActivityActionAnalyzer($simulation);
         $analyzer->run();
     }
+
+    public function testDebug(){
+        $simulation = Simulation::model()->findByPk('861');
+        LogHelper::updateUniversalLog($simulation);
+        $analyzer = new ActivityActionAnalyzer($simulation);
+        $analyzer->run();
+        $old_log = LogActivityAction::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $new_log = LogActivityActionTest::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        foreach(Activity::model()->findAll() as $activity){
+            $activities[$activity->id] = $activity;
+        }
+        foreach(ActivityAction::model()->findAll() as $action){
+            $actions[$action->id] = $action->activity_id;
+        }
+        foreach($old_log as $key => $log){
+            var_dump('Old activity code '.$activities[$actions[$log->activity_action_id]]->code);
+            var_dump('New activity code '.$activities[$actions[$new_log[$key]->activity_action_id]]->code);
+            var_dump('Old start time '.$log->start_time);
+            var_dump('New start time '.$new_log[$key]->start_time);
+            var_dump('Old end time '.$log->end_time);
+            var_dump('New end time '.$new_log[$key]->end_time);
+            $this->assertEquals($activities[$actions[$log->activity_action_id]]->code, $activities[$actions[$new_log[$key]->activity_action_id]]->code, ' row '.($key+1));
+        }
+    }
 }
  

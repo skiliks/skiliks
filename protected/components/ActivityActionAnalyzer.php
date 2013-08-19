@@ -11,9 +11,38 @@ class ActivityActionAnalyzer {
     public $parent_ending;
     public $mail_box;
     public $activity_action;
+    public $windows;
+    public $documents;
     public function __construct(Simulation $simulation) {
+        LogActivityActionTest::model()->deleteAll();
         $this->simulation = $simulation;
-        $this->universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $dialog_log = new UniversalLog();
+        $replica_id = null;
+        /* @var $universal_log UniversalLog */
+        //$universal_logs = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $universal_logs = UniversalLog::model()->findAll("sim_id = :sim_id and replica_id is not null", ['sim_id'=>$simulation->id]);
+        foreach($universal_logs as $key => $universal_log){
+            //$this->universal_log = ;
+            if(null !== $universal_log->replica_id) {
+                $dialog_log->replica_id = $universal_log->replica_id;
+                $dialog_log->start_time = (null === $dialog_log->start_time)?$universal_log->start_time:$dialog_log->start_time;
+                $dialog_log->end_time = $universal_log->end_time;
+                $dialog_log->window_id = $universal_log->window_id;
+                $dialog_log->last_dialog_id = $universal_log->last_dialog_id;
+                if(isset($universal_logs[$key+1])){
+                    if(null === $universal_logs[$key+1]->replica_id){
+                        $this->universal_log[] = $dialog_log;
+                        $dialog_log = new UniversalLog();
+                    }
+                }else{
+                    $this->universal_log[] = $dialog_log;
+                    $dialog_log = new UniversalLog();
+                }
+            }else{
+                $this->universal_log[] = $universal_log;
+            }
+        }
+        die("debug stop");
         foreach(Activity::model()->findAllByAttributes(['scenario_id'=>$simulation->game_type->id]) as $activity) {
             $this->activities[$activity->id] = $activity;
         }
@@ -30,7 +59,7 @@ class ActivityActionAnalyzer {
             $this->mail_box[$mail->id] = $mail;
         }
         /* @var $activity_action ActivityAction */
-        foreach(ActivityAction::model()->findAllByAttributes(['scenario'=>$simulation->game_type->id]) as $activity_action) {
+        foreach(ActivityAction::model()->findAllByAttributes(['scenario_id'=>$simulation->game_type->id]) as $activity_action) {
 
             if(null !== $activity_action->mail_id) {
                 $this->activity_action['mail_id'][$activity_action->mail_id][] = $activity_action;
@@ -43,45 +72,78 @@ class ActivityActionAnalyzer {
             } elseif(null !== $activity_action->window_id) {
                 $this->activity_action['window_id'][$activity_action->window_id][] = $activity_action;
             } else {
-
+                if($this->activities[$activity_action->activity_id]->code === 'A_wrong_call'){
+                    $this->activity_action['A_wrong_call'] = $activity_action;
+                }elseif($this->activities[$activity_action->activity_id]->code === 'A_not_sent'){
+                    $this->activity_action['A_not_sent'] = $activity_action;
+                }elseif($this->activities[$activity_action->activity_id]->code === 'A_incorrect_sent'){
+                    $this->activity_action['A_incorrect_sent'] = $activity_action;
+                }else{
+                    throw new Exception("not found activity action");
+                }
             }
 
+        }
+
+        /* @var $window Window */
+        foreach(Window::model()->findAll() as $window) {
+            $this->windows[$window->subtype] = $window->id;
+        }
+
+        /* @var $document MyDocument */
+        foreach(MyDocument::model()->findAllByAttributes(['sim_id'=>$simulation->id]) as $document) {
+            $this->documents[$document->id] = $document->template_id;
         }
 
     }
 
     public function run() {
+        /* @var $universal_log UniversalLog */
         foreach($this->universal_log as $universal_log){
             $activityActions = $this->findActivityActionByLog($universal_log);
-            $activityActions = $this->excludeParentComplete($activityActions);
-            $activityAction = $this->getHighPriorityCategory($activityActions);
-            $this->saveLogActivityAction($activityAction, $universal_log);
+            $activityActionsActual = $this->excludeParentComplete($activityActions, $universal_log);
+            $activityAction = $this->getHighPriorityCategory($activityActionsActual);
+            if(null !== $activityAction){
+                $this->saveLogActivityAction($activityAction, $universal_log);
+            }
         }
     }
 
     public function findActivityActionByLog(UniversalLog $log) {
         if(null !== $log->mail_id) {
-            return $this->activity_action['mail_id'][$log->mail_id];
+            $mail_box = $this->mail_box[$log->mail_id];
+            /* @var $mail_box MailBox */
+            if($mail_box->isMS()){
+                return $this->activity_action['mail_id'][$mail_box->template_id];
+            }else{
+                if($mail_box->isSended()){
+                    return [$this->activity_action['A_incorrect_sent']];
+                } else {
+                    return [$this->activity_action['A_not_sent']];
+                }
+            }
         } elseif(null !== $log->file_id) {
-            return $this->activity_action['document_id'][$log->file_id];
+            return $this->activity_action['document_id'][$this->documents[$log->file_id]];
         } elseif(null !== $log->replica_id) {
             return $this->activity_action['dialog_id'][$log->replica_id];
         } elseif(null !== $log->meeting_id) {
             return $this->activity_action['meeting_id'][$log->meeting_id];
         } elseif(null !== $log->window_id) {
             return $this->activity_action['window_id'][$log->window_id];
-        } else {
-            throw new Exception("empty log");
         }
+        if($log->window_id === $this->windows[Window::PHONE_TALK]){
+            return [$this->activity_action['A_wrong_call']];
+        }
+        throw new Exception("activity action not found");
     }
 
-    public function excludeParentComplete($activityActions) {
+    public function excludeParentComplete($activityActions, UniversalLog $universal_log) {
         /* @var $activityActions []ActivityAction */
         /* @var $activityAction ActivityAction */
         foreach($activityActions as $key => $activityAction) {
-            $parent = $this->activities[$activityAction->activity_id]->parent;
-            if(isset($this->parent_ending[$parent])) {
-                unset($activityActions[$key]);
+            $parent = $this->activities[$activityAction->activity_id];
+            if(isset($this->parent_ending[$parent->parent]) && strtotime($universal_log->start_time) < strtotime($this->parent_ending[$parent->parent])) {
+               unset($activityActions[$key]);
             }
         }
 
@@ -102,14 +164,22 @@ class ActivityActionAnalyzer {
         }
         $key = current($priority);
         if(false === $key){
-            throw new Exception("array error");
+            if(count($priority) === 0){
+                return null;
+            }else{
+                throw new Exception("array error");
+            }
         }else{
             return $activityActions[$key];
         }
     }
 
+    public function groupByReplica(){
+
+    }
+
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
-        $logActivityAction = new LogActivityAction();
+        $logActivityAction = new LogActivityActionTest(); //new LogActivityAction();
         $logActivityAction->sim_id = $this->simulation->id;
         $logActivityAction->activity_action_id = $activityAction->id;
         $logActivityAction->window = $universal_log->window_id;
