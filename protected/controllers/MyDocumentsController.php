@@ -72,18 +72,24 @@ class MyDocumentsController extends SimulationBaseController
      */
     public function actionGetExcel()
     {
+        $result = [
+            'result' => 1,
+            'fileId' => '',
+            'data'   => [],
+        ];
+
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
         /** @var MyDocument $file */
         $document = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
-        assert($file);
 
-        $result = array(
-            'result' => 1,
-            'fileId' => $document->id,
-            'data'   => $document->getSheetList()
-        );
+        if (false == empty($document)) {
+            $result['fileId'] = $document->id;
+            $result['data']   = $document->getSheetList();
+
+        }
+
         $this->sendJSON(
             $result
         );
