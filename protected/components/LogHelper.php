@@ -656,7 +656,7 @@ class LogHelper
                 $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                 $universal_log->file_id = empty($log[4]['fileId']) ? null : $log[4]['fileId'];
                 $universal_log->replica_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
-                $universal_log->start_time = date("H:i:s", $log[3]);
+                $universal_log->start_time = gmdate("H:i:s", $log[3]);
                 $universal_log->save();
                 continue;
 
@@ -675,13 +675,9 @@ class LogHelper
                         $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
                     }
                     $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
-                    $universal_log->end_time = date("H:i:s", $log[3]);
+                    $universal_log->end_time = gmdate("H:i:s", $log[3]);
                     $universal_log->save();
                 }
-            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
-
-                continue;
-
             } else {
 
                 throw new CException("Unknown action: " . $log[2]); //TODO:Описание доделать
