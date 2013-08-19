@@ -48,4 +48,35 @@ class DayPlanAndTodoUnitTest extends CDbTestCase
         $result = TodoService::addTask(null, $simulation->id);
         $this->assertSame(false, $result);
     }
+
+    public function testDayPlanSave()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        // Try add new task
+        $newTask = $simulation->game_type->getTask(['code' => 'P5']);
+        $result = DayPlanService::addTask($simulation, $newTask->id, DayPlan::DAY_1, '11:00:00');
+        $todo = DayPlan::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'task_id' => $newTask->id
+        ]);
+
+        $this->assertTrue($result);
+        $this->assertInstanceOf('DayPlan', $todo);
+
+        $result = DayPlanService::saveToXLS($simulation);
+        $documentId = $result['docId'];
+
+        $dayPlanExcelDocument = MyDocument::model()->findByPk($documentId);
+
+        $excelSheetList = $dayPlanExcelDocument->getSheetList();
+
+        $this->assertNotNull($excelSheetList[0]['content']);
+        $this->assertTrue(strpos($excelSheetList[0]['content'], $newTask->title) > 0);
+    }
 }

@@ -76,13 +76,13 @@ class MyDocumentsController extends SimulationBaseController
 
         $id = Yii::app()->request->getParam('id', NULL);
         /** @var MyDocument $file */
-        $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
+        $document = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         assert($file);
 
         $result = array(
             'result' => 1,
-            'fileId' => $file->id,
-            'data'   => $file->getSheetList()
+            'fileId' => $document->id,
+            'data'   => $document->getSheetList()
         );
         $this->sendJSON(
             $result
