@@ -180,7 +180,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
 
-        $notUsedFullSimulations = Invite::model()->findAllByAttributes([
+        $notUsedFullSimulationInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
             'scenario_id' => $fullScenario->id,
             'email'       => Yii::app()->user->data()->profile->email,
@@ -188,20 +188,24 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         ]);
 
         // I remove more than 1 allowed to start lite sim {
-        if (1 < count($notUsedFullSimulations)) {
+        if (1 < count($notUsedFullSimulationInvites)) {
             $i = 0;
-            foreach ($notUsedFullSimulations as $key => $notUsedFullSimulation) {
+            foreach ($notUsedFullSimulationInvites as $key => $notUsedFullSimulation) {
 
                 if (0 < $i) {
                     $notUsedFullSimulation->delete();
-                    unset($notUsedFullSimulations[$key]);
+                    unset($notUsedFullSimulationInvites[$key]);
                 }
                 $i++;
             }
         }
+
+        if (isset($notUsedFullSimulationInvites[0])) {
+            $notUsedFullSimulationInvite = $notUsedFullSimulationInvites[0];
+        }
         // I remove more than 1 allowed to start lite sim }
 
-        if (0 === count($notUsedFullSimulations)) {
+        if (0 === count($notUsedFullSimulationInvites)) {
             $newInviteForFullSimulation = new Invite();
             $newInviteForFullSimulation->owner_id = Yii::app()->user->data()->id;
             $newInviteForFullSimulation->receiver_id = Yii::app()->user->data()->id;
@@ -219,14 +223,17 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
             $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
             $newInviteForFullSimulation->save(false);
+
             InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 3)');
+
+            $notUsedFullSimulationInvite = $newInviteForFullSimulation;
         }
         // check and add trial full version }
 
         // check and add trial lite version {
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
-        $notUsedLiteSimulations = Invite::model()->findAllByAttributes([
+        $notUsedLiteSimulationInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
             'scenario_id' => $liteScenario->id,
             'email'       => Yii::app()->user->data()->profile->email,
@@ -234,24 +241,31 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
         ]);
 
         // I remove more than 1 allowed to start lite sim {
-        if (1 < count($notUsedLiteSimulations)) {
+        if (1 < count($notUsedLiteSimulationInvites)) {
             $i = 0;
-            foreach ($notUsedLiteSimulations as $key => $notUsedLiteSimulation) {
+            foreach ($notUsedLiteSimulationInvites as $key => $notUsedLiteSimulation) {
                 if (0 < $i) {
                     $notUsedLiteSimulation->delete();
-                    unset($notUsedLiteSimulations[$key]);
+                    unset($notUsedLiteSimulationInvites[$key]);
                 }
                 $i++;
             }
         }
         // I remove more than 1 allowed to start lite sim }
 
-        if (0 === count($notUsedLiteSimulations)) {
-            Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
+        if (isset($notUsedLiteSimulationInvites[0])) {
+            $notUsedLiteSimulationInvite = $notUsedLiteSimulationInvites[0];
+        }
+
+        if (0 === count($notUsedLiteSimulationInvites)) {
+            $notUsedLiteSimulationInvite = Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
          }
         // check and add trial lite version }
 
-        $this->render('simulations_corporate', []);
+        $this->render('simulations_corporate', [
+            'notUsedFullSimulationInvite' => $notUsedFullSimulationInvite,
+            'notUsedLiteSimulationInvite' => $notUsedLiteSimulationInvite
+        ]);
     }
 
     /**

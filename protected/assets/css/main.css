@@ -1570,7 +1570,7 @@ ul.main-screen-stat{
 	overflow:hidden;
 	height: 22px;
 	position:relative;
-	z-index:9999;
+	z-index: 200;
 }
 ul.main-screen-stat li{
 	background:url("../img/main-screen/bd-status.png") no-repeat left center;
@@ -1611,7 +1611,7 @@ ul.main-screen-stat li img{
     width:88px;
     margin:10px 18px 0 0;
     position:relative;
-    z-index:9999;
+    z-index: 200;
 }
 .main-screen-icons ul li{
     background-repeat:no-repeat;

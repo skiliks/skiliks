@@ -21,7 +21,7 @@
     position: absolute;
     right:-28px;
     top:-38px;
-    z-index:100000;
+    z-index:1010;
 }
 .flash-pop-up .ui-dialog-content p {
     color:#3d4041;
