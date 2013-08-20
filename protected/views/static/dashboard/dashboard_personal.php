@@ -22,12 +22,13 @@
 
             <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
 
-            <?php if ($display_results_for): ?>
-            <script type="text/javascript">
-                $(function() {
-                    showSimulationDetails('/simulations/details/<?= $display_results_for->id ?>');
-                });
-            </script>
+            <?php if ($display_results_for &&
+                $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())): ?>
+                <script type="text/javascript">
+                    $(function() {
+                        showSimulationDetails('/simulations/details/<?= $display_results_for->id ?>');
+                    });
+                </script>
             <?php endif; ?>
         </div>
 

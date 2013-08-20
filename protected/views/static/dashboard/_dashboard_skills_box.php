@@ -1,9 +1,13 @@
 <h2>Мои навыки</h2>
 
 <?php
-    $this->renderPartial('//global_partials/_simulation_stars', [
-        'simulation'    => $simulation,
-    ])
+    if (true === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+        $this->renderPartial('//global_partials/_simulation_stars', [
+            'simulation'    => $simulation,
+        ]);
+    } else {
+        echo '<br/>';
+    }
 ?>
 
 <?php /* not in release 1

@@ -372,6 +372,7 @@ return array(
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
+        'isDisplaySimulationResults'    => false,
         'emails' => [
             'isDisplayStandartdInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'defaultMessageText' => 'Поздравляем вас! '
