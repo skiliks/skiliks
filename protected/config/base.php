@@ -371,6 +371,7 @@ return array(
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
+        'isDisplaySimulationResults'    => false,
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'defaultMessageText' => 'Продолжая начатую в 2012 году программу корпоративного развития, предлагаем Вам поучаствовать в прохождении тестовой версии симуляции компании "Скиликс".'.
