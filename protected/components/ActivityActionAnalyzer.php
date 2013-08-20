@@ -17,10 +17,9 @@ class ActivityActionAnalyzer {
         LogActivityActionTest::model()->deleteAll();
         $this->simulation = $simulation;
         $dialog_log = new UniversalLog();
-        $replica_id = null;
         /* @var $universal_log UniversalLog */
-        //$universal_logs = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-        $universal_logs = UniversalLog::model()->findAll("sim_id = :sim_id and replica_id is not null", ['sim_id'=>$simulation->id]);
+        $universal_logs = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        //$universal_logs = UniversalLog::model()->findAll("sim_id = :sim_id and replica_id is not null", ['sim_id'=>$simulation->id]);
         foreach($universal_logs as $key => $universal_log){
             //$this->universal_log = ;
             if(null !== $universal_log->replica_id) {
@@ -31,18 +30,18 @@ class ActivityActionAnalyzer {
                 $dialog_log->last_dialog_id = $universal_log->last_dialog_id;
                 if(isset($universal_logs[$key+1])){
                     if(null === $universal_logs[$key+1]->replica_id){
-                        $this->universal_log[] = $dialog_log;
+                        $this->appendUniversalLog($dialog_log);
                         $dialog_log = new UniversalLog();
                     }
                 }else{
-                    $this->universal_log[] = $dialog_log;
+                    $this->appendUniversalLog($dialog_log);
                     $dialog_log = new UniversalLog();
                 }
             }else{
-                $this->universal_log[] = $universal_log;
+                $this->appendUniversalLog($universal_log);
             }
         }
-        die("debug stop");
+        //die("debug stop");
         foreach(Activity::model()->findAllByAttributes(['scenario_id'=>$simulation->game_type->id]) as $activity) {
             $this->activities[$activity->id] = $activity;
         }
@@ -99,10 +98,10 @@ class ActivityActionAnalyzer {
 
     public function run() {
         /* @var $universal_log UniversalLog */
-        foreach($this->universal_log as $universal_log){
+        foreach($this->universal_log as $key => $universal_log){
             $activityActions = $this->findActivityActionByLog($universal_log);
             $activityActionsActual = $this->excludeParentComplete($activityActions, $universal_log);
-            $activityAction = $this->getHighPriorityCategory($activityActionsActual);
+            $activityAction = $this->getHighPriorityCategory($activityActionsActual, $universal_log);
             if(null !== $activityAction){
                 $this->saveLogActivityAction($activityAction, $universal_log);
             }
@@ -113,14 +112,20 @@ class ActivityActionAnalyzer {
         if(null !== $log->mail_id) {
             $mail_box = $this->mail_box[$log->mail_id];
             /* @var $mail_box MailBox */
-            if($mail_box->isMS()){
+            if($mail_box->isInBox()){
                 return $this->activity_action['mail_id'][$mail_box->template_id];
-            }else{
-                if($mail_box->isSended()){
-                    return [$this->activity_action['A_incorrect_sent']];
+            }elseif($mail_box->isOutBox()){
+                if($mail_box->isMS()){
+                    return $this->activity_action['mail_id'][$mail_box->template_id];
                 } else {
-                    return [$this->activity_action['A_not_sent']];
+                    if($mail_box->isSended()){
+                        return [$this->activity_action['A_incorrect_sent']];
+                    } else {
+                        return [$this->activity_action['A_not_sent']];
+                    }
                 }
+            }else{
+                throw new Exception(" Bad mail folder ");
             }
         } elseif(null !== $log->file_id) {
             return $this->activity_action['document_id'][$this->documents[$log->file_id]];
@@ -142,7 +147,7 @@ class ActivityActionAnalyzer {
         /* @var $activityAction ActivityAction */
         foreach($activityActions as $key => $activityAction) {
             $parent = $this->activities[$activityAction->activity_id];
-            if(isset($this->parent_ending[$parent->parent]) && strtotime($universal_log->start_time) < strtotime($this->parent_ending[$parent->parent])) {
+            if(isset($this->parent_ending[$parent->parent]) && strtotime($universal_log->start_time) >= strtotime($this->parent_ending[$parent->parent])) {
                unset($activityActions[$key]);
             }
         }
@@ -151,12 +156,14 @@ class ActivityActionAnalyzer {
 
     }
 
-    public function getHighPriorityCategory($activityActions) {
+    public function getHighPriorityCategory($activityActions, UniversalLog $universal_log) {
 
         $priority = [];
         /* @var $this->activities[$activityAction->activity_id] Activity */
         foreach($activityActions as $index => $activityAction) {
-            $priority[$this->activity_categories[$this->activities[$activityAction->activity_id]->category_id]] = $index;
+            if(!isset($priority[$this->activity_categories[$this->activities[$activityAction->activity_id]->category_id]])){
+                $priority[$this->activity_categories[$this->activities[$activityAction->activity_id]->category_id]] = $index;
+            }
         }
 
         if(false === ksort($priority)){
@@ -165,7 +172,7 @@ class ActivityActionAnalyzer {
         $key = current($priority);
         if(false === $key){
             if(count($priority) === 0){
-                return null;
+                return $this->activity_action['window_id'][$universal_log->window_id][0];
             }else{
                 throw new Exception("array error");
             }
@@ -176,6 +183,21 @@ class ActivityActionAnalyzer {
 
     public function groupByReplica(){
 
+    }
+
+    public function appendUniversalLog(UniversalLog $universal_log) {
+        //todo:Фиксировать пустые логи
+        //if($universal_log->start_time !== $universal_log->end_time){
+        if(false === $this->debugExclude($universal_log, [
+                '10:55:51-10:55:51', '11:02:43-11:02:43', '11:03:49-11:03:49',
+                '11:35:13-11:35:13', '12:36:16-12:36:16', '13:12:10-13:12:10',
+                '14:06:05-14:06:05', '14:06:17-14:06:17', '14:07:06-14:07:06',
+                '15:00:50-15:00:50', '15:31:37-15:31:37', '18:01:48-18:01:48',
+                '18:04:23-18:04:23', '18:05:34-18:05:34', '18:06:03-18:06:03'
+            ])){
+            $this->universal_log[] = $universal_log;
+        }
+        //}
     }
 
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
@@ -190,6 +212,10 @@ class ActivityActionAnalyzer {
         $logActivityAction->meeting_id = $activityAction->meeting_id;
         $logActivityAction->window_uid = $universal_log->window_uid;
         $logActivityAction->save(false);
+    }
+
+    public function debugExclude(UniversalLog $log, $arr){
+        return in_array($log->start_time.'-'.$log->end_time, $arr);
     }
 
 } 
