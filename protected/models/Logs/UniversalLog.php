@@ -77,9 +77,9 @@ class UniversalLog extends CActiveRecord
 			'replica' => array(self::BELONGS_TO, 'Replica', 'replica_id'),
 			'activityAction' => array(self::BELONGS_TO, 'ActivityAction', 'activity_action_id'),
 			'lastDialog' => array(self::BELONGS_TO, 'Replica', 'last_dialog_id'),
-			'file' => array(self::BELONGS_TO, 'MyDocuments', 'file_id'),
+			'file' => array(self::BELONGS_TO, 'MyDocument', 'file_id'),
 			'mail' => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
-			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 			'window' => array(self::BELONGS_TO, 'Window', 'window_id'),
 		);
 	}

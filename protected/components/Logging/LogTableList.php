@@ -64,7 +64,8 @@ namespace application\components\Logging {
                 new LearningAreaTable($simulation->learning_area),
                 new TimeManagementTable($simulation->time_management_aggregated),
                 new LogAssessment214gTable($simulation->logAssessment214g),
-                new LearningGoalGroupTable($simulation->learning_goal_group)
+                new LearningGoalGroupTable($simulation->learning_goal_group),
+                new UniversalLogTable($simulation->universal_log)
             ];
         }
 

@@ -50,7 +50,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property MailBox[] $mail_box_inbox
  * @property SimulationFlag[] $simFlags
  * @property LogAssessment214g[] $logAssessment214g
- *
+ * @property UniversalLog[] $universal_log
  */
 class Simulation extends CActiveRecord
 {
@@ -193,7 +193,7 @@ class Simulation extends CActiveRecord
             'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
             'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
-            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
