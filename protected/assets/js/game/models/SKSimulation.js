@@ -168,7 +168,7 @@ define([
                     this.bindEmergencyHotkey();
 
                     // расскоментировать когда подчиним копирование.
-                    this.initSocialcalcHotkeys();
+                    //this.initSocialcalcHotkeys();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
