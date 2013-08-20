@@ -74,9 +74,10 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
+            $newInviteForFullSimulation->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status', 'tutorial_scenario_id',
-                'updated_at',
+                'updated_at', 'is_display_simulation_results',
             ]);
 
             $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
@@ -158,8 +159,9 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+            $newInviteForFullSimulation->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
             $newInviteForFullSimulation->save(true, [
-                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
+                'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status', 'is_display_simulation_results'
             ]);
 
             $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
@@ -212,9 +214,10 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
             $newInviteForFullSimulation->sent_time = time(); // @fix DB!
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
+            $newInviteForFullSimulation->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
             $newInviteForFullSimulation->save(true, [
                 'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status', 'tutorial_scenario_id',
-                'updated_at',
+                'updated_at', 'is_display_simulation_results',
             ]);
 
             $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
@@ -269,6 +272,10 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
 
                 Yii::app()->end(); // кошерное die;
             }
+        }
+
+        if (false === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+            Yii::app()->end(); // кошерное die;
         }
 
         $this->layout = false;

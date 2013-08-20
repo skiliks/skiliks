@@ -8,6 +8,10 @@
             return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
         }
 
+        if (false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+            return 'Результаты скрыты';
+        }
+
         return $this->renderPartial('//global_partials/_simulation_stars', [
             'simulation'     => $invite->simulation,
             'isDisplayTitle' => false,
