@@ -650,15 +650,17 @@ class LogHelper
                 if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id))) {
                     throw(new CException('Previous window is still activated'));
                 }
-                $universal_log = new UniversalLog();
+
+                $universal_log = new UniversalLog(); //new UniversalLog();
                 $universal_log->sim_id = $simulation->id;
                 $universal_log->window_id = $log[1];
                 $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                 $universal_log->file_id = empty($log[4]['fileId']) ? null : $log[4]['fileId'];
                 $universal_log->replica_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
                 $universal_log->start_time = gmdate("H:i:s", $log[3]);
+                $universal_log->window_uid = empty($log['window_uid']) ? null : $log['window_uid'];
+                $universal_log->meeting_id = empty($log[4]['meetingId']) ? null : $log[4]['meetingId'];
                 $universal_log->save();
-                continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
                 /* @var  $universal_logs []UniversalLog */
@@ -671,9 +673,13 @@ class LogHelper
                 }
                 /* @var  $universal_log UniversalLog */
                 foreach ($universal_logs as $universal_log) {
+                    if($universal_log->window_uid !== $log['window_uid']){
+                        throw new Exception($universal_log->window_uid.' !== '.$log['window_uid']);
+                    }
                     if (!empty($log['lastDialogId'])) {
                         $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
                     }
+                    $universal_log->mail_id = empty($log[4]['mailId']) ? $universal_log->mail_id : $log[4]['mailId'];
                     $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
                     $universal_log->end_time = gmdate("H:i:s", $log[3]);
                     $universal_log->save();

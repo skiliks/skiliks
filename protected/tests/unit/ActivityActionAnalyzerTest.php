@@ -37,6 +37,15 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
 
     public function testDebug(){
         $simulation = Simulation::model()->findByPk('861');
+        /*$mail_logs = LogMail::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        foreach($mail_logs as $mail_log){
+            $universal_log = UniversalLog::model()->findByAttributes(['sim_id'=>$simulation->id, 'start_time'=>$mail_log->start_time, 'end_time'=>$mail_log->end_time]);
+            if(null !== $universal_log){
+                $universal_log->window_uid = $mail_log->window_uid;
+                $universal_log->update();
+            }
+        }*/
+
         LogHelper::updateUniversalLog($simulation);
         $analyzer = new ActivityActionAnalyzer($simulation);
         $analyzer->run();
@@ -55,8 +64,25 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
             var_dump('New start time '.$new_log[$key]->start_time);
             var_dump('Old end time '.$log->end_time);
             var_dump('New end time '.$new_log[$key]->end_time);
-            $this->assertEquals($activities[$actions[$log->activity_action_id]]->code, $activities[$actions[$new_log[$key]->activity_action_id]]->code, ' row '.($key+1));
+            $this->assertEquals($activities[$actions[$log->activity_action_id]]->code, $activities[$actions[$new_log[$key]->activity_action_id]]->code, ' row '.($key));
+            $this->assertEquals($log->start_time, $new_log[$key]->start_time, 'start row '.($key));
+            $this->assertEquals($log->end_time, $new_log[$key]->end_time, 'end row '.($key));
         }
+        /*$logs = LogServerRequest::model()->findAllByAttributes(['sim_id'=>$simulation->id, 'request_url'=>'/index.php/events/getState']);
+        UniversalLogTest::model()->deleteAll();
+        foreach($logs as $log){
+            $request = json_decode($log->request_body, true);
+            if(!empty($request['logs'])){
+                LogHelper::setUniversalLog($simulation, $request['logs']);
+            }
+        }
+        $logs = LogServerRequest::model()->findAllByAttributes(['sim_id'=>$simulation->id, 'request_url'=>'/index.php/simulation/stop']);
+        foreach($logs as $log){
+            $request = json_decode($log->request_body, true);
+            if(!empty($request['logs'])){
+                LogHelper::setUniversalLog($simulation, $request['logs']);
+            }
+        }*/
     }
 }
  

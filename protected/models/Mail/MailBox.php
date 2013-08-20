@@ -359,6 +359,14 @@ class MailBox extends CActiveRecord
     public function getGroupName() {
         return self::$folderIdToAlias[$this->group_id];
     }
+
+    public function isOutBox(){
+        return ($this->group_id === '2' || $this->group_id === '3');
+    }
+
+    public function isInBox(){
+        return ($this->group_id === '1' || $this->group_id === '4');
+    }
 }
 
 
