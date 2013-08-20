@@ -819,7 +819,7 @@ define([
                 var position = $task.parent().offset();
                 var width = $task.parent().width();
                 var height = $task.height();
-                console.log(position);
+                //console.log(position);
                 var title = $task.parent('td').attr('title');
                 if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                     $('.plan_hint_tooltip').remove();
