@@ -107,9 +107,6 @@ define([
                         }
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
-                        if (true === SKApp.simulation.config.isMuteVideo) {
-                            me.$('video').attr('muted', 'muted');
-                        }
 
                         me.$('video').on('ended', function () {
                             me.$('video').css('zIndex', 0);
