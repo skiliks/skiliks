@@ -94,6 +94,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
+                $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
                 $invite->save();
 
                 InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
@@ -249,6 +250,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
+                $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
                 $invite->save();
                 InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
@@ -327,10 +329,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     {
         $this->checkUser();
 
-        $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_FULL);
+        $simulation = Simulation::model()->getLastSimulation(Yii::app()->user->data(), Scenario::TYPE_FULL);
 
         if (null === $simulation) {
-            $simulation = Simulation::model()->getLastSimulation(Yii::app()->user, Scenario::TYPE_LITE);
+            $simulation = Simulation::model()->getLastSimulation(Yii::app()->user->data(), Scenario::TYPE_LITE);
         }
 
         $simulationToDisplayResults = null;
@@ -411,6 +413,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             ],
         ];
 
+        $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
         $invite->markAsSendToday();
         $invite->save();
 

@@ -24,6 +24,7 @@
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
+ * @property boolean $is_display_simulation_results
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -121,14 +122,6 @@ class Invite extends CActiveRecord
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function isComplete()
-    {
-        return $this->status == self::STATUS_COMPLETED;
-    }
-
     public function isNotStarted() {
         return $this->status == self::STATUS_PENDING || $this->status == self::STATUS_ACCEPTED;
     }
@@ -194,6 +187,15 @@ class Invite extends CActiveRecord
      * @return bool
      */
     public function isCompleted()
+    {
+        return $this->status == self::STATUS_COMPLETED;
+    }
+
+    /**
+     * @todo: remove in sprint S27
+     * @return bool
+     */
+    public function isComplete()
     {
         return $this->status == self::STATUS_COMPLETED;
     }
@@ -286,6 +288,32 @@ class Invite extends CActiveRecord
         InviteService::logAboutInviteStatus($newInvite, 'invite : add fake invite');
 
         return $newInvite;
+    }
+
+    public function isAllowedToSeeResults(YumUser $user)
+    {
+        // просто проверка
+        if (null === $user) {
+            return false;
+        }
+
+        // просто проверка
+        if (false === $this->isComplete()) {
+            return false;
+        }
+
+        // создатель всегда может
+        if ($this->owner_id == $user->id) {
+            return true;
+        }
+
+        // истанная проверка - is_display_simulation_results, это главный переметр
+        // при решении отображать результаты симуляции или нет
+        if (1 === (int)$this->is_display_simulation_results) {
+            return true;
+        }
+
+        return false;
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
