@@ -14,7 +14,7 @@ class ActivityActionAnalyzer {
     public $windows;
     public $documents;
     public function __construct(Simulation $simulation) {
-        LogActivityActionTest::model()->deleteAll();
+        //LogActivityActionTest::model()->deleteAll();
         $this->simulation = $simulation;
         $dialog_log = new UniversalLog();
         /* @var $universal_log UniversalLog */
@@ -181,27 +181,23 @@ class ActivityActionAnalyzer {
         }
     }
 
-    public function groupByReplica(){
-
-    }
-
     public function appendUniversalLog(UniversalLog $universal_log) {
         //todo:Фиксировать пустые логи
-        //if($universal_log->start_time !== $universal_log->end_time){
-        if(false === $this->debugExclude($universal_log, [
+        if($universal_log->start_time !== $universal_log->end_time){
+        /*if(false === $this->debugExclude($universal_log, [
                 '10:55:51-10:55:51', '11:02:43-11:02:43', '11:03:49-11:03:49',
                 '11:35:13-11:35:13', '12:36:16-12:36:16', '13:12:10-13:12:10',
                 '14:06:05-14:06:05', '14:06:17-14:06:17', '14:07:06-14:07:06',
                 '15:00:50-15:00:50', '15:31:37-15:31:37', '18:01:48-18:01:48',
                 '18:04:23-18:04:23', '18:05:34-18:05:34', '18:06:03-18:06:03'
-            ])){
+            ])){*/
             $this->universal_log[] = $universal_log;
         }
         //}
     }
 
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
-        $logActivityAction = new LogActivityActionTest(); //new LogActivityAction();
+        $logActivityAction = new LogActivityAction(); //new LogActivityAction();
         $logActivityAction->sim_id = $this->simulation->id;
         $logActivityAction->activity_action_id = $activityAction->id;
         $logActivityAction->window = $universal_log->window_id;
@@ -214,8 +210,8 @@ class ActivityActionAnalyzer {
         $logActivityAction->save(false);
     }
 
-    public function debugExclude(UniversalLog $log, $arr){
+    /*public function debugExclude(UniversalLog $log, $arr){
         return in_array($log->start_time.'-'.$log->end_time, $arr);
-    }
+    }*/
 
 } 
