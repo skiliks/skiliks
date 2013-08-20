@@ -50,6 +50,7 @@ define([
              */
             renderWindow:function (el) {
                 try {
+                    console.log('render visit view');
                     var me = this,
                         event = this.options.model_instance.get('sim_event');
 
