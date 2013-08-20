@@ -61,6 +61,7 @@ define([
              */
             'renderWindow':function (el) {
                 try {
+                    console.log('render immediate visit view');
                     var me = this,
                         event = this.options.model_instance.get('sim_event'),
                         my_replicas = event.getMyReplicas(),
@@ -76,16 +77,22 @@ define([
                         'img_src': image_src
                     });
                     var is_first_replica = !el.html();
+                    console.log('html(text).appendTo(el) - before');
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
+                    console.log('html(text).appendTo(el) - after');
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', renderFn);
+                            console.log('loadeddata');
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', renderFn);
+                            console.log('load');
                         } else {
+                            console.log('renderFn 1');
                             renderFn();
                         }
                     } else {
+                        console.log('renderFn 2');
                         renderFn();
                     }
                 } catch(exception) {
@@ -101,9 +108,12 @@ define([
 
                         if (oldContent.length) {
                             oldContent.replaceWith(newContent);
+                            console.log('replaceWith(newContent)');
                             el.find('.placeholder').remove();
+                            console.log('(placeholder).remove()');
                         } else {
                             el.find('.placeholder').replaceWith(newContent);
+                            console.log('(placeholder).replaceWith(newContent)');
                         }
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
@@ -139,6 +149,7 @@ define([
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
+                            console.log('this.play();');
                             this.play();
                         } );
 
