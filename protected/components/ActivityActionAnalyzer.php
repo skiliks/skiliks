@@ -133,11 +133,12 @@ class ActivityActionAnalyzer {
             return $this->activity_action['dialog_id'][$log->replica_id];
         } elseif(null !== $log->meeting_id) {
             return $this->activity_action['meeting_id'][$log->meeting_id];
-        } elseif(null !== $log->window_id) {
-            return $this->activity_action['window_id'][$log->window_id];
-        }
-        if($log->window_id === $this->windows[Window::PHONE_TALK]){
+        } elseif($log->window_id === $this->windows[Window::MAIL_NEW]) {
+            return [$this->activity_action['A_not_sent']];
+        }elseif($log->window_id === $this->windows[Window::PHONE_TALK]) {
             return [$this->activity_action['A_wrong_call']];
+        }elseif(null !== $log->window_id) {
+            return $this->activity_action['window_id'][$log->window_id];
         }
         throw new Exception("activity action not found");
     }
@@ -183,7 +184,7 @@ class ActivityActionAnalyzer {
 
     public function appendUniversalLog(UniversalLog $universal_log) {
 
-        if((strtotime($universal_log->end_time) - strtotime($universal_log->end_time)) !== 0){
+        if((strtotime($universal_log->end_time) - strtotime($universal_log->start_time)) !== 0){
             $this->universal_log[] = $universal_log;
         }
     }
