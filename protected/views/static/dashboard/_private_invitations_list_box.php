@@ -9,7 +9,7 @@
         }
 
         if (null !== $invite && false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
-            return 'Результаты скрыты';
+            return '<div style="line-height: 30px;">Результаты скрыты<div>';
         }
 
         return $this->renderPartial('//global_partials/_simulation_stars', [
