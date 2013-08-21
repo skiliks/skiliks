@@ -182,18 +182,10 @@ class ActivityActionAnalyzer {
     }
 
     public function appendUniversalLog(UniversalLog $universal_log) {
-        //todo:Фиксировать пустые логи
-        if($universal_log->start_time !== $universal_log->end_time){
-        /*if(false === $this->debugExclude($universal_log, [
-                '10:55:51-10:55:51', '11:02:43-11:02:43', '11:03:49-11:03:49',
-                '11:35:13-11:35:13', '12:36:16-12:36:16', '13:12:10-13:12:10',
-                '14:06:05-14:06:05', '14:06:17-14:06:17', '14:07:06-14:07:06',
-                '15:00:50-15:00:50', '15:31:37-15:31:37', '18:01:48-18:01:48',
-                '18:04:23-18:04:23', '18:05:34-18:05:34', '18:06:03-18:06:03'
-            ])){*/
+
+        if((strtotime($universal_log->end_time) - strtotime($universal_log->end_time)) !== 0){
             $this->universal_log[] = $universal_log;
         }
-        //}
     }
 
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
