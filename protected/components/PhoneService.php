@@ -379,6 +379,10 @@ class PhoneService {
             'code'=>$dialog_cancel->next_event_code
         ]);
 
+        if (null === $cancel_event) {
+            return '';
+        }
+
         $cur_event = EventTrigger::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'event_id' => $cancel_event->id
