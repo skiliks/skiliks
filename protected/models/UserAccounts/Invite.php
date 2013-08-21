@@ -781,6 +781,8 @@ class Invite extends CActiveRecord
 
     public function resetInvite() {
         $this->status = Invite::STATUS_ACCEPTED;
+        $this->simulation->end = gmdate("Y-m-d H:i:s", time());
+        $this->simulation->update();
         $this->simulation_id = null;
         $result = $this->save(false);
 
