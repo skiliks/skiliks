@@ -109,7 +109,8 @@ class PlanAnalyzer {
                 continue;
             }
 
-            if ($logItem->activityAction->activity->parent != $currentParentCode) {
+            if ($logItem->activityAction->activity->parent != $currentParentCode &&
+                $this->simulation->isFull()) {
                 $currentParentCode = $logItem->activityAction->activity->parent;
                 $parentAvailability = $simulation->game_type->getActivityParentAvailability([
                     'code' => $logItem->activityAction->activity->parent
