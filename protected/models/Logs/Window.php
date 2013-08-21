@@ -11,6 +11,7 @@
 class Window extends CActiveRecord implements IGameAction
 {
     const PHONE_TALK = "phone talk";
+    const MAIL_NEW = "mail new";
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
