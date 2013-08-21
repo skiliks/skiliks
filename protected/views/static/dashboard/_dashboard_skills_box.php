@@ -1,7 +1,7 @@
 <h2>Мои навыки</h2>
 
 <?php
-    if (true === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+    if (null !== $simulation && null !== $invite && true === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
         $this->renderPartial('//global_partials/_simulation_stars', [
             'simulation'    => $simulation,
         ]);

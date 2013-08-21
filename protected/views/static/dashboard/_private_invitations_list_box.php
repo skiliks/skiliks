@@ -8,7 +8,7 @@
             return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
         }
 
-        if (false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+        if (null !== $invite && false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
             return 'Результаты скрыты';
         }
 
