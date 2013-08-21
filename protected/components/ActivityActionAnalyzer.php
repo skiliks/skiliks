@@ -41,7 +41,7 @@ class ActivityActionAnalyzer {
                 $this->appendUniversalLog($universal_log);
             }
         }
-        //die("debug stop");
+
         foreach(Activity::model()->findAllByAttributes(['scenario_id'=>$simulation->game_type->id]) as $activity) {
             $this->activities[$activity->id] = $activity;
         }
