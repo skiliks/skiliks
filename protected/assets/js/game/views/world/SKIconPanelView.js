@@ -393,9 +393,9 @@ define([
 
             stopAnimation: function(selector, isCleanAnimationTimer) {
                 try {
-                    if (undefined !== this.animationTimer && undefined !== this.animationTimer[selector]) {
-                        clearTimeout(this.animationTimer[selector]);
-                    }
+
+                    clearTimeout(this.animationTimer[selector]);
+
                     this.$(selector).removeClass('icon-active icon-active-short');
                 } catch(exception) {
                     if (window.Raven) {
