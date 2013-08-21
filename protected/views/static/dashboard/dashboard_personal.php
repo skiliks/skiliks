@@ -22,8 +22,8 @@
 
             <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
 
-            <?php if ($display_results_for &&
-                $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())): ?>
+            <?php if ($display_results_for && null !== $simulation &&
+                null !== $invite && $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())): ?>
                 <script type="text/javascript">
                     $(function() {
                         showSimulationDetails('/simulations/details/<?= $display_results_for->id ?>');
