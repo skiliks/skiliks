@@ -899,7 +899,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $evaluationService = new Evaluation($simulation);
         $evaluationService->checkManagerialProductivity();
 
-        $ad = $simulation->getAssessmentDetails();
+        $ad = json_decode($simulation->getAssessmentDetails(), true);
 
         $this->assertEquals(5, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
@@ -942,6 +942,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
+
+        $ad = json_decode($simulation->getAssessmentDetails(), true);
 
         $this->assertEquals(3, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
