@@ -3,6 +3,7 @@
  * Содержит набор персонажей, которые идут в копии к заданному письму
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property Character  $recipient
  */
 class MailCopy extends CActiveRecord
 {

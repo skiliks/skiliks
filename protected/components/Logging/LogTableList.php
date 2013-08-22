@@ -64,7 +64,8 @@ namespace application\components\Logging {
                 new TimeManagementTable($simulation->time_management_aggregated),
                 new LogAssessment214gTable($simulation->logAssessment214g),
                 new LearningGoalGroupTable($simulation->learning_goal_group),
-                new UniversalLogTable($simulation->universal_log)
+                new UniversalLogTable($simulation->universal_log),
+                new MailOutboxAggregateTable($simulation->mail_box_outbox)
             ];
         }
 
