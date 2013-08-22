@@ -51,7 +51,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
     
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants.js"></script>
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants_ru.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formatnumber2.js"></script>
