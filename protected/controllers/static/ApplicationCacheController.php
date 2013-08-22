@@ -3,6 +3,7 @@ class ApplicationCacheController extends SiteBaseController{
 
     public function actionManifest() {
 
+        header("Content-type: text/cache-manifest");
         $assets = $this->getAssetsUrl();
         $this->layout = false;
         $this->render('//static/applicationcache/manifest', ['assets'=>$assets]);
