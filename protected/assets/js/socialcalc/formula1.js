@@ -846,8 +846,14 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
       }
 
    if (operand.length > 1 && !errortext) { // something left - error
-      errortext += scc.s_parseerrerrorinformula;
-      }
+       //console.log("1 errortext", errortext);
+       if(errortext === undefined){
+           errortext = scc.s_parseerrerrorinformula;
+       }else{
+           errortext += scc.s_parseerrerrorinformula;
+       }
+   }
+    //console.log("2 errortext", errortext);
 
    // set return type
 
