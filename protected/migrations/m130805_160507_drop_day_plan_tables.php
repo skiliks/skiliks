@@ -4,12 +4,36 @@ class m130805_160507_drop_day_plan_tables extends CDbMigration
 {
 	public function up()
 	{
-        $this->dropForeignKey('fk_day_plan_after_vacation_task_id', 'day_plan_after_vacation');
-        $this->dropForeignKey('fk_day_plan_after_vacation_sim_id', 'day_plan_after_vacation');
+        try {
+            $this->dropForeignKey('fk_day_plan_after_vacation_task_id', 'day_plan_after_vacation');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
 
-        $this->dropForeignKey('fk_todo_task_id', 'todo');
-        $this->dropForeignKey('fk_todo_sim_id', 'todo');
-        $this->dropForeignKey('fk_assessment_detail_task_id', 'assessment_points');
+        try {
+            $this->dropForeignKey('fk_day_plan_after_vacation_sim_id', 'day_plan_after_vacation');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
+
+        try {
+            $this->dropForeignKey('fk_todo_task_id', 'todo');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
+
+        try {
+            $this->dropForeignKey('fk_todo_sim_id', 'todo');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
+
+        try {
+            $this->dropForeignKey('fk_assessment_detail_task_id', 'assessment_points');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
+
         $this->addForeignKey('fk_assessment_detail_task_id', 'assessment_points', 'task_id', 'day_plan', 'id', 'CASCADE', 'CASCADE');
 
         $this->dropTable('day_plan_after_vacation');

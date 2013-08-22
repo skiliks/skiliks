@@ -4,7 +4,12 @@ class m130815_153151_clear extends CDbMigration
 {
 	public function up()
 	{
-        $this->dropForeignKey('universal_log_activity_action_id', 'universal_log');
+        try {
+            $this->dropForeignKey('universal_log_activity_action_id', 'universal_log');
+        } catch (CDbException $e) {
+            // just to run migration
+        }
+
         $this->dropColumn('universal_log', 'activity_action_id');
 	}
 
