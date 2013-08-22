@@ -46,6 +46,7 @@
             </else>
 
         </if>
+        <exec command="./yiic createcachemanifest" />
     </target>
     <target name="prepare_test">
         <delete includeemptydirs="true" description="Clear artifacts dir">
