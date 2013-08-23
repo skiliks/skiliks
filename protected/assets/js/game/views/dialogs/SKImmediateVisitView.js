@@ -112,7 +112,7 @@ define([
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
-                        me.$('video').on('ended', function () {
+                        /*me.$('video').on('ended', function () {
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
                                 event.complete();
@@ -122,7 +122,7 @@ define([
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
-                        });
+                        });*/
 
                         if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
                             var duration = parseInt(remote_replica.duration, 0)*1000;
