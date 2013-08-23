@@ -79,14 +79,18 @@ define([
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
                     if (!is_first_replica) {
                         if (video_src) {
-                            el.find('video.visit-background').on('loadeddata', renderFn);
+                            el.find('video.visit-background').on('loadeddata', function(){
+                                renderFn(remote_replica);
+                            });
                         } else if (image_src) {
-                            el.find('img.visit-background').on('load', renderFn);
+                            el.find('img.visit-background').on('load', function(){
+                                renderFn(remote_replica);
+                            });
                         } else {
-                            renderFn();
+                            renderFn(remote_replica);
                         }
                     } else {
-                        renderFn();
+                        renderFn(remote_replica);
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -94,7 +98,7 @@ define([
                     }
                 }
 
-                function renderFn() {
+                function renderFn(remote_replica) {
                     try {
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
@@ -120,7 +124,8 @@ define([
                             }
                         });
 
-                        if ('slow' == window.netSpeedVerbose) {
+                        if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
+                            var duration = parseInt(remote_replica.duration, 0)*1000;
                             setTimeout(function(){
                                 me.$('video').css('zIndex', 0);
                                 if (my_replicas.length === 0) {
@@ -131,7 +136,15 @@ define([
                                     el.find('.char-reply').removeClass('hidden');
                                     el.find('.visitor-reply').removeClass('hidden');
                                 }
-                            }, 5000);
+                            }, duration);
+                        }else{
+                            try {
+                                throw new Error("duration is "+remote_replica.duration+" by sim_id = "+SKApp.simulation.id+" and code = "+remote_replica.code);
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
+                            }
                         }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
