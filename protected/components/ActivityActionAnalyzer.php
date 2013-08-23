@@ -97,6 +97,7 @@ class ActivityActionAnalyzer {
     }
 
     public function run() {
+        echo "========================================================\r\n";
         /* @var $universal_log UniversalLog */
         foreach($this->universal_log as $key => $universal_log){
             $activityActions = $this->findActivityActionByLog($universal_log);
@@ -185,11 +186,15 @@ class ActivityActionAnalyzer {
     public function appendUniversalLog(UniversalLog $universal_log) {
 
         if((strtotime($universal_log->end_time) - strtotime($universal_log->start_time)) !== 0){
+            var_dump($universal_log->start_time);
+            var_dump($universal_log->end_time);
             $this->universal_log[] = $universal_log;
         }
     }
 
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
+        var_dump($universal_log->start_time);
+        var_dump($universal_log->end_time);
         $logActivityAction = new LogActivityAction(); //new LogActivityAction();
         $logActivityAction->sim_id = $this->simulation->id;
         $logActivityAction->activity_action_id = $activityAction->id;

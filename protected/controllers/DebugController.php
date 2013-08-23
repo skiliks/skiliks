@@ -5,8 +5,11 @@ class DebugController extends SiteBaseController
 
     public function actionIndex()
     {
-        //TestUserHelper::addUser("personal");
-        echo "TEST";
+        $simulation = Simulation::model()->findByPk('940');
+        LogActivityAction::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+        LogHelper::updateUniversalLog($simulation);
+        $analyzer = new ActivityActionAnalyzer($simulation);
+        $analyzer->run();
     }
 
     public function actionStyleCss()
