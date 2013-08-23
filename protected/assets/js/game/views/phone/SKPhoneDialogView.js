@@ -130,8 +130,10 @@ define([
                 });
 
                 if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
+                    console.log('duration', remote_replica.duration);
                     var duration = parseInt(remote_replica.duration, 0)*1000;
                     setTimeout(function(){
+                        console.log("display replicas");
                         if (my_replicas.length === 0) {
                             event.selectReplica(remote_replica.id, function () {
                                 me.options.model_instance.setLastDialog(remote_replica.id);
