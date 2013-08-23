@@ -115,7 +115,7 @@ define([
 
                 window_el.html(callInHtml);
 
-                this.$('audio').on('ended', function(){
+                /*this.$('audio').on('ended', function(){
                     if (my_replicas.length === 0) {
                         event.selectReplica(remote_replica.id, function () {
                             me.options.model_instance.setLastDialog(remote_replica.id);
@@ -127,7 +127,7 @@ define([
                     }  else if (!SKApp.simulation.isDebug()) {
                         window_el.find('.phone-reply-h').removeClass('hidden');
                     }
-                });
+                });*/
 
                 if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
                     console.log('duration', remote_replica.duration);
