@@ -2,7 +2,7 @@
 
 class ActivityActionAnalyzerTest extends CDbTestCase {
 
-    public function testFindActivityActionByLog(){
+    /*public function testFindActivityActionByLog(){
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -10,10 +10,9 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        /* @var $activityAction ActivityAction */
+
         $activityAction = ActivityAction::model()->find("scenario_id = :scenario_id and mail_id is not null", ['scenario_id'=>$simulation->game_type->id]);
-        /* @var $mailTemplate MailTemplate */
-        /* @var $window Window */
+
         $mailTemplate = MailTemplate::model()->findByPk($activityAction->mail_id);
         if($mailTemplate->isMS()){
             $window = Window::model()->findByAttributes(['subtype'=>'mail new']);
@@ -33,7 +32,7 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
 
         $analyzer = new ActivityActionAnalyzer($simulation);
         $analyzer->run();
-    }
+    }*/
 
     public function testDebug(){
         //$simulation = Simulation::model()->findByPk('879');
