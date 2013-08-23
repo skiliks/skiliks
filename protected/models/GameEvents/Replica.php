@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  *
@@ -9,6 +6,7 @@
  * @property Character to_character
  * @property ActivityParent[] termination_parent_actions
  * @property boolean fantastic_result
+ * @property integer $duration
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
