@@ -673,9 +673,6 @@ class LogHelper
                 }
                 /* @var  $universal_log UniversalLog */
                 foreach ($universal_logs as $universal_log) {
-                    if((string)$universal_log->window_uid !== (string)$log['window_uid']){
-                        throw new Exception($universal_log->window_uid.' !== '.$log['window_uid']);
-                    }
                     if (!empty($log['lastDialogId'])) {
                         $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
                     }
