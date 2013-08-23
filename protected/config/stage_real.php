@@ -34,7 +34,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'isLocalPc'          => true,
             'useSentryForJsLog'  => true,
             'isUseZohoProxy'     => false,
-            'isSkipBrowserCheck' => true,
+            'isSkipBrowserCheck' => false,
 
             'isIncludeGoogleAnalyticsJavaScript' => true,
         ],
