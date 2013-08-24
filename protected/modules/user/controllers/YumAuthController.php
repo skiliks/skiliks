@@ -268,7 +268,7 @@ class YumAuthController extends YumController {
                 Yii::app()->end();
                 return false;
             } else {
-                echo $json;
+                // echo $json;
                 return true;
             }
         }
