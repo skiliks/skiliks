@@ -7,7 +7,7 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
     public function testVarDumpsAndScriptStoppres()
     {
         $folders = ['/components/', '/models/', '/controllers/', 'modules'];
-        $targets = ['var_dump', 'die(', 'exit('];
+        $targets = ['var_dump', 'die(', 'exit(', '===', '>>>', '<<<'];
 
         foreach ($folders as $folder) {
             $dir = Yii::app()->getBasePath().$folder;
