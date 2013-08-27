@@ -125,7 +125,7 @@ define([
                         });*/
 
                         if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
-                            var duration = parseInt(remote_replica.duration, 0)*1000;
+                            var duration = (SKApp.isDebug())?0:parseInt(remote_replica.duration, 0)*1000;
                             setTimeout(function(){
                                 me.$('video').css('zIndex', 0);
                                 if (my_replicas.length === 0) {
