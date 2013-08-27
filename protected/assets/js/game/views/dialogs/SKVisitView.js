@@ -86,13 +86,15 @@ define([
             allow:function (e) {
                 try {
                     var dialogId = $(e.currentTarget).attr('data-dialog-id');
-
+                    var me = this;
                     if (this.timer) {
                         clearTimeout(this.timer);
                         this.timer = null;
                     }
 
-                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
+                    this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                        me.options.model_instance.setLastDialog(dialogId);
+                    });
                     this.options.model_instance.close();
                 } catch(exception) {
                     if (window.Raven) {
@@ -107,9 +109,11 @@ define([
              */
             deny:function (e) {
                 try {
+                    var me = this;
                     var dialogId = $(e.currentTarget).attr('data-dialog-id');
                     SKApp.simulation.trigger('audio-door-knock-stop');
                     this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                        me.options.model_instance.setLastDialog(dialogId);
                     });
                     this.options.model_instance.close();
                 } catch(exception) {
