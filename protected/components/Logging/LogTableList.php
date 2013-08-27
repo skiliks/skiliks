@@ -23,12 +23,16 @@ namespace application\components\Logging {
     class LogTableList
     {
 
+        private $xls_file;
+
         /**
          * @param \Simulation $simulation
          */
-        public function __construct($simulation)
+        public function __construct($simulation = false)
         {
-            $this->simulation = $simulation;
+            if($simulation) {
+                $this->simulation = $simulation;
+            }
         }
 
         /**
@@ -107,5 +111,55 @@ namespace application\components\Logging {
             }
             return new \PHPExcel_Writer_Excel2007($xls);
         }
+
+        public function asExcelCombined($name, $simulation_id)
+        {
+            if(!$this->xls_file) {
+                $this->xls_file =  new \PHPExcel();
+                $this->xls_file->removeSheetByIndex(0);
+            }
+
+            $sheet_counter = 0;
+            foreach ($this->getTables() as $table) {
+                if($sheet_counter >= $this->xls_file->getSheetCount()) {
+                    $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
+                    $this->xls_file->addSheet($worksheet);
+                }
+                else {
+                    $worksheet = $this->xls_file->getSheet($sheet_counter);;
+                }
+                $sheet_counter++;
+                $worksheet->setCellValueByColumnAndRow(0, 1, "Имя");
+                $worksheet->setCellValueByColumnAndRow(1, 1, "ID симуляции");
+                foreach ($table->getHeaders() as $i => $title) {
+                    // this is done because we already have 2 headers for first two fields
+                    $worksheet->setCellValueByColumnAndRow($i + 2, 1, $title);
+                }
+                foreach ($table->getData() as $i => $row) {
+                    $highest = $worksheet->getHighestRow()+1;
+                    foreach ($row as $j => $value) {
+                        $worksheet->setCellValueByColumnAndRow(0, $highest, $name, true);
+                        $worksheet->setCellValueByColumnAndRow(1, $highest, $simulation_id, true);
+                        $worksheet->setCellValueByColumnAndRow($j + 2, $highest, $value, true);
+                        $worksheet->getStyleByColumnAndRow($j + 2, $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                    }
+                }
+
+                $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);
+                foreach ($table->getHeaders() as $i => $title) {
+                    $worksheet->getColumnDimensionByColumn($i)->setWidth(12);
+                }
+            }
+        }
+
+        public function returnXlsFile() {
+            return new \PHPExcel_Writer_Excel2007($this->xls_file);
+        }
+
+        public function setSimulationId($simulation) {
+            $this->simulation = $simulation;
+        }
+
     }
+
 }
