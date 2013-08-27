@@ -436,6 +436,8 @@ return array(
                 ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
                 ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com','password' => '123123'         ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
