@@ -129,8 +129,7 @@ define([
                     }
                 });*/
                 console.log('remote_replica.duration',remote_replica.duration);
-                if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
-                    var duration = (SKApp.simulation.isDebug())?0:parseInt(remote_replica.duration, 0)*1000;
+                    var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
                     //var duration = parseInt(remote_replica.duration, 0)*1000;
                     console.log('start', new Date());
                     setTimeout(function(){
@@ -148,15 +147,6 @@ define([
                             window_el.find('.phone-reply-h').removeClass('hidden');
                         }
                     }, duration);
-                }else{
-                    try {
-                        throw new Error("duration is "+remote_replica.duration+" by sim_id = "+SKApp.simulation.id+" and code = "+remote_replica.code);
-                    } catch(exception) {
-                        if (window.Raven) {
-                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                        }
-                    }
-                }
 
                 if (0 === this.$('audio').length) {
                     window_el.find('.phone-reply-h').removeClass('hidden');
