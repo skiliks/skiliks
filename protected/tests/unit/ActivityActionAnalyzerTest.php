@@ -35,7 +35,7 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
     }*/
 
     public function testDebug(){
-        $simulation = Simulation::model()->findByPk('958');
+        //$simulation = Simulation::model()->findByPk('958');
         /*$mail_logs = LogMail::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
         foreach($mail_logs as $mail_log){
             $universal_log = UniversalLog::model()->findByAttributes(['sim_id'=>$simulation->id, 'start_time'=>$mail_log->start_time, 'end_time'=>$mail_log->end_time]);
@@ -45,10 +45,10 @@ class ActivityActionAnalyzerTest extends CDbTestCase {
             }
         }
         */
-        LogActivityAction::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+        /*LogActivityAction::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
         LogHelper::updateUniversalLog($simulation);
         $analyzer = new ActivityActionAnalyzer($simulation);
-        $analyzer->run();
+        $analyzer->run();*/
         /*$old_log = LogActivityAction::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
         $new_log = LogActivityActionTest::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
         foreach(Activity::model()->findAll() as $activity){
