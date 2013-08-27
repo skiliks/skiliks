@@ -73,6 +73,31 @@ namespace application\components\Logging {
             ];
         }
 
+
+        /**
+         * Ordered list of logging tables
+         *
+         * @return LogTable[]
+         */
+        private function getTablesCombined()
+        {
+            $simulation = $this->simulation;
+            $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
+            return [
+                new AssessmentResultTable($simulation->assessment_aggregated),
+                new ExcelTable($simulation->simulation_excel_points),
+                new PerformanceTable($simulation->performance_points),
+                new PerformanceAggregatedTable($simulation->performance_aggregated),
+                new OverallRateTable($simulation->assessment_overall),
+                new LearningGoalTable($simulation->learning_goal),
+                new LearningAreaTable($simulation->learning_area),
+                new TimeManagementTable($simulation->time_management_aggregated),
+                new LearningGoalGroupTable($simulation->learning_goal_group),
+            ];
+        }
+
+
+
         /**
          * Returns list of tables as for template
          * @return LogTable[]
@@ -120,7 +145,7 @@ namespace application\components\Logging {
             }
 
             $sheet_counter = 0;
-            foreach ($this->getTables() as $table) {
+            foreach ($this->getTablesCombined() as $table) {
                 if($sheet_counter >= $this->xls_file->getSheetCount()) {
                     $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
                     $this->xls_file->addSheet($worksheet);
