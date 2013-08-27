@@ -83,7 +83,9 @@ define([
                                 renderFn(remote_replica);
                             });
                         } else if (image_src) {
+                            console.log('else if (image_src)');
                             el.find('img.visit-background').on('load', function(){
+                                console.log("el.find('img.visit-background').on('load');");
                                 renderFn(remote_replica);
                             });
                         } else {
@@ -93,6 +95,7 @@ define([
                         renderFn(remote_replica);
                     }
                 } catch(exception) {
+                    console.log('Error', exception.message + ',' + exception.stack);
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
@@ -123,9 +126,7 @@ define([
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
                         });*/
-                        console.log("remote_replica.duration", remote_replica.duration);
-                        if (null !== remote_replica.duration && undefined !== remote_replica.duration) {
-                            var duration = (SKApp.simulation.isDebug())?0:parseInt(remote_replica.duration, 0)*1000;
+                            var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
                             //var duration = parseInt(remote_replica.duration, 0)*1000;
                             setTimeout(function(){
                                 me.$('video').css('zIndex', 0);
@@ -138,15 +139,6 @@ define([
                                     el.find('.visitor-reply').removeClass('hidden');
                                 }
                             }, duration);
-                        }else{
-                            try {
-                                throw new Error("duration is "+remote_replica.duration+" by sim_id = "+SKApp.simulation.id+" and code = "+remote_replica.code);
-                            } catch(exception) {
-                                if (window.Raven) {
-                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                                }
-                            }
-                        }
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
@@ -158,10 +150,12 @@ define([
                         }
 
                         var video = el.find('.visit-background');
+                        console.log('video', video);
                         video.css('margin-top', '-50px');
                         video.css('margin-left', '-20px');
                         el.find('.visitor-replica').css('margin-top', '-50px');
                     } catch(exception) {
+                        console.log('Error', exception.message + ',' + exception.stack);
                         if (window.Raven) {
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
                         }
