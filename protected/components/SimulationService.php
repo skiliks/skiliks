@@ -1067,11 +1067,10 @@ class SimulationService
                 $logTableList->setSimulationId($simulation);
                 $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
                 $logTableList->asExcelCombined($user_fullname, $simulation->id);
-                //$excelWriter->save($this->getLogFilename($this->id));
-
+                echo "{$simulation->id} has been added.\n";
             }
             $excelWriter = $logTableList->returnXlsFile();
-            $excelWriter->save($simulation->getLogFilename(333));
+            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
             return true;
         }
     }

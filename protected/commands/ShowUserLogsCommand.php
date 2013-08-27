@@ -19,11 +19,16 @@ class ShowUserLogsCommand extends CConsoleCommand
                 $simulations = array();
                 foreach($ids as $row) {
                     $simulation = Simulation::model()->findByPk($row);
-                    if($simulation !== null) $simulations[] = $simulation;
+                    if($simulation !== null) {
+                        $simulations[] = $simulation;
+                        echo "{$simulation->id}, ";
+                    }
                 }
+
                 if(!empty($simulations)) {
                     SimulationService::saveLogsAsExcelCombined($simulations);
                 }
+
                 echo " {$saves} files stored!\r\n";
             }
         }
