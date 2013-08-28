@@ -23,7 +23,7 @@
                 });
             </script>
         <?php endif; ?>
-
+ 
         <!-- simulations-counter-box -->
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
             <?php $this->renderPartial('_simulations_counter_box', []) ?>
