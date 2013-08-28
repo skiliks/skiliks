@@ -111,7 +111,7 @@ define([
                     }
                 }
             },
-
+            /* Generates message, that if You leave the game you will lose your data */
             stopExitProtection: function () {
                 try {
                     $(window).off('beforeunload');
@@ -342,18 +342,12 @@ define([
                         message: 'Рабочий день закончен',
                         buttons: [
                             {
+                                // 18:00 End work day
                                 value: 'Завершить работу',
                                 onclick: function() {
                                     // me._hidePausedScreen();
                                     me.stopExitProtection();
-                                    SKApp.simulation.stopPause(
-                                        me.simulation.stop()
-                                    );
-
-                                    var d = new SKDialogView({
-                                        message: 'Данные симуляции сохраняются.',
-                                        buttons: []
-                                    });
+                                    me.stopSimulation();
                                 }
                             },
                             {
@@ -391,7 +385,6 @@ define([
                 try {
                     var me = this;
                     me.simulation.stop();
-
                     me._showPausedScreen();
                     var d = new SKDialogView({
                         message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',

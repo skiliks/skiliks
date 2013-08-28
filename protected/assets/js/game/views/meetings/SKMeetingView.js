@@ -84,11 +84,15 @@ define([
 
                 simulation.startPause(function() {});
                 SKApp.server.api('meeting/leave', {'id': subjectId});
-
-                SKApp.simulation.window_set.open('visitor', 'meetingGone', {
-                    'subject': subject,
-                    'params': {meetingId: subjectId}
-                });
+                if ('Пойти домой' == subject.get('label')) {
+                    window.AppView.frame.stopSimulation();
+                }
+                else {
+                    SKApp.simulation.window_set.open('visitor', 'meetingGone', {
+                        'subject': subject,
+                        'params': {meetingId: subjectId}
+                    });
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

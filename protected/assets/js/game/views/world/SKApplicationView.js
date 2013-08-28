@@ -61,13 +61,13 @@ define([
                     }
                 });
                 SKApp.simulation.on('force-stop', function () {
-                    location.assign('/dashboard');
+                    //location.assign('/dashboard');
                 });
                 SKApp.simulation.on('stop', function () {
                     // after 20:00 - wait for user confirmation by 'user-agree-with-sim-stop'
                     if (SKApp.simulation.getGameMinutes() < SKApp.simulation.timeStringToMinutes(SKApp.get('finish'))) {
                         delete me.simulation_view;
-                        location.assign(SKApp.get('result-url'));
+                        //location.assign(SKApp.get('result-url'));
                     }
                 });
 
