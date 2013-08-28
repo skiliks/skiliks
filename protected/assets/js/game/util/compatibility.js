@@ -43,25 +43,28 @@ try {
             speed: function(cfg) {
                 window.netSpeedVerbose = 'fast';
 
+                var isDevMode = document.location.href.indexOf('developer') > -1;
+
                 var start = new Date(),
                     callback = function() {
-
                         // flag variable
                         window.netSpeedVerbose = 'slow';
 
                         // logging {
-                        $.ajax({
-                            url: '/index.php/logService/addInviteLog',
-                            data: {
-                                inviteId: window.inviteId,
-                                action: 'Warning about low internet connection speed has been displayed.',
-                                uniqueId: -1,
-                                time: '00:00:00'
-                            },
-                            type: 'POST',
-                            cache: false,
-                            async: false
-                        });
+                        if (false == isDevMode) {
+                            $.ajax({
+                                url: '/index.php/logService/addInviteLog',
+                                data: {
+                                    inviteId: window.inviteId,
+                                    action: 'Warning about low internet connection speed has been displayed.',
+                                    uniqueId: -1,
+                                    time: '00:00:00'
+                                },
+                                type: 'POST',
+                                cache: false,
+                                async: false
+                            });
+                        }
                         // logging }
 
                         // TODO: Make translation
