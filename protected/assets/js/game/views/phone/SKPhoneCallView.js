@@ -18,6 +18,7 @@ define([
     SKPhoneCallView = SKWindowView.extend({
 
         isDisplaySettingsButton:true,
+        isDisplayCloseButton:false,
         title: "Телефон",
         windowName:'phone',
         countMaxView: 1,
