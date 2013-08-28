@@ -77,6 +77,35 @@ define(["game/models/SKDayTask"], function () {
             }
         },
         /**
+         * Returns true if time slot has no reserved tasks
+         *
+         * @method isTimeSlotFree
+         * @param time
+         * @param day
+         * @param duration
+         */
+        canPlanedTaskOnTimeToday: function (time, day, duration) {
+
+            try {
+                var planed_time = parseInt(time.split(':')[0], 0)*60+parseInt(time.split(':')[1], 0);
+                var current_time = SKApp.simulation.getGameMinutes();
+                console.log('planed_time > current_time || day !== "-1"',planed_time > current_time || day !== '-1');
+                console.log('parseInt(day,0)',typeof day);
+                if(day !== 'day-1'){
+                    return true;
+                }else{
+                    if(planed_time > current_time){
+                        return true;
+                    }
+                    return false;
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+        /**
          * @method sync
          * @param method
          * @param collection

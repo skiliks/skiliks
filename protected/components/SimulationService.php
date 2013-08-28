@@ -1,5 +1,5 @@
 <?php
-
+use application\components\Logging\LogTableList as LogTableList;
 /**
  * Сервис  по работе с симуляциями
  *
@@ -1058,5 +1058,20 @@ class SimulationService
 
         $simulation->invite->delete();
         $simulation->delete();
+    }
+
+    public static function saveLogsAsExcelCombined($simulations = array()) {
+        if(!empty($simulations)) {
+            $logTableList = new LogTableList();
+            foreach($simulations as $simulation) {
+                $logTableList->setSimulationId($simulation);
+                $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
+                $logTableList->asExcelCombined($user_fullname, $simulation->id);
+                echo "{$simulation->id} has been added.\n";
+            }
+            $excelWriter = $logTableList->returnXlsFile();
+            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            return true;
+        }
     }
 }

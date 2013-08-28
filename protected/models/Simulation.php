@@ -79,11 +79,11 @@ class Simulation extends CActiveRecord
     {
         $logTableList = new LogTableList($this);
         $excelWriter = $logTableList->asExcel();
+        //$excelWriter->save($this->getLogFilename($this->id));
         $excelWriter->save($this->getLogFilename($this->id));
-
         if ($isConsoleCall) {
             // just console notification
-            return $this->getFilename($this->id)."- stored \r\n";
+            return $this->getLogFilename($this->id)."- stored \r\n";
         }
 
         return true;

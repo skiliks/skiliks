@@ -196,9 +196,9 @@ class ActivityActionAnalyzer {
         $logActivityAction->window = $universal_log->window_id;
         $logActivityAction->start_time = $universal_log->start_time;
         $logActivityAction->end_time = $universal_log->end_time;
-        $logActivityAction->mail_id = $activityAction->mail_id;
-        $logActivityAction->document_id = $activityAction->document_id;
-        $logActivityAction->meeting_id = $activityAction->meeting_id;
+        $logActivityAction->mail_id = $universal_log->mail_id;
+        $logActivityAction->document_id = $universal_log->file_id;
+        $logActivityAction->meeting_id = $universal_log->meeting_id;
         $logActivityAction->window_uid = $universal_log->window_uid;
         $logActivityAction->save(false);
     }

@@ -53,6 +53,9 @@
             <div class="well">
                 <a class="btn" href="/static/admin/saveLog/{$simulation->primaryKey}">Save log as XLS</a>
                 <a class="btn" href="/simulation/developer/full">Start new simulation (dev,full)</a>
+                <a class="btn btn-success" href="/static/cheats">Go to Cheats page</a>
+                <a class="btn" href="/static/dashoard">Go to Dashboard</a>
+                <a class="btn btn-warning" href="/static/adin_area/dashboard">Go to Admin area</a>
             </div>
 
             {foreach $log_tables as $log_table}

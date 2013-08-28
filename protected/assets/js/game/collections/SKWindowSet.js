@@ -27,7 +27,8 @@ define([
         window_classes: {
             'phone/phoneTalk':     SKDialogWindow,
             'phone/phoneCall':     SKDialogWindow,
-            'visitor/visitorTalk': SKDialogWindow
+            'visitor/visitorTalk': SKDialogWindow,
+            'visitor/visitorEntrance':SKDialogWindow
         },
 
         /**
