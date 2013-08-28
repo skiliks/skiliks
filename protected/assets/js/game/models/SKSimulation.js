@@ -52,6 +52,7 @@ define([
 
             is_paused:false,
 
+            sc_interval_id:null,
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
