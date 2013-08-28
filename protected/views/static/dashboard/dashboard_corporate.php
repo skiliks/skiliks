@@ -1,14 +1,3 @@
-<section class="dashboard corpdashboard">
-    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
-    <aside>
-    <!-- invite-people-box -->
-        <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
-            <?php $this->renderPartial('_invite_people_box', [
-                'invite'    => $invite,
-                'vacancies' => $vacancies,
-            ]) ?>
-        </div>
-
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Сообщение">
 
@@ -45,9 +34,9 @@
             <p class="font-green-dark">Ваш skiliks</p>
         </div>
 
-            <?php // echo $form->labelEx($invite, 'signature'); ?>
-            <?php // echo $form->textField($invite, 'signature'); ?>
-            <?php // echo $form->error($invite, 'signature'); ?>
+        <?php // echo $form->labelEx($invite, 'signature'); ?>
+        <?php // echo $form->textField($invite, 'signature'); ?>
+        <?php // echo $form->error($invite, 'signature'); ?>
         <div class="row buttons no-margin-left">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
@@ -56,28 +45,38 @@
     </div>
 
 
-<script type="text/javascript">
-    $(function() {
-        // @link: http://jqueryui.com/dialog/
-        $( ".message_window" ).dialog({
-            modal: true,
-            resizable: false,
-            draggable: false,
-            width: 590,
-            height: 500,
-            position: {
-                my: "left top",
-                at: "left top",
-                of: $('#corporate-invitations-list-box .items')
-            },
-            open: function( event, ui ) { Cufon.refresh(); }
-        });
+    <script type="text/javascript">
+        $(function() {
+            // @link: http://jqueryui.com/dialog/
+            $( ".message_window" ).dialog({
+                modal: true,
+                resizable: false,
+                draggable: false,
+                width: 590,
+                height: 500,
+                position: {
+                    my: "left top",
+                    at: "left top",
+                    of: $('#corporate-invitations-list-box .items')
+                },
+                open: function( event, ui ) { Cufon.refresh(); }
+            });
 
-        $( ".message_window").parent().addClass('nice-border cabmessage');
-        $( ".message_window").dialog('open');
-    });
-</script>
+            $( ".message_window").parent().addClass('nice-border cabmessage');
+            $( ".message_window").dialog('open');
+        });
+    </script>
 <?php endif; ?>
+<section class="dashboard corpdashboard">
+    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
+    <aside>
+    <!-- invite-people-box -->
+        <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
+            <?php $this->renderPartial('_invite_people_box', [
+                'invite'    => $invite,
+                'vacancies' => $vacancies,
+            ]) ?>
+        </div>
 
 <?php if ($display_results_for): ?>
     <script type="text/javascript">
