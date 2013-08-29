@@ -1011,7 +1011,6 @@ class SimulationService
         AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlan::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
         EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
@@ -1036,7 +1035,6 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         StressPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        Todo::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
