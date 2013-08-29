@@ -1941,7 +1941,6 @@ define([
                     event.preventDefault();
 
                     if (this.blockPhraseMoving) {
-                        console.log('BLOCK!');
                         return;
                     }
 
@@ -3047,7 +3046,6 @@ define([
             },
             setActiveEmail:function (email) {
                 //this.mailClient.setActiveEmail(email);
-                console.log('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]');
                 this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]').click();
             },
             onWindowClose:function() {

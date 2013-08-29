@@ -390,8 +390,6 @@ define([
                         timeString:       this.getGameMinutes(),
                         eventsQueueDepth: $("#events-queue-depth").val()
                     }, function (data) {
-                        //console.log('time: ', data.serverGameTime);
-                        //console.log('x: ', data.speedFactor);
                         // update flags for dev mode
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
@@ -440,6 +438,10 @@ define([
                             throw 'Simulation already started';
                         }
 
+                        if ('undefined' !== typeof data.simId) {
+                            me.id = data.simId;
+                        }
+
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
@@ -457,10 +459,6 @@ define([
 
                         if (data.result === 0) {
                             window.location = '/';
-                        }
-
-                        if ('undefined' !== typeof data.simId) {
-                            me.id = data.simId;
                         }
 
                         me.set('scenarioName', data.scenarioName);
@@ -782,25 +780,21 @@ define([
 
                         // PC {
                         $(window).bind('keydown', 'ctrl+c', function() {
-                            console.log('ctrl+c');
                             me.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
-                            console.log('ctrl+v');
                             me.clickSCButton('-button_paste');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+z', function() {
-                            console.log('ctrl+z');
                             me.clickSCButton('-button_undo');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+y', function() {
-                            console.log('ctrl+y');
                             me.clickSCButton('-button_redo');
                             return false;
                         });
@@ -808,25 +802,21 @@ define([
 
                         // Mac {
                         $(window).bind('keydown', 'meta+c', function() {
-                            console.log('meta+c');
                             me.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'meta+v', function() {
-                            console.log('meta+v');
                             me.clickSCButton('-button_paste');
                             return false;
                         });
 
                         $(window).bind('keydown', 'meta+z', function() {
-                            console.log('v+z');
                             me.clickSCButton('-button_undo');
                             return false;
                         });
 
                         $(window).bind('keydown', 'meta+y', function() {
-                            console.log('meta+y');
                             me.clickSCButton('-button_redo');
                             return false;
                         });
@@ -839,7 +829,6 @@ define([
             },
             clickSCButton:function(selector){
                 if(SKApp.simulation.window_set.hasActiveXLSWindow() && SKApp.simulation.useSCHotkeys){
-                    console.log(selector);
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
                         false, false, false, false, 0, null);
@@ -855,23 +844,16 @@ define([
                 try {
                     var me = this;
                     $(window).bind('keydown', 'esc', function() {
-                        console.log('esc');
                         var sim_window = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid);
                         if(sim_window.length === 0) {
                             throw new Error("Window not found!");
                         }
                         var win_close = sim_window.find('.win-close');
-                        console.log(win_close);
                         if(win_close.length !== 0){
                             win_close.click();
                         }
                         return false;
                     });
-                    /*$(window).bind('keydown', 'esc', function() {
-                        console.log('esc');
-
-                        return false;
-                    });*/
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
