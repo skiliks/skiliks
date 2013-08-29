@@ -328,20 +328,14 @@ define([
                         // Reverting old element location
                         var task_id = ui.draggable.attr('data-task-id');
                         var prev_cell = ui.draggable.parents('td');
-                        //console.log(event);
-                        //console.log(ui);
-                        console.log('task',$(this).parent().attr('data-hour'));
 
-                            var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
-                            day = $(this).parents('div[data-day-id]').attr('data-day-id'),
-                            duration = ui.draggable.attr('data-task-duration');
-                            console.log('time',time);
-                            console.log('day',day);
-                            console.log('duration',duration);
+                        var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
+                        day = $(this).parents('div[data-day-id]').attr('data-day-id'),
+                        duration = ui.draggable.attr('data-task-duration');
+
                         if (false === SKApp.simulation.dayplan_tasks.canPlanedTaskOnTimeToday(time, day, duration)) {
                             return false;
                         }
-
 
                         var oldTask = {};
                         oldTask = ui.draggable.find('.title').text() + '';
@@ -820,7 +814,7 @@ define([
                 var position = $task.parent().offset();
                 var width = $task.parent().width();
                 var height = $task.height();
-                console.log(position);
+
                 var title = $task.parent('td').attr('title');
                 if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                     $('.plan_hint_tooltip').remove();
