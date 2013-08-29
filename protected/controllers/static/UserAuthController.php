@@ -67,28 +67,23 @@ class UserAuthController extends YumController
             $existProfile = YumProfile::model()->findByAttributes([
                 'email' => $profile->email
             ]);
-
-            if ($existProfile && !$existProfile->user->isActive()) {
-                $error = $profile->getEmailAlreadyExistMessage();
-            } else {
                 // we need profile validation even if user invalid
-                $isUserValid = $this->user->validate();
-                $isProfileValid = $profile->validate(['email']);
+            $isUserValid = $this->user->validate();
+            $isProfileValid = $profile->validate(['email', 'general_error']);
 
-                if($isUserValid && $isProfileValid) {
-                    $result = $this->user->register($this->user->username, $this->user->password, $profile);
+            if($isUserValid && $isProfileValid) {
+                $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
-                    if (false !== $result) {
-                        $this->sendRegistrationEmail($this->user);
+                if (false !== $result) {
+                    $this->sendRegistrationEmail($this->user);
 
-                        $this->redirect(['afterRegistration']);
-                    } else {
-                        $this->user->password = '';
-                        $this->user->password_again = '';
+                    $this->redirect(['afterRegistration']);
+                } else {
+                    $this->user->password = '';
+                    $this->user->password_again = '';
 
 
-                        echo 'Can`t register.';
-                    }
+                    echo 'Can`t register.';
                 }
             }
         }
