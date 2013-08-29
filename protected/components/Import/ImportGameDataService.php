@@ -1774,6 +1774,8 @@ class ImportGameDataService
             $replica->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $replica->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $replica->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
+            $duration = $this->getCellValue($sheet, 'Длительность, сек', $i);
+            $replica->duration = ($duration === '-')?null:$duration;
 
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
@@ -2863,6 +2865,7 @@ class ImportGameDataService
 
     public function importScenarioConfig()
     {
+        //return;
         $this->logStart();
 
         // load sheet {
@@ -2878,23 +2881,25 @@ class ImportGameDataService
         $items = 0;
 
         $scenarioConfig = ScenarioConfig::model()->findByAttributes(['scenario_id'=>$this->scenario->id]);
-        if (empty($scenarioConfig)) {
+        if (null === $scenarioConfig) {
             $scenarioConfig = new ScenarioConfig();
         }
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $name = $this->getCellValue($sheet, 'Name', $i);
-            $value = $this->getCellValue($sheet, 'Value', $i);
+            $name = (string)trim($this->getCellValue($sheet, 'Name', $i));
+            $value = trim($this->getCellValue($sheet, 'Value', $i));
             //if(empty($value)){
             //    throw new Exception("empty");
             //}
+            if(empty($name) || empty($value)) { continue; }
+            //var_dump($name);
             $scenarioConfig->{$name} = $value;
-            $scenarioConfig->scenario_id = $this->scenario->primaryKey;
-            $scenarioConfig->import_id = $this->import_id;
-
-            $scenarioConfig->save();
             $items++;
         }
+        //var_dump($scenarioConfig);
+        $scenarioConfig->scenario_id = $this->scenario->primaryKey;
+        $scenarioConfig->import_id = $this->import_id;
+        $scenarioConfig->save(false);
 
         // delete old unused data {
         ScenarioConfig::model()->deleteAll(

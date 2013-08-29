@@ -24,6 +24,7 @@
  * @property string $docs_to_save
  * @property string $is_calculate_assessment
  * @property string $is_display_assessment_result_po_up
+ * @property string $is_allow_override
  *
  * The followings are the available model relations:
  * @property Scenario $scenario
@@ -51,7 +52,7 @@ class ScenarioConfig extends CActiveRecord
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
+	/*public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
@@ -64,7 +65,7 @@ class ScenarioConfig extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('scenario_id, import_id, game_start_timestamp, game_end_workday_timestamp, game_end_timestamp, game_help_folder_name, game_help_background_jst, game_help_pages, inbox_folder_icons, draft_folder_icons, outbox_folder_icon, trash_folder_icons, read_email_screen_icons, write_new_email_screen_icons, edit_draft_email_screen_icons, game_date, intro_video_path, docs_to_save, is_calculate_assessment, is_display_assessment_result_po_up', 'safe', 'on'=>'search'),
 		);
-	}
+	}*/
 
 	/**
 	 * @return array relational rules.
