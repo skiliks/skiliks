@@ -1093,6 +1093,11 @@ class ImportGameDataService
         $nullCharacter = new Character();
         $charactersList[] = $nullCharacter;
 
+        $mailPrefixes = [];
+        foreach (MailPrefix::model()->findAll() as $prefix) {
+            $mailPrefixes[$prefix->code] = $prefix->title;
+        }
+
         $html = '';
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -1189,7 +1194,7 @@ class ImportGameDataService
             if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
@@ -1239,7 +1244,7 @@ class ImportGameDataService
 
                 // add re for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         continue;
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
