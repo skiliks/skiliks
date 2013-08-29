@@ -2672,6 +2672,7 @@ h2 {
 }
 #corporate-invitations-list-box {
     overflow: visible;
+    display: none;
 }
 ul.profile-menu {
     float: left;

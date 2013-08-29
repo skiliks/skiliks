@@ -101,7 +101,11 @@
                 'vacancies'       => $vacancies,
             ]) ?>
         </div>
-
+    <script>
+        $(document).ready(function() {
+            $("#corporate-invitations-list-box").show();
+        });
+    </script>
 
     </div>
 
