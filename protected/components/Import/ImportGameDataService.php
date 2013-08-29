@@ -1185,6 +1185,7 @@ class ImportGameDataService
         }
 
         foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
+            echo '.';
             if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
