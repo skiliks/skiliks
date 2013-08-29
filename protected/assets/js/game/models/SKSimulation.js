@@ -112,7 +112,9 @@ define([
                             tasks;
 
                         if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
-                            me.onEndTime();
+                            if(!SKApp.isTutorial() && !SKApp.isLite()) {
+                                me.onEndTime();
+                            }
                         }
 
                         if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
