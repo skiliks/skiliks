@@ -140,11 +140,9 @@ define(["text!game/jst/window.jst"],
                     me.remove();
                 });
                 this.listenTo(this.options.model_instance, 'change:zindex', function () {
-                    console.log(me.options.model_instance);
                     me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
                 });
 
-                console.log(me.options.model_instance);
                 me.resize();
                 me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
                 me.renderWindow(me.$el);
@@ -226,7 +224,6 @@ define(["text!game/jst/window.jst"],
 
         doWindowClose: function () {
             try {
-                console.log('close');
                 this.onWindowClose();
                 this.options.model_instance.close();
             } catch(exception) {
@@ -402,7 +399,6 @@ define(["text!game/jst/window.jst"],
         },
 
         onWindowClose: function() {
-            console.log('parent');
         }
 
     });

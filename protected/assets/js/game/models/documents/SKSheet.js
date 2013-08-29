@@ -38,7 +38,6 @@ define([], function () {
         sync: function (method, collection, options) {
             try {
                 var me = this;
-                console.log('SKSheet method: ', method);
                 if ('create' === method) {
                 // if ('update' === method) {
                     SKApp.server.api(

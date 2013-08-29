@@ -71,6 +71,9 @@ define([
                             throw new Error(" uniqueId define but is not repeat request ");
                         }
                     }
+                    if (SKApp.simulation !== undefined) {
+                        params.simId = SKApp.simulation.id;
+                    }
                     params.time = SKApp.simulation.getGameTime({with_seconds:true});
                     return {
                         data:      params,
@@ -122,9 +125,7 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            //console.log(xhr.status);
                             if ('timeout' === text_status || xhr.status === 0) {
-                                //console.log(xhr.status);
 
                                 SKApp.isInternetConnectionBreakHappent = true;
 

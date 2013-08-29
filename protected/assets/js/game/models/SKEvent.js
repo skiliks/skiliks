@@ -195,7 +195,6 @@ define([], function () {
                         if (cb) {
                             cb(data);
                         }
-                        //console.log('parseNewEvents: ', data.events);
                         SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                     }
                 });
@@ -219,7 +218,6 @@ define([], function () {
          * @param {'completed'|'in progress'|'waiting'} status
          */
         setStatus: function (status) {
-            //console.log('[SKEvent] Event ' + status + ' ' + this.cid);
             /**
              * @private
              * @type {"completed"|"in progress"|"waiting"}
@@ -229,7 +227,6 @@ define([], function () {
                 this.status = status;
                 if (prev_status !== this.status && this.status === 'in progress') {
                     this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
-                    //console.log('event:' + this.getTypeSlug() + ':in_progress');
                     this.trigger('in progress');
                 }
                 if (this.status === 'completed') {
@@ -258,7 +255,6 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': dialogId
                 }, function (data) {
-                    // console.log('ignore: ', data.events);
                     SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                     if (cb !== undefined) {
                         cb();
@@ -285,7 +281,6 @@ define([], function () {
                     'dialogId': replica_id
                 }, function (data) {
                     if (data.result === 1) {
-                        //console.log('selectReplica: ', data.events);
                         if (me.getStatus() !== 'completed') {
                             me.complete();
                             cb();

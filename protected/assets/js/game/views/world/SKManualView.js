@@ -46,7 +46,7 @@ define(
             renderContent: function (content) {
                 try {
                     var required = this.options.model_instance.get('required');
-                    console.log(this.options.model_instance);
+
                     content.html(_.template(frame, {
                         'required': required
                     }));
