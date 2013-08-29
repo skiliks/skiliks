@@ -71,7 +71,6 @@ define([
                             throw new Error(" uniqueId define but is not repeat request ");
                         }
                     }
-                    console.log('SKApp.simulation.id: ', SKApp.simulation.id);
                     if (SKApp.simulation !== undefined) {
                         params.simId = SKApp.simulation.id;
                     }

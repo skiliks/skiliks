@@ -59,9 +59,6 @@ define([
                     }));
                     AppView.frame._showPausedScreen();
                     me.$el.topZIndex();
-                    //var zIndex = me.$el.css('zIndex');
-                    //console.log(zIndex);
-                    //$('.paused-screen').css('zIndex', zIndex-1);
                 });
             } catch(exception) {
                 if (window.Raven) {
@@ -70,9 +67,7 @@ define([
             }
         },
 
-        doActivate: function () {
-            //console.log('active');
-        },
+        doActivate: function () {},
 
         'leave': function (e) {
             try {

@@ -83,9 +83,7 @@ define([
                                 renderFn(remote_replica);
                             });
                         } else if (image_src) {
-                            console.log('else if (image_src)');
                             el.find('img.visit-background').on('load', function(){
-                                console.log("el.find('img.visit-background').on('load');");
                                 renderFn(remote_replica);
                             });
                         } else {
@@ -95,7 +93,6 @@ define([
                         renderFn(remote_replica);
                     }
                 } catch(exception) {
-                    console.log('Error', exception.message + ',' + exception.stack);
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
@@ -150,12 +147,10 @@ define([
                         }
 
                         var video = el.find('.visit-background');
-                        console.log('video', video);
                         video.css('margin-top', '-50px');
                         video.css('margin-left', '-20px');
                         el.find('.visitor-replica').css('margin-top', '-50px');
                     } catch(exception) {
-                        console.log('Error', exception.message + ',' + exception.stack);
                         if (window.Raven) {
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
                         }

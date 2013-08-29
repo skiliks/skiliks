@@ -73,7 +73,6 @@ define([
                 me.sheets = [];
                 this.block();
                 SKApp.simulation.useSCHotkeys = false;
-                console.log('before render');
                 doc.get('sheets').each(function (sheet, i) {
                     var sheetView = new SKSheetView({
                         'el':     me.$('.table-container'),
@@ -90,7 +89,6 @@ define([
                         sheet.activate();
                     }
                 });
-                console.log('after render');
                 me.$('.header-inner').click();
                 clearInterval(SKApp.simulation.sc_interval_id);
                 SKApp.simulation.sc_interval_id = setInterval(function(){
