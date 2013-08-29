@@ -894,3 +894,14 @@ span.required {
 .feedback .form-section .error textarea{
     border: 2px solid #bd2929;
 }
+
+.inline-radio-button {
+    float: left;
+    margin-top: 2px;
+}
+
+#send-invite-message-form label.inline-radio-button-label {
+    width:170px;
+    margin-left:5px;
+    padding:0;
+}

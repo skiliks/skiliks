@@ -488,21 +488,22 @@ class Invite extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'                => 'ID',
-			'owner_id'         => Yii::t('site', 'Owner User'),
-			'receiver_id'      => Yii::t('site', 'Receiver User'),
-			'firstname'        => Yii::t('site', 'Firstname'),
-			'lastname'         => Yii::t('site', 'Lastname'),
-			'email'            => Yii::t('site', 'Email'),
-			'message'          => Yii::t('site', 'Message'),
-			'message text'     => Yii::t('site', 'Message text'),
-			'signature'        => Yii::t('site', 'Signature'),
-			'code'             => Yii::t('site', 'Code'),
-			'vacancy_id'       => Yii::t('site', 'Vacancy'),
-			'status'           => Yii::t('site', 'Status'),
-			'sent_time'        => Yii::t('site', 'Sent Time'),
-			'full_name'        => Yii::t('site', 'Full name'),
-			'To'               => Yii::t('site', 'To'),
+			'id'                            => 'ID',
+			'owner_id'                      => Yii::t('site', 'Owner User'),
+			'receiver_id'                   => Yii::t('site', 'Receiver User'),
+			'firstname'                     => Yii::t('site', 'Firstname'),
+			'lastname'                      => Yii::t('site', 'Lastname'),
+			'email'                         => Yii::t('site', 'Email'),
+			'message'                       => Yii::t('site', 'Message'),
+			'message text'                  => Yii::t('site', 'Message text'),
+            'signature'                     => Yii::t('site', 'Signature'),
+            'is_display_simulation_results' => Yii::t('site', 'Hide test results'),
+			'code'                          => Yii::t('site', 'Code'),
+			'vacancy_id'                    => Yii::t('site', 'Vacancy'),
+			'status'                        => Yii::t('site', 'Status'),
+			'sent_time'                     => Yii::t('site', 'Sent Time'),
+			'full_name'                     => Yii::t('site', 'Full name'),
+			'To'                            => Yii::t('site', 'To'),
 		);
 	}
 
