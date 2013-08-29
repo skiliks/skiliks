@@ -157,6 +157,17 @@ class SimulationBaseController extends CController {
      */
     public function getSimulationId()
     {
+        if (Yii::app()->params['simulationIdStorage'] == 'request') {
+            $simId = Yii::app()->request->getParam('simId');
+
+            // if not simStart
+            if (null === $simId && false === in_array(Yii::app()->request->url, ['/index.php/simulation/start'])) {
+                throw new Exception('simId not specified in frontend request');
+            }
+        } elseif (Yii::app()->params['simulationIdStorage'] == 'session') {
+            $simId = Yii::app()->session['simulation'];
+        }
+
         $simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
 
         if (null === $simulation) {
