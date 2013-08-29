@@ -892,3 +892,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     position: absolute;
 }
 /* /universal */
+.general_error {
+    position:static;
+    display:inline-block;
+    margin-top:5px;
+    float:left;
+}
