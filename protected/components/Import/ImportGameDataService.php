@@ -2888,15 +2888,13 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $name = (string)trim($this->getCellValue($sheet, 'Name', $i));
             $value = trim($this->getCellValue($sheet, 'Value', $i));
-            //if(empty($value)){
-            //    throw new Exception("empty");
-            //}
+
             if(empty($name) || empty($value)) { continue; }
-            //var_dump($name);
+
             $scenarioConfig->{$name} = $value;
             $items++;
         }
-        //var_dump($scenarioConfig);
+
         $scenarioConfig->scenario_id = $this->scenario->primaryKey;
         $scenarioConfig->import_id = $this->import_id;
         $scenarioConfig->save(false);
