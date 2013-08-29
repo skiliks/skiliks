@@ -385,7 +385,7 @@ define([
              */
             'doSimulationStop':  function () {
                 try {
-                    SKApp.simulation.stop();
+                    SKApp.simulation.onFinishTime();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -465,7 +465,7 @@ define([
                                     onclick: function() {
                                         me._hidePausedScreen();
                                         me.stopExitProtection();
-                                        if(SKApp.isLite() || (!SKApp.isTutorial() && !SKApp.isLite())) {
+                                        if(SKApp.isLite() || SKApp.isFull()) {
                                             var d = new SKDialogView({
                                                 message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
                                                 buttons: [
@@ -478,7 +478,7 @@ define([
                                                 ]
                                             });
                                             $('.mail-popup-button').hide();
-                                        } else {
+                                        }  else {
                                             var d = new SKDialogView({
                                                 message: 'Завершение симуляции.',
                                                 buttons: []
