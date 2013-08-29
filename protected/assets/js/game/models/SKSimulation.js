@@ -53,6 +53,8 @@ define([
             is_paused:false,
 
             sc_interval_id:null,
+
+            useSCHotkeys:true,
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -836,7 +838,7 @@ define([
                 }
             },
             clickSCButton:function(selector){
-                if(SKApp.simulation.window_set.hasActiveXLSWindow()){
+                if(SKApp.simulation.window_set.hasActiveXLSWindow() && SKApp.simulation.useSCHotkeys){
                     console.log(selector);
                     var event = document.createEvent("MouseEvents");
                     event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,

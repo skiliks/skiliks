@@ -1,7 +1,7 @@
 <h1 class="title"><?php echo Yii::t('site', 'Available simulation') ?></h1>
 
 <?php if (Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
-    <a href="#" data-href="/simulation/promo/full/<?= $notUsedLiteSimulationInvite->id ?>"
+    <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
         class="start-full-simulation-now light-btn"
         style="background-color: #fff">
         Начать демо (LITE) симуляцию  "Базовый менеджмент"
