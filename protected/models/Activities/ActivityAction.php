@@ -139,8 +139,7 @@ class ActivityAction extends CActiveRecord
         } else if ($this->meeting !== null) {
             return $this->meeting;
         } else {
-            # Special case activities
-            return null;
+            return new FakeActivityAction($this->activity);
         }
     }
 
