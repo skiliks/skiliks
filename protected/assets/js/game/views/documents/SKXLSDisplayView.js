@@ -72,7 +72,7 @@ define([
                 SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
                 me.sheets = [];
                 this.block();
-                //debugger;
+                SKApp.simulation.useSCHotkeys = false;
                 console.log('before render');
                 doc.get('sheets').each(function (sheet, i) {
                     var sheetView = new SKSheetView({
@@ -96,6 +96,7 @@ define([
                 SKApp.simulation.sc_interval_id = setInterval(function(){
                     if(document.body.style.cursor !== "progress"){
                         me.unBlock();
+                        SKApp.simulation.useSCHotkeys = true;
                         clearInterval(SKApp.simulation.sc_interval_id);
                     }
                     //me.$('.header-inner').click();
