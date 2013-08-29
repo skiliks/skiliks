@@ -238,6 +238,7 @@ return array(
     'Company' => 'Компания',
     'Vacancy' => 'Вакансия',
     'Status' => 'Статус',
+    'Hide test results' => 'Скрыть результаты теста',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
     'Pricing & Plans' => 'Цены и тарифы',
     'Contacts' => 'Контакты',

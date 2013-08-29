@@ -190,6 +190,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
+
+            // show result to user by default have to be false
+            $invite->is_display_simulation_results = false;
+
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
@@ -222,8 +226,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
+            // beacause of unkown reason is_display_simulation_results lost after $invite->attributes
+            $is_display_results = Yii::app()->request->getParam('Invite')['is_display_simulation_results'];
             $invite->attributes = Yii::app()->request->getParam('Invite');
-
             $invite->code = uniqid(md5(mt_rand()));
             $invite->owner_id = $this->user->id;
             $invite->can_be_reloaded = true;
@@ -250,7 +255,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
-                $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
+                $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->save();
                 InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
@@ -413,7 +418,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             ],
         ];
 
-        $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
+        //$invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
+
         $invite->markAsSendToday();
         $invite->save();
 

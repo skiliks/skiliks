@@ -73,6 +73,11 @@
                 <?php // echo $form->labelEx($invite, 'signature'); ?>
                 <?php // echo $form->textField($invite, 'signature'); ?>
                 <?php // echo $form->error($invite, 'signature'); ?>
+                <div class="inline-block">
+                    <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
+                    <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
+                </div>
+                <div style="clear:both;"></div>
                 <div class="row buttons no-margin-left">
                     <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
                 </div>
