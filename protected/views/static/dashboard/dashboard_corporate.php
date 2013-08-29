@@ -8,7 +8,6 @@
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
 
-        <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
             <?php $this->renderPartial('_invite_people_box', [
                 'invite'    => $invite,
@@ -103,6 +102,7 @@
                 <?php // echo $form->labelEx($invite, 'signature'); ?>
                 <?php // echo $form->textField($invite, 'signature'); ?>
                 <?php // echo $form->error($invite, 'signature'); ?>
+
                 <div class="inline-block">
                     <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
                     <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
