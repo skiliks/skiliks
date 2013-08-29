@@ -47,10 +47,10 @@ define(["game/models/SKDayTask"], function () {
                 var start_minute = time.split(':')[1];
                 var start_time = parseInt(start_hour, 10) * 60 + parseInt(start_minute, 10);
                 var end_time = start_time + parseInt(duration, 10);
-                if (parseInt(day, 10) === 1 && start_time < SKApp.simulation.getGameMinutes()) {
+                if (day === 'day-1' && start_time < SKApp.simulation.getGameMinutes()) {
                     return false;
                 }
-                if (parseInt(day, 10) !== 3 && end_time > 22 * 60) {
+                if (day !== 'after-vacation' && end_time > 22 * 60) {
                     return false;
                 }
                 this.each(function (task) {
@@ -72,6 +72,7 @@ define(["game/models/SKDayTask"], function () {
                 return result;
             } catch(exception) {
                 if (window.Raven) {
+                    console.log(exception.message + ',' + exception.stack);
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
