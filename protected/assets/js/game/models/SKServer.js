@@ -200,8 +200,11 @@ define([
              */
             api:function (path, params, callback) {
                 try {
-                    var ajaxParams = this.getAjaxParams(path, params, callback);
-                    return $.ajax(ajaxParams);
+                    // this done for SKServer not to make any requests after Simulation stop
+                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                        var ajaxParams = this.getAjaxParams(path, params, callback);
+                        return $.ajax(ajaxParams);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -214,8 +217,11 @@ define([
              */
             apiQueue: function (queue, path, params, callback) {
                 try {
-                    var ajaxParams = this.getAjaxParams(path, params, callback);
-                    return $.ajaxq(queue, ajaxParams);
+                    // this done for SKServer not to make any requests after Simulation stop
+                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                        var ajaxParams = this.getAjaxParams(path, params, callback);
+                        return $.ajaxq(queue, ajaxParams);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

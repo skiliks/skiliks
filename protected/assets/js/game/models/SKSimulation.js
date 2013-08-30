@@ -52,6 +52,8 @@ define([
 
             is_paused:false,
 
+            is_stopped:false,
+
             sc_interval_id:null,
 
             useSCHotkeys:true,
@@ -489,7 +491,7 @@ define([
                     var me = this;
                     SKApp.set('frontendAjaxTimeout', 180*1000); // 180sec
                     me._stopTimer();
-
+                    me.is_stopped = true;
                     this.window_set.deactivateActiveWindow();
 
                     var logs = this.windowLog.getAndClear();
@@ -499,6 +501,8 @@ define([
                          * Симуляция уже остановлена
                          * @event stop
                          */
+
+
                         if(SKApp.get('result-url') === undefined){
                             SKApp.set('result-url', '/dashboard');
                             document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
