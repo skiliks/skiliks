@@ -32,7 +32,7 @@ class ImportUnitTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(538, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(543, CommunicationTheme::model()->countByAttributes([
                 'character_id' => null,
                 'scenario_id' => $fullScenario->id,
             ]), 'Character');
@@ -42,12 +42,12 @@ class ImportUnitTest extends CDbTestCase
                 'scenario_id' => $fullScenario->id,
             ]), 'Phones');
 
-            $this->assertEquals(13287, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(13497, CommunicationTheme::model()->countByAttributes([
                 'mail' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Mail');
 
-            $this->assertEquals(301, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(343, CommunicationTheme::model()->countByAttributes([
                 'text' => '!проблема с сервером!',
                 'scenario_id' => $fullScenario->id,
             ]));
