@@ -371,17 +371,19 @@ return array(
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
-        'isDisplaySimulationResults'    => false,
+        'isDisplaySimulationResults'    => true,
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-            'defaultMessageText' => 'Продолжая начатую в 2012 году программу корпоративного развития, предлагаем Вам поучаствовать в прохождении тестовой версии симуляции компании "Скиликс".'.
+            'defaultMessageText' => '',
+            /*'Продолжая начатую в 2012 году программу корпоративного развития, предлагаем Вам поучаствовать в прохождении тестовой версии симуляции компании "Скиликс".'.
             "\r\n".
             'Это компьютерная игра, по результатам которой планируется уточнить, что для Вас является зоной ближайшего развития и на чем нужно сосредоточиться для достижения лучших результатов.'.
             "\r\n".
-            'Также это поможет скорректировать и уточнить цели и задачи внутрифирменного и внешнего обучения.',
-            'inviteEmailTemplate' => '//global_partials/mails/invite_brock',
+            'Также это поможет скорректировать и уточнить цели и задачи внутрифирменного и внешнего обучения.',*/
+            'inviteEmailTemplate' => '//global_partials/mails/invite_default',
                 // '//global_partials/mails/invite_eksmo'
                 // '//global_partials/mails/invite_default'
+                // '//global_partials/mails/invite_brock',
         ],
         'allowedLanguages' => [
             'en' => [
