@@ -196,7 +196,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
-
             if ($profile) {
                 $invite->receiver_id = $profile->user->id;
             }
@@ -215,7 +214,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
 
             $invite->message = sprintf(
-                Yii::app()->params['emails']['defaultMessageText'],
+                $this->user->account_corporate->default_invitation_mail_text,
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
@@ -252,6 +251,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
+                $this->user->account_corporate->default_invitation_mail_text = $invite->message;
+                $this->user->account_corporate->save();
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);

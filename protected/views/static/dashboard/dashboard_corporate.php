@@ -56,7 +56,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <p><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
+                    <p><?php echo $form->textArea($invite, 'message', ['rows' => 20, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
                     <p class="font-green-dark">
                         <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                             Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
