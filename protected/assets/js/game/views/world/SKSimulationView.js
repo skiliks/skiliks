@@ -461,7 +461,7 @@ define([
                                     }
                                 },
                                 {
-                                    value: 'Перейти к результатам',
+                                    value: 'Завершить симуляцию',
                                     onclick: function() {
                                         me._hidePausedScreen();
                                         me.stopExitProtection();
