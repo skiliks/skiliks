@@ -381,7 +381,7 @@ return array(
             'Это компьютерная игра, по результатам которой планируется уточнить, что для Вас является зоной ближайшего развития и на чем нужно сосредоточиться для достижения лучших результатов.'.
             "\r\n".
             'Также это поможет скорректировать и уточнить цели и задачи внутрифирменного и внешнего обучения.',
-            'inviteEmailTemplate' => '//global_partials/mails/invite_brock',
+            'inviteEmailTemplate' => '//global_partials/mails/invite_default',
                 // '//global_partials/mails/invite_eksmo'
                 // '//global_partials/mails/invite_default'
         ],
