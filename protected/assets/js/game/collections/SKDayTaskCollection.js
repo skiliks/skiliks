@@ -90,8 +90,6 @@ define(["game/models/SKDayTask"], function () {
             try {
                 var planed_time = parseInt(time.split(':')[0], 0)*60+parseInt(time.split(':')[1], 0);
                 var current_time = SKApp.simulation.getGameMinutes();
-                console.log('planed_time > current_time || day !== "-1"',planed_time > current_time || day !== '-1');
-                console.log('parseInt(day,0)',typeof day);
                 if(day !== 'day-1'){
                     return true;
                 }else{

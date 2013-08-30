@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDialogPanNotificationView, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
+/*global SKTodoCollection, SKDialogPlanNotificationView, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
 
 var SKSimulation;
 
@@ -17,7 +17,7 @@ define([
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
     "game/collections/SKWindowSet",
-    "game/views/SKDialogPanNotificationView",
+    "game/views/SKDialogPlanNotificationView",
     "jquery/jquery.hotkeys"
 
 ],function (
@@ -131,7 +131,9 @@ define([
                             hours += 1;
                         }
 
-                        tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
+                        tasks = me.dayplan_tasks.where({day: 'day-1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
+                        console.log(tasks);
+                        console.log(me.dayplan_tasks);
                         if (tasks.length && true !== tasks[0].get('isDisplayed')) {
                             me.showTaskNotification(tasks[0]);
                             tasks[0].set('isDisplayed', true);
@@ -239,7 +241,7 @@ define([
                     if (SKApp.isTutorial()) {
                         return;
                     }
-                    var notification = new SKDialogPanNotificationView({
+                    var notification = new SKDialogPlanNotificationView({
                         'class': 'task-notification-dialog',
                         'message': '<span class="task-time">' + task.get('date') + '</span>' +
                                    '<span class="task-description">' + task.get('title') + '</span>',
