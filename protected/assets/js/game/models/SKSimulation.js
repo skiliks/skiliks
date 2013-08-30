@@ -132,8 +132,6 @@ define([
                         }
 
                         tasks = me.dayplan_tasks.where({day: 'day-1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
-                        console.log(tasks);
-                        console.log(me.dayplan_tasks);
                         if (tasks.length && true !== tasks[0].get('isDisplayed')) {
                             me.showTaskNotification(tasks[0]);
                             tasks[0].set('isDisplayed', true);
