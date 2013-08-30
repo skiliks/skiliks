@@ -1065,7 +1065,6 @@ class SimulationService
                 $logTableList->setSimulationId($simulation);
                 $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
                 $logTableList->asExcelCombined($user_fullname, $simulation->id);
-                echo "{$simulation->id} has been added.\n";
             }
             $excelWriter = $logTableList->returnXlsFile();
             $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
