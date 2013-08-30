@@ -1093,6 +1093,11 @@ class ImportGameDataService
         $nullCharacter = new Character();
         $charactersList[] = $nullCharacter;
 
+        $mailPrefixes = [];
+        foreach (MailPrefix::model()->findAll() as $prefix) {
+            $mailPrefixes[$prefix->code] = $prefix->title;
+        }
+
         $html = '';
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -1185,10 +1190,11 @@ class ImportGameDataService
         }
 
         foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
+            echo '.';
             if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
@@ -1238,7 +1244,7 @@ class ImportGameDataService
 
                 // add re for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         continue;
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
@@ -2888,15 +2894,13 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $name = (string)trim($this->getCellValue($sheet, 'Name', $i));
             $value = trim($this->getCellValue($sheet, 'Value', $i));
-            //if(empty($value)){
-            //    throw new Exception("empty");
-            //}
+
             if(empty($name) || empty($value)) { continue; }
-            //var_dump($name);
+
             $scenarioConfig->{$name} = $value;
             $items++;
         }
-        //var_dump($scenarioConfig);
+
         $scenarioConfig->scenario_id = $this->scenario->primaryKey;
         $scenarioConfig->import_id = $this->import_id;
         $scenarioConfig->save(false);
