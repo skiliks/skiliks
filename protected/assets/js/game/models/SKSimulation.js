@@ -864,10 +864,16 @@ define([
             },
 
             bindEmergencyHotkey: function() {
+                //PC
+                this.showCrashPanel('ctrl+k');
+                //Mac
+                this.showCrashPanel('meta+k');
+            },
+            showCrashPanel:function(hotkey) {
                 var me = this;
-
-                $(window).bind('keydown', 'ctrl+k', function() {
+                $(window).bind('keydown', hotkey, function() {
                     if (me.system_options === null) {
+                        console.log('hotkey', hotkey);
                         SKApp.server.api('simulation/isEmergencyAllowed', {}, function (data) {
                             if (data.result) {
                                 me.system_options = new SKCrashOptionsPanelView({
