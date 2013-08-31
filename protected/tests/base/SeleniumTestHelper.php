@@ -84,6 +84,14 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("Timeout. Not found button Go to the results");
+            try {
+                if ($this->isVisible("css=.mail-popup-button")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
+        $this->optimal_click("css=.mail-popup-button");
+        for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("Timeout. Not found id=universal-log");
             try {
                 if ($this->isVisible("id=universal-log")) break;
