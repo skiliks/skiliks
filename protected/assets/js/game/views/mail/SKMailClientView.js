@@ -1939,7 +1939,7 @@ define([
                     var me = this;
 
                     event.preventDefault();
-                    console.log(this.blockPhraseMoving);
+
                     if (this.blockPhraseMoving) {
                         return;
                     }

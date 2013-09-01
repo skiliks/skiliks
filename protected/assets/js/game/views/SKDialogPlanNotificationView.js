@@ -1,13 +1,13 @@
 /*global Backbone, _, define */
 
-var SKDialogPanNotificationView;
+var SKDialogPlanNotificationView;
 define([
     "jquery/jquery.topzindex.min",
     "text!game/jst/plan/dialog_plan_notification.jst",
     "game/views/SKDialogView"
 ], function (
-        topzindex,
-        dialog_plan_notification
+    topzindex,
+    dialog_plan_notification
     ) {
     "use strict";
     /**
@@ -15,7 +15,7 @@ define([
      * @class SKDialogView
      * @augments Backbone.View
      */
-    SKDialogPanNotificationView = SKDialogView.extend({
+    SKDialogPlanNotificationView = SKDialogView.extend({
         /**
          * @method
          */
@@ -57,5 +57,5 @@ define([
             }
         }
     });
-    return SKDialogPanNotificationView;
+    return SKDialogPlanNotificationView;
 });
