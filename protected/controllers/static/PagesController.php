@@ -91,7 +91,7 @@ class PagesController extends SiteBaseController
             $this->redirect('/simulations');
         }
 
-        if ($invite->status == Invite::STATUS_COMPLETED || $invite->status == Invite::STATUS_STARTED) {
+        if ($invite->status == Invite::STATUS_COMPLETED || $invite->status == Invite::STATUS_IN_PROGRESS) {
 
             Yii::app()->user->setFlash('success', sprintf(
                 'Приглашение от %s %s уже использовано для запуска симуляции.',

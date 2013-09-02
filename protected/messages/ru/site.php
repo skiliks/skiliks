@@ -213,7 +213,7 @@ return array(
     'Accepted' => 'подтверждено',
     'Completed' => 'готово',
     'Declined' => 'отклонено',
-    'Started'  => 'начато',
+    'In Progress'  => 'начато',
     'Expired' => 'просрочено',
 
     'Profile' => 'Мой профиль',

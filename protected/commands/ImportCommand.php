@@ -14,20 +14,27 @@ class ImportCommand extends CConsoleCommand
     {
         ini_set('memory_limit', '900M');
 
-        echo "\nStart 'Import $method'. \n";
-
-        $import = new ImportGameDataService($scenario);
-        $import->{'import' . $method}();
-
-        //TODO: поправить логику
-        // update file name (version) only after import done {
-        $scenario = Scenario::model()->findByAttributes(['slug' => $scenario]);
-        if (null !== $scenario) {
-            $scenario->filename = basename($import->getFilename());
-            $scenario->save(false);
+        if ('all' === $scenario) {
+            $scenarios = ['full', 'lite', 'tutorial'];
+        } else {
+            $scenarios = [$scenario];
         }
-        // update file name (version) only after import done }
 
-        echo "\n'Import $method' complete. \n";
+        foreach ($scenarios as $scenario) {
+            echo "\nStart 'Import $method'. \n";
+            $import = new ImportGameDataService($scenario);
+            $import->{'import' . $method}();
+
+            //TODO: поправить логику
+            // update file name (version) only after import done {
+            $scenario = Scenario::model()->findByAttributes(['slug' => $scenario]);
+            if (null !== $scenario) {
+                $scenario->filename = basename($import->getFilename());
+                $scenario->save(false);
+            }
+            // update file name (version) only after import done }
+
+            echo "\n'Import $method' complete. \n";
+        }
     }
 }

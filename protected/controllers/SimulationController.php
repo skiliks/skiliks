@@ -178,7 +178,7 @@ class SimulationController extends SimulationBaseController
 
         // IF - to prevent cheating
         if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
-            $invite->status = Invite::STATUS_STARTED;
+            $invite->status = Invite::STATUS_IN_PROGRESS;
             $invite->save(false);
             InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
             if (Yii::app()->user->data()->isCorporate()) {
