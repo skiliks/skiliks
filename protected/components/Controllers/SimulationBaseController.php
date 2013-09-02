@@ -108,7 +108,10 @@ class SimulationBaseController extends CController {
         $simulation = $this->getSimulationEntity();
         if( null !== $uniqueId ) {
             if(is_array($data)) {
+                $simulation->refresh();
                 $data['uniqueId'] = $uniqueId;
+                $data['simulation_status'] = $simulation->status;
+                $data['sim_id'] = $simulation->id;
                 /* @var $log LogServerRequest */
                 $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid' => $uniqueId]);
                 if(null === $log){
@@ -151,11 +154,10 @@ class SimulationBaseController extends CController {
     }
 
     /**
-     * @deprecated
-     * @param integer $sessionId
-     * @return integer || HttpResponse
+     *
+     * @return Simulation || HttpJsonResponce (Error)
      */
-    public function getSimulationId()
+    public function getSimulationEntity()
     {
         if (Yii::app()->params['simulationIdStorage'] == 'request') {
             $simId = Yii::app()->request->getParam('simId');
@@ -168,26 +170,7 @@ class SimulationBaseController extends CController {
             $simId = Yii::app()->session['simulation'];
         }
 
-        $simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
-
-        if (null === $simulation) {
-            $this->returnErrorMessage(sprintf(
-                    "Не могу получить симуляцию по ID %d",
-                    Yii::app()->session['simulation']
-                )
-            );
-        }
-
-        return $simulation->id;
-    }
-
-    /**
-     *
-     * @return Simulation || HttpJsonResponce (Error)
-     */
-    public function getSimulationEntity()
-    {
-        $simulation = Simulation::model()->findByPk($this->getSimulationId());
+        $simulation = Simulation::model()->findByPk($simId);
 
         if (null !== $simulation) {
             return $simulation;

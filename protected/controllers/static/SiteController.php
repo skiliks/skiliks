@@ -68,8 +68,9 @@ class SiteController extends SiteBaseController
             $this->redirect('/simulations');
         }
 
+
         // check for un complete simulations {
-        $startedInvites = Invite::model()->findAllByAttributes([
+        /*$startedInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => $user->id,
             'status'      => Invite::STATUS_IN_PROGRESS
         ]);
@@ -99,7 +100,7 @@ class SiteController extends SiteBaseController
                 'свяжитесь со службой технической поддержки для устранения проблемы.'
             );
             $this->redirect('/simulations');
-        }
+        }*/
         // check for un complete simulations }
 
         if ( isset($invite)

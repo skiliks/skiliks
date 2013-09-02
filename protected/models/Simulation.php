@@ -22,6 +22,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $window_resolution
  * @property string $user_agent
  * @property string $ipv4
+ * @property string $status
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -61,6 +62,10 @@ class Simulation extends CActiveRecord
 
     const MODE_PROMO_LABEL     = 'promo';
     const MODE_DEVELOPER_LABEL = 'developer';
+
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_INTERRUPTED = 'interrupted';
+    const STATUS_COMPLETE = 'complete';
 
     public $id;
 

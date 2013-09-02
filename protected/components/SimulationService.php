@@ -547,6 +547,7 @@ class SimulationService
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
+        $simulation->status = Simulation::STATUS_IN_PROGRESS;
         $simulation->save();
 
         // save simulation ID to user session
@@ -577,6 +578,16 @@ class SimulationService
         // update invite if it set
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
+            $invite->status = Invite::STATUS_IN_PROGRESS;
+            $invite->update();
+            if(null !== $invite->simulation_id && false === $invite->scenario->isAllowOverride()){
+                /* @var $sim Simulation */
+                $sim = Simulation::model()->findByPk($invite->simulation_id);
+                if(null !== $sim){
+                    $sim->status = Simulation::STATUS_INTERRUPTED;
+                    $sim->save();
+                }
+            }
             $invite->simulation_id = $simulation->id;
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
@@ -729,6 +740,7 @@ class SimulationService
 
         }
         $simulation->end = GameTime::setNowDateTime();
+        $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);
     }
 

@@ -33,16 +33,17 @@
  * @property MailAttachmentsTemplate[] $mailAttachmentsTemplates
  * @property MailConstructor[] $mailConstructors
  * @property MailCopiesTemplate[] $mailCopiesTemplates
- * @property MailPhrases[] $mailPhrases
- * @property MailPoints[] $mailPoints
- * @property MailTasks[] $mailTasks
+ * @property MailPhrase[] $mailPhrases
+ * @property MailPoint[] $mailPoints
+ * @property MailTask[] $mailTasks
  * @property MailTemplate[] $mailTemplates
  * @property MyDocumentsTemplate[] $myDocumentsTemplates
  * @property PerformanceRule[] $performanceRules
  * @property PerformanceRuleCondition[] $performanceRuleConditions
  * @property Replica[] $replicas
- * @property Simulations[] $simulations
- * @property Tasks[] $tasks
+ * @property Simulation[] $simulations
+ * @property Task[] $tasks
+ * @property ScenarioConfig $scenario_config
  *
  * @method Replica getReplica
  * @method Activity getActivity
@@ -495,6 +496,7 @@ class Scenario extends CActiveRecord
 			'replicas' => array(self::HAS_MANY, 'Replica', 'scenario_id'),
 			'simulations' => array(self::HAS_MANY, 'Simulations', 'scenario_id'),
 			'tasks' => array(self::HAS_MANY, 'Tasks', 'scenario_id'),
+            'scenario_config' => array(self::HAS_ONE, 'ScenarioConfig', 'scenario_id'),
 		);
 	}
 
@@ -546,5 +548,9 @@ class Scenario extends CActiveRecord
         }
 
         return '';
+    }
+
+    public function isAllowOverride() {
+        return $this->scenario_config->is_allow_override === 'true';
     }
 }
