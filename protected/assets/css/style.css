@@ -4562,3 +4562,8 @@ div.inline-block {
     margin: 10px 0;
 }
 
+.registration-popup {
+    float:right;
+    margin-top: 7px;
+}
+
