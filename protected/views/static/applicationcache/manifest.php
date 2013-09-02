@@ -35,7 +35,6 @@ echo $assets."/img/mail/btn-min-max.png\r\n";
 echo $assets."/img/mail/btn-nav.png\r\n"; 
 echo $assets."/img/mail/btn-scroll.png\r\n"; 
 echo $assets."/img/mail/btn-switcher.png\r\n"; 
-echo $assets."/img/mail/bugreport.mov\r\n"; 
 echo $assets."/img/mail/e-mail.png\r\n"; 
 echo $assets."/img/mail/icon-actions.png\r\n"; 
 echo $assets."/img/mail/icon-attach.png\r\n"; 
