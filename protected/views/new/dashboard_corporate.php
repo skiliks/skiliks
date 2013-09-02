@@ -34,10 +34,10 @@
             <p><?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
             <p class="font-green-dark">
                 <?php if ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
-                    Пожалуйста, <a href="<?= $this->createAbsoluteUrl('dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                    Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                 <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
                     Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
-                    <a href="<?= $this->createAbsoluteUrl('static/dashboard/personal') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
+                    <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
                 <?php else: ?>
                     Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> или <a href="<?= $this->createAbsoluteUrl('/user/auth') ?>">войдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                 <?php endif; ?>
