@@ -41,13 +41,13 @@ class Invite extends CActiveRecord
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
-    const STATUS_STARTED = 5;
+    const STATUS_IN_PROGRESS = 5;//const STATUS_STARTED = 5;//const STATUS_IN_PROGRESS = 5;
 
     public static $statusText = [
         self::STATUS_PENDING => 'Pending',
         self::STATUS_ACCEPTED => 'Accepted',
         self::STATUS_COMPLETED => 'Completed', // after sim start
-        self::STATUS_STARTED => 'Started', // after sim start
+        self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
         self::STATUS_DECLINED => 'Declined',
         self::STATUS_EXPIRED => 'Expired'
     ];
@@ -58,7 +58,7 @@ class Invite extends CActiveRecord
         'Completed' => self::STATUS_COMPLETED,
         'Declined'  => self::STATUS_DECLINED,
         'Expired'  => self::STATUS_EXPIRED,
-        'Started'  => self::STATUS_STARTED,
+        'InProgress'  => self::STATUS_IN_PROGRESS,
     ];
 
     const EXPIRED_TIME = 604800; // 7days
@@ -205,7 +205,7 @@ class Invite extends CActiveRecord
      */
     public function isStarted()
     {
-        return $this->status == self::STATUS_STARTED;
+        return $this->status == self::STATUS_IN_PROGRESS;
     }
 
     /**
@@ -235,7 +235,7 @@ class Invite extends CActiveRecord
             self::STATUS_COMPLETED => 'label-success',
             self::STATUS_DECLINED => 'label-danger',
             self::STATUS_EXPIRED => 'label-danger',
-            self::STATUS_STARTED => 'label-info',
+            self::STATUS_IN_PROGRESS => 'label-info',
         ];
 
         if (isset($arr[$this->status])) {

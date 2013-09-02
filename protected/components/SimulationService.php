@@ -581,7 +581,7 @@ class SimulationService
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
             if($scenario->slug == Scenario::TYPE_LITE) {
-                $invite->status = Invite::STATUS_STARTED;
+                $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false, ['simulation_id', 'status']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
             } else {
@@ -848,7 +848,7 @@ class SimulationService
                     throw new InviteException('Симуляция запущена без инвайта');
                 }
             } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
-                $invite->status = Invite::STATUS_STARTED;
+                $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate() && (int)$simulation->mode !== Simulation::MODE_DEVELOPER_ID) {
@@ -864,10 +864,10 @@ class SimulationService
                         $initValue
                     );
                 }
-            } else if((int)$invite->status === Invite::STATUS_STARTED) {
+            } else if((int)$invite->status === Invite::STATUS_IN_PROGRESS) {
                 return;
             } else {
-                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_STARTED. А он ".$invite->status);
+                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_IN_PROGRESS. А он ".$invite->status);
             }
         }
 
