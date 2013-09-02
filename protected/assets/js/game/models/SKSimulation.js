@@ -543,9 +543,7 @@ define([
                     me.trigger('pause:start');
                     me.is_paused = true;
                     if (typeof callback === 'function') {
-                        SKApp.server.api('simulation/startPause', {}, function (responce) {
-                            callback(responce);
-                        });
+                        callback();
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -565,7 +563,6 @@ define([
                 try {
                     var me = this;
                     me.is_paused = false;
-                    SKApp.server.api('simulation/stopPause', {}, function (responce) {
                         if( me.paused_time !== undefined )
                         {
                             me._startTimer();
@@ -574,29 +571,9 @@ define([
                             me.trigger('pause:stop');
 
                             if (typeof callback === 'function') {
-                                callback(responce);
+                                callback();
                             }
                         }
-                    });
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
-            updatePause: function(params) {
-                try {
-                    if(params === undefined) {params = {};}
-
-                    var me = this;
-                    var skipped = (new Date() - me.paused_time) / 1000;
-                    SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
-                            if (typeof params.callback === 'function') {
-                                params.callback(responce);
-                            }
-
-                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
