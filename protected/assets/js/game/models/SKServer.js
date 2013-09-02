@@ -155,7 +155,6 @@ define([
                                             {
                                                 'value': 'Продолжить игру',
                                                 'onclick': function () {
-                                                    SKApp.simulation.updatePause({callback:function() {
                                                         SKApp.simulation.stopPause(function() {
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
@@ -165,7 +164,6 @@ define([
                                                             me.dialog_window.remove();
                                                             delete me.dialog_window;
                                                         });
-                                                    }});
                                                 }
                                             }
                                         ]
