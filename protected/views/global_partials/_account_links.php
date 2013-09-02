@@ -37,7 +37,7 @@ $this->widget('zii.widgets.CMenu', array(
         ],
 
         [
-            'label'   => Yii::t('site', 'Personal dashboard'),
+            'label'   => Yii::t('site', 'Personal dashboard') . ($count ? "<span class='not-started-simulations'>$count</span>" : ""),
             'url'     => ['/static/dashboard/index'],
             'visible' => $isPersonal && $isActivated && !$isGuest && $isDisplayAccountLinks,
             'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
@@ -51,7 +51,7 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site', 'Statistics'), 'url' => '', 'visible' => false],
         ['label' => Yii::t('site', 'Notifications'), 'url' => '', 'visible' => false],
         [
-            'label'       => Yii::t('site', 'Simulations') . ($count ? "<span class='not-started-simulations'>$count</span>" : ""),
+            'label'       => Yii::t('site', 'Simulations'),
             'url'         => ['/static/simulations/index'],
             'visible'     => $isActivated && !$isGuest && $isDisplayAccountLinks,
             'linkOptions' => $count ? ['class' => 'has-notification'] : []
