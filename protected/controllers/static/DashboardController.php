@@ -318,6 +318,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
+
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
             'inviteToEdit'        => $inviteToEdit,
