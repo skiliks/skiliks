@@ -71,7 +71,7 @@ class SiteController extends SiteBaseController
         // check for un complete simulations {
         $startedInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => $user->id,
-            'status'      => Invite::STATUS_STARTED
+            'status'      => Invite::STATUS_IN_PROGRESS
         ]);
 
         if (0 < count($startedInvites) &&
