@@ -302,6 +302,10 @@ class Invite extends CActiveRecord
             return false;
         }
 
+        if($user->isAdmin()) {
+            return true;
+        }
+
         // создатель всегда может
         if ($this->owner_id == $user->id) {
             return true;
