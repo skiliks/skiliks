@@ -5,6 +5,7 @@
 
     $scoreRender = function(Invite $invite) {
         if(!$invite->scenario->isLite()) {
+
             if ($invite->status == Invite::STATUS_PENDING) {
                 return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
             }
@@ -13,7 +14,7 @@
                 return '<div style="line-height: 30px;">Результаты скрыты<div>';
             }
 
-            if (null !== $invite && Invite::STATUS_ACCEPTED !== $invite->status && $invite->scenario->isFull()) {
+            if (null !== $invite && Invite::STATUS_ACCEPTED != $invite->status && Invite::STATUS_COMPLETED != $invite->status && $invite->scenario->isFull()) {
                 //$return = '<a data-href="'.$invite->id.'" class="start-full-simulation start-full-simulation-button" href="#">Начать</a>';
                 //echo $return;
                 return sprintf(
@@ -22,6 +23,18 @@
                     $invite->id
                 );
             }
+
+            if (null !== $invite && Invite::STATUS_COMPLETED == $invite->status && $invite->scenario->isFull()) {
+                //$return = '<a data-href="'.$invite->id.'" class="start-full-simulation start-full-simulation-button" href="#">Начать</a>';
+                //echo $return;
+                    return $this->renderPartial('//global_partials/_simulation_stars', [
+                        'simulation'     => $invite->simulation,
+                        'isDisplayTitle' => false,
+                        'isDisplayArrow' => false,
+                        'isDisplayScaleIfSimulationNull' => false,
+                    ],false);
+            }
+
 
             return $this->renderPartial('//global_partials/_simulation_stars', [
                 'simulation'     => $invite->simulation,
