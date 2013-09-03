@@ -42,6 +42,7 @@
             </div>
             <div class="submit">
                 <?php echo CHtml::submitButton(Yii::t('site', 'Sign in')); ?>
+                <a class="registration-popup" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
             </div>
         <?php $this->endWidget(); ?>
 

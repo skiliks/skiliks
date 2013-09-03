@@ -34,6 +34,11 @@
             <?php endif; ?>
         </div>
 
+        <?php $this->renderPartial('../simulations/partials/warning-popup', []) ?>
+        <?php $this->renderPartial('../simulations/partials/pre-start-popup', []) ?>
+
+        <div id="simulation-details-pop-up"></div>
+
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
 
         <!-- companies-you-follow-box -->

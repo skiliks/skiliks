@@ -132,12 +132,12 @@ var fixLogotypes = function() {
 
             // hack {
             $('.accept-invite-warning-popup').css('top', '50px');
-            $(window).scrollTop('body');
+            $(window).scrollTop('.narrow-contnt');
+
             // hack }
 
             return false;
         });
-
 
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {

@@ -429,7 +429,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     max-width:201px;
 }
 .action-controller-corporate-static-simulations .grid-view table.items tr td a,
-.action-controller-personal-static-simulations .grid-view table.items tr td a {
+.action-controller-personal-static-simulations .grid-view table.items tr td a, .start-full-simulation-button {
     font: 14px/30px "ProximaNova-Bold";
     border-radius: 3px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
@@ -441,6 +441,7 @@ section.registration-by-link .form .row a.decline-link:hover {
     background: url("../img/btn-lightbg.png");
     color: #3C3C32;
 }
+
 .action-controller-corporate-static-simulations .grid-view table.items tr td a:hover,
 .action-controller-personal-static-simulations .grid-view table.items tr td a:hover {
     background-position: left bottom;
