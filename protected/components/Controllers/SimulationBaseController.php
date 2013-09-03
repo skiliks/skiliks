@@ -168,6 +168,8 @@ class SimulationBaseController extends CController {
             }
         } elseif (Yii::app()->params['simulationIdStorage'] == 'session') {
             $simId = Yii::app()->session['simulation'];
+        }else{
+            throw new Exception('$simId not found');
         }
 
         $simulation = Simulation::model()->findByPk($simId);
@@ -175,10 +177,7 @@ class SimulationBaseController extends CController {
         if (null !== $simulation) {
             return $simulation;
         } else {
-            $this->returnErrorMessage(sprintf(
-                'Simulation with id %s doesn`t exists in db.',
-                $simId
-            ));
+            throw new Exception("Simulation with id {$simId} doesn`t exists in db");
         }
     }
 }
