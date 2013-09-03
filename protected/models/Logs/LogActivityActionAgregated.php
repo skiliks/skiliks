@@ -10,9 +10,11 @@
  * @property string $leg_action
  * @property integer $activity_action_id
  * @property string $category
+ * @property integer $keep_last_category_after_60_sec
  *
  * @property Simulation $simulation
  * @property ActivityAction $activityAction
+ *
  */
 class LogActivityActionAgregated extends CActiveRecord
 {

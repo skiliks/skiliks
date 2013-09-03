@@ -106,6 +106,9 @@ class PlanAnalyzer {
                 || 'D2' === $logItem->leg_action
                 || 'D25' === $logItem->leg_action
             ) {
+                // 0
+                $logItem->keep_last_category_after_60_sec = 0;
+                $logItem->save();
                 continue;
             }
 
@@ -146,6 +149,10 @@ class PlanAnalyzer {
                 $log_214d[($i - 1)]['end_time'] = $logItem->end_time;
                 $currentParentCode = $logItem->activityAction->activity->parent;
             }
+
+            $logItem->keep_last_category_after_60_sec = $groupedLog[$i - 1]['keepLastCategoryAfter60sec'];
+            $logItem->save();
+
         }
 
         $this->logActivityActionsAggregatedGroupByParent = $groupedLog;
