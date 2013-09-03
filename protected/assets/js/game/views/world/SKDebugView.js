@@ -141,6 +141,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          */
         doSimStopAndShowLogs: function () {
             try {
+                window.scrollTo(0, 0);
                 SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
                 SKApp.simulation.onFinishTime();
             } catch(exception) {
