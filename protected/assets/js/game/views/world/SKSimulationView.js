@@ -385,6 +385,7 @@ define([
              */
             'doSimulationStop':  function () {
                 try {
+                    window.scrollTo(0, 0);
                     SKApp.simulation.onFinishTime();
                 } catch(exception) {
                     if (window.Raven) {
