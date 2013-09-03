@@ -1,5 +1,5 @@
 $('.workday').remove();
-$('body').append('<div class="workday"><table></table><div>');
+$('body').append('<div class="workday"><div class="workday-switcher">hide/show</div><table></table><div>');
 $('.workday').css('position', 'absolute');
 $('.workday').css('overflow', 'hidden');
 $('.workday').css('top', '50px');
@@ -8,6 +8,8 @@ $('.workday').css('background', '#fff');
 $('.workday').css('border', '1px solid #000');
 $('.workday').css('z-index', '200');
 $('.workday table').css('border', '1px solid #999');
+$('.workday-switcher').css('text-align', 'right');
+$('.workday-switcher').css('width', '500px');
 
 var workday = $('.workday');
 var issues = new Array();
@@ -107,3 +109,4 @@ workday.find('table').append(html);
 $('.workday table tr').css('border', '1px solid #999');
 $('.workday table td').css('border', '1px solid #999');
 
+$('.workday-switcher').click(function(){ workday.find('table').toggle(); });
