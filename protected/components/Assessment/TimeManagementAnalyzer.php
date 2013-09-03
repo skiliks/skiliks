@@ -93,18 +93,26 @@ class TimeManagementAnalyzer
         $this->GameOverhead = $GameOverhead;
     }
 
+
+    /**
+     * Method calculates and stores efficiency (whole and overtime)
+     * $this->GameOverhead => overtime in minutes
+     * $this->firstPriorityTotal -> time spend for the primary tasks
+     * $value is total time efficiency in percents
+     */
+
+    /**
+     * Метод считает и записывает в базу эффективность затраченного времени (рабочего времени и овертайм)
+     * $this->GameOverhead => овертайм время в минутах
+     * $this->firstPriorityTotal => время потраченное на выполнение задач 1-й категории
+     * $value => общая эффективность в процентах
+     */
+
     public function calculateEfficiency()
     {
-        if (50 <= $this->firstPriorityTotal) {
-            $value = round((1 - $this->GameOverhead/120)*100); // значение в процентах
-        } else {
-            $value = 0;
-        }
+        $overTimePercentage = (1 - $this->GameOverhead/120)*100;
 
-        // Hot fix!
-        if ($value < 0) {
-            $value = 0;
-        }
+        $value = round($this->firstPriorityTotal*2/3 + $overTimePercentage * 1/3,2);
 
         $assessment = new TimeManagementAggregated();
         $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;

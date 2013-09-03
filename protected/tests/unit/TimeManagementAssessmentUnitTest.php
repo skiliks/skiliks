@@ -414,7 +414,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            67.00, // 40.00 * 0.6
+            56.89, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -530,7 +530,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            0, // 0.00 * 1.0
+            33.33, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -564,6 +564,241 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'time_spend_for_inactivity'
         );
     }
+
+    public function testEfficiency_workday_ended_1800() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '12:45:00';
+        $log->duration = '03:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '12:45:00';
+        $log->end_time = '18:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            64.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            76.00, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+    public function testEfficiency_workday_ended_1900() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '13:45:00';
+        $log->duration = '04:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '13:45:00';
+        $log->end_time = '19:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            57.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            54.67, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+    public function testEfficiency_workday_ended_2000() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '14:45:00';
+        $log->duration = '05:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '14:45:00';
+        $log->end_time = '20:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            51.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            34.00, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
 
     /**
      * For debug
