@@ -177,7 +177,7 @@ class SimulationBaseController extends CController {
         } else {
             $this->returnErrorMessage(sprintf(
                 'Simulation with id %s doesn`t exists in db.',
-                $this->getSimulationId()
+                $simId
             ));
         }
     }
