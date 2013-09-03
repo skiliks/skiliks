@@ -231,6 +231,13 @@ class SiteController extends SiteBaseController
             InviteService::logAboutInviteStatus($invite, 'user reject start second simulation');
         }
     }
+
+
+    public function actionExit(){
+        Yii::app()->user->setFlash('error','Текущая симуляция была прервана так как Вы начали новую');
+        $this->redirect('/dashboard');
+        //echo 'Hello';
+    }
 }
 
 

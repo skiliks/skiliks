@@ -116,7 +116,12 @@ define([
                                     }
                                 }
                                 if(undefined !== callback){
-                                    callback(data, textStatus, jqXHR);
+                                    if(data.simulation_status !== 'interrupted'){
+                                        callback(data, textStatus, jqXHR);
+                                    }else{
+                                        $(window).off('beforeunload');
+                                        location.assign('/simulation/exit');
+                                    }
                                 }
                             } else {
                                 if (!window.testMode) {

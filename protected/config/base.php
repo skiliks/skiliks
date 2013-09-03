@@ -176,6 +176,7 @@ return array(
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
+                'simulation/exit'         => 'static/site/Exit',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
