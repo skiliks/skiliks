@@ -549,7 +549,7 @@ class SimulationService
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
         $simulation->status = Simulation::STATUS_IN_PROGRESS;
         $simulation->save();
-
+        $_POST['simId'] = $simulation->id;
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
 
