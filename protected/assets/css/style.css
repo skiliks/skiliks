@@ -2987,7 +2987,7 @@ ul.profile-menu li {
     margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
-    color:#2d7b91;
+    color:#3C3C32;
     margin-left: 3px;
     text-decoration: none;
 }
@@ -3323,7 +3323,7 @@ ul.profile-menu li {
     height: 20px;
     left: 5px;
     line-height: 20px;
-    margin-right: -20px;
+    margin-right: -12px;
     position: relative;
     text-align: center;
     top: -10px;
@@ -4560,5 +4560,10 @@ ul.profile-menu li {
 div.inline-block {
     display: inline-block;
     margin: 10px 0;
+}
+
+.registration-popup {
+    float:right;
+    margin-top: 7px;
 }
 

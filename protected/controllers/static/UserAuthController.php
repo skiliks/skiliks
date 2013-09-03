@@ -429,7 +429,7 @@ class UserAuthController extends YumController
                     $this->user->refresh();
 
                     if (false === (bool)$accountCorporate->is_corporate_email_verified) {
-                        //$this->sendCorporationEmailVerification($this->user);
+                        $this->sendCorporationEmailVerification($this->user);
                         $this->redirect('afterRegistrationCorporate');
                     } else {
                         $this->redirect('/dashboard');

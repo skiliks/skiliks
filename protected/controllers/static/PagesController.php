@@ -11,7 +11,7 @@ class PagesController extends SiteBaseController
             $user->data()->account_corporate &&
             !$user->data()->account_corporate->is_corporate_email_verified
         ) {
-            $this->redirect('/userAuth/afterRegistration');
+            $this->redirect('/userAuth/afterRegistrationCorporate');
         }
 
         if (!$user->isGuest &&
