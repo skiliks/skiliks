@@ -4,46 +4,53 @@
     <?php
 
     $scoreRender = function(Invite $invite) {
-        if(!$invite->scenario->isLite()) {
+        if(null !== $invite && !$invite->scenario->isLite()) {
 
-            if ($invite->status == Invite::STATUS_PENDING) {
-                return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
+            switch($invite->status) {
+                case Invite::STATUS_PENDING :
+                    return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
+                    break;
+
+                case Invite::STATUS_COMPLETED :
+                    if(false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+                        return '<div style="line-height: 30px;">Результаты скрыты<div>';
+                    }
+                    else {
+                        return $this->renderPartial('//global_partials/_simulation_stars', [
+                            'simulation'     => $invite->simulation,
+                            'isDisplayTitle' => false,
+                            'isDisplayArrow' => false,
+                            'isDisplayScaleIfSimulationNull' => false,
+                        ],false);
+                    }
+                    break;
+
+                case Invite::STATUS_ACCEPTED :
+                    return sprintf(
+                        "<a class=\"start-full-simulation start-full-simulation-button\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
+                        $invite->scenario->slug,
+                        $invite->id
+                    );
+                    break;
+
+                case Invite::STATUS_IN_PROGRESS :
+                    return '<div style="line-height: 30px;">В процессе<div>';
+                    break;
+
+                case Invite::STATUS_DECLINED :
+                    return '<div style="line-height: 30px;">Отклонено<div>';
+                    break;
+
+                case Invite::STATUS_EXPIRED :
+                    return '<div style="line-height: 30px;">Просрочено<div>';
+                    break;
+
+                default :
+                    return false;
+
             }
-
-            if (null !== $invite && $invite->status == Invite::STATUS_COMPLETED && false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
-                return '<div style="line-height: 30px;">Результаты скрыты<div>';
-            }
-
-            if (null !== $invite && Invite::STATUS_ACCEPTED != $invite->status && Invite::STATUS_COMPLETED != $invite->status && $invite->scenario->isFull()) {
-                //$return = '<a data-href="'.$invite->id.'" class="start-full-simulation start-full-simulation-button" href="#">Начать</a>';
-                //echo $return;
-                return sprintf(
-                    "<a class=\"start-full-simulation start-full-simulation-button\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
-                    $invite->scenario->slug,
-                    $invite->id
-                );
-            }
-
-            if (null !== $invite && Invite::STATUS_COMPLETED == $invite->status && $invite->scenario->isFull()) {
-                //$return = '<a data-href="'.$invite->id.'" class="start-full-simulation start-full-simulation-button" href="#">Начать</a>';
-                //echo $return;
-                    return $this->renderPartial('//global_partials/_simulation_stars', [
-                        'simulation'     => $invite->simulation,
-                        'isDisplayTitle' => false,
-                        'isDisplayArrow' => false,
-                        'isDisplayScaleIfSimulationNull' => false,
-                    ],false);
-            }
-
-
-            return $this->renderPartial('//global_partials/_simulation_stars', [
-                'simulation'     => $invite->simulation,
-                'isDisplayTitle' => false,
-                'isDisplayArrow' => false,
-                'isDisplayScaleIfSimulationNull' => false,
-            ],false);
         }
-        else return false;
+        return false;
     };
 
     $this->widget('zii.widgets.grid.CGridView', [
