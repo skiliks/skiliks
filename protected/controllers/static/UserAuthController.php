@@ -68,6 +68,9 @@ class UserAuthController extends YumController
                 'email' => $profile->email
             ]);
                 // we need profile validation even if user invalid
+            $this->user->createtime = time();
+            $this->user->lastvisit = time();
+            $this->user->lastpasswordchange = time();
             $isUserValid = $this->user->validate();
             $isProfileValid = $profile->validate(['email', 'general_error']);
 
@@ -81,7 +84,6 @@ class UserAuthController extends YumController
                 } else {
                     $this->user->password = '';
                     $this->user->password_again = '';
-
 
                     echo 'Can`t register.';
                 }
