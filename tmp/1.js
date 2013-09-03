@@ -1,3 +1,6 @@
+// в JS посмотреть какой сегодня день недели
+
+
 $('.workday').remove();
 $('body').append('<div class="workday"><div class="workday-switcher">hide/show</div><table></table><div>');
 $('.workday').css('position', 'absolute');
@@ -108,5 +111,7 @@ workday.find('table').append(html);
 
 $('.workday table tr').css('border', '1px solid #999');
 $('.workday table td').css('border', '1px solid #999');
+$('.workday').css('height', '600px');
+$('.workday').css('overflow', 'scroll');
 
 $('.workday-switcher').click(function(){ workday.find('table').toggle(); });
