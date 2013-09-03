@@ -10,6 +10,10 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
 
+    /**
+     * 100% efficiency of managerial skills test
+     */
+
     public function testAssessment_Goals_Areas_Overals_case1()
     {
         // $this->markTestSkipped(); // wait for new assessment scheme
@@ -314,8 +318,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
-        $goalGroups = SimulationLearningGoalGroup::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-
+//        $goalGroups = SimulationLearningGoalGroup::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+//
 //        foreach ($goalGroups as $goalGroup) {
 //            echo sprintf(
 //                "%s %s | %s %s : %s %s ** %s %s \n",
@@ -336,14 +340,14 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов' => 75.777779,
-            'Управление людьми'         => 86.000000,
-            'Управление коммуникациями' => 86.285713,
+            'Управление задачами с учётом приоритетов' => 85.166664,
+            'Управление людьми'         => 90.181999,
+            'Управление коммуникациями' => 89.928574,
 
             'Оптимальный выбор каналов коммуникации' => 100,
 
             'Устойчивость к манипуляциям и давлению' => 100,
-            'Стрессоустойчивость'              => 100,
+            'Стрессоустойчивость'     => 100,
             'Ответственность'         => 100,
             'Принятие решения'        => 100,
             'Ориентация на результат' => 100,
@@ -366,18 +370,21 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 81.50,
-            'overall'     => 71.95, // 68.02
+            'management'  => 87.85,
+            'overall'     => 75.12,
             'performance' => 67.71,
             'time'        => 50,
         ];
 
-        foreach ($overall as $listItem) {
+//        foreach ($overall as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
 //                $listItem->assessment_category_code,
 //                $listItem->value
 //            );
+//        }
+
+        foreach ($overall as $listItem) {
             $this->assertEquals(
                 $v[$listItem->assessment_category_code],
                 $listItem->value,
@@ -525,17 +532,20 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов'  => 6.666667,
-            'Управление коммуникациями'                 => 86.285713, // 27.586206
+            'Управление задачами с учётом приоритетов'  => 20.277779,
+            'Управление коммуникациями'                 => 89.928574 ,
             'Управление людьми'                         => 30,
         ];
 
-        foreach ($areas as $listItem) {
+//        foreach ($areas as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
 //                $listItem->learningArea->title,
 //                $listItem->value
 //            );
+//        }
+
+        foreach ($areas as $listItem) {
             if (isset($v[$listItem->learningArea->title])) {
                 $this->assertEquals(
                     $v[$listItem->learningArea->title],
@@ -546,18 +556,21 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 39.20, // 44.97
-            'overall'     => 50.80, // 53.26
+            'management'  => 46.61, // 44.97
+            'overall'     => 54.50, // 53.26
             'performance' => 67.71,
             'time'        => 50,
         ];
 
-        foreach ($overall as $listItem) {
+//        foreach ($overall as $listItem) {
 //            echo sprintf(
 //                "%s %s \n",
 //                $listItem->assessment_category_code,
 //                $listItem->value
 //            );
+//        }
+
+        foreach ($overall as $listItem) {
             $this->assertEquals(
                 $v[$listItem->assessment_category_code],
                 $listItem->value,
