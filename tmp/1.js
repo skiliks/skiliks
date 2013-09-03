@@ -111,7 +111,9 @@ workday.find('table').append(html);
 
 $('.workday table tr').css('border', '1px solid #999');
 $('.workday table td').css('border', '1px solid #999');
-$('.workday').css('height', '600px');
+$('.workday').css('max-height', '600px');
 $('.workday').css('overflow', 'scroll');
 
-$('.workday-switcher').click(function(){ workday.find('table').toggle(); });
+$('.workday-switcher').click(function(){
+    workday.find('table').toggle();
+});
