@@ -115,7 +115,16 @@ define([
 
                 window_el.html(callInHtml);
 
-                    var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
+                    var duration = (SKApp.simulation.isDebug() || null === remote_replica) ?
+                        0 : parseInt(remote_replica.duration, 0)*1000;
+
+                    // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
+                    // Из-за этого тесты которые проверяют отображение реплик валятся
+                    // 5 сек задержки должно хватать, но если не хватит можно увеличить
+                    if (SKApp.simulation.isDebug() && 0 != my_replicas.length) {
+                        duration = 5000;
+                    }
+
                     setTimeout(function(){
                         if (my_replicas.length === 0) {
                             event.selectReplica(remote_replica.id, function () {
