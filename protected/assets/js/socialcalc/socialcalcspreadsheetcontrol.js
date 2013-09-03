@@ -569,7 +569,7 @@ SocialCalc.SpreadsheetControlStatuslineCallback = function(editor, status, arg, 
       case "cmdendnorender":
       case "calcfinished":
       case "doneposcalc":
-         console.log('SC status (1): ', status);
+         //console.log('SC status (1): ', status);
          rele1 = document.getElementById(params.recalcid1);
          rele2 = document.getElementById(params.recalcid2);
          if (!rele1 || !rele2) break;
