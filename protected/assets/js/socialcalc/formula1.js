@@ -631,7 +631,7 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
          }
 
       prii = parseinfo[rii];
-       console.log('rii: ', rii);
+      // console.log('rii: ', rii);
       ttype = prii.type;
       ttext = prii.text;
 
@@ -712,7 +712,7 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
             if (value1.error) { // not available
                errortext = errortext || value1.error;
                }
-             //TODO: Доделать функционал "Циклическая ссылка между листами"
+             /*//TODO: Доделать функционал "Циклическая ссылка между листами"
              activeTab = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active");
              activeSheetName = activeTab.text().toUpperCase();
              activeCell = $("#"+activeTab.attr('data-editor-id')+"-statusline").val();
@@ -724,8 +724,8 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
                  PushOperand('e#Циклическая ссылка между листами!', value1.value);
              } else {
                  PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
-             }
-             //PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
+             }*/
+             PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
          }
 
          // Comparison operators: < L = G > N (< <= = >= > <>)
