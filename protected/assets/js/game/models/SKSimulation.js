@@ -855,7 +855,6 @@ define([
                 var me = this;
                 $(window).bind('keydown', hotkey, function() {
                     if (me.system_options === null) {
-                        console.log('hotkey', hotkey);
                         SKApp.server.api('simulation/isEmergencyAllowed', {}, function (data) {
                             if (data.result) {
                                 me.system_options = new SKCrashOptionsPanelView({

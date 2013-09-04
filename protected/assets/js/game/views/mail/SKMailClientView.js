@@ -1943,7 +1943,7 @@ define([
                     if (this.blockPhraseMoving) {
                         return;
                     }
-                    console.log($(event.currentTarget).data('id'));
+
                     if (undefined === $(event.currentTarget).data('id') ||
                         null === $(event.currentTarget).data('id')) {
                         return;
@@ -1951,7 +1951,7 @@ define([
 
                     this.blockPhraseMoving = true;
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
-                    console.log(phrase);
+
                     if (undefined === phrase) {
                         throw 'Undefined phrase id.';
                     }
@@ -1964,12 +1964,12 @@ define([
                     // simplest way to clone small object in js }
 
                     // ADD:
-                    console.log(phraseToAdd);
+
                     this.mailClient.newEmailUsedPhrases.push(phraseToAdd);
 
                     // render updated state
                     this.renderAddPhraseToEmail(phraseToAdd);
-                    console.log(phraseToAdd);
+
                     setTimeout(function() {
                         delete me.blockPhraseMoving;
                     }, 400);
