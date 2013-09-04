@@ -69,7 +69,7 @@ class SimulationController extends SimulationBaseController
 
 //        $scenarioConfigLabelText = $invite->scenario->scenario_config->scenario_label_text;
 
-        $scenario = Scenario::model()->findByAttributes(['slug'=>$scenarioName]);
+        $scenario = Scenario::model()->findByAttributes(['slug'=>$type]);
         $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
 
         $this->sendJSON(
