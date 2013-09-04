@@ -1,6 +1,13 @@
 <section class="dashboard corpdashboard">
+    <a href="#" data-href="/simulation/promo/full/<?= $notUsedFullSimulationInvite->id ?>"
+       class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
+    </a>
+    <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
+       class="start-full-simulation-now start-lite-simulation-btn light-btn">Пройти демо (15 мин)</a>
+
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
+
         <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
             <?php $this->renderPartial('_invite_people_box', [
@@ -25,15 +32,33 @@
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
     </aside>
     <div class="narrow-contnt">
+
         <!-- corporate-invitations-list-box -->
         <!-- hack for taking position -->
         <div id="corporate-invitations-list-box-position"></div>
+
         <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies'       => $vacancies,
             ]) ?>
         </div>
+
+        <?php $this->renderPartial('partials/warning-popup', []) ?>
+        <?php $this->renderPartial('partials/pre-start-popup', []) ?>
+
+        <div id="simulation-details-pop-up"></div>
+
+        <div id="start-trial-full-scenario-pop-up" style="display: none;">
+            <div>
+                После начала симуляции количество доступных вам приглашений уменшиться на одно.
+            </div>
+
+            <a href="" class="light-btn start-trial-full-scenario-agree">Я согласен</a>
+            <a href="" class="light-btn start-trial-full-scenario-disagree">Отменить</a>
+        </div>
+
+
         <?php if (true === $validPrevalidate): ?>
             <div class="form form-invite-message message_window" title="Сообщение">
 
