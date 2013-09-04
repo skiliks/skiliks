@@ -1,8 +1,12 @@
 <?php /** @var Simulation $simulation */ /* @var YumUser $user */ /* @var Invite $invite */  ?>
 <?php if($user->isPersonal()) { ?>
-<h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
-<?php } else { ?>
-<h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
+    <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
+<?php } elseif(null === $simulation->invite) { ?>
+    <?php // это хак для просмотра результатов lite симуляций,
+          //в случае одновременного запуска нескольких lite симуляций по одному и томе же инвайту  ?>
+    <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
+<?php } else{ ?>
+    <h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
 <?php } ?>
 <div class="simulation-details">
     <script type="text/javascript">
