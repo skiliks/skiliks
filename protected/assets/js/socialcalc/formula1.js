@@ -483,9 +483,6 @@ SocialCalc.Formula.evaluate_parsed_formula = function(parseinfo, sheet, allowran
 //
 
 SocialCalc.Formula.ConvertInfixToPolish = function(parseinfo) {
-
-   // console.log(parseinfo);
-
    var scf = SocialCalc.Formula;
    var scc = SocialCalc.Constants;
    var tokentype = scf.TokenType;
@@ -602,7 +599,6 @@ SocialCalc.Formula.ConvertInfixToPolish = function(parseinfo) {
 //
 
 SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowrangereturn) {
-
    var scf = SocialCalc.Formula;
    var scc = SocialCalc.Constants;
    var tokentype = scf.TokenType;
@@ -635,6 +631,7 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
          }
 
       prii = parseinfo[rii];
+       console.log('rii: ', rii);
       ttype = prii.type;
       ttext = prii.text;
 
@@ -708,9 +705,6 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
          // ! - sheetname!coord
 
          else if (ttext == '!') {
-//             console.log('operand: ', operand);
-//             console.log('value1: ', value1);
-//             console.log('sheet: ', sheet);
             if (operand.length <= 1) { // Need at least two things on the stack...
                return missingOperandError;
                }
@@ -721,13 +715,9 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
              //TODO: Доделать функционал "Циклическая ссылка между листами"
              activeTab = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active");
              activeSheetName = activeTab.text().toUpperCase();
-             activeCell = $("#"+activeTab.attr('data-editor-id')+"-statusline").val()
-//             console.log('value1: ', value1);
+             activeCell = $("#"+activeTab.attr('data-editor-id')+"-statusline").val();
+
              if (activeCell+'!'+activeSheetName === value1.value) {
-                 //var tab = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active");
-                 console.log('ActivesheetName',activeTab.text().toUpperCase());
-                 console.log('ActiveCell',$("#"+activeTab.attr('data-editor-id')+"-statusline").val());
-                 //debugger;
                  value1.error = '234';
                  errortext = '123';
                  errortext = errortext || value1.error;
@@ -868,15 +858,12 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
       }
 
    if (operand.length > 1 && !errortext) { // something left - error
-       //console.log("1 errortext", errortext);
        if(errortext === undefined){
            errortext = scc.s_parseerrerrorinformula;
        }else{
            errortext += scc.s_parseerrerrorinformula;
        }
    }
-    //console.log("2 errortext", errortext);
-
    // set return type
 
    valuetype = tostype;
@@ -1276,7 +1263,6 @@ SocialCalc.Formula.OperandsAsRangeOnSheet = function(sheet, operand) {
    operand.pop(); // we have data - pop stack
 
    value1 = scf.OperandAsCoord(sheet, operand); // get "left" coord
-   //console.log('value1: ',value1, sheet, operand);
    if (value1.type != "coord") { // not a coord, which it must be
       return {value: 0, type: "e#REF!"};
       }
@@ -1376,12 +1362,9 @@ SocialCalc.Formula.LookupName = function(sheet, name) {
    var names = sheet.names;
    var value = {};
    var startedwalk = false;
-   //console.log('sheet: ', sheet);
-   //console.log('name: ', name);
    if (names[name.toUpperCase()]) { // is name defined?
 
       value.value = names[name.toUpperCase()].definition; // yes
-       //console.log('value: ', value);
 
       if (value.value.charAt(0) == "=") { // formula
          if (!sheet.checknamecirc) { // are we possibly walking the name tree?
