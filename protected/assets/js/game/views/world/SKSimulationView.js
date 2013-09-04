@@ -261,7 +261,8 @@ define([
                 try {
                     var login_html = _.template(simulation_template, {
                         showPause: SKApp.isLite(),
-                        showStart: SKApp.isTutorial()
+                        showStart: SKApp.isTutorial(),
+                        simulationLabel: SKApp.simulation.get("scenarioLabel")
                     });
 
                     this.$el.html(login_html).appendTo('body');

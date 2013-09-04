@@ -1023,6 +1023,9 @@ section.phone>header .btn-window li button.btn-set{
 	width:31px;
 	height:29px;
 }
+.game_type_simulation {
+    text-shadow: 1px 1px 0px #666;
+}
 section.phone>header .btn-window li button.btn-set:hover{
 	background-position:0 -29px;
 }
