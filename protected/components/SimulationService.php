@@ -580,7 +580,7 @@ class SimulationService
         if (null !== $invite && null != $invite->id) {
             $invite->status = Invite::STATUS_IN_PROGRESS;
             $invite->update();
-            if(null !== $invite->simulation_id && false === $invite->scenario->isAllowOverride()){
+            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
                 /* @var $sim Simulation */
                 $sim = Simulation::model()->findByPk($invite->simulation_id);
                 if(null !== $sim){
