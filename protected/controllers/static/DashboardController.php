@@ -223,7 +223,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $newInviteForFullSimulation->email = strtolower(Yii::app()->user->data()->profile->email);
             $newInviteForFullSimulation->save(false);
 
-            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 1)');
+            $newInviteForFullSimulation[] = InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 1)');
         }
         // check and add trial full version }
 
