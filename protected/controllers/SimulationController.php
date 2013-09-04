@@ -67,12 +67,18 @@ class SimulationController extends SimulationBaseController
             );
         }
 
+//        $scenarioConfigLabelText = $invite->scenario->scenario_config->scenario_label_text;
+
+        $scenario = Scenario::model()->findByAttributes(['slug'=>$scenarioName]);
+        $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
+
         $this->sendJSON(
             array(
-                'result'       => 1,
-                'speedFactor'  => $simulation->getSpeedFactor(),
-                'simId'        => $simulation->id,
-                'scenarioName' => $scenarioName
+                'result'        => 1,
+                'speedFactor'   => $simulation->getSpeedFactor(),
+                'simId'         => $simulation->id,
+                'scenarioName'  => $scenarioName,
+                'scenarioLabel' => $scenarioConfigLabelText
             )
         );
     }

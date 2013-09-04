@@ -25,6 +25,7 @@
  * @property string $is_calculate_assessment
  * @property string $is_display_assessment_result_po_up
  * @property string $is_allow_override
+ * @property string $scenario_label_text
  *
  * The followings are the available model relations:
  * @property Scenario $scenario

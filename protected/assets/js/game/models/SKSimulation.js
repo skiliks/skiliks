@@ -466,6 +466,7 @@ define([
                         }
 
                         me.set('scenarioName', data.scenarioName);
+                        me.set('scenarioLabel', data.scenarioLabel);
 
                         me.documents.fetch();
                         onDocsLoad.apply(me);
