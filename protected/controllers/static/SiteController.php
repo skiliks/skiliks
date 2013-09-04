@@ -197,21 +197,15 @@ class SiteController extends SiteBaseController
 
     public function actionIsStarted()
     {
-        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        /* @var YumUser $user */
-        $user = Yii::app()->user->data();
-        $not_end_simulations = (int)Simulation::model()->countByAttributes(['user_id'=>$user->id,'scenario_id'=>$scenario->id, 'end'=>null]);
-        if($not_end_simulations === 0) {
-            $result['simulation_start'] = true;
-        }else{
             $invite_id = Yii::app()->request->getParam('invite_id');
-            if(null!==$invite_id){
-                $invite = Invite::model()->findByPk($invite_id);
+            /* @var */
+            $invite = Invite::model()->findByPk($invite_id);
+            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
                 InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+                $result['simulation_start'] = false;
+            }else{
+                $result['simulation_start'] = true;
             }
-
-            $result['simulation_start'] = false;
-        }
         $this->sendJSON($result);
     }
 
@@ -234,9 +228,10 @@ class SiteController extends SiteBaseController
 
 
     public function actionExit(){
-        Yii::app()->user->setFlash('error','Текущая симуляция была прервана так как Вы начали новую');
+
+        Yii::app()->user->setFlash('error','Текущая симуляция была прервана, так как вы начали новую симуляцию');
+
         $this->redirect('/dashboard');
-        //echo 'Hello';
     }
 }
 
