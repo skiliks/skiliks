@@ -18,6 +18,8 @@
  */
 class LogActivityActionAgregated extends CActiveRecord
 {
+    const KEEP_LAST_CATEGORY_YES = '1';
+    const KEEP_LAST_CATEGORY_NO = '0';
     /**
      * @var string 'hh:ii:ss'
      */
