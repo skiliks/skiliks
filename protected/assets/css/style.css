@@ -425,7 +425,7 @@ html[lang=ru] .betaflag {
     right:0;
 }
 #simulation-details label,
-.container>header nav a {
+.container>header nav a, .active-button {
 	display:block;
 	background:rgba(20,102,114,0.4);
 	border-radius:3px;
@@ -447,6 +447,22 @@ html[lang=ru] .betaflag {
     padding: 0 8px;
     text-decoration: none;
 }
+
+.start-full-simulation-btn {
+    float:right;
+    margin-top:10px;
+    margin-left: 15px;
+}
+
+.start-lite-simulation-btn {
+    float:right;
+    margin-top:10px;
+}
+
+.start-lite-simulation-btn-no-margin {
+    float:right;
+}
+
 /*
 .container>header nav a:first-child,
 #simulation-details label:first-child {
@@ -456,7 +472,7 @@ html[lang=ru] .betaflag {
 .container>header nav .active a,
 .container>header nav a:hover,
 #simulation-details label.active,
-#simulation-details label:hover, .link-block {
+#simulation-details label:hover, .link-block, .active-button {
 	background:rgba(20,102,114,1);
 }
 
