@@ -99,6 +99,50 @@ class Simulation extends CActiveRecord
         return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $this->id);
     }
 
+    /**
+     * @param YumUser $user
+     * @param Invite $invite
+     *
+     * @return bool
+     */
+    public function isAllowedToSeeResults(YumUser $user)
+    {
+        // просто проверка
+        if (null === $user) {
+            return false;
+        }
+
+        if (null === $this->invite && true === $this->game_type->isAllowOverride()) {
+            return true;
+        }
+
+        if (null === $this->invite) {
+            return false;
+        }
+
+        // просто проверка
+        if (false === $this->invite->isComplete()) {
+            return false;
+        }
+
+        if($user->isAdmin()) {
+            return true;
+        }
+
+        // создатель всегда может
+        if ($this->invite->owner_id == $user->id) {
+            return true;
+        }
+
+        // истанная проверка - is_display_simulation_results, это главный переметр
+        // при решении отображать результаты симуляции или нет
+        if (1 === (int)$this->invite->is_display_simulation_results) {
+            return true;
+        }
+
+        return false;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
@@ -682,9 +726,11 @@ class Simulation extends CActiveRecord
         return json_encode($result);
     }
 
+    /**
+     * @return boolean
+     */
     public function isCalculateTheAssessment() {
-        /* todo: костыль до правки сценария */
-        return $this->isFull();
+        return 1 == $this->game_type->scenario_config->is_calculate_assessment;
     }
 }
 

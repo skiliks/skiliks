@@ -709,16 +709,16 @@ class SimulationService
             $evaluation = new Evaluation($simulation);
             $evaluation->run();
 
-        // @ - for PHPUnit
-        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug &&
-            $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
-            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
-        }
-
             $simulation->saveLogsAsExcel();
 
             self::logAboutSim($simulation, 'sim stop: assessment calculated');
+        }
+
+        // @ - for PHPUnit
+        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug ||
+            true == $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
+            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
         }
 
         if ($simulation->isFull()) {
@@ -856,7 +856,8 @@ class SimulationService
             $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
 
             if (null === $invite) {
-                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE &&
+                    true === $simulation->game_type->isAllowOverride())) {
                     throw new InviteException('Симуляция запущена без инвайта');
                 }
             } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {

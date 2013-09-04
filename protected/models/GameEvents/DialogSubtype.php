@@ -37,7 +37,7 @@ class DialogSubtype extends CActiveRecord
      */
     public function isMeeting()
     {
-        return (self::SLUG_MEETING == $this->slug || self::SLUG_KNOCK_KNOCK == $this->slug);
+        return in_array($this->slug, [self::SLUG_MEETING, self::SLUG_KNOCK_KNOCK, self::SLUG_VISIT]);
     }
 
     /**

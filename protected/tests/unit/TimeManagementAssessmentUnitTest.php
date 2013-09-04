@@ -333,6 +333,44 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->save();
         // log15, A_wait }
 
+        // log16, Meeting {
+        $meeting = $simulation->game_type->getMeeting(['code'=>'MEE1']);
+
+        $activity_action = $simulation->game_type->getActivityAction([
+            'meeting_id' => $meeting->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
+        $log->leg_action = "MEE1";
+        $log->activity_action_id = $activity_action->id;
+        $log->activityAction = $activity_action;
+        $log->category = $activity_action->activity->category->code;
+        $log->start_time = '13:05:00';
+        $log->end_time = '13:10:00';
+        $log->duration = '00:05:00';
+        $log->save();
+        // log16, Meeting }
+
+        // log17, Meeting {
+        $meeting = $simulation->game_type->getMeeting(['code'=>'MEE2']);
+
+        $activity_action = $simulation->game_type->getActivityAction([
+            'meeting_id' => $meeting->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
+        $log->leg_action = "MEE2";
+        $log->activity_action_id = $activity_action->id;
+        $log->activityAction = $activity_action;
+        $log->category = $activity_action->activity->category->code;
+        $log->start_time = '13:10:00';
+        $log->end_time = '13:20:00';
+        $log->duration = '00:10:00';
+        $log->save();
+        // log17, Meeting }
+
         $tma = new TimeManagementAnalyzer($simulation);
         $tma->calculateAndSaveAssessments();
 
@@ -346,19 +384,19 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            56.00, // %
+            54.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            24.00, // %
+            27.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            20.00, // %
+            19.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -370,7 +408,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            15, // min
             $values['1st_priority_meetings'],
             '1st_priority_meetings'
         );
@@ -407,7 +445,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            20, // min
             $values['non_priority_meetings'],
             'non_priority_meetings'
         );
@@ -437,7 +475,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            59.56, // percentage
+            58.22, // percentage
             $values['efficiency'],
             'efficiency'
         );
