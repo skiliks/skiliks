@@ -8,10 +8,10 @@
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
 	<div class="form form-account-personal">
 	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
-	    <ul>
+        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
+        <ul>
 			<li><?php echo Yii::t('site', 'Полная оценка навыков по приглашению') ?></li>
 			<li><?php echo Yii::t('site', 'Skills comparison with others') ?>*</li>
-			<li><?php echo Yii::t('site', 'Updates for free') ?></li>
 		</ul>
 	    <?php $form = $this->beginWidget('CActiveForm', array(
 	        'id'                   => 'user-account-personal-form',
@@ -52,11 +52,11 @@
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div class="form form-account-corporate">
 	    <h1><?php echo Yii::t('site', 'Corporate account') ?></h1>
+        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - работодатель)</p>
 	    <ul>
 			<li><?php echo Yii::t('site', 'Package of simulations to assess others') ?></li>
 			<li><?php echo Yii::t('site', 'Simple but powerful tool for assessment process') ?></li>
 			<li><?php echo Yii::t('site', 'Comprehensive statistics on people and skills') ?>*</li>
-			<li><?php echo Yii::t('site', 'Updates for free') ?></li>
 		</ul>
 	    <?php $form = $this->beginWidget('CActiveForm', array(
 	        'id'                   => 'user-account-corporate-form',
