@@ -288,7 +288,7 @@ class SimulationsController extends SiteBaseController implements AccountPageCon
             }
         }
 
-        if (false === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+        if (false === $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
             Yii::app()->end(); // кошерное die;
         }
 
