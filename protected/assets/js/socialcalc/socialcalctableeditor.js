@@ -968,7 +968,7 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
          return;
 
       case "calcstart":
-         console.log('SC status (3): ', status);
+         //console.log('SC status (3): ', status);
          editor.busy = true;
          break;
 
@@ -980,7 +980,7 @@ SocialCalc.EditorSheetStatusCallback = function(recalcdata, status, arg, editor)
          break;
 
       case "calcfinished":
-         console.log('SC status (2): ', status);
+         //console.log('SC status (2): ', status);
          signalstatus(status);
          editor.ScheduleRender();
          return;
@@ -1064,7 +1064,7 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
    var sstr, progress, coord, circ, r, c, cell, sum, ele;
 
    progress = "";
-    console.log('SC status (4): ', status);
+    //console.log('SC status (4): ', status);
    switch (status) {
       case "moveecell":
       case "rangechange":

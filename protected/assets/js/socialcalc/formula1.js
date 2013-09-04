@@ -484,6 +484,8 @@ SocialCalc.Formula.evaluate_parsed_formula = function(parseinfo, sheet, allowran
 
 SocialCalc.Formula.ConvertInfixToPolish = function(parseinfo) {
 
+   // console.log(parseinfo);
+
    var scf = SocialCalc.Formula;
    var scc = SocialCalc.Constants;
    var tokentype = scf.TokenType;
@@ -611,7 +613,7 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
    var operand_value_and_type = scf.OperandValueAndType;
    var operands_as_coord_on_sheet = scf.OperandsAsCoordOnSheet;
    var format_number_for_display = SocialCalc.format_number_for_display || function(v, t, f) {return v+"";};
-
+   var activeTab, activeSheetName, activeCell;
    var errortext = "";
    var function_start = -1;
    var missingOperandError = {value: "", type: "e#VALUE!", error: scc.s_parseerrmissingoperand};
@@ -706,6 +708,9 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
          // ! - sheetname!coord
 
          else if (ttext == '!') {
+//             console.log('operand: ', operand);
+//             console.log('value1: ', value1);
+//             console.log('sheet: ', sheet);
             if (operand.length <= 1) { // Need at least two things on the stack...
                return missingOperandError;
                }
@@ -713,8 +718,25 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
             if (value1.error) { // not available
                errortext = errortext || value1.error;
                }
-            PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
-            }
+             //TODO: Доделать функционал "Циклическая ссылка между листами"
+             activeTab = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active");
+             activeSheetName = activeTab.text().toUpperCase();
+             activeCell = $("#"+activeTab.attr('data-editor-id')+"-statusline").val()
+//             console.log('value1: ', value1);
+             if (activeCell+'!'+activeSheetName === value1.value) {
+                 //var tab = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active");
+                 console.log('ActivesheetName',activeTab.text().toUpperCase());
+                 console.log('ActiveCell',$("#"+activeTab.attr('data-editor-id')+"-statusline").val());
+                 //debugger;
+                 value1.error = '234';
+                 errortext = '123';
+                 errortext = errortext || value1.error;
+                 PushOperand('e#Циклическая ссылка между листами!', value1.value);
+             } else {
+                 PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
+             }
+             //PushOperand(value1.type, value1.value); // push sheetname with coord or range on that sheet
+         }
 
          // Comparison operators: < L = G > N (< <= = >= > <>)
 
@@ -1254,6 +1276,7 @@ SocialCalc.Formula.OperandsAsRangeOnSheet = function(sheet, operand) {
    operand.pop(); // we have data - pop stack
 
    value1 = scf.OperandAsCoord(sheet, operand); // get "left" coord
+   //console.log('value1: ',value1, sheet, operand);
    if (value1.type != "coord") { // not a coord, which it must be
       return {value: 0, type: "e#REF!"};
       }
@@ -1343,6 +1366,9 @@ SocialCalc.Formula.OperandAsSheetName = function(sheet, operand) {
 // Names may have a definition which is a coord (A1), a range (A1:B7), or a formula (=OFFSET(A1,0,0,5,1))
 // Note: The range must not have sheet names ("!") in them.
 //
+// sheet - sheet obj
+// name - sheet name
+//
 
 SocialCalc.Formula.LookupName = function(sheet, name) {
 
@@ -1350,10 +1376,12 @@ SocialCalc.Formula.LookupName = function(sheet, name) {
    var names = sheet.names;
    var value = {};
    var startedwalk = false;
-
+   //console.log('sheet: ', sheet);
+   //console.log('name: ', name);
    if (names[name.toUpperCase()]) { // is name defined?
 
       value.value = names[name.toUpperCase()].definition; // yes
+       //console.log('value: ', value);
 
       if (value.value.charAt(0) == "=") { // formula
          if (!sheet.checknamecirc) { // are we possibly walking the name tree?

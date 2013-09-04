@@ -33,4 +33,8 @@ class InviteService {
 
         $log->save(false);
     }
+
+    public static function  hasNotOverrideSimulationByInvite(Invite $invite){
+        return (null !== $invite->simulation_id && false === $invite->scenario->isAllowOverride());
+    }
 }
