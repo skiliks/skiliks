@@ -7,6 +7,7 @@
  * @property ActivityParent[] termination_parent_actions
  * @property boolean fantastic_result
  * @property integer $duration
+ * @property DialogSubtype $dialogSubtype
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
