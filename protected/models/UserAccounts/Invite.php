@@ -290,36 +290,6 @@ class Invite extends CActiveRecord
         return $newInvite;
     }
 
-    public function isAllowedToSeeResults(YumUser $user)
-    {
-        // просто проверка
-        if (null === $user) {
-            return false;
-        }
-
-        // просто проверка
-        if (false === $this->isComplete()) {
-            return false;
-        }
-
-        if($user->isAdmin()) {
-            return true;
-        }
-
-        // создатель всегда может
-        if ($this->owner_id == $user->id) {
-            return true;
-        }
-
-        // истанная проверка - is_display_simulation_results, это главный переметр
-        // при решении отображать результаты симуляции или нет
-        if (1 === (int)$this->is_display_simulation_results) {
-            return true;
-        }
-
-        return false;
-    }
-
     /* ------------------------------------------------------------------------------------------------------------ */
 
     public function uniqueEmail($attribute, $params)
