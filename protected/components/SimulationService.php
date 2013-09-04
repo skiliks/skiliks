@@ -579,6 +579,7 @@ class SimulationService
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
             $invite->status = Invite::STATUS_IN_PROGRESS;
+            Yii::app()->user->data()->getAccount()->invites_limit--;
             $invite->update();
             if(InviteService::hasNotOverrideSimulationByInvite($invite)){
                 /* @var $sim Simulation */
@@ -847,7 +848,7 @@ class SimulationService
      *
      * @throws InviteException
      */
-    public static function simulationIsStarted($simulation, $gameTime)
+    /*public static function simulationIsStarted($simulation, $gameTime)
     {
 
         if($simulation->isTutorial()){ return; }
@@ -884,7 +885,7 @@ class SimulationService
             }
         }
 
-    }
+    }*/
 
     /**
      * @param $simId
