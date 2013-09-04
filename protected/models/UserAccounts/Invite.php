@@ -327,7 +327,7 @@ class Invite extends CActiveRecord
         if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
             'email'    => $this->email,
             'owner_id' => $this->owner_id,
-            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED, self::STATUS_EXPIRED]
+            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED]
         ])) {
             $this->addError('email','Приглашение уже отправлено');
         }

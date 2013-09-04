@@ -409,7 +409,7 @@ SocialCalc.Sheet.prototype.RecalcSheet = function() {return SocialCalc.RecalcShe
 // Functions:
 
 SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
-
+   //console.log(savedsheet, sheetobj)
    var lines=savedsheet.split(/\r\n|\n/);
    var parts=[];
    var line;
@@ -3591,7 +3591,7 @@ SocialCalc.RecalcTimerRoutine = function() {
 //
 
 SocialCalc.RecalcCheckCell = function(sheet, startcoord) {
-
+   //console.log(sheet);
    var parseinfo, ttext, ttype, i, rangecoord, circref, value, pos, pos2, cell, coordvals;
    var scf = SocialCalc.Formula;
    if (!scf) {
