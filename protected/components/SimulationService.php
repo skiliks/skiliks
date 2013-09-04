@@ -525,8 +525,7 @@ class SimulationService
 
 
         // TODO: Change checking logic
-        if ($invite->scenario->slug == Scenario::TYPE_FULL
-            && false == $invite->canUserSimulationStart()
+        if ($invite->scenario->isFull() && false == $invite->canUserSimulationStart()
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
@@ -535,7 +534,7 @@ class SimulationService
             $simulationType = $invite->scenario->slug;
         }
 
-        if ($invite->scenario->slug == Scenario::TYPE_FULL && $simulationType == Scenario::TYPE_TUTORIAL) {
+        if ($invite->scenario->isFull() && $simulationType == Scenario::TYPE_TUTORIAL) {
             $scenarioType = Scenario::TYPE_TUTORIAL;
         } else {
             $scenarioType = $invite->scenario->slug;
@@ -579,7 +578,15 @@ class SimulationService
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
             $invite->status = Invite::STATUS_IN_PROGRESS;
-            Yii::app()->user->data()->getAccount()->invites_limit--;
+
+            // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
+            // не в dev режиме
+            if ($invite->scenario->isFull() && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
+                && $invite->ownerUser->id == $invite->receiverUser->id) {
+                $invite->ownerUser->getAccount()->invites_limit--;
+                $invite->ownerUser->getAccount()->save(false);
+            }
+
             $invite->update();
             if(InviteService::hasNotOverrideSimulationByInvite($invite)){
                 /* @var $sim Simulation */
@@ -592,7 +599,7 @@ class SimulationService
             $invite->simulation_id = $simulation->id;
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
-            if($scenario->slug == Scenario::TYPE_LITE) {
+            if($scenario->isLite()) {
                 $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false, ['simulation_id', 'status']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
