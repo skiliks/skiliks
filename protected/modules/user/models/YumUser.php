@@ -411,7 +411,7 @@ class YumUser extends YumActiveRecord
         $rules[] = array('agree_with_terms', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Вы должны согласиться с условиями'));
         $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
         $rules[] = array('superuser', 'in', 'range' => array(0, 1));
-        $rules[] = array('username, createtime, lastvisit, lastpasswordchange, superuser, status', 'required');
+        $rules[] = array('username, createtime, superuser, status', 'required');
         $rules[] = array('notifyType, avatar', 'safe');
         $rules[] = array('password', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Password is required'));
         $rules[] = array('password', 'safe');
