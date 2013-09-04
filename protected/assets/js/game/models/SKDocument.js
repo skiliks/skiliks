@@ -44,9 +44,7 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
         initialize: function () {
             try {
                 var me = this;
-                console.log('add all');
                 if (this.get('mime') === 'application/vnd.ms-excel') {
-                    console.log('add excel');
                     me.set('sheets', new SKSheetCollection([], {'document': this}));
                     me.get('sheets').fetch();
                 }

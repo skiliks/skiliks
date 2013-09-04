@@ -91,7 +91,7 @@ define([
                         simulation.startInputLock();
 
                         if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-                            console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
+                            // nothing
                         } else {
                             var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
                             simulation.mailClient.view.setForcedClosing();
