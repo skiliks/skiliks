@@ -151,8 +151,8 @@ class TimeManagementAnalyzer
                 }
 
                 // 1st, meeting
-                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
-                    && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {
+                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType || ActivityAction::LEG_TYPE_MEETING == $itemLegType)
+                    && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
@@ -201,8 +201,8 @@ class TimeManagementAnalyzer
                 }
 
                 // non, meeting
-                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
-                    && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {;
+                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType || ActivityAction::LEG_TYPE_MEETING == $itemLegType)
+                    && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {;
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']
