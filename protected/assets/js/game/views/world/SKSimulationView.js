@@ -285,7 +285,7 @@ define([
                     }
                     this.renderSupportBlock();
                     // hiding loading screen and setting backgorund color to white for development mode
-                    $("#loading-cup").hide();
+                    $("#loading-cup").remove();
                     $("body").css("background-color", "#ffffff");
                 } catch(exception) {
                     if (window.Raven) {
