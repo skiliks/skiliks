@@ -38,35 +38,6 @@
     ?>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.hotkeys.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.balloon.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.topzindex.min.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.cookies.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-skiliks.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mCustomScrollbar.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery.tablesorter.js"></script>
-
-    <!-- We need both!!! -->
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
-    
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants_ru.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formatnumber2.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formula1.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
-
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/underscore.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/prefixfree.min.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery.ddslick.min.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/pdf.js"></script>
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/elfinder-2.0-rc1/js/elfinder.min.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tag-handler/jquery.taghandler.min.js"></script>
 
@@ -97,8 +68,10 @@
         $(document).ready(function() {
             win = $(window);
             cupdiv = $("#loading-cup");
-            topMargin = Math.max(0, ((win.height() - cupdiv.outerHeight()) / 2) + win.scrollTop()) + 'px';
+            topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
+            leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
             $("#loading-cup").css("margin-top",topMargin);
+            $("#loading-cup").css("margin-left",leftMargin);
         })
     </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
