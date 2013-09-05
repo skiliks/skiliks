@@ -550,7 +550,17 @@ class Scenario extends CActiveRecord
         return '';
     }
 
+    /**
+     * @return bool
+     */
     public function isAllowOverride() {
         return $this->scenario_config->is_allow_override === 'true';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCalculateAssessment() {
+        return $this->scenario_config->is_calculate_assessment === 'yes';
     }
 }
