@@ -11,9 +11,13 @@
  * @property string $available_at
  * @property string $import_id
  * @property integer $is_keep_last_category
+ * @property integer $must_present_for_214d
  */
 class ActivityParentAvailability extends CActiveRecord
 {
+    const MUST_PRESENT_FOR_214D_YES = '1';
+    const MUST_PRESENT_FOR_214D_NO = '0';
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
