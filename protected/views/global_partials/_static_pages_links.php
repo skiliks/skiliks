@@ -39,6 +39,10 @@ $this->widget('zii.widgets.CMenu', array(
             'url'         => ['/user/auth'],
             'linkOptions' => ['class' => 'sign-in-link'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
+        ],        [
+            'label'       => Yii::t('site', 'Регистрация'),
+            'url'         => ['/registration'],
+            'visible'     => $isGuest
         ],
         [
             'label' => Yii::t('site', 'Log out'),
