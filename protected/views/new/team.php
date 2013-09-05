@@ -5,7 +5,7 @@
 	<ul class="team-list">
 		<li class="maria">
 			<h3 class="font-blue-dark"><?php echo Yii::t('site', 'Maria Gorina') ?></h3>
-			<p><?php echo Yii::t('site', 'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>') ?></p>
+			<p><?php echo Yii::t('site', 'Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>') ?></p>
 		</li>
 		<li class="alyona member-right">
 			<h3 class="font-blue-dark"><?php echo Yii::t('site', 'Leah Levin') ?></h3>
