@@ -99,7 +99,8 @@
             cupdiv = $("#loading-cup");
             topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
             leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
-            $("#loading-cup").css("margin-top",topMargin).css("margin-left",leftMargin);
+            $("#loading-cup").css("margin-top",topMargin);
+            $("#loading-cup").css("margin-left",leftMargin);
         })
     </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
