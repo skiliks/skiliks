@@ -308,6 +308,19 @@ class Invite extends CActiveRecord
      */
     public function inviteExpired()
     {
+        if (Invite::STATUS_IN_PROGRESS == $this->status) {
+            $lastLog = LogServerRequest::model()->find([
+                'order' => 'real_time DESC',
+                'condition' => 'sim_id = '.$this->simulation->id
+            ]);
+
+            // проверяем что последний лог пришел посже чем час назад
+            if ($lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
+                // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
+                return false;
+            }
+
+        }
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
@@ -320,11 +333,13 @@ class Invite extends CActiveRecord
 
         UserService::logCorporateInviteMovementAdd(
             'Invite->inviteExpired()',
-            $this->user->getAccount(),
+            $this->ownerUser->getAccount(),
             $initValue
         );
 
         InviteService::logAboutInviteStatus($this, 'invite : expired');
+
+        return true;
     }
 
     /**
