@@ -262,7 +262,7 @@ return array(
     'Updates for free' => 'Бесплатные обновления',
     'Package of simulations to assess others' => 'Пакет симуляций для оценки кандидатов и сотрудников',
     'Simple but powerful tool for assessment process' => 'Удобный инструмент для процесса оценки',
-    'Comprehensive statistics on people and skills' => 'Всесторонняя и детальная статистика по людям и навыкам',
+    'Comprehensive statistics on people and skills' => 'Cтатистика по людям и навыкам*',
     'Sign-up using your preferred option and get the results' => 'Зарегистрируйтесь, выбрав подходящий профиль, и получите доступ к результатам',
     'Sign-up using your preferred option' => 'Зарегистрируйтесь, выбрав подходящий профиль',
     'Start and get the report' => 'Войти и получить отчёт',

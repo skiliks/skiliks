@@ -10,7 +10,7 @@
 	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
         <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
         <ul>
-			<li><?php echo Yii::t('site', 'Полная оценка навыков по приглашению') ?></li>
+			<li><?php echo Yii::t('site', 'Полная оценка навыков бесплатно') ?></li>
 			<li><?php echo Yii::t('site', 'Skills comparison with others') ?>*</li>
 		</ul>
 	    <?php $form = $this->beginWidget('CActiveForm', array(
