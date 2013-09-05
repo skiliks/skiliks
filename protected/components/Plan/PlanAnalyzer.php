@@ -944,6 +944,10 @@ class PlanAnalyzer {
                     continue;
                 }
 
+                if($taskLogItem['keepLastCategoryAfter60sec'] === LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
+                    continue;
+                }
+
                 if ($taskLogItemToCheck['start'] < $taskLogItem['start']
                     && false == in_array($taskLogItem['parent'], $wellPlannedParents)
                 ) {
