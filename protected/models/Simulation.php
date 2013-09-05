@@ -588,6 +588,7 @@ class Simulation extends CActiveRecord
 //        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
 //            return unserialize($this->results_popup_cache);
 //        }
+
         if($this->isCalculateTheAssessment()) {
             $result = [];
 
@@ -668,10 +669,9 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetailsV1()
     {
         // use cached results popup data
-        if (null !== $this->results_popup_cache) {
-            return json_encode(unserialize($this->results_popup_cache));
-        }
-
+//        if (null !== $this->results_popup_cache) {
+//            return json_encode(unserialize($this->results_popup_cache));
+//        }
         if($this->isCalculateTheAssessment()) {
             $result = [];
 
@@ -730,7 +730,7 @@ class Simulation extends CActiveRecord
      * @return boolean
      */
     public function isCalculateTheAssessment() {
-        return 1 == $this->game_type->scenario_config->is_calculate_assessment;
+        return $this->game_type->isCalculateAssessment();
     }
 }
 
