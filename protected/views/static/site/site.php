@@ -87,7 +87,7 @@
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php //endif ?>
 </head>
-<body class="body loading">
+<body class="body loading" style="background-color: #2e2e2e;">
     <div id="loading-cup">
         <img src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="Loading..." /><br/>
         <h2 class="white-color" style="color: #ffffff;">Загружается <?=$scenarioLabel?></h2><br/>
