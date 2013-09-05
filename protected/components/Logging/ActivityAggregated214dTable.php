@@ -45,10 +45,10 @@ class ActivityAggregated214dTable extends LogTable
         return [
             $row->leg_type,
             $row->leg_action,
-            $row->activityAction->activity->code,
+            (null === $row->activityAction)?'':$row->activityAction->activity->code,
             $row->parent,
-            $row->activityAction->activity->grandparent,
-            $row->activityAction->activity->category->code,
+            (null === $row->activityAction)?'':$row->activityAction->activity->grandparent,
+            $row->category,
             ($row->keep_last_category_initial === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'',
             ($row->keep_last_category_after === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'',
             $row->start_time,

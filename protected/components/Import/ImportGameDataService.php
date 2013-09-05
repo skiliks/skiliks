@@ -628,15 +628,15 @@ class ImportGameDataService
             if (null === $entity) {
                 $entity = new ActivityParentAvailability();
                 $entity->code = $code;
-                $entity->scenario_id = $this->scenario->getPrimaryKey();
             }
-
+            $must_present_for_214d = $this->getCellValue($sheet, 'Must_present_for_214d', $i);
             $keep_last_category = $this->getCellValue($sheet, 'Keep last category', $i);
             $entity->category = $this->getCellValue($sheet, 'Категория', $i);
-            $entity->is_keep_last_category = ($keep_last_category === 'yes')?1:0;
+            $entity->is_keep_last_category = ($keep_last_category === 'yes')?LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated::KEEP_LAST_CATEGORY_NO;
+            $entity->must_present_for_214d = ($must_present_for_214d === 'must')?ActivityParentAvailability::MUST_PRESENT_FOR_214D_YES:ActivityParentAvailability::MUST_PRESENT_FOR_214D_NO;
             $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
             $entity->import_id = $this->import_id;
-
+            $entity->scenario_id = $this->scenario->getPrimaryKey();
             $entity->save();
             $counter++;
         }
