@@ -1582,7 +1582,8 @@ ul.main-screen-stat li{
 	color:#fff;
 	float:left;
 	padding:0 10px;
-        padding-bottom: 5px;
+    padding-bottom: 5px;
+    text-shadow: 1px 1px 0 #666666;
 }
 ul.main-screen-stat li a.pause {
     background: url(../img/main-screen/icon_pause.png) no-repeat 0 0;
@@ -1608,6 +1609,7 @@ ul.main-screen-stat li:first-child{
 }*/
 ul.main-screen-stat li img{
 	vertical-align:middle;
+    border:0;
 }
 .main-screen-icons ul{
     list-style:none;
