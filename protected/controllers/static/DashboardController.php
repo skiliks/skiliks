@@ -841,4 +841,40 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'html'    => $html,
          ]);
     }
+
+    public function actionSimulationDetails($id)
+    {
+        $simulation = Simulation::model()->findByPk($id);
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+        if( false === $user->isAdmin() && null !== $simulation->invite){
+            if ($user->id !== $simulation->invite->owner_id &&
+                $user->id !== $simulation->invite->receiver_id) {
+                //echo 'Вы не можете просматривать результаты чужих симуляций.';
+
+                Yii::app()->end(); // кошерное die;
+            }
+        }
+
+        if (false === $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
+            Yii::app()->end(); // кошерное die;
+        }
+
+        $this->layout = false;
+
+        $details = $simulation->getAssessmentDetails();
+
+        // update sim results popup info:
+        $simulation->results_popup_partials_path = '//static/dashboard/partials/';
+        $simulation->save(false);
+
+        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path);
+
+        $this->render($baseView, [
+            'simulation'     => $simulation,
+            'details'        => $details,
+            'user'           => $user
+        ]);
+    }
+
 }

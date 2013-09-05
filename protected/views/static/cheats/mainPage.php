@@ -106,7 +106,6 @@
         <br/>
 
     <a href="/dashboard-new" style="background-color: #1D7885">dashboard Corporate new</a>
-    <a href="/simulations-new" style="background-color: #1D7885">simulations Corporate new</a>
     <a href="/profile-corporate-tariff-new" style="background-color: #1D7885">tariff Corporate new</a>
     <a href="/profile-corporate-company-info-new" style="background-color: #1D7885">company info Corporate new</a>
 

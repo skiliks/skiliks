@@ -19,7 +19,7 @@ class MakeSimulationResultsCacheCommand extends CConsoleCommand {
                 $simulation->save(false);
                 echo "Симуляция $simulation->id : кеш добавлен. \n";
             } else {
-                $simulation->results_popup_partials_path = '//static/simulations/partials/';
+                $simulation->results_popup_partials_path = '//static/dashboard/partials/';
                 $simulation->save(false);
                 echo "Симуляция $simulation->id : кеш уже был. \n";
             }

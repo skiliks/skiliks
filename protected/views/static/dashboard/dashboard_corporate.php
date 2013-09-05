@@ -19,7 +19,7 @@
         <?php if ($display_results_for): ?>
             <script type="text/javascript">
                 $(function() {
-                    showSimulationDetails('/simulations/details/<?= $display_results_for->id ?>');
+                    showSimulationDetails('/dashboard/simulationdetails/<?= $display_results_for->id ?>');
                 });
             </script>
         <?php endif; ?>

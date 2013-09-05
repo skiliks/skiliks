@@ -41,7 +41,7 @@ class SiteController extends SiteBaseController
             $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
             if (null === $invite) {
                 Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
-                $this->redirect('/simulations');
+                $this->redirect('/dashboard');
             }
 
             $invite->refresh(); // Important! Prevent caching
@@ -65,7 +65,7 @@ class SiteController extends SiteBaseController
                 'чтобы он выслал вам новое приглашение или со службой тех.поддержки ' .
                 'чтобы восстановить доступ к прохождению симуляции.'
             );
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
 

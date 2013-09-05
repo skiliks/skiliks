@@ -88,7 +88,7 @@ class PagesController extends SiteBaseController
                 ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
         if ($invite->status == Invite::STATUS_COMPLETED || $invite->status == Invite::STATUS_IN_PROGRESS) {
@@ -99,7 +99,7 @@ class PagesController extends SiteBaseController
                 ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
         if ($invite->status == Invite::STATUS_DECLINED) {
@@ -110,7 +110,7 @@ class PagesController extends SiteBaseController
                 ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
         if ($invite->status == Invite::STATUS_EXPIRED) {
@@ -121,7 +121,7 @@ class PagesController extends SiteBaseController
                 ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
             ));
 
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
         // for invites to unregistered (when invitation had been send) users, receiver_id is NULL
