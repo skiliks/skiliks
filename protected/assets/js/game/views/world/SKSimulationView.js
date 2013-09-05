@@ -145,7 +145,6 @@ define([
                         var WindowClass = this.window_views[window_full_name];
                         var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
                         view.render();
-                        $("body").css("background-color", "#ffffff");
                         this.windows[window_full_name] = view;
                     }
                     if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
@@ -285,7 +284,9 @@ define([
                         this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                     }
                     this.renderSupportBlock();
+                    // hiding loading screen and setting backgorund color to white for development mode
                     $("#loading-cup").hide();
+                    $("body").css("background-color", "#ffffff");
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
