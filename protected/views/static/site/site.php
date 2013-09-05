@@ -82,12 +82,26 @@
     <?php /*if (!YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
     <?php endif;*/ ?>
-    
+
     <?php //if (YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php //endif ?>
 </head>
 <body class="body loading">
+    <div id="loading-cup">
+        <img src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="Loading..." /><br/>
+        <h2 class="white-color" style="color: #ffffff;">Загружается <?=$scenarioLabel?></h2><br/>
+        <img src="<?= $assetsUrl; ?>/img/design/ajax-loader.gif" alt="Loader..." />
+    </div>
+    <script>
+        $(document).ready(function() {
+            win = $(window);
+            cupdiv = $("#loading-cup");
+            topMargin = Math.max(0, ((win.height() - cupdiv.outerHeight()) / 2) + win.scrollTop()) + 'px';
+            console.log(win.height(), cupdiv.outerHeight(), topMargin);
+            $("#loading-cup").css("margin-top",topMargin);
+        })
+    </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>

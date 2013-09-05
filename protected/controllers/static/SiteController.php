@@ -120,6 +120,8 @@ class SiteController extends SiteBaseController
             'slug' => $type
         ]);
 
+        $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
+
         if (null === $scenario) {
             $this->redirect('/dashboard');
         }
@@ -162,6 +164,7 @@ class SiteController extends SiteBaseController
             'assetsUrl'     => $assetsUrl,
             'inviteId'      => (null === $invite_id) ? 'null' : $invite_id,
             'httpUserAgent' => str_replace(['(',')'], '', $_SERVER['HTTP_USER_AGENT']),
+            'scenarioLabel' => $scenarioConfigLabelText
         ]);
     }
 
