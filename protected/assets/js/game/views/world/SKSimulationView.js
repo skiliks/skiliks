@@ -145,6 +145,8 @@ define([
                         var WindowClass = this.window_views[window_full_name];
                         var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
                         view.render();
+                        $("#loading-cup").hide();
+                        $("body").css("background-color", "#ffffff");
                         this.windows[window_full_name] = view;
                     }
                     if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
