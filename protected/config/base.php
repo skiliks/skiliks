@@ -210,7 +210,6 @@ return array(
                 'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new'                      => 'static/dashboard/corporateNew',
-                //'simulations-new'                    => 'static/simulations/indexNew',
                 'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
                 'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
