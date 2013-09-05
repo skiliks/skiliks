@@ -1765,6 +1765,10 @@ tr.email-list-separator {
     text-align: center;
 }
 
+body.loading {
+    background-color:#2e2e2e;
+}
+
 .white-color {
     color: #ffffff;
 }
