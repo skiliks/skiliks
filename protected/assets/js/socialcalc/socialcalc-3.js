@@ -2130,6 +2130,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          break;
 
       case "paste":
+          SKApp.simulation.documentsManager.checkIsPasteOperationAllowedInExcel();
+          if (false === SKApp.simulation.documentsManager.isPasteOperationAllowedInExcel()) {
+              break;
+          }
          sheet.renderneeded = true;
          sheet.changedrendervalues = true;
          if (saveundo) changes.AddUndo("changedrendervalues"); // to take care of undone pasted spans

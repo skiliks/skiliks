@@ -18,7 +18,8 @@ define([
     "game/models/window/SKWindowLog",
     "game/collections/SKWindowSet",
     "game/views/SKDialogPlanNotificationView",
-    "jquery/jquery.hotkeys"
+    "jquery/jquery.hotkeys",
+    "game/models/SKDocumentsManager"
 
 ],function (
     SKMailClient,
@@ -176,6 +177,8 @@ define([
 
                     // расскоментировать когда подчиним копирование.
                     this.initSocialcalcHotkeys();
+
+                    this.documentsManager = new SKDocumentsManager();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -769,6 +772,10 @@ define([
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
+                            SKApp.simulation.documentsManager.checkIsPasteOperationAllowedInExcel();
+                            if (false === SKApp.simulation.documentsManager.isPasteOperationAllowedInExcel()) {
+                                return false;
+                            }
                             me.clickSCButton('-button_paste');
                             return false;
                         });
@@ -811,6 +818,7 @@ define([
                     }
                 }
             },
+
             clickSCButton:function(selector){
                 if(SKApp.simulation.window_set.hasActiveXLSWindow() && SKApp.simulation.useSCHotkeys){
                     var event = document.createEvent("MouseEvents");
@@ -824,6 +832,7 @@ define([
                     buttonElement.dispatchEvent(event);
                 }
             },
+
             initSystemHotkeys: function() {
                 try {
                     var me = this;
@@ -851,6 +860,7 @@ define([
                 //Mac
                 this.showCrashPanel('meta+k');
             },
+
             showCrashPanel:function(hotkey) {
                 var me = this;
                 $(window).bind('keydown', hotkey, function() {
