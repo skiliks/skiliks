@@ -187,19 +187,6 @@ class SimulationController extends SimulationBaseController
             $invite->status = Invite::STATUS_IN_PROGRESS;
             $invite->save(false);
             InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
-            if (Yii::app()->user->data()->isCorporate()) {
-
-                $initValue = Yii::app()->user->data()->getAccount()->invites_limit;
-
-                Yii::app()->user->data()->getAccount()->invites_limit--;
-                Yii::app()->user->data()->getAccount()->save(false);
-
-                UserService::logCorporateInviteMovementAdd(
-                    'actionMarkInviteStarted',
-                    Yii::app()->user->data()->getAccount(),
-                    $initValue
-                );
-            }
         }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
