@@ -1758,11 +1758,12 @@ tr.email-list-separator {
 }
 
 #loading-cup {
-    width:50%;
     position: absolute;
     border: 0;
     text-align: center;
-
+    height: 458px;
+    width: 759px
+;
 }
 
 body.loading {
