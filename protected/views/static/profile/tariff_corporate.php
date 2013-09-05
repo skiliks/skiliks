@@ -14,7 +14,7 @@
                 <div class="value">
                     <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
                     <br/>
-                    <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб.v </small>
+                    <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
                 </div>
             <?php endif ?>
             <?php /*
