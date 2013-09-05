@@ -43,9 +43,6 @@ class StaticSiteTools
         if (Yii::app()->getController()->getId() == 'static/dashboard') {
                 $results .= " inner";
         }
-        if (Yii::app()->getController()->getId() == 'static/simulations') {
-            $results .= " inner";
-        }
 
         if (Yii::app()->getController()->getId() == 'static/profile') {
             $results .= " inner";

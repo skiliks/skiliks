@@ -50,7 +50,7 @@
     <!-- We need both!!! -->
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
-    
+
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants_ru.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
@@ -87,7 +87,7 @@
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php //endif ?>
 </head>
-<body class="body loading" style="background-color:#2e2e2e;">
+<body class="body loading">
     <div id="loading-cup">
         <img src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="Loading..." /><br/>
         <h2 class="white-color" style="color: #ffffff;">Загружается <?=$scenarioLabel?></h2><br/>
@@ -97,8 +97,10 @@
         $(document).ready(function() {
             win = $(window);
             cupdiv = $("#loading-cup");
-            topMargin = Math.max(0, ((win.height() - cupdiv.outerHeight()) / 2) + win.scrollTop()) + 'px';
+            topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
+            leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
             $("#loading-cup").css("margin-top",topMargin);
+            $("#loading-cup").css("margin-left",leftMargin);
         })
     </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>

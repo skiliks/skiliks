@@ -1160,6 +1160,11 @@
 .emptychart, .emptychart .chart-value {
     border-radius: 5px 0px 0px 5px;
 }
+
+.product h3.product_h3_margin_left {
+    padding-left: 27px;
+}
+
 @media screen and (max-width: 1146px){
     .allsummry {
         background-position: center 26px;

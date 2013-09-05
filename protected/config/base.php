@@ -210,7 +210,6 @@ return array(
                 'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new'                      => 'static/dashboard/corporateNew',
-                'simulations-new'                    => 'static/simulations/indexNew',
                 'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
                 'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
@@ -228,6 +227,7 @@ return array(
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
+                'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
@@ -256,11 +256,6 @@ return array(
                 'notifications/corporate' => 'static/notifications/corporate',
                 'notifications/personal'  => 'static/notifications/personal',
                 'fail-recovery/'  => 'static/userAuth/FailRecovery',
-
-                'simulations/'                 => 'static/simulations/index',
-                'simulations/details/<id:\w+>' => 'static/simulations/details',
-                'simulations/corporate'        => 'static/simulations/corporate',
-                'simulations/personal'         => 'static/simulations/personal',
 
                 'dashboard/invite/remove/<id:\d+>/soft' => 'static/dashboard/softRemoveInvite',
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',

@@ -33,6 +33,8 @@ class PlanAnalyzer {
 
     public $parents_ending_time = [];
 
+    public $must_present_for_214d = [];
+
     /**
      * @param Simulation $simulation
      */
@@ -45,6 +47,11 @@ class PlanAnalyzer {
         $this->work_time = $this->end_sim_time - $this->start_sim_time;
 
         $this->tomorrow_work_time = $this->toMinutes($this->tomorrow_day_end) - $this->toMinutes($this->tomorrow_day_start);
+
+        /* @var $parent_availability ActivityParentAvailability */
+        foreach($simulation->game_type->getActivityParentsAvailability(['must_present_for_214d'=>ActivityParentAvailability::MUST_PRESENT_FOR_214D_YES]) as $parent_availability){
+            $this->must_present_for_214d[$parent_availability->code] = $parent_availability;
+        }
 
         $this->tasksOn11 = DayPlanLog::model()->model()->findAllByAttributes([
             'sim_id'        => $this->simulation->id,
@@ -162,32 +169,63 @@ class PlanAnalyzer {
         foreach($parents as $parent){
             $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
         }
-
+        $last_log_214d = null;
         /* Log ActivityActionsAggregated214d */
         foreach($log_214d as $log) {
-            $var_214d = new LogActivityActionAgregated214d();
-            $var_214d->sim_id = $log['sim_id'];
-            $var_214d->leg_type = $log['leg_type'];
-            $var_214d->leg_action = $log['leg_action'];
-            $var_214d->activity_action_id = $log['activity_action_id'];
-            $var_214d->category = $log['category'];
-            $var_214d->start_time = $log['start_time'];
-            $var_214d->end_time = $log['end_time'];
-            $var_214d->duration = gmdate('H:i:s', strtotime($log['end_time'])-strtotime($log['start_time']));
-            $var_214d->keep_last_category_initial = $this->parents_keep_last_category[$log['parent']];
-            $var_214d->keep_last_category_after = $this->calcKeepLastCategoryAfter($log['start_time'], $log['end_time'], $var_214d->keep_last_category_initial);
-            $var_214d->parent = $log['parent'];
-            $var_214d->save();
+            if(isset($this->must_present_for_214d[$log['parent']])) {
+                unset($this->must_present_for_214d[$log['parent']]);
+            }
+            $this->saveLogActivityActionAgregated214d($log);
         }
+        /* @var $last_log LogActivityAction */
+        $last_log = LogActivityAction::model()->find("sim_id = :sim_id  order by id desc", ['sim_id'=>$simulation->id]);
+        /* @var $activity_parent ActivityParentAvailability */
+        if(null !== $last_log) {
+            foreach($this->must_present_for_214d as $activity_parent){
+                $this->saveLogActivityActionAgregated214d([
+                    'sim_id'=>$simulation->id,
+                    'leg_type'=>null,
+                    'leg_action'=>null,
+                    'activity_action_id'=>null,
+                    'category'=>$activity_parent->category,
+                    'start_time'=>$last_log->end_time,
+                    'end_time'=>$last_log->end_time,
+                    'parent'=>$activity_parent->code
+                ]);
+                $this->logActivityActionsAggregatedGroupByParent[] = [
+                    'parent'      => $activity_parent->code,
+                    'grandparent' => null,
+                    'category'    => $activity_parent->category,
+                    'start'       => $last_log->end_time,
+                    'end'         => $last_log->end_time,
+                    'available'   => $this->calculateParentAvailability($activity_parent, $this->logActivityActionsAggregatedGroupByParent),
+                    'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                    $this->calcKeepLastCategoryAfter(
+                        $last_log->end_time,
+                        $last_log->end_time,
+                        $activity_parent->is_keep_last_category
+                    )
+                ];
+            }
+        }
+    }
 
-        $this->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-
-//        $parents_ending = SimulationCompletedParent::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-
-        /* @var $sim_log SimulationCompletedParent */
-        //foreach($parents_ending as $sim_log) {
-        //    $this->parents_ending_time[$sim_log->parent_code] = $sim_log->end_time;
-        //}
+    public function saveLogActivityActionAgregated214d($log) {
+        $var_214d = new LogActivityActionAgregated214d();
+        $var_214d->sim_id = $log['sim_id'];
+        $var_214d->leg_type = $log['leg_type'];
+        $var_214d->leg_action = $log['leg_action'];
+        $var_214d->activity_action_id = $log['activity_action_id'];
+        $var_214d->category = $log['category'];
+        $var_214d->start_time = $log['start_time'];
+        $var_214d->end_time = $log['end_time'];
+        $var_214d->duration = gmdate('H:i:s', strtotime($log['end_time'])-strtotime($log['start_time']));
+        $var_214d->keep_last_category_initial = $this->parents_keep_last_category[$log['parent']];
+        $var_214d->keep_last_category_after = $this->calcKeepLastCategoryAfter($log['start_time'], $log['end_time'], $var_214d->keep_last_category_initial);
+        $var_214d->parent = $log['parent'];
+        $var_214d->save();
+        $this->logAggregated214d[] = $var_214d;
+        return $var_214d;
     }
 
     public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial) {

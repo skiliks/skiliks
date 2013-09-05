@@ -99,6 +99,13 @@ define([
                     }
                     //me.$('.header-inner').click();
                 }, 1000);
+                setTimeout(function(){
+                    if(null !== SKApp.simulation.sc_interval_id) {
+                        me.unBlock();
+                        SKApp.simulation.useSCHotkeys = true;
+                        clearInterval(SKApp.simulation.sc_interval_id);
+                    }
+                }, 10000);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
