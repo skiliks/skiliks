@@ -1759,10 +1759,10 @@ tr.email-list-separator {
 
 #loading-cup {
     width:50%;
-    margin-left: auto;
-    margin-right:auto;
+    position: absolute;
     border: 0;
     text-align: center;
+
 }
 
 body.loading {

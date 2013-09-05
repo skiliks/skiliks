@@ -14,7 +14,7 @@
                 <div class="value">
                     <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
                     <br/>
-                    <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
+                    <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб.v </small>
                 </div>
             <?php endif ?>
             <?php /*
@@ -47,7 +47,10 @@
                     <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                         Без ограничения по времени
                     <?php else : ?>
-                        До <?php echo date('d M, Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?>
+                        До <?php echo date('d', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)), " ",
+                            Yii::t('site', date('M', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at))), " ",
+                            date('Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at));
+                        ?>
                     <?php endif ?>
                 </small>
             </div>
