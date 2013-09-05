@@ -362,7 +362,6 @@ return array(
     'Free' => 'Бесплатно',
     'simulations' => 'симуляций',
     'simulation' => 'симуляция',
-    'Free updates' => 'Бесплатные обновления',
     '1 month FREE' => '1 месяц БЕСПЛАТНО',
     'Current plan' => 'Текущий план',
     'Subscribe' => 'Выбрать',
