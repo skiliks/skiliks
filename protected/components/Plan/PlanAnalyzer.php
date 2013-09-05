@@ -180,31 +180,33 @@ class PlanAnalyzer {
         /* @var $last_log LogActivityAction */
         $last_log = LogActivityAction::model()->find("sim_id = :sim_id  order by id desc", ['sim_id'=>$simulation->id]);
         /* @var $activity_parent ActivityParentAvailability */
-        foreach($this->must_present_for_214d as $activity_parent){
-            $this->saveLogActivityActionAgregated214d([
-                'sim_id'=>$simulation->id,
-                'leg_type'=>null,
-                'leg_action'=>null,
-                'activity_action_id'=>null,
-                'category'=>$activity_parent->category,
-                'start_time'=>$last_log->end_time,
-                'end_time'=>$last_log->end_time,
-                'parent'=>$activity_parent->code
-            ]);
-            $this->logActivityActionsAggregatedGroupByParent[] = [
-                'parent'      => $activity_parent->code,
-                'grandparent' => null,
-                'category'    => $activity_parent->category,
-                'start'       => $last_log->end_time,
-                'end'         => $last_log->end_time,
-                'available'   => $this->calculateParentAvailability($activity_parent, $this->logActivityActionsAggregatedGroupByParent),
-                'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
-                $this->calcKeepLastCategoryAfter(
-                    $last_log->end_time,
-                    $last_log->end_time,
-                    $activity_parent->is_keep_last_category
-                )
-            ];
+        if(null !== $last_log) {
+            foreach($this->must_present_for_214d as $activity_parent){
+                $this->saveLogActivityActionAgregated214d([
+                    'sim_id'=>$simulation->id,
+                    'leg_type'=>null,
+                    'leg_action'=>null,
+                    'activity_action_id'=>null,
+                    'category'=>$activity_parent->category,
+                    'start_time'=>$last_log->end_time,
+                    'end_time'=>$last_log->end_time,
+                    'parent'=>$activity_parent->code
+                ]);
+                $this->logActivityActionsAggregatedGroupByParent[] = [
+                    'parent'      => $activity_parent->code,
+                    'grandparent' => null,
+                    'category'    => $activity_parent->category,
+                    'start'       => $last_log->end_time,
+                    'end'         => $last_log->end_time,
+                    'available'   => $this->calculateParentAvailability($activity_parent, $this->logActivityActionsAggregatedGroupByParent),
+                    'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                    $this->calcKeepLastCategoryAfter(
+                        $last_log->end_time,
+                        $last_log->end_time,
+                        $activity_parent->is_keep_last_category
+                    )
+                ];
+            }
         }
     }
 
