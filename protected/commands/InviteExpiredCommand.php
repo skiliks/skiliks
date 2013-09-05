@@ -25,7 +25,9 @@ class InviteExpiredCommand extends CConsoleCommand
             ));
 
         foreach($invites as $invite){
-            $invite->inviteExpired();
+            if ($invite->inviteExpired()) {
+                echo sprintf("%s mark as expired \n", $invite->id);
+            }
         }
 
         /* @var $users UserAccountCorporate[] */
