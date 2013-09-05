@@ -98,7 +98,6 @@
             win = $(window);
             cupdiv = $("#loading-cup");
             topMargin = Math.max(0, ((win.height() - cupdiv.outerHeight()) / 2) + win.scrollTop()) + 'px';
-            console.log(win.height(), cupdiv.outerHeight(), topMargin);
             $("#loading-cup").css("margin-top",topMargin);
         })
     </script>
