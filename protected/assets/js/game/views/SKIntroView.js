@@ -30,13 +30,15 @@ define([
                     me.$el.empty().removeClass('loading').unbind("mousemove");
                     me.appLaunch();
                 });
-                this.$el.mousemove( function(e) {
-                    if(me.$el.outerHeight() / 3 >= e.pageY){
-                        me.$el.find('.intro-top-icons').css('display', 'block');
-                    }else{
-                        me.$el.find('.intro-top-icons').css('display', 'none');
-                    }
-                });
+                if(window.gameConfig.canIntroPassed){
+                    this.$el.mousemove( function(e) {
+                        if(me.$el.outerHeight() / 3 >= e.pageY){
+                            me.$el.find('.intro-top-icons').css('display', 'block');
+                        }else{
+                            me.$el.find('.intro-top-icons').css('display', 'none');
+                        }
+                    });
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
