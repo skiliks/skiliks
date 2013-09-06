@@ -120,6 +120,7 @@ class AdminPagesController extends SiteBaseController {
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
             'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
+            'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
         ]);
     }
 
@@ -141,28 +142,49 @@ class AdminPagesController extends SiteBaseController {
             // setting up parameters
             $filter_form = Yii::app()->session['admin_filter_form'];
 
-            $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
+            $condition = '';
+
+            $receiverEmailForFiltration = Yii::app()->request->getParam('receiver-email-for-filtration', null);
+            $invite_id = Yii::app()->request->getParam('invite_id', null);
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
 
             // remaking email form
-            if (false == empty($receiverEmailForFiltration)) {
+            if (null !== $receiverEmailForFiltration) {
                 $filter_form['filter_email'] = $receiverEmailForFiltration;
-                Yii::app()->session['admin_filter_form'] = $filter_form;
             }
+            else {
+                $filter_form['filter_email'] = "";
+            }
+
+
+            if (null !== $invite_id) {
+                $filter_form['invite_id'] = $invite_id;
+            }
+            else {
+                $filter_form['invite_id'] = "";
+            }
+
+            Yii::app()->session['admin_filter_form'] = $filter_form;
 
             // checking if filters are not empty
             if(null != $filter_form && !empty($filter_form)) {
 
                 // setting all filters
-                if(isset($filter_form['filter_email'])) {
-                    $condition = " email LIKE '%".$filter_form['filter_email']."%' ";
-                    $criteria->addCondition($condition);
+                if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "" ) {
+                    $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
                 }
+                if($filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $condition .= " t.id = ".$filter_form['invite_id']." ";
+                }
+                $criteria->addCondition($condition);
             }
 
             elseif ($exceptDevelopersFiltration) {
                 // for page results
-                $condition = " email NOT LIKE '%gty1991%' ".
+                $condition .= " email NOT LIKE '%gty1991%' ".
                     " AND email NOT LIKE '%@skiliks.com' ".
                     " AND email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
@@ -192,27 +214,44 @@ class AdminPagesController extends SiteBaseController {
             $filter_form = Yii::app()->session['admin_simulation_filter_form'];
             $condition = '';
 
-            $emailForFiltration = trim(Yii::app()->request->getParam('email-for-filtration'));
+            $emailForFiltration = Yii::app()->request->getParam('email-for-filtration');
+            $simulation_id = Yii::app()->request->getParam('simulation_id', null);
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
 
 
             // remaking email form
-            if (false == empty($emailForFiltration)) {
+            if (null != $emailForFiltration) {
                 $filter_form['filter_email'] = $emailForFiltration;
-                Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
             }
+            else $filter_form['filter_email'] = "";
+
+            if (null != $simulation_id) {
+                $filter_form['simulation_id'] = $simulation_id;
+            }
+            else $filter_form['simulation_id'] = "";
+
+
+            Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
+
 
             // checking if filters are not empty
 
             if(null != $filter_form && !empty($filter_form)) {
 
                     // setting all filters
-                    if(isset($filter_form['filter_email'])) {
-                        $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
-                        // for page results
-                        $condition = " profile.email LIKE '%".$filter_form['filter_email']."%' ";
-                        $criteria->addCondition($condition);
+
+                if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "") {
+                    $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+                    // for page results
+                    $condition = " profile.email LIKE '%".$filter_form['filter_email']."%' ";
                 }
+                if(isset($filter_form['simulation_id']) && $filter_form['simulation_id'] != "") {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $condition .= " t.id = ".$filter_form['simulation_id']." ";
+                }
+                $criteria->addCondition($condition);
             }
             elseif($exceptDevelopersFiltration) {
                 // for pager counter
@@ -557,6 +596,7 @@ class AdminPagesController extends SiteBaseController {
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
             'emailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
+            'simulation_id' => isset($allFilters['filters']['simulation_id']) ? $allFilters['filters']['simulation_id'] : "",
         ]);
     }
 
