@@ -315,6 +315,10 @@
 .rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
     margin-left: 40px;
 }
+
+.rateslist .widthblock:nth-child(2) h3.in-mark, .rateslist .widthblock:nth-child(2) ul.in-mark {
+    margin-left: -10px;
+}
 .numlist {
     margin-left: 20px;
     padding-left:0px;
@@ -1326,6 +1330,9 @@
         margin-left: 40px;
     }
     .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
+        margin-left: 20px;
+    }
+    .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
         margin-left: 20px;
     }
 }

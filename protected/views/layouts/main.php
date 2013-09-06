@@ -231,7 +231,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 Cufon.replace('.freeacess', {hover:true});
                 Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
                 Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
-                Cufon.now();
             </script>
         <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
