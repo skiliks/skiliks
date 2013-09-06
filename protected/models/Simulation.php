@@ -121,7 +121,7 @@ class Simulation extends CActiveRecord
         }
 
         // просто проверка
-        if (false === $this->invite->isComplete()) {
+        if (false === $this->invite->isCompleted()) {
             return false;
         }
 
