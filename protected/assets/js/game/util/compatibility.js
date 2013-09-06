@@ -57,7 +57,7 @@ try {
                     async: false
                 });
 
-                if(processorTestResult.average > 1) {
+                if(processorTestResult.average > 1.8) {
                     return true;
                 }
                 else {

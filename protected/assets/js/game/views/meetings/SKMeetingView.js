@@ -79,7 +79,7 @@ define([
 
                 simulation.startPause(function() {});
                 SKApp.server.api('meeting/leave', {'id': subjectId});
-                if ('Пойти домой' == subject.get('label')) {
+                if (subject.get('duration') == 0) {
                     window.AppView.frame.stopSimulation();
                 }
                 else {
