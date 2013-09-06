@@ -32,15 +32,18 @@
                     break;
 
                 case Invite::STATUS_IN_PROGRESS :
-                    return '<div style="line-height: 30px;">В процессе<div>';
+                    return '<div style="line-height: 30px;">начато<div>';
                     break;
 
                 case Invite::STATUS_DECLINED :
-                    return '<div style="line-height: 30px;">Отклонено<div>';
+                    return '<div style="line-height: 30px;">отклонено<div>';
                     break;
 
                 case Invite::STATUS_EXPIRED :
-                    return '<div style="line-height: 30px;">Просрочено<div>';
+                    return '<div style="line-height: 30px;">просрочено<div>';
+                    break;
+                case Invite::STATUS_DELETED :
+                    return '<div style="line-height: 30px;">удалено<div>';
                     break;
 
                 default :
