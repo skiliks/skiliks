@@ -190,6 +190,7 @@ class AdminPagesController extends SiteBaseController {
 
             // setting up parameters
             $filter_form = Yii::app()->session['admin_simulation_filter_form'];
+            $condition = '';
 
             $emailForFiltration = trim(Yii::app()->request->getParam('email-for-filtration'));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
