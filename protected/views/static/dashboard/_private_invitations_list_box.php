@@ -24,15 +24,12 @@
                     break;
 
                 case Invite::STATUS_ACCEPTED :
+                case Invite::STATUS_IN_PROGRESS :
                     return sprintf(
                         "<a class=\"start-full-simulation start-full-simulation-button\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
                         $invite->scenario->slug,
                         $invite->id
                     );
-                    break;
-
-                case Invite::STATUS_IN_PROGRESS :
-                    return '<div style="line-height: 30px;">начато<div>';
                     break;
 
                 case Invite::STATUS_DECLINED :
