@@ -340,12 +340,11 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов' => 85.166664,
+            'Управление задачами с учётом приоритетов' => 90.611115,
             'Управление людьми'         => 90.181999,
             'Управление коммуникациями' => 89.928574,
 
             'Оптимальный выбор каналов коммуникации' => 100,
-
             'Устойчивость к манипуляциям и давлению' => 100,
             'Стрессоустойчивость'     => 100,
             'Ответственность'         => 100,
@@ -370,8 +369,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 87.85,
-            'overall'     => 75.12,
+            'management'  => 90.30,
+            'overall'     => 76.35,
             'performance' => 67.71,
             'time'        => 50,
         ];
@@ -532,7 +531,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов'  => 20.277779,
+            'Управление задачами с учётом приоритетов'  => 47.500000,
             'Управление коммуникациями'                 => 89.928574 ,
             'Управление людьми'                         => 30,
         ];
@@ -556,8 +555,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 46.61, // 44.97
-            'overall'     => 54.50, // 53.26
+            'management'  => 58.86,
+            'overall'     => 60.63,
             'performance' => 67.71,
             'time'        => 50,
         ];
