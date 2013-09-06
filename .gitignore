@@ -9,4 +9,4 @@
 /protected/assets/compiled_css/
 /protected/logs/
 /protected/documents/social_templates/
-/protected/views/static/applicationcache/manifest.php
+protected/views/static/applicationcache/manifest.php
