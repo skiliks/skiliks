@@ -5,11 +5,18 @@ class DebugController extends SiteBaseController
 
     public function actionIndex()
     {
-        $simulation = Simulation::model()->findByPk('940');
-        LogActivityAction::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
-        LogHelper::updateUniversalLog($simulation);
-        $analyzer = new ActivityActionAnalyzer($simulation);
-        $analyzer->run();
+        $simulation = Simulation::model()->findByPk(1270);
+
+        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $tma = new TimeManagementAnalyzerDebug($simulation);
+        $tma->calculateAndSaveAssessments();
+        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+
+        echo '1st_priority_phone_calls '.$assessment->value;
     }
 
     public function actionStyleCss()
