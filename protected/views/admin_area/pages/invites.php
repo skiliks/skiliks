@@ -31,14 +31,12 @@ $titles = [
     <br/>
     <br/>
 
-    <form action="" method="post" style="display: inline-block;">
+    <form action="/admin_area/invites" method="post" style="display: inline-block;">
         <i class="icon-filter"></i> &nbsp; email соискателя:
         <input name="receiver-email-for-filtration" value="<?= $receiverEmailForFiltration ?>"/>
         <input type="submit" value="фильтровать" class="btn btn-warning"/>
-    </form>
-
-    <form action="" method="post" style="display: inline-block;">
-        <input type="submit" value="Сбросить фильтр" class="btn btn-warning"/>
+        <input type="submit" value="Сбросить фильтр"  data-form-name="admin_filter_form" class="btn btn-warning clear_filter_button"/>
+        <input type="hidden" name="clear_form" class="clear_form_field" value="">
     </form>
 
     <br/>
