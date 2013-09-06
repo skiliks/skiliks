@@ -272,7 +272,7 @@ return array(
     'Overall manager’s rating' => 'Итоговый рейтинг менеджера',
     'Managerial skills' => 'Управленческие навыки',
     'Productivity' => 'Результативность',
-    'Time management effectiveness' => 'Эффективность использования времени',
+    'Time management effectiveness' => 'Затраченное время на выполнение задач',
     'Personal skills' => 'Личностные характеристики',
     'Level of skills maturity' => 'Уровень владения навыками',
     'Achievement of results: number and value of tasks completed' => 'Уровень достижения результатов: количество и значимость выполненных задач',
