@@ -5,7 +5,7 @@ class DebugController extends SiteBaseController
 
     public function actionIndex()
     {
-        $simulation = Simulation::model()->findByPk(1270);
+        $simulation = Simulation::model()->findByPk(1364);
 
         TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
 
