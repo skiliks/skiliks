@@ -43,7 +43,6 @@ try {
             processorSpeed: function(cfg) {
 
                 var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
-                console.log(processorTestResult.average);
 
                 $.ajax({
                     url: '/index.php/logService/addInviteLog',
