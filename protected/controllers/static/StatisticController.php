@@ -33,4 +33,18 @@ class StatisticController extends SiteBaseController implements AccountPageContr
     {
         $this->render('statistic_personal', []);
     }
+
+    public function actionAddInviteLog()
+    {
+        $inviteId = Yii::app()->request->getParam('inviteId');
+        $action   = Yii::app()->request->getParam('action');
+
+        $invite = Invite::model()->findByPk($inviteId);
+
+        InviteService::logAboutInviteStatus($invite, $action);
+
+        $this->sendJSON(['result' => 1]);
+    }
+
+
 }
