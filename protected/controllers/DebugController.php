@@ -11,12 +11,17 @@ class DebugController extends SiteBaseController
 
         $tma = new TimeManagementAnalyzerDebug($simulation);
         $tma->calculateAndSaveAssessments();
-        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+        $assessment_debug = TimeManagementAggregatedDebug::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'slug'=>'1st_priority_phone_calls'
         ]);
 
-        echo 'sim_id = '.$simulation->id.' 1st_priority_phone_calls '.$assessment->value;
+        $assessment = TimeManagementAggregated::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+
+        echo 'sim_id = '.$simulation->id.' 1st_priority_phone_calls debug - '.$assessment_debug->value.' real - '.$assessment->value;
     }
 
     public function actionStyleCss()
