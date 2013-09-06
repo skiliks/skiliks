@@ -39,6 +39,7 @@ return array(
         'application.components.Exception.*',
         'application.components.Controllers.*',
         'application.components.SocialCalc.*',
+        'application.components.debug.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
