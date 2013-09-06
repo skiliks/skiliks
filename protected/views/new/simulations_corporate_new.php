@@ -3,7 +3,7 @@
 <div class="table-simultns">
 <?php
 $scoreRender = function(Invite $invite) {
-    if ($invite->isComplete()) {
+    if ($invite->isCompleted()) {
         return $this->renderPartial('//global_partials/_simulation_stars', [
             'simulation'     => $invite->simulation,
             'isDisplayTitle' => false,
