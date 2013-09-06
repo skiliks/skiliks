@@ -5,7 +5,8 @@ class DebugController extends SiteBaseController
 
     public function actionIndex()
     {
-        $simulation = Simulation::model()->findByPk(1364);
+        $sim_id = Yii::app()->request->getParam('sim_id');
+        $simulation = Simulation::model()->findByPk($sim_id);
 
         TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
 
