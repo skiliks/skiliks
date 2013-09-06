@@ -44,7 +44,7 @@ try {
 
                 var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
                 console.log(processorTestResult.average);
-                if(processorTestResult.average < 1.3) {
+                if(processorTestResult.average < 1) {
                     return true;
                 }
                 else {
