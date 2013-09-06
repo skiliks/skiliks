@@ -864,25 +864,24 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * For debug
      */
-//    public function testimeManagementAssessment_case3()
-//    {
-//        // init simulation
-//        $simulation = Simulation::model()->findByPk(554);
-//
-//        $tma = new TimeManagementAnalyzer($simulation);
-//        $tma->calculateAndSaveAssessments();
-//
-//        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
-//            'sim_id' => $simulation->id
-//        ]);
-//
-//        //var_dump($tma->durationsGrouped);
-//
-//        $values = [];
-//        foreach ($assessments as $assessment) {
-//            $values[$assessment->slug] = $assessment->value;
-//        }
-//
-//        var_dump($values);
-//    }
+    /*public function testDebug()
+    {
+        // init simulation
+        $simulation = Simulation::model()->findByPk(1270);
+
+        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $tma = new TimeManagementAnalyzerDebug($simulation);
+        $tma->calculateAndSaveAssessments();
+        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+        $this->assertEquals('138', $assessment->value);
+        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_meetings'
+        ]);
+        $this->assertEquals('60', $assessment->value);
+    }*/
 }

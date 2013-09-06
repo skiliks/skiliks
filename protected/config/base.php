@@ -285,6 +285,8 @@ return array(
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
+                'logService/addInviteLog' => 'static/statistic/addInviteLog',
+
                 'admin_area/invites'           => 'admin_area/AdminPages/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login'             => 'admin_area/AdminPages/Login',

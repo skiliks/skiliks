@@ -42,6 +42,7 @@ class Invite extends CActiveRecord
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
     const STATUS_IN_PROGRESS = 5;//const STATUS_STARTED = 5;//const STATUS_IN_PROGRESS = 5;
+    const STATUS_DELETED = 6;
 
     public static $statusText = [
         self::STATUS_PENDING => 'Pending',
@@ -187,15 +188,6 @@ class Invite extends CActiveRecord
      * @return bool
      */
     public function isCompleted()
-    {
-        return $this->status == self::STATUS_COMPLETED;
-    }
-
-    /**
-     * @todo: remove in sprint S27
-     * @return bool
-     */
-    public function isComplete()
     {
         return $this->status == self::STATUS_COMPLETED;
     }
@@ -566,9 +558,10 @@ class Invite extends CActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $full = Scenario::model()->findByAttributes(['slug'=>'full']);
         // we need only full simulation and tutorial => 2,3
-        $criteria->addInCondition('scenario_id', [2,3]);
+        $criteria->addInCondition('scenario_id', [$full->id]);
+        $criteria->addNotInCondition('status', [Invite::STATUS_DELETED]);
         $criteria->compare('id', $this->id);
         $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
         $criteria->compare('firstname', $this->firstname);
@@ -838,6 +831,14 @@ class Invite extends CActiveRecord
         $result = $this->save(false);
 
         InviteService::logAboutInviteStatus($this, 'invite : reset');
+        return $result;
+    }
+
+    public function deleteInvite() {
+        $this->status = Invite::STATUS_DELETED;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'invite : delete');
         return $result;
     }
 

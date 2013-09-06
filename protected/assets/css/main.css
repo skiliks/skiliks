@@ -1023,10 +1023,7 @@ section.phone>header .btn-window li button.btn-set{
 	width:31px;
 	height:29px;
 }
-.game_type_simulation {
-    text-shadow: 1px 1px 0px #666;
-}
-section.phone>header .btn-window li button.btn-set:hover{
+section.phone>header .btn-window SKILIKS-3835li button.btn-set:hover{
 	background-position:0 -29px;
 }
 section.phone>header .btn-window li button.btn-cl, .btn-cl{
@@ -1583,7 +1580,6 @@ ul.main-screen-stat li{
 	float:left;
 	padding:0 10px;
     padding-bottom: 5px;
-    text-shadow: 1px 1px 0 #666666;
 }
 ul.main-screen-stat li a.pause {
     background: url(../img/main-screen/icon_pause.png) no-repeat 0 0;
