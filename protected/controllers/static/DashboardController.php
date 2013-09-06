@@ -581,6 +581,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
+        if ($invite->isAccepted()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'."
+            ));
+            $this->redirect('/dashboard');
+        }
+
         if ($invite->isStarted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Начато'."
@@ -588,7 +595,14 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
-        $invite->delete();
+        if ($invite->isCompleted()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить приглашение которое находится в статусе 'Готово'."
+            ));
+            $this->redirect('/dashboard');
+        }
+
+        $invite->deleteInvite();
 
         $user->getAccount()->increaseLimit($invite);
 

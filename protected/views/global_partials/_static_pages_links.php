@@ -33,16 +33,16 @@ $this->widget('zii.widgets.CMenu', array(
             'url'         => '',
             'linkOptions' => ['class' => 'top-profile '.$classForName],
             'visible' => $visibleName,
+        ],[
+            'label'       => Yii::t('site', 'Регистрация'),
+            'url'         => ['/registration'],
+            'visible'     => $isGuest
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),
             'url'         => ['/user/auth'],
             'linkOptions' => ['class' => 'sign-in-link'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
-        ],        [
-            'label'       => Yii::t('site', 'Регистрация'),
-            'url'         => ['/registration'],
-            'visible'     => $isGuest
         ],
         [
             'label' => Yii::t('site', 'Log out'),
