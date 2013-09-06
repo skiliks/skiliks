@@ -60,6 +60,9 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
 
+    <!-- system processor speed test -->
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/jsBogoMips.js"></script>
+
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/underscore.js"></script>
