@@ -396,6 +396,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,
             'storageURL'                         => 'http://storage.skiliks.com/v1',

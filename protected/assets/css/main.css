@@ -1158,7 +1158,7 @@ section.phone>header .btn-window li button.btn-cl:hover, .btn-cl:hover{
 .sim-window.phone-call.ui-draggable {
     background:none;
 }
-.phone-call{
+.phone-call.default{
 	background:url("../img/phone/bg-phone-call.jpg");
 	width:202px;
 	height:328px;
