@@ -44,24 +44,24 @@ try {
 
                 var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
                 console.log(processorTestResult.average);
+
+                $.ajax({
+                    url: '/index.php/logService/addInviteLog',
+                    data: {
+                        inviteId: window.inviteId,
+                        action: 'Warning about low processor speed. Level is ' + processorTestResult.average,
+                        uniqueId: -1,
+                        time: '00:00:00'
+                    },
+                    type: 'POST',
+                    cache: false,
+                    async: false
+                });
+
                 if(processorTestResult.average > 1) {
                     return true;
                 }
                 else {
-
-                    $.ajax({
-                        url: '/index.php/logService/addInviteLog',
-                        data: {
-                            inviteId: window.inviteId,
-                            action: 'Warning about low processor speed. Level is ' + processorTestResult.average,
-                            uniqueId: -1,
-                            time: '00:00:00'
-                        },
-                        type: 'POST',
-                        cache: false,
-                        async: false
-                    });
-
                     // Spike to make alert ok works fine
                     // TODO: refactor all dialog views to one style
                     if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. Попробуйте запустить игру на другом компьютере.')) {
