@@ -16,7 +16,7 @@ class DebugController extends SiteBaseController
             'slug'=>'1st_priority_phone_calls'
         ]);
 
-        echo '1st_priority_phone_calls '.$assessment->value;
+        echo 'sim_id = '.$simulation->id.' 1st_priority_phone_calls '.$assessment->value;
     }
 
     public function actionStyleCss()
