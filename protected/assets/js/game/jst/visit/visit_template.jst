@@ -1,7 +1,7 @@
 <div class="visit-background-container">
     <@ if (video_src) { @>
     <@ var poster_src = video_src.replace('videos', 'dialog_images').replace('webm', 'jpeg') @>
-    <video class="visit-background" poster="<@= poster_src @>" src="<@= video_src @>" autoplay="autoplay"></video>
+    <video class="visit-background" poster="<@= poster_src @>" src="<@= video_src @>" autoplay="autoplay" oncontextmenu="return false;"></video>
     <@ } @>
     <@ if (img_src) { @>
     <img class="visit-background" src="<@= img_src @>" />

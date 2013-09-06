@@ -50,7 +50,8 @@ class Invite extends CActiveRecord
         self::STATUS_COMPLETED => 'Completed', // after sim start
         self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
         self::STATUS_DECLINED => 'Declined',
-        self::STATUS_EXPIRED => 'Expired'
+        self::STATUS_EXPIRED => 'Expired',
+        self::STATUS_DELETED => 'Deleted'
     ];
 
     public static $statusId = [
