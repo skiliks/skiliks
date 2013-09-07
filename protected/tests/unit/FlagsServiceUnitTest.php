@@ -162,47 +162,41 @@ class FlagServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        // case 1
+        $FullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
-        EventsManager::startEvent($simulation, 'S2');
+        $dialog = new DialogService();
+        $replica_599 = Replica::model()->findByAttributes(
+            [
+                'excel_id'    => 599, // dialog T7.3
+                'scenario_id' => $FullScenario->id
+            ]
+        );
 
-        $data = [];
-        //case 1
-        $result = EventsManager::getState($simulation, []);
-        foreach ($result['events'][0]['data'] as $replica) {
-            if($replica['ch_from'] == 1) {
-                $this->assertFalse(in_array($replica['excel_id'], $data));
-                $data[] = $replica['excel_id'];
-            }
-        }
+        FlagsService::setFlag($simulation, 'F38_3', 1); // нужен для старта события 'T7.4'
 
-        // case 2
-        FlagsService::setFlag($simulation, 'F1', 1);
-
-        EventsManager::startEvent($simulation, 'S2');
-
-        $result = EventsManager::getState($simulation, []);
-        foreach ($result['events'][0]['data'] as $replica) {
-           if($replica['ch_from'] == 1) {
-               $this->assertFalse(in_array($replica['excel_id'], $data));
-               $data[] = $replica['excel_id'];
-           }
-        }
-
-        //case3
-
-        FlagsService::setFlag($simulation, 'F12', 1);
-        FlagsService::setFlag($simulation, 'F1', 0);
-
-        EventsManager::startEvent($simulation, 'S2');
-        $result = EventsManager::getState($simulation, []);
+        // case 1, флаг F22 выключен {
+        $result = $dialog->getDialog($simulation->id, $replica_599->id, 13000);
 
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
-                $this->assertFalse(in_array($replica['excel_id'], $data));
+                $this->assertEquals($replica['excel_id'], 600); // 600 это excel_id правильной риплаки
                 $data[] = $replica['excel_id'];
             }
         }
+        unset($replica, $result);
+        // case 1, флаг F22 выключен }
+
+        // case 2, флаг F22 включен {
+        FlagsService::setFlag($simulation, 'F22', 1); // нужен для старта события 'T7.4'
+        $result = $dialog->getDialog($simulation->id, $replica_599->id, 13000);
+
+        foreach ($result['events'][0]['data'] as $replica) {
+            if($replica['ch_from'] == 1) {
+                $this->assertEquals($replica['excel_id'], 601); // 600 это excel_id правильной риплаки
+                $data[] = $replica['excel_id'];
+            }
+        }
+        // case 2, флаг F22 включен }
     }
 
     /**
