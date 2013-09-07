@@ -533,12 +533,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             ],
         ];
 
-<<<<<<< HEAD
-        $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
-=======
-        //$invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
-
->>>>>>> b0265f71264b4418852ea33426128dc18ba93ffc
         $invite->markAsSendToday();
         $invite->save();
 
