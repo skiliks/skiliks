@@ -71,6 +71,9 @@ define([
                             throw new Error(" uniqueId define but is not repeat request ");
                         }
                     }
+                    if (SKApp.simulation !== undefined) {
+                        params.simId = SKApp.simulation.id;
+                    }
                     params.time = SKApp.simulation.getGameTime({with_seconds:true});
                     return {
                         data:      params,
@@ -113,7 +116,12 @@ define([
                                     }
                                 }
                                 if(undefined !== callback){
-                                    callback(data, textStatus, jqXHR);
+                                    if(data.simulation_status !== 'interrupted'){
+                                        callback(data, textStatus, jqXHR);
+                                    }else{
+                                        $(window).off('beforeunload');
+                                        location.assign('/simulation/exit');
+                                    }
                                 }
                             } else {
                                 if (!window.testMode) {
@@ -122,9 +130,7 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            //console.log(xhr.status);
                             if ('timeout' === text_status || xhr.status === 0) {
-                                //console.log(xhr.status);
 
                                 SKApp.isInternetConnectionBreakHappent = true;
 
@@ -154,7 +160,6 @@ define([
                                             {
                                                 'value': 'Продолжить игру',
                                                 'onclick': function () {
-                                                    SKApp.simulation.updatePause({callback:function() {
                                                         SKApp.simulation.stopPause(function() {
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
@@ -164,7 +169,6 @@ define([
                                                             me.dialog_window.remove();
                                                             delete me.dialog_window;
                                                         });
-                                                    }});
                                                 }
                                             }
                                         ]
@@ -199,8 +203,11 @@ define([
              */
             api:function (path, params, callback) {
                 try {
-                    var ajaxParams = this.getAjaxParams(path, params, callback);
-                    return $.ajax(ajaxParams);
+                    // this done for SKServer not to make any requests after Simulation stop
+                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                        var ajaxParams = this.getAjaxParams(path, params, callback);
+                        return $.ajax(ajaxParams);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -213,8 +220,11 @@ define([
              */
             apiQueue: function (queue, path, params, callback) {
                 try {
-                    var ajaxParams = this.getAjaxParams(path, params, callback);
-                    return $.ajaxq(queue, ajaxParams);
+                    // this done for SKServer not to make any requests after Simulation stop
+                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                        var ajaxParams = this.getAjaxParams(path, params, callback);
+                        return $.ajaxq(queue, ajaxParams);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

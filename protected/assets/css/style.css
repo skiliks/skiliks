@@ -425,7 +425,7 @@ html[lang=ru] .betaflag {
     right:0;
 }
 #simulation-details label,
-.container>header nav a {
+.container>header nav a, .active-button {
 	display:block;
 	background:rgba(20,102,114,0.4);
 	border-radius:3px;
@@ -447,6 +447,22 @@ html[lang=ru] .betaflag {
     padding: 0 8px;
     text-decoration: none;
 }
+
+.start-full-simulation-btn {
+    float:right;
+    margin-top:10px;
+    margin-left: 15px;
+}
+
+.start-lite-simulation-btn {
+    float:right;
+    margin-top:10px;
+}
+
+.start-lite-simulation-btn-no-margin {
+    float:right;
+}
+
 /*
 .container>header nav a:first-child,
 #simulation-details label:first-child {
@@ -456,7 +472,7 @@ html[lang=ru] .betaflag {
 .container>header nav .active a,
 .container>header nav a:hover,
 #simulation-details label.active,
-#simulation-details label:hover, .link-block {
+#simulation-details label:hover, .link-block, .active-button {
 	background:rgba(20,102,114,1);
 }
 
@@ -1295,6 +1311,12 @@ html[lang=ru] .product section table th{
     float:left;
     margin-left:9px;
 }
+
+.p-chose-accaount-type {
+    margin-bottom: 22px;
+    margin-left:57px;
+}
+
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corparate.png");
 	float:right;
@@ -1486,12 +1508,19 @@ html[lang=ru] .product section table th{
 		background-position:305px 7px;
 		box-shadow:0 0 0 7px rgba(255,255,255,0.2);
 		width:366px;
-		min-height:309px;
+		min-height:400px;
 	}
 	.registration .form.form-account-personal{
 		background-image:url("../img/bg-registration-personal-min.png");
 		margin-left:7px;
 	}
+
+    .p-chose-accaount-type {
+        margin-bottom: 22px;
+        margin-left:27px;
+    }
+
+
 	.registration .form.form-account-corporate{
 		background-image:url("../img/bg-registration-corparate-min.png");
 		margin-right:7px;
@@ -1499,12 +1528,10 @@ html[lang=ru] .product section table th{
 	.registration .form h1{
 		font-size:2em;
         line-height: 100%;
-		margin:16px 40px 10px 40px;
+		margin:16px 40px 10px 27px;
         min-height: 58px;
 	}
-    .registration .form-account-corporate h1 {
-        margin-left: 20px;
-    }
+
     .registration .form {
         height: 350px;
     }
@@ -1512,7 +1539,7 @@ html[lang=ru] .product section table th{
         /*display: none;*/
     }
     .form-account-corporate input[type="submit"] {
-        margin-top: -6px;
+        margin-top: -12px;
     }
     .registration .form .row.wide {
         margin-bottom: 16px;
@@ -2672,6 +2699,7 @@ h2 {
 }
 #corporate-invitations-list-box {
     overflow: visible;
+    display: none;
 }
 ul.profile-menu {
     float: left;
@@ -2986,7 +3014,7 @@ ul.profile-menu li {
     margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
-    color:#2d7b91;
+    color:#3C3C32;
     margin-left: 3px;
     text-decoration: none;
 }
@@ -3322,7 +3350,7 @@ ul.profile-menu li {
     height: 20px;
     left: 5px;
     line-height: 20px;
-    margin-right: -20px;
+    margin-right: -12px;
     position: relative;
     text-align: center;
     top: -10px;
@@ -4554,4 +4582,19 @@ ul.profile-menu li {
 
 .action-controller-index-static-pages .container{
     overflow: hidden;
+}
+
+div.inline-block {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.registration-popup {
+    float:right;
+    margin-top: 7px;
+}
+
+
+.green-h2 {
+    color: #146672;
 }

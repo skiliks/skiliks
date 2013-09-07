@@ -1,29 +1,60 @@
-<h1 class="thetitle">Полученные приглашения</h1>
-
 <div id="private-invitations-list-box" class="transparent-boder wideblock">
     <?php
 
     $scoreRender = function(Invite $invite) {
-        if ($invite->status == Invite::STATUS_PENDING) {
-            return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
-        }
+        if(null !== $invite && !$invite->scenario->isLite()) {
 
-        if (null !== $invite && false === $invite->isAllowedToSeeResults(Yii::app()->user->data())) {
-            return '<div style="line-height: 30px;">Результаты скрыты<div>';
-        }
+            switch($invite->status) {
+                case Invite::STATUS_PENDING :
+                    return (string)$invite->getAcceptActionTag().' '.$invite->getDeclineActionTag();
+                    break;
 
-        return $this->renderPartial('//global_partials/_simulation_stars', [
-            'simulation'     => $invite->simulation,
-            'isDisplayTitle' => false,
-            'isDisplayArrow' => false,
-            'isDisplayScaleIfSimulationNull' => false,
-        ],false);
+                case Invite::STATUS_COMPLETED :
+                    if(false === $invite->simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
+                        return '<div style="line-height: 30px;">Результаты скрыты<div>';
+                    }
+                    else {
+                        return $this->renderPartial('//global_partials/_simulation_stars', [
+                            'simulation'     => $invite->simulation,
+                            'isDisplayTitle' => false,
+                            'isDisplayArrow' => false,
+                            'isDisplayScaleIfSimulationNull' => false,
+                        ],false);
+                    }
+                    break;
+
+                case Invite::STATUS_ACCEPTED :
+                case Invite::STATUS_IN_PROGRESS :
+                    return sprintf(
+                        "<a class=\"start-full-simulation start-full-simulation-button\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
+                        $invite->scenario->slug,
+                        $invite->id
+                    );
+                    break;
+
+                case Invite::STATUS_DECLINED :
+                    return '<div style="line-height: 30px;">отклонено<div>';
+                    break;
+
+                case Invite::STATUS_EXPIRED :
+                    return '<div style="line-height: 30px;">просрочено<div>';
+                    break;
+                case Invite::STATUS_DELETED :
+                    return '<div style="line-height: 30px;">удалено<div>';
+                    break;
+
+                default :
+                    return false;
+
+            }
+        }
+        return false;
     };
 
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Invite::model()->searchByInvitedUserEmail(
             strtolower(Yii::app()->user->data()->profile->email),
-            [Invite::STATUS_PENDING, Invite::STATUS_COMPLETED]
+            false
         ),
         'summaryText' => '',
         'emptyText' => '',
@@ -36,7 +67,7 @@
         ],
         'columns' => [
             ['header' => Yii::t('site', Yii::t('site', 'Компания')), 'name' => "company", 'value' => 'Yii::t("site", $data->getCompanyOwnershipType()." ".$data->getCompanyName())'],
-            ['header' => Yii::t('site', Yii::t('site', 'Вакансия')), 'name' =>'vacancy_id', 'value' => 'Yii::t("site", $data->getVacancyLabel())'],
+            ['header' => Yii::t('site', Yii::t('site', 'Вакансия')), 'name' =>'vacancy_id', 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"'],
             ['header' => Yii::t('site', Yii::t('site', 'Оценка')) , 'value' => '"Базовый менеджмент"'],
             [
                 'header' => Yii::t('site', Yii::t('site', 'Дата / Время')),
@@ -44,7 +75,7 @@
                 'value' => '$data->getUpdatedTime()->format("j/m/y") . " <time>" . $data->getUpdatedTime()->format("G:i") . "</time>"',
                 'type' => 'raw'
             ],
-            ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => $scoreRender, 'type' => 'html'],
+            ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => $scoreRender, 'type' => 'raw'],
         ]
     ]);
     ?>

@@ -1023,7 +1023,7 @@ section.phone>header .btn-window li button.btn-set{
 	width:31px;
 	height:29px;
 }
-section.phone>header .btn-window li button.btn-set:hover{
+section.phone>header .btn-window SKILIKS-3835li button.btn-set:hover{
 	background-position:0 -29px;
 }
 section.phone>header .btn-window li button.btn-cl, .btn-cl{
@@ -1158,7 +1158,7 @@ section.phone>header .btn-window li button.btn-cl:hover, .btn-cl:hover{
 .sim-window.phone-call.ui-draggable {
     background:none;
 }
-.phone-call{
+.phone-call.default{
 	background:url("../img/phone/bg-phone-call.jpg");
 	width:202px;
 	height:328px;
@@ -1570,7 +1570,7 @@ ul.main-screen-stat{
 	overflow:hidden;
 	height: 22px;
 	position:relative;
-	z-index:9999;
+	z-index: 200;
 }
 ul.main-screen-stat li{
 	background:url("../img/main-screen/bd-status.png") no-repeat left center;
@@ -1579,7 +1579,7 @@ ul.main-screen-stat li{
 	color:#fff;
 	float:left;
 	padding:0 10px;
-        padding-bottom: 5px;
+    padding-bottom: 5px;
 }
 ul.main-screen-stat li a.pause {
     background: url(../img/main-screen/icon_pause.png) no-repeat 0 0;
@@ -1605,13 +1605,15 @@ ul.main-screen-stat li:first-child{
 }*/
 ul.main-screen-stat li img{
 	vertical-align:middle;
+    border:0;
 }
+
 .main-screen-icons ul{
     list-style:none;
     width:88px;
     margin:10px 18px 0 0;
     position:relative;
-    z-index:9999;
+    z-index: 200;
 }
 .main-screen-icons ul li{
     background-repeat:no-repeat;
@@ -1752,4 +1754,20 @@ tr.email-list-separator {
 
 .mailclient-autocomplite {
     width: auto !important;
+}
+
+#loading-cup {
+    position: absolute;
+    border: 0;
+    text-align: center;
+    height: 458px;
+    width: 759px;
+}
+
+body.loading {
+    background-color:#2e2e2e;
+}
+
+.white-color {
+    color: #ffffff;
 }

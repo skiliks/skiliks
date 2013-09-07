@@ -2,179 +2,63 @@
 
 /**
  * Description of DayPlanService
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DayPlanService
 {
     /**
-     * @param array $ids
-     * @return array
-     */
-    protected static function _loadTasksTitle($ids)
-     {
-        if (0 === count($ids)) {
-            return false;
-        }
-        
-        $tasksCollection = Task::model()->byIds($ids)->findAll();
-
-        $tasks = [];
-        foreach($tasksCollection as $task) {
-            $tasks[$task->id] = array(
-                'title'    => $task->title,
-                'duration' => $task->duration,
-                'type'     => $task->is_cant_be_moved
-            );
-        }
-        
-        return $tasks;
-    }
-
-    /**
-     * @param Simulation $simulation
-     * @param $taskId
-     * @param $date
-     * @return DayPlanAfterVacation
-     */
-    public static function addAfterVacation($simulation, $taskId, $date)
-    {
-        // Удалить задачу из дневного плана
-        DayPlan::model()->deleteAllByAttributes(array(
-            'sim_id'  => $simulation->id,
-            'task_id' => $taskId
-        ));
-        
-        $taskAfterVacation = new DayPlanAfterVacation();
-        $taskAfterVacation->sim_id  = $simulation->id;
-        $taskAfterVacation->task_id = $taskId;
-        $taskAfterVacation->date    = $date;
-        $taskAfterVacation->insert();
-        
-        // Убрать задачу из todo
-        TodoService::delete($simulation->id, $taskId);
-
-        return $taskAfterVacation;
-    }
-    
-    /**
-     * Добавление задачи на сегодня|завтра
-     * @param type $simId
-     * @param type $taskId
-     * @param type $day
-     * @param type $time 
-     */
-    public static function add($simulation, $taskId, $day, $time) {
-        // Удалить задачу из после отпуска
-        self::removeFromAfterVacation($simulation, $taskId);
-        
-        $dayPlan = DayPlan::model()->findByAttributes([
-            'sim_id'   => $simulation->id,
-            'task_id' => $taskId,
-        ]);
-
-        if (!$dayPlan) {
-            $dayPlan          = new DayPlan();
-            $dayPlan->sim_id  = $simulation->id;
-            $dayPlan->task_id = $taskId;
-        }    
-        
-        $dayPlan->date = $time;
-        $dayPlan->day = $day;
-        $dayPlan->save();
-        
-        // Убрать задачу из todo
-        TodoService::delete($simulation->id, $taskId);
-    }
-
-    /**
-     * @param Simulation $simulation
-     * @param $taskId
-     */
-    public static function removeFromAfterVacation($simulation, $taskId) {
-        DayPlanAfterVacation::model()->deleteAllByAttributes(array(
-            'sim_id'  => $simulation->id,
-            'task_id' => $taskId
-        ));
-    }
-
-    /**
      * @param Simulation $simulation
      * @return array
      */
-    public static function get($simulation)
+    public static function getPlanList($simulation)
     {
         try {
-            $data = array();
-            $tasks = array();
-            $plans = DayPlan::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-            
-            foreach($plans as $plan) {
-                $tasks[] = $plan->task_id;
+            /** @var DayPlan[] $plans */
+            $plans = DayPlan::model()->findAll([
+                'with' => 'task',
+                'condition' => 't.sim_id = :simId AND day != :todo',
+                'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO]
+            ]);
 
-                $data[] = array(
+            $data = array_map(function(DayPlan $plan) {
+                return [
                     'date' => GameTime::getTime($plan->date),
                     'task_id' => $plan->task_id,
-                    'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
-                    
-                );
-            }
-            
-            if (count($data)==0)  {
-                return ['result' => 1, 'data' => array()];
-            }
-            
-            if (count($tasks) == 0) {
-                return ['result' => 1, 'data' => array()];
-            }
-            
-            
-            // загрузка названий задач
-            $tasks = self::_loadTasksTitle($tasks);
-            
-            // Подготовка ответа (сегодня, завтра)
-            $list = array();
-            foreach($data as $item) {
-                if (isset($tasks[$item['task_id']])) {
-                    $item['title'] = $tasks[$item['task_id']]['title'];
-                    $item['duration'] = $tasks[$item['task_id']]['duration'];
-                    $item['type'] = $tasks[$item['task_id']]['type'];
-                }    
-                $list[] = $item;  //[$item['day']]
-            }
-            
-            ########################################################
-            // Загрузка задач после отпуска
-            $tasks = array();
-            $vacationTasks = array();
-            $vacationsCollection = DayPlanAfterVacation::model()->findAllByAttributes(['sim_id' => $simulation->id]);
-            foreach($vacationsCollection as $item) {
-                $tasks[] = $item->task_id;
-                $vacationTasks[] = array(
-                    'date' => GameTime::getTime($item->date),  // дата в формате hh:mm
-                    'task_id' => $item->task_id
-                );
-            }
-            
-            // загрузка названий задач
-            $tasks = self::_loadTasksTitle($tasks);
-            
-            // Добавляем задачи после отпуска
-            foreach($vacationTasks as $item) {
-                if (isset($tasks[$item['task_id']])) {
-                    $item['title'] = $tasks[$item['task_id']]['title'];
-                    $item['duration'] = $tasks[$item['task_id']]['duration'];
-                }
-                $item['day'] = 3;
-                
-                $list[] = $item;
-            }
+                    'day' => $plan->day,
+                    'title' => $plan->task->title,
+                    'duration' => $plan->task->duration,
+                    'type' => $plan->task->is_cant_be_moved
+                ];
+            }, $plans);
 
-            return ['result' => 1, 'data' => $list];
-        } catch (Exception $exc) {
-            return ['result' => 0, 'message' => $exc->getMessage()];
+            return ['result' => 1, 'data' => $data];
+
+        } catch (Exception $e) {
+            return ['result' => 0, 'message' => $e->getMessage()];
         }
-        
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return mixed array
+     */
+    public static function getTodoList(Simulation $simulation)
+    {
+        /** @var DayPlan[] $plans */
+        $plans = DayPlan::model()->findAll([
+            'with' => 'task',
+            'condition' => 't.sim_id = :simId AND day = :todo',
+            'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO]
+        ]);
+
+        $data = array_map(function(DayPlan $plan) {
+            return [
+                'id'       => $plan->task->id,
+                'title'    => $plan->task->title,
+                'duration' => TimeTools::roundTime($plan->task->duration)
+            ];
+        }, $plans);
+
+        return $data;
     }
 
     /**
@@ -182,70 +66,18 @@ class DayPlanService
      * @param $taskId
      * @return array
      */
-    public static function delete($simulation, $taskId)
+    public static function deleteTask($simulation, $taskId)
     {
         try {
-            DayPlan::model()->deleteAll(
-                'sim_id = :simId and task_id = :taskId',
-                    array(
-                        ':simId'  => $simulation->id,
-                        ':taskId' => (int)$taskId)
-            );
+            DayPlan::model()->deleteAllByAttributes([
+                'sim_id' => $simulation->id,
+                'task_id' => (int)$taskId
+            ]);
             
             return ['result' => 1];
-        } catch (Exception $exc) {
-            return ['result' => 0, 'message' => $exc->getMessage()];
+        } catch (Exception $e) {
+            return ['result' => 0, 'message' => $e->getMessage()];
         }
-    }
-
-    /**
-     * @param Simulation $simulation
-     * @param $time
-     * @return bool
-     */
-    protected static function _isAppropriateTime($simulation, $time)
-    {
-        if (!$simulation) {
-            return false;
-        }
-
-        $duration = (GameTime::getUnixDateTime(GameTime::setNowDateTime())
-            - GameTime::getUnixDateTime($simulation->start)) / 4;
-        
-        // если время задачи меньше времени длительности
-        if (GameTime::timeToSeconds($time) < $duration) {
-            return false;
-        }
-
-        return true;
-    }
-    
-    /**
-     * Проверяет подходит ли данная задача по времени
-     * @param type $taskId 
-     * @return boolean
-     */
-    protected static function _canAddTask($taskId, $time) {
-        // получить длительность задачи
-        $task = Task::model()->byId($taskId)->find();
-        if (!$task) throw new Exception("cant find task by id {$taskId}");
-
-        $end = GameTime::addMinutesTime($time, $task->duration);
-        
-        $sql = "select count(*) as count from tasks 
-            where 
-                (start_time >= '{$time}' and start_time <= '{$end}') or
-                (start_time + duration >= '{$time}' and start_time <= '{$time}') or
-                (start_time >= '{$time}' and start_time + duration <= '{$end}') or
-                (start_time  <= '{$time}' and start_time + duration >= '{$end}')
-                ";
-                
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);       
-        $row = $command->queryRow();
-        
-        if ($row['count'] == 0) return true;
-        return true;
     }
 
     /**
@@ -255,108 +87,103 @@ class DayPlanService
      * @param $day
      * @return array
      */
-    public static function addToPlan($simulation, $taskId, $time, $day)
+    public static function addTask(Simulation $simulation, $taskId, $day, $time = null)
     {
-        $taskId = (int)$taskId;
-        $day = (int)$day;
-        try {
-            // на всякий случай удалим из вакейшена
-            DayPlanAfterVacation::model()->deleteAllByAttributes(array(
-                'sim_id' => $simulation->id, 'task_id' => $taskId
-            ));
-                      
-            if ($day == 3) {   // Добавление на после отпуска
-                self::addAfterVacation($simulation, $taskId, $time);
-                return ['result' => 1];
-            }
-            
-            // проверить не пытаемся ли мы добавить задачу раньше игрового времени
-            if (!self::_isAppropriateTime($simulation, $time)) {
-                return ['result' => 0, 'code' => 1];
-            }
-            
-            // @todo: проверить подходит ли задача по времени
-            if (!self::_canAddTask($taskId, $time)) {
-                return ['result' => 0, 'code' => 2];
-            }
+        /** @var Task $task */
+        $task = Task::model()->findByPk($taskId);
 
-            self::add($simulation, $taskId, $day, $time);
-            
-            // Убиваем задачу из todo
-            Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId',
-                    array(':simId'=>$simulation->id, ':taskId'=>$taskId));
-            
-            return ['result' => 1];
-        } catch (Exception $exc) {
-            return ['result' => 0, 'message' => $exc->getMessage(), 'code' => $exc->getCode()];
+        if (!$task || !self::_canAddTask($simulation, $task, $day, $time)) {
+            return false;
         }
-        
+
+        $dayPlan = DayPlan::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'task_id' => $task->id
+        ]);
+
+        if (!$dayPlan) {
+            $dayPlan          = new DayPlan();
+            $dayPlan->sim_id  = $simulation->id;
+            $dayPlan->task_id = $task->id;
+        }
+
+        $dayPlan->date = $time;
+        $dayPlan->day = $day;
+
+        return $dayPlan->save();
     }
 
     /**
+     * Проверяет подходит ли данная задача по времени
+     *
      * @param Simulation $simulation
-     * @param $taskId
-     * @param $time
-     * @return array
+     * @param Task $task
+     * @param string $day
+     * @param string $time
+     * @return bool
      * @throws Exception
      */
-    public static function update($simulation, $taskId, $time)
-    {
-        $taskId = (int)$taskId;
-        try {
-            $task = DayPlan::model()->findByAttributes(array(
-                'sim_id' => $simulation->id, 'task_id' => $taskId
-            ));
-            if (null === $task) {
-                throw new Exception("C`ant find task by id {$taskId}");
+    protected static function _canAddTask(Simulation $simulation, Task $task, $day, $time) {
+        if ($day == DayPlan::DAY_1 || $day == DayPlan::DAY_2) {
+            $end = GameTime::addMinutesTime($time, $task->duration);
+
+            // Check fitting in time periods
+            if ($day == DayPlan::DAY_1 && GameTime::getUnixDateTime($time) < GameTime::getUnixDateTime($simulation->getGameTime()) ||
+                GameTime::getUnixDateTime($time) < GameTime::getUnixDateTime('9:00') ||
+                GameTime::getUnixDateTime($end) > GameTime::getUnixDateTime('22:00')
+            ) {
+                return false;
             }
 
-            return ['result' => 1];
-        } catch (Exception $exc) {
-            return ['result' => 0, 'message' => $exc->getMessage()];
-        }
-    }
-    
-    /**
-     * @param Simulation $simulation
-     * @param integer $minutes
-     * @param timestamp $snapShotTime
-     */
-    public static function copyPlanToLog($simulation, $minutes, $snapShotTime = 1)
-    {
-        $todoCount = Todo::model()->countByAttributes(['sim_id' => $simulation->id]);
-        
-        // copy first 2 days to DayPlanLog
-        foreach (DayPlan::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
-            $log = new DayPlanLog();
-            $log->uid           = $simulation->user_id;
-            $log->date          = $dayPlanItem->date;
-            $log->day           = $dayPlanItem->day;
-            $log->task_id       = $dayPlanItem->task_id;
-            $log->sim_id        = $simulation->id;
-            $log->todo_count    = $todoCount;
-            $log->snapshot_time = $snapShotTime;
-            $log->save();
-        }
-        
-        // copy after vacation list to DayPlanLog
-        foreach (DayPlanAfterVacation::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
-            $log = new DayPlanLog();
-            $log->uid           = $simulation->user_id;
-            $log->day           = DayPlanLog::AFTER_VACATION;
-            $log->task_id       = $dayPlanItem->task_id;
-            $log->sim_id        = $simulation->id;
-            $log->todo_count    = $todoCount;
-            $log->snapshot_time = $snapShotTime;
-            $log->save();
+            // Check interception with other tasks
+            $count = DayPlan::model()->count([
+                'with' => ['task'],
+                'condition' => 't.sim_id = :simId AND `day` = :day AND ADDTIME(`date`, SEC_TO_TIME(task.duration)) > :start AND :end > `date`',
+                'params' => [
+                    'simId' => $simulation->id,
+                    'day' => $day,
+                    'start' => $time,
+                    'end' => $end
+                ]
+            ]);
+
+            if ($count > 0) {
+                return false;
+            }
         }
 
-        // copy 'Сделать' list to DayPlanLog
-        foreach (Todo::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $dayPlanItem) {
+        return true;
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @param int $minutes
+     * @param int $snapShotTime
+     */
+    public static function copyPlanToLog($simulation, $minutes, $snapShotTime = DayPlanLog::ON_11_00)
+    {
+        $dayMap = [
+            DayPlan::DAY_1              => DayPlanLog::TODAY,
+            DayPlan::DAY_2              => DayPlanLog::TOMORROW,
+            DayPlan::DAY_AFTER_VACATION => DayPlanLog::AFTER_VACATION,
+            DayPlan::DAY_TODO           => DayPlanLog::TODO
+        ];
+
+        $todoCount = DayPlan::model()->countByAttributes([
+            'sim_id' => $simulation->id,
+            'day' => DayPlan::DAY_TODO
+        ]);
+
+        $dayPlans = DayPlan::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+        
+        foreach ($dayPlans as $planItem) {
             $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
-            $log->day           = DayPlanLog::TODO;
-            $log->task_id       = $dayPlanItem->task_id;
+            $log->date          = $planItem->date;
+            $log->day           = $dayMap[$planItem->day];
+            $log->task_id       = $planItem->task_id;
             $log->sim_id        = $simulation->id;
             $log->todo_count    = $todoCount;
             $log->snapshot_time = $snapShotTime;
@@ -367,7 +194,8 @@ class DayPlanService
     public static function saveToXLS(Simulation $simulation)
     {
         $dayPlans = DayPlan::model()->findAllByAttributes([
-            'sim_id' => $simulation->id
+            'sim_id' => $simulation->id,
+            'day' => [DayPlan::DAY_1, DayPlan::DAY_2]
         ]);
 
         $timeMap = [];
@@ -379,7 +207,11 @@ class DayPlanService
         }
 
         uasort($timeMap, function($a, $b) {
-            return $a['day'] - $b['day'] ?: strtotime($a['date']) - strtotime($b['date']);
+            if ($a['day'] == $b['day']) {
+                return strtotime($a['date']) - strtotime($b['date']);
+            } else {
+                return $a['day'] == DayPlan::DAY_1 ? -1 : 1;
+            }
         });
 
         $tasks = Task::model()->findAllByAttributes([
@@ -413,14 +245,14 @@ class DayPlanService
         // Update Plan-template with real data {
         $filepath = $document->template->getFilePath();
 
-        // @var PHPExcel_Reader_IReader $reader
+        /** @var PHPExcel_Reader_IReader $reader */
         $reader = PHPExcel_IOFactory::createReader('Excel5');
         $excel = $reader->load($filepath);
         $sheet = $excel->getSheetByName('Plan');
 
         foreach ($timeMap as $taskId => $time) {
             $row = (strtotime($time['date']) - strtotime('today') - 32400) / 900 + 3;
-            $column = $time['day'] == 1 ? 'B' : 'C';
+            $column = $time['day'] == DayPlan::DAY_1 ? 'B' : 'C';
             $height = $time['duration'] / 15 - 1;
 
             $sheet

@@ -207,7 +207,6 @@ SocialCalc.TableEditor = function(context) {
 //
 //            // get what to copy to clipboard
 //            cliptext = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.CreateSheetSave(editor.context.sheetobj, sel), "tab");
-////            console.log('copy!', cliptext);
 ////
 ////             window.sc_cliptext = cliptext;
 //
@@ -343,7 +342,6 @@ SocialCalc.TableEditor = function(context) {
 //               value = value.replace(/\r\n/g, "\n").replace(/\n?$/, '\n');
 //               var clipstr = SocialCalc.ConvertSaveToOtherFormat(SocialCalc.Clipboard.clipboard, "tab");
 //
-////                console.log('paste!', clipstr);
 ////
 ////                clipstr = window.sc_cliptext;
 //
@@ -1062,7 +1060,6 @@ SocialCalc.EditorGetStatuslineString = function(editor, status, arg, params) {
    var sstr, progress, coord, circ, r, c, cell, sum, ele;
 
    progress = "";
-
    switch (status) {
       case "moveecell":
       case "rangechange":

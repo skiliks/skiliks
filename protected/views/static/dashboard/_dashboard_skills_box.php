@@ -2,8 +2,7 @@
 
 <?php
     if (null !== $simulation
-        && null !== $simulation->invite
-        && true === $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+        && true === $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
         $this->renderPartial('//global_partials/_simulation_stars', [
             'simulation'    => $simulation,
         ]);

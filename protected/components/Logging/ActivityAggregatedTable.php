@@ -33,7 +33,8 @@ class ActivityAggregatedTable extends LogTable
             'Category',
             'Игровое время - start',
             'Игровое время - end',
-            'Time diff'
+            'Time diff',
+            'Keep last category'
         ];
     }
 
@@ -55,7 +56,8 @@ class ActivityAggregatedTable extends LogTable
             $row->activityAction->activity->category->code,
             $row->start_time,
             $row->end_time,
-            $diff
+            $diff,
+            $row->keep_last_category_after_60_sec
         ];
     }
 

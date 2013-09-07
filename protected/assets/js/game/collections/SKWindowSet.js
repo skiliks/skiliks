@@ -27,7 +27,8 @@ define([
         window_classes: {
             'phone/phoneTalk':     SKDialogWindow,
             'phone/phoneCall':     SKDialogWindow,
-            'visitor/visitorTalk': SKDialogWindow
+            'visitor/visitorTalk': SKDialogWindow,
+            'visitor/visitorEntrance':SKDialogWindow
         },
 
         /**
@@ -90,10 +91,8 @@ define([
                         simulation.startInputLock();
 
                         if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
-
-                            console.log('no active mail client view'); // just to make this IF branch not empty for JSHint
+                            // nothing
                         } else {
-                            // console.log('HAS active mail client view');
                             var windows = SKApp.simulation.window_set.where({name:'mailEmulator'});
                             simulation.mailClient.view.setForcedClosing();
 
@@ -351,6 +350,23 @@ define([
                 } else {
                     throw new Error("No active windows!!");
                 }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        hasActiveXLSWindow: function () {
+            try {
+                var count = this.models.length;
+                if (count > 0) {
+                    var model = this.models[count - 1];
+                    return (model.get('document') !== undefined) && (model.get('document').get('mime') === 'application/vnd.ms-excel');
+                } else {
+                    throw new Error("No active windows!!");
+                }
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -37,25 +37,29 @@ class LogDialog extends CActiveRecord
 
     protected function afterSave()
     {
-        /** @var $activityAction ActivityAction */
-        $activityAction = ActivityAction::model()->findByPriority(
-            ['dialog_id' => $this->dialog_id],
-            NULL,
-            $this->simulation
-        );
+        if(false === Yii::app()->params['disableOldLogging']) {
 
-        if (null !== $activityAction) {
-            $activityAction->appendLog($this);
+            /** @var $activityAction ActivityAction */
+            $activityAction = ActivityAction::model()->findByPriority(
+                ['dialog_id' => $this->dialog_id],
+                NULL,
+                $this->simulation
+            );
+
+            if (null !== $activityAction) {
+                $activityAction->appendLog($this);
+            }
+
+
         }
 
-        if ($this->getLastReplica()) {
-            foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
-                if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
-                    $parentAction->terminateInSimulation($this->simulation, $this->end_time);
-                }
-            };
-        }
-
+            if ($this->getLastReplica()) {
+                foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
+                    if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
+                        $parentAction->terminateInSimulation($this->simulation, $this->end_time);
+                    }
+                };
+            }
 
         parent::afterSave();
     }

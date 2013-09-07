@@ -50,8 +50,8 @@
     <!-- We need both!!! -->
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
-    
-    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants.js"></script>
+
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants_ru.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/formatnumber2.js"></script>
@@ -59,6 +59,9 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcpopup.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcspreadsheetcontrol.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/socialcalc.js"></script>
+
+    <!-- system processor speed test -->
+    <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/util/jsBogoMips.js"></script>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/hyphenate.js"></script>
@@ -82,12 +85,27 @@
     <?php /*if (!YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="skiliks.min.js"></script>
     <?php endif;*/ ?>
-    
+
     <?php //if (YII_DEBUG): ?>
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php //endif ?>
 </head>
-<body class="body loading">
+<body class="body loading" style="background-color: #2e2e2e;">
+    <div id="loading-cup">
+        <img src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="Loading..." /><br/>
+        <h2 class="white-color" style="color: #ffffff;">Загружается <?=$scenarioLabel?></h2><br/>
+        <img src="<?= $assetsUrl; ?>/img/design/ajax-loader.gif" alt="Loader..." />
+    </div>
+    <script>
+        $(document).ready(function() {
+            win = $(window);
+            cupdiv = $("#loading-cup");
+            topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
+            leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
+            $("#loading-cup").css("margin-top",topMargin);
+            $("#loading-cup").css("margin-left",leftMargin);
+        })
+    </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>

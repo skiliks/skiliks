@@ -23,30 +23,36 @@
 	'enableAjaxValidation' => false,
 )); ?>
 
+        <div class="transparent-boder">
+            <div class="row">
+                <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
+                <?php echo $form->error($profile    , 'email'); ?>
+            </div>
 
-    <div class="transparent-boder">
-        <div class="row">
-            <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
-            <?php echo $form->error($profile    , 'email'); ?>
+
+            <div class="row">
+                <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
+                <?php echo $form->error($user        , 'password'); ?>
+            </div>
+
+
+            <div class="row">
+                <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
+                <?php echo $form->error($user        , 'password_again'); ?>
+            </div>
+            <div class="row" style="display: none">
+                <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
+            </div>
+            <div class="row">
+                <?php echo CHtml::submitButton(Yii::t('site', 'Начать'), ['id'=>'registration_switch', 'data-next'=>Yii::t('site', 'Далее'), 'data-start'=>Yii::t('site', 'Начать')]); ?>
+            </div>
+            <div style="clear:both;"></div>
+            <?php  echo $form->error($profile, 'general_error', ['class'=>'errorMessage general_error']); ?>
+            <?php //echo $form->error($profile, 'general_error', ['style'=>'position:static; display:inline-block; margin-top:5px; float:left;']); ?>
+
         </div>
 
-
-        <div class="row">
-            <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
-            <?php echo $form->error($user        , 'password'); ?>
-        </div>
-
-
-        <div class="row">
-            <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
-            <?php echo $form->error($user        , 'password_again'); ?>
-        </div>
-
-        <div class="row" style="display: none">
-            <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-        </div><div class="row">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Начать'), ['id'=>'registration_switch', 'data-next'=>Yii::t('site', 'Далее'), 'data-start'=>Yii::t('site', 'Начать')]); ?>
-        </div></div><div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+    <div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
         <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
     </div>
 <?php $this->endWidget(); ?>

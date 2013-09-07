@@ -93,18 +93,26 @@ class TimeManagementAnalyzer
         $this->GameOverhead = $GameOverhead;
     }
 
+
+    /**
+     * Method calculates and stores efficiency (whole and overtime)
+     * $this->GameOverhead => overtime in minutes
+     * $this->firstPriorityTotal -> time spend for the primary tasks
+     * $value is total time efficiency in percents
+     */
+
+    /**
+     * Метод считает и записывает в базу эффективность затраченного времени (рабочего времени и овертайм)
+     * $this->GameOverhead => овертайм время в минутах
+     * $this->firstPriorityTotal => время потраченное на выполнение задач 1-й категории
+     * $value => общая эффективность в процентах
+     */
+
     public function calculateEfficiency()
     {
-        if (50 <= $this->firstPriorityTotal) {
-            $value = round((1 - $this->GameOverhead/120)*100); // значение в процентах
-        } else {
-            $value = 0;
-        }
+        $overTimePercentage = (1 - $this->GameOverhead/120)*100;
 
-        // Hot fix!
-        if ($value < 0) {
-            $value = 0;
-        }
+        $value = round($this->firstPriorityTotal*2/3 + $overTimePercentage * 1/3,2);
 
         $assessment = new TimeManagementAggregated();
         $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;
@@ -132,7 +140,7 @@ class TimeManagementAnalyzer
             }
 
             // 1st priority
-            if (in_array($logItem->category, [0, 1, 2, '2_min', '0', '1', '2'])) {
+            if (in_array($logItem->category, [0, 1, 2, '2_min', '0', '1', '2']) || $logItem->keep_last_category_after_60_sec === LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES) {
                 // 1st, doc
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS]
@@ -143,8 +151,8 @@ class TimeManagementAnalyzer
                 }
 
                 // 1st, meeting
-                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
-                    && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {
+                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType || ActivityAction::LEG_TYPE_MEETING == $itemLegType)
+                    && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['1st_priority']['total']
@@ -193,8 +201,8 @@ class TimeManagementAnalyzer
                 }
 
                 // non, meeting
-                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType)
-                    && $logItem->activityAction->dialog->dialogSubtype->isMeeting()) {;
+                if ((ActivityAction::LEG_TYPE_MANUAL_DIAL == $itemLegType || ActivityAction::LEG_TYPE_SYSTEM_DIAL == $itemLegType || ActivityAction::LEG_TYPE_MEETING == $itemLegType)
+                    && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {;
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
                     $this->durationsGrouped['non_priority']['total']

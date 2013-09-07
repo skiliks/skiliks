@@ -18,6 +18,7 @@ define([
     SKPhoneCallView = SKWindowView.extend({
 
         isDisplaySettingsButton:true,
+        isDisplayCloseButton:false,
         title: "Телефон",
         windowName:'phone',
         countMaxView: 1,
@@ -86,10 +87,8 @@ define([
                 var noReply = function(){
                     me.doActivate();
                     me.$('#phone_no_reply').click();
-                    console.log('no_reply');
                 };
                 this.deny_timeout_id = setTimeout(noReply, 20000);
-                console.log("init: "+this.deny_timeout_id);
                 this.listenTo(this.options.model_instance, 'close', function () {
                     clearTimeout(me.deny_timeout_id);
                 });

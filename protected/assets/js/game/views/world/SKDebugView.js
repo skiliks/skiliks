@@ -12,7 +12,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             'submit .form-set-time': 'doFormSetTime',
             'submit .trigger-event': 'doEventTrigger',
             'click .btn-load-documents': 'doLoadDocs',
-            'click .btn-simulation-stop-logs': 'doSimStopAndLoadLogs'
+            'click .btn-simulation-stop-logs': 'doSimStopAndShowLogs'
         },
 
         /**
@@ -139,16 +139,11 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
         /**
          * @method
          */
-        doSimStopAndLoadLogs: function () {
+        doSimStopAndShowLogs: function () {
             try {
-                var dialog = new SKDialogView({
-                    'message':'Идёт сохранение результатов игры...',
-                    'buttons':[],
-                    'modal': true
-                });
+                window.scrollTo(0, 0);
                 SKApp.set('result-url', '/admin/displayLog/' + SKApp.simulation.id);
-                AppView.frame.stopExitProtection();
-                SKApp.simulation.stop();
+                SKApp.simulation.onFinishTime();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

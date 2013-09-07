@@ -82,18 +82,18 @@ define([
                     console.log('html(text).appendTo(el) - after');
                     if (!is_first_replica) {
                         if (video_src) {
-                            el.find('video.visit-background').on('loadeddata', renderFn);
-                            console.log('loadeddata');
+                            el.find('video.visit-background').on('loadeddata', function(){
+                                renderFn(remote_replica);
+                            });
                         } else if (image_src) {
-                            el.find('img.visit-background').on('load', renderFn);
-                            console.log('load');
+                            el.find('img.visit-background').on('load', function(){
+                                renderFn(remote_replica);
+                            });
                         } else {
-                            console.log('renderFn 1');
-                            renderFn();
+                            renderFn(remote_replica);
                         }
                     } else {
-                        console.log('renderFn 2');
-                        renderFn();
+                        renderFn(remote_replica);
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -101,7 +101,7 @@ define([
                     }
                 }
 
-                function renderFn() {
+                function renderFn(remote_replica) {
                     try {
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
@@ -118,7 +118,7 @@ define([
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
-                        me.$('video').on('ended', function () {
+                        /*me.$('video').on('ended', function () {
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
                                 event.complete();
@@ -128,9 +128,9 @@ define([
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
-                        });
-
-                        if ('slow' == window.netSpeedVerbose) {
+                        });*/
+                            var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
+                            //var duration = parseInt(remote_replica.duration, 0)*1000;
                             setTimeout(function(){
                                 me.$('video').css('zIndex', 0);
                                 if (my_replicas.length === 0) {
@@ -141,8 +141,7 @@ define([
                                     el.find('.char-reply').removeClass('hidden');
                                     el.find('.visitor-reply').removeClass('hidden');
                                 }
-                            }, 5000);
-                        }
+                            }, duration);
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {

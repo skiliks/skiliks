@@ -1,11 +1,9 @@
 <?php
-
-
-
 /**
  * Вложения писем в рамках конкретной симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property MyDocument $myDocument
  */
 class MailAttachment extends CActiveRecord
 {

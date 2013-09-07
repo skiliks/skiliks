@@ -41,7 +41,7 @@ class SiteController extends SiteBaseController
             $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
             if (null === $invite) {
                 Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
-                $this->redirect('/simulations');
+                $this->redirect('/dashboard');
             }
 
             $invite->refresh(); // Important! Prevent caching
@@ -65,13 +65,14 @@ class SiteController extends SiteBaseController
                 'чтобы он выслал вам новое приглашение или со службой тех.поддержки ' .
                 'чтобы восстановить доступ к прохождению симуляции.'
             );
-            $this->redirect('/simulations');
+            $this->redirect('/dashboard');
         }
 
+
         // check for un complete simulations {
-        $startedInvites = Invite::model()->findAllByAttributes([
+        /*$startedInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => $user->id,
-            'status'      => Invite::STATUS_STARTED
+            'status'      => Invite::STATUS_IN_PROGRESS
         ]);
 
         if (0 < count($startedInvites) &&
@@ -99,7 +100,7 @@ class SiteController extends SiteBaseController
                 'свяжитесь со службой технической поддержки для устранения проблемы.'
             );
             $this->redirect('/simulations');
-        }
+        }*/
         // check for un complete simulations }
 
         if ( isset($invite)
@@ -118,6 +119,8 @@ class SiteController extends SiteBaseController
         $scenario = Scenario::model()->findByAttributes([
             'slug' => $type
         ]);
+
+        $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
 
         if (null === $scenario) {
             $this->redirect('/dashboard');
@@ -161,6 +164,7 @@ class SiteController extends SiteBaseController
             'assetsUrl'     => $assetsUrl,
             'inviteId'      => (null === $invite_id) ? 'null' : $invite_id,
             'httpUserAgent' => str_replace(['(',')'], '', $_SERVER['HTTP_USER_AGENT']),
+            'scenarioLabel' => $scenarioConfigLabelText
         ]);
     }
 
@@ -196,21 +200,15 @@ class SiteController extends SiteBaseController
 
     public function actionIsStarted()
     {
-        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        /* @var YumUser $user */
-        $user = Yii::app()->user->data();
-        $not_end_simulations = (int)Simulation::model()->countByAttributes(['user_id'=>$user->id,'scenario_id'=>$scenario->id, 'end'=>null]);
-        if($not_end_simulations === 0) {
-            $result['simulation_start'] = true;
-        }else{
             $invite_id = Yii::app()->request->getParam('invite_id');
-            if(null!==$invite_id){
-                $invite = Invite::model()->findByPk($invite_id);
+            /* @var */
+            $invite = Invite::model()->findByPk($invite_id);
+            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
                 InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+                $result['simulation_start'] = false;
+            }else{
+                $result['simulation_start'] = true;
             }
-
-            $result['simulation_start'] = false;
-        }
         $this->sendJSON($result);
     }
 
@@ -229,6 +227,14 @@ class SiteController extends SiteBaseController
             $invite = Invite::model()->findByPk($invite_id);
             InviteService::logAboutInviteStatus($invite, 'user reject start second simulation');
         }
+    }
+
+
+    public function actionExit(){
+
+        Yii::app()->user->setFlash('error','Текущая симуляция была прервана, так как вы начали новую симуляцию');
+
+        $this->redirect('/dashboard');
     }
 }
 

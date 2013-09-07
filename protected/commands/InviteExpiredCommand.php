@@ -16,10 +16,18 @@ class InviteExpiredCommand extends CConsoleCommand
         //Invites
         $time = time() - Yii::app()->params['cron']['InviteExpired'];
         /** @var $invites Invite[] */
-        $invites = Invite::model()->findAll("status = ".Invite::STATUS_PENDING." AND sent_time <= ".$time);
+        $invites = Invite::model()->findAll(
+            sprintf("status IN ('%s', '%s', '%s') AND sent_time <= '%s' ",
+                Invite::STATUS_PENDING,
+                Invite::STATUS_ACCEPTED,
+                Invite::STATUS_IN_PROGRESS,
+                $time
+            ));
 
         foreach($invites as $invite){
-            $invite->inviteExpired();
+            if ($invite->inviteExpired()) {
+                echo sprintf("%s mark as expired \n", $invite->id);
+            }
         }
 
         /* @var $users UserAccountCorporate[] */

@@ -67,12 +67,18 @@ class SimulationController extends SimulationBaseController
             );
         }
 
+//        $scenarioConfigLabelText = $invite->scenario->scenario_config->scenario_label_text;
+
+        $scenario = Scenario::model()->findByAttributes(['slug'=>$type]);
+        $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
+
         $this->sendJSON(
             array(
-                'result'       => 1,
-                'speedFactor'  => $simulation->getSpeedFactor(),
-                'simId'        => $simulation->id,
-                'scenarioName' => $scenarioName
+                'result'        => 1,
+                'speedFactor'   => $simulation->getSpeedFactor(),
+                'simId'         => $simulation->id,
+                'scenarioName'  => $scenarioName,
+                'scenarioLabel' => $scenarioConfigLabelText
             )
         );
     }
@@ -178,22 +184,9 @@ class SimulationController extends SimulationBaseController
 
         // IF - to prevent cheating
         if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
-            $invite->status = Invite::STATUS_STARTED;
+            $invite->status = Invite::STATUS_IN_PROGRESS;
             $invite->save(false);
             InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
-            if (Yii::app()->user->data()->isCorporate()) {
-
-                $initValue = Yii::app()->user->data()->getAccount()->invites_limit;
-
-                Yii::app()->user->data()->getAccount()->invites_limit--;
-                Yii::app()->user->data()->getAccount()->save(false);
-
-                UserService::logCorporateInviteMovementAdd(
-                    'actionMarkInviteStarted',
-                    Yii::app()->user->data()->getAccount(),
-                    $initValue
-                );
-            }
         }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }

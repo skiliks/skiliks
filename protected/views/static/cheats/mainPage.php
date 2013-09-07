@@ -12,7 +12,7 @@
 <div class="container container-2">
     <header>
 
-<h2>Skiliks: release 1.4</h2>
+<h2>Skiliks: release 2.0 </h2>
 
 <?php if (Yii::app()->user->data()->isHasAccount()): ?>
     Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
@@ -106,7 +106,6 @@
         <br/>
 
     <a href="/dashboard-new" style="background-color: #1D7885">dashboard Corporate new</a>
-    <a href="/simulations-new" style="background-color: #1D7885">simulations Corporate new</a>
     <a href="/profile-corporate-tariff-new" style="background-color: #1D7885">tariff Corporate new</a>
     <a href="/profile-corporate-company-info-new" style="background-color: #1D7885">company info Corporate new</a>
 

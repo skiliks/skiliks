@@ -5,9 +5,9 @@
 
 class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
-    protected function addToPlan(Simulation $simulation, $code, $time, $day){
+    protected function addToPlan(Simulation $simulation, $code, $day, $time = null) {
         $task = $simulation->game_type->getTask(['code'=>$code]);
-        DayPlanService::addToPlan($simulation, $task->id, $time, $day);
+        return DayPlanService::addTask($simulation, $task->id, $day, $time);
     }
 
     protected function addLog(PlanAnalyzer $pa, Simulation $simulation, $log, $is_ending = false) {
@@ -74,13 +74,12 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
 
         //P17 30 min 16:00
-        $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
-        $this->addToPlan($simulation, 'P02', '11:15', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P03', '11:45', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P04', '12:15', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P05', '12:45', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P08', '15:45', DayPlanLog::TODAY); //180 min
-        $this->addToPlan($simulation, 'P07', '16:30', DayPlanLog::TODAY); // 90 min
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_1, '10:00'); //90 min
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_1, '11:30'); //30 min
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_1, '12:00'); //30 min
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_1, '12:30'); //30 min
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_1, '13:00'); //180 min
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_1, '16:30'); // 90 min
 
         DayPlanService::copyPlanToLog($simulation, '660');
 
@@ -109,12 +108,13 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
-
-        $this->addToPlan($simulation, 'P04', '12:15', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P05', '12:45', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P08', '15:45', DayPlanLog::TODAY); //180 min
-        $this->addToPlan($simulation, 'P07', '16:30', DayPlanLog::TODAY); // 90 min
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_1, '10:00'); //90 min
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_1, '11:30'); //30 min
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_1, '12:00'); //30 min
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_1, '12:30'); //30 min
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_1, '13:00'); //30 min
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_1, '16:00'); //180 min
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_1, '19:30'); // 90 min
 
         DayPlanService::copyPlanToLog($simulation, '660');
 
@@ -143,11 +143,14 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
-
-        $this->addToPlan($simulation, 'P05', '12:45', DayPlanLog::TODAY); //30 min
-        $this->addToPlan($simulation, 'P08', '15:45', DayPlanLog::TODAY); //180 min
-        $this->addToPlan($simulation, 'P07', '16:30', DayPlanLog::TODAY); // 90 min
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_1, '10:00'); //90 min
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_1, '11:30'); //30 min
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_1, '12:00'); //30 min
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_1, '12:30'); //30 min
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_1, '13:00'); //30 min
+        $this->addToPlan($simulation, 'P10', DayPlan::DAY_1, '13:30'); // 60 min
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_1, '16:00'); //180 min
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_1, '19:30'); // 90 min
 
         DayPlanService::copyPlanToLog($simulation, '660');
 
@@ -241,7 +244,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P01', '9:00', DayPlanLog::TOMORROW); //90 min
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_2, '9:00'); //90 min
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_18_00);
 
@@ -270,12 +273,12 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P01', '9:00', DayPlanLog::TOMORROW); //90 min
-        $this->addToPlan($simulation, 'P02', '11:30', DayPlanLog::TOMORROW); //30 min
-        $this->addToPlan($simulation, 'P03', '12:00', DayPlanLog::TOMORROW); //30 min
-        $this->addToPlan($simulation, 'P04', '12:30', DayPlanLog::TOMORROW); //30 min
-        $this->addToPlan($simulation, 'P05', '13:00', DayPlanLog::TOMORROW); //30 min
-        $this->addToPlan($simulation, 'P07', '13:30', DayPlanLog::TOMORROW); // 90 min
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_2, '9:00'); //90 min
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_2, '11:30'); //30 min
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_2, '12:00'); //30 min
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_2, '12:30'); //30 min
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_2, '13:00'); //30 min
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_2, '13:30'); // 90 min
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_18_00);
 
@@ -385,7 +388,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_1, '10:00');
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -410,27 +413,27 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P6',   '10:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P012', '10:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P3',   '11:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P015', '12:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P04',  '13:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P06',  '13:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P018', '15:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P016', '17:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P011', '09:30', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P019', '10:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P07',  '11:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P05',  '12:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P08',  '13:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P09',  '16:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P03',  '17:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P01',  '18:00', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P02',  '',      DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P12',  '',      DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P010', '',      DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P013', '',      DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P6', DayPlan::DAY_1,   '10:15');
+        $this->addToPlan($simulation, 'P012', DayPlan::DAY_1, '10:45');
+        $this->addToPlan($simulation, 'P3', DayPlan::DAY_1,   '11:45');
+        $this->addToPlan($simulation, 'P015', DayPlan::DAY_1, '12:15');
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_1,  '13:15');
+        $this->addToPlan($simulation, 'P06', DayPlan::DAY_1,  '13:45');
+        $this->addToPlan($simulation, 'P018', DayPlan::DAY_1, '15:15');
+        $this->addToPlan($simulation, 'P017', DayPlan::DAY_1, '16:00');
+        $this->addToPlan($simulation, 'P016', DayPlan::DAY_1, '17:00');
+        $this->addToPlan($simulation, 'P011', DayPlan::DAY_2, '09:30');
+        $this->addToPlan($simulation, 'P019', DayPlan::DAY_2, '10:15');
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_2,  '11:15');
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_2,  '12:45');
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_2,  '13:45');
+        $this->addToPlan($simulation, 'P09', DayPlan::DAY_2,  '16:45');
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_2,  '17:15');
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_2,  '18:00');
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_AFTER_VACATION);
+        $this->addToPlan($simulation, 'P12', DayPlan::DAY_AFTER_VACATION);
+        $this->addToPlan($simulation, 'P010', DayPlan::DAY_AFTER_VACATION);
+        $this->addToPlan($simulation, 'P013', DayPlan::DAY_AFTER_VACATION);
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -696,29 +699,29 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P013', '10:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P011', '13:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P018', '14:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P3',   '15:30', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P09',  '17:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P019', '18:00', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P013', DayPlan::DAY_1, '10:00');
+        $this->addToPlan($simulation, 'P011', DayPlan::DAY_1, '13:15');
+        $this->addToPlan($simulation, 'P018', DayPlan::DAY_1, '14:00');
+        $this->addToPlan($simulation, 'P3', DayPlan::DAY_1, '15:30');
+        $this->addToPlan($simulation, 'P017', DayPlan::DAY_1, '16:00');
+        $this->addToPlan($simulation, 'P09', DayPlan::DAY_1, '17:00');
+        $this->addToPlan($simulation, 'P019', DayPlan::DAY_1, '18:00');
 
-        $this->addToPlan($simulation, 'P010', '9:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P01',  '11:00', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P06',  '12:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P04',  '15:00', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P03',  '16:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P02',  '17:30', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P012', '20:00', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P010', DayPlan::DAY_2, '9:45');
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_2,  '11:00');
+        $this->addToPlan($simulation, 'P06', DayPlan::DAY_2,  '12:45');
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_2,  '15:00');
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_2,  '16:15');
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_2,  '17:30');
+        $this->addToPlan($simulation, 'P012', DayPlan::DAY_2, '20:00');
 
-        $this->addToPlan($simulation, 'P016', '',      DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P12',  '',      DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P016', DayPlan::DAY_AFTER_VACATION);
+        $this->addToPlan($simulation, 'P12', DayPlan::DAY_AFTER_VACATION);
 
-        $this->addToPlan($simulation, 'P015', '',      DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P08',  '',      DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P07',  '',      DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P05',  '',      DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P015', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_TODO);
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -981,28 +984,23 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        $result[] = $this->addToPlan($simulation, 'P013', DayPlan::DAY_1, '10:00');
+        $result[] = $this->addToPlan($simulation, 'P04', DayPlan::DAY_1, '13:00');
+        $result[] = $this->addToPlan($simulation, 'P06', DayPlan::DAY_1, '13:30');
+        $result[] = $this->addToPlan($simulation, 'P018', DayPlan::DAY_1, '15:00');
+        $result[] = $this->addToPlan($simulation, 'P016', DayPlan::DAY_1, '17:00');
+        $result[] = $this->addToPlan($simulation, 'P011', DayPlan::DAY_2, '09:30');
+        $result[] = $this->addToPlan($simulation, 'P019', DayPlan::DAY_2, '10:15');
+        $result[] = $this->addToPlan($simulation, 'P07', DayPlan::DAY_2, '11:15');
+        $result[] = $this->addToPlan($simulation, 'P05', DayPlan::DAY_2, '12:45');
+        $result[] = $this->addToPlan($simulation, 'P08', DayPlan::DAY_2, '13:45');
+        $result[] = $this->addToPlan($simulation, 'P09', DayPlan::DAY_2, '16:45');
+        $result[] = $this->addToPlan($simulation, 'P03', DayPlan::DAY_2, '17:15');
+        $result[] = $this->addToPlan($simulation, 'P01', DayPlan::DAY_2, '18:00');
+        $result[] = $this->addToPlan($simulation, 'P02', DayPlan::DAY_AFTER_VACATION);
+        $result[] = $this->addToPlan($simulation, 'P010', DayPlan::DAY_AFTER_VACATION);
+        $result[] = $this->addToPlan($simulation, 'P12', DayPlan::DAY_AFTER_VACATION);
 
-        $this->addToPlan($simulation, 'P6', '10:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P012', '10:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P3', '11:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P015', '12:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P04', '13:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P06', '13:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P018', '15:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P016', '17:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P011', '09:30', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P019', '10:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P07', '11:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P05', '12:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P08', '13:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P09', '16:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P03', '17:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P01', '18:00', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P02', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P010', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P12', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P013', '9:00', DayPlanLog::TODAY);
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -1024,27 +1022,27 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $this->addToPlan($simulation, 'P6', '',   DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P012', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P3', '',   DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P015', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P04', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P06', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P018', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P016', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P011', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P019', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P07', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P05', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P08', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P09', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P03', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P01', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P02', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P010', '', DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P12', '',  DayPlanLog::TODO);
-        $this->addToPlan($simulation, 'P013', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P6', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P012', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P3', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P015', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P04', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P06', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P018', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P017', DayPlan::DAY_1, '16:00');
+        $this->addToPlan($simulation, 'P016', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P011', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P019', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P07', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P05', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P08', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P09', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P03', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P01', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P02', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P010', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P12', DayPlan::DAY_TODO);
+        $this->addToPlan($simulation, 'P013', DayPlan::DAY_TODO);
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -2235,8 +2233,19 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         ]); //
 
         $pa = new PlanAnalyzer($simulation);
+
+        // hack - будем считать что это тест не чёрного, а белого ящика ;) {
+        $pa->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes([
+            'sim_id' => $simulation->id,
+        ]);
+        // hack }
+
         $pa->check_214g('214g0', '0', []);
-        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'point_id' => $behaviour->id
+        ]);
         $this->assertEquals(2*$behaviour->scale, $assessment->value);
 
     }

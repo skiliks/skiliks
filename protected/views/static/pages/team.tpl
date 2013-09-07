@@ -7,7 +7,7 @@
 	<ul class="team-list">
 		<li class="maria">
 			<h4>{Yii::t('site', 'Maria Gorina')}</h4> 
-			<p>{Yii::t('site', 'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br />… simply The Boss &amp; Visionary')}</p>
+			<p>{Yii::t('site', 'Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>')}</p>
 		</li>
 		<li class="alyona">
 			<h4>{Yii::t('site', 'Leah Levin')}</h4> 

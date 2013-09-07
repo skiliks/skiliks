@@ -858,7 +858,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->vacancy_id = $vacancy->id;
         $invite->save();
 
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL);
         $simulation->invite = $invite;
         $simulation->save();
 
@@ -899,7 +899,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $evaluationService = new Evaluation($simulation);
         $evaluationService->checkManagerialProductivity();
 
-        $ad = $simulation->getAssessmentDetails();
+        $ad = json_decode($simulation->getAssessmentDetails(), true);
 
         $this->assertEquals(5, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
@@ -942,6 +942,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         $evaluationService->checkManagerialProductivity();
 
         $ad = $simulation->getAssessmentDetails();
+
+        $ad = json_decode($simulation->getAssessmentDetails(), true);
 
         $this->assertEquals(3, count($ad[AssessmentCategory::PRODUCTIVITY]));
 
@@ -1022,7 +1024,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->scenario_id = $scenario->id;
         $invite->save(false);
 
-        $promoSim = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $promoSim = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL);
 
         $this->setTime($promoSim, 10, 01, false);
 

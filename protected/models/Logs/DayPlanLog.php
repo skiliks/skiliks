@@ -15,8 +15,8 @@
  * @property integer $todo_count
  *
  * The followings are the available model relations:
- * @property Simulations $sim
- * @property Tasks $task
+ * @property Simulation $sim
+ * @property Task $task
  */
 class DayPlanLog extends CActiveRecord
 {
@@ -75,7 +75,7 @@ class DayPlanLog extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 			'task' => array(self::BELONGS_TO, 'Task', 'task_id'),
 		);
 	}

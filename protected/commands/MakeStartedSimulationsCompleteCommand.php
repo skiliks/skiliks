@@ -10,7 +10,7 @@ class MakeStartedSimulationsCompleteCommand extends CConsoleCommand {
         echo "Start: \n";
 
         $startedInvites = Invite::model()->findAllByAttributes([
-            'status' => Invite::STATUS_STARTED
+            'status' => Invite::STATUS_IN_PROGRESS
         ]);
 
          // @var Simulation $sim

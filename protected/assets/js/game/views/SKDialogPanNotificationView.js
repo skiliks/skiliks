@@ -3,11 +3,11 @@
 var SKDialogPanNotificationView;
 define([
     "jquery/jquery.topzindex.min",
-    "text!game/jst/plan/dialog_paln_notification.jst",
+    "text!game/jst/plan/dialog_plan_notification.jst",
     "game/views/SKDialogView"
 ], function (
         topzindex,
-        dialog_paln_notification
+        dialog_plan_notification
     ) {
     "use strict";
     /**
@@ -28,7 +28,7 @@ define([
                     this.renderPreventClickElement();
                 }
 
-                this.$el = $(_.template(dialog_paln_notification, {
+                this.$el = $(_.template(dialog_plan_notification, {
                     cls: this.options.class,
                     title: this.options.message,
                     content: this.options.content,

@@ -206,10 +206,11 @@ class YumProfile extends YumActiveRecord
 		array_push($rules,
 				array(implode(',',$safe), 'safe'));
 
-		$rules[] = array('allow_comments, show_friends', 'numerical');
-		$rules[] = array('email', 'unique', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Данный email занят'));
+        $rules[] = array('general_error', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration'));
+        $rules[] = array('allow_comments, show_friends', 'numerical');
+        $rules[] = array('email', 'unique', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Данный email занят'));
 		$rules[] = array('email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email'));
-		$rules[] = array('privacy', 'safe');
+        $rules[] = array('privacy', 'safe');
 
         $rules[] = array('email', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Email is required'));
         $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
@@ -217,6 +218,19 @@ class YumProfile extends YumActiveRecord
 
 		return $rules;
 	}
+
+    public function emailIsNotActiveValidation($attribute) {
+        $existProfile = YumProfile::model()->findByAttributes([
+            'email' => $this->email
+        ]);
+
+        if ($existProfile !== NULL && !$existProfile->user->isActive()) {
+            $error = Yii::t('site',  'Email already exists, but not activated.')
+                . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+            $this->addError($attribute, $error);
+        }
+        return true;
+    }
 
 	public function relations()
 	{

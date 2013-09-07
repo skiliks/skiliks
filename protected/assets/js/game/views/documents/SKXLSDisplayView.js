@@ -71,6 +71,8 @@ define([
 
                 SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
                 me.sheets = [];
+                this.block();
+                SKApp.simulation.useSCHotkeys = false;
                 doc.get('sheets').each(function (sheet, i) {
                     var sheetView = new SKSheetView({
                         'el':     me.$('.table-container'),
@@ -87,6 +89,23 @@ define([
                         sheet.activate();
                     }
                 });
+                me.$('.header-inner').click();
+                clearInterval(SKApp.simulation.sc_interval_id);
+                SKApp.simulation.sc_interval_id = setInterval(function(){
+                    if(document.body.style.cursor !== "progress"){
+                        me.unBlock();
+                        SKApp.simulation.useSCHotkeys = true;
+                        clearInterval(SKApp.simulation.sc_interval_id);
+                    }
+                    //me.$('.header-inner').click();
+                }, 1000);
+                setTimeout(function(){
+                    if(null !== SKApp.simulation.sc_interval_id) {
+                        me.unBlock();
+                        SKApp.simulation.useSCHotkeys = true;
+                        clearInterval(SKApp.simulation.sc_interval_id);
+                    }
+                }, 10000);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -59,9 +59,6 @@ define([
                     }));
                     AppView.frame._showPausedScreen();
                     me.$el.topZIndex();
-                    //var zIndex = me.$el.css('zIndex');
-                    //console.log(zIndex);
-                    //$('.paused-screen').css('zIndex', zIndex-1);
                 });
             } catch(exception) {
                 if (window.Raven) {
@@ -70,9 +67,7 @@ define([
             }
         },
 
-        doActivate: function () {
-            //console.log('active');
-        },
+        doActivate: function () {},
 
         'leave': function (e) {
             try {
@@ -84,11 +79,15 @@ define([
 
                 simulation.startPause(function() {});
                 SKApp.server.api('meeting/leave', {'id': subjectId});
-
-                SKApp.simulation.window_set.open('visitor', 'meetingGone', {
-                    'subject': subject,
-                    'params': {meetingId: subjectId}
-                });
+                if (subject.get('duration') == 0) {
+                    window.AppView.frame.stopSimulation();
+                }
+                else {
+                    SKApp.simulation.window_set.open('visitor', 'meetingGone', {
+                        'subject': subject,
+                        'params': {meetingId: subjectId}
+                    });
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

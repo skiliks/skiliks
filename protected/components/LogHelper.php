@@ -650,17 +650,20 @@ class LogHelper
                 if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id))) {
                     throw(new CException('Previous window is still activated'));
                 }
-                $universal_log = new UniversalLog();
+
+                $universal_log = new UniversalLog(); //new UniversalLog();
                 $universal_log->sim_id = $simulation->id;
                 $universal_log->window_id = $log[1];
                 $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                 $universal_log->file_id = empty($log[4]['fileId']) ? null : $log[4]['fileId'];
-                $universal_log->dialog_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
-                $universal_log->start_time = date("H:i:s", $log[3]);
+                $universal_log->replica_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
+                $universal_log->start_time = gmdate("H:i:s", $log[3]);
+                $universal_log->window_uid = empty($log['window_uid']) ? null : $log['window_uid'];
+                $universal_log->meeting_id = empty($log[4]['meetingId']) ? null : $log[4]['meetingId'];
                 $universal_log->save();
-                continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+                /* @var  $universal_logs []UniversalLog */
                 $universal_logs = UniversalLog::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id));
                 if (0 === count($universal_logs)) {
                     throw(new CException('No active windows. Achtung!' . $simulation->id));
@@ -668,18 +671,16 @@ class LogHelper
                 if (1 < count($universal_logs)) {
                     throw(new CException('Two or more active windows at one time. Achtung!'));
                 }
+                /* @var  $universal_log UniversalLog */
                 foreach ($universal_logs as $universal_log) {
                     if (!empty($log['lastDialogId'])) {
                         $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
                     }
+                    $universal_log->mail_id = empty($log[4]['mailId']) ? $universal_log->mail_id : $log[4]['mailId'];
                     $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
-                    $universal_log->end_time = date("H:i:s", $log[3]);
+                    $universal_log->end_time = gmdate("H:i:s", $log[3]);
                     $universal_log->save();
                 }
-            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
-
-                continue;
-
             } else {
 
                 throw new CException("Unknown action: " . $log[2]); //TODO:Описание доделать
@@ -778,6 +779,30 @@ class LogHelper
             }
         }
         return $data;
+    }
+
+    public static function updateUniversalLog(Simulation $simulation) {
+        $window = Window::model()->findByAttributes(['subtype'=>'mail new']);
+        $universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id, 'window_id'=>$window->id]);
+        $partial_logs = [];
+        $full_logs = [];
+        /* @var $log UniversalLog */
+        foreach($universal_log as $log){
+            if(null === $log->mail_id){
+                $partial_logs[$log->window_uid][] = $log;
+            } else {
+                $full_logs[$log->window_uid] = $log;
+            }
+        }
+
+        foreach($partial_logs as $window_uid => $logs){
+            if(isset($full_logs[$window_uid])){
+                foreach($logs as $log){
+                    $log->mail_id = $full_logs[$window_uid]->mail_id;
+                    $log->update();
+                }
+            }
+        }
     }
 
 }

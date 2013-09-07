@@ -5,8 +5,24 @@ class DebugController extends SiteBaseController
 
     public function actionIndex()
     {
-        //TestUserHelper::addUser("personal");
-        echo "TEST";
+        $sim_id = Yii::app()->request->getParam('sim_id');
+        $simulation = Simulation::model()->findByPk($sim_id);
+
+        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $tma = new TimeManagementAnalyzerDebug($simulation);
+        $tma->calculateAndSaveAssessments();
+        $assessment_debug = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+
+        $assessment = TimeManagementAggregated::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+
+        echo 'sim_id = '.$simulation->id.' 1st_priority_phone_calls debug - '.$assessment_debug->value.' real - '.$assessment->value;
     }
 
     public function actionStyleCss()

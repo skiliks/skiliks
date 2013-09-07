@@ -40,16 +40,17 @@ define(["game/models/SKDayTask"], function () {
          * @param duration
          */
         isTimeSlotFree: function (time, day, duration) {
+
             try {
                 var result = true;
                 var start_hour = time.split(':')[0];
                 var start_minute = time.split(':')[1];
                 var start_time = parseInt(start_hour, 10) * 60 + parseInt(start_minute, 10);
                 var end_time = start_time + parseInt(duration, 10);
-                if (parseInt(day, 10) === 1 && start_time < SKApp.simulation.getGameMinutes()) {
+                if (day === 'day-1' && start_time < SKApp.simulation.getGameMinutes()) {
                     return false;
                 }
-                if (parseInt(day, 10) !== 3 && end_time > 22 * 60) {
+                if (day !== 'after-vacation' && end_time > 22 * 60) {
                     return false;
                 }
                 this.each(function (task) {
@@ -69,6 +70,34 @@ define(["game/models/SKDayTask"], function () {
                 });
 
                 return result;
+            } catch(exception) {
+                if (window.Raven) {
+                    //console.log(exception.message + ',' + exception.stack);
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+        /**
+         * Returns true if time slot has no reserved tasks
+         *
+         * @method isTimeSlotFree
+         * @param time
+         * @param day
+         * @param duration
+         */
+        canPlanedTaskOnTimeToday: function (time, day, duration) {
+
+            try {
+                var planed_time = parseInt(time.split(':')[0], 0)*60+parseInt(time.split(':')[1], 0);
+                var current_time = SKApp.simulation.getGameMinutes();
+                if(day !== 'day-1'){
+                    return true;
+                }else{
+                    if(planed_time > current_time){
+                        return true;
+                    }
+                    return false;
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

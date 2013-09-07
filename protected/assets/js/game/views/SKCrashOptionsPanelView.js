@@ -84,7 +84,6 @@ define([
 
         doCloseMail:function(e){
             this.logAction($(e.currentTarget).text());
-            console.log("close");
             var mailEmulators = SKApp.simulation.window_set.where({name: "mailEmulator"});
             $.each(mailEmulators, function(index, mail){
                 mail.setOnTop();
@@ -102,7 +101,6 @@ define([
                 phone.close();
             });
             $.each(SKApp.simulation.events.models, function(index, event) {
-                console.log(event.status === 'in progress');
                 if(event.status === 'in progress') {
                     event.setStatus('completed');
                 }
@@ -158,7 +156,6 @@ define([
                 SKApp.simulation.stopPause(function(){});
             }
             $.each(SKApp.simulation.events.models, function(index, event) {
-                console.log(event.status === 'in progress');
                 if(event.status === 'in progress') {
                     event.setStatus('completed');
                 }
@@ -188,7 +185,6 @@ define([
         doRestoreEvents:function(e) {
             this.logAction($(e.currentTarget).text());
             $.each(SKApp.simulation.events.models, function(index, event) {
-                console.log(event.status === 'in progress');
                 if(event.status === 'in progress') {
                     event.setStatus('completed');
                 }
@@ -209,7 +205,6 @@ define([
             this.remove();
             return false;
         }
-
     });
     return SKCrashOptionsPanelView; //SKDialogView;
 });

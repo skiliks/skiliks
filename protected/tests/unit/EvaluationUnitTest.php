@@ -33,8 +33,6 @@ class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
             $assessment->sim_id                      = $simulation->id;
             $assessment->point_id                    = $behaviour->id;
             $assessment->value                       = $behaviour->scale;
-            $assessment->fixed_value                 = $behaviour->scale;
-            $assessment->coefficient_for_fixed_value = 1;
             $assessment->save();
         }
 
