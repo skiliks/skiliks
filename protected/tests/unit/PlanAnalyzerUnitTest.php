@@ -2233,8 +2233,19 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         ]); //
 
         $pa = new PlanAnalyzer($simulation);
+
+        // hack - будем считать что это тест не чёрного, а белого ящика ;) {
+        $pa->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes([
+            'sim_id' => $simulation->id,
+        ]);
+        // hack }
+
         $pa->check_214g('214g0', '0', []);
-        $assessment = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
+
+        $assessment = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'point_id' => $behaviour->id
+        ]);
         $this->assertEquals(2*$behaviour->scale, $assessment->value);
 
     }

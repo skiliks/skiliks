@@ -317,7 +317,7 @@ class FlagServiceUnitTest extends CDbTestCase
     }
 
     /**
-     * Проверяет что письмо M31 отправляется по флагу F30, а M9 при флаге M16 — нет
+     * Проверяет что письмо M31 отправляется по флагу F30, а M9 при флаге F16 — нет
      */
     public function testSendEmailAfterFlagSwitched()
     {
@@ -334,8 +334,10 @@ class FlagServiceUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F16', 1);
 
         $e = new EventsManager();
+
         $result = EventsManager::getState($simulation, []);
         $this->assertEquals(1, count($result['events']));
+
         $result = EventsManager::getState($simulation, []);
         $this->assertEquals(0, $result['result']);
 
@@ -353,7 +355,7 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('inbox', $email->getGroupName());
         $this->assertNull($time_email);
 
-        SimulationService::setSimulationClockTime($simulation, 13, 30); // M9 must come by time at 13:30
+        Yii::app()->session['gameTime'] = '13:30';
         $i = 0;
         while (true) {
             $state = EventsManager::getState($simulation, []);
@@ -375,7 +377,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
         $this->assertNotNull($timed_bad_email);
-        $this->assertEquals('inbox',$timed_bad_email->getGroupName());
+        $this->assertEquals('inbox', $timed_bad_email->getGroupName());
     }
 
     /*
