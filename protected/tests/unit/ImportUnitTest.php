@@ -32,22 +32,22 @@ class ImportUnitTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(538, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(543, CommunicationTheme::model()->countByAttributes([
                 'character_id' => null,
                 'scenario_id' => $fullScenario->id,
             ]), 'Character');
 
-            $this->assertEquals(41, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(38, CommunicationTheme::model()->countByAttributes([
                 'phone' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Phones');
 
-            $this->assertEquals(13287, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(13497, CommunicationTheme::model()->countByAttributes([
                 'mail' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Mail');
 
-            $this->assertEquals(301, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(343, CommunicationTheme::model()->countByAttributes([
                 'text' => '!проблема с сервером!',
                 'scenario_id' => $fullScenario->id,
             ]));
@@ -82,7 +82,7 @@ class ImportUnitTest extends CDbTestCase
                 ])->next_event_code, 
                 'E1.2');
 
-            $this->assertEquals(848, Replica::model()->count('scenario_id = '.$fullScenario->id));
+            $this->assertEquals(850, Replica::model()->count('scenario_id = '.$fullScenario->id));
 
             $this->assertNotNull(Replica::model()->findByAttributes([
                 'code' => 'S12.3',
@@ -91,9 +91,9 @@ class ImportUnitTest extends CDbTestCase
 
             $this->assertGreaterThan(0, FlagRunMail::model()->count('scenario_id = '.$fullScenario->id));
 
-            $this->assertEquals(10, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
-            $this->assertEquals(23, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
-            $this->assertEquals(73, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
+            $this->assertEquals(6, FlagBlockReplica::model()->count('scenario_id = '.$fullScenario->id), 'block replica');
+            $this->assertEquals(29, FlagBlockDialog::model()->count('scenario_id = '.$fullScenario->id), 'block dialog');
+            $this->assertEquals(72, Flag::model()->count('scenario_id = '.$fullScenario->id), 'flags');
 
             $this->assertEquals(28, FlagBlockMail::model()->count('scenario_id = '.$fullScenario->id), 'block mail');
 

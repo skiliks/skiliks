@@ -22,6 +22,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $window_resolution
  * @property string $user_agent
  * @property string $ipv4
+ * @property string $status
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -47,10 +48,10 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property SimulationLearningGoalGroup[] $learning_goal_group
  * @property TimeManagementAggregated[] $time_management_aggregated
  * @property Invite $invite
- * @property MailBox[] $mail_box_inbox
+ * @property MailBox[] $mail_box_outbox
  * @property SimulationFlag[] $simFlags
  * @property LogAssessment214g[] $logAssessment214g
- *
+ * @property UniversalLog[] $universal_log
  */
 class Simulation extends CActiveRecord
 {
@@ -61,6 +62,10 @@ class Simulation extends CActiveRecord
 
     const MODE_PROMO_LABEL     = 'promo';
     const MODE_DEVELOPER_LABEL = 'developer';
+
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_INTERRUPTED = 'interrupted';
+    const STATUS_COMPLETE = 'complete';
 
     public $id;
 
@@ -79,11 +84,11 @@ class Simulation extends CActiveRecord
     {
         $logTableList = new LogTableList($this);
         $excelWriter = $logTableList->asExcel();
+        //$excelWriter->save($this->getLogFilename($this->id));
         $excelWriter->save($this->getLogFilename($this->id));
-
         if ($isConsoleCall) {
             // just console notification
-            return $this->getFilename($this->id)."- stored \r\n";
+            return $this->getLogFilename($this->id)."- stored \r\n";
         }
 
         return true;
@@ -92,6 +97,50 @@ class Simulation extends CActiveRecord
     public function getLogFileName()
     {
         return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $this->id);
+    }
+
+    /**
+     * @param YumUser $user
+     * @param Invite $invite
+     *
+     * @return bool
+     */
+    public function isAllowedToSeeResults(YumUser $user)
+    {
+        // просто проверка
+        if (null === $user) {
+            return false;
+        }
+
+        if (null === $this->invite && true === $this->game_type->isAllowOverride()) {
+            return true;
+        }
+
+        if (null === $this->invite) {
+            return false;
+        }
+
+        // просто проверка
+        if (false === $this->invite->isCompleted()) {
+            return false;
+        }
+
+        if($user->isAdmin()) {
+            return true;
+        }
+
+        // создатель всегда может
+        if ($this->invite->owner_id == $user->id) {
+            return true;
+        }
+
+        // истанная проверка - is_display_simulation_results, это главный переметр
+        // при решении отображать результаты симуляции или нет
+        if (1 === (int)$this->invite->is_display_simulation_results) {
+            return true;
+        }
+
+        return false;
     }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
@@ -147,6 +196,12 @@ class Simulation extends CActiveRecord
     {
         $time = Yii::app()->request->getParam('time');
         if(null === $time) {
+            // for unit tests with time {
+            if (isset(Yii::app()->session['gameTime'])) {
+                return Yii::app()->session['gameTime'];
+            }
+            // for unit tests with time }
+
             $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
             $variance = $variance * $this->getSpeedFactor();
 
@@ -193,7 +248,7 @@ class Simulation extends CActiveRecord
             'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
             'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
-            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
@@ -212,7 +267,7 @@ class Simulation extends CActiveRecord
             'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
             'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
             'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
-            //'mail_box_inbox'                  => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
+            'mail_box_outbox'                 => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_outbox.group_id = 2 or mail_box_outbox.group_id = 3'],
             //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
         ];
     }
@@ -540,73 +595,77 @@ class Simulation extends CActiveRecord
 //            return unserialize($this->results_popup_cache);
 //        }
 
-        $result = [];
+        if($this->isCalculateTheAssessment()) {
+            $result = [];
 
-        // Overall results
-        foreach ($this->assessment_overall as $rate) {
-            if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
-                $result[AssessmentCategory::OVERALL] = $rate->value;
-            } else {
-                $result[$rate->assessment_category_code] = ['total' => $rate->value];
+            // Overall results
+            foreach ($this->assessment_overall as $rate) {
+                if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
+                    $result[AssessmentCategory::OVERALL] = $rate->value;
+                } else {
+                    $result[$rate->assessment_category_code] = ['total' => $rate->value];
+                }
             }
-        }
 
-        // Management
-        foreach ($this->learning_area as $row) {
-            if ($row->learningArea->code <= 8) {
-                $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+            // Management
+            foreach ($this->learning_area as $row) {
+                if ($row->learningArea->code <= 8) {
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+                }
             }
-        }
 
-        foreach ($this->learning_goal_group as $row) {
-            if ($row->learningGoalGroup->learning_area_code <= 3) {
-                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                           [$row->learningGoalGroup->learning_area_code]
-                           [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
+            foreach ($this->learning_goal_group as $row) {
+                if ($row->learningGoalGroup->learning_area_code <= 3) {
+                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                               [$row->learningGoalGroup->learning_area_code]
+                               [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
+                }
             }
-        }
 
-        // Productivity
-        foreach ($this->performance_aggregated as $row) {
-            $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
-        }
-
-        // Time management
-        foreach ($this->time_management_aggregated as $row) {
-            $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
-        }
-
-        // Personal
-        $result[AssessmentCategory::PERSONAL] = [];
-        foreach ($this->learning_area as $row) {
-            if ($row->learningArea->code > 8) {
-                $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+            // Productivity
+            foreach ($this->performance_aggregated as $row) {
+                $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
             }
+
+            // Time management
+            foreach ($this->time_management_aggregated as $row) {
+                $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
+            }
+
+            // Personal
+            $result[AssessmentCategory::PERSONAL] = [];
+            foreach ($this->learning_area as $row) {
+                if ($row->learningArea->code > 8) {
+                    $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+                }
+            }
+
+            // get weight, just to use them like labels {
+            $id = $this->game_type->id;
+            if (Scenario::TYPE_LITE == $this->game_type->slug ) {
+                $id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL])->id;
+            }
+
+            $weights = Weight::model()->findAllByAttributes([
+                'scenario_id' => $id,
+                'rule_id'     => 1
+            ]);
+
+            foreach ($weights as $weight) {
+                $result['additional_data'][$weight->assessment_category_code] = $weight->value;
+            }
+            // get weight, just to use them like labels }
+
+        }else{
+            $result = '{"management":{"total":"0.00","1":{"total":"0.000000","1_1":{"+":"0.00","-":"0.00"},"1_2":{"+":"0.00","-":"0.00"},"1_3":{"+":"0.00","-":"0.00"},"1_5":{"+":"0.00","-":"0.00"},"1_4":{"+":"0.00","-":"0.00"}},"3":{"total":"0.00","3_1":{"+":"0.00","-":"0.00"},"3_2":{"+":"0.00","-":"0.00"},"3_3":{"+":"0.00","-":"0.00"},"3_4":{"+":"0.00","-":"0.00"}},"2":{"total":"0.000000","2_1":{"+":"0.00","-":"0.00"},"2_2":{"+":"0.00","-":"0.00"},"2_3":{"+":"0.00","-":"0.00"}}},"performance":{"total":"0.00"},"time":{"total":"0.00","workday_overhead_duration":"0.00","time_spend_for_1st_priority_activities":"0.00","time_spend_for_non_priority_activities":"0.00","time_spend_for_inactivity":"0.00","1st_priority_documents":"0.00","1st_priority_meetings":"0.00","1st_priority_phone_calls":"0.00","1st_priority_mail":"0.00","1st_priority_planning":"0.00","non_priority_documents":"0.00","non_priority_meetings":"0.00","non_priority_phone_calls":"0.00","non_priority_mail":"0.00","non_priority_planning":"0.00","efficiency":"0.00"},"overall":"0.00","personal":{"9":"0.000000","10":"0.000000","12":"0.000000","13":"0.000000","14":"0.000000","15":"0.000000","16":"0.000000","11":"0.000000"},"additional_data":{"management":"0.00","performance":"0.00","time":"0.00"}}';
+            $result = json_decode($result);
         }
-
-        // get weight, just to use them like labels {
-        $id = $this->game_type->id;
-        if (Scenario::TYPE_LITE == $this->game_type->slug ) {
-            $id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL])->id;
-        }
-
-        $weights = Weight::model()->findAllByAttributes([
-            'scenario_id' => $id,
-            'rule_id'     => 1
-        ]);
-
-        foreach ($weights as $weight) {
-            $result['additional_data'][$weight->assessment_category_code] = $weight->value;
-        }
-        // get weight, just to use them like labels }
-
-
 
         // cache results popup data
         $this->results_popup_cache = serialize($result);
         $this->save(false);
 
-        return $result;
+        return json_encode($result);
     }
 
     /**
@@ -616,58 +675,68 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetailsV1()
     {
         // use cached results popup data
-        if (null !== $this->results_popup_cache) {
-            return unserialize($this->results_popup_cache);
-        }
+//        if (null !== $this->results_popup_cache) {
+//            return json_encode(unserialize($this->results_popup_cache));
+//        }
+        if($this->isCalculateTheAssessment()) {
+            $result = [];
 
-        $result = [];
-
-        // Overall results
-        foreach ($this->assessment_overall as $rate) {
-            if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
-                $result[AssessmentCategory::OVERALL] = $rate->value;
-            } else {
-                $result[$rate->assessment_category_code] = ['total' => $rate->value];
+            // Overall results
+            foreach ($this->assessment_overall as $rate) {
+                if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
+                    $result[AssessmentCategory::OVERALL] = $rate->value;
+                } else {
+                    $result[$rate->assessment_category_code] = ['total' => $rate->value];
+                }
             }
-        }
 
-        // Management
-        foreach ($this->learning_area as $row) {
-            if ($row->learningArea->code <= 3) {
-                $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+            // Management
+            foreach ($this->learning_area as $row) {
+                if ($row->learningArea->code <= 3) {
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
+                }
             }
-        }
-        foreach ($this->learning_goal_group as $row) {
-            if ($row->learningGoalGroup->learning_area_code <= 3) {
-                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                    [$row->learningGoalGroup->learning_area_code]
-                    [$row->learningGoalGroup] = ['+' => $row->percent, '-' => $row->problem];
+            foreach ($this->learning_goal_group as $row) {
+                if ($row->learningGoalGroup->learning_area_code <= 3) {
+                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                        [$row->learningGoalGroup->learning_area_code]
+                        [$row->learningGoalGroup] = ['+' => $row->percent, '-' => $row->problem];
+                }
             }
-        }
 
-        // Productivity
-        foreach ($this->performance_aggregated as $row) {
-            $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
-        }
-
-        // Time management
-        foreach ($this->time_management_aggregated as $row) {
-            $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
-        }
-
-        // Personal
-        $result[AssessmentCategory::PERSONAL] = [];
-        foreach ($this->learning_area as $row) {
-            if ($row->learningArea->code > 8) {
-                $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+            // Productivity
+            foreach ($this->performance_aggregated as $row) {
+                $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
             }
-        }
 
+            // Time management
+            foreach ($this->time_management_aggregated as $row) {
+                $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
+            }
+
+            // Personal
+            $result[AssessmentCategory::PERSONAL] = [];
+            foreach ($this->learning_area as $row) {
+                if ($row->learningArea->code > 8) {
+                    $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
+                }
+            }
+        }else{
+            $result = '{"management":{"total":"3.00","1":{"total":"0.000000","1_1":{"+":"0.00","-":"0.00"},"1_2":{"+":"18.18","-":"100.00"},"1_3":{"+":"0.00","-":"0.00"},"1_5":{"+":"0.00","-":"0.00"},"1_4":{"+":"0.00","-":"0.00"}},"3":{"total":"8.571429","3_1":{"+":"0.00","-":"0.00"},"3_2":{"+":"17.64","-":"0.00"},"3_3":{"+":"0.00","-":"0.00"},"3_4":{"+":"0.00","-":"0.00"}},"2":{"total":"0.000000","2_1":{"+":"0.00","-":"0.00"},"2_2":{"+":"0.00","-":"0.00"},"2_3":{"+":"0.00","-":"0.00"}}},"performance":{"total":"0.00"},"time":{"total":"0.00","workday_overhead_duration":"0.00","time_spend_for_1st_priority_activities":"0.00","time_spend_for_non_priority_activities":"0.00","time_spend_for_inactivity":"100.00","1st_priority_documents":"0.00","1st_priority_meetings":"0.00","1st_priority_phone_calls":"0.00","1st_priority_mail":"0.00","1st_priority_planning":"0.00","non_priority_documents":"0.00","non_priority_meetings":"0.00","non_priority_phone_calls":"0.00","non_priority_mail":"0.00","non_priority_planning":"0.00","efficiency":"0.00"},"overall":"1.50","personal":{"9":"0.000000","10":"0.000000","12":"0.000000","13":"0.000000","14":"0.000000","15":"0.000000","16":"0.000000","11":"0.000000"},"additional_data":{"management":"0.500000","performance":"0.350000","time":"0.150000"}}';
+            $result = json_decode($result);
+        }
         // cache results popup data
         $this->results_popup_cache = serialize($result);
         $this->save(false);
 
-        return $result;
+        return json_encode($result);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCalculateTheAssessment() {
+        return $this->game_type->isCalculateAssessment();
     }
 }
 

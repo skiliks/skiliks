@@ -340,7 +340,7 @@ class DialogService
      * @param Dialogs $dialog
      * @return array
      */
-    public static function dialogToArray($dialog) {
+    public static function dialogToArray(Replica $dialog) {
         return array(
             'id'                => $dialog->id,
             'ch_from'           => $dialog->from_character->code,
@@ -353,7 +353,8 @@ class DialogService
             'next_event_code'   => $dialog->next_event_code,
             'is_final_replica'  => $dialog->is_final_replica,
             'code'              => $dialog->code,
-            'excel_id'          => $dialog->excel_id
+            'excel_id'          => $dialog->excel_id,
+            'duration'          => $dialog->duration
         );
     }
 

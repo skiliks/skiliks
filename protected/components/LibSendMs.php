@@ -81,7 +81,7 @@ class LibSendMs
      * @param bool $isDraft
      * @return MailBox|null
      */
-    public static function sendMs($simulation, $messageCode, $isDraft = false, $letterType = '')
+    public static function sendMs($simulation, $messageCode, $isDraft = false, $letterType = '', $time = '9:01')
     {
         $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $messageCode]);
         /** @var $subject CommunicationTheme */
@@ -114,7 +114,7 @@ class LibSendMs
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($recipientsString);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->time       = $time;
         $sendMailOptions->copies     = implode(',', $copiesArray);
         $sendMailOptions->phrases    = '';
         $sendMailOptions->setLetterType($letterType);

@@ -11,9 +11,10 @@ class DayPlanAndTodoUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        $gotRecords = TodoService::getTodoTasksList($simulation->id);
-        $inDBRecords = Todo::model()->findAllByAttributes([
-            'sim_id' => $simulation->id
+        $gotRecords = DayPlanService::getTodoList($simulation);
+        $inDBRecords = DayPlan::model()->findAllByAttributes([
+            'sim_id' => $simulation->id,
+            'day' => DayPlan::DAY_TODO
         ]);
 
         $this->assertEquals(count($gotRecords), count($inDBRecords));
@@ -30,22 +31,27 @@ class DayPlanAndTodoUnitTest extends CDbTestCase
 
         // Try add new task
         $newTask = $simulation->game_type->getTask(['code' => 'P5']);
-        $result = TodoService::addTask($newTask->id, $simulation->id);
-        $todo = Todo::model()->findByAttributes([
+        $result = DayPlanService::addTask($simulation, $newTask->id, DayPlan::DAY_TODO);
+        $todo = DayPlan::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'task_id' => $newTask->id
         ]);
 
         $this->assertTrue($result);
-        $this->assertInstanceOf('Todo', $todo);
+        $this->assertInstanceOf('DayPlan', $todo);
 
         // Try add same task again
-        $result = TodoService::addTask($newTask->id, $simulation->id);
-        $this->assertInstanceOf('Todo', $result);
-        $this->assertSame($todo->id, $result->id);
+        DayPlanService::addTask($simulation, $newTask->id, DayPlan::DAY_TODO);
+        $again = DayPlan::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'task_id' => $newTask->id
+        ]);
+
+        $this->assertInstanceOf('DayPlan', $again);
+        $this->assertSame($todo->id, $again->id);
 
         // Something weird
-        $result = TodoService::addTask(null, $simulation->id);
+        $result = DayPlanService::addTask($simulation, null, null);
         $this->assertSame(false, $result);
     }
 

@@ -359,6 +359,34 @@ class MailBox extends CActiveRecord
     public function getGroupName() {
         return self::$folderIdToAlias[$this->group_id];
     }
+
+    public function isOutBox(){
+        return ($this->group_id === '2' || $this->group_id === '3');
+    }
+
+    public function isInBox(){
+        return ($this->group_id === '1' || $this->group_id === '4');
+    }
+
+    public function getRecipientsCode(){
+        $recipients = MailRecipient::model()->findAllByAttributes(['mail_id'=>$this->id]);
+        $codes = [];
+        /* @var $recipient MailRecipient */
+        foreach($recipients as $recipient){
+            $codes[] = $recipient->receiver->code;
+        }
+        return implode(',',$codes);
+    }
+    public function getCopiesCode(){
+        $copies = MailCopy::model()->findAllByAttributes(['mail_id'=>$this->id]);
+        $codes = [];
+        /* @var $copy MailCopy */
+        foreach($copies as $copy){
+            $codes[] = $copy->recipient->code;
+        }
+        return implode(',',$codes);
+    }
+
 }
 
 

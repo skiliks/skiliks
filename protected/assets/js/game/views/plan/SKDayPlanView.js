@@ -329,18 +329,13 @@ define([
                         var task_id = ui.draggable.attr('data-task-id');
                         var prev_cell = ui.draggable.parents('td');
 
-    //                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12),
-    //                        tdCell = $(event.target).find('tr:eq(' + index + ') td.planner-book-timetable-event-fl'),
-    //                        task_id = ui.draggable.attr('data-task-id'),
-    //                        prev_cell = ui.draggable.parents('td'),
-    //                        time = tdCell.attr('data-hour') + ':' + tdCell.attr('data-minute'),
-    //                        day = $(this).attr('data-day-id'),
-    //                        duration = ui.draggable.attr('data-task-duration');
-    //
-    //                    if (false === SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
-    //                        return false;
-    //                    }
+                        var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
+                        day = $(this).parents('div[data-day-id]').attr('data-day-id'),
+                        duration = ui.draggable.attr('data-task-duration');
 
+                        if (false === SKApp.simulation.dayplan_tasks.canPlanedTaskOnTimeToday(time, day, duration)) {
+                            return false;
+                        }
 
                         var oldTask = {};
                         oldTask = ui.draggable.find('.title').text() + '';
@@ -819,7 +814,7 @@ define([
                 var position = $task.parent().offset();
                 var width = $task.parent().width();
                 var height = $task.height();
-                //console.log(position);
+
                 var title = $task.parent('td').attr('title');
                 if(_.isEmpty(this.$('.plan_hint_tooltip')) === false){
                     $('.plan_hint_tooltip').remove();

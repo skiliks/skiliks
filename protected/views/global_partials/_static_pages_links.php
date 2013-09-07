@@ -33,6 +33,10 @@ $this->widget('zii.widgets.CMenu', array(
             'url'         => '',
             'linkOptions' => ['class' => 'top-profile '.$classForName],
             'visible' => $visibleName,
+        ],[
+            'label'       => Yii::t('site', 'Регистрация'),
+            'url'         => ['/registration'],
+            'visible'     => $isGuest
         ],
         [
             'label'       => Yii::t('site', 'Sign in'),

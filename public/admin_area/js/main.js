@@ -93,6 +93,12 @@ $(document).ready(function(){
 
     });
 
+    $(".clear_filter_button").click(function(e) {
+        e.preventDefault();
+        $(".clear_filter_button").next(".clear_form_field").val($(".clear_filter_button").attr("data-form-name"));
+        $(".clear_filter_button").parent("form").submit();
+    });
+
 
 
 });

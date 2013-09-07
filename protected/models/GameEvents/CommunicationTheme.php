@@ -127,24 +127,9 @@ class CommunicationTheme extends CActiveRecord
      */
     public function getPrefixForForward()
     {
-        $mail_prefix = 'fwd';
-        
-        switch($this->mail_prefix) {
-            case 're': 
-                $mail_prefix = 'fwdre';
-                break;
-            case 'rere': 
-                $mail_prefix = 'fwdrere';
-                break;
-            case 'fwd': 
-                $mail_prefix = 'fwdfwd';
-                break;
-            case 'rerere': 
-                $mail_prefix = 'fwdrerere';
-                break;
-        }
-        
-        return $mail_prefix;
+
+        return ($this->mail_prefix !== NULL) ? "fwd".$this->mail_prefix : "fwd";
+
     }
 
     /**
@@ -152,24 +137,7 @@ class CommunicationTheme extends CActiveRecord
      */
     public function getPrefixForReply()
     {
-        $mail_prefix = 're';
-
-        switch($this->mail_prefix) {
-            case 're':
-                $mail_prefix = 'rere';
-                break;
-            case 'rere':
-                $mail_prefix = 'rerere';
-                break;
-            case 'fwd':
-                $mail_prefix = 'refwd';
-                break;
-            case 'rerere':
-                $mail_prefix = 'rererere';
-                break;
-        }
-
-        return $mail_prefix;
+        return ($this->mail_prefix !== NULL) ? "re".$this->mail_prefix : "re";
     }
 
     /** ------------------------------------------------------------------------------------------------------------ **/

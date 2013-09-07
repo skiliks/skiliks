@@ -81,6 +81,16 @@ define([
                 }
             },
 
+            isFull: function() {
+                try {
+                    return this.get('type') === 'full';
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
             isTutorial: function() {
                 try {
                     return this.get('type') === 'tutorial';

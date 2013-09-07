@@ -82,7 +82,7 @@ define([], function () {
                 var sheet = this.options.sheet;
 
                 loadQueue.queue('fx', function () {
-                    var editorID = _.uniqueId('tableeditor-'),
+                    var editorID = sheet.get('editor_id'),
                         spreadsheet = me.spreadsheet = new SocialCalc.SpreadsheetControl(editorID + '-');
 
                     spreadsheet.editor.idPrefix = editorID + '-';

@@ -17,7 +17,6 @@
  * @property MailTemplate $mail
  * @property HeroBehaviour $point
  * @property Simulation $sim
- * @property Todo $task
  */
 class AssessmentPoint extends CActiveRecord
 {
@@ -71,7 +70,7 @@ class AssessmentPoint extends CActiveRecord
 			'mail' => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
 			'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
 			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
-			'task' => array(self::BELONGS_TO, 'Todo', 'task_id'),
+			'task' => array(self::BELONGS_TO, 'DayPlan', 'task_id'),
 		);
 	}
 

@@ -7,6 +7,7 @@
  *
  * @property int receiver_id
  * @property int  mail_id
+ * @property Character  $receiver
  */
 class MailRecipient extends CActiveRecord
 {

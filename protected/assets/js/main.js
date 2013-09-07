@@ -108,6 +108,7 @@ var fixLogotypes = function() {
 
         $('.accept-invite').click(function(e) {
             var link = $(this).attr('href');
+            var simStartLink = $(this).attr('data-accept-link');
 
             // удлиннить окно чтоб футер был ниже нижнего края попапа
             $('.content').css('margin-bottom', '600px');
@@ -127,17 +128,18 @@ var fixLogotypes = function() {
                 },
                 open: function( event, ui ) {
                     $(this).find('.accept-requirements').attr('href', link);
+                    $(this).find('.start-full-simulation').attr('data-href', simStartLink);
                 }
             });
 
             // hack {
             $('.accept-invite-warning-popup').css('top', '50px');
-            $(window).scrollTop('body');
+            $(window).scrollTop('.narrow-contnt');
+
             // hack }
 
             return false;
         });
-
 
         $("#registration_check").click(function () {
             if ($(this).hasClass('icon-check')) {
@@ -463,6 +465,10 @@ var fixLogotypes = function() {
         // add CSS classes to customize error message by form-field-name
         $(".errorMessage").each(function(){
             $(this).addClass($(this).prev("input.error").attr("id"));
+        });
+
+        $(".start-simulation-from-popup").click(function() {
+            $("#invite-accept-form").dialog("close");
         });
     });
 })(jQuery);

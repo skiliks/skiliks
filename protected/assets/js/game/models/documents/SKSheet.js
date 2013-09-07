@@ -8,6 +8,7 @@ define([], function () {
                 this.on('change:content', function () {
 
                 });
+                this.set('editor_id', _.uniqueId('tableeditor-'));
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -38,6 +39,7 @@ define([], function () {
             try {
                 var me = this;
                 if ('create' === method) {
+                // if ('update' === method) {
                     SKApp.server.api(
                         'myDocuments/saveSheet/' + this.collection.document.id,
                         {

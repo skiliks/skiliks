@@ -41,15 +41,17 @@ class Invite extends CActiveRecord
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
-    const STATUS_STARTED = 5;
+    const STATUS_IN_PROGRESS = 5;//const STATUS_STARTED = 5;//const STATUS_IN_PROGRESS = 5;
+    const STATUS_DELETED = 6;
 
     public static $statusText = [
         self::STATUS_PENDING => 'Pending',
         self::STATUS_ACCEPTED => 'Accepted',
         self::STATUS_COMPLETED => 'Completed', // after sim start
-        self::STATUS_STARTED => 'Started', // after sim start
+        self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
         self::STATUS_DECLINED => 'Declined',
-        self::STATUS_EXPIRED => 'Expired'
+        self::STATUS_EXPIRED => 'Expired',
+        self::STATUS_DELETED => 'Deleted'
     ];
 
     public static $statusId = [
@@ -58,7 +60,7 @@ class Invite extends CActiveRecord
         'Completed' => self::STATUS_COMPLETED,
         'Declined'  => self::STATUS_DECLINED,
         'Expired'  => self::STATUS_EXPIRED,
-        'Started'  => self::STATUS_STARTED,
+        'InProgress'  => self::STATUS_IN_PROGRESS,
     ];
 
     const EXPIRED_TIME = 604800; // 7days
@@ -205,7 +207,7 @@ class Invite extends CActiveRecord
      */
     public function isStarted()
     {
-        return $this->status == self::STATUS_STARTED;
+        return $this->status == self::STATUS_IN_PROGRESS;
     }
 
     /**
@@ -235,7 +237,7 @@ class Invite extends CActiveRecord
             self::STATUS_COMPLETED => 'label-success',
             self::STATUS_DECLINED => 'label-danger',
             self::STATUS_EXPIRED => 'label-danger',
-            self::STATUS_STARTED => 'label-info',
+            self::STATUS_IN_PROGRESS => 'label-info',
         ];
 
         if (isset($arr[$this->status])) {
@@ -323,7 +325,7 @@ class Invite extends CActiveRecord
         if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
             'email'    => $this->email,
             'owner_id' => $this->owner_id,
-            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED, self::STATUS_EXPIRED]
+            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED]
         ])) {
             $this->addError('email','Приглашение уже отправлено');
         }
@@ -334,6 +336,19 @@ class Invite extends CActiveRecord
      */
     public function inviteExpired()
     {
+        if (Invite::STATUS_IN_PROGRESS == $this->status) {
+            $lastLog = LogServerRequest::model()->find([
+                'order' => 'real_time DESC',
+                'condition' => 'sim_id = '.$this->simulation->id
+            ]);
+
+            // проверяем что последний лог пришел посже чем час назад
+            if ($lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
+                // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
+                return false;
+            }
+
+        }
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
@@ -346,11 +361,13 @@ class Invite extends CActiveRecord
 
         UserService::logCorporateInviteMovementAdd(
             'Invite->inviteExpired()',
-            $this->user->getAccount(),
+            $this->ownerUser->getAccount(),
             $initValue
         );
 
         InviteService::logAboutInviteStatus($this, 'invite : expired');
+
+        return true;
     }
 
     /**
@@ -360,11 +377,12 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'blue-btn accept-invite\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
+                '<a class=\'blue-btn accept-invite\' data-accept-link=\'' .sprintf('/simulation/promo/%s/%s',
+                    $this->scenario->slug,
+                    $this->id) . '\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
                 $this->id,
                 Yii::t('site', 'Принять')
             );
-            return ;
         }
 
         return null;
@@ -488,21 +506,22 @@ class Invite extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'                => 'ID',
-			'owner_id'         => Yii::t('site', 'Owner User'),
-			'receiver_id'      => Yii::t('site', 'Receiver User'),
-			'firstname'        => Yii::t('site', 'Firstname'),
-			'lastname'         => Yii::t('site', 'Lastname'),
-			'email'            => Yii::t('site', 'Email'),
-			'message'          => Yii::t('site', 'Message'),
-			'message text'     => Yii::t('site', 'Message text'),
-			'signature'        => Yii::t('site', 'Signature'),
-			'code'             => Yii::t('site', 'Code'),
-			'vacancy_id'       => Yii::t('site', 'Vacancy'),
-			'status'           => Yii::t('site', 'Status'),
-			'sent_time'        => Yii::t('site', 'Sent Time'),
-			'full_name'        => Yii::t('site', 'Full name'),
-			'To'               => Yii::t('site', 'To'),
+			'id'                            => 'ID',
+			'owner_id'                      => Yii::t('site', 'Owner User'),
+			'receiver_id'                   => Yii::t('site', 'Receiver User'),
+			'firstname'                     => Yii::t('site', 'Firstname'),
+			'lastname'                      => Yii::t('site', 'Lastname'),
+			'email'                         => Yii::t('site', 'Email'),
+			'message'                       => Yii::t('site', 'Message'),
+			'message text'                  => Yii::t('site', 'Message text'),
+            'signature'                     => Yii::t('site', 'Signature'),
+            'is_display_simulation_results' => Yii::t('site', 'Hide test results'),
+			'code'                          => Yii::t('site', 'Code'),
+			'vacancy_id'                    => Yii::t('site', 'Vacancy'),
+			'status'                        => Yii::t('site', 'Status'),
+			'sent_time'                     => Yii::t('site', 'Sent Time'),
+			'full_name'                     => Yii::t('site', 'Full name'),
+			'To'                            => Yii::t('site', 'To'),
 		);
 	}
 
@@ -510,33 +529,32 @@ class Invite extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search($ownerId = null, $receiverId = null)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    public function search($ownerId = null, $receiverId = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria = new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id', $this->id);
-		$criteria->compare('owner_id', $ownerId ?: $this->owner_id);
-		$criteria->compare('receiver_id', $receiverId ?: $this->receiver_id);
-		$criteria->compare('firstname', $this->firstname);
-		$criteria->compare('lastname', $this->lastname);
-		$criteria->compare('email', $this->email);
-		$criteria->compare('message', $this->message);
-		$criteria->compare('signature', $this->signature);
-		$criteria->compare('code', $this->code);
-		$criteria->compare('vacancy_id', $this->vacancy_id);
-		$criteria->compare('status', $this->status);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
+        $criteria->compare('receiver_id', $receiverId ?: $this->receiver_id);
+        $criteria->compare('firstname', $this->firstname);
+        $criteria->compare('lastname', $this->lastname);
+        $criteria->compare('email', $this->email);
+        $criteria->compare('message', $this->message);
+        $criteria->compare('signature', $this->signature);
+        $criteria->compare('code', $this->code);
+        $criteria->compare('vacancy_id', $this->vacancy_id);
+        $criteria->compare('status', $this->status);
         $criteria->compare('scenario_id', $this->scenario_id);
-		$criteria->compare('sent_time', $this->sent_time);
-
+        $criteria->compare('sent_time', $this->sent_time);
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
         ]);
 
-		return new CActiveDataProvider($this, [
-			'criteria' => $criteria,
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
             'sort' => [
                 'defaultOrder' => 'sent_time',
                 'sortVar' => 'sort',
@@ -561,10 +579,72 @@ class Invite extends CActiveRecord
                 'pageSize' => 10,
                 'pageVar' => 'page'
             ]
-		]);
-	}
+        ]);
+    }
 
-	/**
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+
+    public function searchCorporateInvites($ownerId = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria = new CDbCriteria;
+        $full = Scenario::model()->findByAttributes(['slug'=>'full']);
+        // we need only full simulation and tutorial => 2,3
+        $criteria->addInCondition('scenario_id', [$full->id]);
+        $criteria->addNotInCondition('status', [Invite::STATUS_DELETED]);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
+        $criteria->compare('firstname', $this->firstname);
+        $criteria->compare('lastname', $this->lastname);
+        $criteria->compare('email', $this->email);
+        $criteria->compare('message', $this->message);
+        $criteria->compare('signature', $this->signature);
+        $criteria->compare('code', $this->code);
+        $criteria->compare('vacancy_id', $this->vacancy_id);
+        $criteria->compare('status', $this->status);
+        $criteria->compare('scenario_id', $this->scenario_id);
+        $criteria->compare('sent_time', $this->sent_time);
+        $criteria->mergeWith([
+            'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
+        ]);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'sent_time',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'name' => [
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
+                        'desc' => 'CONCAT(firstname, lastname) DESC'
+                    ],
+                    'vacancy_id' => [
+                        'asc'  => 'vacancy.label',
+                        'desc' => 'vacancy.label DESC'
+                    ],
+                    'owner_id' => [
+                        'asc'  => 'vacancy.label',
+                        'desc' => 'vacancy.label DESC'
+                    ],
+                    'status',
+                    'sent_time'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
+
+
+    /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -781,10 +861,20 @@ class Invite extends CActiveRecord
 
     public function resetInvite() {
         $this->status = Invite::STATUS_ACCEPTED;
+        $this->simulation->end = gmdate("Y-m-d H:i:s", time());
+        $this->simulation->update();
         $this->simulation_id = null;
         $result = $this->save(false);
 
         InviteService::logAboutInviteStatus($this, 'invite : reset');
+        return $result;
+    }
+
+    public function deleteInvite() {
+        $this->status = Invite::STATUS_DELETED;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'invite : delete');
         return $result;
     }
 

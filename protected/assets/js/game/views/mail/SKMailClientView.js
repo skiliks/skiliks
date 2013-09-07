@@ -642,7 +642,9 @@ define([
              */
             updateInboxListView: function () {
                 try {
+                    var activeEmail = this.mailClient.activeEmail;
                     this.mailClient.activeEmail = undefined;
+
                     // generate emails list {
                     var me = this;
                     // We  use this 2 variables to separate emails to display unreaded emails first in list
@@ -668,6 +670,9 @@ define([
                     this.$('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
                     this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
+                    if(activeEmail !== undefined){
+                        this.setActiveEmail(activeEmail);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1936,7 +1941,6 @@ define([
                     event.preventDefault();
 
                     if (this.blockPhraseMoving) {
-                        console.log('BLOCK!');
                         return;
                     }
 
@@ -1960,6 +1964,7 @@ define([
                     // simplest way to clone small object in js }
 
                     // ADD:
+
                     this.mailClient.newEmailUsedPhrases.push(phraseToAdd);
 
                     // render updated state
@@ -3039,6 +3044,13 @@ define([
                 this.$('.mail-text-wrap').height(
                     this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                 );
+            },
+            setActiveEmail:function (email) {
+                //this.mailClient.setActiveEmail(email);
+                this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]').click();
+            },
+            onWindowClose:function() {
+                this.mailClient.activeEmail = undefined;
             }
         });
 

@@ -27,7 +27,7 @@ class LearningGoalAnalyzer
         }
 
         foreach ($this->simulation->assessment_aggregated as $row) {
-            $values[$row->point_id] = $row->fixed_value;
+            $values[$row->point_id] = $row->value;
         }
 
         foreach($learningGoalGroups as $learningGoalGroup) {
@@ -45,11 +45,6 @@ class LearningGoalAnalyzer
                 $totalPos = 0; $maxPos = 0;
                 $totalCons = 0; $maxCons = 0;
                 foreach ($goal->heroBehaviours as $behaviour) {
-                    // TODO: Anton decision
-                    // Case 1:
-                    // $value = isset($values[$behaviour->id]) ? $values[$behaviour->id] : 0;
-
-                    // Case 2:
                     if (in_array($behaviour->code, $except)) {
                         continue;
                     }
@@ -102,23 +97,23 @@ class LearningGoalAnalyzer
             $simulationGoalGroup->max_positive = $maxPosGroup;
             $simulationGoalGroup->max_negative = $maxConsGroup;
             $simulationGoalGroup->save(false);
-
         }
-
-
     }
 
+
+    // $problem => проблемный коэффициент в процентах
     public static function getReducingCoefficient($problem)
     {
-        if (0 <= $problem && $problem <= 10) {
-            return (float)1;
-        } elseif (10 < $problem && $problem <= 20) {
-            return 0.8;
-        }elseif (20 < $problem && $problem <= 50) {
-            return 0.5;
-        } else {
-            return 0;
-        }
+//        if (0 <= $problem && $problem <= 10) {
+//            return (float)1;
+//        } elseif (10 < $problem && $problem <= 20) {
+//            return 0.8;
+//        }elseif (20 < $problem && $problem <= 50) {
+//            return 0.5;
+//        } else {
+//            return 0;
+//        }
+        return (1 - $problem/100);
     }
 
     public static function calculateAssessment($totalPos, $maxPos)

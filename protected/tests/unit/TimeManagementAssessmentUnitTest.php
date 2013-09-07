@@ -204,7 +204,30 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->save();
         // log9, 1st priority meeting }
 
-        // log10, non priority meeting {
+        // log10, 1st priority mail {
+        $template_M78 = $simulation->game_type->getMailTemplate(['code' => 'M78']);
+
+        $activity_ARS2 = $simulation->game_type->getActivity(['code' => 'ARS2']);
+
+        $activity_action_M78 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_ARS2->id,
+            'mail_id' => $template_M78->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
+        $log->leg_action = 'M78';
+        $log->activity_action_id = $activity_action_M78->id;
+        $log->activityAction = $activity_action_M78;
+        $log->category = $activity_ARS2->category_id;
+        $log->keep_last_category_after_60_sec = LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES;
+        $log->start_time = '11:30:00';
+        $log->end_time = '11:40:00';
+        $log->duration = '00:10:00';
+        $log->save();
+        // log10, 1st priority mail }
+
+        // log11, non priority meeting {
         $replica_AE3 = $simulation->game_type->getReplica(['excel_id' => '239']);
 
         $activity_AE3 = $simulation->game_type->getActivity(['code' => 'AE3']);
@@ -220,13 +243,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->activity_action_id = $activity_action_replica_AE3->id;
         $log->activityAction = $activity_action_replica_AE3;
         $log->category = $activity_AE3->category->code;
-        $log->start_time = '11:30:00';
-        $log->end_time = '11:40:00';
+        $log->start_time = '11:40:00';
+        $log->end_time = '11:45:00';
         $log->duration = '00:10:00';
         $log->save();
-        // log10, non priority meeting }
+        // log11, non priority meeting }
 
-        // log11, A_wait {
+        // log12, A_wait {
         $window = Window::model()->findByAttributes(['subtype' => 'main screen']);
 
         $activity_A_wait = $simulation->game_type->getActivity(['code' => 'A_wait']);
@@ -242,13 +265,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->activity_action_id = $activity_action_A_wait->id;
         $log->activityAction = $activity_action_A_wait;
         $log->category = $activity_A_wait->category->code;
-        $log->start_time = '11:40:00';
-        $log->end_time = '11:50:00';
+        $log->start_time = '11:45:00';
+        $log->end_time = '11:55:00';
         $log->duration = '00:10:00';
         $log->save();
-        // log11, A_wait }
+        // log12, A_wait }
 
-        // log12, A_wait {
+        // log13, A_wait {
         $window = Window::model()->findByAttributes(['subtype' => 'phone talk']);
 
         $activity_A_wrong_call = $simulation->game_type->getActivity(['code' => 'A_wrong_call']);
@@ -264,13 +287,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->activity_action_id = $activity_action_A_wrong_call->id;
         $log->activityAction = $activity_action_A_wrong_call;
         $log->category = $activity_A_wrong_call->category->code;
-        $log->start_time = '11:50:00';
-        $log->end_time = '10:00:00';
-        $log->duration = '00:10:00';
+        $log->start_time = '11:55:00';
+        $log->end_time = '12:00:00';
+        $log->duration = '00:05:00';
         $log->save();
-        // log12, A_wait }
+        // log13, A_wait }
 
-        // log13, A_wait {
+        // log14, A_wait {
         $activity_A_not_sent = $simulation->game_type->getActivity(['code' => 'A_not_sent']);
 
         $activity_action_A_not_sent = $simulation->game_type->getActivityAction([
@@ -288,9 +311,9 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->end_time = '12:10:00';
         $log->duration = '00:10:00';
         $log->save();
-        // log13, A_wait }
+        // log14, A_wait }
 
-        // log13, A_wait {
+        // log15, A_wait {
         $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
 
         $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
@@ -308,7 +331,45 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->end_time = '18:40:00';
         $log->duration = '00:10:00';
         $log->save();
-        // log13, A_wait }
+        // log15, A_wait }
+
+        // log16, Meeting {
+        $meeting = $simulation->game_type->getMeeting(['code'=>'MEE1']);
+
+        $activity_action = $simulation->game_type->getActivityAction([
+            'meeting_id' => $meeting->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
+        $log->leg_action = "MEE1";
+        $log->activity_action_id = $activity_action->id;
+        $log->activityAction = $activity_action;
+        $log->category = $activity_action->activity->category->code;
+        $log->start_time = '13:05:00';
+        $log->end_time = '13:10:00';
+        $log->duration = '00:05:00';
+        $log->save();
+        // log16, Meeting }
+
+        // log17, Meeting {
+        $meeting = $simulation->game_type->getMeeting(['code'=>'MEE2']);
+
+        $activity_action = $simulation->game_type->getActivityAction([
+            'meeting_id' => $meeting->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
+        $log->leg_action = "MEE2";
+        $log->activity_action_id = $activity_action->id;
+        $log->activityAction = $activity_action;
+        $log->category = $activity_action->activity->category->code;
+        $log->start_time = '13:10:00';
+        $log->end_time = '13:20:00';
+        $log->duration = '00:10:00';
+        $log->save();
+        // log17, Meeting }
 
         $tma = new TimeManagementAnalyzer($simulation);
         $tma->calculateAndSaveAssessments();
@@ -323,19 +384,19 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            52.00, // %
+            54.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            24.00, // %
+            27.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            24.00, // %
+            19.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -347,7 +408,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            15, // min
             $values['1st_priority_meetings'],
             '1st_priority_meetings'
         );
@@ -359,7 +420,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            20, // min
             $values['1st_priority_mail'],
             '1st_priority_mail'
         );
@@ -384,7 +445,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            20, // min
             $values['non_priority_meetings'],
             'non_priority_meetings'
         );
@@ -414,7 +475,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            67.00, // 40.00 * 0.6
+            58.22, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -530,7 +591,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            0, // 0.00 * 1.0
+            33.33, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -565,28 +626,262 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
     }
 
+    public function testEfficiency_workday_ended_1800() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '12:45:00';
+        $log->duration = '03:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '12:45:00';
+        $log->end_time = '18:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            64.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            76.00, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+    public function testEfficiency_workday_ended_1900() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '13:45:00';
+        $log->duration = '04:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '13:45:00';
+        $log->end_time = '19:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            57.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            54.67, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+    public function testEfficiency_workday_ended_2000() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+        // log13, A_wait {
+        $activity_A_incorrect_sent = $simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
+
+        $activity_action_A_incorrect_sent = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_A_incorrect_sent->id,
+            'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
+        $log->leg_action = null;
+        $log->activity_action_id = $activity_action_A_incorrect_sent->id;
+        $log->activityAction = $activity_action_A_incorrect_sent;
+        $log->category = $activity_A_incorrect_sent->category->code;
+        $log->start_time = '09:45:00';
+        $log->end_time = '14:45:00';
+        $log->duration = '05:00:00';
+        $log->save();
+        // log13, A_wait }
+
+
+
+        // log1, 1st priority doc {
+        $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
+
+        $activity_d1 = $simulation->game_type->getActivity(['code' => 'T2']);
+
+        $activity_action_d1 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_d1->id,
+            'document_id' => $doc_d2->id
+        ]);
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'T2';
+        $log->activity_action_id = $activity_action_d1->id;
+        $log->activityAction = $activity_action_d1;
+        $log->category = $activity_d1->category->code;
+        $log->start_time = '14:45:00';
+        $log->end_time = '20:00:00';
+        $log->duration = '05:15:00';
+        $log->save();
+
+        $tma = new TimeManagementAnalyzer($simulation);
+        $tma->calculateAndSaveAssessments();
+
+        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $values = [];
+        foreach ($assessments as $assessment) {
+            $values[$assessment->slug] = $assessment->value;
+        }
+
+        $this->assertEquals(
+            51.00, // percentage
+            $values['time_spend_for_1st_priority_activities'],
+            'time_spend_for_1st_priority_activities'
+        );
+
+        $this->assertEquals(
+            34.00, // 40.00 * 0.6
+            $values['efficiency'],
+            'efficiency'
+        );
+    }
+
+
     /**
      * For debug
      */
-//    public function testimeManagementAssessment_case3()
-//    {
-//        // init simulation
-//        $simulation = Simulation::model()->findByPk(554);
-//
-//        $tma = new TimeManagementAnalyzer($simulation);
-//        $tma->calculateAndSaveAssessments();
-//
-//        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
-//            'sim_id' => $simulation->id
-//        ]);
-//
-//        //var_dump($tma->durationsGrouped);
-//
-//        $values = [];
-//        foreach ($assessments as $assessment) {
-//            $values[$assessment->slug] = $assessment->value;
-//        }
-//
-//        var_dump($values);
-//    }
+    /*public function testDebug()
+    {
+        // init simulation
+        $simulation = Simulation::model()->findByPk(1270);
+
+        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $tma = new TimeManagementAnalyzerDebug($simulation);
+        $tma->calculateAndSaveAssessments();
+        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_phone_calls'
+        ]);
+        $this->assertEquals('138', $assessment->value);
+        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'slug'=>'1st_priority_meetings'
+        ]);
+        $this->assertEquals('60', $assessment->value);
+    }*/
 }

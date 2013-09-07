@@ -1,5 +1,5 @@
 <?php
-
+use application\components\Logging\LogTableList as LogTableList;
 /**
  * Сервис  по работе с симуляциями
  *
@@ -267,31 +267,21 @@ class SimulationService
      */
     public static function fillTodo(Simulation $simulation)
     {
-        // add P17 - презентация ген. директору
-        /** @var $tasks Task[] */
-        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start', "is_cant_be_moved" => 1]);
+        /** @var Task[] $tasks */
+        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start']);
         foreach ($tasks as $task) {
-            $dayplanFixed = new DayPlan();
-            $dayplanFixed->date = $task->start_time;
-            $dayplanFixed->task_id = $task->getPrimaryKey();
-            $dayplanFixed->sim_id = $simulation->getPrimaryKey();
-            $dayplanFixed->day = 1; # FIXME hardcode
-            $dayplanFixed->save();
-        }
+            $dayPlan = new DayPlan();
+            $dayPlan->task_id = $task->getPrimaryKey();
+            $dayPlan->sim_id = $simulation->getPrimaryKey();
 
-        // прочие задачи
-        $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
-        if ($tasks) {
-            foreach ($tasks as $task) {
-                if ($task->code === 'P017') {
-                    continue;
-                }
-                $todo = new Todo();
-                $todo->sim_id = $simulation->id;
-                $todo->adding_date = date('Y-m-d H:i:s');
-                $todo->task_id = $task->id;
-                $todo->save();
+            if ($task->is_cant_be_moved) {
+                $dayPlan->day = DayPlan::DAY_1;
+                $dayPlan->date = $task->start_time;
+            } else {
+                $dayPlan->day = DayPlan::DAY_TODO;
             }
+
+            $dayPlan->save();
         }
     }
 
@@ -535,8 +525,7 @@ class SimulationService
 
 
         // TODO: Change checking logic
-        if ($invite->scenario->slug == Scenario::TYPE_FULL
-            && false == $invite->canUserSimulationStart()
+        if ($invite->scenario->isFull() && false == $invite->canUserSimulationStart()
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
@@ -545,7 +534,7 @@ class SimulationService
             $simulationType = $invite->scenario->slug;
         }
 
-        if ($invite->scenario->slug == Scenario::TYPE_FULL && $simulationType == Scenario::TYPE_TUTORIAL) {
+        if ($invite->scenario->isFull() && $simulationType == Scenario::TYPE_TUTORIAL) {
             $scenarioType = Scenario::TYPE_TUTORIAL;
         } else {
             $scenarioType = $invite->scenario->slug;
@@ -557,8 +546,9 @@ class SimulationService
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
+        $simulation->status = Simulation::STATUS_IN_PROGRESS;
         $simulation->save();
-
+        $_POST['simId'] = $simulation->id;
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
 
@@ -587,11 +577,31 @@ class SimulationService
         // update invite if it set
         // in cheat mode invite has no ID
         if (null !== $invite && null != $invite->id) {
+            $invite->status = Invite::STATUS_IN_PROGRESS;
+
+            // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
+            // не в dev режиме
+            if (Scenario::TYPE_FULL == $simulationType
+                && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
+                && $invite->ownerUser->id == $invite->receiverUser->id) {
+                $invite->ownerUser->getAccount()->invites_limit--;
+                $invite->ownerUser->getAccount()->save(false);
+            }
+
+            $invite->update();
+            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
+                /* @var $sim Simulation */
+                $sim = Simulation::model()->findByPk($invite->simulation_id);
+                if(null !== $sim){
+                    $sim->status = Simulation::STATUS_INTERRUPTED;
+                    $sim->save();
+                }
+            }
             $invite->simulation_id = $simulation->id;
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
-            if($scenario->slug == Scenario::TYPE_LITE) {
-                $invite->status = Invite::STATUS_STARTED;
+            if($scenario->isLite()) {
+                $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false, ['simulation_id', 'status']);
                 InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
             } else {
@@ -619,15 +629,6 @@ class SimulationService
             return;
         }
 
-        $simulation->end = GameTime::setNowDateTime();
-        $simulation->save(false);
-
-        if ($simulation->isDevelopMode() ||
-            true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
-        ) {
-            $simulation->checkLogs();
-        }
-
         // If simulation was started by invite, mark it as completed
         if (null !== $simulation->invite && $simulation->isTutorial() === false) {
             $simulation->invite->status = Invite::STATUS_COMPLETED;
@@ -644,80 +645,90 @@ class SimulationService
         // Remove pause if it was set
         self::resume($simulation);
 
-        // @todo: find reason after release
-        // we close last Activation log
-        if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
-            $extra_log    = $logs_src[count($logs_src)-1];
-            $extra_log[2] = 'deactivated';
-            $logs_src[] = $extra_log;
-        }
+        if($simulation->isCalculateTheAssessment()) {
 
-        // данные для логирования
-        try {
-            EventsManager::processLogs($simulation, $logs_src);
-        } catch (Exception $e) {
-            if ($simulation->isDevelopMode()) {
-                throw $e;
+            if ($simulation->isDevelopMode() ||
+                true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
+            ) {
+                $simulation->checkLogs();
             }
+
+            // @todo: find reason after release
+            // we close last Activation log
+            if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
+                $extra_log    = $logs_src[count($logs_src)-1];
+                $extra_log[2] = 'deactivated';
+                $logs_src[] = $extra_log;
+            }
+
+            // данные для логирования
+            try {
+                EventsManager::processLogs($simulation, $logs_src);
+            } catch (Exception $e) {
+                if ($simulation->isDevelopMode()) {
+                    throw $e;
+                }
+            }
+            if(Yii::app()->params['disableOldLogging']){
+                LogHelper::updateUniversalLog($simulation);
+                $analyzer = new ActivityActionAnalyzer($simulation);
+                $analyzer->run();
+            }
+            // Make aggregated activity log
+            LogHelper::combineLogActivityAgregated($simulation);
+
+            // Calculate and save Time Management assessments
+            (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
+
+            // make attestation 'work with emails'
+            SimulationService::saveEmailsAnalyze($simulation);
+
+            DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
+
+            $custom = new CalculateCustomAssessmentsService($simulation);
+            $custom->run();
+
+            $planAnalyzer = new PlanAnalyzer($simulation);
+            $planAnalyzer->run();
+
+            // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+            // see Assessment scheme_v5.pdf
+            $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+            $CheckConsolidatedBudget->calcPoints();
+
+            SimulationService::setFinishedPerformanceRules($simulation);
+
+            // результативность
+            SimulationService::calculatePerformanceRate($simulation);
+
+            SimulationService::setGainedStressRules($simulation);
+            SimulationService::stressResistance($simulation);
+            SimulationService::saveAggregatedPoints($simulation->id);
+
+            // @todo: this is trick
+            // write all mail outbox/inbox scores to AssessmentAggregate directly
+            SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+            $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+            $learningGoalAnalyzer->run();
+
+            $learning_area = new LearningAreaAnalyzer($simulation);
+            $learning_area->run();
+
+            $evaluation = new Evaluation($simulation);
+            $evaluation->run();
+
+            $simulation->saveLogsAsExcel();
+
+            self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
-
-        // Make aggregated activity log
-        LogHelper::combineLogActivityAgregated($simulation);
-
-        // Calculate and save Time Management assessments
-        (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
-
-        // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalyze($simulation);
-
-        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
-
-        $custom = new CalculateCustomAssessmentsService($simulation);
-        $custom->run();
-
-        $planAnalyzer = new PlanAnalyzer($simulation);
-        $planAnalyzer->run();
-
-        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
-        // see Assessment scheme_v5.pdf
-
-        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints();
-
-        SimulationService::setFinishedPerformanceRules($simulation);
-
-        // результативность
-        SimulationService::calculatePerformanceRate($simulation);
-
-        SimulationService::setGainedStressRules($simulation);
-        SimulationService::stressResistance($simulation);
-        SimulationService::saveAggregatedPoints($simulation->id);
-
-        // @todo: this is trick
-        // write all mail outbox/inbox scores to AssessmentAggregate directly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
-
-        self::applyReductionFactors($simulation);
-
-        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
-        $learningGoalAnalyzer->run();
-
-        $learning_area = new LearningAreaAnalyzer($simulation);
-        $learning_area->run();
-
-        $evaluation = new Evaluation($simulation);
-        $evaluation->run();
 
         // @ - for PHPUnit
-        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug &&
-            $simulation->invite->isAllowedToSeeResults(Yii::app()->user->data())) {
+        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug ||
+            true == $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
             @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
                 new CHttpCookie('display_result_for_simulation_id', $simulation->id);
         }
-
-        $simulation->saveLogsAsExcel();
-
-        self::logAboutSim($simulation, 'sim stop: assessment calculated');
 
         if ($simulation->isFull()) {
             $simulation->invite->can_be_reloaded = false;
@@ -733,8 +744,13 @@ class SimulationService
             if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
                 unlink($document->getFilePath());
             }
+
+            // remove all files except D1 }
+
         }
-        // remove all files except D1 }
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->status = Simulation::STATUS_COMPLETE;
+        $simulation->save(false);
     }
 
     /**
@@ -803,19 +819,6 @@ class SimulationService
     }
 
     /**
-     * @wiki: https://maprofi.atlassian.net/wiki/pages/editpage.action?pageId=11174012
-     * @param Simulation $simulation
-     */
-    public static function applyReductionFactors(Simulation $simulation)
-    {
-        foreach ($simulation->assessment_aggregated as $assessment) {
-            $assessment->coefficient_for_fixed_value = 1;
-            $assessment->fixed_value = $assessment->value;
-            $assessment->save();
-        }
-    }
-
-    /**
      * @param $simulation
      */
     public static function stressResistance($simulation) {
@@ -826,9 +829,6 @@ class SimulationService
         /* @var $game_type Scenario */
         $game_type = $simulation->game_type;
         $point = $game_type->getHeroBehaviour(['code' => 7141]);
-        if (null === $point) {
-            return;
-        }
 
         /* @var $stress StressPoint[] */
         $stress = StressPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
@@ -856,7 +856,7 @@ class SimulationService
      *
      * @throws InviteException
      */
-    public static function simulationIsStarted($simulation, $gameTime)
+    /*public static function simulationIsStarted($simulation, $gameTime)
     {
 
         if($simulation->isTutorial()){ return; }
@@ -865,11 +865,12 @@ class SimulationService
             $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
 
             if (null === $invite) {
-                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE &&
+                    true === $simulation->game_type->isAllowOverride())) {
                     throw new InviteException('Симуляция запущена без инвайта');
                 }
             } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
-                $invite->status = Invite::STATUS_STARTED;
+                $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false);
                 if ($invite->isTrialFull(Yii::app()->user->data())
                     && Yii::app()->user->data()->isCorporate() && (int)$simulation->mode !== Simulation::MODE_DEVELOPER_ID) {
@@ -885,14 +886,14 @@ class SimulationService
                         $initValue
                     );
                 }
-            } else if((int)$invite->status === Invite::STATUS_STARTED) {
+            } else if((int)$invite->status === Invite::STATUS_IN_PROGRESS) {
                 return;
             } else {
-                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_STARTED. А он ".$invite->status);
+                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_IN_PROGRESS. А он ".$invite->status);
             }
         }
 
-    }
+    }*/
 
     /**
      * @param $simId
@@ -1032,7 +1033,6 @@ class SimulationService
         AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlan::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        DayPlanAfterVacation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
         EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
@@ -1057,7 +1057,6 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         StressPoint::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        Todo::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
@@ -1079,5 +1078,19 @@ class SimulationService
 
         $simulation->invite->delete();
         $simulation->delete();
+    }
+
+    public static function saveLogsAsExcelCombined($simulations = array()) {
+        if(!empty($simulations)) {
+            $logTableList = new LogTableList();
+            foreach($simulations as $simulation) {
+                $logTableList->setSimulationId($simulation);
+                $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
+                $logTableList->asExcelCombined($user_fullname, $simulation->id);
+            }
+            $excelWriter = $logTableList->returnXlsFile();
+            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            return true;
+        }
     }
 }

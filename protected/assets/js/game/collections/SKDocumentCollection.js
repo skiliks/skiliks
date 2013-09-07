@@ -25,9 +25,16 @@ define(["game/models/SKDocument"], function () {
                 var me = this;
 
                 if ('read' === method) {
-                    SKApp.server.api('myDocuments/getList', {}, function (data) {
+                    SKApp.server.api('myDocuments/getList', {}, function (response) {
                         var cache = me.clone();
-                        options.success(data.data);
+                        var models = [];
+                        _.each(response.data, function(data){
+                            if(!cache.where({'id': data.id}).length){
+                                models.push(new SKDocument(data));
+                            }
+                        });
+                        me.add(models);
+                        /*options.success(data.data);
                         me.each(function(model) {
                            var found = cache.where({'id': model.get('id')});
                            if(1 === found.length){
@@ -38,7 +45,7 @@ define(["game/models/SKDocument"], function () {
                                   model.set('isInitialized', false);
                               }
                            }
-                        });
+                        });*/
                         me.trigger('afterReset');
                     });
                 }

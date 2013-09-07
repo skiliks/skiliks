@@ -1,3 +1,4 @@
+<?php /** @var DeclineExplanation $declineExplanation */ ?>
 <div class="blackout"></div>
 <div class="form form-decline-explanation">
     <a href="javascript:void(0);" class="close"></a>
@@ -28,7 +29,7 @@
     <div class="row form-decline-explanation-description-row">
         <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
         <?php echo $form->textArea($declineExplanation, 'description', ['placeholder'=>Yii::t("site","Failure cause")]); ?>
-        <?php echo $form->error($declineExplanation    , 'description'); ?>
+        <?php echo !$declineExplanation->hasErrors('reason_id') ? $form->error($declineExplanation, 'description') : ''; ?>
     </div>
 
     <div class="row buttons">

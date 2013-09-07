@@ -9,7 +9,7 @@
  */
 class FlagRunMail extends CActiveRecord
 {
-    public function getPrimaryKey()
+    public function getPrimaryKeys()
     {
         return ['flag_code', 'mail_code'];
     }

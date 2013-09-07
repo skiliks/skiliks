@@ -29,7 +29,7 @@ class DeleteSimulationsForUserCommand extends CConsoleCommand {
 
             if (false === $justCheck) {
                 SimulationService::removeSimulationData(
-                    YumUser::model()->findByAttribute(['email' => $email]),
+                    YumProfile::model()->findByAttributes(['email' => $email])->user,
                     $simulation
                 );
             }

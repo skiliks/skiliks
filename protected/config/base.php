@@ -39,6 +39,7 @@ return array(
         'application.components.Exception.*',
         'application.components.Controllers.*',
         'application.components.SocialCalc.*',
+        'application.components.debug.*',
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
@@ -176,6 +177,7 @@ return array(
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
+                'simulation/exit'         => 'static/site/Exit',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
@@ -209,7 +211,6 @@ return array(
                 'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new'                      => 'static/dashboard/corporateNew',
-                'simulations-new'                    => 'static/simulations/indexNew',
                 'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
                 'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
@@ -227,6 +228,7 @@ return array(
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
+                'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
@@ -256,11 +258,6 @@ return array(
                 'notifications/personal'  => 'static/notifications/personal',
                 'fail-recovery/'  => 'static/userAuth/FailRecovery',
 
-                'simulations/'                 => 'static/simulations/index',
-                'simulations/details/<id:\w+>' => 'static/simulations/details',
-                'simulations/corporate'        => 'static/simulations/corporate',
-                'simulations/personal'         => 'static/simulations/personal',
-
                 'dashboard/invite/remove/<id:\d+>/soft' => 'static/dashboard/softRemoveInvite',
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
@@ -287,6 +284,8 @@ return array(
                 'statistics/CiTests' => 'statistics/statistics/CiTests',
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
+
+                'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
                 'admin_area/invites'           => 'admin_area/AdminPages/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
@@ -364,6 +363,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'disableOldLogging'=>false,
         'disableAssets'                 => false,
         'keep_last_category_time_214g'  => 60,
         'simulationStartUrl'            => '/index.php/simulation/start',
@@ -397,6 +397,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,
             'storageURL'                         => 'http://storage.skiliks.com/v1',
@@ -410,7 +411,6 @@ return array(
             'isIncludeGoogleAnalyticsJavaScript' => false,
         ],
         'zoho' => array(
-            //'apiKey'              => 'c998c211c5404969606b6738c106c183',
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
@@ -422,22 +422,23 @@ return array(
         ),
         'cron' => [
 //            'CleanUsers'=> 604800,8
-            'InviteExpired'=> 604800
+            'InviteExpired'=> 604800,
         ],
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
                 ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 0],
                 ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'tony'      , 'email' => 'tony@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'leah'      , 'email' => 'leah@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'pernifin'  , 'email' => 'pernifin@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'leah'      , 'email' => 'leah@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
                 ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com','password' => '123123'         ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),

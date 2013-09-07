@@ -11,7 +11,7 @@ class ActivityLogTable extends LogTable
 {
     public function getHeaders()
     {
-        return ['Window Start Time', 'Window End Time', 'Leg type', 'Leg action', 'Activity ID', 'Category ID', 'Time diff'];
+        return ['Window Start Time', 'Window End Time', 'Leg type', 'Leg action', 'Activity ID', 'Category ID', 'Time diff', 'Duration'];
     }
 
     public function getTitle()
@@ -41,7 +41,8 @@ class ActivityLogTable extends LogTable
             $action ? $action->getCode() : '',
             $logActivityAction->activityAction->activity->code,
             $logActivityAction->activityAction->activity->category->code,
-            $diff
+            $diff,
+            strtotime($logActivityAction->end_time) - strtotime($logActivityAction->start_time)
         ];
     }
 

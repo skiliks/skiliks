@@ -192,5 +192,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         Cufon.replace('.feedback-dialog-title, .vacancy-list, .font-normal, .terms-page h2, .terms-page p', {fontFamily:"ProximaNova-Regular", hover: true});
         Cufon.now();
     </script>
+    <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>

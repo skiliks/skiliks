@@ -134,8 +134,10 @@ class Register_Corporate_Test extends SeleniumTestHelper
         //нажимаем кнопку паузы
         $this->optimal_click("css=.pause");
         //нажимаем завершить демо-симуляцию
-        $this->optimal_click("xpath=//div[@id='messageSystemMessageDiv']/div/table/tbody/tr/td[2]/div/div");
-        //ожидвем появления страницы выбора типа аккаунта
+        $this->optimal_click("xpath=//*[@id='messageSystemMessageDiv']/div/table/tbody/tr/td[2]/div");
+        //ожидаем появления страницы выбора типа аккаунта
+        $this->optimal_click("xpath=//*[@id='messageSystemMessageDiv']/div/table/tbody/tr/td/div");
+
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {

@@ -169,6 +169,10 @@ class MailTemplate extends CActiveRecord implements IGameAction
     {
         return $this->code;
     }
+
+    public function isMS(){
+        return substr($this->code, 0, 2) === 'MS';
+    }
 }
 
 

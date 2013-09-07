@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDialogPanNotificationView, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
+/*global SKTodoCollection, SKDialogPlanNotificationView, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection, SKDocument, $, SKDialogView, define */
 
 var SKSimulation;
 
@@ -17,8 +17,9 @@ define([
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
     "game/collections/SKWindowSet",
-    "game/views/SKDialogPanNotificationView",
-    "jquery/jquery.hotkeys"
+    "game/views/SKDialogPlanNotificationView",
+    "jquery/jquery.hotkeys",
+    "game/models/SKDocumentsManager"
 
 ],function (
     SKMailClient,
@@ -52,6 +53,11 @@ define([
 
             is_paused:false,
 
+            is_stopped:false,
+
+            sc_interval_id:null,
+
+            useSCHotkeys:true,
             /**
              * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
              * @attribute stype
@@ -109,7 +115,9 @@ define([
                             tasks;
 
                         if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('end'))) {
-                            me.onEndTime();
+                            if(SKApp.isFull()) {
+                                me.onEndTime();
+                            }
                         }
 
                         if (me.getGameMinutes() >= me.timeStringToMinutes(SKApp.get('finish'))) {
@@ -124,7 +132,7 @@ define([
                             hours += 1;
                         }
 
-                        tasks = me.dayplan_tasks.where({day: '1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
+                        tasks = me.dayplan_tasks.where({day: 'day-1', date: hours + ':' + (minutes < 10 ? '0' : '') + minutes});
                         if (tasks.length && true !== tasks[0].get('isDisplayed')) {
                             me.showTaskNotification(tasks[0]);
                             tasks[0].set('isDisplayed', true);
@@ -168,7 +176,9 @@ define([
                     this.bindEmergencyHotkey();
 
                     // расскоментировать когда подчиним копирование.
-                    //this.initSocialcalcHotkeys();
+                    this.initSocialcalcHotkeys();
+
+                    this.documentsManager = new SKDocumentsManager();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -232,7 +242,7 @@ define([
                     if (SKApp.isTutorial()) {
                         return;
                     }
-                    var notification = new SKDialogPanNotificationView({
+                    var notification = new SKDialogPlanNotificationView({
                         'class': 'task-notification-dialog',
                         'message': '<span class="task-time">' + task.get('date') + '</span>' +
                                    '<span class="task-description">' + task.get('title') + '</span>',
@@ -387,8 +397,6 @@ define([
                         timeString:       this.getGameMinutes(),
                         eventsQueueDepth: $("#events-queue-depth").val()
                     }, function (data) {
-                        //console.log('time: ', data.serverGameTime);
-                        //console.log('x: ', data.speedFactor);
                         // update flags for dev mode
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
@@ -437,6 +445,10 @@ define([
                             throw 'Simulation already started';
                         }
 
+                        if ('undefined' !== typeof data.simId) {
+                            me.id = data.simId;
+                        }
+
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
@@ -456,11 +468,8 @@ define([
                             window.location = '/';
                         }
 
-                        if ('undefined' !== typeof data.simId) {
-                            me.id = data.simId;
-                        }
-
                         me.set('scenarioName', data.scenarioName);
+                        me.set('scenarioLabel', data.scenarioLabel);
 
                         me.documents.fetch();
                         onDocsLoad.apply(me);
@@ -486,7 +495,7 @@ define([
                     var me = this;
                     SKApp.set('frontendAjaxTimeout', 180*1000); // 180sec
                     me._stopTimer();
-
+                    me.is_stopped = true;
                     this.window_set.deactivateActiveWindow();
 
                     var logs = this.windowLog.getAndClear();
@@ -496,6 +505,8 @@ define([
                          * Симуляция уже остановлена
                          * @event stop
                          */
+
+
                         if(SKApp.get('result-url') === undefined){
                             SKApp.set('result-url', '/dashboard');
                             document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
@@ -536,9 +547,7 @@ define([
                     me.trigger('pause:start');
                     me.is_paused = true;
                     if (typeof callback === 'function') {
-                        SKApp.server.api('simulation/startPause', {}, function (responce) {
-                            callback(responce);
-                        });
+                        callback();
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -558,7 +567,6 @@ define([
                 try {
                     var me = this;
                     me.is_paused = false;
-                    SKApp.server.api('simulation/stopPause', {}, function (responce) {
                         if( me.paused_time !== undefined )
                         {
                             me._startTimer();
@@ -567,29 +575,9 @@ define([
                             me.trigger('pause:stop');
 
                             if (typeof callback === 'function') {
-                                callback(responce);
+                                callback();
                             }
                         }
-                    });
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
-            updatePause: function(params) {
-                try {
-                    if(params === undefined) {params = {};}
-
-                    var me = this;
-                    var skipped = (new Date() - me.paused_time) / 1000;
-                    SKApp.server.api('simulation/updatePause', {skipped:skipped}, function (responce) {
-                            if (typeof params.callback === 'function') {
-                                params.callback(responce);
-                            }
-
-                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -774,35 +762,91 @@ define([
             },
 
             initSocialcalcHotkeys: function() {
-                try{
+                    try {
+                        var me = this;
+
+                        // PC {
                         $(window).bind('keydown', 'ctrl+c', function() {
-                            var event = document.createEvent("MouseEvents");
-                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                                false, false, false, false, 0, null);
-
-                            // get button for current active window
-                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-copy').attr('id');
-
-                            var buttonElement = document.getElementById(id);
-                            buttonElement.dispatchEvent(event);
-
+                            me.clickSCButton('-button_copy');
                             return false;
                         });
 
                         $(window).bind('keydown', 'ctrl+v', function() {
-                            var event = document.createEvent("MouseEvents");
-                            event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
-                                false, false, false, false, 0, null);
-
-                            // get button for current active window
-                            var id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid + ' .button-paste').attr('id');
-
-                            var buttonElement = document.getElementById(id);
-                            buttonElement.dispatchEvent(event);
-
+                            SKApp.simulation.documentsManager.checkIsPasteOperationAllowedInExcel();
+                            if (false === SKApp.simulation.documentsManager.isPasteOperationAllowedInExcel()) {
+                                return false;
+                            }
+                            me.clickSCButton('-button_paste');
                             return false;
                         });
 
+                        $(window).bind('keydown', 'ctrl+z', function() {
+                            me.clickSCButton('-button_undo');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'ctrl+y', function() {
+                            me.clickSCButton('-button_redo');
+                            return false;
+                        });
+                        // PC }
+
+                        // Mac {
+                        $(window).bind('keydown', 'meta+c', function() {
+                            me.clickSCButton('-button_copy');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'meta+v', function() {
+                            me.clickSCButton('-button_paste');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'meta+z', function() {
+                            me.clickSCButton('-button_undo');
+                            return false;
+                        });
+
+                        $(window).bind('keydown', 'meta+y', function() {
+                            me.clickSCButton('-button_redo');
+                            return false;
+                        });
+                        // Mac }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            clickSCButton:function(selector){
+                if(SKApp.simulation.window_set.hasActiveXLSWindow() && SKApp.simulation.useSCHotkeys){
+                    var event = document.createEvent("MouseEvents");
+                    event.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0,
+                        false, false, false, false, 0, null);
+
+                    // get button for current active window
+                    var data_editor_id = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active").attr('data-editor-id');
+                    var id = data_editor_id+selector;//'-button_paste';
+                    var buttonElement = document.getElementById(id);
+                    buttonElement.dispatchEvent(event);
+                }
+            },
+
+            initSystemHotkeys: function() {
+                try {
+                    var me = this;
+                    $(window).bind('keydown', 'esc', function() {
+                        var sim_window = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid);
+                        if(sim_window.length === 0) {
+                            throw new Error("Window not found!");
+                        }
+                        var win_close = sim_window.find('.win-close');
+                        if(win_close.length !== 0){
+                            win_close.click();
+                        }
+                        return false;
+                    });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -811,9 +855,15 @@ define([
             },
 
             bindEmergencyHotkey: function() {
-                var me = this;
+                //PC
+                this.showCrashPanel('ctrl+k');
+                //Mac
+                this.showCrashPanel('meta+k');
+            },
 
-                $(window).bind('keydown', 'ctrl+k', function() {
+            showCrashPanel:function(hotkey) {
+                var me = this;
+                $(window).bind('keydown', hotkey, function() {
                     if (me.system_options === null) {
                         SKApp.server.api('simulation/isEmergencyAllowed', {}, function (data) {
                             if (data.result) {

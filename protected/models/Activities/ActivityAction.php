@@ -11,6 +11,7 @@
  * @property integer $mail_id
  * @property integer $document_id
  * @property integer $meeting_id
+ * @property integer $window_id
  *
  * The followings are the available model relations:
  * @property Activity $activity
@@ -138,8 +139,7 @@ class ActivityAction extends CActiveRecord
         } else if ($this->meeting !== null) {
             return $this->meeting;
         } else {
-            # Special case activities
-            return null;
+            return new FakeActivityAction($this->activity);
         }
     }
 

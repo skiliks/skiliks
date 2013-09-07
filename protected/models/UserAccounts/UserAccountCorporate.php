@@ -18,6 +18,7 @@
  * @property string $bank_account_number
  * @property string $bic
  * @property string $preference_payment_method
+ * @property string $default_invitation_mail_text
  *
  * The followings are the available model relations:
  * @property YumUser $user

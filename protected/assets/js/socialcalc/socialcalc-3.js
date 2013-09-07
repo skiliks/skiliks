@@ -409,7 +409,6 @@ SocialCalc.Sheet.prototype.RecalcSheet = function() {return SocialCalc.RecalcShe
 // Functions:
 
 SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
-
    var lines=savedsheet.split(/\r\n|\n/);
    var parts=[];
    var line;
@@ -2131,6 +2130,10 @@ SocialCalc.ExecuteSheetCommand = function(sheet, cmd, saveundo) {
          break;
 
       case "paste":
+          SKApp.simulation.documentsManager.checkIsPasteOperationAllowedInExcel();
+          if (false === SKApp.simulation.documentsManager.isPasteOperationAllowedInExcel()) {
+              break;
+          }
          sheet.renderneeded = true;
          sheet.changedrendervalues = true;
          if (saveundo) changes.AddUndo("changedrendervalues"); // to take care of undone pasted spans
@@ -3591,7 +3594,6 @@ SocialCalc.RecalcTimerRoutine = function() {
 //
 
 SocialCalc.RecalcCheckCell = function(sheet, startcoord) {
-
    var parseinfo, ttext, ttype, i, rangecoord, circref, value, pos, pos2, cell, coordvals;
    var scf = SocialCalc.Formula;
    if (!scf) {

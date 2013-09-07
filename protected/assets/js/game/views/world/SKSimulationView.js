@@ -90,6 +90,7 @@ define([
                     this.listenTo(simulation, 'stop-time', this.stopSimulation);
                     this.listenTo(simulation, 'documents:error', this.documentsLoadError);
 
+
                     $('#sim-id').text(SKApp.simulation.id);
 
                 } catch(exception) {
@@ -110,7 +111,7 @@ define([
                     }
                 }
             },
-
+            /* Generates message, that if You leave the game you will lose your data */
             stopExitProtection: function () {
                 try {
                     $(window).off('beforeunload');
@@ -260,7 +261,8 @@ define([
                 try {
                     var login_html = _.template(simulation_template, {
                         showPause: SKApp.isLite(),
-                        showStart: SKApp.isTutorial()
+                        showStart: SKApp.isTutorial(),
+                        simulationLabel: SKApp.simulation.get("scenarioLabel")
                     });
 
                     this.$el.html(login_html).appendTo('body');
@@ -282,6 +284,9 @@ define([
                         this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                     }
                     this.renderSupportBlock();
+                    // hiding loading screen and setting backgorund color to white for development mode
+                    $("#loading-cup").remove();
+                    $("body").css("background-color", "#ffffff");
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -336,74 +341,42 @@ define([
 
                     me.simulation.startPause(function(){});
                     me._showPausedScreen();
+                        var d = new SKDialogView({
+                            message: 'Рабочий день закончен',
+                            buttons: [
+                                {
+                                    // 18:00 End work day
+                                    value: 'Завершить работу',
+                                    onclick: function() {
+                                        // me._hidePausedScreen();
+                                        me.stopExitProtection();
+                                        me.stopSimulation();
+                                    }
+                                },
+                                {
+                                    value: 'Продолжить работу',
+                                    onclick: function() {
+                                        me._hidePausedScreen();
 
-                    var d = new SKDialogView({
-                        message: 'Рабочий день закончен',
-                        buttons: [
-                            {
-                                value: 'Завершить работу',
-                                onclick: function() {
-                                    // me._hidePausedScreen();
-                                    me.stopExitProtection();
-                                    SKApp.simulation.stopPause(
-                                        me.simulation.stop()
-                                    );
+                                        // кнопка заменена на дверь
+                                        //me.$('.canvas .finish').removeClass('hidden');
 
-                                    var d = new SKDialogView({
-                                        message: 'Данные симуляции сохраняются.',
-                                        buttons: []
-                                    });
+                                        var notice = new SKDialogView({
+                                            'class': 'how-to-leave',
+                                            'message': _.template(how_to_leave_tpl)(),
+                                            'buttons': [{
+                                                value: 'OK',
+                                                onclick: function() {
+                                                    SKApp.simulation.stopPause();
+                                                }
+                                            }]
+                                        });
+
+
+                                    }
                                 }
-                            },
-                            {
-                                value: 'Продолжить работу',
-                                onclick: function() {
-                                    me._hidePausedScreen();
-
-                                    // кнопка заменена на дверь
-                                    //me.$('.canvas .finish').removeClass('hidden');
-
-                                    var notice = new SKDialogView({
-                                        'class': 'how-to-leave',
-                                        'message': _.template(how_to_leave_tpl)(),
-                                        'buttons': [{
-                                            value: 'OK',
-                                            onclick: function() {
-                                                SKApp.simulation.stopPause();
-                                            }
-                                        }]
-                                    });
-
-
-                                }
-                            }
-                        ]
-                    });
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
-            stopSimulation: function() {
-                try {
-                    var me = this;
-                    me.simulation.stop();
-
-                    me._showPausedScreen();
-                    var d = new SKDialogView({
-                        message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
-                        buttons: [
-                            {
-                                value: 'Перейти к результатам',
-                                onclick: function() {
-                                    me.simulation.trigger('user-agree-with-sim-stop');
-                                }
-                            }
-                        ]
-                    });
-                    $('.mail-popup-button').hide();
+                            ]
+                        });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -416,7 +389,8 @@ define([
              */
             'doSimulationStop':  function () {
                 try {
-                    SKApp.simulation.stop();
+                    window.scrollTo(0, 0);
+                    SKApp.simulation.onFinishTime();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -438,6 +412,30 @@ define([
                         this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
                         this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
                     }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            stopSimulation: function() {
+                try {
+                    var me = this;
+                    me.simulation.stop();
+                    me._showPausedScreen();
+                    var d = new SKDialogView({
+                        message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
+                        buttons: [
+                            {
+                                value: 'Перейти к результатам',
+                                onclick: function() {
+                                    me.simulation.trigger('user-agree-with-sim-stop');
+                                }
+                            }
+                        ]
+                    });
+                    $('.mail-popup-button').hide();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -468,16 +466,24 @@ define([
                                     }
                                 },
                                 {
-                                    value: 'Перейти к результатам',
+                                    value: 'Завершить симуляцию',
                                     onclick: function() {
                                         me._hidePausedScreen();
                                         me.stopExitProtection();
-                                        if(!SKApp.isTutorial() && !SKApp.isLite()) {
+                                        if(SKApp.isLite() || SKApp.isFull()) {
                                             var d = new SKDialogView({
-                                                message: 'Данные симуляции сохраняются.',
-                                                buttons: []
+                                                message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
+                                                buttons: [
+                                                    {
+                                                        value: 'Перейти к результатам',
+                                                        onclick: function() {
+                                                            me.simulation.trigger('user-agree-with-sim-stop');
+                                                        }
+                                                    }
+                                                ]
                                             });
-                                        } else {
+                                            $('.mail-popup-button').hide();
+                                        }  else {
                                             var d = new SKDialogView({
                                                 message: 'Завершение симуляции.',
                                                 buttons: []

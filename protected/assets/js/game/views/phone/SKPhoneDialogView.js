@@ -115,21 +115,16 @@ define([
 
                 window_el.html(callInHtml);
 
-                this.$('audio').on('ended', function(){
-                    if (my_replicas.length === 0) {
-                        event.selectReplica(remote_replica.id, function () {
-                            me.options.model_instance.setLastDialog(remote_replica.id);
-                            if (remote_replica.is_final_replica === "1") {
-                                me.options.model_instance.setOnTop();
-                                me.options.model_instance.close();
-                            }
-                        });
-                    }  else if (!SKApp.simulation.isDebug()) {
-                        window_el.find('.phone-reply-h').removeClass('hidden');
-                    }
-                });
+                    var duration = (SKApp.simulation.isDebug() || null === remote_replica) ?
+                        0 : parseInt(remote_replica.duration, 0)*1000;
 
-                if ('slow' == window.netSpeedVerbose) {
+                    // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
+                    // Из-за этого тесты которые проверяют отображение реплик валятся
+                    // 5 сек задержки должно хватать, но если не хватит можно увеличить
+                    if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
+                        duration = 5000;
+                    }
+
                     setTimeout(function(){
                         if (my_replicas.length === 0) {
                             event.selectReplica(remote_replica.id, function () {
@@ -142,8 +137,7 @@ define([
                         }  else if (!SKApp.simulation.isDebug()) {
                             window_el.find('.phone-reply-h').removeClass('hidden');
                         }
-                    }, 5000);
-                }
+                    }, duration);
 
                 if (0 === this.$('audio').length) {
                     window_el.find('.phone-reply-h').removeClass('hidden');

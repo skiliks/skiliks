@@ -628,15 +628,15 @@ class ImportGameDataService
             if (null === $entity) {
                 $entity = new ActivityParentAvailability();
                 $entity->code = $code;
-                $entity->scenario_id = $this->scenario->getPrimaryKey();
             }
-
+            $must_present_for_214d = $this->getCellValue($sheet, 'Must_present_for_214d', $i);
             $keep_last_category = $this->getCellValue($sheet, 'Keep last category', $i);
             $entity->category = $this->getCellValue($sheet, 'Категория', $i);
-            $entity->is_keep_last_category = ($keep_last_category === 'yes')?1:0;
+            $entity->is_keep_last_category = ($keep_last_category === 'yes')?LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated::KEEP_LAST_CATEGORY_NO;
+            $entity->must_present_for_214d = ($must_present_for_214d === 'must')?ActivityParentAvailability::MUST_PRESENT_FOR_214D_YES:ActivityParentAvailability::MUST_PRESENT_FOR_214D_NO;
             $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
             $entity->import_id = $this->import_id;
-
+            $entity->scenario_id = $this->scenario->getPrimaryKey();
             $entity->save();
             $counter++;
         }
@@ -1093,6 +1093,11 @@ class ImportGameDataService
         $nullCharacter = new Character();
         $charactersList[] = $nullCharacter;
 
+        $mailPrefixes = [];
+        foreach (MailPrefix::model()->findAll() as $prefix) {
+            $mailPrefixes[$prefix->code] = $prefix->title;
+        }
+
         $html = '';
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -1185,10 +1190,11 @@ class ImportGameDataService
         }
 
         foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
+            echo '.';
             if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
@@ -1238,7 +1244,7 @@ class ImportGameDataService
 
                 // add re for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
+                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
                         continue;
                     }
                     $goodTheme = $this->scenario->getCommunicationTheme([
@@ -1774,6 +1780,8 @@ class ImportGameDataService
             $replica->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $replica->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $replica->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
+            $duration = $this->getCellValue($sheet, 'Длительность, сек', $i);
+            $replica->duration = ($duration === '-')?null:$duration;
 
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
@@ -2861,6 +2869,57 @@ class ImportGameDataService
         return $result;
     }
 
+    public function importScenarioConfig()
+    {
+        //return;
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Scenario_configs');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $items = 0;
+
+        $scenarioConfig = ScenarioConfig::model()->findByAttributes(['scenario_id'=>$this->scenario->id]);
+        if (null === $scenarioConfig) {
+            $scenarioConfig = new ScenarioConfig();
+        }
+
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $name = (string)trim($this->getCellValue($sheet, 'Name', $i));
+            $value = trim($this->getCellValue($sheet, 'Value', $i));
+
+            if(empty($name) || empty($value)) { continue; }
+
+            $scenarioConfig->{$name} = $value;
+            $items++;
+        }
+
+        $scenarioConfig->scenario_id = $this->scenario->primaryKey;
+        $scenarioConfig->import_id = $this->import_id;
+        $scenarioConfig->save(false);
+
+        // delete old unused data {
+        ScenarioConfig::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'items' => $items,
+            'errors'    => false,
+        );
+    }
+
     /**
      * @param $result
      * @return mixed
@@ -2868,6 +2927,7 @@ class ImportGameDataService
     public function importWithoutTransaction()
     {
         $result = [];
+        $result['scenario_config'] = $this->importScenarioConfig();
         $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters'] = $this->importCharacters();
         $result['learning_areas'] = $this->importLearningAreas();

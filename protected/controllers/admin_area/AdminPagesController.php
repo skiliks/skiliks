@@ -81,27 +81,9 @@ class AdminPagesController extends SiteBaseController {
             $page = 1;
         }
 
-        $criteria = new CDbCriteria;
+        $allFilters = $this->getCriteriaInvites();
 
-        $params = [];
-
-        $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
-        $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
-        if (false == empty($receiverEmailForFiltration)) {
-            $condition = " email LIKE '%".$receiverEmailForFiltration."%' ";
-            $criteria->addCondition($condition);
-        } else {
-            if ($exceptDevelopersFiltration) {
-                // for page results
-                $condition = " email NOT LIKE '%gty1991%' ".
-                    " AND email NOT LIKE '%@skiliks.com' ".
-                    " AND email NOT LIKE '%@rmqkr.net' ".
-                    " AND sent_time > '2013-06-01 00:00:00' ".
-                    " AND email NOT IN (".implode(',', $this->developersEmails).") ";
-
-                $criteria->addCondition($condition);
-            }
-        }
+        $criteria = $allFilters['criteria'];
 
         $totalItems = Invite::model()->count($criteria);
 
@@ -113,7 +95,7 @@ class AdminPagesController extends SiteBaseController {
 
         //$models = Invite::model()->findAll([
         $models = Invite::model()->findAll([
-            'condition' => $condition,
+            'condition' => $allFilters['condition'],
             'order'  => "updated_at desc",
             'limit'  => $this->itemsOnPage,
             'offset' => ($page-1)*$this->itemsOnPage
@@ -123,7 +105,7 @@ class AdminPagesController extends SiteBaseController {
             $page = 1; // если результатов фильтрации мало
 
             $models = Invite::model()->findAll([
-                'condition' => $condition,
+                'condition' => $allFilters['condition'],
                 'order'  => "updated_at desc",
                 'limit'  => $this->itemsOnPage,
                 'offset' => ($page-1)*$this->itemsOnPage
@@ -137,10 +119,158 @@ class AdminPagesController extends SiteBaseController {
             'pager'       => $pager,
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
-            'receiverEmailForFiltration' => $receiverEmailForFiltration,
+            'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
+            'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
         ]);
-
     }
+
+
+    public function getCriteriaInvites() {
+
+        $clear_form = Yii::app()->request->getParam('clear_form', null);
+        $criteria = new CDbCriteria;
+        $condition = false;
+
+        // checking if clear form is not null
+        if(null !== $clear_form && $clear_form == "admin_filter_form") {
+            $filter_form = array();
+            Yii::app()->session['admin_filter_form'] = $filter_form;
+        }
+
+        else {
+
+            // setting up parameters
+            $filter_form = Yii::app()->session['admin_filter_form'];
+
+            $condition = '';
+
+            $receiverEmailForFiltration = Yii::app()->request->getParam('receiver-email-for-filtration', null);
+            $invite_id = Yii::app()->request->getParam('invite_id', null);
+            $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+
+            // remaking email form
+            if (null !== $receiverEmailForFiltration) {
+                $filter_form['filter_email'] = $receiverEmailForFiltration;
+            }
+            else {
+                $filter_form['filter_email'] = "";
+            }
+
+
+            if (null !== $invite_id) {
+                $filter_form['invite_id'] = $invite_id;
+            }
+            else {
+                $filter_form['invite_id'] = "";
+            }
+
+            Yii::app()->session['admin_filter_form'] = $filter_form;
+
+            // checking if filters are not empty
+            if(null != $filter_form && !empty($filter_form)) {
+
+                // setting all filters
+                if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "" ) {
+                    $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
+                }
+                if($filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $condition .= " t.id = ".$filter_form['invite_id']." ";
+                }
+                $criteria->addCondition($condition);
+            }
+
+            elseif ($exceptDevelopersFiltration) {
+                // for page results
+                $condition .= " email NOT LIKE '%gty1991%' ".
+                    " AND email NOT LIKE '%@skiliks.com' ".
+                    " AND email NOT LIKE '%@rmqkr.net' ".
+                    " AND sent_time > '2013-06-01 00:00:00' ".
+                    " AND email NOT IN (".implode(',', $this->developersEmails).") ";
+
+                $criteria->addCondition($condition);
+            }
+        }
+        return ["condition" => $condition, "criteria" => $criteria, "filters" => $filter_form];
+    }
+
+    public function getCriteriaSimulation() {
+
+        $clear_form = Yii::app()->request->getParam('clear_form', null);
+        $criteria = new CDbCriteria;
+        $condition = false;
+
+        // checking if clear form is not null
+        if(null !== $clear_form && $clear_form == "admin_simulation_filter_form") {
+            $filter_form = array();
+            Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
+        }
+
+        else {
+
+            // setting up parameters
+            $filter_form = Yii::app()->session['admin_simulation_filter_form'];
+            $condition = '';
+
+            $emailForFiltration = Yii::app()->request->getParam('email-for-filtration');
+            $simulation_id = Yii::app()->request->getParam('simulation_id', null);
+            $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+
+
+            // remaking email form
+            if (null != $emailForFiltration) {
+                $filter_form['filter_email'] = $emailForFiltration;
+            }
+            else $filter_form['filter_email'] = "";
+
+            if (null != $simulation_id) {
+                $filter_form['simulation_id'] = $simulation_id;
+            }
+            else $filter_form['simulation_id'] = "";
+
+
+            Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
+
+
+            // checking if filters are not empty
+
+            if(null != $filter_form && !empty($filter_form)) {
+
+                    // setting all filters
+
+                if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "") {
+                    $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+                    // for page results
+                    $condition = " profile.email LIKE '%".$filter_form['filter_email']."%' ";
+                }
+                if(isset($filter_form['simulation_id']) && $filter_form['simulation_id'] != "") {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $condition .= " t.id = ".$filter_form['simulation_id']." ";
+                }
+                $criteria->addCondition($condition);
+            }
+            elseif($exceptDevelopersFiltration) {
+                // for pager counter
+                $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+
+                // for page results
+                $condition = " profile.email NOT LIKE '%gty1991%' ".
+                    " AND profile.email NOT LIKE '%@skiliks.com' ".
+                    " AND profile.email NOT LIKE '%@rmqkr.net' ".
+                    " AND t.start > '2013-06-01 00:00:00' ".
+                    " AND profile.email NOT IN (".implode(',', $this->developersEmails).") ";
+
+                $criteria->addCondition($condition);
+            }
+        }
+        return ["condition" => $condition, "criteria" => $criteria, "filters" => $filter_form];
+    }
+
+
 
     public function actionInvitesSave() {
 
@@ -437,33 +567,9 @@ class AdminPagesController extends SiteBaseController {
 
         $condition = null;
 
-        $criteria = new CDbCriteria();
+        $allFilters = $this->getCriteriaSimulation();
 
-        $emailForFiltration = trim(Yii::app()->request->getParam('email-for-filtration'));
-        $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
-        if (false == empty($emailForFiltration)) {
-            // for pager counter
-            $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
-
-            // for page results
-            $condition = " profile.email LIKE '%".$emailForFiltration."%' ";
-
-            $criteria->addCondition($condition);
-        } else {
-            if ($exceptDevelopersFiltration) {
-                // for pager counter
-                $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
-
-                // for page results
-                $condition = " profile.email NOT LIKE '%gty1991%' ".
-                    " AND profile.email NOT LIKE '%@skiliks.com' ".
-                    " AND profile.email NOT LIKE '%@rmqkr.net' ".
-                    " AND t.start > '2013-06-01 00:00:00' ".
-                    " AND profile.email NOT IN (".implode(',', $this->developersEmails).") ";
-
-                $criteria->addCondition($condition);
-            }
-        }
+        $criteria = $allFilters['criteria'];
 
         $totalItems = Simulation::model()->count($criteria);
         $pager = new CustomPagination($totalItems);
@@ -475,7 +581,7 @@ class AdminPagesController extends SiteBaseController {
         $simulations = Simulation::model()
             ->with('user', 'user.profile')
             ->findAll([
-                'condition' => $condition,
+                'condition' => (isset($allFilters['condition']) && $allFilters['condition']) ? $allFilters['condition'] : '',
                 'order' => 't.id DESC',
                 'offset' => ($page-1) * $this->itemsOnPage,
                 'limit'  => $this->itemsOnPage
@@ -489,7 +595,8 @@ class AdminPagesController extends SiteBaseController {
             'pager'       => $pager,
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
-            'emailForFiltration' => $emailForFiltration,
+            'emailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
+            'simulation_id' => isset($allFilters['filters']['simulation_id']) ? $allFilters['filters']['simulation_id'] : "",
         ]);
     }
 
@@ -753,4 +860,5 @@ class AdminPagesController extends SiteBaseController {
             ]),
         ]);
     }
+
 }

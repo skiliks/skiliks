@@ -7,7 +7,7 @@ class DayPlanController extends SimulationBaseController{
      */
     public function actionGet()
     {
-        $result = DayPlanService::get($this->getSimulationEntity());
+        $result = DayPlanService::getPlanList($this->getSimulationEntity());
         $result['result'] = self::STATUS_SUCCESS;
         $this->sendJSON($result);
     }
@@ -29,7 +29,11 @@ class DayPlanController extends SimulationBaseController{
      */
     public function actionDelete()
     {
-        $result = DayPlanService::delete($this->getSimulationEntity(), Yii::app()->request->getParam('id'));
+        $result = DayPlanService::deleteTask(
+            $this->getSimulationEntity(),
+            Yii::app()->request->getParam('id')
+        );
+
         $result['result'] = self::STATUS_SUCCESS;
         $this->sendJSON($result);
     }
@@ -39,14 +43,16 @@ class DayPlanController extends SimulationBaseController{
      */
     public function actionAdd()
     {
-        $result = DayPlanService::addToPlan(
-                    $this->getSimulationEntity(),
-                    Yii::app()->request->getParam('task_id'),
-                    Yii::app()->request->getParam('date'),
-                    Yii::app()->request->getParam('day')
-                );
-        $this->sendJSON($result);
-            
+        $result = DayPlanService::addTask(
+            $this->getSimulationEntity(),
+            Yii::app()->request->getParam('task_id'),
+            Yii::app()->request->getParam('day'),
+            Yii::app()->request->getParam('date')
+        );
+
+        $this->sendJSON([
+            'result' => $result ? self::STATUS_SUCCESS : self::STATUS_ERROR
+        ]);
     }
 
     public function actionSave()
