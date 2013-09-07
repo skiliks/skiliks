@@ -196,6 +196,12 @@ class Simulation extends CActiveRecord
     {
         $time = Yii::app()->request->getParam('time');
         if(null === $time) {
+            // for unit tests with time {
+            if (isset(Yii::app()->session['gameTime'])) {
+                return Yii::app()->session['gameTime'];
+            }
+            // for unit tests with time }
+
             $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
             $variance = $variance * $this->getSpeedFactor();
 
