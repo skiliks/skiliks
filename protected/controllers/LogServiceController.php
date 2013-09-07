@@ -1,6 +1,6 @@
 <?php
 
-class LogServiceController extends SiteSimulationController
+class LogServiceController extends SimulationBaseController
 {
     public function actionSoundSwitcher()
     {
