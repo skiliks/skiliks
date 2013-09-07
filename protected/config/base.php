@@ -372,6 +372,7 @@ return array(
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
         'isDisplaySimulationResults'    => true,
+        'simulationIdStorage'           => 'request', // 'request', 'session'
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => false, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'defaultMessageText' => '',
