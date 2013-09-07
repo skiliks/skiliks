@@ -151,7 +151,7 @@ class FlagsService
     /**
      * @param Simulation $simulation
      * @param string $flag
-     * @param string $value
+     * @param integer $value
      */
     public static function setFlag($simulation, $flag, $value)
     {

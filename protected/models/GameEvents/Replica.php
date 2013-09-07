@@ -2,130 +2,36 @@
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  *
+ * @property integer $id
+ * @property integer $ch_from, characters.id
+ * @property integer $ch_to, characters.id
+ * @property integer $dialog_subtype, dialog_subtypes
+ * @property string  $text
+ * @property string  $code, dialog code 'ET1.1', 'E8' ...
+ * @property string  $next_event_code, 'ET1.1', 'D1', 'P1', 'M1', 'MS2'
+ * @property string  $next_event
+ * @property string  $sound
+ * @property string  $type_of_init, Replica initialization type: dialog, icon, time, flex etc.
+ * @property string  $flag_to_switch
+ * @property string  $flag_to_switch_2
+ * @property integer $event_result - remove it!
+ * @property integer $step_number, step in dialog
+ * @property integer $replica_number, number of replica in dialog step
+ * @property integer $delay
+ * @property integer $excel_id
+ * @property boolean $fantastic_result
+ * @property boolean $is_final_replica
+ * @property boolean $demo
+ * @property integer $duration
+ *
  * @property Character from_character
  * @property Character to_character
  * @property ActivityParent[] termination_parent_actions
- * @property boolean fantastic_result
- * @property integer $duration
  * @property DialogSubtype $dialogSubtype
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Replica extends CActiveRecord implements IGameAction
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * characters.id
-     * @var integer
-     */
-    public $ch_from;
-
-    /**
-     * characters.id
-     * @var integer
-     */
-    public $ch_to;
-
-    /**
-     * dialog_subtypes.id
-     * @var integer
-     */
-    public $dialog_subtype;
-    
-    /**
-     * @var string
-     */
-    public $text; 
-
-    /**
-     * events_results.id
-     * @var integer
-     */
-    public $event_result;   
-    
-    /**
-     * Replica code, 'ET1.1', 'E8' ...
-     * @var string
-     */
-    public $code;
-    
-    /**
-     * @var integer
-     */
-    public $step_number;
-    
-    /**
-     * @var integer
-     */
-    public $replica_number;
-    
-    /**
-     * event_samples.id
-     * @var integer
-     */
-    public $next_event;
-    
-    /**
-     * In game minutes
-     * Delay after event starts
-     * @var integer
-     */
-    public $delay;    
-    
-    /**
-     * @var boolean (integer)
-     */
-    public $is_final_replica;
-    
-    /**
-     * name of sound file
-     * @var string
-     */
-    public $sound;
-    
-    /**
-     * ID in source excel document, used to define dialod line in reimport case
-     * @var integer
-     */
-    public $excel_id;
-    
-    /**
-     * "D1", "E1.2" ...
-     * @var string
-     */
-    public $next_event_code;    
-
-    /**
-     * Is this replica used in demo
-     * @var boolean (integer)
-     */
-    public $demo;    
-    
-    /**
-     * Replica initialization type: dialog, icon, time, flex etc.
-     * @var string
-     */
-    public $type_of_init;
-
-    /**
-     * "F1", "F2", ...
-     * @var string | NULL
-     */
-    public $flag_to_switch;
-
-    /**
-     * "F1", "F2", ...
-     * @var string | NULL
-     */
-    public $flag_to_switch_2;
-
-    /** ------------------------------------------------------------------------------------------------------------ **/
-
-    // business logic code
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
