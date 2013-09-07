@@ -421,8 +421,11 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->assertEquals('408', $result['events'][0]['data'][1]['excel_id']);
     }
 
+    /*
+     * Проверяет что оба папаметра у реплики (flag_to_switch и flag_to_switch_2) переключают флаги
+     * и делаю это вовремя
+     */
     public function testFlagToSwitch2() {
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
