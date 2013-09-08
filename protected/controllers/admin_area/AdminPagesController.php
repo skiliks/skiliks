@@ -1271,4 +1271,28 @@ class AdminPagesController extends SiteBaseController {
 
         Yii::app()->end();
     }
+
+    public function actionIncreaseInvites()
+    {
+        $user = Yii::app()->user->data();
+
+        if (false == $user->isCorporate()) {
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        $initValue = $user->getAccount()->invites_limit;
+
+        $user->getAccount()->invites_limit += 10;
+        $user->getAccount()->save();
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: actionIncreaseInvites',
+            $user->getAccount(),
+            $initValue
+        );
+
+        Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
+
+        $this->redirect('/admin_area/dashboard');
+    }
 }

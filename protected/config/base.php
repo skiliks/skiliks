@@ -157,13 +157,7 @@ return array(
                 'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
                 'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
 
-                'cheat/dialogsAnalyzer'                 => 'static/admin/dialogsAnalyzer',
-                'cheat/uploadDialogsToAnalyzer'         => 'static/admin/uploadDialogsToAnalyzer',
-                'cheat/assessments/grid'                => 'static/cheats/assessmentsGrid',
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
-                'cheat/zoho/getUsageValue'              => 'static/cheats/getZohoUsageStatus',
-
-                'cheat/zoho/saveUsageValue/<value:\w+>/<expireDate:\w+>' => 'static/cheats/saveZohoUsageStatus',
 
                 'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
@@ -202,13 +196,6 @@ return array(
 
                 'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
                 'registration/<action:\w+>' => 'static/userAuth/<action>',
-
-                'cheats'                               => 'static/cheats/mainPage',
-                'cheats/cleanUpAccount'                => 'static/cheats/cleanUpAccount',
-                'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
-                'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
-                'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-                'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new'                      => 'static/dashboard/corporateNew',
                 'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
@@ -267,8 +254,6 @@ return array(
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
-                'invite/add-10'                => 'static/cheats/increaseInvites',
-
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
@@ -302,6 +287,7 @@ return array(
                 'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
+                'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
 
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
