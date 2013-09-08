@@ -359,8 +359,12 @@ class AdminPagesController extends SiteBaseController {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
+<<<<<<< HEAD
                     $condition .= " t.id = ".$filter_form['simulation_id']." ";
                     $previousConditionPresent = true;
+=======
+                    $condition .= " t.id = '".$filter_form['simulation_id']."' ";
+>>>>>>> f455afde0955d8dec76d61c6e3145bf0678a59d4
                 }
                 $criteria->addCondition($condition);
             } else {
