@@ -177,7 +177,7 @@ class AdminPagesController extends SiteBaseController {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
-                    $condition .= " t.id = ".$filter_form['invite_id']." ";
+                    $condition .= " t.id = '".$filter_form['invite_id']."' ";
                 }
                 $criteria->addCondition($condition);
             }
@@ -249,7 +249,7 @@ class AdminPagesController extends SiteBaseController {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
-                    $condition .= " t.id = ".$filter_form['simulation_id']." ";
+                    $condition .= " t.id = '".$filter_form['simulation_id']."' ";
                 }
                 $criteria->addCondition($condition);
             }
