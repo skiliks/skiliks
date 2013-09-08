@@ -73,3 +73,7 @@ ul.yiiPager {
     background-color: #008A45;
     background-image: linear-gradient(to bottom, #008A45, #008A45);
 }
+
+.navbar-link {
+    text-decoration: underline;
+}
