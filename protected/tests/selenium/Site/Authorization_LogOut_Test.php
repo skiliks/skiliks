@@ -18,7 +18,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->open('/ru');
 
         // проверка наличия попапа Входа
-        $this->optimal_click("xpath=//*[@id='yw1']/li[2]/a"); // кликаем на кнопку по xpath
+        $this->optimal_click("xpath=//*[@id='yw1']/li[3]/a"); // кликаем на кнопку по xpath
 
         $this->assertTextPresent('Запомнить меня'); // проверяем, что есть особый текст
         $this->optimal_click("css=.submit>input");

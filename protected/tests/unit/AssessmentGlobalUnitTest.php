@@ -342,7 +342,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $v = [
             'Управление задачами с учётом приоритетов' => 90.611115,
             'Управление людьми'         => 90.181999,
-            'Управление коммуникациями' => 89.928574,
+            'Управление коммуникациями' => 83.857140,
 
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
@@ -369,8 +369,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 90.30,
-            'overall'     => 76.35,
+            'management'  => 88.17,
+            'overall'     => 75.28,
             'performance' => 67.71,
             'time'        => 50,
         ];
@@ -532,7 +532,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
         $v = [
             'Управление задачами с учётом приоритетов'  => 47.500000,
-            'Управление коммуникациями'                 => 89.928574 ,
+            'Управление коммуникациями'                 => 83.857140 ,
             'Управление людьми'                         => 30,
         ];
 
@@ -542,7 +542,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 //                $listItem->learningArea->title,
 //                $listItem->value
 //            );
-//        }
+//        } die;
 
         foreach ($areas as $listItem) {
             if (isset($v[$listItem->learningArea->title])) {
@@ -555,8 +555,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 58.86,
-            'overall'     => 60.63,
+            'management'  => 56.73,
+            'overall'     => 59.56,
             'performance' => 67.71,
             'time'        => 50,
         ];
@@ -567,7 +567,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 //                $listItem->assessment_category_code,
 //                $listItem->value
 //            );
-//        }
+//        } die;
 
         foreach ($overall as $listItem) {
             $this->assertEquals(

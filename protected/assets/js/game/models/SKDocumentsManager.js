@@ -35,9 +35,6 @@ var SKDocumentsManager;
             var currentSheetName = $('.sim-window-id-'
                 + SKApp.simulation.window_set.getActiveWindow().window_uid).find(".sheet-tabs .active").text();
 
-            console.log('currentSheetName: ', currentSheetName);
-            console.log('pastedPiece: ', pastedPiece);
-            console.log(pastedPiece.indexOf(currentSheetName+'!'));
             if (pastedPiece.indexOf(currentSheetName+'!') > -1) {
                 return false;
             } else {
