@@ -4,9 +4,14 @@
 ?>
 
 <div class="nav-collapse collapse">
-    <p class="navbar-text pull-right">
-        <?= $user->profile->firstname ?>
-        <?= $user->profile->lastname ?>
+    <p class="navbar-text pull-right" style="font-weight: bold;">
+        <i class="icon-user icon-white" style="opacity: 0.5;"></i>
+        &nbsp;
+        <a href="/admin_area/user/<?= $user->id ?>/details" class="navbar-link">
+            <?= $user->profile->firstname ?>
+            <?= $user->profile->lastname ?>
+        </a>
+        &nbsp;  &nbsp; | &nbsp; &nbsp;
         <a href="/admin_area/logout" class="navbar-link">Выйти</a>
     </p>
     <?php $this->widget('zii.widgets.CMenu',array(
