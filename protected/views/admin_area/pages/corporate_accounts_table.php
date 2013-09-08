@@ -1,15 +1,12 @@
 <?php $titles = [
     'ID юзера',
-    'Имя',
-    'Фамилия',
-    'Личный email',
-    'Корпоративный email',
+    'Имя и фамилия',
+    'Личный, Корпоративный email-ы',
     'Название компании',
     'Количество приглашений',
     'Тарифный план',
-    'Дата регистрации',
-    'Дата последнего посещения',
-    'Действие',
+    'Дата регистрации /<br/>Дата последнего посещения',
+    'Действия',
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
@@ -47,17 +44,69 @@
             <?php $i= 0 ?>
             <?php endif ?>
             <tr class="orders-row">
-                <td><?= $account->user->id ?></td>
-                <td><?= $account->user->profile->firstname ?></td>
-                <td><?= $account->user->profile->lastname ?></td>
-                <td><?= $account->user->profile->email ?></td>
-                <td><?= $account->corporate_email ?></td>
+                <td>
+                    <i class="icon icon-user" style="opacity: 0.25"></i>
+                    <a href="/admin_area/user/<?= $account->user->id ?>/details">
+                        <?= $account    ->user->id ?>
+                    </a>
+                </td>
+                <td>
+                    <?= $account->user->profile->firstname ?>
+                    </br>
+                    <?= $account->user->profile->lastname ?>
+                </td>
+                <td>
+                    <?= $account->user->profile->email ?>,
+                    <br/>
+                    <?= $account->corporate_email ?>
+                </td>
                 <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
                 <td><?= $account->invites_limit ?></td>
-                <td><?= ($account->tariff) ? $account->tariff->label : '--' ?></td>
-                <td><?= date('Y-m-d H:i:s', strtotime($account->user->createtime)) ?></td>
-                <td><?= date('Y-m-d H:i:s', strtotime($account->user->lastvisit)) ?></td>
-                <td><a href="/admin_area/corporate-account/<?= $account->user_id ?>/invite-limit-logs">Смотреть лог движения инвайтов</a></td>
+                <td>
+                    <?= ($account->tariff) ? $account->tariff->label : '--' ?>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
+                            <i class="icon-refresh"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_LITE ?>">
+                                    <i class="icon-pencil"></i>
+                                    Назначить Пробный тариф</a>
+                            </li>
+                            <li>
+                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_STARTER ?>">
+                                    <i class="icon-pencil"></i>
+                                    Назначить Малый тариф</a>
+                            </li>
+                            <li>
+                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_PROFESSIONAL ?>">
+                                    <i class="icon-pencil"></i>
+                                    Назначить Профессиональный тариф</a>
+                            </li>
+                            <li>
+                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_BUSINESS ?>">
+                                    <i class="icon-pencil"></i>
+                                    Назначить Бизнес тариф</a>
+                            </li>
+                            <li>
+                                <a href="/static/cheats/set-tariff/" style="color: #b00;">
+                                    <i class="icon-trash"></i>
+                                    Очистить поле тариф</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
+                    <br/>
+                    <?= date('Y-m-d H:i:s', $account->user->lastvisit) ?>
+                </td>
+                <td style="width: 290px;">
+                     <a class="btn btn-info" style="width: 140px;"
+                         href="/admin_area/corporate-account/<?= $account->user_id ?>/invite-limit-logs">
+                         <strong>Смотреть лог движения инвайтов</strong></a>
+                </td>
             </tr>
         <?php endforeach ?>
         </tbody>
