@@ -7,8 +7,10 @@
     <link href="/public/admin_area/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/public/admin_area/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="/public/admin_area/css/main.css" rel="stylesheet">
+
     <script src="/public/admin_area/js/jquery-2.0.2.js"></script>
     <script src="/public/admin_area/bootstrap/js/bootstrap.js"></script>
+    <script src="/public/admin_area/js/jquery.scrollTo.js"></script>
     <script src="/public/admin_area/js/main.js"></script>
 </head>
 <body>
@@ -20,7 +22,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="/">Skiliks</a>
+            <a class="brand" href="/">Skiliks: release 2.0</a>
             <?php $this->renderPartial('//admin_area/partials/_top_menu') ?>
         </div>
     </div>
@@ -51,7 +53,7 @@
     <hr>
 
     <footer>
-        <p></p>
+        <p>Yii version: <?= Yii::getVersion(); ?></p>
     </footer>
 </div>
 </body>

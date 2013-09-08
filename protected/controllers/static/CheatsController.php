@@ -27,45 +27,6 @@ class CheatsController extends SiteBaseController
 
     /**
      * Cheat
-     * @param string $status, Invite::STATUS_XXX
-     */
-    public function actionSetStatusForAllInvites($status)
-    {
-        $user = Yii::app()->user;
-        if (null === $user) {
-            $this->redirect('/');
-        }
-
-        $user = $user->data();  //YumWebUser -> YumUser
-
-        // protect against real user-cheater
-        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
-            $this->redirect('/');
-        }
-
-        if (false == $user->isCorporate()) {
-            $this->redirect('/');
-        }
-
-        $invitations = Invite::model()->findAllByAttributes([
-            'owner_id' => $user->id
-        ]);
-
-        foreach ($invitations as $invitation) {
-            $invitation->status = (int)Invite::$statusId[$status];
-            $invitation->update(['status']);
-        }
-
-        Yii::app()->user->setFlash('success', sprintf(
-            "Все приглашения теперь в статусе %s!",
-            Yii::t('site', $status)
-        ));
-
-        $this->redirect('/dashboard');
-    }
-
-    /**
-     * Cheat
      */
     public function actionIncreaseInvites()
     {
@@ -99,47 +60,6 @@ class CheatsController extends SiteBaseController
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 
         $this->redirect('/dashboard');
-    }
-
-
-    /**
-     * Action for testing - allow reset authorized user account type
-     */
-    public function actionCleanUpAccount()
-    {
-        $this->checkUser();
-
-        if (null !== $this->user->account_personal) {
-            $this->user->account_personal->delete();
-            echo "<br>Personal accoutn removed.<br>";
-        }
-
-        if (null !== $this->user->account_corporate) {
-            $this->user->account_corporate->delete();
-            echo "<br>Corporate accoutn removed.<br>";
-        }
-
-        echo "<br><br><a href='/cheats'>Вернуться на страницу аккаунта.</a><br><br>Done!<br>";
-
-        Yii::app()->end(); // кошерное die
-    }
-
-    /**
-     *
-     */
-    public function actionListOfSubscriptions() {
-
-        $emails = Yii::app()->db->createCommand()
-            ->select( 'id, email' )
-            ->from( 'emails_sub' )
-            ->queryAll();
-        echo 'ID EMAIL <br>';
-        foreach ($emails as $email) {
-
-            echo "{$email['id']} {$email['email']} <br>";
-        }
-
-        Yii::app()->end(); // кошерное die
     }
 
     /**
@@ -208,35 +128,6 @@ class CheatsController extends SiteBaseController
     }
 
     /**
-     *
-     */
-    public function actionAssessmentsGrid()
-    {
-        $data = [
-            'Итоговый рейтинг менеджера' => [
-                'Управленческие характеристики' => [],
-                'Результативность' => [],
-                'Эффективность использования времени' => [],
-            ],
-            'Личные характеристики' => [[]],
-        ];
-
-        $fullScenario  = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-        $learningAreas = $fullScenario->getLearningAreas();
-
-        foreach ($learningAreas as $learningArea) {
-            $data['Итоговый рейтинг менеджера']['Управленческие характеристики'][$learningArea->title] = '';
-            $data['Итоговый рейтинг менеджера']['Результативность'][] = '';
-            $data['Итоговый рейтинг менеджера']['Эффективность использования времени'][] = '';
-            $data['Личные характеристики'][0][] = '';
-        }
-
-        $this->render('assessment_grid', [
-            'data' => $data
-        ]);
-    }
-
-    /**
      * Логинит пользователя под ником asd@skiliks.com (тестовый пользователь)
      * И перенаправляет к началу полной дев симуляции
      *
@@ -268,43 +159,5 @@ class CheatsController extends SiteBaseController
         Yii::app()->user->login($login);
 
         $this->redirect('/simulation/developer/full');
-    }
-
-    /**
-     *
-     */
-    public function actionSaveZohoUsageStatus($value, $expireDate)
-    {
-        //  $value = Yii::app()->request->getParam('value');
-        $usages_today = $value;
-
-        if (null !== $usages_today) {
-            $file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'c');
-            $data = $usages_today . ' UDS, '. $expireDate;
-            $data = str_replace([ '___','__','_'],[' - ',', ',', '],$data);
-            fwrite($file, $data);
-            fclose($file);
-        }
-
-        Yii::app()->end();
-    }
-
-    /**
-     *
-     */
-    public function actionGetZohoUsageStatus()
-    {
-        return;
-        @$file = fopen(__DIR__ . '/../../../tmp/zohoUsageStatistic.dat', 'r');
-        if (null !== $file) {
-            $data = fread($file, 200);
-            fclose($file);
-
-            echo urldecode($data);
-        } else {
-            echo 'No statistic.';
-        }
-
-        Yii::app()->end();
     }
 }
