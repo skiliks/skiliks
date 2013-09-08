@@ -148,7 +148,7 @@ jsBogoMips = function() {
                     } else if (Prototype.Browser.WebKit) {
                         browser = 'Safari';
                     } else {
-                        console.log("Unknown browser - no effects or charting enabled");
+                        // Unknown browser - no effects or charting enabled
                        break browserTest;
                     }
 

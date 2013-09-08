@@ -39,7 +39,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
@@ -65,7 +65,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
