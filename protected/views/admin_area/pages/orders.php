@@ -1,18 +1,15 @@
 <?php $titles = [
-    'Email работодателя',
-    'Имя работодателя',
-    'Название компании',
-    'ID заказа',
-    'Время заказа',
-    'Название тарифа',
+    'Email, <br/>ФИО, <br/>Компания',
+    'ID <br/>заказа',
+    'Время <br/>заказа',
+    'Название <br/>тарифа',
     'Статус',
     'Валидность',
     'ИНН',
     'КПП',
-    'Расчётный счёт',
+    'Расчётный <br/>счёт',
     'БИК',
     'Пометить как',
-    ''
 ] ?>
 <div class="row fix-top">
     <h2>Заказы</h2>
@@ -49,9 +46,15 @@
         <?php $i= 0 ?>
         <?php endif ?>
         <tr class="orders-row">
-            <td><?=(empty($model->user->profile->email))?'Не найден':$model->user->profile->email?></td>
-            <td><?=(empty($model->user->profile->firstname) || empty($model->user->profile->lastname))?'Не найден':$model->user->profile->firstname." ".$model->user->profile->lastname?></td>
-            <td><?=(empty($model->user->account_corporate->company_name))?'Не найден':$model->user->account_corporate->company_name?></td>
+            <td>
+                <?= (empty($model->user->profile->email)) ? 'Не найден' : $model->user->profile->email ?>
+                <br/>
+                <?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?>
+                <?= (empty($model->user->profile->lastname)) ? '-' : $model->user->profile->lastname?>
+                <br/>
+                <?= (empty($model->user->account_corporate->company_name))
+                    ? '--' : $model->user->account_corporate->company_name?>
+            </td>
             <td><?=$model->id?></td>
             <td><?=(empty($model->updated_at)?'---- -- -- --':$model->updated_at)?></td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
@@ -61,8 +64,16 @@
             <td><?=$model->cpp?></td>
             <td><?=$model->account?></td>
             <td><?=$model->bic?></td>
-            <td><a href="<?=$model->getValidationAction()?>" class="btn <?=$model->getValidationStatusBtn()?>"><?=$model->getValidationStatusBtnText()?></a></td>
-            <td><a href="<?=$model->getStatusAction()?>" class="btn <?=$model->getStatusBtn()?>"><?=$model->getStatusBtnText()?></a></td>
+            <td>
+                <a href="<?=$model->getValidationAction()?>" style="margin-bottom: 10px;"
+                   class="btn <?=$model->getValidationStatusBtn()?>">
+                    <?=$model->getValidationStatusBtnText()?>
+                </a>
+                <br/>
+                <a href="<?=$model->getStatusAction()?>" class="btn <?=$model->getStatusBtn()?>">
+                    <?=$model->getStatusBtnText()?>
+                </a>
+            </td>
         </tr>
         <?php endforeach ?>
         </tbody>

@@ -1318,7 +1318,7 @@ html[lang=ru] .product section table th{
 }
 
 .registration .form.form-account-corporate{
-	background-image:url("../img/bg-registration-corparate.png");
+	background-image:url("../img/bg-registration-corporate.png");
 	float:right;
 	margin-right:9px;
 }
@@ -1522,7 +1522,7 @@ html[lang=ru] .product section table th{
 
 
 	.registration .form.form-account-corporate{
-		background-image:url("../img/bg-registration-corparate-min.png");
+		background-image:url("../img/bg-registration-corporate-min.png");
 		margin-right:7px;
 	}
 	.registration .form h1{
