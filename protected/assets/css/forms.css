@@ -568,6 +568,7 @@ span.required {
 .ui-widget-overlay, .controller-static-dashboard .ui-widget-overlay {
     background: rgba(0, 0, 0, .55) !important;
     opacity: 1;
+    width:100% !important;
 }
 .action-recovery.action-controller-recovery-static-userAuth .ui-widget-overlay {
     background: none !important;

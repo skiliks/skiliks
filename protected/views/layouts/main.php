@@ -56,7 +56,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
                     </a>
                 </h1>
-                <div class="betaflag"></div>
 
                 <nav id="account-links">
                     <?php $this->renderPartial('//global_partials/_account_links', [
