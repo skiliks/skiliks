@@ -1771,3 +1771,7 @@ body.loading {
 .white-color {
     color: #ffffff;
 }
+
+#sh_button {
+    left: 626px !important;
+}
