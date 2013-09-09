@@ -312,12 +312,15 @@ class Invite extends CActiveRecord
                 // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
                 return false;
             }
-
         }
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
+
+        if (null === $account) {
+            return false;
+        }
 
         $initValue = $account->invites_limit;
 
