@@ -23,9 +23,11 @@
 
         <div class="order-status">
             <div class="row">
-                <label>Выбран тарифный план</label>
+                <label>Текущий тарифный план</label>
                 <div class="value"><?= strtolower($account->getTariffLabel()) ?>
-                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> в месяц</small>
+                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> р. в месяц</small><small class="tarifprice">
+                        Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
+                    </small>
                 </div>
             </div>
             <div class="row">
@@ -34,10 +36,6 @@
                     <select>
                         <option value="1">1</option>
                     </select>
-                    <br/>
-                    <small class="expire-date">
-                        Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
-                    </small>
                 </div>
             </div>
         </div>
