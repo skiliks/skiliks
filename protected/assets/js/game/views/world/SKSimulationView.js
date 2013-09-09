@@ -298,8 +298,12 @@ define([
              * Renders siteheart block
              */
             renderSupportBlock: function renderSupportBlock() {
-                /*window._shcp = [];
-                window._shcp.push({link_wrap_off: true, widget_id : 582287, widget : "Chat", side : "bottom", position : "left", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
+                console.log(SKApp.get('isDisplaySupportChat'));
+                if (false == SKApp.get('isDisplaySupportChat')) {
+                    return;
+                }
+                window._shcp = [];
+                window._shcp.push({link_wrap_off: true, widget_id : 582287, widget : "Chat", side : "top", position : "center", template : "orange", title : "Поддержка Skiliks", title_offline : "Оставьте сообщение" });
                 (function() {
                     var hcc = document.createElement("script");
                     hcc.type = "text/javascript";
@@ -307,7 +311,7 @@ define([
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null); }
-                )();*/
+                )();
             },
 
             /**
