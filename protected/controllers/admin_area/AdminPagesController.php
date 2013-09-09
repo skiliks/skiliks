@@ -41,9 +41,53 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionDashboard() {
 
-        $this->layout = '//admin_area/layouts/admin_main';
-         $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
 
+    }
+
+    public function actionLiveSimulations() {
+        $condition = " `t`.`start` > (NOW() - interval 4 hour) ";
+
+        $full_simulations = Simulation::model()->findAll([
+            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 4 hour) ",
+            'with'=>array(
+                'user',
+                'invite',
+                'game_type',
+            ),
+            'order'  => " t.start desc",
+        ]);
+
+
+        $lite_simulations = Simulation::model()->findAll([
+            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 1 hour) ",
+            'with'=>array(
+                'user',
+                'invite',
+                'game_type',
+            ),
+            'order'  => " t.start desc",
+        ]);
+
+
+        $tutorial_simulations = Simulation::model()->findAll([
+            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 30 minute) ",
+            'with'=>array(
+                'user',
+                'invite',
+                'game_type',
+            ),
+            'order'  => " t.start desc",
+        ]);
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/live_simulations',
+            ['user'=>$this->user,
+                'full_simulations'     => $full_simulations,
+                'lite_simulations'     => $lite_simulations,
+                'tutorial_simulations' => $tutorial_simulations
+            ]);
     }
 
     public function actionLogin() {

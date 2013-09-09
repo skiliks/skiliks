@@ -52,7 +52,9 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property SimulationFlag[] $simFlags
  * @property LogAssessment214g[] $logAssessment214g
  * @property UniversalLog[] $universal_log
+ * @property YumUser $user
  */
+
 class Simulation extends CActiveRecord
 {
     const SIMULATION_DAY_DATE = '04.10.2013';
@@ -737,6 +739,15 @@ class Simulation extends CActiveRecord
      */
     public function isCalculateTheAssessment() {
         return $this->game_type->isCalculateAssessment();
+    }
+
+    public function getCurrentGameTime() {
+        $lastLog = LogServerRequest::model()->find([
+            'order'     => 'real_time DESC',
+            'condition' => 'sim_id = '.$this->id,
+            'limit' => 1,
+        ]);
+        return $lastLog->backend_game_time;
     }
 }
 
