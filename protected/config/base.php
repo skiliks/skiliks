@@ -288,6 +288,7 @@ return array(
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
+                'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
 
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',

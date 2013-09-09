@@ -65,7 +65,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     'isDisplayAccountLinks' => true
                 ]) ?>
             </nav>
-            <div class="betaflag"></div>
         </header>
         <?php $this->renderPartial('//global_partials/_sing_in') ?>
         <?php if (Yii::app()->getController()->getId() == 'static/pages' &&
