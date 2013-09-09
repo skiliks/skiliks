@@ -171,14 +171,8 @@ define([
 
         doStopSimulation:function(e) {
             this.logAction($(e.currentTarget).text());
-            var dialog = new SKDialogView({
-                message:'Экстренное завершение симуляции.<br/> Идёт расчёт оценки за симуляцию.<br/>Дождитесь окончания расчёта.',
-                buttons:[]
-            });
-            SKApp.simulation.stop(function(){
-                dialog.remove();
-            });
             this.remove();
+            SKApp.simulation.onFinishTime();
             return false;
         },
 
