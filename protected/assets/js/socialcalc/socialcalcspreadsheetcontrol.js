@@ -109,7 +109,7 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    var scc = SocialCalc.Constants;
-
+   console.log(idPrefix);
    // Properties:
 
    this.parentNode = null;
@@ -904,6 +904,8 @@ SocialCalc.DoCmd = function(obj, which) {
           break;
 
       case "function-list":
+          // we don't want to display fucnction list so we return true
+          return true;
           idp = spreadsheet.idPrefix+"function";
           ele = document.getElementById(idp+"dialog");
           if (ele) return; // already have one
