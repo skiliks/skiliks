@@ -252,6 +252,11 @@ $titles = [
                                         <i class="icon-star"></i> Открыть оценки
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="/static/admin/saveLog/<?=$invite->simulation->id?>">
+                                        <i class="icon-download-alt"></i> Скачать лог
+                                    </a>
+                                </li>
                                 <?php if(!empty($invite->receiverUser->profile)) : ?>
                                     <li>
                                         <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$invite->simulation->id?>&email=<?=$invite->receiverUser->profile->email?>">
