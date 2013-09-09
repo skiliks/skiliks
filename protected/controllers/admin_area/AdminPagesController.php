@@ -183,7 +183,7 @@ class AdminPagesController extends SiteBaseController {
                     $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
                     $previousConditionPresent = true;
                 }
-                if($filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
+                if(isset($filter_form['invite_id']) && $filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
