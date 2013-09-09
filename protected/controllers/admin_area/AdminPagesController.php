@@ -42,8 +42,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionDashboard() {
 
         $this->layout = '//admin_area/layouts/admin_main';
-        Yii::app()->user->setFlash('error', "Data saved!");
-        $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
+         $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
 
     }
 
@@ -73,7 +72,6 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionInvites()
     {
-
         // pager {
         $page = Yii::app()->request->getParam('page');
 
@@ -101,7 +99,7 @@ class AdminPagesController extends SiteBaseController {
             'offset' => ($page-1)*$this->itemsOnPage
         ]);
 
-        if (0 == count($models)) {
+        if (count($models) < $this->itemsOnPage) {
             $page = 1; // если результатов фильтрации мало
 
             $models = Invite::model()->findAll([
@@ -119,6 +117,7 @@ class AdminPagesController extends SiteBaseController {
             'pager'       => $pager,
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
+            'formFilters' => $allFilters['filters'],
             'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
             'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
         ]);
@@ -126,19 +125,24 @@ class AdminPagesController extends SiteBaseController {
 
 
     public function getCriteriaInvites() {
-
-        $clear_form = Yii::app()->request->getParam('clear_form', null);
+        $clear_form = Yii::app()->request->getParam('clear_form');
         $criteria = new CDbCriteria;
         $condition = false;
 
+        $isReloadRequest = -1 < strpos(Yii::app()->request->urlReferrer, '/admin_area/invites');
+
         // checking if clear form is not null
-        if(null !== $clear_form && $clear_form == "admin_filter_form") {
-            $filter_form = array();
-            Yii::app()->session['admin_filter_form'] = $filter_form;
-        }
-
-        else {
-
+        if(null !== $clear_form) {
+            $filter_form['invite_statuses'] = [
+                Invite::STATUS_PENDING     => true,
+                Invite::STATUS_ACCEPTED    => true,
+                Invite::STATUS_IN_PROGRESS => true,
+                Invite::STATUS_COMPLETED   => true,
+                Invite::STATUS_EXPIRED     => false,
+                Invite::STATUS_DECLINED    => false,
+                Invite::STATUS_DELETED     => false,
+            ];
+        } else {
             // setting up parameters
             $filter_form = Yii::app()->session['admin_filter_form'];
 
@@ -149,22 +153,27 @@ class AdminPagesController extends SiteBaseController {
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
 
             // remaking email form
-            if (null !== $receiverEmailForFiltration) {
-                $filter_form['filter_email'] = $receiverEmailForFiltration;
-            }
-            else {
-                $filter_form['filter_email'] = "";
+            if ($isReloadRequest) {
+                if (null !== $receiverEmailForFiltration) {
+                    $filter_form['filter_email'] = $receiverEmailForFiltration;
+                }
+                else {
+                    $filter_form['filter_email'] = "";
+                }
             }
 
-
-            if (null !== $invite_id) {
-                $filter_form['invite_id'] = $invite_id;
-            }
-            else {
-                $filter_form['invite_id'] = "";
+            if ($isReloadRequest) {
+                if (null !== $invite_id) {
+                    $filter_form['invite_id'] = $invite_id;
+                }
+                else {
+                    $filter_form['invite_id'] = "";
+                }
             }
 
             Yii::app()->session['admin_filter_form'] = $filter_form;
+
+            $previousConditionPresent = false;
 
             // checking if filters are not empty
             if(null != $filter_form && !empty($filter_form)) {
@@ -172,43 +181,145 @@ class AdminPagesController extends SiteBaseController {
                 // setting all filters
                 if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "" ) {
                     $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
+                    $previousConditionPresent = true;
                 }
                 if($filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
-                    $condition .= " t.id = '".$filter_form['invite_id']."' ";
+                    $condition .= " t.id = ".$filter_form['invite_id']." ";
+                    $previousConditionPresent = true;
                 }
                 $criteria->addCondition($condition);
             }
 
-            elseif ($exceptDevelopersFiltration) {
-                // for page results
+            // exclude_invites_from_me_to_me {
+            if (false === isset($filter_form['exclude_invites_from_ne_to_me'])) {
+                $filter_form['exclude_invites_from_ne_to_me'] = true;
+            } else {
+                if ($isReloadRequest) {
+                    if (null !== Yii::app()->request->getParam('exclude_invites_from_ne_to_me')) {
+                        $filter_form['exclude_invites_from_ne_to_me'] = true;
+                    } else {
+                        $filter_form['exclude_invites_from_ne_to_me'] = false;
+                    }
+                }
+            }
+
+            if ($filter_form['exclude_invites_from_ne_to_me']) {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                }
+                $condition .= " receiver_id != owner_id ";
+            }
+            // exclude_invites_from_me_to_me }
+
+            // exclude developersEmails {
+            if (false === isset($filter_form['exclude_developers_emails'])) {
+                $filter_form['exclude_developers_emails'] = true;
+            } else {
+                if ($isReloadRequest) {
+                    if (null !== Yii::app()->request->getParam('exclude_developers_emails')) {
+                        $filter_form['exclude_developers_emails'] = true;
+                    } else {
+                        $filter_form['exclude_developers_emails'] = false;
+                    }
+                }
+            }
+
+            if ($filter_form['exclude_developers_emails']) {
+                if ($previousConditionPresent) {
+                    $condition .= " AND";
+                } else {
+                    $previousConditionPresent = true;
+                }
                 $condition .= " email NOT LIKE '%gty1991%' ".
                     " AND email NOT LIKE '%@skiliks.com' ".
                     " AND email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
                     " AND email NOT IN (".implode(',', $this->developersEmails).") ";
-
-                $criteria->addCondition($condition);
             }
+            // exclude developersEmails }
+
+            // filter for statuses {
+            $statusesInCriteria = '';
+            if (false === isset($filter_form['invite_statuses'])) {
+                $filter_form['invite_statuses'] = [
+                    Invite::STATUS_PENDING     => true,
+                    Invite::STATUS_ACCEPTED    => true,
+                    Invite::STATUS_IN_PROGRESS => true,
+                    Invite::STATUS_COMPLETED   => true,
+                    Invite::STATUS_EXPIRED     => false,
+                    Invite::STATUS_DECLINED    => false,
+                    Invite::STATUS_DELETED     => false,
+                ];
+            }
+
+            $newStatuses = Yii::app()->request->getParam('invite_statuses', []);
+
+            if ($isReloadRequest) {
+                foreach ($filter_form['invite_statuses'] as $key => $value) {
+                    if (isset($newStatuses[$key])) {
+                        $filter_form['invite_statuses'][$key] = true;
+                        // add status to IN list {
+                        // add comma after each not first status in condition:
+                        if ('' !== $statusesInCriteria) { $statusesInCriteria .= ', '; }
+                        $statusesInCriteria .= sprintf("'%s'", $key);
+                        // add status to IN list }
+                    } else {
+                        $filter_form['invite_statuses'][$key] = false;
+                    }
+                }
+            } else {
+                foreach ($filter_form['invite_statuses'] as $key => $value) {
+                    if ($value) {
+                        if ('' !== $statusesInCriteria) { $statusesInCriteria .= ', '; }
+                        $statusesInCriteria .= sprintf("'%s'", $key);
+                    }
+                }
+            }
+
+            if ($previousConditionPresent) {
+                $condition .= " AND";
+            } else {
+                $previousConditionPresent = true;
+            }
+
+            if ('' == $statusesInCriteria) {
+                $condition .= ' status IS NULL '; // ничего не выбрано из статусов приглашения
+            } else {
+                $condition .= ' status IN ('.$statusesInCriteria.') ';
+            }
+            // filter for statuses }
+
+            $criteria->addCondition($condition);
         }
-        return ["condition" => $condition, "criteria" => $criteria, "filters" => $filter_form];
+
+        // update session {
+        Yii::app()->session['admin_filter_form'] = $filter_form;
+        // update session }
+
+        return [
+            "condition" => $condition,
+            "criteria"  => $criteria,
+            "filters"   => $filter_form
+        ];
     }
 
     public function getCriteriaSimulation() {
-
         $clear_form = Yii::app()->request->getParam('clear_form', null);
         $criteria = new CDbCriteria;
         $condition = false;
 
+        $isReloadRequest = -1 < strpos(Yii::app()->request->urlReferrer, '/admin_area/simulations');
+
         // checking if clear form is not null
         if(null !== $clear_form && $clear_form == "admin_simulation_filter_form") {
-            $filter_form = array();
-            Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
-        }
-
-        else {
+            $filter_form['scenario'] = [
+                Scenario::TYPE_LITE => true,
+                Scenario::TYPE_FULL => true,
+            ];
+        } else {
 
             // setting up parameters
             $filter_form = Yii::app()->session['admin_simulation_filter_form'];
@@ -230,12 +341,10 @@ class AdminPagesController extends SiteBaseController {
             }
             else $filter_form['simulation_id'] = "";
 
-
             Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
 
-
             // checking if filters are not empty
-
+            $previousConditionPresent = false;
             if(null != $filter_form && !empty($filter_form)) {
 
                     // setting all filters
@@ -244,33 +353,128 @@ class AdminPagesController extends SiteBaseController {
                     $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
                     // for page results
                     $condition = " profile.email LIKE '%".$filter_form['filter_email']."%' ";
+                    $previousConditionPresent = true;
                 }
                 if(isset($filter_form['simulation_id']) && $filter_form['simulation_id'] != "") {
                     if($condition !== "") {
                         $condition .= " AND ";
                     }
-                    $condition .= " t.id = '".$filter_form['simulation_id']."' ";
+                    $condition .= " t.id = ".$filter_form['simulation_id']." ";
+                    $previousConditionPresent = true;
                 }
                 $criteria->addCondition($condition);
-            }
-            elseif($exceptDevelopersFiltration) {
-                // for pager counter
+            } else {
                 $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON user.id = profile.user_id';
+            }
 
-                // for page results
+            // exclude_invites_from_me_to_me {
+            if (false === isset($filter_form['show_simulation_with_end_time'])) {
+                $filter_form['show_simulation_with_end_time'] = true;
+            } else {
+                if ($isReloadRequest) {
+                    if (null !== Yii::app()->request->getParam('show_simulation_with_end_time')) {
+                        $filter_form['show_simulation_with_end_time'] = true;
+                    } else {
+                        $filter_form['show_simulation_with_end_time'] = false;
+                    }
+                }
+            }
+
+            if ($filter_form['show_simulation_with_end_time']) {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                }
+                $condition .= " end IS NOT NULL ";
+            }
+            // exclude_invites_from_me_to_me }
+
+            // exclude developersEmails {
+            if (false === isset($filter_form['exclude_developers_emails'])) {
+                $filter_form['exclude_developers_emails'] = true;
+            } else {
+                if ($isReloadRequest) {
+                    if (null !== Yii::app()->request->getParam('exclude_developers_emails')) {
+                        $filter_form['exclude_developers_emails'] = true;
+                    } else {
+                        $filter_form['exclude_developers_emails'] = false;
+                    }
+                }
+            }
+
+            if ($filter_form['exclude_developers_emails']) {
+                if ($previousConditionPresent) {
+                    $condition .= " AND";
+                } else {
+                    $previousConditionPresent = true;
+                }
                 $condition = " profile.email NOT LIKE '%gty1991%' ".
                     " AND profile.email NOT LIKE '%@skiliks.com' ".
                     " AND profile.email NOT LIKE '%@rmqkr.net' ".
                     " AND t.start > '2013-06-01 00:00:00' ".
                     " AND profile.email NOT IN (".implode(',', $this->developersEmails).") ";
-
-                $criteria->addCondition($condition);
             }
+            // exclude developersEmails }
+
+            // filter for statuses {
+            $scenarioInCriteria = '';
+            if (false === isset($filter_form['scenario'])) {
+                $filter_form['scenario'] = [
+                    Scenario::TYPE_LITE => true,
+                    Scenario::TYPE_FULL => true,
+                ];
+            }
+
+            $newStatuses = Yii::app()->request->getParam('scenario', []);
+
+            $scenarios = [
+                Scenario::TYPE_FULL => Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]),
+                Scenario::TYPE_LITE => Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]),
+            ];
+
+            if ($isReloadRequest) {
+                foreach ($filter_form['scenario'] as $key => $value) {
+                    if (isset($newStatuses[$key])) {
+                        $filter_form['scenario'][$key] = true;
+                        // add status to IN list {
+                        // add comma after each not first status in condition:
+                        if ('' !== $scenarioInCriteria) { $scenarioInCriteria .= ', '; }
+                        $scenarioInCriteria .= $scenarios[$key]->id;
+                        // add status to IN list }
+                    } else {
+                        $filter_form['scenario'][$key] = false;
+                    }
+                }
+            } else {
+                foreach ($filter_form['scenario'] as $key => $value) {
+                    if ($value) {
+                        if ('' !== $scenarioInCriteria) { $scenarioInCriteria .= ', '; }
+                        $scenarioInCriteria .= $scenarios[$key]->id;
+                    }
+                }
+            }
+
+            if ($previousConditionPresent) {
+                $condition .= " AND";
+            } else {
+                $previousConditionPresent = true;
+            }
+
+            if ('' == $scenarioInCriteria) {
+                $condition .= ' scenario_id IS NULL '; // ничего не выбрано из статусов приглашения
+            } else {
+                $condition .= ' scenario_id IN ('.$scenarioInCriteria.') ';
+            }
+            // filter for statuses }
         }
-        return ["condition" => $condition, "criteria" => $criteria, "filters" => $filter_form];
+
+        Yii::app()->session['admin_simulation_filter_form'] = $filter_form;
+
+        return [
+            "condition" => $condition,
+            "criteria"  => $criteria,
+            "filters"   => $filter_form
+        ];
     }
-
-
 
     public function actionInvitesSave() {
 
@@ -595,6 +799,7 @@ class AdminPagesController extends SiteBaseController {
             'pager'       => $pager,
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage,
+            'formFilters' => $allFilters['filters'],
             'emailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
             'simulation_id' => isset($allFilters['filters']['simulation_id']) ? $allFilters['filters']['simulation_id'] : "",
         ]);
@@ -828,12 +1033,24 @@ class AdminPagesController extends SiteBaseController {
         $invite = Invite::model()->findByPk($inviteId);
 
         if (null === $invite) {
-            return;
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашениe #%s не найдено.',
+                $inviteId
+            ));
+            $this->redirect('/admin_area/invites');
         }
 
         $invite->can_be_reloaded = ($invite->can_be_reloaded) ? 0 : 1;
-
         $invite->save(false);
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'По приглашению #%s для %s %s %s, теперь %s заново начать симуляцию.',
+            $invite->id,
+            $invite->firstname,
+            $invite->lastname,
+            $invite->email,
+            ($invite->can_be_reloaded) ? 'можно': 'нельзя'
+        ));
 
         $this->redirect('/admin_area/invites');
     }
@@ -861,4 +1078,221 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    public function actionSubscribersList()
+    {
+        $emails = Yii::app()->db->createCommand()
+            ->select( 'id, email' )
+            ->from( 'emails_sub' )
+            ->queryAll();
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/subscribers_table', [
+            'subscribersEmails' => $emails,
+        ]);
+    }
+
+    public function actionUserDetails($userId)
+    {
+        $user = YumUser::model()->findByPk($userId);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/user_details', [
+            'user' => $user,
+        ]);
+    }
+
+    public function actionUserSetTariff($userId, $label)
+    {
+        $user = YumUser::model()->findByPk($userId);
+        if (null === $user ) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден пользователь с номером "%s".',
+                $userId
+            ));
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        if (false == $user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден пользователь "%s %s" не является корпоративным пользователем.',
+                $user->profile->firstname,
+                $user->profile->lastname,
+                $userId
+            ));
+            $this->redirect('/admin_area/user/'.$userId.'/details');
+        }
+
+        $initValue = $user->getAccount()->invites_limit;
+        $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
+
+        if (null == $tariff) {
+            UserService::logCorporateInviteMovementAdd(
+                'Cheats: actionChooseTariff, NULL tariff',
+                $user->getAccount(),
+                $initValue
+            );
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден тариф "%s".',
+                $label
+            ));
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        // set Tariff {
+        $user->getAccount()->tariff_id = $tariff->id;
+        $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
+        $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
+        $user->getAccount()->invites_limit = $tariff->simulations_amount;
+        $user->getAccount()->save();
+        // set Tariff }
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: actionChooseTariff, tariff not null',
+            $user->getAccount(),
+            $initValue
+        );
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Активирован тарифный план "%s" для "%s %s".',
+            ucfirst($label),
+            $user->profile->firstname,
+            $user->profile->lastname
+        ));
+
+        $this->redirect('/admin_area/user/'.$userId.'/details');
+    }
+
+    public function actionUserAddRemoveInvitations($userId, $value)
+    {
+        $user = YumUser::model()->findByPk($userId);
+        if (null === $user ) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден пользователь с номером "%s".',
+                $userId
+            ));
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        // set invites_limit {
+        $initValue = $user->getAccount()->invites_limi;
+
+        $user->getAccount()->invites_limit += $value;
+        if ($user->getAccount()->invites_limit < 0) {
+            $user->getAccount()->invites_limit = 0;
+        }
+        $user->getAccount()->save();
+        // set invites_limit }
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: action set invites_limit, to'.$user->getAccount()->invites_limit,
+            $user->getAccount(),
+            $initValue
+        );
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Количество доступных симуляций для "%s %s" установнено %s.',
+            $user->profile->firstname,
+            $user->profile->lastname,
+            $user->getAccount()->invites_limit
+        ));
+
+        $this->redirect('/admin_area/user/'.$userId.'/details');
+    }
+
+    public function actionImportsList()
+    {
+        $scenarios = Scenario::model()->findAll();
+
+        $logs = LogImport::model()->findAll(['order' => 'started_at DESC', 'limit' => 10]);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/imports_table', [
+            'scenarios' => $scenarios,
+            'logs'      => $logs,
+        ]);
+    }
+
+    public function actionStartImport($slug, $logImportId)
+    {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $slug]);
+
+        if (null === $scenario) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден сценарий "%s".',
+                $slug
+            ));
+            $this->redirect('/admin_area/import');
+        }
+
+        $log = LogImport::model()->findByPk($logImportId);
+
+        if (null === $scenario) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Не найден лог импорта "%s".',
+                $logImportId
+            ));
+            $this->redirect('/admin_area/import');
+        }
+
+        $log->scenario = $scenario;
+        $log->scenario_id = $scenario->id;
+        $log->save();
+
+        $import = new ImportGameDataService($scenario->slug, 'db', $log);
+        $import->importAll();
+
+        $log->finished_at = date('Y-m-d H:i:s');
+        $log->save();
+    }
+
+    public function actionGetImportLog($id)
+    {
+        $log = LogImport::model()->findByPk($id);
+
+        if (null !== $log) {
+            $text = $log->text;
+            if (null === $text) {
+                $text = file_get_contents(__DIR__.'/../../logs/'.$id.'-import.log');
+            }
+            echo json_encode([
+                'text'        => $text,
+                'finish_time' => $log->finished_at,
+            ]);
+        } elseif (0 == $id) {
+            $log = new LogImport();
+            $log->user = Yii::app()->user->data();
+            $log->user_id = Yii::app()->user->data()->id;
+            $log->started_at  = date('Y-m-d H:i:s');
+            $log->save();
+            echo json_encode([
+                'log_id'=> $log->id,
+            ]);
+        }
+
+        Yii::app()->end();
+    }
+
+    public function actionIncreaseInvites()
+    {
+        $user = Yii::app()->user->data();
+
+        if (false == $user->isCorporate()) {
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        $initValue = $user->getAccount()->invites_limit;
+
+        $user->getAccount()->invites_limit += 10;
+        $user->getAccount()->save();
+
+        UserService::logCorporateInviteMovementAdd(
+            'Cheats: actionIncreaseInvites',
+            $user->getAccount(),
+            $initValue
+        );
+
+        Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
+
+        $this->redirect('/admin_area/dashboard');
+    }
 }

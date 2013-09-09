@@ -1,13 +1,9 @@
 <?php $titles = [
-    'ID профиля',
-    'ID юзера',
-    'Имя',
-    'Фамилия',
-    'Личный email',
-    'Корпоративный email',
-    'Дата регистрации',
-    'Дата последнего посещения',
-    'Тип аккаунта',
+    'ID юзера, <br/>профиля',
+    'Имя Фамилия',
+    'Личный email, <br/>Корпоративный email',
+    'Дата регистрации, </br>Дата последнего посещения',
+    'Аккаунт',
     'activation key',
     'Действия',
 ] ?>
@@ -65,37 +61,65 @@
                 };
             ?>
             <tr class="orders-row" style="background-color: <?= $rowBGcolor ?>">
-                <td><?= $profile->id ?></td>
-                <td><?= $profile->user->id ?></td>
+                <td>
+                    <i class="icon icon-user" style="opacity: 0.25"></i>
+                        <a href="/admin_area/user/<?= $profile->user->id ?>/details">
+                        <?= $profile->user->id ?>
+                        </a>
+                    <br/>
+                    <i class="icon icon-home" style="opacity: 0.10"></i>
+                    <span style="color: #ccc"><?= sprintf('%s', $profile->id) ?></span>
+                </td>
                 <td>
                     <div style="max-width: 200px; overflow: auto;">
                         <?= $profile->firstname ?>
                     </div>
-                </td>
-                <td>
                     <div style="max-width: 200px; overflow: auto;">
                         <?= $profile->lastname ?>
                     </div>
                 </td>
+
                 <td>
                     <div style="max-width: 250px; overflow: auto;">
-                        <?= $profile->email ?>
+                        <?php
+                            $opacity = 0.25;
+                            if ($profile->user->isPersonal()) { $opacity = 0.5; }
+                            if ($profile->user->isCorporate()) { $opacity = 0.25; }
+                        ?>
+                        <i class="icon icon-user" style="opacity: <?= $opacity ?>"></i>
+                        </i><?= $profile->email ?>
+                    </div>
+                    <div style="max-width: 250px; overflow: auto;">
+                        <?php
+                            $opacity = 0;
+                            if ($profile->user->isCorporate()) { $opacity = 0.5; }
+                        ?>
+                        <i class="icon icon-briefcase" style="opacity: <?= $opacity ?>"></i>
+                        <?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?>
                     </div>
                 </td>
-                <td><?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?></td>
-                <td><?= date('Y-m-d H:i:s', strtotime($profile->user->createtime)) ?></td>
-                <td><?= date('Y-m-d H:i:s', strtotime($profile->user->lastvisit)) ?></td>
-                <td style="text-align: center;">
+
+                <td>
+                    <?= date('Y-m-d H:i:s', $profile->user->createtime) ?>
+                    <br/>
+                    <?= date('Y-m-d H:i:s', $profile->user->lastvisit) ?>
+                </td>
+                <td>
                     <div class="<?= $accountTypeLabelType ?>" style="padding: 5px;">
                         <i class="<?= $accountTypeIcon ?>"></i> <?= $profile->user->getAccountName() ?>
                     </div>
                 </td>
                 <td>
                     <div style="max-width: 200px; overflow: auto;">
-                        <?= ($isRegistered) ? 'Ключ использован' : $profile->user->activationKey ?>
+                        <?= ($isRegistered) ? 'Аккаунт активирован' : $profile->user->activationKey ?>
                     </div>
                 </td>
-                <td><a href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">Обновить пароль</a></td>
+                <td>
+                    <a class="btn btn-success"
+                        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">
+                        <i class="icon icon-pencil icon-white"></i>&nbsp;
+                        Изменить пароль</a>
+                </td>
             </tr>
         <?php endforeach ?>
         </tbody>
