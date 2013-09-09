@@ -404,6 +404,7 @@ return array(
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
             'isIncludeGoogleAnalyticsJavaScript' => false,
+            'isDisplaySupportChat'               => true,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
