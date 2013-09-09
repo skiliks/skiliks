@@ -33,7 +33,6 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     <li class="menu-link-active"><a href="/">Главная</a></li><li class="menu-link-regular"><a href="/static/team">О нас</a></li><li class="menu-link-regular"><a href="/static/team">О продукте</a></li><li class="menu-link-regular"><a href="#">Цены</a></li><li class="menu-link-regular"><a href="#">Цены и тарифы</a></li>
                 </ul>
             </nav>
-            <div class="betaflag"></div>
         </header>
         <div class="site-main grid-container">
             <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>

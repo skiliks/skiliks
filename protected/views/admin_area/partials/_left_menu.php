@@ -64,6 +64,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Текущие симуляции',
+                'url'   => ['admin_area/live_simulations'],
+                'visible' => true,
+
+            )
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>
