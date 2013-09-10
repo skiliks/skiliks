@@ -1,5 +1,6 @@
 // в JS посмотреть какой сегодня день недели
 
+
 $('.workday').remove();
 $('body').append('<div class="workday"><div class="workday-switcher">hide/show</div><table></table><div>');
 $('.workday').css('position', 'absolute');
