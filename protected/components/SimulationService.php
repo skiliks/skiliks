@@ -677,9 +677,6 @@ class SimulationService
             // Make aggregated activity log
             LogHelper::combineLogActivityAgregated($simulation);
 
-            // Calculate and save Time Management assessments
-            (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
-
             // make attestation 'work with emails'
             SimulationService::saveEmailsAnalyze($simulation);
 
@@ -690,6 +687,10 @@ class SimulationService
 
             $planAnalyzer = new PlanAnalyzer($simulation);
             $planAnalyzer->run();
+
+            // Calculate and save Time Management assessments
+            $TimeManagementAnalyzer = new TimeManagementAnalyzer($simulation);
+            $TimeManagementAnalyzer->calculateAndSaveAssessments();
 
             // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
             // see Assessment scheme_v5.pdf
