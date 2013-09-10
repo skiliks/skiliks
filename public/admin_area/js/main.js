@@ -99,6 +99,17 @@ $(document).ready(function(){
         $(".clear_filter_button").parent("form").submit();
     });
 
-
+$("#add_invites_button").click(function(e) {
+    e.preventDefault();
+    if(!isNaN(parseInt($("#add_invites_button").prev('input').val()))) {
+        $("#add_invites_button").parent('form').attr('action', $("#add_invites_button").parent('form').attr('action')+
+            $("#add_invites_button").prev('input').val());
+        $("#add_invites_button").parent('form').submit();
+    }
+    else {
+        alert("Необходимо ввести количество инвайтов");
+        return false;
+    }
+})
 
 });
