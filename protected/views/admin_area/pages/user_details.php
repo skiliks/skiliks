@@ -129,10 +129,10 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
 
             <td>
-                <form action="admin_area/user/<?= $user->id ?>/set-invites-limit/0"
+                <form action="/admin_area/user/<?= $user->id ?>/set-invites-limit/"
                       method="post" style="display: inline-block;">
                     <input name="new_value" type="integer" size="3" style="width:30px;" value="0" />
-                    <input class="btn btn-success" type="submit" value="Сменить">
+                    <input class="btn btn-success" id="add_invites_button" type="submit" value="Сменить">
                 </form>
             </td>
         <?php endif; ?>
