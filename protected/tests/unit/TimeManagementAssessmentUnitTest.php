@@ -371,6 +371,31 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->save();
         // log17, Meeting }
 
+        // log18, 1st priority phone call {
+        // case for keep_last_category_after_60_sec = 1
+        $replica_RST2 = $simulation->game_type->getReplica(['excel_id' => '837']);
+
+        $activity_RST2 = $simulation->game_type->getActivity(['code' => 'ARS2']);
+
+        $activity_action_replica_RST2 = $simulation->game_type->getActivityAction([
+            'activity_id' => $activity_RST2->id,
+            'dialog_id'   => $replica_RST2->id
+        ]);
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
+        $log->leg_action = 'ARS2';
+        $log->activity_action_id = $activity_action_replica_RST2->id;
+        $log->activityAction = $activity_action_replica_RST2;
+        $log->category = $activity_RST2->category->code;
+        $log->keep_last_category_after_60_sec = 1;
+        $log->start_time = '13:20:00';
+        $log->end_time = '13:30:00';
+        $log->duration = '00:10:00';
+        $log->save();
+        // log18, 1st priority phone call }
+
+
         $tma = new TimeManagementAnalyzer($simulation);
         $tma->calculateAndSaveAssessments();
 
@@ -384,7 +409,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            54.00, // %
+            56.00, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
@@ -864,24 +889,12 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * For debug
      */
-    /*public function testDebug()
+    public function testDebug()
     {
         // init simulation
-        $simulation = Simulation::model()->findByPk(1270);
+        $simulation = Simulation::model()->findByPk(431);
 
-        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
-
-        $tma = new TimeManagementAnalyzerDebug($simulation);
+        $tma = new TimeManagementAnalyzer($simulation);
         $tma->calculateAndSaveAssessments();
-        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'slug'=>'1st_priority_phone_calls'
-        ]);
-        $this->assertEquals('138', $assessment->value);
-        $assessment = TimeManagementAggregatedDebug::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'slug'=>'1st_priority_meetings'
-        ]);
-        $this->assertEquals('60', $assessment->value);
-    }*/
+    }
 }
