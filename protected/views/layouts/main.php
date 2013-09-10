@@ -203,7 +203,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     '.list-ordered strong, .accept-invite-warning-popup h4',
                     {hover: true}
                 );
-                Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
+                Cufon.replace('.proxima-regular, .main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
                     '.features p.success, .flash-data, .flash-success, .flash-error, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
                     '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
                     '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
