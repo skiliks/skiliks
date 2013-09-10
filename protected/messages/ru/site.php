@@ -121,7 +121,7 @@ return array(
     'Email' => 'Email',
     'Show passwords' => 'Показать пароли',
     'Username' => 'Имя пользователя',
-    '{attribute} is too short (min. {num} characters).' => 'Введите не менее {num} символов',
+    '{attribute} is too short (min. {num} characters).' => 'Не менее {num} символов',
     'Please check your inbox folder, for activation email.' => 'На указанный Вами email отправлено письмо',
     'Your account successfully updated to "%s".' => 'Ваш аккаунт успешно обновлён до "%s".',
     'Personal' => 'Личный',
@@ -386,7 +386,7 @@ return array(
     'Help' => 'Помощь',
     'Pricing and plans' => 'Тарифы и оплата',
 
-    'Type %s symbols at least.' => 'Введите не менее %s символов.',
+    'Type %s symbols at least.' => 'Не менее %s символов.',
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
