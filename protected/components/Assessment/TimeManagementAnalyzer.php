@@ -48,6 +48,7 @@ class TimeManagementAnalyzer
      */
     public function __construct($simulation)
     {
+        $simulation->refresh();
         $this->simulation = $simulation;
     }
 
