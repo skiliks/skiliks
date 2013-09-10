@@ -314,7 +314,7 @@ return array(
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
-                'admin_area/user/<userId:\w+>/set-invites-limit/<value:\d+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
+                'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
 
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
