@@ -57,7 +57,7 @@ class ActivityAggregatedTable extends LogTable
             $row->start_time,
             $row->end_time,
             $diff,
-            $row->keep_last_category_after_60_sec
+            ($row->keep_last_category_after_60_sec === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
         ];
     }
 
