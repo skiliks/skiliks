@@ -1218,7 +1218,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set invites_limit {
-        $initValue = $user->getAccount()->invites_limi;
+        $initValue = $user->getAccount()->invites_limit;
 
         $user->getAccount()->invites_limit += $value;
         if ($user->getAccount()->invites_limit < 0) {
