@@ -255,7 +255,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_sum"     class="button-sum"     src="%img.auto_sum.png" style=""></div></div></div><a class="grid-row">сумма</a></li>' +
         '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_percent" class="button-percent" src="%img.percent.png" alt="%" style=""></div></div></div><a class="grid-row">формат</a></li></ul>' +
         '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div><img id="%id.button_function" src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_function" src="%img.function.png" style=""></div></div></div></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
     '</div>';
 
@@ -277,7 +277,7 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
        button_paste: {tooltip: "Paste", command: "paste"},
        button_sum: {tooltip: "Autosum", command: "sum"},
        button_percent: {tooltip: "Format as percent", command: "percent"},
-       //button_function: {tooltip: "Functions", command: "function-list"}
+       button_function: {tooltip: "Functions", command: "function-list"}
    };
 
    for (button in spreadsheet.Buttons) {
@@ -866,46 +866,55 @@ SocialCalc.DoCmd = function(obj, which) {
          spreadsheet.ExecuteCommand("set %C color "+bgcolor+"%Nset %C bgcolor "+color, "");
          break;
 
-      case "sum":
-          if (editor.range.hasrange) {
-              sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
-                  ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
-              cmd = "set "+SocialCalc.crToCoord(editor.range.right, editor.range.bottom+1)+
-                  " formula sum("+sel+")";
+       case "sum":
+       //This is standart socialcul sum function we replaced it
+
+//          if (editor.range.hasrange) {
+//              sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
+//                  ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
+//              cmd = "set "+SocialCalc.crToCoord(editor.range.right, editor.range.bottom+1)+
+//                  " formula sum("+sel+")";
+//          }
+//          else {
+//              row = editor.ecell.row - 1;
+//              col = editor.ecell.col;
+//              if (row<=1) {
+//                  cmd = "set "+editor.ecell.coord+" constant e#REF! 0 #REF!";
+//              }
+//              else {
+//                  foundvalue = false;
+//                  while (row>0) {
+//                      cr = SocialCalc.crToCoord(col, row);
+//                      cell = sheet.GetAssuredCell(cr);
+//                      if (!cell.datatype || cell.datatype=="t") {
+//                          if (foundvalue) {
+//                              row++;
+//                              break;
+//                          }
+//                      }
+//                      else {
+//                          foundvalue = true;
+//                      }
+//                      row--;
+//                  }
+//                  cmd = "set "+editor.ecell.coord+" formula sum("+
+//                      SocialCalc.crToCoord(col,row)+":"+SocialCalc.crToCoord(col, editor.ecell.row-1)+")";
+//              }
+//          }
+//          editor.EditorScheduleSheetCommands(cmd, true, false);
+           // Custom socialcalc sum function
+          if($(".formula").val() == "") {
+              var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
+              spreadsheet.editor.EditorAddToInput("=SUM(", "")
           }
           else {
-              row = editor.ecell.row - 1;
-              col = editor.ecell.col;
-              if (row<=1) {
-                  cmd = "set "+editor.ecell.coord+" constant e#REF! 0 #REF!";
-              }
-              else {
-                  foundvalue = false;
-                  while (row>0) {
-                      cr = SocialCalc.crToCoord(col, row);
-                      cell = sheet.GetAssuredCell(cr);
-                      if (!cell.datatype || cell.datatype=="t") {
-                          if (foundvalue) {
-                              row++;
-                              break;
-                          }
-                      }
-                      else {
-                          foundvalue = true;
-                      }
-                      row--;
-                  }
-                  cmd = "set "+editor.ecell.coord+" formula sum("+
-                      SocialCalc.crToCoord(col,row)+":"+SocialCalc.crToCoord(col, editor.ecell.row-1)+")";
-              }
+              var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
+              spreadsheet.editor.EditorAddToInput($(".formula").val()+"SUM(", "")
           }
 
-          editor.EditorScheduleSheetCommands(cmd, true, false);
           break;
 
       case "function-list":
-          // we don't want to display function list so we return true
-          return true;
           idp = spreadsheet.idPrefix+"function";
           ele = document.getElementById(idp+"dialog");
           if (ele) return; // already have one
