@@ -78,7 +78,7 @@ class TimeManagementAggregated extends CActiveRecord
                 return 'Время потраченное на письма 1-го приоритета';
                 break;
             case self::SLUG_1ST_PRIORITY_PHONE_CALLS :
-                return 'Время потраченное на звонка 1-го приоритета';
+                return 'Время потраченное на звонки 1-го приоритета';
                 break;
             case self::SLUG_1ST_PRIORITY_MEETINGS :
                 return 'Время потраченное на встречи 1-го приоритета';

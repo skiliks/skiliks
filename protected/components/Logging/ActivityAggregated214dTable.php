@@ -25,7 +25,7 @@ class ActivityAggregated214dTable extends LogTable
             'Grandparent',
             'Category',
             'Keep last category - Initial',
-            'Keep last category - after 60 real sec test',
+            'Keep last category - after 90 real sec',
             'Игровое время - start',
             'Игровое время - end',
             'Длительность, игровых мин',

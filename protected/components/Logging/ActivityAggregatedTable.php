@@ -34,7 +34,7 @@ class ActivityAggregatedTable extends LogTable
             'Игровое время - start',
             'Игровое время - end',
             'Time diff',
-            'Keep last category'
+            'Keep last category - after 90 real sec'
         ];
     }
 
