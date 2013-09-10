@@ -35,7 +35,7 @@
 
         <!-- corporate-invitations-list-box -->
         <!-- hack for taking position -->
-        <div id="corporate-invitations-list-box-position"></div>
+        <div id="corporate-invitations-list-box-position" style="float:left;">&nbsp;</div>
 
         <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
             <?php $this->renderPartial('_corporate_invitations_list_box', [
@@ -113,31 +113,31 @@
 
                 <?php $this->endWidget(); ?>
             </div>
-
-
-            <script type="text/javascript">
-                $(function() {
-                    // @link: http://jqueryui.com/dialog/
-                    $( ".message_window" ).dialog({
-                        modal: true,
-                        resizable: false,
-                        draggable: false,
-                        width: 590,
-                        height: 500,
-                        position: {
-                            my: "left top",
-                            at: "left top",
-                            of: $('#corporate-invitations-list-box-position')
-                        },
-                        open: function( event, ui ) { Cufon.refresh(); }
-                    });
-
-                    $( ".message_window").parent().addClass('nice-border cabmessage');
-                    $( ".message_window").dialog('open');
-                });
-            </script>
         <?php endif; ?>
-        <script>$("#corporate-invitations-list-box").show();</script>
+        <script>
+            $(document).ready(function() {
+                $(function() {
+                        // @link: http://jqueryui.com/dialog/
+                        $( ".message_window" ).dialog({
+                            modal: true,
+                            resizable: false,
+                            draggable: false,
+                            width: 590,
+                            height: 500,
+                            position: {
+                                my: "left top",
+                                at: "left top",
+                                of: $('#corporate-invitations-list-box-position')
+                            },
+                            open: function( event, ui ) { Cufon.refresh(); }
+                        });
+
+                        $( ".message_window").parent().addClass('nice-border cabmessage');
+                        $( ".message_window").dialog('open');
+                    });
+                $("#corporate-invitations-list-box").show();
+            });
+        </script>
 
     </div>
 
