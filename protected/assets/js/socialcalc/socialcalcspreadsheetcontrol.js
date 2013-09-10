@@ -866,7 +866,9 @@ SocialCalc.DoCmd = function(obj, which) {
          spreadsheet.ExecuteCommand("set %C color "+bgcolor+"%Nset %C bgcolor "+color, "");
          break;
 
-      case "sum":
+       case "sum":
+       //This is standart socialcul sum function we replaced it
+
 //          if (editor.range.hasrange) {
 //              sel = SocialCalc.crToCoord(editor.range.left, editor.range.top)+
 //                  ":"+SocialCalc.crToCoord(editor.range.right, editor.range.bottom);
@@ -899,6 +901,8 @@ SocialCalc.DoCmd = function(obj, which) {
 //                      SocialCalc.crToCoord(col,row)+":"+SocialCalc.crToCoord(col, editor.ecell.row-1)+")";
 //              }
 //          }
+//          editor.EditorScheduleSheetCommands(cmd, true, false);
+           // Custom socialcalc sum function
           if($(".formula").val() == "") {
               var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
               spreadsheet.editor.EditorAddToInput("=SUM(", "")
@@ -908,9 +912,6 @@ SocialCalc.DoCmd = function(obj, which) {
               spreadsheet.editor.EditorAddToInput($(".formula").val()+"SUM(", "")
           }
 
-
-
-//          editor.EditorScheduleSheetCommands(cmd, true, false);
           break;
 
       case "function-list":
