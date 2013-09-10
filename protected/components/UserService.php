@@ -92,9 +92,12 @@ class UserService {
         $log->limit_after_transaction = $account->invites_limit;
         $log->amount = $amountBeforeTransaction;
         $log->date = date('Y-m-d H:i:s');
-        $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
-            Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
-
+        try {
+            $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
+                Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
+        } catch (Exception $e) {
+            $log->comment = $comment;
+        }
         $log->save(false);
     }
 }

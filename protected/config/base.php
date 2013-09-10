@@ -406,6 +406,7 @@ return array(
             'isSkipBrowserCheck'                 => false,
             'isIncludeGoogleAnalyticsJavaScript' => false,
             'isDisplaySupportChat'               => true,
+            'SiteHeartWidgetCode'                => '626464',
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
