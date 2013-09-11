@@ -111,7 +111,7 @@
                         ]
                     ) ?>
                     <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
-                    <div class="method-description font-small font-lightestbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/><span>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа - ХХХ</span></div>
+                    <div class="method-description font-small font-lightestbrown"><span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/><span>Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа</span></div>
                 </div>
             </div>
 
