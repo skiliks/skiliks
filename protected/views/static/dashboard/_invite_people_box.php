@@ -41,7 +41,7 @@
 <?php // add_vacancy_form { ?>
     <div class="form form-vacancy" style="display: none;">
         <?php $this->renderPartial('//global_partials/_add_vacancy_form', [
-            'h1'              => 'Добавить вакансию',
+            'h1'              => 'Добавить позицию',
             'dataUrl'         => '/dashboard',
             'vacancy'         => new Vacancy(),
             'positionLevels'  => StaticSiteTools::formatValuesArrayLite(
@@ -56,7 +56,7 @@
                 'id',
                 'label',
                 "",
-                'Выберите уровень специализации'
+                'Выберите специализацию'
             ),
         ]) ?>
     </div>
