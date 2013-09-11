@@ -976,6 +976,7 @@ class PlanAnalyzer {
             $data = [];
             $wellPlannedParents= [];
             foreach ($logs  as $taskLogItem) {
+
                 if ($taskLogItemToCheck['start'] < $taskLogItem['available']) {
                     continue;
                 }
@@ -983,7 +984,7 @@ class PlanAnalyzer {
                     continue;
                 }
 
-                if($taskLogItem['keepLastCategoryAfter60sec'] === LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
+                if($taskLogItemToCheck['keepLastCategoryAfter60sec'] == (bool)LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
                     continue;
                 }
 
