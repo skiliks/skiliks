@@ -714,11 +714,19 @@ class AdminPagesController extends SiteBaseController {
         $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
         $logSimulation = LogSimulation::model()->findAllByAttributes(['invite_id' => $invite_id]);
 
+        if(isset($invite->simulation)) {
+            $simulation = $invite->simulation;
+        }
+        else {
+            $simulation = null;
+        }
+
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invite_site_logs_table', [
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
-            'simulation'    => $invite->simulation,
+            'simulation'    => $simulation,
         ]);
     }
 
