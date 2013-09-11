@@ -821,6 +821,13 @@ class ImportGameDataService
                 $copiesArr = [$copies];
             }
 
+            if (strpos($toCode, ', ') !== false) {
+                $toCode = explode(',', $toCode);
+            }
+            elseif($toCode != "-") {
+                $toCode = [$toCode];
+            }
+
             $receivers = array();
             if (is_array($toCode)) {
                 $receivers = $toCode;
