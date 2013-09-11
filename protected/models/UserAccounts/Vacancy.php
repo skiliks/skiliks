@@ -58,7 +58,7 @@ class Vacancy extends CActiveRecord
 			array('import_id', 'length', 'max' => 60),
 			//array('link', 'safe'),
             //array('link', 'default', 'setOnEmpty' => null),
-            array('link', 'url', 'defaultScheme' => 'http', 'allowEmpty'=>true, 'message' => 'Не является правильным URL.'),
+            array('link', 'url', 'defaultScheme' => 'http', 'allowEmpty'=>true, 'message' => 'Не является правильным URL'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, professional_occupation_id, professional_specialization_id, label, link, import_id', 'safe', 'on'=>'search'),
