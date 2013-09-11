@@ -31,11 +31,11 @@
                                 <td valign="top" bgcolor="fdfbc6">
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
-                                        <?= $invite->getReceiverFirstName() ?>, приветствуем Вас!
+                                        <?= $invite->getReceiverFirstName() ?>, приветствуем вас!
                                     </h1>
 
                                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест «Базовый менеджмент» для участия в конкурсе на позицию <?= $invite->getVacancyLink('') ?>.</p>
+                                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест «Базовый менеджмент» на позицию <?= $invite->getVacancyLink('') ?>.</p>
                                         <?php if (empty($invite->receiverUser)): ?>
                                             <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
                                         <?php endif; ?>
