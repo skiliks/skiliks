@@ -186,7 +186,6 @@ define([
 
                     var data = event.get('data');
                     var callbackFunction;
-                    console.log('data[2]: ', data[2]);
                     if (undefined === data[2]) {
                         // user can`t ignore call
                         callbackFunction = function () {
@@ -195,10 +194,8 @@ define([
                             }
                         };
                     } else {
-                        console.log('set up callbackFunction 1')
                         // user can ignore call
                         callbackFunction = function () {
-                            console.log('callbackFunction run');
                             if (event.getStatus() === 'waiting' && undefined !== data[2]) {
                                 event.setStatus('completed');
                                 event.ignore(function () {
@@ -244,7 +241,6 @@ define([
                     me.doBlockingPhone();
 
                     var data = event.get('data');
-                    console.log('set up callbackFunction 2');
                     var callbackFunction = function() {
                         if (undefined === data[2]) {
                             // user can`t ignore visit
@@ -376,13 +372,11 @@ define([
                         me.animationTimer[selector] = setTimeout(function() {
                             me.stopAnimation(selector);
 
-                            console.log('end_cb: ', end_cb);
                             if (end_cb !== undefined) {
                                 end_cb();
                             }
                         }, shortDuration ? 4000 : 20000);
 
-                        console.log('me.animationTimer: ', me.animationTimer);
                     }
                 } catch(exception) {
                     if (window.Raven) {

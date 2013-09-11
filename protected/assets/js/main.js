@@ -306,8 +306,9 @@ var fixLogotypes = function() {
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
+
         function infoPopup_aboutFullSimulation(href){
-            $(".full-simulation-info-popup").dialog({
+            $(".dashboard .full-simulation-info-popup").dialog({
                 closeOnEscape: true,
                 dialogClass: 'popup-before-start-sim',
                 minHeight: 220,
@@ -325,6 +326,9 @@ var fixLogotypes = function() {
             return parseInt(url.replace('/simulation/promo/full/', ''), 0);
         }
         $('.start-full-simulation').click(function(event){
+
+            $('#invite-accept-form').dialog('close');
+
             var href = $(this).attr('data-href');
             event.preventDefault();
             // удлиннить окно чтоб футер был ниже нижнего края попапа
@@ -388,7 +392,6 @@ var fixLogotypes = function() {
             // то предупреждение будет дублирующим,
             // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
             // то предупреждение нужно
-            console.log(data);
             if(data.user_try_start_simulation_twice &&
                 0 == parseInt(data.count_self_to_self_invites_in_progress)) {
                 // предупреждение о попытке повторного начала симуляции

@@ -298,7 +298,6 @@ define([
              * Renders siteheart block
              */
             renderSupportBlock: function renderSupportBlock() {
-                console.log(SKApp.get('isDisplaySupportChat'));
                 if (false == SKApp.get('isDisplaySupportChat')) {
                     return;
                 }
