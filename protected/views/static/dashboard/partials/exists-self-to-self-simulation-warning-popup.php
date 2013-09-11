@@ -14,7 +14,7 @@
 
         <div class="text-center">
             <a href="#" data-href="#" class="bigbtnsubmt back-button">Вернуться</a>
-            <a href="#" data-href="#" class="bigbtnsubmt go-ahead-button">Далее</a>
+            <a href="#" data-href="#" class="bigbtnsubmt go-ahead-button">Прервать текущую и начать новую</a>
         </div>
     </div>
 </div>
