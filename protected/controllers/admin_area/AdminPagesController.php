@@ -192,8 +192,8 @@ class AdminPagesController extends SiteBaseController {
 
             $condition = '';
 
-            $receiverEmailForFiltration = Yii::app()->request->getParam('receiver-email-for-filtration', null);
-            $invite_id = Yii::app()->request->getParam('invite_id', null);
+            $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
+            $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
 
             // remaking email form
@@ -253,6 +253,8 @@ class AdminPagesController extends SiteBaseController {
             if ($filter_form['exclude_invites_from_ne_to_me']) {
                 if (false === $previousConditionPresent) {
                     $previousConditionPresent = true;
+                } else {
+                    $condition .= " AND ";
                 }
                 $condition .= " receiver_id != owner_id ";
             }
