@@ -35,7 +35,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         </nav>
     </header>
     <div class="site-main grid-container">
-        <h1 class="page-header">Самый простой и надежный способ проверить навыки менеджеров!</h1>
+        <h1 class="page-header">Простой и надежный способ проверить навыки менеджеров!</h1>
     </div>
     <div class="empty-footer"></div>
     <footer class="site-footer">
@@ -58,7 +58,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
             <a href="#top" class="to-top font-small">Наверх</a>
             <a href="#" class="btn btn-white btn-arrow-small access-footer">Получить бесплатный доступ</a>
             <div class="social_networks">
-                <span class="proxima-bold font-dark">Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+                <span class="proxima-bold font-dark">Рекомендовать:</span><div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                     <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y"></span></span></a>
                     <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y"></span></span></a>
                     <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y"></span></span></a>
