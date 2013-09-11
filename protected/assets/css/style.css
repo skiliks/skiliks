@@ -1398,6 +1398,7 @@ html[lang=ru] .product section table th{
 .registration .form .errorMessage.right {
     padding-left: 260px;
 }
+
 .registration .form .errorMessage {
     position: absolute;
     padding-left: 124px;
@@ -2293,6 +2294,9 @@ html[lang="en"] .footer .social_networks {
     top: -25px;
     right: -25px;
     background: none;
+}
+.errorMessage#Vacancy_link_em_ {
+    margin-top:-4px;
 }
 .sing-in-pop-up .ui-dialog-titlebar-close, .popup-recovery-view .ui-dialog-titlebar-close {
     top: -20px;
@@ -3631,6 +3635,9 @@ ul.profile-menu li {
         font-size: 11px;
         line-height:110%;
         width: 72px;
+    }
+    .errorMessage#Vacancy_link_em_ {
+        margin-top:-6px;
     }
     .transparent-boder {
         padding: 6px;
