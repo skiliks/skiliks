@@ -94,7 +94,7 @@ class Invite extends CActiveRecord
     public function getVacancyLabel()
     {
         if (null !== $this->vacancy) {
-            return preg_replace('/ /', '<br/>', $this->vacancy->label, 1);
+            return $this->vacancy->label;
         } else {
             return null;
         }
