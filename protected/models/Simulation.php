@@ -145,6 +145,21 @@ class Simulation extends CActiveRecord
         return false;
     }
 
+    public function getStatusCss()
+    {
+        $arr = [
+            self::STATUS_IN_PROGRESS => 'label-warning',
+            self::STATUS_INTERRUPTED => 'label-important',
+            self::STATUS_COMPLETE => 'label-success',
+        ];
+
+        if (isset($arr[$this->status])) {
+            return $arr[$this->status];
+        }
+
+        return '';
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
