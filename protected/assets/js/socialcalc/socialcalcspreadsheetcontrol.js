@@ -109,7 +109,7 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    var scc = SocialCalc.Constants;
-   console.log(idPrefix);
+   // console.log(idPrefix);
    // Properties:
 
    this.parentNode = null;
