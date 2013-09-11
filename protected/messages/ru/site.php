@@ -420,4 +420,6 @@ return array(
     'Oct' => "окт",
     'Nov' => "ноя",
     'Des' => "дек",
+
+    'Email is already in use.' => 'Данный email занят.'
 );

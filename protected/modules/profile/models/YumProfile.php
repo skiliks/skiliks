@@ -207,6 +207,7 @@ class YumProfile extends YumActiveRecord
 				array(implode(',',$safe), 'safe'));
 
         $rules[] = array('general_error', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration'));
+        $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration'));
         $rules[] = array('allow_comments, show_friends', 'numerical');
         $rules[] = array('email', 'unique', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Данный email занят'));
 		$rules[] = array('email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email'));
@@ -227,6 +228,18 @@ class YumProfile extends YumActiveRecord
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
             $error = Yii::t('site',  'Email already exists, but not activated.')
                 . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+            $this->addError($attribute, $error);
+        }
+        return true;
+    }
+
+    public function emailIsUsedForCorporateAccount($attribute) {
+        $existAccount = UserAccountCorporate::model()->findByAttributes([
+            'corporate_email' => $this->email
+        ]);
+
+        if ($existAccount !== NULL) {
+            $error = Yii::t('site',  'Email is already in use.');
             $this->addError($attribute, $error);
         }
         return true;
