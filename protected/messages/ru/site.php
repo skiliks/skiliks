@@ -386,7 +386,7 @@ return array(
     'Help' => 'Помощь',
     'Pricing and plans' => 'Тарифы и оплата',
 
-    'Type %s symbols at least.' => 'Не менее %s символов.',
+    'Type %s symbols at least.' => 'Не менее %s символов',
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
