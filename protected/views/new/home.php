@@ -69,7 +69,7 @@
             </ul>
        <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Reliable') ?></h2>
             <ul class="unstyled">
-                <li><?php echo Yii::t('site', 'Focused on key skills') ?></li>
+                <li><?php echo Yii::t('site', 'Focused on key practical skills') ?></li>
                 <li><?php echo Yii::t('site', 'Based on best working practices') ?></li>
                 <li><?php echo Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations') ?></li>
                 <li><?php echo Yii::t('site', 'Based on mathematical methods not just feelings') ?></li>
