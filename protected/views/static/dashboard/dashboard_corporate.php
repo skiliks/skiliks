@@ -59,8 +59,14 @@
         </div>
 
 
+        <script>
+            $(document).ready(function() {
+                $("#corporate-invitations-list-box").show();
+            });
+        </script>
+
         <?php if (true === $validPrevalidate): ?>
-            <div class="form form-invite-message message_window" title="Сообщение">
+            <div class="form form-invite-message message_window" style="display:none;" title="Сообщение">
 
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'send-invite-message-form',
@@ -113,21 +119,19 @@
 
                 <?php $this->endWidget(); ?>
             </div>
-        <?php endif; ?>
-
-        <script>
+            <script>
                 // @link: http://jqueryui.com/dialog/
                 $(document).ready(function() {
                     $( ".message_window" ).dialog({
                         modal: true,
                         resizable: false,
                         draggable: false,
-                        width: 630,
+                        width: 590,
                         height: 500,
                         position: {
                             my: "left top",
-                            at: "right top",
-                            of: $('#invite-people-box')
+                            at: "left top",
+                            of: $('#corporate-invitations-list-box')
                         },
                         open: function( event, ui ) { Cufon.refresh(); }
                     });
@@ -135,15 +139,8 @@
                     $( ".message_window").parent().addClass('nice-border cabmessage');
                     $( ".message_window").dialog('open', $("#corporate-invitations-list-box").show());
                 });
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                if( $( ".message_window").length == 0) {
-                    $("#corporate-invitations-list-box").show();
-                }
-            });
-        </script>
+            </script>
+        <?php endif; ?>
 
     </div>
 
