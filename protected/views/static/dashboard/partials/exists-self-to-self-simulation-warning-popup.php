@@ -1,5 +1,5 @@
 <div class="exists-self-to-self-simulation-warning-popup" style="display: none;">
-    <div class="more-side-pads">
+    <div class="more-side-pads list-ordered">
         <h2 class="title">Внимание!</h2>
 
         <p class="font-xxlarge">
