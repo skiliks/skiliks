@@ -912,7 +912,7 @@ SocialCalc.DoCmd = function(obj, which) {
                   spreadsheet.editor.EditorAddToInput("СУММ(", "")
               }
               else {
-                  spreadsheet.editor.EditorAddToInput($(".formula").val()+"СУММ(", "")
+                  spreadsheet.editor.EditorAddToInput("=СУММ(", "")
               }
           }
 
