@@ -1,5 +1,5 @@
 <section class="home-content">
-    <h1 class="page-header"><?php echo Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!') ?></h1>
+    <h1 class="page-header"><?php echo Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!') ?></h1>
     <!--<div class="iframe-video-wrap">
         <div class="iframe-video">
             <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
@@ -42,7 +42,7 @@
                 <strong class="video-caption font-white font-xlarge"><?php echo Yii::t('site', 'Watch the video to learn more') ?></strong>
             </div>
             <div class="social_networks">
-                <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+                <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" addthis:title="Skiliks - game the skills" addthis:description="Простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                     <a class="addthis_button_vk"></a>
                     <a class="addthis_button_facebook"></a>
                     <a class="addthis_button_twitter"></a>
@@ -67,7 +67,7 @@
                 <li><?php echo Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online') ?></li>
                 <li><?php echo Yii::t('site', 'Results can be obtained and used immediately') ?></li>
             </ul>
-       <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Most Reliable') ?></h2>
+       <h2 class="font-blue-dark"><?php echo Yii::t('site', 'Reliable') ?></h2>
             <ul class="unstyled">
                 <li><?php echo Yii::t('site', 'Focused on key skills') ?></li>
                 <li><?php echo Yii::t('site', 'Based on best working practices') ?></li>
