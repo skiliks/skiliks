@@ -31,11 +31,7 @@
                 </td>
                 <td>
                     <? if(isset($simulation->invite->id)) : ?>
-<<<<<<< HEAD
                         <a href="/admin_area/invite/<?=$simulation->invite->id ?>/site-logs" target="_blank">
-=======
-                        <a href="/admin_area/invite/<?=$simulation->id ?>/site-logs" target="_blank">
->>>>>>> 2d0b544... SKILIKS-3928 adding to admin possibly live simulations
                             <?=$simulation->invite->id ?>
                         </a>
                     <? endif; ?>
@@ -60,11 +56,7 @@
                 </td>
                 <td>
                     <? if(isset($simulation->invite->id)) : ?>
-<<<<<<< HEAD
                         <a href="/admin_area/invite/<?=$simulation->invite->id ?>/site-logs" target="_blank">
-=======
-                        <a href="/admin_area/invite/<?=$simulation->id ?>/site-logs" target="_blank">
->>>>>>> 2d0b544... SKILIKS-3928 adding to admin possibly live simulations
                             <?=$simulation->invite->id ?>
                         </a>
                     <? endif; ?>
@@ -89,11 +81,7 @@
                 </td>
                 <td>
                     <? if(isset($simulation->invite->id)) : ?>
-<<<<<<< HEAD
                         <a href="/admin_area/invite/<?=$simulation->invite->id ?>/site-logs" target="_blank">
-=======
-                        <a href="/admin_area/invite/<?=$simulation->id ?>/site-logs" target="_blank">
->>>>>>> 2d0b544... SKILIKS-3928 adding to admin possibly live simulations
                             <?=$simulation->invite->id ?>
                         </a>
                     <? endif; ?>
