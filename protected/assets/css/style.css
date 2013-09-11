@@ -970,21 +970,21 @@ html[lang=ru] .main-article article{
 	width:50%;
 }
 .product section table tr th:first-child,.product section table tr td:first-child{
-	background-position:left bottom;
+	background-position:top left;
 	padding-right:40px;
 	padding-left:40px;
 }
 .product section table tr th:last-child,.product section table tr td:last-child{
-	background-position:right bottom;
+	background-position:top left;
 	padding-left:40px;
 	padding-right:40px;
 }
 .product section table th{
 	background:url("../img/bg-product-section-table-title.png") no-repeat 0 0;
-	height:134px;
+	height:160px;
 	font:normal 3.422em "ProximaNova-Regular";
 	color:#fff;
-	line-height:134px;
+	line-height:160px;
 	text-align:center;
 }
 .product section table th h5{
@@ -998,6 +998,7 @@ html[lang=ru] .product section table th{
 	background-repeat:no-repeat;
 	text-align:center;
 	padding-bottom:40px;
+    height: 1140px;
 }
 .product section table td h6{
 	font:1.309em 'ProximaNova-Bold';
@@ -4602,7 +4603,7 @@ div.inline-block {
 
 .registration-popup {
     float:right;
-    margin-top: 7px;
+    margin-top: 2px;
 }
 
 

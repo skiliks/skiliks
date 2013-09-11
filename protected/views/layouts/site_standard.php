@@ -33,10 +33,10 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
         <meta charset="utf-8" />
-        <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
-        <meta property="og:description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        <meta property="og:description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -168,7 +168,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     <a href="/registration" class="btn btn-white btn-arrow-small access-footer"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                 <?php endif ?>
                 <div class="social_networks">
-                    <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Самый простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
+                    <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">
                         <a class="addthis_button_vk at300b" target="_blank" title="Vk" href="#"><span class=" at300bs at15nc at15t_vk"><span class="at_a11y"></span></span></a>
                         <a class="addthis_button_facebook at300b" title="Facebook" href="#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y"></span></span></a>
                         <a class="addthis_button_twitter at300b" title="Tweet" href="#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y"></span></span></a>
