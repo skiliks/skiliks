@@ -815,14 +815,14 @@ class ImportGameDataService
             // tmp
             $copiesArr = array();
             if (strpos($copies, ', ') !== false) {
-                $copiesArr = explode(',', $copies);
+                $copiesArr = explode(', ', $copies);
             }
             elseif($copies != "-") {
                 $copiesArr = [$copies];
             }
 
             if (strpos($toCode, ', ') !== false) {
-                $toCode = explode(',', $toCode);
+                $toCode = explode(', ', $toCode);
             }
             elseif($toCode != "-") {
                 $toCode = [$toCode];
