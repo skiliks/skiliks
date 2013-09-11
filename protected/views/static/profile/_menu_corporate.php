@@ -12,21 +12,20 @@
     </a></li>
 
     <li class="<?php if (isset($active['vacancies'])){ echo 'active'; }?>"><a href="/profile/corporate/vacancies">
-        Вакансии
+        Позиции
     </a></li>
 
     <li class="<?php if (isset($active['tariff'])){ echo 'active'; } ?>"><a href="/profile/corporate/tariff">
         Тариф
     </a></li>
 
-    <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
-        <!--
+    <!-- <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
         <a href="/profile/corporate/payment-method">
            Способ оплаты
         </a>
-        -->
         <a href="javascript:void(0);">
             Способ оплаты
         </a>
     </li>
+    -->
 </ul>

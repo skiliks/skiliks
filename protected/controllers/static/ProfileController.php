@@ -315,7 +315,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 'id',
                 'label',
                 "",
-                'Выберите уровень специализации'
+                'Выберите специализацию'
             );
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
@@ -481,7 +481,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $vacancy = Vacancy::model()->findByPk($id);
 
         if ($vacancy->user_id != Yii::app()->user->data()->id) {
-            Yii::app()->user->setFlash('error', 'У вас нет прав для удаления этой вакансии');
+            Yii::app()->user->setFlash('error', 'У вас нет прав для удаления этой позиции');
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 
@@ -490,7 +490,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'vacancy_id' => $vacancy->id,
         ]);
         if (0 < $counter) {
-            Yii::app()->user->setFlash('error', 'Вы не можете удалить вакансию с которой уже связаны приглашения.');
+            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию с которой уже связаны приглашения.');
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 
@@ -669,7 +669,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'id',
             'label',
             "",
-            'Выберите уровень специализации'
+            'Выберите специализацию'
         );
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
