@@ -257,13 +257,6 @@ $titles = [
                                         <i class="icon-download-alt"></i> Скачать лог
                                     </a>
                                 </li>
-                                <?php if(!empty($invite->receiverUser->profile)) : ?>
-                                    <li>
-                                        <a href="/admin_area/invite/calculate/estimate?sim_id=<?=$invite->simulation->id?>&email=<?=$invite->receiverUser->profile->email?>">
-                                            <i class="icon-refresh"></i>Пересчитать оценки
-                                        </a>
-                                    </li>
-                                <?php endif ?>
                                 <li>
                                     <a href="/admin_area/budget?sim_id=<?=$invite->simulation->id?>">
                                         <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
@@ -284,6 +277,13 @@ $titles = [
                                 <i class="icon-fast-backward"></i> Откатить инвайт
                             </a>
                         </li>
+                        <?php if(!empty($invite->receiverUser->profile) && null != $invite->simulation ) : ?>
+                            <li>
+                                <a href="/admin_area/invite/calculate/estimate?sim_id=<?= $invite->simulation->id ?>&email=<?= $invite->receiverUser->profile->email ?>">
+                                    <i class="icon-refresh"></i>Пересчитать оценки
+                                </a>
+                            </li>
+                        <?php endif ?>
                         <li style="padding-right: 15px;">
                             <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
                             <?php foreach(Invite::$statusText as $id => $text) : ?>
