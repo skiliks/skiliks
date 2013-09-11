@@ -10,6 +10,7 @@
  * @property integer $task_id
  * @property integer $type_scale
  * @property string $value
+ * @property string $activity_parent_code
  *
  * The followings are the available model relations:
  * @property Tasks $task
