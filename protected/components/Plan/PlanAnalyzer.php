@@ -231,8 +231,8 @@ class PlanAnalyzer {
     public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial)
     {
         if($keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
-            if((Yii::app()->params['keep_last_category_time_214g'] / 90 * Yii::app()->params['public']['skiliksSpeedFactor']) <=
-                ((strtotime($end_time) - strtotime($start_time)) / 90)){
+            if((Yii::app()->params['keep_last_category_time_214g'] / 60 * Yii::app()->params['public']['skiliksSpeedFactor']) <=
+                ((strtotime($end_time) - strtotime($start_time)) / 60)){
                 return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
             }else{
                 return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES;

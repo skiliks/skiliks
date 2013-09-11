@@ -589,12 +589,17 @@ class SimulationService
             }
 
             $invite->update();
-            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
+            if(InviteService::isSimulationOverrideDetected($invite)){
                 /* @var $sim Simulation */
-                $sim = Simulation::model()->findByPk($invite->simulation_id);
-                if(null !== $sim){
-                    $sim->status = Simulation::STATUS_INTERRUPTED;
-                    $sim->save();
+                // повторный старт!
+                if(null !== $invite->simulation){
+                    $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
+                    $invite->simulation->save();
+
+                    InviteService::logAboutInviteStatus($invite, 'Set sum id to null from '.$invite->simulation->id);
+                    $invite->simulation = null;
+                    $invite->simulation_id = null;
+                    $invite->save();
                 }
             }
             $invite->simulation_id = $simulation->id;
@@ -626,6 +631,10 @@ class SimulationService
 
         // Check if simulation was already stopped
         if (null !== $simulation->end && false === $manual) {
+            return;
+        }
+
+        if (Simulation::STATUS_INTERRUPTED == $simulation->status) {
             return;
         }
 
@@ -749,6 +758,7 @@ class SimulationService
             // remove all files except D1 }
 
         }
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);

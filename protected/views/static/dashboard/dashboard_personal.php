@@ -39,7 +39,7 @@
             <?php endif; ?>
         </div>
 
-        <?php $this->renderPartial('partials/warning-popup', []) ?>
+        <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
 
         <div id="simulation-details-pop-up"></div>

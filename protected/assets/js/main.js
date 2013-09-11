@@ -114,7 +114,7 @@ var fixLogotypes = function() {
             $('.content').css('margin-bottom', '600px');
 
             $('#invite-accept-form').dialog({
-                dialogClass: 'accept-invite-warning-popup',
+                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup',
                 modal:       true,
                 autoOpen:    true,
                 resizable:   false,
@@ -133,7 +133,7 @@ var fixLogotypes = function() {
             });
 
             // hack {
-            $('.accept-invite-warning-popup').css('top', '50px');
+            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
             $(window).scrollTop('.narrow-contnt');
 
             // hack }
@@ -306,8 +306,8 @@ var fixLogotypes = function() {
             event.preventDefault();
             $(".sign-in-box").dialog('open');
         });
-        function warningPopup(href){
-            $(".warning-popup").dialog({
+        function infoPopup_aboutFullSimulation(href){
+            $(".full-simulation-info-popup").dialog({
                 closeOnEscape: true,
                 dialogClass: 'popup-before-start-sim',
                 minHeight: 220,
@@ -331,14 +331,14 @@ var fixLogotypes = function() {
             $('.content').css('margin-bottom', '80px');
 
             $.ajax({
-                 url:'/simulationIsStarted',
-                 dataType:  "json",
-                 data:{invite_id:getInviteId(href)},
-                 success:function(data) {
-                    if(data.simulation_start) {
-                        warningPopup(href);
-                    }else{
-                        $(".pre-start-popup").dialog({
+                url:'/simulationIsStarted',
+                dataType:  "json",
+                data:{invite_id:getInviteId(href)},
+                success:function(data) {
+                    var dataGlobal = data;
+                    // проверка наличия незавершенных фулл симуляций самому-себе
+                    if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
+                        $(".exists-self-to-self-simulation-warning-popup").dialog({
                             closeOnEscape: true,
                             dialogClass: 'popup-before-start-sim',
                             minHeight: 220,
@@ -346,13 +346,34 @@ var fixLogotypes = function() {
                             resizable: false,
                             width:881,
                             open: function( event, ui ) {
-                                $('.start-full-simulation-next').attr('data-href', href);
                                 Cufon.refresh();
+
+                                // пользователь выбирает не прерывать текущую симуляцию
+                                $('.exists-self-to-self-simulation-warning-popup .back-button').click(function(){
+                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
+                                });
+
+                                // пользователь выбирает начать новую симуляцию, не смотря на наличие незавершенных
+                                $('.exists-self-to-self-simulation-warning-popup .go-ahead-button').click(function(){
+
+                                    // закрыть текущий попап
+                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
+
+                                    // запрос на удаление всех незавершенных фулл симуляций самому-себе
+                                    $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
+
+                                    // отображаем свтупительный попап
+                                    displaySimulationInfoPopUp(href, dataGlobal);
+                                });
                             }
                         });
+                    } else {
+                        // незавершенных симуляций нет
+                        displaySimulationInfoPopUp(href, dataGlobal);
                     }
                 }
             });
+
             // hack {
             $('.popup-before-start-sim').css('top', '50px');
             $(window).scrollTop('body');
@@ -361,14 +382,44 @@ var fixLogotypes = function() {
             return false;
         });
 
+        var displaySimulationInfoPopUp =  function(href, data) {
+            // в случае если пользователь выбрал начать новую симуляцию,
+            // не смотря на наличие незавершенных сам-себе
+            // то предупреждение будет дублирующим,
+            // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
+            // то предупреждение нужно
+            console.log(data);
+            if(data.user_try_start_simulation_twice &&
+                0 == parseInt(data.count_self_to_self_invites_in_progress)) {
+                // предупреждение о попытке повторного начала симуляции
+                $(".pre-start-popup").dialog({
+                    closeOnEscape: true,
+                    dialogClass: 'popup-before-start-sim',
+                    minHeight: 220,
+                    modal: true,
+                    resizable: false,
+                    width:881,
+                    open: function( event, ui ) {
+                        $('.start-full-simulation-next').attr('data-href', href);
+                        Cufon.refresh();
+                    }
+                });
+            } else {
+                // информауия про ключевые моменты в сценарии фулл симуляции
+                // что я? где я? сотрудники, цели.
+                infoPopup_aboutFullSimulation(href);
+            }
+        }
+
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');
             $.ajax({url:'/userStartSecondSimulation', data:{invite_id:getInviteId(href)}});
             $(".pre-start-popup").dialog('close');
-            warningPopup(href);
+            infoPopup_aboutFullSimulation(href);
             return false;
         });
+
         $('.start-full-simulation-close').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');
