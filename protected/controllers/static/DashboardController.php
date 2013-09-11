@@ -56,7 +56,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
 
             $invite->message = sprintf(
-                'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.',
+                'Вопросы относительно позиции вы можете задать по адресу %s, куратор позиции - %s.',
                 $this->user->account_corporate->corporate_email,
                 $this->user->getFormattedName()
             );
