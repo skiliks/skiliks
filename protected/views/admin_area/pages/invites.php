@@ -254,12 +254,22 @@ $titles = [
                                 </li>
                                 <li>
                                     <a href="/static/admin/saveLog/<?=$invite->simulation->id?>">
-                                        <i class="icon-download-alt"></i> Скачать лог
+                                        <i class="icon-download-alt"></i> Скачать лог с оценками
                                     </a>
                                 </li>
                                 <li>
                                     <a href="/admin_area/budget?sim_id=<?=$invite->simulation->id?>">
                                         <i class="icon-book"></i> Скачать "Сводный бюджет"(D1)
+                                    </a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="/admin_area/simulation/<?= $invite->simulation->id?>/site-logs">
+                                        <i class="icon-list"></i> Смотреть логи сайта
+                                    </a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="/admin_area/simulation/<?= $invite->simulation->id?>/requests">
+                                        <i class="icon-retweet"></i> Смотреть запросы
                                     </a>
                                 </li>
                         </ul>
