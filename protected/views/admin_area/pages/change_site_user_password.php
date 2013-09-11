@@ -1,14 +1,23 @@
 <br/>
 
-<h1><?= $siteUser->profile->firstname ?> <?= $siteUser->profile->lastname ?></h1>
+<h1>
+    <?= $siteUser->profile->firstname ?> <?= $siteUser->profile->lastname ?>
+</h1>
 
 <br/>
 
 Личная почта: <?= $siteUser->profile->email ?>
+
 <?php if (null !== $siteUser->account_corporate): ?>
     <br/>
     Корпоративная почта: <?= $siteUser->account_corporate->corporate_email ?>
 <?php endif ?>
+
+<br/>
+<br/>
+<a href="/admin_area/user/<?= $siteUser->id ?>/details">
+    <- Вернутья назад, к данным аккаунта пользователя
+</a>
 
 <br/>
 <hr/>

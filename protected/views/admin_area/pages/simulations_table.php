@@ -134,7 +134,7 @@
 
                 <!-- IDs { -->
                 <td style="width: 80px;">
-                    <i class="icon icon-check" style="opacity: 0.1" title="Invite ID"></i>
+                    <i class="icon icon-tag" style="opacity: 0.1" title="Invite ID"></i>
                     <?php if (null === $simulation->invite): ?>
                         --
                     <?php else: ?>
@@ -142,7 +142,7 @@
                             <?= $simulation->invite->id ?>
                         </a>
                     <?php endif; ?>                    <br/>
-                    <i class="icon icon-tag" style="opacity: 0.1" title="Simulation ID"></i>
+                    <i class="icon icon-check" style="opacity: 0.1" title="Simulation ID"></i>
                     <a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">
                         <?= $simulation->id?>
                     </a>
