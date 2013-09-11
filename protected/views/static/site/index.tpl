@@ -1,6 +1,6 @@
 				<!--features-->
 				<section class="features">
-					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
+					<h2>{Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!')}</h2>
 					
 					<div class="video">
                         <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" width="396" height="211" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
@@ -43,7 +43,7 @@
 					</article>
 					
 					<article>
-						<h3>{Yii::t('site', 'Most Reliable')}</h3>
+						<h3>{Yii::t('site', 'Reliable')}</h3>
 						<ul>
 							<li>{Yii::t('site', 'Focused on key skills')}</li>
 							<li>{Yii::t('site', 'Based on best working practices')}</li>
