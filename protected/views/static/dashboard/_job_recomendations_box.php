@@ -1,4 +1,4 @@
-<h2>Рекомендуемые вакансии</h2>
+<h2>Рекомендуемые позиции</h2>
 
 <ul class="nodesign-list jobs-list">
     <li><a href="#">Head of IT at Sberbank</a></li>
