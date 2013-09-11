@@ -889,12 +889,12 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * For debug
      */
-//    public function testDebug()
-//    {
-//        // init simulation
-//        $simulation = Simulation::model()->findByPk(431);
-//
-//        $p = new CheckConsolidatedBudget($simulation->id);
-//        $p->calcPoints();
-//    }
+    public function testDebug()
+    {
+        // init simulation
+        $simulation = Simulation::model()->findByPk(431);
+
+        $p = new CheckConsolidatedBudget($simulation->id);
+        $p->calcPoints();
+    }
 }

@@ -117,7 +117,7 @@ class MyDocumentsService
             ];
         }
 
-        file_put_contents($document->getFilePath(), json_encode($scData)); die;
+        file_put_contents($document->getFilePath(), json_encode($scData));
     }
 }
 
