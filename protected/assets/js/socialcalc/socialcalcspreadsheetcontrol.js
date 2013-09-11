@@ -903,13 +903,17 @@ SocialCalc.DoCmd = function(obj, which) {
 //          }
 //          editor.EditorScheduleSheetCommands(cmd, true, false);
            // Custom socialcalc sum function
+          var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
           if($(".formula").val() == "") {
-              var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
-              spreadsheet.editor.EditorAddToInput("=SUM(", "")
+              spreadsheet.editor.EditorAddToInput("=СУММ(", "")
           }
           else {
-              var spreadsheet = SocialCalc.GetSpreadsheetControlObject(editor.idPrefix);
-              spreadsheet.editor.EditorAddToInput($(".formula").val()+"SUM(", "")
+              if($(".formula").is(":focus")) {
+                  spreadsheet.editor.EditorAddToInput("СУММ(", "")
+              }
+              else {
+                  spreadsheet.editor.EditorAddToInput($(".formula").val()+"СУММ(", "")
+              }
           }
 
           break;
