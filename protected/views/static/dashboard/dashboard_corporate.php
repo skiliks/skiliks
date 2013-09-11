@@ -81,25 +81,28 @@
                     <p><?php echo $form->textField($invite, 'fullname'); ?></p>
 
                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию
+                            <a target="_blank" href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
                         <?php if (empty($invite->receiverUser)): ?>
-                            <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
+                            <p class="font-green-dark">
+                                <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>
+                                - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
                         <?php endif; ?>
                     <?php endif; ?>
 
                     <p><?php echo $form->textArea($invite, 'message', ['rows' => 20, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
                     <p class="font-green-dark">
                         <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
-                            Пожалуйста, <a href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
+                            Пожалуйста, <a target="_blank" href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
                             выберите индивидуальный профиль, ввойдите в свой кабинет
                             и примите приглашение на тестирование для прохождения симуляции.
                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
-                            Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                            Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
-                            Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
+                            Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
                             <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
                         <?php else: ?>
-                            Пожалуйста, <a href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> или <a href="<?= $this->createAbsoluteUrl('/user/auth') ?>">войдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                            Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> или <a href="<?= $this->createAbsoluteUrl('/user/auth') ?>">войдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                         <?php endif; ?>
                     </p>
                     <p class="font-green-dark">Ваш skiliks</p>
