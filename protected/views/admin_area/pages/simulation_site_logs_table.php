@@ -44,9 +44,9 @@
 
                 <td><?= $itemS->invite_id ?></td>
 
-                <td><?= $itemS->user->profile->email ?>,
-                    <?= $itemS->user->profile->firstname ?>
-                    <?= $itemS->user->profile->lastname ?></td>
+                <td><?= ($itemS->user instanceof YumUser) ? $itemS->user->profile->email : '-' ?>,
+                    <?= ($itemS->user instanceof YumUser) ?  $itemS->user->profile->firstname : '-' ?>
+                    <?= ($itemS->user instanceof YumUser) ? $itemS->user->profile->lastname : '-' ?></td>
 
                 <td><span class="label label-inverse"><?= $itemS->scenario_name ?></span></td>
                 <td><span class="label"><?= $itemS->mode ?></span></td>
