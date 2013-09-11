@@ -81,7 +81,7 @@
                     <p><?php echo $form->textField($invite, 'fullname'); ?></p>
 
                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                        <p class="font-green-dark"><?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию <a href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
                         <?php if (empty($invite->receiverUser)): ?>
                             <p class="font-green-dark"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
                         <?php endif; ?>
