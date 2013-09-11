@@ -1035,6 +1035,13 @@ html[lang=ru] .product section table th{
 .feedbackwrap .ui-dialog-titlebar-close {
     right:-22px;
 }
+
+.registration-popup {
+    float:right;
+    margin-top: 3px;
+    font:12px "ProximaNova-Regular" !important;
+}
+
 @media screen and (max-width: 1146px){
 	.product{
 		margin-top:0px;
@@ -4537,6 +4544,13 @@ ul.profile-menu li {
         left:176px;
     }
 
+    .registration-popup {
+        float:right;
+        margin-top: 3px;
+        font:11px "ProximaNova-Regular" !important;
+    }
+
+
 }
 
 
@@ -4600,13 +4614,6 @@ div.inline-block {
     display: inline-block;
     margin: 10px 0;
 }
-
-.registration-popup {
-    float:right;
-    margin-top: 3px;
-    font:12px "ProximaNova-Regular" !important;
-}
-
 
 .green-h2 {
     color: #146672;
