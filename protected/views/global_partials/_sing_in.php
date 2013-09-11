@@ -36,7 +36,8 @@
             <?php // for "your email not activated" message } ?>
 
             <div class="remember">
-                <input type="checkbox" name="rememberMe" value="remember" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
+                <input type="checkbox" name="rememberMe" value="remember" class="niceCheck" id="ch1" />
+                <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
                 <a class="registration-popup" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
             </div>
             <div class="errors">
