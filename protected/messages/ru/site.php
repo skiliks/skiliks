@@ -36,7 +36,7 @@ return array(
     'Enter your email address' => 'Введите ваш email',
     '&quot;Remarkably comprehensive<br />&nbsp;and deep assessment of<br />&nbsp;&nbsp;&nbsp;skills - now I know what<br />&nbsp;&nbsp;I can expect from<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcomers&quot;' => '&quot;Оценка навыков поражает<br />&nbsp;своей полнотой и глубиной,<br />&nbsp;&nbsp;&nbsp;теперь я точно знаю,<br />&nbsp;&nbsp;что ожидать от<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;новичков&quot;',
     '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;' => '&quot;Это же реальная игра!<br />&nbsp;С вызовом и глубоким<br />&nbsp;&nbsp;&nbsp;&nbsp;погружением – я даже не<br />&nbsp;&nbsp;заметил как пролетело<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;время!&quot;',
-    'Focused on key skills' => 'Оценивает ключевые для бизнеса навыки',
+    'Focused on key practical skills' => 'Оценивает ключевые для бизнеса практические навыки',
     'Invalid email - \'{email}\'!' => 'Невалидный email - \'{email}\'!',
     'Live tasks and decision-making situations' => 'Реальные задачи и ситуации, требующие принятия решений',
     'Reliable' => 'Надежный',
