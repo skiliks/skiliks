@@ -123,7 +123,7 @@ define([
                                         location.assign('/simulation/exit');
                                     }
                                 } else {
-                                    if(data.simulation_status !== 'interrupted') {
+                                    if(data.simulation_status == 'interrupted') {
                                         location.assign('/simulation/exit');
                                     }
                                 }
