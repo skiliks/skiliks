@@ -2,7 +2,7 @@
     <div class="more-side-pads">
         <h2 class="title">Внимание!</h2>
 
-        <p style="line- height: 18px" class="proxima-regular">
+        <p class="proxima-regular font-xxlarge">
             Вероятно у вас идёт симуляция в соседней вкладке браузера,
             или вы закрыли вкладку браузера с работающей симуляцией. </br></br>
 
