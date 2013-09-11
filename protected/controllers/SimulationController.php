@@ -92,7 +92,9 @@ class SimulationController extends SimulationBaseController
             $this->getSimulationEntity(),
             Yii::app()->request->getParam('logs', array())
         );
-        $this->sendJSON(['result' => self::STATUS_SUCCESS]);
+        $this->sendJSON([
+            'result' => self::STATUS_SUCCESS
+        ]);
 
     }
 
