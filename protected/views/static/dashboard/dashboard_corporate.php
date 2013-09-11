@@ -59,8 +59,14 @@
         </div>
 
 
+        <script>
+            $(document).ready(function() {
+                $("#corporate-invitations-list-box").show();
+            });
+        </script>
+
         <?php if (true === $validPrevalidate): ?>
-            <div class="form form-invite-message message_window" title="Сообщение">
+            <div class="form form-invite-message message_window" style="display:none;" title="Сообщение">
 
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'send-invite-message-form',
@@ -115,10 +121,9 @@
                 <?php $this->endWidget(); ?>
             </div>
 
-
-            <script type="text/javascript">
-                $(function() {
-                    // @link: http://jqueryui.com/dialog/
+            <script>
+                // @link: http://jqueryui.com/dialog/
+                $(document).ready(function() {
                     $( ".message_window" ).dialog({
                         modal: true,
                         resizable: false,
@@ -128,7 +133,7 @@
                         position: {
                             my: "left top",
                             at: "left top",
-                            of: $('#corporate-invitations-list-box-position')
+                            of: $('#corporate-invitations-list-box')
                         },
                         open: function( event, ui ) { Cufon.refresh(); }
                     });
@@ -138,7 +143,6 @@
                 });
             </script>
         <?php endif; ?>
-        <script>$("#corporate-invitations-list-box").show();</script>
 
     </div>
 
