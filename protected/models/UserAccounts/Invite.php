@@ -882,12 +882,4 @@ class Invite extends CActiveRecord
         InviteService::logAboutInviteStatus($this, 'invite : delete');
         return $result;
     }
-
-    public function getVacancyLink($style) {
-        if(empty($this->vacancy->link)){
-            return $this->vacancy->label;
-        }else{
-            return "<a style=\"{$style}\" href=\"{$this->vacancy->link}\">{$this->getVacancyLabel()}</a>";
-        }
-    }
 }
