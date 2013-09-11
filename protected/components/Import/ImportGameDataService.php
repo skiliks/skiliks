@@ -820,9 +820,6 @@ class ImportGameDataService
             elseif($copies != "-") {
                 $copiesArr = [$copies];
             }
-            else {
-                throw new Exception("Error in email copies - probably separotor is illegal.");
-            }
 
             $receivers = array();
             if (is_array($toCode)) {
