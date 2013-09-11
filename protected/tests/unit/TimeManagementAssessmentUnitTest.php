@@ -889,12 +889,22 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * For debug
      */
-    public function testDebug()
-    {
-        // init simulation
-        $simulation = Simulation::model()->findByPk(431);
-
-        $tma = new TimeManagementAnalyzer($simulation);
-        $tma->calculateAndSaveAssessments();
-    }
+//    public function testDebug()
+//    {
+//        // init simulation
+//        $simulation = Simulation::model()->findByPk(431);
+//
+////        $tma = new TimeManagementAnalyzer($simulation);
+////        $tma->calculateAndSaveAssessments();
+//
+//        AssessmentPlaningPoint::model()->deleteAllByAttributes(['sim_id' =>$simulation->id]);
+//
+//        $p = new PlanAnalyzer($simulation);
+//        $p->run();
+//
+//        $ass = AssessmentPlaningPoint::model()->findAllByAttributes(['sim_id' =>$simulation->id]);
+//        foreach ($ass as $as) {
+//            //$this->assertNotEquals($as->activity_parent_code, 'ARS5');
+//        }
+//    }
 }
