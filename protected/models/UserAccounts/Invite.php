@@ -602,6 +602,8 @@ class Invite extends CActiveRecord
         $criteria->addInCondition('scenario_id', [$full->id]);
         $criteria->addNotInCondition('status', [Invite::STATUS_DELETED]);
         $criteria->compare('id', $this->id);
+        $criteria->addCondition(' (t.receiver_id != \''.$ownerId.'\' or t.receiver_id IS NULL ) or (t.receiver_id = \''.$ownerId.'\'
+                                  AND t.status IN ('.self::STATUS_COMPLETED.')) ');
         $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
