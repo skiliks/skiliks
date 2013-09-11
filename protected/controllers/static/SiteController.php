@@ -241,10 +241,14 @@ class SiteController extends SiteBaseController
             if (null !== $invite->simulation) {
                 $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
                 $invite->simulation->save(false);
+
+                $user->getAccount()->invites_limit++;
             }
             $invite->status = Invite::STATUS_DELETED;
             $invite->save(false);
         }
+
+        $user->getAccount()->save();
     }
 
     public function actionUserStartSecondSimulation() {
