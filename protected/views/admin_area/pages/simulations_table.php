@@ -2,7 +2,7 @@
     'ID инвайта, <br/>Sim. ID',
     'Email соискателя, игрока',
     'Время начала симуляции <br/> Время конца симуляции',
-    'Сценарий',
+    'Сценарий: статус',
     'Оценка',
     '',
     'Аварийная панель',
@@ -155,7 +155,15 @@
                     <br/>
                     <?= (empty($simulation->end) ? '--' : $simulation->end) ?>
                 </td>
-                <td><span class="label <?= $simulation->game_type->getSlugCss() ?>"><?= $simulation->game_type->slug?></span></td>
+                <td>
+                    <span class="label <?= $simulation->game_type->getSlugCss() ?>">
+                        <?= $simulation->game_type->slug?>
+                    </span>
+                    :
+                    <span class="label <?= $simulation->getStatusCss() ?>">
+                        <?= $simulation->status ?>
+                    </span>
+                </td>
 
                 <td>
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getOverall())
