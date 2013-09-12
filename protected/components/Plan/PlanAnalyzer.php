@@ -579,7 +579,11 @@ class PlanAnalyzer {
             $data = [];
 
             if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
-                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
+                $data = $this->findLessImportantTaskLogsBefore(
+                    $this->tasksOn11,
+                    $taskLogItem,
+                    $usedTaskCodes);
+
                 if (0 < count($data)) {
                     $wrongActions[] = $taskLogItem;
 
@@ -776,9 +780,13 @@ class PlanAnalyzer {
      */
     public function isComparable($taskLogItem, $taskLogItemToCompare)
     {
+        $isBothFromVacation = ($taskLogItem->day == DayPlanLog::AFTER_VACATION &&
+            $taskLogItemToCompare->day == DayPlanLog::AFTER_VACATION);
+
         return (
             null !== $taskLogItemToCompare->date &&
-            '00:00:00' !== $taskLogItemToCompare->date
+            '00:00:00' !== $taskLogItemToCompare->date &&
+            false == $isBothFromVacation
         );
     }
 
