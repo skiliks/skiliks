@@ -581,7 +581,7 @@ class SimulationService
 
             // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
             // не в dev режиме
-            if (Scenario::TYPE_FULL == $simulationType
+            if (Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
                 $invite->ownerUser->getAccount()->invites_limit--;
