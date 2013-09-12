@@ -114,7 +114,7 @@ var fixLogotypes = function() {
             $('.content').css('margin-bottom', '600px');
 
             $('#invite-accept-form').dialog({
-                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup',
+                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
                 modal:       true,
                 autoOpen:    true,
                 resizable:   false,
