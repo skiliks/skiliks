@@ -32,7 +32,7 @@ class SeleniumTestHelper extends CWebTestCase
     protected function tearDown()
     {
         parent::tearDown();
-        $this->stop();
+        //$this->stop();
     }
 
     /**
