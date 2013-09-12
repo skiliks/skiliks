@@ -763,7 +763,7 @@ class Simulation extends CActiveRecord
             'limit' => 1,
         ]);
 
-        return isset($lastLog->backend_game_time) ? $lastLog->backend_game_time : null;
+        return isset($lastLog) ? $lastLog->backend_game_time : null;
     }
 }
 
