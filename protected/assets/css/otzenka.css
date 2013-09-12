@@ -6,6 +6,9 @@
     overflow: visible;
     width: 980px;
 }
+.margin-top-popup {
+    top:50px !important;
+}
 .simulation-result-popup .ui-dialog-titlebar {
     font-size:10px;
     margin: 0px !important;
