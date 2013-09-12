@@ -824,7 +824,7 @@ class ImportGameDataService
             if (strpos($toCode, ', ') !== false) {
                 $toCode = explode(', ', $toCode);
             }
-            elseif($toCode != "-") {
+            else {
                 $toCode = [$toCode];
             }
 
