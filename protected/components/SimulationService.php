@@ -742,9 +742,12 @@ class SimulationService
         }
 
         if ($simulation->isFull()) {
-            $simulation->invite->can_be_reloaded = false;
-            $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : can be reloaded set to false');
+            $tmpInvite = $simulation->invite;
+            $tmpInvite->can_be_reloaded = false;
+            $tmpInvite->save(false);
+            InviteService::logAboutInviteStatus($tmpInvite, 'invite : updated : can be reloaded set to false');
+            unset($tmpInvite);
+            $simulation->invite->refresh();
         }
 
         // remove all files except D1 - Сводный бюджет 2013 {
