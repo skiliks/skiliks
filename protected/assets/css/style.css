@@ -970,21 +970,21 @@ html[lang=ru] .main-article article{
 	width:50%;
 }
 .product section table tr th:first-child,.product section table tr td:first-child{
-	background-position:left bottom;
+	background-position:top left;
 	padding-right:40px;
 	padding-left:40px;
 }
 .product section table tr th:last-child,.product section table tr td:last-child{
-	background-position:right bottom;
+	background-position:top left;
 	padding-left:40px;
 	padding-right:40px;
 }
 .product section table th{
 	background:url("../img/bg-product-section-table-title.png") no-repeat 0 0;
-	height:134px;
+	height:160px;
 	font:normal 3.422em "ProximaNova-Regular";
 	color:#fff;
-	line-height:134px;
+	line-height:160px;
 	text-align:center;
 }
 .product section table th h5{
@@ -998,6 +998,7 @@ html[lang=ru] .product section table th{
 	background-repeat:no-repeat;
 	text-align:center;
 	padding-bottom:40px;
+    height: 1140px;
 }
 .product section table td h6{
 	font:1.309em 'ProximaNova-Bold';
@@ -1034,6 +1035,13 @@ html[lang=ru] .product section table th{
 .feedbackwrap .ui-dialog-titlebar-close {
     right:-22px;
 }
+
+.registration-popup {
+    float:right;
+    margin-top: 3px;
+    font:12px "ProximaNova-Regular" !important;
+}
+
 @media screen and (max-width: 1146px){
 	.product{
 		margin-top:0px;
@@ -1318,7 +1326,7 @@ html[lang=ru] .product section table th{
 }
 
 .registration .form.form-account-corporate{
-	background-image:url("../img/bg-registration-corparate.png");
+	background-image:url("../img/bg-registration-corporate.png");
 	float:right;
 	margin-right:9px;
 }
@@ -1398,6 +1406,7 @@ html[lang=ru] .product section table th{
 .registration .form .errorMessage.right {
     padding-left: 260px;
 }
+
 .registration .form .errorMessage {
     position: absolute;
     padding-left: 124px;
@@ -1522,7 +1531,7 @@ html[lang=ru] .product section table th{
 
 
 	.registration .form.form-account-corporate{
-		background-image:url("../img/bg-registration-corparate-min.png");
+		background-image:url("../img/bg-registration-corporate-min.png");
 		margin-right:7px;
 	}
 	.registration .form h1{
@@ -2294,6 +2303,9 @@ html[lang="en"] .footer .social_networks {
     right: -25px;
     background: none;
 }
+.errorMessage#Vacancy_link_em_ {
+    margin-top:-4px;
+}
 .sing-in-pop-up .ui-dialog-titlebar-close, .popup-recovery-view .ui-dialog-titlebar-close {
     top: -20px;
     right: -20px;
@@ -3039,16 +3051,17 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr th:nth-child(3),
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
-    max-width: 71px;
-    width:71px;
+    max-width: 52px;
+    width:52px;
 }
 #private-invitations-list-box .grid-view tr th:nth-child(4),
 #private-invitations-list-box .grid-view tr td:nth-child(4){
-    width:100px;
+    width:44px;
 }
 #private-invitations-list-box .grid-view tr th:last-child,
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:152px;
+    width:130px;
+    min-width: 130px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
     text-overflow: ellipsis;
@@ -3074,6 +3087,9 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:nth-child(4) {
     text-overflow:clip;
     overflow: hidden;
+}
+#corporate-invitations-list-box .grid-view tr td:nth-child(3) {
+    max-width: 194px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(2),
 #corporate-invitations-list-box .grid-view tr td:nth-child(2) {
@@ -3632,6 +3648,9 @@ ul.profile-menu li {
         line-height:110%;
         width: 72px;
     }
+    .errorMessage#Vacancy_link_em_ {
+        margin-top:-6px;
+    }
     .transparent-boder {
         padding: 6px;
     }
@@ -3725,16 +3744,16 @@ ul.profile-menu li {
     }
     #private-invitations-list-box .grid-view tr th:nth-child(2), #private-invitations-list-box .grid-view tr th:nth-child(3),
     #private-invitations-list-box .grid-view tr td:nth-child(2), #private-invitations-list-box .grid-view tr td:nth-child(3) {
-        max-width: 46px;
-        width: 46px;
+        max-width: 37px;
+        width: 37px;
     }
     #private-invitations-list-box .grid-view tr th:nth-child(4), #private-invitations-list-box .grid-view tr td:nth-child(4) {
-        max-width: 53px;
-        width: 53px;
+        max-width: 37px;
+        width: 37px;
     }
     #private-invitations-list-box .grid-view tr th:last-child, #private-invitations-list-box .grid-view tr td:last-child {
-        max-width: 97px !important;
-        width: 97px !important;
+        max-width: 80px !important;
+        width: 80px !important;
     }
 
     #private-invitations-list-box .grid-view tr td:last-child p {
@@ -4525,6 +4544,13 @@ ul.profile-menu li {
         left:176px;
     }
 
+    .registration-popup {
+        float:right;
+        margin-top: 3px;
+        font:11px "ProximaNova-Regular" !important;
+    }
+
+
 }
 
 
@@ -4588,12 +4614,6 @@ div.inline-block {
     display: inline-block;
     margin: 10px 0;
 }
-
-.registration-popup {
-    float:right;
-    margin-top: 7px;
-}
-
 
 .green-h2 {
     color: #146672;

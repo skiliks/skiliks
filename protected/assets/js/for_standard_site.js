@@ -232,7 +232,7 @@ var fixLogotypes = function() {
 
         // delete vacancy {
         $('a.delete-vacancy-link').click(function(event) {
-            if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
+            if (confirm("Вы желаете удалить позицию \"" + $(this).parent().parent().find('td:eq(1)').text() + "\"?")) {
                 // link go ahead to delete URL
             } else {
                 event.preventDefault();

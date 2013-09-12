@@ -157,13 +157,7 @@ return array(
                 'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
                 'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
 
-                'cheat/dialogsAnalyzer'                 => 'static/admin/dialogsAnalyzer',
-                'cheat/uploadDialogsToAnalyzer'         => 'static/admin/uploadDialogsToAnalyzer',
-                'cheat/assessments/grid'                => 'static/cheats/assessmentsGrid',
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
-                'cheat/zoho/getUsageValue'              => 'static/cheats/getZohoUsageStatus',
-
-                'cheat/zoho/saveUsageValue/<value:\w+>/<expireDate:\w+>' => 'static/cheats/saveZohoUsageStatus',
 
                 'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
@@ -190,10 +184,12 @@ return array(
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
                 'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
-                'simulationIsStarted' => 'static/site/IsStarted',
-                'userStartSecondSimulation' => 'static/site/UserStartSecondSimulation',
-                'userRejectStartSecondSimulation' => 'static/site/UserRejectStartSecondSimulation',
-                'logout/registration'                          =>'static/userAuth/LogoutAndRegistration',
+                'simulationIsStarted'                  => 'static/site/IsStarted',
+                'userStartSecondSimulation'            => 'static/site/UserStartSecondSimulation',
+                'userRejectStartSecondSimulation'      => 'static/site/UserRejectStartSecondSimulation',
+                'logout/registration'                  =>'static/userAuth/LogoutAndRegistration',
+
+                'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
                 'recovery'                  => 'static/userAuth/recovery',
                 'results'                   =>'static/userAuth/results',
@@ -202,13 +198,6 @@ return array(
 
                 'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
                 'registration/<action:\w+>' => 'static/userAuth/<action>',
-
-                'cheats'                               => 'static/cheats/mainPage',
-                'cheats/cleanUpAccount'                => 'static/cheats/cleanUpAccount',
-                'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
-                'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
-                'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
-                'static/cheats/listOfsubscriptions'    => 'static/cheats/listOfsubscriptions',
 
                 'dashboard-new'                      => 'static/dashboard/corporateNew',
                 'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
@@ -267,8 +256,6 @@ return array(
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
-                'invite/add-10'                => 'static/cheats/increaseInvites',
-
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
@@ -301,24 +288,36 @@ return array(
                 'admin_area/users'             => 'admin_area/AdminPages/UsersList',
                 'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
-                'admin_area/statistics/testAuth'        => 'admin_area/AdminPages/TestAuth',
-                'admin_area/statistics/statistic-order-count'        => 'admin_area/AdminPages/StatisticOrderCount',
-                'admin_area/statistics/statistic-feedback-count'        => 'admin_area/AdminPages/StatisticFeedbackCount',
+                'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
+                'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
+                'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
+
+                'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
+                'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
+                'admin_area/statistics/testAuth'                          => 'admin_area/AdminPages/TestAuth',
+                'admin_area/statistics/statistic-order-count'             => 'admin_area/AdminPages/StatisticOrderCount',
+                'admin_area/statistics/statistic-feedback-count'          => 'admin_area/AdminPages/StatisticFeedbackCount',
                 'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
-                'admin_area/statistics/free-disk-space'        => 'admin_area/AdminPages/StatisticFreeDiskSpace',
+                'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
+                'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
                 'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
-                'admin/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
                 'admin_area/simulation/set-emergency/<simId:\d+>' => 'admin_area/AdminPages/SimulationSetEmergency',
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
                 'admin_area/simulations/<page:\d+>'               => 'admin_area/AdminPages/Simulations',
                 'admin_area/simulation/<simId:\w+>/fixEndTime'    => 'admin_area/AdminPages/SimulationFixEndTime',
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
+                'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
+                'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
+
+                'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
+                'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
+
                 'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
                 'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
 
@@ -365,7 +364,7 @@ return array(
     'params' => array(
         'disableOldLogging'=>false,
         'disableAssets'                 => false,
-        'keep_last_category_time_214g'  => 60,
+        'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
         'vacancyLinkInProfileMaxLength' => 50,
@@ -375,14 +374,7 @@ return array(
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-            'defaultMessageText' => 'Продолжая начатую в 2012 году программу корпоративного развития, предлагаем Вам поучаствовать в прохождении тестовой версии симуляции компании "Скиликс".'.
-            "\r\n".
-            'Это компьютерная игра, по результатам которой планируется уточнить, что для Вас является зоной ближайшего развития и на чем нужно сосредоточиться для достижения лучших результатов.'.
-            "\r\n".
-            'Также это поможет скорректировать и уточнить цели и задачи внутрифирменного и внешнего обучения.',
             'inviteEmailTemplate' => '//global_partials/mails/invite_default',
-                // '//global_partials/mails/invite_eksmo'
-                // '//global_partials/mails/invite_default'
         ],
         'allowedLanguages' => [
             'en' => [
@@ -408,6 +400,8 @@ return array(
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
             'isIncludeGoogleAnalyticsJavaScript' => false,
+            'isDisplaySupportChat'               => true,
+            'SiteHeartWidgetCode'                => '626464',
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old

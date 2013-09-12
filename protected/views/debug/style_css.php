@@ -53,7 +53,7 @@ body {
     </nav>
 </header>
 <div class="grid-container">
-    <h1 class="page-header">Самый простой и надёжный способ проверить навыки менеджера</h1>
+    <h1 class="page-header">Простой и надёжный способ проверить навыки менеджера</h1>
     <ul class="list-light unstyled font-xxlarge home-list-box">
         <li>Деловая симуляция, позволяющая оценить управленческие навыки</li>
         <li>2-3 часовая игра</li>
@@ -135,7 +135,7 @@ body {
                 <div class="row "><label for="Invite_email" class="required">Email</label><input placeholder="Введите e-mail" name="Invite[email]" id="Invite_email" type="text" maxlength="255"></div>
 
                 <div class="row wide postn-reltv">
-                    <label for="Invite_vacancy_id" class="required">Вакансия</span></label><div id="sbHolder_26848379" class="sbHolder">
+                    <label for="Invite_vacancy_id" class="required">Позиция</span></label><div id="sbHolder_26848379" class="sbHolder">
                         <a id="sbToggle_26848379" href="#" class="sbToggle"></a>
                         <a id="sbSelector_26848379" href="#" class="sbSelector">Analytic</a>
                         <ul id="sbOptions_26848379" class="sbOptions" style="display: none;">
@@ -224,7 +224,7 @@ body {
             <li>Не требует затрат на софт, оборудование или помещения! Просто убедитесь, что вы онлайн.</li>
             <li>Моментально предоставляет готовые для использования результаты оценки</li>
         </ul>
-        <h2 class="font-blue-dark">Самый надежный</h2>
+        <h2 class="font-blue-dark">Надежный</h2>
         <ul class="unstyled">
             <li>Оценивает ключевые для бизнеса навыки</li>
             <li>Основан на лучшей управленческой практике</li>

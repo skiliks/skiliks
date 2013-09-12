@@ -14,6 +14,8 @@
  * @property string $real_date
  * @property string $game_time_frontend
  * @property string $game_time_backend
+ *
+ * @property YumUser $user
  */
 class LogSimulation extends CActiveRecord
 {

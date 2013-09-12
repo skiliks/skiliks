@@ -581,7 +581,8 @@ class SimulationService
 
             // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
             // не в dev режиме
-            if (Scenario::TYPE_FULL == $simulationType
+            if ($invite->ownerUser->isCorporate()
+                && Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
                 $invite->ownerUser->getAccount()->invites_limit--;
@@ -589,12 +590,17 @@ class SimulationService
             }
 
             $invite->update();
-            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
+            if(InviteService::isSimulationOverrideDetected($invite)){
                 /* @var $sim Simulation */
-                $sim = Simulation::model()->findByPk($invite->simulation_id);
-                if(null !== $sim){
-                    $sim->status = Simulation::STATUS_INTERRUPTED;
-                    $sim->save();
+                // повторный старт!
+                if(null !== $invite->simulation){
+                    $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
+                    $invite->simulation->save();
+
+                    InviteService::logAboutInviteStatus($invite, 'Set sum id to null from '.$invite->simulation->id);
+                    $invite->simulation = null;
+                    $invite->simulation_id = null;
+                    $invite->save();
                 }
             }
             $invite->simulation_id = $simulation->id;
@@ -626,6 +632,10 @@ class SimulationService
 
         // Check if simulation was already stopped
         if (null !== $simulation->end && false === $manual) {
+            return;
+        }
+
+        if (Simulation::STATUS_INTERRUPTED == $simulation->status) {
             return;
         }
 
@@ -677,9 +687,6 @@ class SimulationService
             // Make aggregated activity log
             LogHelper::combineLogActivityAgregated($simulation);
 
-            // Calculate and save Time Management assessments
-            (new TimeManagementAnalyzer($simulation))->calculateAndSaveAssessments();
-
             // make attestation 'work with emails'
             SimulationService::saveEmailsAnalyze($simulation);
 
@@ -690,6 +697,10 @@ class SimulationService
 
             $planAnalyzer = new PlanAnalyzer($simulation);
             $planAnalyzer->run();
+
+            // Calculate and save Time Management assessments
+            $TimeManagementAnalyzer = new TimeManagementAnalyzer($simulation);
+            $TimeManagementAnalyzer->calculateAndSaveAssessments();
 
             // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
             // see Assessment scheme_v5.pdf
@@ -748,6 +759,7 @@ class SimulationService
             // remove all files except D1 }
 
         }
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);

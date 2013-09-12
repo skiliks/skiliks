@@ -10,7 +10,7 @@
         <col />
         <col />
         <tr>
-            <td>{Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed and comprehensive report on productivity, demonsrated managerial skills and professional qualities will be provided for each assessed candidate.')}</td>
+            <td>{Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed report on productivity, demonsrated managerial skills will be provided for each assessed candidate.')}</td>
             <td>{Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')}</td>
             <td>{Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')}</td>
         </tr>
@@ -100,15 +100,15 @@
     <section>
         <hgroup>
             <h2>{Yii::t('site', 'More Information')}</h2>
-            <h6>{Yii::t('site', 'Our simulation is the easiest and most reliable way to discover your people management skills:')}</h6>
+            <h6>{Yii::t('site', 'Our simulation is easy and reliable way to discover your people management skills:')}</h6>
         </hgroup>
 
         <table>
             <col />
             <col />
             <tr>
-                <th><h5>{Yii::t('site', 'Easiest')}</h5></th>
-                <th><h5>{Yii::t('site', 'Most Reliable')}</h5></th>
+                <th><h5>{Yii::t('site', 'Easy')}</h5></th>
+                <th><h5>{Yii::t('site', 'Reliable')}</h5></th>
             </tr>
             <tr>
                 <td>
@@ -125,7 +125,7 @@
                     <p>{Yii::t('site', '<strong>NO NEED</strong> to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!')}</p>
                 </td>
                 <td>
-                    <h6>{Yii::t('site', 'Focused on the skills')}</h6>
+                    <h6>{Yii::t('site', 'Focused on the practical skills')}</h6>
                     <p>{Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')}</p>
                     <h6>{Yii::t('site', 'Based on best working practices')}</h6>
                     <p>{Yii::t('site', 'We developed the assessment based on the selection of crucial practical skills that define manager’s performance with detailed analysis of how these skills become apparent in behaviour')}</p>

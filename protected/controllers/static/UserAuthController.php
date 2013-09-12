@@ -416,7 +416,7 @@ class UserAuthController extends YumController
                 if($isUserAccountCorporateValid && $isProfileValid)
                 {
                     $profile->save();
-                    $accountCorporate->default_invitation_mail_text = Yii::app()->params['emails']['defaultMessageText'];
+                    $accountCorporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
                     $accountCorporate->generateActivationKey();
                     $accountCorporate->save(false);
 

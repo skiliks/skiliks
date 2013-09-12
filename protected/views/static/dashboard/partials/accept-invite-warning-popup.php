@@ -1,4 +1,4 @@
-<div class="warning-popup" style="display: none;">
+<div class="full-simulation-info-popup" style="display: none;">
     <div class="more-side-pads">
         <h2 class="title">Рады приветствовать вас в нашей  симуляции!</h2>
         <ul class="list-ordered">

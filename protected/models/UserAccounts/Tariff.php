@@ -26,6 +26,13 @@ class Tariff extends CActiveRecord
     const SLUG_PROFESSIONAL = 'professional';
     const SLUG_BUSINESS = 'business';
 
+    public static $tarifs = [
+        self::SLUG_LITE,
+        self::SLUG_STARTER,
+        self::SLUG_PROFESSIONAL,
+        self::SLUG_BUSINESS,
+    ];
+
     /* ----------------------------------------------------------------------------------------------------- */
 
     public function getPrice()

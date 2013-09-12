@@ -200,16 +200,55 @@ class SiteController extends SiteBaseController
 
     public function actionIsStarted()
     {
-            $invite_id = Yii::app()->request->getParam('invite_id');
-            /* @var */
-            $invite = Invite::model()->findByPk($invite_id);
-            if(InviteService::hasNotOverrideSimulationByInvite($invite)){
-                InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
-                $result['simulation_start'] = false;
-            }else{
-                $result['simulation_start'] = true;
-            }
+        $invite_id = Yii::app()->request->getParam('invite_id');
+        /* @var */
+        $invite = Invite::model()->findByPk($invite_id);
+        if(InviteService::isSimulationOverrideDetected($invite)){
+            InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+            $result['user_try_start_simulation_twice'] = true;
+        }else{
+            $result['user_try_start_simulation_twice'] = false;
+        }
+
+        $user = Yii::app()->user->data();
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $countInvites = Invite::model()->countByAttributes([
+            'owner_id'    => $user->id,
+            'receiver_id' => $user->id,
+            'status'      => Invite::STATUS_IN_PROGRESS,
+            'scenario_id' => $scenario->id,
+        ]);
+
+        $result['count_self_to_self_invites_in_progress'] = $countInvites;
+
         $this->sendJSON($result);
+    }
+
+    public function actionBreakSimulationsForSelfToSelfInvites()
+    {
+        $user = Yii::app()->user->data();
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $invites = Invite::model()->findAllByAttributes([
+            'owner_id'    => $user->id,
+            'receiver_id' => $user->id,
+            'status'      => Invite::STATUS_IN_PROGRESS,
+            'scenario_id' => $scenario->id,
+        ]);
+
+        foreach ($invites as $invite) {
+            if (null !== $invite->simulation) {
+                $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
+                $invite->simulation->save(false);
+
+                $user->getAccount()->invites_limit++;
+            }
+            $invite->status = Invite::STATUS_DELETED;
+            $invite->save(false);
+        }
+
+        $user->getAccount()->save();
     }
 
     public function actionUserStartSecondSimulation() {

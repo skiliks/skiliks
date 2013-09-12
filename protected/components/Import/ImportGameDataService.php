@@ -19,22 +19,32 @@ class ImportGameDataService
 
     private $importedEvents = [];
 
-    public function __construct($type)
+    private $environment = 'console';
+
+    private $dbLogInstance = null;
+
+    public function __construct($type, $environment = 'console', $dbLogInstance = null)
     {
+        // init data from arguments:
         $this->scenario_slug = $type;
+        $this->environment = $environment;
+        $this->dbLogInstance = $dbLogInstance;
+
+        // find .xlsx file
         $files = glob(__DIR__ . "/../../../media/scenario_$type*.xlsx");
         $files = array_combine($files, array_map("filemtime", $files));
         arsort($files);
 
+        // other{
         $this->filename = key($files);
 
-        echo "\nImport from file {$this->filename}.\n";
+        $this->logging("Import from file {$this->filename}.");
 
-        // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = null;
 
         $this->setScenario();
+        // other}
     }
 
     public function setFilename($name)
@@ -64,6 +74,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Faces_new');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -125,6 +136,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -188,6 +200,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -281,6 +294,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Constructor');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -331,7 +345,6 @@ class ImportGameDataService
                 $phrase->name = $phraseValue;
                 $phrase->import_id = $this->import_id;
                 $phrase->scenario_id = $this->scenario->primaryKey;
-                //echo $phraseValue.' - '.$column_number."\r\n";
                 $phrase->column_number = $column_number;
                 $phrase->save();
                 $importedRows++;
@@ -395,6 +408,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -472,6 +486,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -539,6 +554,7 @@ class ImportGameDataService
 
         // load sheet }
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         $this->setColumnNumbersByNames($sheet);
@@ -612,6 +628,7 @@ class ImportGameDataService
 
         // load sheet }
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         $this->setColumnNumbersByNames($sheet);
@@ -668,6 +685,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -796,12 +814,18 @@ class ImportGameDataService
 
             // tmp
             $copiesArr = array();
-            if (strstr($copies, ',')) {
-                $copiesArr = explode(',', $copies);
+            if (strpos($copies, ', ') !== false) {
+                $copiesArr = explode(', ', $copies);
+            }
+            elseif($copies != "-") {
+                $copiesArr = [$copies];
             }
 
-            if (strstr($toCode, ',')) {
-                $toCode = explode(',', $toCode);
+            if (strpos($toCode, ', ') !== false) {
+                $toCode = explode(', ', $toCode);
+            }
+            else {
+                $toCode = [$toCode];
             }
 
             $receivers = array();
@@ -1077,6 +1101,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL Themes');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -1190,7 +1215,6 @@ class ImportGameDataService
         }
 
         foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
-            echo '.';
             if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
@@ -1375,6 +1399,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('to-do-list');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -1442,6 +1467,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('M-T');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -1510,6 +1536,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         $this->columnNoByName = [];
@@ -1550,6 +1577,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -1591,11 +1619,12 @@ class ImportGameDataService
 
     public function importMailAttaches()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -1638,7 +1667,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'status' => true,
@@ -1656,6 +1685,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Documents');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -1727,6 +1757,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -1857,6 +1888,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -1952,6 +1984,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2036,6 +2069,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2152,16 +2186,38 @@ class ImportGameDataService
         return uniqid();
     }
 
-    private function logStart()
+    public function logging($message)
     {
-        $callers = debug_backtrace();
-        echo $callers[1]['function'] . " " . date('H:i:s') . "\n";
+        if ('console' == $this->environment) {
+            echo "\n\r" . $message;
+        }
+
+        if ('db' == $this->environment) {
+            $f = fopen(__DIR__.'/../../logs/'.$this->dbLogInstance->id.'-import.log', 'a+');
+            fwrite($f, "\r\n" . $message);
+            fclose($f);
+            $this->dbLogInstance->text .= "\r\n" . $message;
+        }
     }
 
-    private function logEnd()
+    private function logStart($message = null)
     {
         $callers = debug_backtrace();
-        echo '/' . $callers[1]['function'] . " " . date('H:i:s') . "\n";
+
+        if (null !== $message) { $this->logging($message); }
+        $this->logging('START: ' . $callers[1]['function'] . " " . date('H:i:s'));
+    }
+
+    private function logEnd($message = null)
+    {
+        $callers = debug_backtrace();
+
+        if (null !== $message) {
+           $this->logging($message);
+        } else {
+            $this->logging('successfully!');
+        }
+        $this->logging('FINISH: ' . $callers[1]['function'] . " " . date('H:i:s') . "\n");
     }
 
     /**
@@ -2251,6 +2307,7 @@ class ImportGameDataService
         $sheet = $this->getExcel()->getSheetByName('Leg_actions');
 
         if (null === $sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
 
@@ -2426,6 +2483,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Parent_ending');
         if (null === $sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2494,6 +2552,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Result_rules');
         if (null === $sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2594,6 +2653,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Max_rate');
         if (null === $sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2664,6 +2724,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Weights');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2749,6 +2810,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Meetings');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2808,6 +2870,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Set_flags');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2855,14 +2918,19 @@ class ImportGameDataService
      */
     public function importAll()
     {
+        ini_set('memory_limit', '900M');
+
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $result = $this->importWithoutTransaction();
 
             $transaction->commit();
 
+            $this->logging('All operation complete!');
+
         } catch (Exception $e) {
             $transaction->rollback();
+            $this->logging('Exception: ' . $e->getMessage());
             throw $e;
         }
 
@@ -2878,6 +2946,7 @@ class ImportGameDataService
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Scenario_configs');
         if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -2964,10 +3033,10 @@ class ImportGameDataService
     {
         $this->logStart();
 
-
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
         if (null === $sheet) {
+            $this->logEnd('WARNING: no sheet');
             return ['error' => 'no sheet'];
         }
         // load sheet }
@@ -3038,14 +3107,11 @@ class ImportGameDataService
             if ('mail_outbox' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
                 continue;
             }
-            echo "Mail inbox " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
             /* Создание зависимости тем от флагов для реплик в телефоне */
             $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'letter_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
             if(null === $communicationTheme) {
-                echo "Mail fail " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
                 continue;
             }
-            echo "Mail Done " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
             $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
             if(null === $flagCommunicationThemeDependence) {
                 $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
@@ -3143,11 +3209,10 @@ class ImportGameDataService
             /*  */
             $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id, 'mail_prefix'=>null]);
             if(null === $communicationTheme) {
-                echo "Mail fail " . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
+                $this->logging("Mail fail " . $this->getCellValue($sheet, 'Run_code', $i));
                 continue;
             }
 
-            echo "Mail Done for not MS" . $this->getCellValue($sheet, 'Run_code', $i)."\r\n";
             $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
             if(null === $flagCommunicationThemeDependence) {
                 $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
@@ -3229,7 +3294,6 @@ class ImportGameDataService
 
         $this->logEnd();
 
-
         return [
             'imported_Flag_to_run_mail'          => $importedFlagToRunMailRows,
             'imported_Flag_block_replica'        => $importedFlagBlockReplica,
@@ -3242,13 +3306,14 @@ class ImportGameDataService
 
     public function setScenario()
     {
+        $this->logStart();
+
         $scenario = Scenario::model()->findByAttributes(['slug' => $this->scenario_slug]);
         if ($scenario === null) {
             $scenario = new Scenario();
         }
 
         $scenario->slug = $this->scenario_slug;
-        // $scenario->filename = basename($this->filename);
 
         // TODO: Hardcode. Time should be defined in scenario file
         if ($scenario->slug == Scenario::TYPE_LITE) {
@@ -3271,6 +3336,8 @@ class ImportGameDataService
         $scenario->save();
 
         $this->scenario = $scenario;
+
+        $this->logEnd();
     }
 }
 

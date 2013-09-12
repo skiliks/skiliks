@@ -31,10 +31,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
         <meta charset="utf-8" />
-        <meta name="description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
-        <meta property="og:description" content="Самый простой и надежный способ проверить навыки менеджеров:
+        <meta property="og:description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -56,7 +56,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <img src="<?php echo $assetsUrl?>/img/logo-head.png" alt="Skiliks"/>
                     </a>
                 </h1>
-                <div class="betaflag"></div>
 
                 <nav id="account-links">
                     <?php $this->renderPartial('//global_partials/_account_links', [
@@ -204,7 +203,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     '.list-ordered strong, .accept-invite-warning-popup h4',
                     {hover: true}
                 );
-                Cufon.replace('.main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
+                Cufon.replace('.proxima-regular, .main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
                     '.features p.success, .flash-data, .flash-success, .flash-error, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
                     '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
                     '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
