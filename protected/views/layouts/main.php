@@ -187,7 +187,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
                     '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
                     '.form-submit-button, .midtitle, .social_networks span, .main-article h3, .registration input[type=submit], ' +
-                    '.registration .form h1, .registration .form li, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
+                    '.registration .form h1, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
                     '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
                     '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
                     '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
@@ -219,8 +219,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
                     '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
                     '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p',
+                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
                     {fontFamily:"ProximaNova-Regular", hover:true});
+
                 Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
                 Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
                     '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
