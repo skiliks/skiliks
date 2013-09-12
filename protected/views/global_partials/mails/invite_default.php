@@ -31,8 +31,16 @@
                                 <td valign="top" bgcolor="fdfbc6">
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
-                                        <?= $invite->getReceiverFirstName() ?>, приветствуем Вас!
+                                        <?= $invite->getReceiverFirstName() ?>, приветствуем вас!
                                     </h1>
+
+                                    <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
+                                        <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест «Базовый менеджмент» на позицию
+                                            <a target="_blank" href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                                        <?php if (empty($invite->receiverUser)): ?>
+                                            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;"><a href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">«Базовый менеджмент»</a> - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?= $invite->message ?>
@@ -45,23 +53,23 @@
                                             и примите приглашение на тестирование для прохождения симуляции.
                                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                                             Пожалуйста,
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
                                                 зайдите
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
                                             Пожалуйста,
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                                 создайте личный профиль
                                             </a> или
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
                                                 войдите в личный кабинет
                                             </a> и примите приглашение на тестирование для прохождения симуляции.
                                         <?php else: ?>
                                             Пожалуйста,
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                                 зарегистрируйтесь
                                             </a> или
-                                            <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
                                                 войдите
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>

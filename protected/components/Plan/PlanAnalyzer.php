@@ -228,10 +228,11 @@ class PlanAnalyzer {
         return $var_214d;
     }
 
-    public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial) {
+    public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial)
+    {
         if($keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
-            if((Yii::app()->params['keep_last_category_time_214g']/60*Yii::app()->params['public']['skiliksSpeedFactor']) <=
-                ((strtotime($end_time) - strtotime($start_time))/60)){
+            if((Yii::app()->params['keep_last_category_time_214g'] / 60 * Yii::app()->params['public']['skiliksSpeedFactor']) <=
+                ((strtotime($end_time) - strtotime($start_time)) / 60)){
                 return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
             }else{
                 return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES;
@@ -578,7 +579,11 @@ class PlanAnalyzer {
             $data = [];
 
             if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
-                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
+                $data = $this->findLessImportantTaskLogsBefore(
+                    $this->tasksOn11,
+                    $taskLogItem,
+                    $usedTaskCodes);
+
                 if (0 < count($data)) {
                     $wrongActions[] = $taskLogItem;
 
@@ -775,9 +780,13 @@ class PlanAnalyzer {
      */
     public function isComparable($taskLogItem, $taskLogItemToCompare)
     {
+        $isBothFromVacation = ($taskLogItem->day == DayPlanLog::AFTER_VACATION &&
+            $taskLogItemToCompare->day == DayPlanLog::AFTER_VACATION);
+
         return (
             null !== $taskLogItemToCompare->date &&
-            '00:00:00' !== $taskLogItemToCompare->date
+            '00:00:00' !== $taskLogItemToCompare->date &&
+            false == $isBothFromVacation
         );
     }
 
@@ -975,6 +984,7 @@ class PlanAnalyzer {
             $data = [];
             $wellPlannedParents= [];
             foreach ($logs  as $taskLogItem) {
+
                 if ($taskLogItemToCheck['start'] < $taskLogItem['available']) {
                     continue;
                 }
@@ -982,7 +992,7 @@ class PlanAnalyzer {
                     continue;
                 }
 
-                if($taskLogItem['keepLastCategoryAfter60sec'] === LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
+                if($taskLogItemToCheck['keepLastCategoryAfter60sec'] == (bool)LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
                     continue;
                 }
 

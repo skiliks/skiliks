@@ -312,12 +312,15 @@ class Invite extends CActiveRecord
                 // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
                 return false;
             }
-
         }
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
+
+        if (null === $account) {
+            return false;
+        }
 
         $initValue = $account->invites_limit;
 
@@ -564,6 +567,8 @@ class Invite extends CActiveRecord
         $criteria->addInCondition('scenario_id', [$full->id]);
         $criteria->addNotInCondition('status', [Invite::STATUS_DELETED]);
         $criteria->compare('id', $this->id);
+        $criteria->addCondition(' (t.receiver_id != \''.$ownerId.'\' or t.receiver_id IS NULL ) or (t.receiver_id = \''.$ownerId.'\'
+                                  AND t.status IN ('.self::STATUS_COMPLETED.')) ');
         $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
@@ -818,7 +823,7 @@ class Invite extends CActiveRecord
     public function getOverall() {
         $assessment = AssessmentOverall::model()->findByAttributes(['sim_id'=>$this->simulation_id, 'assessment_category_code'=>'overall']);
         if(null === $assessment){
-            return 'Нет оценки';
+            return null;
         }else{
             return $assessment->value;
         }
@@ -841,13 +846,5 @@ class Invite extends CActiveRecord
 
         InviteService::logAboutInviteStatus($this, 'invite : delete');
         return $result;
-    }
-
-    public function getVacancyLink($style) {
-        if(empty($this->vacancy->link)){
-            return $this->vacancy->label;
-        }else{
-            return "<a style=\"{$style}\" href=\"{$this->vacancy->link}\">{$this->getVacancyLabel()}</a>";
-        }
     }
 }

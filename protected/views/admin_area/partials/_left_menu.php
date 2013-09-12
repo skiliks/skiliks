@@ -52,9 +52,24 @@
                 'visible' => true,
 
             ),
-            /*array('label'=>'About', 'url'=>array('/site/page')),
-            array('label'=>'Contact', 'url'=>array('/site/contact')),
-            array('label'=>'Login', 'url'=>array('/site/login'))*/
+            array(
+                'label' => 'Список подписавшихся на рассылку',
+                'url'   => ['admin_area/AdminPages/SubscribersList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Импорты',
+                'url'   => ['admin_area/import'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Текущие симуляции',
+                'url'   => ['admin_area/live_simulations'],
+                'visible' => true,
+
+            )
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

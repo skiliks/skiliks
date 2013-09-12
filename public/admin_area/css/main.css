@@ -60,3 +60,20 @@ ul.yiiPager {
 .td-statistic .author{
     display: none;
 }
+
+.table thead th,
+.table th {
+    background-color: #ffc;
+    color: #555;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.btn-success:hover {
+    background-color: #008A45;
+    background-image: linear-gradient(to bottom, #008A45, #008A45);
+}
+
+.navbar-link {
+    text-decoration: underline;
+}

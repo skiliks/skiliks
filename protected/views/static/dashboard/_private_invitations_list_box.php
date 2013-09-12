@@ -67,12 +67,12 @@
         ],
         'columns' => [
             ['header' => Yii::t('site', Yii::t('site', 'Компания')), 'name' => "company", 'value' => 'Yii::t("site", $data->getCompanyOwnershipType()." ".$data->getCompanyName())'],
-            ['header' => Yii::t('site', Yii::t('site', 'Вакансия')), 'name' =>'vacancy_id', 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"'],
+            ['header' => Yii::t('site', Yii::t('site', 'Позиция')), 'name' =>'vacancy_id', 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"', 'type' => 'text'],
             ['header' => Yii::t('site', Yii::t('site', 'Оценка')) , 'value' => '"Базовый менеджмент"'],
             [
-                'header' => Yii::t('site', Yii::t('site', 'Дата / Время')),
+                'header' => Yii::t('site', Yii::t('site', 'Дата')),
                 'name' => 'sent_time',
-                'value' => '$data->getUpdatedTime()->format("j/m/y") . " <time>" . $data->getUpdatedTime()->format("G:i") . "</time>"',
+                'value' => '$data->getUpdatedTime()->format("j/m/y")',
                 'type' => 'raw'
             ],
             ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => $scoreRender, 'type' => 'raw'],
