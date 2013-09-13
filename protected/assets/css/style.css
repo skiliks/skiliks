@@ -1102,6 +1102,7 @@ html[lang=ru] .product section table th{
 		background-image:url("../img/bg-product-section-table-cell-min.png");
         background-position: 0px bottom !important;
 		padding-bottom:34px;
+        height: auto;
 	}
 	.product section table td h6{
 		font-size:1.047em;
@@ -4018,26 +4019,6 @@ ul.profile-menu li {
         margin-right: 20px;
         width: 170px;
     }
-    /*
-    .estmtileswrap .widthblock:last-child h2, .levellabels .widthblock:last-child h3 {
-        margin-left: 20px;
-    }
-
-
-    .widthblock {
-        width:190px !important;
-    }
-    .product .rateslist .widthblock:last-child {
-        width:192px !important;
-    }
-    .product .rateslist .widthblock:first-child {
-        width:196px !important;
-    }
-    .product .rateslist .widthblock:nth-child(2) {
-        width:186px !important;
-    }
-    */
-
 
     .chart-bullet.small, .maincharts .chart-bullet.small {
         width:170px !important;
