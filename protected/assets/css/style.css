@@ -1091,9 +1091,9 @@ html[lang=ru] .product section table th{
 	}
 	.product section table th,html[lang=ru] .product section table th{
 		background:url("../img/bg-product-section-table-title-min.png") no-repeat 0 0;
-		height:103px;
+		height:127px;
 		font-size:2.737em;
-		line-height:103px;
+		line-height:127px;
 	}
     html[lang=ru] .product section table th:last-child {
 
