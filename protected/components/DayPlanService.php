@@ -47,7 +47,8 @@ class DayPlanService
         $plans = DayPlan::model()->findAll([
             'with' => 'task',
             'condition' => 't.sim_id = :simId AND day = :todo',
-            'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO]
+            'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO],
+            'order'  => 't.id desc'
         ]);
 
         $data = array_map(function(DayPlan $plan) {
