@@ -19,6 +19,7 @@ return array(
         'application.models.Mail.*',
         'application.models.Activities.*',
         'application.models.UserAccounts.*',
+        'application.models.PaymentMethods.*',
         'application.models.Planner.*',
         'application.models.Documents.*',
         'application.models.GameEvents.*',
@@ -274,6 +275,7 @@ return array(
 
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
+                'admin_area'                   => 'admin_area/AdminPages/Dashboard',
                 'admin_area/invites'           => 'admin_area/AdminPages/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login'             => 'admin_area/AdminPages/Login',
@@ -466,6 +468,12 @@ return array(
                 ]
             ]
         ),
+        'robokassa' => [
+                'MrchLogin'      => 'skiliks_dev',
+                'Desc'           => 'Оплата согласно...',
+                'sMerchantPass1' => 'dcZz6P318a',
+                'sMerchantPass2' => 'S358oP0ikj'
+              ]
     ),
 );
 
