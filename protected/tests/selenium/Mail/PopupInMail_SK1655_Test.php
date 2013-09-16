@@ -14,6 +14,9 @@ class PopupInMailSK1655_Test extends SeleniumTestHelper
     public function test_PopupInMail_SK1655() {
         //$this->markTestIncomplete();
         $this->start_simulation();
+
+        $this->clearEventQueueBeforeEleven('RST1');
+
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[2]/td[2]");
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");

@@ -258,7 +258,7 @@ define([
                             SKApp.simulation.mailClient.getActiveEmailId()
                         );
 
-                        SKApp.simulation.window_set.toggle('plan', 'plan'); // for logging
+                        //SKApp.simulation.window_set.toggle('plan', 'plan'); // for logging
                     }
                 );
             } catch(exception) {
