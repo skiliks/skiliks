@@ -38,13 +38,13 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
-        $this->assertTrue($this->verify_flag('F15','0'));
+        $this->assertTrue($this->verify_flag('F36','0'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F15']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F36']);
 
         $this->assertTrue($this->verify_flag('F14','1'));
-        $this->assertTrue($this->verify_flag('F15','1'));
+        $this->assertTrue($this->verify_flag('F36','1'));
 
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
@@ -68,13 +68,13 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
-        $this->assertTrue($this->verify_flag('F15','0'));
+        $this->assertTrue($this->verify_flag('F36','0'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F15']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F36']);
 
         $this->assertTrue($this->verify_flag('F14','1'));
-        $this->assertTrue($this->verify_flag('F15','1'));
+        $this->assertTrue($this->verify_flag('F36','1'));
 
         $this->run_event('ET12.2');
         sleep(5);
