@@ -497,7 +497,7 @@ define([
                 me.$('.plan-todo-wrap .plan-todo-inner').html('');
                 SKApp.simulation.todo_tasks.each(function (model) {
                     var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
-                    me.$('.plan-todo-wrap .plan-todo-inner').append(todo_task);
+                    me.$('.plan-todo-wrap .plan-todo-inner').prepend(todo_task);
                 });
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
@@ -576,6 +576,9 @@ define([
                 });
                 me.listenTo(SKApp.simulation.todo_tasks, 'remove', function (model) {
                     me.removeTodoTask(model);
+                });
+                me.listenTo(SKApp.simulation.todo_tasks, 'add', function () {
+                    $(".plan-todo-inner .day-plan-todo-task:first-child").addClass("day-plan-task-active");
                 });
                 SKApp.simulation.dayplan_tasks.each(function (model) {
                     me.addDayPlanTask(model);

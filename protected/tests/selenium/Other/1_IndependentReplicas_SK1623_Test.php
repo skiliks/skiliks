@@ -38,21 +38,16 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
-        $this->assertTrue($this->verify_flag('F15','0'));
+        $this->assertTrue($this->verify_flag('F36','0'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F15']);
-
-        $this->assertTrue($this->verify_flag('F14','1'));
-        $this->assertTrue($this->verify_flag('F15','1'));
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F36']);
 
         $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
-
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        sleep(5);
+
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
         $this->simulation_stop();
@@ -68,16 +63,12 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
-        $this->assertTrue($this->verify_flag('F15','0'));
+        $this->assertTrue($this->verify_flag('F36','0'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F15']);
-
-        $this->assertTrue($this->verify_flag('F14','1'));
-        $this->assertTrue($this->verify_flag('F15','1'));
+        $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F36']);
 
         $this->run_event('ET12.2');
-        sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
         $this->simulation_stop();
