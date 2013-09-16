@@ -15,12 +15,12 @@ class MailInsetsActive_SK3363_Test extends SeleniumTestHelper
         sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        sleep(20);
+        sleep(5);
         $this->assertTrue($this->getText("xpath=//li[contains(@class, 'active')]/label")=="Входящие");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['draft']);
-        sleep(10);
-        printf($this->getText("xpath=//li[contains(@class, 'active')]/label"));
+        sleep(2);
+        //printf($this->getText("xpath=//li[contains(@class, 'active')]/label"));
         $this->assertTrue($this->getText("xpath=//li[contains(@class, 'active')]/label")=="Черновики");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
