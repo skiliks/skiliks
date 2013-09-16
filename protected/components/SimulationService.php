@@ -1091,7 +1091,10 @@ class SimulationService
 
         UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
-        $simulation->invite->delete();
+        if (null !== $simulation->invite) {
+            $simulation->invite->delete();
+        }
+
         $simulation->delete();
     }
 
