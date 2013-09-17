@@ -31,12 +31,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
         <meta charset="utf-8" />
-        <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
-        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
-        и ситуациями принятия решений">
-        <meta property="og:description" content="Простой и надежный способ проверить навыки менеджеров:
-        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
-        и ситуациями принятия решений">
+        <meta name="description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
+        <meta property="og:description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
         <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <title>Skiliks - game the skills</title>
 
