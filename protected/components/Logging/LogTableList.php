@@ -213,12 +213,17 @@ namespace application\components\Logging {
                 }
                 foreach ($table->getData() as $i => $row) {
                     $highest = $worksheet->getHighestRow()+1;
+                    $worksheet->setCellValueByColumnAndRow(0, $highest, $companyName, true);
+                    $worksheet->setCellValueByColumnAndRow(1, $highest, $name, true);
+                    $worksheet->setCellValueByColumnAndRow(2, $highest, $simulation_id, true);
+
                     foreach ($row as $j => $value) {
-                        $worksheet->setCellValueByColumnAndRow(0, $highest, $companyName, true);
-                        $worksheet->setCellValueByColumnAndRow(1, $highest, $name, true);
-                        $worksheet->setCellValueByColumnAndRow(2, $highest, $simulation_id, true);
                         $worksheet->setCellValueByColumnAndRow($j + 3, $highest, $value, true);
-                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                            ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                            ->getNumberFormat()->setFormatCode($table->getCellValueFormat($j));
                     }
                 }
 
