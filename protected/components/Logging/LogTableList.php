@@ -101,7 +101,8 @@ namespace application\components\Logging {
             $simulation = $this->simulation;
             $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
             return [
-                new OverallRateTableTableAnalysis2($simulation->assessment_overall),
+                new OverallRateTableAnalysis2($simulation->assessment_overall),
+                new TimeManagementTableAnalysis2($simulation->time_management_aggregated),
             ];
         }
 
@@ -207,9 +208,20 @@ namespace application\components\Logging {
                 $worksheet->setCellValueByColumnAndRow(0, 1, "Наименование Компании");
                 $worksheet->setCellValueByColumnAndRow(1, 1, "ФИО");
                 $worksheet->setCellValueByColumnAndRow(2, 1, "ID симуляции");
+
+                $worksheet->getStyleByColumnAndRow(0, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                $worksheet->getStyleByColumnAndRow(1, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                $worksheet->getStyleByColumnAndRow(2, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
                 foreach ($table->getHeaders() as $i => $title) {
                     // this is done because we already have 2 headers for first two fields
                     $worksheet->setCellValueByColumnAndRow($i + 3, 1, $title);
+                    
+                    $worksheet->getStyleByColumnAndRow($i + 3, 1)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
                 }
                 foreach ($table->getData() as $i => $row) {
                     $highest = $worksheet->getHighestRow()+1;
@@ -217,14 +229,35 @@ namespace application\components\Logging {
                     $worksheet->setCellValueByColumnAndRow(1, $highest, $name, true);
                     $worksheet->setCellValueByColumnAndRow(2, $highest, $simulation_id, true);
 
+                    $worksheet->getStyleByColumnAndRow(0, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                    $worksheet->getStyleByColumnAndRow(1, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                    $worksheet->getStyleByColumnAndRow(2, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
                     foreach ($row as $j => $value) {
                         $worksheet->setCellValueByColumnAndRow($j + 3, $highest, $value, true);
                         $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
                             ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
 
                         $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
-                            ->getNumberFormat()->setFormatCode($table->getCellValueFormat($j));
+                            ->getNumberFormat()->setFormatCode($table->getCellValueFormat($j, $i));
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $highest)
+                        ->getBorders()->getAllBorders()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_BLACK));
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
                     }
+
+                    $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                        ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                    $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())->getFill()
+                        ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'FFFF99')
+                        ));
                 }
 
                 $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);

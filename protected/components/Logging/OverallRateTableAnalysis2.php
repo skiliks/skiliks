@@ -2,7 +2,7 @@
 
 namespace application\components\Logging;
 
-class OverallRateTableTableAnalysis2 extends LogTable {
+class OverallRateTableAnalysis2 extends LogTable {
 
     public $language = ["management"  => "Управленческие навыки",
         "performance" => "Результативность",
@@ -47,7 +47,7 @@ class OverallRateTableTableAnalysis2 extends LogTable {
         );
     }
 
-    public function getCellValueFormat($columnNo, $textLabel = null) {
+    public function getCellValueFormat($columnNo, $rowNo = null) {
         if (1 == $columnNo) {
             return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
         } else {
