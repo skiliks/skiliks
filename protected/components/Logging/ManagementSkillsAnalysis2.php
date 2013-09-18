@@ -16,34 +16,33 @@ class ManagementSkillsAnalysis2 extends LogTable  {
 
     public function __construct($learning_goal_group = false, $learning_area = false) {
         foreach($learning_goal_group as $lgg) {
-            $k=0;
-            $new = new \stdClass();
-
-            // for sorting
-
-            $new->code = $lgg->learningGoalGroup->code;
-
-            foreach($learning_area as $area) {
-                if( substr($lgg->learningGoalGroup->code, 0, 1) == $area->learningArea->code )
-                $new->group = $area->learningArea->code . ". " . $area->learningArea->title;
-            }
 
             for($i=0; $i < 2; $i++) {
+
+                $new = new \stdClass();
+
+                // for sorting
+                $new->code = $lgg->learningGoalGroup->code;
+
+                foreach($learning_area as $area) {
+                    if( substr($lgg->learningGoalGroup->code, 0, 1) == $area->learningArea->code )
+                        $new->group = $area->learningArea->code . ". " . $area->learningArea->title;
+                }
+
                 $new->title = str_replace("_", ".", $lgg->learningGoalGroup->code) . " " . $lgg->learningGoalGroup->title;
                 if($i == 0) {
-                    $new->rating_scale = "positive";
-                    $new->rating = $lgg->percent;
-                }
-                else {
                     $new->rating_scale = "negative";
                     $new->rating = $lgg->problem;
                 }
+                else {
+                    $new->rating_scale = "positive";
+                    $new->rating = $lgg->percent;
+                }
                 $this->logs[] = $new;
-                $k++;
             }
         }
 
-       // uasort($this->logs, array($this, 'objectSort'));
+        uasort($this->logs, array($this, 'objectSort'));
     }
 
     private function objectSort($f1,$f2)
