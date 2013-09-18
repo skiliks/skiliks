@@ -138,20 +138,42 @@ define(["game/models/SKEvent"], function () {
                     if (!event.getTypeSlug().match(/(phone|visit)$/)) {
                         return true;
                     }
-                    var res = true;
+                    var me = this;
+                    /*var res = true;
                     this.each(function (ev) {
                         if (ev.getTypeSlug().match(/(phone|visit)$/) &&
                             (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
                             ev.get('data')[0].code !== event.get('data')[0].code) {
                             res = false;
                         }
-                    });
-                    return res;
+                    });*/
+                    return !(me.isNowDialogInProgress(event));
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            /**
+             * @param event SKevent, это событие исключается из поиска
+             * @returns {boolean}
+             */
+            isNowDialogInProgress: function(event) {
+                var me = this;
+                var result = false;
+                me.each(function (ev) {
+                    if (ev.getTypeSlug().match(/(phone|visit)$/) &&
+                        (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting')
+                        ) {
+                        if ((null != event && ev.get('data')[0].code !== event.get('data')[0].code) ||
+                            null == event ) {
+                            result = true;
+                        }
+                    }
+                });
+
+                return result;
             },
 
             /**
