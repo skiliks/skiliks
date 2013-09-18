@@ -101,7 +101,7 @@ namespace application\components\Logging {
             $simulation = $this->simulation;
             $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
             return [
-                new OverallRateTable($simulation->assessment_overall),
+                new OverallRateTableTableAnalysis2($simulation->assessment_overall),
             ];
         }
 
