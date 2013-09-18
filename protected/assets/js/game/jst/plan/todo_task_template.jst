@@ -1,4 +1,4 @@
-<div class="planner-task day-plan-todo-task <@ if (type === 'regular') { @>regular<@ } @>"
+<div class="planner-task day-plan-todo-task <@ if (task.isNewTask !== false) { @>day-plan-task-active<@ } @> <@ if (type === 'regular') { @>regular<@ } @>"
      data-task-id="<@= task.id @>"
      data-task-duration="<@= task.get('duration') @>" data-task-day="<@= task.get('day') @>">
 <span class="title hyphenate"><@= task.get('title') @></span>

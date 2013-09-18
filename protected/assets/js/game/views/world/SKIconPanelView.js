@@ -75,7 +75,14 @@ define([
 
                     var todo_tasks = SKApp.simulation.todo_tasks;
                     this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
-                    this.listenTo(todo_tasks, 'add', this.onPlanEvent);
+                    this.listenTo(todo_tasks, 'add', function() {
+                        this.onPlanEvent;
+                        _.each(todo_tasks.models, function(model) {
+                            model.isNewTask = false;
+                        });
+                        var last_model = todo_tasks.at(todo_tasks.length - 1);
+                        last_model.isNewTask = true;
+                    });
                     this.listenTo(todo_tasks, 'onNewTask', this.doSoundNewTodo);
 
                     var phone_history = SKApp.simulation.phone_history;
