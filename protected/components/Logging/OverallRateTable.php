@@ -7,8 +7,8 @@ class OverallRateTable extends LogTable {
     public function getHeaders()
     {
         return [
-            'Category code',
-            'Percent'
+            'Тип оценки',
+            'Оценка'
         ];
     }
 
@@ -27,8 +27,11 @@ class OverallRateTable extends LogTable {
      */
     protected function getRow($rate)
     {
+        $category_code = (isset($this->language[$rate->assessment_category_code])) ? $this->language[$rate->assessment_category_code] : $rate->assessment_category_code;
+
+
         return [
-            $rate->assessment_category_code,
+            $category_code,
             $rate->value . '%'
         ];
     }
