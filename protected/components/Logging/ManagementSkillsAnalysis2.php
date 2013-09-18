@@ -56,10 +56,10 @@ class ManagementSkillsAnalysis2 extends LogTable  {
     public function getHeaders()
     {
         return [
-            //'Группа навыков',
+            'Группа навыков',
             'Навык',
             'Шкала оценки',
-            'Навык, оценка (0-100%)'
+            "Навык,\nоценка (0-100%)"
         ];
     }
 
@@ -71,7 +71,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             42,
             42,
             14,
-            14,
+            18,
         ];
     }
 
@@ -94,7 +94,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             $rate->group,
             $rate->title,
             $rate->rating_scale,
-            $rate->rating
+            $rate->rating/100
         ];
     }
 
@@ -107,7 +107,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
     }
 
     public function getCellValueFormat($columnNo, $rowNo = null) {
-        if (1 == $columnNo) {
+        if (3 == $columnNo) {
             return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
         } else {
             return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
