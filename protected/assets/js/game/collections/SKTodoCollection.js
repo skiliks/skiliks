@@ -41,7 +41,7 @@ define(["game/models/SKTodoTask"], function () {
                     });
                     var hasNewTask = false;
                     me.each(function(model) {
-                        if(-1 === me.availableTasks.indexOf(model.get('id'))) {
+                        if(-1 === me.availableTasks.indexOf(model.get('id')) && isNotInDayPlan === true)  {
                             me.availableTasks.push(model.get('id'));
                             hasNewTask = true;
                         }

@@ -252,7 +252,7 @@ define([
                 drop_td.find('.day-plan-td-slot').hide();
                 drop_td.append(_.template(todo_task_template, {task:model, type:'regular'}));
                 if (model.get("type") === "1") {
-                    drop_td.find('.planner-task').addClass('locked');
+                    drop_td.find('.planner-task').addClass('locked').removeClass('day-plan-task-active');
                 }
 
                 // add title attribute to HTMl with full code
@@ -276,6 +276,7 @@ define([
 
                 // Updating draggable element list
                 this.setupDraggable();
+                model.isNewTask = false;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -571,14 +572,33 @@ define([
                 var me = this;
                 window_el.html(_.template(plan_content_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
                 this.updateTodos();
+
                 me.listenTo(SKApp.simulation.todo_tasks, 'add remove reset', function () {
                     me.updateTodos();
                 });
+
+                me.listenTo(SKApp.simulation.todo_tasks, 'add reset', function () {
+                    if($(".day-plan-todo-task.day-plan-task-active").length > 1) {
+                        $(".day-plan-todo-task.day-plan-task-active:last").removeClass(".day-plan-task-active");
+                    }
+                    var previousToActive = $(".day-plan-task-active").prev().attr("data-task-id");
+                    if(previousToActive != undefined) {
+                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
+                    }
+                    else {
+                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", "top");
+                    }
+                });
+
+                SKApp.simulation.todo_tasks.each(function (model) {
+                    model.isNewTask = false;
+                });
+
                 me.listenTo(SKApp.simulation.todo_tasks, 'remove', function (model) {
                     me.removeTodoTask(model);
                 });
-                me.listenTo(SKApp.simulation.todo_tasks, 'add', function () {
-                    $(".plan-todo-inner .day-plan-todo-task:first-child").addClass("day-plan-task-active");
+                me.listenTo(SKApp.simulation.todo_tasks, 'reset', function (model) {
+                    me.removeTodoTask(model);
                 });
                 SKApp.simulation.dayplan_tasks.each(function (model) {
                     me.addDayPlanTask(model);
@@ -587,6 +607,7 @@ define([
                     me.removeDayPlanTask(model);
                 });
                 me.listenTo(SKApp.simulation.dayplan_tasks, 'add', function (model) {
+                    model.isNewTask = false;
                     me.addDayPlanTask(model);
                 });
                 me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
@@ -594,6 +615,11 @@ define([
                     me.disableOldSlots();
                     me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
                     me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
+                    me.$('.plan-todo-wrap').mCustomScrollbar("update");
+                    var previousToActive = $(".day-plan-task-active").prev().attr("data-task-id");
+                    if(previousToActive != undefined) {
+                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
+                    }
                 }, 0);
 
                 this.setupDroppable();

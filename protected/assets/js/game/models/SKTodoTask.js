@@ -7,6 +7,9 @@ define([], function () {
      * @augments Backbone.Model
      */
     window.SKTodoTask = Backbone.Model.extend({
+
+        isNewTask: false,
+
         /**
          * @method
          * @param method

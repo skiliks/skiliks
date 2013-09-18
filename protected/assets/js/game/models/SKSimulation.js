@@ -288,6 +288,23 @@ define([
                 try {
                     var me = this;
                     this.events.on('event:plan', function (event) {
+
+                        _.each(me.todo_tasks.models, function(data) {
+                            data.isNewTask = false;
+                        });
+
+                        var newTasks = me.todo_tasks.where({id : event.id});
+                        _.each(newTasks, function(data) {
+                            me.todo_tasks.remove(data);
+                        });
+
+                        _.each(SKApp.simulation.dayplan_tasks.models, function(model) {
+                            if(model.id == event.id) {
+                                model.isNewTask = true;
+                                SKApp.simulation.window_set.makeCloseAndOpen('plan', 'plan');
+                            }
+                        });
+
                         me.todo_tasks.fetch({update: true});
                     });
                     this.events.on('event:mail', function () {
