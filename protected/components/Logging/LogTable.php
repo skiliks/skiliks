@@ -13,7 +13,6 @@ namespace application\components\Logging;
  */
 abstract class LogTable
 {
-
     protected $logs;
 
     /**

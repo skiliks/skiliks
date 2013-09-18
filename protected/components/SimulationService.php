@@ -1111,4 +1111,21 @@ class SimulationService
             return true;
         }
     }
+
+    public static function saveLogsAsExcelAnalysis2($simulations = array()) {
+        if(!empty($simulations)) {
+            $logTableList = new LogTableList();
+            foreach($simulations as $simulation) {
+                $logTableList->setSimulationId($simulation);
+                $invite = Invite::model()->findAllByAttributes(["simulation_id" => $simulation->id]);
+                $invite = $invite[0];
+
+                $user_fullname = $invite->lastname . " " . $invite->firstname;
+                $logTableList->saveLogsAsExcelAnalysis2($invite->getCompanyName(), $user_fullname, $simulation->id);
+            }
+            $excelWriter = $logTableList->returnXlsFile();
+            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            return true;
+        }
+    }
 }

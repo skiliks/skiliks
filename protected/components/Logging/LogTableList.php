@@ -96,6 +96,15 @@ namespace application\components\Logging {
             ];
         }
 
+        private function getTablesAnalysis2()
+        {
+            $simulation = $this->simulation;
+            $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
+            return [
+                new OverallRateTable($simulation->assessment_overall),
+            ];
+        }
+
 
 
         /**
@@ -167,6 +176,49 @@ namespace application\components\Logging {
                         $worksheet->setCellValueByColumnAndRow(1, $highest, $simulation_id, true);
                         $worksheet->setCellValueByColumnAndRow($j + 2, $highest, $value, true);
                         $worksheet->getStyleByColumnAndRow($j + 2, $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                    }
+                }
+
+                $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);
+                foreach ($table->getHeaders() as $i => $title) {
+                    $worksheet->getColumnDimensionByColumn($i)->setWidth(12);
+                }
+            }
+        }
+
+
+        public function saveLogsAsExcelAnalysis2($companyName, $name, $simulation_id)
+        {
+            if(!$this->xls_file) {
+                $this->xls_file =  new \PHPExcel();
+                $this->xls_file->removeSheetByIndex(0);
+            }
+
+            $sheet_counter = 0;
+            foreach ($this->getTablesAnalysis2() as $table) {
+                if($sheet_counter >= $this->xls_file->getSheetCount()) {
+                    $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
+                    $this->xls_file->addSheet($worksheet);
+                }
+                else {
+                    $worksheet = $this->xls_file->getSheet($sheet_counter);;
+                }
+                $sheet_counter++;
+                $worksheet->setCellValueByColumnAndRow(0, 1, "Наименование Компании");
+                $worksheet->setCellValueByColumnAndRow(1, 1, "ФИО");
+                $worksheet->setCellValueByColumnAndRow(2, 1, "ID симуляции");
+                foreach ($table->getHeaders() as $i => $title) {
+                    // this is done because we already have 2 headers for first two fields
+                    $worksheet->setCellValueByColumnAndRow($i + 3, 1, $title);
+                }
+                foreach ($table->getData() as $i => $row) {
+                    $highest = $worksheet->getHighestRow()+1;
+                    foreach ($row as $j => $value) {
+                        $worksheet->setCellValueByColumnAndRow(0, $highest, $companyName, true);
+                        $worksheet->setCellValueByColumnAndRow(1, $highest, $name, true);
+                        $worksheet->setCellValueByColumnAndRow(2, $highest, $simulation_id, true);
+                        $worksheet->setCellValueByColumnAndRow($j + 3, $highest, $value, true);
+                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
                     }
                 }
 
