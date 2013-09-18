@@ -235,7 +235,10 @@ namespace application\components\Logging {
                 $worksheet->getStyleByColumnAndRow(2, 1)
                     ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
 
+                $titles = [];
+
                 foreach ($table->getHeaders() as $i => $title) {
+                    $titles[$i + 3] = $title;
                     // this is done because we already have 2 headers for first two fields
                     $worksheet->setCellValueByColumnAndRow($i + 3, 1, $title);
 
@@ -319,6 +322,13 @@ namespace application\components\Logging {
                         if ($isNeedThinLine) {
                             $worksheet->getStyleByColumnAndRow($j + 3, $highest)
                                 ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                        }
+
+                        // Значения в колонке 'Шкала оценки' на листе "Управленческие навыки" должны
+                        // быть выровненны по центру, а у нас нет для выравнивания признака в $table->row
+                        if ('Шкала оценки' == $titles[$j + 3]) {
+                            $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                         }
                     }
 
