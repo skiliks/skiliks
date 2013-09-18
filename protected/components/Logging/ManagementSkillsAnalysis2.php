@@ -68,8 +68,10 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             24,
             24,
             14,
-            40,
-            14
+            42,
+            42,
+            14,
+            14,
         ];
     }
 
