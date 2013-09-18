@@ -13,6 +13,7 @@ namespace application\components\Logging;
  */
 abstract class LogTable
 {
+
     protected $logs;
 
     /**
@@ -77,5 +78,9 @@ abstract class LogTable
             $result[] = $this->getRow($log);
         }
         return $result;
+    }
+
+    protected function getCategoryCodeName($rate) {
+        return (isset($this->language[$rate->assessment_category_code])) ? $this->language[$rate->assessment_category_code] : $rate->assessment_category_code;
     }
 }

@@ -4,6 +4,12 @@ namespace application\components\Logging;
 
 class OverallRateTable extends LogTable {
 
+    private $language = ["management"  => "Управленческие навыки",
+                         "performance" => "Результативность",
+                         "time"        => "Эффективность использования времени",
+                         "overall"     => "Итоговый рейтинг",
+                        ];
+
     public function getHeaders()
     {
         return [
@@ -27,11 +33,8 @@ class OverallRateTable extends LogTable {
      */
     protected function getRow($rate)
     {
-        $category_code = (isset($this->language[$rate->assessment_category_code])) ? $this->language[$rate->assessment_category_code] : $rate->assessment_category_code;
-
-
         return [
-            $category_code,
+            $this->getCategoryCodeName($rate),
             $rate->value . '%'
         ];
     }
