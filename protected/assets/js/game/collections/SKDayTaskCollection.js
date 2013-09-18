@@ -14,6 +14,7 @@ define(["game/models/SKDayTask"], function () {
          * @default SKDayTask
          */
         model: SKDayTask,
+        isActiveNow : false,
 
         /**
          * Constructor
