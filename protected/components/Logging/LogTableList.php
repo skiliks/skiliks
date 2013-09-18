@@ -219,10 +219,11 @@ namespace application\components\Logging {
                 foreach ($table->getHeaders() as $i => $title) {
                     // this is done because we already have 2 headers for first two fields
                     $worksheet->setCellValueByColumnAndRow($i + 3, 1, $title);
-                    
+
                     $worksheet->getStyleByColumnAndRow($i + 3, 1)
                         ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
                 }
+                
                 foreach ($table->getData() as $i => $row) {
                     $highest = $worksheet->getHighestRow()+1;
                     $worksheet->setCellValueByColumnAndRow(0, $highest, $companyName, true);
