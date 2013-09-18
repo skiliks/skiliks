@@ -4,12 +4,6 @@ namespace application\components\Logging;
 
 class OverallRateTable extends LogTable {
 
-    public $language = ["management"  => "Управленческие навыки",
-                         "performance" => "Результативность",
-                         "time"        => "Эффективность использования времени",
-                         "overall"     => "Итоговый рейтинг",
-                        ];
-
     public function getHeaders()
     {
         return [
