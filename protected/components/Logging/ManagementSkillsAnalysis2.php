@@ -43,7 +43,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             }
         }
 
-        uasort($this->logs, array($this, 'objectSort'));
+       // uasort($this->logs, array($this, 'objectSort'));
     }
 
     private function objectSort($f1,$f2)
