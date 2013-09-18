@@ -65,7 +65,7 @@ class SimulationLearningGoalGroup extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'learningGoalGroup' => array(self::BELONGS_TO, 'LearningGoalGroup', 'learning_goal_group_id'),
+			'learningGoalGroup' => array(self::BELONGS_TO, 'LearningGoalGroup', 'learning_goal_group_id', 'order' => 'code ASC'),
             'learningGoal' => array(self::HAS_MANY, 'SimulationLearningGoal', 'learning_goal_group_id'),
 			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
 		);

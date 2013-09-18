@@ -79,8 +79,4 @@ abstract class LogTable
         }
         return $result;
     }
-
-    protected function getCategoryCodeName($rate) {
-        return (isset($this->language[$rate->assessment_category_code])) ? $this->language[$rate->assessment_category_code] : $rate->assessment_category_code;
-    }
 }

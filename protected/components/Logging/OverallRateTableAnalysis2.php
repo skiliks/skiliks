@@ -1,16 +1,8 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: macbookpro
- * Date: 18.09.13
- * Time: 18:37
- * To change this template use File | Settings | File Templates.
- */
 
 namespace application\components\Logging;
 
-
-class ManagementSkillsAnalysis2 extends LogTable  {
+class OverallRateTableAnalysis2 extends LogTable {
 
     public $language = ["management"  => "Управленческие навыки",
         "performance" => "Результативность",
@@ -42,7 +34,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
     protected function getRow($rate)
     {
         return [
-            $this->getCategoryCodeName($rate),
+            $this->language[$rate->assessment_category_code],
             $rate->value . '%'
         ];
     }
