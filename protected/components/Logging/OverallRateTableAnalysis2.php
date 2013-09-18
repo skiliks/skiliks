@@ -18,6 +18,16 @@ class OverallRateTableAnalysis2 extends LogTable {
         ];
     }
 
+    public function getHeaderWidth() {
+        return [
+            24,
+            24,
+            14,
+            40,
+            14
+        ];
+    }
+
     public function getId() {
         return 'overall-rate';
     }
