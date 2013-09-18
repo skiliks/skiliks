@@ -25,19 +25,46 @@ class ManagementSkillsAnalysis2 extends LogTable  {
                 $new->code = $lgg->learningGoalGroup->code;
 
                 foreach($learning_area as $area) {
-                    if( substr($lgg->learningGoalGroup->code, 0, 1) == $area->learningArea->code )
+                    if( substr($lgg->learningGoalGroup->code, 0, 1) == $area->learningArea->code ) {
                         $new->group = $area->learningArea->code . ". " . $area->learningArea->title;
+                    }
                 }
 
                 $new->title = str_replace("_", ".", $lgg->learningGoalGroup->code) . " " . $lgg->learningGoalGroup->title;
+
                 if($i == 0) {
                     $new->rating_scale = "negative";
                     $new->rating = $lgg->problem;
                 }
                 else {
                     $new->rating_scale = "positive";
-                    $new->rating = $lgg->percent;
+                    if($lgg->learningGoalGroup->code == "1_5") {
+                        $new->rating = "Не оценивается";
+                    }
+                    else {
+                        $new->rating = $lgg->percent;
+                    }
                 }
+
+                if(($lgg->learningGoalGroup->code == "1_5" or $lgg->learningGoalGroup->code == "2_3" or $lgg->learningGoalGroup->code == "3_4") && $i==0) {
+
+                    $this->logs[] = $new;
+                    // making the result
+                    $new = new \stdClass();
+                    foreach($learning_area as $area) {
+                        if( substr($lgg->learningGoalGroup->code, 0, 1) == $area->learningArea->code ) {
+                            $new->group = $area->learningArea->code . ". " . $area->learningArea->title;
+                            // TODO Переделать на последний элемент
+                            $new->code = substr($lgg->learningGoalGroup->code, 0, 1) . "_" . "9";
+                            $new->rating_scale = "combined";
+                            $new->title = "ИТОГО";
+                            $value = round($area->value, 2);
+                            $value = (string) $value === '0' ? '0.00':$value;
+                            $new->rating = $value;
+                        }
+                    }
+                }
+
                 $this->logs[] = $new;
             }
         }
