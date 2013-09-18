@@ -21,7 +21,7 @@ class PerformanceAggregatedTableAnalysis2 extends LogTable {
             }
 
             $tmp = new \stdClass();
-            $tmp->category_id = $log->category_id;
+            $tmp->category_id = $key;
             $tmp->value = $log->value;
 
             $tmpArr[$key] = $tmp;
