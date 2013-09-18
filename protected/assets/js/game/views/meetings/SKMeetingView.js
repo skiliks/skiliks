@@ -54,11 +54,15 @@ define([
                 me.subjects.fetch();
 
                 me.subjects.on('reset', function () {
-                    el.html(_.template(meetingChooseTpl, {
-                        'subjects': me.subjects
-                    }));
-                    AppView.frame._showPausedScreen();
-                    me.$el.topZIndex();
+                    // если ответ пришел после того как челокек успел начать диалог
+                    // то отрисовывается дверь - это неправильно
+                    if (false == SKApp.simulation.events.isNowDialogInProgress(null)) {
+                        el.html(_.template(meetingChooseTpl, {
+                            'subjects': me.subjects
+                        }));
+                        AppView.frame._showPausedScreen();
+                        me.$el.topZIndex();
+                    }
                 });
             } catch(exception) {
                 if (window.Raven) {
