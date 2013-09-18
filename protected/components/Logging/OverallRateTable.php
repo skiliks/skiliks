@@ -18,7 +18,7 @@ class OverallRateTable extends LogTable {
 
     public function getTitle()
     {
-        return 'Overall rate';
+        return 'Итоговый рейтинг';
     }
 
     /**

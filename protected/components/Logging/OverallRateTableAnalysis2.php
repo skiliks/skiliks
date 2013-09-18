@@ -44,7 +44,7 @@ class OverallRateTableAnalysis2 extends LogTable {
     protected function getRow($rate)
     {
         return [
-            $this->getCategoryCodeName($rate),
+            $this->language[$rate->assessment_category_code],
             $rate->value/100
         ];
     }
