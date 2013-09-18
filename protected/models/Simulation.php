@@ -276,7 +276,7 @@ class Simulation extends CActiveRecord
             'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
             'time_management_aggregated'      => [self::HAS_MANY, 'TimeManagementAggregated', 'sim_id'],
             'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
-            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id'],
+            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id', 'order'=>'id ASC'],
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
             'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
