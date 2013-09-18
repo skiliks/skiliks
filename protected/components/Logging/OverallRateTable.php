@@ -4,7 +4,7 @@ namespace application\components\Logging;
 
 class OverallRateTable extends LogTable {
 
-    private $language = ["management"  => "Управленческие навыки",
+    public $language = ["management"  => "Управленческие навыки",
                          "performance" => "Результативность",
                          "time"        => "Эффективность использования времени",
                          "overall"     => "Итоговый рейтинг",
