@@ -35,7 +35,7 @@ class OverallRateTableTableAnalysis2 extends LogTable {
     {
         return [
             $this->getCategoryCodeName($rate),
-            $rate->value . '%'
+            $rate->value/100
         ];
     }
 
@@ -45,5 +45,13 @@ class OverallRateTableTableAnalysis2 extends LogTable {
             'overall-rate-%s ',
             $row[0]
         );
+    }
+
+    public function getCellValueFormat($columnNo, $textLabel = null) {
+        if (1 == $columnNo) {
+            return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
+        } else {
+            return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
+        }
     }
 }
