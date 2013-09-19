@@ -22,7 +22,7 @@ class PerformanceAggregatedTableAnalysis2 extends LogTable {
 
             $tmp = new \stdClass();
             $tmp->category_id = $key;
-            $tmp->value = $log->value;
+            $tmp->value = $log->percent;
 
             $tmpArr[$key] = $tmp;
         }

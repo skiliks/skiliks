@@ -95,7 +95,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             24,
             14,
             42,
-            42,
+            50,
             14,
             18,
         ];
@@ -120,7 +120,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             $rate->group,
             $rate->title,
             $rate->rating_scale,
-            $rate->rating/100
+            ("Не оценивается" != $rate->rating) ? $rate->rating/100 : $rate->rating,
         ];
     }
 

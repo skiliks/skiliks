@@ -1121,7 +1121,10 @@ class SimulationService
                 $invite = $invite[0];
 
                 $user_fullname = $invite->lastname . " " . $invite->firstname;
-                $logTableList->saveLogsAsExcelAnalysis2($invite->getCompanyName(), $user_fullname, $simulation->id);
+                $logTableList->saveLogsAsExcelAnalysis2(
+                    $invite->ownerUser->getAccount()->ownership_type.' '.$invite->ownerUser->getAccount()->company_name,
+                    $user_fullname,
+                    $simulation->id);
             }
             $excelWriter = $logTableList->returnXlsFile();
             $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
