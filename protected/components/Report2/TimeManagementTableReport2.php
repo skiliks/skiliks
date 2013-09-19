@@ -7,10 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace application\components\Logging;
+use application\components\Logging\LogTable;
 
-
-class TimeManagementTableAnalysis2 extends LogTable {
+class TimeManagementTableReport2 extends LogTable {
 
     public function __construct($logs) {
         $this->logs = [];

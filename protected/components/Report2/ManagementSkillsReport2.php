@@ -7,10 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace application\components\Logging;
+use application\components\Logging\LogTable;
 
-
-class ManagementSkillsAnalysis2 extends LogTable  {
+class ManagementSkillsReport2 extends LogTable  {
 
     public $logs = [];
 

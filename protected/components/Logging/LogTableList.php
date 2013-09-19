@@ -79,7 +79,7 @@ namespace application\components\Logging {
          *
          * @return LogTable[]
          */
-        private function getTablesCombined()
+        private function getTablesForReport1()
         {
             $simulation = $this->simulation;
             $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
@@ -96,15 +96,15 @@ namespace application\components\Logging {
             ];
         }
 
-        private function getTablesAnalysis2()
+        private function getTablesForReport2()
         {
             $simulation = $this->simulation;
             $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
             return [
-                new OverallRateTableAnalysis2($simulation->assessment_overall),
-                new ManagementSkillsAnalysis2($simulation->learning_goal_group, $simulation->learning_area),
-                new PerformanceAggregatedTableAnalysis2($simulation->performance_aggregated),
-                new TimeManagementTableAnalysis2($simulation->time_management_aggregated),
+                new \OverallRateTableReport2($simulation->assessment_overall),
+                new \ManagementSkillsReport2($simulation->learning_goal_group, $simulation->learning_area),
+                new \PerformanceAggregatedTableReport2($simulation->performance_aggregated),
+                new \TimeManagementTableReport2($simulation->time_management_aggregated),
             ];
         }
 
@@ -149,7 +149,7 @@ namespace application\components\Logging {
             return new \PHPExcel_Writer_Excel2007($xls);
         }
 
-        public function asExcelCombined($name, $simulation_id)
+        public function saveLogsAsExcelReport1($name, $simulation_id)
         {
             if(!$this->xls_file) {
                 $this->xls_file =  new \PHPExcel();
@@ -157,7 +157,7 @@ namespace application\components\Logging {
             }
 
             $sheet_counter = 0;
-            foreach ($this->getTablesCombined() as $table) {
+            foreach ($this->getTablesForReport1() as $table) {
                 if($sheet_counter >= $this->xls_file->getSheetCount()) {
                     $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
                     $this->xls_file->addSheet($worksheet);
@@ -190,15 +190,20 @@ namespace application\components\Logging {
         }
 
 
-        public function saveLogsAsExcelAnalysis2($companyName, $name, $simulation_id)
+        public function saveLogsAsExcelReport2()
         {
+            $companyName = $this->simulation->invite->ownerUser->getAccount()->ownership_type.
+                ' '.$this->simulation->invite->ownerUser->getAccount()->company_name;
+            $name = $this->simulation->invite->lastname . " " . $this->simulation->invite->firstname;
+            $simulation_id = $this->simulation->id;
+
             if(!$this->xls_file) {
                 $this->xls_file =  new \PHPExcel();
                 $this->xls_file->removeSheetByIndex(0);
             }
 
             $sheet_counter = 0;
-            foreach ($this->getTablesAnalysis2() as $table) {
+            foreach ($this->getTablesForReport2() as $table) {
                 if($sheet_counter >= $this->xls_file->getSheetCount()) {
                     $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
                     $this->xls_file->addSheet($worksheet);
@@ -361,7 +366,7 @@ namespace application\components\Logging {
             return new \PHPExcel_Writer_Excel2007($this->xls_file);
         }
 
-        public function setSimulationId($simulation) {
+        public function setSimulation($simulation) {
             $this->simulation = $simulation;
         }
 
