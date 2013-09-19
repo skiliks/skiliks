@@ -221,7 +221,8 @@ class PaymentController extends SiteBaseController
 
         $user = Yii::app()->user->data();
 
-        $tariffType = Yii::app()->request->getParam('tariffType');;
+        $tariffType = Yii::app()->request->getParam('tariffType');
+
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -243,9 +244,11 @@ class PaymentController extends SiteBaseController
 
         $invoice = new Invoice();
         $invoice->payment_system = "robokassa";
-        $invoice->createInvoice($user, $tariff);
+        // the last parametre is months
+        $invoice->createInvoice($user, $tariff, 1);
 
         $robokassa = new RobokassaPaymentMethod();
+        $robokassa->setDescription($tariff, $user, 1);
         $formData = $robokassa->generateJsonBackData($invoice, $tariff);
         echo json_encode($formData);
     }
