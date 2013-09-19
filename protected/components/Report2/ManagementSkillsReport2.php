@@ -7,10 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace application\components\Logging;
+use application\components\Logging\LogTable;
 
-
-class ManagementSkillsAnalysis2 extends LogTable  {
+class ManagementSkillsReport2 extends LogTable  {
 
     public $logs = [];
 
@@ -85,7 +84,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             'Группа навыков',
             'Навык',
             'Шкала оценки',
-            'Навык, оценка (0-100%)'
+            "Навык,\nоценка (0-100%)"
         ];
     }
 
@@ -94,8 +93,10 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             24,
             24,
             14,
-            40,
-            14
+            42,
+            50,
+            14,
+            18,
         ];
     }
 
@@ -118,7 +119,7 @@ class ManagementSkillsAnalysis2 extends LogTable  {
             $rate->group,
             $rate->title,
             $rate->rating_scale,
-            $rate->rating
+            ("Не оценивается" != $rate->rating) ? $rate->rating/100 : $rate->rating,
         ];
     }
 
@@ -131,8 +132,12 @@ class ManagementSkillsAnalysis2 extends LogTable  {
     }
 
     public function getCellValueFormat($columnNo, $rowNo = null) {
-        if (1 == $columnNo) {
-            return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
+        if (3 == $columnNo) {
+            if (8 == $rowNo) { // 1.5 Завершение начатых задач - positive
+                return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
+            } else {
+                return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
+            }
         } else {
             return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
         }
