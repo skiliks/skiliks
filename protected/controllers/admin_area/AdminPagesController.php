@@ -39,8 +39,12 @@ class AdminPagesController extends SiteBaseController {
         return true;
     }
 
-    public function actionDashboard() {
+    public function actionIndex() {
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
+    }
 
+    public function actionDashboard() {
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
 
@@ -647,7 +651,7 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         $models = Invoice::model()->findAll([
-            "order" => "updated_at desc",
+            "order" => "created_at desc",
             "limit"  => $this->itemsOnPage,
             "offset" => ($page-1)*$this->itemsOnPage
         ]);
@@ -1349,4 +1353,36 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect('/admin_area/dashboard');
     }
+
+
+
+
+    // формирование отчетов
+
+    public function actionMakeReport($ids = false)
+    {
+        if($ids) {
+            $saves = 0;
+            $overwrite = true;
+            $ids = explode(",", $ids);
+            if(!empty($ids)) {
+                $simulations = array();
+                foreach($ids as $row) {
+                    $simulation = Simulation::model()->findByPk($row);
+                    if($simulation !== null) {
+                        $simulations[] = $simulation;
+                        echo "{$simulation->id}, ";
+                    }
+                }
+
+                if(!empty($simulations)) {
+                    SimulationService::saveLogsAsExcelCombined($simulations);
+                }
+
+                echo " {$saves} files stored!\r\n";
+            }
+        }
+    }
+
+
 }

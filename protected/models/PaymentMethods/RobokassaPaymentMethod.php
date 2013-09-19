@@ -29,4 +29,15 @@ class RobokassaPaymentMethod extends CFormModel {
         return md5($this->MrchLogin.':'.$invoice->amount.':'.$invoice->id.':'.$this->sMerchantPass1);
     }
 
+    private function getDescription($tariff) {
+        return "Тариф" . $tariff->slug . "(" . $tariff->simulations_amount . ") на 1 месяц";
+    }
+
+    public function generateJsonBackData(Invoice $invoice, $tariff) {
+        $return_data = ["login" => $this->MrchLogin, "invoice_id" => $invoice->id, "invoice_amount" => $invoice->amount,
+                        "description" => $this->getDescription($tariff), "key" => $this->get_form_key($invoice)
+                       ];
+        return $return_data;
+    }
+
 }
