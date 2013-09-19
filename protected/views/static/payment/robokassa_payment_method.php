@@ -16,7 +16,7 @@
                 $("input[name='OutSum']").val(json.invoice_amount);
                 $("input[name='Desc']").val(json.description);
                 $("input[name='SignatureValue']").val(json.key);
-                $("#robokassa-payment-form").submit();
+                //$("#robokassa-payment-form").submit();
                 // preventing default form
                 return false;
             })
