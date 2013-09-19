@@ -4599,3 +4599,7 @@ div.inline-block {
 .green-h2 {
     color: #146672;
 }
+
+.scenario-lite-box .ratepercnt {
+    display: none;
+}
