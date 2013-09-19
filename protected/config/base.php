@@ -214,6 +214,8 @@ return array(
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
                 'static/tariffs-new'                 => 'static/pages/tariffsNew',
                 'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
+                'payment/doCashPayment'              => 'static/payment/doCashPayment',
+                'payment/getRobokassaForm'           => 'static/payment/getRobokassaForm',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',

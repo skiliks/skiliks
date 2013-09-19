@@ -47,16 +47,14 @@
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'payment-form',
             'htmlOptions' => ['class' => 'payment-form'],
-            'action' => '/payment/do',
+            'action' => '/payment/doCashPayment',
             'enableAjaxValidation' => true,
             'clientOptions' => [
                 'validateOnSubmit' => true,
                 'validateOnChange' => false,
                 'afterValidate'    => 'js:paymentSubmit',
             ]
-        ));
-
-        echo $form->hiddenField($tariff, 'id');
+        ), $paymentMethodCash);
 
         ?>
 
@@ -79,27 +77,27 @@
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'ИНН') ?>
-                    <?= $form->textField($invoice, 'inn', ['maxlength' => 10]) ?>
-                    <?= $form->error($invoice, 'inn') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
+                    <?= $form->textField($paymentMethodCash, 'inn', ['maxlength' => 10]) ?>
+                    <?= $form->error($paymentMethodCash, 'inn') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'КПП') ?>
-                    <?= $form->textField($invoice, 'cpp', ['maxlength' => 9]) ?>
-                    <?= $form->error($invoice, 'cpp') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'КПП') ?>
+                    <?= $form->textField($paymentMethodCash, 'cpp', ['maxlength' => 9]) ?>
+                    <?= $form->error($paymentMethodCash, 'cpp') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'Расчётный счёт') ?>
-                    <?= $form->textField($invoice, 'account', ['maxlength' => 20]) ?>
-                    <?= $form->error($invoice, 'account') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'Расчётный счёт') ?>
+                    <?= $form->textField($paymentMethodCash, 'account', ['maxlength' => 20]) ?>
+                    <?= $form->error($paymentMethodCash, 'account') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'БИК') ?>
-                    <?= $form->textField($invoice, 'bic', ['maxlength' => 9]) ?>
-                    <?= $form->error($invoice, 'bic') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'БИК') ?>
+                    <?= $form->textField($paymentMethodCash, 'bic', ['maxlength' => 9]) ?>
+                    <?= $form->error($paymentMethodCash, 'bic') ?>
                 </div>
             </div>
 
@@ -109,7 +107,6 @@
                         $account,
                         'preference_payment_method',
                         [
-                            'disabled' => 'disabled',
                             'value' => UserAccountCorporate::PAYMENT_METHOD_CARD,
                             'id' => 'payment_card',
                             'uncheckValue' => null
@@ -129,13 +126,22 @@
                 <div class="submit">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
-                <div class="terms-confirm">
-                    <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-                    <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms">Условия</a>']); ?>
-                    <?= $form->error($invoice, 'agreeWithTerms'); ?>
-                </div>
             </div>
 
         <?php $this->endWidget(); ?>
     </div>
+    <? $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa, "tariff" => $tariff]); ?>
+
+    <script>
+        $("input[type='submit']").click(function(e) {
+            e.preventDefault();
+            if($("#payment_card:checked").length === 1) {
+                proceedRobokassaPayment();
+                return false;
+            }
+            else {
+                $("#payment-form").submit();
+            }
+        });
+    </script>
 </div>
