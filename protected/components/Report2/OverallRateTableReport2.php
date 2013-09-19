@@ -1,8 +1,8 @@
 <?php
 
-namespace application\components\Logging;
+use application\components\Logging\LogTable;
 
-class OverallRateTableAnalysis2 extends LogTable {
+class OverallRateTableReport2 extends LogTable {
 
     public $language = ["management"  => "Управленческие навыки",
         "performance" => "Результативность",
