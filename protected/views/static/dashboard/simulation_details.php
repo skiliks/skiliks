@@ -8,7 +8,7 @@
 <?php } else{ ?>
     <h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
 <?php } ?>
-<div class="simulation-details">
+<div class="simulation-details scenario-<?= $simulation->game_type->slug ?>">
     <script type="text/javascript">
         var AR = <?= $details; ?>;
 
@@ -24,7 +24,7 @@
             }
         }
     </script>
-    <div class="navigatnwrap">
+    <div class="navigatnwrap scenario-<?= $simulation->game_type->slug ?>-box">
         <ul class="navigation">
             <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
             <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>
