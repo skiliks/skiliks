@@ -1,8 +1,8 @@
 <?php
 
-namespace application\components\Logging;
+use application\components\Logging\LogTable;
 
-class PerformanceAggregatedTableAnalysis2 extends LogTable {
+class PerformanceAggregatedTableReport2 extends LogTable {
 
     public function __construct($logs) {
         $tmpArr = [];
@@ -21,8 +21,8 @@ class PerformanceAggregatedTableAnalysis2 extends LogTable {
             }
 
             $tmp = new \stdClass();
-            $tmp->category_id = $log->category_id;
-            $tmp->value = $log->value;
+            $tmp->category_id = $key;
+            $tmp->value = $log->percent;
 
             $tmpArr[$key] = $tmp;
         }

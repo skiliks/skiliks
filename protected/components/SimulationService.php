@@ -1098,33 +1098,29 @@ class SimulationService
         $simulation->delete();
     }
 
-    public static function saveLogsAsExcelCombined($simulations = array()) {
+    public static function saveLogsAsExcelReport1($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
             foreach($simulations as $simulation) {
-                $logTableList->setSimulationId($simulation);
+                $logTableList->setSimulation($simulation);
                 $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
-                $logTableList->asExcelCombined($user_fullname, $simulation->id);
+                $logTableList->saveLogsAsExcelReport1($user_fullname, $simulation->id);
             }
             $excelWriter = $logTableList->returnXlsFile();
-            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            $excelWriter->save(__DIR__.'/../logs/combined-log_report-1.xlsx');
             return true;
         }
     }
 
-    public static function saveLogsAsExcelAnalysis2($simulations = array()) {
+    public static function saveLogsAsExcelReport2($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
             foreach($simulations as $simulation) {
-                $logTableList->setSimulationId($simulation);
-                $invite = Invite::model()->findAllByAttributes(["simulation_id" => $simulation->id]);
-                $invite = $invite[0];
-
-                $user_fullname = $invite->lastname . " " . $invite->firstname;
-                $logTableList->saveLogsAsExcelAnalysis2($invite->getCompanyName(), $user_fullname, $simulation->id);
+                $logTableList->setSimulation($simulation);
+                $logTableList->saveLogsAsExcelReport2();
             }
             $excelWriter = $logTableList->returnXlsFile();
-            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            $excelWriter->save(__DIR__.'/../logs/combined-log_report-2.xlsx');
             return true;
         }
     }

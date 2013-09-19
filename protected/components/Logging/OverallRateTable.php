@@ -28,7 +28,7 @@ class OverallRateTable extends LogTable {
     protected function getRow($rate)
     {
         return [
-            $this->getCategoryCodeName($rate),
+            $rate->assessment_category_code,
             $rate->value . '%'
         ];
     }

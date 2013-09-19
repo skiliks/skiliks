@@ -4,34 +4,33 @@
  */
 
 /**
- *
- * Выбирает полный лог всех юзеров из базы
+ * Выбирает полные логи всех симуляций из базы по $ids
+ * и комбинирует в сводную
  */
-class ShowClientAnalyticsCommand extends CConsoleCommand
+class GenerateReport1Command extends CConsoleCommand
 {
-    private $language = ['management' => 'Управленческие навыки', 'overall' => 'Результативность', 'time' => ''];
-
-    public function actionIndex($ids = false) // 7 days
+    public function actionIndex($ids = false)
     {
         if($ids) {
-            $saves = 0;
-            $overwrite = true;
             $ids = explode(",", $ids);
             if(!empty($ids)) {
                 $simulations = array();
                 foreach($ids as $row) {
                     $simulation = Simulation::model()->findByPk($row);
+
+                    echo "Combine simulations: ";
                     if($simulation !== null) {
                         $simulations[] = $simulation;
                         echo "{$simulation->id}, ";
                     }
+                    echo "\r\n";
                 }
 
                 if(!empty($simulations)) {
-                    SimulationService::saveLogsAsExcelAnalysis2($simulations);
+                    SimulationService::saveLogsAsExcelReport1($simulations);
                 }
 
-                echo " {$saves} files stored!\r\n";
+                echo "File stored!\r\n";
             }
         }
     }
