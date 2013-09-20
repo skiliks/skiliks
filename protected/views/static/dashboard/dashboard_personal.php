@@ -10,7 +10,7 @@
         </div>
         */?>
         <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-           class="start-full-simulation-now start-lite-simulation-btn-no-margin light-btn">Пройти демо (15 мин)
+           class="start-lite-simulation-btn start-lite-simulation-btn-no-margin light-btn">Пройти демо (15 мин)
         </a>
 
         <h1 class="thetitle">Полученные приглашения</h1>
@@ -69,4 +69,5 @@
     </aside>
 </section>
 
+<?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 

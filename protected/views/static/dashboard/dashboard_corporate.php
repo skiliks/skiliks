@@ -3,7 +3,7 @@
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
     </a>
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-       class="start-full-simulation-now start-lite-simulation-btn light-btn">Пройти демо (15 мин)</a>
+       class="start-lite-simulation-btn light-btn">Пройти демо (15 мин)</a>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
@@ -148,3 +148,5 @@
     </div>
 
 </section>
+
+<?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
