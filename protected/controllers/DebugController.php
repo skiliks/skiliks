@@ -94,5 +94,86 @@ class DebugController extends SiteBaseController
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         echo $xls;
     }
+
+
+
+    // PAYMENT CONTROLLER METHODS
+
+    public function actionTestInvoice() {
+
+
+        $tariffType = "business";
+
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        $tariff = null === $tariffType ?
+            $user->account_corporate->tariff :
+            Tariff::model()->findByAttributes(['slug' => $tariffType]);
+
+        if (null === $tariff) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+            ));
+            $this->redirect('/');
+        }
+
+        $invoice = new Invoice();
+
+        $invoice->createInvoice($user->id, $tariff->id, $tariff->price);
+
+        $this->render('//static/payment/cash_method_form', [
+            'account' => $user->account_corporate,
+            'invoice' => $invoice,
+            'tariff'  => $tariff,
+            'paymentMethodCash'      => new CashPaymentMethod(),
+            'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
+        ]);
+//        $invoice = new Invoice();
+//        $new_invoice_id = $invoice->create_invoice(11, 1);
+//        if($new_invoice_id) {
+//            var_dump($new_invoice_id);
+//        }
+    }
+
+    public function actionDoCashPayment() {
+
+        /** @var YumUser $user */
+        $user = Yii::app()->user->data();
+
+        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
+            echo 'false';
+            Yii::app()->end();
+        }
+
+        $account = $user->account_corporate;
+
+
+        $paymentMethod = new CashPaymentMethod();
+
+        $account->inn                 = $paymentMethod->inn     = Yii::app()->request->getParam('inn');
+        $account->cpp                 = $paymentMethod->cpp     = Yii::app()->request->getParam('cpp');
+        $account->bank_account_number = $paymentMethod->account = Yii::app()->request->getParam('account');
+        $account->bic                 = $paymentMethod->bic     = Yii::app()->request->getParam('bic');
+
+        $errors = CActiveForm::validate($paymentMethod);
+
+        if ($errors) {
+            echo $errors;
+        } elseif (!$account->hasErrors()) {
+            $account->save();
+
+            echo sprintf(
+                Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
+                $user->profile->email
+            );
+        }
+    }
 }
 

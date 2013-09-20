@@ -1,15 +1,15 @@
 <?php $titles = [
-    'Email, <br/>ФИО, <br/>Компания',
     'ID <br/>заказа',
-    'Время <br/>заказа',
+    'Email, <br/>ФИО, <br/>Компания',
     'Название <br/>тарифа',
-    'Статус',
-    'Валидность',
-    'ИНН',
-    'КПП',
-    'Расчётный <br/>счёт',
-    'БИК',
-    'Пометить как',
+    'Время <br/>заказа',
+    'Время <br/>оплаты',
+    'Стоимость',
+    'Платежная<br/>система',
+    'Дополнительные<br/>данные',
+    '',
+    '',
+
 ] ?>
 <div class="row fix-top">
     <h2>Заказы</h2>
@@ -34,7 +34,7 @@
         </thead>
         <tbody>
         <?php /* @var $model Invoice */ ?>
-        <?php $step = 12; $i = 0; ?>
+        <?php $step = 9; $i = 0; ?>
         <?php foreach($models as $model) : ?>
         <?php $i++ ?>
         <?php if($i === $step) : ?>
@@ -46,7 +46,10 @@
         <?php $i= 0 ?>
         <?php endif ?>
         <tr class="orders-row">
+            <td><?=$model->id?></td>
             <td>
+
+                <a href="/admin_area/user/<?=$model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
                 <?= (empty($model->user->profile->email)) ? 'Не найден' : $model->user->profile->email ?>
                 <br/>
                 <?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?>
@@ -55,25 +58,14 @@
                 <?= (empty($model->user->account_corporate->company_name))
                     ? '--' : $model->user->account_corporate->company_name?>
             </td>
-            <td><?=$model->id?></td>
-            <td><?=(empty($model->updated_at)?'---- -- -- --':$model->updated_at)?></td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
-            <td><span class="label <?=$model->getStatusLabel()?>"><?=$model->status?></span></td>
-            <td><span class="label <?=$model->getValidationStatusLabel()?>"><?=$model->getValidationStatus()?></span></td>
-            <td><?=$model->inn?></td>
-            <td><?=$model->cpp?></td>
-            <td><?=$model->account?></td>
-            <td><?=$model->bic?></td>
-            <td>
-                <a href="<?=$model->getValidationAction()?>" style="margin-bottom: 10px;"
-                   class="btn <?=$model->getValidationStatusBtn()?>">
-                    <?=$model->getValidationStatusBtnText()?>
-                </a>
-                <br/>
-                <a href="<?=$model->getStatusAction()?>" class="btn <?=$model->getStatusBtn()?>">
-                    <?=$model->getStatusBtnText()?>
-                </a>
-            </td>
+            <td><?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?></td>
+            <td><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></td>
+            <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
+            <td><?= $model->payment_system?></td>
+            <td><?= $model->additional_data?></td>
+            <td><a class="btn btn-info">Лог</a> </td>
+            <td><a class="btn btn-success">Подтвердить</a> </td>
         </tr>
         <?php endforeach ?>
         </tbody>

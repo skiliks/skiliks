@@ -25,12 +25,13 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        $invoice = new Invoice();
+//        $invoice = new Invoice();
 
         $this->render('order', [
             'account' => $user->account_corporate,
-            'invoice' => $invoice,
-            'tariff' => $tariff
+            'tariff' => $tariff,
+            'paymentMethodCash'      => new CashPaymentMethod(),
+            'paymentMethodRobokassa' => new RobokassaPaymentMethod()
         ]);
     }
 
@@ -180,5 +181,75 @@ class PaymentController extends SiteBaseController
             'invoice' => $invoice,
             'tariff' => $tariff
         ]);
+    }
+
+    public function actionDoCashPayment() {
+
+        /** @var YumUser $user */
+        $user = Yii::app()->user->data();
+
+        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
+            echo 'false';
+            Yii::app()->end();
+        }
+
+        $account = $user->account_corporate;
+
+
+        $paymentMethod = new CashPaymentMethod();
+
+        $account->inn                 = $paymentMethod->inn     = Yii::app()->request->getParam('inn');
+        $account->cpp                 = $paymentMethod->cpp     = Yii::app()->request->getParam('cpp');
+        $account->bank_account_number = $paymentMethod->account = Yii::app()->request->getParam('account');
+        $account->bic                 = $paymentMethod->bic     = Yii::app()->request->getParam('bic');
+
+        $errors = CActiveForm::validate($paymentMethod);
+
+        if ($errors) {
+            echo $errors;
+        } elseif (!$account->hasErrors()) {
+            $account->save();
+
+            echo sprintf(
+                Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
+                $user->profile->email
+            );
+        }
+    }
+
+    public function actionGetRobokassaForm() {
+
+        $user = Yii::app()->user->data();
+
+        $tariffType = Yii::app()->request->getParam('tariffType');
+
+
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        $tariff = null === $tariffType ?
+            $user->account_corporate->tariff :
+            Tariff::model()->findByAttributes(['slug' => $tariffType]);
+
+        if (null === $tariff) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+            ));
+            $this->redirect('/');
+        }
+
+        $invoice = new Invoice();
+        $invoice->payment_system = "robokassa";
+        // the last parametre is months
+        $invoice->createInvoice($user, $tariff, 1);
+
+        $robokassa = new RobokassaPaymentMethod();
+        $robokassa->setDescription($tariff, $user, 1);
+        $formData = $robokassa->generateJsonBackData($invoice, $tariff);
+        echo json_encode($formData);
     }
 }
