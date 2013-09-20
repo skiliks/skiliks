@@ -33,8 +33,19 @@
             <div class="row">
                 <label>Выбрано количество месяцев</label>
                 <div class="value">
-                    <select>
+                    <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
                     </select>
                 </div>
             </div>
@@ -76,6 +87,8 @@
                     </div>
                 </div>
 
+                <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="" />
+
                 <div class="row">
                     <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
                     <?= $form->textField($paymentMethodCash, 'inn', ['maxlength' => 10]) ?>
@@ -112,11 +125,18 @@
                             'uncheckValue' => null
                         ]
                     ) ?>
-                    <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
+                    <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой и электронными деньгами', 'for' => 'payment_card']) ?>
                     <div class="method-description">
                         <small>
-                            <span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>
-                            Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа
+                            <span class="cardsbg"></span><div class="without-commission">Без комиссий</div><br/>
+                        </small>
+                        <br/>
+                        <span style="font-size:14px;">Электронные деньги</span><br/>
+                        <small>
+                            <img src="/protected/assets/img/epay-services.png" alt="Варианты зарплаты" />
+                            <div class="without-commission payment-method-without-commision">Без комиссий</div><br/>
+                            Выставление счёта в интернет-банк и другие способы оплаты, предусмотренные платёжной системой<br/><br/>
+                            <p>Выбирая данную опцию, вы будете перенаправлены на страницу платёжной системы</p>
                         </small>
                     </div>
                 </div>
@@ -140,6 +160,7 @@
                 return false;
             }
             else {
+                $("#cash-month-selected").val($("#month-selected").val());
                 $("#payment-form").submit();
             }
         });

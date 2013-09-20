@@ -31,14 +31,15 @@ class RobokassaPaymentMethod extends CFormModel {
 
     private function getDescription($tariff) {
         if($this->Desc == null) {
-            return "Тариф" . $tariff->slug . "(" . $tariff->simulations_amount . ") на 1 месяц";
+            return "Продление тарифного" . $tariff->slug . "(" . $tariff->simulations_amount . ")";
         }
         else return $this->Desc;
     }
 
-    public function setDescription($tariff, $user, $months) {
-        $this->Desc = "Продление тарифного плана ".$tariff->slug." для компании ".$user->account_corporate->ownership_type ." "
-                      .$user->account_corporate->company_name." на ".$months." месяц.";
+    public function setDescription($tariff, $user, $invoice) {
+        $this->Desc = "Продление тарифного плана ".$tariff->slug." для компании ".$user->account_corporate->ownership_type .
+                       " " .$user->account_corporate->company_name." на ".$invoice->month_selected ." " .
+                       StringTools::lastLetter($invoice->month_selected, ["месяц", "месяца", "месяцев"]) .".";
     }
 
     public function generateJsonBackData(Invoice $invoice, $tariff) {
