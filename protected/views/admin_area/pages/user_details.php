@@ -120,8 +120,10 @@ $assetsUrl = $this->getAssetsUrl();
     </tr>
     <tr>
         <?php if ($user->isCorporate()) : ?>
-            <td></td>
-            <td></td>
+            <td>Тариф истекает</td>
+            <td>
+                <?= $user->getAccount()->tariff_expired_at ?>
+            </td>
             <td>
                 Добавить симуляции в аккаунт
                 <br/>
