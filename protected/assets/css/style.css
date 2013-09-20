@@ -4603,3 +4603,14 @@ div.inline-block {
 .scenario-lite-box .ratepercnt {
     display: none;
 }
+
+.action-controller-activation-registration .ui-dialog-titlebar {
+    display: none;
+}
+
+.list-ordered li.regular-list {
+    line-height: 22px;
+    list-style-type: disc;
+    margin-bottom: 0;
+    margin-left: 20px;
+}

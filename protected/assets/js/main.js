@@ -168,6 +168,65 @@ var fixLogotypes = function() {
             return false;
         });
 
+        // попап перед стартом лайт симуляции при регистрации
+        $('#yum-user-registration-form-activation-success').submit(function() {
+            var startLiteCheckbox = $('#registration_check');
+
+            // если пользователь выбрал играть "Демо-версию" {
+            if (startLiteCheckbox.hasClass('icon-check')) {
+                $(".lite-simulation-info-popup").dialog({
+                    closeOnEscape: true,
+                    dialogClass: 'popup-before-start-sim lite-simulation-info-dialog',
+                    minHeight: 220,
+                    modal: true,
+                    resizable: false,
+                    width:881,
+                    open: function( event, ui ) {
+                        Cufon.refresh();
+                        $('.start-lite-simulation-now').click(function() {
+                            $('.start-lite-simulation-now').addClass('clicked');
+                            $('#yum-user-registration-form-activation-success').submit();
+                        });
+                    }
+                });
+             // если пользователь выбрал играть "Демо-версию" }
+            } else {
+                // если пользователь выбрал НЕ играть "Демо-версию"
+                return true;
+            }
+
+            if ($('.start-lite-simulation-now').hasClass('clicked')) {
+                return true;
+            }
+
+            // первый раз не надо делать submit() -> мы отображаем ".lite-simulation-info-popup"
+            return false;
+        });
+
+        // попап перед стартом лайт симуляции в кабинетах
+        $('.start-lite-simulation-btn').click(function(event) {
+            event.preventDefault();
+
+            // get URL for lite simulation
+            var href = $(this).attr('data-href');
+
+            $(".lite-simulation-info-popup").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-before-start-sim lite-simulation-info-dialog',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                width:881,
+                open: function( event, ui ) {
+                    Cufon.refresh();
+                    $('.start-lite-simulation-now').click(function() {
+                        location.assign(href);
+                    });
+                }
+            });
+            return false;
+        });
+
         // product page, test results - sub list hide/show switcher
         $('.hassubmenu a.sub-menu-switcher').click(function () {
             if ($(this).parent().hasClass('subisopen')) {
