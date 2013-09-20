@@ -57,7 +57,7 @@ class DayPlanController extends SimulationBaseController{
 
     public function actionSave()
     {
-        $result = DayPlanService::saveToXLS($this->getSimulationEntity(), 2);
+        $result = DayPlanService::saveToXLS($this->getSimulationEntity());
         $this->sendJSON($result);
     }
 }
