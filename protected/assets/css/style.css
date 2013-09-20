@@ -2249,6 +2249,7 @@ html[lang="en"] .footer .social_networks {
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
 .action-controller-corporate-static-simulations .ui-dialog-titlebar,
+.action-controller-activation-registration .ui-dialog-titlebar,
 .terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;
@@ -2327,7 +2328,9 @@ html[lang="en"] .footer .social_networks {
 }
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick,
-.cabmessage .ui-widget-header .ui-icon, .add-vacancy-popup .ui-widget-header .ui-icon,
+.cabmessage .ui-widget-header .ui-icon,
+.add-vacancy-popup .ui-widget-header .ui-icon,
+.action-controller-activation-registration .ui-widget-header .ui-icon,
 .feedbackwrap .ui-widget-header .ui-icon {
     display: block;
     margin: 0;
@@ -4604,8 +4607,8 @@ div.inline-block {
     display: none;
 }
 
-.action-controller-activation-registration .ui-dialog-titlebar {
-    display: none;
+.action-controller-activation-registration .ui-dialog-titlebar-close span {
+    display: block;
 }
 
 .list-ordered li.regular-list {
