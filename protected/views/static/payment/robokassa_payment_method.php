@@ -9,14 +9,14 @@
 </form>
 <script>
     function proceedRobokassaPayment() {
-        $.getJSON( "/payment/getRobokassaForm", {tariffType : "<?=$tariff->label ?>"})
+        $.getJSON( "/payment/getRobokassaForm", {tariffType : "<?=$tariff->label ?>", monthSelected : $("#month-selected").val()})
             .done(function( json ) {
                 $("input[name='MrchLogin']").val(json.login);
                 $("input[name='InvId']").val(json.invoice_id);
                 $("input[name='OutSum']").val(json.invoice_amount);
                 $("input[name='Desc']").val(json.description);
                 $("input[name='SignatureValue']").val(json.key);
-                //$("#robokassa-payment-form").submit();
+                $("#robokassa-payment-form").submit();
                 // preventing default form
                 return false;
             })

@@ -13,6 +13,7 @@
  * @property string $payment_system
  * @property string $additional_data
  * @property string $comment
+ * @property integer $month_selected
  *
  * The followings are the available model relations:
  * @property Tariff $tariff
@@ -114,14 +115,15 @@ class Invoice extends CActiveRecord
      * Method need for creating an invoice and storing it do db
      */
 
-    public function createInvoice($user = null, Tariff $tariff = null) {
-        if($user && $tariff) {
+    public function createInvoice($user = null, Tariff $tariff = null, $months = null) {
+        if($user !== null && $tariff !== null) {
             $this->create_date = date('Y-m-d H:i:s');
             $this->user        = $user;
             $this->tariff      = $tariff;
             $this->user_id     = $user->id;
             $this->tariff_id   = $tariff->id;
-            $this->amount      = $tariff->price;
+            $this->amount      = $tariff->price * $months;
+            $this->month_selected = $months;
             $this->save();
             return $this->id;
         }
