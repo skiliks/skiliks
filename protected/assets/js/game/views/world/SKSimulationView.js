@@ -430,17 +430,33 @@ define([
                     var me = this;
                     me.simulation.stop();
                     me._showPausedScreen();
-                    var d = new SKDialogView({
-                        message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
-                        buttons: [
-                            {
-                                value: 'Перейти к результатам',
-                                onclick: function() {
-                                    me.simulation.trigger('user-agree-with-sim-stop');
+                    if(SKApp.isFull()) {
+                        var d = new SKDialogView({
+                            message: 'Спасибо, симуляция завершена. <br/>'+
+                                'Дождитесь, пожалуйста, расчета оценки (до 2 минут)<br/>'+
+                                'и нажмите на кнопку «Перейти к результатам».',
+                            buttons: [
+                                {
+                                    value: 'Перейти к результатам',
+                                    onclick: function() {
+                                        me.simulation.trigger('user-agree-with-sim-stop');
+                                    }
                                 }
-                            }
-                        ]
-                    });
+                            ]
+                        });
+                    } else if (SKApp.isLite()) {
+                        var d = new SKDialogView({
+                            message: 'Спасибо! Демо завершена. <br/> Оценка ваших действий не проводилась.',
+                            buttons: [
+                                {
+                                    value: 'Перейти к примеру оценки',
+                                    onclick: function() {
+                                        me.simulation.trigger('user-agree-with-sim-stop');
+                                    }
+                                }
+                            ]
+                        });
+                    }
                     $('.mail-popup-button').hide();
                 } catch(exception) {
                     if (window.Raven) {
@@ -476,9 +492,11 @@ define([
                                     onclick: function() {
                                         me._hidePausedScreen();
                                         me.stopExitProtection();
-                                        if(SKApp.isLite() || SKApp.isFull()) {
+                                        if(SKApp.isFull()) {
                                             var d = new SKDialogView({
-                                                message: 'Спасибо, симуляция завершена. <br/> Сейчас сохраняются результаты.',
+                                                message: 'Спасибо, симуляция завершена.<br/>' +
+                                                    'Дождитесь, пожалуйста, расчета оценки (до 2 минут)<br/>'+
+                                                    'и нажмите на кнопку «Перейти к результатам».',
                                                 buttons: [
                                                     {
                                                         value: 'Перейти к результатам',
@@ -489,7 +507,21 @@ define([
                                                 ]
                                             });
                                             $('.mail-popup-button').hide();
-                                        }  else {
+                                        } else if(SKApp.isLite()) {
+                                            var d = new SKDialogView({
+                                                message: 'Спасибо! Демо завершена. <br/> Оценка ваших действий не проводилась.',
+                                                buttons: [
+                                                    {
+                                                        value: 'Перейти к примеру оценки',
+                                                        onclick: function() {
+                                                            me.simulation.trigger('user-agree-with-sim-stop');
+                                                        }
+                                                    }
+                                                ]
+                                            });
+                                            $('.mail-popup-button').hide();
+                                        } else {
+                                            // tutorial
                                             var d = new SKDialogView({
                                                 message: 'Завершение симуляции.',
                                                 buttons: []
