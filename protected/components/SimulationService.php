@@ -949,6 +949,7 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
         SimulationService::simulationStop($simulation, [], true);
     }
 
@@ -1009,7 +1010,9 @@ class SimulationService
         }
 
         // add user_id {
-        if (null !== Yii::app()->user && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
+        if (false == Yii::app() instanceof CConsoleApplication
+            && null !== Yii::app()->user
+            && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
             $log->user_id = Yii::app()->user->data()->id;
         } else {
             $comment .= "Undefined user_id!\n";

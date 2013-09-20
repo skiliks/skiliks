@@ -11,11 +11,21 @@ use application\components\Logging\LogTable;
 
 class TimeManagementTableReport2 extends LogTable {
 
-    public function __construct($logs) {
+    public function __construct($logs)
+    {
         $this->logs = [];
+        $persentsLabels = ['Время потраченное на задачи 1-го приоритета', 'Время потраченное на не важные задачи', 'Время ожидания или бездействия'];
+
         foreach ($logs as $log) {
             if ($log->getLabel() != 'Общая оценка эффективности использования времени') {
+
+                if (in_array($log->getLabel() ,$persentsLabels)) {
+                    $log->value = $log->value/100;
+                }
+
                 $this->logs[$this->k[$log->getLabel()]] = $log;
+
+
             }
         }
 
@@ -140,7 +150,7 @@ class TimeManagementTableReport2 extends LogTable {
         return [
             $this->parameterGroups[$item->getLabel()],
             $this->parameters[$item->getLabel()],
-            $item->value/100,
+            $item->value,
             ];
     }
 
