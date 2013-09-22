@@ -281,8 +281,9 @@ class PaymentController extends SiteBaseController
 
     public function actionFail() {
         $user = Yii::app()->user->data();
-        var_dump($UserAccountCorporate = Yii::app()->request->getParam('InvId'));
-        exit();
+
+        // $invoiceId = Yii::app()->request->getParam('InvId')
+
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
                 'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
@@ -290,10 +291,19 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        Yii::app()->user->setFlash('error', sprintf(
-            'Извините, оплата прошла не успешно.'
-        ));
-        $this->redirect('/order/');
+        $invoiceId = 3;
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+        if(null != $invoice) {
+
+            Yii::app()->user->setFlash('error', sprintf(
+                'Извините, оплата прошла не успешно.'
+            ));
+            $this->redirect('/order/'.$invoice->tariff->slug);
+        }
     }
 
 }
