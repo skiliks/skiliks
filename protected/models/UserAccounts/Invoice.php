@@ -53,6 +53,7 @@ class Invoice extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, tariff_id', 'required'),
+            array('user_id', 'checkHavingInvites'),
             array('user_id, tariff_id', 'safe', 'on'=>'search'),
         );
     }
@@ -68,6 +69,12 @@ class Invoice extends CActiveRecord
             'tariff' => array(self::BELONGS_TO, 'Tariff', 'tariff_id'),
             'user' => array(self::BELONGS_TO, 'YumUser', 'user_id'),
         );
+    }
+
+    public function checkHavingInvites() {
+        if($this->user->getInvitesLeft() > 0) {
+            $this->addError('inn', Yii::t('site', 'You have invites left'));
+        }
     }
 
      /**
