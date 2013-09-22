@@ -29,6 +29,10 @@ class RobokassaPaymentMethod extends CFormModel {
         return md5($this->MrchLogin.':'.$invoice->amount.':'.$invoice->id.':'.$this->sMerchantPass1);
     }
 
+    public function get_result_key(Invoice $invoice) {
+        return md5($this->MrchLogin.':'.$invoice->amount.':'.$invoice->id.':'.$this->sMerchantPass2);
+    }
+
     private function getDescription($tariff) {
         if($this->Desc == null) {
             return "Продление тарифного" . $tariff->slug . "(" . $tariff->simulations_amount . ")";
