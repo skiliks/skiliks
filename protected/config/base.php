@@ -218,6 +218,8 @@ return array(
                 'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
                 'payment/doCashPayment'              => 'static/payment/doCashPayment',
                 'payment/getRobokassaForm'           => 'static/payment/getRobokassaForm',
+                'payment/success'                    => 'static/payment/success',
+                'payment/fail'                       => 'static/payment/fail',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
