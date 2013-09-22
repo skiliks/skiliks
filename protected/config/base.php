@@ -220,7 +220,7 @@ return array(
                 'payment/getRobokassaForm'           => 'static/payment/getRobokassaForm',
                 'payment/success'                    => 'static/payment/success',
                 'payment/fail'                       => 'static/payment/fail',
-                'payment/fail'                       => 'static/payment/fail',
+                'payment/result'                     => 'static/payment/result',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
