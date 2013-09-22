@@ -320,7 +320,9 @@ class PaymentController extends SiteBaseController
                 echo "invoice_complete";
             }
             else {
-                echo "invoice_not_complete";
+                echo "Yii::app()->request->getParam('SignatureValue')";
+                echo "________";
+                echo $paymentMethod->get_result_key($invoice);
                 exit();
             }
         }
