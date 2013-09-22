@@ -307,7 +307,6 @@ class PaymentController extends SiteBaseController
     public function actionResult() {
 
         $invoiceId = Yii::app()->request->getParam('InvId');
-        $invoiceId = 4;
 
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
@@ -315,17 +314,13 @@ class PaymentController extends SiteBaseController
 
         $invoice = Invoice::model()->find($criteria);
 
-        var_dump($invoice);
-
         if($invoice !== null && $invoice->paid_date == null) {
             $paymentMethod = new RobokassaPaymentMethod();
             if(Yii::app()->request->getParam('SignatureValue') == $paymentMethod->get_result_key($invoice)) {
-                var_dump("invoice_complete");
-                exit();
+                echo "invoice_complete";
             }
             else {
-                var_dump(Yii::app()->request->getParam('SignatureValue'));
-                var_dump($paymentMethod->get_result_key($invoice));
+                echo "invoice_not_complete";
                 exit();
             }
         }
