@@ -317,7 +317,7 @@ class PaymentController extends SiteBaseController
         if($invoice !== null && $invoice->paid_date == null) {
             $paymentMethod = new RobokassaPaymentMethod();
             if(Yii::app()->request->getParam('SignatureValue') == $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'))) {
-                echo "invoice_complete";
+                echo "OK".$invoice->id;
             }
             else {
                 echo $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'));
