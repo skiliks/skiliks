@@ -14,6 +14,14 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
+
+        if($user->getInvitesLeft() > 0) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'У вас ещё остались симуляции. Пожалуйста, используйте их, вы сможете сменить тарифный план после.'
+            ));
+            $this->redirect('/dashboard');
+        }
+
         $tariff = null === $tariffType ?
            $user->account_corporate->tariff :
            Tariff::model()->findByAttributes(['slug' => $tariffType]);
@@ -24,8 +32,6 @@ class PaymentController extends SiteBaseController
             ));
             $this->redirect('/');
         }
-
-//        $invoice = new Invoice();
 
         $this->render('order', [
             'account' => $user->account_corporate,
@@ -256,4 +262,38 @@ class PaymentController extends SiteBaseController
         $formData = $robokassa->generateJsonBackData($invoice, $tariff);
         echo json_encode($formData);
     }
+
+    public function actionSuccess() {
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        Yii::app()->user->setFlash('error', sprintf(
+            'Оплата прошла успешно, спасибо!'
+        ));
+        $this->redirect('/dashboard');
+    }
+
+    public function actionFail() {
+        $user = Yii::app()->user->data();
+        var_dump($UserAccountCorporate = Yii::app()->request->getParam('InvId'));
+        exit();
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        Yii::app()->user->setFlash('error', sprintf(
+            'Извините, оплата прошла не успешно.'
+        ));
+        $this->redirect('/order/');
+    }
+
 }
