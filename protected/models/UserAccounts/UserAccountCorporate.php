@@ -12,6 +12,7 @@
  * @property integer $invites_limit
  * @property boolean $is_corporate_email_verified
  * @property datetime $corporate_email_verified_at
+ * @property datetime $tariff_expired_at
  * @property boolean $corporate_email_activation_code
  * @property string $inn
  * @property string $cpp

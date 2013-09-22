@@ -146,6 +146,19 @@ class YumUser extends YumActiveRecord
         return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
     }
 
+    /**
+     * @return integer
+     */
+    public function getInvitesLeft() {
+        if($this->isCorporate()) {
+            if(strtotime($this->account_corporate->tariff_expired_at) > time()) {
+                return $this->account_corporate->invites_limit;
+            }
+        }
+        return 0;
+    }
+
+
     public function getAccountName() {
         if($this->isPersonal()){
             return 'персональный';
