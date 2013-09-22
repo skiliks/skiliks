@@ -282,8 +282,6 @@ class PaymentController extends SiteBaseController
     public function actionFail() {
         $user = Yii::app()->user->data();
 
-        // $invoiceId = Yii::app()->request->getParam('InvId')
-
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
                 'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
@@ -291,7 +289,7 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        $invoiceId = 3;
+        $invoiceId = Yii::app()->request->getParam('InvId');
 
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
@@ -304,6 +302,29 @@ class PaymentController extends SiteBaseController
             ));
             $this->redirect('/payment/order/'.$invoice->tariff->slug);
         }
+    }
+
+    public function actionResult() {
+
+        $invoiceId = Yii::app()->request->getParam('InvId');
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+        if($invoice != null && $invoice->paid_date == null) {
+            $paymentMethod = new RobokassaPaymentMethod();
+            if(Yii::app()->request->getParam('SignatureValue') == $paymentMethod->get_result_key($invoice)) {
+                var_dump("invoice_complete");
+                exit();
+            }
+            else {
+                var_dump(Yii::app()->request->getParam('SignatureValue'));
+                var_dump($paymentMethod->get_result_key($invoice));
+                exit();
+            }
+        }
+
     }
 
 }
