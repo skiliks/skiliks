@@ -30,7 +30,7 @@ class RobokassaPaymentMethod extends CFormModel {
     }
 
     public function get_result_key(Invoice $invoice, $backAmount) {
-        return md5($backAmount.':'.$invoice->id.':'.$this->sMerchantPass2);
+        return strtoupper(md5($backAmount.':'.$invoice->id.':'.$this->sMerchantPass2));
     }
 
     private function getDescription($tariff) {
