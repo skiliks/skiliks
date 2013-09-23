@@ -211,15 +211,43 @@ class PaymentController extends SiteBaseController
 
         $errors = CActiveForm::validate($paymentMethod);
 
-        if ($errors) {
+        if ($errors && $errors != "[]") {
             echo $errors;
-        } elseif (!$account->hasErrors()) {
+        } elseif ($errors == "[]" && !$account->hasErrors()) {
             $account->save();
 
-            echo sprintf(
-                Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
-                $user->profile->email
-            );
+
+            $tariffType = Yii::app()->request->getParam('tariff-label');
+            $months = Yii::app()->request->getParam('cash-month-selected');
+
+            if( !isset($months) || $months === null || (int)$months == 0) {
+                throw new Exception("Invoice has to be created for at least one month");
+            }
+
+            $tariff = null === $tariffType ?
+                $user->account_corporate->tariff :
+                Tariff::model()->findByAttributes(['slug' => $tariffType]);
+
+            if (null === $tariff) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+                ));
+                $this->redirect('/');
+            }
+
+            $invoice = new Invoice();
+            $invoice->payment_system = "cash";
+            $invoice->additional_data = "ИНН: "  . $paymentMethod->inn     . "\r\n" .
+                                        "КПП: "  . $paymentMethod->cpp     . "\r\n" .
+                                        "Счет: " . $paymentMethod->account . "\r\n" .
+                                        "БИК: "  . $paymentMethod->bic     . "\r\n";
+            // setting months that user selected, after it create an invoice and save it
+            $invoice->createInvoice($user, $tariff, $months);
+
+            // send booker email
+            if($paymentMethod->sendBookerEmail($invoice, $user)) {
+                echo "[]";
+            }
         }
     }
 
@@ -314,17 +342,41 @@ class PaymentController extends SiteBaseController
 
         $invoice = Invoice::model()->find($criteria);
 
-        if($invoice !== null && $invoice->paid_date == null) {
+        if($invoice !== null && $invoice->paid_at == null) {
             $paymentMethod = new RobokassaPaymentMethod();
+
             if(Yii::app()->request->getParam('SignatureValue') == $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'))) {
-                echo "OK".$invoice->id;
+
+                if($invoice->completeInvoice()) {
+                    echo "OK".$invoice->id;
+                }
+                else throw new Exception("Invoice is not complete");
             }
             else {
                 echo $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'));
                 exit();
             }
         }
+    }
 
+    /**
+     * function for cash payment method in case of success
+     */
+
+    public function actionInvoiceSuccess() {
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth() || !$user->isCorporate()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+            ));
+            $this->redirect('/');
+        }
+
+        Yii::app()->user->setFlash('error', sprintf(
+            'Ваш заказ принят, в течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плана.'
+        ));
+        $this->redirect('/dashboard');
     }
 
 }

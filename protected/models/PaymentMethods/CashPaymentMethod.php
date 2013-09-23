@@ -78,6 +78,33 @@ class CashPaymentMethod extends CFormModel {
         }
     }
 
+    public function sendBookerEmail($invoice = null, $user = null) {
+        if($user !== null && $invoice !== null) {
+            $inviteEmailTemplate = Yii::app()->params['emails']['newInvoiceToBooker'];
+            $bookerEmail = Yii::app()->params['emails']['bookerEmail'];
+
+            $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
+                'invoice' => $invoice, 'user' => $user
+            ], true);
+
+            $mail = [
+                'from'        => $bookerEmail,
+                'to'          => 'boykovladimir@ukr.net',
+                'subject'     => 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name ,
+                'body'        => $body,
+            ];
+
+            try {
+                $sent = YumMailer::send($mail);
+            } catch (phpmailerException $e) {
+                // happens at my local PC only, Slavka
+                $sent = null;
+            }
+
+            return $sent;
+        }
+    }
+
 
 
 }

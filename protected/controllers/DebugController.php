@@ -135,11 +135,6 @@ class DebugController extends SiteBaseController
             'paymentMethodCash'      => new CashPaymentMethod(),
             'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
         ]);
-//        $invoice = new Invoice();
-//        $new_invoice_id = $invoice->create_invoice(11, 1);
-//        if($new_invoice_id) {
-//            var_dump($new_invoice_id);
-//        }
     }
 
     public function actionDoCashPayment() {
@@ -174,6 +169,13 @@ class DebugController extends SiteBaseController
                 $user->profile->email
             );
         }
+    }
+
+    public function actionTestInvoiceComplete() {
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', 13);
+        $invoice = Invoice::model()->find($criteria);
+        $invoice->completeInvoice();
     }
 }
 

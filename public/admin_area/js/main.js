@@ -99,17 +99,44 @@ $(document).ready(function(){
         $(".clear_filter_button").parent("form").submit();
     });
 
-$("#add_invites_button").click(function(e) {
-    e.preventDefault();
-    if(!isNaN(parseInt($("#add_invites_button").prev('input').val()))) {
-        $("#add_invites_button").parent('form').attr('action', $("#add_invites_button").parent('form').attr('action')+
-            $("#add_invites_button").prev('input').val());
-        $("#add_invites_button").parent('form').submit();
-    }
-    else {
-        alert("Необходимо ввести количество инвайтов");
-        return false;
-    }
-})
+    $("#add_invites_button").click(function(e) {
+        e.preventDefault();
+        if(!isNaN(parseInt($("#add_invites_button").prev('input').val()))) {
+            $("#add_invites_button").parent('form').attr('action', $("#add_invites_button").parent('form').attr('action')+
+                $("#add_invites_button").prev('input').val());
+            $("#add_invites_button").parent('form').submit();
+        }
+        else {
+            alert("Необходимо ввести количество инвайтов");
+            return false;
+        }
+    });
+
+    $(".complete-invoice").click(function() {
+        var clickedButton = $(this);
+        if(confirm("Вы действительно подтверждаете полату инвойса №"+clickedButton.attr("data-invoice-id")+"?")) {
+        clickedButton.addClass("disabled");
+        $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
+            .done(function() {
+                clickedButton.hide();
+                clickedButton.parent("td").append("<span>Оплачен</span>");
+            })
+            .fail(function() {
+                alert("В процессе обработки возникла ошибка.");
+            });
+        }
+    });
+
+    $(".invoice-comment").change(function() {
+        var changedTextarea = $(this);
+        changedTextarea.addClass("disabled");
+        $.post( "/admin_area/invoiceComment", {invoice_id : changedTextarea.attr("data-invoice-id"), invoice_comment : changedTextarea.val()})
+            .done(function() {
+                changedTextarea.removeClass("disabled");
+            })
+            .fail(function() {
+                alert("В процессе обработки возникла ошибка.");
+            });
+    });
 
 });

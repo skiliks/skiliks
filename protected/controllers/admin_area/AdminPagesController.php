@@ -665,7 +665,39 @@ class AdminPagesController extends SiteBaseController {
             'totalItems'  => $totalItems,
             'itemsOnPage' => $this->itemsOnPage
         ]);
+    }
 
+    public function actionCompleteInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null && $invoice->paid_at == null) {
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Completed from admin panel");
+            $invoice->completeInvoice();
+            echo json_encode(["return" => true]);
+        }
+    }
+
+    public function actionCommentInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null) {
+
+            $invoice->comment = (Yii::app()->request->getParam('invoice_comment'));
+            $invoice->save();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Changed comment");
+            echo json_encode(["return" => true]);
+        }
     }
 
     public function actionOrderChecked() {
