@@ -51,15 +51,19 @@ class DayPlanService
             'order'  => 't.id desc'
         ]);
 
-        $data = array_map(function(DayPlan $plan) {
-            return [
-                'id'       => $plan->task->id,
-                'title'    => $plan->task->title,
-                'duration' => TimeTools::roundTime($plan->task->duration)
-            ];
-        }, $plans);
+        if(!empty($plans)) {
 
-        return $data;
+            $data = array_map(function(DayPlan $plan) {
+                return [
+                    'id'       => $plan->task->id,
+                    'title'    => $plan->task->title,
+                    'duration' => TimeTools::roundTime($plan->task->duration)
+                ];
+            }, $plans);
+
+            return $data;
+        }
+        else return null;
     }
 
     /**
@@ -108,8 +112,8 @@ class DayPlanService
             $dayPlan->task_id = $task->id;
         }
 
-        if($fromEventService && $dayPlan !== DayPlan::DAY_TODO) {
-            return;
+        if($fromEventService && $dayPlan !== DayPlan::DAY_TODO && $dayPlan !== null) {
+            return false;
         }
 
 

@@ -226,10 +226,8 @@ define([
         makeCloseAndOpen: function (name, subname, params) {
             try {
 
-                console.log("lol");
                 // protect against 2 open phone windows at the same time
                 var windows = this.where({name: name, subname: subname});
-                console.log(windows);
                 if (windows.length !== 0) {
                         windows[0].trigger('refresh');
                         windows[0].close();
