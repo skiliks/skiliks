@@ -308,7 +308,7 @@ class Invite extends CActiveRecord
             ]);
 
             // проверяем что последний лог пришел посже чем час назад
-            if ($lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
+            if ($lastLog !== null && $lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
                 // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
                 return false;
             }
@@ -324,7 +324,7 @@ class Invite extends CActiveRecord
 
         $initValue = $account->invites_limit;
 
-        $account->invites_limit = $account->invites_limit++;
+        $account->invites_limit++;
         $account->update();
 
         UserService::logCorporateInviteMovementAdd(
