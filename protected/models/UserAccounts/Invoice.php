@@ -221,7 +221,7 @@ class Invoice extends CActiveRecord
         $mail = [
             'from'        => Yum::module('registration')->registrationEmail,
             'to'          => $this->user->profile->email,
-            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'subject'     => 'Оплата на skiliks.com',
             'body'        => $body,
             'embeddedImages' => [
                 [
