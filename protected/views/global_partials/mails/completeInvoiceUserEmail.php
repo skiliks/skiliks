@@ -12,7 +12,7 @@
             <img src="cid:mail-top" style="display:block;" />
         </td>
         <td valign="top">
-            <img src="cid:mail-top-2" style="display:block; margin-left:-10px;" />
+            <img src="cid:mail-top-2" style="display:block;" />
         </td>
     </tr>
     <tr>
@@ -26,9 +26,9 @@
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
                     <td>
-                        <table cellpadding="0" cellspacing="0" width="810">
+                        <table cellpadding="0" cellspacing="0" width="800">
                             <tr>
-                                <td valign="top" bgcolor="fdfbc6">
+                                <td valign="top" bgcolor="fdfbc6" width="810">
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
                                         Приветствуем, <?=$user->profile->firstname ?>!
@@ -49,7 +49,7 @@
             </table>
         </td>
         <td valign="top">
-            <img src="cid:mail-right-3" style="display:block; margin-left:-10px;" />
+            <img src="cid:mail-right-3" style="display:block;" />
         </td>
     </tr>
     <tr>
