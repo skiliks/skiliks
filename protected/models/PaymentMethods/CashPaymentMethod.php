@@ -88,7 +88,7 @@ class CashPaymentMethod extends CFormModel {
             ], true);
 
             $mail = [
-                'from'        => $bookerEmail,
+                'from'        => Yum::module('registration')->registrationEmail,
                 'to'          => $bookerEmail,
                 'subject'     => 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name ,
                 'body'        => $body,
