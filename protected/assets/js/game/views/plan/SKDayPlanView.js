@@ -713,11 +713,16 @@ define([
                     SKApp.simulation.todo_tasks.create({
                         title:task.get("title"),
                         date:task.get("date"),
+                        taskFromPlan: false,
                         id:task.get("task_id"),
                         duration:task.get("duration"),
                         day:task.get("day")
                     });
                 }
+                var last_model = SKApp.simulation.todo_tasks.at(SKApp.simulation.todo_tasks.length - 1);
+                console.log(last_model);
+                $('.day-plan-task-active').removeClass('day-plan-task-active');
+                last_model.isNewTask = false;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
