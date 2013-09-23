@@ -2,8 +2,7 @@
     'ID <br/>заказа',
     'Email, <br/>ФИО, <br/>Компания',
     'Название <br/>тарифа',
-    'Время <br/>заказа',
-    'Время <br/>оплаты',
+    'Время заказа,<br/> Время оплаты',
     'Стоимость',
     'Платежная<br/>система',
     'Дополнительные<br/>данные',
@@ -59,14 +58,17 @@
                     ? '--' : $model->user->account_corporate->company_name?>
             </td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
-            <td><?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?></td>
-            <td><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></td>
+            <td>
+                <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?><br/>
+                <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></span>
+            </td>
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
             <td><?= $model->payment_system?></td>
             <td><?= nl2br($model->additional_data)?></td>
 
             <td>
-                <textarea class="invoice-comment" data-invoice-id="<?=$model->id?>"><?= nl2br($model->comment)?></textarea>
+                <textarea class="invoice-comment""><?=$model->comment ?></textarea>
+                <br/><a class="btn change-comment-button" data-invoice-id="<?=$model->id?>">Сохранить</a>
             </td>
 
             <td>
@@ -75,7 +77,8 @@
 
             <td>
                 <? if(!$model->isComplete()) : ?>
-                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>">Подтвердить</a>
+                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"
+                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
                 <? else : ?>
                     <span>Оплачен</span>
                 <? endif; ?>
