@@ -303,6 +303,7 @@ return array(
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
                 'admin_area/completeInvoice'  => 'admin_area/AdminPages/CompleteInvoice',
                 'admin_area/invoiceComment'  => 'admin_area/AdminPages/CommentInvoice',
+                'admin_area/getInvoiceLog'  => 'admin_area/AdminPages/GetInvoiceLog',
 
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',

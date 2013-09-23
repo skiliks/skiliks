@@ -70,7 +70,7 @@
             </td>
 
             <td>
-                <a class="btn btn-info">Лог</a>
+                <a href="#" class="btn btn-info view-payment-log" data-invoice-id="<?=$model->id?>">Лог</a>
             </td>
 
             <td>
@@ -84,4 +84,18 @@
         <?php endforeach ?>
         </tbody>
     </table>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Log model</h3>
+    </div>
+    <div class="modal-body" id="myModalBody">
+        <p>One fine body…</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
 </div>

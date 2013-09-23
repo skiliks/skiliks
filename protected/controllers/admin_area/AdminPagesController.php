@@ -700,6 +700,24 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    public function actionGetInvoiceLog() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+        $criteria = new CDbCriteria();
+        $criteria->compare('invoice_id', $invoiceId);
+
+        $logs = LogPayments::model()->findAll($criteria);
+        $returnData = "";
+        if(!empty($logs)) {
+            $returnData = "<table class=\"table\"><tr><td>Время</td><td>Текст лога</td></tr>";
+            foreach($logs as $log) {
+                $returnData .= '<tr><td><span style="color: #003bb3;">'.$log->created_at.'</span></td>';
+                $returnData .= '<td>'.$log->text.'</td></tr>';
+            }
+            $returnData .= "</table>";
+        }
+        echo json_encode(["log" => $returnData]);
+    }
+
     public function actionOrderChecked() {
 
         $order_id = Yii::app()->request->getParam('order_id', null);
