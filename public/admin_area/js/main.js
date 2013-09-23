@@ -139,4 +139,24 @@ $(document).ready(function(){
             });
     });
 
+    $(".view-payment-log").click(function() {
+        var clickedButton = $(this);
+        clickedButton.addClass("disabled");
+        $.getJSON( "/admin_area/getInvoiceLog", {invoice_id : clickedButton.attr("data-invoice-id")})
+            .done(function(data) {
+                clickedButton.removeClass("disabled");
+                if(data.log != "") {
+                    $("#myModalLabel").html("Логи для инвойса №"+clickedButton.attr("data-invoice-id"));
+                    $("#myModalBody").html(data.log);
+                    $('#myModal').modal('show');
+                }
+                else {
+                    alert("Для данного инвойса нет логов.");
+                }
+            })
+            .fail(function() {
+                alert("В процессе обработки возникла ошибка.");
+            });
+    });
+
 });

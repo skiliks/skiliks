@@ -134,7 +134,7 @@
                         <br/>
                         <span style="font-size:14px;">Электронные деньги</span><br/>
                         <small>
-                            <img src="/protected/assets/img/epay-services.png" alt="Варианты зарплаты" />
+                            <img src="/protected/assets/img/epay-services.png" alt="Варианты оплаты" />
                             <div class="without-commission payment-method-without-commision">Без комиссий</div><br/>
                             Выставление счёта в интернет-банк и другие способы оплаты, предусмотренные платёжной системой<br/><br/>
                             <p>Выбирая данную опцию, вы будете перенаправлены на страницу платёжной системы</p>
