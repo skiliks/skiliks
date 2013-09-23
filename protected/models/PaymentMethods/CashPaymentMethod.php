@@ -89,7 +89,7 @@ class CashPaymentMethod extends CFormModel {
 
             $mail = [
                 'from'        => $bookerEmail,
-                'to'          => 'boykovladimir@ukr.net',
+                'to'          => $bookerEmail,
                 'subject'     => 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name ,
                 'body'        => $body,
             ];
