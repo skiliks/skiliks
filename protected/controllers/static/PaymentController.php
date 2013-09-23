@@ -343,6 +343,8 @@ class PaymentController extends SiteBaseController
         $invoice = Invoice::model()->find($criteria);
 
         if($invoice !== null && $invoice->paid_at == null) {
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Получены данные от Robokassa. Данные: Инвойс №" . Yii::app()->request->getParam('InvId') . ", сумма: " . Yii::app()->request->getParam('OutSum') . ", подпись: " . Yii::app()->request->getParam('SignatureValue'));
             $paymentMethod = new RobokassaPaymentMethod();
 
             if(Yii::app()->request->getParam('SignatureValue') == $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'))) {

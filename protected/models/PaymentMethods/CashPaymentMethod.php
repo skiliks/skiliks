@@ -96,9 +96,13 @@ class CashPaymentMethod extends CFormModel {
 
             try {
                 $sent = YumMailer::send($mail);
+                $invoice_log = new LogPayments();
+                $invoice_log->log($invoice, "Письмо об обновлении тарифного плана отправлено пользователю на " . $bookerEmail);
             } catch (phpmailerException $e) {
                 // happens at my local PC only, Slavka
                 $sent = null;
+                $invoice_log = new LogPayments();
+                $invoice_log->log($invoice, "Письмо об обновлении тарифного плана НЕ отправлено пользователю на " . $bookerEmail . ". Причина: " . $e->getMessage());
             }
 
             return $sent;

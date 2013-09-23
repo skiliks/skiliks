@@ -172,10 +172,10 @@ class DebugController extends SiteBaseController
     }
 
     public function actionTestInvoiceComplete() {
-        $criteria = new CDbCriteria();
-        $criteria->compare('id', 13);
-        $invoice = Invoice::model()->find($criteria);
-        $invoice->completeInvoice();
+        $k = new stdClass();
+        $k->int = 2;
+        $k->int = $k->int++;
+        var_dump($k->int);
     }
 }
 

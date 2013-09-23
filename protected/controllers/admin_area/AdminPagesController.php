@@ -676,10 +676,11 @@ class AdminPagesController extends SiteBaseController {
         $invoice = Invoice::model()->find($criteria);
 
         if($invoice !== null && $invoice->paid_at == null) {
+            $user = Yii::app()->user->data();
             $invoice_log = new LogPayments();
-            $invoice_log->log($invoice, "Completed from admin panel");
-            $invoice->completeInvoice();
-            echo json_encode(["return" => true]);
+            $invoice_log->log($invoice, "Попытка отметить счёт как \"Оплаченый\" в админке. Админ ".$user->profile->email.".");
+            $invoice->completeInvoice($user->profile->email);
+            echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
         }
     }
 
@@ -694,8 +695,9 @@ class AdminPagesController extends SiteBaseController {
 
             $invoice->comment = (Yii::app()->request->getParam('invoice_comment'));
             $invoice->save();
+            $user = Yii::app()->user->data();
             $invoice_log = new LogPayments();
-            $invoice_log->log($invoice, "Changed comment");
+            $invoice_log->log($invoice, $user->profile->email . " изменил комментарий: \r\n".$invoice->comment);
             echo json_encode(["return" => true]);
         }
     }

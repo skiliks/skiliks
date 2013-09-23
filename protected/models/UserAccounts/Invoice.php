@@ -124,7 +124,7 @@ class Invoice extends CActiveRecord
             $this->month_selected = $months;
             $this->save();
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Invoice created");
+            $invoice_log->log($this, "Заказ тарифа ".$this->tariff->label." на ".$this->month_selected." месяц(ев), создан для ".$user->profile->email.".");
             return $this->id;
         }
         else return false;
@@ -179,9 +179,7 @@ class Invoice extends CActiveRecord
      * Method add paid_date to Invoice and saves it
      */
 
-    public function completeInvoice() {
-        $invoice_log = new LogPayments();
-        $invoice_log->log($this, "Trying to complete invoice from " . $this->payment_system);
+    public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
             $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
             $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
@@ -198,13 +196,17 @@ class Invoice extends CActiveRecord
             $this->sendCompleteEmailToUser();
 
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Invoice completed");
-
+            if(!is_null($isAdmin)) {
+                $invoice_log->log($this, "Статус инвойса изменен на оплаченный. Админ " . $isAdmin);
+            }
+            else {
+                $invoice_log->log($this, "Статус инвойса изменен.");
+            }
             return true;
         }
         else {
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "We got errors:" . $this->getErrors());
+            $invoice_log->log($this, "Не удалось изменить статус инвойса - он оплачен ранее.");
             return false;
         }
     }
@@ -266,11 +268,15 @@ class Invoice extends CActiveRecord
 
         try {
             $sent = YumMailer::send($mail);
+            $invoice_log = new LogPayments();
+            $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->profile->email);
         } catch (phpmailerException $e) {
             // happens at my local PC only, Slavka
             $sent = null;
+            $invoice_log = new LogPayments();
+            $invoice_log->log($this, "Письмо об обновлении тарифного плана НЕ отправлено пользователю на " . $this->user->profile->email . ". Причина: " . $e->getMessage());
         }
-
+        return $sent;
     }
 
 }

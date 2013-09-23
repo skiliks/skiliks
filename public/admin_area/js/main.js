@@ -114,10 +114,11 @@ $(document).ready(function(){
 
     $(".complete-invoice").click(function() {
         var clickedButton = $(this);
-        if(confirm("Вы действительно подтверждаете полату инвойса №"+clickedButton.attr("data-invoice-id")+"?")) {
+        if(confirm("Вы действительно подтверждаете оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
         clickedButton.addClass("disabled");
         $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
-            .done(function() {
+            .done(function(data) {
+                clickedButton.closest("tr").find(".invoice-date-paid").html(data.paidAt);
                 clickedButton.hide();
                 clickedButton.parent("td").append("<span>Оплачен</span>");
             })
@@ -127,12 +128,18 @@ $(document).ready(function(){
         }
     });
 
-    $(".invoice-comment").change(function() {
-        var changedTextarea = $(this);
+    $(".change-comment-button").click(function() {
+        var clickedButton = $(this);
+        changedTextarea = clickedButton.closest("tr").find(".invoice-comment");
+        clickedButton.addClass("disabled");
         changedTextarea.addClass("disabled");
-        $.post( "/admin_area/invoiceComment", {invoice_id : changedTextarea.attr("data-invoice-id"), invoice_comment : changedTextarea.val()})
+        $.post( "/admin_area/invoiceComment", {invoice_id : clickedButton.attr("data-invoice-id"), invoice_comment : changedTextarea.val()})
             .done(function() {
-                changedTextarea.removeClass("disabled");
+                clickedButton.removeClass("disabled");
+                clickedButton.html("Сохранено");
+                setTimeout(function() {
+                    clickedButton.html("Сохранить");
+                    }, 1500)
             })
             .fail(function() {
                 alert("В процессе обработки возникла ошибка.");
