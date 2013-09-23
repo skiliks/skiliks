@@ -391,7 +391,8 @@ return array(
             'newInvoiceToBooker' => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
 
-            'bookerEmail' => 'accounter@skiliks.com',
+//            'bookerEmail' => 'accounter@skiliks.com',
+            'bookerEmail' => 'tetyana.grybok@skiliks.com',
         ],
         'allowedLanguages' => [
             'en' => [
