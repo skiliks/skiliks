@@ -63,9 +63,23 @@
             <td><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></td>
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
             <td><?= $model->payment_system?></td>
-            <td><?= $model->additional_data?></td>
-            <td><a class="btn btn-info">Лог</a> </td>
-            <td><a class="btn btn-success">Подтвердить</a> </td>
+            <td><?= nl2br($model->additional_data)?></td>
+
+            <td>
+                <textarea class="invoice-comment" data-invoice-id="<?=$model->id?>"><?= nl2br($model->comment)?></textarea>
+            </td>
+
+            <td>
+                <a class="btn btn-info">Лог</a>
+            </td>
+
+            <td>
+                <? if(!$model->isComplete()) : ?>
+                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>">Подтвердить</a>
+                <? else : ?>
+                    <span>Оплачен</span>
+                <? endif; ?>
+            </td>
         </tr>
         <?php endforeach ?>
         </tbody>

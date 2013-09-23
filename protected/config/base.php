@@ -221,6 +221,7 @@ return array(
                 'payment/success'                    => 'static/payment/success',
                 'payment/fail'                       => 'static/payment/fail',
                 'payment/result'                     => 'static/payment/result',
+                'payment/invoiceSuccess'              => 'static/payment/InvoiceSuccess',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
@@ -300,6 +301,8 @@ return array(
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
+                'admin_area/completeInvoice'  => 'admin_area/AdminPages/CompleteInvoice',
+                'admin_area/invoiceComment'  => 'admin_area/AdminPages/CommentInvoice',
 
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
@@ -384,6 +387,10 @@ return array(
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate' => '//global_partials/mails/invite_default',
+            'newInvoiceToBooker' => '//global_partials/mails/new_invoice',
+            'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+
+            'bookerEmail' => 'accounter@skiliks.com',
         ],
         'allowedLanguages' => [
             'en' => [

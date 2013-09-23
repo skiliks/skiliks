@@ -9,7 +9,7 @@
  * @property integer $tariff_id
  * @property string $amount
  * @property string $create_date
- * @property string $paid_date
+ * @property string $paid_at
  * @property string $payment_system
  * @property string $additional_data
  * @property string $comment
@@ -72,7 +72,7 @@ class Invoice extends CActiveRecord
     }
 
     public function checkHavingInvites() {
-        if($this->user->getInvitesLeft() > 0) {
+        if($this->user->getInvitesLeft() > 0 && $this->id === null) {
             $this->addError('inn', Yii::t('site', 'You have invites left'));
         }
     }
@@ -92,22 +92,13 @@ class Invoice extends CActiveRecord
         $criteria->compare('user_id',$this->user_id,true);
         $criteria->compare('tariff_id',$this->tariff_id);
         $criteria->compare('amount',$this->amount,true);
-        $criteria->compare('create_date',$this->create_date,true);
+        $criteria->compare('created_at',$this->created_at,true);
         $criteria->compare('payment_system',$this->payment_system,true);
-        $criteria->compare('paid_date',$this->paid_date,true);
+        $criteria->compare('paid_at',$this->paid_at,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
-    }
-
-    /**
-     * Method add paid_date to Invoice and saves it
-     */
-
-    public function completeInvoice() {
-        $this->paid_date = date('Y-m-d H:i:s');
-        $this->save();
     }
 
 
@@ -124,7 +115,7 @@ class Invoice extends CActiveRecord
 
     public function createInvoice($user = null, Tariff $tariff = null, $months = null) {
         if($user !== null && $tariff !== null) {
-            $this->create_date = date('Y-m-d H:i:s');
+            $this->created_at = date('Y-m-d H:i:s');
             $this->user        = $user;
             $this->tariff      = $tariff;
             $this->user_id     = $user->id;
@@ -132,6 +123,8 @@ class Invoice extends CActiveRecord
             $this->amount      = $tariff->price * $months;
             $this->month_selected = $months;
             $this->save();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($this, "Invoice created");
             return $this->id;
         }
         else return false;
@@ -145,7 +138,7 @@ class Invoice extends CActiveRecord
      */
 
     public function isComplete() {
-        if($this->paid_date !== null) {
+        if($this->paid_at !== null) {
             return true;
         }
         else return false;
@@ -180,6 +173,104 @@ class Invoice extends CActiveRecord
             return true;
         }
         else return false;
+    }
+
+    /**
+     * Method add paid_date to Invoice and saves it
+     */
+
+    public function completeInvoice() {
+        $invoice_log = new LogPayments();
+        $invoice_log->log($this, "Trying to complete invoice from " . $this->payment_system);
+        if(!$this->isComplete()) {
+            $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
+            $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
+            $this->paid_at = date('Y-m-d H:i:s');
+
+            $date = new DateTime();
+            $date->add(new DateInterval('P'.$this->month_selected.'M'));
+
+            $this->user->account_corporate->tariff_expired_at = $date->format('Y-m-d H:i:s');
+
+            $this->user->account_corporate->save();
+            $this->save();
+
+            $this->sendCompleteEmailToUser();
+
+            $invoice_log = new LogPayments();
+            $invoice_log->log($this, "Invoice completed");
+
+            return true;
+        }
+        else {
+            $invoice_log = new LogPayments();
+            $invoice_log->log($this, "We got errors:" . $this->getErrors());
+            return false;
+        }
+    }
+
+    public function sendCompleteEmailToUser() {
+
+        $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
+
+        $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
+            'invoice' => $this, 'user' => $this->user
+        ], true);
+
+
+        $mail = [
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $this->user->profile->email,
+            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                    'cid'      => 'mail-top-2',
+                    'name'     => 'mailtop2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                    'cid'      => 'mail-right-1',
+                    'name'     => 'mailright1',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                    'cid'      => 'mail-right-2',
+                    'name'     => 'mailright2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                    'cid'      => 'mail-right-3',
+                    'name'     => 'mailright3',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        try {
+            $sent = YumMailer::send($mail);
+        } catch (phpmailerException $e) {
+            // happens at my local PC only, Slavka
+            $sent = null;
+        }
+
     }
 
 }

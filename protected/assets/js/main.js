@@ -256,9 +256,9 @@ var fixLogotypes = function() {
 
         window.paymentSubmit = function paymentSubmit(form, data, hasError) {
             if (!hasError) {
-                $.post(form.attr('action'), form.serialize(), function (res) {
-                    var result = $('<div class="order-result"/>').html(res);
-                    $('.order-methods').html(result);
+                $("#cash-month-selected").val($("#month-selected").val());
+                $.post("/payment/invoiceSuccess", form.serialize(), function (res) {
+                    window.location.href = "/payment/invoiceSuccess";
                 });
             }
             return false;
@@ -524,6 +524,11 @@ var fixLogotypes = function() {
         $(".start-simulation-from-popup").click(function() {
             $("#invite-accept-form").dialog("close");
         });
+
+        $("#month-selected").change(function() {
+            $("#cash-month-selected").val($( "#month-selected option:selected").val());
+        });
+
     });
 })(jQuery);
 

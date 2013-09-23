@@ -87,7 +87,8 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="" />
+                <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="1" />
+                <input type="hidden" name="tariff-label" id="tariff-label" value="<?=$tariff->label ?>" />
 
                 <div class="row">
                     <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
