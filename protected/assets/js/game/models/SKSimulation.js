@@ -409,7 +409,7 @@ define([
                     var me = this;
                     var logs = this.windowLog.getAndClear();
 
-                    SKApp.server.apiQueue('events', 'events/getState', {
+                    SKApp.server.apiQueue('events/getState', {
                         logs:             logs,
                         timeString:       this.getGameMinutes(),
                         eventsQueueDepth: $("#events-queue-depth").val()
