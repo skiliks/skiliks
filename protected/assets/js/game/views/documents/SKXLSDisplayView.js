@@ -96,6 +96,7 @@ define([
                         me.unBlock();
                         SKApp.simulation.useSCHotkeys = true;
                         clearInterval(SKApp.simulation.sc_interval_id);
+                        me.doHoverMenuIcon();
                     }
                     //me.$('.header-inner').click();
                 }, 1000);
@@ -104,8 +105,10 @@ define([
                         me.unBlock();
                         SKApp.simulation.useSCHotkeys = true;
                         clearInterval(SKApp.simulation.sc_interval_id);
+                        me.doHoverMenuIcon();
                     }
                 }, 10000);
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -193,6 +196,13 @@ define([
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
+        },
+        doHoverMenuIcon:function() {
+            $('.button_menu li').hover(function(){
+                $(this).find('a.grid-row').css('text-decoration', 'underline');
+            }, function(){
+                $(this).find('a.grid-row').css('text-decoration', 'none');
+            });
         }
 
     });
