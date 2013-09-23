@@ -35,7 +35,7 @@
                 <div class="value">
                     <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
-                        <option value="2">2</option>
+<!--                        <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
                         <option value="5">5</option>
@@ -46,6 +46,7 @@
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
+                        -->
                     </select>
                 </div>
             </div>
