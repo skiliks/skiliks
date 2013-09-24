@@ -1,14 +1,22 @@
-<?php /** @var Simulation $simulation */ /* @var YumUser $user */ /* @var Invite $invite */  ?>
-<?php if($user->isPersonal()) { ?>
+<?php
+/** @var Simulation $simulation
+ * @var YumUser $user
+ * @var Invite $invite
+ */
+?>
+<?php if($simulation->game_type->isLite()) : ?>
+    <h1>Пример отчета по оценке (цифры случайные)</h1>
+<?php elseif($user->isPersonal()) : ?>
     <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
-<?php } elseif(null === $simulation->invite) { ?>
+<?php elseif(null === $simulation->invite) : ?>
     <?php // это хак для просмотра результатов lite симуляций,
-          //в случае одновременного запуска нескольких lite симуляций по одному и томе же инвайту  ?>
+          //в случае одновременного запуска нескольких lite симуляций по одному и туме же инвайту  ?>
     <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
-<?php } else{ ?>
+<?php else : ?>
     <h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
-<?php } ?>
-<div class="simulation-details">
+<?php endif ?>
+
+<div class="simulation-details scenario-<?= $simulation->game_type->slug ?>">
     <script type="text/javascript">
         var AR = <?= $details; ?>;
 
@@ -24,7 +32,7 @@
             }
         }
     </script>
-    <div class="navigatnwrap">
+    <div class="navigatnwrap scenario-<?= $simulation->game_type->slug ?>-box">
         <ul class="navigation">
             <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
             <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>

@@ -612,6 +612,10 @@ class Simulation extends CActiveRecord
 //            return unserialize($this->results_popup_cache);
 //        }
 
+        if ($this->game_type->isLite()) {
+            return StaticSiteTools::getRandomAssessmentDetails();
+        }
+
         if($this->isCalculateTheAssessment()) {
             $result = [];
 
@@ -678,70 +682,6 @@ class Simulation extends CActiveRecord
             $result = json_decode($result);
         }
 
-        // cache results popup data
-        $this->results_popup_cache = serialize($result);
-        $this->save(false);
-
-        return json_encode($result);
-    }
-
-    /**
-     * For first version of pop-up
-     * @return array|mixed
-     */
-    public function getAssessmentDetailsV1()
-    {
-        // use cached results popup data
-//        if (null !== $this->results_popup_cache) {
-//            return json_encode(unserialize($this->results_popup_cache));
-//        }
-        if($this->isCalculateTheAssessment()) {
-            $result = [];
-
-            // Overall results
-            foreach ($this->assessment_overall as $rate) {
-                if ($rate->assessment_category_code == AssessmentCategory::OVERALL) {
-                    $result[AssessmentCategory::OVERALL] = $rate->value;
-                } else {
-                    $result[$rate->assessment_category_code] = ['total' => $rate->value];
-                }
-            }
-
-            // Management
-            foreach ($this->learning_area as $row) {
-                if ($row->learningArea->code <= 3) {
-                    $result[AssessmentCategory::MANAGEMENT_SKILLS][$row->learningArea->code] = ['total' => $row->value];
-                }
-            }
-            foreach ($this->learning_goal_group as $row) {
-                if ($row->learningGoalGroup->learning_area_code <= 3) {
-                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                        [$row->learningGoalGroup->learning_area_code]
-                        [$row->learningGoalGroup] = ['+' => $row->percent, '-' => $row->problem];
-                }
-            }
-
-            // Productivity
-            foreach ($this->performance_aggregated as $row) {
-                $result[AssessmentCategory::PRODUCTIVITY][$row->category_id] = $row->percent;
-            }
-
-            // Time management
-            foreach ($this->time_management_aggregated as $row) {
-                $result[AssessmentCategory::TIME_EFFECTIVENESS][$row->slug] = $row->value;
-            }
-
-            // Personal
-            $result[AssessmentCategory::PERSONAL] = [];
-            foreach ($this->learning_area as $row) {
-                if ($row->learningArea->code > 8) {
-                    $result[AssessmentCategory::PERSONAL][$row->learningArea->code] = $row->value;
-                }
-            }
-        }else{
-            $result = '{"management":{"total":"3.00","1":{"total":"0.000000","1_1":{"+":"0.00","-":"0.00"},"1_2":{"+":"18.18","-":"100.00"},"1_3":{"+":"0.00","-":"0.00"},"1_5":{"+":"0.00","-":"0.00"},"1_4":{"+":"0.00","-":"0.00"}},"3":{"total":"8.571429","3_1":{"+":"0.00","-":"0.00"},"3_2":{"+":"17.64","-":"0.00"},"3_3":{"+":"0.00","-":"0.00"},"3_4":{"+":"0.00","-":"0.00"}},"2":{"total":"0.000000","2_1":{"+":"0.00","-":"0.00"},"2_2":{"+":"0.00","-":"0.00"},"2_3":{"+":"0.00","-":"0.00"}}},"performance":{"total":"0.00"},"time":{"total":"0.00","workday_overhead_duration":"0.00","time_spend_for_1st_priority_activities":"0.00","time_spend_for_non_priority_activities":"0.00","time_spend_for_inactivity":"100.00","1st_priority_documents":"0.00","1st_priority_meetings":"0.00","1st_priority_phone_calls":"0.00","1st_priority_mail":"0.00","1st_priority_planning":"0.00","non_priority_documents":"0.00","non_priority_meetings":"0.00","non_priority_phone_calls":"0.00","non_priority_mail":"0.00","non_priority_planning":"0.00","efficiency":"0.00"},"overall":"1.50","personal":{"9":"0.000000","10":"0.000000","12":"0.000000","13":"0.000000","14":"0.000000","15":"0.000000","16":"0.000000","11":"0.000000"},"additional_data":{"management":"0.500000","performance":"0.350000","time":"0.150000"}}';
-            $result = json_decode($result);
-        }
         // cache results popup data
         $this->results_popup_cache = serialize($result);
         $this->save(false);
