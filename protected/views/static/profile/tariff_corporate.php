@@ -17,11 +17,13 @@
                     <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
                 </div>
             <?php endif ?>
+
             <?php /*
-                <div class="action">
+                <!--<div class="action">
                     <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
-                </div>
+                </div> -->
             */ ?>
+
         </div>
 
         <div class="row rowpad30">
