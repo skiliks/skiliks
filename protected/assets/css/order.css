@@ -98,7 +98,7 @@
     font-size:12px;
 }
 .payment-card .method-description small, .payment-card .method-description span {
-    color:#b5b490;
+    color:#6d6d5b;
 }
 div.payment-card {
     min-width:320px;
@@ -230,7 +230,7 @@ div.payment-card {
 div.without-commission {
     font-size:14px;
     padding-right:138px;
-    padding-top: 3px;
+    padding-top: 4px;
     float:right;
 }
 
