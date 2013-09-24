@@ -223,4 +223,8 @@ class UserAccountCorporate extends CActiveRecord
             );
         }
     }
+
+    public function getTotalAvailableInvitesLimit() {
+        return $this->invites_limit + $this->referrals_invite_limit;
+    }
 }
