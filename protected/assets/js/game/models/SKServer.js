@@ -26,6 +26,8 @@ define([
 
             requests_queue:null,
 
+            last_200_request:[],
+
             //requests_tmp:[],
 
             request_interval_id:null,
@@ -118,7 +120,10 @@ define([
                                 }
                                 if(undefined !== callback){
                                     if(data.simulation_status !== 'interrupted'){
-                                        callback(data, textStatus, jqXHR);
+                                        //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
+                                        if(me.isRunCallBack(data.uniqueId)) {
+                                            callback(data, textStatus, jqXHR);
+                                        }
                                     }else{
                                         $(window).off('beforeunload');
                                         location.assign('/simulation/exit');
@@ -289,6 +294,19 @@ define([
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
+                }
+            },
+            isRunCallBack:function(uniqueId) {
+
+                if(-1 === this.last_200_request.indexOf(uniqueId)) {
+                    if(this.last_200_request.length > 200) {
+                        this.last_200_request.shift();
+                    }else{
+                        this.last_200_request.push(uniqueId);
+                    }
+                    return true;
+                }else{
+                    return false;
                 }
             }
         });
