@@ -64,7 +64,35 @@
             </td>
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
             <td><?= $model->payment_system?></td>
-            <td><?= nl2br($model->additional_data)?></td>
+            <td>
+                <? if(json_decode($model->additional_data) instanceof stdClass) : ?>
+                    <? foreach(json_decode($model->additional_data) as $key => $value) : ?>
+                        <? switch($key) {
+
+                            case "inn" :
+                                echo "ИНН: ";
+                                break;
+
+                            case "cpp" :
+                                echo "КПП: ";
+                                break;
+
+                            case "account" :
+                                echo "Расчетный счет: ";
+                                break;
+
+                            case "bic" :
+                                echo "БИК: ";
+                                break;
+                        }
+
+                        echo $value, "<br/>";
+                    ?>
+                    <? endforeach; ?>
+                <? else : ?>
+                    <?=nl2br($model->additional_data); ?>
+                <? endif; ?>
+            </td>
 
             <td>
                 <textarea class="invoice-comment""><?=$model->comment ?></textarea>

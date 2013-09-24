@@ -237,10 +237,10 @@ class PaymentController extends SiteBaseController
 
             $invoice = new Invoice();
             $invoice->payment_system = "cash";
-            $invoice->additional_data = "ИНН: "  . $paymentMethod->inn     . "\r\n" .
-                                        "КПП: "  . $paymentMethod->cpp     . "\r\n" .
-                                        "Счет: " . $paymentMethod->account . "\r\n" .
-                                        "БИК: "  . $paymentMethod->bic     . "\r\n";
+            $invoice->additional_data = json_encode(["inn"  => $paymentMethod->inn,
+                                                     "cpp" => $paymentMethod->cpp,
+                                                     "account" => $paymentMethod->account,
+                                                     "bic" => $paymentMethod->bic]);
             // setting months that user selected, after it create an invoice and save it
             $invoice->createInvoice($user, $tariff, $months);
 
