@@ -392,7 +392,7 @@ return array(
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
-            'bookerEmail' => 'boykovladimir@ukr.net',
+            'bookerEmail' => 'tetyana.grybok@skiliks.com',
         ],
         'allowedLanguages' => [
             'en' => [
