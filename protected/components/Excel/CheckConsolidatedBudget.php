@@ -227,12 +227,12 @@ class CheckConsolidatedBudget
     public function checkNo7($whConsolidated)
     {
         $sum = $whConsolidated->getCell('R18')->getCalculatedValue();
-        
+
         $sum = $sum*1000000;
         $check = $this->configs['etalons'][7]*1000000;
-        
+
         // Client want accuracy: 6 numbers after point 
-        if (round($sum) == (int)$check) {
+        if (round($sum) == (int)$check || round($sum/100) == (int)$check) {
             $this->userPoints++;
             $this->userPointsMap[7] = 1;
         } else {
@@ -253,7 +253,7 @@ class CheckConsolidatedBudget
         $check = $this->configs['etalons'][8]*1000000;
         
         // Client want accuracy: 6 numbers after point 
-        if (round($sum) == (int)$check) {
+        if (round($sum) == (int)$check || round($sum/100) == (int)$check) {
             $this->userPoints++;
             $this->userPointsMap[8] = 1;
         } else {
@@ -273,7 +273,7 @@ class CheckConsolidatedBudget
         
         $check = $this->configs['etalons'][9]*1000000;
         
-        if (round($sum) == (int)$check) {
+        if (round($sum) == (int)$check || round($sum/100) == (int)$check) {
             $this->userPoints++;
             $this->userPointsMap[9] = 1;
         } else {
