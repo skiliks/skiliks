@@ -128,12 +128,11 @@
                         ]
                     ) ?>
                     <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой и электронными деньгами', 'for' => 'payment_card']) ?>
-                    <div class="method-description">
+                    <div class="method-description" style="color:#6d6d5b;">
                         <small>
                             <span class="cardsbg"></span><div class="without-commission">Без комиссий</div><br/>
                         </small>
-                        <br/>
-                        <span style="font-size:14px;">Электронные деньги</span><br/>
+                        <span style="font-size:14px; line-height: 25px;">Электронные деньги</span><br/>
                         <small>
                             <img src="<?=$this->getAssetsUrl()?>/img/epay-services.png" alt="Варианты оплаты" />
                             <div class="without-commission payment-method-without-commision">Без комиссий</div><br/>
