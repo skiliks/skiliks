@@ -3333,6 +3333,8 @@ class ImportGameDataService
             $scenario->duration_in_game_min = 180;
         }
 
+        $filename = substr($this->filename, strpos('scenario_', $this->filename), 200);
+        $scenario->filename = $filename;
         $scenario->save();
 
         $this->scenario = $scenario;

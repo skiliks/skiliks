@@ -1574,3 +1574,7 @@
     }
 }
 /* *********************************** /ACCEPT WARNING POPUP *********************************** */
+
+.scenario-lite .ratepercnt {
+    display: none;
+}
