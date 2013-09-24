@@ -36,7 +36,7 @@
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         Благодарим вас за оплату работы skiliks!<br/>
-                                        Вы выбрали тариф <?=$invoice->tariff->label ?>, на вашем счету <?=$this->user->getAccount()->invites_limit ?> симуляций.<br/>
+                                        Вы выбрали тариф <?=$invoice->tariff->label ?>, на вашем счету <?=$user_invites ?> симуляций.<br/>
                                     </p>
                                 </td>
                                 <td bgcolor="f2f2f2" valign="top">

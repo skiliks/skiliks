@@ -189,6 +189,7 @@ class Invoice extends CActiveRecord
             $date->add(new DateInterval('P'.$this->month_selected.'M'));
 
             $this->user->account_corporate->tariff_expired_at = $date->format('Y-m-d H:i:s');
+            $this->user->account_corporate->tariff_id = $this->tariff_id;
 
             $this->user->account_corporate->save();
             $this->save();
@@ -216,7 +217,7 @@ class Invoice extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
 
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'invoice' => $this, 'user' => $this->user
+            'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
         ], true);
 
 
