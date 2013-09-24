@@ -84,7 +84,7 @@ class CashPaymentMethod extends CFormModel {
             $bookerEmail = Yii::app()->params['emails']['bookerEmail'];
 
             $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-                'invoice' => $invoice, 'user' => $user
+                'invoice' => $invoice, 'user' => $user, 'invoice_data' => json_decode($invoice->additional_data)
             ], true);
 
             $mail = [

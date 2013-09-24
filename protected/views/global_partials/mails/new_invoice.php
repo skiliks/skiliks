@@ -6,7 +6,7 @@
 </head>
 <body>
 <p>Поступил новый заказ.</p><br/><br/>
-<table>
+<table cellspacing="20">
     <tr>
         <td>Номер заказа</td>
         <td><?=$invoice->id ?></td>
@@ -14,7 +14,7 @@
 
     <tr>
         <td>Название тарифа</td>
-        <td><?=$invoice->tariff->slug?></td>
+        <td><?=$invoice->tariff->label?></td>
     </tr>
 
     <tr>
@@ -34,16 +34,36 @@
 
     <tr>
         <td>E-mail</td>
-        <td><?=$user->profile->email ?></td>
+        <td><?=$this->user->getAccount()->corporate_email ?></td>
     </tr>
 
     <tr>
-        <td>Данные для оплаты</td>
-        <td><?=nl2br($invoice->additional_data) ?></td>
+        <td><br/><br/>Данные для оплаты:</td>
+        <td></td>
     </tr>
 
     <tr>
-        <td>Сумма, показанная для оплаты</td>
+        <td>ИНН:</td>
+        <td><?=$invoice_data->inn ?></td>
+    </tr>
+
+    <tr>
+        <td>КПП:</td>
+        <td><?=$invoice_data->cpp ?></td>
+    </tr>
+
+    <tr>
+        <td>Расчетный счет:</td>
+        <td><?=$invoice_data->account ?></td>
+    </tr>
+
+    <tr>
+        <td>БИК:</td>
+        <td><?=$invoice_data->bic ?></td>
+    </tr>
+
+    <tr>
+        <td><br/><br/>Сумма, показанная для оплаты</td>
         <td><?=$invoice->amount ?> руб.</td>
     </tr>
 
