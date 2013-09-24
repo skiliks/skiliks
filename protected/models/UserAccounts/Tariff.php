@@ -126,10 +126,10 @@ class Tariff extends CActiveRecord
         if (Yii::app()->getLanguage() != 'ru') {
             return false;
         }
-
-        if (self::SLUG_LITE !== $this->slug) {
-            return false;
-        }
+//
+//        if (self::SLUG_LITE !== $this->slug) {
+//            return false;
+//        }
 
         if (false == $user->isAuth()) {
             return true;
@@ -139,7 +139,7 @@ class Tariff extends CActiveRecord
             return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

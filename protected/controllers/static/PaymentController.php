@@ -102,12 +102,7 @@ class PaymentController extends SiteBaseController
             $this->redirect('/static/tariff');
         }
 
-        // in release 1 - user can use "Lite" plan only
-        if (Tariff::SLUG_LITE != $type) {
-            $this->redirect('/static/tariff');
-        }
-
-        // is user authenticated
+       // is user authenticated
         if (false == $user->isAuth()) {
             $this->redirect('/registration');
         }
