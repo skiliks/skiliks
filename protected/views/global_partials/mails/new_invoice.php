@@ -34,7 +34,7 @@
 
     <tr>
         <td>E-mail</td>
-        <td><?=$this->user->getAccount()->corporate_email ?></td>
+        <td><?=$user->getAccount()->corporate_email ?></td>
     </tr>
 
     <tr>
