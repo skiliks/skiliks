@@ -248,12 +248,12 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:45px;">' +
         '<ul class="button_menu">' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_undo"    class="button-undo"    src="%img.undo.png" style=""></div></div></div><a class="grid-row">отменить</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_redo"    class="button-redo"    src="%img.redo.png" style=""></div></div></div><a class="grid-row">вернуть</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_copy"    class="button-copy"    src="%img.copy.png" style=""></div></div></div><a class="grid-row">копировать</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_paste"   class="button-paste"   src="%img.paste.png" style=""></div></div></div><a class="grid-row">вставить</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_sum"     class="button-sum"     src="%img.auto_sum.png" style=""></div></div></div><a class="grid-row">сумма</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover"><img id="%id.button_percent" class="button-percent" src="%img.percent.png" alt="%" style=""></div></div></div><a class="grid-row">формат</a></li></ul>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-undo" id="%id.button_undo" style="background-image:url(%img.undo.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">отменить</a></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-redo" id="%id.button_redo" style="background-image:url(%img.redo.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">вернуть</a></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-copy" id="%id.button_copy" style="background-image:url(%img.copy.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">копировать</a></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-paste" id="%id.button_paste" style="background-image:url(%img.paste.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">вставить</a></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-sum" id="%id.button_sum" style="background-image:url(%img.auto_sum.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">сумма</a></li>' +
+        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-percent" id="%id.button_percent" style="background-image:url(%img.percent.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">формат</a></li></ul>' +
         '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
         '<li><div class="grid-row"><div><div><img src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
