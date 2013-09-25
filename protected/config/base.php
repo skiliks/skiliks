@@ -489,11 +489,18 @@ return array(
             ]
         ),
         'robokassa' => [
-                'MrchLogin'      => 'skiliks_dev',
+                'MrchLogin'      => 'leah',
                 'Desc'           => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
               ]
+//            Test
+//            [
+//                'MrchLogin'      => 'skiliks_dev',
+//                'Desc'           => 'Оплата согласно...',
+//                'sMerchantPass1' => 'dcZz6P318a',
+//                'sMerchantPass2' => 'S358oP0ikj'
+//            ]
     ),
 );
 
