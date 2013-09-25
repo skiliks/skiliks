@@ -24,6 +24,7 @@ return array(
         'application.models.Documents.*',
         'application.models.GameEvents.*',
         'application.models.Interfaces.*',
+        'application.models.Referrals.*',
 
         'application.components.*',
         'application.components.Zoho.*',
@@ -225,6 +226,8 @@ return array(
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
+                'dashboard/inviteReferrals' => 'static/dashboard/inviteReferrals',
+                'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
 

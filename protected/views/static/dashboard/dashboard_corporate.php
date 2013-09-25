@@ -3,7 +3,12 @@
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
     </a>
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-       class="start-lite-simulation-btn light-btn">Пройти демо (15 мин)</a>
+       class="start-lite-simulation-btn light-btn">
+        Пройти демо (15 мин)
+    </a>
+    <a href="#" class="invite-friend-popup-button light-btn">
+        Пригласить друга
+    </a>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
@@ -44,6 +49,7 @@
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
+        <?php $this->renderPartial('partials/invite-friend-popup', []) ?>
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
 
