@@ -24,12 +24,12 @@
 
     <tr>
         <td>Компания</td>
-        <td><?=$user->account_corporate->company_name ?></td>
+        <td><?=$user->account_corporate->ownership_type ?> <?=$user->account_corporate->company_name ?></td>
     </tr>
 
     <tr>
         <td>Имя</td>
-        <td><?=$user->profile->firstname ?></td>
+        <td><?=$user->profile->lastname ?> <?=$user->profile->firstname ?></td>
     </tr>
 
     <tr>
