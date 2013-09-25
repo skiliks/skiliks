@@ -101,40 +101,8 @@ class DebugController extends SiteBaseController
 
     public function actionTestInvoice() {
 
-
-        $tariffType = "business";
-
-        $user = Yii::app()->user->data();
-
-        if (!$user->isAuth() || !$user->isCorporate()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
-            ));
-            $this->redirect('/');
-        }
-
-        $tariff = null === $tariffType ?
-            $user->account_corporate->tariff :
-            Tariff::model()->findByAttributes(['slug' => $tariffType]);
-
-        if (null === $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-            ));
-            $this->redirect('/');
-        }
-
-        $invoice = new Invoice();
-
-        $invoice->createInvoice($user->id, $tariff->id, $tariff->price);
-
-        $this->render('//static/payment/cash_method_form', [
-            'account' => $user->account_corporate,
-            'invoice' => $invoice,
-            'tariff'  => $tariff,
-            'paymentMethodCash'      => new CashPaymentMethod(),
-            'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
-        ]);
+        $new = new UserAccountCorporate();
+        var_dump($new->referrals_invite_limit);
     }
 
     public function actionDoCashPayment() {

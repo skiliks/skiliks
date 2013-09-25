@@ -2809,6 +2809,11 @@ ul.profile-menu li {
     color:#146672 !important;
     text-decoration: underline;
 }
+.invite-friend-popup-button {
+    float:right;
+    margin-right: 5px;
+    margin-top: 10px;
+}
 .backgroud-bue-bordered h2 {
     color: #3d4041;
 }

@@ -891,4 +891,40 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         ]);
     }
 
+    public function actionInviteReferrals() {
+        /** @var YumUser $user */
+        $user = Yii::app()->user->data();
+
+        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
+            echo 'false';
+            Yii::app()->end();
+        }
+
+        $referralForm = new ReferralsInviteForm();
+
+        $referralForm->emails = Yii::app()->request->getParam('emails');
+        $referralForm->text   = Yii::app()->request->getParam('text');
+
+        $errors = CActiveForm::validate($referralForm);
+
+        if ($errors && $errors != "[]") {
+            echo $errors;
+        }
+    }
+
+    function actionSendReferralEmail() {
+        $user = Yii::app()->user->data();
+        if (!$user->isAuth()) {
+            Yii::app()->user->setFlash('success', $this->renderPartial('_thank_you_form', [], true));
+            $this->redirect('/');
+        } elseif ($user->isPersonal()) {
+            $this->redirect('/dashboard');
+        }
+
+        else {
+            Yii::app()->user->setFlash('success', "Приглашения успешно отправлены!");
+            $this->redirect('/dashboard');
+        }
+    }
+
 }
