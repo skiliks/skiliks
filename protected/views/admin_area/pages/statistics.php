@@ -49,7 +49,11 @@
             <div class="status"></div>
             <div class="author"></div>
         </td>
-        <td></td>
+        <td class="td-statistic statistic-mail">
+            <div>Mail pending/in progress/done</div>
+            <div class="status"></div>
+            <div class="author"></div>
+        </td>
     </tr>
 </table>
 </div>

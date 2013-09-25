@@ -101,7 +101,7 @@ class YumMailer {
 				else
 					$header .= 'From: ' . Yum::module()->adminEmail . "\r\n";
 			}
-			return mail($to['to'], $to['subject'], $to['body'], $header);
+			return @mail($to['to'], $to['subject'], $to['body'], $header);
 		}
 	}
 }

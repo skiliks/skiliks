@@ -298,6 +298,7 @@ return array(
                 'admin_area/statistics/statistic-order-count'             => 'admin_area/AdminPages/StatisticOrderCount',
                 'admin_area/statistics/statistic-feedback-count'          => 'admin_area/AdminPages/StatisticFeedbackCount',
                 'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
+                'admin_area/statistics/statistic-mail'        => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
 

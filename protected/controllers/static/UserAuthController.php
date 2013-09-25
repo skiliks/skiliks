@@ -518,7 +518,7 @@ class UserAuthController extends YumController
                 ],
             ],
         );
-        $sent = YumMailer::send($mail);
+        $sent = MailHelper::addMailToQueue($mail);
 
         return $sent;
     }
@@ -586,7 +586,7 @@ class UserAuthController extends YumController
                 ],
             ],
         );
-        $sent = YumMailer::send($mail);
+        $sent = MailHelper::addMailToQueue($mail);
 
         return $sent;
     }
@@ -644,7 +644,7 @@ class UserAuthController extends YumController
             ],
         ];
 
-        $sent = YumMailer::send($mail);
+        $sent = MailHelper::addMailToQueue($mail);
 
         return $sent;
     }

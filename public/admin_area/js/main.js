@@ -76,6 +76,7 @@ function runStat() {
     update_stat('.statistic-order-count', '/admin_area/statistics/statistic-order-count');
     update_stat('.statistic-feedback-count', '/admin_area/statistics/statistic-feedback-count');
     update_stat('.statistic-crash-simulation', '/admin_area/statistics/statistic-crash-simulation');
+    update_stat('.statistic-mail', '/admin_area/statistics/statistic-mail');
 }
 $(document).ready(function(){
     $(".reset-invite").click(function() {
