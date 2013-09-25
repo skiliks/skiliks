@@ -891,10 +891,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
      */
     public function testDebug()
     {
-        // init simulation
-        $simulation = Simulation::model()->findByPk(431);
-
-        $p = new CheckConsolidatedBudget($simulation->id);
-        $p->calcPoints();
+        //SimulationService::CalculateTheEstimate('5230', 'mstrojkina-eksmo@mail.ru');
     }
 }
