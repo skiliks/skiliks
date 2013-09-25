@@ -911,6 +911,14 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             echo $errors;
         }
         else {
+
+            foreach($referralForm->validatedEmailsArray as $referAddress) {
+                $refer = new Referrer();
+                $refer->referrer_email = $referAddress;
+                $refer->save();
+                $refer->sendInviteReferralEmail();
+            }
+
             $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
             $emails = implode($referralForm->validatedEmailsArray, ", ");
             $message .= $emails;
