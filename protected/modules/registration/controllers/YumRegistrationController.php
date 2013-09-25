@@ -123,7 +123,7 @@ class YumRegistrationController extends YumController {
 						'{username}' => $user->username)),
 				'body' => $body,
 				);
-		$sent = YumMailer::send($mail);
+		$sent = MailHelper::addMailToQueue($mail);
 
 		return $sent;
 	}
@@ -235,7 +235,7 @@ class YumRegistrationController extends YumController {
 									'You have requested a new password. Please use this URL to continue: {recovery_url}', array(
 										'{recovery_url}' => $recovery_url)),
 								);
-						$sent = YumMailer::send($mail);
+						$sent = MailHelper::addMailToQueue($mail);
 						Yum::setFlash(
 								'Instructions have been sent to you. Please check your email.');
 					} else
