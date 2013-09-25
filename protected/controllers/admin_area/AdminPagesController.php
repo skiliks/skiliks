@@ -32,7 +32,7 @@ class AdminPagesController extends SiteBaseController {
         if(in_array($action->id, $public)){
             return true;
         }elseif(!$user->isAuth()){
-            $this->redirect('/registration');
+            $this->redirect('/admin_area/login');
         }elseif(!$user->isAdmin()){
             $this->redirect('/dashboard');
         }
