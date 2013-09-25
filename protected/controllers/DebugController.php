@@ -159,7 +159,7 @@ class DebugController extends SiteBaseController
         $i->is_display_simulation_results = 1;
         $i->save(false);
 
-        var_dump($i->id);
+        $this->redirect('/simulation/promo/lite/'.$i->id);
     }
 }
 
