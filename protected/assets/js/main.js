@@ -357,9 +357,7 @@ var fixLogotypes = function() {
         window.inviteFriend = function inviteFriend(form, data, hasError) {
             $("#sendRefferInviteButton").val("Отправить приглашения");
             if (!hasError) {
-                $.post("/dashboard/sendReferralEmail", form.serialize(), function (res) {
-                    window.location.href = "/dashboard";
-                });
+                window.location.href = "/dashboard";
             }
             else {
                 var k = data.ReferralsInviteForm_emails;

@@ -910,6 +910,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if ($errors && $errors != "[]") {
             echo $errors;
         }
+        else {
+            $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
+            $emails = implode($referralForm->validatedEmailsArray, ",");
+            $message .= $emails;
+            $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены." : " успешно отправлено.";
+            Yii::app()->user->setFlash('success', $message);
+        }
     }
 
     function actionSendReferralEmail() {
@@ -922,7 +929,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         else {
-            Yii::app()->user->setFlash('success', "Приглашения успешно отправлены!");
+
             $this->redirect('/dashboard');
         }
     }
