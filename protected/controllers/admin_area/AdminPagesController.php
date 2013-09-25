@@ -1080,6 +1080,19 @@ class AdminPagesController extends SiteBaseController {
         echo json_encode($res);
     }
 
+    public function actionStatisticMail(){
+        $pending = (int)EmailQueue::model()->count("status = :status", ['status'=>EmailQueue::STATUS_PENDING]);
+        $in_progress = EmailQueue::model()->count("status = :status", ['status'=>EmailQueue::STATUS_IN_PROGRESS]);
+        $sended = EmailQueue::model()->count("status = :status", ['status'=>EmailQueue::STATUS_SENDED]);
+        if($pending !== 0) {
+            $res['status'] = 'failure';
+        } else {
+            $res['status'] = 'success';
+        }
+        $res['data'] = $pending.'/'.$in_progress.'/'.$sended;
+        echo json_encode($res);
+    }
+
     /**
      * @param $inviteId
      */

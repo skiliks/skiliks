@@ -536,13 +536,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite->markAsSendToday();
         $invite->save();
 
-        try {
-            $sent = YumMailer::send($mail);
-        } catch (phpmailerException $e) {
-            // happens at my local PC only, Slavka
-            $sent = null;
-        }
-
+        $sent = MailHelper::addMailToQueue($mail);
         return $sent;
     }
 
