@@ -912,7 +912,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
         else {
             $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
-            $emails = implode($referralForm->validatedEmailsArray, ",");
+            $emails = implode($referralForm->validatedEmailsArray, ", ");
             $message .= $emails;
             $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены." : " успешно отправлено.";
             Yii::app()->user->setFlash('success', $message);
