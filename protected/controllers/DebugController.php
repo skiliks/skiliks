@@ -145,5 +145,21 @@ class DebugController extends SiteBaseController
         $k->int = $k->int++;
         var_dump($k->int);
     }
+
+    public function actionYyy()
+    {
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $i = new Invite();
+        $i->scenario = $scenario;
+        $i->scenario_id = $scenario->id;
+        $i->is_display_simulation_results = 1;
+        $i->save(false);
+
+        var_dump($i->id);
+    }
 }
 
