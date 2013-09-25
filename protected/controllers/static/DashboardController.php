@@ -919,6 +919,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
     }
 
+
     function actionSendReferralEmail() {
         $user = Yii::app()->user->data();
         if (!$user->isAuth()) {
