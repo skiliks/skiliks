@@ -1,7 +1,13 @@
 <?php
 
-class MailHelper {
-    public static function addMailToQueue($email) {
+class MailHelper
+{
+    /**
+     * @param array $email
+     * @return bool
+     */
+    public static function addMailToQueue($email)
+    {
         $queue = new EmailQueue();
         $queue->sender_email = $email['from'];
         $queue->recipients = $email['to'];
@@ -13,13 +19,20 @@ class MailHelper {
         $queue->attachments = json_encode(empty($email['embeddedImages'])?[]:$email['embeddedImages']);
         return $queue->save();
     }
-    public static function sendMailFromQueue() {
+
+    public static function sendMailFromQueue()
+    {
         $mails = EmailQueue::model()->findAll("status = :status order by id desc limit 10", ['status' => EmailQueue::STATUS_PENDING]);
+
         /* @var $mail EmailQueue */
         $result = ['done'=>0, 'fail'=>0];
+
         foreach($mails as $mail) {
             $mail->status = EmailQueue::STATUS_IN_PROGRESS;
             $mail->update();
+        }
+
+        foreach($mails as $mail) {
             try{
                 $sent = YumMailer::send([
                     'from'=>$mail->sender_email,
