@@ -85,4 +85,68 @@ class Referrer extends CActiveRecord
         ));
     }
 
+    public function sendInviteReferralEmail() {
+
+        $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
+
+        $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
+            'link' => Yii::app()->controller->createAbsoluteUrl("/registration-referal/".$this->id)
+        ], true);
+
+
+        $mail = [
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $this->referrer_email,
+            'subject'     => 'Приглашение зарегистрироваться на skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                    'cid'      => 'mail-top-2',
+                    'name'     => 'mailtop2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                    'cid'      => 'mail-right-1',
+                    'name'     => 'mailright1',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                    'cid'      => 'mail-right-2',
+                    'name'     => 'mailright2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                    'cid'      => 'mail-right-3',
+                    'name'     => 'mailright3',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        try {
+            $sent = YumMailer::send($mail);
+        } catch (phpmailerException $e) {
+            // happens at my local PC only, Slavka
+            $sent = null;
+        }
+        return $sent;
+    }
+
 }

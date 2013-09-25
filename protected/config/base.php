@@ -393,6 +393,7 @@ return array(
             'inviteEmailTemplate' => '//global_partials/mails/invite_default',
             'newInvoiceToBooker' => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+            'referrerInviteEmail' => '//global_partials/mails/reffererEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
