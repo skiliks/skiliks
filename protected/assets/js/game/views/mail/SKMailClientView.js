@@ -1986,6 +1986,7 @@ define([
              */
             renderAddPhraseToEmail: function (phrase) {
                 try {
+                    console.log('renderAddPhraseToEmail - start');
                     var phraseHtml = _.template(phrase_item, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
@@ -1994,7 +1995,10 @@ define([
 
                     $("#mailEmulatorNewLetterText").append(phraseHtml);
 
+                    console.log($('#MailClient_ContentBlock .mail-tags-bl td'));
+
                     this.delegateEvents();
+                    console.log('renderAddPhraseToEmail - end');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
