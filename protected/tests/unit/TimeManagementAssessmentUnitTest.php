@@ -891,6 +891,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
      */
     public function testDebug()
     {
-        //SimulationService::CalculateTheEstimate('5230', 'mstrojkina-eksmo@mail.ru');
+        SimulationService::CalculateTheEstimate('5230', 'mstrojkina-eksmo@mail.ru');
     }
 }

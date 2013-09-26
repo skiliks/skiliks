@@ -402,9 +402,9 @@ class SimulationService
             $row->sim_id = $simulation->id;
             $row->category_id = $cid;
             $row->value = $value;
-            $row->percent = round($value / $categoryRates[$cid] * 100);
+            $row->percent = round($value / $categoryRates[$cid] * 100, 6);
 
-            $row->save();
+            $row->save(false);
         }
     }
 
