@@ -36,5 +36,3 @@
 <div class="row text-center longercontent"><?php echo CHtml::submitButton($btn_text, ['class'=>'bigbtnsubmt btn-more', 'id'=>'registration_switch', 'data-next'=>Yii::t('site', 'Далее'), 'data-start'=>Yii::t('site', 'Начать')]); ?></div>
 
 <?php $this->endWidget(); ?>
-
-<?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
