@@ -19,7 +19,7 @@ class SiteController extends SiteBaseController
         $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();
         /* @var $user YumUser  */
-        if (!$user->isAuth()) {
+        if (!$user->isAuth() && $type != Scenario::TYPE_LITE) {
             $this->redirect('/user/auth');
         }
 
