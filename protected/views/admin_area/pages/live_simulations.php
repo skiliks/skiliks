@@ -30,28 +30,36 @@
 
         <?php $i = 0 ?>
 
-        <? foreach($allSimulation as $simulations) : ?>
-            <? foreach($simulations as $simulation) : ?>
+        <?php foreach($allSimulation as $simulations) : ?>
+            <?php foreach($simulations as $simulation) : ?>
                 <?php $i++; ?>
                 <tr>
                     <td>
+                        <?php if(!empty($simulation->user)) : ?>
                         <a href="/admin_area/user/<?=$simulation->user->id ?>/details">
                             <?= $simulation->user->profile->firstname." ".$simulation->user->profile->lastname ?>
                         </a>
+                        <?php else: ?>
+                            <a href="#">Нет юзера</a>
+                        <?php endif ?>
                         <br/>
                         <?php
                             $class = "label-warning"; // просто оранжевый заметнее, никакого предупреждения в этом нет
-                            if ($simulation->user->isCorporate()) {
+                            if (!empty($simulation->user) && $simulation->user->isCorporate()) {
                                 $class = "label-inverse";
                             }
                         ?>
 
-                        <a href="mailto: <?= $simulation->user->profile->email ?>" title="Отправить письмо">
-                            <i class="icon-envelope "></i>
-                        </a>
+                        <?php if(!empty($simulation->user)) : ?>
+                            <a href="mailto: <?= $simulation->user->profile->email ?>" title="Отправить письмо">
+                                <i class="icon-envelope "></i>
+                            </a>
+                        <?php else: ?>
+                            <a href="#">Нет юзера</a>
+                        <?php endif ?>
                         &nbsp;
                         <span class="label <?= $class ?>">
-                            <?= $simulation->user->getAccountName() ?>
+                            <?= empty($simulation->user)?'------':$simulation->user->getAccountName() ?>
                         </span>
                     </td>
                     <td>
@@ -64,7 +72,7 @@
                         </a>
                     </td>
                     <td>
-                        <? if(isset($simulation->invite->id)) : ?>
+                        <?php if(isset($simulation->invite->id)) : ?>
                             <span class="label <?= $simulation->invite->getStatusCssClass() ?>">
                                 <?= $simulation->invite->getStatusText() ?>
                             </span>
@@ -72,18 +80,18 @@
                             <a href="/admin_area/invite/<?=$simulation->invite->id ?>/site-logs" target="_blank">
                                 <?=$simulation->invite->id ?>
                             </a>
-                        <? endif; ?>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <span class="label <?= $simulation->getStatusCss() ?>">
                             <?= $simulation->status ?>
                         </span>
                     </td>
-                    <td><? echo $simulation->getCurrentGameTime() ?></td>
+                    <td><?= $simulation->getCurrentGameTime() ?></td>
                     <td>
-                        <? if(isset($simulation->start)) echo $simulation->start ?>
+                        <?php if(isset($simulation->start)) echo $simulation->start ?>
                         <br/>
-                        <? if(isset($simulation->end)) echo $simulation->end ?>
+                        <?php if(isset($simulation->end)) echo $simulation->end ?>
                     </td>
                     <td>
                         <a target="_blank" class="btn btn-info"
@@ -103,8 +111,8 @@
                     <?php $i = 0 ?>
                 <?php endif ?>
 
-            <? endforeach; ?>
-        <? endforeach; ?>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
 
         </table>
     <? else : ?>
