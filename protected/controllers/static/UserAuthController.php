@@ -311,7 +311,7 @@ class UserAuthController extends YumController
                     $permission->template = 1; // magic const
                     $permission->save(false);
 
-                    UserService::assignAllNotAssignedUserInvites($YumUser);
+                    UserService::assignAllNotAssignedUserInvites(Yii::app()->user->data());
 
                     $this->redirect('/dashboard');
                 } else {
