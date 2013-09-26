@@ -10,6 +10,7 @@
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
+ * @property integer $referrals_invite_limit
  * @property boolean $is_corporate_email_verified
  * @property datetime $corporate_email_verified_at
  * @property datetime $tariff_expired_at
@@ -222,6 +223,31 @@ class UserAccountCorporate extends CActiveRecord
                 $initValue
             );
         }
+    }
+
+    public function decreaseLimit()
+    {
+
+        $initValue = $this->invites_limit;
+
+        if($this->invites_limit > 0) {
+            $this->invites_limit--;
+            $this->save(false, ['invites_limit']);
+        }
+        elseif($this->referrals_invite_limit > 0) {
+            $this->referrals_invite_limit--;
+            $this->save(false, ['referrals_invite_limit']);
+        }
+        else {
+            Yii::log("User doesn't have invites but tried to decrease it");
+            return false;
+        }
+
+        UserService::logCorporateInviteMovementAdd(
+            'increaseLimit',
+            $this->user->getAccount(),
+            $initValue
+        );
     }
 
     public function getTotalAvailableInvitesLimit() {

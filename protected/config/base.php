@@ -176,6 +176,7 @@ return array(
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
                 'simulation/exit'         => 'static/site/Exit',
+                'simulation/demo'         => 'static/site/demo',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
@@ -184,6 +185,7 @@ return array(
 
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
+                'registration-new'                               => 'static/userAuth/registrationNew',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
                 'register-referal/<refId:\d+>'                   => 'static/userAuth/registerReferral',
                 'registration/choose-account-type'               => 'static/userAuth/chooseAccountType',
@@ -193,6 +195,7 @@ return array(
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
+
 
                 'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
@@ -268,6 +271,7 @@ return array(
                 'activation/resend/<profileId:\w+>' => 'static/userAuth/resendActivation',
 
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
+                'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
@@ -332,6 +336,7 @@ return array(
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
+                'admin_area/user-referrs/<userId:\d+>'            => 'admin_area/AdminPages/UserReferrs',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',

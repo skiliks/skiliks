@@ -589,7 +589,7 @@ class SimulationService
                 && Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
-                $invite->ownerUser->getAccount()->invites_limit--;
+                $invite->ownerUser->getAccount()->decreaseLimit();
                 $invite->ownerUser->getAccount()->save(false);
             }
 

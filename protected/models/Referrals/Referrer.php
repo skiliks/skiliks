@@ -90,7 +90,7 @@ class Referrer extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
 
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'link' => Yii::app()->controller->createAbsoluteUrl("/registration-referal/".$this->id)
+            'link' => Yii::app()->controller->createAbsoluteUrl("/register-referal/".$this->id)
         ], true);
 
 
@@ -149,6 +149,19 @@ class Referrer extends CActiveRecord
         return $sent;
     }
 
+    public function countUserReferrers($userId) {
+        $criteria = new CDbCriteria();
+        $criteria->compare('referral_id', $userId);
+        return Referrer::model()->count($criteria);
+    }
+
+    public function countUserRegisteredReferrers($userId) {
+        $criteria = new CDbCriteria();
+        $criteria->compare('referral_id', $userId);
+        $criteria->addCondition('registered_at IS NULL');
+        return Referrer::model()->count($criteria);
+    }
+
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referral_id', $userId);
@@ -160,7 +173,7 @@ class Referrer extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'invited_at DESC',
+                'defaultOrder'=>'id DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'referrer_email' => [
