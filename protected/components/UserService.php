@@ -100,6 +100,22 @@ class UserService {
         }
         $log->save(false);
     }
+
+    /**
+     * @param YumUser $user
+     */
+    public static function assignAllNotAssignedUserInvites(YumUser $user)
+    {
+        $invites = Invite::model()->findAllByAttributes([
+            'email' => $user->profile->email
+        ]);
+
+        foreach ($invites as $invite) {
+            $invite->receiver_id = $user->id;
+            $invite->receiverUser = $user;
+            $invite->save(false);
+        }
+    }
 }
 
 
