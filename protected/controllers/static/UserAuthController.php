@@ -155,11 +155,9 @@ class UserAuthController extends YumController
 
                     if (false !== $result) {
 
-                        $referrer->registered_at = date("Y-m-d H:i:s");
-                        $referrer->save();
                         $profile->save();
 
-                        $accountCorporate->user_id = $this->user->id;
+                        $referrer->referrer_id = $accountCorporate->user_id = $this->user->id;
 
                         // TODO Remake this for taking industry
                         $accountCorporate->industry_id = $account->industry_id;
@@ -167,6 +165,9 @@ class UserAuthController extends YumController
                         $accountCorporate->is_corporate_email_verified = 1;
                         $accountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
                         $accountCorporate->save();
+
+                        $referrer->registered_at = date("Y-m-d H:i:s");
+                        $referrer->save();
 
                         $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 

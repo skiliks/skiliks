@@ -234,6 +234,7 @@ return array(
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
+                'profile/corporate/referrers'                => 'static/profile/corporateReferrers',
                 'profile/corporate/password/' => 'static/profile/corporatePassword',
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
