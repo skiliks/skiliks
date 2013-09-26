@@ -16,8 +16,12 @@
     </a></li>
 
     <li class="<?php if (isset($active['tariff'])){ echo 'active'; } ?>"><a href="/profile/corporate/tariff">
-        Тариф
-    </a></li>
+            Тариф
+        </a></li>
+
+    <li class="<?php if (isset($active['referrers'])){ echo 'active'; } ?>"><a href="/profile/corporate/referrers">
+            Рефералы
+        </a></li>
 
     <!-- <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
         <a href="/profile/corporate/payment-method">

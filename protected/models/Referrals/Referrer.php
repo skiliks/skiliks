@@ -149,4 +149,43 @@ class Referrer extends CActiveRecord
         return $sent;
     }
 
+    public function searchUserReferrals($userId) {
+        $criteria = new CDbCriteria();
+        $criteria->compare('referral_id', $userId);
+        $criteria->compare('referrer_email', $this->referrer_email);
+        $criteria->compare('referrer_id', $this->referrer_id);
+        $criteria->compare('invited_at', $this->invited_at);
+        $criteria->compare('registered_at', $this->registered_at);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'invited_at DESC',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'referrer_email' => [
+                        'asc'  => 'referrer_email',
+                        'desc' => 'referrer_email DESC'
+                    ],
+                    'referrer_id' => [
+                        'asc'  => 'referrer_id',
+                        'desc' => 'referrer_id DESC'
+                    ],
+                    'invited_at' => [
+                        'asc'  => 'invited_at',
+                        'desc' => 'invited_at DESC'
+                    ],
+                    'registered_at' => [
+                        'asc'  => 'registered_at',
+                        'desc' => 'registered_at DESC'
+                    ],
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
+
 }

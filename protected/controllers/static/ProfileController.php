@@ -401,6 +401,16 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $this->render('tariff_corporate', []);
     }
 
+    public function actionCorporateReferrers() {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()){
+            $this->redirect('/dashboard');
+        }
+
+        $this->render('referrers_corporate', []);
+    }
+
     /**
      *
      */
