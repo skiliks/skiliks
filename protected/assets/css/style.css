@@ -2250,6 +2250,8 @@ html[lang="en"] .footer .social_networks {
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
 .action-controller-corporate-static-simulations .ui-dialog-titlebar,
 .action-controller-activation-registration .ui-dialog-titlebar,
+.action-index.controller-static-pages .ui-dialog-titlebar,
+.action-registration.controller-static-userAuth .ui-dialog-titlebar,
 .terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;

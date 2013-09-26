@@ -241,6 +241,7 @@ return array(
     'Hide test results' => 'Не показывать результаты теста оцениваемому',
     'Link to vacancy description' => 'Ссылка на описание позиции',
     'Pricing & Plans' => 'Цены и тарифы',
+    'Demo' => 'Демо',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
