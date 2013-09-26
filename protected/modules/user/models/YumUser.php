@@ -152,7 +152,10 @@ class YumUser extends YumActiveRecord
     public function getInvitesLeft() {
         if($this->isCorporate()) {
             if(strtotime($this->account_corporate->tariff_expired_at) > time()) {
-                return $this->account_corporate->invites_limit;
+                return $this->account_corporate->getTotalAvailableInvitesLimit();
+            }
+            else {
+                return $this->account_corporate->referrals_invite_limit;
             }
         }
         return 0;

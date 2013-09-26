@@ -92,7 +92,7 @@ class SiteController extends SiteBaseController
         }
 
         if (isset($invite) && Scenario::TYPE_TUTORIAL == $type
-            && $user->isCorporate() && (int)$user->account_corporate->invites_limit == 0
+            && $user->isCorporate() && (int)$user->account_corporate->getTotalAvailableInvitesLimit() == 0
         ) {
             Yii::app()->user->setFlash('error', 'У вас закончились приглашения');
             $this->redirect('/profile/corporate/tariff');
