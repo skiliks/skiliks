@@ -354,6 +354,13 @@ var fixLogotypes = function() {
             return false;
         };
 
+        window.referralRegistration = function referralRegistration(form, data, hasError) {
+            if (!hasError) {
+                    window.location.href = "/dashboard";
+            }
+            return false;
+        };
+
         window.inviteFriend = function inviteFriend(form, data, hasError) {
             $("#sendRefferInviteButton").val("Отправить приглашения");
             if (!hasError) {
