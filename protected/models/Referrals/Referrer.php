@@ -155,6 +155,13 @@ class Referrer extends CActiveRecord
         return Referrer::model()->count($criteria);
     }
 
+    public function countUserRegisteredReferrers($userId) {
+        $criteria = new CDbCriteria();
+        $criteria->compare('referral_id', $userId);
+        $criteria->addCondition('registered_at IS NOT NULL');
+        return Referrer::model()->count($criteria);
+    }
+
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referral_id', $userId);

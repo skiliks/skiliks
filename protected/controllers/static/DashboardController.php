@@ -89,7 +89,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 ->getPrimaryKey();
 
             // send invitation
-            if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
+            if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
@@ -103,7 +103,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $initValue = $this->user->getAccount()->invites_limit;
 
                 // decline corporate user invites_limit
-                $this->user->getAccount()->invites_limit--;
+                $this->user->getAccount()->decreaseLimit();
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
@@ -115,7 +115,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
 
                 $this->redirect('/dashboard');
-            } elseif ($this->user->getAccount()->invites_limit < 1 ) {
+            } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
@@ -287,7 +287,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $validPrevalidate = false;
             }
 
-            if (0 == $this->user->account_corporate->invites_limit) {
+            if (0 == $this->user->account_corporate->getTotalAvailableInvitesLimit()) {
                 Yii::app()->user->setFlash('error', sprintf(
                     'У вас закончились приглашения'
                 ));
@@ -330,7 +330,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 ->getPrimaryKey();
 
             // send invitation
-            if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
+            if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
                 $this->user->account_corporate->default_invitation_mail_text = $invite->message;
                 $this->user->account_corporate->save();
@@ -342,10 +342,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
                 $this->sendInviteEmail($invite);
 
+
+                // TODO remake log to log different type of accounts
                 $initValue = $this->user->getAccount()->invites_limit;
 
                 // decline corporate user invites_limit
-                $this->user->getAccount()->invites_limit--;
+                $this->user->getAccount()->decreaseLimit();
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
@@ -356,7 +358,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 );
 
                 $this->redirect('/dashboard');
-            } elseif ($this->user->getAccount()->invites_limit < 1 ) {
+            } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));

@@ -181,8 +181,14 @@ class Invoice extends CActiveRecord
 
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
+
+            // Setting tariff invites
             $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
             $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
+
+            // Setting referral invites
+            $this->user->account_corporate->referrals_invite_limit = Referrer::model()->countUserRegisteredReferrers($this->user->id);
+
             $this->paid_at = date('Y-m-d H:i:s');
 
             $date = new DateTime();
@@ -216,6 +222,7 @@ class Invoice extends CActiveRecord
 
         $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
 
+        // TODO Remake email to send referrer invites
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
             'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
         ], true);

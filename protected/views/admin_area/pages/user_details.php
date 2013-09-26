@@ -114,7 +114,7 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
             <td>Количество доступных приглашений</td>
             <td>
-                <?= $user->getAccount()->invites_limit ?>
+                <?= $user->getAccount()->getTotalAvailableInvitesLimit() ?>
             </td>
         <?php endif; ?>
     </tr>

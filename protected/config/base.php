@@ -194,7 +194,7 @@ return array(
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
 
-                
+
                 'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
                 'recovery'                  => 'static/userAuth/recovery',
