@@ -542,7 +542,11 @@ class SimulationService
 
         // Создаем новую симуляцию
         $simulation = new Simulation();
-        $simulation->user_id = $invite->receiverUser->id;
+
+        // for Demo
+        if (null !== $invite->receiverUser) {
+            $simulation->user_id = $invite->receiverUser->id;
+        }
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
@@ -581,7 +585,7 @@ class SimulationService
 
             // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
             // не в dev режиме
-            if ($invite->ownerUser->isCorporate()
+            if (null !== $invite->ownerUser && $invite->ownerUser->isCorporate()
                 && Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
