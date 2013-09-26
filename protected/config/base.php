@@ -185,6 +185,7 @@ return array(
 
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
+                'registration-new'                               => 'static/userAuth/registrationNew',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
                 'register-referal/<refId:\d+>'                   => 'static/userAuth/registerReferral',
                 'registration/choose-account-type'               => 'static/userAuth/chooseAccountType',
