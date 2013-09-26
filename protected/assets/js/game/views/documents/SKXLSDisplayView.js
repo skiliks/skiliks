@@ -121,7 +121,7 @@ define([
                 var doc = this.options.model_instance.get('document');
                 doc.get('sheets').where({'name': $(event.target).attr('data-sheet-name')})[0].activate();
 
-                //this.resizeActiveTab();
+                this.resizeActiveTab();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
