@@ -90,7 +90,7 @@ class Referrer extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
 
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'link' => Yii::app()->controller->createAbsoluteUrl("/registration-referal/".$this->id)
+            'link' => Yii::app()->controller->createAbsoluteUrl("/register-referal/".$this->id)
         ], true);
 
 
