@@ -111,6 +111,9 @@ class UserService {
         ]);
 
         foreach ($invites as $invite) {
+            if (null !== $invite->receiver_id) {
+                continue;
+            }
             $invite->receiver_id = $user->id;
             $invite->receiverUser = $user;
             $invite->save(false);
