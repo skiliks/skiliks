@@ -419,7 +419,7 @@ return array(
             'afterCallZoomerDuration'            => 2000, // milliseconds
             'isDisplayServer500errors'           => false,
             'isUseStrictAssertsWhenSimStop'      => false,
-            'frontendAjaxTimeout'                => 60000, // 60 sec
+            'frontendAjaxTimeout'                => 10000, // 60 sec
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
