@@ -240,6 +240,21 @@ class SiteController extends SiteBaseController
 
         $this->redirect('/dashboard');
     }
+
+    public function actionDemo(){
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $invite = new Invite();
+        $invite->scenario = $scenario;
+        $invite->scenario_id = $scenario->id;
+        $invite->is_display_simulation_results = 1;
+        $invite->save(false);
+
+        $this->redirect('/simulation/promo/lite/'.$invite->id);
+    }
 }
 
 

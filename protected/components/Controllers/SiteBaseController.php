@@ -104,7 +104,7 @@ class SiteBaseController extends CController {
         $user = Yii::app()->user;
         if (null === $user->id) {
             //Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
-            $this->redirect('/');
+            $this->redirect('/registration');
         }
 
         /**
