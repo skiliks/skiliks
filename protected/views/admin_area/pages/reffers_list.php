@@ -19,7 +19,7 @@ $assetsUrl = $this->getAssetsUrl();
 
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Referrer::model()->searchUserReferrals(
-        Yii::app()->user->data()->id
+        $user->id
     ),
         'summaryText' => '',
         'emptyText'   => '',
