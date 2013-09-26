@@ -1839,6 +1839,7 @@ define([
              */
             renderPhrases: function () {
                 try {
+                    console.log('renderPhrases - start');
                     var me = this,
                         mailClient = this.mailClient,
                         phrases = this.mailClient.availablePhrases,
@@ -1922,7 +1923,10 @@ define([
 
                     this.renderTXT();
 
+                    console.log($('#mailEmulatorNewLetterTextVariants'));
+
                     this.delegateEvents();
+                    console.log('renderPhrases - end');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1986,7 +1990,6 @@ define([
              */
             renderAddPhraseToEmail: function (phrase) {
                 try {
-                    console.log('renderAddPhraseToEmail - start');
                     var phraseHtml = _.template(phrase_item, {
                         phraseUid: phrase.uid,
                         phraseId: phrase.mySqlId,
@@ -1995,10 +1998,7 @@ define([
 
                     $("#mailEmulatorNewLetterText").append(phraseHtml);
 
-                    console.log($('#MailClient_ContentBlock .mail-tags-bl td'));
-
                     this.delegateEvents();
-                    console.log('renderAddPhraseToEmail - end');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
