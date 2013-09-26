@@ -92,7 +92,7 @@ class SiteController extends SiteBaseController
         }
 
         if (isset($invite) && Scenario::TYPE_TUTORIAL == $type
-            && $user->isCorporate() && (int)$user->account_corporate->invites_limit == 0
+            && $user->isCorporate() && (int)$user->account_corporate->getTotalAvailableInvitesLimit() == 0
         ) {
             Yii::app()->user->setFlash('error', 'У вас закончились приглашения');
             $this->redirect('/profile/corporate/tariff');
@@ -239,6 +239,21 @@ class SiteController extends SiteBaseController
         Yii::app()->user->setFlash('error','Текущая симуляция была прервана, так как вы начали новую симуляцию');
 
         $this->redirect('/dashboard');
+    }
+
+    public function actionDemo(){
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+
+        $invite = new Invite();
+        $invite->scenario = $scenario;
+        $invite->scenario_id = $scenario->id;
+        $invite->is_display_simulation_results = 1;
+        $invite->save(false);
+
+        $this->redirect('/simulation/promo/lite/'.$invite->id);
     }
 }
 

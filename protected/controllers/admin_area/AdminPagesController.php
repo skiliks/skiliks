@@ -1436,5 +1436,14 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    public function actionUserReferrs($userId = false) {
+        if($userId) {
+            $user = YumUser::model()->findByPk($userId);
+            $totalRefers = Referrer::model()->countUserReferrers($user->id);
+            $this->layout = '/admin_area/layouts/admin_main';
+            $this->render('/admin_area/pages/reffers_list', ["totalRefers"=>$totalRefers, "user"=>$user]);
+        }
+    }
+
 
 }

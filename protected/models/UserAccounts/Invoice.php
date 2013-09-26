@@ -181,8 +181,14 @@ class Invoice extends CActiveRecord
 
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
+
+            // Setting tariff invites
             $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
             $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
+
+            // Setting referral invites
+            $this->user->account_corporate->referrals_invite_limit = Referrer::model()->countUserRegisteredReferrers($this->user->id);
+
             $this->paid_at = date('Y-m-d H:i:s');
 
             $date = new DateTime();
@@ -216,6 +222,7 @@ class Invoice extends CActiveRecord
 
         $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
 
+        // TODO Remake email to send referrer invites
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
             'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
         ], true);
@@ -228,33 +235,15 @@ class Invoice extends CActiveRecord
             'body'        => $body,
             'embeddedImages' => [
                 [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],[

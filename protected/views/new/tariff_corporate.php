@@ -41,7 +41,7 @@
             <div class="row">
                 <label class="grid-cell font-large">Доступно симуляций</label>
                 <div class="grid-cell">
-                    <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></strong>
+                    <strong class="font-green font-xxlarge"><?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit() ?></strong>
                     <small class="font-small font-grey">
 
                         <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>

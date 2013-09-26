@@ -35,12 +35,14 @@ class InviteExpiredCommand extends CConsoleCommand
         if(null !== $accounts){
             /* @var $user UserAccountCorporate */
             foreach($accounts as $account){
-                $initValue = $account->invites_limit;
+                if($account->invites_limit !== 0) {
+                    $initValue = $account->invites_limit;
 
-                $account->invites_limit = 0;
-                $account->update();
+                    $account->invites_limit = 0;
+                    $account->update();
 
-                UserService::logCorporateInviteMovementAdd('InviteExpiredCommand', $account, $initValue);
+                    UserService::logCorporateInviteMovementAdd('InviteExpiredCommand', $account, $initValue);
+                }
             }
         }
 
