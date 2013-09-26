@@ -158,7 +158,7 @@ class Referrer extends CActiveRecord
     public function countUserRegisteredReferrers($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referral_id', $userId);
-        $criteria->addCondition('registered_at IS NOT NULL');
+        $criteria->addCondition('registered_at IS NULL');
         return Referrer::model()->count($criteria);
     }
 
@@ -173,7 +173,7 @@ class Referrer extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'invited_at DESC',
+                'defaultOrder'=>'id DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'referrer_email' => [

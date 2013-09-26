@@ -409,8 +409,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         }
 
         $totalRefers = Referrer::model()->countUserReferrers($this->user->id);
-
-
         $this->render('referrers_corporate', ["totalRefers"=>$totalRefers]);
     }
 
