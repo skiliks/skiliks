@@ -311,7 +311,7 @@ class UserAuthController extends YumController
                     $permission->template = 1; // magic const
                     $permission->save(false);
 
-                    SimulationService::assignAllNotAssignedUserInvites($YumUser);
+                    UserService::assignAllNotAssignedUserInvites($YumUser);
 
                     $this->redirect('/dashboard');
                 } else {
