@@ -1,3 +1,20 @@
+<?php
+$assetsUrl = $this->getAssetsUrl();
+?>
+
+<h1>
+    <?php if (null !== $user->getAccount()) : ?>
+        <?php if ($user->isCorporate()): ?>
+            <img src="<?=$assetsUrl?>/img/bg-registration-corporate.png" />
+        <?php else: ?>
+            <img src="<?=$assetsUrl?>/img/bg-registration-personal.png" />
+        <?php endif ?>
+
+        <?= $user->profile->firstname ?>
+        <?= $user->profile->lastname ?>
+    <?php endif ?>
+</h1>
+<h4><?= $user->account_corporate->getCompanyName(); ?></h4>
 <?
 
     $this->widget('zii.widgets.grid.CGridView', [
