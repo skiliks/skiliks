@@ -77,7 +77,7 @@ class ReferralsInviteForm extends CFormModel {
 
                 foreach($this->validatedEmailsArray as $email) {
                     $emailDomainZone = substr($email, strpos($email, "@"));
-                    if($emailDomainZone == $referDomain && $email !== $referEmail) {
+                    if($emailDomainZone == $referDomain) {
                         $this->addError('emails', "Емейлы рефералов ".$email." и ".$referEmail." принадлежат к одной доменной группе.");
                         break;
                     }
