@@ -100,7 +100,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
                 $this->sendInviteEmail($invite);
 
-                $initValue = $this->user->getAccount()->invites_limit;
+                $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
 
                 // decline corporate user invites_limit
                 $this->user->getAccount()->decreaseLimit();
@@ -353,7 +353,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
 
                 // TODO remake log to log different type of accounts
-                $initValue = $this->user->getAccount()->invites_limit;
+                $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
 
                 // decline corporate user invites_limit
                 $this->user->getAccount()->decreaseLimit();
@@ -778,7 +778,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
-        $initValue = $declineExplanation->invite->ownerUser->getAccount()->invites_limit;
+        $initValue = $declineExplanation->invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
 
         $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
         $declineExplanation->invite->ownerUser->getAccount()->save(false);

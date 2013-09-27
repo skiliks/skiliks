@@ -46,7 +46,7 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
 
-        $initValue = $this->invites_limit;
+        $initValue = $this->getTotalAvailableInvitesLimit();
 
         $this->invites_limit = $tariff->simulations_amount;
 
@@ -212,7 +212,7 @@ class UserAccountCorporate extends CActiveRecord
     {
         if (Invite::STATUS_PENDING == $invite->status) {
 
-            $initValue = $this->invites_limit;
+            $initValue = $this->getTotalAvailableInvitesLimit();
 
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
@@ -228,7 +228,7 @@ class UserAccountCorporate extends CActiveRecord
     public function decreaseLimit()
     {
 
-        $initValue = $this->invites_limit;
+        $initValue = $this->getTotalAvailableInvitesLimit();
 
         if($this->invites_limit > 0) {
             $this->invites_limit--;
@@ -252,5 +252,10 @@ class UserAccountCorporate extends CActiveRecord
 
     public function getTotalAvailableInvitesLimit() {
         return $this->invites_limit + $this->referrals_invite_limit;
+    }
+
+    public function addReferralInvite() {
+        $this->referrals_invite_limit++;
+        $this->save();
     }
 }
