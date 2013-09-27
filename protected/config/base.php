@@ -234,6 +234,7 @@ return array(
                 'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
+                'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',

@@ -178,6 +178,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistrationCorporate');
         }
 
+        // getting user popup
+        $session = new CHttpSession();
+        if(!isset($session['shown_display_popup']) || $session['shown_display_popup'] === null) {
+            $session['shown_display_popup'] = !$this->user->getAccount()->is_display_referrals_popup;
+        }
+
+
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -202,6 +209,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
         }
         // I remove more than 1 allowed to start lite sim }
+
+
 
         if (0 === count($notUsedFullSimulations)) {
             $newInviteForFullSimulation = new Invite();
@@ -410,6 +419,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
+            'shown_display_popup' => $session['shown_display_popup']
         ]);
     }
 
@@ -939,6 +949,25 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $this->redirect('/dashboard');
         }
+    }
+
+    function actionDontShowPopup() {
+
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth()) {
+            exit();
+        } elseif ($user->isPersonal()) {
+            exit();
+        }
+
+        $dontShowPopup = Yii::app()->request->getParam("dontShowPopup", null);
+        if($dontShowPopup !== null && $dontShowPopup == 1) {
+            $user->getAccount()->is_display_referrals_popup = 0;
+            $user->getAccount()->save();
+        }
+        $session = new CHttpSession();
+        $session['shown_display_popup'] = 1;
     }
 
 }

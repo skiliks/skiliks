@@ -144,4 +144,22 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
         <?php endif; ?>
     </tr>
+
+        <?php if ($user->isCorporate()) : ?>
+            <tr>
+                <td>Показывать попап рефералов: </td>
+                <td>
+                    <? if ($user->account_corporate->is_display_referrals_popup) : ?>
+                        Показывается
+                    <? else : ?>
+                       Не показывается
+                    <? endif ?>
+                        <form action="/admin_area/user/<?= $user->id ?>/details/"
+                              method="post" style="display: inline-block;">
+                            <input class="btn btn-success" name="changeReferPopup" type="submit" value="Сменить">
+                        </form>
+
+                </td>
+            </tr>
+        <? endif; ?>
 </table>
