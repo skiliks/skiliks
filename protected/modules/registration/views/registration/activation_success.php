@@ -11,11 +11,35 @@
                     <li>Знакомство с интерфейсами</li>
                     <li>Пример итогового отчёта по оценке навыков</li>
                 </ul>
+                <script>
+                    var cookie = $.cookie('registration_user-want-to-start-demo');
+                    if (undefined == cookie) {
+                        $.cookie('registration_user-want-to-start-demo', 0);
+                    }
+
+                    // un check "Демо-версия" if cookie 'registration_user-want-to-start-demo' = 0
+                    $(document).ready(function() {
+                        if (0 == cookie) {
+                            var button = $(".icon-check");
+                            button.removeClass('icon-check');
+                            button.addClass('icon-chooce');
+                            $('#YumUser_is_check').val('0');
+                            $("#registration_check").find("span").css('display', 'block');
+                            if (1 === $('#registration_switch').length) {
+                                $('#registration_switch').val($('#registration_switch').attr('data-next'));
+                            }
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
 </div>
-<h6 class="minititle" id="registration_hint" style="visibility: <?php echo $user->is_check ? 'hidden' : 'visible' ?>"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
+
+<h6 class="minititle" id="registration_hint">
+    <span class="icon-uncheck-text"><?= Yii::t('site', 'Нажмите Далее для выбора типа аккаунта') ?></span>
+    <span class="icon-check-text" style="display: none;"><?= Yii::t('site', 'Нажмите Начать для запуска Демо') ?></span>
+</h6>
 
 <p class="text-center longercontent"> <?php Yum::t('Click {here} to go to the login form', array(
 			'{here}' => CHtml::link(Yum::t('here'), Yum::module()->loginUrl
