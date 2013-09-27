@@ -41,6 +41,7 @@ class ActivityAggregated214dTable extends LogTable
     protected function getRow($row)
     {
         static $end_time = 0;
+        $dialogType = null;
         if($row->activityAction->dialog !== null) {
             $dialogType = $row->activityAction->dialog->dialog_subtype->title;
         }
