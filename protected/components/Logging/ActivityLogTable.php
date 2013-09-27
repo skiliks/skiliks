@@ -11,7 +11,7 @@ class ActivityLogTable extends LogTable
 {
     public function getHeaders()
     {
-        return ['Window Start Time', 'Window End Time', 'Leg type', 'Leg action', 'Activity ID', 'Category ID', 'Time diff', 'Duration'];
+        return ['Window Start Time', 'Window End Time', 'Leg type', 'Leg action', 'Activity ID', 'Category ID', 'Time diff', 'Duration', 'Dialog Type'];
     }
 
     public function getTitle()
@@ -32,6 +32,11 @@ class ActivityLogTable extends LogTable
     {
         $action = $logActivityAction->activityAction->getAction();
         static $end_time = 0;
+        $dialogType = null;
+        if($logActivityAction->activityAction->dialog !== null) {
+            $dialogType = $logActivityAction->activityAction->dialog->dialogSubtype->title;
+        }
+
         $diff = ($end_time === 0)?'-':strtotime($logActivityAction->start_time) - strtotime($end_time);
         $end_time = $logActivityAction->end_time;
         return [
@@ -42,7 +47,8 @@ class ActivityLogTable extends LogTable
             $logActivityAction->activityAction->activity->code,
             $logActivityAction->activityAction->activity->category->code,
             $diff,
-            strtotime($logActivityAction->end_time) - strtotime($logActivityAction->start_time)
+            strtotime($logActivityAction->end_time) - strtotime($logActivityAction->start_time),
+            $dialogType
         ];
     }
 

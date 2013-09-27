@@ -29,7 +29,8 @@ class ActivityAggregated214dTable extends LogTable
             'Игровое время - start',
             'Игровое время - end',
             'Длительность, игровых мин',
-            'Time diff'
+            'Time diff',
+            'Dialog Type'
         ];
     }
 
@@ -40,6 +41,10 @@ class ActivityAggregated214dTable extends LogTable
     protected function getRow($row)
     {
         static $end_time = 0;
+        $dialogType = null;
+        if($row->activityAction !== null && $row->activityAction->dialog !== null) {
+            $dialogType = $row->activityAction->dialog->dialogSubtype->title;
+        }
         $diff = ($end_time === 0)?'-':strtotime($row->start_time) - strtotime($end_time);
         $end_time = $row->end_time;
         return [
@@ -54,7 +59,8 @@ class ActivityAggregated214dTable extends LogTable
             $row->start_time,
             $row->end_time,
             $row->duration,
-            $diff
+            $diff,
+            $dialogType
         ];
     }
 
