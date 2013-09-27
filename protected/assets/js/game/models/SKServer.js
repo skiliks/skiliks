@@ -182,6 +182,7 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
+                                    console.log("remove error_dialog");
                                     me.error_dialog.remove();
                                     delete me.error_dialog;
                                     me.success_dialog = new SKDialogView({
@@ -290,11 +291,12 @@ define([
 
             tryConnect: function() {
                 try {
+                    console.trace();
                     this.try_connect = true;
                     var me = this;
-                    this.request_interval_id = setInterval(function(){
-                        me.api(me.connectPath, {}, function(){});
-                    }, 5000);
+                        this.request_interval_id = setInterval(function(){
+                            me.api(me.connectPath, {}, function(){});
+                        }, 5000);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
