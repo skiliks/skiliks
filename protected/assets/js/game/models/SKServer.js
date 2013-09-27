@@ -40,6 +40,8 @@ define([
 
             success_dialog:null,
 
+            requests_timeout:10000,
+
             getAjaxParams: function (path, params, callback) {
                 try {
                     var me = this;
@@ -106,7 +108,7 @@ define([
                         xhrFields: {
                             withCredentials: true
                         },
-                        timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
+                        timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
                             if( data.uniqueId !== undefined ) {
 
@@ -147,16 +149,16 @@ define([
                                 SKApp.isInternetConnectionBreakHappent = true;
 
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
-                                    var requests = SKApp.server.requests_queue.where({status:'failed'});
-                                    //console.log(requests);
+                                    var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
+                                    request.set('status', 'failed');
+                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
+                                    console.log('requests', requests);
                                         requests.forEach(function(request){
                                             console.log(request);
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
                                             }
                                         });
-                                        var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
-                                        request.set('status', 'failed');
                                         if(me.error_dialog === null) {
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
@@ -188,6 +190,7 @@ define([
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
                                                                 request.set('is_repeat_request', true);
+                                                                request.set('status', 'padding');
                                                                 if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
                                                                     SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
                                                                 }else{
