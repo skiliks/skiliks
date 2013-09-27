@@ -166,4 +166,19 @@ $(document).ready(function(){
             });
     });
 
+    $(".btn-check-all").click(function() {
+        $(this).parents("tr").find("input[type='checkbox']").prop('checked', true);
+        return false;
+    });
+
+    $(".btn-uncheck-all").click(function() {
+        $(this).parents("tr").find("input[type='checkbox']").prop('checked', false);
+        return false;
+    });
+
+    $(".disable-filters").click(function() {
+        window.location.href = "/admin_area/orders";
+        return false;
+    })
+
 });
