@@ -29,7 +29,8 @@ class ActivityAggregated214dTable extends LogTable
             'Игровое время - start',
             'Игровое время - end',
             'Длительность, игровых мин',
-            'Time diff'
+            'Time diff',
+            'Dialog Type'
         ];
     }
 
@@ -54,7 +55,8 @@ class ActivityAggregated214dTable extends LogTable
             $row->start_time,
             $row->end_time,
             $row->duration,
-            $diff
+            $diff,
+            $row->activityAction->dialog->dialog_subtype->title
         ];
     }
 
