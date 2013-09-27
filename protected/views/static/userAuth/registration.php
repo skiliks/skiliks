@@ -13,10 +13,27 @@
                     <li>Пример итогового отчёта по оценке навыков</li>
                 </ul>
             </div>
+            <script>
+                $(document).ready(function() {
+                    var button = $(".icon-check");
+                    button.removeClass('icon-check');
+                    button.addClass('icon-chooce');
+                    $('#YumUser_is_check').val('0');
+                    $("#registration_check").find("span").css('display', 'block');
+                    if (1 === $('#registration_switch').length) {
+                        $('#registration_switch').val($('#registration_switch').attr('data-next'));
+                    }
+                    if ($('#registration_hint').length) {
+                    }
+                });
+            </script>
         </div>
     </div>
 
-    <h6 class="minititle" id="registration_hint" style="visibility: hidden"><?= Yii::t('site', 'Вы можете пройти симуляцию позже') ?></h6>
+    <h6 class="minititle" id="registration_hint">
+        <span class="icon-uncheck-text"><?= Yii::t('site', 'Нажмите Далее для выбора типа аккаунта') ?></span>
+        <span class="icon-check-text" style="display: none;"><?= Yii::t('site', 'Нажмите Начать для запуска Демо') ?></span>
+    </h6>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id'                   => 'yum-user-registration-form',
