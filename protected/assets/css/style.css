@@ -4625,3 +4625,26 @@ div.inline-block {
     margin-bottom: 0;
     margin-left: 20px;
 }
+
+/* --- site heart { */
+.sh_btn .sh_btn_char {
+    font: 16px/14px "ProximaNova-Regular",sans-serif !important;
+}
+
+.sh_header, .sh_btn {
+    background: none repeat scroll 0 0 #146672 !important;
+}
+
+.sh_chat {
+    border-color: #146672 !important;
+}
+
+
+.sh_top_buttons {
+    border-left: 1px solid #FFFFFF !important;
+}
+
+.sh_btn_left .sh_title_text, .sh_btn_right .sh_title_text {
+    border-top: 1px solid #82BBC4 !important;
+}
+/* --- } site heart */
