@@ -42,7 +42,7 @@ class ActivityAggregated214dTable extends LogTable
     {
         static $end_time = 0;
         $dialogType = null;
-        if($row->activityAction->dialog !== null) {
+        if($row->activityAction !== null && $row->activityAction->dialog !== null) {
             $dialogType = $row->activityAction->dialog->dialogSubtype->title;
         }
         $diff = ($end_time === 0)?'-':strtotime($row->start_time) - strtotime($end_time);
