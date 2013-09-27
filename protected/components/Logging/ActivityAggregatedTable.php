@@ -34,7 +34,8 @@ class ActivityAggregatedTable extends LogTable
             'Игровое время - start',
             'Игровое время - end',
             'Time diff',
-            'Keep last category - after 90 real sec'
+            'Keep last category - after 90 real sec',
+            'Dialog Type'
         ];
     }
 
@@ -58,6 +59,7 @@ class ActivityAggregatedTable extends LogTable
             $row->end_time,
             $diff,
             ($row->keep_last_category_after_60_sec === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
+            $row->activityAction->dialog->dialog_subtype->title
         ];
     }
 
