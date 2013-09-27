@@ -426,6 +426,8 @@ return array(
             'isDisplayServer500errors'           => false,
             'isUseStrictAssertsWhenSimStop'      => false,
             'frontendAjaxTimeout'                => 10000, // 60 sec
+            'simStartTimeout'                    => 180000,
+            'simStopTimeout'                     => 180000,
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,

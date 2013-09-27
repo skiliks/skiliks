@@ -33,6 +33,7 @@ define([
                      */
                     this.server = new SKServer();
                     this.server.requests_queue = new SKRequestsQueueCollection();
+                    this.server.requests_timeout = this.get("simStartTimeout");
 
                     var SimClass = this.isTutorial() ? SKTutorial : SKSimulation;
                     this.simulation = new SimClass({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
