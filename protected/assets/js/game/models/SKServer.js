@@ -149,7 +149,9 @@ define([
                                 SKApp.isInternetConnectionBreakHappent = true;
 
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
-                                    var requests = SKApp.server.requests_queue.where({status:'failed'});
+                                    var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
+                                    request.set('status', 'failed');
+                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
                                     //console.log(requests);
                                         requests.forEach(function(request){
                                             console.log(request);
@@ -157,8 +159,6 @@ define([
                                                 request.get('ajax').abort();
                                             }
                                         });
-                                        var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
-                                        request.set('status', 'failed');
                                         if(me.error_dialog === null) {
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
@@ -190,6 +190,7 @@ define([
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
                                                                 request.set('is_repeat_request', true);
+                                                                request.set('status', 'padding');
                                                                 if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
                                                                     SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
                                                                 }else{
