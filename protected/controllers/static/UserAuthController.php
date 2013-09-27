@@ -517,7 +517,7 @@ class UserAuthController extends YumController
                     $profile->save();
                     $accountPersonal->save(true, ['user_id', 'industry_id', 'professional_status_id']);
 
-                    SimulationService::assignAllNotAssignedUserInvites(Yii::app()->user->data());
+                    UserService::assignAllNotAssignedUserInvites(Yii::app()->user->data());
 
                     $this->redirect(['registration/account-type/added']);
                 }
