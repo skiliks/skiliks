@@ -188,7 +188,12 @@ define([
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
                                                                 request.set('is_repeat_request', true);
-                                                                SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
+                                                                    SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }else{
+                                                                    SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }
+
                                                             });
                                                             me.success_dialog.remove();
                                                             delete me.success_dialog;
@@ -254,7 +259,7 @@ define([
             apiQueue: function (path, params, callback) {
                 try {
                     // this done for SKServer not to make any requests after Simulation stop
-                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                    if(!SKApp.simulation.is_stopped || path === "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
                         //console.log(ajaxParams);
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
