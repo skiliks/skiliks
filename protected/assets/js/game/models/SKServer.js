@@ -154,7 +154,8 @@ define([
                                     var requests = SKApp.server.requests_queue.where({status:'padding'});
                                     console.log('requests', requests);
                                         requests.forEach(function(request){
-                                            console.log(request);
+                                            console.log('request',request.get('status'));
+                                            console.log('request status', request);
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
                                             }
