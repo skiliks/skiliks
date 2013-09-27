@@ -32,6 +32,11 @@ class ActivityLogTable extends LogTable
     {
         $action = $logActivityAction->activityAction->getAction();
         static $end_time = 0;
+
+        if($logActivityAction->activityAction->dialog !== null) {
+            $dialogType = $logActivityAction->activityAction->dialog->dialog_subtype->title;
+        }
+
         $diff = ($end_time === 0)?'-':strtotime($logActivityAction->start_time) - strtotime($end_time);
         $end_time = $logActivityAction->end_time;
         return [
@@ -43,7 +48,7 @@ class ActivityLogTable extends LogTable
             $logActivityAction->activityAction->activity->category->code,
             $diff,
             strtotime($logActivityAction->end_time) - strtotime($logActivityAction->start_time),
-            $logActivityAction->activityAction->dialog->dialog_subtype->title
+            $dialogType
         ];
     }
 

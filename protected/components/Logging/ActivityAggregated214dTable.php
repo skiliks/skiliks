@@ -41,6 +41,9 @@ class ActivityAggregated214dTable extends LogTable
     protected function getRow($row)
     {
         static $end_time = 0;
+        if($row->activityAction->dialog !== null) {
+            $dialogType = $row->activityAction->dialog->dialog_subtype->title;
+        }
         $diff = ($end_time === 0)?'-':strtotime($row->start_time) - strtotime($end_time);
         $end_time = $row->end_time;
         return [
@@ -56,7 +59,7 @@ class ActivityAggregated214dTable extends LogTable
             $row->end_time,
             $row->duration,
             $diff,
-            $row->activityAction->dialog->dialog_subtype->title
+            $dialogType
         ];
     }
 
