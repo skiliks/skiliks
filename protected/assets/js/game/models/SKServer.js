@@ -145,9 +145,9 @@ define([
                         },
                         complete: function (xhr, text_status) {
                             console.log(xhr.status)
-                            if ('timeout' === text_status || xhr.status === 0) {
+                            if (('timeout' === text_status || xhr.status === 0)  && me.is_connected) {
                                 SKApp.isInternetConnectionBreakHappent = true;
-
+                                me.is_connected = false;
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
                                     var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                     request.set('status', 'failed');
@@ -180,6 +180,7 @@ define([
 
                             } else if( xhr.status === 200 ) {
                                 if( url === me.api_root + me.connectPath ) {
+                                    me.is_connected = true;
                                     me.stopTryConnect();
                                     me.error_dialog.remove();
                                     delete me.error_dialog;
