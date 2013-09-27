@@ -36,7 +36,11 @@ define([
 
             try_connect:false,
 
-            dialog_window:null,
+            error_dialog:null,
+
+            success_dialog:null,
+
+            requests_timeout:10000,
 
             getAjaxParams: function (path, params, callback) {
                 try {
@@ -104,7 +108,7 @@ define([
                         xhrFields: {
                             withCredentials: true
                         },
-                        timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
+                        timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
                             if( data.uniqueId !== undefined ) {
 
@@ -140,40 +144,48 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            if ('timeout' === text_status || xhr.status === 0) {
-
+                            console.log(xhr.status)
+                            if (('timeout' === text_status || xhr.status === 0)  && me.is_connected) {
                                 SKApp.isInternetConnectionBreakHappent = true;
-
+                                me.is_connected = false;
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
-                                    var requests = SKApp.server.requests_queue.where({status:'failed'});
-                                    //console.log(requests);
+                                    var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
+                                    request.set('status', 'failed');
+                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
+                                    console.log('requests', requests);
                                         requests.forEach(function(request){
-                                            console.log(request);
+                                            console.log('request',request.get('status'));
+                                            console.log('request status', request);
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
                                             }
                                         });
-                                        var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
-                                        request.set('status', 'failed');
-                                        me.dialog_window = new SKDialogView({
-                                            'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
-                                            "Пожалуйста, проверьте Интернет соединение.<br>"+
-                                            "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
-                                            'modal': true,
-                                            'buttons': []
-                                        });
+
+                                        if(me.error_dialog === null) {
+                                            console.log('add new SKDialogView');
+                                            me.error_dialog = new SKDialogView({
+                                                'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
+                                                    "Пожалуйста, проверьте Интернет соединение.<br>"+
+                                                    "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
+                                                'modal': true,
+                                                'buttons': []
+                                            });
+                                        }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
-
+                                    console.log('this.try_connect', me.try_connect);
+                                    console.log('this.request_interval_id', me.request_interval_id);
                                     me.tryConnect();
                                 }
 
                             } else if( xhr.status === 200 ) {
                                 if( url === me.api_root + me.connectPath ) {
+                                    me.is_connected = true;
                                     me.stopTryConnect();
-                                    me.dialog_window.remove();
-                                    delete me.dialog_window;
-                                    me.dialog_window = new SKDialogView({
+                                    console.log("remove error_dialog");
+                                    me.error_dialog.remove();
+                                    delete me.error_dialog;
+                                    me.success_dialog = new SKDialogView({
                                         'message': 'Соединение с интернет востановлено!',
                                         'modal': true,
                                         'buttons': [
@@ -184,10 +196,16 @@ define([
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
                                                                 request.set('is_repeat_request', true);
-                                                                SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                request.set('status', 'padding');
+                                                                if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
+                                                                    SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }else{
+                                                                    SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }
+
                                                             });
-                                                            me.dialog_window.remove();
-                                                            delete me.dialog_window;
+                                                            me.success_dialog.remove();
+                                                            delete me.success_dialog;
                                                         });
                                                 }
                                             }
@@ -250,7 +268,7 @@ define([
             apiQueue: function (path, params, callback) {
                 try {
                     // this done for SKServer not to make any requests after Simulation stop
-                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                    if(!SKApp.simulation.is_stopped || path === "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
                         //console.log(ajaxParams);
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
@@ -273,11 +291,12 @@ define([
 
             tryConnect: function() {
                 try {
+                    console.trace();
                     this.try_connect = true;
                     var me = this;
-                    this.request_interval_id = setInterval(function(){
-                        me.api(me.connectPath, {}, function(){});
-                    }, 5000);
+                        this.request_interval_id = setInterval(function(){
+                            me.api(me.connectPath, {}, function(){});
+                        }, 5000);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

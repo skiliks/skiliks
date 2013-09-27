@@ -14,7 +14,7 @@ $assetsUrl = $this->getAssetsUrl();
         <?= $user->profile->lastname ?>
     <?php endif ?>
 </h1>
-<h4><?= $user->account_corporate->getCompanyName(); ?></h4>
+<h4><? if($user->account_corporate !== null) echo $user->account_corporate->getCompanyName(); ?></h4>
 <?
 
     $this->widget('zii.widgets.grid.CGridView', [

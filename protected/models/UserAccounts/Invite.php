@@ -322,7 +322,7 @@ class Invite extends CActiveRecord
             return false;
         }
 
-        $initValue = $account->invites_limit;
+        $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
         $account->update();

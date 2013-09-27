@@ -24,7 +24,7 @@ class SetInviteCountCommand extends CConsoleCommand
         /** @var UserAccountCorporate $account */
         $account = $profile->user->account_corporate;
 
-        $initValue = $account->invites_limit;
+        $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit += $add;
         $account->invites_limit -= $remove;
