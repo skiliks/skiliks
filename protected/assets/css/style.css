@@ -558,7 +558,15 @@ html[lang=ru] .betaflag {
     background-image:url("../img/icon-circlarow.png");
 /*    font-weight: normal; */
     padding-left:51px;
+    background-color: #e21a1b;
 }
+
+
+.features.freeacess:hover {
+    background-color: #820303;
+}
+
+
 .footer .freeacess {
     background-image:url("../img/icon-btn-notify.png");
     font-weight: normal;
