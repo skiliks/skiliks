@@ -27,11 +27,12 @@ $assetsUrl = $this->getAssetsUrl();
    href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $user->id]) ?>">
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
-<a class="btn btn-success" target="_blank"
-   href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
-    <i class="icon icon-share icon-white"></i>&nbsp;
-    Рефераллы</a>
-
+<?php if ($user->isCorporate()): ?>
+    <a class="btn btn-success" target="_blank"
+       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
+        <i class="icon icon-share icon-white"></i>&nbsp;
+        Рефераллы</a>
+<? endif; ?>
 <br/>
 <br/>
 
