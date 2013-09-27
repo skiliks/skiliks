@@ -294,9 +294,11 @@ define([
                     console.trace();
                     this.try_connect = true;
                     var me = this;
-                    this.request_interval_id = setInterval(function(){
-                        me.api(me.connectPath, {}, function(){});
-                    }, 5000);
+                    if(this.request_interval_id === null){
+                        this.request_interval_id = setInterval(function(){
+                            me.api(me.connectPath, {}, function(){});
+                        }, 5000);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
