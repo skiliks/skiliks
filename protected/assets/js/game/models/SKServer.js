@@ -36,7 +36,9 @@ define([
 
             try_connect:false,
 
-            dialog_window:null,
+            error_dialog:null,
+
+            success_dialog:null,
 
             getAjaxParams: function (path, params, callback) {
                 try {
@@ -140,8 +142,8 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
+                            console.log(xhr.status)
                             if ('timeout' === text_status || xhr.status === 0) {
-
                                 SKApp.isInternetConnectionBreakHappent = true;
 
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
@@ -155,13 +157,15 @@ define([
                                         });
                                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                         request.set('status', 'failed');
-                                        me.dialog_window = new SKDialogView({
-                                            'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
-                                            "Пожалуйста, проверьте Интернет соединение.<br>"+
-                                            "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
-                                            'modal': true,
-                                            'buttons': []
-                                        });
+                                        if(me.error_dialog === null) {
+                                            me.error_dialog = new SKDialogView({
+                                                'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
+                                                    "Пожалуйста, проверьте Интернет соединение.<br>"+
+                                                    "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
+                                                'modal': true,
+                                                'buttons': []
+                                            });
+                                        }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
 
@@ -171,9 +175,9 @@ define([
                             } else if( xhr.status === 200 ) {
                                 if( url === me.api_root + me.connectPath ) {
                                     me.stopTryConnect();
-                                    me.dialog_window.remove();
-                                    delete me.dialog_window;
-                                    me.dialog_window = new SKDialogView({
+                                    me.error_dialog.remove();
+                                    delete me.error_dialog;
+                                    me.success_dialog = new SKDialogView({
                                         'message': 'Соединение с интернет востановлено!',
                                         'modal': true,
                                         'buttons': [
@@ -186,8 +190,8 @@ define([
                                                                 request.set('is_repeat_request', true);
                                                                 SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
                                                             });
-                                                            me.dialog_window.remove();
-                                                            delete me.dialog_window;
+                                                            me.success_dialog.remove();
+                                                            delete me.success_dialog;
                                                         });
                                                 }
                                             }
