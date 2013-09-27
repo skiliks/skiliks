@@ -14,6 +14,12 @@
                 </ul>
             </div>
             <script>
+                var cookie = $.cookie('registration_user-want-to-start-demo');
+                if (undefined == cookie) {
+                    $.cookie('registration_user-want-to-start-demo', 0);
+                }
+
+                // un check "Демо-версия"
                 $(document).ready(function() {
                     var button = $(".icon-check");
                     button.removeClass('icon-check');
@@ -22,8 +28,6 @@
                     $("#registration_check").find("span").css('display', 'block');
                     if (1 === $('#registration_switch').length) {
                         $('#registration_switch').val($('#registration_switch').attr('data-next'));
-                    }
-                    if ($('#registration_hint').length) {
                     }
                 });
             </script>
