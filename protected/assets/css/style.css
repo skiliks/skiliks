@@ -2252,6 +2252,7 @@ html[lang="en"] .footer .social_networks {
 .action-controller-activation-registration .ui-dialog-titlebar,
 .controller-static-pages .ui-dialog-titlebar,
 .controller-static-userAuth .ui-dialog-titlebar,
+.controller-auth .ui-dialog-titlebar,
 .terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;
