@@ -182,6 +182,7 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
+                                    console.log("remove error_dialog");
                                     me.error_dialog.remove();
                                     delete me.error_dialog;
                                     me.success_dialog = new SKDialogView({
