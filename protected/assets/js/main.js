@@ -212,6 +212,7 @@ var fixLogotypes = function() {
                     modal: true,
                     resizable: false,
                     width:881,
+                    draggable: false,
                     open: function( event, ui ) {
                         Cufon.refresh();
                         $('.start-lite-simulation-now').click(function() {
@@ -248,6 +249,7 @@ var fixLogotypes = function() {
                 modal: true,
                 resizable: false,
                 width:881,
+                draggable: false,
                 open: function( event, ui ) {
                     Cufon.refresh();
                     $('.start-lite-simulation-now').click(function() {

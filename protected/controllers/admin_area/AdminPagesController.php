@@ -643,18 +643,82 @@ class AdminPagesController extends SiteBaseController {
         }
 
         $criteria = new CDbCriteria;
-        $totalItems = Invoice::model()->count($criteria);
+
+        $criteria->join = "JOIN user_account_corporate ON user_account_corporate.user_id = t.user_id";
+
+        // applying filters
+        $filterEmail = Yii::app()->request->getParam('email', null);
+
+        if($filterEmail !== null) {
+            $filterEmail = trim($filterEmail);
+            $criteria->addSearchCondition("user_account_corporate.corporate_email", $filterEmail);
+        }
+
+        // appying payment method filters
+        $filterCash = Yii::app()->request->getParam('cash', null);
+        $filterRobokassa = Yii::app()->request->getParam('robokassa', null);
+
+        if($filterCash !== null && $filterRobokassa === null) {
+            $criteria->compare("payment_system", 'cash');
+        }
+        elseif($filterCash === null && $filterRobokassa !== null) {
+            $criteria->compare("t.payment_system", 'robokassa');
+        }
+        // if both are not null we taking everything
+
+
+        // applying done / not done filters
+        $done = Yii::app()->request->getParam('done', null);
+        $notDone = Yii::app()->request->getParam('notDone', null);
+
+        if($done !== null && $notDone === null) {
+            $criteria->addCondition("t.paid_at IS NOT NULL");
+        }
+        elseif($done === null && $notDone !== null) {
+            $criteria->addCondition("t.paid_at IS NULL");
+        }
+        // if both are not null we taking everything
+
+        // setting the form to get it in the view
+
+        // checking if submit button wasn't pushed
+        $formSended = Yii::app()->request->getParam('form-send', null);
+
+        if($formSended !== null) {
+            $appliedFilters = ["email"     =>$filterEmail,
+                               "robokassa" =>$filterRobokassa,
+                               "cash"      =>$filterCash,
+                               "done"      =>$done,
+                               "notDone"   =>$notDone
+                              ];
+        }
+        else {
+            // generationg the all filters to be checked
+            $appliedFilters = ["email"     => null,
+                               "robokassa" => "set",
+                               "cash"      => "set",
+                               "done"      => "set",
+                               "notDone"   => "set"
+            ];
+        }
+
+
+        // counting objects to make the pagination
+        $totalItems = count(Invoice::model()->findAll($criteria));
+
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
         $pager->route = 'admin_area/AdminPages/Orders';
         // pager }
 
-        $models = Invoice::model()->findAll([
-            "order" => "created_at desc",
-            "limit"  => $this->itemsOnPage,
-            "offset" => ($page-1)*$this->itemsOnPage
-        ]);
+
+        // building criteria
+        $criteria->order = "created_at desc" ;
+        $criteria->limit = $this->itemsOnPage;
+        $criteria->offset = ($page-1)*$this->itemsOnPage;
+
+        $models = Invoice::model()->findAll($criteria);
 
         $this->layout = '//admin_area/layouts/admin_main';
 
@@ -663,7 +727,8 @@ class AdminPagesController extends SiteBaseController {
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage
+            'itemsOnPage' => $this->itemsOnPage,
+            'filters'     => $appliedFilters
         ]);
     }
 
@@ -1218,6 +1283,14 @@ class AdminPagesController extends SiteBaseController {
     {
         $user = YumUser::model()->findByPk($userId);
 
+        if($user->isCorporate()) {
+            $isShownPopup = Yii::app()->request->getParam("changeReferPopup", null);
+            if($isShownPopup !== null) {
+                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
+                $user->account_corporate->save();
+            }
+        }
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/user_details', [
             'user' => $user,
@@ -1245,7 +1318,7 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->invites_limit;
+        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {

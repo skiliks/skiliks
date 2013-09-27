@@ -27,11 +27,12 @@ $assetsUrl = $this->getAssetsUrl();
    href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $user->id]) ?>">
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
-<a class="btn btn-success" target="_blank"
-   href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
-    <i class="icon icon-share icon-white"></i>&nbsp;
-    Рефераллы</a>
-
+<?php if ($user->isCorporate()): ?>
+    <a class="btn btn-success" target="_blank"
+       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
+        <i class="icon icon-share icon-white"></i>&nbsp;
+        Рефераллы</a>
+<? endif; ?>
 <br/>
 <br/>
 
@@ -143,4 +144,22 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
         <?php endif; ?>
     </tr>
+
+        <?php if ($user->isCorporate()) : ?>
+            <tr>
+                <td>Показывать попап рефералов: </td>
+                <td>
+                    <? if ($user->account_corporate->is_display_referrals_popup) : ?>
+                        Показывается
+                    <? else : ?>
+                       Не показывается
+                    <? endif ?>
+                        <form action="/admin_area/user/<?= $user->id ?>/details/"
+                              method="post" style="display: inline-block;">
+                            <input class="btn btn-success" name="changeReferPopup" type="submit" value="Сменить">
+                        </form>
+
+                </td>
+            </tr>
+        <? endif; ?>
 </table>

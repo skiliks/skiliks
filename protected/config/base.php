@@ -234,6 +234,7 @@ return array(
                 'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
+                'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
@@ -426,6 +427,8 @@ return array(
             'isDisplayServer500errors'           => false,
             'isUseStrictAssertsWhenSimStop'      => false,
             'frontendAjaxTimeout'                => 10000, // 60 sec
+            'simStartTimeout'                    => 180000,
+            'simStopTimeout'                     => 180000,
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,

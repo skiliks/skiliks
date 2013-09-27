@@ -455,6 +455,7 @@ define([
                         screen_resolution:window.screen.availWidth+'x'+window.screen.availHeight,
                         window_resolution:window.screen.width+'x'+window.screen.height
                     }, function (data) {
+                        SKApp.server.requests_timeout = SKApp.get("frontendAjaxTimeout");
                         var nowDate = new Date(),
                             win;
 
@@ -510,7 +511,7 @@ define([
             'stop':function () {
                 try {
                     var me = this;
-                    SKApp.set('frontendAjaxTimeout', 180*1000); // 180sec
+                    SKApp.server.requests_timeout = SKApp.get("simStopTimeout");
                     me._stopTimer();
                     me.is_stopped = true;
                     this.window_set.deactivateActiveWindow();

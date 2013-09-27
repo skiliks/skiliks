@@ -13,6 +13,54 @@
 <div class="row fix-top">
     <h2>Заказы</h2>
 
+    <div class="row">
+        <form class="form-inline" action="/admin_area/orders" method="post">
+            <table class="table table-bordered" style="margin-left: 40px; width: 80%;">
+                <tr>
+                    <td>Е-мейл клиента</td>
+                    <td colspan="3"><input type="text" style="margin-left:40px;" value="<?=$filters['email'] ?>" name="email" placeholder="email"></td>
+                </tr>
+
+                <tr>
+                    <td>Платежные системы</td>
+                    <td>
+                        <button class="btn btn-check-all">Отметить все</button>
+                        <button class="btn btn-uncheck-all">Снять все</button>
+                    </td>
+                    <td><input type="checkbox" name="cash" id="cash" value="cash"
+                               <? if($filters["cash"] !== null) : ?>checked <? endif; ?>>
+                        <label for="cash">Оплата по счету</label>
+                    </td>
+                    <td><input type="checkbox" name="robokassa" id="robokassa" value="robokassa"
+                               <? if($filters["robokassa"] !== null) : ?>checked <? endif; ?>>
+                        <label for="robokassa">Оплата робокассой</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Статус оплаты</td>
+                    <td>
+                        <button class="btn btn-check-all">Отметить все</button>
+                        <button class="btn btn-uncheck-all">Снять все</button>
+                    </td>
+                    <td><input type="checkbox" name="done" id="done" value="done"
+                               <? if($filters["done"] !== null) : ?>checked <? endif; ?>>
+                        <label for="done">Проведенные</label></td>
+                    <td><input type="checkbox" name="notDone" id="notDone" value="notDone"
+                               <? if($filters["notDone"] !== null) : ?>checked <? endif; ?>>
+                        <label for="notDone">Не проведенные</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <a style="margin-left:20px;" name="form-send" class="btn disable-filters">Снять фильтры</a>
+                        <input style="margin-left:20px;" type="submit" name="form-send" class="btn btn-success" value="Применить фильтры">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,

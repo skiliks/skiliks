@@ -88,15 +88,18 @@ class UserService {
         $log = new LogAccountInvite();
         $log->action = $action;
         $log->user_id = $account->user_id;
-        $log->direction = ($account->invites_limit > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
+        $log->direction = ($account->getTotalAvailableInvitesLimit() > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
         $log->limit_after_transaction = $account->invites_limit;
+        $log->invites_limit_referrals = $account->referrals_invite_limit;
         $log->amount = $amountBeforeTransaction;
         $log->date = date('Y-m-d H:i:s');
-        try {
-            $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
-                Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
-        } catch (Exception $e) {
-            $log->comment = $comment;
+        if(Yii::app()->user->data()->id !== null) {
+            try {
+                $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
+                    Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
+            } catch (Exception $e) {
+                $log->comment = $comment;
+            }
         }
         $log->save(false);
     }

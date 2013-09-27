@@ -36,7 +36,7 @@ class InviteExpiredCommand extends CConsoleCommand
             /* @var $user UserAccountCorporate */
             foreach($accounts as $account){
                 if($account->invites_limit !== 0) {
-                    $initValue = $account->invites_limit;
+                    $initValue = $account->getTotalAvailableInvitesLimit();
 
                     $account->invites_limit = 0;
                     $account->update();

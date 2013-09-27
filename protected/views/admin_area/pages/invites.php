@@ -66,16 +66,8 @@ $titles = [
             <tr>
                 <td> Показывать приглашения со статусом: </td>
                 <td>
-                    <span class="btn btn-warning select-all-statuses">Отметить все</span>
-                    <span class="btn btn-warning deselect-all-statuses">Снять все</span>
-                    <script type="text/javascript">
-                        $('.select-all-statuses').click(function(){
-                            $('.invite-statuses input').attr('checked', 'checked');
-                        });
-                        $('.deselect-all-statuses').click(function(){
-                            $('.invite-statuses input').removeAttr('checked');
-                        });
-                    </script>
+                    <span class="btn btn-warning btn-check-all">Отметить все</span>
+                    <span class="btn btn-warning btn-uncheck-all">Снять все</span>
                 </td>
                 <td>
                     <?= Invite::$statusText[Invite::STATUS_PENDING] ?>
