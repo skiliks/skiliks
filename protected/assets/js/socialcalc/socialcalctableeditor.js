@@ -4565,10 +4565,13 @@ SocialCalc.CreateTableControl = function(control) {
    AssignID(control.editor, control.paneslider, "paneslider"+vh);
    TooltipRegister(control.paneslider, "paneslider", vh);
 
-   functions = {MouseDown:SocialCalc.TCPSDragFunctionStart,
-                    MouseMove: SocialCalc.TCPSDragFunctionMove,
-                    MouseUp: SocialCalc.TCPSDragFunctionStop,
-                    Disabled: function() {return control.editor.busy;}};
+
+//   Removed according to SKILIKS-4206
+//   functions = {MouseDown:SocialCalc.TCPSDragFunctionStart,
+//                    MouseMove: SocialCalc.TCPSDragFunctionMove,
+//                    MouseUp: SocialCalc.TCPSDragFunctionStop,
+//                    Disabled: function() {return control.editor.busy;}};
+    functions = {};
 
    functions.control = control; // make sure this is there
 
