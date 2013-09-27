@@ -1318,7 +1318,7 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->invites_limit;
+        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
