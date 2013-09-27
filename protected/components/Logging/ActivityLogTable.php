@@ -33,8 +33,8 @@ class ActivityLogTable extends LogTable
         $action = $logActivityAction->activityAction->getAction();
         static $end_time = 0;
         $dialogType = null;
-        if($logActivityAction->activityAction !== null && $logActivityAction->activityAction->dialog !== null) {
-            $dialogType = $logActivityAction->activityAction->dialog->dialog_subtype->title;
+        if($logActivityAction->activityAction->dialog !== null) {
+            $dialogType = $logActivityAction->activityAction->dialog->dialogSubtype->title;
         }
 
         $diff = ($end_time === 0)?'-':strtotime($logActivityAction->start_time) - strtotime($end_time);
