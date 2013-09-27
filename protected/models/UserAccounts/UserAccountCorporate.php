@@ -254,8 +254,18 @@ class UserAccountCorporate extends CActiveRecord
         return $this->invites_limit + $this->referrals_invite_limit;
     }
 
-    public function addReferralInvite() {
+    public function addReferralInvite($referrer_email = null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
         $this->referrals_invite_limit++;
+        $this->save(false, ['referrals_invite_limit']);
+
+        UserService::logCorporateInviteMovementAdd(
+            'Регистрация реферала ' . $referrer_email,
+            $this,
+            $initValue
+        );
+
         $this->save();
     }
 }

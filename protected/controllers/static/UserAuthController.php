@@ -159,8 +159,8 @@ class UserAuthController extends YumController
 
                         $referrer->referrer_id = $accountCorporate->user_id = $this->user->id;
                         $referral = YumUser::model()->findByPk($referrer->referral_id);
-                        $referral->getAccount()->addReferralInvite();
-                        // TODO Remake this for taking industry
+                        $referral->getAccount()->addReferralInvite($profile->email);
+
                         $accountCorporate->industry_id = $account->industry_id;
                         $accountCorporate->corporate_email = $profile->email;
                         $accountCorporate->is_corporate_email_verified = 1;
