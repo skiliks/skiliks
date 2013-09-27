@@ -359,7 +359,7 @@ class Invite extends CActiveRecord
 
         $initValue = $account->invites_limit;
 
-        $account->invites_limit = $account->invites_limit++;
+        $account->invites_limit++;
         $account->update();
 
         UserService::logCorporateInviteMovementAdd(
