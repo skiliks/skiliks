@@ -152,7 +152,7 @@ define([
                                     var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                     request.set('status', 'failed');
                                     var requests = SKApp.server.requests_queue.where({status:'padding'});
-                                    //console.log(requests);
+                                    console.log('requests', requests);
                                         requests.forEach(function(request){
                                             console.log(request);
                                             if(request.get('ajax') !== null){
