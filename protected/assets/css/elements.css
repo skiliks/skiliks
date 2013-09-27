@@ -826,6 +826,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-color:#BD2929;
     background-image: url("../img/icon-btn-notify-hover.png");
 }
+
+/* homepage button */
+.action-controller-index-static-pages .features .bigbtnsubmt:hover {
+    background-color:#820303;
+}
+
 /* error 404*/
 #error404-message {
     text-align:center;
