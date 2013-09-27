@@ -40,6 +40,8 @@ define([
 
             success_dialog:null,
 
+            requests_timeout:10000,
+
             getAjaxParams: function (path, params, callback) {
                 try {
                     var me = this;
@@ -106,7 +108,7 @@ define([
                         xhrFields: {
                             withCredentials: true
                         },
-                        timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
+                        timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
                             if( data.uniqueId !== undefined ) {
 
