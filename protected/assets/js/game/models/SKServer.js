@@ -154,12 +154,15 @@ define([
                                     var requests = SKApp.server.requests_queue.where({status:'padding'});
                                     console.log('requests', requests);
                                         requests.forEach(function(request){
-                                            console.log(request);
+                                            console.log('request',request.get('status'));
+                                            console.log('request status', request);
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
                                             }
                                         });
+
                                         if(me.error_dialog === null) {
+                                            console.log('add new SKDialogView');
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                                     "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -170,7 +173,8 @@ define([
                                         }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
-
+                                    console.log('this.try_connect', me.try_connect);
+                                    console.log('this.request_interval_id', me.request_interval_id);
                                     me.tryConnect();
                                 }
 
