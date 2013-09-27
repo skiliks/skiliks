@@ -1283,6 +1283,14 @@ class AdminPagesController extends SiteBaseController {
     {
         $user = YumUser::model()->findByPk($userId);
 
+        if($user->isCorporate()) {
+            $isShownPopup = Yii::app()->request->getParam("changeReferPopup", null);
+            if($isShownPopup !== null) {
+                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
+                $user->account_corporate->save();
+            }
+        }
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/user_details', [
             'user' => $user,
