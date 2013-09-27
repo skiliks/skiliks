@@ -302,10 +302,16 @@ define([
                     return;
                 }
                 window._shcp = [];
-                window._shcp.push({link_wrap_off: true, widget_id : SKApp.get('SiteHeartWidgetCode'),
-                    widget : "Chat", side : "bottom", position : "right",
-                    template : "orange", title : "Поддержка Skiliks",
-                    title_offline : "Оставьте сообщение" });
+                window._shcp.push({
+                    link_wrap_off: true,
+                    widget_id : SKApp.get('SiteHeartWidgetCode'),
+                    widget : "Chat",
+                    side : "bottom",
+                    position : "right",
+                    template : "orange",
+                    title : SKApp.get('SiteHeartWidgetTitle'),
+                    title_offline : "Оставьте сообщение"
+                });
                 (function() {
                     var hcc = document.createElement("script");
                     hcc.type = "text/javascript";

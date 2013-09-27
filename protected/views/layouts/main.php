@@ -178,57 +178,81 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     ]) ?>
                 </nav>
             </div>
-            <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-            <script type="text/javascript">
-                Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
-                    '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
-                    '.form-submit-button, .midtitle, .social_networks span, .main-article h3, .registration input[type=submit], ' +
-                    '.registration .form h1, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
-                    '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
-                    '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
-                    '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
-                    '.vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
-                    '.icon-choose, .testtime, .testtime strong, .benefits, .tarifswrap .text16, .value, .tarifform .value, #simulations-counter-box strong, ' +
-                    '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
-                    '.action-controller-registerByLink-static-userAuth h2.title, #invite-decline-form #form-decline-explanation input[type="submit"], section.registration-by-link .form .row input[type="submit"],' +
-                    '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
-                    '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
-                    '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
-                    '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
-                    '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large, .accept-invite-warning-popup h2, ' +
-                    '.list-ordered strong, .accept-invite-warning-popup h4',
-                    {hover: true}
-                );
-                Cufon.replace('.proxima-regular, .main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
-                    '.features p.success, .flash-data, .flash-success, .flash-error, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
-                    '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
-                    '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
-                    '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
-                    '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
-                    '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
-                    '.registrationform input[type=password], .registrationform input[type=submit], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
-                    '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
-                    '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
-                    'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
-                    '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
-                    '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
-                    '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
-                    '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
-                    '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-                    '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
-                    {fontFamily:"ProximaNova-Regular", hover:true});
 
-                Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
-                Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
-                    '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
-                    '.tariff-name, .video-caption, .popup-before-start-sim h3, .popup-before-start-sim .bigbtnsubm, .popup-before-start-sim h2',
-                    {fontFamily:"ProximaNova-Bold", hover:true}
-                );
-                Cufon.replace('.freeacess', {hover:true});
-                Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
-                Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
-            </script>
-        <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
+        <?php $this->renderPartial('//global_partials/_feedback', []) ?>
+
+        <script type="text/javascript">
+            Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
+                '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
+                '.form-submit-button, .midtitle, .social_networks span, .main-article h3, .registration input[type=submit], ' +
+                '.registration .form h1, .note, .product h2, .product section h3, .product section table td h6, .team article h2, ' +
+                '.team .team-list li h4, .team .team-values h3, .registration h2, .registrationform h3, .registration .form h1, .widthblock h3, .ratepercnt, .testtime strong, ' +
+                '.registration .form .row label, .register-by-link .row label, .regicon span, .register-by-link .row input[type=submit], ' +
+                '.login-form h6, .login-form div input[type=submit], .dashboard aside h2, .blue-btn, .vacancy-add-form-switcher, .items th, .items td, .pager ul.yiiPager .page a, ' +
+                '.vacancy-list .grid-view tr td:first-child, .features form div input[type=submit], .registrationform h3, ' +
+                '.icon-choose, .testtime, .testtime strong, .benefits, .tarifswrap .text16, .value, .tarifform .value, #simulations-counter-box strong, ' +
+                '.greenbtn, .cabmessage input[type="submit"], .cabmessage .ui-dialog-title, #send-invite-message-form label, .action-controller-login-auth #usercontent h2, ' +
+                '.action-controller-registerByLink-static-userAuth h2.title, #invite-decline-form #form-decline-explanation input[type="submit"], section.registration-by-link .form .row input[type="submit"],' +
+                '.action-controller-personal-static-simulations h1.title, .action-controller-corporate-static-simulations h1.title, .action-controller-corporate-static-simulations .grid-view table.items th,' +
+                '#password-recovery-form input[type="submit"], #simulation-details-pop-up h1, .estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2, .simulation-result-popup h3,' +
+                '.levellabels h3, .resulttitele, .resulttitele a, .barstitle, .total, .labeltitles h3, .labeltitles h4, .valuetitle, .resulttitele  small, .timedetail .thelabel,' +
+                '.feedback #input_2, .profileform input[type="submit"], .pager ul.yiiPager .next a, .pager ul.yiiPager .previous a, .product .ratepercnt, .light-btn' +
+                '.value, .tarifform .value, .light-btn, .terms-page h1, .terms-page h3, #error404-message, .browsers h2, .browsers span a, .btn-large, .accept-invite-warning-popup h2, ' +
+                '.list-ordered strong, .accept-invite-warning-popup h4',
+                {hover: true}
+            );
+            Cufon.replace('.proxima-regular, .main-article article ul li, .container>header nav a, .features ul li, .sbHolder a, #simulation-details label, .container>header nav a, .features .error span, ' +
+                '.features p.success, .flash-data, .flash-success, .flash-error, .product hgroup h6, .productfeatrs td, .product table p, .product section table th, .product section h3, ' +
+                '.product section table th, .product section th h5, .product .sub-menu-switcher, .productsubmenu a, .team .team-list li p, .team .team-values ul li, .team article p, ' +
+                '.footer nav a, .backtotop a, .price p, .registrationform li, .registrationform input, .register-by-link-desc, .register-by-link .row input[type=text], ' +
+                '.register-by-link .row input[type=password], .register-by-link .row .cancel, .login-form label, .login-form div input[type=text],' +
+                '.login-form div input[type=password], .login-form a, .invites-smallmenu-item a, .tarifform .expire-date, .tarifform small, .errorblock p, ' +
+                '.chart-gauge .chart-value, .chart-bar .chart-value, .features form div input[type=text], .registrationform input[type=text], ' +
+                '.registrationform input[type=password], .registrationform input[type=submit], .registrationform .errorMessageWrap .errorMessage, .cabmessage input, .cabmessage select, ' +
+                '.cabmessage textarea, .cabmessage button, .feedbackwrap .ui-dialog-title, .feedback input[type="email"], .action-controller-login-auth #usercontent input[type="submit"], ' +
+                '#invite-decline-form #form-decline-explanation h2, #invite-decline-form #form-decline-explanation #DeclineExplanation_reason_id' +
+                'section.registration-by-link h1, section.registration-by-link .form, section.registration-by-link .form .row a.decline-link, #password-recovery-form #YumPasswordRecoveryForm_email,' +
+                '.errorMessage, .simulation-details .ratepercnt, .simulation-details .navigation a, .labels a, .labels li, .labels p, .labels div, .blockvalue, .blockvalue .value, .legendtitle, .smalltitle, .smalltitle a,' +
+                '.extrahours, .timevalue, .helpbuble, .feedback .form-all textarea, .feedbackwrap .ui-dialog-title, .feedback .sbHolder a, .skillstitle, .productlink,' +
+                '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
+                '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
+                '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
+                '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
+                {fontFamily:"ProximaNova-Regular", hover:true});
+
+            Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
+            Cufon.replace('.profile-menu .active a, .action-corporateTariff .tarifform .value, .tarifform .light-btn, #account-corporate-personal-form .row .value,' +
+                '#account-personal-personal-form .row .value, .profileform input[type=submit], .inviteaction, .password-recovery-step-4, .order-methods input[type=submit], ' +
+                '.tariff-name, .video-caption, .popup-before-start-sim h3, .popup-before-start-sim .bigbtnsubm, .popup-before-start-sim h2',
+                {fontFamily:"ProximaNova-Bold", hover:true}
+            );
+            Cufon.replace('.freeacess', {hover:true});
+            Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
+            Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
+        </script>
+
+        <script type="text/javascript">
+            <?php Yii::app()->params['public']['isDisplaySupportChat']; ?>
+            window._shcp = [];
+            window._shcp.push({
+                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+                widget : "Chat",
+                side : "right",
+                position : "top",
+                template : "blue",
+                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+                title_offline : "Оставьте сообщение"
+            });
+            $(document).ready(function() {
+                var hcc = document.createElement("script");
+                hcc.type = "text/javascript";
+                hcc.async = true;
+                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
+                var s = document.head;
+                s.parentNode.insertBefore(hcc, null);
+            });
+        </script>
+
         <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>
