@@ -33,7 +33,7 @@ class ActivityLogTable extends LogTable
         $action = $logActivityAction->activityAction->getAction();
         static $end_time = 0;
         $dialogType = null;
-        if($logActivityAction->activityAction->dialog !== null) {
+        if($logActivityAction->activityAction !== null && $logActivityAction->activityAction->dialog !== null) {
             $dialogType = $logActivityAction->activityAction->dialog->dialog_subtype->title;
         }
 
