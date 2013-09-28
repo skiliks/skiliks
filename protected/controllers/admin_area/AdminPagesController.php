@@ -1060,8 +1060,12 @@ class AdminPagesController extends SiteBaseController {
         $id = Yii::app()->request->getParam('id', null);
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $id]);
-        $logs = LogAccountInvite::model()->findAllByAttributes([
-            'user_id' => Yii::app()->request->getParam('id', null),
+        $logs = LogAccountInvite::model()->findAll([
+            'condition' => 'user_id = :id ',
+            'params' => [
+                'id' => Yii::app()->request->getParam('id', null)
+            ],
+            'order' => 'date DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
