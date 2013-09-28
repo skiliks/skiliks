@@ -257,7 +257,7 @@ class Invoice extends CActiveRecord
         ];
 
         try {
-            $sent = YumMailer::send($mail);
+            $sent = MailHelper::addMailToQueue($mail);
             $invoice_log = new LogPayments();
             $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->getAccount()->corporate_email);
         } catch (phpmailerException $e) {
