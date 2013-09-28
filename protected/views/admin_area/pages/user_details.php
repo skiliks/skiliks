@@ -28,11 +28,14 @@ $assetsUrl = $this->getAssetsUrl();
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
-    <a class="btn btn-success" target="_blank"
+    <a class="btn btn-info" target="_blank"
        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
         <i class="icon icon-share icon-white"></i>&nbsp;
         Рефераллы</a>
-<? endif; ?>
+<?php endif; ?>
+
+<a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">Логи списания/зачисления симуляций</a>
+
 <br/>
 <br/>
 
@@ -139,7 +142,7 @@ $assetsUrl = $this->getAssetsUrl();
                 <form action="/admin_area/user/<?= $user->id ?>/set-invites-limit/"
                       method="post" style="display: inline-block;">
                     <input name="new_value" type="integer" size="3" style="width:30px;" value="0" />
-                    <input class="btn btn-success" id="add_invites_button" type="submit" value="Сменить">
+                    <input class="btn btn-success" id="add_invites_button" type="submit" value="Добавить/списать">
                 </form>
             </td>
         <?php endif; ?>
@@ -149,17 +152,20 @@ $assetsUrl = $this->getAssetsUrl();
             <tr>
                 <td>Показывать попап рефералов: </td>
                 <td>
-                    <? if ($user->account_corporate->is_display_referrals_popup) : ?>
+                    <?php if ($user->account_corporate->is_display_referrals_popup) : ?>
                         Показывается
-                    <? else : ?>
+                    <?php else : ?>
                        Не показывается
-                    <? endif ?>
+                    <?php endif ?>
                         <form action="/admin_area/user/<?= $user->id ?>/details/"
                               method="post" style="display: inline-block;">
-                            <input class="btn btn-success" name="changeReferPopup" type="submit" value="Сменить">
+
+                            <button class="btn btn-success" name="changeReferPopup" type="submit">
+                                <i class="icon icon-refresh icon-white"></i> Сменить
+                            </button>
                         </form>
 
                 </td>
             </tr>
-        <? endif; ?>
+        <?php endif; ?>
 </table>
