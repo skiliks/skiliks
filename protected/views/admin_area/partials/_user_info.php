@@ -11,8 +11,8 @@
 <table class="table table-hover table-bordered">
     <tr>
         <td>ФИО / email</td>
-        <td><?= $simulation->user->profile->firstname ?> <?=$simulation->user->profile->lastname ?> /
-            <?=$simulation->user->profile->email ?></td>
+        <td><?= (empty($simulation->user))?'Аноним':$simulation->user->profile->firstname ?> <?= (empty($simulation->user))?'Аноним':$simulation->user->profile->lastname ?> /
+            <?= (empty($simulation->user))?'Аноним':$simulation->user->profile->email ?></td>
     </tr>
     <tr>
         <td>Start time ~ end time</td>
