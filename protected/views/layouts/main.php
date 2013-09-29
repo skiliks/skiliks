@@ -179,8 +179,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 </nav>
             </div>
 
-        <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-
         <script type="text/javascript">
             Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
                 '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
@@ -253,6 +251,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             });
         </script>
 
+        <?php $this->renderPartial('//global_partials/_feedback', []) ?>
+        <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
         <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>
