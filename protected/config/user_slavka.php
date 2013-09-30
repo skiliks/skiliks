@@ -37,10 +37,11 @@ return CMap::mergeArray(
             'assetsDebug' => true,
             'isUseResultPopUpCache' => false,
             'public' => [
-                'isLocalPc'          => true,
-                'isUseZohoProxy'     => false,
-                'useSentryForJsLog'  => true,
-                'isSkipBrowserCheck' => true,
+                'isLocalPc'            => true,
+                'isUseZohoProxy'       => false,
+                'useSentryForJsLog'    => true,
+                'isSkipBrowserCheck'   => true,
+                'isDisplaySupportChat' => false,
             ]
         )
     )

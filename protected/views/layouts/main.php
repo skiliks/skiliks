@@ -229,9 +229,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
         </script>
 
-        <?php $isDevServer = in_array(Yii::app()->request->serverName, ['loc.skiliks.com', 'test.skiliks.com', 'live.skiliks.com']);  ?>
-        <?php $isDisplayHelpChat = Yii::app()->params['public']['isDisplaySupportChat'] && false == $isDevServer; ?>
-        <?php if ($isDisplayHelpChat) : ?>
+        <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
             <script type="text/javascript">
 
                 window._shcp = [];
