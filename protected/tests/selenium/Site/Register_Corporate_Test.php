@@ -124,6 +124,9 @@ class Register_Corporate_Test extends SeleniumTestHelper
         //нажимаем Начать
         $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
+
+        $this->optimal_click("css=.bigbtnsubmt.start-lite-simulation-now");
+
         // ожидаем появления иконки телефона
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
