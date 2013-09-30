@@ -198,6 +198,7 @@ class Invoice extends CActiveRecord
             $this->user->account_corporate->tariff_id = $this->tariff_id;
 
             $this->user->account_corporate->save();
+            $this->user->account_corporate->getErrors();
             $this->save();
 
             $this->sendCompleteEmailToUser();
