@@ -202,7 +202,7 @@ class UserAccountCorporate extends CActiveRecord
     public function isNotPersonalEmail($attribute)
     {
         $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
-        if($userPersonal !== null) {
+        if($userPersonal !== null && $userPersonal->user_id !== $this->user_id) {
             $this->addError($attribute, Yii::t('site', 'Email is already taken'));
         }
     }

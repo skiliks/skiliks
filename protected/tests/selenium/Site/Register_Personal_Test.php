@@ -16,7 +16,7 @@ class Register_Personal_Test extends SeleniumTestHelper
         $this->open('http://test.skiliks.com/ru');
 
         //это линк регистрации в центре на главной
-        $this->optimal_click("link=Получить бесплатный доступ");
+        $this->optimal_click("link=Получить 10 симуляций бесплатно");
 
         $this->waitForVisible("//div[@class='testtime']");
         $this->assertText("//div[@class='testtime']", '15 Минут');

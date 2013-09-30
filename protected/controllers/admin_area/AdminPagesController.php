@@ -658,7 +658,7 @@ class AdminPagesController extends SiteBaseController {
             $session["order_address"] = null;
         }
 
-        if($request_uri == "/admin_area/orders" && $session["order_address"] != null) {
+        if($request_uri == "/admin_area/orders" && $session["order_address"] != null && $session["order_address"] != $request_uri) {
             $this->redirect($session["order_address"]);
         }
 
@@ -771,6 +771,24 @@ class AdminPagesController extends SiteBaseController {
             $invoice->completeInvoice($user->profile->email);
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
         }
+    }
+
+    public function actionDisableInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null && $invoice->paid_at != null) {
+            $user = Yii::app()->user->data();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Попытка отметить счёт как \"Не оплаченый\" в админке. Админ ".$user->profile->email.".");
+            $invoice->disableInvoice($user->profile->email);
+            echo json_encode(["return" => true]);
+        }
+
     }
 
     public function actionCommentInvoice() {

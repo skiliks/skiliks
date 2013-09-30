@@ -52,8 +52,8 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->click("css=#cell_M14");
         $this->keyUpNative('16');
 
-        $this->mouseMoveAt("xpath=//li[3]/div/div/div/img");
-        $this->click("xpath=//li[3]/div/div/div/img");
+        $this->mouseMoveAt("xpath=//li[3]/div/div/div");
+        $this->click("xpath=//li[3]/div/div/div");
 
         $this->mouseMoveAt(Yii::app()->params['test_mappings']['icons']['close']);
         $this->click(Yii::app()->params['test_mappings']['icons']['close']);
@@ -73,8 +73,8 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->mouseMoveAt("css=#cell_B7");
         $this->mouseDownAt("css=#cell_B7");
 
-        $this->mouseMoveAt("xpath=//li[4]/div/div/div/img");
-        $this->click("xpath=//li[4]/div/div/div/img");
+        $this->mouseMoveAt("xpath=//li[4]/div/div/div");
+        $this->click("xpath=//li[4]/div/div/div");
         sleep(10);
 
         /*$this->optimal_click();
