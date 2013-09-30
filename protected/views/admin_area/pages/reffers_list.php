@@ -26,7 +26,7 @@ $assetsUrl = $this->getAssetsUrl();
 <?php
 
     $this->widget('zii.widgets.grid.CGridView', [
-        'dataProvider' => Referrer::model()->searchUserReferrals(
+        'dataProvider' => UserReferal::model()->searchUserReferrals(
         $user->id
     ),
         'summaryText' => '',
@@ -40,14 +40,14 @@ $assetsUrl = $this->getAssetsUrl();
             'lastPageLabel'  => 'конец >>',
     ],
         'columns' => [
-            ['header' => 'E-mail'            , 'name' => 'referrer_email', 'value' => '$data->referrer_email'],
+            ['header' => 'E-mail'            , 'name' => 'referral_email', 'value' => '$data->referral_email'],
             ['header' => 'Приглашен'         , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
 
             ['header' => 'Позьователь',
              'name'   => 'user_name',
              'value'  => function($data) {
-                                             if($data->referrer_id !== null) {
-                                                $refer = YumUser::model()->findByPk($data->referrer_id);
+                                             if($data->referral_id !== null) {
+                                                $refer = YumUser::model()->findByPk($data->referral_id);
                                                 return '<a href="/admin_area/user/'.$refer->account_corporate->user_id
                                                               .'/details" target="_black" >' .
                                                        $refer->profile->firstname . " " . $refer->profile->lastname .
