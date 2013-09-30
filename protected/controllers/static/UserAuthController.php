@@ -210,7 +210,7 @@ class UserAuthController extends YumController
         $error = null;
 
         $this->render(
-            'referrerRegistration',
+            'referral_registration',
             [
                 'user'       => $this->user,
                 'profile'    => $profile,
