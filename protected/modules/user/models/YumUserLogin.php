@@ -37,6 +37,11 @@ class YumUserLogin extends YumFormModel {
 		return $rules;
 	}
 
+    public function beforeValidate() {
+        $this->username = trim($this->username);
+        return true;
+    }
+
 	public function attributeLabels() {
 		return array(
 			'username'=>Yum::t('Email'),
