@@ -340,7 +340,7 @@ return array(
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
-                'admin_area/user-referrs/<userId:\d+>'            => 'admin_area/AdminPages/UserReferrs',
+                'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',

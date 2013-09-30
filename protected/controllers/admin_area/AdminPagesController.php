@@ -1550,7 +1550,7 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
-    public function actionUserReferrs($userId = false) {
+    public function actionUserReferrals($userId = false) {
         if($userId) {
             $user = YumUser::model()->findByPk($userId);
             $totalRefers = UserReferal::model()->countUserReferrers($user->id);
