@@ -919,9 +919,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         else {
 
             foreach($referralForm->validatedEmailsArray as $referAddress) {
-                $refer = new Referrer();
-                $refer->referrer_email = $referAddress;
-                $refer->referral_id    = $user->id;
+                $refer = new UserReferal();
+                $refer->referral_email = $referAddress;
+                $refer->referrer_id    = $user->id;
                 $refer->invited_at     = date("Y-m-d H:i:s");
                 $refer->save();
                 $refer->sendInviteReferralEmail();

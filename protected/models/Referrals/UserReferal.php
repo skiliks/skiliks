@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'invoice':
  * @property integer $id
  * @property integer $referral_id
- * @property string  $referrer_email
+ * @property string  $referral_email
  * @property integer $referrer_id
  * @property string  $invited_at
  * @property string  $registered_at
@@ -15,7 +15,7 @@
  * @property YumUser $referral
  * @property YumUser $referrer
  */
-class Referrer extends CActiveRecord
+class UserReferal extends CActiveRecord
 {
 
     /**
@@ -33,7 +33,7 @@ class Referrer extends CActiveRecord
      */
     public function tableName()
     {
-        return 'referrals';
+        return 'user_referral';
     }
 
     /**
@@ -44,7 +44,7 @@ class Referrer extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('referrer_email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
+            array('referral_email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
         );
     }
 
@@ -96,7 +96,7 @@ class Referrer extends CActiveRecord
 
         $mail = [
             'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->referrer_email,
+            'to'          => $this->referral_email,
             'subject'     => 'Приглашение зарегистрироваться на skiliks.com',
             'body'        => $body,
             'embeddedImages' => [
@@ -151,22 +151,22 @@ class Referrer extends CActiveRecord
 
     public function countUserReferrers($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
-        return Referrer::model()->count($criteria);
+        $criteria->compare('referrer_id', $userId);
+        return UserReferal::model()->count($criteria);
     }
 
     public function countUserRegisteredReferrers($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
+        $criteria->compare('referrer_id', $userId);
         $criteria->addCondition('registered_at IS NOT NULL');
-        return Referrer::model()->count($criteria);
+        return UserReferal::model()->count($criteria);
     }
 
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
-        $criteria->compare('referrer_email', $this->referrer_email);
-        $criteria->compare('referrer_id', $this->referrer_id);
+        $criteria->compare('referrer_id', $userId);
+        $criteria->compare('referral_email', $this->referral_email);
+        $criteria->compare('referral_id', $this->referrer_id);
         $criteria->compare('invited_at', $this->invited_at);
         $criteria->compare('registered_at', $this->registered_at);
 
@@ -176,9 +176,9 @@ class Referrer extends CActiveRecord
                 'defaultOrder'=>'id DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
-                    'referrer_email' => [
-                        'asc'  => 'referrer_email',
-                        'desc' => 'referrer_email DESC'
+                    'referral_email' => [
+                        'asc'  => 'referral_email',
+                        'desc' => 'referral_email DESC'
                     ],
                     'referrer_id' => [
                         'asc'  => 'referrer_id',

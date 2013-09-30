@@ -638,11 +638,33 @@ class AdminPagesController extends SiteBaseController {
         $this->itemsOnPage = 5;
 
         // pager {
+
         $page = Yii::app()->request->getParam('page');
 
         if (null === $page) {
             $page = 1;
         }
+
+        $request_uri = $_SERVER['REQUEST_URI'];
+
+        $disableFilters = Yii::app()->request->getParam("disable_filters", null);
+        // adding session
+        $session = new CHttpSession();
+
+        // taking up address to
+
+        if( null !== $disableFilters) {
+            $address = '/admin_area/orders';
+            $session["order_address"] = null;
+        }
+
+        if($request_uri == "/admin_area/orders" && $session["order_address"] != null) {
+            $this->redirect($session["order_address"]);
+        }
+
+
+        $session["order_address"] = $request_uri;
+
 
         $criteria = new CDbCriteria;
 
@@ -1528,10 +1550,10 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
-    public function actionUserReferrs($userId = false) {
+    public function actionUserReferrals($userId = false) {
         if($userId) {
             $user = YumUser::model()->findByPk($userId);
-            $totalRefers = Referrer::model()->countUserReferrers($user->id);
+            $totalRefers = UserReferal::model()->countUserReferrers($user->id);
             $this->layout = '/admin_area/layouts/admin_main';
             $this->render('/admin_area/pages/reffers_list', ["totalRefers"=>$totalRefers, "user"=>$user]);
         }

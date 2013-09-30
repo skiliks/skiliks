@@ -14,7 +14,7 @@
     <h2>Заказы</h2>
 
     <div class="row">
-        <form class="form-inline" action="/admin_area/orders" method="post">
+        <form class="form-inline" action="/admin_area/orders">
             <table class="table table-bordered" style="margin-left: 40px; width: 80%;">
                 <tr>
                     <td>Е-мейл клиента</td>

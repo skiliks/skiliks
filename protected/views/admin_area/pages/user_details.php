@@ -28,8 +28,8 @@ $assetsUrl = $this->getAssetsUrl();
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
-    <a class="btn btn-info" target="_blank"
-       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrs', ['userId' => $user->id]) ?>">
+    <a class="btn btn-info"
+       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
         <i class="icon icon-share icon-white"></i>&nbsp;
         Рефераллы</a>
 <?php endif; ?>
