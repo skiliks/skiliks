@@ -38,7 +38,7 @@ class Register_Personal_Test extends SeleniumTestHelper
 
         sleep(5);
         $this->assertTrue($this->isTextPresent('активирован'));
-        $this->optimal_click("xpath=//*[@id='registration_check']");
+        //$this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
         sleep(5);
