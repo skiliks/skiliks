@@ -93,14 +93,17 @@ class UserService {
         $log->invites_limit_referrals = $account->referrals_invite_limit;
         $log->amount = $amountBeforeTransaction;
         $log->date = date('Y-m-d H:i:s');
-        if(Yii::app()->user->data()->id !== null) {
+        if(false == (Yii::app() instanceof CConsoleApplication) && Yii::app()->user->data()->id !== null) {
             try {
                 $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
                     Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
             } catch (Exception $e) {
                 $log->comment = $comment;
             }
+        } else {
+            $log->comment = $comment;
         }
+
         $log->save(false);
     }
 
