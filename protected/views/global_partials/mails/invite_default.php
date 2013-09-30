@@ -49,7 +49,7 @@
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
                                             Пожалуйста, <a href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
-                                            выберите индивидуальный профиль, ввойдите в свой кабинет
+                                            выберите индивидуальный профиль, войдите в свой кабинет
                                             и примите приглашение на тестирование для прохождения симуляции.
                                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                                             Пожалуйста,
@@ -68,10 +68,7 @@
                                             Пожалуйста,
                                             <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                                 зарегистрируйтесь
-                                            </a> или
-                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
-                                                войдите
-                                            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                                            </a>, войдите в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
                                     </p>
                                 </td>
