@@ -844,10 +844,12 @@ class SimulationServiceUnitTest extends CDbTestCase
             $vacancy->save();
         }
 
+        Invite::model()->deleteAllByAttributes(['email' => 'test@skiliks.com']);
+
         $invite = new Invite();
         $invite->firstname = 'test';
         $invite->lastname = 'test';
-        $invite->email = 'test@mail.ru';
+        $invite->email = 'test@skiliks.com';
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->receiver_id = $user->id;
