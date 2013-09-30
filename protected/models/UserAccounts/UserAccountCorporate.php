@@ -191,6 +191,11 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function isCorporateEmail($attribute)
     {
+        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
+        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
+            return;
+        }
+
         if(false == UserService::isCorporateEmail($this->$attribute)) {
             $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
         }

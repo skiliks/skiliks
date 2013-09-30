@@ -1031,4 +1031,21 @@ class YumUser extends YumActiveRecord
         //Yii::app()->session['uid'] = $this->id;
     }
 
+    public function getStatusLabel()
+    {
+        switch ($this->status) {
+            case self::STATUS_INACTIVE:
+                return 'не активен';
+                break;
+            case self::STATUS_ACTIVE:
+                return 'активен';
+                break;
+            case self::STATUS_BANNED:
+                return 'в бане';
+                break;
+            case self::STATUS_REMOVED:
+                return 'удалён';
+                break;
+        }
+    }
 }
