@@ -178,7 +178,7 @@ $(document).ready(function(){
     });
 
     $(".disable-filters").click(function() {
-        window.location.href = "/admin_area/orders";
+        window.location.href = "/admin_area/orders?disable_filters=true";
         return false;
     })
 

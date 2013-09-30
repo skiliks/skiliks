@@ -126,12 +126,12 @@ class UserAuthController extends YumController
 
             $criteria = new CDbCriteria();
             $criteria->compare("id", $refId);
-            $referrer = Referrer::model()->find($criteria);
+            $referrer = UserReferal::model()->find($criteria);
 
             if($referrer !== null && $referrer->registered_at === null) {
 
-                $profile->email = $referrer->referrer_email;
-                $accountCorporate->corporate_email = $referrer->referrer_email;
+                $profile->email = $referrer->referral_email;
+                $accountCorporate->corporate_email = $referrer->referral_email;
                 $this->user->setUserNameFromEmail($profile->email);
 
 
@@ -157,8 +157,8 @@ class UserAuthController extends YumController
 
                         $profile->save();
 
-                        $referrer->referrer_id = $accountCorporate->user_id = $this->user->id;
-                        $referral = YumUser::model()->findByPk($referrer->referral_id);
+                        $referrer->referral_id = $accountCorporate->user_id = $this->user->id;
+                        $referral = YumUser::model()->findByPk($referrer->referrer_id);
                         $referral->getAccount()->addReferralInvite($profile->email);
 
                         $accountCorporate->industry_id = $account->industry_id;
@@ -210,7 +210,7 @@ class UserAuthController extends YumController
         $error = null;
 
         $this->render(
-            'referrerRegistration',
+            'referral_registration',
             [
                 'user'       => $this->user,
                 'profile'    => $profile,

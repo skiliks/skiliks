@@ -39,9 +39,9 @@ class ReferralsInviteForm extends CFormModel {
             $userDomain = substr($userEmail, strpos($userEmail, "@"));
 
             $criteria = new CDbCriteria();
-            $criteria->compare('referral_id', $userId);
+            $criteria->compare('referrer_id', $userId);
 
-            $allUserReferrers = Referrer::model()->findAll($criteria);
+            $allUserReferrers = UserReferal::model()->findAll($criteria);
 
             $addedEmails = [];
 
@@ -66,7 +66,7 @@ class ReferralsInviteForm extends CFormModel {
                 // проверка на доменную зону у рефералов
 
                 foreach($allUserReferrers as $oldReferrer) {
-                    $oldReferDomain = substr($oldReferrer->referrer_email, strpos($oldReferrer->referrer_email, "@"));
+                    $oldReferDomain = substr($oldReferrer->referral_email, strpos($oldReferrer->referral_email, "@"));
                     if($oldReferDomain == $referDomain) {
                         $this->addError('emails', "Е-мейл ".$referEmail . " принадлежит в доменной группе одного из уже приглашенных рефералов");
                         break;
@@ -91,8 +91,8 @@ class ReferralsInviteForm extends CFormModel {
 
 
 
-                $referrer = new Referrer();
-                $referrer->referrer_email = $referEmail;
+                $referrer = new UserReferal();
+                $referrer->referral_email = $referEmail;
                 $referrer->validate();
 
                 $errorArray = $referrer->getErrors();
@@ -104,7 +104,7 @@ class ReferralsInviteForm extends CFormModel {
                         }
                     }
                 }
-                else $this->validatedEmailsArray[] = $referrer->referrer_email;
+                else $this->validatedEmailsArray[] = $referrer->referral_email;
             }
         }
     }
