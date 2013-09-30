@@ -151,22 +151,22 @@ class UserReferal extends CActiveRecord
 
     public function countUserReferrers($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
+        $criteria->compare('referrer_id', $userId);
         return UserReferal::model()->count($criteria);
     }
 
     public function countUserRegisteredReferrers($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
+        $criteria->compare('referrer_id', $userId);
         $criteria->addCondition('registered_at IS NOT NULL');
         return UserReferal::model()->count($criteria);
     }
 
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
-        $criteria->compare('referral_id', $userId);
+        $criteria->compare('referrer_id', $userId);
         $criteria->compare('referral_email', $this->referral_email);
-        $criteria->compare('referrer_id', $this->referrer_id);
+        $criteria->compare('referral_id', $this->referrer_id);
         $criteria->compare('invited_at', $this->invited_at);
         $criteria->compare('registered_at', $this->registered_at);
 
