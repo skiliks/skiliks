@@ -198,6 +198,7 @@ class Invoice extends CActiveRecord
             $this->user->account_corporate->tariff_id = $this->tariff_id;
 
             $this->user->account_corporate->save();
+            $this->user->account_corporate->getErrors();
             $this->save();
 
             $this->sendCompleteEmailToUser();
@@ -216,6 +217,14 @@ class Invoice extends CActiveRecord
             $invoice_log->log($this, "Не удалось изменить статус инвойса - он оплачен ранее.");
             return false;
         }
+    }
+
+    public function disableInvoice($isAdmin) {
+        $this->paid_at = null;
+        $this->save();
+        $invoice_log = new LogPayments();
+        $invoice_log->log($this, "Статус инвойса изменен на \"Не оплаченный\". Админ " . $isAdmin);
+        return true;
     }
 
     public function sendCompleteEmailToUser() {
