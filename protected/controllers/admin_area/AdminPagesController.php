@@ -1081,7 +1081,8 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/corporate_accounts_table', [
             'accounts' => UserAccountCorporate::model()->findAll([
                 "limit"  => $this->itemsOnPage,
-                "offset" => ($page-1)*$this->itemsOnPage
+                "offset" => ($page-1)*$this->itemsOnPage,
+                "order"  => ' user_id DESC ',
             ]),
             'page'        => $page,
             'pager'       => $pager,
