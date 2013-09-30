@@ -635,8 +635,6 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionOrders()
     {
-        $this->itemsOnPage = 5;
-
         // pager {
 
         $page = Yii::app()->request->getParam('page');
