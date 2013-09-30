@@ -155,8 +155,13 @@
                 <? if(!$model->isComplete()) : ?>
                     <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"
                        data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
+                    <a class="btn btn-warning disable-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
+                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
                 <? else : ?>
-                    <span>Оплачен</span>
+                    <a class="btn btn-success complete-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
+                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
+                    <a class="btn btn-warning disable-invoice" data-invoice-id="<?=$model->id?>"
+                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
                 <? endif; ?>
             </td>
         </tr>

@@ -116,16 +116,34 @@ $(document).ready(function(){
     $(".complete-invoice").click(function() {
         var clickedButton = $(this);
         if(confirm("Вы действительно подтверждаете оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
-        clickedButton.addClass("disabled");
-        $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
-            .done(function(data) {
-                clickedButton.closest("tr").find(".invoice-date-paid").html(data.paidAt);
-                clickedButton.hide();
-                clickedButton.parent("td").append("<span>Оплачен</span>");
-            })
-            .fail(function() {
-                alert("В процессе обработки возникла ошибка.");
-            });
+            clickedButton.addClass("disabled");
+            $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
+                .done(function(data) {
+                    clickedButton.closest("tr").find(".invoice-date-paid").html(data.paidAt);
+                    clickedButton.hide();
+                    clickedButton.removeClass("disabled");
+                    clickedButton.parent("td").find(".disable-invoice").toggle();
+                })
+                .fail(function() {
+                    alert("В процессе обработки возникла ошибка.");
+                });
+        }
+    });
+
+    $(".disable-invoice").click(function() {
+        var clickedButton = $(this);
+        if(confirm("Вы действительно хотите отменить оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
+            clickedButton.addClass("disabled");
+            $.getJSON( "/admin_area/disableInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
+                .done(function(data) {
+                    clickedButton.closest("tr").find(".invoice-date-paid").html("Не оплачен");
+                    clickedButton.hide();
+                    clickedButton.removeClass("disabled");
+                    clickedButton.parent("td").find(".complete-invoice").toggle();
+                })
+                .fail(function() {
+                    alert("В процессе обработки возникла ошибка.");
+                });
         }
     });
 

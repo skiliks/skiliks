@@ -313,6 +313,7 @@ return array(
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
                 'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
                 'admin_area/completeInvoice'   => 'admin_area/AdminPages/CompleteInvoice',
+                'admin_area/disableInvoice'    => 'admin_area/AdminPages/DisableInvoice',
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
 
