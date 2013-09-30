@@ -17,21 +17,27 @@
 	        'id'                   => 'user-account-personal-form',
 	        'enableAjaxValidation' => false,
 	    )); ?>
-	    <div class="row hidden">
-	        <?php echo $form->hiddenField($accountPersonal, 'user_id'); ?>
-	        <?php echo $form->error($accountPersonal      , 'user_id'); ?>
-	        <?php echo $form->hiddenField($profile, 'email'); ?>
-	        <?php echo $form->error($profile      , 'email'); ?>
-	    </div>
-	    <div class="row">
-            <?php if ($isPersonalSubmitted): ?>
-                <?php echo $form->error($profile    , 'firstname'); ?>
-                <?php echo $form->error($profile    , 'lastname', ['class' => 'errorMessage right']); ?>
-            <?php endif; ?>
+        <div class="row wide">
+                <?php echo $form->error($profilePersonal, 'email'); ?>
             <div class="field">
-	        <?php echo $form->labelEx($profile  , 'Name'); ?>
-	        <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
-	        <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
+                <?php echo $form->labelEx($profilePersonal, 'Email'); ?>
+                <?php echo $form->textField($profilePersonal, 'email', ['placeholder' => $profilePersonal->getAttributeLabel('email'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            </div>
+        </div>
+	    <div class="row">
+                 <?php echo $form->error($userPersonal, 'password'); ?>
+                 <?php echo $form->error($userPersonal, 'password_again', ['class' => 'errorMessage right']); ?>
+            <div class="field">
+                <?php echo $form->labelEx($userPersonal  , Yii::t('site', 'Password')); ?>
+                <?php echo $form->passwordField($userPersonal, 'password', ['placeholder' => Yii::t('site', 'Password'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+                <?php echo $form->passwordField($userPersonal, 'password_again', ['placeholder' => $userPersonal->getAttributeLabel('password_again'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            </div>
+                <?php echo $form->error($profilePersonal    , 'firstname'); ?>
+                <?php echo $form->error($profilePersonal    , 'lastname', ['class' => 'errorMessage right']); ?>
+            <div class="field">
+	        <?php echo $form->labelEx($profilePersonal  , 'Name'); ?>
+	        <?php echo $form->textField($profilePersonal, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
+	        <?php echo $form->textField($profilePersonal, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
 	        </div>
 	    </div>
         <div class="row">
@@ -42,6 +48,11 @@
             </div>
         </div>
         <div class="row"></div>
+        <div class="reg terms-confirm">
+            <?= $form->error($userPersonal, 'agree_with_terms'); ?>
+            <?= $form->checkBox($userPersonal, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+            <?= $form->labelEx($userPersonal, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
+        </div>
 	    <div class="row buttons">
             <div class="field">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Start'), ['name' => 'personal']); ?>
@@ -62,44 +73,45 @@
 	        'id'                   => 'user-account-corporate-form',
 	        'enableAjaxValidation' => false,
 	    )); ?>
-	    <div class="row hidden">
-	        <?php echo $form->hiddenField($accountCorporate,'user_id'); ?>
-	        <?php echo $form->error($accountCorporate,'user_id'); ?>
-	        <?php echo $form->hiddenField($profile,'email'); ?>
-	        <?php echo $form->error($profile      , 'email'); ?>
-	    </div>
-	    <div class="row">
-            <?php if ($isCorporateSubmitted): ?>
-                <?php echo $form->error($profile    , 'firstname'); ?>
-                <?php echo $form->error($profile    , 'lastname', ['class' => 'errorMessage right']); ?>
-            <?php endif; ?>
+        <div class="row wide">
+                <?php echo $form->error($profileCorporate, 'email'); ?>
             <div class="field">
-            <?php echo $form->labelEx($profile  , 'Name'); ?>
-            <?php echo $form->textField($profile, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            <?php echo $form->textField($profile, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+                <?php echo $form->labelEx($profileCorporate, 'Email'); ?>
+                <?php echo $form->textField($profileCorporate, 'email', ['placeholder' => $profileCorporate->getAttributeLabel('email'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            </div>
+        </div>
+	    <div class="row">
+                <?php echo $form->error($userCorporate, 'password'); ?>
+                <?php echo $form->error($userCorporate, 'password_again', ['class' => 'errorMessage right']); ?>
+            <div class="field">
+                <?php echo $form->labelEx($userCorporate  , Yii::t('site', 'Password')); ?>
+                <?php echo $form->passwordField($userCorporate, 'password', ['placeholder' => Yii::t('site', 'Password'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+                <?php echo $form->passwordField($userCorporate, 'password_again', ['placeholder' => $userCorporate->getAttributeLabel('password_again'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            </div>
+                <?php echo $form->error($profileCorporate    , 'firstname'); ?>
+                <?php echo $form->error($profileCorporate    , 'lastname', ['class' => 'errorMessage right']); ?>
+            <div class="field">
+            <?php echo $form->labelEx($profileCorporate  , 'Name'); ?>
+            <?php echo $form->textField($profileCorporate, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
+            <?php echo $form->textField($profileCorporate, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
             </div>
 
 	    </div>
-
-
 	    <div class="row">
-            <?php echo $form->error($accountCorporate       , 'industry_id'); ?>
+            <?php if ($isCorporateSubmitted): ?>
+                <?php echo $form->error($accountCorporate, 'industry_id'); ?>
+            <?php endif ?>
             <div class="field">
                 <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
 	    </div>
-	    <div class="row wide">
-            <?php if (UserService::isCorporateEmail($profile->email)): ?>
-                <?php echo $form->hiddenField($accountCorporate, 'corporate_email'); ?>
-            <?php else: ?>
-                <?php echo $form->error($accountCorporate    , 'corporate_email'); ?>
-                <div class="field">
-                <?php echo $form->labelEx($accountCorporate  , 'corporate_email'); ?>
-                <?php echo $form->textField($accountCorporate, 'corporate_email',['placeholder' => 'Email@', 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-                </div>
-            <?php endif ?>
-	    </div>
+        <div class="row"></div>
+        <div class="reg terms-confirm">
+            <?= $form->error($userCorporate, 'agree_with_terms'); ?>
+            <?= $form->checkBox($userCorporate, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+            <?= $form->labelEx($userCorporate, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
+        </div>
 	    <div class="row buttons">
             <div class="field">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Start'), ['name' => 'corporate']); ?>
