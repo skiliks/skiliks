@@ -100,6 +100,8 @@ class UserService {
             } catch (Exception $e) {
                 $log->comment = $comment;
             }
+        } else {
+            $log->comment = $comment;
         }
 
         $log->save(false);
