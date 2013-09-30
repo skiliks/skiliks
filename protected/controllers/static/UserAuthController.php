@@ -688,7 +688,9 @@ class UserAuthController extends YumController
                             }else{
                                 throw new Exception("Bad type");
                             }
+
                             $this->sendRegistrationEmail($user);
+                            Yii::app()->session->add("email", $profile->email);
                             $this->redirect(['afterRegistration']);
                         } else {
                             throw new Exception("Registration is fail!");
