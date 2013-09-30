@@ -67,7 +67,10 @@ class m130930_193030_update_non_corpurate_emails extends CDbMigration
             'yopmail.com',
             'fakeinbox.com',
             'daintly.com',
-            'daintly.com',
+            'gnail.pw',
+            'checknew.pw',
+            'fh.ru',
+            'fh.ru',
         ];
 
         foreach ($domains as $domain) {
