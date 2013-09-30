@@ -133,6 +133,7 @@ class UserAccountCorporate extends CActiveRecord
 			array('corporate_email' , 'unique', 'message' => Yii::t('site', 'Email is already taken')),
             array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
             array('corporate_email' , 'isCorporateEmail'),
+            array('corporate_email' , 'isNotPersonalEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
 			array('user_id'         , 'length'   , 'max'=>10),
 			// The following rule is used by search().
@@ -195,6 +196,14 @@ class UserAccountCorporate extends CActiveRecord
     {
         if(false == UserService::isCorporateEmail($this->$attribute)) {
             $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
+        }
+    }
+
+    public function isNotPersonalEmail($attribute)
+    {
+        $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
+        if($userPersonal !== null) {
+            $this->addError($attribute, Yii::t('site', 'Email is already taken'));
         }
     }
 
