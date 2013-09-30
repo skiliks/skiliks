@@ -956,9 +956,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $user = Yii::app()->user->data();
 
         if (!$user->isAuth()) {
-            exit();
+            Yii::app()->end();
         } elseif ($user->isPersonal()) {
-            exit();
+            Yii::app()->end();
         }
 
         $dontShowPopup = Yii::app()->request->getParam("dontShowPopup", null);

@@ -94,16 +94,7 @@ class DebugController extends SiteBaseController
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         echo $xls;
     }
-
-
-
     // PAYMENT CONTROLLER METHODS
-
-    public function actionTestInvoice() {
-
-        $new = new UserAccountCorporate();
-        var_dump($new->referrals_invite_limit);
-    }
 
     public function actionDoCashPayment() {
 
@@ -137,13 +128,6 @@ class DebugController extends SiteBaseController
                 $user->profile->email
             );
         }
-    }
-
-    public function actionTestInvoiceComplete() {
-        $k = new stdClass();
-        $k->int = 2;
-        $k->int = $k->int++;
-        var_dump($k->int);
     }
 
     public function actionYyy()

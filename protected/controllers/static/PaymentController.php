@@ -351,7 +351,7 @@ class PaymentController extends SiteBaseController
             }
             else {
                 echo $paymentMethod->get_result_key($invoice, Yii::app()->request->getParam('OutSum'));
-                exit();
+                Yii::app()->end();
             }
         }
     }
