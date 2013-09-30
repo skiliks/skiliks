@@ -135,6 +135,7 @@ class UserAccountCorporate extends CActiveRecord
             array('corporate_email' , 'isCorporateEmail'),
             array('corporate_email' , 'isNotPersonalEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
+            array('industry_id',    'required', 'message' => Yii::t('site', 'Industry status is required')),
 			array('user_id'         , 'length'   , 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
