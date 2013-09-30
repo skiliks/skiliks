@@ -1571,7 +1571,7 @@ class AdminPagesController extends SiteBaseController {
             $user = YumUser::model()->findByPk($userId);
             $totalRefers = UserReferal::model()->countUserReferrers($user->id);
             $this->layout = '/admin_area/layouts/admin_main';
-            $this->render('/admin_area/pages/reffers_list', ["totalRefers"=>$totalRefers, "user"=>$user]);
+            $this->render('/admin_area/pages/referrals_list', ["totalRefers"=>$totalRefers, "user"=>$user]);
         }
     }
 
