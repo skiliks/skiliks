@@ -229,27 +229,31 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
         </script>
 
-        <script type="text/javascript">
-            <?php Yii::app()->params['public']['isDisplaySupportChat']; ?>
-            window._shcp = [];
-            window._shcp.push({
-                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
-                widget : "Chat",
-                side : "right",
-                position : "top",
-                template : "blue",
-                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
-                title_offline : "Оставьте сообщение"
-            });
-            $(document).ready(function() {
-                var hcc = document.createElement("script");
-                hcc.type = "text/javascript";
-                hcc.async = true;
-                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
-                var s = document.head;
-                s.parentNode.insertBefore(hcc, null);
-            });
-        </script>
+        <?php $isDevServer = in_array(Yii::app()->request->serverName, ['loc.skiliks.com', 'test.skiliks.com', 'live.skiliks.com']);  ?>
+        <?php $isDisplayHelpChat = Yii::app()->params['public']['isDisplaySupportChat'] && false == $isDevServer; ?>
+        <?php if ($isDisplayHelpChat) : ?>
+            <script type="text/javascript">
+
+                window._shcp = [];
+                window._shcp.push({
+                    link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+                    widget : "Chat",
+                    side : "right",
+                    position : "top",
+                    template : "blue",
+                    title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+                    title_offline : "Оставьте сообщение"
+                });
+                $(document).ready(function() {
+                    var hcc = document.createElement("script");
+                    hcc.type = "text/javascript";
+                    hcc.async = true;
+                    hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
+                    var s = document.head;
+                    s.parentNode.insertBefore(hcc, null);
+                });
+            </script>
+        <?php endif; ?>
 
         <?php $this->renderPartial('//global_partials/_feedback', []) ?>
         <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
