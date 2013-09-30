@@ -283,6 +283,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
+            $invite->email = trim($invite->email);
 
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);

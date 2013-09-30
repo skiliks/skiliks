@@ -68,11 +68,11 @@ class Register_Corporate_Test extends SeleniumTestHelper
 
         sleep(5);
         $this->assertTrue($this->isTextPresent('активирован'));
-        $this->optimal_click("xpath=//*[@id='registration_check']");
+        //$this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
 
         sleep(5);
-        $this->waitForVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь,')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь, ')])");
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_firstname",'test-name');
         $this->type("css=#user-account-corporate-form > div.row > div.field > #YumProfile_lastname",'test-surname');
 
@@ -122,7 +122,11 @@ class Register_Corporate_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->isTextPresent('активирован'));
         //нажимаем Начать
+        $this->optimal_click("xpath=//*[@id='registration_check']");
         $this->optimal_click("xpath=//*[@id='registration_switch']");
+
+        $this->optimal_click("css=.bigbtnsubmt.start-lite-simulation-now");
+
         // ожидаем появления иконки телефона
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -141,7 +145,7 @@ class Register_Corporate_Test extends SeleniumTestHelper
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь,')])")) break;
+                if ($this->isVisible("xpath=(//*[contains(text(),'Зарегистрируйтесь, ')])")) break;
             } catch (Exception $e) {}
             sleep(1);
         }
