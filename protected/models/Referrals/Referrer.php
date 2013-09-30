@@ -141,7 +141,7 @@ class Referrer extends CActiveRecord
         ];
 
         try {
-            $sent = YumMailer::send($mail);
+            $sent = MailHelper::addMailToQueue($mail);
         } catch (phpmailerException $e) {
             // happens at my local PC only, Slavka
             $sent = null;

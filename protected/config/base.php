@@ -311,10 +311,12 @@ return array(
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
-                'admin_area/completeInvoice'  => 'admin_area/AdminPages/CompleteInvoice',
-                'admin_area/invoiceComment'  => 'admin_area/AdminPages/CommentInvoice',
-                'admin_area/getInvoiceLog'  => 'admin_area/AdminPages/GetInvoiceLog',
+                'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
+                'admin_area/completeInvoice'   => 'admin_area/AdminPages/CompleteInvoice',
+                'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
+                'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
 
+                'admin_area/email/<id:\w+>/text'                          => 'admin_area/AdminPages/EmailText',
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
                 'admin_area/statistics/testAuth'                          => 'admin_area/AdminPages/TestAuth',
@@ -434,7 +436,8 @@ return array(
             'isSkipBrowserCheck'                 => false,
             'isIncludeGoogleAnalyticsJavaScript' => false,
             'isDisplaySupportChat'               => true,
-            'SiteHeartWidgetCode'                => '626464',
+            'SiteHeartWidgetCode'                => '633075', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
+            'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old

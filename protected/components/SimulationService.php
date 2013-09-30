@@ -1110,7 +1110,7 @@ class SimulationService
             $logTableList = new LogTableList();
             foreach($simulations as $simulation) {
                 $logTableList->setSimulation($simulation);
-                $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
+                $user_fullname = (empty($simulation->user))?'Аноним':$simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
                 $logTableList->saveLogsAsExcelReport1($user_fullname, $simulation->id);
             }
             $excelWriter = $logTableList->returnXlsFile();

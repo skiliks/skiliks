@@ -173,6 +173,11 @@ var fixLogotypes = function() {
         });
 
         $("#registration_check").click(function () {
+            var cookie = $.cookie('registration_user-want-to-start-demo');
+            if (undefined == cookie) {
+                $.cookie('registration_user-want-to-start-demo', 0);
+            }
+
             if ($(this).hasClass('icon-check')) {
                 $(this).removeClass('icon-check');
                 $(this).addClass('icon-chooce');
@@ -182,8 +187,10 @@ var fixLogotypes = function() {
                     $('#registration_switch').val($('#registration_switch').attr('data-next'));
                 }
                 if ($('#registration_hint').length) {
-                    $('#registration_hint').css('visibility', 'visible');
+                    $(".icon-uncheck-text").toggle();
+                    $(".icon-check-text").toggle();
                 }
+                $.cookie('registration_user-want-to-start-demo', 0);
             } else if ($(this).hasClass('icon-chooce')) {
                 $(this).removeClass('icon-chooce');
                 $(this).addClass('icon-check');
@@ -191,10 +198,13 @@ var fixLogotypes = function() {
                 $("#registration_check span").css('display', 'none');
                 if (1 === $('#registration_switch').length) {
                     $('#registration_switch').val($('#registration_switch').attr('data-start'));
+
                 }
                 if ($('#registration_hint').length) {
-                    $('#registration_hint').css('visibility', 'hidden');
+                    $(".icon-uncheck-text").toggle();
+                    $(".icon-check-text").toggle();
                 }
+                $.cookie('registration_user-want-to-start-demo', 1);
             }
             return false;
         });

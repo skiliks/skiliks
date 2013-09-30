@@ -14,8 +14,16 @@ $assetsUrl = $this->getAssetsUrl();
         <?= $user->profile->lastname ?>
     <?php endif ?>
 </h1>
-<h4><? if($user->account_corporate !== null) echo $user->account_corporate->getCompanyName(); ?></h4>
-<?
+
+<a href="/admin_area/user/<?= $user->id ?>/details">
+    <i class="icon icon-arrow-left"></i> К аккаунту
+</a>
+
+<br/>
+<br/>
+
+<h4><?= ($user->account_corporate !== null) ? $user->account_corporate->getCompanyName() : '' ?></h4>
+<?php
 
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Referrer::model()->searchUserReferrals(
