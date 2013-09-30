@@ -248,12 +248,13 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:45px;">' +
         '<ul class="button_menu">' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-undo" id="%id.button_undo" style="background-image:url(%img.undo.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">отменить</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-redo" id="%id.button_redo" style="background-image:url(%img.redo.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">вернуть</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-copy" id="%id.button_copy" style="background-image:url(%img.copy.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">копировать</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-paste" id="%id.button_paste" style="background-image:url(%img.paste.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">вставить</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-sum" id="%id.button_sum" style="background-image:url(%img.auto_sum.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">сумма</a></li>' +
-        '<li><div class="grid-row"><div class="hover-wrap"><div class="menu-hover button-percent" id="%id.button_percent" style="background-image:url(%img.percent.png); background-position: center center; background-repeat: no-repeat;"></div></div></div><a class="grid-row">формат</a></li></ul>' +
+        '<li><img class="button-undo" onmouseover="$(this).attr(\'src\', \'%img.undo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.undo.png\')" id="%id.button_undo" src="%img.undo.png"></li>' +
+        '<li><img class="button-redo" onmouseover="$(this).attr(\'src\', \'%img.redo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.redo.png\')" id="%id.button_redo" src="%img.redo.png"></li>' +
+        '<li><img class="button-copy" onmouseover="$(this).attr(\'src\', \'%img.copy-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.copy.png\')" id="%id.button_copy" src="%img.copy.png"></li>' +
+        '<li><img class="button-paste" onmouseover="$(this).attr(\'src\', \'%img.paste-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.paste.png\')" id="%id.button_paste" src="%img.paste.png"></li>' +
+        '<li><img class="button-sum" onmouseover="$(this).attr(\'src\', \'%img.sum-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.sum.png\')" id="%id.button_sum" src="%img.sum.png"></li>' +
+        '<li><img class="button-percent" onmouseover="$(this).attr(\'src\', \'%img.percent-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.percent.png\')" id="%id.button_percent" src="%img.percent.png"></li>' +
+        '</ul>' +
         '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
         '<li><div class="grid-row"><div><div><img src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
