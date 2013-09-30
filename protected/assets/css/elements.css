@@ -805,11 +805,18 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-repeat: no-repeat;
     color: #FFFFFF;
 }
+
+/* homepage button */
+.action-controller-index-static-pages .features .bigbtnsubmt {
+    background-image: url("../img/icon-circlarow-hover.png");
+}
+
 #registration_switch:hover,
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover,
 .order-methods input[type=submit]:hover,
-#error404-message .bigbtnsubmt:hover {
+#error404-message .bigbtnsubmt:hover
+{
     background-image: url("../img/icon-circlarow-hover.png");
     background-color:#BD2929;
     background-repeat: no-repeat;
@@ -819,6 +826,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     background-color:#BD2929;
     background-image: url("../img/icon-btn-notify-hover.png");
 }
+
+/* homepage button */
+.action-controller-index-static-pages .features .bigbtnsubmt:hover {
+    background-color:#820303;
+}
+
 /* error 404*/
 #error404-message {
     text-align:center;

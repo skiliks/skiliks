@@ -37,7 +37,7 @@
                     <td>
                         <?php if(!empty($simulation->user)) : ?>
                         <a href="/admin_area/user/<?=$simulation->user->id ?>/details">
-                            <?= $simulation->user->profile->firstname." ".$simulation->user->profile->lastname ?>
+                            <?= (empty($simulation->user))?'Аноним':$simulation->user->profile->firstname." ".$simulation->user->profile->lastname ?>
                         </a>
                         <?php else: ?>
                             <a href="#">Нет юзера</a>

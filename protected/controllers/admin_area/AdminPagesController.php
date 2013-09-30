@@ -635,6 +635,8 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionOrders()
     {
+        $this->itemsOnPage = 5;
+
         // pager {
 
         $page = Yii::app()->request->getParam('page');
@@ -1080,8 +1082,12 @@ class AdminPagesController extends SiteBaseController {
         $id = Yii::app()->request->getParam('id', null);
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $id]);
-        $logs = LogAccountInvite::model()->findAllByAttributes([
-            'user_id' => Yii::app()->request->getParam('id', null),
+        $logs = LogAccountInvite::model()->findAll([
+            'condition' => 'user_id = :id ',
+            'params' => [
+                'id' => Yii::app()->request->getParam('id', null)
+            ],
+            'order' => 'date DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
@@ -1553,5 +1559,133 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    public function actionEmailQueue()
+    {
+        $formFilters = Yii::app()->session['admin_email_queue_filter_form'];
 
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            if (isset($formFilters['page'])) {
+                $page = $formFilters['page'];
+            } else {
+                $page = 1;
+                $formFilters['page'] = 1;
+            }
+        }
+
+        $criteria = new CDbCriteria;
+
+        // applying filters
+        // sender_email {
+        if (isset($formFilters['sender_email'])) {
+            $filterSenderEmail = $formFilters['sender_email'];
+        } else {
+            $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
+            $formFilters['sender_email'] = $filterSenderEmail;
+        }
+
+        if($filterSenderEmail !== null) {
+            $filterSenderEmail = trim($filterSenderEmail);
+            $criteria->addSearchCondition("t.sender_email", $filterSenderEmail);
+        }
+        // sender_email }
+
+        // recipients {
+        if (isset($formFilters['recipients'])) {
+            $filterRecipients = $formFilters['recipients'];
+        } else {
+            $filterRecipients = Yii::app()->request->getParam('recipients', null);
+            $formFilters['recipients'] = $filterRecipients;
+        }
+
+        if($filterRecipients !== null) {
+            $filterRecipients = trim($filterRecipients);
+            $criteria->addSearchCondition("t.recipients", $filterRecipients);
+        }
+        // recipients }
+
+        // send / not_send {
+        if (isset($formFilters['send'])) {
+            $filterStatusSend = $formFilters['send'];
+        } else {
+            $filterStatusSend = Yii::app()->request->getParam('send', null);
+            $formFilters['send'] = $filterStatusSend;
+        }
+
+        if (isset($formFilters['not_send'])) {
+            $filterStatusNotSend = $formFilters['not_send'];
+        } else {
+            $filterStatusNotSend = Yii::app()->request->getParam('not_send', null);
+            $formFilters['not_send'] = $filterStatusNotSend;
+        }
+
+        if($filterStatusSend !== null && $filterStatusNotSend == null) {
+            // only send
+            $criteria->addCondition(' t.sended_at IS NOT NULL ');
+        } else if ($filterStatusSend == null && $filterStatusNotSend !== null) {
+            // only not send
+            $criteria->addCondition(' t.sended_at IS NULL ');
+        }
+        // send / not_send }
+
+        Yii::app()->session['admin_email_queue_filter_form'] = $formFilters;
+
+        if($filterSenderEmail !== null) {
+            $appliedFilters = [
+                "sender_email" => $filterSenderEmail,
+                "recipients"   => $filterRecipients,
+                "send"         => $filterStatusSend,
+                "not_send"     => $filterStatusNotSend,
+            ];
+        }
+        else {
+            // generation the all filters to be checked
+            $appliedFilters = [
+                "sender_email" => null,
+                "recipients"   => null,
+                "send"         => null,
+                "not_send"     => null,
+            ];
+        }
+
+        // counting objects to make the pagination
+        $totalItems = count(EmailQueue::model()->findAll($criteria));
+
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/email_queue';
+        // pager }
+
+        // building criteria
+        $criteria->order = "created_at desc" ;
+        $criteria->limit = $this->itemsOnPage;
+        $criteria->offset = ($page-1)*$this->itemsOnPage;
+
+        $emails = EmailQueue::model()->findAll($criteria);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+
+        $this->render('/admin_area/pages/email_queue', [
+            'emails'      => $emails,
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage,
+            'filters'     => $appliedFilters
+        ]);
+    }
+
+    public function actionEmailText($id = null) {
+        if(null !== $id) {
+            $email = EmailQueue::model()->findByPk($id);
+
+            $this->layout = '/admin_area/layouts/admin_main';
+            $this->render('/admin_area/pages/email_text', [
+                "email" => $email,
+            ]);
+        }
+    }
 }
