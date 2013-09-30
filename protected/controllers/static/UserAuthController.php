@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Кабинет пользователя
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- */
 class UserAuthController extends YumController
 {
     /**
@@ -608,115 +603,126 @@ class UserAuthController extends YumController
 
     public function actionRegistrationNew()
     {
-        $this->checkUser();
-
-        // only activated user can choose account type
-        if (false == $this->user->isActive()) {
-            Yii::app()->user->setFlash('error', 'Ваш аккаунт неактивен');
-
-            $this->redirect('/');
+        if (false === Yii::app()->user->isGuest) {
+            $this->redirect('/dashboard');
         }
+        $guest_user = Yii::app()->user->data();
 
         // get exists profile
-        $profile    = YumProfile::model()->findByAttributes(['user_id' => $this->user->id]);
+        $user       = new YumUser('registration');
+        $profile    = new YumProfile('registration');
+        $userPersonal       = new YumUser('registration');
+        $profilePersonal    = new YumProfile('registration');
+        $userCorporate       = new YumUser('registration');
+        $profileCorporate    = new YumProfile('registration');
         $YumProfile = Yii::app()->request->getParam('YumProfile');
+        $YumUser    = Yii::app()->request->getParam('YumUser');
+        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
+
         $profile->firstname = $YumProfile['firstname'];
         $profile->lastname  = $YumProfile['lastname'];
         $profile->timestamp = gmdate("Y-m-d H:i:s");
 
-        $accountCorporate = new UserAccountCorporate;
-        $accountCorporate->user_id = $this->user->id;
+        $accountCorporate = new UserAccountCorporate();
 
-        $accountPersonal = new UserAccountPersonal;
-        $accountPersonal->user_id = $this->user->id;
+        $accountPersonal = new UserAccountPersonal();
+        if (Yii::app()->request->isPostRequest) {
+            $user->attributes = $YumUser;
+            $profile->attributes    = $YumProfile;
+            //$this->user->is_check = (int)$YumUser['is_check'];
+            $user->setUserNameFromEmail($profile->email);
+            $profile->updateFirstNameFromEmail();
 
-        // --- personal
+            // Protect from "Wrong username" message - we need "Wrong email", from Profile form
+            if (null == $user->username) {
+                $this->user->username = 'DefaultName';
+            }
+            $user->createtime = time();
+            $user->lastvisit = time();
+            $user->lastpasswordchange = time();
+            $isUserValid = $user->validate(['password', 'password_again', 'agree_with_terms']);
+            $isProfileValid     = $profile->validate(['firstname', 'lastname', 'email']);
 
-        if (null !== Yii::app()->request->getParam('personal')) {
-            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
-
-            $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
-
-            if(null !== $UserAccountPersonal && null !== $YumProfile)
-            {
                 $accountPersonal->attributes = $UserAccountPersonal; //$_POST['UserAccountPersonal'];
-                $isUserAccountPersonalValid = $accountPersonal->validate(['user_id', 'industry_id', 'professional_status_id']);
+                $isUserAccountPersonalValid = $accountPersonal->validate(['professional_status_id']);
 
-                if($isUserAccountPersonalValid && $isProfileValid)
-                {
-                    // grands permission to start full simulation {
-                    try {
-                        $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-                        $permission = new YumPermission();
-                        $permission->principal_id = Yii::app()->user->data()->id;
-                        $permission->subordinate_id = Yii::app()->user->data()->id;
-                        $permission->type = 'user';
-                        $permission->action = $action->id;
-                        $permission->template = 1;
-                        $permission->save();
-                    } catch(CDbException $e) {
-                        // duplicated records:
-                        // this possible for developers only,
-                        // when you remove your personal account and choose account type as personal again
-                        //
-                    }
-                    // grands permission to start full simulation }
-
-                    $profile->save();
-                    $accountPersonal->save(true, ['user_id', 'industry_id', 'professional_status_id']);
-                    $this->redirect(['registration/account-type/added']);
-                }
-            }
-        }
-
-        // --- corporate
-
-        if (null !== Yii::app()->request->getParam('corporate')) {
-            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
-
-            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-
-            if(null!== $UserAccountCorporate & null !== $YumProfile)
-            {
                 $accountCorporate->attributes = $UserAccountCorporate; //$_POST['UserAccountCorporate'];
-
-                $isUserAccountCorporateValid  = $accountCorporate->validate(['corporate_email', 'industry_id', 'user_id']);
-
-                if (UserService::isCorporateEmail($profile->email)) {
-                    $accountCorporate->is_corporate_email_verified = 1;
-
-                    // todo: take care about user timezone
-                    $accountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
+                $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
+                //var_dump($isProfileValid);
+                //exit();
+                if($isUserAccountPersonalValid) {
+                    $accountCorporate->validate([]);
+                }else{
+                    $accountPersonal->validate([]);
                 }
+                if(($isUserAccountPersonalValid || $isUserAccountCorporateValid) && $isProfileValid && $isUserValid)
+                    {
+                        //die("exit");
+                        $is_success_registration = $user->register($user->username, $user->password, $profile);
 
-                if($isUserAccountCorporateValid && $isProfileValid)
-                {
-                    $profile->save();
-                    $accountCorporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
-                    $accountCorporate->generateActivationKey();
-                    $accountCorporate->save(false);
+                        if ($is_success_registration) {
+                            $profile->user_id = $user->id;
+                            $accountPersonal->user_id = $user->id;
+                            //$user->save();
+                            if(false === $profile->save()){
+                                throw new Exception("YumPersonal not save!");
+                            }
 
-                    // set Lite tariff by default
-                    $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
-
-                    // update account tariff
-                    $accountCorporate->setTariff($tariff, true);
-
-                    $this->user->refresh();
-
-                    if (false === (bool)$accountCorporate->is_corporate_email_verified) {
-                        $this->sendCorporationEmailVerification($this->user);
-                        $this->redirect('afterRegistrationCorporate');
-                    } else {
-                        $this->redirect('/dashboard');
+                            if(null !== $UserAccountPersonal) {
+                                $accountPersonal->user_id = $user->id;
+                                if(false === $accountPersonal->save(true, ['user_id', 'professional_status_id'])){
+                                    throw new Exception("UserAccountPersonal not save!");
+                                }
+                                $userPersonal = $user;
+                                $profilePersonal = $profile;
+                            }elseif(null !== $UserAccountCorporate) {
+                                $accountCorporate->user_id = $user->id;
+                                $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+                                $accountCorporate->setTariff($tariff, true);
+                                if(false === $accountCorporate->save(true, ['user_id','industry_id'])){
+                                    throw new Exception("UserAccountCorporate not save!");
+                                }
+                                $userCorporate = $user;
+                                $profileCorporate = $profile;
+                            }else{
+                                throw new Exception("Bad type");
+                            }
+                            $this->sendRegistrationEmail($user);
+                            $this->redirect(['afterRegistration']);
+                        } else {
+                            throw new Exception("Registration is fail!");
+                        }
+                        // grands permission to start full simulation {
+                        /*try {
+                            $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+                            $permission = new YumPermission();
+                            $permission->principal_id = Yii::app()->user->data()->id;
+                            $permission->subordinate_id = Yii::app()->user->data()->id;
+                            $permission->type = 'user';
+                            $permission->action = $action->id;
+                            $permission->template = 1;
+                            $permission->save();
+                        } catch(CDbException $e) {
+                            // duplicated records:
+                            // this possible for developers only,
+                            // when you remove your personal account and choose account type as personal again
+                            //
+                        }*/
+                        // grands permission to start full simulation }
+            } else {
+                    if(null !== $UserAccountPersonal) {
+                        $userPersonal = $user;
+                        $profilePersonal = $profile;
+                    }elseif(null !== $UserAccountCorporate) {
+                        $userCorporate = $user;
+                        $profileCorporate = $profile;
+                    }else{
+                        throw new Exception("Bad type");
                     }
-                }
             }
-        }
 
-        // set email for corporate account, if email is corporate
-        if (UserService::isCorporateEmail($profile->email)) {
-            $accountCorporate->corporate_email = $profile->email;
+
         }
 
         $industries = [];
@@ -729,13 +735,6 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
-        $simPassed = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE) === null ? false : true;
-
-        // clean up validation errors if not POST request
-        if (false === Yii::app()->request->isPostRequest) {
-            $profile->validate([]);
-        }
-
         $this->render(
             'registration-new',
             [
@@ -746,7 +745,10 @@ class UserAuthController extends YumController
                 'profile'              => $profile,
                 'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
                 'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
-                'simPassed'            => $simPassed
+                'userPersonal' => $userPersonal,
+                'userCorporate' => $userCorporate,
+                'profileCorporate' => $profileCorporate,
+                'profilePersonal' => $profilePersonal,
             ]
         );
     }
