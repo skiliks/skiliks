@@ -8,7 +8,7 @@ class PagesController extends SiteBaseController
     {
         $user = Yii::app()->user;
         if (!$user->isGuest && $user->data()->account_corporate && !$user->data()->isActive()) {
-            $this->redirect('/userAuth/afterRegistrationCorporate');
+            $this->redirect('/userAuth/afterRegistration');
         }
 
         return parent::beforeAction($action);

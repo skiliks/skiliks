@@ -19,7 +19,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if (false === $this->user->isCorporate() || false === $this->user->isActive())
         {
-            $this->redirect('userAuth/afterRegistrationCorporate');
+            $this->redirect('userAuth/afterRegistration');
         }
 
         $vacancies = [];
@@ -171,8 +171,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     {
         $this->checkUser();
 
-        if (false === $this->user->isCorporate() || $this->user->isActive()){
-            $this->redirect('userAuth/afterRegistrationCorporate');
+        if (false === $this->user->isCorporate() ||  false === $this->user->isActive()){
+            $this->redirect('userAuth/afterRegistration');
         }
 
         // getting user popup

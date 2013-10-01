@@ -421,6 +421,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
             'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,
