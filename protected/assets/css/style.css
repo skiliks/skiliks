@@ -1385,7 +1385,9 @@ html[lang=ru] .product section table th{
 	vertical-align:middle;
     word-wrap: break-word;
 }
-.registration .form .row input[type=text]{
+.registration .form .row input[type=text],
+.registration .form .row input[type=password]
+{
 	background:#fff;
 	-moz-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
     -webkit-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
