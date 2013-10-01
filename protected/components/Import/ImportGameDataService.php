@@ -1841,7 +1841,7 @@ class ImportGameDataService
                 $replica->flag_to_switch_2 = null;
             }
 
-            $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
+            @$isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $replica->demo = $isUseInDemo;
             $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
             $replica->fantastic_result =
@@ -1931,7 +1931,7 @@ class ImportGameDataService
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
             $dialog->category = $this->getCellValue($sheet, 'Категория события', $i);
             $dialog->start_time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') ? : null;
-            $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
+            @$dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
             $dialog->import_id = $this->import_id;
             $dialog->scenario_id = $this->scenario->primaryKey;
             $dialog->save();
