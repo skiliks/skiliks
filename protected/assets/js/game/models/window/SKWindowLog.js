@@ -23,7 +23,7 @@ define([],function () {
             try {
                 var time = SKApp.simulation.getGameSeconds();
                 if (isNaN(window.window_uid)) {
-                    throw 'window.window_uid is NaN!';
+                    throw new Error ('window.window_uid is NaN!');
                 }
 
                 var log_raw_data = {
@@ -52,7 +52,7 @@ define([],function () {
                 var time = SKApp.simulation.getGameSeconds();
 
                 if (isNaN(window.window_uid)) {
-                    throw 'window.window_uid is NAN!';
+                    throw new Error ('window.window_uid is NAN!');
                 }
 
                 var log_raw_data = {

@@ -488,7 +488,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             if (1 == response.result) {
                                 cb(response);
                             } else {
-                                throw "Can`t initialize responce email. Model. #1";
+                                throw new Error ("Can`t initialize responce email. Model. #1");
                             }
                         }
                     );
@@ -516,7 +516,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             if (1 === response.result) {
                                 cb(response);
                             } else {
-                                throw "Can`t initialize responce email. Model. #2";
+                                throw new Error ("Can`t initialize responce email. Model. #2");
                             }
                         }
                     );
@@ -544,7 +544,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             if (1 === response.result) {
                                 return cb(response);
                             } else {
-                                throw "Can`t initialize responce email. Model. #3";
+                                throw new Error ("Can`t initialize responce email. Model. #3");
                             }
                         }
                     );
@@ -988,7 +988,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 me.trigger('attachment:saved');
                             });
                         } else {
-                            throw 'Can not add document';
+                            throw new Error ('Can not add document');
                         }
                     });
                 } catch(exception) {
