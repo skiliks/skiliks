@@ -54,6 +54,16 @@ class ReferralsInviteForm extends CFormModel {
 
             foreach($emails as $referEmail) {
 
+                // проверка на уже зарегистрированного пользователя
+
+                $existProfile = YumProfile::model()->findByAttributes([
+                    'email' => $referEmail
+                ]);
+
+                if($existProfile !== null) {
+                    $this->addError('emails', 'Пользователь с емейлом '. $referEmail .' уже зарегистрирован у нас.');
+                }
+
                 // referrer domain zone
                 $referDomain = substr($referEmail, strpos($referEmail, "@"));
 
@@ -88,8 +98,6 @@ class ReferralsInviteForm extends CFormModel {
                 if(false == UserService::isCorporateEmail($referEmail)) {
                     $this->addError('emails', 'Е-мейл '. $referEmail .' не является корпоративным.');
                 }
-
-
 
                 $referrer = new UserReferal();
                 $referrer->referral_email = $referEmail;
