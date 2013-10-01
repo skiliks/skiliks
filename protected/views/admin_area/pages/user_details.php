@@ -88,7 +88,7 @@ $assetsUrl = $this->getAssetsUrl();
             <td>Корпоративный email</td>
             <td>
                 <i class="icon icon-briefcase"></i>
-                <?= $user->getAccount()->corporate_email ?>
+                <?= $user->profile->email ?>
             </td>
         <?php endif; ?>
     </tr>

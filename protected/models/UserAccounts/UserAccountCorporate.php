@@ -72,20 +72,6 @@ class UserAccountCorporate extends CActiveRecord
     /**
      * @return string
      */
-    public function generateActivationKey()
-    {
-        $this->corporate_email_activation_code = YumEncrypt::encrypt(microtime().$this->corporate_email, $this->user->salt);
-
-        if (!$this->isNewRecord) {
-            $this->save(false, array('activationKey'));
-        }
-
-        return $this->corporate_email_activation_code;
-    }
-
-    /**
-     * @return string
-     */
     public function getCompanyName()
     {
         if (null == $this->ownership_type && null == $this->company_name) {

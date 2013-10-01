@@ -807,20 +807,6 @@ class YumUser extends YumActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function getCorporationEmailVerificationUrl()
-    {
-        if ($this->isCorporate() && null !== $this->getAccount()->corporate_email) {
-            @ $url = Yii::app()->createAbsoluteUrl('registration/confirm-corporate-email');
-
-            return $url.'?activation-code='. $this->getAccount()->corporate_email_activation_code;
-        }
-
-        return Yii::t('site', 'Activation Url cannot be retrieved');
-    }
-
-    /**
      * @return bool
      */
     public function isPasswordExpired()

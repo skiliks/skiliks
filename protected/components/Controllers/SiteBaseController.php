@@ -113,7 +113,7 @@ class SiteBaseController extends CController {
         $user = $user->data();  //YumWebUser -> YumUser
 
         if (null === Yii::app()->user->data()->getAccount()) {
-            $this->redirect('/registration/choose-account-type');
+            $this->redirect('/registration');
         }
 
         if ($user->isCorporate()) {
