@@ -349,7 +349,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->save();
-                InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
+                InviteService::logAboutInviteStatus($invite, sprintf(
+                    'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
+                    $invite->email,
+                    $this->user->profile->email()
+                ));
                 $this->sendInviteEmail($invite);
 
 
