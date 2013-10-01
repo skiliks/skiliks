@@ -73,7 +73,6 @@ define(["game/models/SKDayTask"], function () {
                 return result;
             } catch(exception) {
                 if (window.Raven) {
-                    //console.log(exception.message + ',' + exception.stack);
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }

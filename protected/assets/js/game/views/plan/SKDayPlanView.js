@@ -720,7 +720,6 @@ define([
                     });
                 }
                 var last_model = SKApp.simulation.todo_tasks.at(SKApp.simulation.todo_tasks.length - 1);
-                console.log(last_model);
                 $('.day-plan-task-active').removeClass('day-plan-task-active');
                 last_model.isNewTask = false;
             } catch(exception) {
