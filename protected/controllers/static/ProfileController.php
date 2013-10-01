@@ -400,15 +400,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $this->render('tariff_corporate', []);
     }
 
-    public function actionCorporateReferrers() {
+    public function actionCorporateReferrals() {
         $this->checkUser();
 
         if(!$this->user->isCorporate()){
             $this->redirect('/dashboard');
         }
 
-        $totalRefers = UserReferal::model()->countUserReferrers($this->user->id);
-        $this->render('referrers_corporate', ["totalRefers"=>$totalRefers]);
+        $totalReferrals = UserReferal::model()->countUserReferrals($this->user->id);
+        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals]);
     }
 
     /**
