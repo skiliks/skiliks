@@ -187,7 +187,7 @@ class Invoice extends CActiveRecord
             $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
 
             // Setting referral invites
-            $this->user->account_corporate->referrals_invite_limit = UserReferal::model()->countUserRegisteredReferrers($this->user->id);
+            $this->user->account_corporate->referrals_invite_limit = UserReferal::model()->countUserRegisteredReferals($this->user->id);
 
             $this->paid_at = date('Y-m-d H:i:s');
 

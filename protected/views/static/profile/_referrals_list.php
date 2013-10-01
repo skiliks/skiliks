@@ -1,5 +1,4 @@
-<?
-
+<?php
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => UserReferal::model()->searchUserReferrals(
         Yii::app()->user->data()->id
