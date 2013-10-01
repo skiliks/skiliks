@@ -159,13 +159,13 @@ define([
         'showWindow': function (win) {
             try {
                 if (win.single === true && this.get(win)) {
-                    throw 'Window already displayed';
+                    throw new Error ('Window already displayed');
                 }
                 if (this.length) {
                     this.at(this.length - 1).deactivate();
                 }
                 if (this.get(win.id)) {
-                    throw 'Trying to add window with same ID';
+                    throw new Error ('Trying to add window with same ID');
                 }
                 this.add(win);
                 win.activate();
