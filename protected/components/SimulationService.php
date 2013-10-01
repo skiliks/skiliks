@@ -769,6 +769,7 @@ class SimulationService
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
+        $simulation->calculatePercentile();
         $simulation->save(false);
     }
 
