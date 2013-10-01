@@ -18,11 +18,6 @@ $this->widget('zii.widgets.CMenu', array(
             'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
         ],
         [
-            'label'   => Yii::t('site','Help'),
-            'url'     => '',
-            'visible' => false,
-        ],
-        [
             'label'       => Yii::t('site', 'My office'),
             'url'         => '',
             'linkOptions' => ['class' => 'link-block'],
@@ -33,7 +28,13 @@ $this->widget('zii.widgets.CMenu', array(
             'url'         => '',
             'linkOptions' => ['class' => 'top-profile '.$classForName],
             'visible' => $visibleName,
-        ],[
+        ],
+        [
+            'label'   => Yii::t('site','Help'),
+            'url'     => '/help/general',
+            'visible' => !$isGuest && 'ru' == Yii::app()->getLanguage(),
+        ],
+        [
             'label'       => Yii::t('site', 'Регистрация'),
             'url'         => ['/registration'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()
