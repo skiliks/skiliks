@@ -7,7 +7,7 @@ $isCorporate = $user->isCorporate();
 $isPersonal = $user->isPersonal();
 $isGuest = $webUser->isGuest;
 $isDisplayAccountLinks = (isset($isDisplayAccountLinks)) ? $isDisplayAccountLinks : false;
-$isActivated = $user->isActive() && ($isCorporate ? $user->account_corporate->is_corporate_email_verified : $isCorporate || $isPersonal);
+$isActivated = $user->isActive();
 
 if ($isPersonal) {
     $count = Invite::model()->countByAttributes([],

@@ -34,7 +34,7 @@
 
     <tr>
         <td>E-mail</td>
-        <td><?=$user->getAccount()->corporate_email ?></td>
+        <td><?=$user->profile->email ?></td>
     </tr>
 
     <tr>

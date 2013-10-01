@@ -238,7 +238,7 @@ class Invoice extends CActiveRecord
 
         $mail = [
             'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->user->getAccount()->corporate_email,
+            'to'          => $this->user->profile->email,
             'subject'     => 'Оплата на skiliks.com',
             'body'        => $body,
             'embeddedImages' => [
@@ -267,12 +267,12 @@ class Invoice extends CActiveRecord
         try {
             $sent = MailHelper::addMailToQueue($mail);
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->getAccount()->corporate_email);
+            $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->profile->email);
         } catch (phpmailerException $e) {
             // happens at my local PC only, Slavka
             $sent = null;
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Письмо об обновлении тарифного плана НЕ отправлено пользователю на " . $this->user->getAccount()->corporate_email . ". Причина: " . $e->getMessage());
+            $invoice_log->log($this, "Письмо об обновлении тарифного плана НЕ отправлено пользователю на " . $this->user->profile->email . ". Причина: " . $e->getMessage());
         }
         return $sent;
     }
