@@ -1950,13 +1950,29 @@ define([
                         return;
                     }
 
-                    console.log(event);
-
                     this.blockPhraseMoving = true;
+
+                    // может отказаться от использования event.currentTarget
+                    // google, правда, пишет что это самый правильный вариант
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
 
+                    // event.currentTarget может вернуть <a> или <span> и тогда data('id') == undefined
+                    // event.target гарантировано вернёт span
                     if (undefined === phrase) {
-                        throw new Error('Undefined phrase id.');
+                        var phrase = this.mailClient.getAvailablePhraseByMySqlId(
+                            $(event.target).parent().parent().data('id')
+                        );
+                    }
+
+                    if (undefined === phrase) {
+                        throw new Error(
+                            'Undefined phrase id. '
+                                + $(event.currentTarget).data('id')
+                                + '; '
+                                + $(event.target).parent().parent().data('id')
+                                + '; '
+                                + $(event.currentTarget).text()
+                        );
                     }
 
                     // simplest way to clone small object in js {
