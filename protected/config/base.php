@@ -452,7 +452,7 @@ return array(
         ),
         'cron' => [
 //            'CleanUsers'=> 604800,8
-            'InviteExpired'=> 604800,
+            'InviteExpired'=> 432000,
         ],
         'initial_data' => [
             'users' => [
