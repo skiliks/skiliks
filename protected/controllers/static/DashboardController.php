@@ -17,9 +17,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->layout = 'site_standard';
         $this->checkUser();
 
-        if (false === $this->user->isCorporate() ||
-            empty($this->user->account_corporate->is_corporate_email_verified)
-        ) {
+        if (false === $this->user->isCorporate() || false === $this->user->isActive())
+        {
             $this->redirect('userAuth/afterRegistrationCorporate');
         }
 
@@ -57,7 +56,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->message = sprintf(
                 'Вопросы относительно позиции вы можете задать по адресу %s, куратор позиции - %s.',
-                $this->user->account_corporate->corporate_email,
+                $this->user->profile->email,
                 $this->user->getFormattedName()
             );
 
@@ -172,9 +171,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     {
         $this->checkUser();
 
-        if (false === $this->user->isCorporate() ||
-            empty($this->user->account_corporate->is_corporate_email_verified)
-        ) {
+        if (false === $this->user->isCorporate() || $this->user->isActive()){
             $this->redirect('userAuth/afterRegistrationCorporate');
         }
 
@@ -306,7 +303,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->message = sprintf(
                 $this->user->account_corporate->default_invitation_mail_text,
-                $this->user->account_corporate->corporate_email,
+                $this->user->profile->email,
                 $this->user->getFormattedName()
             );
 

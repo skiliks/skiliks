@@ -90,7 +90,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        if (empty($this->user->account_corporate->is_corporate_email_verified)) {
+        if (false === $this->user->isActive()) {
             $this->redirect('/');
         }
 
@@ -450,10 +450,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->user = $user->data();  //YumWebUser -> YumUser
 
-        if (null === $this->user->getAccount()) {
-            $this->redirect('registration/choose-account-type');
-        }
-
         if ($this->user->isCorporate()) {
             // path to controller action (not URL)
             $this->forward('/static/profile/corporate'.$this->getBaseViewPath());
@@ -578,7 +574,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        if (empty($this->user->account_corporate->is_corporate_email_verified)) {
+        if (false === $this->user->isActive()) {
             $this->redirect('/');
         }
 

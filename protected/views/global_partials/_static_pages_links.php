@@ -3,7 +3,7 @@
 /** @var YumUser $user */
 $user = Yii::app()->user->data();
 $isGuest = Yii::app()->user->isGuest;
-$isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->account_corporate->is_corporate_email_verified : $user->isCorporate() || $user->isPersonal()) : false;
+$isActivated = $user ? $user->isActive():false;
 $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
