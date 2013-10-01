@@ -234,11 +234,8 @@ class YumProfile extends YumActiveRecord
     }
 
     public function emailIsUsedForCorporateAccount($attribute) {
-        $existAccount = UserAccountCorporate::model()->findByAttributes([
-            'corporate_email' => $this->email
-        ]);
 
-        if ($existAccount !== NULL) {
+        if ($this->user->isCorporate()) {
             $error = Yii::t('site',  'Email is already in use.');
             $this->addError($attribute, $error);
         }

@@ -56,9 +56,7 @@
                     <?= $account->user->profile->lastname ?>
                 </td>
                 <td>
-                    <?= $account->user->profile->email ?>,
-                    <br/>
-                    <?= $account->corporate_email ?>
+                    <?= $account->user->profile->email ?>
                 </td>
                 <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
                 <td><?= $account->invites_limit ?></td>

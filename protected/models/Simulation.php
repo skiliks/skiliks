@@ -23,6 +23,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $user_agent
  * @property string $ipv4
  * @property string $status
+ * @property string $percentile
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -67,7 +68,7 @@ class Simulation extends CActiveRecord
 
     const STATUS_IN_PROGRESS = 'in_progress';
     const STATUS_INTERRUPTED = 'interrupted';
-    const STATUS_COMPLETE = 'complete';
+    const STATUS_COMPLETE    = 'complete';
 
     public $id;
 
@@ -601,7 +602,15 @@ class Simulation extends CActiveRecord
                 return round($rate->value);
             }
         }
+        return null;
+    }
 
+    public function getCategoryAssessmentWithoutRound($category = AssessmentCategory::OVERALL) {
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == $category) {
+                return $rate->value;
+            }
+        }
         return null;
     }
 
@@ -704,6 +713,69 @@ class Simulation extends CActiveRecord
         ]);
 
         return isset($lastLog) ? $lastLog->backend_game_time : null;
+    }
+
+    public function calculatePercentile() {
+
+        $allScores = [];
+        $simulations = $this->getRealUsersSimulations();
+
+        foreach($simulations as $simulation) {
+            $categoryAssessment = $simulation->getCategoryAssessmentWithoutRound();
+            if($categoryAssessment !== null) {
+                $allScores[] = $simulation->getCategoryAssessmentWithoutRound();
+            }
+        }
+
+        sort($allScores);
+        $allScores = array_reverse($allScores);
+
+        $thisAssessment = $this->getCategoryAssessmentWithoutRound();
+        if($thisAssessment !== null) {
+            $position = array_search($thisAssessment, $allScores);
+            $total = count($allScores);
+
+            $lessThanMe = $total - $position;
+
+            $this->percentile = $lessThanMe/$total;
+        }
+        else {
+            $this->percentile = null;
+        }
+    }
+
+    public function getRealUsersSimulations() {
+        $developersEmails = [
+            "'r.kilimov@gmail.com'",
+            "'andrey@kostenko.name'",
+            "'personal@kostenko.name'",
+            "'a.levina@gmail.com'",
+            "'gorina.mv@gmail.com'",
+            "'v.logunov@yahoo.com'",
+            "'nikoolin@ukr.net'",
+            "'leah.levina@gmail.com'",
+            "'lea.skiliks@gmail.com'",
+            "'andrey3@kostenko.name'",
+            "'skiltests@yandex.ru'",
+            "'didmytime@bk.ru'",
+            "'gva08@yandex.ru'",
+            "'tony_acm@ukr.net'",
+            "'tony_perfectus@mail.ru'",
+            "'N_ninok1985@mail.ru'",
+            "'tony.pryanichnikov@gmail.com'",
+            "'svetaswork@gmail.com'",
+        ];
+
+        $condition = " profile.email NOT LIKE '%gty1991%' ".
+            " AND profile.email NOT LIKE '%@skiliks.com' ".
+            " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND t.start > '2013-08-01 00:00:00' ".
+            " AND profile.email NOT IN (".implode(',', $developersEmails).")
+              AND t.mode = 1
+              AND t.status = '" . self::STATUS_COMPLETE . "'
+            ";
+            return self::model()->with('user', 'user.profile')->findAll($condition);
+
     }
 }
 

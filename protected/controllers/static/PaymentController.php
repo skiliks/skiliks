@@ -107,14 +107,6 @@ class PaymentController extends SiteBaseController
             $this->redirect('/registration');
         }
 
-        // is Anonymous
-        if ($user->isAnonymous()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
-            ));
-            $this->redirect('/registration/choose-account-type');
-        }
-
         // is Personal account
         if ($user->isPersonal()) {
             Yii::app()->user->setFlash('error',
