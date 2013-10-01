@@ -18,7 +18,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
     public function actionIndex()
     {
         $this->getBaseViewPath = 'PersonalData';
-
         $this->accountPagesBase();
     }
 
