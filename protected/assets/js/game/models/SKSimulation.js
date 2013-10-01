@@ -201,7 +201,7 @@ define([
             timeStringToMinutes: function(str) {
                 try {
                     if (str === undefined) {
-                        throw 'Time string is not defined';
+                        throw new Error ('Time string is not defined');
                     }
                     var parts = str.split(':');
                     return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
@@ -460,7 +460,7 @@ define([
                             win;
 
                         if (me.start_time !== undefined) {
-                            throw 'Simulation already started';
+                            throw new Error ('Simulation already started');
                         }
 
                         if ('undefined' !== typeof data.simId) {

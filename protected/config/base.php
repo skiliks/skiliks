@@ -210,6 +210,9 @@ return array(
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
                 'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
                 'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+                'help/general'                       => 'static/help/general',
+                'help/corporate'                     => 'static/help/corporate',
+                'help/personal'                      => 'static/help/personal',
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
                 'product-new'                        => 'static/pages/productNew',
                 'team-new'                           => 'static/pages/teamNew',
@@ -234,7 +237,7 @@ return array(
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
-                'profile/corporate/referrers'                => 'static/profile/corporateReferrers',
+                'profile/corporate/referrals'                => 'static/profile/corporateReferrals',
                 'profile/corporate/password/' => 'static/profile/corporatePassword',
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',

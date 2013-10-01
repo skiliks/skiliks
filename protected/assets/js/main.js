@@ -659,6 +659,17 @@ var fixLogotypes = function() {
             $("#cash-month-selected").val($( "#month-selected option:selected").val());
         });
 
+        $(".question-container li").click(function() {
+            if(!$(this).children("div").is(":visible")) {
+            $(this).children("div").slideDown("fast");
+            $(this).addClass("active");
+            }
+        else {
+            $(this).children("div").slideUp("fast");
+            $(this).removeClass("active");
+            }
+        })
+
     });
 })(jQuery);
 
