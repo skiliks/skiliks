@@ -727,20 +727,25 @@ class Simulation extends CActiveRecord
             }
         }
 
-        sort($allScores);
-        $allScores = array_reverse($allScores);
-
-        $thisAssessment = $this->getCategoryAssessmentWithoutRound();
-        if($thisAssessment !== null) {
-            $position = array_search($thisAssessment, $allScores);
-            $total = count($allScores);
-            if($total != 0) {
-                $lessThanMe = $total - $position;
-                $this->percentile = $lessThanMe/$total;
-            }
+        if(empty($allScores)) {
+            $this->percentile = 1.00;
         }
         else {
-            $this->percentile = null;
+            sort($allScores);
+            $allScores = array_reverse($allScores);
+
+            $thisAssessment = $this->getCategoryAssessmentWithoutRound();
+            if($thisAssessment !== null) {
+                $position = array_search($thisAssessment, $allScores);
+                $total = count($allScores);
+                if($total != 0) {
+                    $lessThanMe = $total - $position;
+                    $this->percentile = $lessThanMe/$total;
+                }
+            }
+            else {
+                $this->percentile = null;
+            }
         }
     }
 
