@@ -3,9 +3,8 @@
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
     </a>
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-       class="start-lite-simulation-btn light-btn">
-        Пройти демо (15 мин)
-    </a>
+       class="start-lite-simulation-btn light-btn">Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</a>
+
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
