@@ -288,6 +288,15 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->receiver_id = $profile->user->id;
             }
 
+            $existCorporateAccount = UserAccountCorporate::model()->findByAttributes(["corporate_email" => $invite->email]);
+            if($existCorporateAccount !== null) {
+                $validPrevalidate = false;
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'
+                ));
+            }
+
             if (null == $invite->vacancy && empty($vacancies)) {
                 $invite->clearErrors('vacancy_id');
                 $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
@@ -353,8 +362,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 ));
                 $this->sendInviteEmail($invite);
 
-
-                // TODO remake log to log different type of accounts
                 $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
 
                 // decline corporate user invites_limit
