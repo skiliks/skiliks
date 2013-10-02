@@ -61,14 +61,12 @@
                                             <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
                                                 создайте личный профиль
                                             </a> или
-                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
-                                                войдите в личный кабинет
-                                            </a> и примите приглашение на тестирование для прохождения симуляции.
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a>
+                                            и примите приглашение на тестирование для прохождения симуляции.
                                         <?php else: ?>
                                             Пожалуйста,
-                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">
-                                                зарегистрируйтесь
-                                            </a>, войдите в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $invite->getInviteLink() ?>">зарегистрируйтесь</a>,
+                                            войдите в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php endif; ?>
                                     </p>
                                 </td>
