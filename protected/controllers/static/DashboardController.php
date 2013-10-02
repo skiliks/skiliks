@@ -358,7 +358,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
                     $invite->email,
-                    $this->user->profile->email()
+                    $this->user->getAccount()->corporate_email
                 ));
                 $this->sendInviteEmail($invite);
 
