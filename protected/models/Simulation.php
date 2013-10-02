@@ -733,7 +733,7 @@ class Simulation extends CActiveRecord
             sprintf(' AND (t.value > %s) ', $this->getCategoryAssessmentWithoutRound())
         );
 
-        if ($all < 2) {
+        if (0 == $lessThanMe) {
             $this->percentile = 100;
         } else {
             $this->percentile = ($lessThanMe/$all)*100;
