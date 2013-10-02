@@ -420,16 +420,17 @@ class UserAuthController extends YumController
         if (false === Yii::app()->user->isGuest) {
             $this->redirect('/dashboard');
         }
+
+        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
         $user       = new YumUser('registration');
-        $profile    = new YumProfile('registration');
+        $profile    = new YumProfile((null !== $UserAccountCorporate)?'registration_corporate':'registration');
         $userPersonal       = new YumUser('registration');
         $profilePersonal    = new YumProfile('registration');
         $userCorporate       = new YumUser('registration');
         $profileCorporate    = new YumProfile('registration');
         $YumProfile = Yii::app()->request->getParam('YumProfile');
         $YumUser    = Yii::app()->request->getParam('YumUser');
-        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-        $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
 
         $profile->firstname = $YumProfile['firstname'];
         $profile->lastname  = $YumProfile['lastname'];
