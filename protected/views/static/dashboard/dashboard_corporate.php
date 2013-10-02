@@ -6,9 +6,17 @@
        class="start-lite-simulation-btn light-btn">
         Пройти демо (15 мин)
     </a>
-    <a href="#" class="invite-friend-popup-button light-btn">
-        Пригласить друга
-    </a>
+<!--    <a href="#" class="invite-friend-popup-button light-btn">-->
+<!--        Пригласить друга-->
+<!--    </a>-->
+
+    <span class="change-simulation-result-render">
+        <? if($user->profile->assessment_results_render_type == "standard") : ?>
+            Переключиться на процентиль
+        <? else : ?>
+            Переключиться на стандарт
+        <? endif ?>
+    </span>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>

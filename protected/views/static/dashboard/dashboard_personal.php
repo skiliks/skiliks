@@ -9,6 +9,15 @@
             <input type="submit"/>
         </div>
         */?>
+
+        <span class="change-simulation-result-render">
+        <? if($user->profile->assessment_results_render_type == "standard") : ?>
+            Переключиться на процентиль
+        <? else : ?>
+            Переключиться на стандарт
+        <? endif ?>
+    </span>
+
         <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
            class="start-lite-simulation-btn start-lite-simulation-btn-no-margin light-btn">Пройти демо (15 мин)
         </a>
