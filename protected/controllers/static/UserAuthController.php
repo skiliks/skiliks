@@ -690,7 +690,7 @@ class UserAuthController extends YumController
                 Yii::app()->user->login($login);
             }
 
-            $this->render(Yum::module('registration')->activationSuccessView, ['user'=>$YumProfile->user]);
+            $this->redirect('/dashboard');
         } else {
             if(Yii::app()->user->isGuest){
                 $this->layout = false;
