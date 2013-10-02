@@ -3,7 +3,7 @@
  * Удаляет все файлы которые не являются сводным бюджетом
  * Class DeleteNotD1Command
  */
-class PercentileСalculationCommand extends CConsoleCommand {
+class PercentileCalculationCommand extends CConsoleCommand {
 
     public function actionIndex()
     {
