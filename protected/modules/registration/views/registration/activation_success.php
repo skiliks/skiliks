@@ -5,7 +5,7 @@
             <div class="registermessage registerpads">
                 <a class="regicon <?php if($user->is_check == 1){ echo "icon-check"; }else{ echo "icon-chooce"; } ?>" id="registration_check" href="#"><span style="display: <?php if($user->is_check == 1){ echo "none";}else{ echo "block"; }?>"><?php echo Yii::t('site', 'Выбрать');?></a>
                 <h3>Демо-версия</h3>
-                <div class="testtime"><strong>15</strong> Минут</div>
+                <div class="testtime"><strong><?= Yii::app()->params['demoDuration'] ?></strong><br/></strong> Минут</div>
                 <ul>
                     <li>Погружение в игровую среду для понимания, как работает симуляция</li>
                     <li>Знакомство с интерфейсами</li>
