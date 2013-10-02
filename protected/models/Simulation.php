@@ -730,11 +730,15 @@ class Simulation extends CActiveRecord
         $lessThanMe = $this->countRealUsersSimulations(
             //' AND assessment_overall.value IS NOT NULL '.
             sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL) .
-            sprintf(' AND (t.value > %s) ', $this->getCategoryAssessmentWithoutRound())
+            sprintf(' AND (t.value <= %s) ', $this->getCategoryAssessmentWithoutRound())
         );
 
         if (0 == $lessThanMe) {
-            $this->percentile = 100;
+            if (1 == $all) {
+                $this->percentile = 100;
+            } else {
+                $this->percentile = 0;
+            }
         } else {
             $this->percentile = ($lessThanMe/$all)*100;
         }
