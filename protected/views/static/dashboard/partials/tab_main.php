@@ -1,5 +1,12 @@
 <div class="textcener"><h2 class="total">Итоговый рейтинг менеджера</h2></div>
 <div class="allsummry">
+    <div class="overall percentil_overall_container">
+            <span class="percentil_base">
+                <span class="percentil_overall" style="width:30%"></span>
+            </span>
+            <div class="percentil_text"></div>
+    </div>
+    <div class="clear: both"></div>
     <div class="estmtresults">
         <div class="overall">
             <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
@@ -63,6 +70,8 @@
 
             $('.overall .value').html(r(AR.overall || 0));
             $('.allrating').css('width', (AR.overall || 0) + '%');
+            $('.percentil_overall').css('width', (AR.percentile.total*100 || 0) + '%');
+            $('.percentil_text').html("P"+r(AR.percentile.total*100));
         }, 500);
     });
 

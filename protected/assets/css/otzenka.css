@@ -126,6 +126,13 @@
 .product .maincharts {
     margin-top: -34px;
 }
+
+.percentil_text {
+    left: 514px;
+    position: relative;
+    top: -17px;
+}
+
 .ratepercnt, .overall .ratepercnt {
     text-align: center;
 }
@@ -144,14 +151,47 @@
     text-align: center;
     vertical-align: top;
 }
+
 .overall div, .overall .allratebg {
     text-align: left;
+    margin-right: 10px;
 }
+
+.percentil_base, .percentil_overall {
+    width: 74px;
+    height: 18px;
+    background-image: url(../img/percentil_men_big.png);
+    display: inline-block;
+    background-position: 0px -18px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+}
+
+.percentil_base {
+    margin-right: 34px;
+}
+
+.percentil_overall {
+    background-position: 0px 0px;
+    float: left;
+}
+
+.percentil_overall_container {
+    height: 31px;
+    background: url(../img/mark-percentil-backogrund.png) no-repeat center top;
+    padding: 6px 0;
+    margin-bottom: 10px;
+}
+
 .estmtresults {
     height:130px;
 }
 .allsummry {
-    background: url("../img/resultsline-new.png") no-repeat center 26px;
+    background: url("../img/resultsline-new.png") no-repeat center 79px;
 }
 .allseprtwrap {
     position: relative;
@@ -1174,7 +1214,7 @@
 
 @media screen and (max-width: 1146px){
     .allsummry {
-        background-position: center 26px;
+        background-position: center 77px;
         background-size: 65%;
     }
     .allseprtwrap .ratepercnt {
@@ -1337,6 +1377,12 @@
     }
     .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
         margin-left: 20px;
+    }
+    .percentil_text {
+        left: 412px;
+        position: relative;
+        top: -17px;
+        font-size:13px;
     }
 }
 /*
