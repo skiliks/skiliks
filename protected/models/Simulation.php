@@ -758,6 +758,7 @@ class Simulation extends CActiveRecord
             $percentile->sim_id = $this->id;
             $percentile->value = $this->percentile;
         }
+        $percentile->save();
     }
 
     /**
