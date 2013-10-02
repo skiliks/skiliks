@@ -17,10 +17,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->layout = 'site_standard';
         $this->checkUser();
 
-        if (false === $this->user->isCorporate() ||
-            empty($this->user->account_corporate->is_corporate_email_verified)
-        ) {
-            $this->redirect('userAuth/afterRegistrationCorporate');
+        if (false === $this->user->isCorporate() || false === $this->user->isActive())
+        {
+            $this->redirect('userAuth/afterRegistration');
         }
 
         $vacancies = [];
@@ -57,7 +56,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->message = sprintf(
                 'Вопросы относительно позиции вы можете задать по адресу %s, куратор позиции - %s.',
-                $this->user->account_corporate->corporate_email,
+                $this->user->profile->email,
                 $this->user->getFormattedName()
             );
 
@@ -172,10 +171,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     {
         $this->checkUser();
 
-        if (false === $this->user->isCorporate() ||
-            empty($this->user->account_corporate->is_corporate_email_verified)
-        ) {
-            $this->redirect('userAuth/afterRegistrationCorporate');
+        if (false === $this->user->isCorporate() ||  false === $this->user->isActive()){
+            $this->redirect('userAuth/afterRegistration');
         }
 
         // getting user popup
@@ -306,7 +303,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $invite->message = sprintf(
                 $this->user->account_corporate->default_invitation_mail_text,
-                $this->user->account_corporate->corporate_email,
+                $this->user->profile->email,
                 $this->user->getFormattedName()
             );
 
@@ -349,7 +346,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->save();
-                InviteService::logAboutInviteStatus($invite, 'invite : create : standard');
+                InviteService::logAboutInviteStatus($invite, sprintf(
+                    'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
+                    $invite->email,
+                    $this->user->profile->email()
+                ));
                 $this->sendInviteEmail($invite);
 
 

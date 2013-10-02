@@ -185,12 +185,9 @@ return array(
 
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
-                'registration-new'                               => 'static/userAuth/registrationNew',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
                 'register-referal/<refId:\d+>'                   => 'static/userAuth/registerReferral',
-                'registration/choose-account-type'               => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
-                'registration/confirm-corporate-email'           => 'static/userAuth/ConfirmCorporateEmail',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
@@ -219,7 +216,6 @@ return array(
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
                 'product-new'                        => 'static/pages/productNew',
                 'team-new'                           => 'static/pages/teamNew',
-                'old-browser-new'                    => 'static/pages/teamNew',
                 'home-new'                           => 'static/pages/homeNew',
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
                 'static/tariffs-new'                 => 'static/pages/tariffsNew',
@@ -425,6 +421,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
             'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,

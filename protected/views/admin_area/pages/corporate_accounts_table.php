@@ -3,6 +3,7 @@
     'Имя и фамилия',
     'Личный, Корпоративный email-ы',
     'Название компании',
+    'Статус',
     'Количество приглашений',
     'Тарифный план',
     'Дата регистрации /<br/>Дата последнего посещения',
@@ -56,12 +57,13 @@
                     <?= $account->user->profile->lastname ?>
                 </td>
                 <td>
-                    <?= $account->user->profile->email ?>,
-                    <br/>
-                    <?= $account->corporate_email ?>
+                    <?= $account->user->profile->email ?>
                 </td>
                 <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
-                <td><?= $account->invites_limit ?></td>
+                <td style="width: 50px;">
+                    <?= $account->user->getStatusLabel() ?>
+                </td>
+                <td style="text-align: center;"><?= $account->invites_limit ?></td>
                 <td>
                     <?= ($account->tariff) ? $account->tariff->label : '--' ?>
                     <div class="btn-group">

@@ -32,8 +32,8 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-                <strong class="font-large"><?php echo $account->corporate_email; ?></strong>
+                <?php echo $form->labelEx($profile  , 'email'); ?>
+                <strong class="font-large"><?php echo $profile->email; ?></strong>
             </div>
 
             <div class="row row-selects">

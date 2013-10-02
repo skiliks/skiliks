@@ -169,15 +169,10 @@
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getOverall())
                         ? $simulation->invite->getOverall() : '--'; ?>
                 </td>
-
                 <td>
-                    <a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/site-logs">
-                        Смотреть логи сайта
-                    </a>
-                    &nbsp;&nbsp;
-                    <a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/requests">
-                        Смотреть запросы
-                    </a>
+                    <?php $this->renderPartial('//admin_area/partials/_simulation_log_buttons', [
+                        'simulation' => $simulation,
+                    ]) ?>
                 </td>
                 <td>
                     <?= $simulation->is_emergency_panel_allowed ? 'Разрешена' : 'Запрешена' ?>

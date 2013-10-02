@@ -234,8 +234,9 @@ class YumProfile extends YumActiveRecord
     }
 
     public function emailIsUsedForCorporateAccount($attribute) {
-        $existAccount = UserAccountCorporate::model()->findByAttributes([
-            'corporate_email' => $this->email
+
+        $existAccount = $this->findByAttributes([
+            'email' => $this->email
         ]);
 
         if ($existAccount !== NULL) {
