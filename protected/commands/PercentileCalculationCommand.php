@@ -15,7 +15,7 @@ class PercentileCalculationCommand extends CConsoleCommand {
         foreach($simulations as $simulation) {
             $simulation->calculatePercentile();
             $simulation->save();
-            echo '.';
+            echo $simulation->percentile."\n";
         }
 
         echo "\nDone!\n";

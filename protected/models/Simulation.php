@@ -748,7 +748,7 @@ class Simulation extends CActiveRecord
             $this->getCategoryAssessmentWithoutRound()
         );
 
-        $this->save();
+        //$this->save();
 
         $percentile = AssessmentOverall::model()->findByAttributes([
             'assessment_category_code' => AssessmentCategory::PERCENTILE,
@@ -761,7 +761,7 @@ class Simulation extends CActiveRecord
             $percentile->sim_id = $this->id;
             $percentile->value = $this->percentile;
         }
-        $percentile->save();
+        //$percentile->save();
 
         /*$allScores = [];
         $simulations = $this->getRealUsersSimulations();
