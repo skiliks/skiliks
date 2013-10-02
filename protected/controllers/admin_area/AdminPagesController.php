@@ -666,14 +666,14 @@ class AdminPagesController extends SiteBaseController {
 
         $criteria = new CDbCriteria;
 
-        $criteria->join = "JOIN user_account_corporate ON user_account_corporate.user_id = t.user_id";
+        $criteria->join = "JOIN profile ON profile.user_id = t.user_id";
 
         // applying filters
         $filterEmail = Yii::app()->request->getParam('email', null);
 
         if($filterEmail !== null) {
             $filterEmail = trim($filterEmail);
-            $criteria->addSearchCondition("user_account_corporate.corporate_email", $filterEmail);
+            $criteria->addSearchCondition("profile.email", $filterEmail);
         }
 
         // appying payment method filters
@@ -1081,7 +1081,8 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/corporate_accounts_table', [
             'accounts' => UserAccountCorporate::model()->findAll([
                 "limit"  => $this->itemsOnPage,
-                "offset" => ($page-1)*$this->itemsOnPage
+                "offset" => ($page-1)*$this->itemsOnPage,
+                "order"  => ' user_id DESC ',
             ]),
             'page'        => $page,
             'pager'       => $pager,

@@ -447,7 +447,7 @@ class Invite extends CActiveRecord
         if ($this->ownerUser &&
             $this->ownerUser->account_corporate &&
             $this->email &&
-            $this->ownerUser->account_corporate->corporate_email == $this->email
+            $this->ownerUser->profile->email == $this->email
         ) {
             $this->addError('email', Yii::t('site', 'Действие не возможно'));
         }

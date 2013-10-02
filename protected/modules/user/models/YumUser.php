@@ -807,20 +807,6 @@ class YumUser extends YumActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function getCorporationEmailVerificationUrl()
-    {
-        if ($this->isCorporate() && null !== $this->getAccount()->corporate_email) {
-            @ $url = Yii::app()->createAbsoluteUrl('registration/confirm-corporate-email');
-
-            return $url.'?activation-code='. $this->getAccount()->corporate_email_activation_code;
-        }
-
-        return Yii::t('site', 'Activation Url cannot be retrieved');
-    }
-
-    /**
      * @return bool
      */
     public function isPasswordExpired()
@@ -1047,4 +1033,21 @@ class YumUser extends YumActiveRecord
         //Yii::app()->session['uid'] = $this->id;
     }
 
+    public function getStatusLabel()
+    {
+        switch ($this->status) {
+            case self::STATUS_INACTIVE:
+                return 'не активен';
+                break;
+            case self::STATUS_ACTIVE:
+                return 'активен';
+                break;
+            case self::STATUS_BANNED:
+                return 'в бане';
+                break;
+            case self::STATUS_REMOVED:
+                return 'удалён';
+                break;
+        }
+    }
 }

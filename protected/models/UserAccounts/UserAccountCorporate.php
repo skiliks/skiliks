@@ -72,20 +72,6 @@ class UserAccountCorporate extends CActiveRecord
     /**
      * @return string
      */
-    public function generateActivationKey()
-    {
-        $this->corporate_email_activation_code = YumEncrypt::encrypt(microtime().$this->corporate_email, $this->user->salt);
-
-        if (!$this->isNewRecord) {
-            $this->save(false, array('activationKey'));
-        }
-
-        return $this->corporate_email_activation_code;
-    }
-
-    /**
-     * @return string
-     */
     public function getCompanyName()
     {
         if (null == $this->ownership_type && null == $this->company_name) {
@@ -195,6 +181,11 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function isCorporateEmail($attribute)
     {
+        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
+        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
+            return;
+        }
+
         if(false == UserService::isCorporateEmail($this->$attribute)) {
             $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
         }

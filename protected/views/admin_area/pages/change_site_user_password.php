@@ -6,12 +6,7 @@
 
 <br/>
 
-Личная почта: <?= $siteUser->profile->email ?>
-
-<?php if (null !== $siteUser->account_corporate): ?>
-    <br/>
-    Корпоративная почта: <?= $siteUser->account_corporate->corporate_email ?>
-<?php endif ?>
+Почта: <?= $siteUser->profile->email ?>
 
 <br/>
 <br/>

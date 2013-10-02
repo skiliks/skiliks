@@ -28,12 +28,8 @@
             <td><?= $account->user->profile->firstname ?> <?= $account->user->profile->lastname ?></td>
         </tr>
         <tr>
-            <td>Личный email</td>
+            <td>email</td>
             <td><?= $account->user->profile->email ?></td>
-        </tr>
-        <tr>
-            <td>Корпоративный email</td>
-            <td><?= $account->corporate_email ?></td>
         </tr>
     <table>
 
