@@ -9,9 +9,9 @@
 /* @var $simulation Simulation */
 ?>
 
-<? $user = Yii::app()->user->data(); ?>
+<?php $user = Yii::app()->user->data(); ?>
 
-<? if($user->profile->assessment_results_render_type == "standard") :?>
+<?php if($user->profile->assessment_results_render_type == "standard") :?>
     <p>
         <?php if ($isSimComplete): ?>
             <?php if($isDisplayTitle): ?>
@@ -22,6 +22,6 @@
             <?php endif ?>
         <?php endif; ?>
     </p>
-<? else : ?>
+<?php else : ?>
     <?= round($simulation->percentile)*100 ?>
-<? endif; ?>
+<?php endif; ?>

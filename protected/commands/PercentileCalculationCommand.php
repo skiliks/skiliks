@@ -10,11 +10,14 @@ class PercentileСalculationCommand extends CConsoleCommand {
 
         $simulations = Simulation::model()->getRealUsersSimulations();
 
+        echo "Start\n";
+
         foreach($simulations as $simulation) {
             $simulation->calculatePercentile();
             $simulation->save();
+            echo '.';
         }
 
-        echo "Done!";
+        echo "\nDone!\n";
     }
 }

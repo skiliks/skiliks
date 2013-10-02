@@ -150,7 +150,7 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td>
             Вид оценки:
-            <? if($user->profile->assessment_results_render_type == "standard")  {
+            <?php if($user->profile->assessment_results_render_type == "standard")  {
                 echo "Стандарт";
             }
             else {

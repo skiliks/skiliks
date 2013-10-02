@@ -220,11 +220,11 @@ $titles = [
             </td>
 
             <td><?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
-                <? if($invite->simulation === null || $invite->simulation->percentile === null) : ?>
+                <?php if($invite->simulation === null || $invite->simulation->percentile === null) : ?>
                     --
-                <? else : ?>
+                <?php else : ?>
                     <?= $invite->simulation->percentile ?>
-                <? endif; ?>
+                <?php endif; ?>
             </td>
 
             <td>

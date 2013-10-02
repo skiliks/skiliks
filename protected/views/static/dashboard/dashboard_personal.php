@@ -11,11 +11,11 @@
         */?>
 
         <span class="change-simulation-result-render">
-        <? if($user->profile->assessment_results_render_type == "standard") : ?>
+        <?php if($user->profile->assessment_results_render_type == "standard") : ?>
             Переключиться на процентиль
-        <? else : ?>
+        <?php else : ?>
             Переключиться на стандарт
-        <? endif ?>
+        <?php endif ?>
     </span>
 
         <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
