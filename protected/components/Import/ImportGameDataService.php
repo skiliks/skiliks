@@ -2974,6 +2974,36 @@ class ImportGameDataService
         $scenarioConfig->import_id = $this->import_id;
         $scenarioConfig->save(false);
 
+//        // TODO: Hardcode. Time should be defined in scenario file
+//        if ($this->scenario->slug == Scenario::TYPE_LITE) {
+//            $this->scenario->start_time = '9:45:00'; $scenarioConfig->game_start_timestamp;
+//            $this->scenario->end_time = '11:05:00'; $scenarioConfig->game_end_workday_timestamp;
+//            $this->scenario->finish_time = '11:05:00'; $scenarioConfig->game_end_timestamp;
+//            $this->scenario->duration_in_game_min = 80;
+//        } elseif ($this->scenario->slug == Scenario::TYPE_FULL) {
+//            $this->scenario->start_time = '9:45:00';
+//            $this->scenario->end_time = '18:00:00';
+//            $this->scenario->finish_time = '20:00:00';
+//            $this->scenario->duration_in_game_min = 495;
+//        } elseif ($this->scenario->slug == Scenario::TYPE_TUTORIAL) {
+//            $this->scenario->start_time = '9:45:00';
+//            $this->scenario->end_time = '12:45:00';
+//            $this->scenario->finish_time = '12:45:00';
+//            $this->scenario->duration_in_game_min = 180;
+//        }
+
+        // update scenario object TIME options {
+        $this->scenario->start_time = $scenarioConfig->game_start_timestamp;
+        $this->scenario->end_time = $scenarioConfig->game_end_workday_timestamp;
+        $this->scenario->finish_time = $scenarioConfig->game_end_timestamp;
+
+        $startTimeArray = explode(':', $scenarioConfig->game_start_timestamp);
+        $endWorkdayTimeArray = explode(':', $scenarioConfig->game_end_workday_timestamp);
+        $this->scenario->duration_in_game_min = $endWorkdayTimeArray[0]*60 + $endWorkdayTimeArray[1]
+            - $startTimeArray[0]*60 - $startTimeArray[1];
+        $this->scenario->save();
+        // update scenario object TIME options }
+
         // delete old unused data {
         ScenarioConfig::model()->deleteAll(
             'import_id <> :import_id AND scenario_id = :scenario_id',
