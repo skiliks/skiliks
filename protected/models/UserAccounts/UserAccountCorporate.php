@@ -51,7 +51,10 @@ class UserAccountCorporate extends CActiveRecord
         $this->invites_limit = $tariff->simulations_amount;
 
         if ($isSave) {
-            $this->save();
+
+            if(false === $this->save(false)){
+                throw new Exception("Not save Tariff");
+            }
 
             UserService::logCorporateInviteMovementAdd(
                 'Account setTariff and save',
