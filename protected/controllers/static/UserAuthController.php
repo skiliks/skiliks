@@ -85,6 +85,7 @@ class UserAuthController extends YumController
 
                         $profile->save();
                         $this->user->status = YumUser::STATUS_ACTIVE;
+                        $this->user->update();
                         $referrer->referral_id = $accountCorporate->user_id = $this->user->id;
                         $referral = YumUser::model()->findByPk($referrer->referrer_id);
                         $referral->getAccount()->addReferralInvite($profile->email);
@@ -95,10 +96,6 @@ class UserAuthController extends YumController
 
                         $referrer->registered_at = date("Y-m-d H:i:s");
                         $referrer->save(false);
-
-
-
-                        $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
                         YumUser::activate($profile->email, $this->user->activationKey);
                         $this->user->authenticate($YumUser['password']);
@@ -716,6 +713,7 @@ class UserAuthController extends YumController
 
         if ($profile && !$profile->user->isActive()) {
             $this->sendRegistrationEmail($profile->user);
+            Yii::app()->session->add("email", $profile->email);
             $this->redirect(['afterRegistration']);
         } else {
             $this->redirect('/');
