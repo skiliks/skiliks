@@ -86,7 +86,8 @@ class Invite extends CActiveRecord
     public function getReceiverFirstName()
     {
 
-        return (null !== $this->receiverUser && $this->receiverUser->isActive()) ? $this->receiverUser->profile->firstname : $this->firstname;
+        return (null !== $this->receiverUser && $this->receiverUser->isActive() && $this->receiverUser->getAccountType() !== null)
+               ? $this->receiverUser->profile->firstname : $this->firstname;
     }
 
     /**
