@@ -221,7 +221,6 @@ $titles = [
 
             <td><?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
                 <?= null === $invite->simulation->percentile ? '--' : $invite->simulation->percentile ?>
-
             </td>
 
             <td>
