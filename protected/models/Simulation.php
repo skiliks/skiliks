@@ -777,6 +777,7 @@ class Simulation extends CActiveRecord
             $this->percentile = 100;
         }
         else {
+
             sort($allScores);
             $allScores = array_reverse($allScores);
 
@@ -823,6 +824,7 @@ class Simulation extends CActiveRecord
             "'tatyana_pryan@mail.ru'",
         ];
 
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $condition = " profile.email NOT LIKE '%gty1991%' ".
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
@@ -830,7 +832,8 @@ class Simulation extends CActiveRecord
             " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND t.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', $developersEmails).")
-              AND t.mode = 1
+              AND t.mode = ".self::MODE_PROMO_ID."
+              AND t.scenario_id = " . $scenario->id . "
               AND t.status = '" . self::STATUS_COMPLETE . "'
             ";
             return self::model()->with('user', 'user.profile')->findAll($condition);

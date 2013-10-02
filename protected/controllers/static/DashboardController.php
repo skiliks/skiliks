@@ -281,19 +281,19 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $invite->is_display_simulation_results = false;
             $invite->email = trim($invite->email);
 
-            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
-            if ($profile) {
-                $invite->receiver_id = $profile->user->id;
-            }
-
-            $existCorporateAccount = YumProfiles::model()->findByAttributes(["email" => $invite->email]);
+            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
             if($existCorporateAccount !== null) {
                 $validPrevalidate = false;
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
                      приглашения только персональным и незарегистрированным пользователям'
                 ));
+            }
+
+            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+            if ($profile) {
+                $invite->receiver_id = $profile->user->id;
             }
 
             if (null == $invite->vacancy && empty($vacancies)) {
@@ -321,64 +321,77 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
-            // beacause of unkown reason is_display_simulation_results lost after $invite->attributes
-            $is_display_results = Yii::app()->request->getParam('Invite')['is_display_simulation_results'];
-            $invite->attributes = Yii::app()->request->getParam('Invite');
-            $invite->code = uniqid(md5(mt_rand()));
-            $invite->owner_id = $this->user->id;
-            $invite->can_be_reloaded = true;
 
-            // What happens if user is registered, but not activated??
-            $profile = YumProfile::model()->findByAttributes([
-                'email' => $invite->email
-            ]);
-            if ($profile) {
-                $invite->receiver_id = $profile->user->id;
+            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
+            if($existCorporateAccount !== null) {
+                $validPrevalidate = false;
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'
+                ));
             }
 
-            $invite->scenario_id = Scenario::model()
-                ->findByAttributes(['slug' => Scenario::TYPE_FULL])
-                ->getPrimaryKey();
+            else {
 
-            $invite->tutorial_scenario_id = Scenario::model()
-                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
-                ->getPrimaryKey();
+                // beacause of unkown reason is_display_simulation_results lost after $invite->attributes
+                $is_display_results = Yii::app()->request->getParam('Invite')['is_display_simulation_results'];
+                $invite->attributes = Yii::app()->request->getParam('Invite');
+                $invite->code = uniqid(md5(mt_rand()));
+                $invite->owner_id = $this->user->id;
+                $invite->can_be_reloaded = true;
 
-            // send invitation
-            if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
-                $invite->markAsSendToday();
-                $this->user->account_corporate->default_invitation_mail_text = $invite->message;
-                $this->user->account_corporate->save();
-                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
-                $invite->is_display_simulation_results = (int) !$is_display_results;
-                $invite->save();
-                InviteService::logAboutInviteStatus($invite, sprintf(
-                    'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
-                    $invite->email,
-                    $this->user->profile->email
-                ));
-                $this->sendInviteEmail($invite);
+                // What happens if user is registered, but not activated??
+                $profile = YumProfile::model()->findByAttributes([
+                    'email' => $invite->email
+                ]);
+                if ($profile) {
+                    $invite->receiver_id = $profile->user->id;
+                }
 
-                $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
+                $invite->scenario_id = Scenario::model()
+                    ->findByAttributes(['slug' => Scenario::TYPE_FULL])
+                    ->getPrimaryKey();
 
-                // decline corporate user invites_limit
-                $this->user->getAccount()->decreaseLimit();
-                $this->user->getAccount()->save();
-                $this->user->refresh();
+                $invite->tutorial_scenario_id = Scenario::model()
+                    ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
+                    ->getPrimaryKey();
 
-                UserService::logCorporateInviteMovementAdd(
-                    'send invitation 2',
-                    $this->user->getAccount(),
-                    $initValue
-                );
+                // send invitation
+                if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
+                    $invite->markAsSendToday();
+                    $this->user->account_corporate->default_invitation_mail_text = $invite->message;
+                    $this->user->account_corporate->save();
+                    $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
+                    $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
+                    $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
+                    $invite->is_display_simulation_results = (int) !$is_display_results;
+                    $invite->save();
+                    InviteService::logAboutInviteStatus($invite, sprintf(
+                        'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
+                        $invite->email,
+                        $this->user->profile->email
+                    ));
+                    $this->sendInviteEmail($invite);
 
-                $this->redirect('/dashboard');
-            } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                    $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
+
+                    // decline corporate user invites_limit
+                    $this->user->getAccount()->decreaseLimit();
+                    $this->user->getAccount()->save();
+                    $this->user->refresh();
+
+                    UserService::logCorporateInviteMovementAdd(
+                        'send invitation 2',
+                        $this->user->getAccount(),
+                        $initValue
+                    );
+
+                    $this->redirect('/dashboard');
+                } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
+                    Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
+                } else {
+                    Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                }
             }
         }
         // handle send invitation }
