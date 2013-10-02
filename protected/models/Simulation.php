@@ -724,16 +724,20 @@ class Simulation extends CActiveRecord
             return;
         }
 
-        $all = $this->countRealUsersSimulations(
-            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL)
-        );
-        $lessThanMe = $this->countRealUsersSimulations(
-            //' AND assessment_overall.value IS NOT NULL '.
-            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL) .
-            sprintf(' AND (t.value <= %s) ', $this->getCategoryAssessmentWithoutRound())
-        );
+        // считаем количесво пользователей пошедших симуляцию, не разработчиков
+        $realUsersCondition = $this->getSimulationRealUsersCondition();
+        $all = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
+            ->count($realUsersCondition);
+
+        // считаем количесво пользователей пошедших симуляцию, не разработчиков
+        // но у которых оценка меньще или равна оценке за текущую симуляцию
+        $lessThanMeCondition = $realUsersCondition .
+            sprintf(' AND (t.value <= %s) ', $this->getCategoryAssessmentWithoutRound());
+        $lessThanMe = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
+            ->count($lessThanMeCondition);
 
         if (0 == $lessThanMe) {
+            // случай с первым пользователем (после реинициализации БД будет  пройденных симуляций)
             if (1 == $all) {
                 $this->percentile = 100;
             } else {
@@ -742,17 +746,6 @@ class Simulation extends CActiveRecord
         } else {
             $this->percentile = ($lessThanMe/$all)*100;
         }
-
-//        echo sprintf("%s ___ %s ___ %s ___ %s ___ %s ___ %s ___ \n",
-//            $this->invite->ownerUser->profile->email,
-//            $this->user->profile->email,
-//            $this->percentile,
-//            $lessThanMe,
-//            $all,
-//            $this->getCategoryAssessmentWithoutRound()
-//        );
-
-        //$this->save();
 
         $percentile = AssessmentOverall::model()->findByAttributes([
             'assessment_category_code' => AssessmentCategory::PERCENTILE,
@@ -765,39 +758,6 @@ class Simulation extends CActiveRecord
             $percentile->sim_id = $this->id;
             $percentile->value = $this->percentile;
         }
-        //$percentile->save();
-
-        /*$allScores = [];
-        $simulations = $this->getRealUsersSimulations();
-
-        foreach($simulations as $simulation) {
-            $categoryAssessment = $simulation->getCategoryAssessmentWithoutRound();
-            if($categoryAssessment !== null) {
-                $allScores[] = $simulation->getCategoryAssessmentWithoutRound();
-            }
-        }
-
-        if(empty($allScores)) {
-            $this->percentile = 100;
-        }
-        else {
-
-            sort($allScores);
-            $allScores = array_reverse($allScores);
-
-            $thisAssessment = $this->getCategoryAssessmentWithoutRound();
-            if($thisAssessment !== null) {
-                $position = array_search($thisAssessment, $allScores);
-                $total = count($allScores);
-                if($total != 0) {
-                    $lessThanMe = $total - $position;
-                    $this->percentile = ($lessThanMe/$total)*100;
-                }
-            }
-            else {
-                $this->percentile = null;
-            }
-        }*/
     }
 
     /**
@@ -825,7 +785,6 @@ class Simulation extends CActiveRecord
             "'N_ninok1985@mail.ru'",
             "'tony.pryanichnikov@gmail.com'",
             "'svetaswork@gmail.com'",
-            "'tatyana_pryan@mail.ru'",
         ];
 
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
@@ -833,22 +792,24 @@ class Simulation extends CActiveRecord
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
             " AND profile.email NOT LIKE '%@rmqkr.net' ".
-            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND t.start > '2013-08-01 00:00:00' ".
-            " AND profile.email NOT IN (".implode(',', $developersEmails).")
-              AND t.mode = ".self::MODE_PROMO_ID."
-              AND t.scenario_id = " . $scenario->id . "
-              AND t.status = '" . self::STATUS_COMPLETE . "'
-            ";
-            return self::model()->with('user', 'user.profile')->findAll($condition);
+            " AND profile.email NOT IN (".implode(',', $developersEmails).") " .
+            " AND t.mode = ".self::MODE_PROMO_ID.
+            " AND t.scenario_id = " . $scenario->id .
+            " AND t.status = '" . self::STATUS_COMPLETE . "' ";
+        return self::model()->with('user', 'user.profile')->findAll($condition);
     }
 
     /**
+     * Метод возвращает критерий для поиска всех завершенных, полных
+     * симуляций реальных пользователей
+     *
      * @param string $additionalCondition
      *
-     * @return CDbDataReader|mixed|resource|string
+     * @return array|CActiveRecord|mixed|null
+     *
      */
-    public function countRealUsersSimulations($additionalCondition = '') {
+    public function getSimulationRealUsersCondition($additionalCondition = '') {
         $developersEmails = [
             "'r.kilimov@gmail.com'",
             "'andrey@kostenko.name'",
@@ -871,6 +832,8 @@ class Simulation extends CActiveRecord
             "'tatyana_pryan@mail.ru'",
         ];
 
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
         $condition = " profile.email NOT LIKE '%gty1991%' ".
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
@@ -878,11 +841,14 @@ class Simulation extends CActiveRecord
             " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND sim.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', $developersEmails).")
-              AND sim.mode = 1
-              AND sim.status = '" . self::STATUS_COMPLETE . "' " .
-            $additionalCondition;
-        return AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')->count($condition);
-        //return self::model()->with('user', 'user.profile', 'assessment_overall')->count($condition);
+              AND sim.mode = ".self::MODE_PROMO_ID."
+              AND sim.scenario_id = " . $fullScenario->id . "
+              AND sim.status = '" . self::STATUS_COMPLETE . "'" .
+            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL) .
+            $additionalCondition
+        ;
+
+        return $condition;
     }
 }
 
