@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'assessment_overall':
  * @property integer $id
  * @property integer $sim_id
- * @property string $assessment_category_code
  * @property float $value
  *
  * The followings are the available model relations:
@@ -62,7 +61,6 @@ class AssessmentOverall extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'assessmentCategoryCode' => array(self::BELONGS_TO, 'AssessmentCategory', 'assessment_category_code'),
 			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 		);
 	}
