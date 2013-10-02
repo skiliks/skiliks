@@ -785,6 +785,7 @@ class Simulation extends CActiveRecord
             "'N_ninok1985@mail.ru'",
             "'tony.pryanichnikov@gmail.com'",
             "'svetaswork@gmail.com'",
+            "'tatyana_pryan@mail.ru'",
         ];
 
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
@@ -792,6 +793,7 @@ class Simulation extends CActiveRecord
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
             " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND t.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', $developersEmails).") " .
             " AND t.mode = ".self::MODE_PROMO_ID.
