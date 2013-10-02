@@ -151,7 +151,7 @@
 
         <?php $this->endWidget(); ?>
     </div>
-    <? $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa, "tariff" => $tariff]); ?>
+    <?php $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa, "tariff" => $tariff]); ?>
 
     <script>
         $("input[type='submit']").click(function(e) {

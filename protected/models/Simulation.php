@@ -715,9 +715,55 @@ class Simulation extends CActiveRecord
         return isset($lastLog) ? $lastLog->backend_game_time : null;
     }
 
-    public function calculatePercentile() {
+    /**
+     *
+     */
+    public function calculatePercentile()
+    {
+        if (0 == $this->getCategoryAssessmentWithoutRound()) {
+            return;
+        }
 
-        $allScores = [];
+        $all = $this->countRealUsersSimulations(
+            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL)
+        );
+        $lessThanMe = $this->countRealUsersSimulations(
+            //' AND assessment_overall.value IS NOT NULL '.
+            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL) .
+            sprintf(' AND (t.value > %s) ', $this->getCategoryAssessmentWithoutRound())
+        );
+
+        if ($all < 2) {
+            $this->percentile = 100;
+        } else {
+            $this->percentile = ($lessThanMe/$all)*100;
+        }
+
+//        echo sprintf("%s ___ %s ___ %s ___ %s ___ %s ___ %s ___ \n",
+//            $this->invite->ownerUser->profile->email,
+//            $this->user->profile->email,
+//            $this->percentile,
+//            $lessThanMe,
+//            $all,
+//            $this->getCategoryAssessmentWithoutRound()
+//        );
+
+        $this->save();
+
+        $percentile = AssessmentOverall::model()->findByAttributes([
+            'assessment_category_code' => AssessmentCategory::PERCENTILE,
+            'sim_id'                   => $this->id
+        ]);
+
+        if (null == $percentile) {
+            $percentile = new AssessmentOverall();
+            $percentile->assessment_category_code = AssessmentCategory::PERCENTILE;
+            $percentile->sim_id = $this->id;
+            $percentile->value = $this->percentile;
+        }
+        $percentile->save();
+
+        /*$allScores = [];
         $simulations = $this->getRealUsersSimulations();
 
         foreach($simulations as $simulation) {
@@ -728,7 +774,7 @@ class Simulation extends CActiveRecord
         }
 
         if(empty($allScores)) {
-            $this->percentile = 1.00;
+            $this->percentile = 100;
         }
         else {
             sort($allScores);
@@ -740,13 +786,13 @@ class Simulation extends CActiveRecord
                 $total = count($allScores);
                 if($total != 0) {
                     $lessThanMe = $total - $position;
-                    $this->percentile = $lessThanMe/$total;
+                    $this->percentile = ($lessThanMe/$total)*100;
                 }
             }
             else {
                 $this->percentile = null;
             }
-        }
+        }*/
     }
 
     /**
@@ -774,18 +820,62 @@ class Simulation extends CActiveRecord
             "'N_ninok1985@mail.ru'",
             "'tony.pryanichnikov@gmail.com'",
             "'svetaswork@gmail.com'",
+            "'tatyana_pryan@mail.ru'",
         ];
 
         $condition = " profile.email NOT LIKE '%gty1991%' ".
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
             " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND t.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', $developersEmails).")
               AND t.mode = 1
               AND t.status = '" . self::STATUS_COMPLETE . "'
             ";
             return self::model()->with('user', 'user.profile')->findAll($condition);
+    }
+
+    /**
+     * @param string $additionalCondition
+     *
+     * @return CDbDataReader|mixed|resource|string
+     */
+    public function countRealUsersSimulations($additionalCondition = '') {
+        $developersEmails = [
+            "'r.kilimov@gmail.com'",
+            "'andrey@kostenko.name'",
+            "'personal@kostenko.name'",
+            "'a.levina@gmail.com'",
+            "'gorina.mv@gmail.com'",
+            "'v.logunov@yahoo.com'",
+            "'nikoolin@ukr.net'",
+            "'leah.levina@gmail.com'",
+            "'lea.skiliks@gmail.com'",
+            "'andrey3@kostenko.name'",
+            "'skiltests@yandex.ru'",
+            "'didmytime@bk.ru'",
+            "'gva08@yandex.ru'",
+            "'tony_acm@ukr.net'",
+            "'tony_perfectus@mail.ru'",
+            "'N_ninok1985@mail.ru'",
+            "'tony.pryanichnikov@gmail.com'",
+            "'svetaswork@gmail.com'",
+            "'tatyana_pryan@mail.ru'",
+        ];
+
+        $condition = " profile.email NOT LIKE '%gty1991%' ".
+            " AND profile.email NOT LIKE '%@skiliks.com' ".
+            " AND profile.email NOT LIKE '%@drdrb.com' ".
+            " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
+            " AND sim.start > '2013-08-01 00:00:00' ".
+            " AND profile.email NOT IN (".implode(',', $developersEmails).")
+              AND sim.mode = 1
+              AND sim.status = '" . self::STATUS_COMPLETE . "' " .
+            $additionalCondition;
+        return AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')->count($condition);
+        //return self::model()->with('user', 'user.profile', 'assessment_overall')->count($condition);
     }
 }
 

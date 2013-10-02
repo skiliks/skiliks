@@ -29,11 +29,11 @@
                         <button class="btn btn-uncheck-all">Снять все</button>
                     </td>
                     <td><input type="checkbox" name="cash" id="cash" value="cash"
-                               <? if($filters["cash"] !== null) : ?>checked <? endif; ?>>
+                               <?php if($filters["cash"] !== null) : ?>checked <?php endif; ?>>
                         <label for="cash">Оплата по счету</label>
                     </td>
                     <td><input type="checkbox" name="robokassa" id="robokassa" value="robokassa"
-                               <? if($filters["robokassa"] !== null) : ?>checked <? endif; ?>>
+                               <?php if($filters["robokassa"] !== null) : ?>checked <?php endif; ?>>
                         <label for="robokassa">Оплата робокассой</label>
                     </td>
                 </tr>
@@ -45,10 +45,10 @@
                         <button class="btn btn-uncheck-all">Снять все</button>
                     </td>
                     <td><input type="checkbox" name="done" id="done" value="done"
-                               <? if($filters["done"] !== null) : ?>checked <? endif; ?>>
+                               <?php if($filters["done"] !== null) : ?>checked <?php endif; ?>>
                         <label for="done">Проведенные</label></td>
                     <td><input type="checkbox" name="notDone" id="notDone" value="notDone"
-                               <? if($filters["notDone"] !== null) : ?>checked <? endif; ?>>
+                               <?php if($filters["notDone"] !== null) : ?>checked <?php endif; ?>>
                         <label for="notDone">Не проведенные</label>
                     </td>
                 </tr>
@@ -114,9 +114,9 @@
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
             <td><?= $model->payment_system?></td>
             <td>
-                <? if(json_decode($model->additional_data) instanceof stdClass) : ?>
-                    <? foreach(json_decode($model->additional_data) as $key => $value) : ?>
-                        <? switch($key) {
+                <?php if(json_decode($model->additional_data) instanceof stdClass) : ?>
+                    <?php foreach(json_decode($model->additional_data) as $key => $value) : ?>
+                        <?php switch($key) {
 
                             case "inn" :
                                 echo "ИНН: ";
@@ -137,10 +137,10 @@
 
                         echo $value, "<br/>";
                     ?>
-                    <? endforeach; ?>
-                <? else : ?>
+                    <?php endforeach; ?>
+                <?php else : ?>
                     <?=nl2br($model->additional_data); ?>
-                <? endif; ?>
+                <?php endif; ?>
             </td>
 
             <td>
@@ -153,17 +153,17 @@
             </td>
 
             <td>
-                <? if(!$model->isComplete()) : ?>
+                <?php if(!$model->isComplete()) : ?>
                     <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"
                        data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
                     <a class="btn btn-warning disable-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
                        data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
-                <? else : ?>
+                <?php else : ?>
                     <a class="btn btn-success complete-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
                        data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
                     <a class="btn btn-warning disable-invoice" data-invoice-id="<?=$model->id?>"
                        data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
-                <? endif; ?>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach ?>

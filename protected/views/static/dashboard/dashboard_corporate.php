@@ -11,11 +11,11 @@
 <!--    </a>-->
 
     <span class="change-simulation-result-render">
-        <? if($user->profile->assessment_results_render_type == "standard") : ?>
+        <?php if($user->profile->assessment_results_render_type == "standard") : ?>
             Переключиться на процентиль
-        <? else : ?>
+        <?php else : ?>
             Переключиться на стандарт
-        <? endif ?>
+        <?php endif ?>
     </span>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
@@ -57,9 +57,9 @@
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
-        <? if(!$shown_display_popup) : ?>
+        <?php if(!$shown_display_popup) : ?>
             <?php $this->renderPartial('partials/_referrals-popup', []) ?>
-        <? endif; ?>
+        <?php endif; ?>
         <?php $this->renderPartial('partials/invite-friend-popup', []) ?>
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
