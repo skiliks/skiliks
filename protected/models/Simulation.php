@@ -744,6 +744,11 @@ class Simulation extends CActiveRecord
         }
     }
 
+    /**
+     * @return array|CActiveRecord|mixed|null
+     * Метод псевдостатический возвращает все симуляции реальных пользователей
+     */
+
     public function getRealUsersSimulations() {
         $developersEmails = [
             "'r.kilimov@gmail.com'",
@@ -776,7 +781,6 @@ class Simulation extends CActiveRecord
               AND t.status = '" . self::STATUS_COMPLETE . "'
             ";
             return self::model()->with('user', 'user.profile')->findAll($condition);
-
     }
 }
 
