@@ -734,10 +734,10 @@ class Simulation extends CActiveRecord
         if($thisAssessment !== null) {
             $position = array_search($thisAssessment, $allScores);
             $total = count($allScores);
-
-            $lessThanMe = $total - $position;
-
-            $this->percentile = $lessThanMe/$total;
+            if($total != 0) {
+                $lessThanMe = $total - $position;
+                $this->percentile = $lessThanMe/$total;
+            }
         }
         else {
             $this->percentile = null;
@@ -768,6 +768,7 @@ class Simulation extends CActiveRecord
 
         $condition = " profile.email NOT LIKE '%gty1991%' ".
             " AND profile.email NOT LIKE '%@skiliks.com' ".
+            " AND profile.email NOT LIKE '%@drdrb.com' ".
             " AND profile.email NOT LIKE '%@rmqkr.net' ".
             " AND t.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', $developersEmails).")

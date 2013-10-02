@@ -219,7 +219,10 @@ $titles = [
                 <?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?>
             </td>
 
-            <td><?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?></td>
+            <td><?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
+                <?= null === $invite->simulation->percentile ? '--' : $invite->simulation->percentile ?>
+
+            </td>
 
             <td>
                 <span style="width: 20px; margin-right: 10px; display: inline-block;">
