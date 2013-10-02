@@ -1146,6 +1146,12 @@
     margin-left: 20px;
     width:250px;
 }
+.percentil_text_product {
+    left: 509px;
+    width: 20px;
+    position: relative;
+    top: -17px;
+}
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
 }
@@ -1383,6 +1389,13 @@
         position: relative;
         top: -17px;
         font-size:13px;
+    }
+    .percentil_text_product {
+        left: 419px;
+        width: 20px;
+        font-size: 13px;
+        position: relative;
+        top: -19px;
     }
 }
 /*
