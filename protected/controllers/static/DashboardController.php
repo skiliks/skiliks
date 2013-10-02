@@ -932,6 +932,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $refer->referral_email = $referAddress;
                 $refer->referrer_id    = $user->id;
                 $refer->invited_at     = date("Y-m-d H:i:s");
+                $refer->status         = "pending";
                 $refer->save();
                 $refer->sendInviteReferralEmail();
             }

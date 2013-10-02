@@ -83,11 +83,57 @@ class UserAuthController extends YumController
 
                     if (false !== $result) {
 
+
+
                         $profile->save();
                         $this->user->status = YumUser::STATUS_ACTIVE;
                         $referrer->referral_id = $accountCorporate->user_id = $this->user->id;
-                        $referral = YumUser::model()->findByPk($referrer->referrer_id);
-                        $referral->getAccount()->addReferralInvite($profile->email);
+                        $referrerUser = YumUser::model()->findByPk($referrer->referrer_id);
+
+                        // Начало валидации
+
+                        // получаем е-мейл реффера и всех его зарегестрированных рефераллов
+
+                        $criteria = new CDbCriteria();
+                        $criteria->compare('referrer_id', $referrerUser->id);
+                        $criteria->addCondition('referral_id IS NOT NULL');
+
+                        $allUserReferrals = UserReferal::model()->findAll($criteria);
+                        $referrerEmail = $referrerUser->profile->email;
+                        $referrerDomain = substr($referrerEmail, strpos($referrerEmail, "@"));
+                        $referralDomain = substr($referrer->referral_email, strpos($referrer->referral_email, "@"));
+
+
+                        // проверка на доменную зону старых рефералов пользователя
+
+                        $validationErrors = null;
+
+                        foreach($allUserReferrals as $oldReferral) {
+                            $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
+                            if($oldReferralDomain == $referralDomain) {
+                                $validationErrors = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1);
+                                break;
+                            }
+                        }
+
+                        // проверка на одну домененую зону с пользователем
+
+                        if($referrerDomain == substr($referrer->referral_email, strpos($referrer->referral_email, "@"))) {
+                            $validationErrors = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1);
+                        }
+
+
+                        // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
+                        if(null === $validationErrors) {
+                            $referrer->status = "approved";
+                            $referrerUser->getAccount()->addReferralInvite($profile->email);
+                        }
+                        else {
+                            $referrer->reject_reason = $validationErrors;
+                            $referrer->status = "rejected";
+                        }
+
+                        //
 
                         $accountCorporate->industry_id = $account->industry_id;
 

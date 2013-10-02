@@ -10,6 +10,8 @@
  * @property integer $referrer_id
  * @property string  $invited_at
  * @property string  $registered_at
+ * @property string  $reject_reason
+ * @property string  $status
  *
  * The followings are the available model relations:
  * @property YumUser $referral
