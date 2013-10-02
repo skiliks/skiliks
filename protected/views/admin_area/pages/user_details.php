@@ -147,6 +147,18 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
         <?php endif; ?>
     </tr>
+    <tr>
+        <td>
+            Вид оценки:
+            <? if($user->profile->assessment_results_render_type == "standard")  {
+                echo "Стандарт";
+            }
+            else {
+                echo "Процентиль";
+            }
+            ?>
+        </td>
+    </tr>
 
         <?php if ($user->isCorporate()) : ?>
             <tr>

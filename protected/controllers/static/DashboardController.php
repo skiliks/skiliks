@@ -181,7 +181,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $session['shown_display_popup'] = !$this->user->getAccount()->is_display_referrals_popup;
         }
 
-
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -428,7 +427,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'shown_display_popup' => $session['shown_display_popup']
+            'shown_display_popup' => $session['shown_display_popup'],
+            'user'                => $this->user
         ]);
     }
 
@@ -487,6 +487,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'simulation' => $simulation,
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
+            'user'                => $this->user
         ]);
     }
 
@@ -978,6 +979,21 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
         $session = new CHttpSession();
         $session['shown_display_popup'] = 1;
+    }
+
+    public function actionRemakeRenderType() {
+        $user = Yii::app()->user->data()->profile;
+
+        if (null !== Yii::app()->request->getParam('remakeRender')) {
+            if($user->assessment_results_render_type == "percentil") {
+                $user->assessment_results_render_type = "standard";
+            } else {
+                $user->assessment_results_render_type = "percentil";
+            }
+            $user->save();
+            Yii::app()->end();
+        }
+
     }
 
 }

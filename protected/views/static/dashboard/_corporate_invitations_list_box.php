@@ -1,4 +1,5 @@
 <?php
+
 $scoreRender = function(Invite $invite) {
     return $this->renderPartial('//global_partials/_simulation_stars', [
         'simulation'     => $invite->simulation,

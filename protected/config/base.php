@@ -234,6 +234,7 @@ return array(
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
                 'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
+                'dashboard/remakeRenderType' => 'static/dashboard/remakeRenderType',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',

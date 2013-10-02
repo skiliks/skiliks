@@ -661,14 +661,20 @@ var fixLogotypes = function() {
 
         $(".question-container li").click(function() {
             if(!$(this).children("div").is(":visible")) {
-            $(this).children("div").slideDown("fast");
-            $(this).addClass("active");
-            }
-        else {
-            $(this).children("div").slideUp("fast");
-            $(this).removeClass("active");
+                $(this).children("div").slideDown("fast");
+                $(this).addClass("active");
+                }
+            else {
+                $(this).children("div").slideUp("fast");
+                $(this).removeClass("active");
             }
         })
+
+        $(".change-simulation-result-render").click(function() {
+            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+                location.reload();
+            })
+        });
 
     });
 })(jQuery);
