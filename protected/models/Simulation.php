@@ -739,14 +739,14 @@ class Simulation extends CActiveRecord
             $this->percentile = ($lessThanMe/$all)*100;
         }
 
-//        echo sprintf("%s ___ %s ___ %s ___ %s ___ %s ___ %s ___ \n",
-//            $this->invite->ownerUser->profile->email,
-//            $this->user->profile->email,
-//            $this->percentile,
-//            $lessThanMe,
-//            $all,
-//            $this->getCategoryAssessmentWithoutRound()
-//        );
+        echo sprintf("%s ___ %s ___ %s ___ %s ___ %s ___ %s ___ \n",
+            $this->invite->ownerUser->profile->email,
+            $this->user->profile->email,
+            $this->percentile,
+            $lessThanMe,
+            $all,
+            $this->getCategoryAssessmentWithoutRound()
+        );
 
         $this->save();
 
