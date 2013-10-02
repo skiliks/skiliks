@@ -6,15 +6,11 @@
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
  * @property integer $industry_id
- * @property string $corporate_email
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
  * @property integer $referrals_invite_limit
- * @property boolean $is_corporate_email_verified
- * @property datetime $corporate_email_verified_at
  * @property datetime $tariff_expired_at
- * @property boolean $corporate_email_activation_code
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
@@ -117,12 +113,6 @@ class UserAccountCorporate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'         , 'required'),
-			//array('ownership_type'  , 'required', 'message' => Yii::t('site', 'Ownership is required')),
-			array('corporate_email' , 'required', 'message' => Yii::t('site', 'Email is required')),
-			array('corporate_email' , 'unique', 'message' => Yii::t('site', 'Email is already taken')),
-            array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
-            array('corporate_email' , 'isCorporateEmail'),
-            array('corporate_email' , 'isNotPersonalEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
             array('industry_id',    'required', 'message' => Yii::t('site', 'Industry status is required')),
 			array('user_id'         , 'length'   , 'max'=>10),
@@ -153,7 +143,6 @@ class UserAccountCorporate extends CActiveRecord
 	{
 		return array(
 			'user_id'             => Yii::t('site', 'User'),
-			'corporate_email'     => Yii::t('site', 'Corporate email'),
 			'industry_id'         => Yii::t('site', 'Industry'),
 			'company_size_id'     => Yii::t('site', 'Размер компании'),
 			'company_description' => Yii::t('site', 'Описание компании'),

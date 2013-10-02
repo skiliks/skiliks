@@ -206,14 +206,15 @@ class YumProfile extends YumActiveRecord
 		array_push($rules,
 				array(implode(',',$safe), 'safe'));
 
-        $rules[] = array('general_error', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration'));
-        $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration'));
+        $rules[] = array('general_error', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate'));
+        $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration', 'registration_corporate'));
         $rules[] = array('allow_comments, show_friends', 'numerical');
-        $rules[] = array('email', 'unique', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Данный email занят'));
+        $rules[] = array('email', 'unique', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Данный email занят'));
 		$rules[] = array('email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email'));
         $rules[] = array('privacy', 'safe');
 
-        $rules[] = array('email', 'required', 'on' => array('insert', 'registration'), 'message' => Yii::t('site', 'Email is required'));
+        $rules[] = array('email', 'required', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Email is required'));
+        $rules[] = array('email' , 'isCorporateEmail', 'on' => array('insert', 'registration_corporate'));
         $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
         $rules[] = array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required'));
 
@@ -329,4 +330,27 @@ class YumProfile extends YumActiveRecord
 		}
 		return self::$fields;
 	}
+
+    /**
+     * @param $attribute, attribute name
+     */
+    public function isCorporateEmail($attribute)
+    {
+        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
+        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
+            return;
+        }
+
+        if(false == UserService::isCorporateEmail($this->$attribute)) {
+            $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
+        }
+    }
+
+    public function isNotPersonalEmail($attribute)
+    {
+        $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
+        if($userPersonal !== null && $userPersonal->user_id !== $this->user_id) {
+            $this->addError($attribute, Yii::t('site', 'Email is already taken'));
+        }
+    }
 }
