@@ -168,6 +168,8 @@
                 <td>
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getOverall())
                         ? $simulation->invite->getOverall() : '--'; ?>
+                    <?= (null !== $simulation->percentile)
+                        ? $simulation->percentile : '--'; ?>
                 </td>
                 <td>
                     <?php $this->renderPartial('//admin_area/partials/_simulation_log_buttons', [
