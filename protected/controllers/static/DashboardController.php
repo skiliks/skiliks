@@ -287,7 +287,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->receiver_id = $profile->user->id;
             }
 
-            $existCorporateAccount = UserAccountCorporate::model()->findByAttributes(["corporate_email" => $invite->email]);
+            $existCorporateAccount = YumProfiles::model()->findByAttributes(["email" => $invite->email]);
             if($existCorporateAccount !== null) {
                 $validPrevalidate = false;
                 Yii::app()->user->setFlash('error', sprintf(
