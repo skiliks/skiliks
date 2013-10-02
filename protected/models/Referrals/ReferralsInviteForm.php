@@ -64,35 +64,41 @@ class ReferralsInviteForm extends CFormModel {
                     $this->addError('emails', 'Пользователь с емейлом '. $referralEmail .' уже зарегистрирован у нас.');
                 }
 
-                // referrer domain zone
-                $referralDomain = substr($referralEmail, strpos($referralEmail, "@"));
+//                // referrer domain zone
+//                $referralDomain = substr($referralEmail, strpos($referralEmail, "@"));
 
-                // Проверка на ту же доменную зону, что у юзера
+//                // Проверка на ту же доменную зону, что у юзера
+//
+//                if($userDomain == $referralDomain) {
+//                    $this->addError('emails', "Е-мейл ".$referralEmail . " принадлежит к доменной группе е-мейла ".$userEmail);
+//                }
 
-                if($userDomain == $referralDomain) {
-                    $this->addError('emails', "Е-мейл ".$referralEmail . " принадлежит к доменной группе е-мейла ".$userEmail);
+                // Проверка одинаковый е-мейл с юзером
+
+                if($userEmail == $referralEmail) {
+                    $this->addError('emails', "Е-мейл ".$referralEmail . " совпадает с вашим.");
                 }
 
-                // проверка на доменную зону у рефералов
+//                // проверка на доменную зону у рефералов
+//
+//                foreach($allUserReferrals as $oldReferral) {
+//                    $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
+//                    if($oldReferralDomain == $referralDomain) {
+//                        $this->addError('emails', "Е-мейл ".$referralEmail .
+//                            " принадлежит в доменной группе одного из уже приглашенных рефералов");
+//                        break;
+//                    }
+//                }
 
-                foreach($allUserReferrals as $oldReferral) {
-                    $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
-                    if($oldReferralDomain == $referralDomain) {
-                        $this->addError('emails', "Е-мейл ".$referralEmail .
-                            " принадлежит в доменной группе одного из уже приглашенных рефералов");
-                        break;
-                    }
-                }
-
-                // проверка на то, что введены несколько рефераллов с одной доменной зоной
-
-                foreach($this->validatedEmailsArray as $email) {
-                    $emailDomainZone = substr($email, strpos($email, "@"));
-                    if($emailDomainZone == $referralDomain) {
-                        $this->addError('emails', "Емейлы рефералов ".$email." и ".$referralEmail." принадлежат к одной доменной группе.");
-                        break;
-                    }
-                }
+//                // проверка на то, что введены несколько рефераллов с одной доменной зоной
+//
+//                foreach($this->validatedEmailsArray as $email) {
+//                    $emailDomainZone = substr($email, strpos($email, "@"));
+//                    if($emailDomainZone == $referralDomain) {
+//                        $this->addError('emails', "Емейлы рефералов ".$email." и ".$referralEmail." принадлежат к одной доменной группе.");
+//                        break;
+//                    }
+//                }
 
                 // проверка на корпоративный e-mail
 
