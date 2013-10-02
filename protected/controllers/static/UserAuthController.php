@@ -499,6 +499,7 @@ class UserAuthController extends YumController
 
                             $this->sendRegistrationEmail($user);
                             Yii::app()->session->add("email", $profile->email);
+                            Yii::app()->session->add("user_id", $profile->user_id);
                             $this->redirect(['afterRegistration']);
                         } else {
                             throw new Exception("Registration is fail!");
@@ -761,6 +762,7 @@ class UserAuthController extends YumController
         if ($profile && !$profile->user->isActive()) {
             $this->sendRegistrationEmail($profile->user);
             Yii::app()->session->add("email", $profile->email);
+            Yii::app()->session->add("user_id", $profile->user_id);
             $this->redirect(['afterRegistration']);
         } else {
             $this->redirect('/');
