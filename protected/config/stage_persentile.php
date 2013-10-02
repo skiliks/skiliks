@@ -4,10 +4,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks_live',
+            'connectionString' => 'mysql:host=localhost;dbname=skiliks_percentile',
             'emulatePrepare' => true,
-            'username' => 'skiliks_live',
-            'password' => 'dep-vep-eb-up-a',
+            'username' => 'skiliks_percentile',
+            'password' => 'AscbdTgs12-w',
             'charset' => 'utf8',
 
             'enableParamLogging'=>true,
