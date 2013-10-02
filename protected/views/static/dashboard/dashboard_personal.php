@@ -10,7 +10,8 @@
         </div>
         */?>
         <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-           class="start-lite-simulation-btn start-lite-simulation-btn-no-margin light-btn">Пройти демо (15 мин)
+           class="start-lite-simulation-btn start-lite-simulation-btn-no-margin light-btn">
+            Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)
         </a>
 
         <h1 class="thetitle">Полученные приглашения</h1>

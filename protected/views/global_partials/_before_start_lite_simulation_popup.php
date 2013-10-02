@@ -5,7 +5,7 @@
         <h2 class="title">Приветствуем вас!</h2>
         <ul class="list-ordered">
             <li><h3>Вы</h3>
-            <p class="font-xxlarge">выбрали Демо версию длительностью 15 минут.</p></li>
+            <p class="font-xxlarge">выбрали Демо версию длительностью <?= Yii::app()->params['demoDuration'] ?> минут.</p></li>
 
             <li><h3>Цель Демо</h3>
             <p class="font-xxlarge">показать пример работы интерфейсов игры.</p></li>
