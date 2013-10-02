@@ -735,6 +735,8 @@ class SimulationService
 
             $simulation->saveLogsAsExcel();
 
+            $simulation->calculatePercentile();
+
             self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
 
@@ -769,7 +771,6 @@ class SimulationService
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
-        $simulation->calculatePercentile();
         $simulation->save(false);
         $assessmentOverall = new AssessmentOverall();
         $assessmentOverall->sim_id = $simulation->id;
