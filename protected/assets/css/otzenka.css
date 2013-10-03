@@ -128,9 +128,9 @@
 }
 
 .percentil_text {
-    left: 514px;
-    position: relative;
-    top: -17px;
+    float: right;
+    margin-right: 6px;
+    margin-top: 2px;
 }
 
 .ratepercnt, .overall .ratepercnt {
@@ -172,7 +172,7 @@
 }
 
 .percentil_base {
-    margin-right: 34px;
+    margin-left: 6px;
 }
 
 .percentil_overall {
@@ -181,11 +181,33 @@
 }
 
 .percentil_overall_container {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/mark-percentil-backogrund.png");
+    background-origin: padding-box;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto auto;
     height: 31px;
-    background: url(../img/mark-percentil-backogrund.png) no-repeat center top;
-    padding: 6px 0;
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    padding-bottom: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 6px;
+    text-align: left;
+    width: 130px;
 }
+
+.percentil_overall_container_product {
+    background-size: 110px 32px;
+    width:110px;
+}
+
+
 
 .estmtresults {
     height:130px;
@@ -1146,11 +1168,11 @@
     margin-left: 20px;
     width:250px;
 }
-.percentil_text_product {
-    left: 509px;
-    width: 20px;
-    position: relative;
-    top: -17px;
+div.percentil_text_product {
+    float:right;
+    margin-right: 10px;
+    font-weight: bold;
+    margin-top:4px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
@@ -1384,18 +1406,10 @@
     .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
         margin-left: 20px;
     }
-    .percentil_text {
-        left: 412px;
-        position: relative;
-        top: -17px;
-        font-size:13px;
-    }
-    .percentil_text_product {
-        left: 419px;
-        width: 20px;
+    div.percentil_text_product, div.percentil_text {
         font-size: 13px;
-        position: relative;
-        top: -19px;
+        margin-right: 12px;
+        margin-top:3px;
     }
 }
 /*
