@@ -1705,4 +1705,27 @@ class AdminPagesController extends SiteBaseController {
             ]);
         }
     }
+
+    public function actionSimulationsRating()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $simulations = [];
+        foreach ($assessments as $assessment) {
+            $simulations[] = $assessment->sim;
+        }
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_rating', [
+            "simulations" => $simulations,
+        ]);
+    }
 }
