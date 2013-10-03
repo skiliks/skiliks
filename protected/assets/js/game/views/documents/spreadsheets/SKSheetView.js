@@ -14,6 +14,21 @@ define([], function () {
                     SocialCalc.Formula.AddSheetToCache(sheet.collection.document.get('name'), sheet.get('name'), this.sheetData);
                 }
 
+                var me = this;
+
+                me.set('isCalculated', false);
+
+                setTimeout(function() {
+                    if (false == me.get('isCalculated')) {
+                        console.log('Sheet ' + sheet.get('name') + ' in simulation ' + SKApp.simulation.id + ' завис.');
+                        if (window.Raven) {
+//                            window.Raven.captureMessage(
+//                                'Sheet ' + sheet.get('name') + ' in simulation ' + SKApp.simulation.id + ' завис.'
+//                            );
+                        }
+                    }
+                }, 10000);
+
                 this.listenTo(sheet, 'activate', this.activateSheet);
                 this.listenTo(sheet, 'recalc', this.recalcSheet);
                 this.listenTo(sheet, 'deactivate', this.deactivateSheet);

@@ -23,6 +23,12 @@
 
             ),
             array(
+                'label' => 'Рейтинг симуляций',
+                'url'   => ['admin_area/AdminPages/SimulationsRating'],
+                'visible' => true,
+
+            ),
+            array(
                 'label' => '--------------------------',
                 'url'   => ['#'],
                 'visible' => true,
