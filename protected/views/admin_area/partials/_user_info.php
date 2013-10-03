@@ -38,4 +38,8 @@
         <td>IPv4</td>
         <td><?= $simulation->ipv4 ?></td>
     </tr>
+    <?php if (null !== $simulation->invite) : ?>
+        <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
+        <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
+    <?php endif; ?>
 </table>

@@ -18,6 +18,7 @@
         <tr><td>От</td><td> <?= $simulation->invite->ownerUser->profile->email ?></td></tr>
         <tr><td>для</td><td> <?= $simulation->invite->email ?></td></tr>
         <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
+        <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
     </table>
 
     <?php $this->renderPartial('//admin_area/partials/_invite_actions', [
