@@ -739,26 +739,26 @@ class Simulation extends CActiveRecord
         if (0 == $lessThanMe) {
             // случай с первым пользователем (после реинициализации БД будет  пройденных симуляций)
             if (1 == $all) {
-                $this->percentile = 100;
+                $percentileValue = 100;
             } else {
-                $this->percentile = 0;
+                $percentileValue = 0;
             }
         } else {
-            $this->percentile = ($lessThanMe/$all)*100;
+            $percentileValue = ($lessThanMe/$all)*100;
         }
 
-        $percentile = AssessmentOverall::model()->findByAttributes([
+        $percentileInDb = AssessmentOverall::model()->findByAttributes([
             'assessment_category_code' => AssessmentCategory::PERCENTILE,
             'sim_id'                   => $this->id
         ]);
 
-        if (null == $percentile) {
-            $percentile = new AssessmentOverall();
-            $percentile->assessment_category_code = AssessmentCategory::PERCENTILE;
-            $percentile->sim_id = $this->id;
-            $percentile->value = $this->percentile;
+        if (null == $percentileInDb) {
+            $percentileInDb = new AssessmentOverall();
+            $percentileInDb->assessment_category_code = AssessmentCategory::PERCENTILE;
+            $percentileInDb->sim_id = $this->id;
+            $percentileInDb->value = $percentileValue;
         }
-        $percentile->save();
+        $percentileInDb->save();
     }
 
     /**
@@ -812,7 +812,10 @@ class Simulation extends CActiveRecord
      * @return array|CActiveRecord|mixed|null
      *
      */
-    public function getSimulationRealUsersCondition($additionalCondition = '') {
+    public function getSimulationRealUsersCondition(
+        $additionalCondition = '',
+        $assessmentCategory = AssessmentCategory::OVERALL
+    ) {
         $developersEmails = [
             "'r.kilimov@gmail.com'",
             "'andrey@kostenko.name'",
@@ -847,8 +850,9 @@ class Simulation extends CActiveRecord
               AND sim.mode = ".self::MODE_PROMO_ID."
               AND sim.scenario_id = " . $fullScenario->id . "
               AND sim.status = '" . self::STATUS_COMPLETE . "'" .
-            sprintf(" AND t.assessment_category_code = '%s' ", AssessmentCategory::OVERALL) .
-            $additionalCondition
+            sprintf(" AND t.assessment_category_code = '%s' ", $assessmentCategory) .
+            $additionalCondition//.
+            //' ORDER BY ' . $order
         ;
 
         return $condition;

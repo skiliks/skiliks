@@ -23,5 +23,5 @@
         <?php endif; ?>
     </p>
 <?php else : ?>
-    <?= round($simulation->percentile)*100 ?>
+    <?= round($simulation->invite->getPercentile()) ?>
 <?php endif; ?>

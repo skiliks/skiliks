@@ -772,11 +772,6 @@ class SimulationService
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);
-        $assessmentOverall = new AssessmentOverall();
-        $assessmentOverall->sim_id = $simulation->id;
-        $assessmentOverall->assessment_category_code = "percentile";
-        $assessmentOverall->value = $simulation->percentile;
-        $assessmentOverall->save();
     }
 
     /**

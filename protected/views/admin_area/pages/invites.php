@@ -219,12 +219,10 @@ $titles = [
                 <?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?>
             </td>
 
-            <td><?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
-                <?php if($invite->simulation === null || $invite->simulation->percentile === null) : ?>
-                    --
-                <?php else : ?>
-                    <?= $invite->simulation->percentile ?>
-                <?php endif; ?>
+            <td>
+                <?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
+                /
+                <?= (null !== $invite->getPercentile()) ? $invite->getPercentile() : '--'; ?>
             </td>
 
             <td>
