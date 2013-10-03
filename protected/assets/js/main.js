@@ -676,6 +676,84 @@ var fixLogotypes = function() {
             })
         });
 
+
+
+
+        $(".showDialogRejected").click(function(e){
+            e.preventDefault();
+            var domain = $(this).attr('data-domain');
+            $(".dialogReferralRejected").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 100,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 584,
+                position: {
+                    my: "left top",
+                    at: "left top",
+                    of: $(this).parents('tr')
+                },
+                open : function() {
+                    $(".domainName").html(domain);
+                }
+            });
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $(".showDialogPending").click(function(e){
+            e.preventDefault();
+            var domain = $(this).attr('data-domain');
+            $(".dialogReferralPending").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 70,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 584,
+                position: {
+                    my: "left top",
+                    at: "left top",
+                    of: $(this).parents('tr')
+                },
+            });
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $('a.feedback-close-other').on('click', function (e) {
+            e.preventDefault();
+            $(".dialogReferralRejected").dialog("close");
+            var selected = $(this).attr('data-selected');
+            $('#feedback-dialog').dialog({
+                width: 706,
+                dialogClass: 'popup-primary popup-site feedbackwrap',
+                modal: true,
+                resizable: false,
+                draggable: false,
+                open: function( event, ui ) {
+                    if(selected !== undefined) {
+                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                            var a = $(element).find('a');
+                            if(a.attr('rel') === selected){
+                                a.click();
+                            }
+                        });
+                    }
+
+                    Cufon.refresh();
+                }
+            });
+
+            e.stopPropagation();
+        });
+
+
     });
 })(jQuery);
 
