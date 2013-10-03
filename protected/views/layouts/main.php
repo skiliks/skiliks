@@ -174,7 +174,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php endif ?>
                 <nav id="footer-menu">
                     <?php $this->renderPartial('//global_partials/_account_links', [
-                        'isDisplayAccountLinks' => false
+                        'isDisplayAccountLinks' => false,
+                        'disableDemo' => true
                     ]) ?>
                 </nav>
             </div>
