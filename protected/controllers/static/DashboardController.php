@@ -309,6 +309,15 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $validPrevalidate = false;
             }
 
+            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
+            if($existCorporateAccount !== null) {
+                $validPrevalidate = false;
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'
+                ));
+            }
+
             $invite->message = sprintf(
                 $this->user->account_corporate->default_invitation_mail_text,
                 $this->user->profile->email,

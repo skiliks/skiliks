@@ -52,74 +52,80 @@ class ReferralsInviteForm extends CFormModel {
                 $emails = [$emails];
             }
 
-            foreach($emails as $referralEmail) {
+            if(count($emails) > 20) {
+                $this->addError('emails', 'Вы ввели более 20 е-мейлов.');
+            }
+            else {
 
-                // проверка на уже зарегистрированного пользователя
+                foreach($emails as $referralEmail) {
 
-                $existProfile = YumProfile::model()->findByAttributes([
-                    'email' => $referralEmail
-                ]);
+                    // проверка на уже зарегистрированного пользователя
 
-                if($existProfile !== null) {
-                    $this->addError('emails', 'Пользователь с емейлом '. $referralEmail .' уже зарегистрирован у нас.');
-                }
+                    $existProfile = YumProfile::model()->findByAttributes([
+                        'email' => $referralEmail
+                    ]);
 
-//                // referrer domain zone
-//                $referralDomain = substr($referralEmail, strpos($referralEmail, "@"));
+                    if($existProfile !== null) {
+                        $this->addError('emails', 'Пользователь с емейлом '. $referralEmail .' уже зарегистрирован у нас.');
+                    }
 
-//                // Проверка на ту же доменную зону, что у юзера
-//
-//                if($userDomain == $referralDomain) {
-//                    $this->addError('emails', "Е-мейл ".$referralEmail . " принадлежит к доменной группе е-мейла ".$userEmail);
-//                }
+    //                // referrer domain zone
+    //                $referralDomain = substr($referralEmail, strpos($referralEmail, "@"));
 
-                // Проверка одинаковый е-мейл с юзером
+    //                // Проверка на ту же доменную зону, что у юзера
+    //
+    //                if($userDomain == $referralDomain) {
+    //                    $this->addError('emails', "Е-мейл ".$referralEmail . " принадлежит к доменной группе е-мейла ".$userEmail);
+    //                }
 
-                if($userEmail == $referralEmail) {
-                    $this->addError('emails', "Е-мейл ".$referralEmail . " совпадает с вашим.");
-                }
+                    // Проверка одинаковый е-мейл с юзером
 
-//                // проверка на доменную зону у рефералов
-//
-//                foreach($allUserReferrals as $oldReferral) {
-//                    $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
-//                    if($oldReferralDomain == $referralDomain) {
-//                        $this->addError('emails', "Е-мейл ".$referralEmail .
-//                            " принадлежит в доменной группе одного из уже приглашенных рефералов");
-//                        break;
-//                    }
-//                }
+                    if($userEmail == $referralEmail) {
+                        $this->addError('emails', "Е-мейл ".$referralEmail . " совпадает с вашим.");
+                    }
 
-//                // проверка на то, что введены несколько рефераллов с одной доменной зоной
-//
-//                foreach($this->validatedEmailsArray as $email) {
-//                    $emailDomainZone = substr($email, strpos($email, "@"));
-//                    if($emailDomainZone == $referralDomain) {
-//                        $this->addError('emails', "Емейлы рефералов ".$email." и ".$referralEmail." принадлежат к одной доменной группе.");
-//                        break;
-//                    }
-//                }
+    //                // проверка на доменную зону у рефералов
+    //
+    //                foreach($allUserReferrals as $oldReferral) {
+    //                    $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
+    //                    if($oldReferralDomain == $referralDomain) {
+    //                        $this->addError('emails', "Е-мейл ".$referralEmail .
+    //                            " принадлежит в доменной группе одного из уже приглашенных рефералов");
+    //                        break;
+    //                    }
+    //                }
 
-                // проверка на корпоративный e-mail
+    //                // проверка на то, что введены несколько рефераллов с одной доменной зоной
+    //
+    //                foreach($this->validatedEmailsArray as $email) {
+    //                    $emailDomainZone = substr($email, strpos($email, "@"));
+    //                    if($emailDomainZone == $referralDomain) {
+    //                        $this->addError('emails', "Емейлы рефералов ".$email." и ".$referralEmail." принадлежат к одной доменной группе.");
+    //                        break;
+    //                    }
+    //                }
 
-                if(false == UserService::isCorporateEmail($referralEmail)) {
-                    $this->addError('emails', 'Е-мейл '. $referralEmail .' не является корпоративным.');
-                }
+                    // проверка на корпоративный e-mail
 
-                $referral = new UserReferal();
-                $referral->referral_email = $referralEmail;
-                $referral->validate();
+                    if(false == UserService::isCorporateEmail($referralEmail)) {
+                        $this->addError('emails', 'Е-мейл '. $referralEmail .' не является корпоративным.');
+                    }
 
-                $errorArray = $referral->getErrors();
+                    $referral = new UserReferal();
+                    $referral->referral_email = $referralEmail;
+                    $referral->validate();
 
-                if( !empty($errorArray) ) {
-                    foreach($errorArray as $errors) {
-                        foreach($errors as $error) {
-                            $this->addError('emails', $referralEmail . ": " . $error);
+                    $errorArray = $referral->getErrors();
+
+                    if( !empty($errorArray) ) {
+                        foreach($errorArray as $errors) {
+                            foreach($errors as $error) {
+                                $this->addError('emails', $referralEmail . ": " . $error);
+                            }
                         }
                     }
+                    else $this->validatedEmailsArray[] = $referral->referral_email;
                 }
-                else $this->validatedEmailsArray[] = $referral->referral_email;
             }
         }
     }
