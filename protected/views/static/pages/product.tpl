@@ -20,8 +20,8 @@
     <div class="textcener"><h2 class="total">{Yii::t('site', 'Overall manager’s rating')}</h2></div>
     <div class="allsummry">
         <div class="estmtresults">
-            <div class="overall percentil_overall_container">
-            <span class="percentil_base" style="margin-right: 16px;">
+            <div class="overall percentil_overall_container percentil_overall_container_product">
+            <span class="percentil_base">
                 <span class="percentil_overall" style="width:80%"></span>
             </span>
                 <div class="percentil_text_product">P</div>

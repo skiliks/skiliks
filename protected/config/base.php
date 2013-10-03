@@ -402,10 +402,11 @@ return array(
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-            'inviteEmailTemplate' => '//global_partials/mails/invite_default',
-            'newInvoiceToBooker' => '//global_partials/mails/new_invoice',
+            'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
+            'tariffExpiredTemplate'    => 'tariff_expired',
+            'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
-            'referrerInviteEmail' => '//global_partials/mails/reffererEmail',
+            'referrerInviteEmail'      => '//global_partials/mails/reffererEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',

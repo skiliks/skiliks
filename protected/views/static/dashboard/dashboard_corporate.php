@@ -6,9 +6,9 @@
        class="start-lite-simulation-btn light-btn">
         Пройти демо (15 мин)
     </a>
-<!--    <a href="#" class="invite-friend-popup-button light-btn">-->
-<!--        Пригласить друга-->
-<!--    </a>-->
+    <a href="#" class="invite-friend-popup-button light-btn">
+        Пригласить друга
+    </a>
 
     <span class="change-simulation-result-render">
         <?php if($user->profile->assessment_results_render_type == "standard") : ?>
