@@ -16,8 +16,8 @@
     ],
         'columns' => [
             ['header' => 'E-mail'            , 'name' => 'referral_email', 'value' => '$data->referral_email'],
-            ['header' => 'Приглашен'         , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
-            ['header' => 'Зарегистрировался' ,
+            ['header' => 'Дата'         , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
+            ['header' => 'Статус' ,
              'name'   => 'registered_at' ,
              'value' => function($data) {
                                          if($data->status == "approved") {
