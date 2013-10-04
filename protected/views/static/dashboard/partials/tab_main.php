@@ -70,8 +70,8 @@
 
             $('.overall .value').html(r(AR.overall || 0));
             $('.allrating').css('width', (AR.overall || 0) + '%');
-            $('.percentil_overall').css('width', (AR.percentile.total*100 || 0) + '%');
-            $('.percentil_text').html("P"+r(AR.percentile.total*100));
+            $('.percentil_overall').css('width', (AR.percentile.total || 0) + '%');
+            $('.percentil_text').html("P"+r(AR.percentile.total));
         }, 500);
     });
 
