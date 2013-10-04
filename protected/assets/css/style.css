@@ -1319,18 +1319,19 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
-    min-height: 446px;
+    min-height: 285px;
 	width:452px;
     padding-bottom:20px;
-    /* min-height:383px; */
+    height: 290px;
 }
 .registration .form.form-account-personal{
     background-image:url("../img/bg-registration-personal.png");
     float:left;
-    margin-left:9px;
+    margin-left:12px;
 }
 
 .p-chose-accaount-type {
+    font: 18px 'ProximaNova-Bold';
     margin-bottom: 22px;
     margin-left:57px;
 }
@@ -1338,17 +1339,16 @@ html[lang=ru] .product section table th{
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corporate.png");
 	float:right;
-	margin-right:9px;
+	margin-right:12px;
 }
-.registration .form h1{
-	font:2.571em 'ProximaNova-Bold';
+.registration .form h1 {
+	font:22px 'ProximaNova-Bold';
 	color:#555545;
-	margin:21px 0 12px 57px;
-    min-height:88px;
+	margin:46px 0 0px 57px;
 }
 .registration .form>ul{
 	list-style:none;
-	min-height:135px;
+	min-height:100px;
 	margin:0 34px 0;
 }
 .registration .form>ul li{
@@ -1407,7 +1407,7 @@ html[lang=ru] .product section table th{
 	vertical-align:top;
 }
 .registration .form .row .sbHolder{
-	width:265px;
+	width:268px;
 }
 .registration .form .row.wide{
 /*	margin-bottom:16px; */
@@ -1529,7 +1529,7 @@ html[lang=ru] .product section table th{
 		background-position:305px 7px;
 		box-shadow:0 0 0 7px rgba(255,255,255,0.2);
 		width:366px;
-		min-height:400px;
+		min-height:280px;
 	}
 	.registration .form.form-account-personal{
 		background-image:url("../img/bg-registration-personal-min.png");
@@ -1537,6 +1537,7 @@ html[lang=ru] .product section table th{
 	}
 
     .p-chose-accaount-type {
+        font:12px 'ProximaNova-Bold';
         margin-bottom: 22px;
         margin-left:27px;
     }
@@ -1547,14 +1548,14 @@ html[lang=ru] .product section table th{
 		margin-right:7px;
 	}
 	.registration .form h1{
-		font-size:2em;
+        font:19px 'ProximaNova-Bold';
         line-height: 100%;
-		margin:16px 40px 10px 27px;
+		margin:34px 10px 10px 27px;
         min-height: 58px;
 	}
 
     .registration .form {
-        height: 350px;
+        height: 280px;
     }
     .form-account-corporate .wide {
         /*display: none;*/
@@ -4467,9 +4468,6 @@ ul.profile-menu li {
     }
     .YumProfile_firstname {
         left: 165px;
-    }
-    .YumProfile_lastname {
-        left: 335px;
     }
     .YumUser_password, .YumUser_password_again {
         left: 165px;
