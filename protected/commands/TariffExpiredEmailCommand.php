@@ -6,12 +6,12 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
 
         $date = new DateTime();
         $date->add(new DateInterval('P3D'));
-        $date_expire_from = $date->format('Y-m-d H:i:s');
+        $date_expire_from = $date->format('Y-m-d 00:00:00');
         $date->add(new DateInterval('P1D'));
-        $date_expire_to = $date->format('Y-m-d H:i:s');
+        $date_expire_to = $date->format('Y-m-d 00:00:00');
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition("account_corporate.tariff_expired_at > '". $date_expire_from .
+        $criteria->addCondition("account_corporate.tariff_expired_at >= '". $date_expire_from .
                                 "' AND account_corporate.tariff_expired_at < '" . $date_expire_to. "'");
 
         $accounts = YumUser::model()->with("account_corporate")->findAll($criteria);
@@ -36,7 +36,7 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
 
                     $mail = [
                         'from'        => 'support@skiliks.com',
-                        'to'          => 'boykovladimir@ukr.net',
+                        'to'          => $account->profile->email,
                         'subject'     => 'Неиспользованные симуляции на skiliks.com',
                         'body'        => $body,
                         'embeddedImages' => [
@@ -81,8 +81,8 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
                     ];
 
                     try {
-
                         MailHelper::addMailToQueue($mail);
+                        echo $account->profile->email;
                     } catch (phpmailerException $e) {
                         echo $e;
                     }
