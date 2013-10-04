@@ -7,96 +7,44 @@
 <section class="registration">
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
 	<div class="form form-account-personal">
-	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
-        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
+        <a class="regicon icon-chooce registration_check" href="#">
+            <span style="display: block">
+                <?php echo Yii::t('site', 'Выбрать');?>
+            </span>
+        </a>
+	    <h1>Индивидуальный<br>профиль</h1>
+        <p class="p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
         <ul>
 			<li><?php echo Yii::t('site', 'Полная оценка навыков бесплатно') ?></li>
 			<li><?php echo Yii::t('site', 'Skills comparison with others') ?>*</li>
 		</ul>
-	    <?php $form = $this->beginWidget('CActiveForm', array(
-	        'id'                   => 'user-account-personal-form',
-	        'enableAjaxValidation' => false,
-	    )); ?>
-        <div class="row wide">
-                <?php echo $form->error($profilePersonal, 'email'); ?>
-            <div class="field">
-                <?php echo $form->labelEx($profilePersonal, 'Email'); ?>
-                <?php echo $form->textField($profilePersonal, 'email', ['placeholder' => $profilePersonal->getAttributeLabel('email'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            </div>
-        </div>
-	    <div class="row">
-                 <?php echo $form->error($userPersonal, 'password'); ?>
-                 <?php echo $form->error($userPersonal, 'password_again', ['class' => 'errorMessage right']); ?>
-            <div class="field">
-                <?php echo $form->labelEx($userPersonal  , Yii::t('site', 'Password')); ?>
-                <?php echo $form->passwordField($userPersonal, 'password', ['placeholder' => Yii::t('site', 'Password'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-                <?php echo $form->passwordField($userPersonal, 'password_again', ['placeholder' => $userPersonal->getAttributeLabel('password_again'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            </div>
-                <?php echo $form->error($profilePersonal    , 'firstname'); ?>
-                <?php echo $form->error($profilePersonal    , 'lastname', ['class' => 'errorMessage right']); ?>
-            <div class="field">
-	        <?php echo $form->labelEx($profilePersonal  , 'Name'); ?>
-	        <?php echo $form->textField($profilePersonal, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
-	        <?php echo $form->textField($profilePersonal, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isPersonalSubmitted ? 'account-submitted' : '']); ?>
-	        </div>
-	    </div>
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'id'                   => 'yum-user-registration-form',
+            'enableAjaxValidation' => false,
+        )); ?>
         <div class="row">
-            <?php echo $form->error($accountPersonal       ,'professional_status_id'); ?>
+            <?php echo $form->error($accountPersonal, 'professional_status_id'); ?>
             <div class="field">
                 <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
         </div>
         <div class="row"></div>
-        <div class="reg terms-confirm">
-            <?= $form->error($userPersonal, 'agree_with_terms'); ?>
-            <?= $form->checkBox($userPersonal, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-            <?= $form->labelEx($userPersonal, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
-        </div>
-	    <div class="row buttons">
-            <div class="field">
-	        <?php echo CHtml::submitButton(Yii::t('site', 'Start'), ['name' => 'personal']); ?>
-            </div>
-	    </div>
-	    <?php $this->endWidget(); ?>
 	</div>
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div class="form form-account-corporate">
-	    <h1><?php echo Yii::t('site', 'Corporate account') ?></h1>
-        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - работодатель)</p>
+        <a class="regicon icon-check registration_check" href="#">
+            <span style="display: none">
+                <?php echo Yii::t('site', 'Выбрать');?>
+            </span>
+        </a>
+	    <h1>Корпоративный<br>профиль</h1>
+        <p class="p-chose-accaount-type">(Вы - работодатель)</p>
 	    <ul>
 			<li><?php echo Yii::t('site', 'Package of simulations to assess others') ?></li>
 			<li><?php echo Yii::t('site', 'Simple but powerful tool for assessment process') ?></li>
 			<li><?php echo Yii::t('site', 'Comprehensive statistics on people and skills') ?>*</li>
 		</ul>
-	    <?php $form = $this->beginWidget('CActiveForm', array(
-	        'id'                   => 'user-account-corporate-form',
-	        'enableAjaxValidation' => false,
-	    )); ?>
-        <div class="row wide">
-                <?php echo $form->error($profileCorporate, 'email'); ?>
-            <div class="field">
-                <?php echo $form->labelEx($profileCorporate, 'Email'); ?>
-                <?php echo $form->textField($profileCorporate, 'email', ['placeholder' => $profileCorporate->getAttributeLabel('email'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            </div>
-        </div>
-	    <div class="row">
-                <?php echo $form->error($userCorporate, 'password'); ?>
-                <?php echo $form->error($userCorporate, 'password_again', ['class' => 'errorMessage right']); ?>
-            <div class="field">
-                <?php echo $form->labelEx($userCorporate  , Yii::t('site', 'Password')); ?>
-                <?php echo $form->passwordField($userCorporate, 'password', ['placeholder' => Yii::t('site', 'Password'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-                <?php echo $form->passwordField($userCorporate, 'password_again', ['placeholder' => $userCorporate->getAttributeLabel('password_again'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            </div>
-                <?php echo $form->error($profileCorporate    , 'firstname'); ?>
-                <?php echo $form->error($profileCorporate    , 'lastname', ['class' => 'errorMessage right']); ?>
-            <div class="field">
-            <?php echo $form->labelEx($profileCorporate  , 'Name'); ?>
-            <?php echo $form->textField($profileCorporate, 'firstname',['placeholder' => Yii::t('site', 'First name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            <?php echo $form->textField($profileCorporate, 'lastname',['placeholder' => Yii::t('site', 'Last name'), 'class' => $isCorporateSubmitted ? 'account-submitted' : '']); ?>
-            </div>
-
-	    </div>
 	    <div class="row">
             <?php if ($isCorporateSubmitted): ?>
                 <?php echo $form->error($accountCorporate, 'industry_id'); ?>
@@ -106,22 +54,56 @@
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
 	    </div>
-        <div class="row"></div>
-        <div class="reg terms-confirm">
-            <?= $form->error($userCorporate, 'agree_with_terms'); ?>
-            <?= $form->checkBox($userCorporate, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-            <?= $form->labelEx($userCorporate, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
-        </div>
-	    <div class="row buttons">
-            <div class="field">
-	        <?php echo CHtml::submitButton(Yii::t('site', 'Start'), ['name' => 'corporate']); ?>
-            </div>
-	    </div>
-	    <?php $this->endWidget(); ?>
 	</div>
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div style="clear:both;"></div>
-	<p class="note" style="float: none; clear: both;">
-	    * <?php echo Yii::t('site', 'Не доступно в текущей версии, будет добавлено в следующем релизе') ?>
-	</p>
 </section>
+<div class="form registrationform">
+    <div class="transparent-boder">
+        <div class="row one-part">
+            <div class="row two-parts">
+                <?php echo $form->textField($profile, 'firstname', ['placeholder' => $profile->getAttributeLabel('firstname')]); ?>
+                <?php echo $form->error($profile, 'firstname'); ?>
+            </div>
+
+            <div class="row two-parts to-right">
+                <?php echo $form->textField($profile, 'lastname', ['placeholder' => $profile->getAttributeLabel('lastname')]); ?>
+                <?php echo $form->error($profile, 'lastname'); ?>
+            </div>
+        </div>
+        <div class="row one-part to-left">
+            <div class="row four-parts email-input">
+                <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
+                <?php echo $form->error($profile, 'email'); ?>
+            </div>
+
+            <div class="row four-parts to-right password-input">
+                <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
+                <?php echo $form->error($user, 'password'); ?>
+            </div>
+
+            <div class="row four-parts to-right password-again-input">
+                <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
+                <?php echo $form->error($user, 'password_again'); ?>
+            </div>
+            <div class="row" style="display: none">
+                <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
+            </div>
+            <div class="row" id="account-type" style="display: none">
+                <input type="hidden" value="corporate" name="account-type">
+            </div>
+            <div class="row four-parts to-right submit-input">
+                <?php echo CHtml::submitButton(Yii::t('site', ' Зарегистрироваться'), ['id'=>'registration_switch']); ?>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <?php  echo $form->error($user, 'general_error', ['class'=>'errorMessage general_error']); ?>
+        <?php //echo $form->error($profile, 'general_error', ['style'=>'position:static; display:inline-block; margin-top:5px; float:left;']); ?>
+
+    </div>
+
+    <div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
+        <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
+    </div>
+    <?php $this->endWidget(); ?>
+</div>

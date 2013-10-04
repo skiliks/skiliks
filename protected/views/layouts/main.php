@@ -232,6 +232,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             Cufon.replace('.items', {fontFamily:"ProximaNova-Bold"});
             Cufon.replace('.pager', {fontFamily:"ProximaNova-Bold"});
             Cufon.replace('.ProximaNova-Bold', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.ProximaNova', {fontFamily:"ProximaNova-Regular"});
             Cufon.replace('.ProximaNova-font-11px', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
         </script>
 
