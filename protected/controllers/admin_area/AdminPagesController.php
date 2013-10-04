@@ -1728,4 +1728,50 @@ class AdminPagesController extends SiteBaseController {
             "simulations" => $simulations,
         ]);
     }
+
+    public function actionSimulationsRatingCsv()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $xlsFile =  new \PHPExcel();
+        $xlsFile->removeSheetByIndex(0);
+
+        $worksheet = new \PHPExcel_Worksheet($xlsFile, 'Процентили');
+        $xlsFile->addSheet($worksheet);
+
+        $worksheet->setCellValueByColumnAndRow(1, 1, "ID инвайта");
+        $worksheet->setCellValueByColumnAndRow(2, 1, "Sim. ID");
+        $worksheet->setCellValueByColumnAndRow(3, 1, "Email соискателя, игрока");
+        $worksheet->setCellValueByColumnAndRow(4, 1, "Время начала симуляции");
+        $worksheet->setCellValueByColumnAndRow(5, 1, "Время конца симуляции");
+        $worksheet->setCellValueByColumnAndRow(6, 1, "Сценарий: статус");
+        $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
+        $worksheet->setCellValueByColumnAndRow(8, 1, "Процентиль");
+
+        $i = 3;
+        foreach ($assessments as $assessment) {
+            $worksheet->setCellValueByColumnAndRow(1, $i, $assessment->sim->invite->id );
+            $worksheet->setCellValueByColumnAndRow(2, $i, $assessment->sim->id );
+            $worksheet->setCellValueByColumnAndRow(3, $i, $assessment->sim->user->profile->email );
+            $worksheet->setCellValueByColumnAndRow(4, $i, $assessment->sim->start );
+            $worksheet->setCellValueByColumnAndRow(5, $i, $assessment->sim->end );
+            $worksheet->setCellValueByColumnAndRow(6, $i, $assessment->sim->status );
+            $worksheet->setCellValueByColumnAndRow(7, $i, $assessment->sim->invite->getOverall() );
+            $worksheet->setCellValueByColumnAndRow(8, $i, $assessment->sim->invite->getPercentile() );
+            $i++;
+        }
+
+        $doc = new \PHPExcel_Writer_Excel2007($xlsFile);
+        header('Content-type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
+        $doc->save('php://output');
+    }
 }
