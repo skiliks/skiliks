@@ -250,6 +250,35 @@ section.registration-by-link h1 {
     padding-bottom: 10px;
     padding-top:120px;
 }
+
+
+.action-registerReferral .text-right {
+    padding-top:143px; /* +39px */
+}
+.action-registerReferral section.registration-by-link h1 {
+    font:normal 25px "ProximaNova-Regular";
+    color:#666666;
+    margin-bottom: 26px;
+}
+.action-registerReferral .terms-confirm {
+    text-align: left;
+    margin: 0px 0px 25px 193px;
+    padding-top: 30px;
+}
+.action-registerReferral section.registration-by-link {
+    height: 430px;
+}
+.action-registerReferral .registration-by-link {
+    background-color: #FDFCC6;
+}
+.action-registerReferral section.registration-by-link .form .row label {
+    padding-left: 53px;
+    width: 137px;
+}
+.action-registerReferral section.registration-by-link .form .row.buttons {
+    padding-left: 193px;
+}
+
 section.registration-by-link .form {
     color:#666633;
     font:14px/34px "ProximaNova-Regular";
