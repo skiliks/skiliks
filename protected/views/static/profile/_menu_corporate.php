@@ -31,7 +31,7 @@
 
     <li class="<?php if (isset($active['referrals'])){ echo 'active'; } ?>">
         <a href="/profile/corporate/referrals">
-            Рефералы
+            Бонусы
         </a>
     </li>
 
