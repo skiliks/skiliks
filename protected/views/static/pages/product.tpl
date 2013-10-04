@@ -24,7 +24,7 @@
             <span class="percentil_base">
                 <span class="percentil_overall" style="width:80%"></span>
             </span>
-                <div class="percentil_text_product">P</div>
+                <div class="percentil_text_product ProximaNova-Bold">P</div>
             </div>
             <div class="clear: both"></div>
             <div class="overall">

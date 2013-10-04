@@ -1177,7 +1177,7 @@ div.percentil_text_product {
     float:right;
     margin-right: 10px;
     font-weight: bold;
-    margin-top:4px;
+    margin-top:2px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
