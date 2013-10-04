@@ -11,6 +11,11 @@
 
     Всего (<?= count($simulations) ?>) симуляций.
 
+    <a class="btn btn-info" style="float: right; margin-right: 100px;" href="/admin_area/simulations/rating/csv">
+        <i class='icon icon-download-alt icon-white'></i>
+        Скачать рейтинг в CSV
+    </a>
+
     <br/>
     <br/>
 
