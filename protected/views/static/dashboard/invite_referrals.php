@@ -47,7 +47,7 @@
 
 Удачи!
 
-[ЛЕЯ ЛЕВИН]' ?>
+'.$user->profile->firstname . " " . $user->profile->lastname ?>
             <?= $form->textArea($referralInviteModel, 'text', ['class' => "invite-referral-textarea-message"]) ?>
         </div>
 
