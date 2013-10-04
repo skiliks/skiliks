@@ -57,9 +57,15 @@
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
+
         <?php if(!$shown_display_popup) : ?>
             <?php $this->renderPartial('partials/_referrals-popup', []) ?>
         <?php endif; ?>
+
+        <?php if($is_display_tariff_expire_pop_up) : ?>
+            <?php $this->renderPartial('partials/_tariff_expire_pop_up', []) ?>
+        <?php endif; ?>
+
         <?php $this->renderPartial('partials/invite-friend-popup', []) ?>
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
