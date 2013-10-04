@@ -52,6 +52,16 @@ class ReferralsInviteForm extends CFormModel {
                 $emails = [$emails];
             }
 
+            $tempEmails = $emails;
+
+            $i = 0;
+            foreach($tempEmails as $email) {
+                if($email == "") {
+                    unset($emails[$i]);
+                }
+                $i++;
+            }
+
             if(count($emails) > 20) {
                 $this->addError('emails', 'Вы ввели более 20 е-мейлов.');
             }
