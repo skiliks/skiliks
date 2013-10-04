@@ -181,6 +181,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $session['shown_display_popup'] = !$this->user->getAccount()->is_display_referrals_popup;
         }
 
+        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
+
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -450,6 +452,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
             'shown_display_popup' => $session['shown_display_popup'],
+            'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
             'user'                => $this->user
         ]);
     }
@@ -1006,6 +1009,25 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
         $session = new CHttpSession();
         $session['shown_display_popup'] = 1;
+    }
+
+    function actionDontShowTariffEndPopup() {
+
+        $user = Yii::app()->user->data();
+
+        if (!$user->isAuth()) {
+            Yii::app()->end();
+        } elseif ($user->isPersonal()) {
+            Yii::app()->end();
+        }
+
+        $is_display_tariff_expire_pop_up = Yii::app()->request->getParam("is_display_tariff_expire_pop_up", null);
+        if($is_display_tariff_expire_pop_up !== null && $is_display_tariff_expire_pop_up == 1) {
+            $user->getAccount()->is_display_tariff_expire_pop_up = 0;
+            $user->getAccount()->save();
+        }
+        $session = new CHttpSession();
+        $session['is_display_tariff_expire_pop_up'] = 0;
     }
 
     public function actionRemakeRenderType() {

@@ -172,39 +172,55 @@ var fixLogotypes = function() {
             return false;
         });
 
-        $("#registration_check").click(function () {
-            var cookie = $.cookie('registration_user-want-to-start-demo');
-            if (undefined == cookie) {
-                $.cookie('registration_user-want-to-start-demo', 0);
-            }
+        $(".registration_check").click(function () {
 
-            if ($(this).hasClass('icon-check')) {
-                $(this).removeClass('icon-check');
-                $(this).addClass('icon-chooce');
-                $('#YumUser_is_check').val('0');
-                $("#registration_check").find("span").css('display', 'block');
-                if (1 === $('#registration_switch').length) {
-                    $('#registration_switch').val($('#registration_switch').attr('data-next'));
+            if($(this).parent().hasClass('form-account-personal')) {
+                if ($(this).hasClass('icon-check')) {
+                    /*$(this).removeClass('icon-check');
+                    $(this).addClass('icon-chooce');
+                    $(this).find("span").css('display', 'block');
+                    $(this).parent().css('background-color', '');
+                    $('.form-account-corporate').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
+                    $('.form-account-corporate').css('background-color', '');
+                    $("#account-type").val('');*/
+                } else if ($(this).hasClass('icon-chooce')) {
+                    $(this).removeClass('icon-chooce');
+                    $(this).addClass('icon-check');
+                    $(this).find("span").css('display', 'none');
+                    console.log($(this).parent().get());
+                    $(this).parent().css('background-color', '#fee374');
+                    $('.form-account-corporate').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-corporate').css('background-color', '');
+                    $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
+                    $("#account-type").val('personal');
                 }
-                if ($('#registration_hint').length) {
-                    $(".icon-uncheck-text").toggle();
-                    $(".icon-check-text").toggle();
+            }else if($(this).parent().hasClass('form-account-corporate')) {
+                if ($(this).hasClass('icon-check')) {
+                    /*$(this).removeClass('icon-check');
+                    $(this).addClass('icon-chooce');
+                    $(this).find("span").css('display', 'block');
+                    $(this).parent().css('background-color', '');
+                    $('.form-account-personal').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
+                    $('.form-account-personal').css('background-color', '');
+                    $("#account-type").val('');*/
+                } else if ($(this).hasClass('icon-chooce')) {
+                    $(this).removeClass('icon-chooce');
+                    $(this).addClass('icon-check');
+                    $(this).find("span").css('display', 'none');
+                    $(this).parent().css('background-color', '#fee374');
+                    $('.form-account-personal').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-personal').css('background-color', '');
+                    $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
+                    $("#account-type").val('corporate');
                 }
-                $.cookie('registration_user-want-to-start-demo', 0);
-            } else if ($(this).hasClass('icon-chooce')) {
-                $(this).removeClass('icon-chooce');
-                $(this).addClass('icon-check');
-                $('#YumUser_is_check').val('1');
-                $("#registration_check span").css('display', 'none');
-                if (1 === $('#registration_switch').length) {
-                    $('#registration_switch').val($('#registration_switch').attr('data-start'));
-
-                }
-                if ($('#registration_hint').length) {
-                    $(".icon-uncheck-text").toggle();
-                    $(".icon-check-text").toggle();
-                }
-                $.cookie('registration_user-want-to-start-demo', 1);
+            }else{
+                throw new Error("Bad choice");
             }
             return false;
         });
