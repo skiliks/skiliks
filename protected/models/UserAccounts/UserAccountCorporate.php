@@ -143,7 +143,7 @@ class UserAccountCorporate extends CActiveRecord
 	{
 		return array(
 			'user_id'             => Yii::t('site', 'User'),
-			'industry_id'         => Yii::t('site', 'Industry'),
+			'industry_id'         => 'Отрасль',
 			'company_size_id'     => Yii::t('site', 'Размер компании'),
 			'company_description' => Yii::t('site', 'Описание компании'),
 		);
