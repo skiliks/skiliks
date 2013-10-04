@@ -235,6 +235,7 @@ return array(
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
                 'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
                 'dashboard/remakeRenderType' => 'static/dashboard/remakeRenderType',
+                'invite/referrals' => 'static/dashboard/inviteReferrals',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',

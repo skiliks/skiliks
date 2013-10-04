@@ -4739,6 +4739,9 @@ ul.profile-menu li {
     .total-invited {
         font-size: 13px;
     }
+    .referalls_list_box .cufon {
+        margin-top: -2px;
+    }
 
 }
 
@@ -4989,3 +4992,204 @@ ul.question-container li.solo {
 div.div-questions-container {
     margin-top:100px;
 }
+
+.invite-referral-textarea {
+    width:339px;
+    float: left;
+    height: 63px;
+    margin-left: 10px;
+    font-size:12px;
+    color: #0e4750;
+}
+
+div.row.error.invite-referrals-div .invite-referral-textarea  {
+    margin-top: -24px;
+    margin-left: 40px;
+}
+
+div.row.error.invite-referrals-div ul {
+    margin-left: 50px;
+    color: #fff;
+}
+
+.invite-referral-textarea-message {
+    width:339px;
+    height: 150px;
+    font-size:12px;
+    padding-left:10px;
+    color: #0e4750;
+    margin-top: 10px;
+    margin-left:40px;
+}
+
+#sendRefferInviteButton {
+    background-size: auto auto;
+    float:left;
+    border:0;
+    margin-left:40px;
+}
+
+.additional-simulations-header {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 38px;
+    line-height: 50px;
+}
+
+.referral-left-div {
+    float:left;
+    box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin: 10px;
+    width:392px;
+    background-color: #146672;
+    color:#fff;
+    padding: 24px;
+}
+
+.referral-left-div h2 {
+    font-size:26px;
+}
+
+.referral-email-label {
+    float:left;
+    color:#fff;
+    margin-top:9px;
+    font-size:13px;
+}
+
+.referral-right-div {
+    float:left;
+    box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    height: 352px;
+    margin: 10px;
+    margin-left: 25px;
+    width:392px;
+    background-color: #fdfbc6;
+    color:#fff;
+    padding: 24px 24px 10px 24px;
+    text-align: center;
+}
+
+.referral-span-first {
+    margin-top: 42px;
+}
+
+.referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
+    font-size: 20px;
+}
+
+.referral-right-div .ProximaNova-font-11px {
+    text-align: left;
+    font-size: 11px;
+    margin-top:5px;
+}
+
+.referral-right-div .ProximaNova-font-11px.with-margin-top {
+    margin-top:46px;
+}
+
+
+@media screen and (max-width: 1146px){
+
+    .invite-referral-textarea {
+        width:271px;
+        float: left;
+        height: 50px;
+        margin-left: 32px;
+        font-size:11px;
+        color: #0e4750;
+        margin-top: -19px;
+    }
+
+    div.row.error.invite-referrals-div .invite-referral-textarea  {
+        margin-top: -20px;
+        margin-left: 31px;
+    }
+
+    div.row.error.invite-referrals-div ul {
+        margin-left: 40px;
+        color: #fff;
+    }
+
+    .invite-referral-textarea-message {
+        width:271px;
+        height: 150px;
+        font-size:11px;
+        padding-left:10px;
+        color: #0e4750;
+        margin-top: 10px;
+        margin-left:32px;
+    }
+
+    #sendRefferInviteButton {
+        background-size: auto auto;
+        float:left;
+        border:0;
+        margin-left:32px;
+    }
+
+    .additional-simulations-header {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .referral-left-div {
+        float:left;
+        box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        margin: 10px;
+        width:313px;
+        background-color: #146672;
+        color:#fff;
+        padding: 15px;
+    }
+
+    .referral-left-div h2 {
+        font-size:21px;
+    }
+
+    .referral-email-label {
+        float:left;
+        color:#fff;
+        margin-top:9px;
+        font-size:11px;
+    }
+
+    .referral-right-div {
+        float:left;
+        box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        height: 334px;
+        margin: 8px;
+        margin-left: 16px;
+        width:313px;
+        background-color: #fdfbc6;
+        color:#fff;
+        padding: 15px 15px 8px 15px;
+        text-align: center;
+    }
+
+    .referral-span-first {
+        margin-top: 33px;
+    }
+
+    .referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
+        font-size: 16px;
+    }
+
+    .referral-right-div .ProximaNova-font-11px {
+        text-align: left;
+        font-size: 9px;
+        margin-top:4px;
+    }
+
+    .referral-right-div .ProximaNova-font-11px.with-margin-top {
+        margin-top:37px;
+    }
+
+}
+

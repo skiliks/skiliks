@@ -6,7 +6,7 @@
        class="start-lite-simulation-btn light-btn">
         Пройти демо (15 мин)
     </a>
-    <a href="#" class="invite-friend-popup-button light-btn">
+    <a href="/invite/referrals" class="light-btn" style="float:right; margin-top: 10px;">
         Пригласить друга
     </a>
 

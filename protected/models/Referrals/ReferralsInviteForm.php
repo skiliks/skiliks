@@ -19,7 +19,7 @@ class ReferralsInviteForm extends CFormModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('emails', 'required', 'message' => Yii::t('site', 'Emails are required')),
+            array('emails', 'required'),
             array('emails', 'checkEmails'),
         );
     }

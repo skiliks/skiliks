@@ -933,38 +933,43 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
-        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            echo 'false';
-            Yii::app()->end();
+        if(!$user->isAuth() || !$user->isCorporate()) {
+            $this->redirect("dashboard");
         }
 
-        $referralForm = new ReferralsInviteForm();
 
-        $referralForm->emails = Yii::app()->request->getParam('emails');
-        $referralForm->text   = Yii::app()->request->getParam('text');
-
-        $errors = CActiveForm::validate($referralForm);
-
-        if ($errors && $errors != "[]") {
-            echo $errors;
+        if(!Yii::app()->request->getIsAjaxRequest()) {
+            $this->render("invite_referrals");
         }
         else {
+            $referralForm = new ReferralsInviteForm();
 
-            foreach($referralForm->validatedEmailsArray as $referAddress) {
-                $refer = new UserReferal();
-                $refer->referral_email = $referAddress;
-                $refer->referrer_id    = $user->id;
-                $refer->invited_at     = date("Y-m-d H:i:s");
-                $refer->status         = "pending";
-                $refer->save();
-                $refer->sendInviteReferralEmail();
+            $referralForm->emails = Yii::app()->request->getParam('emails');
+            $referralForm->text   = Yii::app()->request->getParam('text');
+
+            $errors = CActiveForm::validate($referralForm);
+
+            if ($errors && $errors != "[]") {
+                echo $errors;
             }
+            else {
 
-            $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
-            $emails = implode($referralForm->validatedEmailsArray, ", ");
-            $message .= $emails;
-            $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены." : " успешно отправлено.";
-            Yii::app()->user->setFlash('success', $message);
+                foreach($referralForm->validatedEmailsArray as $referAddress) {
+                    $refer = new UserReferal();
+                    $refer->referral_email = $referAddress;
+                    $refer->referrer_id    = $user->id;
+                    $refer->invited_at     = date("Y-m-d H:i:s");
+                    $refer->status         = "pending";
+                    $refer->save();
+                    $refer->sendInviteReferralEmail();
+                }
+
+                $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
+                $emails = implode($referralForm->validatedEmailsArray, ", ");
+                $message .= $emails;
+                $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены." : " успешно отправлено.";
+                Yii::app()->user->setFlash('success', $message);
+            }
         }
     }
 
