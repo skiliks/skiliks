@@ -841,10 +841,10 @@ class Invite extends CActiveRecord
      * @return array|mixed|null
      */
     public function getPercentile() {
-        $assessment = AssessmentOverall::model()->findByAttributes(
-            ['sim_id'=>$this->simulation_id,
-                'assessment_category_code' => AssessmentCategory::PERCENTILE
-            ]);
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id' => $this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::PERCENTILE
+        ]);
         if(null === $assessment){
             return null;
         }else{

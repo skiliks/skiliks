@@ -756,7 +756,7 @@ class Simulation extends CActiveRecord
             $percentileInDb = new AssessmentOverall();
             $percentileInDb->assessment_category_code = AssessmentCategory::PERCENTILE;
             $percentileInDb->sim_id = $this->id;
-            $percentileInDb->value = $percentileValue;
+            $percentileInDb->value = number_format($percentileValue, 2);
         }
         $percentileInDb->save();
     }
