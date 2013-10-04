@@ -1,7 +1,7 @@
 <div id="tariff-expired-popup">
     <div style="clear: both;"></div>
     <div class="ProximaNova-Bold">
-        Теперь вы можете получить дополнительные симуляции, пригласив друзей
+        Ваш тарифный план истек.
     </div>
 </div>
 <script>
