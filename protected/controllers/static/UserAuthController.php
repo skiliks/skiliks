@@ -420,18 +420,14 @@ class UserAuthController extends YumController
         if (false === Yii::app()->user->isGuest) {
             $this->redirect('/dashboard');
         }
+        $account_type = Yii::app()->request->getParam('account-type');
 
         $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
         $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
         $user       = new YumUser('registration');
-        $profile    = new YumProfile((null !== $UserAccountCorporate)?'registration_corporate':'registration');
-        $userPersonal       = new YumUser('registration');
-        $profilePersonal    = new YumProfile('registration');
-        $userCorporate       = new YumUser('registration');
-        $profileCorporate    = new YumProfile('registration');
+        $profile    = new YumProfile(($account_type === 'corporate')?'registration_corporate':'registration');
         $YumProfile = Yii::app()->request->getParam('YumProfile');
         $YumUser    = Yii::app()->request->getParam('YumUser');
-
         $profile->firstname = $YumProfile['firstname'];
         $profile->lastname  = $YumProfile['lastname'];
         $profile->timestamp = gmdate("Y-m-d H:i:s");
@@ -477,23 +473,20 @@ class UserAuthController extends YumController
                                 throw new Exception("YumPersonal not save!");
                             }
 
-                            if(null !== $UserAccountPersonal) {
+                            if($account_type === 'personal') {
                                 $accountPersonal->user_id = $user->id;
                                 if(false === $accountPersonal->save(true, ['user_id', 'professional_status_id'])){
                                     throw new Exception("UserAccountPersonal not save!");
                                 }
-                                $userPersonal = $user;
-                                $profilePersonal = $profile;
-                            }elseif(null !== $UserAccountCorporate) {
+                            }elseif($account_type === 'corporate') {
                                 $accountCorporate->user_id = $user->id;
                                 $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
                                 $accountCorporate->setTariff($tariff, true);
                                 if(false === $accountCorporate->save(true, ['user_id','industry_id'])){
                                     throw new Exception("UserAccountCorporate not save!");
                                 }
-                                $userCorporate = $user;
-                                $profileCorporate = $profile;
                             }else{
+
                                 throw new Exception("Bad type");
                             }
 
@@ -504,35 +497,7 @@ class UserAuthController extends YumController
                         } else {
                             throw new Exception("Registration is fail!");
                         }
-                        // grands permission to start full simulation {
-                        /*try {
-                            $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-                            $permission = new YumPermission();
-                            $permission->principal_id = Yii::app()->user->data()->id;
-                            $permission->subordinate_id = Yii::app()->user->data()->id;
-                            $permission->type = 'user';
-                            $permission->action = $action->id;
-                            $permission->template = 1;
-                            $permission->save();
-                        } catch(CDbException $e) {
-                            // duplicated records:
-                            // this possible for developers only,
-                            // when you remove your personal account and choose account type as personal again
-                            //
-                        }*/
-                        // grands permission to start full simulation }
-            } else {
-                    if(null !== $UserAccountPersonal) {
-                        $userPersonal = $user;
-                        $profilePersonal = $profile;
-                    }elseif(null !== $UserAccountCorporate) {
-                        $userCorporate = $user;
-                        $profileCorporate = $profile;
-                    }else{
-                        throw new Exception("Bad type");
-                    }
             }
-
 
         }
 
@@ -545,7 +510,8 @@ class UserAuthController extends YumController
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
-
+        //var_dump($user->getErrors(), $profile->getErrors());
+        //exit();
         $this->render(
             'registration',
             [
@@ -556,10 +522,7 @@ class UserAuthController extends YumController
                 'profile'              => $profile,
                 'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
                 'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
-                'userPersonal' => $userPersonal,
-                'userCorporate' => $userCorporate,
-                'profileCorporate' => $profileCorporate,
-                'profilePersonal' => $profilePersonal,
+                'user' => $user
             ]
         );
     }
