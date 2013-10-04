@@ -73,4 +73,11 @@
                 Количество симуляций по программе не ограничено.
             </p>
         </div>
+
+        <div style="clear: both; min-height: 15px;"></div>
+
+        <p class="referral-bottom-p ProximaNova">
+            После отправки приглашений <a href="/profile/corporate/referrals">просмотрите их состояние</a>
+        </p>
+
     </div>

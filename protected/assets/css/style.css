@@ -5090,6 +5090,17 @@ div.row.error.invite-referrals-div ul {
     margin-top:46px;
 }
 
+.referral-bottom-p {
+    text-align: center;
+    font-size: 18px;
+    color: #3c3c32;
+}
+.referral-bottom-p a {
+    color: #fff;
+}
+.referral-bottom-p a:hover {
+    text-decoration: underline;
+}
 
 @media screen and (max-width: 1146px){
 
@@ -5191,5 +5202,10 @@ div.row.error.invite-referrals-div ul {
         margin-top:37px;
     }
 
+    .referral-bottom-p {
+        text-align: center;
+        font-size: 16px;
+        color: #3c3c32;
+    }
 }
 
