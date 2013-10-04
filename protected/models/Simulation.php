@@ -736,6 +736,8 @@ class Simulation extends CActiveRecord
         $lessThanMe = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
             ->count($lessThanMeCondition);
 
+        var_dump($lessThanMe);
+
         if (0 == $lessThanMe) {
             // случай с первым пользователем (после реинициализации БД будет  пройденных симуляций)
             if (1 == $all) {
