@@ -94,9 +94,6 @@ class UserAuthController extends YumController
                 Yii::app()->user->setFlash('error', 'Вы не  являетесь реферралом!');
             }
         }
-//        var_dump($profile->getErrors());
-//        var_dump($user->getErrors());
-//        var_dump($accountCorporate->getErrors());
 
         $industries = ['' => 'Выберите область деятельности'];
         foreach (Industry::model()->findAll() as $industry) {
