@@ -29,6 +29,8 @@ class ReferralsInviteForm extends CFormModel {
         if($this->emails != "") {
             // replacing spacing in emails "@, @"
             $emails = str_replace(" ", "", $this->emails);
+            $emails = str_replace("\n", "", $this->emails);
+            $emails = str_replace("\r", "", $this->emails);
 
             /* @var $user YumUser */
             $user = Yii::app()->user->data();
