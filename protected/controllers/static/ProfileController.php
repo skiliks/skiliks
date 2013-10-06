@@ -407,7 +407,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        $totalReferrals = UserReferal::model()->countUserReferrals($this->user->id);
+        $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
         $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals]);
     }
 

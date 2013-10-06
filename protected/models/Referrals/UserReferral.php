@@ -17,8 +17,11 @@
  * @property YumUser $referral
  * @property YumUser $referrer
  */
-class UserReferal extends CActiveRecord
+class UserReferral extends CActiveRecord
 {
+    const STATUS_PENDING  = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'rejected';
 
     /**
      * Returns the static model of the specified AR class.
@@ -154,14 +157,14 @@ class UserReferal extends CActiveRecord
     public function countUserReferrals($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referrer_id', $userId);
-        return UserReferal::model()->count($criteria);
+        return UserReferral::model()->count($criteria);
     }
 
     public function countUserRegisteredReferrals($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referrer_id', $userId);
         $criteria->addCondition('registered_at IS NOT NULL');
-        return UserReferal::model()->count($criteria);
+        return UserReferral::model()->count($criteria);
     }
 
     public function searchUserReferrals($userId) {
@@ -203,4 +206,81 @@ class UserReferal extends CActiveRecord
         ]);
     }
 
+    /**
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return self::STATUS_APPROVED == $this->status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRejected()
+    {
+        return self::STATUS_REJECTED == $this->status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return self::STATUS_PENDING == $this->status;
+    }
+
+    /**
+     *
+     *
+     * @return bool
+     */
+    public function approveReferral()
+    {
+        // пользователь уже одобрен
+        if (false == $this->isPending()) {
+            return false;
+        }
+
+        // Начало валидации
+        // получаем е-мейл реффера и всех его зарегестрированных рефераллов
+        $criteria = new CDbCriteria();
+        $criteria->compare('referrer_id', $this->referrer->id);
+        $criteria->addCondition('referral_id IS NOT NULL');
+        $allUserReferrals = UserReferral::model()->findAll($criteria);
+
+        $referrerEmail = $this->referrer->profile->email;
+
+        $referrerDomain = substr($referrerEmail, strpos($referrerEmail, "@"));
+        $referralDomain = substr($this->referrer->referral_email, strpos($this->referrer->referral_email, "@"));
+        // проверка на доменную зону старых рефералов пользователя
+
+        $validationError = null;
+
+        foreach($allUserReferrals as $oldReferral) {
+            $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
+            if($oldReferralDomain == $referralDomain) {
+                $validationError = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1);
+                break;
+            }
+        }
+
+        // проверка на одну домененую зону с пользователем
+        if($referrerDomain == substr($this->referral_email, strpos($this->referral_email, "@"))) {
+            $validationError = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1);
+        }
+
+        // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
+        if(null === $validationError) {
+            $this->status = self::STATUS_APPROVED;
+            $this->referrer->getAccount()->addReferralInvite($this->referrer->profile->email);
+            $this->registered_at = date("Y-m-d H:i:s");
+            return true;
+        }
+        else {
+            $this->reject_reason = $validationError;
+            $this->status = self::STATUS_REJECTED;
+            return false;
+        }
+    }
 }

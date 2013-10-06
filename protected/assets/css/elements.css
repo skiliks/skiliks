@@ -252,6 +252,7 @@ section.registration-by-link h1 {
 }
 
 
+/* action-registerReferral { */
 .action-registerReferral .text-right {
     padding-top:143px; /* +39px */
 }
@@ -278,6 +279,7 @@ section.registration-by-link h1 {
 .action-registerReferral section.registration-by-link .form .row.buttons {
     padding-left: 193px;
 }
+/* action-registerReferral } */
 
 section.registration-by-link .form {
     color:#666633;
