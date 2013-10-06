@@ -51,14 +51,14 @@
                     </a>
                 </td>
                 <td>
-                    <?= $account->user->profile->firstname ?>
+                    <span class="text-label-200px"><?= $account->user->profile->firstname ?></span>
                     <br/>
-                    <?= $account->user->profile->lastname ?>
+                    <span class="text-label-200px"><?= $account->user->profile->lastname ?></span>
                     <br/>
                     <span class="label <?= ($account->user->status == YumUser::STATUS_ACTIVE) ? 'label-warning' : '' ?>"><?= $account->user->getStatusLabel() ?><span>
                 </td>
                 <td>
-                    <?= $account->user->profile->email ?>
+                    <span class="text-label-200px"><?= $account->user->profile->email ?></span>
                 </td>
                 <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
                 <td style="text-align: center;"><?= $account->invites_limit ?></td>
