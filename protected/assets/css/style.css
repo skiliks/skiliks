@@ -2916,11 +2916,6 @@ ul.profile-menu li {
     color:#146672 !important;
     text-decoration: underline;
 }
-.invite-friend-popup-button {
-    float:right;
-    margin-right: 5px;
-    margin-top: 10px;
-}
 .backgroud-bue-bordered h2 {
     color: #3d4041;
 }
@@ -5279,3 +5274,9 @@ div.row.error.invite-referrals-div ul {
     }
 }
 
+.container > header nav#static-page-links a.additional-simulations {
+    background-image: url('../img/referral-bonus.png');
+    background-repeat: no-repeat;
+    background-position: 4px 2px;
+    padding-left: 30px;
+}
