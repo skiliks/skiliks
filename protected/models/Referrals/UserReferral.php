@@ -95,7 +95,7 @@ class UserReferral extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
 
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'link' => Yii::app()->controller->createAbsoluteUrl("/register-referal/".$this->id)
+            'link' => Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id)
         ], true);
 
 
@@ -231,7 +231,10 @@ class UserReferral extends CActiveRecord
     }
 
     /**
-     *
+     * Проверяет можно ди начислять +1 симуляцию за реферала.
+     * Если по рефералу уже есть отказ или одобнение возарвщвет false.
+     * Если реферал находится в статусе pending - выполняет валидацию, начисление + указание даты ренгистрации
+     * если нет - указывает причину отказа.
      *
      * @return bool
      */
@@ -252,7 +255,7 @@ class UserReferral extends CActiveRecord
         $referrerEmail = $this->referrer->profile->email;
 
         $referrerDomain = substr($referrerEmail, strpos($referrerEmail, "@"));
-        $referralDomain = substr($this->referrer->referral_email, strpos($this->referrer->referral_email, "@"));
+        $referralDomain = substr($this->referral_email, strpos($this->referral_email, "@"));
         // проверка на доменную зону старых рефералов пользователя
 
         $validationError = null;
@@ -260,14 +263,14 @@ class UserReferral extends CActiveRecord
         foreach($allUserReferrals as $oldReferral) {
             $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
             if($oldReferralDomain == $referralDomain) {
-                $validationError = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1);
+                $validationError = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1). '.';
                 break;
             }
         }
 
         // проверка на одну домененую зону с пользователем
         if($referrerDomain == substr($this->referral_email, strpos($this->referral_email, "@"))) {
-            $validationError = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1);
+            $validationError = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1). '.';
         }
 
         // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию

@@ -38,17 +38,17 @@ class UserAuthController extends YumController
 
         $user = new YumUser('registration');
         $profile = new YumProfile('registration');
-        $accountCorporate = new UserAccountCorporate;
+        $accountCorporate = new UserAccountCorporate('registration');
 
-        $YumUser     = Yii::app()->request->getParam('YumUser');
-        $YumProfile  = Yii::app()->request->getParam('YumProfile');
-        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+        $YumUserData     = Yii::app()->request->getParam('YumUser');
+        $YumProfileData  = Yii::app()->request->getParam('YumProfile');
+        $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
 
-        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccountCorporate)
+        if(null !== $YumUserData && null !== $YumProfileData && null !== $UserAccountCorporateData)
         {
-            $user->attributes = $YumUser;
-            $profile->attributes = $YumProfile;
-            $accountCorporate->attributes = $UserAccountCorporate;
+            $user->attributes = $YumUserData;
+            $profile->attributes = $YumProfileData;
+            $accountCorporate->attributes = $UserAccountCorporateData;
 
             $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
 
@@ -62,7 +62,7 @@ class UserAuthController extends YumController
                 $isAccountCorporate = $accountCorporate->validate();
 
                 if ($isUserValid && $isProfileValid && $isAccountCorporate) {
-                    $result = $this->user->register($this->user->username, $this->user->password, $profile);
+                    $result = $user->register($user->username, $user->password, $profile);
 
                     if (false !== $result) {
                         $profile->save();
@@ -70,11 +70,12 @@ class UserAuthController extends YumController
                         $user->status = YumUser::STATUS_ACTIVE;
                         $user->update();
 
-                        $accountCorporate->user_id = $user->id;
+
                         // set Lite tariff by default
                         $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
-                        // update account tariff
+                        // update account
+                        $accountCorporate->user_id = $user->id;
                         $accountCorporate->setTariff($tariff);
                         $accountCorporate->save();
 
@@ -83,24 +84,23 @@ class UserAuthController extends YumController
                         $userReferralRecord->save();
 
                         YumUser::activate($profile->email, $user->activationKey);
-                        $user->authenticate($YumUser['password']);
+                        $user->authenticate($YumUserData['password']);
 
                         Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                        $this->redirect('/dashboard');
                     }
                 }
             } else {
                 Yii::app()->user->setFlash('error', 'Вы не  являетесь реферралом!');
             }
         }
+//        var_dump($profile->getErrors());
+//        var_dump($user->getErrors());
+//        var_dump($accountCorporate->getErrors());
 
         $industries = ['' => 'Выберите область деятельности'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
-        }
-
-        $statuses = ['' => 'Выберите статус'];
-        foreach (ProfessionalStatus::model()->findAll() as $status) {
-            $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
         $this->render(
@@ -111,7 +111,6 @@ class UserAuthController extends YumController
                 'profile'          => $profile,
                 'accountCorporate' => $accountCorporate,
                 'industries'       => $industries,
-                'statuses'         => $statuses
             ]
         );
 
