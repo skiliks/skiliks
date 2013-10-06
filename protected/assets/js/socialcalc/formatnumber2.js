@@ -104,7 +104,7 @@ SocialCalc.FormatNumber.formatNumberWithFormat = function(rawvalue, format_strin
    scfn.parse_format_string(scfn.format_definitions, format_string); // make sure format is parsed
    thisformat = scfn.format_definitions[format_string]; // Get format structure
 
-   if (!thisformat) throw "Format not parsed error!";
+   if (!thisformat) throw new Error("Format not parsed error!");
 
    section = thisformat.sectioninfo.length - 1; // get number of sections - 1
 
