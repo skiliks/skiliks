@@ -85,6 +85,7 @@
 .action-controller-login-auth .enter_form .row.submit {
     float:right;
 }
+.blue-submit-button,
 .action-controller-login-auth .enter_form input[type="submit"] {
     background-image: url("../img/icon-circlarow.png");
     background-repeat: no-repeat;
