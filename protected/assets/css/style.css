@@ -5271,3 +5271,9 @@ div.row.error.invite-referrals-div ul {
     background-position: 4px 2px;
     padding-left: 30px;
 }
+
+@media screen and (max-width: 1146px) {
+    .container > header nav#static-page-links a.additional-simulations {
+        background-size: 16px 16px;
+    }
+}

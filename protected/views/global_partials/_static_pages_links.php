@@ -14,15 +14,15 @@ $this->widget('zii.widgets.CMenu', array(
     'activateItems' => true,
     'items'=>[
         [
-            'label'       => 'Дополнительные симуляции',
-            'url'         => '/invite/referrals',
-            'linkOptions' => ['class' => 'additional-simulations'],
-            'visible'     => (false === $isGuest),
-        ],
-        [
             'label'   => Yii::t('site', 'Русский'),
             'url'     => StaticSiteTools::getLangSwitcherUrl(Yii::app()->request, Yii::app()->getLanguage()),
             'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
+        ],
+        [
+            'label'       => Yii::t('site', 'Additional simulations'),
+            'url'         => '/invite/referrals',
+            'linkOptions' => ['class' => 'additional-simulations'],
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage(),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
