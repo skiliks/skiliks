@@ -43,7 +43,7 @@ class ReferralsInviteForm extends CFormModel {
             $criteria = new CDbCriteria();
             $criteria->compare('referrer_id', $userId);
 
-            $allUserReferrals = UserReferal::model()->findAll($criteria);
+            $allUserReferrals = UserReferral::model()->findAll($criteria);
 
             $addedEmails = [];
 
@@ -123,7 +123,7 @@ class ReferralsInviteForm extends CFormModel {
                         $this->addError('emails', 'Е-мейл '. $referralEmail .' не является корпоративным.');
                     }
 
-                    $referral = new UserReferal();
+                    $referral = new UserReferral();
                     $referral->referral_email = $referralEmail;
                     $referral->validate();
 
