@@ -17,6 +17,8 @@
  * @property string $bic
  * @property string $preference_payment_method
  * @property string $default_invitation_mail_text
+ * @property integer $is_display_referrals_popup
+ * @property integer $is_display_tariff_expire_pop_up
  *
  * The followings are the available model relations:
  * @property YumUser $user

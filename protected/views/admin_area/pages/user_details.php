@@ -148,34 +148,46 @@ $assetsUrl = $this->getAssetsUrl();
         <?php endif; ?>
     </tr>
     <tr>
+        <td> Вид оценки</td>
         <td>
-            Вид оценки:
-            <?php if($user->profile->assessment_results_render_type == "standard")  {
-                echo "Стандарт";
-            }
-            else {
-                echo "Процентиль";
-            }
-            ?>
+            <?= $user->profile->assessment_results_render_type ?>
         </td>
+        <td></td>
+        <td></td>
     </tr>
 
         <?php if ($user->isCorporate()) : ?>
             <tr>
-                <td>Показывать попап рефералов: </td>
+                <td>Показывать попап рефералов </td>
                 <td>
                     <?php if ($user->account_corporate->is_display_referrals_popup) : ?>
-                        Показывается
+                        <i class="icon icon-eye-open"></i> Да
                     <?php else : ?>
-                       Не показывается
+                        <i class="icon icon-eye-close"></i> Нет
                     <?php endif ?>
                         <form action="/admin_area/user/<?= $user->id ?>/details/"
                               method="post" style="display: inline-block;">
 
-                            <button class="btn btn-success" name="changeReferPopup" type="submit">
+                            <button class="btn btn-success" name="switchReferralInfoPopup" type="submit">
                                 <i class="icon icon-refresh icon-white"></i> Сменить
                             </button>
                         </form>
+
+                </td>
+                <td>Показывать попап что тарифный план истёк </td>
+                <td>
+                    <?php if ($user->account_corporate->is_display_tariff_expire_pop_up) : ?>
+                        <i class="icon icon-eye-open"></i> Да
+                    <?php else : ?>
+                        <i class="icon icon-eye-close"></i> Нет
+                    <?php endif ?>
+                    <form action="/admin_area/user/<?= $user->id ?>/details/"
+                          method="post" style="display: inline-block;">
+
+                        <button class="btn btn-success" name="switchTariffExpired" type="submit">
+                            <i class="icon icon-refresh icon-white"></i> Сменить
+                        </button>
+                    </form>
 
                 </td>
             </tr>
