@@ -158,7 +158,7 @@ $assetsUrl = $this->getAssetsUrl();
             <form action="/admin_area/user/<?= $user->id ?>/details/"
                   method="post" style="display: inline-block;">
 
-                <button class="btn btn-success" name="switchTariffExpired" type="submit">
+                <button class="btn btn-success" name="switchTariffExpiredPopup" type="submit">
                     <i class="icon icon-refresh icon-white"></i> Сменить
                 </button>
             </form>
