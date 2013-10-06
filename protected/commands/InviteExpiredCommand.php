@@ -33,10 +33,15 @@ class InviteExpiredCommand extends CConsoleCommand
         }
 
         /* @var $users UserAccountCorporate[] */
-        $accounts = UserAccountCorporate::model()->findAll("tariff_expired_at <= '".(new DateTime())->format("Y-m-d H:i:s")."'");
+        $accounts = UserAccountCorporate::model()->findAll(
+            sprintf("'%s' < tariff_expired_at AND tariff_expired_at <= '%s'",
+                date("Y-m-d 00:00:00"),
+                date("Y-m-d 23:23:59")
+        ));
         if(null !== $accounts){
             /* @var $user UserAccountCorporate */
-            foreach($accounts as $account){
+            foreach($accounts as $account) {
+                $account->is_display_tariff_expire_pop_up = 1;
                 if($account->invites_limit !== 0) {
                     $initValue = $account->getTotalAvailableInvitesLimit();
 

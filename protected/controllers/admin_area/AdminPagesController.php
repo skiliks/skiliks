@@ -1329,8 +1329,14 @@ class AdminPagesController extends SiteBaseController {
         $user = YumUser::model()->findByPk($userId);
 
         if($user->isCorporate()) {
-            $isShownPopup = Yii::app()->request->getParam("changeReferPopup", null);
-            if($isShownPopup !== null) {
+            $isChangeShowReferralInfoPopup = Yii::app()->request->getParam("switchReferarlInfoPopup", null);
+            if($isChangeShowReferralInfoPopup !== null) {
+                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
+                $user->account_corporate->save();
+            }
+
+            $isChangeShowReferralInfoPopup = Yii::app()->request->getParam("switchTariffExpiredPopup", null);
+            if($isChangeShowReferralInfoPopup !== null) {
                 $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
                 $user->account_corporate->save();
             }
