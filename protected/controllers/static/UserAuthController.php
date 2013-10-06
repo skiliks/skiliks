@@ -95,7 +95,7 @@ class UserAuthController extends YumController
             }
         }
 
-        $industries = ['' => 'Выберите область деятельности'];
+        $industries = ['' => 'Выберите отрасль'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
