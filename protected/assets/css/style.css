@@ -3453,15 +3453,6 @@ ul.profile-menu li {
 }
 /* ***********************************  /TARIFFS *********************************** */
 /* ********************** /DASHBOARD ********************** */
-#JotFormIFrame {
-    /*position: absolute;
-    background-color: #ffffff;
-    margin-top: 100px;
-    z-index: 100;
-    top: 10px;*/
-    display: none;
-    width:750px;
-}
 
 .container > header nav a.has-notification {
     margin-right: 10px;

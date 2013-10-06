@@ -1225,7 +1225,7 @@ SocialCalc.EditorMouseRegister = function(editor) {
       element.attachEvent("ondblclick", SocialCalc.ProcessEditorDblClick);
       }
    else { // don't handle this
-      throw "Browser not supported";
+       throw new Error("Browser not supported");
       }
 
    mouseinfo.ignore = false; // just in case
@@ -3013,7 +3013,9 @@ SocialCalc.CalculateRowPositions = function(editor, panenum, positions, sizes) {
 
    var tbodyobj;
 
-   if (!context.showRCHeaders) throw("Needs showRCHeaders=true");
+   if (!context.showRCHeaders) {
+       throw new Error("Needs showRCHeaders=true");
+   }
 
    tbodyobj=editor.fullgrid.lastChild;
 
@@ -3053,7 +3055,9 @@ SocialCalc.CalculateColPositions = function(editor, panenum, positions, sizes) {
 
    var tbodyobj;
 
-   if (!context.showRCHeaders) throw("Needs showRCHeaders=true");
+   if (!context.showRCHeaders) {
+       throw new Error("Needs showRCHeaders=true");
+   }
 
    tbodyobj=editor.fullgrid.lastChild;
 
@@ -3719,7 +3723,7 @@ SocialCalc.CellHandles = function(editor) {
       this.draghandle.attachEvent("onmousemove", SocialCalc.CellHandlesMouseMoveOnHandle);
       }
    else { // don't handle this
-      throw "Browser not supported";
+       throw new Error("Browser not supported");
       }
 
    }
@@ -4781,7 +4785,9 @@ SocialCalc.ComputeTableControlPositions = function(control) {
 
    var editor = control.editor;
 
-   if (!editor.gridposition || !editor.headposition) throw("Can't compute table control positions before editor positions");
+   if (!editor.gridposition || !editor.headposition) {
+       throw new Error("Can't compute table control positions before editor positions");
+   }
 
    if (control.vertical) {
       control.controlborder = editor.tablewidth; // border=left position
@@ -5212,7 +5218,7 @@ SocialCalc.DragRegister = function(element, vertical, horizontal, functionobj) {
       element.attachEvent("onmousedown", SocialCalc.DragMouseDown);
       }
    else { // don't handle this
-      throw SocialCalc.Constants.s_BrowserNotSupported;
+          throw new Error(SocialCalc.Constants.s_BrowserNotSupported);
       }
 
    }
@@ -5455,7 +5461,7 @@ SocialCalc.TooltipRegister = function(element, tiptext, functionobj) {
       document.attachEvent("onmousemove", SocialCalc.TooltipMouseMove);
       }
    else { // don't handle this
-      throw SocialCalc.Constants.s_BrowserNotSupported;
+          throw new Error(SocialCalc.Constants.s_BrowserNotSupported);
       }
 
    tooltipinfo.registered = true; // remember
@@ -5667,7 +5673,7 @@ SocialCalc.ButtonRegister = function(element, paramobj, functionobj) {
       element.attachEvent("onmouseout", SocialCalc.ButtonMouseOut);
       }
    else { // don't handle this
-      throw SocialCalc.Constants.s_BrowserNotSupported;
+          throw new Error(SocialCalc.Constants.s_BrowserNotSupported);
       }
 
    return;
@@ -5899,7 +5905,7 @@ SocialCalc.MouseWheelRegister = function(element, functionobj) {
       element.attachEvent("onmousewheel", SocialCalc.ProcessMouseWheel);
       }
    else { // don't handle this
-      throw SocialCalc.Constants.s_BrowserNotSupported;
+          throw new Error(SocialCalc.Constants.s_BrowserNotSupported);
       }
 
    return;

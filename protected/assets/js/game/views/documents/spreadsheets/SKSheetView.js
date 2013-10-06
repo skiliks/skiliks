@@ -30,7 +30,7 @@ define([], function () {
                 }
 
                 sheet.set('isInitializeCalculated', true);
-                clearTimeout(longLoadingTimeout);
+                // clearTimeout(longLoadingTimeout);
 
                 this.listenTo(sheet, 'activate', this.activateSheet);
                 this.listenTo(sheet, 'recalc', this.recalcSheet);
@@ -58,6 +58,7 @@ define([], function () {
             }
         },
         recalcSheet:     function () {
+            console.log('recalc');
             try {
                 var me = this;
                 var sheet = this.options.sheet;
@@ -74,6 +75,8 @@ define([], function () {
                     }
                 }, 10000);
 
+                console.log('recalc timeout initiated');
+
                 loadQueue.queue('fx', function () {
                     if (me.spreadsheet) {
                         me.spreadsheet.ExecuteCommand('recalc', '');
@@ -82,8 +85,9 @@ define([], function () {
                     loadQueue.dequeue('fx');
                 });
 
+                console.log('recalc timeout removed');
                 sheet.set('isRecalcCalculated', true);
-                clearTimeout(longLoadingTimeout);
+                //clearTimeout(longLoadingTimeout);
 
             } catch(exception) {
                 if (window.Raven) {
@@ -92,6 +96,7 @@ define([], function () {
             }
         },
         activateSheet:   function () {
+            console.log('activate');
             try {
                 var me = this;
                 var sheet = this.options.sheet;
@@ -115,7 +120,7 @@ define([], function () {
                 });
 
                 sheet.set('isActivateCalculated', true);
-                clearTimeout(longLoadingTimeout)
+                // clearTimeout(longLoadingTimeout)
 
             } catch(exception) {
                 if (window.Raven) {
