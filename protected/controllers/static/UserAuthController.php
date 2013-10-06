@@ -36,133 +36,60 @@ class UserAuthController extends YumController
     public function actionRegisterReferral($refId=false) {
 
 
-        $this->user = new YumUser('registration');
+        $user = new YumUser('registration');
         $profile = new YumProfile('registration');
-        $account = new UserAccountPersonal();
         $accountCorporate = new UserAccountCorporate;
-
 
         $YumUser     = Yii::app()->request->getParam('YumUser');
         $YumProfile  = Yii::app()->request->getParam('YumProfile');
-        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
         $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
 
-        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
+        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccountCorporate)
         {
-            $this->user->attributes = $YumUser;
+            $user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
-            $account->attributes = $UserAccount;
+            $accountCorporate->attributes = $UserAccountCorporate;
 
-            $criteria = new CDbCriteria();
-            $criteria->compare("id", $refId);
-            $referrer = UserReferal::model()->find($criteria);
+            $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
 
-            if($referrer !== null && $referrer->registered_at === null) {
+            if($userReferralRecord !== null && $userReferralRecord->registered_at === null) {
 
-                $profile->email = $referrer->referral_email;
-                $this->user->setUserNameFromEmail($profile->email);
+                $profile->email = $userReferralRecord->referral_email;
+                $user->setUserNameFromEmail($profile->email);
 
+                $isUserValid = $user->validate();
+                $isProfileValid = $profile->validate();
+                $isAccountCorporate = $accountCorporate->validate();
 
-                // Protect from "Wrong username" message - we need "Wrong email", from Profile form
-                if (null == $this->user->username) {
-                    $this->user->username = 'DefaultName';
-                }
-
-                $errors = CActiveForm::validate([$this->user, $profile, $account], ["professional_status_id",
-                                                                                    "firstname","lastname","email",
-                                                                                    "password","password_again","agree_with_terms","industry_id"]);
-
-                if ($errors && $errors != "[]") {
-                    echo $errors;
-                    Yii::app()->end();
-                }
-
-                else {
-
+                if ($isUserValid && $isProfileValid && $isAccountCorporate) {
                     $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
                     if (false !== $result) {
-
-
-
                         $profile->save();
-                        $this->user->status = YumUser::STATUS_ACTIVE;
-                        $this->user->update();
-                        $referrer->referral_id = $accountCorporate->user_id = $this->user->id;
-                        $referrerUser = YumUser::model()->findByPk($referrer->referrer_id);
 
-                        // Начало валидации
+                        $user->status = YumUser::STATUS_ACTIVE;
+                        $user->update();
 
-                        // получаем е-мейл реффера и всех его зарегестрированных рефераллов
-
-                        $criteria = new CDbCriteria();
-                        $criteria->compare('referrer_id', $referrerUser->id);
-                        $criteria->addCondition('referral_id IS NOT NULL');
-
-                        $allUserReferrals = UserReferal::model()->findAll($criteria);
-                        $referrerEmail = $referrerUser->profile->email;
-                        $referrerDomain = substr($referrerEmail, strpos($referrerEmail, "@"));
-                        $referralDomain = substr($referrer->referral_email, strpos($referrer->referral_email, "@"));
-
-
-                        // проверка на доменную зону старых рефералов пользователя
-
-                        $validationErrors = null;
-
-                        foreach($allUserReferrals as $oldReferral) {
-                            $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
-                            if($oldReferralDomain == $referralDomain) {
-                                $validationErrors = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1);
-                                break;
-                            }
-                        }
-
-                        // проверка на одну домененую зону с пользователем
-
-                        if($referrerDomain == substr($referrer->referral_email, strpos($referrer->referral_email, "@"))) {
-                            $validationErrors = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1);
-                        }
-
-
-                        // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
-                        if(null === $validationErrors) {
-                            $referrer->status = "approved";
-                            $referrerUser->getAccount()->addReferralInvite($profile->email);
-                        }
-                        else {
-                            $referrer->reject_reason = $validationErrors;
-                            $referrer->status = "rejected";
-                        }
-
-                        //
-
-                        $accountCorporate->industry_id = $account->industry_id;
-
-                        $accountCorporate->save(false);
-
-                        $referrer->registered_at = date("Y-m-d H:i:s");
-                        $referrer->save(false);
-
-                        YumUser::activate($profile->email, $this->user->activationKey);
-                        $this->user->authenticate($YumUser['password']);
-
-                        Yii::app()->user->setFlash('error', 'Вы успешно зарегистрированы!');
-
+                        $accountCorporate->user_id = $user->id;
                         // set Lite tariff by default
                         $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
 
                         // update account tariff
-                        $accountCorporate->setTariff($tariff, true);
+                        $accountCorporate->setTariff($tariff);
+                        $accountCorporate->save();
 
-                        echo "[]";
-                        Yii::app()->end();
-                    } else {
-                        $this->user->password = '';
-                        $this->user->password_again = '';
+                        $userReferralRecord->referral_id = $user->id;
+                        $userReferralRecord->approveReferral();
+                        $userReferralRecord->save();
 
-                        Yii::app()->user->setFlash('error', 'Ошибки регистрации. Обратитесь в <a href="/contacts">службу поддержки</a>.');
+                        YumUser::activate($profile->email, $user->activationKey);
+                        $user->authenticate($YumUser['password']);
+
+                        Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
                     }
                 }
+            } else {
+                Yii::app()->user->setFlash('error', 'Вы не  являетесь реферралом!');
             }
         }
 
@@ -176,19 +103,15 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
-        $error = null;
-
         $this->render(
             'referral_registration',
             [
-                'user'       => $this->user,
-                'profile'    => $profile,
-                'account'    => $account,
-                'industries' => $industries,
-                'statuses'   => $statuses,
-                'error'      => $error,
-                'refId'      => $refId,
-                'accountCorporate' => $accountCorporate
+                'refId'            => $refId,
+                'user'             => $user,
+                'profile'          => $profile,
+                'accountCorporate' => $accountCorporate,
+                'industries'       => $industries,
+                'statuses'         => $statuses
             ]
         );
 

@@ -1,6 +1,6 @@
 <section class="registration-by-link">
     <div class="text-right"></div>
-    <h1 style="text-align: center; width: 100%;">Создание корпоративного профиля</h1>
+    <h1 class="ProximaNova" style="text-align: center; width: 100%;">Создание корпоративного профиля</h1>
 
     <div class="form" style="min-height:680px; ">
 
@@ -10,7 +10,7 @@
             'id' => 'referrer-registration-form',
             'htmlOptions' => ['class' => 'payment-form'],
             'action' => '/register-referal/'.$refId,
-            'enableAjaxValidation' => true,
+            'enableAjaxValidation' => false,
             'clientOptions' => [
                 'validateOnSubmit' => true,
                 'validateOnChange' => false,
@@ -19,7 +19,7 @@
         ));
         ?>
 
-        <?= $form->error($this->user, 'username'); ?>
+        <?= $form->error($user, 'username'); ?>
         <?= $form->error($profile, 'email'); ?>
 
         <div class="row" style="margin-top:-40px;">
@@ -53,7 +53,7 @@
             <?= $form->error($user, 'agree_with_terms'); ?>
         </div>
         <div class="row buttons" style="margin-top:-40px;">
-            <?php echo CHtml::submitButton(Yii::t("site","Sign up")); ?>
+            <?php echo CHtml::submitButton(Yii::t("site","Sign up"), ['class' => 'ProximaNova-Bold']); ?>
         </div>
 
         <?php $this->endWidget(); ?>

@@ -4740,7 +4740,9 @@ ul.profile-menu li {
     .referalls_list_box .cufon {
         margin-top: -2px;
     }
-
+    .action-registerReferral .text-right {
+        padding-top:123px; /* +39px */
+    }
 }
 
 
