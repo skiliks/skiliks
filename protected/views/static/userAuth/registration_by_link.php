@@ -32,7 +32,9 @@
             <?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
             <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
         </div><div class="row buttons">
-            <?php echo CHtml::submitButton(Yii::t("site","Sign up")); ?>
+            <button type="submit" class="ProximaNova-Bold blue-submit-button">
+                <?= Yii::t("site","Sign up") ?>
+            </button>
 
             <a class="decline-link">Отказаться от приглашения</a>
         </div>
