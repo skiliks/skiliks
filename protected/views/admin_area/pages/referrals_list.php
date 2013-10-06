@@ -26,7 +26,7 @@ $assetsUrl = $this->getAssetsUrl();
 <?php
 
     $this->widget('zii.widgets.grid.CGridView', [
-        'dataProvider' => UserReferal::model()->searchUserReferrals(
+        'dataProvider' => UserReferral::model()->searchUserReferrals(
         $user->id
     ),
         'summaryText' => '',

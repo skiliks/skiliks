@@ -459,7 +459,7 @@ class YumUser extends YumActiveRecord
 
         $rules[] = array('username',
             'unique',
-            'message' => Yii::t('site', "This user's name already exists."));
+            'message' => Yii::t('site', 'This user\'s name already exists.'));
         $rules[] = array(
             'username',
             'match',
