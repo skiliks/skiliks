@@ -233,7 +233,7 @@ section.registration-by-link {
     box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     padding:0 20px 41px 28px;
-    height:400px;
+    height:420px;
     width:776px;
     margin:50px auto 0;
     background:url("../img/bg-register-by-link2.jpg")no-repeat center top;
@@ -261,13 +261,26 @@ section.registration-by-link h1 {
     color:#666666;
     margin-bottom: 26px;
 }
-.action-registerReferral .terms-confirm {
+.terms-confirm-left-align {
+    color: #6D6D5B;
+    font-size: 12px;
+    padding-top: 10px;
+    position: relative;
+    line-height: 10px;
     text-align: left;
-    margin: 0px 0px 25px 193px;
-    padding-top: 30px;
+    margin: 0px 0px 17px 190px;
 }
-.action-registerReferral section.registration-by-link {
-    height: 430px;
+@media screen and (max-width: 1146px) {
+    .terms-confirm-left-align {
+        font-size: 12px;
+        padding-top: 10px;
+        line-height: 10px;
+        margin: 0px 0px 17px 150px;
+    }
+}
+.terms-confirm-left-align .errorMessage {
+    top: -5px;
+    left: 5px;
 }
 .action-registerReferral .registration-by-link {
     background-color: #FDFCC6;
@@ -276,8 +289,23 @@ section.registration-by-link h1 {
     padding-left: 53px;
     width: 137px;
 }
+@media screen and (max-width: 1146px) {
+    .action-registerReferral section.registration-by-link .form .row label {
+        padding-left: 43px;
+        width: 107px;
+    }
+}
 .action-registerReferral section.registration-by-link .form .row.buttons {
     padding-left: 193px;
+}
+@media screen and (max-width: 1146px) {
+    .action-registerReferral section.registration-by-link .form .row.buttons {
+        padding-left: 153px;
+    }
+}
+
+#referrer-registration-form .wide .email-error .errorMessage {
+    left: 430px;
 }
 /* action-registerReferral } */
 
@@ -311,7 +339,7 @@ section.registration-by-link .form .row .sbHolder {
     width:350px;
 }
 section.registration-by-link .form .row.buttons {
-    padding-left:190px;
+    padding-left:193px;
 }
 section.registration-by-link .form .row input[type="submit"],
 #change-password-form  input[type="submit"] {
@@ -367,6 +395,32 @@ section.registration-by-link .form .row a.decline-link:hover {
 #registration-by-link-form .YumProfile_firstname,
 #registration-by-link-form .YumProfile_lastname {
     top:-12px;
+}
+.registration-form .wide .errorMessage {
+    top:-10px;
+    left:195px;
+}
+@media screen and (max-width: 1146px) {
+    #referrer-registration-form .wide .errorMessage {
+        top:-7px;
+    }
+    section.registration-by-link {
+        height: 390px;
+    }
+    .registration-form .wide .errorMessage {
+        top:-6px;
+        left:155px;
+    }
+}
+#referrer-registration-form .wide .YumProfile_lastname,
+#registration-by-link-form .wide .YumProfile_lastname{
+    left: 385px;
+}
+
+@media screen and (max-width: 1146px) {
+    #referrer-registration-form .wide .YumProfile_lastname, #registration-by-link-form .wide .YumProfile_lastname {
+        left: 330px;
+    }
 }
 .wide .sbHolder_err {
     top:-10px;
@@ -940,4 +994,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     display:inline-block;
     margin-top:5px;
     float:left;
+}
+
+.form-with-red-errors .sbHolder_error,
+.form-with-red-errors input.error {
+    border: 2px solid #bd2929 !important;
 }

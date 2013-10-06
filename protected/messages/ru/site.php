@@ -425,4 +425,5 @@ return array(
     'Email is already in use.' => 'Данный email занят.',
 
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
+    'This user\'s name already exists.' => 'Такое имя пользователя уже занято.'
 );
