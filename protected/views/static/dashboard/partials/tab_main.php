@@ -2,7 +2,7 @@
 <div class="allsummry">
     <div class="overall percentil_overall_container">
             <span class="percentil_base">
-                <span class="percentil_overall" style="width:40%"></span>
+                <span class="percentil_overall" style="width:0;"></span>
             </span>
             <div class="percentil_text">P0</div>
     </div>
