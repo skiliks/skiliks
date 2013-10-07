@@ -6,21 +6,19 @@
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
  * @property integer $industry_id
- * @property string $corporate_email
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
  * @property integer $referrals_invite_limit
- * @property boolean $is_corporate_email_verified
- * @property datetime $corporate_email_verified_at
  * @property datetime $tariff_expired_at
- * @property boolean $corporate_email_activation_code
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
  * @property string $bic
  * @property string $preference_payment_method
  * @property string $default_invitation_mail_text
+ * @property integer $is_display_referrals_popup
+ * @property integer $is_display_tariff_expire_pop_up
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -51,7 +49,10 @@ class UserAccountCorporate extends CActiveRecord
         $this->invites_limit = $tariff->simulations_amount;
 
         if ($isSave) {
-            $this->save();
+
+            if(false === $this->save(false)){
+                throw new Exception("Not save Tariff");
+            }
 
             UserService::logCorporateInviteMovementAdd(
                 'Account setTariff and save',
@@ -67,20 +68,6 @@ class UserAccountCorporate extends CActiveRecord
         }
 
 
-    }
-
-    /**
-     * @return string
-     */
-    public function generateActivationKey()
-    {
-        $this->corporate_email_activation_code = YumEncrypt::encrypt(microtime().$this->corporate_email, $this->user->salt);
-
-        if (!$this->isNewRecord) {
-            $this->save(false, array('activationKey'));
-        }
-
-        return $this->corporate_email_activation_code;
     }
 
     /**
@@ -127,15 +114,10 @@ class UserAccountCorporate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id'         , 'required'),
-			//array('ownership_type'  , 'required', 'message' => Yii::t('site', 'Ownership is required')),
-			array('corporate_email' , 'required', 'message' => Yii::t('site', 'Email is required')),
-			array('corporate_email' , 'unique', 'message' => Yii::t('site', 'Email is already taken')),
-            array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
-            array('corporate_email' , 'isCorporateEmail'),
-            array('corporate_email' , 'isNotPersonalEmail'),
-			array('industry_id'     , 'numerical', 'integerOnly'=>true),
-			array('user_id'         , 'length'   , 'max'=>10),
+			array('user_id'     , 'required', 'on' => ['insert', 'update']),
+			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update']),
+            array('industry_id' , 'required', 'on' => ['registration']),
+			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
@@ -163,8 +145,7 @@ class UserAccountCorporate extends CActiveRecord
 	{
 		return array(
 			'user_id'             => Yii::t('site', 'User'),
-			'corporate_email'     => Yii::t('site', 'Corporate email'),
-			'industry_id'         => Yii::t('site', 'Industry'),
+			'industry_id'         => 'Отрасль',
 			'company_size_id'     => Yii::t('site', 'Размер компании'),
 			'company_description' => Yii::t('site', 'Описание компании'),
 		);
@@ -194,6 +175,11 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function isCorporateEmail($attribute)
     {
+        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
+        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
+            return;
+        }
+
         if(false == UserService::isCorporateEmail($this->$attribute)) {
             $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
         }

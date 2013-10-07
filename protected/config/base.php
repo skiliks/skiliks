@@ -185,12 +185,9 @@ return array(
 
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
-                'registration-new'                               => 'static/userAuth/registrationNew',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
-                'register-referal/<refId:\d+>'                   => 'static/userAuth/registerReferral',
-                'registration/choose-account-type'               => 'static/userAuth/chooseAccountType',
+                'register-referral/<refId:\d+>'                  => 'static/userAuth/registerReferral',
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
-                'registration/confirm-corporate-email'           => 'static/userAuth/ConfirmCorporateEmail',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
@@ -213,10 +210,12 @@ return array(
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
                 'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
                 'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+                'help/general'                       => 'static/help/general',
+                'help/corporate'                     => 'static/help/corporate',
+                'help/personal'                      => 'static/help/personal',
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
                 'product-new'                        => 'static/pages/productNew',
                 'team-new'                           => 'static/pages/teamNew',
-                'old-browser-new'                    => 'static/pages/teamNew',
                 'home-new'                           => 'static/pages/homeNew',
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
                 'static/tariffs-new'                 => 'static/pages/tariffsNew',
@@ -235,10 +234,13 @@ return array(
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
                 'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
+                'dashboard/dontShowTariffEndPopup' => 'static/dashboard/dontShowTariffEndPopup',
+                'dashboard/remakeRenderType' => 'static/dashboard/remakeRenderType',
+                'invite/referrals' => 'static/dashboard/inviteReferrals',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
-                'profile/corporate/referrers'                => 'static/profile/corporateReferrers',
+                'profile/corporate/referrals'                => 'static/profile/corporateReferrals',
                 'profile/corporate/password/' => 'static/profile/corporatePassword',
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
@@ -317,6 +319,8 @@ return array(
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
 
+                'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
+                'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
                 'admin_area/email/<id:\w+>/text'                          => 'admin_area/AdminPages/EmailText',
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
@@ -402,10 +406,11 @@ return array(
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-            'inviteEmailTemplate' => '//global_partials/mails/invite_default',
-            'newInvoiceToBooker' => '//global_partials/mails/new_invoice',
+            'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
+            'tariffExpiredTemplate'    => 'tariff_expired',
+            'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
-            'referrerInviteEmail' => '//global_partials/mails/reffererEmail',
+            'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
@@ -422,6 +427,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
             'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,
@@ -452,7 +458,7 @@ return array(
         ),
         'cron' => [
 //            'CleanUsers'=> 604800,8
-            'InviteExpired'=> 604800,
+            'InviteExpired'=> 432000,
         ],
         'initial_data' => [
             'users' => [

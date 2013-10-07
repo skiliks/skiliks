@@ -152,9 +152,9 @@ class YumRegistrationController extends YumController {
 				$login = new YumUserIdentity($status->username, false); 
 				$login->authenticate(true);
 				Yii::app()->user->login($login);	
-			} 
+			}
 
-			$this->render(Yum::module('registration')->activationSuccessView);
+            $this->redirect('/dashboard');
 		}
 		else {}
 			$this->render(Yum::module('registration')->activationFailureView, array(

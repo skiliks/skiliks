@@ -25,11 +25,11 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
-
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb-min.png"/>
         <meta charset="utf-8" />
         <meta name="description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
         <meta property="og:description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
@@ -174,7 +174,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php endif ?>
                 <nav id="footer-menu">
                     <?php $this->renderPartial('//global_partials/_account_links', [
-                        'isDisplayAccountLinks' => false
+                        'isDisplayAccountLinks' => false,
+                        'disableDemo' => true
                     ]) ?>
                 </nav>
             </div>
@@ -215,7 +216,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
                 '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
                 '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-                '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
+                '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li, .regular-list',
                 {fontFamily:"ProximaNova-Regular", hover:true});
 
             Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
@@ -227,11 +228,15 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             Cufon.replace('.freeacess', {hover:true});
             Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
             Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
+            Cufon.replace('.ProximaNova-20', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
+            Cufon.replace('.items', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.pager', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.ProximaNova-Bold', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.ProximaNova', {fontFamily:"ProximaNova-Regular"});
+            Cufon.replace('.ProximaNova-font-11px', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
         </script>
 
-        <?php $isDevServer = in_array(Yii::app()->request->serverName, ['loc.skiliks.com', 'test.skiliks.com', 'live.skiliks.com']);  ?>
-        <?php $isDisplayHelpChat = Yii::app()->params['public']['isDisplaySupportChat'] && false == $isDevServer; ?>
-        <?php if ($isDisplayHelpChat) : ?>
+        <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
             <script type="text/javascript">
 
                 window._shcp = [];

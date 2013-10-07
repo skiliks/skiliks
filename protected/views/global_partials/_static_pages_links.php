@@ -3,11 +3,12 @@
 /** @var YumUser $user */
 $user = Yii::app()->user->data();
 $isGuest = Yii::app()->user->isGuest;
-$isActivated = $user ? $user->isActive() && ($user->isCorporate() ? $user->account_corporate->is_corporate_email_verified : $user->isCorporate() || $user->isPersonal()) : false;
+$isActivated = $user ? $user->isActive():false;
 $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
 $profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
+
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -18,9 +19,10 @@ $this->widget('zii.widgets.CMenu', array(
             'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
         ],
         [
-            'label'   => Yii::t('site','Help'),
-            'url'     => '',
-            'visible' => false,
+            'label'       => Yii::t('site', 'Additional simulations'),
+            'url'         => '/invite/referrals',
+            'linkOptions' => ['class' => 'additional-simulations'],
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage(),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
@@ -32,8 +34,14 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => $profileName,
             'url'         => '',
             'linkOptions' => ['class' => 'top-profile '.$classForName],
-            'visible' => $visibleName,
-        ],[
+            'visible'     => $visibleName,
+        ],
+        [
+            'label'   => Yii::t('site','Help'),
+            'url'     => '/help/general',
+            'visible' => !$isGuest && 'ru' == Yii::app()->getLanguage(),
+        ],
+        [
             'label'       => Yii::t('site', 'Регистрация'),
             'url'         => ['/registration'],
             'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage()

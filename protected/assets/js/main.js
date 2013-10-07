@@ -141,70 +141,55 @@ var fixLogotypes = function() {
             return false;
         });
 
-        $('.invite-friend-popup-button').click(function(e) {
+        $(".registration_check").click(function () {
 
-            // удлиннить окно чтоб футер был ниже нижнего края попапа
-            $('.content').css('margin-bottom', '600px');
-
-            $('#invite-friend-popup').dialog({
-                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
-                modal:       true,
-                autoOpen:    true,
-                resizable:   false,
-                draggable:   false,
-                width:       881,
-                maxHeight:   600,
-                position: {
-                    my: "left top",
-                    at: "left bottom",
-                    of: $("header h1")
-                },
-                open: function( event, ui ) {
+            if($(this).parent().hasClass('form-account-personal')) {
+                if ($(this).hasClass('icon-check')) {
+                    /*$(this).removeClass('icon-check');
+                    $(this).addClass('icon-chooce');
+                    $(this).find("span").css('display', 'block');
+                    $(this).parent().css('background-color', '');
+                    $('.form-account-corporate').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
+                    $('.form-account-corporate').css('background-color', '');
+                    $("#account-type").val('');*/
+                } else if ($(this).hasClass('icon-chooce')) {
+                    $(this).removeClass('icon-chooce');
+                    $(this).addClass('icon-check');
+                    $(this).find("span").css('display', 'none');
+                    console.log($(this).parent().get());
+                    $(this).parent().css('background-color', '#fee374');
+                    $('.form-account-corporate').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-corporate').css('background-color', '');
+                    $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
+                    $("#account-type").val('personal');
                 }
-            });
-
-            // hack {
-            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
-            $(window).scrollTop('.narrow-contnt');
-
-            // hack }
-
-            return false;
-        });
-
-        $("#registration_check").click(function () {
-            var cookie = $.cookie('registration_user-want-to-start-demo');
-            if (undefined == cookie) {
-                $.cookie('registration_user-want-to-start-demo', 0);
-            }
-
-            if ($(this).hasClass('icon-check')) {
-                $(this).removeClass('icon-check');
-                $(this).addClass('icon-chooce');
-                $('#YumUser_is_check').val('0');
-                $("#registration_check").find("span").css('display', 'block');
-                if (1 === $('#registration_switch').length) {
-                    $('#registration_switch').val($('#registration_switch').attr('data-next'));
+            }else if($(this).parent().hasClass('form-account-corporate')) {
+                if ($(this).hasClass('icon-check')) {
+                    /*$(this).removeClass('icon-check');
+                    $(this).addClass('icon-chooce');
+                    $(this).find("span").css('display', 'block');
+                    $(this).parent().css('background-color', '');
+                    $('.form-account-personal').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
+                    $('.form-account-personal').css('background-color', '');
+                    $("#account-type").val('');*/
+                } else if ($(this).hasClass('icon-chooce')) {
+                    $(this).removeClass('icon-chooce');
+                    $(this).addClass('icon-check');
+                    $(this).find("span").css('display', 'none');
+                    $(this).parent().css('background-color', '#fee374');
+                    $('.form-account-personal').find('.registration_check').removeClass('icon-check');
+                    $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
+                    $('.form-account-personal').css('background-color', '');
+                    $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
+                    $("#account-type").val('corporate');
                 }
-                if ($('#registration_hint').length) {
-                    $(".icon-uncheck-text").toggle();
-                    $(".icon-check-text").toggle();
-                }
-                $.cookie('registration_user-want-to-start-demo', 0);
-            } else if ($(this).hasClass('icon-chooce')) {
-                $(this).removeClass('icon-chooce');
-                $(this).addClass('icon-check');
-                $('#YumUser_is_check').val('1');
-                $("#registration_check span").css('display', 'none');
-                if (1 === $('#registration_switch').length) {
-                    $('#registration_switch').val($('#registration_switch').attr('data-start'));
-
-                }
-                if ($('#registration_hint').length) {
-                    $(".icon-uncheck-text").toggle();
-                    $(".icon-check-text").toggle();
-                }
-                $.cookie('registration_user-want-to-start-demo', 1);
+            }else{
+                throw new Error("Bad choice");
             }
             return false;
         });
@@ -374,7 +359,7 @@ var fixLogotypes = function() {
         };
 
         window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $("#sendRefferInviteButton").val("Отправить приглашения");
+            $(".sendReferralInviteSubmitButton").val("Отправить");
             if (!hasError) {
                 window.location.href = "/dashboard";
             }
@@ -389,8 +374,8 @@ var fixLogotypes = function() {
             return false;
         }
 
-        window.changeInviteReferrButton = function changeInviteReferrButton() {
-            $("#sendRefferInviteButton").val("Идёт проверка емейлов-рефералов");
+        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
+            $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
             return true;
         }
 
@@ -658,6 +643,102 @@ var fixLogotypes = function() {
         $("#month-selected").change(function() {
             $("#cash-month-selected").val($( "#month-selected option:selected").val());
         });
+
+        $(".question-container li").click(function() {
+            if(!$(this).children("div").is(":visible")) {
+                $(this).children("div").slideDown("fast");
+                $(this).addClass("active");
+                }
+            else {
+                $(this).children("div").slideUp("fast");
+                $(this).removeClass("active");
+            }
+            Cufon.refresh();
+        })
+
+        $(".change-simulation-result-render").click(function() {
+            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+                location.reload();
+            })
+        });
+
+
+
+
+        $(".showDialogRejected").click(function(e){
+            e.preventDefault();
+            var domain = $(this).attr('data-domain');
+            $(".dialogReferralRejected").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 20,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 544,
+                position: {
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
+                },
+                open : function() {
+                    $(".domainName").html(domain);
+                }
+            });
+            Cufon.refresh();
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $(".showDialogPending").click(function(e){
+            e.preventDefault();
+            var domain = $(this).attr('data-domain');
+            $(".dialogReferralPending").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 20,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 544,
+                position: {
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
+                }
+            });
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $('a.feedback-close-other').on('click', function (e) {
+            e.preventDefault();
+            $(".dialogReferralRejected").dialog("close");
+            var selected = $(this).attr('data-selected');
+            $('#feedback-dialog').dialog({
+                width: 706,
+                dialogClass: 'popup-primary popup-site feedbackwrap',
+                modal: true,
+                resizable: false,
+                draggable: false,
+                open: function( event, ui ) {
+                    if(selected !== undefined) {
+                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                            var a = $(element).find('a');
+                            if(a.attr('rel') === selected){
+                                a.click();
+                            }
+                        });
+                    }
+                    Cufon.refresh();
+                }
+            });
+
+            e.stopPropagation();
+        });
+
 
     });
 })(jQuery);

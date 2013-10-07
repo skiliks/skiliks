@@ -12,7 +12,22 @@
 
     <!-- Invite: -->
 
-    <h2>Лог операций над приглашением</h2>
+    <h2>Лог операций над приглашением <?= $simulation->invite->id ?></h2>
+
+    <table class="table table-bordered">
+        <tr><td>От</td><td> <?= $simulation->invite->ownerUser->profile->email ?></td></tr>
+        <tr><td>для</td><td> <?= $simulation->invite->email ?></td></tr>
+        <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
+        <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
+    </table>
+
+    <?php $this->renderPartial('//admin_area/partials/_invite_actions', [
+        'invite' => $simulation->invite,
+    ]) ?>
+
+    <br/>
+    <br/>
+
     <table class="table table-hover">
         <thead>
         <tr>

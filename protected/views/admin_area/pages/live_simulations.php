@@ -17,7 +17,7 @@
 <div>
     <h1>Live Simulations</h1>
 
-    <? if(!empty($full_simulations) || !empty($lite_simulations) || !empty($tutorial_simulations)) : ?>
+    <?php if(!empty($full_simulations) || !empty($lite_simulations) || !empty($tutorial_simulations)) : ?>
 
         <table class="table">
             <tr>
@@ -115,9 +115,9 @@
         <?php endforeach; ?>
 
         </table>
-    <? else : ?>
+    <?php else : ?>
         На данный момент нету активных симуляций.
-    <? endif; ?>
+    <?php endif; ?>
     <!-- DEV modes: -->
 
 

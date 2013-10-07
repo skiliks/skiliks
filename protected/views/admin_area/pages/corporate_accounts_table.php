@@ -1,6 +1,6 @@
 <?php $titles = [
     'ID юзера',
-    'Имя и фамилия',
+    'Имя и фамилия<br/>Статуспользователя',
     'Личный, Корпоративный email-ы',
     'Название компании',
     'Количество приглашений',
@@ -51,19 +51,24 @@
                     </a>
                 </td>
                 <td>
-                    <?= $account->user->profile->firstname ?>
-                    </br>
-                    <?= $account->user->profile->lastname ?>
+                    <span class="text-label-200px"><?= $account->user->profile->firstname ?></span>
+                    <br/>
+                    <span class="text-label-200px"><?= $account->user->profile->lastname ?></span>
+                    <br/>
+                    <span class="label <?= ($account->user->status == YumUser::STATUS_ACTIVE) ? 'label-warning' : '' ?>"><?= $account->user->getStatusLabel() ?><span>
                 </td>
                 <td>
-                    <?= $account->user->profile->email ?>,
-                    <br/>
-                    <?= $account->corporate_email ?>
+                    <span class="text-label-200px"><?= $account->user->profile->email ?></span>
                 </td>
                 <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
-                <td><?= $account->invites_limit ?></td>
-                <td>
-                    <?= ($account->tariff) ? $account->tariff->label : '--' ?>
+                <td style="text-align: center;"><?= $account->invites_limit ?></td>
+                <td style="width: 150px;">
+                    <?php if ($account->tariff_expired_at < date('Y-m-d H:i:s')) : ?>
+                        Просрочен
+                    <?php else: ?>
+                        <?= ($account->tariff) ? $account->tariff->label : '--' ?>
+                    <?php endif; ?>
+
                     <div class="btn-group">
                         <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
                             <i class="icon-refresh"></i>
@@ -97,12 +102,12 @@
                         </ul>
                     </div>
                 </td>
-                <td>
+                <td style="width: 140px;">
                     <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
                     <br/>
                     <?= date('Y-m-d H:i:s', $account->user->lastvisit) ?>
                 </td>
-                <td style="width: 290px;">
+                <td style="width: 170px;">
                      <a class="btn btn-info" style="width: 140px;"
                          href="/admin_area/corporate-account/<?= $account->user_id ?>/invite-limit-logs">
                          <strong>Смотреть лог движения инвайтов</strong></a>

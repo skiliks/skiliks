@@ -16,7 +16,13 @@
             $this->renderPartial('//admin_area/partials/_user_info', ['simulation' => $simulation]);
         }
     ?>
-    <h2>Логи действий над симуляцией</h2>
+    <h2>Логи действий над симуляцией <?= $simulation->id ?></h2>
+
+    <?php $this->renderPartial('//admin_area/partials/_simulation_log_buttons', [
+        'simulation' => $simulation,
+    ]) ?>
+     <br/>
+     <br/>
 
     <table class="table table-hover table-bordered">
         <thead>

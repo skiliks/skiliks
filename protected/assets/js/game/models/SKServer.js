@@ -61,7 +61,7 @@ define([
                         async = arguments[3];
                     }
                     if (async === false) {
-                        throw ('Use of sync ajax request for '+ url +' does not work anymore');
+                        throw new Error ('Use of sync ajax request for '+ url +' does not work anymore');
                     }
                     if (debug_match !== null) {
                         url += '?XDEBUG_SESSION_START=' + debug_match[1];
@@ -144,7 +144,6 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            console.log(xhr.status)
                             if (('timeout' === text_status || xhr.status === 0)  && me.is_connected) {
                                 SKApp.isInternetConnectionBreakHappent = true;
                                 me.is_connected = false;
@@ -152,17 +151,13 @@ define([
                                     var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                     request.set('status', 'failed');
                                     var requests = SKApp.server.requests_queue.where({status:'padding'});
-                                    console.log('requests', requests);
                                         requests.forEach(function(request){
-                                            console.log('request',request.get('status'));
-                                            console.log('request status', request);
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
                                             }
                                         });
 
                                         if(me.error_dialog === null) {
-                                            console.log('add new SKDialogView');
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                                     "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -173,8 +168,6 @@ define([
                                         }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
-                                    console.log('this.try_connect', me.try_connect);
-                                    console.log('this.request_interval_id', me.request_interval_id);
                                     me.tryConnect();
                                 }
 
@@ -182,7 +175,6 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
-                                    console.log("remove error_dialog");
                                     me.error_dialog.remove();
                                     delete me.error_dialog;
                                     me.success_dialog = new SKDialogView({

@@ -735,6 +735,8 @@ class SimulationService
 
             $simulation->saveLogsAsExcel();
 
+            $simulation->calculatePercentile();
+
             self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
 

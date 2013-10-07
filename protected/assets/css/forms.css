@@ -51,8 +51,7 @@
 }
 /* ************************* REGISTRATION ************************* */
 .registrationform {
-    margin: 0 auto;
-    width: 900px;
+    margin: 25px auto;
 }
 .registrationform input[type=text], .registrationform input[type=password] {
     color:#146672;
@@ -63,6 +62,10 @@
 }
 .registrationform input[type=password] {
     width:162px;
+}
+
+.transparent-boder-half{
+    float: none;
 }
 /*
 .registrationform .errorMessage {
@@ -102,7 +105,7 @@
 }
 */
 .registrationform input[type=submit], .bigbtnsubmt, .order-methods input[type=submit]  {
-    background:#146672 url("../img/icon-circlarow.png") no-repeat 20px 16px;
+    background:#146672 url("../img/icon-circlarow.png") no-repeat 16px 16px;
     border:none;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
@@ -113,9 +116,8 @@
     height:54px;
 }
 .registrationform input[type=submit] {
-    font-size: 22px;
+    font: 16px "ProximaNova-Bold";
     padding: 0 20px 0 40px;
-    width:190px !important;
 }
 .bigbtnsubmt, .bigbtnsubmt:link, .bigbtnsubmt:visited {
     color:#fff;
@@ -129,8 +131,60 @@
     margin-left: 11px;
     position:relative;
 }
-.registrationform .row:last-child {
-    float:right;
+.row.one-part,
+.row.one-part input[type = text]
+{
+    width: 100%;
+}
+div.row.four-parts
+{
+    margin-top: 15px;
+    width: 210px;
+}
+div.row.four-parts.email-input
+{
+    width: 215px;
+}
+div.row.four-parts.password-input
+{
+    width: 238px;
+}
+div.row.four-parts.password-again-input
+{
+    width: 245px;
+}
+div.row.four-parts.submit-input
+{
+    width: 210px;
+}
+.row.four-parts.email-input input[type = text]
+{
+    width: 182px;
+}
+.row.four-parts.password-input input[type = password]{
+    width: 205px;
+}
+.row.four-parts.password-again-input input[type = password]{
+    width: 212px;
+}
+.row.four-parts input[type = submit]
+{
+    width: 210px;
+}
+.row.two-parts.to-right,
+.row.four-parts.to-right
+{
+    margin-left: 10px;
+}
+.row.one-part
+{
+    margin-left: 0;
+}
+div.row.two-parts{
+    width: 462px;
+}
+.row.two-parts input[type = text] {
+    width: 430px;
 }
 .registrationform .row:first-child {
     margin-left:0px;
@@ -142,6 +196,15 @@
     border-radius: 8px;
     padding: 8px;
 }
+
+.transparent-boder {
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 8px;
+}
+
 .transparent-boder:after, .dashboard:after, .registerpads:after, .tarifform .row:after {
     content: ".";
     display: block;
@@ -189,9 +252,8 @@
     background:url("../img/icon-chooce.png") no-repeat left bottom;
     text-decoration:none;
     font-weight:bold;
-    font-weight:bold;
     text-indent:35px;
-    line-height:140px;
+    line-height:95px;
 }
 .icon-chooce, .icon-chooce:visited {
     color:#555545 !important;
@@ -213,9 +275,10 @@
 .regicon {
     display: block;
     float: left;
-    height:133px;
-    margin: 8px 22px 0px 0px;
-    width: 133px;
+    height:110px;
+    margin: 18px 23px 0px 0px;
+    width: 110px;
+    margin-left: 28px;
 }
 .testtime {
     background: url("../img/tziferblat.png") no-repeat;
@@ -817,7 +880,7 @@ span.required {
         padding: 10px 0px 20px 20px;
     }
     .registrationform {
-        width: 730px;
+        /*width: 730px;*/
     }
     .registrationform ul {
         width:450px;
@@ -847,7 +910,6 @@ span.required {
     .registrationform input[type=submit] {
         background-position: 20px 10px;
         padding-left: 50px;
-        width: 155px !important;
     }
     .feedbackwrap {
         background-size:contain;
@@ -886,6 +948,83 @@ span.required {
     }
     .block-form {
         width:413px;
+    }
+
+    .regicon {
+        display: block;
+        float: left;
+        height:110px;
+        margin: 18px 9px 0 0;
+        width: 110px;
+        margin-left: 28px;
+    }
+
+    .row.one-part,
+    .row.one-part input[type = text]
+    {
+        width: 100%;
+    }
+    div.row.four-parts
+    {
+        margin-top: 15px;
+        width: 210px;
+    }
+    div.row.four-parts.email-input
+    {
+        width: 172px;
+    }
+    div.row.four-parts.password-input
+    {
+        width: 190px;
+    }
+    div.row.four-parts.password-again-input
+    {
+        width: 196px;
+    }
+    div.row.four-parts.submit-input
+    {
+        width: 168px;
+    }
+    .row.four-parts.email-input input[type = text]
+    {
+        width: 160px;
+    }
+    .row.four-parts.password-input input[type = password]{
+        width: 178px;
+    }
+    .row.four-parts.password-again-input input[type = password]{
+        width: 184px;
+    }
+    .row.four-parts input[type = submit]
+    {
+        width: 168px;
+    }
+    .row.two-parts.to-right,
+    .row.four-parts.to-right
+    {
+        margin-left: 8px;
+    }
+    .row.one-part
+    {
+        margin-left: 0;
+    }
+    div.row.two-parts{
+        width: 370px;
+    }
+    .row.two-parts input[type = text] {
+        width: 358px;
+    }
+    .registrationform input[type=submit] {
+        background:#146672 url("../img/icon-circlarow-min.png") no-repeat 10px 12px;
+        font: 12px "ProximaNova-Bold";
+        padding: 0 20px 0 40px;
+    }
+    .registrationform input[type=submit]:hover
+    {
+        background-image: url("../img/icon-circlarow-hover-min.png") !important;
+        background-color:#BD2929;
+        background-repeat: no-repeat;
+        color: #FFFFFF;
     }
 }
 
