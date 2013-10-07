@@ -157,6 +157,60 @@ class PagesController extends SiteBaseController
                 echo $errors;
             } elseif (!$model->hasErrors()) {
                 $model->save();
+                $inviteEmailTemplate = Yii::app()->params['emails']['newFeedback'];
+
+                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+                    'email' => $model->email,
+                    'theme' => $model->theme,
+                    'message'=>$model->message
+                ], true);
+
+                $mail = array(
+                    'from' => Yum::module('registration')->registrationEmail,
+                    'to' => 'help@skiliks.com',
+                    'subject' => 'Новый отзыв',
+                    'body' => $body,
+                    'embeddedImages' => [
+                        [
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                            'cid'      => 'mail-top',
+                            'name'     => 'mailtop',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                            'cid'      => 'mail-top-2',
+                            'name'     => 'mailtop2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                            'cid'      => 'mail-right-1',
+                            'name'     => 'mailright1',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                            'cid'      => 'mail-right-2',
+                            'name'     => 'mailright2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                            'cid'      => 'mail-right-3',
+                            'name'     => 'mailright3',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                            'cid'      => 'mail-bottom',
+                            'name'     => 'mailbottom',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],
+                    ]
+                );
+                MailHelper::addMailToQueue($mail);
                 Yii::app()->user->setFlash('success', 'Спасибо за ваш отзыв!');
             }
         }
