@@ -670,12 +670,12 @@ var fixLogotypes = function() {
             $(".dialogReferralRejected").dialog({
                 dialogClass: 'popup-before-start-sim',
                 closeOnEscape: true,
-                minHeight: 100,
+                minHeight: 20,
                 modal: true,
                 resizable: false,
                 draggable: false,
                 title: false,
-                width: 584,
+                width: 544,
                 position: {
                     my: "right top",
                     at: "right top",
@@ -696,12 +696,12 @@ var fixLogotypes = function() {
             $(".dialogReferralPending").dialog({
                 dialogClass: 'popup-before-start-sim',
                 closeOnEscape: true,
-                minHeight: 70,
+                minHeight: 20,
                 modal: true,
                 resizable: false,
                 draggable: false,
                 title: false,
-                width: 584,
+                width: 544,
                 position: {
                     my: "right top",
                     at: "right top",

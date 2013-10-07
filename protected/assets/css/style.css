@@ -2356,7 +2356,8 @@ html[lang="en"] .footer .social_networks {
 
 .feedback-close-other {
     text-decoration: underline !important;
-    color: #0E4750 !important;
+    color: #09bdda !important;
+    font-weight: bold;
 }
 
 
@@ -2865,6 +2866,14 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
     width:81px;
+}
+.dialogReferralPending p {
+    font-size: 15px;
+    text-align: center;
+}
+.dialogReferralRejected p {
+    font-size: 15px;
+    text-align: center;
 }
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
@@ -3725,6 +3734,9 @@ ul.profile-menu li {
     position: absolute;
     right:23px;
 }
+body.action-controller-corporateReferrals-static-profile .popup-before-start-sim {
+    width: 850px !important;
+}
 .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
     left:150px;
     position: absolute;
@@ -3872,6 +3884,17 @@ ul.profile-menu li {
     #private-invitations-list-box .ratingwrap {
         padding: 0px;
         top:8px;
+    }
+    body.action-controller-corporateReferrals-static-profile .popup-before-start-sim {
+        width: 700px !important;
+    }
+    .dialogReferralPending .list-ordered p.ProximaNova {
+        font-size: 12px;
+        text-align: center;
+    }
+    .dialogReferralRejected .list-ordered p.ProximaNova {
+        font-size: 12px;
+        text-align: center;
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         max-width: 110px;
