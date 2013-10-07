@@ -283,17 +283,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $invite->is_display_simulation_results = false;
             $invite->email = trim($invite->email);
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
-                $validPrevalidate = false;
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
-                     приглашения только персональным и незарегистрированным пользователям'
-                ));
-            }
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
             if ($profile) {
                 $invite->receiver_id = $profile->user->id;
             }
@@ -311,8 +304,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $validPrevalidate = false;
             }
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
+
+            if($profile->user->isPersonal()) {
                 $validPrevalidate = false;
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
@@ -333,8 +326,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
+            if($profile->user->isCorporate()) {
                 $validPrevalidate = false;
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
