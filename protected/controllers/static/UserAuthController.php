@@ -396,9 +396,10 @@ class UserAuthController extends YumController
                         }
                     } elseif($account_type === 'corporate') {
                         $accountCorporate->user_id = $user->id;
+                        $accountCorporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
                         $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
                         $accountCorporate->setTariff($tariff, true);
-                        if(false === $accountCorporate->save(true, ['user_id','industry_id'])){
+                        if(false === $accountCorporate->save(true, ['user_id','default_invitation_mail_text','industry_id'])){
                             throw new Exception("Corporate account not saved!");
                         }
                     } else {
