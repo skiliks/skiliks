@@ -1841,7 +1841,7 @@ class ImportGameDataService
                 $replica->flag_to_switch_2 = null;
             }
 
-            $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
+            @$isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $replica->demo = $isUseInDemo;
             $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
             $replica->fantastic_result =
@@ -1931,7 +1931,7 @@ class ImportGameDataService
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
             $dialog->category = $this->getCellValue($sheet, 'Категория события', $i);
             $dialog->start_time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') ? : null;
-            $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
+            @$dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
             $dialog->import_id = $this->import_id;
             $dialog->scenario_id = $this->scenario->primaryKey;
             $dialog->save();
@@ -3316,24 +3316,24 @@ class ImportGameDataService
         $scenario->slug = $this->scenario_slug;
 
         // TODO: Hardcode. Time should be defined in scenario file
-        if ($scenario->slug == Scenario::TYPE_LITE) {
-            $scenario->start_time = '9:45:00';
-            $scenario->end_time = '11:05:00';
-            $scenario->finish_time = '11:05:00';
-            $scenario->duration_in_game_min = 80;
-        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
-            $scenario->start_time = '9:45:00';
-            $scenario->end_time = '18:00:00';
-            $scenario->finish_time = '20:00:00';
-            $scenario->duration_in_game_min = 495;
-        } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
-            $scenario->start_time = '9:45:00';
-            $scenario->end_time = '12:45:00';
-            $scenario->finish_time = '12:45:00';
-            $scenario->duration_in_game_min = 180;
-        }
+//        if ($scenario->slug == Scenario::TYPE_LITE) {
+//            $scenario->start_time = '9:45:00';
+//            $scenario->end_time = '11:05:00';
+//            $scenario->finish_time = '11:05:00';
+//            $scenario->duration_in_game_min = 80;
+//        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
+//            $scenario->start_time = '9:45:00';
+//            $scenario->end_time = '18:00:00';
+//            $scenario->finish_time = '20:00:00';
+//            $scenario->duration_in_game_min = 495;
+//        } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
+//            $scenario->start_time = '9:45:00';
+//            $scenario->end_time = '12:45:00';
+//            $scenario->finish_time = '12:45:00';
+//            $scenario->duration_in_game_min = 180;
+//        }
 
-        $filename = substr($this->filename, strpos('scenario_', $this->filename), 200);
+        $filename = substr($this->filename, strpos($this->filename, 'scenario_'), 200);
         $scenario->filename = $filename;
         $scenario->save();
 

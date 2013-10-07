@@ -396,7 +396,8 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'disableOldLogging'=>false,
+        'demoDuration'                  => 5, // min
+        'disableOldLogging'             => false,
         'disableAssets'                 => false,
         'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
