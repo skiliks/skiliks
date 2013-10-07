@@ -126,4 +126,11 @@ class MailHelper
         }
 
     }
+
+    public static function updateInviteEmail(Invite $invite){
+        if($invite->ownerUser->profile->email !== $invite->email){
+            $invite->email = $invite->ownerUser->profile->email;
+            $invite->update();
+        }
+    }
 } 
