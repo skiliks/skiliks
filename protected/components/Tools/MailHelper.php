@@ -69,7 +69,7 @@ class MailHelper
 
             $inviteEmailTemplate = Yii::app()->params['emails']['noticeEmail'];
 
-            $body = (new CController())->renderPartial($inviteEmailTemplate, [
+            $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
                 'corporate_email' => $corporate_email,
                 'personal_email' => $personal_email,
                 'firstname' => $user->profile->firstname
