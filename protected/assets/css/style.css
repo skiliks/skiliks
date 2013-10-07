@@ -2354,10 +2354,23 @@ html[lang="en"] .footer .social_networks {
     background: url(../img/closepopup.png) no-repeat 0 0;
 }
 
+.feedback-close-other {
+    text-decoration: underline !important;
+    color: #0E4750 !important;
+}
+
 
 .profileform #yw0 * {
     border-radius: 0 !important;
     border: 0;
+}
+
+.profileform #yw0 td {
+    color: #232323;
+}
+
+.referrals_total {
+    color: #3c3c32;
 }
 
 .profileform #yw0 td {
@@ -2413,20 +2426,12 @@ html[lang="en"] .footer .social_networks {
     color: #EEEEEE;
 }
 
-.profileform .previous a {
-    background: #146672 !important;
+.profileform .pager li.previous a, .profileform .pager li.next a {
+    background-color: #146672 !important;
 }
 
-.profileform .previous.hidden a {
-    background: #c6e0e3 !important;
-}
-
-.profileform .next.hidden a {
-    background: #c6e0e3 !important;
-}
-
-.profileform .next a {
-    background: #146672 !important;
+.profileform .pager li.previous a:hover, .profileform .pager li.next a:hover {
+    background-color: #C6E0E3 !important;
 }
 
 .profileform .summary {
@@ -2604,6 +2609,9 @@ html[lang="en"] .footer .social_networks {
     }
     .flash-notice {
         font-size:14px;
+    }
+    .referrals_total {
+        font-size: 12px;
     }
 }
 /* --------------- /sign in box ---------*/
