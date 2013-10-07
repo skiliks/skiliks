@@ -677,14 +677,15 @@ var fixLogotypes = function() {
                 title: false,
                 width: 584,
                 position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $(this).parents('tr')
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
                 },
                 open : function() {
                     $(".domainName").html(domain);
                 }
             });
+            Cufon.refresh();
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
         });
@@ -702,9 +703,9 @@ var fixLogotypes = function() {
                 title: false,
                 width: 584,
                 position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $(this).parents('tr')
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
                 },
             });
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
@@ -730,7 +731,6 @@ var fixLogotypes = function() {
                             }
                         });
                     }
-
                     Cufon.refresh();
                 }
             });

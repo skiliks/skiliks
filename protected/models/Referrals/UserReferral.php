@@ -197,6 +197,10 @@ class UserReferral extends CActiveRecord
                         'asc'  => 'registered_at',
                         'desc' => 'registered_at DESC'
                     ],
+                    'status' => [
+                        'asc'  => 'status',
+                        'desc' => 'status DESC'
+                    ],
                 ],
             ],
             'pagination' => [
