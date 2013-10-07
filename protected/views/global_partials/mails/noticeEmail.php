@@ -34,8 +34,8 @@
                                     </h1>
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         Мы упростили систему регистрации, и теперь с каждым аккаунтом будет связан только один email.<br>
-                                        С вашим корпоративным аккаунтом связаны <?=$personal_email?>! и <?=$corporate_email?>!.<br>
-                                        В результате обновления ваш логин для входа в систему теперь <?=$corporate_email?>!. Пароль остался старый.<br>
+                                        С вашим корпоративным аккаунтом связаны <?=$personal_email?> и <?=$corporate_email?>.<br>
+                                        В результате обновления ваш логин для входа в систему теперь <?=$corporate_email?>. Пароль остался старый.<br>
                                     </p>
                                 </td>
                                 <td bgcolor="f2f2f2" valign="top">
