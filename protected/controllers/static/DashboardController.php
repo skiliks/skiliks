@@ -175,13 +175,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistration');
         }
 
-        // getting user popup
-        $session = new CHttpSession();
-        if(!isset($session['shown_display_popup']) || $session['shown_display_popup'] === null) {
-            $session['shown_display_popup'] = !$this->user->getAccount()->is_display_referrals_popup;
-        }
-
         $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
+        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
@@ -445,7 +440,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'shown_display_popup' => $session['shown_display_popup'],
+            'show_user_referral_popup' =>  $is_display_user_referral_popup,
             'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
             'user'                => $this->user
         ]);
@@ -1002,8 +997,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $user->getAccount()->is_display_referrals_popup = 0;
             $user->getAccount()->save();
         }
-        $session = new CHttpSession();
-        $session['shown_display_popup'] = 1;
     }
 
     function actionDontShowTariffEndPopup() {
@@ -1021,8 +1014,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $user->getAccount()->is_display_tariff_expire_pop_up = 0;
             $user->getAccount()->save();
         }
-        $session = new CHttpSession();
-        $session['is_display_tariff_expire_pop_up'] = 0;
     }
 
     public function actionRemakeRenderType() {
