@@ -11,7 +11,7 @@
     $.ajaxq = function(qname, opts) {
 
         if (typeof opts === "undefined") {
-            throw ("AjaxQ: queue name is not provided");
+            throw new Error("AjaxQ: queue name is not provided");
         }
 
         // Will return a Deferred promise object extended with success/error/callback, so that this function matches the interface of $.ajax

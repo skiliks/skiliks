@@ -443,9 +443,7 @@ SocialCalc.GetSpreadsheetViewerObject = function() {
 
    var csvo = SocialCalc.CurrentSpreadsheetViewerObject;
    if (csvo) return csvo;
-
-   throw ("No current SpreadsheetViewer object.");
-
+       throw new Error("No current SpreadsheetViewer object.");
    }
 
 

@@ -86,7 +86,8 @@ class Invite extends CActiveRecord
     public function getReceiverFirstName()
     {
 
-        return (null !== $this->receiverUser && $this->receiverUser->isActive()) ? $this->receiverUser->profile->firstname : $this->firstname;
+        return (null !== $this->receiverUser && $this->receiverUser->isActive() && $this->receiverUser->getAccountType() !== null)
+               ? $this->receiverUser->profile->firstname : $this->firstname;
     }
 
     /**
@@ -446,7 +447,7 @@ class Invite extends CActiveRecord
         if ($this->ownerUser &&
             $this->ownerUser->account_corporate &&
             $this->email &&
-            $this->ownerUser->account_corporate->corporate_email == $this->email
+            $this->ownerUser->profile->email == $this->email
         ) {
             $this->addError('email', Yii::t('site', 'Действие не возможно'));
         }
@@ -821,8 +822,29 @@ class Invite extends CActiveRecord
 
     }
 
+    /**
+     * @return array|mixed|null
+     */
     public function getOverall() {
-        $assessment = AssessmentOverall::model()->findByAttributes(['sim_id'=>$this->simulation_id, 'assessment_category_code'=>'overall']);
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id'=>$this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::OVERALL
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getPercentile() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id' => $this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::PERCENTILE
+        ]);
         if(null === $assessment){
             return null;
         }else{

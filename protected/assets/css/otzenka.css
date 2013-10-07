@@ -126,6 +126,13 @@
 .product .maincharts {
     margin-top: -34px;
 }
+
+.percentil_overall_container .percentil_text {
+    float: right;
+    margin-right: 6px;
+    margin-top: 2px;
+}
+
 .ratepercnt, .overall .ratepercnt {
     text-align: center;
 }
@@ -144,14 +151,74 @@
     text-align: center;
     vertical-align: top;
 }
+
 .overall div, .overall .allratebg {
     text-align: left;
+    margin-right: 10px;
 }
+
+.percentil_base, .percentil_overall {
+    width: 74px;
+    height: 18px;
+    background-image: url(../img/percentil_men_big.png);
+    display: inline-block;
+    background-position: 0px -18px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+}
+
+.percentil_base {
+    margin-left: 6px;
+}
+
+.percentil_overall {
+    background-position: 0px 0px;
+    float: left;
+}
+
+.percentil_overall_container {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/mark-percentil-backogrund.png");
+    background-origin: padding-box;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    height: 31px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    padding-bottom: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 6px;
+    text-align: left;
+    width: 135px;
+}
+
+
+.percentil_text {
+    font-weight: bold;
+}
+
+.percentil_overall_container_product {
+    background-size: 110px 32px;
+    width:110px;
+}
+
+
+
 .estmtresults {
     height:130px;
 }
 .allsummry {
-    background: url("../img/resultsline-new.png") no-repeat center 26px;
+    background: url("../img/resultsline-new.png") no-repeat center 79px;
 }
 .allseprtwrap {
     position: relative;
@@ -1106,6 +1173,12 @@
     margin-left: 20px;
     width:250px;
 }
+div.percentil_text_product {
+    float:right;
+    margin-right: 10px;
+    font-weight: bold;
+    margin-top:2px;
+}
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
 }
@@ -1174,7 +1247,7 @@
 
 @media screen and (max-width: 1146px){
     .allsummry {
-        background-position: center 26px;
+        background-position: center 77px;
         background-size: 65%;
     }
     .allseprtwrap .ratepercnt {
@@ -1337,6 +1410,11 @@
     }
     .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
         margin-left: 20px;
+    }
+    div.percentil_text_product, div.percentil_text {
+        font-size: 13px;
+        margin-right: 12px;
+        margin-top:3px;
     }
 }
 /*

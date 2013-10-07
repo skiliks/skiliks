@@ -17,6 +17,7 @@ class AssessmentCategory extends CActiveRecord
     const TIME_EFFECTIVENESS = 'time';
     const PERSONAL           = 'personal'; // Does not calculate, just for slug!
     const OVERALL            = 'overall';
+    const PERCENTILE         = 'percentile';
 
     // Place your specific code there
 

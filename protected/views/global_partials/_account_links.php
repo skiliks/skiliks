@@ -7,7 +7,7 @@ $isCorporate = $user->isCorporate();
 $isPersonal = $user->isPersonal();
 $isGuest = $webUser->isGuest;
 $isDisplayAccountLinks = (isset($isDisplayAccountLinks)) ? $isDisplayAccountLinks : false;
-$isActivated = $user->isActive() && ($isCorporate ? $user->account_corporate->is_corporate_email_verified : $isCorporate || $isPersonal);
+$isActivated = $user->isActive();
 
 if ($isPersonal) {
     $count = Invite::model()->countByAttributes([],
@@ -29,7 +29,7 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site','About Us'), 'url' => ['/static/pages/team'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
         ['label' => Yii::t('site', 'Product'), 'url' => ['/static/pages/product'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
         ['label' => Yii::t('site', 'Pricing & Plans'), 'url' => ['/static/pages/tariffs'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
-        ['label' => Yii::t('site', 'Demo'), 'url' => ['#'], 'visible' => $isGuest, 'linkOptions'=>array('class'=>'start-lite-simulation-btn', 'data-href'=>'/simulation/demo')],
+        ['label' => Yii::t('site', 'Demo'), 'url' => ['#'], 'visible' => $isGuest && empty($disableDemo), 'linkOptions'=>array('class'=>'start-lite-simulation-btn', 'data-href'=>'/simulation/demo')],
         [
             'label'   => Yii::t('site', 'Work dashboard'),
             'url'     => ['/static/dashboard/index'],

@@ -6,9 +6,14 @@
        class="start-lite-simulation-btn light-btn">
         Пройти демо (15 мин)
     </a>
-    <a href="#" class="invite-friend-popup-button light-btn">
-        Пригласить друга
-    </a>
+
+    <span class="change-simulation-result-render">
+        <?php if($user->profile->assessment_results_render_type == "standard") : ?>
+            Переключиться на процентиль
+        <?php else : ?>
+            Переключиться на стандарт
+        <?php endif ?>
+    </span>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
@@ -49,10 +54,15 @@
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
-        <? if(!$shown_display_popup) : ?>
+
+        <?php if(!$shown_display_popup) : ?>
             <?php $this->renderPartial('partials/_referrals-popup', []) ?>
-        <? endif; ?>
-        <?php $this->renderPartial('partials/invite-friend-popup', []) ?>
+        <?php endif; ?>
+
+        <?php if($is_display_tariff_expire_pop_up) : ?>
+            <?php $this->renderPartial('partials/_tariff_expire_pop_up', []) ?>
+        <?php endif; ?>
+
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
 

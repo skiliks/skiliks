@@ -60,7 +60,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="order-methods">
 
 
-     <? $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["invoice" => $invoice, "robokassa" => $paymentMethodRobokassa]); ?>
+     <?php $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["invoice" => $invoice, "robokassa" => $paymentMethodRobokassa]); ?>
 
 </div>
 </div>

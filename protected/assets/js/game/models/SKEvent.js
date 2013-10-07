@@ -49,10 +49,10 @@ define([], function () {
                     } else if (first_replica.dialog_subtype === '5') {
                         return 'visit';
                     } else {
-                        throw 'Incorrect subtype ' + first_replica.dialog_subtype;
+                        throw new Error ('Incorrect subtype ' + first_replica.dialog_subtype);
                     }
                 } else if (event_types[this.get('type')] === undefined) {
-                    throw 'Unknown event type: ' + this.get('type');
+                    throw new Error ('Unknown event type: ' + this.get('type'));
                 }
                 return event_types[this.get('type')];
             } catch(exception) {
@@ -246,7 +246,7 @@ define([], function () {
         ignore: function (cb) {
             try {
                 if (this.getTypeSlug() !== 'phone') {
-                    throw 'You can ignore only phone calls';
+                    throw new Error ('You can ignore only phone calls');
                 }
 
                 var dialogId = this.get('data')[2].id;
@@ -304,7 +304,7 @@ define([], function () {
         'complete': function () {
             try {
                 if (this.getStatus() === 'completed') {
-                    throw 'This event is already completed';
+                    throw new Error ('This event is already completed');
                 }
                 this.setStatus('completed');
             } catch(exception) {

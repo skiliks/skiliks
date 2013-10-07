@@ -4508,7 +4508,7 @@ SocialCalc.Formula.FindInSheetCache = function(document_name, sheetname) {
 SocialCalc.Formula.AddSheetToCache = function(document_name, sheetname, str) {
 
     if (str === undefined) {
-        throw 'Old AddSheetToCache call';
+        throw new Error('Old AddSheetToCache call');
     }
    var newsheet = null;
    var sfsc = SocialCalc.Formula.SheetCache;

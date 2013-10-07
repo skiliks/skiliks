@@ -31,8 +31,8 @@
         </div>
 
         <div class="row">
-            <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-            <span class="value"><?php echo $account->corporate_email; ?></span>
+            <?php echo $form->labelEx($profile, 'email'); ?>
+            <span class="value"><?php echo $profile->email; ?></span>
         </div>
 
         <div class="row cposwrap">

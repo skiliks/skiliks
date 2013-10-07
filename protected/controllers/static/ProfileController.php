@@ -18,7 +18,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
     public function actionIndex()
     {
         $this->getBaseViewPath = 'PersonalData';
-
         $this->accountPagesBase();
     }
 
@@ -90,7 +89,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        if (empty($this->user->account_corporate->is_corporate_email_verified)) {
+        if (false === $this->user->isActive()) {
             $this->redirect('/');
         }
 
@@ -401,15 +400,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $this->render('tariff_corporate', []);
     }
 
-    public function actionCorporateReferrers() {
+    public function actionCorporateReferrals() {
         $this->checkUser();
 
         if(!$this->user->isCorporate()){
             $this->redirect('/dashboard');
         }
 
-        $totalRefers = UserReferal::model()->countUserReferrers($this->user->id);
-        $this->render('referrers_corporate', ["totalRefers"=>$totalRefers]);
+        $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
+        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals]);
     }
 
     /**
@@ -449,10 +448,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         }
 
         $this->user = $user->data();  //YumWebUser -> YumUser
-
-        if (null === $this->user->getAccount()) {
-            $this->redirect('registration/choose-account-type');
-        }
 
         if ($this->user->isCorporate()) {
             // path to controller action (not URL)
@@ -578,7 +573,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        if (empty($this->user->account_corporate->is_corporate_email_verified)) {
+        if (false === $this->user->isActive()) {
             $this->redirect('/');
         }
 

@@ -3,12 +3,11 @@ return CMap::mergeArray(
     require(dirname(__FILE__) . '/base.php'),
     array('components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=127.0.0.1;dbname=production',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=production_2',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '111',
             'charset' => 'utf8',
-
             'enableParamLogging' => true,
             'enableProfiling' => true
         ),
@@ -37,10 +36,11 @@ return CMap::mergeArray(
             'assetsDebug' => true,
             'isUseResultPopUpCache' => false,
             'public' => [
-                'isLocalPc'          => true,
-                'isUseZohoProxy'     => false,
-                'useSentryForJsLog'  => true,
-                'isSkipBrowserCheck' => true,
+                'isLocalPc'            => true,
+                'isUseZohoProxy'       => false,
+                'useSentryForJsLog'    => true,
+                'isSkipBrowserCheck'   => true,
+                'isDisplaySupportChat' => false,
             ]
         )
     )

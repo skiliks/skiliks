@@ -77,3 +77,8 @@ ul.yiiPager {
 .navbar-link {
     text-decoration: underline;
 }
+
+.text-label-200px {
+    width: 200px;
+    overflow: hidden;
+}

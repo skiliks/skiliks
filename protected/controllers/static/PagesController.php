@@ -7,18 +7,8 @@ class PagesController extends SiteBaseController
     public function beforeAction($action)
     {
         $user = Yii::app()->user;
-        if (!$user->isGuest &&
-            $user->data()->account_corporate &&
-            !$user->data()->account_corporate->is_corporate_email_verified
-        ) {
-            $this->redirect('/userAuth/afterRegistrationCorporate');
-        }
-
-        if (!$user->isGuest &&
-            $user->data()->isActive() &&
-            !$user->data()->isHasAccount()
-        ) {
-            $this->redirect('/registration/choose-account-type');
+        if (!$user->isGuest && $user->data()->account_corporate && !$user->data()->isActive()) {
+            $this->redirect('/userAuth/afterRegistration');
         }
 
         return parent::beforeAction($action);

@@ -23,6 +23,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $user_agent
  * @property string $ipv4
  * @property string $status
+ * @property string $percentile
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -67,7 +68,7 @@ class Simulation extends CActiveRecord
 
     const STATUS_IN_PROGRESS = 'in_progress';
     const STATUS_INTERRUPTED = 'interrupted';
-    const STATUS_COMPLETE = 'complete';
+    const STATUS_COMPLETE    = 'complete';
 
     public $id;
 
@@ -601,7 +602,15 @@ class Simulation extends CActiveRecord
                 return round($rate->value);
             }
         }
+        return null;
+    }
 
+    public function getCategoryAssessmentWithoutRound($category = AssessmentCategory::OVERALL) {
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == $category) {
+                return $rate->value;
+            }
+        }
         return null;
     }
 
@@ -704,6 +713,150 @@ class Simulation extends CActiveRecord
         ]);
 
         return isset($lastLog) ? $lastLog->backend_game_time : null;
+    }
+
+    /**
+     *
+     */
+    public function calculatePercentile()
+    {
+        if (0 == $this->getCategoryAssessmentWithoutRound()) {
+            return;
+        }
+
+        // считаем количесво пользователей пошедших симуляцию, не разработчиков
+        $realUsersCondition = $this->getSimulationRealUsersCondition();
+        $all = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
+            ->count($realUsersCondition);
+
+        // считаем количесво пользователей пошедших симуляцию, не разработчиков
+        // но у которых оценка меньще или равна оценке за текущую симуляцию
+        $lessThanMeCondition = $realUsersCondition .
+            sprintf(' AND (t.value <= %s) ', $this->getCategoryAssessmentWithoutRound());
+        $lessThanMe = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
+            ->count($lessThanMeCondition);
+
+        if (0 == $lessThanMe) {
+            // случай с первым пользователем (после реинициализации БД будет  пройденных симуляций)
+            if (1 == $all) {
+                $percentileValue = 100;
+            } else {
+                $percentileValue = 0;
+            }
+        } else {
+            $percentileValue = ($lessThanMe/$all)*100;
+        }
+
+        $percentileInDb = AssessmentOverall::model()->findByAttributes([
+            'assessment_category_code' => AssessmentCategory::PERCENTILE,
+            'sim_id'                   => $this->id
+        ]);
+
+        if (null == $percentileInDb) {
+            $percentileInDb = new AssessmentOverall();
+            $percentileInDb->assessment_category_code = AssessmentCategory::PERCENTILE;
+            $percentileInDb->sim_id = $this->id;
+        }
+
+        $percentileInDb->value = number_format(round($percentileValue, 2), 2, '.', '');
+        $percentileInDb->save();
+    }
+
+    /**
+     * @return array|CActiveRecord|mixed|null
+     * Метод псевдостатический возвращает все симуляции реальных пользователей
+     */
+
+    public function getRealUsersSimulations() {
+        $developersEmails = [
+            "'r.kilimov@gmail.com'",
+            "'andrey@kostenko.name'",
+            "'personal@kostenko.name'",
+            "'a.levina@gmail.com'",
+            "'gorina.mv@gmail.com'",
+            "'v.logunov@yahoo.com'",
+            "'nikoolin@ukr.net'",
+            "'leah.levina@gmail.com'",
+            "'lea.skiliks@gmail.com'",
+            "'andrey3@kostenko.name'",
+            "'skiltests@yandex.ru'",
+            "'didmytime@bk.ru'",
+            "'gva08@yandex.ru'",
+            "'tony_acm@ukr.net'",
+            "'tony_perfectus@mail.ru'",
+            "'N_ninok1985@mail.ru'",
+            "'tony.pryanichnikov@gmail.com'",
+            "'svetaswork@gmail.com'",
+            "'tatyana_pryan@mail.ru'",
+        ];
+
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $condition = " profile.email NOT LIKE '%gty1991%' ".
+            " AND profile.email NOT LIKE '%@skiliks.com' ".
+            " AND profile.email NOT LIKE '%@drdrb.com' ".
+            " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
+            " AND t.start > '2013-08-01 00:00:00' ".
+            " AND profile.email NOT IN (".implode(',', $developersEmails).") " .
+            " AND t.mode = ".self::MODE_PROMO_ID.
+            " AND t.scenario_id = " . $scenario->id .
+            " AND t.status = '" . self::STATUS_COMPLETE . "' ";
+        return self::model()->with('user', 'user.profile')->findAll($condition);
+    }
+
+    /**
+     * Метод возвращает критерий для поиска всех завершенных, полных
+     * симуляций реальных пользователей
+     *
+     * @param string $additionalCondition
+     *
+     * @return array|CActiveRecord|mixed|null
+     *
+     */
+    public function getSimulationRealUsersCondition(
+        $additionalCondition = '',
+        $assessmentCategory = AssessmentCategory::OVERALL
+    ) {
+        $developersEmails = [
+            "'r.kilimov@gmail.com'",
+            "'andrey@kostenko.name'",
+            "'personal@kostenko.name'",
+            "'a.levina@gmail.com'",
+            "'gorina.mv@gmail.com'",
+            "'v.logunov@yahoo.com'",
+            "'nikoolin@ukr.net'",
+            "'leah.levina@gmail.com'",
+            "'lea.skiliks@gmail.com'",
+            "'andrey3@kostenko.name'",
+            "'skiltests@yandex.ru'",
+            "'didmytime@bk.ru'",
+            "'gva08@yandex.ru'",
+            "'tony_acm@ukr.net'",
+            "'tony_perfectus@mail.ru'",
+            "'N_ninok1985@mail.ru'",
+            "'tony.pryanichnikov@gmail.com'",
+            "'svetaswork@gmail.com'",
+            "'tatyana_pryan@mail.ru'",
+        ];
+
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $condition = " profile.email NOT LIKE '%gty1991%' ".
+            " AND profile.email NOT LIKE '%@skiliks.com' ".
+            " AND profile.email NOT LIKE '%@drdrb.com' ".
+            " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE 'sarnavskyi89%' ".
+            " AND sim.start > '2013-08-01 00:00:00' ".
+            " AND profile.email NOT IN (".implode(',', $developersEmails).")
+              AND sim.mode = ".self::MODE_PROMO_ID."
+              AND sim.scenario_id = " . $fullScenario->id . "
+              AND sim.status = '" . self::STATUS_COMPLETE . "'" .
+            sprintf(" AND t.assessment_category_code = '%s' ", $assessmentCategory) .
+            $additionalCondition//.
+            //' ORDER BY ' . $order
+        ;
+
+        return $condition;
     }
 }
 

@@ -635,8 +635,6 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionOrders()
     {
-        $this->itemsOnPage = 5;
-
         // pager {
 
         $page = Yii::app()->request->getParam('page');
@@ -668,14 +666,14 @@ class AdminPagesController extends SiteBaseController {
 
         $criteria = new CDbCriteria;
 
-        $criteria->join = "JOIN user_account_corporate ON user_account_corporate.user_id = t.user_id";
+        $criteria->join = "JOIN profile ON profile.user_id = t.user_id";
 
         // applying filters
         $filterEmail = Yii::app()->request->getParam('email', null);
 
         if($filterEmail !== null) {
             $filterEmail = trim($filterEmail);
-            $criteria->addSearchCondition("user_account_corporate.corporate_email", $filterEmail);
+            $criteria->addSearchCondition("profile.email", $filterEmail);
         }
 
         // appying payment method filters
@@ -1083,7 +1081,8 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/corporate_accounts_table', [
             'accounts' => UserAccountCorporate::model()->findAll([
                 "limit"  => $this->itemsOnPage,
-                "offset" => ($page-1)*$this->itemsOnPage
+                "offset" => ($page-1)*$this->itemsOnPage,
+                "order"  => ' user_id DESC ',
             ]),
             'page'        => $page,
             'pager'       => $pager,
@@ -1330,9 +1329,15 @@ class AdminPagesController extends SiteBaseController {
         $user = YumUser::model()->findByPk($userId);
 
         if($user->isCorporate()) {
-            $isShownPopup = Yii::app()->request->getParam("changeReferPopup", null);
-            if($isShownPopup !== null) {
+            $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
+            if($isSwitchShowReferralInfoPopup !== null) {
                 $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
+                $user->account_corporate->save();
+            }
+
+            $isSwitchTariffExpiredPopup = Yii::app()->request->getParam("switchTariffExpiredPopup", null);
+            if($isSwitchTariffExpiredPopup !== null) {
+                $user->account_corporate->is_display_tariff_expire_pop_up = !$user->account_corporate->is_display_tariff_expire_pop_up;
                 $user->account_corporate->save();
             }
         }
@@ -1571,9 +1576,9 @@ class AdminPagesController extends SiteBaseController {
     public function actionUserReferrals($userId = false) {
         if($userId) {
             $user = YumUser::model()->findByPk($userId);
-            $totalRefers = UserReferal::model()->countUserReferrers($user->id);
+            $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
             $this->layout = '/admin_area/layouts/admin_main';
-            $this->render('/admin_area/pages/reffers_list', ["totalRefers"=>$totalRefers, "user"=>$user]);
+            $this->render('/admin_area/pages/referrals_list', ["totalRefers"=>$totalReferrals, "user"=>$user]);
         }
     }
 
@@ -1705,5 +1710,74 @@ class AdminPagesController extends SiteBaseController {
                 "email" => $email,
             ]);
         }
+    }
+
+    public function actionSimulationsRating()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $simulations = [];
+        foreach ($assessments as $assessment) {
+            $simulations[] = $assessment->sim;
+        }
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_rating', [
+            "simulations" => $simulations,
+        ]);
+    }
+
+    public function actionSimulationsRatingCsv()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $xlsFile =  new \PHPExcel();
+        $xlsFile->removeSheetByIndex(0);
+
+        $worksheet = new \PHPExcel_Worksheet($xlsFile, 'Процентили');
+        $xlsFile->addSheet($worksheet);
+
+        $worksheet->setCellValueByColumnAndRow(1, 1, "ID инвайта");
+        $worksheet->setCellValueByColumnAndRow(2, 1, "Sim. ID");
+        $worksheet->setCellValueByColumnAndRow(3, 1, "Email соискателя, игрока");
+        $worksheet->setCellValueByColumnAndRow(4, 1, "Время начала симуляции");
+        $worksheet->setCellValueByColumnAndRow(5, 1, "Время конца симуляции");
+        $worksheet->setCellValueByColumnAndRow(6, 1, "Сценарий: статус");
+        $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
+        $worksheet->setCellValueByColumnAndRow(8, 1, "Процентиль");
+
+        $i = 3;
+        foreach ($assessments as $assessment) {
+            $worksheet->setCellValueByColumnAndRow(1, $i, $assessment->sim->invite->id );
+            $worksheet->setCellValueByColumnAndRow(2, $i, $assessment->sim->id );
+            $worksheet->setCellValueByColumnAndRow(3, $i, $assessment->sim->user->profile->email );
+            $worksheet->setCellValueByColumnAndRow(4, $i, $assessment->sim->start );
+            $worksheet->setCellValueByColumnAndRow(5, $i, $assessment->sim->end );
+            $worksheet->setCellValueByColumnAndRow(6, $i, $assessment->sim->status );
+            $worksheet->setCellValueByColumnAndRow(7, $i, $assessment->sim->invite->getOverall() );
+            $worksheet->setCellValueByColumnAndRow(8, $i, $assessment->sim->invite->getPercentile() );
+            $i++;
+        }
+
+        $doc = new \PHPExcel_Writer_Excel2007($xlsFile);
+        header('Content-type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
+        $doc->save('php://output');
     }
 }

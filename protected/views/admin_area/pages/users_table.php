@@ -95,7 +95,7 @@
                             if ($profile->user->isCorporate()) { $opacity = 0.5; }
                         ?>
                         <i class="icon icon-briefcase" style="opacity: <?= $opacity ?>"></i>
-                        <?= (null !== $profile->user->getAccount() && $profile->user->isCorporate()) ? $profile->user->getAccount()->corporate_email : '--' ?>
+                        <?= ($profile->user->isCorporate()) ? $profile->email : '--' ?>
                     </div>
                 </td>
 

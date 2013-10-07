@@ -498,7 +498,7 @@ $.fn.ajaxSubmit = function(options) {
             var status = 'success', errMsg;
             try {
                 if (timedOut) {
-                    throw 'timeout';
+                    throw new Error('timeout');
                 }
 
                 var isXml = s.dataType == 'xml' || doc.XMLDocument || $.isXMLDoc(doc);
