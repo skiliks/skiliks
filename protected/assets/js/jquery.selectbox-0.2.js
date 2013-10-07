@@ -469,7 +469,7 @@
 				return $.data(target, PROP_NAME);
 			}
 			catch (err) {
-				throw 'Missing instance data for this selectbox';
+                throw new Error('Missing instance data for this selectbox');
 			}
 		},
 		/**

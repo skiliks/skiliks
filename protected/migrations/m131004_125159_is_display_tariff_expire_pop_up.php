@@ -4,7 +4,7 @@ class m131004_125159_is_display_tariff_expire_pop_up extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn("user_account_corporate", "is_display_tariff_expire_pop_up", "TINYINT (1) DEFAULT 1");
+        $this->addColumn("user_account_corporate", "is_display_tariff_expire_pop_up", "TINYINT (1) DEFAULT 0");
 	}
 
 	public function down()

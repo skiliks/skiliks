@@ -6,9 +6,6 @@
        class="start-lite-simulation-btn light-btn">
         Пройти демо (15 мин)
     </a>
-    <a href="/invite/referrals" class="light-btn" style="float:right; margin-top: 10px;">
-        Пригласить друга
-    </a>
 
     <span class="change-simulation-result-render">
         <?php if($user->profile->assessment_results_render_type == "standard") : ?>
@@ -66,7 +63,6 @@
             <?php $this->renderPartial('partials/_tariff_expire_pop_up', []) ?>
         <?php endif; ?>
 
-        <?php $this->renderPartial('partials/invite-friend-popup', []) ?>
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
 

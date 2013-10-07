@@ -899,7 +899,8 @@ section.registration-by-link .form .row a.decline-link:hover {
 .features .freeacess.bigbtnsubmt:hover,
 .registrationform input[type="submit"]:hover,
 .order-methods input[type=submit]:hover,
-#error404-message .bigbtnsubmt:hover
+#error404-message .bigbtnsubmt:hover,
+.blue-submit-button:hover
 {
     background-image: url("../img/icon-circlarow-hover.png");
     background-color:#BD2929;
