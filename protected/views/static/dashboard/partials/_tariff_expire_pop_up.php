@@ -7,30 +7,30 @@
 <script>
     $(document).ready(function() {
         $('#tariff-expired-popup').dialog({
-            dialogClass: 'accept-invite-warning-popup full-simulation-info-popup show-popup-top',
+            dialogClass: 'accept-invite-warning-popup full-simulation-info-popup show-popup-top tariff-expired-popup',
             modal:       false,
             autoOpen:    true,
             resizable:   false,
             closeOnEscape: false,
             draggable:   false,
             width:       940,
-            height:   15,
+            height:   20,
             position: {
                 my: "left top",
                 at: "left bottom",
                 of: $("header h1")
             },
             open: function( event, ui ) {
-                $(".ui-dialog-content").css("height", "10px");
-                $(".show-popup-top .ui-dialog-titlebar-close").show();
+                $(".ui-dialog-content").css("height", "20px");
+                $("span#ui-dialog-title-tariff-expired-popup").remove();
+                $(".tariff-expired-popup").css("z-index", "1000");
+                <? if($hasOtherPopup) : ?>
+                    $(".tariff-expired-popup").css("margin-top", "70px");
+                <? endif; ?>
             },
             close: function() {
                 $.post('/dashboard/dontShowTariffEndPopup', {is_display_tariff_expire_pop_up : "1"});
             }
         });
-
-        // hack {
-        $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
-        $(window).scrollTop('.narrow-contnt');
     })
 </script>
