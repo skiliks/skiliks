@@ -91,7 +91,7 @@ class UserAuthController extends YumController
                     }
                 }
             } else {
-                Yii::app()->user->setFlash('error', 'Вы не  являетесь реферралом!');
+                Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
             }
         }
 
