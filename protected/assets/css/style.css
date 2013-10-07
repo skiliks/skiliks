@@ -457,7 +457,7 @@ html[lang=ru] .betaflag {
 
 .start-lite-simulation-btn {
     float:right;
-    margin-top:10px;
+    margin-top:-10px;
 }
 
 .start-lite-simulation-btn-no-margin {
@@ -621,6 +621,11 @@ html[lang=ru] .betaflag {
 	.heroes-comment{
 		display:none;
 	}
+
+    .start-lite-simulation-btn {
+        float:right;
+        margin-top:-5px;
+    }
 }
 /* --------------- /heroes comments ---------*/
 
