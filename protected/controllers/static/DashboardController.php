@@ -369,7 +369,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                         $this->user->profile->email
                     ));
 
-                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id");
+                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id OR t.receiver_id IS NULL");
 
                     // Starting show
                     $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
@@ -613,42 +613,42 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить чужое приглашение!"
             ));
-            $this->redirect('/');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isPending()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isStarted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Начато'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Готово'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         $invite->deleteInvite();
 
         $user->getAccount()->increaseLimit($invite);
 
-        $this->redirect('/dashboard');
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
