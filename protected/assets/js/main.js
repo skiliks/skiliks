@@ -359,7 +359,7 @@ var fixLogotypes = function() {
         };
 
         window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $("#sendRefferInviteButton").val("Отправить приглашения");
+            $(".sendReferralInviteSubmitButton").val("отправить");
             if (!hasError) {
                 window.location.href = "/dashboard";
             }
@@ -375,7 +375,7 @@ var fixLogotypes = function() {
         }
 
         window.changeInviteReferrButton = function changeInviteReferrButton() {
-            $("#sendRefferInviteButton").val("Идёт проверка емейлов-рефералов");
+            $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
             return true;
         }
 
