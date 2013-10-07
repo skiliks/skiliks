@@ -1,4 +1,4 @@
-<div id="refferal-popup" style="display: none;">
+<div id="referral-popup" style="display: none;">
     <div class="more-side-pads">
         <h2 class="title">Пригласить друга</h2>
         <input type="checkbox" id="dontShowPopupCheckbox"> Не показывать снова
@@ -8,7 +8,7 @@
     $(document).ready(function() {
         $('.content').css('margin-bottom', '600px');
 
-        $('#refferal-popup').dialog({
+        $('#referral-popup').dialog({
             dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
             modal:       true,
             autoOpen:    true,

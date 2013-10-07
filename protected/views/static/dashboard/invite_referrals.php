@@ -22,10 +22,10 @@
             'clientOptions' => [
                 'validateOnSubmit' => true,
                 'validateOnChange' => false,
-                'beforeValidate'   => 'js:changeInviteReferrButton',
+                'beforeValidate'   => 'js:changeInviteReferralSubmitButton',
                 'afterValidate'    => 'js:inviteFriend',
             ]
-        ), $referralInviteModel = new ReferralsInviteForm());
+        ), $referralInviteModel);
         ?>
 
         <div class="referral-email-label">
@@ -54,7 +54,7 @@
         <div style="clear: both; min-height: 15px;"></div>
 
         <div style="float:left;">
-            <?= CHtml::submitButton('отправить', ['id'=>'sendRefferInviteButton', 'class'=>'light-btn sendReferralInviteSubmitButton']); ?>
+            <?= CHtml::submitButton('отправить', ['id'=>'sendReferallInviteButton', 'class'=>'light-btn sendReferralInviteSubmitButton']); ?>
             <?php $this->endWidget(); ?>
         </div>
 

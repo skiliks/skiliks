@@ -410,7 +410,7 @@ return array(
             'tariffExpiredTemplate'    => 'tariff_expired',
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
-            'referrerInviteEmail'      => '//global_partials/mails/reffererEmail',
+            'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
