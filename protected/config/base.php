@@ -311,6 +311,7 @@ return array(
                 'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
+                'admin_area/send-notice/'           => 'admin_area/AdminPages/SendNotice',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
                 'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
@@ -411,6 +412,7 @@ return array(
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
+            'noticeEmail'      => '//global_partials/mails/noticeEmail',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',

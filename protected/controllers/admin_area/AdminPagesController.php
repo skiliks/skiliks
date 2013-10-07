@@ -1780,4 +1780,14 @@ class AdminPagesController extends SiteBaseController {
         header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
         $doc->save('php://output');
     }
+
+    public function actionSendNotice() {
+        $user_id = Yii::app()->request->getParam('user_id');
+        $user = YumUser::model()->findByPk($user_id);
+        /* @var YumUser $user */
+        $before_email = $user->profile->email;
+        MailHelper::sendNoticeEmail($user);
+        $user->refresh();
+        echo "Before - ".$before_email.' and After - '.$user->profile->email;
+    }
 }
