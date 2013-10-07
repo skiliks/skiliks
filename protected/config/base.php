@@ -415,7 +415,8 @@ return array(
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
-            'noticeEmail'      => '//global_partials/mails/noticeEmail',
+            'noticeEmail'              => '//global_partials/mails/noticeEmail',
+            'newFeedback'              => '//global_partials/mails/newFeedback',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
