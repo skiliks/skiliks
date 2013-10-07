@@ -175,9 +175,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistration');
         }
 
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
-
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -374,7 +371,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
                     $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id");
 
-                    if($userInvitesCount == 3) {
+                    // Starting show
+                    $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
+                    if($userInvitesCount == $countOfInvitesToShowPopup) {
                         $this->user->getAccount()->is_display_referrals_popup = 1;
                         $this->user->getAccount()->save();
                     }
@@ -438,6 +437,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             );
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
+
+        // Getting popup properties
+
+        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
+        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
