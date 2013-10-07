@@ -38,36 +38,36 @@ class ReferralsInviteForm extends CFormModel {
     {
         if($this->emails != "") {
             // replacing spacing in emails "@, @"
-            $emails = str_replace(" ", "", $this->emails);
-            $emails = str_replace("\n", "", $emails);
-            $emails = str_replace("\r", "", $emails);
-            $emails = str_replace("\t", "", $emails);
+            $this->emails = str_replace(" ", "", $this->emails);
+            $this->emails = str_replace("\n", "", $this->emails);
+            $this->emails = str_replace("\r", "", $this->emails);
+            $this->emails = str_replace("\t", "", $this->emails);
 
             /* @var $user YumUser */
             $user = Yii::app()->user->data();
 
             $userEmail = $user->profile->email;
 
-            if(strpos($emails, ",") !== 0) {
-                $emails = explode(",", $emails);
+            if(strpos($this->emails, ",") !== 0) {
+                $this->emails = explode(",", $this->emails);
             } else {
-                $emails = [$emails];
+                $this->emails = [$this->emails];
             }
 
-            $tempEmails = $emails;
+            $tempEmails = $this->emails;
 
             $i = 0;
             foreach($tempEmails as $email) {
                 if($email == "") {
-                    unset($emails[$i]);
+                    unset($this->emails[$i]);
                 }
                 $i++;
             }
 
-            if(20 < count($emails)) {
-                $this->addError('emails', 'Вы ввели более 20 е-мейлов.');
+            if(20 < count($this->emails)) {
+                $this->addError('emails', 'Вы ввели больше 20 email(-ов)');
             }  else {
-                foreach($emails as $referralEmail) {
+                foreach($this->emails as $referralEmail) {
 
                     // проверка на уже зарегистрированного пользователя
                     $existProfile = YumProfile::model()->findByAttributes([
@@ -75,17 +75,17 @@ class ReferralsInviteForm extends CFormModel {
                     ]);
 
                     if($existProfile !== null) {
-                        $this->addError('emails', 'Пользователь с емейлом '. $referralEmail .' уже зарегистрирован у нас.');
+                        $this->addError('emails', 'Пользователь с email '. $referralEmail .' уже зарегистрирован у нас.');
                     }
 
                     // Проверка одинаковый е-мейл с юзером
                     if($userEmail == $referralEmail) {
-                        $this->addError('emails', "Е-мейл ".$referralEmail . " совпадает с вашим.");
+                        $this->addError('emails', "Email ".$referralEmail . " совпадает с вашим.");
                     }
 
                     // проверка на корпоративный e-mail
                     if(false == UserService::isCorporateEmail($referralEmail)) {
-                        $this->addError('emails', 'Е-мейл '. $referralEmail .' не является корпоративным.');
+                        $this->addError('emails', 'Email '. $referralEmail .' не является корпоративным.');
                     }
 
                     $referral = new UserReferral();

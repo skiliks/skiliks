@@ -150,7 +150,7 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td>Показывать попап что тарифный план истёк </td>
         <td>
-            <?php if ($user->account_corporate->is_display_tariff_expire_pop_up) : ?>
+            <?php if ($user->isCorporate() && $user->getAccount()->is_display_tariff_expire_pop_up) : ?>
                 <i class="icon icon-eye-open"></i> Да
             <?php else : ?>
                 <i class="icon icon-eye-close"></i> Нет

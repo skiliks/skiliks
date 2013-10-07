@@ -18,7 +18,7 @@
             ['header' => 'E-mail'            , 'name' => 'referral_email', 'value' => '$data->referral_email'],
             ['header' => 'Дата'         , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
             ['header' => 'Статус' ,
-             'name'   => 'registered_at' ,
+             'name'   => 'status' ,
              'value' => function($data) {
                  if($data->isApproved()) {
                      $assetsUrl = $this->getAssetsUrl();

@@ -1,40 +1,41 @@
-<div id="refferal-popup" style="display: none;">
-    <div class="more-side-pads">
-        <h2 class="title">Пригласить друга</h2>
-        <input type="checkbox" id="dontShowPopupCheckbox"> Не показывать снова
+<div id="referral-popup" style="min-height: 17px !important;">
+    <div style="clear: both;"></div>
+    <div class="ProximaNova-Bold">
+        Теперь вы можете получить дополнительные симуляции, пригласив друзей
     </div>
 </div>
 <script>
     $(document).ready(function() {
         $('.content').css('margin-bottom', '600px');
 
-        $('#refferal-popup').dialog({
-            dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
-            modal:       true,
+        $('#referral-popup').dialog({
+            dialogClass: 'accept-invite-warning-popup full-simulation-info-popup show-popup-top referral-popup',
+            modal:       false,
             autoOpen:    true,
             resizable:   false,
+            closeOnEscape: false,
             draggable:   false,
-            width:       881,
-            maxHeight:   600,
+            width:       935,
+            height:   20,
             position: {
                 my: "left top",
                 at: "left bottom",
                 of: $("header h1")
             },
             open: function( event, ui ) {
+                $(".referral-popup").css({"z-index" : "1000", "margin-left" : "19px"});
+                $(".ui-dialog-content").css("height", "20px");
+                $("span#ui-dialog-title-referral-popup").remove();
             },
             close: function() {
-                var showPopup = 0;
-                if($("#dontShowPopupCheckbox").is(":checked")) {
-                    showPopup = 1;
-                }
-                $.post( "/dashboard/dontShowPopup", { dontShowPopup : showPopup}).done(function() {
+                $.post( "/dashboard/dontShowPopup", { dontShowPopup : 1}).done(function() {
+                    $(".tariff-expired-popup").css("margin-top", "0");
                 });
             }
         });
 
-        // hack {
-        $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
-        $(window).scrollTop('.narrow-contnt');
+        $(".referral-popup").click(function() {
+           window.location.href = "/invite/referrals";
+        });
     })
 </script>
