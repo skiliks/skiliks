@@ -1790,4 +1790,14 @@ class AdminPagesController extends SiteBaseController {
         $user->refresh();
         echo "Before - ".$before_email.' and After - '.$user->profile->email;
     }
+
+    public function actionUpdateInviteEmail() {
+        $user_id = Yii::app()->request->getParam('user_id');
+        $invites = Invite::model()->findAll("owner_id = receiver_id and owner_id = {$user_id}");
+        /* @var Invite $invite */
+        foreach($invites as $invite) {
+            MailHelper::updateInviteEmail($invite);
+        }
+        echo "Done";
+    }
 }
