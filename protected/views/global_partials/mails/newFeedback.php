@@ -29,21 +29,21 @@
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
-                                    <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
                                         Email:
-                                    </h1>
+                                    </h3>
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?=$email?>
                                     </p>
-                                    <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
                                         Тема:
-                                    </h1>
+                                    </h3>
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?=$theme?>
                                     </p>
-                                    <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
                                         Сообщение:
-                                    </h1>
+                                    </h3>
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                                         <?=$message?>
                                     </p>
