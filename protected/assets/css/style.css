@@ -5511,7 +5511,9 @@ ul.default li:hover {
     font-weight: bold;
     color: #3d4041;
 }
-
+.form.form-invite-message.message_window.ui-dialog-content.ui-widget-content{
+    overflow: hidden;
+}
 @media screen and (max-width: 1146px){
 
     .show-popup-top {
