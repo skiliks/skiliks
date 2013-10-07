@@ -942,7 +942,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
 
         if(!Yii::app()->request->getIsAjaxRequest()) {
-            $this->render("invite_referrals", ['user'=>$user]);
+            $referralInviteModel = new ReferralsInviteForm();
+            $this->render("invite_referrals", ['user'=>$user, 'referralInviteModel' => $referralInviteModel]);
         }
         else {
             $referralForm = new ReferralsInviteForm();

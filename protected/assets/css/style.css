@@ -5019,7 +5019,7 @@ div.row.error.invite-referrals-div ul {
     resize: none;
 }
 
-#sendRefferInviteButton {
+#sendReferallInviteButton {
     background-size: auto auto;
     float:left;
     border:0;
@@ -5133,7 +5133,7 @@ div.row.error.invite-referrals-div ul {
         resize: none;
     }
 
-    #sendRefferInviteButton {
+    #sendReferallInviteButton {
         background-size: auto auto;
         float:left;
         border:0;

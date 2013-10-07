@@ -374,7 +374,7 @@ var fixLogotypes = function() {
             return false;
         }
 
-        window.changeInviteReferrButton = function changeInviteReferrButton() {
+        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
             $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
             return true;
         }
