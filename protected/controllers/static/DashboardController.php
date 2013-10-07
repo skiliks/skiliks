@@ -305,12 +305,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             }
 
 
-            if($profile !== null && $profile->user->isPersonal()) {
-                $validPrevalidate = false;
+            if($profile !== null && $profile->user->isCorporate()) {
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
                      приглашения только персональным и незарегистрированным пользователям'
                 ));
+                $validPrevalidate = false;
             }
 
             $invite->message = sprintf(
