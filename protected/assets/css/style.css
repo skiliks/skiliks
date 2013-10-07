@@ -5515,7 +5515,7 @@ ul.default li:hover {
 @media screen and (max-width: 1146px){
 
     .show-popup-top {
-        width:760px !important;
+        width: 753px !important;
         height: 48px !important;
     }
 
@@ -5528,6 +5528,8 @@ ul.default li:hover {
 
 .referral-popup {
     cursor: pointer;
+    text-align: center;
+    margin-left: 12px;
 }
 
 .container > header nav#static-page-links a.additional-simulations {
@@ -5543,9 +5545,6 @@ ul.default li:hover {
     }
 }
 
-#referral-popup {
-    text-align: center;
-}
 
 .change-simulation-result-render {
     float:right;
