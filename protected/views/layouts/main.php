@@ -25,11 +25,11 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
-
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb-min.png"/>
         <meta charset="utf-8" />
         <meta name="description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
         <meta property="og:description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
