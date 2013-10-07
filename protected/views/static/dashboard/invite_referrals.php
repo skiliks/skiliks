@@ -8,7 +8,7 @@
     <div style="min-height: 15px;"></div>
 
     <div class="referral-left-div">
-        <h2 style="">Отправить приглашение</h2>
+        <h2 class="ProximaNova-Bold">Отправить приглашение</h2>
 
         <div style="clear: both; min-height: 15px;"></div>
 
@@ -54,7 +54,7 @@
         <div style="clear: both; min-height: 15px;"></div>
 
         <div style="float:left;">
-            <?= CHtml::submitButton('Отправить', ['id'=>'sendRefferInviteButton', 'class'=>'light-btn']); ?>
+            <?= CHtml::submitButton('отправить', ['id'=>'sendRefferInviteButton', 'class'=>'light-btn sendReferralInviteSubmitButton']); ?>
             <?php $this->endWidget(); ?>
         </div>
 
