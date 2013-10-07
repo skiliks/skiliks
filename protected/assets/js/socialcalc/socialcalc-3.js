@@ -437,7 +437,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                      sheetobj.colattribs.hide[coord]=parts[j++];
                      break;
                   default:
-                     throw scc.s_pssUnknownColType+" '"+t+"'";
+                      throw new Error(scc.s_pssUnknownColType+" '"+t+"'");
                      break;
                   }
                }
@@ -455,7 +455,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
                      sheetobj.rowattribs.hide[coord]=parts[j++];
                      break;
                   default:
-                     throw scc.s_pssUnknownRowType+" '"+t+"'";
+                      throw new Error(scc.s_pssUnknownRowType+" '"+t+"'");
                      break;
                   }
                }
@@ -572,8 +572,7 @@ SocialCalc.ParseSheetSave = function(savedsheet,sheetobj) {
             break;
 
          default:
-//alert(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
-            throw scc.s_pssUnknownLineType+" '"+parts[0]+"'";
+              throw new Error(scc.s_pssUnknownLineType+" '"+parts[0]+"'");
             break;
          }
       parts = null;
@@ -689,7 +688,7 @@ SocialCalc.CellFromStringParts = function(sheet, cell, parts, j) {
             cell.comment=SocialCalc.decodeFromSave(parts[j++]);
             break;
          default:
-            throw SocialCalc.Constants.s_cfspUnknownCellType+" '"+t+"'";
+             throw new Error(SocialCalc.Constants.s_cfspUnknownCellType+" '"+t+"'");
             break;
          }
       }
@@ -4682,7 +4681,7 @@ SocialCalc.RenderCell = function(context, rownum, colnum, rowpane, colpane, noEl
 
 SocialCalc.CoordInPane = function(context, coord, rowpane, colpane) {
    var coordToCR = context.coordToCR[coord];
-   if (!coordToCR || !coordToCR.row || !coordToCR.col) throw "Bad coordToCR for "+coord;
+   if (!coordToCR || !coordToCR.row || !coordToCR.col) { throw new Error("Bad coordToCR for "+coord)};
    return context.CellInPane(coordToCR.row, coordToCR.col, rowpane, colpane);
    }
 
@@ -4690,7 +4689,9 @@ SocialCalc.CoordInPane = function(context, coord, rowpane, colpane) {
 SocialCalc.CellInPane = function(context, row, col, rowpane, colpane) {
    var panerowlimits = context.rowpanes[rowpane];
    var panecollimits = context.colpanes[colpane];
-   if (!panerowlimits || !panecollimits) throw "CellInPane called with unknown panes "+rowpane+"/"+colpane;
+   if (!panerowlimits || !panecollimits) {
+       throw new Error("CellInPane called with unknown panes "+rowpane+"/"+colpane);
+   }
    if (row < panerowlimits.first || row > panerowlimits.last) return false;
    if (col < panecollimits.first || col > panecollimits.last) return false;
    return true;
@@ -5558,7 +5559,7 @@ SocialCalc.ConvertSaveToOtherFormat = function(savestr, outputformat, dorecalc) 
    if (dorecalc) {
       // no longer supported as of 9/10/08
       // Recalc is now async, so can't do it this way
-      throw("SocialCalc.ConvertSaveToOtherFormat: Not doing recalc.");
+          throw new Error("SocialCalc.ConvertSaveToOtherFormat: Not doing recalc.");
       }
 
    if (sheet.copiedfrom) {

@@ -8,6 +8,7 @@ $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isP
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
 $profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
+
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -16,6 +17,12 @@ $this->widget('zii.widgets.CMenu', array(
             'label'   => Yii::t('site', 'Русский'),
             'url'     => StaticSiteTools::getLangSwitcherUrl(Yii::app()->request, Yii::app()->getLanguage()),
             'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller)
+        ],
+        [
+            'label'       => Yii::t('site', 'Additional simulations'),
+            'url'         => '/invite/referrals',
+            'linkOptions' => ['class' => 'additional-simulations'],
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage(),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
@@ -27,7 +34,7 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => $profileName,
             'url'         => '',
             'linkOptions' => ['class' => 'top-profile '.$classForName],
-            'visible' => $visibleName,
+            'visible'     => $visibleName,
         ],
         [
             'label'   => Yii::t('site','Help'),

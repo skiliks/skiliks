@@ -758,7 +758,7 @@ class Simulation extends CActiveRecord
             $percentileInDb->sim_id = $this->id;
         }
 
-        $percentileInDb->value = number_format($percentileValue, 2, ',', '');
+        $percentileInDb->value = number_format(round($percentileValue, 2), 2, '.', '');
         $percentileInDb->save();
     }
 
