@@ -371,6 +371,14 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                         $invite->email,
                         $this->user->profile->email
                     ));
+
+                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id");
+
+                    if($userInvitesCount == 3) {
+                        $this->user->getAccount()->is_display_referrals_popup = 1;
+                        $this->user->getAccount()->save();
+                    }
+
                     $this->sendInviteEmail($invite);
 
                     $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
