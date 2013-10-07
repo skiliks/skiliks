@@ -2643,7 +2643,7 @@ h2 {
 }
 
 #invite-people-box {
-    margin: 0 0 0 10px;
+    margin: 5px 0 0 10px;
     width: 280px;
     /*height: 300px;
     float: left;
@@ -2788,7 +2788,7 @@ h2 {
     padding:13px 6px 20px 12px;
 }
 #dashboard-skills-box {
-    margin: 0 0 0 10px;
+    margin: 34px 0 0 10px;
     padding-bottom: 0px;
 }
 #dashboard-skills-box>p {
@@ -2823,8 +2823,11 @@ h2 {
 #companies-you-follow-box {
     margin: 30px 0 0 10px;
 }
-#private-invitations-list-box, #corporate-invitations-list-box {
-    margin-top:-8px;
+#private-invitations-list-box {
+    margin-top:-2px;
+}
+#private-invitations-list-box {
+    margin-top:31px;
 }
 #private-invitations-list-box .grid-view table.items tr:hover, #corporate-invitations-list-box tr:hover {
     background:none;
@@ -3242,8 +3245,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    max-width: 115px;
-    width: 115px;
+    max-width: 120px;
+    width: 120px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
 #corporate-invitations-list-box .mail-new-textgrid-view tr td:nth-child(7),
@@ -3272,8 +3275,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
-    top:11px;
-    width:98px;
+    top:14px;
+    width:91px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p, #private-invitations-list-box .ratingwrap {
@@ -3755,6 +3758,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
+.received-invites-personal {
+    margin-top: -5px;
+}
+
 @media screen and (max-width: 1146px){
     .narrow-contnt {
         margin-left: 10px;
@@ -3789,6 +3796,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     }
     #dashboard-skills-box, .nice-border, .add-vacancy-popup {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+    }
+    #dashboard-skills-box {
+        margin-top:36px;
     }
     .inner .dashboard .thetitle {
         font-size: 1.4em;
@@ -3914,7 +3924,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width: 40px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:82px;
+        width:70px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3957,6 +3967,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     }
     #invite-people-box {
         padding-bottom: 10px;
+        margin-top: 9px;
     }
     #simulations-counter-box {
         padding-left: 8px;
@@ -4432,6 +4443,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     .dashboard .narrow-contnt .thetitle {
         margin-bottom: 19px;
         margin-top: 8px;
+    }
+    .dashboard .narrow-contnt .thetitle.received-invites-personal {
+        margin-top:2px;
     }
     section.registration-by-link h1 {
         font-size: 21px;
@@ -5531,4 +5545,34 @@ ul.default li:hover {
 
 #referral-popup {
     text-align: center;
+}
+
+.change-simulation-result-render {
+    float:right;
+    background: url('../img/arrow-switch-rating-view.png') no-repeat right;
+    height: 18px;
+    margin-top: -22px;
+    padding-top: 2px;
+    width: 156px;
+    text-align:right;
+    padding-right: 20px;
+    font-size: 11px;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1146px) {
+    .change-simulation-result-render {
+        float:right;
+        background: url('../img/arrow-switch-rating-view-small.png') no-repeat right;
+        height: 18px;
+        margin-top: -20px;
+        padding-top: 2px;
+        width: 156px;
+        text-align:right;
+        padding-right: 20px;
+        font-size: 11px;
+        color: #fff;
+        cursor: pointer;
+    }
 }

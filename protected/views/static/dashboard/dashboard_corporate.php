@@ -7,14 +7,6 @@
         Пройти демо (15 мин)
     </a>
 
-    <span class="change-simulation-result-render">
-        <?php if($user->profile->assessment_results_render_type == "standard") : ?>
-            Переключиться на процентиль
-        <?php else : ?>
-            Переключиться на стандарт
-        <?php endif ?>
-    </span>
-
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
         <!-- invite-people-box -->
@@ -42,6 +34,14 @@
     </aside>
     <div class="narrow-contnt">
 
+        <div class="change-simulation-result-render ProximaNova-Bold">
+            <?php if($user->profile->assessment_results_render_type == "standard") : ?>
+                Относительный рейтинг
+            <?php else : ?>
+                Абсолютный рейтинг
+            <?php endif ?>
+        </div>
+
         <!-- corporate-invitations-list-box -->
         <!-- hack for taking position -->
         <div id="corporate-invitations-list-box-position" style="width:1px; height: 1px; content: -;"></div>
@@ -50,6 +50,7 @@
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies'       => $vacancies,
+                'user'            => $user
             ]) ?>
         </div>
 
