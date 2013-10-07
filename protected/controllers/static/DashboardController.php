@@ -175,14 +175,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistration');
         }
 
-        // getting user popup
-        $session = new CHttpSession();
-        if(!isset($session['shown_display_popup']) || $session['shown_display_popup'] === null) {
-            $session['shown_display_popup'] = !$this->user->getAccount()->is_display_referrals_popup;
-        }
-
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -283,17 +275,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $invite->is_display_simulation_results = false;
             $invite->email = trim($invite->email);
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
-                $validPrevalidate = false;
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
-                     приглашения только персональным и незарегистрированным пользователям'
-                ));
-            }
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
 
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
             if ($profile) {
                 $invite->receiver_id = $profile->user->id;
             }
@@ -311,13 +296,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $validPrevalidate = false;
             }
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
-                $validPrevalidate = false;
+
+            if($profile !== null && $profile->user->isCorporate()) {
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
                      приглашения только персональным и незарегистрированным пользователям'
                 ));
+                $validPrevalidate = false;
             }
 
             $invite->message = sprintf(
@@ -333,8 +318,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
 
-            $existCorporateAccount = YumProfile::model()->findByAttributes(["email" => $invite->email]);
-            if($existCorporateAccount !== null) {
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
+            if($profile !== null && $profile->user->isCorporate()) {
                 $validPrevalidate = false;
                 Yii::app()->user->setFlash('error', sprintf(
                     'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
@@ -382,6 +368,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                         $invite->email,
                         $this->user->profile->email
                     ));
+
+                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id");
+
+                    // Starting show
+                    $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
+                    if($userInvitesCount == $countOfInvitesToShowPopup) {
+                        $this->user->getAccount()->is_display_referrals_popup = 1;
+                        $this->user->getAccount()->save();
+                    }
+
                     $this->sendInviteEmail($invite);
 
                     $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
@@ -442,6 +438,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
+        // Getting popup properties
+
+        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
+        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
+
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
             'inviteToEdit'        => $inviteToEdit,
@@ -451,7 +452,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'shown_display_popup' => $session['shown_display_popup'],
+            'show_user_referral_popup' =>  $is_display_user_referral_popup,
             'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
             'user'                => $this->user
         ]);
@@ -942,7 +943,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
 
         if(!Yii::app()->request->getIsAjaxRequest()) {
-            $this->render("invite_referrals", ['user'=>$user]);
+            $referralInviteModel = new ReferralsInviteForm();
+            $this->render("invite_referrals", ['user'=>$user, 'referralInviteModel' => $referralInviteModel]);
         }
         else {
             $referralForm = new ReferralsInviteForm();
@@ -1007,8 +1009,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $user->getAccount()->is_display_referrals_popup = 0;
             $user->getAccount()->save();
         }
-        $session = new CHttpSession();
-        $session['shown_display_popup'] = 1;
     }
 
     function actionDontShowTariffEndPopup() {
@@ -1026,8 +1026,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $user->getAccount()->is_display_tariff_expire_pop_up = 0;
             $user->getAccount()->save();
         }
-        $session = new CHttpSession();
-        $session['is_display_tariff_expire_pop_up'] = 0;
     }
 
     public function actionRemakeRenderType() {

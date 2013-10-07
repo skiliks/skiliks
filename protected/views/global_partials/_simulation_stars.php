@@ -23,5 +23,16 @@
         <?php endif; ?>
     </p>
 <?php else : ?>
-    <?= round($simulation->invite->getPercentile()) ?>
+
+        <?php if ($isSimComplete): ?>
+                <?php if($isDisplayTitle): ?>
+                    <p style="float:left;"><span class="skillstitle">Базовый менеджмент</span>
+                <?php endif ?>
+            <div <?php echo 'data-simulation="/dashboard/simulationdetails/'.$simulation->id.'"'; ?> class="percentil_overall_container percentil_dashboard_container <?php if($simulation->end !== null) { echo "view-simulation-details-pop-up";} ?>"><span class="percentil_base" style="text-align: right;"><span class="percentil_overall" style="width:<?=round($simulation->invite->getPercentile())?>%;"></span></span><span class="percentile_dashboard_value ProximaNova-Bold">P<?=round($simulation->invite->getPercentile())  ?></span></div><?php if ($isDisplayArrow) : ?>
+                <a href="#" data-simulation="/dashboard/simulationdetails/<?php echo $simulation->id; ?>" class="link-go view-simulation-details-pop-up link-go-percentile"></a>
+                <?php if($isDisplayTitle): ?>
+                    </p>
+                <?php endif ?>
+            <?php endif ?>
+        <?php endif; ?>
 <?php endif; ?>

@@ -359,7 +359,7 @@ var fixLogotypes = function() {
         };
 
         window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $(".sendReferralInviteSubmitButton").val("отправить");
+            $(".sendReferralInviteSubmitButton").val("Отправить");
             if (!hasError) {
                 window.location.href = "/dashboard";
             }
@@ -374,7 +374,7 @@ var fixLogotypes = function() {
             return false;
         }
 
-        window.changeInviteReferrButton = function changeInviteReferrButton() {
+        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
             $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
             return true;
         }
@@ -653,6 +653,7 @@ var fixLogotypes = function() {
                 $(this).children("div").slideUp("fast");
                 $(this).removeClass("active");
             }
+            Cufon.refresh();
         })
 
         $(".change-simulation-result-render").click(function() {
@@ -670,21 +671,22 @@ var fixLogotypes = function() {
             $(".dialogReferralRejected").dialog({
                 dialogClass: 'popup-before-start-sim',
                 closeOnEscape: true,
-                minHeight: 100,
+                minHeight: 20,
                 modal: true,
                 resizable: false,
                 draggable: false,
                 title: false,
-                width: 584,
+                width: 544,
                 position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $(this).parents('tr')
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
                 },
                 open : function() {
                     $(".domainName").html(domain);
                 }
             });
+            Cufon.refresh();
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
         });
@@ -695,17 +697,17 @@ var fixLogotypes = function() {
             $(".dialogReferralPending").dialog({
                 dialogClass: 'popup-before-start-sim',
                 closeOnEscape: true,
-                minHeight: 70,
+                minHeight: 20,
                 modal: true,
                 resizable: false,
                 draggable: false,
                 title: false,
-                width: 584,
+                width: 544,
                 position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $(this).parents('tr')
-                },
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
+                }
             });
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
@@ -730,13 +732,14 @@ var fixLogotypes = function() {
                             }
                         });
                     }
-
                     Cufon.refresh();
                 }
             });
 
             e.stopPropagation();
         });
+
+
 
 
     });
