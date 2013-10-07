@@ -2,7 +2,7 @@
 <div class="allsummry">
     <div class="overall percentil_overall_container">
             <span class="percentil_base">
-                <span class="percentil_overall" style="width:0;"></span>
+                <span class="percentil_overall tab_main_popup" style="width:0;"></span>
             </span>
             <div class="percentil_text">P0</div>
     </div>
@@ -70,7 +70,7 @@
 
             $('.overall .value').html(r(AR.overall || 0));
             $('.allrating').css('width', (AR.overall || 0) + '%');
-            $('.percentil_overall').css('width', (AR.percentile.total || 0) + '%');
+            $('.tab_main_popup.percentil_overall').css('width', (AR.percentile.total || 0) + '%');
             $('.percentil_text').html("P"+r(AR.percentile.total));
         }, 500);
     });
