@@ -359,7 +359,7 @@ var fixLogotypes = function() {
         };
 
         window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $(".sendReferralInviteSubmitButton").val("отправить");
+            $(".sendReferralInviteSubmitButton").val("Отправить");
             if (!hasError) {
                 window.location.href = "/dashboard";
             }
