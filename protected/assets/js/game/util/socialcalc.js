@@ -8,11 +8,7 @@
     }
 
     var fnMap = {
-            "СРЕДНЕЕ": "AVERAGE",
-            "PRODUCT": "ПРОИЗВЕДЕНИЕ",
-            "СУММ":    "SUM",
-            "МАКС":    "MAX",
-            "МИН":     "MIN"
+            "СУММ": "SUM"
         },
         origFn = SocialCalc.Formula.CalculateFunction;
 

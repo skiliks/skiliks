@@ -3,9 +3,8 @@
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
     </a>
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-       class="start-lite-simulation-btn light-btn">
-        Пройти демо (15 мин)
-    </a>
+       class="start-lite-simulation-btn light-btn">Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</a>
+
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
@@ -101,8 +100,7 @@
                     <p><?php echo $form->textField($invite, 'fullname'); ?></p>
 
                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию
-                            <a target="_blank" href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
                         <?php if (empty($invite->receiverUser)): ?>
                             <p class="font-green-dark">
                                 <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>

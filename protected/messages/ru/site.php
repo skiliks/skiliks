@@ -30,7 +30,7 @@ return array(
     'Coming soon' => 'Скоро запуск',
     'Start using it now for free' => 'Получить 10 симуляций бесплатно',
     'Back to homepage' => 'Вернуться на главную',
-    'Easiest' => 'Простой',
+    'Easy' => 'Простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',
     'Enter your email address' => 'Введите ваш email',
@@ -47,7 +47,7 @@ return array(
     'Please enter a valid email address' => 'Пожалуйста, введите валидный емейл',
     'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
     'Saves your time' => 'Экономит время',
-    'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
+    'Simulation aimed at testing basic manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
     'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
 
