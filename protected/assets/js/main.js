@@ -653,6 +653,7 @@ var fixLogotypes = function() {
                 $(this).children("div").slideUp("fast");
                 $(this).removeClass("active");
             }
+            Cufon.refresh();
         })
 
         $(".change-simulation-result-render").click(function() {
@@ -706,7 +707,7 @@ var fixLogotypes = function() {
                     my: "right top",
                     at: "right top",
                     of: ".referalls_list_box"
-                },
+                }
             });
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
