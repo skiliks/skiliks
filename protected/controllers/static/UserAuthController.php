@@ -40,76 +40,86 @@ class UserAuthController extends YumController
         $profile = new YumProfile('registration');
         $accountCorporate = new UserAccountCorporate('registration');
 
-        $YumUserData     = Yii::app()->request->getParam('YumUser');
-        $YumProfileData  = Yii::app()->request->getParam('YumProfile');
-        $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
+        $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
 
-        if(null !== $YumUserData && null !== $YumProfileData && null !== $UserAccountCorporateData)
-        {
-            $user->attributes = $YumUserData;
-            $profile->attributes = $YumProfileData;
-            $accountCorporate->attributes = $UserAccountCorporateData;
+            if($userReferralRecord !== null) {
 
-            $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
-
-            if($userReferralRecord !== null && $userReferralRecord->registered_at === null) {
-
-                $profile->email = $userReferralRecord->referral_email;
-                $user->setUserNameFromEmail($profile->email);
-
-                $isUserValid = $user->validate();
-                $isProfileValid = $profile->validate();
-                $isAccountCorporate = $accountCorporate->validate();
-
-                if ($isUserValid && $isProfileValid && $isAccountCorporate) {
-                    $result = $user->register($user->username, $user->password, $profile);
-
-                    if (false !== $result) {
-                        $profile->save();
-
-                        $user->status = YumUser::STATUS_ACTIVE;
-                        $user->update();
-
-
-                        // set Lite tariff by default
-                        $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
-
-                        // update account
-                        $accountCorporate->user_id = $user->id;
-                        $accountCorporate->setTariff($tariff);
-                        $accountCorporate->save();
-
-                        $userReferralRecord->referral_id = $user->id;
-                        $userReferralRecord->approveReferral();
-                        $userReferralRecord->save();
-
-                        YumUser::activate($profile->email, $user->activationKey);
-                        $user->authenticate($YumUserData['password']);
-
-                        Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
-                        $this->redirect('/dashboard');
-                    }
+                $existUser = YumProfile::model()->findByAttributes(["email" => $userReferralRecord->referral_email]);
+                if($existUser !== null) {
+                    Yii::app()->user->setFlash('error', 'Пользователь '.$userReferralRecord->referral_email.' уже зарегистрирован.');
+                    $this->redirect('/');
                 }
-            } else {
-                Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
-            }
-        }
 
-        $industries = ['' => 'Выберите отрасль'];
-        foreach (Industry::model()->findAll() as $industry) {
-            $industries[$industry->id] = Yii::t('site', $industry->label);
-        }
+                $YumUserData     = Yii::app()->request->getParam('YumUser');
+                $YumProfileData  = Yii::app()->request->getParam('YumProfile');
+                $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
 
-        $this->render(
-            'referral_registration',
-            [
-                'refId'            => $refId,
-                'user'             => $user,
-                'profile'          => $profile,
-                'accountCorporate' => $accountCorporate,
-                'industries'       => $industries,
-            ]
-        );
+                if(null !== $YumUserData && null !== $YumProfileData && null !== $UserAccountCorporateData)
+                {
+                    $user->attributes = $YumUserData;
+                    $profile->attributes = $YumProfileData;
+                    $accountCorporate->attributes = $UserAccountCorporateData;
+
+
+
+                        $profile->email = $userReferralRecord->referral_email;
+                        $user->setUserNameFromEmail($profile->email);
+
+                        $isUserValid = $user->validate();
+                        $isProfileValid = $profile->validate();
+                        $isAccountCorporate = $accountCorporate->validate();
+
+                        if ($isUserValid && $isProfileValid && $isAccountCorporate) {
+                            $result = $user->register($user->username, $user->password, $profile);
+
+                            if (false !== $result) {
+                                $profile->save();
+
+                                $user->status = YumUser::STATUS_ACTIVE;
+                                $user->update();
+
+
+                                // set Lite tariff by default
+                                $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+
+                                // update account
+                                $accountCorporate->user_id = $user->id;
+                                $accountCorporate->setTariff($tariff);
+                                $accountCorporate->save();
+
+                                $userReferralRecord->referral_id = $user->id;
+                                $userReferralRecord->approveReferral();
+                                $userReferralRecord->save();
+
+                                YumUser::activate($profile->email, $user->activationKey);
+                                $user->authenticate($YumUserData['password']);
+
+                                Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                                $this->redirect('/dashboard');
+                            }
+                        }
+
+                }
+
+                $industries = ['' => 'Выберите отрасль'];
+                foreach (Industry::model()->findAll() as $industry) {
+                    $industries[$industry->id] = Yii::t('site', $industry->label);
+                }
+
+                $this->render(
+                    'referral_registration',
+                    [
+                        'refId'            => $refId,
+                        'user'             => $user,
+                        'profile'          => $profile,
+                        'accountCorporate' => $accountCorporate,
+                        'industries'       => $industries,
+                    ]
+                );
+        } else {
+            Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
+            $this->redirect('/dashboard');
+        }
 
     }
 
