@@ -19,7 +19,7 @@ class ReferralsInviteForm extends CFormModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('emails', 'required'),
+            array('emails', 'required', 'message' => 'Введите email(-ы)'),
             array('emails', 'checkEmails'),
         );
     }
@@ -65,7 +65,7 @@ class ReferralsInviteForm extends CFormModel {
             }
 
             if(count($emails) > 20) {
-                $this->addError('emails', 'Вы ввели более 20 е-мейлов.');
+                $this->addError('emails', 'Вы ввели больше 20 email(-ов)');
             }
             else {
 
