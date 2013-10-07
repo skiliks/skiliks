@@ -401,6 +401,7 @@ return array(
         'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
+        'countOfInvitesToShowReferralPopup'     => 3,
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
