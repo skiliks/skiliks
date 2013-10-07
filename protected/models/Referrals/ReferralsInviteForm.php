@@ -9,9 +9,19 @@
 
 class ReferralsInviteForm extends CFormModel {
 
+    /**
+     * @var string $emails
+     */
     public $emails;
+
+    /**
+     * @var string $emails
+     */
     public $text;
-    public $user = null;
+
+    /**
+     * @var array of string $validatedEmailsArray
+     */
     public $validatedEmailsArray = [];
 
     public function rules()
@@ -29,28 +39,18 @@ class ReferralsInviteForm extends CFormModel {
         if($this->emails != "") {
             // replacing spacing in emails "@, @"
             $emails = str_replace(" ", "", $this->emails);
-            $emails = str_replace("\n", "", $this->emails);
-            $emails = str_replace("\r", "", $this->emails);
+            $emails = str_replace("\n", "", $emails);
+            $emails = str_replace("\r", "", $emails);
+            $emails = str_replace("\t", "", $emails);
 
             /* @var $user YumUser */
             $user = Yii::app()->user->data();
 
             $userEmail = $user->profile->email;
-            $userId = $user->id;
-
-            $userDomain = substr($userEmail, strpos($userEmail, "@"));
-
-            $criteria = new CDbCriteria();
-            $criteria->compare('referrer_id', $userId);
-
-            $allUserReferrals = UserReferral::model()->findAll($criteria);
-
-            $addedEmails = [];
 
             if(strpos($emails, ",") !== 0) {
                 $emails = explode(",", $emails);
-            }
-            else {
+            } else {
                 $emails = [$emails];
             }
 
@@ -64,15 +64,12 @@ class ReferralsInviteForm extends CFormModel {
                 $i++;
             }
 
-            if(count($emails) > 20) {
+            if(20 < count($emails)) {
                 $this->addError('emails', 'Вы ввели более 20 е-мейлов.');
-            }
-            else {
-
+            }  else {
                 foreach($emails as $referralEmail) {
 
                     // проверка на уже зарегистрированного пользователя
-
                     $existProfile = YumProfile::model()->findByAttributes([
                         'email' => $referralEmail
                     ]);
@@ -81,44 +78,12 @@ class ReferralsInviteForm extends CFormModel {
                         $this->addError('emails', 'Пользователь с емейлом '. $referralEmail .' уже зарегистрирован у нас.');
                     }
 
-    //                // referrer domain zone
-    //                $referralDomain = substr($referralEmail, strpos($referralEmail, "@"));
-
-    //                // Проверка на ту же доменную зону, что у юзера
-    //
-    //                if($userDomain == $referralDomain) {
-    //                    $this->addError('emails', "Е-мейл ".$referralEmail . " принадлежит к доменной группе е-мейла ".$userEmail);
-    //                }
-
                     // Проверка одинаковый е-мейл с юзером
-
                     if($userEmail == $referralEmail) {
                         $this->addError('emails', "Е-мейл ".$referralEmail . " совпадает с вашим.");
                     }
 
-    //                // проверка на доменную зону у рефералов
-    //
-    //                foreach($allUserReferrals as $oldReferral) {
-    //                    $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
-    //                    if($oldReferralDomain == $referralDomain) {
-    //                        $this->addError('emails', "Е-мейл ".$referralEmail .
-    //                            " принадлежит в доменной группе одного из уже приглашенных рефералов");
-    //                        break;
-    //                    }
-    //                }
-
-    //                // проверка на то, что введены несколько рефераллов с одной доменной зоной
-    //
-    //                foreach($this->validatedEmailsArray as $email) {
-    //                    $emailDomainZone = substr($email, strpos($email, "@"));
-    //                    if($emailDomainZone == $referralDomain) {
-    //                        $this->addError('emails', "Емейлы рефералов ".$email." и ".$referralEmail." принадлежат к одной доменной группе.");
-    //                        break;
-    //                    }
-    //                }
-
                     // проверка на корпоративный e-mail
-
                     if(false == UserService::isCorporateEmail($referralEmail)) {
                         $this->addError('emails', 'Е-мейл '. $referralEmail .' не является корпоративным.');
                     }
@@ -136,7 +101,9 @@ class ReferralsInviteForm extends CFormModel {
                             }
                         }
                     }
-                    else $this->validatedEmailsArray[] = $referral->referral_email;
+                    else {
+                        $this->validatedEmailsArray[] = $referral->referral_email;
+                    }
                 }
             }
         }
