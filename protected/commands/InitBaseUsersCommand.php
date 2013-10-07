@@ -68,6 +68,13 @@ class InitBaseUsersCommand
                 $yumUser->is_admin = $user['is_admin'];
                 if ($yumUser->register($user['username'], $user['password'], $profile)) {
                     echo " => registered";
+                    $accountCorporate = new UserAccountCorporate();
+                    $industry = Industry::model()->findByAttributes(['label'=>'Другая']);
+                    $accountCorporate->user_id = $yumUser->id;
+                    $accountCorporate->industry_id = $industry->id;
+                    $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+                    $accountCorporate->setTariff($tariff, true);
+                    $accountCorporate->save(['user_id, industry_id']);
                 } else {
                     print_r($yumUser->getErrors());
                     print_r($user);
