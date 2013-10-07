@@ -116,7 +116,6 @@ class DebugController extends SiteBaseController
 
 
 //
-//        var_dump($worksheetNames['consolidated']);
 //
 //        $xlsFile =  new \PHPExcel();
 //        $xlsFile->removeSheetByIndex(0);
@@ -126,15 +125,9 @@ class DebugController extends SiteBaseController
 //        $n10 = $whConsolidated->getCell('N10')->getValue();
 
 
-//        var_dump(get_class_methods($whConsolidated->getCell('N10')));
-
-//        var_dump($whConsolidated->getCell('N10')->getValue());
-        var_dump($whConsolidated->getCell('N10')->getCalculatedValue());
-
 //        $whConsolidated->getCell('N10')->setValue('=SUM(продажи!B6:продажи!D6)');
 //        // PHPExcel_Calculation::getInstance()->clearCalculationCache();
 //
-//        var_dump($whConsolidated->getCell('N10')->getCalculatedValue());
 //        echo '</pre>';
 
 //        $xlsFile =  new \PHPExcel();
