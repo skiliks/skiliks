@@ -22,7 +22,7 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => Yii::t('site', 'Additional simulations'),
             'url'         => '/invite/referrals',
             'linkOptions' => ['class' => 'additional-simulations'],
-            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage(),
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate(),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
