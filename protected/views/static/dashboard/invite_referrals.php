@@ -34,7 +34,7 @@
 
         <div class="row invite-referrals-div">
             <?= $form->textArea($referralInviteModel, 'emails', ['class' => "invite-referral-textarea",
-                                                                 'placeholder' => "Введите email (ы)"]) ?>
+                                                                 'placeholder' => "Введите email (ы) через запятую"]) ?>
             <div style="clear:both;"></div>
             <?= $form->error($referralInviteModel, 'emails') ?>
         </div>
