@@ -679,7 +679,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
@@ -701,7 +701,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->sendInviteEmail($invite);
 
-        $this->redirect('/dashboard');
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**

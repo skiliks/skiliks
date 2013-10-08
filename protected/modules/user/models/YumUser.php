@@ -51,7 +51,6 @@ class YumUser extends YumActiveRecord
     public $salt;
     public $activationKey;
     public $password_changed = false;
-    public $is_check = 1;
     // ------------------------------------------------------------------------------------------------------------
 
     /**
