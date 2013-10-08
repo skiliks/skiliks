@@ -335,15 +335,15 @@ define([
              */
             setCounter: function (selector, count) {
                 try {
-                    if (0 === this.$(selector + ' a span').length) {
-                        this.$(selector + ' a').html('<span></span>');
+                    if (0 === this.$(selector + ' span span').length) {
+                        this.$(selector + ' span').html('<span></span>');
                     }
 
                     if (0 === count) {
-                        this.$(selector + ' a span').remove();
+                        this.$(selector + ' span span').remove();
                     }
 
-                    this.$(selector + ' a span').html(count);
+                    this.$(selector + ' span span').html(count);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
