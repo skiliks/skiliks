@@ -9,7 +9,7 @@ $isPersonal = $account_type === 'personal';
 })</script>
 <section class="registration">
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
-	<div class="form form-account-personal">
+	<div class="form form-account-personal" style="background-color: <?= ($isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
         <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
             <span style="display: <?= ($isPersonal)?'none':'block'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
@@ -36,7 +36,7 @@ $isPersonal = $account_type === 'personal';
         <div class="row"></div>
 	</div>
 	<!-- --------------------------------------------------------------------------------------------------------- -->
-	<div class="form form-account-corporate">
+	<div class="form form-account-corporate" style="background-color: <?= ($isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
         <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
             <span style="display: <?= ($isPersonal)?'block':'none'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
