@@ -336,7 +336,7 @@ define([
             setCounter: function (selector, count) {
                 try {
                     if (0 === this.$(selector + ' span span').length) {
-                        this.$(selector + ' span').html('<span></span>');
+                        this.$(selector + ' span').html('<span class="counter"></span>');
                     }
 
                     if (0 === count) {
