@@ -910,6 +910,38 @@ a.registration_check {
     background-repeat: no-repeat;
     color: #FFFFFF;
 }
+.blue-submit-button.registration-button {
+    background-position: 10px 50%;
+    font-size: 16px;
+    height: 53px;
+    padding-bottom: 3px;
+    padding-left: 37px;
+    padding-right: 6px;
+}
+
+@media screen and (max-width: 1146px){
+
+    .blue-submit-button:hover
+    {
+        background-image: url("../img/icon-circlarow-hover.png");
+        background-color:#BD2929;
+        background-repeat: no-repeat;
+        color: #FFFFFF;
+        background-size: 17px 17px;
+    }
+    .blue-submit-button.registration-button {
+        background-position: 4px 50%;
+        background-size: 17px 17px;
+        font-size: 14px;
+        height: 42px;
+        padding-bottom: 1px;
+        padding-left: 22px;
+        padding-right: 2px;
+    }
+
+}
+
+
 #invite-decline-form #form-decline-explanation input[type="submit"]:hover {
     background-color:#BD2929;
     background-image: url("../img/icon-btn-notify-hover.png");
