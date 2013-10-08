@@ -1,3 +1,6 @@
+<?php
+$isPersonal = $account_type === 'personal';
+?>
 <script type="text/javascript">$(function () {
     $('input').focus(function () {
         $('.form').removeClass('active');
@@ -7,8 +10,8 @@
 <section class="registration">
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
 	<div class="form form-account-personal">
-        <a class="regicon icon-chooce registration_check" href="#">
-            <span style="display: block">
+        <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'none':'block'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
@@ -34,8 +37,8 @@
 	</div>
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div class="form form-account-corporate">
-        <a class="regicon icon-check registration_check" href="#">
-            <span style="display: none">
+        <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'block':'none'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
@@ -47,9 +50,7 @@
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
 		</ul>
 	    <div class="row">
-            <?php if ($isCorporateSubmitted): ?>
                 <?php echo $form->error($accountCorporate, 'industry_id'); ?>
-            <?php endif ?>
             <div class="field">
                 <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
@@ -94,11 +95,8 @@
                 <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
                 <?php echo $form->error($user, 'password_again'); ?>
             </div>
-            <div class="row" style="display: none">
-                <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-            </div>
             <div class="row" id="account-type" style="display: none">
-                <input type="hidden" value="corporate" name="account-type">
+                <input type="hidden" value="<?=$account_type?>" name="account-type">
             </div>
             <div class="row four-parts to-right submit-input">
                 <button type="submit" class="ProximaNova-Bold blue-submit-button registration-button"><?= Yii::t("site","Sign up") ?></button>

@@ -349,8 +349,9 @@ class UserAuthController extends YumController
         if (false === Yii::app()->user->isGuest) {
             $this->redirect('/dashboard');
         }
-        $account_type = Yii::app()->request->getParam('account-type');
-
+        $account_type = Yii::app()->request->getParam('account-type', 'corporate');
+        //var_dump($account_type);
+        //exit;
         $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
         $UserAccountPersonalData  = Yii::app()->request->getParam('UserAccountPersonal');
         $YumProfileData = Yii::app()->request->getParam('YumProfile');
@@ -358,8 +359,8 @@ class UserAuthController extends YumController
 
         $user       = new YumUser('registration');
         $profile    = new YumProfile(($account_type === 'corporate')?'registration_corporate':'registration');
-        $accountCorporate = new UserAccountCorporate();
-        $accountPersonal = new UserAccountPersonal();
+        $accountCorporate = new UserAccountCorporate($account_type);
+        $accountPersonal = new UserAccountPersonal($account_type);
 
         $profile->firstname = $YumProfileData['firstname'];
         $profile->lastname  = $YumProfileData['lastname'];
@@ -382,10 +383,10 @@ class UserAuthController extends YumController
 
             $accountPersonal->attributes = $UserAccountPersonalData;
             $isUserAccountPersonalValid  = $accountPersonal->validate(['professional_status_id']);
-
+            //var_dump($UserAccountCorporateData);
             $accountCorporate->attributes = $UserAccountCorporateData;
             $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
-
+            //var_dump($accountCorporate->getErrors());
             $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
             if($emailIsExistAndNotActivated) {
                 $profile->clearErrors();
@@ -428,12 +429,12 @@ class UserAuthController extends YumController
             }
         }
 
-        $industries = [];
+        $industries = [''=>'Не выбран'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $statuses = [];
+        $statuses = [''=>'Не выбран'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
@@ -446,10 +447,9 @@ class UserAuthController extends YumController
                 'industries'                  => $industries,
                 'statuses'                    => $statuses,
                 'profile'                     => $profile,
-                'isPersonalSubmitted'         => (null !== Yii::app()->request->getParam('personal')),
-                'isCorporateSubmitted'        => (null !== Yii::app()->request->getParam('corporate')),
                 'user'                        => $user,
-                'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated
+                'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated,
+                'account_type'                => $account_type
             ]
         );
     }
