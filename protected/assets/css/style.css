@@ -1338,10 +1338,11 @@ html[lang=ru] .product section table th{
     margin-left:12px;
 }
 
-.p-chose-accaount-type {
+.p-chose-account-type {
     font: 18px 'ProximaNova-Bold';
     margin-bottom: 22px;
     margin-left:57px;
+    color: #555545;
 }
 
 .registration .form.form-account-corporate{
@@ -1353,6 +1354,15 @@ html[lang=ru] .product section table th{
 	font:22px 'ProximaNova-Bold';
 	color:#555545;
 	margin:46px 0 0px 57px;
+}
+#registration-general-error {
+    text-align: center;
+    width:100%;
+    color: #6D6D5B;
+    margin-top: 35px;
+}
+#registration-general-error a {
+    color: #fff;
 }
 .registration .form>ul{
 	list-style:none;
@@ -4511,7 +4521,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         top: -6px;
     }
     .YumUser_password, .YumUser_password_again {
-        top: -6px;
+        top: -14px;
     }
     #invite-decline-form .form-decline-explanation {
         background-size: contain;

@@ -234,6 +234,18 @@ class YumProfile extends YumActiveRecord
         return true;
     }
 
+    public function emailIsNotActiveValidationStatic($email) {
+        $existProfile = YumProfile::model()->findByAttributes([
+            'email' => $email
+        ]);
+
+        if ($existProfile !== NULL && !$existProfile->user->isActive()) {
+            return Yii::t('site',  'Email already exists, but not activated.')
+                . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+        }
+        return false;
+    }
+
     public function emailIsUsedForCorporateAccount($attribute) {
 
         $existAccount = $this->findByAttributes([
