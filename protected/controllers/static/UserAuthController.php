@@ -599,18 +599,7 @@ class UserAuthController extends YumController
 
         if(null !== $YumUser) {
             $user = YumUser::model()->findByAttributes(['id'=>$YumProfile->user_id]);
-            $user->is_check = $YumUser['is_check'];
             $user->update();
-
-            if ((int)$YumUser['is_check'] === YumUser::CHECK) {
-                $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
-                $invite = Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
-                $this->redirect(['/simulation/promo/'.Scenario::TYPE_LITE.'/'.$invite->id], false);
-            } else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
-                $this->redirect(['/registration/choose-account-type'], false);
-            } else {
-                throw new Exception("Bug");
-            }
             return;
         }
 
