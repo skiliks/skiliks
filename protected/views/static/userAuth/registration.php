@@ -1,3 +1,6 @@
+<?php
+$isPersonal = $account_type === 'personal';
+?>
 <script type="text/javascript">$(function () {
     $('input').focus(function () {
         $('.form').removeClass('active');
@@ -6,17 +9,18 @@
 })</script>
 <section class="registration">
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
-	<div class="form form-account-personal">
-        <a class="regicon icon-chooce registration_check" href="#">
-            <span style="display: block">
+	<div class="form form-account-personal" style="background-color: <?= (!$isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
+        <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'none':'block'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
 	    <h1>Индивидуальный<br>профиль</h1>
-        <p class="p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - сотрудник или соискатель)</p>
         <ul>
-			<li><?php echo Yii::t('site', 'Полная оценка навыков бесплатно') ?></li>
-			<li><?php echo Yii::t('site', 'Skills comparison with others') ?>*</li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
 		</ul>
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id'                   => 'yum-user-registration-form',
@@ -24,33 +28,31 @@
         )); ?>
         <div class="row">
             <?php echo $form->error($accountPersonal, 'professional_status_id'); ?>
-            <div class="field">
-                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
+            <div class="field registration-personal-additional-field">
+                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
         </div>
         <div class="row"></div>
 	</div>
 	<!-- --------------------------------------------------------------------------------------------------------- -->
-	<div class="form form-account-corporate">
-        <a class="regicon icon-check registration_check" href="#">
-            <span style="display: none">
+	<div class="form form-account-corporate" style="background-color: <?= (!$isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
+        <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'block':'none'?>">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
 	    <h1>Корпоративный<br>профиль</h1>
-        <p class="p-chose-accaount-type">(Вы - работодатель)</p>
-	    <ul>
-			<li><?php echo Yii::t('site', 'Package of simulations to assess others') ?></li>
-			<li><?php echo Yii::t('site', 'Simple but powerful tool for assessment process') ?></li>
-			<li><?php echo Yii::t('site', 'Comprehensive statistics on people and skills') ?>*</li>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
+	    <ul class="registration-corporate-benefits">
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '10 симуляций бесплатно') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
 		</ul>
 	    <div class="row">
-            <?php if ($isCorporateSubmitted): ?>
                 <?php echo $form->error($accountCorporate, 'industry_id'); ?>
-            <?php endif ?>
             <div class="field">
-                <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
+                <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
 	    </div>
@@ -58,6 +60,13 @@
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div style="clear:both;"></div>
 </section>
+
+<?php if($emailIsExistAndNotActivated) : ?>
+    <div id="registration-general-error" class="globalErrorMessage">
+        <?=$emailIsExistAndNotActivated?>
+    </div>
+<?php endif; ?>
+
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="row one-part">
@@ -86,14 +95,11 @@
                 <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
                 <?php echo $form->error($user, 'password_again'); ?>
             </div>
-            <div class="row" style="display: none">
-                <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-            </div>
             <div class="row" id="account-type" style="display: none">
-                <input type="hidden" value="corporate" name="account-type">
+                <input type="hidden" value="<?=$account_type?>" name="account-type">
             </div>
             <div class="row four-parts to-right submit-input">
-                <?php echo CHtml::submitButton(Yii::t('site', ' Зарегистрироваться'), ['id'=>'registration_switch']); ?>
+                <button type="submit" class="ProximaNova-Bold blue-submit-button registration-button"><?= Yii::t("site","Sign up") ?></button>
             </div>
         </div>
         <div style="clear:both;"></div>

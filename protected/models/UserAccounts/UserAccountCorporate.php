@@ -114,10 +114,10 @@ class UserAccountCorporate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id'     , 'required', 'on' => ['insert', 'update']),
-			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update']),
-            array('industry_id' , 'required', 'on' => ['registration']),
-			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration']),
+			array('user_id'     , 'required', 'on' => ['insert', 'update', 'corporate']),
+			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update', 'corporate']),
+            array('industry_id' , 'required', 'on' => ['registration', 'corporate'], 'message' => Yii::t('site', 'Выберите отрасль')),
+			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
