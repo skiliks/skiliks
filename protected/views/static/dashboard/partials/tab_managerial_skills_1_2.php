@@ -7,14 +7,26 @@
         <span class="barstitle">Уровень проблем</span>
     </div>
 
+    <?php $this->renderPartial("partials/_popup_js"); ?>
+
     <div class="clearfix mangrlresults">
         <div class="labels labels1">
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.1 </span><a href="#" class="list-text">Определение приоритетов</a></div></span></div>
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Использование планирования в течение дня</a></div></span></div>
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></div></span></div>
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.4 </span><a href="#" class="list-text">Выполнение задач в соответствии с приоритетами</a></div></span></div>
+            <div class="labelwrap"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Определение приоритетов между личными и рабочими задачами, учёт данных приоритетов при выполнении задач. Способность влиять на постановку новых задач, в том числе от руководства, основываясь на  сформированных приоритетах, а также пересматривать приоритеты в случае необходимости.</div></div></div><span class="thelabel"><div><span class="list-counter">1.1 </span><a href="#" class="list-text">Определение приоритетов</a></div></span><a class="questn show-popover popover-margin1" href="#"></a></div>
+            <div class="labelwrap"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Постановка всех текущих задач в план до начала их выполнения, формирование реализуемого плана на день. Определение конкретного времени выполнения для всех задач, в том числе долгосрочных</div></div></div><span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Использование планирования в течение дня</a></div></span><a class="questn show-popover popover-margin2" href="#"></a></div>
+            <div class="labelwrap"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">По всем текущим задачам постановка в план самой приоритетной задачи на самое раннее время, по сравнению с менее приоритетной, при условии, что у задачи нет фиксированного времени выполнения</div></div></div><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></div></span><a class="questn show-popover popover-margin3" href="#"></a></div>
+            <div class="labelwrap"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Всегда выполняется самая приоритетная задача из всех известных на данный момент</div></div></div><span class="thelabel"><div><span class="list-counter">1.4 </span><a href="#" class="list-text">Выполнение задач в соответствии с приоритетами</a></div></span><a class="questn show-popover popover-margin4" href="#"></a></div>
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.5 </span><a href="#" class="list-text">Завершение начатых задач</a></div></span></div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $(".show-popover").click(function() {
+                    if(!$(this).parent("div").find(".popover").hasClass("active")) {
+                        $(".popover.active").removeClass("active");
+                    }
+                    $(this).parent("div").find(".popover").toggleClass("active").css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+10);
+                })
+            });
+        </script>
         <div class="barswrap">
             <div class="twocharts followPriorities-1">
                 <div class="chartbar"></div>

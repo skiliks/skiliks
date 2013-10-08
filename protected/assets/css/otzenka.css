@@ -1069,6 +1069,7 @@
     color: #3d4041;
     font-size: 13px;
     text-decoration: none;
+    max-width: 235px;
 }
 .display-ib {
     display: inline-block;
@@ -1087,6 +1088,7 @@
     padding-right: 2px;
     vertical-align: top;
     min-width:16px;
+    max-width:100px;
 }
 /*.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
@@ -1139,9 +1141,18 @@
     display: table-cell;
     height: 30px; /* 38 */
     font-size: 13px;
+    max-width: 250px;
     /*line-height: 107%;*/
     position: relative;
     vertical-align: top;
+}
+@media screen and (max-width: 1146px){
+    .mangrlresults .labels a {
+        max-width:186px;
+    }
+    .thelabel {
+        max-width: 210px;
+    }
 }
 .high-labels .thelabel {
     height: 59px;

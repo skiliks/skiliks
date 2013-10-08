@@ -7,10 +7,10 @@
     <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
     <div class="clearfix">
         <div class="labels">
-            <div class="row"><h3 class="resulttitele smallerfont">Срочно</h3><a href="#" class="questn"></a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Высокий приоритет</h3><a href="#" class="questn"></a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Средний приоритет</h3><a href="#" class="questn"></a></div>
-            <div class="row"><h3 class="resulttitele smallerfont">Прочее</h3><a href="#" class="questn"></a></div>
+            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Выполнение срочных задач, которые должны быть сделаны прямо сейчас (отложить не возможно).</div></div></div><h3 class="resulttitele smallerfont">Срочно</h3><a href="#" class="questn show-popover" style="margin:0;"></a></div>
+            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Выполнение задач, значимых для компании и/или для подразделения, которые должны быть сделаны сегодня.</div></div></div><h3 class="resulttitele smallerfont">Высокий приоритет</h3><a href="#" class="questn show-popover" style="margin:0;"></a></div>
+            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Выполнение задач, важных для компании и/или для подразделения, со сроком исполнения в ближайшие дни, но не сегодня.</div></div></div><h3 class="resulttitele smallerfont">Средний приоритет</h3><a href="#" class="questn show-popover" style="margin:0;"></a></div>
+            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Задачи без определённого срока исполнения, а также задачи, не относящиеся к основному бизнес-процессу.</div></div></div><h3 class="resulttitele smallerfont">Прочее</h3><a href="#" class="questn show-popover" style="margin:0;"></a></div>
         </div>
 
         <div class="bars barswrap">
