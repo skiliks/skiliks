@@ -57,7 +57,7 @@ class UserAccountPersonal extends CActiveRecord
             array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
             array('user_id'     , 'required', 'on' => ['personal', 'insert']),
             array('professional_status_id' , 'numerical', 'integerOnly'=>true, 'on' => ['personal', 'insert']),
-            array('professional_status_id' , 'required', 'on' => ['personal', 'insert'], 'message' => Yii::t('site', 'Выберите профессиональный статус')),
+            array('professional_status_id' , 'required', 'on' => ['personal', 'insert'], 'message' => Yii::t('site', 'Выберите проф. статус')),
             array('user_id'     , 'length'   , 'max'=>10, 'on' => ['personal', 'insert']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
