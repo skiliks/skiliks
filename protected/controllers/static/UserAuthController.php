@@ -58,6 +58,7 @@ class UserAuthController extends YumController
                 {
                     $user->attributes = $YumUserData;
                     $profile->attributes = $YumProfileData;
+                    $profile->email = strtolower($YumProfileData['email']);
                     $accountCorporate->attributes = $UserAccountCorporateData;
 
 
@@ -175,6 +176,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
+            $profile->email = strtolower($YumProfile['email']);
             $account->attributes = $UserAccount;
 
             $profile->email = strtolower($invite->email);
