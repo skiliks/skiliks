@@ -365,6 +365,8 @@ class UserAuthController extends YumController
         $profile->lastname  = $YumProfileData['lastname'];
         $profile->timestamp = gmdate("Y-m-d H:i:s");
 
+        $emailIsExistAndNotActivated = false;
+
         if (Yii::app()->request->isPostRequest) {
             $user->attributes    = $YumUserData;
             $profile->attributes = $YumProfileData;
