@@ -5594,4 +5594,14 @@ ul.default li:hover {
         color: #fff;
         cursor: pointer;
     }
+    .registration-personal-additional-field {
+        margin-top: -23px;
+    }
+    .registration .form > ul.registration-corporate-benefits {
+        height: 27px;
+        margin-bottom: 0;
+        margin-top: 42px;
+        min-height: 91px;
+        padding-bottom: 0;
+    }
 }
