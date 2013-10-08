@@ -22,21 +22,21 @@ define([
             /** @lends SKIconPanelView.prototype */
 
             events: {
-                'click .icons-panel .phone.icon-active': 'doPhoneTalkStart',
-                'click .icons-panel .door.icon-active':  'doDialogStart',
-                'click .icons-panel .mail.create-mail':  'doNewMailStart',
+                'click .icons-panel .phone.icon-active span': 'doPhoneTalkStart',
+                'click .icons-panel .door.icon-active span':  'doDialogStart',
+                'click .icons-panel .mail.create-mail span':  'doNewMailStart',
 
-                'click .icons-panel .door:not(.icon-active)':  'doMeetingToggle',
-                'click .icons-panel .phone:not(.icon-active)': 'doPhoneToggle',
+                'click .icons-panel .door:not(.icon-active) span':  'doMeetingToggle',
+                'click .icons-panel .phone:not(.icon-active) span': 'doPhoneToggle',
 
-                'click .icons-panel .mail:not(.create-mail)': 'doMailToggle',
-                'click .icons-panel .documents':              'doDocumentsToggle',
-                'click .icons-panel .plan':                   'doPlanToggle',
+                'click .icons-panel .mail:not(.create-mail) span': 'doMailToggle',
+                'click .icons-panel .documents span':              'doDocumentsToggle',
+                'click .icons-panel .plan span':                   'doPlanToggle',
 
-                'click .icons-panel .info':                   'doToggleManual',
+                'click .icons-panel .info span':                   'doToggleManual',
 
-                'click .icons-panel .icon-button-disabled':          'doNothing',
-                'click .icons-panel .only-active:not(.icon-active)': 'doNothing'
+                'click .icons-panel .icon-button-disabled span':          'doNothing',
+                'click .icons-panel .only-active:not(.icon-active) span': 'doNothing'
             },
 
             /**
