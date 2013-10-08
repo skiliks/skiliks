@@ -521,7 +521,7 @@ function _sheetnode_phpexcel_export_cell_value_and_format($c, $coord, $sc, $work
 
     // Set the value.
     if ($c['datatype'] == 'f') {
-      $c['formula'] = str_replace(['СУММ', ','], ['SUM', ';'], $c['formula']);
+      $c['formula'] = str_replace('СУММ', 'SUM', $c['formula']);
       if (strpos($c['formula'], '!') !== FALSE) {
         _sheetnode_phpexcel_export_reference($c, $cell, $worksheet);
       }
