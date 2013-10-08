@@ -1656,7 +1656,7 @@ ul.main-screen-stat li img{
 	filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
 	-webkit-gradient:none;
 }
-.main-screen-icons ul li span{
+.main-screen-icons ul li span.icon{
     display:block;
     -webkit-border-radius:12px;
     -moz-border-radius:12px;
@@ -1668,7 +1668,7 @@ ul.main-screen-stat li img{
     height:78px;
     position:relative;
 }
-.main-screen-icons ul li span span{
+.main-screen-icons ul li span.icon span.counter{
     background:url("../img/main-screen/bg-new.png") no-repeat 0 0;
     width:30px;
     height:31px;
