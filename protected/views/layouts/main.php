@@ -24,6 +24,7 @@ $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
+$cs->registerCssFile($assetsUrl . "/css/popover.css");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
