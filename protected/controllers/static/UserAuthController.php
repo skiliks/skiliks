@@ -350,8 +350,7 @@ class UserAuthController extends YumController
             $this->redirect('/dashboard');
         }
         $account_type = Yii::app()->request->getParam('account-type', 'corporate');
-        //var_dump($account_type);
-        //exit;
+
         $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
         $UserAccountPersonalData  = Yii::app()->request->getParam('UserAccountPersonal');
         $YumProfileData = Yii::app()->request->getParam('YumProfile');
@@ -383,10 +382,8 @@ class UserAuthController extends YumController
 
             $accountPersonal->attributes = $UserAccountPersonalData;
             $isUserAccountPersonalValid  = $accountPersonal->validate(['professional_status_id']);
-            //var_dump($UserAccountCorporateData);
             $accountCorporate->attributes = $UserAccountCorporateData;
             $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
-            //var_dump($accountCorporate->getErrors());
             $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
             if($emailIsExistAndNotActivated) {
                 $profile->clearErrors();
