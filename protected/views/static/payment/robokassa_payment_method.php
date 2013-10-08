@@ -1,4 +1,4 @@
-<form id="robokassa-payment-form" action="http://test.robokassa.ru/Index.aspx">
+<form id="robokassa-payment-form" action="http://robokassa.ru/Index.aspx">
     <input type="hidden" name="MrchLogin" value="" />
     <input type="hidden" name="InvId" value="" />
     <input type="hidden" name="OutSum" value="" />
