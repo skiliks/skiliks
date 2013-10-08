@@ -55,6 +55,8 @@ class ScXlsConverter
                 continue;
             }
 
+            $sheetData['name'] = str_replace('СУММ', 'SUM', $sheetData['name']);
+
             $sheet = $excel->getSheetByName($sheetData['name']) ?: $excel->createSheet();
             _sheetnode_phpexcel_export_sheet($sheet, $sheetData['name'], socialcalc_parse($sheetData['content']));
         }
