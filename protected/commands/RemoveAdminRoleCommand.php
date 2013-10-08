@@ -4,7 +4,7 @@ class RemoveAdminRoleCommand extends CConsoleCommand {
 
     public function actionIndex($email)
     {
-        $profile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        $profile = YumProfile::model()->findByAttributes(['email'=>strtolower($email)]);
         if(null === $profile){
             throw new Exception(" User not found ");
         }

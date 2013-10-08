@@ -13,7 +13,7 @@ class DeleteSimulationsForUserCommand extends CConsoleCommand {
             echo "Только проверка. \n";
         }
 
-        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+        $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
 
         if (null === $profile) {
             echo 'Пользователь не найден.';
@@ -43,7 +43,7 @@ class DeleteSimulationsForUserCommand extends CConsoleCommand {
             } else {
                 echo 'удаляю ' . $simulation->id . "\n";
                 SimulationService::removeSimulationData(
-                    YumProfile::model()->findByAttributes(['email' => $email])->user,
+                    YumProfile::model()->findByAttributes(['email' => strtolower($email)])->user,
                     $simulation
                 );
             }
