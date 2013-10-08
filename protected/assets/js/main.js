@@ -144,17 +144,7 @@ var fixLogotypes = function() {
         $(".registration_check").click(function () {
 
             if($(this).parent().hasClass('form-account-personal')) {
-                if ($(this).hasClass('icon-check')) {
-                    /*$(this).removeClass('icon-check');
-                    $(this).addClass('icon-chooce');
-                    $(this).find("span").css('display', 'block');
-                    $(this).parent().css('background-color', '');
-                    $('.form-account-corporate').find('.registration_check').removeClass('icon-check');
-                    $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
-                    $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
-                    $('.form-account-corporate').css('background-color', '');
-                    $("#account-type").val('');*/
-                } else if ($(this).hasClass('icon-chooce')) {
+                if ($(this).hasClass('icon-chooce')) {
                     $(this).removeClass('icon-chooce');
                     $(this).addClass('icon-check');
                     $(this).find("span").css('display', 'none');
@@ -164,20 +154,11 @@ var fixLogotypes = function() {
                     $('.form-account-corporate').find('.registration_check').addClass('icon-chooce');
                     $('.form-account-corporate').css('background-color', '');
                     $('.form-account-corporate').find('.registration_check').find("span").css('display', 'block');
-                    $("#account-type").val('personal');
+                    $("#account-type").find('input').val('personal');
                 }
             }else if($(this).parent().hasClass('form-account-corporate')) {
-                if ($(this).hasClass('icon-check')) {
-                    /*$(this).removeClass('icon-check');
-                    $(this).addClass('icon-chooce');
-                    $(this).find("span").css('display', 'block');
-                    $(this).parent().css('background-color', '');
-                    $('.form-account-personal').find('.registration_check').removeClass('icon-check');
-                    $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
-                    $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
-                    $('.form-account-personal').css('background-color', '');
-                    $("#account-type").val('');*/
-                } else if ($(this).hasClass('icon-chooce')) {
+                if ($(this).hasClass('icon-chooce')) {
+                    console.log("icon-chooce");
                     $(this).removeClass('icon-chooce');
                     $(this).addClass('icon-check');
                     $(this).find("span").css('display', 'none');
@@ -186,7 +167,7 @@ var fixLogotypes = function() {
                     $('.form-account-personal').find('.registration_check').addClass('icon-chooce');
                     $('.form-account-personal').css('background-color', '');
                     $('.form-account-personal').find('.registration_check').find("span").css('display', 'block');
-                    $("#account-type").val('corporate');
+                    $("#account-type").find('input').val('corporate');
                 }
             }else{
                 throw new Error("Bad choice");
