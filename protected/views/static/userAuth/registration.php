@@ -13,10 +13,11 @@
             </span>
         </a>
 	    <h1>Индивидуальный<br>профиль</h1>
-        <p class="p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - сотрудник или соискатель)</p>
         <ul>
-			<li><?php echo Yii::t('site', 'Полная оценка навыков бесплатно') ?></li>
-			<li><?php echo Yii::t('site', 'Skills comparison with others') ?>*</li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
 		</ul>
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id'                   => 'yum-user-registration-form',
@@ -25,7 +26,7 @@
         <div class="row">
             <?php echo $form->error($accountPersonal, 'professional_status_id'); ?>
             <div class="field">
-                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id'); ?>
+                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
         </div>
@@ -39,18 +40,18 @@
             </span>
         </a>
 	    <h1>Корпоративный<br>профиль</h1>
-        <p class="p-chose-accaount-type">(Вы - работодатель)</p>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
 	    <ul>
-			<li><?php echo Yii::t('site', 'Package of simulations to assess others') ?></li>
-			<li><?php echo Yii::t('site', 'Simple but powerful tool for assessment process') ?></li>
-			<li><?php echo Yii::t('site', 'Comprehensive statistics on people and skills') ?>*</li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '10 симуляций бесплатно') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
 		</ul>
 	    <div class="row">
             <?php if ($isCorporateSubmitted): ?>
                 <?php echo $form->error($accountCorporate, 'industry_id'); ?>
             <?php endif ?>
             <div class="field">
-                <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
+                <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
 	    </div>
@@ -58,6 +59,13 @@
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div style="clear:both;"></div>
 </section>
+
+<?php if($emailIsExistAndNotActivated) : ?>
+    <div id="registration-general-error" class="globalErrorMessage">
+        <?=$emailIsExistAndNotActivated?>
+    </div>
+<?php endif; ?>
+
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="row one-part">
