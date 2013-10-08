@@ -426,12 +426,12 @@ class UserAuthController extends YumController
             }
         }
 
-        $industries = [''=>'Не выбран'];
+        $industries = [''=>'Выберите отрасль'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $statuses = [''=>'Не выбран'];
+        $statuses = [''=>'Выберите профессиональный статус'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
