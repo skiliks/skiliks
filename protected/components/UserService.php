@@ -12,6 +12,28 @@ class UserService {
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
     const CAN_START_FULL_SIMULATION = 'run_full_simulation';
 
+    public static $developersEmails = [
+        "'r.kilimov@gmail.com'",
+        "'andrey@kostenko.name'",
+        "'personal@kostenko.name'",
+        "'a.levina@gmail.com'",
+        "'gorina.mv@gmail.com'",
+        "'v.logunov@yahoo.com'",
+        "'nikoolin@ukr.net'",
+        "'leah.levina@gmail.com'",
+        "'lea.skiliks@gmail.com'",
+        "'andrey3@kostenko.name'",
+        "'skiltests@yandex.ru'",
+        "'didmytime@bk.ru'",
+        "'gva08@yandex.ru'",
+        "'tony_acm@ukr.net'",
+        "'tony_perfectus@mail.ru'",
+        "'N_ninok1985@mail.ru'",
+        "'tony.pryanichnikov@gmail.com'",
+        "'svetaswork@gmail.com'",
+        "'tatyana_pryan@mail.ru'",
+    ];
+
     /**
      * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}
      * @param int $uid 
@@ -51,16 +73,12 @@ class UserService {
         return $response;
     }
 
-    /**
-     * @param $email
-     * @return bool
-     */
     public static function isCorporateEmail($email)
     {
         $domain = substr($email, strpos($email, '@') + 1);
 
-        $counter = (int)FreeEmailProvider::model()->countByAttributes([
-            'domain' => trim($domain)
+        $counter = FreeEmailProvider::model()->countByAttributes([
+            'domain' => $domain
         ]);
 
         if(0 != $counter) {

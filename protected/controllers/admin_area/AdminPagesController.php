@@ -4,27 +4,6 @@ class AdminPagesController extends SiteBaseController {
 
     public $itemsOnPage = 100;
 
-    public $developersEmails = [
-        "'r.kilimov@gmail.com'",
-        "'andrey@kostenko.name'",
-        "'personal@kostenko.name'",
-        "'a.levina@gmail.com'",
-        "'gorina.mv@gmail.com'",
-        "'v.logunov@yahoo.com'",
-        "'nikoolin@ukr.net'",
-        "'leah.levina@gmail.com'",
-        "'lea.skiliks@gmail.com'",
-        "'andrey3@kostenko.name'",
-        "'skiltests@yandex.ru'",
-        "'didmytime@bk.ru'",
-        "'gva08@yandex.ru'",
-        "'tony_acm@ukr.net'",
-        "'tony_perfectus@mail.ru'",
-        "'N_ninok1985@mail.ru'",
-        "'tony.pryanichnikov@gmail.com'",
-        "'svetaswork@gmail.com'",
-    ];
-
     public function beforeAction($action) {
 
         $public = ['Login'];
@@ -287,7 +266,7 @@ class AdminPagesController extends SiteBaseController {
                     " AND email NOT LIKE '%@skiliks.com' ".
                     " AND email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
-                    " AND email NOT IN (".implode(',', $this->developersEmails).") ";
+                    " AND email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 
@@ -461,7 +440,7 @@ class AdminPagesController extends SiteBaseController {
                     " AND profile.email NOT LIKE '%@skiliks.com' ".
                     " AND profile.email NOT LIKE '%@rmqkr.net' ".
                     " AND t.start > '2013-06-01 00:00:00' ".
-                    " AND profile.email NOT IN (".implode(',', $this->developersEmails).") ";
+                    " AND profile.email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 
