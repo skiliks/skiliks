@@ -431,7 +431,7 @@ class UserAuthController extends YumController
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $statuses = [''=>'Выберите профессиональный статус'];
+        $statuses = [''=>'Выберите проф. статус'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
