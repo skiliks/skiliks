@@ -35,7 +35,7 @@ class TestUserHelper
         }
         $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123'];
         $YumProfile->attributes = ['email'=>$email];
-        $YumUser->setUserNameFromEmail($YumProfile->email);
+        $YumUser->setUserNameFromEmail(strtolower($YumProfile->email));
         $YumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
         $YumProfile->updateFirstNameFromEmail();
         $YumUser->register($YumUser->username, $YumUser->password, $YumProfile);

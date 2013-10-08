@@ -121,7 +121,7 @@ class MailHelper
             ]
             );
             MailHelper::addMailToQueue($mail);
-            $user->profile->email = $corporate_email;
+            $user->profile->email =strtolower($corporate_email);
             $user->profile->update();
         }
 

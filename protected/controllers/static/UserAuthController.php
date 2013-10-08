@@ -58,6 +58,7 @@ class UserAuthController extends YumController
                 {
                     $user->attributes = $YumUserData;
                     $profile->attributes = $YumProfileData;
+                    $profile->email = strtolower($YumProfileData['email']);
                     $accountCorporate->attributes = $UserAccountCorporateData;
 
 
@@ -175,6 +176,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
+            $profile->email = strtolower($YumProfile['email']);
             $account->attributes = $UserAccount;
 
             $profile->email = strtolower($invite->email);
@@ -426,12 +428,12 @@ class UserAuthController extends YumController
             }
         }
 
-        $industries = [''=>'Не выбран'];
+        $industries = [''=>'Выберите отрасль'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $statuses = [''=>'Не выбран'];
+        $statuses = [''=>'Выберите статус'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }

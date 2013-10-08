@@ -13,7 +13,7 @@ class SetInviteCountCommand extends CConsoleCommand
      */
     public function actionIndex($email, $add = 0, $remove = 0)
     {
-        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+        $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
 
         if (empty($profile)) {
             throw new LogicException('User with this email does not exist');
