@@ -74,6 +74,4 @@
             $('.percentil_text').html("P"+r(AR.percentile.total));
         }, 500);
     });
-
-
 </script>
