@@ -392,7 +392,7 @@ class UserAuthController extends YumController
                 $profile->clearErrors();
             }
 
-            if(($isUserAccountPersonalValid || $isUserAccountCorporateValid) && $isProfileValid && $isUserValid) {
+            if($isUserAccountPersonalValid && $isUserAccountCorporateValid && $isProfileValid && $isUserValid) {
                 $is_success_registration = $user->register($user->username, $user->password, $profile);
 
                 if ($is_success_registration) {
