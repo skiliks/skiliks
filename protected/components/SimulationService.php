@@ -499,7 +499,6 @@ class SimulationService
      */
     public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
-        sleep(5);
         if ($simulationMode === Simulation::MODE_DEVELOPER_LABEL) {
             if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
                 $user = $invite->receiverUser;
