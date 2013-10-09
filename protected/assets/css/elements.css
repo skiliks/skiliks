@@ -278,6 +278,9 @@ section.registration-by-link h1 {
         line-height: 10px;
         margin: 0px 0px 17px 150px;
     }
+    .registration-industry-error {
+        margin-left: 24px;
+    }
 }
 .terms-confirm-left-align .errorMessage {
     top: -5px;
@@ -569,6 +572,9 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-14px;
     left:0px;
     width:300px;
+}
+.choose-account-button-span {
+    margin-top:7px;
 }
 a.registration_check {
     color: #555545;
