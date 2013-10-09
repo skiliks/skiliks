@@ -966,7 +966,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $refer->invited_at     = date("Y-m-d H:i:s");
                     $refer->status         = "pending";
                     $refer->save();
-                    $refer->sendInviteReferralEmail();
+                    $refer->sendInviteReferralEmail($referralForm->text);
                 }
 
                 $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
