@@ -23,9 +23,11 @@ $lang = Yii::app()->getLanguage();
             </div>
             <div class="tarifwrap">
 
-                <div class="brightblock">
-                    <?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?>
-                </div>
+                <?php if($tariff->getSaveAmount() != 0.00) : ?>
+                    <div class="brightblock">
+                        <?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="simulations-amount lightblock">
                     <?php echo $tariff->getFormattedSimulationsAmount() ?>
