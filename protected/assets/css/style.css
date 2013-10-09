@@ -459,6 +459,10 @@ html[lang=ru] .betaflag {
     float:right;
     margin-top:10px;
 }
+.start-lite-simulation-btn.start-lite-in-personal {
+    float:right;
+    margin-top:-7px;
+}
 
 .start-lite-simulation-btn-no-margin {
     float:right;
@@ -621,6 +625,10 @@ html[lang=ru] .betaflag {
 	.heroes-comment{
 		display:none;
 	}
+    .start-lite-simulation-btn.start-lite-in-personal {
+        float:right;
+        margin-top:2px;
+    }
 }
 /* --------------- /heroes comments ---------*/
 
@@ -1330,10 +1338,11 @@ html[lang=ru] .product section table th{
     margin-left:12px;
 }
 
-.p-chose-accaount-type {
+.p-chose-account-type {
     font: 18px 'ProximaNova-Bold';
     margin-bottom: 22px;
     margin-left:57px;
+    color: #555545;
 }
 
 .registration .form.form-account-corporate{
@@ -1345,6 +1354,15 @@ html[lang=ru] .product section table th{
 	font:22px 'ProximaNova-Bold';
 	color:#555545;
 	margin:46px 0 0px 57px;
+}
+#registration-general-error {
+    text-align: center;
+    width:100%;
+    color: #6D6D5B;
+    margin-top: 35px;
+}
+#registration-general-error a {
+    color: #fff;
 }
 .registration .form>ul{
 	list-style:none;
@@ -2346,12 +2364,13 @@ html[lang="en"] .footer .social_networks {
 .cabmessage .ui-widget-header .ui-icon,
 .add-vacancy-popup .ui-widget-header .ui-icon,
 .action-controller-activation-registration .ui-widget-header .ui-icon,
-.feedbackwrap .ui-widget-header .ui-icon {
+.feedbackwrap .ui-widget-header .ui-icon, .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
     display: block;
     margin: 0;
     height: 100%;
     width: 100%;
     background: url(../img/closepopup.png) no-repeat 0 0;
+    background-color: rgba(0,0,0,0);
 }
 
 .feedback-close-other {
@@ -2643,7 +2662,7 @@ h2 {
 }
 
 #invite-people-box {
-    margin: 0 0 0 10px;
+    margin: 9px 0 0 10px;
     width: 280px;
     /*height: 300px;
     float: left;
@@ -2788,7 +2807,7 @@ h2 {
     padding:13px 6px 20px 12px;
 }
 #dashboard-skills-box {
-    margin: 0 0 0 10px;
+    margin: 34px 0 0 10px;
     padding-bottom: 0px;
 }
 #dashboard-skills-box>p {
@@ -2823,8 +2842,11 @@ h2 {
 #companies-you-follow-box {
     margin: 30px 0 0 10px;
 }
-#private-invitations-list-box, #corporate-invitations-list-box {
-    margin-top:-8px;
+#private-invitations-list-box {
+    margin-top:-2px;
+}
+#private-invitations-list-box {
+    margin-top:31px;
 }
 #private-invitations-list-box .grid-view table.items tr:hover, #corporate-invitations-list-box tr:hover {
     background:none;
@@ -3242,8 +3264,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    max-width: 115px;
-    width: 115px;
+    max-width: 120px;
+    width: 120px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
 #corporate-invitations-list-box .mail-new-textgrid-view tr td:nth-child(7),
@@ -3272,8 +3294,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
-    top:11px;
-    width:98px;
+    top:14px;
+    width:91px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p, #private-invitations-list-box .ratingwrap {
@@ -3755,6 +3777,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
+.received-invites-personal {
+    margin-top: -5px;
+}
+
 @media screen and (max-width: 1146px){
     .narrow-contnt {
         margin-left: 10px;
@@ -3789,6 +3815,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     }
     #dashboard-skills-box, .nice-border, .add-vacancy-popup {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+    }
+    #dashboard-skills-box {
+        margin-top:36px;
     }
     .inner .dashboard .thetitle {
         font-size: 1.4em;
@@ -3914,7 +3943,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width: 40px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:82px;
+        width:70px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3957,6 +3986,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     }
     #invite-people-box {
         padding-bottom: 10px;
+        margin-top: 9px;
     }
     #simulations-counter-box {
         padding-left: 8px;
@@ -4433,6 +4463,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         margin-bottom: 19px;
         margin-top: 8px;
     }
+    .dashboard .narrow-contnt .thetitle.received-invites-personal {
+        margin-top:2px;
+    }
     section.registration-by-link h1 {
         font-size: 21px;
         margin-bottom: 10px;
@@ -4489,7 +4522,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         top: -6px;
     }
     .YumUser_password, .YumUser_password_again {
-        top: -6px;
+        top: -14px;
     }
     #invite-decline-form .form-decline-explanation {
         background-size: contain;
@@ -5489,6 +5522,7 @@ ul.default li:hover {
     display: none;
     text-align: center;
     background-color: #fdfbc6;
+    border-radius: 7px;
 }
 
 .show-popup-top .ProximaNova-Bold {
@@ -5497,11 +5531,13 @@ ul.default li:hover {
     font-weight: bold;
     color: #3d4041;
 }
-
+.form.form-invite-message.message_window.ui-dialog-content.ui-widget-content{
+    overflow: hidden;
+}
 @media screen and (max-width: 1146px){
 
     .show-popup-top {
-        width:760px !important;
+        width: 753px !important;
         height: 48px !important;
     }
 
@@ -5514,6 +5550,8 @@ ul.default li:hover {
 
 .referral-popup {
     cursor: pointer;
+    text-align: center;
+    margin-left: 12px;
 }
 
 .container > header nav#static-page-links a.additional-simulations {
@@ -5529,6 +5567,43 @@ ul.default li:hover {
     }
 }
 
-#referral-popup {
-    text-align: center;
+
+.change-simulation-result-render {
+    float:right;
+    background: url('../img/arrow-switch-rating-view.png') no-repeat right;
+    height: 18px;
+    margin-top: -22px;
+    padding-top: 2px;
+    width: 156px;
+    text-align:right;
+    padding-right: 20px;
+    font-size: 11px;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1146px) {
+    .change-simulation-result-render {
+        float:right;
+        background: url('../img/arrow-switch-rating-view-small.png') no-repeat right;
+        height: 18px;
+        margin-top: -20px;
+        padding-top: 2px;
+        width: 156px;
+        text-align:right;
+        padding-right: 20px;
+        font-size: 11px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .registration-personal-additional-field {
+        margin-top: -23px;
+    }
+    .registration .form > ul.registration-corporate-benefits {
+        height: 27px;
+        margin-bottom: 0;
+        margin-top: 42px;
+        min-height: 91px;
+        padding-bottom: 0;
+    }
 }

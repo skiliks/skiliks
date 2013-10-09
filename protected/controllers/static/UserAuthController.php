@@ -40,76 +40,87 @@ class UserAuthController extends YumController
         $profile = new YumProfile('registration');
         $accountCorporate = new UserAccountCorporate('registration');
 
-        $YumUserData     = Yii::app()->request->getParam('YumUser');
-        $YumProfileData  = Yii::app()->request->getParam('YumProfile');
-        $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
+        $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
 
-        if(null !== $YumUserData && null !== $YumProfileData && null !== $UserAccountCorporateData)
-        {
-            $user->attributes = $YumUserData;
-            $profile->attributes = $YumProfileData;
-            $accountCorporate->attributes = $UserAccountCorporateData;
+            if($userReferralRecord !== null) {
 
-            $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
-
-            if($userReferralRecord !== null && $userReferralRecord->registered_at === null) {
-
-                $profile->email = $userReferralRecord->referral_email;
-                $user->setUserNameFromEmail($profile->email);
-
-                $isUserValid = $user->validate();
-                $isProfileValid = $profile->validate();
-                $isAccountCorporate = $accountCorporate->validate();
-
-                if ($isUserValid && $isProfileValid && $isAccountCorporate) {
-                    $result = $user->register($user->username, $user->password, $profile);
-
-                    if (false !== $result) {
-                        $profile->save();
-
-                        $user->status = YumUser::STATUS_ACTIVE;
-                        $user->update();
-
-
-                        // set Lite tariff by default
-                        $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
-
-                        // update account
-                        $accountCorporate->user_id = $user->id;
-                        $accountCorporate->setTariff($tariff);
-                        $accountCorporate->save();
-
-                        $userReferralRecord->referral_id = $user->id;
-                        $userReferralRecord->approveReferral();
-                        $userReferralRecord->save();
-
-                        YumUser::activate($profile->email, $user->activationKey);
-                        $user->authenticate($YumUserData['password']);
-
-                        Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
-                        $this->redirect('/dashboard');
-                    }
+                $existUser = YumProfile::model()->findByAttributes(["email" => $userReferralRecord->referral_email]);
+                if($existUser !== null) {
+                    Yii::app()->user->setFlash('error', 'Пользователь '.$userReferralRecord->referral_email.' уже зарегистрирован.');
+                    $this->redirect('/');
                 }
-            } else {
-                Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
-            }
-        }
 
-        $industries = ['' => 'Выберите отрасль'];
-        foreach (Industry::model()->findAll() as $industry) {
-            $industries[$industry->id] = Yii::t('site', $industry->label);
-        }
+                $YumUserData     = Yii::app()->request->getParam('YumUser');
+                $YumProfileData  = Yii::app()->request->getParam('YumProfile');
+                $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
 
-        $this->render(
-            'referral_registration',
-            [
-                'refId'            => $refId,
-                'user'             => $user,
-                'profile'          => $profile,
-                'accountCorporate' => $accountCorporate,
-                'industries'       => $industries,
-            ]
-        );
+                if(null !== $YumUserData && null !== $YumProfileData && null !== $UserAccountCorporateData)
+                {
+                    $user->attributes = $YumUserData;
+                    $profile->attributes = $YumProfileData;
+                    $accountCorporate->attributes = $UserAccountCorporateData;
+
+                        $profile->email = strtolower($userReferralRecord->referral_email);
+                        $user->setUserNameFromEmail($profile->email);
+
+                        $isUserValid = $user->validate();
+                        $isProfileValid = $profile->validate();
+                        $isAccountCorporate = $accountCorporate->validate();
+
+                        if ($isUserValid && $isProfileValid && $isAccountCorporate) {
+                            $result = $user->register($user->username, $user->password, $profile);
+
+                            if (false !== $result) {
+                                $profile->save();
+
+                                $user->status = YumUser::STATUS_ACTIVE;
+                                $user->update();
+
+
+                                // set Lite tariff by default
+                                $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+
+                                // update account
+                                $accountCorporate->user_id = $user->id;
+                                $accountCorporate->setTariff($tariff);
+                                $accountCorporate->save();
+
+                                $userReferralRecord->referral_id = $user->id;
+                                $userReferralRecord->approveReferral();
+                                $userReferralRecord->rejectAllWithSameEmail();
+                                $userReferralRecord->save();
+
+                                YumUser::activate($profile->email, $user->activationKey);
+                                $user->authenticate($YumUserData['password']);
+
+
+
+                                Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                                $this->redirect('/dashboard');
+                            }
+                        }
+
+                }
+
+                $industries = ['' => 'Выберите отрасль'];
+                foreach (Industry::model()->findAll() as $industry) {
+                    $industries[$industry->id] = Yii::t('site', $industry->label);
+                }
+
+                $this->render(
+                    'referral_registration',
+                    [
+                        'refId'            => $refId,
+                        'user'             => $user,
+                        'profile'          => $profile,
+                        'accountCorporate' => $accountCorporate,
+                        'industries'       => $industries,
+                    ]
+                );
+        } else {
+            Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
+            $this->redirect('/dashboard');
+        }
 
     }
 
@@ -165,6 +176,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
+            $profile->email = strtolower($YumProfile['email']);
             $account->attributes = $UserAccount;
 
             $profile->email = strtolower($invite->email);
@@ -339,47 +351,47 @@ class UserAuthController extends YumController
         if (false === Yii::app()->user->isGuest) {
             $this->redirect('/dashboard');
         }
-        $account_type = Yii::app()->request->getParam('account-type');
+        $account_type = Yii::app()->request->getParam('account-type', 'corporate');
 
         $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
-        $UserAccountPersonalData = Yii::app()->request->getParam('UserAccountPersonal');
+        $UserAccountPersonalData  = Yii::app()->request->getParam('UserAccountPersonal');
         $YumProfileData = Yii::app()->request->getParam('YumProfile');
         $YumUserData    = Yii::app()->request->getParam('YumUser');
 
         $user       = new YumUser('registration');
         $profile    = new YumProfile(($account_type === 'corporate')?'registration_corporate':'registration');
-        $accountCorporate = new UserAccountCorporate();
-        $accountPersonal = new UserAccountPersonal();
+        $accountCorporate = new UserAccountCorporate($account_type);
+        $accountPersonal = new UserAccountPersonal($account_type);
 
         $profile->firstname = $YumProfileData['firstname'];
         $profile->lastname  = $YumProfileData['lastname'];
         $profile->timestamp = gmdate("Y-m-d H:i:s");
 
+        $emailIsExistAndNotActivated = false;
+
         if (Yii::app()->request->isPostRequest) {
-            $user->attributes = $YumUserData;
-            $profile->attributes    = $YumProfileData;
+            $user->attributes    = $YumUserData;
+            $profile->attributes = $YumProfileData;
+
             $user->setUserNameFromEmail($profile->email);
 
             $user->createtime = time();
             $user->lastvisit = time();
             $user->lastpasswordchange = time();
 
-            $isUserValid = $user->validate(['password', 'password_again', 'agree_with_terms']);
-            $isProfileValid     = $profile->validate(['firstname', 'lastname', 'email']);
+            $isUserValid     = $user->validate(['password', 'password_again', 'agree_with_terms']);
+            $isProfileValid  = $profile->validate(['firstname', 'lastname', 'email']);
 
             $accountPersonal->attributes = $UserAccountPersonalData;
-            $isUserAccountPersonalValid = $accountPersonal->validate(['professional_status_id']);
-
+            $isUserAccountPersonalValid  = $accountPersonal->validate(['professional_status_id']);
             $accountCorporate->attributes = $UserAccountCorporateData;
             $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
-
-            if($isUserAccountPersonalValid) {
-                $accountCorporate->validate([]);
-            } else {
-                $accountPersonal->validate([]);
+            $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
+            if($emailIsExistAndNotActivated) {
+                $profile->clearErrors();
             }
 
-            if(($isUserAccountPersonalValid || $isUserAccountCorporateValid) && $isProfileValid && $isUserValid) {
+            if($isUserAccountPersonalValid && $isUserAccountCorporateValid && $isProfileValid && $isUserValid) {
                 $is_success_registration = $user->register($user->username, $user->password, $profile);
 
                 if ($is_success_registration) {
@@ -396,9 +408,10 @@ class UserAuthController extends YumController
                         }
                     } elseif($account_type === 'corporate') {
                         $accountCorporate->user_id = $user->id;
+                        $accountCorporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
                         $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
                         $accountCorporate->setTariff($tariff, true);
-                        if(false === $accountCorporate->save(true, ['user_id','industry_id'])){
+                        if(false === $accountCorporate->save(true, ['user_id','default_invitation_mail_text','industry_id'])){
                             throw new Exception("Corporate account not saved!");
                         }
                     } else {
@@ -415,12 +428,12 @@ class UserAuthController extends YumController
             }
         }
 
-        $industries = [];
+        $industries = [''=>'Выберите отрасль'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $statuses = [];
+        $statuses = [''=>'Выберите статус'];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
@@ -428,14 +441,14 @@ class UserAuthController extends YumController
         $this->render(
             'registration',
             [
-                'accountPersonal'      => $accountPersonal,
-                'accountCorporate'     => $accountCorporate,
-                'industries'           => $industries,
-                'statuses'             => $statuses,
-                'profile'              => $profile,
-                'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
-                'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
-                'user'                 => $user
+                'accountPersonal'             => $accountPersonal,
+                'accountCorporate'            => $accountCorporate,
+                'industries'                  => $industries,
+                'statuses'                    => $statuses,
+                'profile'                     => $profile,
+                'user'                        => $user,
+                'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated,
+                'account_type'                => $account_type
             ]
         );
     }
@@ -585,18 +598,7 @@ class UserAuthController extends YumController
 
         if(null !== $YumUser) {
             $user = YumUser::model()->findByAttributes(['id'=>$YumProfile->user_id]);
-            $user->is_check = $YumUser['is_check'];
             $user->update();
-
-            if ((int)$YumUser['is_check'] === YumUser::CHECK) {
-                $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
-                $invite = Invite::addFakeInvite(Yii::app()->user->data(), $liteScenario);
-                $this->redirect(['/simulation/promo/'.Scenario::TYPE_LITE.'/'.$invite->id], false);
-            } else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
-                $this->redirect(['/registration/choose-account-type'], false);
-            } else {
-                throw new Exception("Bug");
-            }
             return;
         }
 

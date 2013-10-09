@@ -68,7 +68,7 @@
                         </div>
                     </div>
 					<ul>
-						<li>{Yii::t('site', 'Simulation aimed at testing manager’s skills')}</li>
+						<li>{Yii::t('site', 'Simulation aimed at testing basic manager’s skills')}</li>
 						<li>{Yii::t('site', '2-3-hours game')}</li>
 						<li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
 						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
@@ -103,7 +103,7 @@
 				<!--main article-->
 				<section class="main-article">
 					<article>
-						<h3>{Yii::t('site', 'Easiest')}</h3>
+						<h3>{Yii::t('site', 'Easy')}</h3>
 						<ul>
 							<li>{Yii::t('site', 'Saves your time')}</li>
 							<li>{Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world')}</li>

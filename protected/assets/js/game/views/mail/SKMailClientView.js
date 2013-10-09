@@ -1940,7 +1940,21 @@ define([
                     var me = this;
 
                     event.preventDefault();
-
+                    if(me.$('#MailClient_RecipientsList .tagItem').length === 0 || me.$('#MailClient_NewLetterSubject .dd-selected').text() === 'без темы.'){
+                        me.message_window_phrase = new SKDialogView({
+                            'message':'Для написания нового письма выберите тему и адресата.',
+                            'buttons':[
+                                {
+                                    'value':'Ок',
+                                    'onclick':function () {
+                                        me.message_window_phrase.remove();
+                                        delete me.message_window_phrase;
+                                    }
+                                }
+                            ]
+                        });
+                        return false;
+                    }
                     if (this.blockPhraseMoving) {
                         return;
                     }

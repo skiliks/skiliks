@@ -3,17 +3,8 @@
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
     </a>
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-       class="start-lite-simulation-btn light-btn">
-        Пройти демо (15 мин)
-    </a>
+       class="start-lite-simulation-btn light-btn">Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</a>
 
-    <span class="change-simulation-result-render">
-        <?php if($user->profile->assessment_results_render_type == "standard") : ?>
-            Переключиться на процентиль
-        <?php else : ?>
-            Переключиться на стандарт
-        <?php endif ?>
-    </span>
 
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
@@ -42,6 +33,14 @@
     </aside>
     <div class="narrow-contnt">
 
+        <div class="change-simulation-result-render ProximaNova-Bold">
+            <?php if($user->profile->assessment_results_render_type == "standard") : ?>
+                Относительный рейтинг
+            <?php else : ?>
+                Абсолютный рейтинг
+            <?php endif ?>
+        </div>
+
         <!-- corporate-invitations-list-box -->
         <!-- hack for taking position -->
         <div id="corporate-invitations-list-box-position" style="width:1px; height: 1px; content: -;"></div>
@@ -50,6 +49,7 @@
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies'       => $vacancies,
+                'user'            => $user
             ]) ?>
         </div>
 
@@ -100,8 +100,7 @@
                     <p><?php echo $form->textField($invite, 'fullname'); ?></p>
 
                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию
-                            <a target="_blank" href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
                         <?php if (empty($invite->receiverUser)): ?>
                             <p class="font-green-dark">
                                 <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>

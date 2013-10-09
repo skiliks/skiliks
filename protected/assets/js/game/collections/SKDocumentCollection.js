@@ -31,6 +31,9 @@ define(["game/models/SKDocument"], function () {
                         _.each(response.data, function(data){
                             if(!cache.where({'id': data.id}).length){
                                 models.push(new SKDocument(data));
+                                if(data.name === 'План на завтра.xls'){
+                                    SKApp.simulation.dayPlanDocId = data.id;
+                                }
                             }
                         });
                         me.add(models);

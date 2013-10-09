@@ -216,9 +216,10 @@ define([
                 try {
                     var me = this,
                         doc;
-
+                    console.log("savePlan");
                     if (me.dayPlanDocId) {
-                        doc = me.documents.where({id: me.dayPlanDocId})[0];
+                        console.log("me.dayPlanDocId", me.dayPlanDocId)
+                        doc = _.first(me.documents.where({id: me.dayPlanDocId}));
                         delete SKDocument._excel_cache[me.dayPlanDocId];
                         me.documents.remove(doc);
                     }
