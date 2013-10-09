@@ -202,6 +202,24 @@
     width: 135px;
 }
 
+.percentil_dashboard_container {
+    width:118px;
+    background-position: top left;
+    background-size: 118px 30px;
+    height:18px;
+}
+
+.percentile_dashboard_value {
+    margin-right: 5px;
+    display: block;
+    margin-top:1px;
+    float:right;
+}
+
+#dashboard-skills-box .percentile_dashboard_value {
+    margin-top: 2px;
+    margin-right: 2px;
+}
 
 .percentil_text {
     font-weight: bold;
@@ -1051,6 +1069,7 @@
     color: #3d4041;
     font-size: 13px;
     text-decoration: none;
+    max-width: 235px;
 }
 .display-ib {
     display: inline-block;
@@ -1069,6 +1088,7 @@
     padding-right: 2px;
     vertical-align: top;
     min-width:16px;
+    max-width:100px;
 }
 /*.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
@@ -1121,9 +1141,18 @@
     display: table-cell;
     height: 30px; /* 38 */
     font-size: 13px;
+    max-width: 250px;
     /*line-height: 107%;*/
     position: relative;
     vertical-align: top;
+}
+@media screen and (max-width: 1146px){
+    .mangrlresults .labels a {
+        max-width:186px;
+    }
+    .thelabel {
+        max-width: 210px;
+    }
 }
 .high-labels .thelabel {
     height: 59px;
@@ -1243,6 +1272,17 @@ div.percentil_text_product {
 
 .product h3.product_h3_margin_left {
     padding-left: 27px;
+}
+
+#dashboard-skills-box > .percentil_overall_container {
+    float:left;
+    display: inline;
+    margin-top: 5px;
+}
+
+.link-go-percentile {
+    margin-left: 10px;
+    margin-top: 8px;
 }
 
 @media screen and (max-width: 1146px){
@@ -1416,7 +1456,58 @@ div.percentil_text_product {
         margin-right: 12px;
         margin-top:3px;
     }
+    .percentil_dashboard_container {
+        width:110px;
+        background-position: top left;
+        background-size: 110px 30px;
+        height:18px;
+    }
+
+    .percentil_base, .percentil_overall {
+        background-position: 0px -18px;
+        background-size: 68px 36px;
+    }
+
+    .percentil_overall {
+        background-position: 0px 0px;
+    }
+
+    #dashboard-skills-box .percentil_overall {
+        background-position: 0px 0px;
+        background-size: 48px 24px;
+        height: 12px;
+    }
+
+    #dashboard-skills-box .percentil_base {
+        float:left;
+        display: inline;
+        width: 50px;
+        background-position: 0px -12px;
+        background-size: 48px 24px;
+        height: 12px;
+    }
+
+    #dashboard-skills-box .link-go-percentile {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    #dashboard-skills-box .percentile_dashboard_value {
+        display: block;
+        float: right;
+        margin-right: 10px;
+        margin-top: 0px;
+    }
+
+    #dashboard-skills-box .percentil_dashboard_container {
+        width:100px;
+        background-position: top left;
+        background-size: 100px 27px;
+        height:16px;
+    }
+
 }
+
 /*
 .controller-static-dashboard {
     overflow: hidden !important;

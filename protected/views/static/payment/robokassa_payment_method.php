@@ -1,4 +1,4 @@
-<form id="robokassa-payment-form" action="http://test.robokassa.ru/Index.aspx">
+<form id="robokassa-payment-form" action="<?= Yii::app()->params['robokassa']['url'] ?>">
     <input type="hidden" name="MrchLogin" value="" />
     <input type="hidden" name="InvId" value="" />
     <input type="hidden" name="OutSum" value="" />

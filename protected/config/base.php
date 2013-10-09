@@ -311,7 +311,8 @@ return array(
                 'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
-                'admin_area/send-notice/'           => 'admin_area/AdminPages/SendNotice',
+                'admin_area/send-notice/'      => 'admin_area/AdminPages/SendNotice',
+                'admin_area/update-invite-email/'=>'admin_area/AdminPages/UpdateInviteEmail',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
                 'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
@@ -395,11 +396,13 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'disableOldLogging'=>false,
+        'demoDuration'                  => 5, // min
+        'disableOldLogging'             => false,
         'disableAssets'                 => false,
         'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
+        'countOfInvitesToShowReferralPopup'     => 3,
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
@@ -412,7 +415,8 @@ return array(
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
-            'noticeEmail'      => '//global_partials/mails/noticeEmail',
+            'noticeEmail'              => '//global_partials/mails/noticeEmail',
+            'newFeedback'              => '//global_partials/mails/newFeedback',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
@@ -439,7 +443,7 @@ return array(
             'isUseStrictAssertsWhenSimStop'      => false,
             'frontendAjaxTimeout'                => 10000, // 60 sec
             'simStartTimeout'                    => 180000,
-            'simStopTimeout'                     => 180000,
+            'simStopTimeout'                     => 10*60*1000,
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
@@ -512,6 +516,7 @@ return array(
             ]
         ),
         'robokassa' => [
+                'url'            => 'http://test.robokassa.ru/Index.aspx',
                 'MrchLogin'      => 'skiliks_dev',
                 'Desc'           => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',

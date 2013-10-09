@@ -1,6 +1,6 @@
 <div id="referral-popup" style="min-height: 17px !important;">
     <div style="clear: both;"></div>
-    <div class="ProximaNova-Bold">
+    <div class="ProximaNova-Bold" style="overflow-y:hidden;">
         Теперь вы можете получить дополнительные симуляции, пригласив друзей
     </div>
 </div>
@@ -15,7 +15,7 @@
             resizable:   false,
             closeOnEscape: false,
             draggable:   false,
-            width:       940,
+            width:       935,
             height:   20,
             position: {
                 my: "left top",
@@ -23,7 +23,7 @@
                 of: $("header h1")
             },
             open: function( event, ui ) {
-                $(".referral-popup").css("z-index", "1000");
+                $(".referral-popup").css({"z-index" : "1000", "margin-left" : "19px"});
                 $(".ui-dialog-content").css("height", "20px");
                 $("span#ui-dialog-title-referral-popup").remove();
             },

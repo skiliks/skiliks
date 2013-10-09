@@ -33,12 +33,11 @@ class TestUserHelper
             $YumUser = new YumUser('registration');
             $YumProfile = new YumProfile('registration');
         }
-        $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123', 'is_check'=>'1'];
+        $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123'];
         $YumProfile->attributes = ['email'=>$email];
-        $YumUser->setUserNameFromEmail($YumProfile->email);
+        $YumUser->setUserNameFromEmail(strtolower($YumProfile->email));
         $YumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
         $YumProfile->updateFirstNameFromEmail();
-        $YumUser->is_check = (int)$YumUser['is_check'];
         $YumUser->register($YumUser->username, $YumUser->password, $YumProfile);
         $YumUser->activationKey = '1';
         $YumUser->status = 1;

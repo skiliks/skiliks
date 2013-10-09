@@ -175,9 +175,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistration');
         }
 
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
-
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
@@ -371,6 +368,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                         $invite->email,
                         $this->user->profile->email
                     ));
+
+                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id OR t.receiver_id IS NULL");
+
+                    // Starting show
+                    $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
+                    if($userInvitesCount == $countOfInvitesToShowPopup) {
+                        $this->user->getAccount()->is_display_referrals_popup = 1;
+                        $this->user->getAccount()->save();
+                    }
+
                     $this->sendInviteEmail($invite);
 
                     $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
@@ -430,6 +437,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             );
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
+
+        // Getting popup properties
+
+        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
+        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
@@ -601,42 +613,42 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить чужое приглашение!"
             ));
-            $this->redirect('/');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isPending()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isStarted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Начато'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение которое находится в статусе 'Готово'."
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         $invite->deleteInvite();
 
         $user->getAccount()->increaseLimit($invite);
 
-        $this->redirect('/dashboard');
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
@@ -667,7 +679,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
             ));
-            $this->redirect('/dashboard');
+            $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
@@ -689,7 +701,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->sendInviteEmail($invite);
 
-        $this->redirect('/dashboard');
+        $this->redirect(Yii::app()->request->urlReferrer);
     }
 
     /**
@@ -949,7 +961,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
                 foreach($referralForm->validatedEmailsArray as $referAddress) {
                     $refer = new UserReferral();
-                    $refer->referral_email = $referAddress;
+                    $refer->referral_email = strtolower($referAddress);
                     $refer->referrer_id    = $user->id;
                     $refer->invited_at     = date("Y-m-d H:i:s");
                     $refer->status         = "pending";

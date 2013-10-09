@@ -69,30 +69,84 @@ class DebugController extends SiteBaseController
 
     public function actionXxx()
     {
-        $doc = new MyDocument();
-        $doc->fileName = 'Сводный бюджет_2014_план.xls';
-        $doc->sim_id = 714;
-        $doc->template_id = 20;
-        $doc->save(false);
-        $doc->refresh();
+//        $simulation = Simulation::model()->findByPk(900);
+//
+//        $ccb = new CheckConsolidatedBudget($simulation->id);
+//        $ccb->calcPoints();
+//        die;
 
-        // var MyDocument $doc
-        $scData = $doc->getSheetList();
 
-        $filePath = tempnam('/tmp', 'excel_');
+//        $doc = new MyDocument();
+//        $doc->fileName = 'Сводный бюджет_2014_план.xls';
+//        $doc->sim_id = 714;
+//        $doc->template_id = 20;
+//        $doc->save(false);
+//        $doc->refresh();
+//
+//        // var MyDocument $doc
+//        $scData = $doc->getSheetList();
+//
+//        $filePath = tempnam('/tmp', 'excel_');
+//
+//        ScXlsConverter::sc2xls($scData, $filePath);
+//
+//        if (file_exists($filePath)) {
+//            $xls = file_get_contents($filePath);
+//        } else {
+//            throw new Exception("Файл не найден");
+//        }
+//
+//        $filename = $doc->sim_id . '_' . $doc->template->fileName;
+//        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+//        header('Content-Disposition: attachment; filename="' . $filename . '"');
+//        echo $xls;
 
-        ScXlsConverter::sc2xls($scData, $filePath);
+//        echo '<pre>';
 
-        if (file_exists($filePath)) {
-            $xls = file_get_contents($filePath);
-        } else {
-            throw new Exception("Файл не найден");
-        }
+        $scDoc = file_get_contents('http://loc.skiliks.com/6025_svodnyj_byudzhet_2014_plan');
+        $scDoc = str_replace('СУММ', 'SUM', $scDoc);
 
-        $filename = $doc->sim_id . '_' . $doc->template->fileName;
-        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        echo $xls;
+        $excel = ScXlsConverter::sc2xls(json_decode($scDoc, true));
+
+        PHPExcel_Calculation::getInstance()->clearCalculationCache();
+
+        $worksheetNames = Yii::app()->params['analizer']['excel']['consolidatedBudget']['worksheetNames'];
+
+        $whConsolidated = $excel->getSheetByName($worksheetNames['consolidated']);
+
+
+//
+//
+//        $xlsFile =  new \PHPExcel();
+//        $xlsFile->removeSheetByIndex(0);
+//        $xlsFile->addSheet($whConsolidated);
+//
+//        $n10 = $whConsolidated->getCell('N10')->getCalculatedValue();
+//        $n10 = $whConsolidated->getCell('N10')->getValue();
+
+
+//        $whConsolidated->getCell('N10')->setValue('=SUM(продажи!B6:продажи!D6)');
+//        // PHPExcel_Calculation::getInstance()->clearCalculationCache();
+//
+//        echo '</pre>';
+
+//        $xlsFile =  new \PHPExcel();
+//        $xlsFile->removeSheetByIndex(0);
+//        $xlsFile->addSheet($whConsolidated);
+
+//        $filePath = tempnam('/tmp', 'excel_');
+//        ScXlsConverter::sc2xls(json_decode($scDoc, true), $filePath);
+//
+//        if (file_exists($filePath)) {
+//            $xls = file_get_contents($filePath);
+//        } else {
+//            throw new Exception("Файл не найден");
+//        }
+//
+//        $filename = 'D1.xlsx';
+//        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+//        header('Content-Disposition: attachment; filename="' . $filename . '"');
+//        echo $xls;
     }
     // PAYMENT CONTROLLER METHODS
 
