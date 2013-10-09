@@ -58,7 +58,7 @@ class InitBaseUsersCommand
             }
 
             $profile->firstname = $user['username'];
-            $profile->email     = $user['email'];
+            $profile->email     = strtolower($user['email']);
 
             // register user (init user object, validate, save) {
             if (null === $yumUser) {

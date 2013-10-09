@@ -14,7 +14,7 @@ class ResetInviteCommand extends CConsoleCommand
      */
     public function actionIndex($email, $inviteId)
     {
-        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+        $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
         /** @var Invite $invite */
         $invite = Invite::model()->findByPk($inviteId);
 
