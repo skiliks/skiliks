@@ -7,15 +7,19 @@ $lang = Yii::app()->getLanguage();
 ?>
 <div class="tarifswrap">
 <?php foreach ($tariffs as $tariff): ?>
-    <div class="nice-border onetariff">
+    <div class="nice-border onetariff tariff-<?=$tariff->slug?>">
         <div class="tariff-box radiusthree">
-            <label class="tarifname"><?php echo $tariff->label ?></label>
+            <?php if($tariff->slug == "lite") : ?>
+                <span class="show-free-tariff-img"></span>
+            <? endif; ?>
+                <label class="tarifname"><div class="label_div"><?php echo $tariff->label ?></div></label>
             <div class="price <?= $lang ?>">
                 <p>
-                <?php if (floor($tariff->getPrice() / 1000)): ?>
-                    <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
-                <?php endif ?>
-                <?php echo $tariff->getPrice() % 1000 ?></p>
+                    <?php if (floor($tariff->getPrice() / 1000)): ?>
+                        <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
+                    <?php endif ?>
+                    <?php echo $tariff->getPrice() % 1000 ?>
+                </p>
             </div>
             <div class="tarifwrap">
 
@@ -51,9 +55,9 @@ $lang = Yii::app()->getLanguage();
     </div>
 <?php endforeach ?>
 
-    <p class="text-right text16">
+    <p class="text-left text16 ProximaNova-Bold additional-text">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> <a href="#" data-selected='Тарифы и оплата' class="feedback"><strong>Свяжитесь с нами,</strong></a> чтобы приобрести
+        <sup>*</sup>Первый месяц использования
         <?php endif; ?>
     </p>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
