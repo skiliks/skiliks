@@ -749,7 +749,7 @@ class Simulation extends CActiveRecord
         // считаем количесво пользователей пошедших симуляцию, не разработчиков
         // но у которых оценка меньще или равна оценке за текущую симуляцию
         $lessThanMeCondition = $realUsersCondition .
-            sprintf(' AND (t.value < = %s) ', $this->getCategoryAssessmentWithoutRound());
+            sprintf(' AND (t.value <= %s) ', $this->getCategoryAssessmentWithoutRound());
         $lessThanMe = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile')
             ->count($lessThanMeCondition);
 
