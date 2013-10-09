@@ -650,7 +650,7 @@ var fixLogotypes = function() {
 
         $(".showDialogRejected").click(function(e){
             e.preventDefault();
-            var domain = $(this).attr('data-domain');
+            var reason = $(this).attr('data-reject-reason');
             $(".dialogReferralRejected").dialog({
                 dialogClass: 'popup-before-start-sim',
                 closeOnEscape: true,
@@ -666,7 +666,7 @@ var fixLogotypes = function() {
                     of: ".referalls_list_box"
                 },
                 open : function() {
-                    $(".domainName").html(domain);
+                    $(".reject-reason-p").html(reason);
                 }
             });
             Cufon.refresh();
