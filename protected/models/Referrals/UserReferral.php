@@ -91,12 +91,22 @@ class UserReferral extends CActiveRecord
         ));
     }
 
-    public function sendInviteReferralEmail() {
+    public function sendInviteReferralEmail($referral_text = false) {
 
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
+        $referral_text = str_replace("\r\n", "<br/>", $referral_text);
+
+        if(strpos($referral_text, "ссылке") === 0) {
+            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+                              Ссылка для регистрации реферала.</a>
+                            ';
+        } else {
+            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+                              ссылке</a>', $referral_text);
+        }
 
         $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'link' => Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id)
+            'text' => $referral_text
         ], true);
 
 
