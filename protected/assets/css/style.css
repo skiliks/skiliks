@@ -5607,3 +5607,31 @@ ul.default li:hover {
         padding-bottom: 0;
     }
 }
+
+.start-lite-simulation-btn.main-menu-demo {
+    background: url("../img/icon-circlarow.png") no-repeat rgba(20, 102, 114, 0.4);
+    padding-left: 36px;
+    background-position: 10px 3px;
+}
+
+.start-lite-simulation-btn.main-menu-demo:hover {
+    background: url("../img/icon-circlarow-hover.png") no-repeat #146672;
+    background-position: 10px 3px;
+}
+
+@media screen and (max-width: 1146px) {
+
+    .start-lite-simulation-btn.main-menu-demo {
+        background: url("../img/icon-circlarow.png") no-repeat rgba(20, 102, 114, 0.4);
+        padding-left: 25px;
+        background-size: 13px 13px;
+        background-position: 8px 3px;
+    }
+
+    .start-lite-simulation-btn.main-menu-demo:hover {
+        background: url("../img/icon-circlarow-hover.png") no-repeat #146672;
+        background-size: 13px 13px;
+        background-position: 8px 3px;
+    }
+
+}
