@@ -29,6 +29,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
+        'server_name'                   => 'http://skiliks.com/',
         'frontendUrl'=>'http://test.skiliks.com/',
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',

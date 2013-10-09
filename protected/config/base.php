@@ -396,6 +396,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'server_name'                   => 'http://skiliks.com/',
         'demoDuration'                  => 5, // min
         'disableOldLogging'             => false,
         'disableAssets'                 => false,
@@ -412,6 +413,7 @@ return array(
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
             'tariffExpiredTemplate'    => 'tariff_expired',
+            'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
