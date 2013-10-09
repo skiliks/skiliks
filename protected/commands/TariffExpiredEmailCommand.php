@@ -14,13 +14,13 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
         $criteria->addCondition("account_corporate.tariff_expired_at >= '". $date_expire_from .
                                 "' AND account_corporate.tariff_expired_at < '" . $date_expire_to. "'");
 
-        $accounts = YumUser::model()->with("account_corporate")->findAll($criteria);
+        $users = YumUser::model()->with("account_corporate")->findAll($criteria);
 
-        if(!empty($accounts)) {
+        if(!empty($users)) {
 
-            foreach($accounts as $account) {
+            foreach($users as $user) {
 
-                if($account->account_corporate->getTotalAvailableInvitesLimit() > 0) {
+                if($user->account_corporate->getTotalAvailableInvitesLimit() > 0) {
 
                     $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplate'];
 
@@ -33,13 +33,13 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
                 $path = Yii::getPathOfAlias('application.views.global_partials.mails').'/'.$emailTemplate.'.php';
 
                 $body = $this->renderFile($path, [
-                    'user' => $account
+                    'user' => $user
                 ], true);
 
 
                 $mail = [
                     'from'        => 'support@skiliks.com',
-                    'to'          => $account->profile->email,
+                    'to'          => $user->profile->email,
                     'subject'     => 'Неиспользованные симуляции на skiliks.com',
                     'body'        => $body,
                     'embeddedImages' => [
@@ -85,7 +85,7 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
 
                 try {
                     MailHelper::addMailToQueue($mail);
-                    echo $account->profile->email."\n";
+                    echo $user->profile->email."\n";
                 } catch (phpmailerException $e) {
                     echo $e;
                 }

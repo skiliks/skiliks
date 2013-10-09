@@ -53,12 +53,12 @@ class InviteExpiredCommand extends CConsoleCommand
                     $path = Yii::getPathOfAlias('application.views.global_partials.mails').'/'.$emailTemplate.'.php';
 
                     $body = $this->renderFile($path, [
-                        'user' => $account
+                        'user' => $account->user
                     ], true);
 
                     $mail = [
                         'from'        => 'support@skiliks.com',
-                        'to'          => $account->profile->email,
+                        'to'          => $account->user->profile->email,
                         'subject'     => 'Неиспользованные симуляции на skiliks.com',
                         'body'        => $body,
                         'embeddedImages' => [
@@ -104,7 +104,7 @@ class InviteExpiredCommand extends CConsoleCommand
 
                     try {
                         MailHelper::addMailToQueue($mail);
-                        echo $account->profile->email."\n";
+                        echo $account->user->profile->email."\n";
                     } catch (phpmailerException $e) {
                         echo $e;
                     }
