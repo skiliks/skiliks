@@ -23,6 +23,7 @@ class UserReferral extends CActiveRecord
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
 
+    const REJECT_SAME_EMAIL_TEXT = "Пользователь зарегистрировался по другому приглашению.";
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -289,5 +290,17 @@ class UserReferral extends CActiveRecord
             $this->status = self::STATUS_REJECTED;
             return false;
         }
+    }
+
+    /**
+     * Function set statuses to all referral invites with same email as Rejected
+     */
+    public function rejectAllWithSameEmail() {
+        $this->model()->updateAll(
+            ['status'        => self::STATUS_REJECTED,
+             'reject_reason' => self::REJECT_SAME_EMAIL_TEXT
+            ],
+            ' referral_email = "' . $this->referral_email . '" AND id != '.$this->id
+           );
     }
 }

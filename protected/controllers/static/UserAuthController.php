@@ -58,12 +58,9 @@ class UserAuthController extends YumController
                 {
                     $user->attributes = $YumUserData;
                     $profile->attributes = $YumProfileData;
-                    $profile->email = strtolower($YumProfileData['email']);
                     $accountCorporate->attributes = $UserAccountCorporateData;
 
-
-
-                        $profile->email = $userReferralRecord->referral_email;
+                        $profile->email = strtolower($userReferralRecord->referral_email);
                         $user->setUserNameFromEmail($profile->email);
 
                         $isUserValid = $user->validate();
@@ -90,10 +87,13 @@ class UserAuthController extends YumController
 
                                 $userReferralRecord->referral_id = $user->id;
                                 $userReferralRecord->approveReferral();
+                                $userReferralRecord->rejectAllWithSameEmail();
                                 $userReferralRecord->save();
 
                                 YumUser::activate($profile->email, $user->activationKey);
                                 $user->authenticate($YumUserData['password']);
+
+
 
                                 Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
                                 $this->redirect('/dashboard');

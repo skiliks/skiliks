@@ -1,6 +1,6 @@
 <div id="tariff-expired-popup">
     <div style="clear: both;"></div>
-    <div class="ProximaNova-Bold">
+    <div class="ProximaNova-Bold" style="overflow-y:hidden;">
         Ваш тарифный план истек.
     </div>
 </div>
