@@ -59,7 +59,7 @@ $lang = Yii::app()->getLanguage();
 
     <p class="text-left text16 ProximaNova-Bold additional-text">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup>Первый месяц использования
+        <sup>*</sup> Первый месяц использования
         <?php endif; ?>
     </p>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
