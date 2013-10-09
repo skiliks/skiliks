@@ -133,4 +133,8 @@ class MailHelper
             $invite->update();
         }
     }
+
+    public static function createUrlWithHostname($path) {
+        return Yii::app()->params['server_name'].ltrim($path, '/');
+    }
 } 

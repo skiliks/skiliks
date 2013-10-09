@@ -60,7 +60,7 @@
         <?php endif; ?>
 
         <?php if($is_display_tariff_expire_pop_up) : ?>
-            <?php $this->renderPartial('partials/_tariff_expire_pop_up', ["hasOtherPopup" => $show_user_referral_popup]) ?>
+            <?php $this->renderPartial('partials/_tariff_expire_pop_up', ["hasOtherPopup" => $show_user_referral_popup, 'user' => $user]) ?>
         <?php endif; ?>
 
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
