@@ -26,7 +26,7 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
 
                 }else{
 
-                    $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
+                    continue;
 
                 }
 
