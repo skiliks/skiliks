@@ -1067,7 +1067,7 @@
 }
 .mangrlresults .labels a {
     color: #3d4041;
-    font-size: 13px;
+    font-size: 12px;
     text-decoration: none;
     max-width: 235px;
 }
@@ -1083,6 +1083,7 @@
 }*/
 .list-counter, .list-text {
     display: table-cell;
+    font-size: 12px;
 }
 .list-counter {
     padding-right: 2px;
@@ -1402,7 +1403,10 @@ div.percentil_text_product {
         width: 194px;
     }
     .mangrlresults .labels a, .thelabel {
-        font-size: 11px;
+        font-size: 9px;
+    }
+    .list-counter, .list-text {
+        font-size: 9px;
     }
     .thelabel {
         height:24px;
