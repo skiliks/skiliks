@@ -26,7 +26,7 @@
                      '<img src="'.$assetsUrl.'/img/referral-bonus.png" style="margin-left: 20px; margin-top:-4px;" />';
                  }
                  elseif($data->isRejected()) {
-                     return '<a class="showDialogRejected" data-domain="'.substr($data->referral_email, strpos($data->referral_email, "@")).'" href="#">Не начислено</a>';
+                     return '<a class="showDialogRejected" data-reject-reason=\''. $data->reject_reason . '\'" href="#">Не начислено</a>';
                  }
                  elseif($data->isPending()) {
                      return '<a class="showDialogPending" href="#">В ожидании</a>';
