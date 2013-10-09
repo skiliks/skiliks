@@ -949,6 +949,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         else {
             $referralForm = new ReferralsInviteForm();
 
+            $referralInviteText   = Yii::app()->request->getParam('ReferralsInviteForm')['text'];
+
             $referralForm->emails = Yii::app()->request->getParam('emails');
             $referralForm->text   = Yii::app()->request->getParam('text');
 
@@ -966,7 +968,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $refer->invited_at     = date("Y-m-d H:i:s");
                     $refer->status         = "pending";
                     $refer->save();
-                    $refer->sendInviteReferralEmail($referralForm->text);
+                    $refer->sendInviteReferralEmail($referralInviteText);
                 }
 
                 $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
