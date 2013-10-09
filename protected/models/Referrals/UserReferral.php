@@ -297,10 +297,10 @@ class UserReferral extends CActiveRecord
      */
     public function rejectAllWithSameEmail() {
         $this->model()->updateAll(
-                         ['status'        => self::STATUS_REJECTED,
-                          'reject_reason' => self::REJECT_SAME_EMAIL_TEXT
-                         ],
-                         ' referral_email = "' . $this->referral_email . '" AND id != '.$this->id
-                        );
+            ['status'        => self::STATUS_REJECTED,
+             'reject_reason' => self::REJECT_SAME_EMAIL_TEXT
+            ],
+            ' referral_email = "' . $this->referral_email . '" AND id != '.$this->id
+           );
     }
 }
