@@ -76,7 +76,6 @@ define([
                     var todo_tasks = SKApp.simulation.todo_tasks;
                     this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
                     this.listenTo(todo_tasks, 'add', function() {
-                        this.onPlanEvent;
                         _.each(todo_tasks.models, function(model) {
                             model.isNewTask = false;
                         });
