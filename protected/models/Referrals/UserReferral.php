@@ -268,14 +268,19 @@ class UserReferral extends CActiveRecord
         foreach($allUserReferrals as $oldReferral) {
             $oldReferralDomain = substr($oldReferral->referral_email, strpos($oldReferral->referral_email, "@"));
             if($oldReferralDomain == $referralDomain) {
-                $validationError = "У вас уже есть реферал из компании ". substr($oldReferralDomain,1). '.';
+                $validationError = 'Вам уже начислена 1 симуляция за приглашение пользователя из
+                <span class="domainName ProximaNova-Bold">' . $oldReferralDomain. '</span>. <a data-selected="Тарифы и
+                оплата" class="feedback-close-other ProximaNova-Bold" href="#">Свяжитесь с нами</a>,
+                если вы приглашаете разных корпоративных пользователей в одной компании.';
                 break;
             }
         }
 
         // проверка на одну домененую зону с пользователем
         if($referrerDomain == substr($this->referral_email, strpos($this->referral_email, "@"))) {
-            $validationError = "Вы сами являетесь сотрудником компании ". substr($referrerDomain,1). '.';
+                $validationError = 'Вы сами являетесь сотрудником компании '. $referrerDomain . '.' . '
+                <a data-selected="Тарифы и оплата" class="feedback-close-other ProximaNova-Bold" href="#">Свяжитесь с нами</a>,
+                если вы приглашаете разных корпоративных пользователей в одной компании.';
         }
 
         // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
