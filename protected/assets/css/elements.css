@@ -95,7 +95,7 @@
     border-radius: 4px;
     color: #FFFFFF;
     text-align: left;
-    padding:0 35px 0 60px;
+    padding:0 35px 2px 60px;
     font:20px ProximaNova-Bold;
     height:46px;
 }
@@ -271,6 +271,9 @@ section.registration-by-link h1 {
     text-align: left;
     margin: 0px 0px 17px 190px;
 }
+.terms-confirm-left-align .errorMessage {
+   padding-left: 27px;
+}
 .registration .form .errorMessage.registration-industry-error {
     margin-top: -5px;
 }
@@ -406,12 +409,12 @@ section.registration-by-link .form .row a.decline-link:hover {
     top:-12px;
 }
 .registration-form .wide .errorMessage {
-    top:-10px;
+    top:-11px;
     left:195px;
 }
 @media screen and (max-width: 1146px) {
     #referrer-registration-form .wide .errorMessage {
-        top:-7px;
+        top:-8px;
     }
     section.registration-by-link {
         height: 390px;
@@ -931,7 +934,10 @@ a.registration_check {
 }
 
 @media screen and (max-width: 1146px){
-
+    .blue-submit-button {
+        background-position: 35px 15px;
+        background-size: 17px 17px;
+    }
     .blue-submit-button:hover
     {
         background-image: url("../img/icon-circlarow-hover.png");
@@ -941,7 +947,7 @@ a.registration_check {
         background-size: 17px 17px;
     }
     .blue-submit-button.registration-button {
-        background-position: 4px 50%;
+        background-position: 35px 15px;
         background-size: 17px 17px;
         font-size: 14px;
         height: 42px;
