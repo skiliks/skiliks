@@ -732,6 +732,10 @@ class Simulation extends CActiveRecord
             0 < strpos($this->user->profile->email, '@skiliks.com') ||
             0 < strpos($this->user->profile->email, 'sarnavskyi89')
         ) {
+            // set zero percentile for developer
+            $assessmentRecord = $this->setAssessmentOverallPercentile(0);
+            $assessmentRecord->save();
+
             return;
         }
 
@@ -769,19 +773,30 @@ class Simulation extends CActiveRecord
             $percentileValue = ($lessThanMe/$all)*100;
         }
 
-        $percentileInDb = AssessmentOverall::model()->findByAttributes([
+        $assessmentRecord = $this->setAssessmentOverallPercentile($percentileValue);
+        $assessmentRecord->save();
+    }
+
+    /**
+     * @param float $percentileValue
+     *
+     * @return AssessmentOverall
+     */
+    public function setAssessmentOverallPercentile($percentileValue) {
+        $assessmentRecord = AssessmentOverall::model()->findByAttributes([
             'assessment_category_code' => AssessmentCategory::PERCENTILE,
             'sim_id'                   => $this->id
         ]);
 
-        if (null == $percentileInDb) {
-            $percentileInDb = new AssessmentOverall();
-            $percentileInDb->assessment_category_code = AssessmentCategory::PERCENTILE;
-            $percentileInDb->sim_id = $this->id;
+        if (null == $assessmentRecord) {
+            $assessmentRecord = new AssessmentOverall();
+            $assessmentRecord->assessment_category_code = AssessmentCategory::PERCENTILE;
+            $assessmentRecord->sim_id = $this->id;
         }
 
-        $percentileInDb->value = number_format(round($percentileValue, 2), 2, '.', '');
-        $percentileInDb->save();
+        $assessmentRecord->value = number_format(round($percentileValue, 2), 2, '.', '');
+
+        return $assessmentRecord;
     }
 
     /**
