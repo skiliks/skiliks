@@ -92,7 +92,7 @@ class DayPlanService
      * @param $day
      * @return array
      */
-    public static function addTask(Simulation $simulation, $taskId, $day, $time = null, $fromEventService = false)
+    public static function addTask(Simulation $simulation, $taskId, $day, $time = null, $ignoreIfExists = false)
     {
         /** @var Task $task */
         $task = Task::model()->findByPk($taskId);
@@ -110,17 +110,16 @@ class DayPlanService
             $dayPlan          = new DayPlan();
             $dayPlan->sim_id  = $simulation->id;
             $dayPlan->task_id = $task->id;
+        }else{
+            //Не добавлять задачу если такая уже есть
+            if($ignoreIfExists){
+                return false;
+            }
         }
-
-        if($fromEventService && $dayPlan !== DayPlan::DAY_TODO && $dayPlan !== null) {
-            return false;
-        }
-
-
         $dayPlan->date = $time;
         $dayPlan->day = $day;
-
-        return $dayPlan->save();
+        $dayPlan->save();
+        return true;
     }
 
     /**
