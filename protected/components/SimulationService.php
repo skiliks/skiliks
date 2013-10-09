@@ -632,7 +632,7 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
-        sleep(30);
+        sleep(3000);
         self::logAboutSim($simulation, 'sim stop: begin');
 
         // Check if simulation was already stopped
