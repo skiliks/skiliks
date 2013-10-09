@@ -271,6 +271,9 @@ section.registration-by-link h1 {
     text-align: left;
     margin: 0px 0px 17px 190px;
 }
+.registration .form .errorMessage.registration-industry-error {
+    margin-top: -5px;
+}
 @media screen and (max-width: 1146px) {
     .terms-confirm-left-align {
         font-size: 12px;
@@ -278,8 +281,10 @@ section.registration-by-link h1 {
         line-height: 10px;
         margin: 0px 0px 17px 150px;
     }
-    .registration-industry-error {
+    .registration .form .errorMessage.registration-industry-error {
         margin-left: 24px;
+        margin-top: -1px;
+        font-size: 10px;
     }
 }
 .terms-confirm-left-align .errorMessage {
