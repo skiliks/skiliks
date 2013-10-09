@@ -56,13 +56,13 @@ define([], function () {
             try {
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
-                    throw "Window " + window_id + " already exists";
+                    throw new Error("Window " + window_id + " already exists");
                 }
                 if (! (this.get('name') in screens)) {
-                    throw 'Unknown screen';
+                    throw new Error('Unknown screen');
                 }
                 if (! (this.get('subname') in screensSub)) {
-                    throw 'Unknown subscreen';
+                    throw new Error('Unknown subscreen');
                 }
                 if (!this.has('id')) {
                     this.set('id', this.get('subname'));
@@ -127,7 +127,7 @@ define([], function () {
         open: function() {
             try {
                 if (this.is_opened) {
-                    throw "Window is already opened";
+                    throw new Error("Window is already opened");
                 }
                 this.is_opened = true;
                 this.simulation.window_set.showWindow(this);
@@ -149,7 +149,7 @@ define([], function () {
         close: function() {
             try {
                 if (!this.is_opened) {
-                    throw "Window is already closed";
+                    throw new Error("Window is already closed");
                 }
                 this.trigger('pre_close');
                 if (this.prevent_close === true) {

@@ -53,7 +53,7 @@ define([
                         async = arguments[3];
                     }
                     if (async === false) {
-                        throw ('Use of sync ajax request for '+ url +' does not work anymore');
+                        throw new Error('Use of sync ajax request for '+ url +' does not work anymore');
                     }
                     if (debug_match !== null) {
                         url += '?XDEBUG_SESSION_START=' + debug_match[1];

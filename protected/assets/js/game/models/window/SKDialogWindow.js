@@ -39,7 +39,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
         'switchDialog': function (dialogId) {
             try {
                 if (!this.is_opened) {
-                    throw "Window is already closed";
+                    throw new Error("Window is already closed");
                 }
                 this.deactivate({silent: true});
                 this.set('params', {'dialogId': dialogId});
@@ -59,7 +59,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
         'setDialog': function (dialogId) {
             try {
                 if (this.get('params') && this.get('params').dialogId) {
-                    throw 'You can not set param dialogId on this window, use switchMessage method';
+                    throw new Error('You can not set param dialogId on this window, use switchMessage method');
                 }
                 this.set('params', {'dialogId': dialogId});
             } catch(exception) {

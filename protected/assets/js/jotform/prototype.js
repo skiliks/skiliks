@@ -3306,7 +3306,7 @@ Element.addMethods({
     },
 
     set: function(property, value) {
-      throw "Properties of Element.Layout are read-only.";
+      throw new Error("Properties of Element.Layout are read-only.");
     },
 
     get: function($super, property) {
@@ -3384,7 +3384,7 @@ Element.addMethods({
     _compute: function(property) {
       var COMPUTATIONS = Element.Layout.COMPUTATIONS;
       if (!(property in COMPUTATIONS)) {
-        throw "Property not found.";
+        throw new Error("Property not found.");
       }
 
       return this._set(property, COMPUTATIONS[property].call(this, this.element));
@@ -4083,7 +4083,7 @@ var Sizzle = function(selector, context, results, seed) {
     }
 
     if ( !checkSet ) {
-        throw "Syntax error, unrecognized expression: " + (cur || selector);
+        throw new Error("Syntax error, unrecognized expression: " + (cur || selector));
     }
 
     if ( toString.call(checkSet) === "[object Array]" ) {
@@ -4229,7 +4229,7 @@ Sizzle.filter = function(expr, set, inplace, not){
 
         if ( expr == old ) {
             if ( anyFound == null ) {
-                throw "Syntax error, unrecognized expression: " + expr;
+                throw new Error("Syntax error, unrecognized expression: " + expr);
             } else {
                 break;
             }

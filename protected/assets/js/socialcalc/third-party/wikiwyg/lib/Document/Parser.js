@@ -16,7 +16,7 @@ proto.parse = function(input, receiver) {
 }
 
 proto.create_grammar = function() {
-    throw "Please define create_grammar in a derived class of Document.Parser.";
+    throw new Error("Please define create_grammar in a derived class of Document.Parser.");
 };
 
 //------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ proto.parse_blocks = function(container_type) {
             }
         }
         if (this.input.length >= length)
-            throw this.classname + ': Reduction error for:\n' + this.input +
-            '\n' + JSON.stringify(this);
+            throw new Error(this.classname + ': Reduction error for:\n' + this.input +
+            '\n' + JSON.stringify(this));
     }
     return;
 }
@@ -55,7 +55,7 @@ proto.handle_match = function(type, match) {
 
 proto.find_match = function(matched_func, type) {
     var re = this.grammar[type].match;
-    if (!re) throw 'no regexp for type: ' + type;
+    if (!re) throw new Error('no regexp for type: ' + type);
     var capture = this.input.match(re);
     if (capture) {
         // console.log("Found match " + type + " - " + matched_func);
