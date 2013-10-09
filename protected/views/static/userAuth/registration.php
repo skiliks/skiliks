@@ -11,7 +11,7 @@ $isPersonal = $account_type === 'personal';
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
 	<div class="form form-account-personal" style="background-color: <?= (!$isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
         <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
-            <span style="display: <?= ($isPersonal)?'none':'block'?>">
+            <span style="display: <?= ($isPersonal)?'none':'block'?>" class="choose-account-button-span">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
@@ -27,7 +27,7 @@ $isPersonal = $account_type === 'personal';
             'enableAjaxValidation' => false,
         )); ?>
         <div class="row">
-            <?php echo $form->error($accountPersonal, 'professional_status_id'); ?>
+            <?php echo $form->error($accountPersonal, 'professional_status_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
             <div class="field registration-personal-additional-field">
                 <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
@@ -38,7 +38,7 @@ $isPersonal = $account_type === 'personal';
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div class="form form-account-corporate" style="background-color: <?= (!$isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
         <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
-            <span style="display: <?= ($isPersonal)?'block':'none'?>">
+            <span style="display: <?= ($isPersonal)?'block':'none'?>;" class="choose-account-button-span">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
@@ -50,7 +50,7 @@ $isPersonal = $account_type === 'personal';
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
 		</ul>
 	    <div class="row">
-                <?php echo $form->error($accountCorporate, 'industry_id'); ?>
+                <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
             <div class="field">
                 <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
     	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
