@@ -42,7 +42,7 @@ define(["text!game/jst/window.jst"],
         initialize: function () {
             try {
                 if (this.options.model_instance === undefined) {
-                    throw 'You need to pass model_instance';
+                    throw new Error('You need to pass model_instance');
                 }
                 var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : ''), "id":(this.addId ? this.addId : '')});
                 this.$container = $(this.container);
@@ -101,7 +101,7 @@ define(["text!game/jst/window.jst"],
             // Do nothing
         },
         renderContent: function (el) {
-            throw 'You need to override it';
+            throw new Error('You need to override it');
         },
         remove: function () {
             var me = this;

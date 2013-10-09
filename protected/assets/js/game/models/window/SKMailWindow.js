@@ -68,7 +68,7 @@ define(["game/models/window/SKWindow"],function () {
         'setMessage':function (mailId) {
             try {
                 if (this.get('params') && this.get('params').mailId) {
-                    throw 'You can not set param mailId on this window, use switchMessage method';
+                    throw new Error('You can not set param mailId on this window, use switchMessage method');
                 }
                 this.set('params', {'mailId':mailId});
             } catch(exception) {

@@ -58,7 +58,7 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
         'setFile':function (fileId) {
             try {
                 if (this.get('params') && this.get('params').fileId) {
-                    throw 'You can not set param fileId on this window, use switchMessage method';
+                    throw new Error('You can not set param fileId on this window, use switchMessage method');
                 }
                 this.set('params', {'fileId':fileId});
             } catch(exception) {

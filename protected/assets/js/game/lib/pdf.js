@@ -1259,14 +1259,14 @@ var StatTimer = (function StatTimerClosure() {
       if (!this.enabled)
         return;
       if (name in this.started)
-        throw 'Timer is already running for ' + name;
+        throw new Error('Timer is already running for ' + name);
       this.started[name] = Date.now();
     },
     timeEnd: function StatTimer_timeEnd(name) {
       if (!this.enabled)
         return;
       if (!(name in this.started))
-        throw 'Timer has not been started for ' + name;
+        throw new Error('Timer has not been started for ' + name);
       this.times.push({
         'name': name,
         'start': this.started[name],
@@ -33392,7 +33392,7 @@ var workerConsole = {
       action: 'console_error',
       data: args
     });
-    throw 'pdf.js execution error';
+    throw new Error('pdf.js execution error');
   },
 
   time: function time(name) {
@@ -33561,7 +33561,7 @@ var JpxImage = (function JpxImageClosure() {
                   scalarExpounded = true;
                   break;
                 default:
-                  throw 'Invalid SQcd value ' + sqcd;
+                  throw new Error('Invalid SQcd value ' + sqcd);
               }
               qcd.noQuantization = spqcdSize == 8;
               qcd.scalarExpounded = scalarExpounded;
@@ -33614,7 +33614,7 @@ var JpxImage = (function JpxImageClosure() {
                   scalarExpounded = true;
                   break;
                 default:
-                  throw 'Invalid SQcd value ' + sqcd;
+                  throw new Error('Invalid SQcd value ' + sqcd);
               }
               qcc.noQuantization = spqcdSize == 8;
               qcc.scalarExpounded = scalarExpounded;
@@ -33680,8 +33680,8 @@ var JpxImage = (function JpxImageClosure() {
                   cod.resetContextProbabilities ||
                   cod.terminationOnEachCodingPass ||
                   cod.verticalyStripe || cod.predictableTermination)
-                throw 'Unsupported COD options: ' +
-                  globalScope.JSON.stringify(cod);
+                throw new Error('Unsupported COD options: ' +
+                  globalScope.JSON.stringify(cod));
 
               if (context.mainHeader)
                 context.COD = cod;
@@ -33726,7 +33726,7 @@ var JpxImage = (function JpxImageClosure() {
               // skipping content
               break;
             default:
-              throw 'Unknown codestream code: ' + code.toString(16);
+              throw new Error('Unknown codestream code: ' + code.toString(16));
           }
           position += length;
         }
@@ -33975,7 +33975,7 @@ var JpxImage = (function JpxImageClosure() {
         }
         r = 0;
       }
-      throw 'Out of packets';
+      throw new Error('Out of packets');
     };
   }
   function ResolutionLayerComponentPositionIterator(context) {
@@ -34014,7 +34014,7 @@ var JpxImage = (function JpxImageClosure() {
         }
         l = 0;
       }
-      throw 'Out of packets';
+      throw new Error('Out of packets');
     };
   }
   function buildPackets(context) {
@@ -34110,7 +34110,7 @@ var JpxImage = (function JpxImageClosure() {
           new ResolutionLayerComponentPositionIterator(context);
         break;
       default:
-        throw 'Unsupported progression order ' + progressionOrder;
+        throw new Error('Unsupported progression order ' + progressionOrder);
     }
   }
   function parseTilePackets(context, data, offset, dataLength) {
@@ -35082,7 +35082,7 @@ var JpxImage = (function JpxImageClosure() {
         var symbol = (decoder.readBit(cx) << 3) | (decoder.readBit(cx) << 2) |
                      (decoder.readBit(cx) << 1) | decoder.readBit(cx);
         if (symbol != 0xA)
-          throw 'Invalid segmentation symbol';
+          throw new Error('Invalid segmentation symbol');
       }
     };
 
@@ -36983,7 +36983,7 @@ var JpegImage = (function jpegImage() {
       if (bitsData == 0xFF) {
         var nextByte = data[offset++];
         if (nextByte) {
-          throw "unexpected marker: " + ((bitsData << 8) | nextByte).toString(16);
+          throw new Error("unexpected marker: " + ((bitsData << 8) | nextByte).toString(16));
         }
         // unstuff 0
       }
@@ -36997,7 +36997,7 @@ var JpegImage = (function jpegImage() {
         if (typeof node === 'number')
           return node;
         if (typeof node !== 'object')
-          throw "invalid huffman sequence";
+          throw new Error("invalid huffman sequence");
       }
       return null;
     }
@@ -37088,7 +37088,7 @@ var JpegImage = (function jpegImage() {
             }
           } else {
             if (s !== 1)
-              throw "invalid ACn encoding";
+              throw new Error("invalid ACn encoding");
             successiveACNextValue = receiveAndExtend(s);
             successiveACState = r ? 2 : 3;
           }
@@ -37191,7 +37191,7 @@ var JpegImage = (function jpegImage() {
       bitsCount = 0;
       marker = (data[offset] << 8) | data[offset + 1];
       if (marker <= 0xFF00) {
-        throw "marker was not found";
+        throw new Error("marker was not found");
       }
 
       if (marker >= 0xFFD0 && marker <= 0xFFD7) { // RSTx
@@ -37465,7 +37465,7 @@ var JpegImage = (function jpegImage() {
       var huffmanTablesAC = [], huffmanTablesDC = [];
       var fileMarker = readUint16();
       if (fileMarker != 0xFFD8) { // SOI (Start of Image)
-        throw "SOI not found";
+        throw new Error("SOI not found");
       }
 
       fileMarker = readUint16();
@@ -37536,7 +37536,7 @@ var JpegImage = (function jpegImage() {
                   tableData[z] = readUint16();
                 }
               } else
-                throw "DQT: invalid table spec";
+                throw new Error("DQT: invalid table spec");
               quantizationTables[quantizationTableSpec & 15] = tableData;
             }
             break;
@@ -37622,12 +37622,12 @@ var JpegImage = (function jpegImage() {
               offset -= 3;
               break;
             }
-            throw "unknown JPEG marker " + fileMarker.toString(16);
+            throw new Error("unknown JPEG marker " + fileMarker.toString(16));
         }
         fileMarker = readUint16();
       }
       if (frames.length != 1)
-        throw "only single frame JPEGs supported";
+        throw new Error("only single frame JPEGs supported");
 
       this.width = frame.samplesPerLine;
       this.height = frame.scanLines;
@@ -37705,7 +37705,7 @@ var JpegImage = (function jpegImage() {
           break;
         case 4:
           if (!this.adobe)
-            throw 'Unsupported color mode (4 components)';
+            throw new Error('Unsupported color mode (4 components)');
           // The default transform for four components is false
           colorTransform = false;
           // The adobe transform marker overrides any previous setting
@@ -37747,7 +37747,7 @@ var JpegImage = (function jpegImage() {
           }
           break;
         default:
-          throw 'Unsupported color mode';
+          throw new Error('Unsupported color mode');
       }
       return data;
     },
@@ -37804,7 +37804,7 @@ var JpegImage = (function jpegImage() {
           }
           break;
         default:
-          throw 'Unsupported color mode';
+          throw new Error('Unsupported color mode');
       }
     }
   };

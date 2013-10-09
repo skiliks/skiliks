@@ -31,7 +31,7 @@ window.requestAnimFrame = (function(){
           };
 })();
 if(window.Prototype === undefined){
-    throw("Error:prototype.js is required by protoplus.js. Go to prototypejs.org and download lates version.");
+    throw new Error("Error:prototype.js is required by protoplus.js. Go to prototypejs.org and download lates version.");
 }
 
 Protoplus = {

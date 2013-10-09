@@ -15,7 +15,7 @@
  */
 
 if(window.Protoplus === undefined){
-    throw("Error: ProtoPlus is required by ProtoPlus-UI.js");
+    throw new Error("Error: ProtoPlus is required by ProtoPlus-UI.js");
 }
 Object.extend(document, {
     getViewPortDimensions: function (){

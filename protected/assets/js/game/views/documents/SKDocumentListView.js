@@ -77,7 +77,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                 }else if("reload"){
                     return res;
                 } else {
-                    throw 'method not impremented';
+                    throw new Error('method not implemented');
                 }
                 return res;
             } catch(exception) {

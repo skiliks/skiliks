@@ -464,7 +464,7 @@ define([
                     var email = SKApp.simulation.mailClient.folders[folderAlias].getEmailByMySqlId(emailId);
 
                     if ('undefined' === typeof email) {
-                        throw 'Try to render unexistent email ' + emailId + '.';
+                        throw new Error('Try to render unexistent email ' + emailId + '.');
                     }
 
                     this.highlightActiveEmail(email);
@@ -1953,7 +1953,7 @@ define([
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
 
                     if (undefined === phrase) {
-                        throw 'Undefined phrase id.';
+                        throw new Error('Undefined phrase id.');
                     }
 
                     // simplest way to clone small object in js {
@@ -2023,7 +2023,7 @@ define([
                         // if a have seweral (2,3,4...) phrases added to email - click handled twise
                         // currently I ignore this bug.
                         // @todo: fix it
-                        throw 'Undefined phrase uid.';
+                        throw new Error('Undefined phrase uid.');
                     }
 
                     this.removePhraseFromEmail(phrase);
@@ -2741,7 +2741,7 @@ define([
                         this.renderPhrases();
                         // add phrases }
                     } else {
-                        throw "Can`t initialize response email. View. #2";
+                        throw new Error("Can`t initialize response email. View. #2");
                     }
                 } catch(exception) {
                     if (window.Raven) {

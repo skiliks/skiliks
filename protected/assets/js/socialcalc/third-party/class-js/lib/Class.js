@@ -1,11 +1,11 @@
 (function() {
 
 Class = function(classDefinition, classWrapper) {
-    if (!classDefinition) throw("Class requires a class definition string as its first argument");
-    if (!classWrapper) throw("Class requires a class wrapper function as its second argument");
+    if (!classDefinition) throw new Error("Class requires a class definition string as its first argument");
+    if (!classWrapper) throw new Error("Class requires a class wrapper function as its second argument");
 
     if (! classDefinition.match(/^([\w\.]+)(?:\(\s*([\w\.]+)\s*\))?(?:\s+(.*?)\s*)?$/))
-        throw("Can't parse Class Definition: '" + classDefinition + "'");
+        throw new Error("Can't parse Class Definition: '" + classDefinition + "'");
     var className = RegExp.$1;
     var baseClassName = RegExp.$2 || '';
     var options = [];
@@ -56,7 +56,7 @@ Class = function(classDefinition, classWrapper) {
 
     klass.extend = function(pairs) {
         if (typeof pairs != 'object') {
-            throw("extend requires an object of name:value pairs");
+            throw new Error("extend requires an object of name:value pairs");
         }
         for (var name in pairs) {
             klass.prototype[name] = pairs[name];
@@ -109,7 +109,7 @@ Class.eval_strict = function(classWrapper, klass, incValues) {
     }
 
     if (globals + klass.newGlobals != globals_after) {
-        throw("Class '" + klass.className + "' defines " + (globals_after - globals) + " new global JavaScript variables without using this.addGlobal()");
+        throw new Error("Class '" + klass.className + "' defines " + (globals_after - globals) + " new global JavaScript variables without using this.addGlobal()");
     }
 
     delete klass.newGlobals;
