@@ -499,7 +499,6 @@ class SimulationService
      */
     public static function simulationStart($invite, $simulationMode, $simulationType = null)
     {
-        sleep(5);
         if ($simulationMode === Simulation::MODE_DEVELOPER_LABEL) {
             if ($invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
                 $user = $invite->receiverUser;
@@ -633,6 +632,7 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array(), $manual=false)
     {
+        sleep(5);
         self::logAboutSim($simulation, 'sim stop: begin');
 
         // Check if simulation was already stopped
