@@ -63,7 +63,7 @@ class UserService {
             $response['message'] =  "Email - ${email} has been already added before!";
         } else {
             $subscription = new EmailsSub();
-            $subscription->email = $email;
+            $subscription->email = strtolower($email);
             $subscription->save();
 
             $response['result'] =  1;

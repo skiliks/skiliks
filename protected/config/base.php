@@ -443,7 +443,7 @@ return array(
             'isUseStrictAssertsWhenSimStop'      => false,
             'frontendAjaxTimeout'                => 10000, // 60 sec
             'simStartTimeout'                    => 180000,
-            'simStopTimeout'                     => 180000,
+            'simStopTimeout'                     => 10*60*1000,
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,

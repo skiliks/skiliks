@@ -89,7 +89,7 @@ class ReferralsInviteForm extends CFormModel {
                     }
 
                     $referral = new UserReferral();
-                    $referral->referral_email = $referralEmail;
+                    $referral->referral_email = strtolower($referralEmail);
                     $referral->validate();
 
                     $errorArray = $referral->getErrors();
