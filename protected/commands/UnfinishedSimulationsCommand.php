@@ -46,7 +46,7 @@ class UnfinishedSimulationsCommand extends CConsoleCommand
         }
 
         if ($email) {
-            $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
             if (empty($profile)) {
                 throw new LogicException('User with this email does not exist');
             }

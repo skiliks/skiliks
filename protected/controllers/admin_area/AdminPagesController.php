@@ -648,7 +648,7 @@ class AdminPagesController extends SiteBaseController {
         $criteria->join = "JOIN profile ON profile.user_id = t.user_id";
 
         // applying filters
-        $filterEmail = Yii::app()->request->getParam('email', null);
+        $filterEmail = strtolower(Yii::app()->request->getParam('email', null));
 
         if($filterEmail !== null) {
             $filterEmail = trim($filterEmail);
@@ -887,7 +887,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionInviteCalculateTheEstimate() {
 
         $simId = Yii::app()->request->getParam('sim_id', null);
-        $email = str_replace(' ', '+', Yii::app()->request->getParam('email', null));
+        $email = strtolower(str_replace(' ', '+', Yii::app()->request->getParam('email', null)));
         SimulationService::CalculateTheEstimate($simId, $email);
 
         $this->redirect("/admin_area/invites");
