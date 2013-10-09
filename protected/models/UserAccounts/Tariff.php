@@ -102,7 +102,7 @@ class Tariff extends CActiveRecord
     {
         $postfix = '';
         if (self::SLUG_LITE != $this->slug && Yii::app()->getLanguage() == 'ru') {
-            $postfix = '*';
+            $postfix = '';
         }
 
         if (null == $this->simulations_amount) {

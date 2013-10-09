@@ -18,12 +18,7 @@
 
 
     <div class="dialogReferralRejected" style="display: none;">
-        <div class="list-ordered">
-            <p class="ProximaNova">Вам уже начислена 1 симуляция за приглашение пользователя из <span class="domainName ProximaNova-Bold"></span>.
-                <a data-selected="Тарифы и оплата" class="feedback-close-other ProximaNova-Bold" href="#">Свяжитесь с нами</a>,
-                если вы приглашаете разных корпоративных пользователей в одной компании.
-            </p>
-        </div>
+        <div class="list-ordered"><p class="ProximaNova reject-reason-p"></p></div>
     </div>
 
     <div class="dialogReferralPending" style="display: none;">
