@@ -25,6 +25,11 @@
     font-size: 12px;
     max-width: 240px;
     text-align: justify;
+    line-height: 120%;
+}
+
+.clearfix .labels .row .popover {
+    margin-top: 35px !important;
 }
 
 .popover > .popover-triangle {
@@ -65,7 +70,7 @@
 }
 
 .popover-margin1 {
-    margin-top: -37px;
+    margin-top: -35px;
 }
 
 .popover-margin2 {
@@ -73,7 +78,7 @@
 }
 
 .popover-margin3 {
-    margin-top: -34px;
+    margin-top: -49px;
 }
 
 .popover-margin4 {
@@ -81,7 +86,7 @@
 }
 
 .popover-margin5 {
-    margin-top: -37px;
+    margin-top: -35px;
 }
 
 .popover-margin6 {
@@ -116,7 +121,7 @@
     }
 
     .popover-margin1 {
-        margin-top: -31px;
+        margin-top: -30px;
     }
 
     .popover-margin2 {
@@ -124,11 +129,11 @@
     }
 
     .popover-margin3 {
-        margin-top: -34px;
+        margin-top: -43px;
     }
 
     .popover-margin4 {
-        margin-top: -25px;
+        margin-top: -31px;
     }
 
     .popover-margin5 {
@@ -141,6 +146,10 @@
 
     .clearfix .labels .row .popover {
         margin-top: 30px !important;
+    }
+
+    .popup-content {
+        font-size: 11px;
     }
 
 }
