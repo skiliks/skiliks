@@ -35,7 +35,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
 
             if ($profile) {
                 $invite->receiver_id = $profile->user->id;
@@ -73,7 +73,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             // What happens if user is registered, but not activated??
             $profile = YumProfile::model()->findByAttributes([
-                'email' => $invite->email
+                'email' => strtolower($invite->email)
             ]);
             if ($profile) {
                 $invite->receiver_id = $profile->user->id;
@@ -182,7 +182,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $notUsedFullSimulations = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
             'scenario_id' => $fullScenario->id,
-            'email'       => Yii::app()->user->data()->profile->email,
+            'email'       => strtolower(Yii::app()->user->data()->profile->email),
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
@@ -235,7 +235,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $notUsedLiteSimulations = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
             'scenario_id' => $liteScenario->id,
-            'email'       => Yii::app()->user->data()->profile->email,
+            'email'       => strtolower(Yii::app()->user->data()->profile->email),
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
@@ -273,9 +273,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
-            $invite->email = trim($invite->email);
+            $invite->email = strtolower(trim($invite->email));
 
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
 
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
 
@@ -318,7 +318,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
 
-            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
 
             if($profile !== null && $profile->user->isCorporate()) {
                 $validPrevalidate = false;
@@ -339,7 +339,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
                 // What happens if user is registered, but not activated??
                 $profile = YumProfile::model()->findByAttributes([
-                    'email' => $invite->email
+                    'email' => strtolower($invite->email)
                 ]);
                 if ($profile) {
                     $invite->receiver_id = $profile->user->id;
@@ -470,7 +470,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $notUsedLiteSimulations = Invite::model()->findAllByAttributes([
             'receiver_id' => Yii::app()->user->data()->id,
             'scenario_id' => $liteScenario->id,
-            'email'       => Yii::app()->user->data()->profile->email,
+            'email'       => strtolower(Yii::app()->user->data()->profile->email),
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
@@ -807,7 +807,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if (Yii::app()->user->data()->id !== $declineExplanation->invite->receiver_id &&
             Yii::app()->user->data()->id !== $declineExplanation->invite->owner_id &&
-            Yii::app()->user->data()->profile->email !== $declineExplanation->invite->email &&
+            strtolower(Yii::app()->user->data()->profile->email) !== strtolower($declineExplanation->invite->email) &&
             null !== $declineExplanation->invite->receiver_id) {
 
             Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
@@ -951,7 +951,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $referralInviteText   = Yii::app()->request->getParam('ReferralsInviteForm')['text'];
 
-            $referralForm->emails = Yii::app()->request->getParam('emails');
+            $referralForm->emails = strtolower(Yii::app()->request->getParam('emails')) ;
             $referralForm->text   = Yii::app()->request->getParam('text');
 
             $errors = CActiveForm::validate($referralForm);

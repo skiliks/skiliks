@@ -46,12 +46,12 @@ class ReferralsInviteForm extends CFormModel {
             /* @var $user YumUser */
             $user = Yii::app()->user->data();
 
-            $userEmail = $user->profile->email;
+            $userEmail = strtolower($user->profile->email);
 
             if(strpos($this->emails, ",") !== 0) {
-                $this->emails = explode(",", $this->emails);
+                $this->emails = strtolower(explode(",", $this->emails));
             } else {
-                $this->emails = [$this->emails];
+                $this->emails = [strtolower($this->emails)];
             }
 
             $tempEmails = $this->emails;
@@ -71,7 +71,7 @@ class ReferralsInviteForm extends CFormModel {
 
                     // проверка на уже зарегистрированного пользователя
                     $existProfile = YumProfile::model()->findByAttributes([
-                        'email' => $referralEmail
+                        'email' => strtolower($referralEmail)
                     ]);
 
                     if($existProfile !== null) {
