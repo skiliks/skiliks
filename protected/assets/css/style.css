@@ -5521,6 +5521,7 @@ ul.default li:hover {
     display: none;
     text-align: center;
     background-color: #fdfbc6;
+    border-radius: 7px;
 }
 
 .show-popup-top .ProximaNova-Bold {

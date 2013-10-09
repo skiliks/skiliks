@@ -13,7 +13,7 @@
             resizable:   false,
             closeOnEscape: false,
             draggable:   false,
-            width:       940,
+            width:       934,
             height:   20,
             position: {
                 my: "left top",
@@ -22,8 +22,8 @@
             },
             open: function( event, ui ) {
                 $(".ui-dialog-content").css("height", "20px");
+                $(".tariff-expired-popup").css({"z-index" : "1000", "margin-left" : "7px"});
                 $("span#ui-dialog-title-tariff-expired-popup").remove();
-                $(".tariff-expired-popup").css("z-index", "1000");
                 <? if($hasOtherPopup) : ?>
                     $(".tariff-expired-popup").css("margin-top", "70px");
                 <? endif; ?>
