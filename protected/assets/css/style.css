@@ -2364,12 +2364,13 @@ html[lang="en"] .footer .social_networks {
 .cabmessage .ui-widget-header .ui-icon,
 .add-vacancy-popup .ui-widget-header .ui-icon,
 .action-controller-activation-registration .ui-widget-header .ui-icon,
-.feedbackwrap .ui-widget-header .ui-icon {
+.feedbackwrap .ui-widget-header .ui-icon, .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
     display: block;
     margin: 0;
     height: 100%;
     width: 100%;
     background: url(../img/closepopup.png) no-repeat 0 0;
+    background-color: rgba(0,0,0,0);
 }
 
 .feedback-close-other {

@@ -124,7 +124,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->run_event('ET2.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка.')])");
         sleep(5);
 
