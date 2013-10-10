@@ -4,6 +4,7 @@
 $user = Yii::app()->user->data();
 $isGuest = Yii::app()->user->isGuest;
 $isActivated = $user ? $user->isActive():false;
+
 $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
@@ -21,7 +22,7 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => Yii::t('site', 'Additional simulations'),
             'url'         => '/invite/referrals',
             'linkOptions' => ['class' => 'additional-simulations'],
-            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller == "static/dashboard" || Yii::app()->controller == "static/profile"),
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller->id == "static/dashboard" || Yii::app()->controller->id == "static/profile"),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
