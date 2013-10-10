@@ -9,6 +9,7 @@
  * @property string $message
  * @property string $email
  * @property string $addition
+ * @property string $ip_address
  */
 class Feedback extends CActiveRecord
 {
@@ -47,6 +48,16 @@ class Feedback extends CActiveRecord
 	{
 		return 'feedback';
 	}
+
+    /**
+     * @return bool|void
+     * Adds remote address to comment
+     */
+
+    public function beforeSave() {
+        $this->ip_address = $_SERVER['REMOTE_ADDR'];
+        return true;
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
