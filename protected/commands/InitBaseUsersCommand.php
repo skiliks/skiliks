@@ -86,7 +86,7 @@ class InitBaseUsersCommand
             // register user (init user object, validate, save) }
 
             // activate user {
-            $actStatus = $yumUser->activate($user['email'], $yumUser->activationKey);
+            $actStatus = $yumUser->activate(strtolower($user['email']), $yumUser->activationKey);
 
             if ($actStatus instanceof YumUser || -1 == $actStatus) {
                 echo " => activated";

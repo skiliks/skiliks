@@ -346,7 +346,7 @@ class UserReferral extends CActiveRecord
         $criteria->addCondition('referral_id IS NOT NULL');
         $allUserReferrals = UserReferral::model()->findAll($criteria);
 
-        $referrerEmail = $this->referrer->profile->email;
+        $referrerEmail = strtolower($this->referrer->profile->email);
 
         $referrerDomain = substr($referrerEmail, strpos($referrerEmail, "@"));
         $referralDomain = substr($this->referral_email, strpos($this->referral_email, "@"));
@@ -375,7 +375,7 @@ class UserReferral extends CActiveRecord
         // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
         if(null === $validationError) {
             $this->status = self::STATUS_APPROVED;
-            $this->referrer->getAccount()->addReferralInvite($this->referrer->profile->email);
+            $this->referrer->getAccount()->addReferralInvite(strtolower($this->referrer->profile->email));
             $this->registered_at = date("Y-m-d H:i:s");
             return true;
         }

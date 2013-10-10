@@ -149,7 +149,7 @@ class PagesController extends SiteBaseController
             $model->addition = (new DateTime())->format("Y-m-d H:i:s");
             $model->attributes = Yii::app()->request->getParam('Feedback');
             if ($user->profile && $user->profile->email && empty($model->email)) {
-                $model->email = $user->profile->email;
+                $model->email = strtolower($user->profile->email);
             }
 
             $errors = CActiveForm::validate($model, null, false);
@@ -160,7 +160,7 @@ class PagesController extends SiteBaseController
                 $inviteEmailTemplate = Yii::app()->params['emails']['newFeedback'];
 
                 $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
-                    'email' => $model->email,
+                    'email' => strtolower($model->email),
                     'theme' => $model->theme,
                     'message'=>$model->message
                 ], true);
