@@ -5,22 +5,22 @@
         </li>
         <li>4 октября, четверг</li>
         <@ if (showPause) { @>
-            <li class="pause-control"> <a class="pause" href="javascript:void(0);"></a></li>
+            <li class="pause-control"> <a class="pause"></a></li>
         <@ } @>
         <@ if (showStart) { @>
             <li class="tutorial-mode">
-                <a class="start" href="#"></a>
+                <a class="start"></a>
                 <span class="minutes"></span><span class="delimiter">:</span><span class="seconds"></span>
             </li>
         <@ } @>
-        <li class="finish hidden"><a href="#"></a></li>
+        <li class="finish hidden"><a></a></li>
         <@ if (simulationLabel) { @>
             <li class="game_type_simulation"><@=simulationLabel@></li>
         <@ }  @>
-        <!--li><a href="" class="fullscreen-toggle"><img alt="" src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-help.png" /></a></li-->
+        <!--li><a class="fullscreen-toggle"><img alt="" src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-help.png" /></a></li-->
     </ul>
     <ul class="top-right-icons">
-        <li><a class="fullscreen" href="#"></a></li>
+        <li><a class="fullscreen"></a></li>
     </ul>
     <nav class="main-screen-icons"></nav>
     <div class="windows-container">

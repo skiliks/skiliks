@@ -355,7 +355,10 @@ class YumUser extends YumActiveRecord
             if (!$this->salt)
                 $this->salt = YumEncrypt::generateSalt();
             $this->createtime = time();
-            $this->ip_address = $_SERVER['REMOTE_ADDR'];
+
+            if (false === Yii::app() instanceof CConsoleApplication) {
+                $this->ip_address = $_SERVER['REMOTE_ADDR'];
+            }
         }
         return true;
     }
