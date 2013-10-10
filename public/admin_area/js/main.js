@@ -200,4 +200,9 @@ $(document).ready(function(){
         return false;
     })
 
+    $(".disable-all-filters").click(function() {
+        window.location.href = "/admin_area/" + $(this).attr("data-href");
+        return false;
+    })
+
 });
