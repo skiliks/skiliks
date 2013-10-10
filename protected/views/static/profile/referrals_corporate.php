@@ -10,7 +10,7 @@
         <div class="profileform radiusthree referalls_list_box">
             <div class="total-rows">Всего приглашенных: </div>
             <span class="referrals_total ProximaNova-Bold"><?=$totalReferrals ?></span><br/>
-            <?php $this->renderPartial('_referrals_list', []) ?>
+            <?php $this->renderPartial('_referrals_list', ['dataProvider'=>$dataProvider]) ?>
 
         </div>
 
