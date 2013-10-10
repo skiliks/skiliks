@@ -76,7 +76,7 @@ $this->widget('zii.widgets.grid.CGridView', [
          'value'  => function($data) {
                          switch($data->status) {
                              case "pending" :
-                                 return "В ожиданиие";
+                                 return "В ожидании";
                                  break;
 
                              case "approved" :
