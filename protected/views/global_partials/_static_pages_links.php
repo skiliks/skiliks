@@ -21,7 +21,7 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => Yii::t('site', 'Additional simulations'),
             'url'         => '/invite/referrals',
             'linkOptions' => ['class' => 'additional-simulations'],
-            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && ($this->uniqueid == "static/dashboard" || $this->uniqueid == "static/profile"),
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller == "static/dashboard" || Yii::app()->controller == "static/profile"),
         ],
         [
             'label'       => Yii::t('site', 'My office'),

@@ -969,7 +969,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $refer->status         = "pending";
                     $refer->save();
 
-                    $refer->hash           = md5($refer->id . time());
+                    $refer->uniqueid    = md5($refer->id . time());
                     $refer->save();
 
 
