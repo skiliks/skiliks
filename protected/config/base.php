@@ -186,7 +186,7 @@ return array(
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
-                'register-referral/<refId:\d+>'                  => 'static/userAuth/registerReferral',
+                'register-referral/<refHash:\w+>'                => 'static/userAuth/registerReferral',
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
@@ -320,6 +320,7 @@ return array(
                 'admin_area/disableInvoice'    => 'admin_area/AdminPages/DisableInvoice',
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
+                'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',

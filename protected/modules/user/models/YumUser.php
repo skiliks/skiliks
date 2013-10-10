@@ -15,6 +15,7 @@
  * @property integer $status
  * @property integer $agree_with_terms
  * @property integer $is_admin
+ * @property string $ip_address
  *
  * Relations
  * @property YumProfile $profile
@@ -354,8 +355,8 @@ class YumUser extends YumActiveRecord
             if (!$this->salt)
                 $this->salt = YumEncrypt::generateSalt();
             $this->createtime = time();
+            $this->ip_address = $_SERVER['REMOTE_ADDR'];
         }
-
         return true;
     }
 

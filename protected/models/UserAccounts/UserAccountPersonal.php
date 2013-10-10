@@ -87,7 +87,7 @@ class UserAccountPersonal extends CActiveRecord
 		return array(
 			'user_id'     => Yii::t('site', 'User'),
 			'industry_id' => Yii::t('site', 'Industry'),
-			'professional_status_id' => Yii::t('site', 'Professional status'),
+			'professional_status_id' => Yii::t('site', 'Профессиональный статус'),
 			'birthday' => Yii::t('site', 'Birthday'),
 			'location' => Yii::t('site', 'Location'),
 		);

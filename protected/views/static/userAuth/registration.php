@@ -45,7 +45,7 @@ $isPersonal = $account_type === 'personal';
 	    <h1>Корпоративный<br>профиль</h1>
         <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
 	    <ul class="registration-corporate-benefits">
-			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '10 симуляций бесплатно') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
 		</ul>
@@ -62,7 +62,7 @@ $isPersonal = $account_type === 'personal';
 </section>
 
 <?php if($emailIsExistAndNotActivated) : ?>
-    <div id="registration-general-error" class="globalErrorMessage">
+    <div id="registration-general-error" class="globalErrorMessage emailIsExistAndNotActivated ProximaNova">
         <?=$emailIsExistAndNotActivated?>
     </div>
 <?php endif; ?>

@@ -9,6 +9,8 @@
     <link href="/public/admin_area/css/main.css" rel="stylesheet">
 
     <script src="/public/admin_area/js/jquery-2.0.2.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+    <script src="/public/admin_area/js/jquery.ba-bbq.min.js"></script>
     <script src="/public/admin_area/bootstrap/js/bootstrap.js"></script>
     <script src="/public/admin_area/js/jquery.scrollTo.js"></script>
     <script src="/public/admin_area/js/main.js"></script>
@@ -22,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="/">Skiliks: release 2.0.5</a>
+            <a class="brand" href="/">Skiliks: release 2.0.7</a>
             <?php $this->renderPartial('//admin_area/partials/_top_menu') ?>
         </div>
     </div>

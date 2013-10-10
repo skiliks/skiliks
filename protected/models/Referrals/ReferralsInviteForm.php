@@ -49,7 +49,7 @@ class ReferralsInviteForm extends CFormModel {
             $userEmail = strtolower($user->profile->email);
 
             if(strpos($this->emails, ",") !== 0) {
-                $this->emails = strtolower(explode(",", $this->emails));
+                $this->emails = explode(",", strtolower($this->emails));
             } else {
                 $this->emails = [strtolower($this->emails)];
             }
