@@ -187,6 +187,7 @@ class UserReferral extends CActiveRecord
 
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
+        $criteria->compare('referrer_id', $userId);
         $criteria->compare('referral.referral_email', $this->referral_email,true);
         $criteria->compare('referral_id', $this->referrer_id);
         $criteria->compare('invited_at', $this->invited_at);
