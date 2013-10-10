@@ -191,4 +191,11 @@ $assetsUrl = $this->getAssetsUrl();
                 <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
             </tr>
         <?php endif; ?>
+    <tr>
+        <td>IP Address</td>
+        <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
+        <td></td>
+        <td></td>
+    </tr>
+
 </table>
