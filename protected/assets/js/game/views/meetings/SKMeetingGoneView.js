@@ -84,6 +84,28 @@ define([
             }
         },
 
+        render: function () {
+            try {
+                var me = this;
+                this.listenTo(this.options.model_instance, 'close', function () {
+                    me.remove();
+                });
+                me.resize();
+                me.renderWindow(me.$el);
+
+                this.resize();
+
+                this.onResize = _.bind(this.onResize, me);
+                $(window).on('resize', this.onResize);
+
+                this.center();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
         doProceedWork: function(e) {
             try {
                 var simulation = SKApp.simulation,
