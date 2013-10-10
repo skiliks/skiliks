@@ -36,7 +36,7 @@
         </div>
 
         <div class="row cposwrap">
-            <?php echo $form->labelEx($account     , 'Профессиональный статус'); ?>
+            <?php echo $form->labelEx($account     , 'Должность'); ?>
             <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
         </div>
 
