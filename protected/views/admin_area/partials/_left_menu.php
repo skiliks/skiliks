@@ -94,6 +94,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Рефералы',
+                'url'   => ['admin_area/referrals'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>
