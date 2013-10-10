@@ -187,8 +187,8 @@ $assetsUrl = $this->getAssetsUrl();
                         </form>
 
                 </td>
-                <td>IP Address</td>
-                <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
+                <td></td>
+                <td></td>
             </tr>
         <?php endif; ?>
     <tr>
