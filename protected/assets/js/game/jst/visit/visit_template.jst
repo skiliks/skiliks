@@ -13,7 +13,7 @@
         <ul class="char-reply <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>" id="dialogControllerAnswers">
             <@ my_replicas.forEach(function (replica) { @>
             <li><p>
-                <a href="" class="replica-select" data-disabled="false" data-id="<@= replica.id @>" <@if (replica.is_final_replica === "1") { @>
+                <a class="replica-select" data-disabled="false" data-id="<@= replica.id @>" <@if (replica.is_final_replica === "1") { @>
                 data-is-final="true"
                 <@ } @>>
                     <@= replica.text.replace(/^\s*-\s*/, ' — ')@>
