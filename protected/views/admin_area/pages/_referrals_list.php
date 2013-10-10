@@ -90,7 +90,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                      },
           'filter' => '<select name="UserReferral[status]">
                             <option></option>
-                            <option value="pending">В ожиданиие</option>
+                            <option value="pending">В ожидании</option>
                             <option value="approved">Одобрен</option>
                             <option value="rejected">Отклонен</option>
                        </select>'
