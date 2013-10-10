@@ -151,7 +151,7 @@ class UserAuthController extends YumController
             $this->redirect('/dashboard');
         }
 
-        if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => $invite->email])) {
+        if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
             $this->redirect('/');
         }
@@ -176,7 +176,9 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
-            $profile->email = strtolower($YumProfile['email']);
+            if(!empty($YumProfile['email'])) {
+                $profile->email = strtolower($YumProfile['email']);
+            }
             $account->attributes = $UserAccount;
 
             $profile->email = strtolower($invite->email);
@@ -517,7 +519,7 @@ class UserAuthController extends YumController
         $recoveryUrl = $this->createAbsoluteUrl(
             $this->createUrl('static/userAuth/recovery', [
                 'key' => $user->activationKey,
-                'email' => $user->profile->email
+                'email' => strtolower($user->profile->email)
             ])
         );
 
@@ -578,10 +580,10 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
-        $email = trim($email);
+        $email = strtolower(trim($email));
         $email = str_replace(' ', '+', $email);
 
-        if (false === Yii::app()->user->isGuest && Yii::app()->user->data()->profile->email !== $email) {
+        if (false === Yii::app()->user->isGuest && strtolower(Yii::app()->user->data()->profile->email) !== $email) {
             Yii::app()->user->setFlash(
                 'error',
                 sprintf(Yii::t('site',
@@ -594,7 +596,7 @@ class UserAuthController extends YumController
         }
 
         $YumUser    = Yii::app()->request->getParam('YumUser');
-        $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        $YumProfile = YumProfile::model()->findByAttributes(['email'=>strtolower($email)]);
 
         if(null !== $YumUser) {
             $user = YumUser::model()->findByAttributes(['id'=>$YumProfile->user_id]);
@@ -639,7 +641,7 @@ class UserAuthController extends YumController
 
         if ($profile && !$profile->user->isActive()) {
             $this->sendRegistrationEmail($profile->user);
-            Yii::app()->session->add("email", $profile->email);
+            Yii::app()->session->add("email", strtolower($profile->email));
             Yii::app()->session->add("user_id", $profile->user_id);
             $this->redirect(['afterRegistration']);
         } else {
@@ -690,7 +692,7 @@ class UserAuthController extends YumController
 
 
         if (null !== $email && null !== $key && null !== $YumUserChangePassword) {
-            $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
                 $user = $profile->user;
 
@@ -714,7 +716,7 @@ class UserAuthController extends YumController
 
         if (null !== $email && null !== $key) {
             /* @var $profile->user YumUser */
-            $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
             if(Yii::app()->user->data()->isAuth()) {
                 Yii::app()->user->setFlash('notice', 'Вы уже авторизированы');
                 $this->redirect('/dashboard');

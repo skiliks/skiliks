@@ -397,6 +397,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'server_name'                   => 'http://skiliks.com/',
         'demoDuration'                  => 5, // min
         'disableOldLogging'             => false,
         'disableAssets'                 => false,
@@ -413,6 +414,7 @@ return array(
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
             'tariffExpiredTemplate'    => 'tariff_expired',
+            'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
             'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
             'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
@@ -470,18 +472,18 @@ return array(
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
-                ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'tony'      , 'email' => 'tony@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'leah'      , 'email' => 'leah@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com','password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'asd'       , 'email' => 'asd@skiliks.com'        ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'       ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'tony'      , 'email' => 'tony@skiliks.com'       ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'leah'      , 'email' => 'leah.levin@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),

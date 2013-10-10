@@ -325,9 +325,9 @@ class YumUser extends YumActiveRecord
         if (Yum::hasModule('profile') && $this->profile) {
             $criteria->with = array('profile');
             if (isset($this->email))
-                $criteria->addSearchCondition('profile.email', $this->email, true);
+                $criteria->addSearchCondition('profile.email', strtolower($this->email), true);
             else if ($this->profile && $this->profile->email)
-                $criteria->compare('profile.email', $this->profile->email, true);
+                $criteria->compare('profile.email', strtolower($this->profile->email), true);
         }
 
         // Show newest users first by default
@@ -795,7 +795,7 @@ class YumUser extends YumActiveRecord
             if (is_array($activationUrl) && isset($this->profile)) {
                 $activationUrl = $activationUrl[0];
                 $params['key'] = $this->activationKey;
-                $params['email'] = $this->profile->email;
+                $params['email'] = strtolower($this->profile->email);
 
                 @ $url = Yii::app()->createAbsoluteUrl($activationUrl, $params);
 

@@ -54,7 +54,7 @@ class YumUserLogin extends YumFormModel {
 
         /* @var $this->user YumUser */
         /* @var $this->profile YumProfile */
-        $this->profile = YumProfile::model()->findByAttributes(['email'=>$this->username]);
+        $this->profile = YumProfile::model()->findByAttributes(['email' => strtolower($this->username)]);
         if(null !== $this->profile) {
             $this->user = YumUser::model()->findByPK($this->profile->user_id);
             if(null !== $this->user) {

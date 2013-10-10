@@ -135,7 +135,7 @@ class UserService {
     public static function assignAllNotAssignedUserInvites(YumUser $user)
     {
         $invites = Invite::model()->findAllByAttributes([
-            'email' => $user->profile->email
+            'email' => strtolower($user->profile->email)
         ]);
 
         foreach ($invites as $invite) {

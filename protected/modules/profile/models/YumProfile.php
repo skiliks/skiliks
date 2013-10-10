@@ -25,9 +25,9 @@ class YumProfile extends YumActiveRecord
     public function updateFirstNameFromEmail()
     {
         if (0 < strpos($this->email, '@')) {
-            $this->firstname = substr($this->email, 0, strpos($this->email, '@'));
+            $this->firstname = substr(strtolower($this->email), 0, strpos(strtolower($this->email), '@'));
         } else {
-            $this->firstname = $this->email;
+            $this->firstname = strtolower($this->email);
         }
     }
 
@@ -35,7 +35,7 @@ class YumProfile extends YumActiveRecord
     {
 
         if(null === $this->id){
-            $profile = $this->findByAttributes(['email'=>$this->email]);
+            $profile = $this->findByAttributes(['email'=>strtolower($this->email)]);
             if(null === $profile){
                 throw new Exception("Profile by email {$this->email} not found!");
             }else{
@@ -223,7 +223,7 @@ class YumProfile extends YumActiveRecord
 
     public function emailIsNotActiveValidation($attribute) {
         $existProfile = YumProfile::model()->findByAttributes([
-            'email' => $this->email
+            'email' => strtolower($this->email)
         ]);
 
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
@@ -236,7 +236,7 @@ class YumProfile extends YumActiveRecord
 
     public function emailIsNotActiveValidationStatic($email) {
         $existProfile = YumProfile::model()->findByAttributes([
-            'email' => $email
+            'email' => strtolower($email)
         ]);
 
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
@@ -249,7 +249,7 @@ class YumProfile extends YumActiveRecord
     public function emailIsUsedForCorporateAccount($attribute) {
 
         $existAccount = $this->findByAttributes([
-            'email' => $this->email
+            'email' => strtolower($this->email)
         ]);
 
         if ($existAccount !== NULL) {
