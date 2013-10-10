@@ -279,6 +279,10 @@ class UserReferral extends CActiveRecord
                         'asc'  => 'referrer_id',
                         'desc' => 'referrer_id DESC'
                     ],
+                    'referral_id' => [
+                        'asc'  => 'referral_id',
+                        'desc' => 'referral_id DESC'
+                    ],
                     'invited_at' => [
                         'asc'  => 'invited_at',
                         'desc' => 'invited_at DESC'
