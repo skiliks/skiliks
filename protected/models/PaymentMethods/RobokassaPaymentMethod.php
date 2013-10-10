@@ -34,7 +34,7 @@ class RobokassaPaymentMethod extends CFormModel {
     }
 
     private function getDescription($tariff) {
-        if($this->Desc == null) {
+        if($this->Desc === null) {
             return "Продление тарифного" . $tariff->slug . "(" . $tariff->simulations_amount . ")";
         }
         else return $this->Desc;
