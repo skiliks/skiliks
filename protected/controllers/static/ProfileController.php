@@ -59,12 +59,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             }
         }
 
-        $statuses = [""=>"Не выбрано"];
+        $statuses = [""=>"Выберите должность"];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = $status->label;
         }
 
-        $industries = [""=>"Не выбрано"];
+        $industries = [""=>"Выберите отрасль"];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = $industry->label;
         }
@@ -114,7 +114,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             }
         }
 
-        $positions = [""=>"Не выбрано"];
+        $positions = [""=>"Выберите должность"];
         foreach (Position::model()->findAll() as $position) {
             $positions[$position->id] = $position->label;
         }
