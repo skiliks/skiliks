@@ -93,7 +93,7 @@ class UserReferral extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
         $referral_text = str_replace("\r\n", "<br/>", $referral_text);
 
-        if(strpos($referral_text, "ссылке") === 0) {
+        if(strpos($referral_text, "ссылке") === false) {
             $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
                               Ссылка для регистрации реферала.</a>
                             ';
