@@ -43,7 +43,7 @@ class UserAuthController extends YumController
         $profile = new YumProfile('registration');
         $accountCorporate = new UserAccountCorporate('registration');
 
-        $userReferralRecord = UserReferral::model()->findByAttributes(['hash' => $refHash]);
+        $userReferralRecord = UserReferral::model()->findByAttributes(['uniqueid' => $refHash]);
 
             if($userReferralRecord !== null) {
 
