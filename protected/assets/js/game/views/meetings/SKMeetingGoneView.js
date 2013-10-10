@@ -75,7 +75,8 @@ define([
                 }));
 
                 AppView.frame._showPausedScreen();
-                this.$el.topZIndex();
+                this.$el.css('zIndex', 1001);
+                //this.$el.topZIndex();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
