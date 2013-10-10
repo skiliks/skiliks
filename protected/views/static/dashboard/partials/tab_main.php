@@ -10,11 +10,6 @@
     <div class="estmtresults">
         <div class="overall">
             <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
-            <div class="allseprtwrap">
-                <div class="ratepercnt uprnavprcnt"><?= round($data['management']*100) ?>%</div>
-                <div class="ratepercnt resultprcnt"><?= round($data['performance']*100) ?>%</div>
-                <div class="ratepercnt timeprcnt"><?= round($data['time']*100) ?>%</div>
-            </div>
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
