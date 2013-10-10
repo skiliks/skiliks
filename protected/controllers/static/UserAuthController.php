@@ -35,6 +35,9 @@ class UserAuthController extends YumController
 
     public function actionRegisterReferral($refId=false) {
 
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
 
         $user = new YumUser('registration');
         $profile = new YumProfile('registration');
