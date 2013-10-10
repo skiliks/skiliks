@@ -5637,3 +5637,6 @@ ul.default li:hover {
     }
 
 }
+.aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
+    text-decoration: none;
+}

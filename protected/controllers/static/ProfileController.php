@@ -59,12 +59,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             }
         }
 
-        $statuses = [];
+        $statuses = [""=>"Выберите должность"];
         foreach (ProfessionalStatus::model()->findAll() as $status) {
             $statuses[$status->id] = $status->label;
         }
 
-        $industries = [];
+        $industries = [""=>"Выберите отрасль"];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = $industry->label;
         }
@@ -114,7 +114,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             }
         }
 
-        $positions = [];
+        $positions = [""=>"Выберите должность"];
         foreach (Position::model()->findAll() as $position) {
             $positions[$position->id] = $position->label;
         }
@@ -407,8 +407,10 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
+        $dataProvider = UserReferral::model()->searchUserReferrals($this->user->id);
+
         $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
-        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals]);
+        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals, 'dataProvider' => $dataProvider]);
     }
 
     /**

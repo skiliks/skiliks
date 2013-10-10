@@ -582,7 +582,8 @@ section.registration-by-link .form .row a.decline-link:hover {
     width:300px;
 }
 .choose-account-button-span {
-    margin-top:7px;
+    margin-top:12px;
+    margin-left:-6px;
 }
 a.registration_check {
     color: #555545;
@@ -947,7 +948,7 @@ a.registration_check {
         background-size: 17px 17px;
     }
     .blue-submit-button.registration-button {
-        background-position: 35px 15px;
+        background-position: 3px 12px;
         background-size: 17px 17px;
         font-size: 14px;
         height: 42px;

@@ -42,7 +42,7 @@ class InviteExpiredCommand extends CConsoleCommand
             /* @var $user UserAccountCorporate */
             foreach($accounts as $account) {
                 $account->is_display_tariff_expire_pop_up = 1;
-                if($account->invites_limit !== 0) {
+                if((int)$account->invites_limit !== 0) {
                     $initValue = $account->getTotalAvailableInvitesLimit();
 
                     $account->invites_limit = 0;
@@ -59,7 +59,7 @@ class InviteExpiredCommand extends CConsoleCommand
                     $mail = [
                         'from'        => 'support@skiliks.com',
                         'to'          => $account->user->profile->email,
-                        'subject'     => 'Неиспользованные симуляции на skiliks.com',
+                        'subject'     => 'Истёк тарифный план',
                         'body'        => $body,
                         'embeddedImages' => [
                             [

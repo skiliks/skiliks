@@ -968,6 +968,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $refer->invited_at     = date("Y-m-d H:i:s");
                     $refer->status         = "pending";
                     $refer->save();
+
+                    $refer->uniqueid    = md5($refer->id . time());
+                    $refer->save();
+
+
                     $refer->sendInviteReferralEmail($referralInviteText);
                 }
 

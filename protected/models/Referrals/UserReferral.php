@@ -12,6 +12,7 @@
  * @property string  $registered_at
  * @property string  $reject_reason
  * @property string  $status
+ * @property string  $uniqueid
  *
  * The followings are the available model relations:
  * @property YumUser $referral
@@ -77,14 +78,11 @@ class UserReferral extends CActiveRecord
         // should not be searched.
 
         $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('user_id',$this->user_id,true);
-        $criteria->compare('tariff_id',$this->tariff_id);
-        $criteria->compare('amount',$this->amount,true);
-        $criteria->compare('created_at',$this->created_at,true);
-        $criteria->compare('payment_system',$this->payment_system,true);
-        $criteria->compare('paid_at',$this->paid_at,true);
+        $criteria->compare('referrer_id', $this->referral_id);
+        $criteria->compare('referral_email', $this->referral_email);
+        $criteria->compare('referral_id', $this->referrer_id);
+        $criteria->compare('invited_at', $this->invited_at);
+        $criteria->compare('registered_at', $this->registered_at);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -96,12 +94,12 @@ class UserReferral extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
         $referral_text = str_replace("\r\n", "<br/>", $referral_text);
 
-        if(strpos($referral_text, "ссылке") === 0) {
-            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+        if(strpos($referral_text, "ссылке") === false) {
+            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
                               Ссылка для регистрации реферала.</a>
                             ';
         } else {
-            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
                               ссылке</a>', $referral_text);
         }
 
@@ -178,10 +176,20 @@ class UserReferral extends CActiveRecord
         return UserReferral::model()->count($criteria);
     }
 
+    public function behaviors() {
+        return array(
+            'ERememberFiltersBehavior' => array(
+                'class' => 'application.components.ERememberFiltersBehavior',
+                'defaults'=>array(),           /* optional line */
+                'defaultStickOnClear'=>false   /* optional line */
+            ),
+        );
+    }
+
     public function searchUserReferrals($userId) {
         $criteria = new CDbCriteria();
         $criteria->compare('referrer_id', $userId);
-        $criteria->compare('referral_email', $this->referral_email);
+        $criteria->compare('referral.referral_email', $this->referral_email,true);
         $criteria->compare('referral_id', $this->referrer_id);
         $criteria->compare('invited_at', $this->invited_at);
         $criteria->compare('registered_at', $this->registered_at);
@@ -199,6 +207,83 @@ class UserReferral extends CActiveRecord
                     'referrer_id' => [
                         'asc'  => 'referrer_id',
                         'desc' => 'referrer_id DESC'
+                    ],
+                    'invited_at' => [
+                        'asc'  => 'invited_at',
+                        'desc' => 'invited_at DESC'
+                    ],
+                    'registered_at' => [
+                        'asc'  => 'registered_at',
+                        'desc' => 'registered_at DESC'
+                    ],
+                    'status' => [
+                        'asc'  => 'status',
+                        'desc' => 'status DESC'
+                    ],
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
+
+    public function searchReferrals() {
+        $criteria = new CDbCriteria();
+        $userToGet = Yii::app()->request->getParam('UserReferral', null);
+        if($userToGet != null) {
+
+            if(isset($userToGet['referrer_id']) && $userToGet['referrer_id'] !== null) {
+                $criteria->join = ("JOIN profile ON profile.user_id = t.referrer_id");
+                $criteria->addCondition('profile.email LIKE \'%'.$userToGet['referrer_id'].'%\'');
+            }
+
+            if(isset($userToGet['referral_email']) && $userToGet['referral_email'] !== null) {
+                $this->referral_email = $userToGet['referral_email'];
+                $criteria->join = ("JOIN profile ON profile.user_id = t.referral_id");
+                $criteria->addCondition('profile.email LIKE \'%'.$userToGet['referral_email'].'%\'');
+            }
+
+            if(isset($userToGet['invited_at']) && $userToGet['invited_at'] != null) {
+                $this->invited_at = $userToGet['invited_at'];
+                $date = new DateTime($userToGet['invited_at']);
+                $date_from = $date->format('Y-m-d');
+                $date_to   = $date->add(new DateInterval('P1D'))->format('Y-m-d');
+                $criteria->addCondition("t.invited_at > '$date_from' AND t.invited_at < '$date_to'");
+            }
+
+            if(isset($userToGet['registered_at']) && $userToGet['registered_at'] != null) {
+                $this->registered_at = $userToGet['registered_at'];
+                $date = new DateTime($userToGet['registered_at']);
+                $date_from = $date->format('Y-m-d');
+                $date_to   = $date->add(new DateInterval('P1D'))->format('Y-m-d');
+                $criteria->addCondition("t.registered_at > '$date_from' AND t.registered_at < '$date_to'");
+            }
+
+            if(isset($userToGet['status']) && $userToGet['status'] !== null) {
+                $criteria->compare('t.status', $userToGet['status']);
+            }
+
+            $criteria->compare('referral_email', $userToGet['referral_id'],true);
+        }
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder'=>'id DESC',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'referral_email' => [
+                        'asc'  => 'referral_email',
+                        'desc' => 'referral_email DESC'
+                    ],
+                    'referrer_id' => [
+                        'asc'  => 'referrer_id',
+                        'desc' => 'referrer_id DESC'
+                    ],
+                    'referral_id' => [
+                        'asc'  => 'referral_id',
+                        'desc' => 'referral_id DESC'
                     ],
                     'invited_at' => [
                         'asc'  => 'invited_at',
