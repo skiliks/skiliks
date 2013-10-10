@@ -4,7 +4,9 @@ class m131008_101407_drop extends CDbMigration
 {
 	public function up()
 	{
-        $this->dropColumn('user', 'is_check');
+        if (YumUser::model()->hasAttribute('is_check')) {
+            $this->dropColumn('user', 'is_check');
+        }
 	}
 
 	public function down()
