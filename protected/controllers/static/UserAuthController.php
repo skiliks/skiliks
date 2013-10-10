@@ -33,7 +33,7 @@ class UserAuthController extends YumController
      * @param int $id
      */
 
-    public function actionRegisterReferral($refId=false) {
+    public function actionRegisterReferral($refHash=false) {
 
         if (false === Yii::app()->user->isGuest) {
             Yii::app()->user->logout();
@@ -43,7 +43,7 @@ class UserAuthController extends YumController
         $profile = new YumProfile('registration');
         $accountCorporate = new UserAccountCorporate('registration');
 
-        $userReferralRecord = UserReferral::model()->findByAttributes(['id' => $refId]);
+        $userReferralRecord = UserReferral::model()->findByAttributes(['uniqueid' => $refHash]);
 
             if($userReferralRecord !== null) {
 

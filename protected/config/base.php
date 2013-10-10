@@ -186,7 +186,7 @@ return array(
                 'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
                 'registration'                                   => 'static/userAuth/registration',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
-                'register-referral/<refId:\d+>'                  => 'static/userAuth/registerReferral',
+                'register-referral/<refHash:\w+>'                => 'static/userAuth/registerReferral',
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
