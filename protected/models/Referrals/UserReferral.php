@@ -94,11 +94,11 @@ class UserReferral extends CActiveRecord
         $referral_text = str_replace("\r\n", "<br/>", $referral_text);
 
         if(strpos($referral_text, "ссылке") === false) {
-            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->hash).'">
                               Ссылка для регистрации реферала.</a>
                             ';
         } else {
-            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->id).'">
+            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->hash).'">
                               ссылке</a>', $referral_text);
         }
 
