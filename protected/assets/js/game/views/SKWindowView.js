@@ -346,6 +346,8 @@ define(["text!game/jst/window.jst"],
 
         doVolumeChange:function(event) {
             try {
+                event.preventDefault();
+                event.stopPropagation();
                 if($(event.currentTarget).hasClass('volume-on')){
                     $(event.currentTarget).text("Выкл.");
                     if($(event.currentTarget).hasClass('control-mail')) {
@@ -379,7 +381,6 @@ define(["text!game/jst/window.jst"],
                 }else{
                     throw new Error("Must has class 'volume-off' or 'volume-on'");
                 }
-                return false;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
