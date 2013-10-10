@@ -8,7 +8,6 @@ $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isP
 $classForName = '';
 $classForName = (!Yii::app()->user->isGuest && $user->isCorporate())?'top-profile-corp':'top-profile-persn';
 $profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
-
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
     'activateItems' => true,
@@ -22,7 +21,7 @@ $this->widget('zii.widgets.CMenu', array(
             'label'       => Yii::t('site', 'Additional simulations'),
             'url'         => '/invite/referrals',
             'linkOptions' => ['class' => 'additional-simulations'],
-            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate(),
+            'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && ($this->uniqueid == "static/dashboard" || $this->uniqueid == "static/profile"),
         ],
         [
             'label'       => Yii::t('site', 'My office'),
