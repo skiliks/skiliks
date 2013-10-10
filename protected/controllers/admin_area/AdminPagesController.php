@@ -733,6 +733,12 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    public function actionReferralsList() {
+        $dataProvider = UserReferral::model()->searchReferrals();
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/referrals_list', ['dataProvider' => $dataProvider]);
+    }
+
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -1557,7 +1563,9 @@ class AdminPagesController extends SiteBaseController {
             $user = YumUser::model()->findByPk($userId);
             $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
             $this->layout = '/admin_area/layouts/admin_main';
-            $this->render('/admin_area/pages/referrals_list', ["totalRefers"=>$totalReferrals, "user"=>$user]);
+            $dataProvider = UserReferral::model()->searchUserReferrals($user->id);
+            $this->render('/admin_area/pages/user_referrals_list', ['totalRefers'=>$totalReferrals, 'user'=>$user,
+                    'dataProvider' => $dataProvider]);
         }
     }
 
