@@ -75,7 +75,30 @@ define([
                 }));
 
                 AppView.frame._showPausedScreen();
-                this.$el.topZIndex();
+                this.$el.css('zIndex', 1001);
+                //this.$el.topZIndex();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        render: function () {
+            try {
+                var me = this;
+                this.listenTo(this.options.model_instance, 'close', function () {
+                    me.remove();
+                });
+                me.resize();
+                me.renderWindow(me.$el);
+
+                this.resize();
+
+                this.onResize = _.bind(this.onResize, me);
+                $(window).on('resize', this.onResize);
+
+                this.center();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
