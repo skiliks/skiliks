@@ -113,7 +113,7 @@ class UserAuthController extends YumController
                 $this->render(
                     'referral_registration',
                     [
-                        'refId'            => $refId,
+                        'refHash'            => $refHash,
                         'user'             => $user,
                         'profile'          => $profile,
                         'accountCorporate' => $accountCorporate,
