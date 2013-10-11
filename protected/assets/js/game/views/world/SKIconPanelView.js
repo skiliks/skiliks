@@ -22,21 +22,21 @@ define([
             /** @lends SKIconPanelView.prototype */
 
             events: {
-                'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
-                'click .icons-panel .door.icon-active a':  'doDialogStart',
-                'click .icons-panel .mail.create-mail a':  'doNewMailStart',
+                'click .icons-panel .phone.icon-active span': 'doPhoneTalkStart',
+                'click .icons-panel .door.icon-active span':  'doDialogStart',
+                'click .icons-panel .mail.create-mail span':  'doNewMailStart',
 
-                'click .icons-panel .door:not(.icon-active) a':  'doMeetingToggle',
-                'click .icons-panel .phone:not(.icon-active) a': 'doPhoneToggle',
+                'click .icons-panel .door:not(.icon-active) span':  'doMeetingToggle',
+                'click .icons-panel .phone:not(.icon-active) span': 'doPhoneToggle',
 
-                'click .icons-panel .mail:not(.create-mail) a': 'doMailToggle',
-                'click .icons-panel .documents a':              'doDocumentsToggle',
-                'click .icons-panel .plan a':                   'doPlanToggle',
+                'click .icons-panel .mail:not(.create-mail) span': 'doMailToggle',
+                'click .icons-panel .documents span':              'doDocumentsToggle',
+                'click .icons-panel .plan span':                   'doPlanToggle',
 
-                'click .icons-panel .info a':                   'doToggleManual',
+                'click .icons-panel .info span':                   'doToggleManual',
 
-                'click .icons-panel .icon-button-disabled a':          'doNothing',
-                'click .icons-panel .only-active:not(.icon-active) a': 'doNothing'
+                'click .icons-panel .icon-button-disabled span':          'doNothing',
+                'click .icons-panel .only-active:not(.icon-active) span': 'doNothing'
             },
 
             /**
@@ -75,6 +75,13 @@ define([
 
                     var todo_tasks = SKApp.simulation.todo_tasks;
                     this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
+                    this.listenTo(todo_tasks, 'add', function() {
+                        _.each(todo_tasks.models, function(model) {
+                            model.isNewTask = false;
+                        });
+                        var last_model = todo_tasks.at(todo_tasks.length - 1);
+                        last_model.isNewTask = true;
+                    });
                     this.listenTo(todo_tasks, 'onNewTask', this.doSoundNewTodo);
 
                     var phone_history = SKApp.simulation.phone_history;
@@ -327,15 +334,15 @@ define([
              */
             setCounter: function (selector, count) {
                 try {
-                    if (0 === this.$(selector + ' a span').length) {
-                        this.$(selector + ' a').html('<span></span>');
+                    if (0 === this.$(selector + ' span span').length) {
+                        this.$(selector + ' span').html('<span class="counter"></span>');
                     }
 
                     if (0 === count) {
-                        this.$(selector + ' a span').remove();
+                        this.$(selector + ' span span').remove();
                     }
 
-                    this.$(selector + ' a span').html(count);
+                    this.$(selector + ' span span').html(count);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

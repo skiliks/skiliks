@@ -395,28 +395,7 @@ define([] ,function() {
             }
         },
 
-        /**
-         * @method isValid
-         * @returns {boolean}
-         *
-         * не виду где данный метод вызывается. мёртвый код?
-         */
-//        isValid: function() {
-//            try {
-//                if (undefined === this.subject) {
-//                    // не вижу где данный ексепшн отлавливается
-//                    throw 'Письмо должно содержать тему.';
-//                }
-//            } catch(exception) {
-//                if (window.Raven) {
-//                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-//                }
-//            }
-//
-//            return true;
-//        },
-
-        /**
+         /**
          * @method getAttachmentId
          * @returns {an empty string|integer}
          */

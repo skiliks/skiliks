@@ -9,7 +9,8 @@ class PerformanceAggregatedTable extends LogTable {
         return [
             'Category',
             'Value',
-            'Percent'
+            'Percent',
+            'Percent detail'
         ];
     }
 
@@ -31,7 +32,8 @@ class PerformanceAggregatedTable extends LogTable {
         return [
             $item->category_id,
             $item->value,
-            $item->percent . '%'
+            round($item->percent) . '%',
+            $item->percent . ' %'
         ];
     }
 

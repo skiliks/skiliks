@@ -83,7 +83,8 @@ body.inner-registration,
 .action-controller-order-static-payment,
 body.action-error404,
 body.action-badBrowser,
-body.action-oldBrowser{
+body.action-oldBrowser,
+body.controller-static-help {
     background-image: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
     background-position: center top;
@@ -458,6 +459,10 @@ html[lang=ru] .betaflag {
     float:right;
     margin-top:10px;
 }
+.start-lite-simulation-btn.start-lite-in-personal {
+    float:right;
+    margin-top:-7px;
+}
 
 .start-lite-simulation-btn-no-margin {
     float:right;
@@ -620,6 +625,10 @@ html[lang=ru] .betaflag {
 	.heroes-comment{
 		display:none;
 	}
+    .start-lite-simulation-btn.start-lite-in-personal {
+        float:right;
+        margin-top:2px;
+    }
 }
 /* --------------- /heroes comments ---------*/
 
@@ -1318,36 +1327,46 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
-    min-height: 446px;
+    min-height: 285px;
 	width:452px;
     padding-bottom:20px;
-    /* min-height:383px; */
+    height: 290px;
 }
 .registration .form.form-account-personal{
     background-image:url("../img/bg-registration-personal.png");
     float:left;
-    margin-left:9px;
+    margin-left:12px;
 }
 
-.p-chose-accaount-type {
+.p-chose-account-type {
+    font: 18px 'ProximaNova-Bold';
     margin-bottom: 22px;
     margin-left:57px;
+    color: #555545;
 }
 
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corporate.png");
 	float:right;
-	margin-right:9px;
+	margin-right:12px;
 }
-.registration .form h1{
-	font:2.571em 'ProximaNova-Bold';
+.registration .form h1 {
+	font:22px 'ProximaNova-Bold';
 	color:#555545;
-	margin:21px 0 12px 57px;
-    min-height:88px;
+	margin:46px 0 0px 57px;
+}
+#registration-general-error {
+    text-align: center;
+    width:100%;
+    color: #6D6D5B;
+    margin-top: 35px;
+}
+#registration-general-error a {
+    color: #fff;
 }
 .registration .form>ul{
 	list-style:none;
-	min-height:135px;
+	min-height:100px;
 	margin:0 34px 0;
 }
 .registration .form>ul li{
@@ -1385,7 +1404,9 @@ html[lang=ru] .product section table th{
 	vertical-align:middle;
     word-wrap: break-word;
 }
-.registration .form .row input[type=text]{
+.registration .form .row input[type=text],
+.registration .form .row input[type=password]
+{
 	background:#fff;
 	-moz-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
     -webkit-box-shadow:5px 5px 3px rgba(0,0,0,0.13) inset;
@@ -1404,7 +1425,7 @@ html[lang=ru] .product section table th{
 	vertical-align:top;
 }
 .registration .form .row .sbHolder{
-	width:265px;
+	width:268px;
 }
 .registration .form .row.wide{
 /*	margin-bottom:16px; */
@@ -1526,7 +1547,7 @@ html[lang=ru] .product section table th{
 		background-position:305px 7px;
 		box-shadow:0 0 0 7px rgba(255,255,255,0.2);
 		width:366px;
-		min-height:400px;
+		min-height:280px;
 	}
 	.registration .form.form-account-personal{
 		background-image:url("../img/bg-registration-personal-min.png");
@@ -1534,6 +1555,7 @@ html[lang=ru] .product section table th{
 	}
 
     .p-chose-accaount-type {
+        font:12px 'ProximaNova-Bold';
         margin-bottom: 22px;
         margin-left:27px;
     }
@@ -1544,14 +1566,14 @@ html[lang=ru] .product section table th{
 		margin-right:7px;
 	}
 	.registration .form h1{
-		font-size:2em;
+        font:19px 'ProximaNova-Bold';
         line-height: 100%;
-		margin:16px 40px 10px 27px;
+		margin:34px 10px 10px 27px;
         min-height: 58px;
 	}
 
     .registration .form {
-        height: 350px;
+        height: 280px;
     }
     .form-account-corporate .wide {
         /*display: none;*/
@@ -2258,6 +2280,9 @@ html[lang="en"] .footer .social_networks {
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
 .action-controller-corporate-static-simulations .ui-dialog-titlebar,
 .action-controller-activation-registration .ui-dialog-titlebar,
+.controller-static-pages .ui-dialog-titlebar,
+.controller-static-userAuth .ui-dialog-titlebar,
+.controller-auth .ui-dialog-titlebar,
 .terms-page .ui-dialog-titlebar {
     border: 0px;
     background: transparent;
@@ -2339,13 +2364,112 @@ html[lang="en"] .footer .social_networks {
 .cabmessage .ui-widget-header .ui-icon,
 .add-vacancy-popup .ui-widget-header .ui-icon,
 .action-controller-activation-registration .ui-widget-header .ui-icon,
-.feedbackwrap .ui-widget-header .ui-icon {
+.feedbackwrap .ui-widget-header .ui-icon, .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
     display: block;
     margin: 0;
     height: 100%;
     width: 100%;
     background: url(../img/closepopup.png) no-repeat 0 0;
+    background-color: rgba(0,0,0,0);
 }
+
+.feedback-close-other {
+    text-decoration: underline !important;
+    color: #09bdda !important;
+    font-weight: bold;
+}
+
+
+.profileform #yw0 * {
+    border-radius: 0 !important;
+    border: 0;
+}
+
+.profileform #yw0 td {
+    color: #232323;
+}
+
+.referrals_total {
+    color: #3c3c32;
+}
+
+.profileform #yw0 td {
+    border:0;
+}
+
+.profileform #yw0 td a {
+    color: #146672;
+}
+
+.profileform #yw0 td, #yw0 th {
+    padding: 10px;
+}
+
+.profileform #yw0 td:first-child, #yw0 th:first-child {
+    padding-left: 30px;
+}
+
+.profileform #yw0 th {
+    background: #146672;
+    text-align: left;
+    border: 0;
+}
+
+.profileform #yw0 th:not(:first-child) {
+    border-left: 1px solid #387d88;
+}
+
+.profileform .grid-view .pager {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profileform li.page.selected a {
+    color: #146672 !important;
+}
+
+.profileform li.page a {
+    color: #232323 !important;
+}
+
+.profileform .grid-view .items th a, .items th a, #corporate-invitations-list-box .grid-view .items th a {
+    display: block;
+    font-weight: normal;
+    padding-right: 12px;
+}
+
+.profileform .grid-view table.items th a {
+    -moz-text-blink: none;
+    -moz-text-decoration-color: -moz-use-text-color;
+    -moz-text-decoration-line: none;
+    -moz-text-decoration-style: solid;
+    color: #EEEEEE;
+}
+
+.profileform .pager li.previous a, .profileform .pager li.next a {
+    background-color: #146672 !important;
+}
+
+.profileform .pager li.previous a:hover, .profileform .pager li.next a:hover {
+    background-color: #C6E0E3 !important;
+}
+
+.profileform .summary {
+    display: none;
+}
+
+.referalls_list_box {
+    width:660px;
+    padding: 0;
+}
+
+.total-rows {
+    margin: 30px 0 0 30px;
+    display: inline-block;
+    font-size: 15px;
+}
+
+
 .change_pass-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
 .sing-in-pop-up .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover,
 .cabmessage .ui-dialog-titlebar-close:hover, .add-vacancy-popup .ui-widget-header .ui-icon:hover {
@@ -2506,6 +2630,9 @@ html[lang="en"] .footer .social_networks {
     .flash-notice {
         font-size:14px;
     }
+    .referrals_total {
+        font-size: 12px;
+    }
 }
 /* --------------- /sign in box ---------*/
 
@@ -2535,7 +2662,7 @@ h2 {
 }
 
 #invite-people-box {
-    margin: 0 0 0 10px;
+    margin: 9px 0 0 10px;
     width: 280px;
     /*height: 300px;
     float: left;
@@ -2680,7 +2807,7 @@ h2 {
     padding:13px 6px 20px 12px;
 }
 #dashboard-skills-box {
-    margin: 0 0 0 10px;
+    margin: 34px 0 0 10px;
     padding-bottom: 0px;
 }
 #dashboard-skills-box>p {
@@ -2715,8 +2842,11 @@ h2 {
 #companies-you-follow-box {
     margin: 30px 0 0 10px;
 }
-#private-invitations-list-box, #corporate-invitations-list-box {
-    margin-top:-8px;
+#private-invitations-list-box {
+    margin-top:-2px;
+}
+#private-invitations-list-box {
+    margin-top:31px;
 }
 #private-invitations-list-box .grid-view table.items tr:hover, #corporate-invitations-list-box tr:hover {
     background:none;
@@ -2758,6 +2888,14 @@ ul.profile-menu li {
 }
 #corporate-invitations-list-box .ratebg, #private-invitations-list-box .ratebg {
     width:81px;
+}
+.dialogReferralPending p {
+    font-size: 15px;
+    text-align: center;
+}
+.dialogReferralRejected p {
+    font-size: 15px;
+    text-align: center;
 }
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
@@ -3126,8 +3264,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box .grid-view tr td:last-child{
     padding-left: 5px;
     padding-right: 3px;
-    max-width: 115px;
-    width: 115px;
+    max-width: 120px;
+    width: 120px;
 }
 #corporate-invitations-list-box .grid-view tr th:nth-child(7),
 #corporate-invitations-list-box .mail-new-textgrid-view tr td:nth-child(7),
@@ -3156,8 +3294,8 @@ ul.profile-menu li {
 #corporate-invitations-list-box #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
-    top:11px;
-    width:98px;
+    top:14px;
+    width:91px;
 }
 #corporate-invitations-list-box .ratingwrap,
 #corporate-invitations-list-box p, #private-invitations-list-box .ratingwrap {
@@ -3354,15 +3492,6 @@ ul.profile-menu li {
 }
 /* ***********************************  /TARIFFS *********************************** */
 /* ********************** /DASHBOARD ********************** */
-#JotFormIFrame {
-    /*position: absolute;
-    background-color: #ffffff;
-    margin-top: 100px;
-    z-index: 100;
-    top: 10px;*/
-    display: none;
-    width:750px;
-}
 
 .container > header nav a.has-notification {
     margin-right: 10px;
@@ -3627,6 +3756,9 @@ ul.profile-menu li {
     position: absolute;
     right:23px;
 }
+body.action-controller-corporateReferrals-static-profile .popup-before-start-sim {
+    width: 850px !important;
+}
 .add-vacancy-popup .form-vacancy input[type="text"], .add-vacancy-popup .form-vacancy .sbHolder {
     left:150px;
     position: absolute;
@@ -3644,6 +3776,10 @@ ul.profile-menu li {
 }
 /* ******************** /Add vacancy popup ************** */
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
+
+.received-invites-personal {
+    margin-top: -5px;
+}
 
 @media screen and (max-width: 1146px){
     .narrow-contnt {
@@ -3679,6 +3815,9 @@ ul.profile-menu li {
     }
     #dashboard-skills-box, .nice-border, .add-vacancy-popup {
         box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+    }
+    #dashboard-skills-box {
+        margin-top:36px;
     }
     .inner .dashboard .thetitle {
         font-size: 1.4em;
@@ -3775,6 +3914,17 @@ ul.profile-menu li {
         padding: 0px;
         top:8px;
     }
+    body.action-controller-corporateReferrals-static-profile .popup-before-start-sim {
+        width: 700px !important;
+    }
+    .dialogReferralPending .list-ordered p.ProximaNova {
+        font-size: 12px;
+        text-align: center;
+    }
+    .dialogReferralRejected .list-ordered p.ProximaNova {
+        font-size: 12px;
+        text-align: center;
+    }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         max-width: 110px;
         width: 110px;
@@ -3793,7 +3943,7 @@ ul.profile-menu li {
         width: 40px;
     }
     #corporate-invitations-list-box #yw0_c1 a {
-        width:82px;
+        width:70px;
     }
     .grid-view table.items th, .grid-view table.items td {
         font-size: 11px !important;
@@ -3836,6 +3986,7 @@ ul.profile-menu li {
     }
     #invite-people-box {
         padding-bottom: 10px;
+        margin-top: 9px;
     }
     #simulations-counter-box {
         padding-left: 8px;
@@ -4312,6 +4463,9 @@ ul.profile-menu li {
         margin-bottom: 19px;
         margin-top: 8px;
     }
+    .dashboard .narrow-contnt .thetitle.received-invites-personal {
+        margin-top:2px;
+    }
     section.registration-by-link h1 {
         font-size: 21px;
         margin-bottom: 10px;
@@ -4347,7 +4501,7 @@ ul.profile-menu li {
         font-size:11px;
     }
     section.registration-by-link .form .row.buttons {
-        padding-left: 158px;
+        padding-left: 155px;
     }
     section.registration-by-link .form .row {
         margin-bottom: 3px;
@@ -4355,6 +4509,11 @@ ul.profile-menu li {
     section.registration-by-link .form .row.buttons {
         margin-top: 5px;
     }
+    #registration-by-link-form .sbHolder,
+    section.registration-by-link .shifted {
+        margin-left: -3px;
+    }
+
     .wide .sbHolder_err {
         top: -5px;
         left: 165px;
@@ -4362,15 +4521,8 @@ ul.profile-menu li {
     #registration-by-link-form .YumProfile_firstname, #registration-by-link-form .YumProfile_lastname {
         top: -6px;
     }
-    .YumProfile_firstname {
-        left: 165px;
-    }
-    .YumProfile_lastname {
-        left: 335px;
-    }
     .YumUser_password, .YumUser_password_again {
-        left: 165px;
-        top: -6px;
+        top: -14px;
     }
     #invite-decline-form .form-decline-explanation {
         background-size: contain;
@@ -4543,6 +4695,105 @@ ul.profile-menu li {
     }
 
 
+    .referalls_list_box {
+        width: 530px !important;
+        padding: 0;
+        margin-top:0 !important;
+    }
+
+
+    .profileform #yw0 * {
+        border-radius: 0 !important;
+        border: 0;
+    }
+
+    .profileform #yw0 td {
+        border:0;
+    }
+
+    .profileform #yw0 td a {
+        color: #146672;
+    }
+
+    .profileform #yw0 td, #yw0 th {
+        padding: 10px;
+    }
+
+    .profileform #yw0 td:first-child, #yw0 th:first-child {
+        padding-left: 30px;
+    }
+
+    .profileform #yw0 th {
+        background: #146672;
+        text-align: left;
+        border: 0;
+    }
+
+    .profileform #yw0 th:not(:first-child) {
+        border-left: 1px solid #387d88;
+    }
+
+    .profileform .grid-view .pager {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profileform li.page.selected a {
+        color: #146672 !important;
+    }
+
+    .profileform li.page a {
+        color: #232323 !important;
+    }
+
+    .profileform .grid-view .items th a, .items th a, #corporate-invitations-list-box .grid-view .items th a {
+        display: block;
+        font-weight: normal;
+        padding-right: 12px;
+    }
+
+    .profileform .grid-view table.items th a {
+        -moz-text-blink: none;
+        -moz-text-decoration-color: -moz-use-text-color;
+        -moz-text-decoration-line: none;
+        -moz-text-decoration-style: solid;
+        color: #EEEEEE;
+    }
+
+    .profileform .previous a {
+        background: #146672 !important;
+    }
+
+    .profileform .previous.hidden a {
+        background: #c6e0e3 !important;
+    }
+
+    .profileform .next.hidden a {
+        background: #c6e0e3 !important;
+    }
+
+    .profileform .next a {
+        background: #146672 !important;
+    }
+
+    .profileform .summary {
+        display: none;
+    }
+
+    .total-rows {
+        display: inline-block;
+        font-size: 13px !important;
+    }
+
+    .total-invited {
+        font-size: 13px;
+    }
+    .referalls_list_box .cufon {
+        margin-top: -2px;
+    }
+    .action-registerReferral .text-right {
+        padding-top:123px; /* +39px */
+    }
 }
 
 
@@ -4647,4 +4898,745 @@ div.inline-block {
 .sh_btn_left .sh_title_text, .sh_btn_right .sh_title_text {
     border-top: 1px solid #82BBC4 !important;
 }
+
 /* --- } site heart */
+
+
+/* Help */
+
+.help-top-header {
+    -moz-font-feature-settings: normal;
+    -moz-font-language-override: normal;
+    -moz-text-blink: none;
+    background-color: rgba(20, 102, 114, 0.4);
+    -moz-text-decoration-color: -moz-use-text-color;
+    -moz-text-decoration-line: none;
+    -moz-text-decoration-style: solid;
+    -x-system-font: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-family: ProximaNova-Regular;
+    font-size: 22px;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 28px;
+    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 0;
+    -webkit-box-shadow:  0px 1px 0px 7px rgba(255, 255, 255, 0.2);
+    box-shadow:  0px 1px 0px 7px rgba(255, 255, 255, 0.2);
+    margin-top: 0;
+    padding-bottom: 0;
+    width:293px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.help-top-header:hover {
+    background-color: #146672;
+}
+
+#help-top-header-general {
+    padding-top: 25px;
+    min-height:42px;
+    /*margin-left: 70px;*/
+}
+
+#help-top-header-corporate {
+    margin: 0 15px 0 25px;
+}
+
+.active-question-header {
+    background-color: #146672;
+}
+
+#help-top-header-private {
+
+}
+
+.help-header-container {
+    margin-top: 15px;
+    padding-top: 20px;
+    height: 100px;
+}
+
+.help-container h2 {
+    margin-top:20px;
+    font-size: 1.8em;
+}
+
+.help-container h2.thetitle {
+    margin-top:20px;
+    font-size: 2.7em;
+}
+
+ul.question-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+ul.question-container li {
+    color: #555742;
+    background-color: #FDFCC6;
+    list-style-type: none;
+    cursor: pointer;
+    min-height: 19px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 40px;
+    padding-top: 19px;
+    font-size: 18px;
+    border-bottom: 1px #555 dotted;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-image: url("../img/arrow-to-right.png");
+    background-origin: padding-box;
+    background-position: 895px 16px;
+    background-repeat: no-repeat;
+}
+
+ul.question-container li:hover {
+    color: #146672;
+    background-color: #FFFFFF;
+    background-image: url("../img/arrow-to-bottom.png");
+    background-position: 895px 20px;
+}
+
+ul.question-container li.active {
+    color: #146672;
+    background-color: #FFFFFF;
+    background-position: 895px 20px;
+    background-image: url("../img/arrow-to-bottom.png")
+}
+
+ul.question-container li div {
+    display: none;
+    margin-top: 30px;
+    color: #000;
+    font-size: 16px;
+}
+
+ul.question-container li p {
+    margin-bottom: 10px;
+    line-height: 120%;
+    color: #3c3c32;
+}
+
+ul.question-container li:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+ul.question-container li:last-child {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border: 0;
+}
+
+ul.question-container li.solo {
+    border-radius: 4px;
+    border:0;
+}
+
+div.div-questions-container {
+    margin-top:100px;
+}
+
+.invite-referral-textarea {
+    width:339px;
+    float: left;
+    height: 63px;
+    margin-left: 10px;
+    font-size:12px;
+    color: #0e4750;
+    resize: none;
+}
+
+div.row.error.invite-referrals-div .invite-referral-textarea  {
+    margin-top: -24px;
+    margin-left: 40px;
+}
+
+div.row.error.invite-referrals-div ul {
+    margin-left: 50px;
+    color: #fff;
+}
+
+.invite-referral-textarea-message {
+    width:339px;
+    height: 150px;
+    font-size:12px;
+    padding-left:10px;
+    color: #0e4750;
+    margin-top: 10px;
+    margin-left:40px;
+    resize: none;
+}
+
+@media screen and (max-width: 1146px){
+
+    .help-top-header {
+        -moz-font-feature-settings: normal;
+        -moz-font-language-override: normal;
+        -moz-text-blink: none;
+        background-color: rgba(20, 102, 114, 0.4);
+        -moz-text-decoration-color: -moz-use-text-color;
+        -moz-text-decoration-line: none;
+        -moz-text-decoration-style: solid;
+        -x-system-font: none;
+        border-radius: 8px;
+        color: #FFFFFF;
+        display: block;
+        float: left;
+        font-family: ProximaNova-Regular;
+        font-size: 18px;
+        font-size-adjust: none;
+        font-stretch: normal;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        line-height: 120%;
+        margin-bottom: 0;
+        margin-left: 8px;
+        margin-right: 0;
+        -webkit-box-shadow:  0px 1px 0px 7px rgba(255, 255, 255, 0.2);
+        box-shadow:  0px 1px 0px 7px rgba(255, 255, 255, 0.2);
+        margin-top: 0;
+        padding-bottom: 0;
+        width:239px;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        min-height: 40px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .help-top-header:hover {
+        background-color: #146672;
+    }
+
+    #help-top-header-general {
+        padding-top: 20px;
+        min-height:31px;
+        /*margin-left: 70px;*/
+    }
+
+    #help-top-header-corporate {
+        margin: 0 12px 0 20px;
+    }
+
+    .active-question-header {
+        background-color: #146672;
+    }
+
+    #help-top-header-private {
+
+    }
+
+    .help-header-container {
+        margin-top: 12px;
+        padding-top: 16px;
+        height: 800px;
+    }
+
+    .help-container h2 {
+        margin-top:16px;
+        font-size: 1.44em;
+    }
+
+    .help-container h2.thetitle {
+        margin-top:16px;
+        font-size: 2.16em;
+    }
+
+    ul.question-container {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 8px;
+        width: 755px;
+    }
+
+    ul.question-container li {
+        color: #555742;
+        background-color: #FDFCC6;
+        list-style-type: none;
+        cursor: pointer;
+        min-height: 15px;
+        padding-bottom: 8px;
+        padding-left: 16px;
+        padding-right: 30px;
+        padding-top: 15px;
+        font-size: 14px;
+        border-bottom: 1px #555 dotted;
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-image: url("../img/arrow-to-right.png");
+        background-origin: padding-box;
+        background-position: 725px 13px;
+        background-repeat: no-repeat;
+        color: #3c3c32;
+    }
+
+    ul.question-container li:hover {
+        color: #146672;
+        background-color: #FFFFFF;
+        background-image: url("../img/arrow-to-bottom.png");
+        background-position: 725px 16px;
+    }
+
+    ul.question-container li.active {
+        color: #146672;
+        background-color: #FFFFFF;
+        background-position: 725px 16px;
+        background-image: url("../img/arrow-to-bottom.png")
+    }
+
+    ul.question-container li div {
+        display: none;
+        margin-top: 24px;
+        color: #000;
+        font-size: 13px;
+    }
+
+    ul.question-container li p {
+        margin-bottom: 8px;
+        line-height: 120%;
+        color: #3c3c32;
+    }
+
+    ul.question-container li:first-child {
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    ul.question-container li:last-child {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border: 0;
+    }
+
+    ul.question-container li.solo {
+        border-radius: 4px;
+        border:0;
+    }
+
+    div.div-questions-container {
+        margin-top:80px;
+    }
+
+    .invite-referral-textarea {
+        width:270px;
+        float: left;
+        height: 50px;
+        margin-left: 8px;
+        font-size:10px;
+        color: #0e4750;
+        resize: none;
+    }
+
+    div.row.error.invite-referrals-div .invite-referral-textarea  {
+        margin-top: -22px;
+        margin-left: 32px;
+    }
+
+    div.row.error.invite-referrals-div ul {
+        margin-left: 40px;
+        color: #fff;
+    }
+
+    .invite-referral-textarea-message {
+        width:271px;
+        height: 120px;
+        font-size:10px;
+        padding-left:8px;
+        color: #0e4750;
+        margin-top: 8px;
+        margin-left:32px;
+        resize: none;
+    }
+
+}
+
+ul.default {
+    background-color: #fff;
+}
+
+ul.default li {
+    background: 0;
+    border:0;
+    list-style-type:disc;
+    padding-left:0;
+    margin-left:20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    font-size: 15px;
+    color: #3c3c32;
+}
+ul.default li:hover {
+    background: 0;
+}
+@media screen and (max-width: 1146px){
+    ul.default li {
+        font-size: 13px;
+        color: #3c3c32;
+    }
+}
+#sendReferallInviteButton {
+    background-size: auto auto;
+    float:left;
+    border:0;
+    margin-left:40px;
+}
+
+.additional-simulations-header {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 38px;
+    line-height: 50px;
+}
+
+.referral-left-div {
+    float:left;
+    box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    margin: 10px;
+    width:392px;
+    background-color: #146672;
+    color:#fff;
+    padding: 24px;
+}
+
+.referral-left-div h2 {
+    font-size:26px;
+}
+
+.referral-email-label {
+    float:left;
+    color:#fff;
+    margin-top:9px;
+    font-size:13px;
+}
+
+.referral-right-div {
+    float:left;
+    box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    height: 352px;
+    margin: 10px;
+    margin-left: 25px;
+    width:392px;
+    background-color: #fdfbc6;
+    color:#fff;
+    padding: 24px 24px 10px 24px;
+    text-align: center;
+}
+
+.referral-span-first {
+    margin-top: 42px;
+}
+
+.referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
+    font-size: 20px;
+}
+
+.referral-right-div .ProximaNova-font-11px {
+    text-align: left;
+    font-size: 11px;
+    margin-top:5px;
+}
+
+.referral-right-div .ProximaNova-font-11px.with-margin-top {
+    margin-top:46px;
+}
+
+.referral-bottom-p {
+    text-align: center;
+    font-size: 18px;
+    color: #3c3c32;
+}
+.referral-bottom-p a {
+    color: #fff;
+}
+.referral-bottom-p a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1146px){
+
+    .invite-referral-textarea {
+        width:271px;
+        float: left;
+        height: 50px;
+        margin-left: 32px;
+        font-size:11px;
+        color: #0e4750;
+        margin-top: -19px;
+        resize: none;
+    }
+
+    div.row.error.invite-referrals-div .invite-referral-textarea  {
+        margin-top: -20px;
+        margin-left: 31px;
+    }
+
+    div.row.error.invite-referrals-div ul {
+        margin-left: 40px;
+        color: #fff;
+    }
+
+    .invite-referral-textarea-message {
+        width:271px;
+        height: 150px;
+        font-size:11px;
+        padding-left:10px;
+        color: #0e4750;
+        margin-top: 10px;
+        margin-left:32px;
+        resize: none;
+    }
+
+    #sendReferallInviteButton {
+        background-size: auto auto;
+        float:left;
+        border:0;
+        margin-left:32px;
+    }
+
+    .additional-simulations-header {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 30px;
+        line-height: 40px;
+    }
+
+    .referral-left-div {
+        float:left;
+        box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        -moz-box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        margin: 10px;
+        width:313px;
+        background-color: #146672;
+        color:#fff;
+        padding: 15px;
+    }
+
+    .referral-left-div h2 {
+        font-size:21px;
+    }
+
+    .referral-email-label {
+        float:left;
+        color:#fff;
+        margin-top:9px;
+        font-size:11px;
+    }
+
+    .referral-right-div {
+        float:left;
+        box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        -moz-box-shadow: 0 1px 0 7px rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        height: 334px;
+        margin: 8px;
+        margin-left: 16px;
+        width:313px;
+        background-color: #fdfbc6;
+        color:#fff;
+        padding: 15px 15px 8px 15px;
+        text-align: center;
+    }
+
+    .referral-span-first {
+        margin-top: 33px;
+    }
+
+    .referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
+        font-size: 16px;
+    }
+
+    .referral-right-div .ProximaNova-font-11px {
+        text-align: left;
+        font-size: 9px;
+        margin-top:4px;
+    }
+
+    .referral-right-div .ProximaNova-font-11px.with-margin-top {
+        margin-top:37px;
+    }
+
+    .referral-bottom-p {
+        text-align: center;
+        font-size: 16px;
+        color: #3c3c32;
+    }
+}
+
+.show-popup-top .ui-icon {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/closepopup.png");
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    display: block;
+    height: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    width: 100%;
+}
+
+.show-popup-top .ui-dialog-titlebar-close {
+    right:-12px;
+    top: -10px;
+    background-image: url("../img/closepopup-not-modal.png");
+}
+
+.show-popup-top {
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    background: #fdfbc6 !important;
+    border: 0;
+    box-shadow: 0 1px 0 6px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: 0 1px 0 6px rgba(255, 255, 255, 0.2);
+    padding: 0;
+}
+
+#tariff-expired-popup {
+    display: none;
+    text-align: center;
+    background-color: #fdfbc6;
+    border-radius: 7px;
+}
+
+.show-popup-top .ProximaNova-Bold {
+    font-size: 14px;
+    margin-top:-3px;
+    font-weight: bold;
+    color: #3d4041;
+}
+.form.form-invite-message.message_window.ui-dialog-content.ui-widget-content{
+    overflow: hidden;
+}
+@media screen and (max-width: 1146px){
+
+    .show-popup-top {
+        width: 753px !important;
+        height: 48px !important;
+    }
+
+    .show-popup-top .ProximaNova-Bold {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #3d4041;
+    }
+}
+
+.referral-popup {
+    cursor: pointer;
+    text-align: center;
+    margin-left: 12px;
+}
+
+.container > header nav#static-page-links a.additional-simulations {
+    background-image: url('../img/referral-bonus.png');
+    background-repeat: no-repeat;
+    background-position: 4px 2px;
+    padding-left: 30px;
+}
+
+@media screen and (max-width: 1146px) {
+    .container > header nav#static-page-links a.additional-simulations {
+        background-size: 16px 16px;
+    }
+}
+
+
+.change-simulation-result-render {
+    float:right;
+    background: url('../img/arrow-switch-rating-view.png') no-repeat right;
+    height: 18px;
+    margin-top: -22px;
+    padding-top: 2px;
+    width: 156px;
+    text-align:right;
+    padding-right: 20px;
+    font-size: 11px;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1146px) {
+    .change-simulation-result-render {
+        float:right;
+        background: url('../img/arrow-switch-rating-view-small.png') no-repeat right;
+        height: 18px;
+        margin-top: -20px;
+        padding-top: 2px;
+        width: 156px;
+        text-align:right;
+        padding-right: 20px;
+        font-size: 11px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .registration-personal-additional-field {
+        margin-top: -23px;
+    }
+    .registration .form > ul.registration-corporate-benefits {
+        height: 27px;
+        margin-bottom: 0;
+        margin-top: 42px;
+        min-height: 91px;
+        padding-bottom: 0;
+    }
+}
+
+.start-lite-simulation-btn.main-menu-demo {
+    background: url("../img/icon-circlarow.png") no-repeat rgba(20, 102, 114, 0.4);
+    padding-left: 31px;
+    background-size: 17px 17px;
+    background-position: 10px 6px;
+}
+
+.start-lite-simulation-btn.main-menu-demo:hover {
+    background: url("../img/icon-circlarow-hover.png") no-repeat #146672;
+    background-position: 10px 6px;
+    background-size: 17px 17px;
+}
+
+@media screen and (max-width: 1146px) {
+
+    .start-lite-simulation-btn.main-menu-demo {
+        background: url("../img/icon-circlarow.png") no-repeat rgba(20, 102, 114, 0.4);
+        padding-left: 25px;
+        background-size: 13px 13px;
+        background-position: 8px 3px;
+    }
+
+    .start-lite-simulation-btn.main-menu-demo:hover {
+        background: url("../img/icon-circlarow-hover.png") no-repeat #146672;
+        background-size: 13px 13px;
+        background-position: 8px 3px;
+    }
+
+}
+.aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
+    text-decoration: none;
+}

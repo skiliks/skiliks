@@ -1,4 +1,6 @@
 <?php
+$scoreName = ($user->profile->assessment_results_render_type == "standard") ? "Абсолютный рейтинг" : "Относительный рейтинг";
+
 $scoreRender = function(Invite $invite) {
     return $this->renderPartial('//global_partials/_simulation_stars', [
         'simulation'     => $invite->simulation,
@@ -33,7 +35,7 @@ $this->widget('zii.widgets.grid.CGridView', [
             'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
             'type' => 'raw'
         ],
-        ['header' => Yii::t('site', 'Score'), 'value' => $scoreRender, 'type' => 'raw'],
+        ['header' =>  $scoreName, 'value' => $scoreRender, 'type' => 'raw'],
         ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html'],
         ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
     ]

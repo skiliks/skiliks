@@ -33,12 +33,11 @@ class TestUserHelper
             $YumUser = new YumUser('registration');
             $YumProfile = new YumProfile('registration');
         }
-        $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123', 'is_check'=>'1'];
+        $YumUser->attributes = ['password'=>'123123', 'password_again'=>'123123'];
         $YumProfile->attributes = ['email'=>$email];
-        $YumUser->setUserNameFromEmail($YumProfile->email);
+        $YumUser->setUserNameFromEmail(strtolower($YumProfile->email));
         $YumUser->agree_with_terms = YumUser::AGREEMENT_MADE;
         $YumProfile->updateFirstNameFromEmail();
-        $YumUser->is_check = (int)$YumUser['is_check'];
         $YumUser->register($YumUser->username, $YumUser->password, $YumProfile);
         $YumUser->activationKey = '1';
         $YumUser->status = 1;
@@ -76,12 +75,7 @@ class TestUserHelper
         } elseif ($account === "corporate") {
             $accountCorporate = new UserAccountCorporate;
             $accountCorporate->user_id = $YumUser->id;
-            $accountCorporate->is_corporate_email_verified = 1;
 
-            // todo: take care about user timezone
-            $accountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
-            $accountCorporate->generateActivationKey();
-            //$accountCorporate->save(false);
             if(false === $accountCorporate->save(false)){
                 throw new Exception(" Fail ");
             }
@@ -107,25 +101,6 @@ class TestUserHelper
         $_SERVER['HTTP_HOST'] = self::getHost(Yii::app()->params['frontendUrl']);
         /* @var $profile YumProfile */
         $host = $profile->user->getActivationUrl();
-        if($temp){
-            unset($_SERVER['HTTP_HOST']);
-        }else{
-            $_SERVER['HTTP_HOST'] = $temp;
-        }
-        return str_replace('/usr/bin', '', $host); //
-    }
-
-    public static function getCorporateActivationUrl($email) {
-        $profile = UserAccountCorporate::model()->findByAttributes(['corporate_email'=>$email]);
-        if(null === $profile){
-            throw new Exception(" User not found ");
-        }
-        $user = YumUser::model()->findByPk($profile->user_id);
-
-        $temp = (isset($_SERVER['HTTP_HOST']))?$_SERVER['HTTP_HOST']:null;
-        $_SERVER['HTTP_HOST'] = self::getHost(Yii::app()->params['frontendUrl']);
-        /* @var $profile YumProfile */
-        $host = $profile->user->getCorporationEmailVerificationUrl();
         if($temp){
             unset($_SERVER['HTTP_HOST']);
         }else{

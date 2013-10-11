@@ -39,7 +39,7 @@ class YumPasswordRecoveryForm extends YumFormModel {
 		if(!$this->hasErrors()) {
 			if (strpos($this->email,"@")) {
 				$profile = YumProfile::model()->findByAttributes([
-                    'email' => $this->email
+                    'email' => strtolower($this->email)
                 ]);
 
                 if ($profile && $profile->user) {

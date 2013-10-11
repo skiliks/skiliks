@@ -251,7 +251,7 @@ class YumAuthController extends YumController {
             $json = CActiveForm::validate($model);
 
             // validate is profile exist, bur email not confirmed {
-            $profile = YumProfile::model()->findByAttributes(['email' => $model->username]);
+            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($model->username)]);
             if (null !== $profile && false == $profile->user->isActive()) {
                 $jsonObj = json_decode($json);
                 if (false == is_object($jsonObj)) {
@@ -363,7 +363,7 @@ class YumAuthController extends YumController {
 				$this->redirectUser($success);
 			} else {
                 if ($t & UserModule::LOGIN_BY_EMAIL) {
-                    $profile = YumProfile::model()->findByAttributes(['email' => $this->loginForm->username]);
+                    $profile = YumProfile::model()->findByAttributes(['email' => strtolower($this->loginForm->username)]);
                     if (null !== $profile && false == $profile->user->isActive()) {
                         $this->loginForm->addError('form', $profile->getEmailAlreadyExistMessage());
                     } else {

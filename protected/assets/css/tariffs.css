@@ -4,7 +4,7 @@
 .onetariff {
     /*display: inline-block;*/
     float:left;
-    margin: 0px 12px 44px 13px;
+    margin: 0px 12px 20px 13px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -26,7 +26,7 @@ body  .onetariff  {
 }
 .tarifname {
     border-bottom:1px solid #69a7b0;
-    cursor: ;
+    cursor: pointer;
     display: block;
     font:20px 'ProximaNova-Bold';
     padding: 17px 0px 10px;
@@ -45,7 +45,7 @@ body  .onetariff  {
     font-size: 46px;
     height: 50px;
     line-height: 50px;
-    padding: 0px 18px;
+    padding: 0 6px 0 18px;
 }
 .price.ru p {
     background:url("../img/rublicon.png") no-repeat 5px 5px;
@@ -84,8 +84,8 @@ body  .onetariff  {
 }
 .tarifswrap .text16 {
     clear:both;
-    font-family:"ProximaNova-Bold";
-    padding-right: 26px;
+    padding-left: 6px;
+    color: #3d4041;
 }
 .tarifswrap strong {
     color:#fff;
@@ -125,7 +125,7 @@ body  .onetariff  {
 
 @media screen and (max-width: 1146px){
     .onetariff {
-        margin-bottom: 30px;
+        margin-bottom: 15px;
     }
     .action-tariffs h2 {
         font-size: 2.219em;
@@ -144,7 +144,7 @@ body  .onetariff  {
     }
     .price p {
         font-size: 36px;
-        padding: 0px 16px;
+        padding: 0 6px 0 16px
     }
     /*.price.ru p {
         background:url("../img/rublicon.png") no-repeat 4px 15px;
@@ -165,5 +165,91 @@ body  .onetariff  {
     }
     .benefits {
         height:90px;
+    }
+}
+
+.show-free-tariff-img {
+    position: relative;
+    top: -14px;
+    right:-17px;
+    height: 117px;
+    width: 117px;
+    background: url(../img/3-free-img.png) no-repeat right;
+    float: right;
+    z-index: 5;
+}
+
+.tariff-lite .label_div {
+    left: 81px;
+    position: relative;
+    width: 50px;
+    height: 25px;
+}
+
+.tariff-lite .tarifname {
+    position: relative;
+    text-align: center;
+    width: 211px;
+    z-index: 1;
+}
+
+.tariff-lite .price {
+    top: 0px;
+    position: relative;
+}
+
+.tariff-lite .price p {
+    position: relative;
+    top: -45px;
+}
+
+
+.tariff-lite .tarifwrap {
+    top: -2px;
+    position: relative;
+}
+
+@media screen and (max-width: 1146px) {
+
+    .show-free-tariff-img {
+        position: relative;
+        top: -12px;
+        right:-14px;
+        height: 94px;
+        width: 94px;
+        background: url(../img/3-free-img.png) no-repeat right;
+        background-size: 94px 94px;
+        float: right;
+        z-index: 5;
+    }
+
+    .tariff-lite .label_div {
+        left: 61px;
+        position: relative;
+        width: 50px;
+        height: 25px;
+    }
+
+    .tariff-lite .tarifname {
+        position: relative;
+        text-align: center;
+        width: 160px;
+        z-index: 1;
+    }
+
+    .tariff-lite .price {
+        top: 0px;
+        position: relative;
+    }
+
+    .tariff-lite .price p {
+        position: relative;
+        top: -37px;
+    }
+
+
+    .tariff-lite .tarifwrap {
+        top: 7px;
+        position: relative;
     }
 }

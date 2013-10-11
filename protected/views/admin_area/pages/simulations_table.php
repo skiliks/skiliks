@@ -63,8 +63,8 @@
             <tr class="scenarios-list">
                 <td> Показывать сценарии: </td>
                 <td>
-                    <span class="btn btn-warning select-all-statuses">Отметить все</span>
-                    <span class="btn btn-warning deselect-all-statuses">Снять все</span>
+                    <span class="btn btn-warning btn-check-all">Отметить все</span>
+                    <span class="btn btn-warning btn-uncheck-all">Снять все</span>
                     <script type="text/javascript">
                         $('.select-all-statuses').click(function(){
                             $('.scenarios-list input').attr('checked', 'checked');
@@ -168,16 +168,14 @@
                 <td>
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getOverall())
                         ? $simulation->invite->getOverall() : '--'; ?>
+                    /
+                    <?= (null!== $simulation->invite && null !== $simulation->invite->getPercentile())
+                        ? $simulation->invite->getPercentile() : '--'; ?>
                 </td>
-
                 <td>
-                    <a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/site-logs">
-                        Смотреть логи сайта
-                    </a>
-                    &nbsp;&nbsp;
-                    <a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/requests">
-                        Смотреть запросы
-                    </a>
+                    <?php $this->renderPartial('//admin_area/partials/_simulation_log_buttons', [
+                        'simulation' => $simulation,
+                    ]) ?>
                 </td>
                 <td>
                     <?= $simulation->is_emergency_panel_allowed ? 'Разрешена' : 'Запрешена' ?>

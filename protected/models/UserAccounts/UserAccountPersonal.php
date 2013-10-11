@@ -51,14 +51,14 @@ class UserAccountPersonal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id'                 , 'required'),
-			//array('industry_id'           , 'required', 'message' => Yii::t('site', 'Industry is required')),
-			array('professional_status_id', 'required', 'message' => Yii::t('site', 'Professional status is required')),
-			array('user_id'                 , 'length'   , 'max'=>10),
 			array('location'                 , 'length'   , 'max'=>255),
             array('industry_id', 'numerical', 'integerOnly'=>true),
 			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
             array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
+            array('user_id'     , 'required', 'on' => ['personal', 'insert']),
+            array('professional_status_id' , 'numerical', 'integerOnly'=>true, 'on' => ['personal', 'insert']),
+            array('professional_status_id' , 'required', 'on' => ['personal', 'insert'], 'message' => Yii::t('site', 'Выберите профессиональный статус')),
+            array('user_id'     , 'length'   , 'max'=>10, 'on' => ['personal', 'insert']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id, professional_status_id,birthday,location', 'safe', 'on'=>'search'),
@@ -86,8 +86,8 @@ class UserAccountPersonal extends CActiveRecord
 	{
 		return array(
 			'user_id'     => Yii::t('site', 'User'),
-			'industry_id' => Yii::t('site', 'Professional area'),
-			'professional_status_id' => Yii::t('site', 'Professional status'),
+			'industry_id' => Yii::t('site', 'Industry'),
+			'professional_status_id' => Yii::t('site', 'Профессиональный статус'),
 			'birthday' => Yii::t('site', 'Birthday'),
 			'location' => Yii::t('site', 'Location'),
 		);

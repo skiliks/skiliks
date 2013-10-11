@@ -64,4 +64,35 @@ class CheckConsolidatedBudgetUnitTest extends CDbTestCase
         }
     }
 
+    public function testFormulaManual()
+    {
+        //$scData = ScXlsConverter::xls2sc(__DIR__ . '/files/D1_origin.xls');
+
+        //file_put_contents(__DIR__ . '/files/D1_origin.sc', json_encode($scData));
+        /*
+         * Проверка оценок по эталону
+         */
+        $budgetPath = __DIR__ . '/files/D1_origin.sc';
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $checkConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $checkConsolidatedBudget->calcPoints($budgetPath);
+
+        $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $this->assertNotNull($points);
+
+        if ($points !== null) {
+            foreach ($points as $point) {
+                $this->assertEquals('1.00', $point->value, $point->formula_id);
+            }
+        }
+
+    }
+
 }

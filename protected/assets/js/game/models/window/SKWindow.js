@@ -56,6 +56,7 @@ define([], function () {
             try {
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
+<<<<<<< HEAD
                     throw new Error("Window " + window_id + " already exists");
                 }
                 if (! (this.get('name') in screens)) {
@@ -63,6 +64,15 @@ define([], function () {
                 }
                 if (! (this.get('subname') in screensSub)) {
                     throw new Error('Unknown subscreen');
+=======
+                    throw new Error ("Window " + window_id + " already exists");
+                }
+                if (! (this.get('name') in screens)) {
+                    throw new Error ('Unknown screen');
+                }
+                if (! (this.get('subname') in screensSub)) {
+                    throw new Error ('Unknown subscreen');
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 }
                 if (!this.has('id')) {
                     this.set('id', this.get('subname'));
@@ -127,7 +137,11 @@ define([], function () {
         open: function() {
             try {
                 if (this.is_opened) {
+<<<<<<< HEAD
                     throw new Error("Window is already opened");
+=======
+                    throw new Error ("Window is already opened");
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 }
                 this.is_opened = true;
                 this.simulation.window_set.showWindow(this);
@@ -149,7 +163,11 @@ define([], function () {
         close: function() {
             try {
                 if (!this.is_opened) {
+<<<<<<< HEAD
                     throw new Error("Window is already closed");
+=======
+                    throw new Error ("Window is already closed");
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 }
                 this.trigger('pre_close');
                 if (this.prevent_close === true) {

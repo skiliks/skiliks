@@ -223,6 +223,23 @@ define([
             }
         },
 
+        makeCloseAndOpen: function (name, subname, params) {
+            try {
+
+                // protect against 2 open phone windows at the same time
+                var windows = this.where({name: name, subname: subname});
+                if (windows.length !== 0) {
+                        windows[0].trigger('refresh');
+                        windows[0].close();
+                        windows[0].open();
+                    }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
         isOpen:function(name, subname) {
             try {
                 var windows = this.where(subname ? {name: name, subname: subname} : {name: name});

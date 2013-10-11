@@ -174,18 +174,19 @@ class StaticSiteTools
         shuffle($arr); // чтоб значения не повторялись
 
         $overall = $arr[0];
-        $management = $arr[1];
-        $performance = $arr[2];
-        $time = $arr[3];
+        $percentile = $arr[1]/100;
+        $management = $arr[2];
+        $performance = $arr[3];
+        $time = $arr[4];
 
         // 1.1 {
-        $management_1 = $arr[4];
+        $management_1 = $arr[5];
 
         $management_1_positive = [];
-        $management_1_positive[0] = $arr[5];
-        $management_1_positive[1] = $arr[6];
-        $management_1_positive[2] = $arr[7];
-        $management_1_positive[3] = $arr[8];
+        $management_1_positive[0] = $arr[6];
+        $management_1_positive[1] = $arr[7];
+        $management_1_positive[2] = $arr[8];
+        $management_1_positive[3] = $arr[9];
 
         $management_1_negative = [];
         $management_1_negative[0] = 0;
@@ -199,13 +200,13 @@ class StaticSiteTools
         // 1.1 }
 
         // 1.2 {
-        $management_2 = $arr[9];
+        $management_2 = $arr[10];
 
         $management_2_positive = [];
-        $management_2_positive[0] = $arr[10];
-        $management_2_positive[1] = $arr[11];
-        $management_2_positive[2] = $arr[12];
-        $management_2_positive[3] = $arr[13];
+        $management_2_positive[0] = $arr[11];
+        $management_2_positive[1] = $arr[12];
+        $management_2_positive[2] = $arr[13];
+        $management_2_positive[3] = $arr[14];
 
         $management_2_negative = [];
         $management_2_negative[0] = 0;
@@ -218,12 +219,12 @@ class StaticSiteTools
         // 1.2 }
 
         // 1.3 {
-        $management_3 = $arr[14];
+        $management_3 = $arr[15];
 
         $management_3_positive = [];
-        $management_3_positive[0] = $arr[15];
-        $management_3_positive[1] = $arr[16];
-        $management_3_positive[2] = $arr[17];
+        $management_3_positive[0] = $arr[16];
+        $management_3_positive[1] = $arr[17];
+        $management_3_positive[2] = $arr[18];
 
         $management_3_negative = [];
         $management_3_negative[0] = 0;
@@ -294,6 +295,9 @@ class StaticSiteTools
 
         $result = "{
                 'overall':'$overall',
+                'percentile' : {
+                                 total : '$percentile'
+                               },
                 'additional_data':{
                     'management':'5',
                     'performance':'35',

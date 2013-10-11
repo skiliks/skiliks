@@ -98,8 +98,12 @@
     font-size:12px;
 }
 .payment-card .method-description small, .payment-card .method-description span {
-    color:#b5b490;
+    color:#6d6d5b;
 }
+div.payment-card {
+    min-width:320px;
+}
+
 .payment-form .payment-invoice, .payment-form .payment-card {
     display: table-cell;
 }
@@ -126,7 +130,6 @@
     font-size: 16px;
 }
 .payment-card .method-checked label {
-    color: #b5b490;
     font-size: 16px;
 }
 .payment-invoice input[type="text"] {
@@ -223,6 +226,18 @@
     text-align: center;
     width:420px;
 }
+
+div.without-commission {
+    font-size:14px;
+    padding-right:138px;
+    padding-top: 4px;
+    float:right;
+}
+
+div.payment-method-without-commision {
+    padding-right: 52px;
+}
+
 @media screen and (max-width: 1146px){
     .order-page {
         background-position: center -80px;
@@ -239,6 +254,18 @@
     .order-status .sbHolder {
         width:40px;
     }
+
+    div.without-commission {
+        font-size:12px;
+        padding-right:132px;
+        padding-top: 3px;
+        float:right;
+    }
+
+    div.payment-method-without-commision {
+        padding-right: 28px;
+    }
+
     .order-item {
         background-position: center -14px;
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);

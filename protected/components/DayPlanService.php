@@ -47,18 +47,23 @@ class DayPlanService
         $plans = DayPlan::model()->findAll([
             'with' => 'task',
             'condition' => 't.sim_id = :simId AND day = :todo',
-            'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO]
+            'params' => ['simId' => $simulation->id, 'todo' => DayPlan::DAY_TODO],
+            'order'  => 't.id desc'
         ]);
 
-        $data = array_map(function(DayPlan $plan) {
-            return [
-                'id'       => $plan->task->id,
-                'title'    => $plan->task->title,
-                'duration' => TimeTools::roundTime($plan->task->duration)
-            ];
-        }, $plans);
+        if(!empty($plans)) {
 
-        return $data;
+            $data = array_map(function(DayPlan $plan) {
+                return [
+                    'id'       => $plan->task->id,
+                    'title'    => $plan->task->title,
+                    'duration' => TimeTools::roundTime($plan->task->duration)
+                ];
+            }, $plans);
+
+            return $data;
+        }
+        else return null;
     }
 
     /**
@@ -87,7 +92,7 @@ class DayPlanService
      * @param $day
      * @return array
      */
-    public static function addTask(Simulation $simulation, $taskId, $day, $time = null)
+    public static function addTask(Simulation $simulation, $taskId, $day, $time = null, $ignoreIfExists = false)
     {
         /** @var Task $task */
         $task = Task::model()->findByPk($taskId);
@@ -101,16 +106,20 @@ class DayPlanService
             'task_id' => $task->id
         ]);
 
-        if (!$dayPlan) {
+        if (null === $dayPlan) {
             $dayPlan          = new DayPlan();
             $dayPlan->sim_id  = $simulation->id;
             $dayPlan->task_id = $task->id;
+        }else{
+            //Не добавлять задачу если такая уже есть
+            if($ignoreIfExists){
+                return false;
+            }
         }
-
         $dayPlan->date = $time;
         $dayPlan->day = $day;
-
-        return $dayPlan->save();
+        $dayPlan->save();
+        return true;
     }
 
     /**

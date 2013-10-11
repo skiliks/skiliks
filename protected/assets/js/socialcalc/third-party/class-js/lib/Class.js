@@ -1,11 +1,16 @@
 (function() {
 
 Class = function(classDefinition, classWrapper) {
-    if (!classDefinition) throw new Error("Class requires a class definition string as its first argument");
-    if (!classWrapper) throw new Error("Class requires a class wrapper function as its second argument");
+    if (!classDefinition) {
+        throw new Error("Class requires a class definition string as its first argument");
+    }
+    if (!classWrapper) {
+        throw new Error("Class requires a class wrapper function as its second argument");
+    }
 
-    if (! classDefinition.match(/^([\w\.]+)(?:\(\s*([\w\.]+)\s*\))?(?:\s+(.*?)\s*)?$/))
+    if (! classDefinition.match(/^([\w\.]+)(?:\(\s*([\w\.]+)\s*\))?(?:\s+(.*?)\s*)?$/)) {
         throw new Error("Can't parse Class Definition: '" + classDefinition + "'");
+    }
     var className = RegExp.$1;
     var baseClassName = RegExp.$2 || '';
     var options = [];

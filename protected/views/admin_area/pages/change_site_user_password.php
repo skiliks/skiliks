@@ -6,12 +6,13 @@
 
 <br/>
 
-Личная почта: <?= $siteUser->profile->email ?>
+Почта: <?= $siteUser->profile->email ?>
 
-<?php if (null !== $siteUser->account_corporate): ?>
-    <br/>
-    Корпоративная почта: <?= $siteUser->account_corporate->corporate_email ?>
-<?php endif ?>
+<br/>
+<br/>
+<a href="/admin_area/user/<?= $siteUser->id ?>/details">
+    <- Вернутья назад, к данным аккаунта пользователя
+</a>
 
 <br/>
 <br/>

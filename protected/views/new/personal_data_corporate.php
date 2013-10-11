@@ -32,12 +32,12 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-                <strong class="font-large"><?php echo $account->corporate_email; ?></strong>
+                <?php echo $form->labelEx($profile  , 'email'); ?>
+                <strong class="font-large"><?php echo $profile->email; ?></strong>
             </div>
 
             <div class="row row-selects">
-                <?php echo $form->labelEx($account     , 'Должность'); ?>
+                <?php echo $form->labelEx($account     , 'Профессиональный статус'); ?>
                 <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
             </div>
 

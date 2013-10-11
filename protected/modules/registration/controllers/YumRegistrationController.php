@@ -152,9 +152,9 @@ class YumRegistrationController extends YumController {
 				$login = new YumUserIdentity($status->username, false); 
 				$login->authenticate(true);
 				Yii::app()->user->login($login);	
-			} 
+			}
 
-			$this->render(Yum::module('registration')->activationSuccessView);
+            $this->redirect('/dashboard');
 		}
 		else {}
 			$this->render(Yum::module('registration')->activationFailureView, array(
@@ -171,7 +171,7 @@ class YumRegistrationController extends YumController {
 
 		if ($email != null && $key != null) {
 			if($profile = YumProfile::model()->find('email = :email', array(
-							'email' =>  $email))) {
+							'email' =>  strtolower($email)))) {
 				$user = $profile->user;
 				if($user->status <= 0)
 					throw new CHttpException(403, 'User is not active');
@@ -219,7 +219,7 @@ class YumRegistrationController extends YumController {
 						$recovery_url = $this->createAbsoluteUrl(
 								Yum::module('registration')->recoveryUrl[0], array(
 									'key' => $form->user->activationKey,
-									'email' => $form->user->profile->email));
+									'email' => strtolower($form->user->profile->email)));
 
 						Yum::log(Yum::t(
 									'{username} successfully requested a new password in the password recovery form. A email with the password recovery url {recovery_url} has been sent to {email}', array(

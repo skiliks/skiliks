@@ -17,11 +17,13 @@
                     <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
                 </div>
             <?php endif ?>
+
             <?php /*
-                <div class="action">
+                <!--<div class="action">
                     <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
-                </div>
+                </div> -->
             */ ?>
+
         </div>
 
         <div class="row rowpad30">
@@ -41,7 +43,7 @@
         <div class="row">
             <label>Доступно симуляций</label>
             <div class="value">
-                <span class="simulations-counter"><?php echo Yii::app()->user->data()->getAccount()->invites_limit ?></span><br/>
+                <span class="simulations-counter"><?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit() ?></span><br/>
                 <small class="expire-date">
 
                     <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>

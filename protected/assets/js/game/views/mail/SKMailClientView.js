@@ -420,7 +420,7 @@ define([
                     el.html(_.template(mail_client_title_template, {
                         isDisplaySettingsButton:this.isDisplaySettingsButton,
                         windowName:this.windowName}));
-                    this.delegateEvents();
+                    // // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -464,7 +464,7 @@ define([
                     var email = SKApp.simulation.mailClient.folders[folderAlias].getEmailByMySqlId(emailId);
 
                     if ('undefined' === typeof email) {
-                        throw new Error('Try to render unexistent email ' + emailId + '.');
+                        throw new Error ('Try to render not exists email ' + emailId + '.');
                     }
 
                     this.highlightActiveEmail(email);
@@ -546,7 +546,7 @@ define([
 
                     this.$('#' + this.mailClientFoldersListId).html(html);
 
-                    this.delegateEvents();
+                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1286,7 +1286,7 @@ define([
                     // render HTML
                     this.$('.actions').html(iconsListHtml);
 
-                    this.delegateEvents();
+                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1627,7 +1627,7 @@ define([
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
-                    this.delegateEvents();
+                    // this.delegateEvents();
 
                     this.mailClient.setWindowsLog('mailNew');
                 } catch(exception) {
@@ -1922,7 +1922,8 @@ define([
 
                     this.renderTXT();
 
-                    this.delegateEvents();
+
+                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -1939,7 +1940,21 @@ define([
                     var me = this;
 
                     event.preventDefault();
-
+                    if(me.$('#MailClient_RecipientsList .tagItem').length === 0 || me.$('#MailClient_NewLetterSubject .dd-selected').text() === 'без темы.'){
+                        me.message_window_phrase = new SKDialogView({
+                            'message':'Для написания нового письма выберите тему и адресата.',
+                            'buttons':[
+                                {
+                                    'value':'Ок',
+                                    'onclick':function () {
+                                        me.message_window_phrase.remove();
+                                        delete me.message_window_phrase;
+                                    }
+                                }
+                            ]
+                        });
+                        return false;
+                    }
                     if (this.blockPhraseMoving) {
                         return;
                     }
@@ -1950,10 +1965,28 @@ define([
                     }
 
                     this.blockPhraseMoving = true;
+
+                    // может отказаться от использования event.currentTarget
+                    // google, правда, пишет что это самый правильный вариант
                     var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
 
+                    // event.currentTarget может вернуть <a> или <span> и тогда data('id') == undefined
+                    // event.target гарантировано вернёт span
                     if (undefined === phrase) {
-                        throw new Error('Undefined phrase id.');
+                        var phrase = this.mailClient.getAvailablePhraseByMySqlId(
+                            $(event.target).parent().parent().data('id')
+                        );
+                    }
+
+                    if (undefined === phrase) {
+                        throw new Error(
+                            'Undefined phrase id. '
+                                + $(event.currentTarget).data('id')
+                                + '; '
+                                + $(event.target).parent().parent().data('id')
+                                + '; '
+                                + $(event.currentTarget).text()
+                        );
                     }
 
                     // simplest way to clone small object in js {
@@ -1974,6 +2007,8 @@ define([
                         delete me.blockPhraseMoving;
                     }, 400);
                 } catch(exception) {
+                    delete me.blockPhraseMoving;
+                    console.log(exception.message + ',' + exception.stack);
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
@@ -1994,7 +2029,7 @@ define([
 
                     $("#mailEmulatorNewLetterText").append(phraseHtml);
 
-                    this.delegateEvents();
+                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2023,7 +2058,7 @@ define([
                         // if a have seweral (2,3,4...) phrases added to email - click handled twise
                         // currently I ignore this bug.
                         // @todo: fix it
-                        throw new Error('Undefined phrase uid.');
+                        throw new Error ('Undefined phrase uid.');
                     }
 
                     this.removePhraseFromEmail(phrase);
@@ -2270,7 +2305,7 @@ define([
                         });
                         // add attachments list }
 
-                        mailClientView.delegateEvents();
+                        //mailClientView.delegateEvents();
                         mailClientView.trigger('attachment:load_completed');
                     });
                 } catch(exception) {
@@ -2381,7 +2416,7 @@ define([
                         text = '<pre><p>' + text + '</p></pre>';
                     }
                     this.$(".previouse-message-text").html(text);
-                    this.delegateEvents();
+                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2720,7 +2755,7 @@ define([
                                 });
                                 // add attachments list }
 
-                                me.delegateEvents();
+                                //me.delegateEvents();
                                 me.trigger('attachment:load_completed');
                             });
                         }
@@ -2741,7 +2776,7 @@ define([
                         this.renderPhrases();
                         // add phrases }
                     } else {
-                        throw new Error("Can`t initialize response email. View. #2");
+                        throw new Error ("Can`t initialize response email. View. #2");
                     }
                 } catch(exception) {
                     if (window.Raven) {

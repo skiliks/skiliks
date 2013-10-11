@@ -22,12 +22,12 @@
             <div class="sim-windw-pad">
                 <@ if(windowName === 'phone') { @>
                 <p>Звук прихода новых звонков</p>
-                    <a href="#" class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingCallSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
+                    <a class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingCallSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
                         <@ if(SKApp.simulation.isPlayIncomingCallSound){ @>Вкл.<@ } else { @>Выкл.<@ } @>
                     </a>
                 <@ } else if(windowName === 'mail') { @>
                 <p>Звук прихода новых сообщений</p>
-                    <a href="#" class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingMailSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
+                    <a class="volume-control control-<@=windowName@> <@ if(SKApp.simulation.isPlayIncomingMailSound){ @>volume-on<@ } else { @>volume-off<@ } @>">
                         <@ if(SKApp.simulation.isPlayIncomingMailSound){ @>Вкл.<@ } else { @>Выкл.<@ } @>
                     </a>
                 <@ } @>

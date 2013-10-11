@@ -19,10 +19,12 @@ return array(
         'application.models.Mail.*',
         'application.models.Activities.*',
         'application.models.UserAccounts.*',
+        'application.models.PaymentMethods.*',
         'application.models.Planner.*',
         'application.models.Documents.*',
         'application.models.GameEvents.*',
         'application.models.Interfaces.*',
+        'application.models.Referrals.*',
 
         'application.components.*',
         'application.components.Zoho.*',
@@ -39,7 +41,9 @@ return array(
         'application.components.Exception.*',
         'application.components.Controllers.*',
         'application.components.SocialCalc.*',
+        'application.components.Report2.*',
         'application.components.debug.*',
+
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
@@ -172,22 +176,23 @@ return array(
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
                 'simulation/exit'         => 'static/site/Exit',
+                'simulation/demo'         => 'static/site/demo',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
                 'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
                 'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
 
-                'tariffs/<type:\w+>'                   => 'static/payment/changeTariff',
-                'registration'                         => 'static/userAuth/registration',
-                'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
-                'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
-                'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
-                'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
-                'simulationIsStarted'                  => 'static/site/IsStarted',
-                'userStartSecondSimulation'            => 'static/site/UserStartSecondSimulation',
-                'userRejectStartSecondSimulation'      => 'static/site/UserRejectStartSecondSimulation',
-                'logout/registration'                  =>'static/userAuth/LogoutAndRegistration',
+                'tariffs/<type:\w+>'                             => 'static/payment/changeTariff',
+                'registration'                                   => 'static/userAuth/registration',
+                'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
+                'register-referral/<refHash:\w+>'                => 'static/userAuth/registerReferral',
+                'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
+                'simulationIsStarted'                            => 'static/site/IsStarted',
+                'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
+                'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
+                'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
+
 
                 'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
@@ -205,22 +210,37 @@ return array(
                 'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
                 'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
                 'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
+                'help/general'                       => 'static/help/general',
+                'help/corporate'                     => 'static/help/corporate',
+                'help/personal'                      => 'static/help/personal',
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
                 'product-new'                        => 'static/pages/productNew',
                 'team-new'                           => 'static/pages/teamNew',
-                'old-browser-new'                    => 'static/pages/teamNew',
                 'home-new'                           => 'static/pages/homeNew',
                 'old-browser-new'                    => 'static/pages/oldBrowserNew',
                 'static/tariffs-new'                 => 'static/pages/tariffsNew',
                 'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
+                'payment/doCashPayment'              => 'static/payment/doCashPayment',
+                'payment/getRobokassaForm'           => 'static/payment/getRobokassaForm',
+                'payment/success'                    => 'static/payment/success',
+                'payment/fail'                       => 'static/payment/fail',
+                'payment/result'                     => 'static/payment/result',
+                'payment/invoiceSuccess'              => 'static/payment/InvoiceSuccess',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
+                'dashboard/inviteReferrals' => 'static/dashboard/inviteReferrals',
+                'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
+                'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
+                'dashboard/dontShowTariffEndPopup' => 'static/dashboard/dontShowTariffEndPopup',
+                'dashboard/remakeRenderType' => 'static/dashboard/remakeRenderType',
+                'invite/referrals' => 'static/dashboard/inviteReferrals',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
                 'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
+                'profile/corporate/referrals'                => 'static/profile/corporateReferrals',
                 'profile/corporate/password/' => 'static/profile/corporatePassword',
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
@@ -254,6 +274,7 @@ return array(
                 'activation/resend/<profileId:\w+>' => 'static/userAuth/resendActivation',
 
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
+                'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
@@ -274,6 +295,7 @@ return array(
 
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
+                'admin_area'                   => 'admin_area/AdminPages/Dashboard',
                 'admin_area/invites'           => 'admin_area/AdminPages/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login'             => 'admin_area/AdminPages/Login',
@@ -289,9 +311,20 @@ return array(
                 'admin_area/feedbacks'         => 'admin_area/AdminPages/FeedBacksList',
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
+                'admin_area/send-notice/'      => 'admin_area/AdminPages/SendNotice',
+                'admin_area/update-invite-email/'=>'admin_area/AdminPages/UpdateInviteEmail',
                 'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
+                'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
+                'admin_area/completeInvoice'   => 'admin_area/AdminPages/CompleteInvoice',
+                'admin_area/disableInvoice'    => 'admin_area/AdminPages/DisableInvoice',
+                'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
+                'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
+                'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
 
+                'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
+                'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
+                'admin_area/email/<id:\w+>/text'                          => 'admin_area/AdminPages/EmailText',
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
                 'admin_area/statistics/testAuth'                          => 'admin_area/AdminPages/TestAuth',
@@ -315,6 +348,7 @@ return array(
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
+                'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
@@ -363,12 +397,14 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
+        'server_name'                   => 'http://skiliks.com/',
         'demoDuration'                  => 5, // min
         'disableOldLogging'             => false,
         'disableAssets'                 => false,
         'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
+        'countOfInvitesToShowReferralPopup'     => 3,
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
@@ -376,7 +412,17 @@ return array(
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-            'inviteEmailTemplate' => '//global_partials/mails/invite_default',
+            'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
+            'tariffExpiredTemplate'    => 'tariff_expired',
+            'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
+            'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
+            'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+            'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
+            'noticeEmail'              => '//global_partials/mails/noticeEmail',
+            'newFeedback'              => '//global_partials/mails/newFeedback',
+
+//            'bookerEmail' => 'accounter@skiliks.com',
+            'bookerEmail' => 'invoice@skiliks.com',
         ],
         'allowedLanguages' => [
             'en' => [
@@ -390,6 +436,7 @@ return array(
         ],
         // This part will be sent to JS
         'public' => [
+            'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
             'canIntroPassed'                     => true,
             'skiliksSpeedFactor'                 => 5,
             'skiliksDeveloperModeSpeedFactor'    => 8,
@@ -397,7 +444,9 @@ return array(
             'afterCallZoomerDuration'            => 2000, // milliseconds
             'isDisplayServer500errors'           => false,
             'isUseStrictAssertsWhenSimStop'      => false,
-            'frontendAjaxTimeout'                => 60000, // 60 sec
+            'frontendAjaxTimeout'                => 10000, // 60 sec
+            'simStartTimeout'                    => 180000,
+            'simStopTimeout'                     => 10*60*1000,
             'useSentryForJsLog'                  => false,
             'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
@@ -418,23 +467,23 @@ return array(
         ),
         'cron' => [
 //            'CleanUsers'=> 604800,8
-            'InviteExpired'=> 604800,
+            'InviteExpired'=> 432000,
         ],
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
-                ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'asd'       , 'email' => 'asd@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'tony'      , 'email' => 'tony@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'leah'      , 'email' => 'leah@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 0],
-                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com','password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'asd'       , 'email' => 'asd@skiliks.com'        ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'       ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'tony'      , 'email' => 'tony@skiliks.com'       ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'leah'      , 'email' => 'leah.levin@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'      ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'svetlana'  , 'email' => 'svetlana@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 0],
+                ['username' => 'vladimir'  , 'email' => 'vladimir@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
@@ -469,6 +518,20 @@ return array(
                 ]
             ]
         ),
+        'robokassa' => [
+                'url'            => 'http://test.robokassa.ru/Index.aspx',
+                'MrchLogin'      => 'skiliks_dev',
+                'Desc'           => 'Оплата согласно...',
+                'sMerchantPass1' => 'dcZz6P318a',
+                'sMerchantPass2' => 'S358oP0ikj'
+              ]
+//            Test
+//            [
+//                'MrchLogin'      => 'skiliks_dev',
+//                'Desc'           => 'Оплата согласно...',
+//                'sMerchantPass1' => 'dcZz6P318a',
+//                'sMerchantPass2' => 'S358oP0ikj'
+//            ]
     ),
 );
 

@@ -126,6 +126,13 @@
 .product .maincharts {
     margin-top: -34px;
 }
+
+.percentil_overall_container .percentil_text {
+    float: right;
+    margin-right: 6px;
+    margin-top: 2px;
+}
+
 .ratepercnt, .overall .ratepercnt {
     text-align: center;
 }
@@ -144,14 +151,92 @@
     text-align: center;
     vertical-align: top;
 }
+
 .overall div, .overall .allratebg {
     text-align: left;
+    margin-right: 10px;
 }
+
+.percentil_base, .percentil_overall {
+    width: 74px;
+    height: 18px;
+    background-image: url(../img/percentil_men_big.png);
+    display: inline-block;
+    background-position: 0px -18px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+}
+
+.percentil_base {
+    margin-left: 6px;
+}
+
+.percentil_overall {
+    background-position: 0px 0px;
+    float: left;
+}
+
+.percentil_overall_container {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../img/mark-percentil-backogrund.png");
+    background-origin: padding-box;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    height: 31px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    padding-bottom: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 6px;
+    text-align: left;
+    width: 135px;
+}
+
+.percentil_dashboard_container {
+    width:118px;
+    background-position: top left;
+    background-size: 118px 30px;
+    height:18px;
+}
+
+.percentile_dashboard_value {
+    margin-right: 5px;
+    display: block;
+    margin-top:1px;
+    float:right;
+}
+
+#dashboard-skills-box .percentile_dashboard_value {
+    margin-top: 2px;
+    margin-right: 2px;
+}
+
+.percentil_text {
+    font-weight: bold;
+}
+
+.percentil_overall_container_product {
+    background-size: 110px 32px;
+    width:110px;
+}
+
+
+
 .estmtresults {
     height:130px;
 }
 .allsummry {
-    background: url("../img/resultsline-new.png") no-repeat center 26px;
+    background: url("../img/resultsline-new.png") no-repeat center 79px;
 }
 .allseprtwrap {
     position: relative;
@@ -170,7 +255,7 @@
     left:692px;
 }
 .estmtileswrap {
-    /*margin:8px auto 0 auto;*/
+    margin-top: 8px;
 }
 .rateslist {
     width:918px;
@@ -982,8 +1067,9 @@
 }
 .mangrlresults .labels a {
     color: #3d4041;
-    font-size: 13px;
+    font-size: 12px;
     text-decoration: none;
+    max-width: 235px;
 }
 .display-ib {
     display: inline-block;
@@ -997,11 +1083,13 @@
 }*/
 .list-counter, .list-text {
     display: table-cell;
+    font-size: 12px;
 }
 .list-counter {
     padding-right: 2px;
     vertical-align: top;
     min-width:16px;
+    max-width:100px;
 }
 /*.managerialmain .labelwrap:nth-child(2) .list-counter, .managerialmain .labelwrap:nth-child(3) .list-counter {
     padding-top: 4px;
@@ -1054,9 +1142,18 @@
     display: table-cell;
     height: 30px; /* 38 */
     font-size: 13px;
+    max-width: 250px;
     /*line-height: 107%;*/
     position: relative;
     vertical-align: top;
+}
+@media screen and (max-width: 1146px){
+    .mangrlresults .labels a {
+        max-width:186px;
+    }
+    .thelabel {
+        max-width: 210px;
+    }
 }
 .high-labels .thelabel {
     height: 59px;
@@ -1105,6 +1202,12 @@
     float: right;
     margin-left: 20px;
     width:250px;
+}
+div.percentil_text_product {
+    float:right;
+    margin-right: 10px;
+    font-weight: bold;
+    margin-top:2px;
 }
 .chartproblem .chart-value, .bad .chart-bar .chart-value {
     background: #e11a1a !important;
@@ -1172,9 +1275,20 @@
     padding-left: 27px;
 }
 
+#dashboard-skills-box > .percentil_overall_container {
+    float:left;
+    display: inline;
+    margin-top: 5px;
+}
+
+.link-go-percentile {
+    margin-left: 10px;
+    margin-top: 8px;
+}
+
 @media screen and (max-width: 1146px){
     .allsummry {
-        background-position: center 26px;
+        background-position: center 77px;
         background-size: 65%;
     }
     .allseprtwrap .ratepercnt {
@@ -1289,7 +1403,10 @@
         width: 194px;
     }
     .mangrlresults .labels a, .thelabel {
-        font-size: 11px;
+        font-size: 9px;
+    }
+    .list-counter, .list-text {
+        font-size: 9px;
     }
     .thelabel {
         height:24px;
@@ -1338,7 +1455,63 @@
     .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
         margin-left: 20px;
     }
+    div.percentil_text_product, div.percentil_text {
+        font-size: 13px;
+        margin-right: 12px;
+        margin-top:3px;
+    }
+    .percentil_dashboard_container {
+        width:110px;
+        background-position: top left;
+        background-size: 110px 30px;
+        height:18px;
+    }
+
+    .percentil_base, .percentil_overall {
+        background-position: 0px -18px;
+        background-size: 68px 36px;
+    }
+
+    .percentil_overall {
+        background-position: 0px 0px;
+    }
+
+    #dashboard-skills-box .percentil_overall {
+        background-position: 0px 0px;
+        background-size: 48px 24px;
+        height: 12px;
+    }
+
+    #dashboard-skills-box .percentil_base {
+        float:left;
+        display: inline;
+        width: 50px;
+        background-position: 0px -12px;
+        background-size: 48px 24px;
+        height: 12px;
+    }
+
+    #dashboard-skills-box .link-go-percentile {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    #dashboard-skills-box .percentile_dashboard_value {
+        display: block;
+        float: right;
+        margin-right: 10px;
+        margin-top: 0px;
+    }
+
+    #dashboard-skills-box .percentil_dashboard_container {
+        width:100px;
+        background-position: top left;
+        background-size: 100px 27px;
+        height:16px;
+    }
+
 }
+
 /*
 .controller-static-dashboard {
     overflow: hidden !important;

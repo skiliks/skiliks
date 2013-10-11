@@ -7,18 +7,8 @@ class PagesController extends SiteBaseController
     public function beforeAction($action)
     {
         $user = Yii::app()->user;
-        if (!$user->isGuest &&
-            $user->data()->account_corporate &&
-            !$user->data()->account_corporate->is_corporate_email_verified
-        ) {
-            $this->redirect('/userAuth/afterRegistrationCorporate');
-        }
-
-        if (!$user->isGuest &&
-            $user->data()->isActive() &&
-            !$user->data()->isHasAccount()
-        ) {
-            $this->redirect('/registration/choose-account-type');
+        if (!$user->isGuest && $user->data()->account_corporate && !$user->data()->isActive()) {
+            $this->redirect('/userAuth/afterRegistration');
         }
 
         return parent::beforeAction($action);
@@ -159,7 +149,7 @@ class PagesController extends SiteBaseController
             $model->addition = (new DateTime())->format("Y-m-d H:i:s");
             $model->attributes = Yii::app()->request->getParam('Feedback');
             if ($user->profile && $user->profile->email && empty($model->email)) {
-                $model->email = $user->profile->email;
+                $model->email = strtolower($user->profile->email);
             }
 
             $errors = CActiveForm::validate($model, null, false);
@@ -167,6 +157,60 @@ class PagesController extends SiteBaseController
                 echo $errors;
             } elseif (!$model->hasErrors()) {
                 $model->save();
+                $inviteEmailTemplate = Yii::app()->params['emails']['newFeedback'];
+
+                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+                    'email' => strtolower($model->email),
+                    'theme' => $model->theme,
+                    'message'=>$model->message
+                ], true);
+
+                $mail = array(
+                    'from' => Yum::module('registration')->registrationEmail,
+                    'to' => 'help@skiliks.com',
+                    'subject' => 'Новый отзыв',
+                    'body' => $body,
+                    'embeddedImages' => [
+                        [
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                            'cid'      => 'mail-top',
+                            'name'     => 'mailtop',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                            'cid'      => 'mail-top-2',
+                            'name'     => 'mailtop2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                            'cid'      => 'mail-right-1',
+                            'name'     => 'mailright1',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                            'cid'      => 'mail-right-2',
+                            'name'     => 'mailright2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                            'cid'      => 'mail-right-3',
+                            'name'     => 'mailright3',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                            'cid'      => 'mail-bottom',
+                            'name'     => 'mailbottom',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],
+                    ]
+                );
+                MailHelper::addMailToQueue($mail);
                 Yii::app()->user->setFlash('success', 'Спасибо за ваш отзыв!');
             }
         }

@@ -175,6 +175,33 @@ var fixLogotypes = function() {
                 }
                 $.cookie('registration_user-want-to-start-demo', 1);
             }
+
+            // первый раз не надо делать submit() -> мы отображаем ".lite-simulation-info-popup"
+            return false;
+        });
+
+        // попап перед стартом лайт симуляции в кабинетах
+        $('.start-lite-simulation-btn').click(function(event) {
+            event.preventDefault();
+
+            // get URL for lite simulation
+            var href = $(this).attr('data-href');
+
+            $(".lite-simulation-info-popup").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-before-start-sim lite-simulation-info-dialog',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                width:881,
+                draggable: false,
+                open: function( event, ui ) {
+                    Cufon.refresh();
+                    $('.start-lite-simulation-now').click(function() {
+                        location.assign(href);
+                    });
+                }
+            });
             return false;
         });
 
@@ -325,13 +352,41 @@ var fixLogotypes = function() {
 
         window.paymentSubmit = function paymentSubmit(form, data, hasError) {
             if (!hasError) {
-                $.post(form.attr('action'), form.serialize(), function (res) {
-                    var result = $('<div class="order-result"/>').html(res);
-                    $('.order-methods').html(result);
+                $("#cash-month-selected").val($("#month-selected").val());
+                $.post("/payment/invoiceSuccess", form.serialize(), function (res) {
+                    window.location.href = "/payment/invoiceSuccess";
                 });
             }
             return false;
         };
+
+        window.referralRegistration = function referralRegistration(form, data, hasError) {
+            if (!hasError) {
+                    window.location.href = "/dashboard";
+            }
+            return false;
+        };
+
+        window.inviteFriend = function inviteFriend(form, data, hasError) {
+            $(".sendReferralInviteSubmitButton").val("Отправить");
+            if (!hasError) {
+                window.location.href = "/dashboard";
+            }
+            else {
+                var k = data.ReferralsInviteForm_emails;
+                $("#ReferralsInviteForm_emails_em_").css("position", "static");
+                $("#ReferralsInviteForm_emails_em_").html("<ul></ul>");
+                for (var i in k) {
+                    $("#ReferralsInviteForm_emails_em_ ul").append("<li>"+k[i]+"</li>");
+                }
+            }
+            return false;
+        }
+
+        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
+            $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
+            return true;
+        }
 
         // Ajax Validation }
 
@@ -593,6 +648,111 @@ var fixLogotypes = function() {
         $(".start-simulation-from-popup").click(function() {
             $("#invite-accept-form").dialog("close");
         });
+
+        $("#month-selected").change(function() {
+            $("#cash-month-selected").val($( "#month-selected option:selected").val());
+        });
+
+        $(".question-container li").click(function() {
+            if(!$(this).children("div").is(":visible")) {
+                $(this).children("div").slideDown("fast");
+                $(this).css('color', '#146672');
+                $(this).addClass("active");
+                }
+            else {
+                $(this).children("div").slideUp("fast");
+                $(this).css('color', '#555742');
+                $(this).removeClass("active");
+            }
+            Cufon.refresh();
+        })
+
+        $(".change-simulation-result-render").click(function() {
+            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+                location.reload();
+            })
+        });
+
+
+
+
+        $(".showDialogRejected").click(function(e){
+            e.preventDefault();
+            var reason = $(this).attr('data-reject-reason');
+            $(".dialogReferralRejected").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 20,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 544,
+                position: {
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
+                },
+                open : function() {
+                    $(".reject-reason-p").html(reason);
+                }
+            });
+            Cufon.refresh();
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $(".showDialogPending").click(function(e){
+            e.preventDefault();
+            var domain = $(this).attr('data-domain');
+            $(".dialogReferralPending").dialog({
+                dialogClass: 'popup-before-start-sim',
+                closeOnEscape: true,
+                minHeight: 20,
+                modal: true,
+                resizable: false,
+                draggable: false,
+                title: false,
+                width: 544,
+                position: {
+                    my: "right top",
+                    at: "right top",
+                    of: ".referalls_list_box"
+                }
+            });
+            $(".ui-dialog-titlebar").removeClass('ui-widget-header');
+            return false;
+        });
+
+        $('a.feedback-close-other').on('click', function (e) {
+            e.preventDefault();
+            $(".dialogReferralRejected").dialog("close");
+            var selected = $(this).attr('data-selected');
+            $('#feedback-dialog').dialog({
+                width: 706,
+                dialogClass: 'popup-primary popup-site feedbackwrap',
+                modal: true,
+                resizable: false,
+                draggable: false,
+                open: function( event, ui ) {
+                    if(selected !== undefined) {
+                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                            var a = $(element).find('a');
+                            if(a.attr('rel') === selected){
+                                a.click();
+                            }
+                        });
+                    }
+                    Cufon.refresh();
+                }
+            });
+
+            e.stopPropagation();
+        });
+
+
+
+
     });
 })(jQuery);
 

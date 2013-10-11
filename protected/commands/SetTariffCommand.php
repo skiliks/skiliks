@@ -13,7 +13,7 @@ class SetTariffCommand extends CConsoleCommand
      */
     public function actionIndex($email, $tariff = null, $period = 0)
     {
-        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+        $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
 
         if (empty($profile)) {
             throw new LogicException('User with this email does not exist');

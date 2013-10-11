@@ -4,15 +4,19 @@
 
 <br/>
 <?php if (null !== $simulation->invite): ?>
-    <a href="/admin_area/invite/<?= $simulation->invite->id?>/site-logs">Смотреть логи приглашения</a>,
+    <a class="btn btn-info" href="/admin_area/invite/<?= $simulation->invite->id?>/site-logs">Перейти к Приглашению => </a>
+    &nbsp;
+    &nbsp;
+    &nbsp;
 <?php endif ?>
-<a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Смотреть логи симуляции</a>
+<a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Перейти к Симуляции => </a>
+<br/>
 <br/>
 <table class="table table-hover table-bordered">
     <tr>
         <td>ФИО / email</td>
-        <td><?= $simulation->user->profile->firstname ?> <?=$simulation->user->profile->lastname ?> /
-            <?=$simulation->user->profile->email ?></td>
+        <td><?= (empty($simulation->user))?'Аноним':$simulation->user->profile->firstname ?> <?= (empty($simulation->user))?'Аноним':$simulation->user->profile->lastname ?> /
+            <?= (empty($simulation->user))?'Аноним':$simulation->user->profile->email ?></td>
     </tr>
     <tr>
         <td>Start time ~ end time</td>
@@ -34,4 +38,8 @@
         <td>IPv4</td>
         <td><?= $simulation->ipv4 ?></td>
     </tr>
+    <?php if (null !== $simulation->invite) : ?>
+        <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
+        <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
+    <?php endif; ?>
 </table>

@@ -60,7 +60,7 @@
    */
   WebSocket.prototype.send = function(data) {
     if (this.readyState == WebSocket.CONNECTING) {
-      throw new Error("INVALID_STATE_ERR: Web Socket connection has not been established");
+        throw new Error("INVALID_STATE_ERR: Web Socket connection has not been established");
     }
     // We use encodeURIComponent() here, because FABridge doesn't work if
     // the argument includes some characters. We don't use escape() here

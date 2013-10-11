@@ -14,14 +14,6 @@ class AdminController extends SiteBaseController
 
         $user = $user->data();  //YumWebUser -> YumUser
 
-        if (null === Yii::app()->user->data()->getAccount()) {
-            $this->redirect('registration/choose-account-type');
-        }
-
-        if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
-            $this->redirect('registration/choose-account-type');
-        }
-
         $simId = Yii::app()->request->getParam('simulation');
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);

@@ -38,7 +38,7 @@ class DeleteDataForDeletedSimulationsCommand extends CConsoleCommand {
                 if (false === $justCheck) {
                     echo "\n удаляю {$email->sim_id} ";
                     SimulationService::removeSimulationData(
-                        YumUser::model()->findByAttribute(['email' => $email]),
+                        YumUser::model()->findByAttribute(['email' => strtolower($email)]),
                         null,
                         $email->sim_id
                     );

@@ -1,4 +1,4 @@
-<h2 class="thetitle text-center">На указанный вами email отправлено письмо</h2>
+<h2 class="thetitle text-center">На указанный вами email <?=Yii::app()->session->get("email");?> отправлено письмо</h2>
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
@@ -14,5 +14,12 @@
     </div>
 </div>
 <?php if (!empty($isGuest)): ?>
-<p class="text-center"><a href="/registration/" class="whitelink nodecorlink link-xxlarge">Начать регистрацию заново</a></p>
+<p class="text-center">
+    <a href="/registration/" class="whitelink nodecorlink link-xxlarge">Начать регистрацию заново</a>
+    <?php $user_id = Yii::app()->session->get("user_id") ?>
+    <?php if(!empty($user_id)) : ?>
+    &nbsp;&nbsp;
+    <a href="/activation/resend/<?= $user_id ?>" class="whitelink nodecorlink link-xxlarge">Выслать активационное письмо повторно</a>
+    <?php endif ?>
+</p>
 <?php endif; ?>
